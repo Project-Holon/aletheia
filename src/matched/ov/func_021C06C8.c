@@ -16,7 +16,8 @@
  */
 
 
-extern int func_0201C440(unsigned short);
+typedef unsigned int   u32;
+extern u32 func_0201C440(void *p);
 
 void func_021C06C8(unsigned short *a, char *b)
 {
@@ -24,7 +25,7 @@ void func_021C06C8(unsigned short *a, char *b)
 
     for (i = 0; i < 4; i++) {
         char *e = b + i * 4;
-        *(int *)(e + 0x34) = func_0201C440(*a);
+        *(int *)(e + 0x34) = func_0201C440((void *)(*a));
         *(int *)(e + 0x24) = 0;
     }
 }

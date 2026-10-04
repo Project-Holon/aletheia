@@ -64,7 +64,7 @@ struct Task {
 
 struct Obj;
 extern u32 func_02023568(struct Obj *o);
-extern void func_02022DCC(u32 a0, u32 a1, u32 a2);
+extern void func_02022DCC(u32 a0, void *a1, u32 a2);
 extern void func_020307B0(void *p);
 
 u32 func_020234C0(struct Task *t)
@@ -78,7 +78,7 @@ u32 func_020234C0(struct Task *t)
     switch (t->phase) {
     case 1:
         if (func_02023568(obj) == 1) {
-            func_02022DCC(*(u32 *)((char *)obj + 0x44), t->f18, t->f10);
+            func_02022DCC(*(u32 *)((char *)obj + 0x44), (void *)t->f18, t->f10);
             t->phase = t->phase + 1;
         }
         break;

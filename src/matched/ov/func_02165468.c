@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern u32 func_02027060(u32 a);
 extern void func_02026FB8(void *);
 extern char *g_02146940;
-extern void func_02165490(void *, void *);
+extern int func_02165490(int a0, int a1);
 
 void func_02165468(void *a0)
 {
     if (func_02027060(0x20)) {
-        func_02165490(g_02146940 + 4, a0);
+        func_02165490((int)(g_02146940 + 4), (int)a0);
         func_02026FB8(g_02146940 + 4);
     }
 }

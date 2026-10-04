@@ -24,10 +24,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0216D83C(u32);
-extern u32 func_0216D86C(u32);
-extern u32 func_0216D804(u32);
-extern u32 func_0216D81C(u32);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
+extern int func_0216D804(void *p);
+extern int func_0216D81C(void *p);
 extern u16 func_021642B4(int x0, int y0, int x1, int y1);
 extern u32 func_021641E8(u16);
 extern u32 func_021641F8(u16);
@@ -36,12 +36,12 @@ extern void func_0216D438(int a0, int a1);
 
 int func_0219BD30(u32 a, u32 b)
 {
-    u32 x = func_0216D83C(a);
-    u32 y = func_0216D86C(a);
-    u32 px = func_0216D83C(*(u32 *)(b + 8));
-    u32 py = func_0216D86C(*(u32 *)(b + 8));
-    u32 pz = func_0216D804(*(u32 *)(b + 8));
-    u32 pw = func_0216D81C(*(u32 *)(b + 8));
+    u32 x = func_0216D83C((void *)a);
+    u32 y = func_0216D86C((void *)a);
+    u32 px = func_0216D83C((void *)(*(u32 *)(b + 8)));
+    u32 py = func_0216D86C((void *)(*(u32 *)(b + 8)));
+    u32 pz = func_0216D804((void *)(*(u32 *)(b + 8)));
+    u32 pw = func_0216D81C((void *)(*(u32 *)(b + 8)));
     u32 r;
     if (x == px && y == py) {
         return 0;

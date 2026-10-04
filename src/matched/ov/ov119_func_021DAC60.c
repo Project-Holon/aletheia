@@ -21,12 +21,21 @@
  *   func_021DAC20 0x021DAC20 thumb ov119
  */
 typedef unsigned short u16;
-extern void func_0203D34C(int,int),func_0215642C(int),func_02045CAC(int,int,int),func_021E0FF4(void *,int,int),func_021E1030(void *);
-extern void func_02043534(int),func_020435F4(int),func_02022230(int),func_0202208C(int,int,int,int,int,int,int);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_0203D34C(int,int);
+extern void func_0215642C(int);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021E0FF4(void *,int,int);
+extern void func_021E1030(void *);
+extern void func_02043534(int);
+extern void func_020435F4(int);
+extern void func_02022230(int);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *,int),func_021DAC20(void *);
 void func_021DAC60(char *p) {
  func_0203D34C(1,*(u16 *)(p+0x5f4));if(*(int *)(p+0x118c)==2)func_0215642C(1);
- func_02045CAC(*(int *)(p+0x720),6,*(int *)(p+0x738));func_021E0FF4(p,1,0);func_021E1030(p);
+ func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),6,(void *)(*(int *)(p+0x738)));func_021E0FF4(p,1,0);func_021E1030(p);
  func_02043534(16);func_020435F4(4);func_02022230(0);
- func_0202208C(4,1,1,0,6,1,*(u16 *)(p+0x5f4));func_021D8E84(p,(int)func_021DAC20);
+ func_0202208C((void *)4,1,1,0,6,1,*(u16 *)(p+0x5f4));func_021D8E84(p,(int)func_021DAC20);
 }

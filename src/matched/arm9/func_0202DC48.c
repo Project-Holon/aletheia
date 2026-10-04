@@ -14,11 +14,12 @@
 
 typedef unsigned int u32;
 
-extern void func_0202DC60(u32 a, u32 b, u32 c, u32 d, u32 *e);
+struct Obj;
+extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 
 void func_0202DC48(u32 a, u32 b, u32 c, u32 d)
 {
     u32 buf[2] = { 0, 0 };
 
-    func_0202DC60(a, b, c, d, buf);
+    func_0202DC60((struct Obj *)a, b, (void *)c, d, (u32)buf);
 }

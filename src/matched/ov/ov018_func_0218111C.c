@@ -26,16 +26,17 @@ typedef struct {
     void *unk_10;
 } Obj;
 
-extern void func_0201232C(char *, int (*)(void *, int *, void *), int);
+typedef unsigned char  u8;
+extern void func_0201232C(char *p, int a1, int a2);
 extern void *func_020124E8(Obj *);
 extern void func_02082D44(const void *, void *, u32);
-extern int func_02181140(void *, int *, void *);
+extern int func_02181140(int x, int *st, u8 *obj);
 
 void func_0218111C(Obj *task, const void *src)
 {
     void *dst;
 
-    func_0201232C((char *)task, func_02181140, 0xA0);
+    func_0201232C((char *)task, (int)func_02181140, 0xA0);
     dst = func_020124E8(task);
     func_02082D44(src, dst, 0x98);
 }

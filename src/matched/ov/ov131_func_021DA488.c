@@ -44,8 +44,8 @@ struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern void func_021D618C(u8 *,void *,int,int,s16,u32);
-extern void func_021D6214(u8 *,void *,void *,int,u16,s16,u16);
+extern void func_021D618C(unsigned char *p, unsigned int a, int b, int c, unsigned short d, unsigned short e);
+extern void func_021D6214(unsigned char *p, unsigned int a, void *b, int c, unsigned short d, unsigned short e, unsigned short f);
 extern int func_0201C1E8(u16);
 extern void func_0204AB84(u32,Record *);
 extern void func_0204B784(void *,const Record *);
@@ -78,27 +78,27 @@ void func_021DA488(u8 *a,u8 *p)
         else id=func_02017E88(data,54,0);
     } else id=*(u16 *)(*(u8 **)(a+8)+20);
     one=1;
-    func_021D618C(a,*(void **)(p+124),149,1,one,15424);
+    func_021D618C(a,(unsigned int)(*(void **)(p+124)),149,1,one,15424);
     kind=func_0201C1E8(id);
     func_0204AB84(*(u32 *)(a+(kind+16)*4+152),&record);
     func_0204B784(*(void **)(p+148),&record);
     func_0204B6F4(*(void **)(p+148),func_02027604(kind),1);
-    func_021D618C(a,*(void **)(p+128),147,1,one,15424);
+    func_021D618C(a,(unsigned int)(*(void **)(p+128)),147,1,one,15424);
     count=func_0201C1D8(id);
-    if(count<=1) func_021D618C(a,*(void **)(p+128),154,87,one,1088);
+    if(count<=1) func_021D618C(a,(unsigned int)(*(void **)(p+128)),154,87,one,1088);
     else {
         object1=func_0201EC64(*(u16 *)a);
         func_0201EFA4(object1,0,count,3,one,one);
-        func_021D6214(a,*(void **)(p+128),object1,150,81,one,1088);
+        func_021D6214(a,(unsigned int)(*(void **)(p+128)),object1,150,81,one,1088);
         func_0201ED04(object1);
     }
-    func_021D618C(a,*(void **)(p+132),148,1,1,15424);
+    func_021D618C(a,(unsigned int)(*(void **)(p+132)),148,1,1,15424);
     value=func_0201BD28(id,4);
-    if(func_0201C1F4(id)==1 || value==0) func_021D618C(a,*(void **)(p+132),154,87,1,1088);
+    if(func_0201C1F4(id)==1 || value==0) func_021D618C(a,(unsigned int)(*(void **)(p+132)),154,87,1,1088);
     else {
         object2=func_0201EC64(*(u16 *)a);
         func_0201EFA4(object2,0,value,3,1,1);
-        func_021D6214(a,*(void **)(p+132),object2,151,81,1,1088);
+        func_021D6214(a,(unsigned int)(*(void **)(p+132)),object2,151,81,1,1088);
         func_0201ED04(object2);
     }
     table=func_02045B38(0,2,202,*(u16 *)a);

@@ -21,7 +21,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_0204B404(int, void *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 int func_021F0D64(char *p)
 {
@@ -34,7 +36,7 @@ int func_021F0D64(char *p)
     if (x >= 0xE9 && x <= 0xFF && y >= 0x1C && y <= 0x9C) {
         t[0] = 0xF4;
         t[1] = y;
-        func_0204B404(*(int *)(p + 0x2C), t, 1);
+        func_0204B404((struct Obj *)(*(int *)(p + 0x2C)), (const struct Vec2 *)t, 1);
         return 1;
     }
     return 0;

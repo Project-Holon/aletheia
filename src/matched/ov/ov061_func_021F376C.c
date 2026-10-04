@@ -41,16 +41,19 @@ typedef struct {
 
 extern int func_02188D2C(int *p);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02188C80(u8 *a);
-extern int func_020120F4(int a);
-extern int func_02012844(int a);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern int *func_021897BC(char *a, int idx);
 extern u16 func_02188C9C(u8 *p);
 extern void func_021F388C(int *o, int a);
-extern u8 *func_021BE674(int a, int b, int c, u16 d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE580(int a);
 extern int func_021BE6BC(u8 *p);
-extern void func_021BE4B4(int a, int b, int c, int d);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern int func_021F3868(void *unused, void *x);
 extern u16 func_021A3050(u8 *p);
 extern void func_021A3364(void *g, int b, V3 *out);
@@ -77,10 +80,10 @@ void func_021F376C(u8 *a)
         func_021F388C(o, (int)a);
         o[2] = cur;
     }
-    e = func_021BE674(s, 0, 0, 0);
+    e = func_021BE674((char *)s, 0, 0, 0);
     func_021BE580(s);
     if (o[0] != 0 && func_021BE6BC(e) != 0) {
-        func_021BE4B4(s, 0, 0, 1);
+        func_021BE4B4((char *)s, 0, 0, 1);
         o[0] = 0;
     }
     if (func_021F3868(o, g) == 0) {
@@ -93,8 +96,8 @@ void func_021F376C(u8 *a)
         return;
     }
     o[0] = 1;
-    func_021BE4B4(s, 0, 0, 0);
-    e = func_021BE674(s, 0, 0, 0);
+    func_021BE4B4((char *)s, 0, 0, 0);
+    e = func_021BE674((char *)s, 0, 0, 0);
     func_021BE6CC(s, 0, 0, 0, 0);
     func_021BE6B0(e, 0);
     *(V3 *)o[1] = v;

@@ -41,14 +41,14 @@ typedef unsigned int   u32;
 struct CharBuf;
 struct Descriptor;
 extern void func_02045088(u16 heapId);
-extern void *func_020450F0(int a, int b, int c, int d, int e, int f, int g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02041B6C(u32 bit);
-extern void *func_0201C440(int heap);
+extern u32 func_0201C440(void *p);
 extern const u8 d_021C8773[8][6];
 
 void func_021C6000(Work *p)
@@ -58,7 +58,7 @@ void func_021C6000(Work *p)
 
     func_02045088(p->heap);
     for (i = 0; i < 8; i++) {
-        p->win[i] = func_020450F0(tbl[i][0], tbl[i][1], tbl[i][2], tbl[i][3], tbl[i][4], tbl[i][5], 1);
+        p->win[i] = (void *)func_020450F0(tbl[i][0], tbl[i][1], tbl[i][2], tbl[i][3], tbl[i][4], tbl[i][5], 1);
         func_02043B5C(func_02045770(p->win[i]), 0);
     }
     func_02040C14(7, 0, 1, 0);
@@ -66,5 +66,5 @@ void func_021C6000(Work *p)
     func_02049B40(0x17, 5, 4, 0x1C0, 0x20, p->heap);
     func_02041B6C(7);
     func_02041B6C(4);
-    p->f32CC = func_0201C440(p->heap);
+    p->f32CC = (void *)func_0201C440((void *)p->heap);
 }

@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern int func_021E12AC(char *p);
 extern void func_021E1410(void *,Pair *,int);
 extern void func_02043534(u32 planes);
-extern void func_021B6558(int,int,int);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D8E84(void *,int);
 extern void func_021DDED4(unsigned char *p);
 void func_021DDF28(char *p)
@@ -31,7 +31,7 @@ void func_021DDF28(char *p)
         Pair t=d_021E76E4;
         func_021E1410(p,&t,2);
         func_02043534(31);
-        func_021B6558(*(int *)(p+0x9c0),1,0);
+        func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,0);
         func_021D8E84(p,(int)func_021DDED4);
     }
 }

@@ -42,8 +42,9 @@ extern u32 func_0200FB24(void);
 extern void func_0203D7B0(int a);
 extern void func_0203D7BC(int a);
 extern void func_02006210(void);
-extern int func_02012E40(u32 h);
-extern void func_02012E08(u32 h);
+typedef unsigned char  u8;
+extern u8 func_02012E40(const u8 *o);
+extern void func_02012E08(char *p);
 extern void func_0200F7C0(u32 value);
 extern int func_02157170(void *a, void *b);
 extern u32 func_021DCE60(int a);
@@ -71,8 +72,8 @@ int func_021D9F04(char *ctx, void *a, void *b)
             func_0203D7B0(r);
             func_0203D7BC(r);
             func_02006210();
-            if (func_02012E40(*(u32 *)(ctx + 8))) {
-                func_02012E08(*(u32 *)(ctx + 8));
+            if (func_02012E40((const u8 *)(*(u32 *)(ctx + 8)))) {
+                func_02012E08((char *)(*(u32 *)(ctx + 8)));
                 func_0200F7C0(0x29);
             }
         }
@@ -121,8 +122,8 @@ int func_021D9F04(char *ctx, void *a, void *b)
             func_0203D7B0(0);
             func_0203D7BC(0);
             func_02006210();
-            if (func_02012E40(*(u32 *)(ctx + 8))) {
-                func_02012E08(*(u32 *)(ctx + 8));
+            if (func_02012E40((const u8 *)(*(u32 *)(ctx + 8)))) {
+                func_02012E08((char *)(*(u32 *)(ctx + 8)));
                 func_0200F7C0(0x29);
             }
         }

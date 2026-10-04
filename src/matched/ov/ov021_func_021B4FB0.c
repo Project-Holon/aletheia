@@ -33,8 +33,9 @@ extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *a, void *b);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_020120F4(void *a);
-extern u32 func_02012EBC(u32 a);
+struct Big;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_021C5BD0(void *a, u32 b, void *c);
 
 int func_021B4FB0(u32 a, u32 b)

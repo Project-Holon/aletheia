@@ -34,7 +34,8 @@ typedef struct {
 
 extern unsigned long func_021BA118(char *s);
 extern int func_021BAB58(Req *req_p, char *value_p, unsigned long length);
-extern int func_021BAA1C(DataList **list_pp, void *bgnEndInfo_p, char *label_p, char *value_p);
+struct Node;
+extern int func_021BAA1C(struct Node **head, int b, int c, int d);
 
 int func_021BAC58(Req *req_p, void *bgnEndInfo_p, char *label_p, char *value_p)
 {
@@ -51,7 +52,7 @@ int func_021BAC58(Req *req_p, void *bgnEndInfo_p, char *label_p, char *value_p)
         length = func_021BA118(value_p);
     }
     if (func_021BAB58(req_p, value_p, length) != 0) {
-        rc = func_021BAA1C(&req_p->list, bgnEndInfo_p, label_p, value_p);
+        rc = func_021BAA1C((struct Node **)(&req_p->list), (int)bgnEndInfo_p, (int)label_p, (int)value_p);
         if (rc != 0) {
             req_p->list->next->length = length;
         }

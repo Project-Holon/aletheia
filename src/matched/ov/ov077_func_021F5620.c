@@ -67,7 +67,7 @@ typedef struct Param {
 struct Ctx;
 struct Desc;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(int a);
+extern int func_02189A08(unsigned char *p);
 extern u32 *func_021CF52C(u32 *p, int size, int heap);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F5744(void *task, int *st);
@@ -89,7 +89,7 @@ void *func_021F5620(void *task, const Param *p, int flag)
     int col;
     int row;
 
-    w =(Work *)func_021CF52C((u32 *)func_02189A08((int)func_0201210C(task)), sizeof(Work), 0x50);
+    w =(Work *)func_021CF52C((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(task))), sizeof(Work), 0x50);
     h = func_020122C0(task, 0, func_021F5744, 0);
     a = p->w;
     b = p->h;

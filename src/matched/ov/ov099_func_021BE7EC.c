@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 low : 2; u8 flag : 2; u8 high : 4; } Flags;
-extern void *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern u32 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern int func_021C23C0(void *);
@@ -42,7 +42,7 @@ int func_021BE7EC(char *p)
     u8 a, b;
     int old, next;
     for (i = 0; i < 32; i++) {
-        s = func_021C23B8(i);
+        s = (char *)func_021C23B8(i);
         a = (u8)func_021BDD48(p, s);
         b = (u8)func_021BDD54(p, s);
         if (func_021C23C0((void *)i) == 0) a = 0;

@@ -20,13 +20,13 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C654C(int);
+extern int func_021C654C(void * volatile handle);
 extern void func_021C797C(void);
 extern void func_021C6B44(int *hrq);
 
 void func_021C6BEC(void *a, int b)
 {
-    func_021C654C(b);
+    func_021C654C((void * volatile)b);
     func_021C797C();
     func_021C6B44(a);
 }

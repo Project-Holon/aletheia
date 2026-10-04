@@ -21,12 +21,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_020120F4(void);
-extern u32 func_02012EBC(u32 a);
-extern u8 *func_0200E8F8(u32 a);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E8F8(void *sys);
 
 int func_021D1028(void)
 {
-    u8 *p = func_0200E8F8(func_02012EBC(func_020120F4()));
+    u8 *p = func_0200E8F8(func_02012EBC((struct Big *)func_020120F4()));
 
     if (p[0] != 0) {
         if (p[0x14] != 0) {

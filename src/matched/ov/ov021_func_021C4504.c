@@ -16,7 +16,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02048F74(void *dst, u32 file, u32 id, u32 a, u32 b);
+extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 
 u16 func_021C4504(u16 sp)
 {
@@ -24,6 +24,6 @@ u16 func_021C4504(u16 sp)
 
     if (sp >= 0x289)
         return sp;
-    func_02048F74(&v, 0x14, sp, 0, 2);
+    func_02048F74(&v, 0x14, sp, 0, (u32 *)2);
     return v;
 }

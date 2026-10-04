@@ -21,16 +21,17 @@ typedef unsigned int u32;
 extern void *func_0203159C(int a, int size, int heap);
 struct Sub02007084Ctrl;
 extern struct Sub02007084Ctrl *func_020070A4(void);
-extern u32 func_0200873C(void *);
-extern u32 func_0200C0F0(void *);
+struct Sub02008700Obj;
+extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern void *func_0200C0F0(void *sys);
 
 int func_021BC3B8(int a0)
 {
     u32 *q = func_0203159C(a0, 0x5c, 1);
 
     q[0] = 1;
-    q[1] = func_0200873C(func_020070A4());
-    q[3] = func_0200C0F0(func_020070A4());
+    q[1] = (u32)func_0200873C(func_020070A4());
+    q[3] = (u32)func_0200C0F0(func_020070A4());
     q[2] = 0;
     return 1;
 }

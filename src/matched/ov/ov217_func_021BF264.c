@@ -24,7 +24,8 @@ struct MsgBank; struct U16Vec; struct WordSet;
 typedef unsigned int u32;
 extern u32 func_021BF810(void *p);
 extern unsigned func_021BF910(char *);
-extern unsigned func_021C0FF8(unsigned,unsigned);
+typedef unsigned char  u8;
+extern void func_021C0FF8(u8 *p, int visible);
 extern unsigned func_021C0F78(unsigned,struct U16Vec *);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern struct U16Vec *func_020457B0(unsigned,unsigned);
@@ -36,7 +37,7 @@ void func_021BF264(char *p)
     unsigned index;
     struct U16Vec *a,*b,*buf;
     if (*(unsigned *)(p+0x3c8)==0 || func_021BF810(p)==0) {
-        func_021C0FF8(*(unsigned *)(p+0x358),0);
+        func_021C0FF8((u8 *)(*(unsigned *)(p+0x358)),0);
         return;
     }
     index=func_021BF910(p);
@@ -45,7 +46,7 @@ void func_021BF264(char *p)
     buf=func_020457B0(128,*(u16 *)(p+4));
     func_0201EE0C(*(struct WordSet **)(p+24),0,b,0,1,2);
     func_0201F250(*(struct WordSet **)(p+24),buf,a);
-    func_021C0FF8(*(unsigned *)(p+0x358),1);
+    func_021C0FF8((u8 *)(*(unsigned *)(p+0x358)),1);
     func_021C0F78(*(unsigned *)(p+0x358),buf);
     func_02045808(a);
     func_02045808(buf);

@@ -33,7 +33,7 @@
 typedef unsigned int   u32;
 extern int func_020648B4(u32 a, u32 b);
 extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, unsigned short a4);
-extern void func_02064754(int a0, int a1, int a2, int a3, int a4, int a5);
+extern void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind);
 
 extern char data_020A72CC[];
 
@@ -42,6 +42,6 @@ void func_02016984(char *a0, int a1)
     *(int *)(a0 + 0x98) = (int)func_02030734((unsigned short)*(int *)(a0 + 0x14c),
                                         func_020648B4(*(int *)(a0 + 0x18), a1),
                                         0, data_020A72CC, 0x970);
-    func_02064754((int)(a0 + 0x34), *(int *)(a0 + 0x98), *(int *)(a0 + 0x20),
-                  *(int *)(a0 + 0x10), *(int *)(a0 + 0x18), a1);
+    func_02064754((char *)((int)(a0 + 0x34)), (char *)(*(int *)(a0 + 0x98)), (void *)(*(int *)(a0 + 0x20)),
+                  *(int *)(a0 + 0x10), (void *)(*(int *)(a0 + 0x18)), a1);
 }

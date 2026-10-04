@@ -18,13 +18,13 @@
  */
 typedef struct { int x,y,z; } Vec;
 extern const Vec d_021F5B64;
-extern int func_02189A08(int);
+extern int func_02189A08(unsigned char *p);
 extern void func_021CF580(void *);
 extern void *func_021F5260(void *, const Vec *, void (*)(void), void (*)(void));
-extern void func_021F5ABC(void);
+extern void func_021F5ABC(void *a);
 extern void func_021F582C(void);
 void *func_021F5A80(void *p, int b) {
     Vec v = d_021F5B64;
-    func_021CF580((void *)func_02189A08(b));
-    return func_021F5260(p, &v, func_021F5ABC, func_021F582C);
+    func_021CF580((void *)func_02189A08((unsigned char *)b));
+    return func_021F5260(p, &v, (void (*)(void))func_021F5ABC, func_021F582C);
 }

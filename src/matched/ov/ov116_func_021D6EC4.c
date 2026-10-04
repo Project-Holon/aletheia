@@ -43,9 +43,9 @@ extern u8 *func_021B97F4(u8 *);
 extern u8 func_021B99F0(u8 *);
 extern u8 *func_021B9A14(u8 *p, u32 i);
 extern void func_02082D44(const void *, void *, u32);
-extern u32 func_021B99F4(u8 *, int);
+extern u32 func_021B99F4(u32 p, u32 i);
 extern void func_021D724C(u8 *, u32);
-extern void func_021D7010(u8 *, int);
+extern void func_021D7010(unsigned int a, unsigned int b);
 int func_021D6EC4(u8 *p, u8 *q, int flag)
 {
     int result = 0;
@@ -70,10 +70,10 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
             all = 1;
             func_02082D44(func_021B9A14(x, *(u16 *)(p + 0x16c)), p + 0x16e, 128);
             for (i = 0; i < *(u16 *)(p + 0x16c); i++) {
-                if (func_021B99F4(x, i) != 0) {
+                if (func_021B99F4((u32)x, i) != 0) {
                     all = 0;
                     if (flag != 0) func_021D724C(q, 1);
-                    else func_021D7010(p, i);
+                    else func_021D7010((unsigned int)p, i);
                 }
             }
             if (all != 0) result = 1;
@@ -82,7 +82,7 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
             if (flag != 0) func_021D724C(q, 2);
             result = 2;
             for (i = 0; i < *(u16 *)(p + 0x16c); i++) {
-                if (func_021B99F4(x, i) != 0) func_021D7010(p, i);
+                if (func_021B99F4((u32)x, i) != 0) func_021D7010((unsigned int)p, i);
             }
         }
         func_021B99B8(*(u8 **)(p + 0x168));

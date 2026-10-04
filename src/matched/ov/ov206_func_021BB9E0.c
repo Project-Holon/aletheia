@@ -23,8 +23,10 @@ struct State { u16 heap; char pad2[26]; int flag; char pad20[0x168]; unsigned ar
 extern int func_021BC0B4(int);
 extern int func_021BC0B8(int);
 extern int func_021BC0CC(int);
-extern int func_0204AC18(unsigned,unsigned,unsigned,unsigned,u16,u16,u16);
-extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 void func_021BB9E0(struct State *p)
 {
     u8 i;
@@ -36,7 +38,7 @@ void func_021BB9E0(struct State *p)
     flag=0;
     if(p->flag) flag=1;
     owner=p->owner;
-    *(int *)((char *)p+0x17c)=func_0204AC18(owner,func_021BC0B4(p->flag),flag,160,0,1,p->heap);
-    *(int *)((char *)p+0x180)=func_0204AF28(owner,func_021BC0B8(0),func_021BC0CC(0),p->heap);
-    *(int *)((char *)p+0x184)=func_0204AF28(owner,func_021BC0B8(494),func_021BC0CC(494),p->heap);
+    *(int *)((char *)p+0x17c)=func_0204AC18((void *)owner,func_021BC0B4(p->flag),flag,160,0,1,p->heap);
+    *(int *)((char *)p+0x180)=func_0204AF28((void *)owner,func_021BC0B8(0),func_021BC0CC(0),p->heap);
+    *(int *)((char *)p+0x184)=func_0204AF28((void *)owner,func_021BC0B8(494),func_021BC0CC(494),p->heap);
 }

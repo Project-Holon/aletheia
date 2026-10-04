@@ -27,7 +27,7 @@ extern void *func_021C7CF4(int *p, int i);
 extern unsigned char func_021D69AC(unsigned char *base, int idx);
 extern u32 func_021D78AC(u32 range);
 extern int func_021D76BC(int key, u32 val);
-extern int func_021E8624(void *a, int c);
+extern int func_021E8624(int a, int b);
 extern const u8 d_021F2856[];
 
 void func_021E3B64(int u, void *a, int c)
@@ -44,7 +44,7 @@ void func_021E3B64(int u, void *a, int c)
                 return;
             }
         }
-        if (func_021E8624(a, c) != 0)
+        if (func_021E8624((int)a, c) != 0)
             func_021D76BC(0x22, 0x1a);
     }
 }

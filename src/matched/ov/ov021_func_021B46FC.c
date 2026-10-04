@@ -17,12 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0202020C(u32, u16 *, u16 *);
+struct Obj;
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 
 void func_021B46FC(u8 *w)
 {
     u16 a;
     u16 b;
 
-    func_0202020C(*(u32 *)(w + 0x1A4), &a, &b);
+    func_0202020C((struct Obj *)(*(u32 *)(w + 0x1A4)), &a, &b);
 }

@@ -20,19 +20,20 @@ typedef unsigned char u8;
 
 struct Ent { u8 pad00[0xB3]; u8 fB3; };
 
-extern int func_0200A0E4(void *p, void *a);
-extern int func_0200A104(void *a, void *b);
-extern int func_0200A000(void *a, void *b, struct Ent *c);
+typedef unsigned int   u32;
+extern u32 func_0200A0E4(u8 *p, u32 a);
+extern int func_0200A104(char *p, unsigned int idx);
+extern int func_0200A000(char *p, int idx, void *buf);
 
 struct Ent *func_021B77E4(void *a, void *b, struct Ent *c)
 {
     u8 v;
 
-    if (func_0200A0E4(a, b) == 0)
+    if (func_0200A0E4(a, (u32)b) == 0)
         return 0;
-    if (func_0200A104(a, b) == 1)
+    if (func_0200A104(a, (unsigned int)b) == 1)
         return 0;
-    if (func_0200A000(a, b, c) == 0)
+    if (func_0200A000(a, (int)b, c) == 0)
         return 0;
     v = c->fB3;
     if (v == 0)

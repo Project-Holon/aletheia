@@ -16,12 +16,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void func_02047204(u32 x);
+struct Tagged;
+u32 func_02047204(struct Tagged *p);
 
 void func_021A1768(u8 *p)
 {
     if (p[7] != 0) {
-        func_02047204(*(u32 *)(p + 8));
+        func_02047204((struct Tagged *)(*(u32 *)(p + 8)));
         p[7] = 0;
     }
 }

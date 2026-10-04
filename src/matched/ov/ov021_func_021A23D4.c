@@ -13,11 +13,12 @@
  *   func_021A0354  0x021A0354  thumb  ov021
  */
 
-int func_021A0354(int a);
+typedef unsigned char  u8;
+u8 func_021A0354(u8 *p);
 
 int func_021A23D4(int *p)
 {
-    if (func_021A0354(p[4]) == 1) {
+    if (func_021A0354((u8 *)p[4]) == 1) {
         return 1;
     }
     return 0;

@@ -84,16 +84,18 @@ extern const V d_021F4358[];
 extern const V d_021F434C;
 extern const V d_021F4340;
 
-extern void *func_02188D2C(void *p);
+struct Big;
+struct Ctx;
+extern int func_02188D2C(int *p);
 extern u32 func_02188C64(u8 *p);
-extern u32   func_02188C80(void *p);
+extern void *func_02188C80(void *p);
 extern u16 func_02188C84(u8 *p);
-extern void *func_02188C98(void *p);
+extern u32 func_02188C98(u8 *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_0218CEE0(void *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern u32   func_020120F4(u32 a);
-extern u32   func_02012EC4(u32 a);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int  *func_0200B3A4(u32 a, u32 b);
 extern void  func_021C0628(u8 i, int a, int b, int c, int d, int e, int f, void *t);
 extern void  func_021BE760(void *p, void *a, int b);
@@ -103,8 +105,8 @@ extern void *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B8(unsigned char *p, int v);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern int   func_021BE748(void *p);
-extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
+extern int func_021BE748(u32 a);
+extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern void  func_021F3F38(int *a, void *b, int c);
 extern void  func_021F4174(void *p);
 struct VecFx32;
@@ -127,11 +129,11 @@ void func_021F36C0(void *a0)
     u8 x;
     int pos[3];
 
-    s = func_02188D2C(a0);
+    s = (void *)func_02188D2C(a0);
     g = func_02188C64(a0);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a0))), 7);
+    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(a0))), 7);
     func_02189764(a0, 1, func_02188C84(a0), 0x58);
-    w = func_0218CEE0(func_02188C98(a0));
+    w = func_0218CEE0((void *)func_02188C98(a0));
     for (i = 0; i < 8; i++) {
         func_021C0628(i, d_021F4510[i].f0, d_021F4510[i].f4, d_021F4510[i].f8,
                       d_021F4510[i].fc, d_021F4510[i].f10, 0x800000, w);
@@ -177,7 +179,7 @@ void func_021F36C0(void *a0)
     func_021BE6B8(b, 0);
     func_021BE6B0(b, 1);
     if (q[6]) {
-        func_021BE6CC(s, 0, 6, 0, func_021BE748(b));
+        func_021BE6CC((int)s, 0, 6, 0, func_021BE748((u32)b));
     }
     func_021A3038(func_02188CB4(a0), (struct VecFx32 *)pos);
     if (pos[1] <= -0x280000) {

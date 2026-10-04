@@ -42,7 +42,8 @@ extern void *func_0200C404(void *sys);
 struct Work;
 extern u16 func_0200C468(const u8 *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern u32 *func_020124E8();
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC();
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_02188C7C(unsigned char *p);
@@ -93,7 +94,7 @@ struct Desc *func_0215FF54(int a0, int a1, u16 a2)
     } else {
         r5 = func_020122C0((void *)a0, 0, (void *)func_02160018, 0x20);
     }
-    p = (struct Rec *)func_020124E8(r5);
+    p = (struct Rec *)func_020124E8((struct Obj *)r5);
     func_02082BCC(p, 0, 0x20);
     p->owner = a0;
     p->desc = r5;

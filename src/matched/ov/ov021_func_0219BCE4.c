@@ -19,22 +19,22 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0216D804(u32);
-extern u32 func_0216D81C(u32);
-extern u32 func_0216D83C(u32);
-extern u32 func_0216D86C(u32);
-extern u32 func_0216DA5C(u32);
-extern u32 func_0216D57C(u32, u32);
+extern int func_0216D804(void *p);
+extern int func_0216D81C(void *p);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
+extern int func_0216DA5C(void *a0);
+extern u32 func_0216D57C(void *p, u32 v);
 
 int func_0219BCE4(u32 a, u32 b)
 {
     u32 c = *(u32 *)(b + 8);
-    u32 x = func_0216D83C(a);
-    u32 y = func_0216D86C(a);
-    u32 p = func_0216D804(c);
-    u32 q = func_0216D81C(c);
+    u32 x = func_0216D83C((void *)a);
+    u32 y = func_0216D86C((void *)a);
+    u32 p = func_0216D804((void *)c);
+    u32 q = func_0216D81C((void *)c);
     if (x != p || y != q) {
-        if (func_0216DA5C(c) == 1 || func_0216D57C(c, 0x1808) == 0) {
+        if (func_0216DA5C((void *)c) == 1 || func_0216D57C((void *)c, 0x1808) == 0) {
             return 1;
         }
     }

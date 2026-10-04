@@ -24,7 +24,7 @@
  */
 
 extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
-extern int func_021BF520(char *url);
+extern int func_021BF520(int a);
 extern char g_021E52B4[];
 extern char g_021AE01C[];
 extern char g_021E3FE8[];
@@ -38,16 +38,16 @@ void func_021DF734(int ssl_type)
 	switch (ssl_type) {
 	case 1:
 		func_02084F80(g_021E52B4, 128, g_021E3FE8, g_021AE01C);
-		func_021BF520(g_021E52B4);
+		func_021BF520((int)g_021E52B4);
 		func_02084F80(g_021E53BC, 128, g_021E4040, g_021AE01C);
-		func_021BF520(g_021E53BC);
+		func_021BF520((int)g_021E53BC);
 		break;
 	case 0:
 	default:
 		func_02084F80(g_021E52B4, 128, g_021E408C, g_021AE01C);
-		func_021BF520(g_021E52B4);
+		func_021BF520((int)g_021E52B4);
 		func_02084F80(g_021E53BC, 128, g_021E40E4, g_021AE01C);
-		func_021BF520(g_021E53BC);
+		func_021BF520((int)g_021E53BC);
 		break;
 	}
 }

@@ -40,8 +40,11 @@
  *       --func func_02014584 --addr 0x02014584 --cc 1.1p1 --thumb
  */
 
-extern int  func_020120F0(int v);
-extern void func_020120C0(int v);
+typedef unsigned int   u32;
+struct Ctx;
+struct IcaAnime;
+extern u32 func_020120F0(const struct Ctx *p);
+extern void func_020120C0(struct IcaAnime *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern int  func_02188BE8(void *v);
@@ -52,8 +55,8 @@ int func_02014584(int a0, int *a1, int *a2)
 
     switch (*a1) {
     case 0:
-        if (func_020120F0(v) == 0) {
-            func_020120C0(v);
+        if (func_020120F0((const struct Ctx *)v) == 0) {
+            func_020120C0((struct IcaAnime *)v);
             *a1 = *a1 + 1;
         }
         break;

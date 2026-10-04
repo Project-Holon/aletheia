@@ -15,12 +15,13 @@
  */
 
 extern void func_02047964(void);
-extern void func_02048AD0(unsigned int);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 
 void func_021BB458(unsigned int *p)
 {
     func_02047964();
-    func_02048AD0(*p);
+    func_02048AD0((struct Light *)(*p));
     func_020479D8();
 }

@@ -79,7 +79,7 @@ extern int func_021EF248(void);
 extern void func_021EF3D8(struct WinMgr *mgr);
 extern unsigned func_0202136C(unsigned short v);
 extern int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
-extern void func_021DEA3C(unsigned char *p, unsigned a, unsigned b, int mode);
+extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 typedef unsigned int   u32;
 struct Sound;
@@ -154,10 +154,10 @@ int func_021E1628(unsigned char *p)
             else if (func_021DDE80(p, p[0x16], r) == 0)
                 r = p[0x16];
             if (flag == 1) {
-                func_021DEA3C(p, first, r, 2);
+                func_021DEA3C((int)p, first, r, 2);
                 b->state = 7;
             } else {
-                func_021DEA3C(p, first, r, 1);
+                func_021DEA3C((int)p, first, r, 1);
                 if (r == p[0x16] && (func_0202136C(CNT(p)) == 0 || first == p[0x16]))
                     func_021EF534(MGR(p));
                 b->state = 8;

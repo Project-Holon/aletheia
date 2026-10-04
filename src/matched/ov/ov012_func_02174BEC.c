@@ -20,14 +20,15 @@ typedef unsigned int u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 v);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern void func_02082D44(void *src, void *dst, u32 n);
 
 void func_02174BEC(u32 a, u32 b, void *c, u8 *d)
 {
     u8 *w = *(u8 **)(d + 0x355C);
 
-    if (a == func_0203D1A4((u32)func_020399A8())) {
+    if (a == func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
         return;
     }
     if (w == 0 || *(int *)w == 0) {

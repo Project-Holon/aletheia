@@ -57,7 +57,8 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *, unsigned int);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B688(int, int);
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 
 void func_0219728C(Obj *p)
 {
@@ -77,6 +78,6 @@ void func_0219728C(Obj *p)
         p->sub.arr[i] = (int)func_0204B294((void *)p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
         func_0204B92C((struct Obj *)p->sub.arr[i], 0);
         func_0204B3DC((struct Obj *)p->sub.arr[i], 1);
-        func_0204B688(p->sub.arr[i], 1);
+        func_0204B688((struct Actor *)p->sub.arr[i], 1);
     }
 }

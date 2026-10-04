@@ -48,11 +48,13 @@ extern void func_02049238(void *h);
 struct Bmp;
 struct Obj020437AC;
 extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
-extern void func_02043814(void *a, u32 b);
+struct MsgBank;
+struct U16Vec;
+extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 extern void func_020437AC(struct Obj020437AC *p);
-extern u32  func_02045EC0(u32 a, u32 b);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02045808(u32 a);
+extern void func_02045808(struct U16Vec *vec);
 extern void ov208_func_021BE9CC(struct Ov208Icon *p);
 
 struct Ov208PalTbl {
@@ -74,11 +76,11 @@ void ov208_func_021BE920(struct Ov208Icon *p)
     func_02049BDC(h, 4, 4, pal.v[p->fc] << 5, 0x1a0, 0x20, p->heap);
     func_02049238(h);
     h = func_0204384C(0x9f, 0xe, 0, p->heap);
-    func_02043814(h, p->f18);
+    func_02043814(h, (const struct Bmp *)p->f18);
     func_020437AC(h);
-    s = func_02045EC0(p->f24, p->fc + 0xb2);
+    s = (u32)func_02045EC0((struct MsgBank *)p->f24, p->fc + 0xb2);
     func_0201C724(p->f2c, p->f18, 0x18, 5, s, p->f4, 0x3dc0);
-    func_02045808(s);
+    func_02045808((struct U16Vec *)s);
     p->f30 = 1;
     ov208_func_021BE9CC(p);
 }

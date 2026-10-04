@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021F0A98(char *p, u8 b);
-extern void func_021F0B80(char *p, u32 a, int *s);
+extern void func_021F0B80(char *p, void *t, unsigned a);
 extern void func_021F178C(char *p, u8 a, int *s);
 extern void func_021F0C04(char *p, int flag);
 extern void func_021F0B64(char *p);
@@ -41,7 +41,7 @@ extern int func_021F0C70(char *p, int flag);
 extern void func_021F253C(char *p, u16 v);
 extern void func_021F0D9C(char *p);
 extern int func_021F0D5C(char *p, int i);
-extern void func_021F0B10(char *p, int a, int *b);
+extern void func_021F0B10(char *p, int a, int b);
 extern void func_021F05E8(char *p, int a, int b);
 extern void func_02031194(struct TcblNode *n);
 
@@ -59,7 +59,7 @@ void func_021F1CF0(void *h, u8 *t)
             func_021F0A98(p, (*(u16 *)(t + 0x16) != 0 ? 1 : 0) + 9);
         else if (*(u16 *)(t + 0x10) < *(u16 *)(t + 0x12))
             func_021F0A98(p, 8);
-        func_021F0B80(p, *(u32 *)(p + 0x11c), (int *)(t + 8));
+        func_021F0B80(p, (void *)(*(u32 *)(p + 0x11c)), (unsigned int)((int *)(t + 8)));
         t[0]++;
         break;
     case 1:
@@ -102,7 +102,7 @@ void func_021F1CF0(void *h, u8 *t)
         t[0]++;
         break;
     case 7:
-        func_021F0B10(p, 1, (int *)(t + 8));
+        func_021F0B10(p, 1, (int)((int *)(t + 8)));
         func_021F0E04(p, 1);
         func_021F178C(p, 1, (int *)(t + 8));
         t[0]++;

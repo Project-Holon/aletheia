@@ -26,7 +26,7 @@ typedef struct Ctx {
 
 extern void func_0207AD58(void *dst, int a, int b);
 extern void func_02040820(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_0220687C(char *p, int v);
+extern void func_0220687C(char *p, void *q);
 
 void func_02204438(int a0, Ctx *c)
 {
@@ -41,5 +41,5 @@ void func_02204438(int a0, Ctx *c)
     func_02040820(7, 0, 0x80, (u32)m, 0x100, 0x100);
     func_02040820(7, 3, c->ang, (u32)m, 0x100, 0x100);
     if (c->cur == c->target)
-        func_0220687C(c->main, a0);
+        func_0220687C(c->main, (void *)a0);
 }

@@ -24,32 +24,35 @@
 typedef unsigned short u16;
 struct Ctx;
 
-int func_020124E4(int x);
+typedef unsigned char  u8;
+struct Evt;
+struct Obj;
+void *func_020124E4(struct Obj *p);
 unsigned int func_02012138(const struct Ctx *p);
-void func_02012374(int x, int y);
-int *func_02158344(int x);
-int func_02167A54(int a, int b);
+void func_02012374(struct Evt *evt, struct Evt **out);
+int func_02158344(int a0);
+int func_02167A54(int *p, int i);
 void *func_02188C7C(unsigned char *p);
 void func_0216D9A0(void *x);
 void func_0216D9E4(void *x);
-int func_0217FD34(int a, int b, int *c, int d, int e, int f);
+void *func_0217FD34(int a, int b, u8 *c, int d, int e, u16 f);
 
 int func_0217FCAC(int x, int *st, int *obj)
 {
-    int v = func_020124E4(x);
+    int v = (int)func_020124E4((struct Obj *)x);
     int *m;
 
-    m = func_02158344(func_02012138((const struct Ctx *)v));
+    m = (int *)func_02158344(func_02012138((const struct Ctx *)v));
     switch (*st) {
     case 0:
         if (m == 0) {
             return 1;
         }
-        if (func_02167A54(m[2], obj[2]) == 0) {
+        if (func_02167A54((int *)m[2], obj[2]) == 0) {
             return 1;
         }
         func_0216D9A0(func_02188C7C((unsigned char *)obj[0]));
-        func_02012374(x, func_0217FD34(v, obj[0], m, obj[1], obj[2], *(u16 *)(obj + 3)));
+        func_02012374((struct Evt *)x, func_0217FD34(v, obj[0], (u8 *)m, obj[1], obj[2], *(u16 *)(obj + 3)));
         *st = *st + 1;
         break;
     case 1:

@@ -25,32 +25,35 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021F7160(u32);
+struct Board;
+struct Camera;
+struct Lights;
+extern void func_021F7160(u8 *p);
 extern void func_021F51E8(u8 *);
-extern void func_021F6CB0(u32);
+extern void func_021F6CB0(char *p);
 extern void func_021F6E74(u32);
-extern void func_021F75A0(u32);
+extern void func_021F75A0(u8 *p);
 extern void func_021F51F4(u32);
-extern void func_021F718C(u32);
-extern void func_021F6F8C(u32);
+extern void func_021F718C(char *p);
+extern void func_021F6F8C(u8 *p);
 extern void func_021F4280(u8 *);
 extern void func_02047964(void);
 extern void func_020479D8(void);
-extern void func_0204F7DC(u32,u32,int);
+extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void func_02047970(void);
 void func_021F3C50(u8 *p)
 {
-    func_021F7160(*(u32 *)(p+0x2c));
+    func_021F7160((u8 *)(*(u32 *)(p+0x2c)));
     func_021F51E8(*(u8 **)(p+0x20));
-    func_021F6CB0(*(u32 *)(p+0x40));
+    func_021F6CB0((char *)(*(u32 *)(p+0x40)));
     func_02047964();
     func_020479D8();
     func_021F6E74(*(u32 *)(p+0x40));
-    func_021F75A0(*(u32 *)(p+0x2c));
+    func_021F75A0((u8 *)(*(u32 *)(p+0x2c)));
     func_021F51F4(*(u32 *)(p+0x20));
-    func_021F718C(*(u32 *)(p+0x2c));
-    func_021F6F8C(*(u32 *)(p+0x28));
-    func_0204F7DC(*(u32 *)(p+0x1c),*(u32 *)(p+0x18),0);
+    func_021F718C((char *)(*(u32 *)(p+0x2c)));
+    func_021F6F8C((u8 *)(*(u32 *)(p+0x28)));
+    func_0204F7DC((struct Board *)(*(u32 *)(p+0x1c)),(struct Camera *)(*(u32 *)(p+0x18)),0);
     func_021F4280(p);
     func_02047970();
 }

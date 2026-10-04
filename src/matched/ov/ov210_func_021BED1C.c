@@ -14,9 +14,10 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BE49C(int a);
+typedef unsigned char  u8;
+extern void func_021BE49C(u8 *p);
 
 void func_021BED1C(int p)
 {
-    func_021BE49C(p + 0x1a4);
+    func_021BE49C((u8 *)(p + 0x1a4));
 }

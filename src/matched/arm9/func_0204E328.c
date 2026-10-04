@@ -42,14 +42,14 @@ extern const char s_textprint_c[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0204E180(void *buf, u32 a1);
-extern void  func_0204E388(u32 a0, void *buf, u32 a2);
+extern void func_0204E388(char *p, u16 *out, int max);
 extern void  func_020307B0(void *p);
 
 void func_0204E328(u32 a0, u32 a1)
 {
     void *buf = func_02030734(0, 0x200, 0, s_textprint_c, 0xae);
 
-    func_0204E388(a0, buf, 0x100);
+    func_0204E388((char *)a0, buf, 0x100);
     func_0204E180(buf, a1);
     func_020307B0(buf);
 }

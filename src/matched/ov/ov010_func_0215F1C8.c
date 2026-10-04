@@ -27,8 +27,8 @@ extern void *func_02158FB4(void *p);
 extern u16 *func_02159AE8(void *a, void *b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_0217294C[];
-extern void func_0215F168(void);
-extern void func_020113D0(void *a, void (*cb)(void));
+extern int func_0215F168(int a0, int a1);
+extern void func_020113D0(char *p, int val);
 
 int func_0215F1C8(void *a, void *b)
 {
@@ -42,6 +42,6 @@ int func_0215F1C8(void *a, void *b)
     *slot = p;
     *p = w;
     *w = 0;
-    func_020113D0(a, func_0215F168);
+    func_020113D0(a, (int)func_0215F168);
     return 1;
 }

@@ -16,13 +16,16 @@
  * branch as blo where the image has bhs.
  */
 
-extern void func_02007664(int, int, int);
-extern void func_0201A9C8(int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Party;
+extern void func_02007664(void *save, u32 box, u32 slot);
+extern u32 func_0201A9C8(struct Party *p, s32 idx);
 
 void func_021DD314(char **p, int a, unsigned b)
 {
     if (b < 0x1eU)
-        func_02007664(*(int *)(*p + 4), a, b);
+        func_02007664((void *)(*(int *)(*p + 4)), a, b);
     else
-        func_0201A9C8(*(int *)(*p + 8), b - 0x1eU);
+        func_0201A9C8((struct Party *)(*(int *)(*p + 8)), b - 0x1eU);
 }

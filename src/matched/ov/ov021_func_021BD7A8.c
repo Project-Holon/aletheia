@@ -29,7 +29,7 @@ typedef struct {
     Cfg *cfg;
 } Ctx;
 
-extern void *func_021BFE00(int a, u32 b, u32 c);
+extern void *func_021BFE00(int a0, void *p, int a2);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
@@ -41,7 +41,7 @@ int func_021BD7A8(void *task, u32 *state, Ctx *ctx)
 
     switch (*state) {
     case 0:
-        func_02012374(task, func_021BFE00(0, x, y));
+        func_02012374(task, func_021BFE00(0, (void *)x, y));
         (*state)++;
         break;
     case 1:

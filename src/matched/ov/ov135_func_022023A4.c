@@ -31,7 +31,8 @@ struct Party;
 struct PartyMon;
 extern u32 func_0201A98C(struct Party *,const struct PartyMon *);
 extern int func_020076D0(void *,u32 *,u32 *);
-extern void func_0200752C(void *,u32,u32);
+struct Sub02007454Entry;
+extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 extern u32 func_022026BC(void *);
 extern void func_0220246C(void *,int);
 void func_022023A4(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
@@ -52,7 +53,7 @@ void func_022023A4(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
     } else {
         u32 slot=0;
         func_020076D0(*(void **)(*(u8 **)p+0xC),&index,&slot);
-        func_0200752C(*(void **)(*(u8 **)p+0xC),index,func_022026BC(mon));
+        func_0200752C(*(void **)(*(u8 **)p+0xC),index,(const struct Sub02007454Entry *)func_022026BC(mon));
         *(u32 *)(p+0xDC)=index;
         pos=slot;
     }

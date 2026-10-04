@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 int func_0216D3CC(int b);
 int func_021A491C(int a, int b, u8 *c);
-int func_021A4994(int a, int b, u8 *c);
+int func_021A4994(u8 *a, void *b, u8 *c);
 
 int func_021A4A74(int a, int b, u8 *c)
 {
@@ -28,5 +28,5 @@ int func_021A4A74(int a, int b, u8 *c)
         return 0;
     if (*(u16 *)(c + 8) == 9)
         return func_021A491C(a, b, c);
-    return func_021A4994(a, b, c);
+    return func_021A4994((u8 *)a, (void *)b, c);
 }

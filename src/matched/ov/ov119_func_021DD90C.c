@@ -27,15 +27,19 @@ typedef unsigned int u32;
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E76FC;
 extern int func_021D8AA8(void *);
-extern void func_020452E8(int);
+typedef signed short   s16;
+struct Cfg;
+struct Descriptor;
+struct MsgBank;
+extern void func_020452E8(struct Descriptor *d);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
 extern void func_0201DD78(u32,u32,u32);
-extern void func_02045CAC(int,int,int);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7A4(void *,int,int,int,int);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(int);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void func_021DD90C(u8 *p,int i,int msg,int force)
 {
@@ -47,14 +51,14 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
         if(p[0x11ea]==0) return;
         if(func_021D8AA8(p)==0) return;
     }
-    if(*(int *)(p+i*4+0x5bc)) func_020452E8(*(int *)(p+i*4+0x5bc));
+    if(*(int *)(p+i*4+0x5bc)) func_020452E8((struct Descriptor *)(*(int *)(p+i*4+0x5bc)));
     items=(int *)(p+0x5bc); items[i]=func_020450F0(3,((int *)&t)[i],16,12,2,5,0); w=items[i];
     func_0201DD78(5,6,0);
     msg+=0x72;
-    func_02045CAC(*(int *)(p+0x720),msg,*(int *)(p+0x730));
-    func_0201C7A4(func_02045770((struct Descriptor *)w),0,0,*(int *)(p+0x730),*(int *)(p+0x728));
+    func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),msg,(void *)(*(int *)(p+0x730)));
+    func_0201C7A4(func_02045770((struct Descriptor *)w),0,0,(void *)(*(int *)(p+0x730)),(void *)(*(int *)(p+0x728)));
     func_02045334((struct Descriptor *)w);
-    func_02045374(w);
+    func_02045374((struct Cfg *)w);
     func_02041B6C(3);
     (p+i)[0x11e8]=3;
 }

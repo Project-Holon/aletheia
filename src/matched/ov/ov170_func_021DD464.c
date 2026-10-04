@@ -15,7 +15,7 @@
  *   func_0200752C 0x0200752C thumb
  *   func_02007664 0x02007664 thumb
  */
-extern void *func_021DD2D0(void ***,int,unsigned);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern int func_021DD684(unsigned char *,unsigned);
 typedef unsigned int   u32;
 struct Sub02007454Entry;
@@ -27,7 +27,7 @@ void func_021DD464(unsigned char *p,unsigned a,unsigned b,unsigned c)
 {
     void *m;
     unsigned box;
-    m = func_021DD2D0((void ***)p,a,b);
+    m = (void *)func_021DD2D0((void ***)p,a,b);
     box = func_021DD684(p,c);
     func_0200752C((*(void ***)p)[1],box,m);
     func_02007664((*(void ***)p)[1],a,b);

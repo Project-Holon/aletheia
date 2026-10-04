@@ -43,7 +43,8 @@ extern void func_0201DD60(void);
 extern void func_021BB2C8(void *,u32);
 extern void func_021BB36C(unsigned char *,int,int);
 extern void func_021BB3DC(u32 **,u32);
-extern void func_021BB2B4(void *);
+typedef unsigned char  u8;
+extern void func_021BB2B4(void *unused, u8 *p);
 extern u32 func_020056A0(void (*)(void *),void *,u32);
 char *func_021BB178(u32 a,u32 heap)
 {
@@ -63,6 +64,6 @@ char *func_021BB178(u32 a,u32 heap)
     func_021BB2C8(p,heap);
     func_021BB36C((unsigned char *)p+4,(int)config,heap);
     func_021BB3DC((u32 **)(p+8),heap);
-    *(u32 *)(p+12)=func_020056A0(func_021BB2B4,p,0);
+    *(u32 *)(p+12)=func_020056A0((void (*)(void *))func_021BB2B4,p,0);
     return p;
 }

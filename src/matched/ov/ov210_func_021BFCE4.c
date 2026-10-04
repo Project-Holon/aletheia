@@ -17,7 +17,7 @@ typedef unsigned int u32;
 extern int func_021BEE04(char *, int);
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);
 extern void func_021BEE38(char *, int, short, short, unsigned short);
-extern void func_021BEDF0(void *, int, int);
+extern void func_021BEDF0(int p, int i, int v);
 
 void func_021BFCE4(char *p, int dx)
 {
@@ -29,14 +29,14 @@ void func_021BFCE4(char *p, int dx)
             func_021BEE58(p, i, &pos.y, &pos.x, 0);
             func_021BEE38(p, i, pos.y, (short)(pos.x + dx), 0);
             if (pos.x + dx <= -20 || pos.x + dx >= 0xDC) {
-                func_021BEDF0(p, i, 0);
+                func_021BEDF0((int)p, i, 0);
             }
         }
     }
     func_021BEE58(p, 9, &pos.y, &pos.x, 0);
     func_021BEE38(p, 9, pos.y, (short)(pos.x + dx), 0);
     if (pos.x + dx <= -20 || pos.x + dx >= 0xDC) {
-        func_021BEDF0(p, 9, 0);
+        func_021BEDF0((int)p, 9, 0);
     }
     for (i = 0x1D; i < 0x2B; i++) {
         if (func_021BEE04(p, i)) {
@@ -44,8 +44,8 @@ void func_021BFCE4(char *p, int dx)
             func_021BEE38(p, i, pos.y, (short)(pos.x + dx), 1);
             func_021BEE38(p, i + 0xE, pos.y, (short)(pos.x + dx), 1);
             if (pos.x + dx <= -28 || pos.x + dx >= 0xD4) {
-                func_021BEDF0(p, i, 0);
-                func_021BEDF0(p, (int)i + 0xE, 0);
+                func_021BEDF0((int)p, i, 0);
+                func_021BEDF0((int)p, (int)i + 0xE, 0);
             }
         }
     }
@@ -53,7 +53,7 @@ void func_021BFCE4(char *p, int dx)
     func_021BEE38(p, 0xB, pos.y, (short)(pos.x + dx), 1);
     func_021BEE38(p, 0xD, pos.y, (short)(pos.x + dx), 1);
     if (pos.x + dx <= -28 || pos.x + dx >= 0xD4) {
-        func_021BEDF0(p, 0xB, 0);
-        func_021BEDF0(p, 0xD, 0);
+        func_021BEDF0((int)p, 0xB, 0);
+        func_021BEDF0((int)p, 0xD, 0);
     }
 }

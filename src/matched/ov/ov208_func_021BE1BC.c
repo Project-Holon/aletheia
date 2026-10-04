@@ -94,8 +94,9 @@ struct Ov208Scene {
     struct Ov208Slot slots[10];
 };
 
-extern u32  func_021BD3C0(u32 mgr, int key);
-extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
+struct Obj;
+extern int func_021BD3C0(void *mgr, int key);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void ov208_func_021BE1BC(struct Ov208Scene *p)
 {
@@ -116,7 +117,7 @@ void ov208_func_021BE1BC(struct Ov208Scene *p)
         break;
     }
     if (slot != 9) {
-        func_0204B6F4(func_021BD3C0(p->mgr, p->slots[slot].src->id), 0, 0);
+        func_0204B6F4((struct Obj *)func_021BD3C0((void *)p->mgr, p->slots[slot].src->id), 0, 0);
         p->f1c = 4;
     }
 }

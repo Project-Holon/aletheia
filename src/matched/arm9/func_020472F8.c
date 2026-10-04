@@ -41,13 +41,13 @@ struct Layer {
 };
 
 extern u32 (*g_020A8148)(u32 handle, u32 flags, u32 zero);
-extern u32 func_0206A110(struct Layer *layer);
+extern int func_0206A110(int p);
 
 int func_020472F8(struct Layer *layer, u32 *out)
 {
     u32 h;
 
-    h = func_0206A110(layer);
+    h = func_0206A110((int)layer);
     if (h == 0)
         goto ret1;
 

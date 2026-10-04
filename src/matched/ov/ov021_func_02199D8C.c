@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u8 *func_0216D6BC(u32, u32);
-extern void func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern void func_0216D7CC(u32);
 
 int func_02199D8C(u32 a)
@@ -30,7 +30,7 @@ int func_02199D8C(u32 a)
     *(u32 *)(p + 4) = 0x2000;
     *(u16 *)(p + 8) = 0;
     p[10] = 0;
-    func_0216D674(a, 11);
+    func_0216D674((void *)a, 11);
     func_0216D7CC(a);
     return 1;
 }

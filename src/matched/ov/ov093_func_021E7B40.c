@@ -25,7 +25,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D57FC(void *p);
 extern int func_021E8D48(int a, int b);
 extern int func_021D76BC(int key, u32 val);
@@ -39,8 +39,8 @@ void func_021E7B40(int a, int b, int c)
 
     if (c == func_021D775C(3)) {
         k = func_021D775C(4);
-        x = func_021C7CF4(b, k);
-        y = func_021C7CF4(b, c);
+        x = func_021C7CF4((int *)b, k);
+        y = func_021C7CF4((int *)b, c);
         u = func_021D57FC(y);
         if (func_021E8D48(u, func_021D57FC(x)) == 0)
             func_021D76BC(0x40, 1);

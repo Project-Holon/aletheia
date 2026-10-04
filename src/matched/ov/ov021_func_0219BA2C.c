@@ -17,16 +17,17 @@
 
 typedef unsigned short u16;
 
-extern int func_0216D67C(int a);
-extern int func_0216DEE0(int a);
-extern u16 func_0216D7C4(int a);
+typedef unsigned char  u8;
+extern void *func_0216D67C(void *a0);
+extern void *func_0216DEE0(void *a0);
+extern u16 func_0216D7C4(u8 *p);
 
 int func_0219BA2C(int a)
 {
     int v;
 
-    func_0216DEE0(func_0216D67C(a));
-    v = func_0216D7C4(a);
+    func_0216DEE0(func_0216D67C((void *)a));
+    v = func_0216D7C4((u8 *)a);
     switch (v) {
     case 0x58:
         return 0x10;

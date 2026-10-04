@@ -23,10 +23,11 @@ typedef unsigned int u32;
 typedef short s16;
 typedef int s32;
 
-extern void func_02043B5C(int, int);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Rec;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern int func_021B85DC(int);
+extern int func_021B85DC(unsigned char *p);
 extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern void func_0201CE0C(void *p);
 
@@ -34,10 +35,10 @@ void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c)
 {
     void *o;
 
-    func_02043B5C(*(int *)(a + 4), 0xc);
+    func_02043B5C((struct CharBuf *)(*(int *)(a + 4)), 0xc);
     func_0201DD78(1, 9, 0xc);
     o = func_0201CD10(*(u32 *)a, 0, 0, b, *(u32 *)(a + 0x24),
-                      func_021B85DC(*(int *)(a + 0x134)),
+                      func_021B85DC((unsigned char *)(*(int *)(a + 0x134))),
                       *(u32 *)(a + 0x2c), 0,
                       *(u16 *)(a + 0x13c), 0xc, c);
     *(void **)(a + 0x30) = o;

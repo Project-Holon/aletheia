@@ -32,7 +32,9 @@ typedef struct {
 } Work;
 
 extern Tbl d_021D9BB0;
-extern void *func_020122C0(void *a, int b, void *cb, int size);
+typedef unsigned int   u32;
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 
@@ -69,7 +71,7 @@ void *func_021BD648(Arg *p)
         i = 4;
         break;
     }
-    task = func_020122C0(p->f04, p->f00, t.f[i], 12);
+    task = func_020122C0(p->f04, (void *)p->f00, t.f[i], 12);
     w = func_020124E8(task);
     w->f04 = 0;
     w->f08 = p;

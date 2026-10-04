@@ -28,14 +28,14 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_020061E4(u32 a);
-extern u32 func_021BBCFC();
+extern void func_021BBCFC(void *p, s32 v);
 extern void func_021BBD18(int a, int b);
 extern void func_021BBD28(int a, int b);
 extern u32 func_021BC580();
 u32 func_021BB9A0(u32 a0)
 {
     func_021BBD28(a0, *(u32*)(((u8*)a0) + 44));
-    func_021BBCFC(a0, -1);
+    func_021BBCFC((void *)a0, -1);
     func_021BBD18(a0, *(u32*)(((u8*)a0) + 44));
     func_020061E4(1352);
     return func_021BC580(a0, 4);

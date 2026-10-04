@@ -36,7 +36,7 @@ typedef struct MatchCnt {
 } MatchCnt;
 
 extern int func_0216BA08(void);
-extern MatchCnt *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_0217695C(void);
 extern void func_02175F4C(int status);
 extern int func_0216FC34(int type, int cookie, void *param);
@@ -46,24 +46,24 @@ void func_02174D28(int cookie)
 {
     int nnError;
 
-    if (func_0216BA08() == 0 && func_02175F3C()->f57C != 0)
+    if (func_0216BA08() == 0 && ((MatchCnt *)func_02175F3C())->f57C != 0)
         return;
-    if (func_02175F3C()->f61C == 1) {
+    if (((MatchCnt *)func_02175F3C())->f61C == 1) {
         if (func_0217695C() == 0)
             return;
         func_02175F4C(5);
-    } else if (func_02175F3C()->f61C != 5 && func_02175F3C()->f61C != 14) {
+    } else if (((MatchCnt *)func_02175F3C())->f61C != 5 && ((MatchCnt *)func_02175F3C())->f61C != 14) {
         return;
     }
-    if (cookie == func_02175F3C()->f5FC) {
-        func_02175F3C()->f5F8++;
+    if (cookie == ((MatchCnt *)func_02175F3C())->f5FC) {
+        ((MatchCnt *)func_02175F3C())->f5F8++;
     } else {
-        func_02175F3C()->f5F8 = 0;
-        func_02175F3C()->f5FC = cookie;
+        ((MatchCnt *)func_02175F3C())->f5F8 = 0;
+        ((MatchCnt *)func_02175F3C())->f5FC = cookie;
     }
-    func_02175F3C()->f600 = 0;
-    nnError = func_0216FC34(1, cookie, func_02175F3C()->f554);
+    ((MatchCnt *)func_02175F3C())->f600 = 0;
+    nnError = func_0216FC34(1, cookie, ((MatchCnt *)func_02175F3C())->f554);
     if (func_02173EF8(nnError) != 0)
         return;
-    func_02175F3C()->f6D8 = 0xFF;
+    ((MatchCnt *)func_02175F3C())->f6D8 = 0xFF;
 }

@@ -51,10 +51,10 @@ typedef struct St {
 } St;
 
 extern int func_0219B2E8(int a, u8 *b);
-extern int func_0216D7E8(int a);
-extern int func_0216D83C(int a);
-extern int func_0216D7F8(int a);
-extern int func_0216D86C(int a);
+extern int func_0216D7E8(void *p);
+extern int func_0216D83C(void *p);
+extern int func_0216D7F8(void *p);
+extern int func_0216D86C(void *p);
 extern void func_0219ADEC(St *b);
 extern u32 *func_0219B120(u32 id);
 extern void func_0216D600(int a, u16 b);
@@ -85,22 +85,22 @@ int func_0219AEC8(int a, St *b)
     }
     if (b->step == b->last) {
         if (b->axis == 0) {
-            x0 = func_0216D7E8(a);
-            if (x0 == func_0216D83C(a)) {
+            x0 = func_0216D7E8((void *)a);
+            if (x0 == func_0216D83C((void *)a)) {
                 func_0219ADEC(b);
             }
         } else {
-            x0 = func_0216D7F8(a);
-            if (x0 == func_0216D86C(a)) {
+            x0 = func_0216D7F8((void *)a);
+            if (x0 == func_0216D86C((void *)a)) {
                 func_0219ADEC(b);
             }
         }
     }
     if (b->step == 3) {
-        x0 = func_0216D7E8(a);
-        y0 = func_0216D7F8(a);
-        x1 = func_0216D83C(a);
-        y1 = func_0216D86C(a);
+        x0 = func_0216D7E8((void *)a);
+        y0 = func_0216D7F8((void *)a);
+        x1 = func_0216D83C((void *)a);
+        y1 = func_0216D86C((void *)a);
         if (x0 == x1 && y0 == y1) {
             b->step = 0;
         }

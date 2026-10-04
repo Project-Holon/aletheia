@@ -23,7 +23,7 @@ typedef struct {
 
 extern void func_02017100(void *p, int *out, int v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_020172AC(void *obj, int k);
+extern void func_020172AC(int a0, int a1);
 
 void func_022003EC(Work *w, void *p, int *a, int flags)
 {
@@ -32,5 +32,5 @@ void func_022003EC(Work *w, void *p, int *a, int flags)
     if (flags & 1)
         v = 0;
     func_02017100(p, a, v);
-    func_020172AC(w->obj, func_02017E1C(p, 0, 0));
+    func_020172AC((int)w->obj, func_02017E1C(p, 0, 0));
 }

@@ -23,7 +23,9 @@ typedef struct Obj {
 } Obj;
 
 extern int func_02092004(void *, int, int);
-extern int func_02091D38(void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_02091D38(u32 a0);
 extern int func_02092120(void *);
 
 int func_021C29AC(Obj *o)
@@ -37,7 +39,7 @@ int func_021C29AC(Obj *o)
             return 0;
         if (func_02092004(o->f8, 0, 2) != 0)
             return 0;
-        o->fC = func_02091D38(o->f8);
+        o->fC = func_02091D38((u32)o->f8);
         if (o->fC == -1)
             return 0;
         func_02092120(o->f8);

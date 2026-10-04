@@ -25,7 +25,8 @@ typedef struct S {
     u16 b[5];
 } S;
 extern s16 tbl_020A1B38[];
-extern void func_02061CA4(int type, u32 addr, void *data, u32 size);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void func_021BBC9C(S *p)
 {
     s16 f;
@@ -50,5 +51,5 @@ void func_021BBC9C(S *p)
         u8 c3 = a3 + (((b3 - a3) * f) >> 12);
         p->pal[i] = c1 | (c2 << 5) | (c3 << 10);
     }
-    func_02061CA4(p->f1c == 0 ? 0xf : 0x1f, 0x22, p->pal, 0xa);
+    func_02061CA4((void *)(p->f1c == 0 ? 0xf : 0x1f), 0x22, (u32)p->pal, 0xa);
 }

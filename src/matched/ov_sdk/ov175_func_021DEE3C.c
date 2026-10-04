@@ -40,7 +40,8 @@ extern void func_02059F54(int error, int errorCode);
 extern void func_02085A38(unsigned long msec);
 extern void func_0217CCCC(unsigned int theMS);
 extern int func_02059E18(int *errorCode);
-extern int func_021DF9D8(int theGameId, void **theInterfaceOut);
+typedef unsigned int   u32;
+extern int func_021DF9D8(u32 *p, u32 *out);
 extern int func_021DF5E4(int result);
 extern void func_021DF4FC(int httpResult, void *theResponse);
 extern int g_021E4D08;
@@ -71,7 +72,7 @@ int func_021DEE3C(int theGameId, int ssl_type)
     }
     if (func_02059E18(0) != 0)
         return 7;
-    gsResult = func_021DF9D8(theGameId, &g_021E4D0C);
+    gsResult = func_021DF9D8((u32 *)theGameId, (u32 *)(&g_021E4D0C));
     if (gsResult != 0) {
         result = func_021DF5E4(gsResult);
         func_02059F54(result, func_021DF644(2, gsResult));

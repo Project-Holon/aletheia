@@ -28,10 +28,10 @@ typedef long long      s64;
 
 typedef struct { int x, y, z; } V;
 
-u32 func_021B8220(u32 p);
-u16 func_021B82F0(u32 q);
-int func_021B82FC(u32 q);
-int func_021B82F8(u32 q);
+u32 func_021B8220(u8 *p);
+u16 func_021B82F0(u8 *p);
+u32 func_021B82FC(u8 *p);
+u32 func_021B82F8(u8 *p);
 int *func_021B830C(u32 q);
 u32 func_0207C768(u32 a, u32 b);
 void func_021BA7E0(u32 p, u16 ang, int r, V *pos);
@@ -51,10 +51,10 @@ void func_021BA8E0(u32 p)
     u16 x;
     int y;
 
-    q = func_021B8220(p);
-    func_021B82F0(q);
-    d = func_021B82FC(q);
-    t = func_021B82F8(q);
+    q = func_021B8220((u8 *)p);
+    func_021B82F0((u8 *)q);
+    d = func_021B82FC((u8 *)q);
+    t = func_021B82F8((u8 *)q);
     k = func_021B830C(q);
     x = k[1];
     y = k[2];

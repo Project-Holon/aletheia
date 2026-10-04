@@ -24,8 +24,8 @@ typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021DCFF8(int a, int b);
-extern int func_021DDE74(int a, int b, int c, int d);
-extern void func_021DD044(int a, int b, int c);
+extern int func_021DDE74(int a, void *b, int c, unsigned int d);
+extern void func_021DD044(void *a, void *b, int c);
 
 void func_021DDF98(int a, void *b, int c)
 {
@@ -34,7 +34,7 @@ void func_021DDF98(int a, void *b, int c)
     if (c == func_021D775C(2)) {
         func_021C7CF4(b, c);
         j = func_021DCFF8(a, 2);
-        if (func_021DDE74(a, (int)b, c, j) != 0)
-            func_021DD044(a, (int)b, c);
+        if (func_021DDE74(a, (void *)((int)b), c, j) != 0)
+            func_021DD044((void *)a, (void *)((int)b), c);
     }
 }

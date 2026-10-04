@@ -36,7 +36,8 @@ extern void *func_02188D50(u8 *p);
 extern int func_021C3378(void **p);
 extern void func_0218AAD0(void *sys, void *party);
 extern int func_0218AB0C(void *party);
-extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 
 int func_0218AB50(void *p, u8 *pos, void *msg, void *sys)
 {
@@ -46,6 +47,6 @@ int func_0218AB50(void *p, u8 *pos, void *msg, void *sys)
     func_021C3378(func_02188D50(pos));
     func_0218AAD0(sys, party);
     if (func_0218AB0C(party))
-        return func_02158768(msg, 0x8CA, 0, v);
+        return (int)func_02158768((int)msg, 0x8CA, 0, v);
     return 0;
 }

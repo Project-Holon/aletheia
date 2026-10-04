@@ -22,7 +22,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern unsigned int func_02159B10(void *a, void *b);
 extern int func_021F3AD0(void *a, int b, int c);
-extern void func_0215897C(void *a, int b);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B27B4(int a, int b)
 {
@@ -35,6 +35,6 @@ int func_021B27B4(int a, int b)
     if (r == 0) {
         return 1;
     }
-    func_0215897C(x, r);
+    func_0215897C(x, (void *)r);
     return 1;
 }

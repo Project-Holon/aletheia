@@ -61,8 +61,11 @@ typedef unsigned short u16;
 extern int func_020648B4(u32 a, u32 b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02064754(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32  func_020627D8(u32 a, u32 b);
-extern void func_0206469C(void *a, u32 b);
+struct AnimBank;
+struct AnimSequence;
+struct Obj0206469C;
+extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
+extern void func_0206469C(struct Obj0206469C *o, void *bank);
 
 void func_0204D224(struct P *p, const struct A *a1, u32 heap)
 {
@@ -73,6 +76,6 @@ void func_0204D224(struct P *p, const struct A *a1, u32 heap)
 
     p->f78 = (u32)func_02030734(heap, func_020648B4(a1->f14, 1), 0, s_clact_c, 0x171d);
     func_02064754((u8 *)p + 0xc, p->f78, p->f08, p->f04, p->f70, 1);
-    func_0206469C((u8 *)p + 0xc, func_020627D8(p->f74, 0));
+    func_0206469C((struct Obj0206469C *)((u8 *)p + 0xc), func_020627D8((struct AnimBank *)p->f74, 0));
 }
 

@@ -51,7 +51,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F31C(struct WordSet *p);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
-extern void *func_02202670(void *words, void *msg, u32 id, u32 heap);
+extern u32 func_02202670(u32 a, u32 b, u32 c, u32 d);
 
 void func_021FD270(Work *p)
 {
@@ -65,6 +65,6 @@ void func_021FD270(Work *p)
     if (e->ver != 0) {
         func_0201F094(p->words, 9, e->lang, e->ver);
     }
-    p->name0 = func_02202670(p->words, p->msg, 0x58, 0x48);
-    p->name1 = func_02202670(p->words, p->msg, 0x59, 0x48);
+    p->name0 = (void *)func_02202670((u32)p->words, (u32)p->msg, 0x58, 0x48);
+    p->name1 = (void *)func_02202670((u32)p->words, (u32)p->msg, 0x59, 0x48);
 }

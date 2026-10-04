@@ -90,7 +90,8 @@ extern VecFx32  g_02148D8C;
 extern VecFx32  g_02148D98;
 extern VecFx32  g_02148DA4;
 
-extern void func_02047A60(u32 a, void *b);
+struct Arg;
+extern void func_02047A60(void *a0, struct Arg *a1);
 extern void MTX_PerspectiveW(s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, void *g);
 static inline void MTX_Perspective(s32 fovySin, s32 fovyCos, s32 aspect,
                                    s32 n, s32 f, void *mtx)
@@ -118,6 +119,6 @@ void func_0202E688(u32 a0)
     MTX_LookAt(&cam, &tgt, &up, g_02148B98);
     g_02148BCC[31] &= ~0xe8u;
     MTX_RotX33_(&buf.m, g_020A2B38[0], g_020A2B38[1]);
-    func_02047A60(a0, buf.f);
+    func_02047A60((void *)a0, (struct Arg *)buf.f);
 }
 

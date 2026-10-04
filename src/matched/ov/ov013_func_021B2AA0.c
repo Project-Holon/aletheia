@@ -62,12 +62,13 @@ struct Event {
 
 extern struct Pool g_021B4BE0;
 extern int func_021B2DD0(struct Pkt *pkt, struct Event *ev);
-extern struct Node *func_021B2A20(unsigned char id);
+struct N;
+extern struct N *func_021B2A20(int id);
 extern int func_021B2894(struct Node *node, struct Pkt *pkt);
 extern int func_021B279C(struct Pkt *pkt, struct Node *node);
 extern struct Node *func_021B24FC(unsigned int idx);
 extern void func_021B2724(struct Node *list, unsigned char id);
-extern void func_021B25B0(struct Node *list, int reason);
+extern int func_021B25B0(int a, int b);
 extern int func_021B1F54(struct Node *p);
 
 int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
@@ -81,7 +82,7 @@ int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
         if (pkt->f6 == 3)
             return 0;
     }
-    node = func_021B2A20(pkt->f8);
+    node = (struct Node *)func_021B2A20(pkt->f8);
     if (node) {
         r = func_021B2894(node, pkt);
         switch (r) {
@@ -101,7 +102,7 @@ int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
     node = func_021B24FC(pkt->f8);
     if (node == 0) {
         func_021B2724(&g_021B4BE0.freeList, pkt->f8);
-        func_021B25B0(&g_021B4BE0.freeList, 3);
+        func_021B25B0((int)(&g_021B4BE0.freeList), 3);
         return 0;
     }
     r = func_021B2894(node, pkt);

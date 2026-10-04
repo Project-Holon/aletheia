@@ -31,7 +31,7 @@ typedef struct Ctx {
 } Ctx;
 
 extern u16 func_0216D4F0(void *p);
-extern int func_0216D55C(Rec *r, int kind);
+extern int func_0216D55C(int a0, int a1);
 
 int func_0216DD1C(Ctx *c, Rec **out, u32 *iter)
 {
@@ -43,7 +43,7 @@ int func_0216DD1C(Ctx *c, Rec **out, u32 *iter)
         r = &c->recs[*iter];
         do {
             (*iter)++;
-            if (func_0216D55C(r, 1)) {
+            if (func_0216D55C((int)r, 1)) {
                 *out = r;
                 return 1;
             }

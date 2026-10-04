@@ -29,7 +29,7 @@
 
 typedef unsigned short u16;
 
-extern void func_021BD1D4(int, int);
+extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned short dat_021DB4F4[];
 extern unsigned short dat_0207E51C[];
 extern unsigned short dat_021DB508[];
@@ -43,10 +43,10 @@ void func_021C71F0(void)
 {
     u16 *p;
 
-    func_021BD1D4((int)dat_021DB4F4, (int)dat_0207E51C);
-    func_021BD1D4((int)dat_021DB508, (int)dat_0207F0B8);
-    func_021BD1D4((int)dat_021DB520, (int)dat_0207E3D0);
-    func_021BD1D4((int)dat_021DB538, (int)dat_0207EB78);
+    func_021BD1D4((char *)((int)dat_021DB4F4), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E51C));
+    func_021BD1D4((char *)((int)dat_021DB508), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
+    func_021BD1D4((char *)((int)dat_021DB520), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
+    func_021BD1D4((char *)((int)dat_021DB538), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;

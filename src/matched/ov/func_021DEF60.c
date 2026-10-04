@@ -21,8 +21,8 @@
  */
 
 
-extern void func_021ECCCC(char *, int, int);
-extern void func_021ED028(int, int);
+extern void func_021ECCCC(char *p, void **mon, int index);
+extern void func_021ED028(char *p, unsigned char *q);
 extern void func_021EB2A4(char *, int);
 extern void func_021DF11C(char *, int);
 extern void func_021DF144(int, int);
@@ -30,8 +30,8 @@ typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 void func_021DEF60(char *p, int a)
 {
-    func_021ECCCC(p, a, 0xb);
-    func_021ED028(*(int *)(p + 0x2c), a);
+    func_021ECCCC(p, (void **)a, 0xb);
+    func_021ED028((char *)(*(int *)(p + 0x2c)), (unsigned char *)a);
     func_021EB2A4(p, a);
     func_021DF11C(p, *(unsigned short *)(a + 0x10));
     func_021DF144(*(int *)(p + 0x2c), a);

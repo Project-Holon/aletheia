@@ -116,7 +116,8 @@ extern int func_02039ACC(void);
 extern u32 func_020362DC(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_020399B8(u32 a);
+struct Link;
+extern u32 func_020399B8(u8 *p);
 extern int func_021CF1AC(void *a, int b, int c);
 extern void func_021CE36C(Work *p);
 extern void func_021CE41C(Work *p);
@@ -125,10 +126,10 @@ extern int func_021CE73C(Work *p);
 extern void func_021CEA28(Work *p);
 extern int func_0203D1B4(void);
 extern int func_021CE52C(Work *p);
-extern void func_0203D1E8(u32 a, int b);
+extern void func_0203D1E8(u32 unused, void *arg);
 extern int func_021CE5AC(Work *p);
 extern int func_021CF2F0(int a);
-extern int func_0203D1A4(u32 a);
+extern u32 func_0203D1A4(struct Link *p);
 extern void func_021CE6F0(Work *p, int a);
 extern void func_0203D7BC(int a);
 extern int func_0203D1C0(int a);
@@ -140,7 +141,7 @@ extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 extern Vtbl *func_0203D798(void);
 extern u32 func_0203D650(void);
-extern int func_02190EF0(u32 h);
+extern u32 func_02190EF0(u32 *p);
 extern int func_021CF12C(int a);
 extern void func_021CE81C(Work *p);
 extern int func_0200FB24(void);
@@ -184,7 +185,7 @@ int func_021CD6D0(Work *p)
         }
         break;
     case 3:
-        if (func_020399B8((u32)func_020399A8()) == 1) {
+        if (func_020399B8((u8 *)((u32)func_020399A8())) == 1) {
             p->state = 4;
         }
         break;
@@ -241,16 +242,16 @@ int func_021CD6D0(Work *p)
         break;
     case 9:
         if (func_021CF2F0(p->x51B) == 1) {
-            func_021CE6F0(p, func_0203D1A4((u32)func_020399A8()));
+            func_021CE6F0(p, func_0203D1A4((struct Link *)((u32)func_020399A8())));
             p->x526 = p->x514;
             func_0203D7BC(1);
             p->state = 10;
         }
         break;
     case 10:
-        mask = 1 << func_0203D1A4((u32)func_020399A8());
+        mask = 1 << func_0203D1A4((struct Link *)((u32)func_020399A8()));
         for (i = 0; (i < 4) ? 1 : 0; i++) {
-            if (i != func_0203D1A4((u32)func_020399A8()) && (p->x526 & (1u << i))) {
+            if (i != func_0203D1A4((struct Link *)((u32)func_020399A8())) && (p->x526 & (1u << i))) {
                 if (func_0203D1C0(i) == 1) {
                     if (p->x578 & (1 << (u32)i)) {
                         mask |= (u8)(1 << i);
@@ -316,7 +317,7 @@ int func_021CD6D0(Work *p)
         p->state = 0xF;
         break;
     case 15:
-        if (func_02190EF0(p->h) == 1) {
+        if (func_02190EF0((u32 *)p->h) == 1) {
             p->state = 0x10;
         }
         break;
@@ -330,7 +331,7 @@ int func_021CD6D0(Work *p)
         p->state = 0x12;
         break;
     case 18:
-        if (func_02190EF0(p->h) == 1) {
+        if (func_02190EF0((u32 *)p->h) == 1) {
             p->x2C = 2;
             p->state = 0x13;
         }

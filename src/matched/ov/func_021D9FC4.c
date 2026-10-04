@@ -36,14 +36,14 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021E85F8(int c);
-int func_021C83D4(int b);
-void *func_021C7CF4(int a, int b);
+int func_021C83D4(u8 *p);
+void *func_021C7CF4(int *p, int i);
 int func_021D5B68(void *p);
 int func_021D775C(int a);
 int func_021D5814(void *p, int k);
-void func_021C88B4(int a, int k, int b);
+void func_021C88B4(void *a, int k, int b);
 void *func_021C88A4(int a, int k, int b);
-void func_021C88C8(int a, void *p);
+void func_021C88C8(void *a, void *b);
 int func_021E8CF0(int k);
 
 void func_021D9FC4(void *a, int b, int c)
@@ -53,9 +53,9 @@ void func_021D9FC4(void *a, int b, int c)
 
     if (func_021E85F8(c) == 0)
         return;
-    if (func_021C83D4(b) != 0)
+    if (func_021C83D4((u8 *)b) != 0)
         return;
-    r = func_021C7CF4(b, c);
+    r = func_021C7CF4((int *)b, c);
     if (func_021D5B68(r) != 0)
         return;
     k = (u8)func_021D775C(0x16);
@@ -63,10 +63,10 @@ void func_021D9FC4(void *a, int b, int c)
         return;
     if (func_021D5814(r, k) != 0)
         return;
-    func_021C88B4(b, 2, c);
+    func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 0x14, c);
     *(u16 *)((u8 *)p + 4) = func_021E8CF0(k);
     *(u8 *)((u8 *)p + 6) = c;
-    func_021C88C8(b, p);
-    func_021C88B4(b, 3, c);
+    func_021C88C8((void *)b, p);
+    func_021C88B4((void *)b, 3, c);
 }

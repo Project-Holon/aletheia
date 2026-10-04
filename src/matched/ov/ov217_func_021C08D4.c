@@ -17,9 +17,10 @@
  */
 
 extern int func_020056A0(void (*)(void), void *, int);
-extern void func_021BF6BC(void);
+typedef unsigned int   u32;
+extern u32 func_021BF6BC(u32 a0, u32 a1);
 
 void func_021C08D4(char *p)
 {
-    *(int *)(p + 0x3c0) = func_020056A0(func_021BF6BC, p, 0);
+    *(int *)(p + 0x3c0) = func_020056A0((void (*)(void))func_021BF6BC, p, 0);
 }

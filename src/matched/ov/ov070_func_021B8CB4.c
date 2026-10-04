@@ -14,11 +14,13 @@
  */
 typedef unsigned short u16;
 typedef void (*Callback)(void *);
-extern int func_0204B98C(int object);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 extern void func_021B6100(void *p, Callback callback);
 void func_021B8CB4(char *p)
 {
-    if (func_0204B98C(*(int *)(p + 0x710 + *(u16 *)(p + 0x864) * 4)) == 0) {
+    if (func_0204B98C((struct Actor *)(*(int *)(p + 0x710 + *(u16 *)(p + 0x864) * 4))) == 0) {
         *(u16 *)(p + 0x864) = 0;
         func_021B6100(p, *(Callback *)(p + 0x868));
     }

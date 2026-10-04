@@ -26,14 +26,14 @@ typedef struct WCMWork {
 
 extern unsigned char g_021AA814;
 extern unsigned char g_021AA815[16];
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 
 void func_02166804(unsigned char rssi)
 {
     WCMWork *w;
     int raw;
 
-    w = func_021657C8();
+    w = (WCMWork *)func_021657C8();
     switch (w->deviceId) {
     case 1:
     default:

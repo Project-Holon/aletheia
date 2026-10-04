@@ -31,7 +31,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern unsigned int func_02159B10(void *, void *);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0215A5CC();
+extern u16 func_0215A5CC(void *a0);
 extern void *func_0201A354(int a, int b);
 extern void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, int k);
 extern void func_020307B0(void *p);
@@ -43,7 +43,7 @@ int func_021B574C(int a0, int a1)
     void *s4 = func_0215A5DC((void *)a1);
     int r4 = func_02159B10((void *)a0, (void *)a1);
     u16 *r7 = func_02159AE8((void *)a0, (void *)a1);
-    int r6 = func_0215A5CC(a1);
+    int r6 = func_0215A5CC((void *)a1);
     void *r5 = func_0201A354(r4, r6);
     int r1 = 1;
     u16 d = r4 + 0xffec;

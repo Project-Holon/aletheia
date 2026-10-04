@@ -17,17 +17,17 @@
  */
 
 
-extern void func_021EBB64(int, int, int);
-extern void func_021E8F50(int, int);
+extern void func_021EBB64(unsigned char *p, unsigned v, int i);
+extern int func_021E8F50(char *p, int v);
 void func_021E7D3C(char *p)
 {
     int v;
-    func_021EBB64((int)p, *(unsigned short *)(p + 0x10), 0x18);
+    func_021EBB64((unsigned char *)((int)p), *(unsigned short *)(p + 0x10), 0x18);
     v = *(int *)(*(int *)p + 0x24);
     if (v == 3)
         *(int *)(p + 0x28) = 0x3c;
     else
         *(int *)(p + 0x28) = 0xe;
-    func_021E8F50((int)p, 6);
+    func_021E8F50((char *)((int)p), 6);
 }
 

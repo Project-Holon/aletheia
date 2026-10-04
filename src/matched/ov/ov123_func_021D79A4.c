@@ -16,27 +16,29 @@
  *   func_021D5C9C 0x021D5C9C thumb ov123
  *   func_021D5D8C 0x021D5D8C thumb ov123
  */
-extern int func_021D5C2C(int);
-extern int func_021D5C0C(int);
-extern int func_021D5D8C(int);
-extern void func_021D5C9C(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021D5C2C(char *p);
+extern int func_021D5C0C(char *p);
+extern void *func_021D5D8C(u8 *p);
+extern void func_021D5C9C(char *p);
 extern void func_021D6FF0(char *p);
 extern void func_021D7960(int a);
-extern void func_021D6EE0(int,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 void func_021D79A4(int a)
 {
-    if(func_021D5C2C(*(int *)(a+8))) {
+    if(func_021D5C2C((char *)(*(int *)(a+8)))) {
         *(int *)(a+0x80)=0xfff0;
-        func_021D6EE0(a,(int)func_021D6FF0,0x3fe);
+        func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x3fe);
         return;
     }
-    if(func_021D5C0C(*(int *)(a+8))) {
-        if(func_021D5D8C(*(int *)(a+8))==0) {
+    if(func_021D5C0C((char *)(*(int *)(a+8)))) {
+        if(func_021D5D8C((u8 *)(*(int *)(a+8)))==0) {
             *(int *)(a+0x80)=0xfff0;
-            func_021D6EE0(a,(int)func_021D6FF0,0x407);
+            func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x407);
             return;
         }
-        func_021D5C9C(*(int *)(a+8));
-        func_021D6EE0(a,(int)func_021D7960,0x40d);
+        func_021D5C9C((char *)(*(int *)(a+8)));
+        func_021D6EE0((u8 *)a,(int)func_021D7960,0x40d);
     }
 }

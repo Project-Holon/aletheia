@@ -43,8 +43,8 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void *func_0201CCE4(void *, int, int, void *, void *, int, void *, int, u16, u16);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
-extern void *func_02045730(void *);
-extern void func_020409B4(void *);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 void func_021DE4B4(char *p, int message, int unused) {
     void *text;
     void *window;

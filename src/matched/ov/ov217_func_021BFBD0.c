@@ -22,10 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0201ED04(u32);
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
 
 void func_021BFBD0(u8 *a0)
 {
-    func_0201ED04((u32)(*(u32*)(a0 + 24)));
+    func_0201ED04((struct WordSet *)((u32)(*(u32*)(a0 + 24))));
 }
 

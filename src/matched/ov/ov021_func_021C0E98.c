@@ -45,13 +45,13 @@ struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *o, struct VecFx32 *v);
 extern int func_02163E58(u32 o, Vec3 *v, int *out);
-extern u16 func_0216D598(u32 o);
+extern u16 func_0216D598(void *p);
 extern void func_0216DB4C(u32 o, u32 b);
-extern void func_0216DAE0(u32 o, int v);
+extern void func_0216DAE0(unsigned int *p, unsigned int v);
 extern void func_0216D89C(u32 o, Vec3 *v);
 extern void func_0216D8E0(u32 o, void *p);
-extern void func_0216E014(u32 o, void *v, u32 c);
-extern void func_0216E57C(u32 o);
+extern void func_0216E014(void *a, int *p, int b);
+extern void func_0216E57C(void *a);
 
 int func_021C0E98(u32 unused, int *st, u8 *p)
 {
@@ -81,12 +81,12 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
         }
         func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&a);
         func_02163E58(*(u32 *)(p + 0x1c), &a, (int *)(p + 0xc));
-        if (func_0216D598(*(u32 *)(p + 0x1c)) == 0x6d)
+        if (func_0216D598((void *)(*(u32 *)(p + 0x1c))) == 0x6d)
             *(int *)(p + 0xc) -= 14 << 12;
         else
             *(int *)(p + 0xc) -= 26 << 12;
         func_0216DB4C(*(u32 *)(p + 0x1c), 1);
-        func_0216DAE0(*(u32 *)(p + 0x1c), 0);
+        func_0216DAE0((unsigned int *)(*(u32 *)(p + 0x1c)), 0);
         func_020061E4(0x675);
         (*st)++;
         break;
@@ -119,9 +119,9 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
         }
         if (*(int *)(p + 0x14) == 0) {
             func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&c);
-            func_0216E014(*(u32 *)(p + 0x1c), &c, *(u16 *)(p + 4));
+            func_0216E014((void *)(*(u32 *)(p + 0x1c)), (int *)(&c), *(u16 *)(p + 4));
             func_0216D8E0(*(u32 *)(p + 0x1c), p + 0x10);
-            func_0216E57C(*(u32 *)(p + 0x1c));
+            func_0216E57C((void *)(*(u32 *)(p + 0x1c)));
             (*st)++;
         }
         break;

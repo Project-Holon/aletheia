@@ -37,11 +37,12 @@ typedef struct P {
     int f18[1];
 } P;
 
-extern u8 func_021ABE28(int a);
-extern u8 func_021ABE2C(int a);
+typedef unsigned int   u32;
+extern u8 func_021ABE28(u8 *p);
+extern u8 func_021ABE2C(u8 *p);
 extern void func_021AD82C(void *a, void *b, int c);
-extern int func_02046E24(int a, int b);
-extern void func_02046FF8(int a);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern int func_02046FF8(int *self);
 
 void func_021AD96C(P *a, Desc *d, int c)
 {
@@ -52,16 +53,16 @@ void func_021AD96C(P *a, Desc *d, int c)
 
     base = 0;
     if (d->b6) {
-        base = func_021ABE28(a->f0);
+        base = func_021ABE28((u8 *)a->f0);
     } else if (d->b7) {
-        base = func_021ABE2C(a->f0);
+        base = func_021ABE2C((u8 *)a->f0);
     }
     for (i = 0; i < d->lo; i++) {
         t = base + i * d->mid;
-        a->f8[i] = func_02046E24(c, d->h4 + t);
-        func_02046FF8(a->f8[i]);
+        a->f8[i] = (int)func_02046E24(c, d->h4 + t);
+        func_02046FF8((int *)a->f8[i]);
         for (j = 0; j < d->n; j++) {
-            a->f18[i * d->n + j] = func_02046E24(c, t + d->tab[j]);
+            a->f18[i * d->n + j] = (int)func_02046E24(c, t + d->tab[j]);
         }
         func_021AD82C((char *)a + 0x28 + i * 0x18, a, (u8)i);
     }

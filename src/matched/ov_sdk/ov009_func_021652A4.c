@@ -58,7 +58,7 @@ typedef struct WCMWepDesc {
 } WCMWepDesc;
 
 extern unsigned long OS_DisableInterrupts(void);
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -75,7 +75,7 @@ long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
     WCMWepDesc *privacyDesc;
 
     e = OS_DisableInterrupts();
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     if (wcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;

@@ -23,8 +23,9 @@
 
 typedef unsigned int u32;
 
-extern void func_021B9774(int h);
-extern void func_021B9838(int h);
+typedef unsigned char  u8;
+extern void func_021B9774(u8 *p);
+extern void func_021B9838(u8 *p);
 extern void func_021DAE18(char *obj);
 
 void func_021DC5C8(void *p, int unused, int kind)
@@ -32,8 +33,8 @@ void func_021DC5C8(void *p, int unused, int kind)
     if (kind != 3 && kind != 6)
         return;
     if (*(u32 *)((char *)p + 0x121c) != 0) {
-        func_021B9774(*(u32 *)((char *)p + 0x121c));
-        func_021B9838(*(u32 *)((char *)p + 0x121c));
+        func_021B9774((u8 *)(*(u32 *)((char *)p + 0x121c)));
+        func_021B9838((u8 *)(*(u32 *)((char *)p + 0x121c)));
         *(u32 *)((char *)p + 0x121c) = 0;
     }
     func_021DAE18(p);

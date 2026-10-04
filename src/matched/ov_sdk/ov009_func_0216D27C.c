@@ -57,8 +57,9 @@ extern char *func_02175F3C(void);
 extern void func_0216F5FC(unsigned char matchType, unsigned char numEntry, void *callback, void *param);
 extern DWCstNodeInfo *func_02176344(void);
 extern void func_0217653C(void);
-extern void func_0217604C(void *a0);
-extern void func_02175560(int a0, int a1, int a2);
+struct node_s;
+extern int func_0217604C(struct node_s *newNode);
+extern void func_02175560(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern void func_02175F84(int a0);
 extern void func_02175F4C(int a0);
 extern int func_0219EC74(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
@@ -96,13 +97,13 @@ void func_0216D27C(int topology, int serverPid, void *matchedCallback, void *mat
         *(int *)(func_02175F3C() + 0x554) = serverPid;
     } else {
         *(DWCstNodeInfo *)(func_02175F3C() + 0x554) = tempNodeInfoBackup;
-        func_0217604C(&myNodeInfoBackup);
+        func_0217604C((struct node_s *)(&myNodeInfoBackup));
         MI_CpuCopy8(myNodeInfoBackup.connUserData, (void *)(func_02175F3C() + 0x7bc), 4);
         *(u8 *)(func_02175F3C() + 0x62b) = scResvRetryCount;
     }
     *(int *)(func_02175F3C() + 0x778) = (int)newClientCallback;
     *(int *)(func_02175F3C() + 0x77c) = (int)newClientParam;
-    func_02175560((int)attemptCallback, (int)connectionUserData, (int)attemptParam);
+    func_02175560((void *)((int)attemptCallback), (unsigned char *)((int)connectionUserData), (void *)((int)attemptParam));
     *(u8 *)(func_02175F3C() + 0x18) = 1;
     *(int *)(func_02175F3C() + 0x5dc) = *(int *)(func_02175F3C() + 0x678);
     func_02175F84(1);

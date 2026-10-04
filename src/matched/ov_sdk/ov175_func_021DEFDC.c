@@ -22,14 +22,14 @@
 typedef int s32;
 typedef unsigned int u32;
 
-extern s32 func_021DFA6C(s32);
+extern int func_021DFA6C(int *p);
 extern s32 func_021DF644(s32, s32);
 extern void func_02059F54(s32, s32);
 extern u32 g_021E4D08[];
 
 s32 func_021DEFDC(void)
 {
-    s32 v = func_021DFA6C(g_021E4D08[1]);
+    s32 v = func_021DFA6C((int *)g_021E4D08[1]);
 
     if (v != 0)
         func_02059F54(8, func_021DF644(4, v));

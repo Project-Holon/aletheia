@@ -49,11 +49,12 @@ extern void func_020061E4(u32 se);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B878(u32 v, int k);
+struct Actor;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
-extern void func_0204B9A0(u32 v);
+extern void func_0204B9A0(struct Actor *a);
 
 int func_022005EC(Work *p)
 {
@@ -65,7 +66,7 @@ int func_022005EC(Work *p)
         func_020061E4(0x548);
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B878(p->cursor, 1);
+        func_0204B878((struct Obj *)p->cursor, 1);
         p->state = 0xE;
         func_020355D8(1);
         if (p->sel == 2) {
@@ -85,12 +86,12 @@ int func_022005EC(Work *p)
         p->sel = 2;
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B878(p->cursor, 1);
+        func_0204B878((struct Obj *)p->cursor, 1);
         p->state = 0xE;
         func_020061E4(0x551);
     } else if (func_020362DC() & 1) {
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B878(p->cursor, 1);
+        func_0204B878((struct Obj *)p->cursor, 1);
         p->state = 0xE;
         func_020061E4(0x54C);
     } else if (func_020362DC() & 0x40) {
@@ -98,7 +99,7 @@ int func_022005EC(Work *p)
             p->sel--;
             func_020061E4(0x548);
             func_0204B3DC((struct Obj *)p->cursor, 1);
-            func_0204B9A0(p->cursor);
+            func_0204B9A0((struct Actor *)p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     } else if (func_020362DC() & 0x80) {
@@ -106,7 +107,7 @@ int func_022005EC(Work *p)
             p->sel++;
             func_020061E4(0x548);
             func_0204B3DC((struct Obj *)p->cursor, 1);
-            func_0204B9A0(p->cursor);
+            func_0204B9A0((struct Actor *)p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     }

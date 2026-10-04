@@ -57,8 +57,8 @@ extern int func_021834D0(int *p);
 extern int func_021834E8(void *stream, char *matchtag);
 extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
 extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
-extern void func_021DF928(void *theInterface, char *theSessionId);
-extern void func_021DF948(void *theInterface, char *theConnectionId);
+extern void func_021DF928(char *obj, int v);
+extern void func_021DF948(char *obj, int v);
 extern char g_021E4250[];
 extern char g_021E4268[];
 extern char g_021E4288[];
@@ -93,8 +93,8 @@ void func_021E08E8(int theHttpResult, int unused, void *theResponseData, void *t
                     !func_0218372C(theResponseData, g_021E42CC, ccid, 255)) {
                     aTranslatedResult = 9;
                 } else {
-                    func_021DF928(aWebServices->mInterface, csid);
-                    func_021DF948(aWebServices->mInterface, ccid);
+                    func_021DF928(aWebServices->mInterface, (int)csid);
+                    func_021DF948(aWebServices->mInterface, (int)ccid);
                     aTranslatedResult = 0;
                 }
             } else {

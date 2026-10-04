@@ -49,7 +49,8 @@ extern int func_0217A484(DWCHttp *http, int noparsebody);
 extern void func_02059F54(int error, int errorCode);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 
 extern DWCSvlIntWorkarea *g_021ACEF4;
@@ -82,7 +83,7 @@ int func_0217C448(void)
         func_02059F54(15, -25101);
         return 0;
     }
-    httpretcode = func_020964E0(strp);
+    httpretcode = func_020964E0((u32)strp);
     if (g_02153FAC == 34) {
         func_02059F54(15, -25101);
         return 0;
@@ -96,7 +97,7 @@ int func_0217C448(void)
         func_02059F54(15, -25101);
         return 0;
     }
-    httpretcode = func_020964E0(retcode);
+    httpretcode = func_020964E0((u32)retcode);
     if (g_02153FAC == 34) {
         func_02059F54(15, -25101);
         return 0;

@@ -35,7 +35,7 @@ extern int func_0218FDD8(void **connection, struct GPIOperation *operation, char
 extern int func_0218BDB8(void **connection, struct GPIOperation *operation, char *input);
 extern int func_0219305C(void **connection, struct GPIOperation *operation, char *input);
 extern int func_0219316C(void **connection, struct GPIOperation *operation, char *input);
-extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A4E08[];
 
 int func_0218E318(void **connection, struct GPIOperation *operation, char *input)
@@ -62,7 +62,7 @@ int func_0218E318(void **connection, struct GPIOperation *operation, char *input
         result = func_0219316C(connection, operation, input);
         break;
     default:
-        func_0217D254(1, 4, 1, g_021A4E08, operation->type);
+        func_0217D254(1, (char *)4, 1, g_021A4E08, operation->type);
         break;
     }
     if (result != 0)

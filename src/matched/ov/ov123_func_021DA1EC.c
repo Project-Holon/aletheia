@@ -16,7 +16,7 @@
 typedef unsigned char  u8;
 extern void func_021B9774(u8 *p);
 extern void func_021D9730(char *p, int n);
-extern void func_021DA034(char *,void *,int);
+extern void func_021DA034(char *p, int n, int unused);
 extern void func_021DA1C8(char *p);
 void func_021DA1EC(char *p)
 {
@@ -28,5 +28,5 @@ void func_021DA1EC(char *p)
     else if (*(unsigned *)(p + 0x70) == 0xfff3) n = 20;
     else if (*(unsigned *)(p + 0x70) >= 10) n = 20;
     func_021D9730(*(void **)(p + 0x10),n);
-    func_021DA034(p,func_021DA1C8,0x167);
+    func_021DA034(p,(int)func_021DA1C8,0x167);
 }

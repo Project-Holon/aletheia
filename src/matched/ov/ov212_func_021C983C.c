@@ -19,7 +19,7 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern unsigned int func_0204A39C(int a, int b, int c, int d, unsigned int *e);
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern const char g_021C99A8[];
 extern int g_021C9968[];
 
@@ -38,7 +38,7 @@ unsigned int func_021C983C(int a0, int a1, int a2, int a3, u16 **out)
         n = 0x289;
     } else {
         unsigned int tmp;
-        buf = (u16 *)func_0204A39C(a0, g_021C9968[a2], 0, a3, &tmp);
+        buf = (u16 *)func_0204A39C((void *)a0, g_021C9968[a2], 0, a3, &tmp);
         n = (tmp >> 1) & 0xFFFF;
     }
     *out = buf;

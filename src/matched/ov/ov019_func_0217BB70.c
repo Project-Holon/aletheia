@@ -49,12 +49,12 @@ typedef struct Work {
 
 extern void *func_02188CB4(u8 *p);
 extern void *func_02188C7C(u8 *p);
-extern void  func_021A3460(void *a, s16 *x, s16 *y, s16 *z);
+extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
 extern void  func_02172D20(u8 *w);
 extern int   func_02172D68(u8 *w);
-extern void  func_021734A8(u8 *w, int v, Entry *e);
+extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern u16   func_0216D588(void *p);
-extern void *func_0216DDC0(void *b, int x, int z, int k);
+extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
 extern int   func_0203D1B4(void);
 extern u32   func_020362DC(void);
 extern int   func_0217AEE8(u16 t);
@@ -64,7 +64,7 @@ extern int   func_0217AF4C(u8 *w, u16 t);
 extern void  func_0217B8E4(u8 *w, int v);
 extern void  func_0217BAF0(u8 *w, void *q, int v);
 extern int   func_0217BB04(u8 *w);
-extern int   func_0217F7E4(void *q);
+extern int func_0217F7E4(u32 arg);
 
 int func_0217BB70(u8 *w, u8 *obj, void *q)
 {
@@ -93,8 +93,8 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
         return 0;
     }
     if (func_020362DC() & 1) {
-        func_021A3460(a, &x, &y, &z);
-        r = func_0216DDC0(b, x, z, 0);
+        func_021A3460((u32)a, (u32)(&x), (u32)(&y), (u32)(&z));
+        r = func_0216DDC0((u32)b, x, z, 0);
         if (r == 0) {
             return 0;
         }
@@ -104,10 +104,10 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
         }
         *(u16 *)(obj + 0x58) = t;
         n = func_0217AEFC(t);
-        func_021734A8(w, 0, &((Work *)w)->entries[n]);
+        func_021734A8(w, 0, (u32)(&((Work *)w)->entries[n]));
         if (func_0217AEE8(t) == 0) {
             if (((Work *)w)->entries[n].bB == 0) {
-                func_021734A8(w, 1, &((Work *)w)->entries[n]);
+                func_021734A8(w, 1, (u32)(&((Work *)w)->entries[n]));
                 func_0217B8E4(w, 5);
             } else {
                 func_0217B8E4(w, 0xB);
@@ -122,7 +122,7 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
         func_0217B8E4(w, 4);
         return 1;
     }
-    if (func_0217F7E4(q) == 1) {
+    if (func_0217F7E4((u32)q) == 1) {
         if (*(int *)(w + 0x3564) == 1) {
             func_0217BAF0(w, q, 1);
             func_0217B8E4(w, 3);

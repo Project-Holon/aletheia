@@ -13,9 +13,10 @@
  *   func_021DD158  0x021DD158  thumb  ov093
  */
 
-void func_021DD158(int, int, int, int);
+typedef unsigned char  u8;
+void func_021DD158(u8 *a, u8 *b, int c, int d);
 
 void func_021DD110(int a, int b, int c)
 {
-    func_021DD158(a, b, c, 5);
+    func_021DD158((u8 *)a, (u8 *)b, c, 5);
 }

@@ -14,7 +14,9 @@
  *   func_021F4990 0x021F4990 thumb ov112
  */
 extern void func_021F732C(char *, char *);
-extern unsigned func_021F9E44(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021F9E44(u8 *p);
 extern void func_021F4990(int);
 typedef struct { int pad[5]; int flag; } Record;
 void func_021F718C(char *p) {
@@ -24,7 +26,7 @@ void func_021F718C(char *p) {
         if (((Record *)(p + i * 0x108))->flag == 1) {
             func_021F732C(p, p + 0x14 + i * 0x108);
             if (*(int *)(p + 4) != 0) {
-                for (j = 0; j < func_021F9E44(*(int *)(p + 4)); j++) {
+                for (j = 0; j < func_021F9E44((u8 *)(*(int *)(p + 4))); j++) {
                     if (*(void (**)(char *, char *))(p + i * 0x108 + 0x118) != 0)
                         (*(void (**)(char *, char *))(p + i * 0x108 + 0x118))(p, p + 0x14 + i * 0x108);
                 }

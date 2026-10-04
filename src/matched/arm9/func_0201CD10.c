@@ -94,7 +94,8 @@ extern void *func_02045770(struct Descriptor *p);
 extern void *func_020311B8(u32 a0, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *func_02031290(struct S02030FB4 *p);
-extern u16  *func_02045A90(u32 a);
+struct U16Vec;
+extern u16 *func_02045A90(struct U16Vec *vec);
 extern void  func_0201CEE0(void *task, struct Rec *p);
 extern void  func_0201C808(struct PrintCtx *c, void *w, void *x, s16 y, s16 z);
 extern void  sub_0201CDF4(s32 v, u8 *out);
@@ -127,7 +128,7 @@ struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
         o->f1d = hi;
         o->f1b = hi;
     }
-    o->cur = func_02045A90(a3);
+    o->cur = func_02045A90((struct U16Vec *)a3);
     o->wait = 0;
     o->cb = (u8 (*)(u32))a10;
     o->f28 = 0;

@@ -63,7 +63,7 @@ extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_020084F8(void *mail, void *dest, u32 size);
+extern u32 func_020084F8(void *dst, u32 value, u32 size);
 extern u32  func_0201F448(const void *a, const void *b);
 
 extern u8 g_021462F0[];
@@ -82,7 +82,7 @@ u32 sub_02018488(void *p, void *mail)
     b = func_02017E88(p, 7, 0);
     c = func_02008550(mail);
     d = func_02017E88(p, 0x9A, 0);
-    func_020084F8(mail, g_021462F0, 0x20);
+    func_020084F8(mail, (u32)g_021462F0, 0x20);
     func_02017E88(p, 0x8E, (u32)g_021462B0);
     if (a == b && c == d && func_0201F448(g_021462F0, g_021462B0) != 0) {
         r = 1;

@@ -22,19 +22,21 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F54(void *a);
+struct Ctx;
+struct Evt;
+extern void *func_02158F54(void *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012104(u32 a);
+extern u32 func_02012104(const struct Ctx *p);
 extern u32 func_021850A8(u32 a, void *b);
-extern void func_02012374(u32 a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021AFECC(u32 a, u32 b)
 {
-    u32 p = func_02158F54(func_0215A5F4((void *)b));
+    u32 p = (u32)func_02158F54(func_0215A5F4((void *)b));
     void *q = func_0201210C((void *)p);
-    u32 r = func_02012104(p);
+    u32 r = func_02012104((const struct Ctx *)p);
 
-    func_02012374(r, func_021850A8(p, q));
+    func_02012374((struct Evt *)r, (struct Evt **)func_021850A8(p, q));
     return 1;
 }

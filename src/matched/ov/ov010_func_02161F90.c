@@ -23,12 +23,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern u8 *func_02161DC4(char *, int, int);
-extern int func_021867C4(int, int);
+extern int *func_021867C4(int a, int id);
 extern u16 *func_0218682C(int h);
 extern void func_02186804(int);
 extern void func_02186520(u16 *, int, u8 *);
 extern void func_02161E78(void *a0);
-extern void func_02161E60(char *, int);
+extern int func_02161E60(int a0, int a1);
 
 void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v)
 {
@@ -37,7 +37,7 @@ void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v)
     u16 *q;
 
     r4 = func_02161DC4(y, w, 1);
-    h = func_021867C4(w, v);
+    h = (int)func_021867C4(w, v);
     q = func_0218682C(h);
     if (x[1] == 0)
         r4[2] = q[3];
@@ -47,5 +47,5 @@ void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v)
     func_02186804(h);
     func_02186520(x, z, r4);
     func_02161E78(r4);
-    func_02161E60(y, 1);
+    func_02161E60((int)y, 1);
 }

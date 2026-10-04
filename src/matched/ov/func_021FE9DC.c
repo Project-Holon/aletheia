@@ -53,7 +53,8 @@ extern const CurPos tbl_02203D46[];
 
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 se);
-extern void func_0204B878(u32, u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021FE9B0(Work *p);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 
@@ -67,13 +68,13 @@ void func_021FE9DC(Work *p)
             if (p->st->row0 > 0) {
                 p->st->row0--;
                 func_020061E4(0x548);
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         } else {
             if (p->st->row1 > 0) {
                 func_020061E4(0x548);
                 p->st->row1--;
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         }
     } else if (func_020362DC() & 0x80) {
@@ -81,20 +82,20 @@ void func_021FE9DC(Work *p)
             if (p->st->row0 < 3) {
                 p->st->row0++;
                 func_020061E4(0x548);
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         } else {
             if (p->st->row1 < 2) {
                 func_020061E4(0x548);
                 p->st->row1++;
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         }
     } else if (func_020362DC() & 0x10) {
         if (p->st->page != 1) {
             p->st->page = 1;
             func_020061E4(0x548);
-            func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
         } else {
             p->st->page = 1;
         }
@@ -102,7 +103,7 @@ void func_021FE9DC(Work *p)
         if (p->st->page != 0) {
             p->st->page = 0;
             func_020061E4(0x548);
-            func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
         } else {
             p->st->page = 0;
         }

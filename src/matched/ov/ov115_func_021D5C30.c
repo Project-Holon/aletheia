@@ -19,12 +19,12 @@ typedef unsigned short u16;
 extern void func_021D5B5C(void *, unsigned int, int);
 extern void func_0202F038(u8 *);
 extern unsigned int func_020056BC(void);
-extern u8 *func_0202EE30(unsigned int, void *, u8, u8, u16);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 void func_021D5C30(u8 *p, unsigned int a, int b) {
     func_021D5B5C(p, a, b);
     if (*(void **)(p + 0x80)) {
         func_0202F038(*(void **)(p + 0x80));
         *(void **)(p + 0x80) = 0;
     }
-    *(void **)(p + 0x80) = func_0202EE30(func_020056BC(), *(void **)(p + 0x2c), 15, 16, *(u16 *)(p + 0x4c));
+    *(void **)(p + 0x80) = func_0202EE30((void *)func_020056BC(), *(void **)(p + 0x2c), 15, 16, *(u16 *)(p + 0x4c));
 }

@@ -52,8 +52,9 @@ struct SaveBackup {
 extern u32 func_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *a,
                          u32 *b, u32 *c, u32 *d);
 extern u32 func_020332FC(struct SaveBackup *p, u32 id);
-extern u32 func_02033BAC(u32 table, u32 id);
-extern u32 func_02033BF0(u32 table);
+struct Obj02033BF0;
+extern u32 func_02033BAC(u8 *p, u32 i);
+extern u32 func_02033BF0(struct Obj02033BF0 *p);
 extern void func_02034F84(u32 bit);
 extern void func_02034FB8(u32 bit);
 
@@ -77,7 +78,7 @@ void sub_020329AC(struct SaveBackup *p, u32 *total, u32 *nominal)
     c = 0;
 
     do {
-        size = func_02033BAC(p->unk2C, i);
+        size = func_02033BAC((u8 *)p->unk2C, i);
         *nominal = *nominal + size;
 
         if (func_020332FC(p, i) == 0) {
@@ -91,7 +92,7 @@ void sub_020329AC(struct SaveBackup *p, u32 *total, u32 *nominal)
 
         *total = *total + size;
         i++;
-    } while (i < func_02033BF0(p->unk2C));
+    } while (i < func_02033BF0((struct Obj02033BF0 *)p->unk2C));
 
     func_02034FB8(1);
 }

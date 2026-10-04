@@ -20,9 +20,11 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02047400(u32 a, u32 b, u32 c);
-extern u32 func_02047564(u32 a, u32 b, u32 c);
-extern u32 func_0204767C(u32 a, u32 *b, u32 c);
+struct G3dOwner;
+struct G3dRec;
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern void func_0204784C(u32 h, u16 i, int *v);
 extern void func_020477A4(u32 h, u16 i);
 
@@ -32,10 +34,10 @@ void func_021F3BF0(u32 *p)
     int v;
 
     i = 0;
-    p[4] = func_02047400(p[0], 0, p[0]);
-    p[5] = func_02047564(p[4], p[1], 0);
-    p[6] = func_02047564(p[4], p[2], 0);
-    p[7] = func_0204767C(p[4], &p[5], 2);
+    p[4] = (u32)func_02047400((void *)p[0], 0, (void *)p[0]);
+    p[5] = (u32)func_02047564((struct G3dOwner *)p[4], (const struct G3dOwner *)p[1], 0);
+    p[6] = (u32)func_02047564((struct G3dOwner *)p[4], (const struct G3dOwner *)p[2], 0);
+    p[7] = (u32)func_0204767C(p[4], &p[5], 2);
     v = 0;
     for (; i < 2; i++) {
         func_0204784C(p[7], i, &v);

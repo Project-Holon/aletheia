@@ -46,8 +46,8 @@ typedef struct {
 } Work;
 typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } Shading;
 extern void func_0207ADC4(MtxFx33 *m);
-extern void func_02011CF0(void *a, u32 b);
-extern void func_02011D0C(void *a, u32 b);
+extern void func_02011CF0(void *a0, void *a1);
+extern void func_02011D0C(void *a0, void *a1);
 struct Light;
 extern void func_02048AD0(struct Light *l);
 extern void func_0207DC44(int, int, int, int);
@@ -76,8 +76,8 @@ void func_021E2C3C(Work *w, Transform *t)
     t->scale.z = 0x1000;
     func_0207ADC4(&t->rot);
     if (w->sub != 0) {
-        if (w->sub->objA8 == 0) func_02011CF0(w->x83c, w->sub->anim90);
-        if (w->sub->objAC == 0) func_02011D0C(w->x83c, w->sub->anim94);
+        if (w->sub->objA8 == 0) func_02011CF0(w->x83c, (void *)w->sub->anim90);
+        if (w->sub->objAC == 0) func_02011D0C(w->x83c, (void *)w->sub->anim94);
     }
     func_02048AD0(w->x83c);
     shading(SHADING_HIGHLIGHT); antialias(1); alphatest(0); blend(0); edge(0);

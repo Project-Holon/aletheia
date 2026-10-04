@@ -19,17 +19,18 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021EAB04(u32 v);
+struct S02021D50;
+extern void func_021EAB04(unsigned char *w);
 extern void func_020419E4(void);
 extern void func_0204A648(void);
-extern void func_02021D50(u32 v);
+extern void func_02021D50(struct S02021D50 *p);
 extern u32 SDK_AUTOLOAD_MAIN_TWL_START[];
 
 void func_021DC970(u32 a, char *p)
 {
-    func_021EAB04(*(u32 *)(p + 0x2c));
+    func_021EAB04((unsigned char *)(*(u32 *)(p + 0x2c)));
     func_020419E4();
     func_0204A648();
-    func_02021D50(*(u32 *)(*(u32 *)(p + 0x2c) + 0x6c));
+    func_02021D50((struct S02021D50 *)(*(u32 *)(*(u32 *)(p + 0x2c) + 0x6c)));
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3ff8) |= 1;
 }

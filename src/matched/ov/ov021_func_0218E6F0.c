@@ -21,7 +21,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern void func_0207CA00(void *a, void *b, void *c);
-extern void func_0218E674(u8 *a, void *v);
+typedef unsigned int   u32;
+extern void func_0218E674(u8 *a, u32 b);
 
 void func_0218E6F0(u8 *a)
 {
@@ -32,6 +33,6 @@ void func_0218E6F0(u8 *a)
         *(u16 *)(a + 0x78) = *(u16 *)(a + 0x78) + 0x8000;
     } else {
         func_0207CA00(a + 0x48, a + 0x3C, tmp);
-        func_0218E674(a, tmp);
+        func_0218E674(a, (u32)tmp);
     }
 }

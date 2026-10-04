@@ -20,18 +20,20 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02188D38(u32 a);
-extern u32 func_021C7260(u32 a, u32 b, u32 c);
-extern u32 func_021C71D4(u32 a, u32 b, u32 c);
-extern void func_021C6DE0(u32 a, u32 b, u32 c);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u32 func_02188D38(u8 *p);
+extern void *func_021C7260(u32 a, u16 b, int c);
+extern void *func_021C71D4(u32 a, u32 b, u32 c);
+extern void func_021C6DE0(u8 *p, u32 a, u32 b);
 
 void func_021C0140(u32 *p)
 {
     u32 o = p[1];
-    u32 r = func_02188D38(o);
-    u32 a = func_021C7260(o, 0x14, 3);
-    u32 b = func_021C71D4(o, 0x14, 5);
+    u32 r = func_02188D38((u8 *)o);
+    u32 a = (u32)func_021C7260(o, 0x14, 3);
+    u32 b = (u32)func_021C71D4(o, 0x14, 5);
 
-    func_021C6DE0(r, a, 0);
-    func_021C6DE0(r, b, a);
+    func_021C6DE0((u8 *)r, a, 0);
+    func_021C6DE0((u8 *)r, b, a);
 }

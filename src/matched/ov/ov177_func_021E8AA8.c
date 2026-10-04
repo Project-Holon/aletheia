@@ -18,9 +18,9 @@
  * pending ov175 caller func_021D61CC.
  */
 
-extern void func_021E8AA0(int, int);
+extern void func_021E8AA0(int *p, int v);
 
 void func_021E8AA8(int a)
 {
-    func_021E8AA0(a, 0);
+    func_021E8AA0((int *)a, 0);
 }

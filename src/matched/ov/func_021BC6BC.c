@@ -17,9 +17,10 @@
  *
  */
 
-extern void func_02021D50(int);
+struct S02021D50;
+extern void func_02021D50(struct S02021D50 *p);
 
 void func_021BC6BC(char *p)
 {
-    func_02021D50(*(int *)(p + 8));
+    func_02021D50((struct S02021D50 *)(*(int *)(p + 8)));
 }

@@ -17,11 +17,12 @@
 
 
 
-extern int func_021DD2D0(int, int, int);
-extern void func_02017E64(int, int, int);
+typedef unsigned int   u32;
+extern int func_021DD2D0(void ***p, int a, unsigned b);
+extern void func_02017E64(void *p, u32 id, u32 v);
 void func_021DD2B4(int a, int b, int c, int d, int e)
 {
-    int r = func_021DD2D0(a, c, b);
+    int r = func_021DD2D0((void ***)a, c, b);
     if (r)
-        func_02017E64(r, d, e);
+        func_02017E64((void *)r, d, e);
 }

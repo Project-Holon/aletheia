@@ -17,7 +17,8 @@ extern int func_021BCBD8(char *, int);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 int func_021BD924(char *p, int v)
 {
     int t;
@@ -30,7 +31,7 @@ int func_021BD924(char *p, int v)
         } else {
             t = func_021BCBD8(p, 0);
         }
-        if (func_0203D3A8(func_020399A8(), 0xa06, 4, &t) != 0) {
+        if (func_0203D3A8(func_020399A8(), 0xa06, 4, (u32)(&t)) != 0) {
             *(int *)(p + 0x1cc) = 0x82;
         }
     }

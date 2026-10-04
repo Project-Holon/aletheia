@@ -45,7 +45,7 @@ extern void *func_021D5394(int a, int kind, int c);
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D51F0(void *cell, int idx, int prio);
 extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void func_021CE9E8(void *task);
+extern void func_021CE9E8(void);
 extern SB *g_021DE63C;
 extern unsigned char g_021DA8B8[];
 
@@ -59,5 +59,5 @@ void func_021CE874(int kind, int max, int x, int y, int pos)
 	g_021DE63C->cell = func_021D5394(0, g_021DA8B8[kind], 1);
 	func_021D5118(g_021DE63C->cell, -1, x, y + pos);
 	func_021D51F0(g_021DE63C->cell, -1, 1);
-	g_021DE63C->task = func_021D7680(0, func_021CE9E8, 0, 0x80);
+	g_021DE63C->task = func_021D7680(0, (void (*)(void *))func_021CE9E8, 0, 0x80);
 }

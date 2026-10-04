@@ -26,15 +26,18 @@
 
 typedef unsigned short u16;
 
-int func_020120F4(int a);
-int func_02012914(int a);
-void func_02159FA8(int a, void *b);
+struct BigObj;
+struct Ctx;
+struct Rec1C;
+void *func_020120F4(const struct Ctx *p);
+u16 func_02012914(const struct BigObj *p);
+void func_02159FA8(int a, int b);
 typedef unsigned int   u32;
 u16 func_02159F94(int a);
 void func_02014204(void *buf, int n);
-void func_020128C0(int a, void *b);
-void func_02185B70(int a);
-void func_02185A68(int a, int b);
+void func_020128C0(struct BigObj *p, const struct Rec1C *src);
+void func_02185B70(void *p);
+void func_02185A68(void *a, int b);
 void func_021857C0(int a, void *b);
 void func_0202735C(u32 a0, u32 a1);
 void func_02168EEC(int a);
@@ -42,14 +45,14 @@ int func_0216446C(int a, int b);
 
 void func_0218562C(int a)
 {
-    int r4 = func_020120F4(a);
+    int r4 = (int)func_020120F4((const struct Ctx *)a);
     struct { char b[0x1c]; int f; u16 h; char pad[0x16]; } l;
 
-    func_02159FA8(func_02012914(r4), &l.f);
-    func_02014204(l.b, func_02159F94(func_02012914(r4)));
-    func_020128C0(r4, l.b);
-    func_02185B70(a);
-    func_02185A68(a, l.h);
+    func_02159FA8(func_02012914((const struct BigObj *)r4), (int)(&l.f));
+    func_02014204(l.b, func_02159F94(func_02012914((const struct BigObj *)r4)));
+    func_020128C0((struct BigObj *)r4, (const struct Rec1C *)l.b);
+    func_02185B70((void *)a);
+    func_02185A68((void *)a, l.h);
     func_021857C0(a, &l.f);
     func_0202735C(l.h, r4);
     func_02168EEC(r4);

@@ -19,7 +19,8 @@ extern void func_021F9220(int *, int *, int *, int *);
 extern int func_021F9260(void *, void *);
 extern void func_02048AFC(int, int *);
 extern void func_02048B44(int, int *);
-extern void func_02048AD0(int);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_021F73A4(int *);
 
 void func_021F723C(int *p)
@@ -65,7 +66,7 @@ void func_021F723C(int *p)
         b[2] = p[11] + p[26];
         func_02048AFC(p[1], a);
         func_02048B44(p[1], b);
-        func_02048AD0(p[1]);
+        func_02048AD0((struct Light *)p[1]);
         func_021F73A4(p);
     } else {
         p[27]--;

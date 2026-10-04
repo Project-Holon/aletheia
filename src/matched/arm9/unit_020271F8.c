@@ -67,7 +67,7 @@ typedef unsigned int u32;
 extern u32 sub_02027060(u32 id);
 extern void * const volatile g_System;
 extern void sub_02026FB8(void *queue);
-extern void func_020270AC(u16 value, void *dst);
+extern void func_020270AC(void *vec, u16 *dest);
 extern void func_0202744C(void *dst);
 
 static void sub_02027220(void *dst, u16 value);
@@ -123,7 +123,7 @@ void sub_02027268(u16 value)
 static void sub_02027290(void *dst, u16 value)
 {
     *(u16 *)((char *)dst + 0x30) = 0x10;
-    func_020270AC(value, (char *)dst + 0x34);
+    func_020270AC((void *)value, (u16 *)((char *)dst + 0x34));
 }
 
 static void sub_020272D0(void *dst, u16 a, u16 b);
@@ -142,7 +142,7 @@ static void sub_020272D0(void *dst, u16 a, u16 b)
 {
     *(u16 *)((char *)dst + 0x30) = 0x11;
     *(u16 *)((char *)dst + 0x32) = a;
-    func_020270AC(b, (char *)dst + 0x34);
+    func_020270AC((void *)b, (u16 *)((char *)dst + 0x34));
     func_0202744C(dst);
 }
 

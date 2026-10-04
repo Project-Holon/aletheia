@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern u32 func_021690D0(void *p);
-extern int func_021690E0(void *p);
+extern int func_021690D0(int a0);
+extern int func_021690E0(int a0);
 extern int func_021B7390(u32 a, int b);
 extern u8 d_021D99DE[];
 
@@ -40,8 +40,8 @@ int func_021B73B8(u32 a, u32 b)
 
     out = func_02159AE8((void *)a, (void *)b);
     h = func_0215A5E4((void *)b);
-    x = func_021690D0(h);
-    y = func_021690E0(h);
+    x = func_021690D0((int)h);
+    y = func_021690E0((int)h);
     if (func_021B7390(x, y) == 1)
         *out = 10;
     else

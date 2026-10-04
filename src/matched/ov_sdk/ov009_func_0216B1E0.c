@@ -45,7 +45,7 @@ extern DwcGlobal g_021AA878;
 
 extern int func_02059F38(void);
 extern int func_02168D7C(void);
-extern void func_02168DA4(void *a, void *b, void *c, int d, void *e, void *f, void *g, void *h);
+extern void func_02168DA4(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 extern void func_0216BF98(int error, int isChanged);
 
 int func_0216B1E0(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam)
@@ -54,6 +54,6 @@ int func_0216B1E0(int unused, void *updateCallback, void *updateParam, void *sta
 		return 0;
 	g_021AA878.st->updateCallback = updateCallback;
 	g_021AA878.st->updateParam = updateParam;
-	func_02168DA4(g_021AA878.st->updateBuf0, g_021AA878.st->updateBuf1, func_0216BF98, 0, statusCallback, statusParam, deleteCallback, deleteParam);
+	func_02168DA4((int)g_021AA878.st->updateBuf0, (int)g_021AA878.st->updateBuf1, (int)func_0216BF98, 0, (int)statusCallback, (int)statusParam, (int)deleteCallback, (int)deleteParam);
 	return 1;
 }

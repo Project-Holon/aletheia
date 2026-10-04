@@ -15,16 +15,18 @@
  *   func_0203D3A8 0x0203D3A8 arm
  */
 typedef unsigned int u32;
-int func_02026478(int a);
+typedef unsigned short u16;
+struct Entry;
+u32 func_02026478(void *obj);
 int func_021736D8(void);
 struct Entry;
 struct Entry *func_020399A8(void);
-u32 func_0203D3A8(u32 a, u32 b, u32 c, u32 d);
+int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 u32 func_021743B4(char *p)
 {
-    func_02026478(((int *)p)[1]);
+    func_02026478((void *)(((int *)p)[1]));
     if (func_021736D8() == 0) {
         return 1;
     }
-    return func_0203D3A8((u32)func_020399A8(), 0x21d, 4, (u32)(p + 0x354));
+    return func_0203D3A8((struct Entry *)((u32)func_020399A8()), 0x21d, 4, (u32)(p + 0x354));
 }

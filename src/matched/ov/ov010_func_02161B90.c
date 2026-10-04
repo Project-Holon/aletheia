@@ -38,7 +38,7 @@ extern void func_02082BCC(void *p, int v, int n);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern void func_02161CDC(void *a, void *b, u8 c, u8 d);
-extern void func_02161D18(void *a, void *b, u8 c, u8 d);
+extern void func_02161D18(int a, int b, u8 c, u8 d);
 extern void func_0216570C(void);
 extern int func_02161BF8(void *a0, int *state, struct Obj *o);
 
@@ -55,7 +55,7 @@ void *func_02161B90(void *p, void *a1, int kind, int sub, int flag)
     if (flag != 0)
         func_02161CDC(n->f08, p, kind, sub);
     else
-        func_02161D18(n->f08, p, kind, sub);
+        func_02161D18((int)n->f08, (int)p, kind, sub);
     if (kind == 3)
         func_0216570C();
     return h;

@@ -19,19 +19,23 @@
  *   func_02045808 0x02045808 arm
  */
 
-extern int func_02045EC0(int, int);
+typedef signed short   s16;
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_0201C7A4(int, int, int, int, int);
-extern void func_0201F79C(int, int, int, int);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void func_0201F79C(void *desc, u32 kind, u32 base, u32 pal);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045808(int);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021F0254(char *p, int a1, int a2)
 {
-    int r6 = func_02045EC0(*(int *)(p + 0x38), a2);
-    func_0201C7A4((int)func_02045770((struct Descriptor *)a1), 0, 0, r6, *(int *)(p + 0x34));
-    func_0201F79C(a1, 0, *(int *)(p + 0x14), 2);
+    int r6 = (int)func_02045EC0((struct MsgBank *)(*(int *)(p + 0x38)), a2);
+    func_0201C7A4((void *)((int)func_02045770((struct Descriptor *)a1)), 0, 0, (void *)r6, (void *)(*(int *)(p + 0x34)));
+    func_0201F79C((void *)a1, 0, *(int *)(p + 0x14), 2);
     func_02045334((struct Descriptor *)a1);
-    func_02045808(r6);
+    func_02045808((struct U16Vec *)r6);
 }

@@ -32,7 +32,8 @@ typedef unsigned int   u32;
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_0207AF1C(void *m, int a, int b);
-extern void func_02169510(u32 a, void *b);
+struct V3;
+extern void func_02169510(u8 *src, struct V3 *dst);
 extern void func_0207C9D0(void *a, void *b, void *c);
 extern void func_0218DC5C(u32 a, void *b);
 extern void func_0218BFB4(u8 *owner, u8 *node, u8 *rec);
@@ -54,7 +55,7 @@ u8 *func_0218C724(u8 *owner, u32 *obj)
     *(u32 *)(p + 4) = 0xFFFF;
     k = *(u16 *)(def + 0x10) >> 4;
     func_0207AF1C(p + 0x3C, d_020A1B38[k * 2], d_020A1B38[k * 2 + 1]);
-    func_02169510(obj[0], p + 0x24);
+    func_02169510((u8 *)obj[0], (struct V3 *)(p + 0x24));
     func_0207C9D0(p + 0x24, def + 4, p + 0x24);
     func_0218DC5C(*(u32 *)(owner + 4), tmp);
     func_0207C9D0(p + 0x24, tmp, p + 0x24);

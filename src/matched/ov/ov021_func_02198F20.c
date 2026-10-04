@@ -28,12 +28,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D6D4(u32);
-extern u32 func_0216D7A8(u32, u32);
-extern u32 func_0216D67C(u32);
-extern u32 func_0216D520(u32 p);
-extern u32 func_0219C9DC(u32 p);
-extern u32 func_020508EC(u32, u32, u16 *);
+extern void *func_0216D6D4(void *p);
+extern int func_0216D7A8(void *p, unsigned int v);
+extern void *func_0216D67C(void *a0);
+extern u32 func_0216D520(void *p);
+extern u32 func_0219C9DC(u8 *p);
+extern u32 func_020508EC(u8 *p, int i, u16 *out);
 extern u32 func_0216D7CC(u32);
 
 int func_02198F20(u32 a)
@@ -41,10 +41,10 @@ int func_02198F20(u32 a)
     u32 r;
     u16 out;
 
-    func_0216D6D4(a);
-    r = func_0216D7A8(a, 0);
+    func_0216D6D4((void *)a);
+    r = func_0216D7A8((void *)a, 0);
     if (r != 0xFFFF) {
-        if (func_020508EC(func_0219C9DC(func_0216D520(func_0216D67C(a))), (u16)r, &out) == 1) {
+        if (func_020508EC((u8 *)func_0219C9DC((u8 *)func_0216D520(func_0216D67C((void *)a))), (u16)r, &out) == 1) {
             func_0216D7CC(a);
             return 1;
         }

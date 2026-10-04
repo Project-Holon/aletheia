@@ -72,10 +72,10 @@ struct S0201235C;
 void *func_020124E4(struct Obj *p);
 struct Ctx;
 u32 func_02012138(const struct Ctx *p);
-u8 *func_02158344(void *);
+int func_02158344(int a0);
 int func_0217405C(void *, void *);
 int func_02175CF4(void *, void *);
-int func_0217456C(void *, int, int);
+int func_0217456C(int a, int b, int c, ...);
 void func_021762D8(void *, void *, void *, u32);
 void func_0217F3C4(Ov018Obj *p, u16 a);
 int func_0217F40C(Ov018Obj *p);
@@ -92,7 +92,7 @@ int func_02181C0C(void *a, int *state, Ov018Outer *c)
     int r;
 
     sub = func_020124E4(a);
-    v = func_02158344((void *)func_02012138(sub));
+    v = (u8 *)func_02158344((int)((void *)func_02012138(sub)));
     if (v == 0 && *state <= 2 && *state < 6) {
         func_0217F3C4(&c->obj, 4);
         *state = 6;
@@ -117,7 +117,7 @@ int func_02181C0C(void *a, int *state, Ov018Outer *c)
         }
         break;
     case 2:
-        if (func_0217456C(v, c->f40, 2) == 1) {
+        if (func_0217456C((int)v, c->f40, 2) == 1) {
             (*state)++;
         }
         break;

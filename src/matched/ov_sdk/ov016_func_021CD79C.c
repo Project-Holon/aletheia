@@ -26,7 +26,7 @@
 extern unsigned char g_021DE620;
 extern void func_021C0EA0(void **param2, void **param3);
 extern unsigned int func_021C0ED8(void);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021C1630(void);
 extern void func_021CD690(void);
 
@@ -39,8 +39,8 @@ void func_021CD79C(void)
     func_021C0EA0(0, (void **)&scene);
     r = func_021C0ED8();
     if (r != 0 && r == 1 && scene != 0) {
-        func_021C0E40(func_021C1630);
+        func_021C0E40((unsigned int)func_021C1630);
         return;
     }
-    func_021C0E40(func_021CD690);
+    func_021C0E40((unsigned int)func_021CD690);
 }

@@ -30,20 +30,21 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void *func_020120F4(const struct Ctx *p);
-void *func_02012914(void *p);
-int func_02159F94(void *p);
+struct BigObj;
+u16 func_02012914(const struct BigObj *p);
+u16 func_02159F94(int a);
 void func_02014204(void *p, int id);
 int func_0218495C(int ctx, int *state, u8 *p);
 void func_02184CEC(void *obj, void *p);
 
 void *func_02184F40(void *p)
 {
-    void *r6 = func_02012914(func_020120F4(p));
+    void *r6 = (void *)func_02012914(func_020120F4(p));
     void *r0v = func_020122C0(p, 0, func_0218495C, 0x9c);
     char *r4 = func_020124E8(r0v);
 
     func_02184CEC(r4, p);
-    func_02014204(r4 + 0x10, func_02159F94(r6));
+    func_02014204(r4 + 0x10, func_02159F94((int)r6));
     *(int *)(r4 + 0x10) = 1;
     *(int *)(r4 + 0x2c) = 0;
     return r0v;

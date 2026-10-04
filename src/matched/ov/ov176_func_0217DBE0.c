@@ -17,7 +17,7 @@
  */
 extern void func_0217DFD0(int *, int, int);
 extern int func_0217DFE4(int *);
-extern void func_021E8AA0(int, int);
+extern void func_021E8AA0(int *p, int v);
 extern void func_0217DC20(int);
 extern void func_021E8AA8(int);
 void func_0217DBE0(int a, int *state, int *p)
@@ -32,7 +32,7 @@ void func_0217DBE0(int a, int *state, int *p)
             *state = 2;
         break;
     case 2:
-        func_021E8AA0(a, (int)func_0217DC20);
+        func_021E8AA0((int *)a, (int)func_0217DC20);
         break;
     }
 }

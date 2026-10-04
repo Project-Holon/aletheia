@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021BDBF8(u32 *);
+extern int func_021BDBF8(u32 a);
 extern void func_021BDC2C(u32 *, u32);
 extern void func_021BDC80(u32 *);
 
@@ -31,7 +31,7 @@ u32 func_021BDA30(u32 a, int *st, u32 *ctx)
     switch (*st) {
     case 0:
         if (*(u32 *)(p + 0x48) != 0)
-            func_021BDBF8(ctx);
+            func_021BDBF8((u32)ctx);
         func_021BDC2C(ctx, a);
         (*st)++;
         break;

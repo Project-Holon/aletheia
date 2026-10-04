@@ -30,17 +30,20 @@ typedef struct {
     u32 val;
 } Param;
 
-extern u32 func_02045EC0(u32, u32);
-extern u32 func_0201EC64(u32);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EE0C(u32, u32, u32, int, int, int);
 struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201EF34(u32, u32, u16);
-extern u32 func_020457B0(int, u32);
-extern void func_0201F250(u32, u32, u32);
-extern void func_02045808(u32);
-extern void func_0201ED04(u32);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
 
 u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
 {
@@ -49,10 +52,10 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
     int z;
 
     if (k0 == 4 && k1 == 4) {
-        r = func_02045EC0(a, b);
+        r = (u32)func_02045EC0((struct MsgBank *)a, b);
     } else {
-        src = func_02045EC0(a, b);
-        w = func_0201EC64(heap);
+        src = (u32)func_02045EC0((struct MsgBank *)a, b);
+        w = (u32)func_0201EC64(heap);
         p[0].kind = k0;
         p[0].val = v0;
         p[1].kind = k1;
@@ -69,14 +72,14 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
                 func_0201EEF4((void *)w, i, (void *)p[i].val);
                 break;
             case 3:
-                func_0201EF34(w, i, *(u16 *)p[i].val);
+                func_0201EF34((struct WordSet *)w, i, *(u16 *)p[i].val);
                 break;
             }
         }
-        r = func_020457B0(0x100, heap);
-        func_0201F250(w, r, src);
-        func_02045808(src);
-        func_0201ED04(w);
+        r = (u32)func_020457B0(0x100, heap);
+        func_0201F250((struct WordSet *)w, (void *)r, (void *)src);
+        func_02045808((struct U16Vec *)src);
+        func_0201ED04((struct WordSet *)w);
     }
     return r;
 }

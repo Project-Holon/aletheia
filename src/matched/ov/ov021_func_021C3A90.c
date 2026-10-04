@@ -19,11 +19,11 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_021C3BB0(void *a);
+extern int func_021C3BB0(u32 a);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u16 func_021C4504(u16 sp);
 
 void func_021C3A90(void *a, u32 *out)
 {
-    *out = func_021C4504(func_02017E1C(func_021C3BB0(a), 5, 0));
+    *out = func_021C4504(func_02017E1C((void *)func_021C3BB0((u32)a), 5, 0));
 }

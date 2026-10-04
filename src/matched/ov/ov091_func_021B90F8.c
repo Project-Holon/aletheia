@@ -23,9 +23,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_021BBBA0(int unused, int *q);
-extern void func_021BB7A4(u8 *p, int v);
-extern int func_021B9A84(u8 *p);
+typedef unsigned int   u32;
+extern void func_021BBBA0(unsigned char *a, unsigned char *b);
+extern void func_021BB7A4(void *p, u32 *s);
+extern int func_021B9A84(u32 p);
 extern int func_021B9AB4(u8 *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -37,9 +38,9 @@ extern u8 func_020355C4(void);
 
 void func_021B90F8(u8 *p)
 {
-    func_021BBBA0((int)p, (int *)W(0x154));
-    func_021BB7A4(p, W(0x150));
-    if (func_021B9A84(p) == 1 || func_021B9AB4(p) == 0) {
+    func_021BBBA0((unsigned char *)((int)p), (unsigned char *)((int *)W(0x154)));
+    func_021BB7A4(p, (u32 *)W(0x150));
+    if (func_021B9A84((u32)p) == 1 || func_021B9AB4(p) == 0) {
         func_0204B3DC((struct Obj *)W(0x1e0), 0);
     } else {
         func_0204B3DC((struct Obj *)W(0x1e0), 1);

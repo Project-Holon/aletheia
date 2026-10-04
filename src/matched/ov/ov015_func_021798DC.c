@@ -41,7 +41,7 @@ extern void func_02034714(void *a, int b, void *c);
 extern void func_02082D44(void *dst, void *src, int n);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_0217A148(void *p, u8 a, u8 b);
+extern void func_0217A148(int a0, int a1, int a2);
 
 void func_021798DC(void *dst, int n, u8 a, u8 b)
 {
@@ -52,5 +52,5 @@ void func_021798DC(void *dst, int n, u8 a, u8 b)
     if (dst != 0)
         func_02082D44(dst, d_0217AAD2, 0xA6);
     d_0217AAC0.h4 = func_0203F1FC(d_0217AAC6, n + 12);
-    func_0217A148(d_0217AAC4, (u8)(n + 14), a);
+    func_0217A148((int)d_0217AAC4, (u8)(n + 14), a);
 }

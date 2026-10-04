@@ -20,8 +20,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02008530(u32 a);
-extern int func_02008550(u32 a);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u16 tbl_02176A90[];
 extern u16 tbl_02176A98[];
 
@@ -31,8 +32,8 @@ void func_02175548(u32 a, u16 *p1, u8 *p2, u8 *p3)
     u32 i;
     int r;
 
-    x = func_02008530(a);
-    r = func_02008550(a);
+    x = func_02008530((const struct Sub0200852CObj *)a);
+    r = func_02008550((const struct Sub0200852CObj *)a);
     i = ((x >> 16) + (u16)x) & 3;
     if (r == 0) {
         *p1 = tbl_02176A90[i];

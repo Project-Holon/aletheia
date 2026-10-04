@@ -17,12 +17,14 @@
 typedef unsigned char u8;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012844(void *);
-extern const u8 *func_02162450(void *);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012844(const struct BigObj *p);
+extern u32 func_02162450(void *p);
 extern int func_02158B3C(const u8 *, int);
 extern void func_02158A34(int, int, int, int);
 int func_02158A90(void *a, int unused, int key, int d) {
-    int result = func_02158B3C(func_02162450(func_02012844(func_020120F4(a))), key);
+    int result = func_02158B3C((const u8 *)func_02162450((void *)func_02012844(func_020120F4(a))), key);
     if (result == 0xffff) return 0;
     func_02158A34((int)a, 0, result, d);
     return 1;

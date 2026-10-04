@@ -16,9 +16,11 @@
 typedef unsigned int u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188C80(u32);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
+typedef unsigned char  u8;
+struct Big;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_021897BC(char *,int);
 extern int func_021F39B8(void *,int *);
 struct Desc;
@@ -28,7 +30,7 @@ void *func_021F384C(void *a,int b)
     u32 p;
     int *q;
     p=(u32)func_0201210C(a);
-    func_02012EC4(func_020120F4(func_02188C80(p)));
+    func_02012EC4(func_020120F4(func_02188C80((void *)p)));
     q=func_021897BC((char *)p,1);
     if(b>=3)return 0;
     *q=b;

@@ -27,7 +27,8 @@ struct Fade {
     u8 b6;
     u8 b7;
 };
-extern void func_0204B6F4(u32, u32, u32);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 
@@ -37,7 +38,7 @@ int func_021C5C84(u8 *p)
     switch (s->state) {
     case 0:
         if (s->a == 0) {
-            func_0204B6F4(*(u32 *)(*(u8 **)(p + 8) + s->idx * 4 + 0x1F0), s->lo, 1);
+            func_0204B6F4((struct Obj *)(*(u32 *)(*(u8 **)(p + 8) + s->idx * 4 + 0x1F0)), s->lo, 1);
         } else {
             func_020413B0(s->idx, s->b4, s->b5, s->b6, s->b7, s->lo);
             func_02041B6C(s->idx);
@@ -48,7 +49,7 @@ int func_021C5C84(u8 *p)
         s->count++;
         if (s->count == 4) {
             if (s->a == 0) {
-                func_0204B6F4(*(u32 *)(*(u8 **)(p + 8) + s->idx * 4 + 0x1F0), s->hi, 1);
+                func_0204B6F4((struct Obj *)(*(u32 *)(*(u8 **)(p + 8) + s->idx * 4 + 0x1F0)), s->hi, 1);
             } else {
                 func_020413B0(s->idx, s->b4, s->b5, s->b6, s->b7, s->hi);
                 func_02041B6C(s->idx);

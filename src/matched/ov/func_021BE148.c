@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02048F4C(u32 a, u32 b, u32 c);
+extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
 void func_021BE148(u32 a, int b)
 {
-    func_02048F4C(a, 0xb3, b - 7);
+    func_02048F4C((void *)a, 0xb3, b - 7);
 }

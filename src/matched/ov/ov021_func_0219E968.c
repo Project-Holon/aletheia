@@ -23,23 +23,23 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern int func_02164380(u32, void *);
+extern int func_02164380(void *a, u16 *b);
 extern void *func_0216D684(u32, u32);
 extern void func_0219EA5C(void *, u32);
 extern void func_02082BCC(void *, int, int);
-extern void func_0219E2C0(u32, void *);
+extern void func_0219E2C0(void *a, void *r);
 
 void *func_0219E968(u32 a, u32 size)
 {
     u8 buf[8];
-    int ok = func_02164380(a, buf);
+    int ok = func_02164380((void *)a, (u16 *)buf);
     void *q = func_0216D684(a, size);
     func_0219EA5C(q, a);
     if (ok) {
-        func_0219E2C0(a, buf);
+        func_0219E2C0((void *)a, buf);
     } else {
         func_02082BCC(buf, 0, 8);
-        func_0219E2C0(a, buf);
+        func_0219E2C0((void *)a, buf);
     }
     return q;
 }

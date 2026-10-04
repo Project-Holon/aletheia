@@ -19,10 +19,12 @@ struct Unk021B8CB0;
 extern u8 func_021B8CB0(struct Unk021B8CB0 **p, u8 x);
 extern void func_021B8E28(u8 *, u8, u8 *, u8 *);
 extern u8 *func_021BB85C(u8 *, unsigned int);
-extern void *func_021B9BF0(void *, u8);
+typedef unsigned int   u32;
+struct S2;
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 void *func_021CB1A4(u8 *p, u8 n)
 {
     u8 out[2];
     func_021B8E28(*(u8 **)(p + 4), func_021B8CB0(*(void **)(p + 4), n), out + 1, out);
-    return func_021B9BF0(*(void **)(func_021BB85C(*(u8 **)p, out[1]) + 4), out[0]);
+    return (void *)func_021B9BF0(*(void **)(func_021BB85C(*(u8 **)p, out[1]) + 4), out[0]);
 }

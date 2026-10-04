@@ -75,10 +75,12 @@ struct Elem {
     u32 unk60_1f : 1; /* 0x60, bit 31 */
 };
 
-extern void func_02066748(u32 arg, void *a, void *b);
-extern void func_02065BD0(u32 arg);
-extern void func_0204CBB0(struct Elem *e, u32 arg);
-extern void func_0204BA7C(void *a, u8 b, u32 c);
+typedef unsigned short u16;
+struct Rec;
+extern void func_02066748(int *a0, int a1, int a2);
+extern void func_02065BD0(void *obj);
+extern void func_0204CBB0(struct Elem *e, struct Rec *r);
+extern void func_0204BA7C(u32 set, u16 bias, u32 v);
 extern u32  func_0204CC6C(struct Elem *e);
 extern void func_02065C78(u32 a);
 
@@ -87,9 +89,9 @@ void func_0204CB44(struct Elem *e, u32 arg)
     if (e->enabled == 0)
         return;
 
-    func_02066748(arg, e->unk1c, e->unk40);
-    func_02065BD0(arg);
-    func_0204CBB0(e, arg);
-    func_0204BA7C(e->unk40, (u8)e->unk60_c, e->unk60_1f);
+    func_02066748((int *)arg, (int)e->unk1c, (int)e->unk40);
+    func_02065BD0((void *)arg);
+    func_0204CBB0(e, (struct Rec *)arg);
+    func_0204BA7C((u32)e->unk40, (u8)e->unk60_c, e->unk60_1f);
     func_02065C78(func_0204CC6C(e));
 }

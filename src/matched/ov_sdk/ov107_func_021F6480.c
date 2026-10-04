@@ -40,7 +40,7 @@ extern u32 func_02087988(void);
 extern void func_02085988(void *thread, u32 prio);
 extern void func_020857B0(void *q);
 extern void func_0208799C(u32 mode);
-extern u32 func_02085A30(void *thread);
+extern void *func_02085A30(char *p);
 extern void func_020854B0(void);
 
 void func_021F6480(void *arg)
@@ -76,7 +76,7 @@ void func_021F6480(void *arg)
                 u32 cur_priority;
                 u32 new_priority;
 
-                cur_priority = func_02085A30(p);
+                cur_priority = (u32)func_02085A30((char *)p);
                 if (p->list == 0) {
                     new_priority = 0;
                 } else {

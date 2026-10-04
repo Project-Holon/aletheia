@@ -26,11 +26,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BE448();
-extern u32 func_021BE468();
+extern void func_021BE448(void *p);
+extern u32 func_021BE468(void *p);
 void func_021BE36C(u32 a0)
 {
-    if (func_021BE468(a0) < *(u32*)(((u8*)a0) + 40)) {
-    func_021BE448(a0);
+    if (func_021BE468((void *)a0) < *(u32*)(((u8*)a0) + 40)) {
+    func_021BE448((void *)a0);
     }
 }

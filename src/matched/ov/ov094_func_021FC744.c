@@ -56,14 +56,14 @@ typedef struct {
     int slots[6];
 } State;
 extern int func_021F8684(void);
-extern int func_021F722C(int);
-extern void *func_021F8694(void);
+extern int func_021F722C(char *p);
+extern int func_021F8694(void);
 extern void func_021FF16C(void *);
 extern int func_021FFCB0(void *, int);
 typedef unsigned int   u32;
 extern int func_021FFD9C(char *p, int key);
 extern int func_02200494(char *p, int key);
-extern void *func_021F8700(void);
+extern int func_021F8700(void);
 extern int func_0220985C(void *);
 extern int func_02051614(int **p);
 extern int func_021F8324(unsigned);
@@ -77,27 +77,27 @@ int func_021FC744(int a, State *s)
     Slot j;
 
     if (s->mode <= 1) {
-        if (func_021F722C(func_021F8684()) == 1) return 0;
+        if (func_021F722C((char *)func_021F8684()) == 1) return 0;
         if (s->flags.bit.b1) {
             s->flags.bit.b1 = 0;
             s->f244 = 1;
-            func_021FF16C(func_021F8694());
+            func_021FF16C((void *)func_021F8694());
         }
     }
     if (s->mode == 0 || s->mode == 3) {
         for (j = 0; j < 14; j++) {
-            if (func_021FFCB0(func_021F8694(), j) == 1) return 0;
+            if (func_021FFCB0((void *)func_021F8694(), j) == 1) return 0;
         }
     }
     if (s->mode == 4) {
         for (j = 8; j < 14; j++) {
-            if (func_021FFD9C(func_021F8694(), j)) {
-                if (func_02200494(func_021F8694(), j) == 1) return 0;
+            if (func_021FFD9C((char *)func_021F8694(), j)) {
+                if (func_02200494((char *)func_021F8694(), j) == 1) return 0;
             }
         }
     }
     if (s->mode == 0 || s->mode == 5) {
-        if (func_0220985C(func_021F8700()) == 1) return 0;
+        if (func_0220985C((void *)func_021F8700()) == 1) return 0;
     }
     if (s->mode == 0 || s->mode == 2) {
         for (i = 0; i < 16; i++) {

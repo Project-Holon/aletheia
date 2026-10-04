@@ -25,12 +25,15 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 
 extern int DWC_CheckProfanityProcess(void);
-extern u32 func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_02045EC0(u32 msg, u32 id);
-extern void func_02045C04(u32 msg);
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
 struct U16Vec;
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
-extern void func_02045808(u32 str);
+extern void func_02045808(struct U16Vec *vec);
 
 int func_021DCAEC(char *obj, int *out)
 {
@@ -42,11 +45,11 @@ int func_021DCAEC(char *obj, int *out)
     if (done)
         *out = *(int *)(obj + 0x1488) > 0 ? 1 : 0;
     if (done == 1 && *out == 1) {
-        u32 msg = func_02045B38(0, 2, 0x51, *(u16 *)(obj + 0x124));
-        u32 str = func_02045EC0(msg, 0xf);
-        func_02045C04(msg);
+        u32 msg = (u32)func_02045B38(0, 2, 0x51, *(u16 *)(obj + 0x124));
+        u32 str = (u32)func_02045EC0((struct MsgBank *)msg, 0xf);
+        func_02045C04((struct Rec *)msg);
         func_020084E4((u16 *)*(u32 *)(obj + 0x1490), (struct U16Vec *)str);
-        func_02045808(str);
+        func_02045808((struct U16Vec *)str);
     }
     return done;
 }

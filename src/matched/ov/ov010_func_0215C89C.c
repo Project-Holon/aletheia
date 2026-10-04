@@ -51,7 +51,7 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02159AE8(void *c, void *vm);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02159B10(void *c, void *vm);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *list, u32 i);
@@ -59,7 +59,7 @@ extern u8 *func_02012944(void *p);
 extern void *func_0216F948(void *mon, u32 heap);
 extern void *func_0216F918(u32 heap);
 extern void *func_02030734(u32 heap, u32 size, int flags, const char *file, u16 line);
-extern void *func_02014808(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
+extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void func_0215897C(void *p, void *v);
 extern int func_0215C870(int a0, int a1);
 extern const char d_021728F0[];
@@ -95,7 +95,7 @@ int func_0215C89C(void *c, void *vm)
     sys = func_0215A5DC(vm);
     w = func_020120F4(sys);
     x = func_0201210C(sys);
-    a = func_02159AE8(c, vm);
+    a = (u32)func_02159AE8(c, vm);
     idx = func_02159B10(c, vm);
     mon = func_0201AB28(func_02012934(w), idx);
     sess = func_02012944(w);
@@ -105,6 +105,6 @@ int func_0215C89C(void *c, void *vm)
     h = func_02030734(4, 8, 0, d_021728F0, 0x19B);
     h[0] = (u32)r;
     h[1] = a;
-    func_0215897C(slot, func_02014808(sys, x, (u32)ov173_id, d_021B81D0, r, (void *)func_0215C870, h));
+    func_0215897C(slot, func_02014808(sys, (int)x, (u32)ov173_id, (int)d_021B81D0, (int)r, (int)((void *)func_0215C870), (int)h));
     return 1;
 }

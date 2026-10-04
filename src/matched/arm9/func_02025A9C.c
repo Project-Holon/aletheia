@@ -50,7 +50,8 @@ struct ModeEntry {
 
 extern const struct ModeEntry gModeTable[];
 
-extern void *func_0204AF28(u32 arg, u32 a, u32 b, u16 w);
+typedef signed int     s32;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
 {
@@ -82,7 +83,7 @@ u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
         return mode;
     }
 
-    obj->slot[mode] = (u32)func_0204AF28(arg, gModeTable[mode].a,
+    obj->slot[mode] = (u32)func_0204AF28((void *)arg, gModeTable[mode].a,
                                          gModeTable[mode].b, obj->field_4);
     return mode;
 }

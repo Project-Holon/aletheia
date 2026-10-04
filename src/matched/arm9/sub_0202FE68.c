@@ -55,7 +55,7 @@ struct EnvModule {
 
 extern struct EnvModule g_EnvModule;
 
-extern int sub_0202FED8(void *res, u32 idx, void *bound, u32 param);
+extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
 
 int sub_0202FE68(void *bound, u32 param, u32 dst)
 {
@@ -67,7 +67,7 @@ int sub_0202FE68(void *bound, u32 param, u32 dst)
         goto fail;
     }
 
-    if (sub_0202FED8(0, idx, bound, param) == 0) {
+    if (sub_0202FED8(0, idx, (u32)bound, param) == 0) {
         goto fail;
     }
 

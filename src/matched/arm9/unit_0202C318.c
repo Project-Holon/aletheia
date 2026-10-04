@@ -65,7 +65,7 @@ extern u32 sub_0202C48C(void *p, u32 idx);
 extern u32 sub_0202C498(void *p, u32 idx);
 extern u32 sub_0202C4A4(void *p);
 extern u32 func_0202C4C8(u32 *p);
-extern u32 sub_0202C4D8(void *a, void *b);
+extern u32 sub_0202C4D8(void *a, u32 b);
 extern u32 sub_0202C504(void *p, u32 idx);
 extern u32 sub_0202C518(void *p);
 
@@ -101,7 +101,7 @@ u32 sub_0202C340(void *p)
 
 u32 sub_0202C348(void *a, void *b)
 {
-    return sub_0202C4D8(a, b);
+    return sub_0202C4D8(a, (u32)b);
 }
 
 u32 sub_0202C350(void *p, u32 idx)

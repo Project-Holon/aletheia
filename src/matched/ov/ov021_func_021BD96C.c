@@ -22,13 +22,16 @@ typedef struct {
     Inner *f8;
 } Obj;
 
-extern int func_0202952C(void *a, int b);
-extern void func_02012374(void *a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Evt;
+extern u8 *func_0202952C(u8 *p, u32 a);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_021BD96C(Obj *p, void *b)
 {
     Inner *q = p->f8;
 
-    func_02012374(b, func_0202952C(q->f4, 0x1E));
+    func_02012374(b, (struct Evt **)func_0202952C(q->f4, 0x1E));
     q->f4C = 1;
 }

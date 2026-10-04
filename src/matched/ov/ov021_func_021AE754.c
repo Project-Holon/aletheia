@@ -17,20 +17,21 @@
 
 typedef unsigned int u32;
 
-extern u32 func_021AE72C(u32 a);
-extern void func_020307B0(u32 a);
+struct S;
+extern int func_021AE72C(struct S *s);
+extern void func_020307B0(void *p);
 
 int func_021AE754(u32 a, u32 b, u32 *c)
 {
     if (c[0] != 0) {
-        if (func_021AE72C(c[0]) == 1) {
-            func_020307B0(c[0]);
+        if (func_021AE72C((struct S *)c[0]) == 1) {
+            func_020307B0((void *)c[0]);
             c[0] = 0;
         }
     }
     if (c[1] != 0) {
-        if (func_021AE72C(c[1]) == 1) {
-            func_020307B0(c[1]);
+        if (func_021AE72C((struct S *)c[1]) == 1) {
+            func_020307B0((void *)c[1]);
             c[1] = 0;
         }
     }

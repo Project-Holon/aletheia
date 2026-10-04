@@ -22,14 +22,14 @@ typedef struct {
     u8 f197[3];
 } Work;
 
-extern int func_021740AC(void *a, int b, int c);
+extern int func_021740AC(int a, int b, int c, ...);
 
 void func_02176194(void *a, Work *w)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        if (w->f197[i] != 0 && func_021740AC(a, w->f197[i], i) == 1) {
+        if (w->f197[i] != 0 && func_021740AC((int)a, w->f197[i], i) == 1) {
             w->f197[i] = 0;
         }
     }

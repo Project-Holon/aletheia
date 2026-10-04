@@ -49,7 +49,7 @@ extern void func_020409B4(u32 index);
 extern void func_02045334(struct Descriptor *d);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_02204960(Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
-extern void func_0220687C(Main *m, int a);
+extern void func_0220687C(char *p, void *q);
 
 void func_02203B08(int a0, Ctx *c)
 {
@@ -66,7 +66,7 @@ void func_02203B08(int a0, Ctx *c)
         func_02045334(c->main->obj228);
         func_0204B22C(c->main->obj1f8, 1);
         func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
-        func_0220687C(c->main, a0);
+        func_0220687C((char *)c->main, (void *)a0);
         break;
     }
 }

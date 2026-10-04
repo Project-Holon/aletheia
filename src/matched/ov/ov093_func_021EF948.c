@@ -15,9 +15,9 @@
  */
 
 extern char d_021F63F4;
-extern int func_021EFCE4(void *mem, int a);
+extern void *func_021EFCE4(char *arg0, int arg1);
 
 int func_021EF948(int a)
 {
-    return func_021EFCE4(&d_021F63F4, a);
+    return (int)func_021EFCE4(&d_021F63F4, a);
 }

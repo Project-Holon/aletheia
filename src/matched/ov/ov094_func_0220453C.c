@@ -24,7 +24,7 @@ typedef struct Ctx {
 
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0220687C(char *p, int v);
+extern void func_0220687C(char *p, void *q);
 
 void func_0220453C(int a0, Ctx *c)
 {
@@ -38,5 +38,5 @@ void func_0220453C(int a0, Ctx *c)
     func_02040618(4, 3, c->ac);
     c->cnt = c->cnt - 1;
     if (c->cnt == 0)
-        func_0220687C(c->main, a0);
+        func_0220687C(c->main, (void *)a0);
 }

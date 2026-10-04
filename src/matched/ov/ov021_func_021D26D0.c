@@ -22,7 +22,8 @@ typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern void func_021D26AC(u32 *p);
 extern void func_021D25E8(u32 *p);
-extern void func_020452E8(u32 w);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 
 u32 func_021D26D0(u32 a, u32 *st, u32 *p)
 {
@@ -35,7 +36,7 @@ u32 func_021D26D0(u32 a, u32 *st, u32 *p)
         }
         break;
     case 1:
-        func_020452E8(p[0]);
+        func_020452E8((struct Descriptor *)p[0]);
         return 1;
     }
     return 0;

@@ -29,7 +29,7 @@ extern void func_0217AEF4(int *);
 extern void func_0217AF2C(int *);
 extern void func_0217AF50(char *);
 extern void func_0217B014(void *,int *,char *);
-extern void *func_021E8A3C(void *,void (*)(void *,int *,char *),unsigned);
+extern int *func_021E8A3C(int a, int b, int c);
 int func_0217AE20(void *a,void *b,void *context)
 {
     char *p;
@@ -43,6 +43,6 @@ int func_0217AE20(void *a,void *b,void *context)
     func_0217AEF4((int *)p);
     func_0217AF2C((int *)p);
     func_0217AF50(p);
-    *(void **)(p+4)=func_021E8A3C(p,func_0217B014,0x4e);
+    *(void **)(p+4)=func_021E8A3C((int)p,(int)func_0217B014,0x4e);
     return 1;
 }

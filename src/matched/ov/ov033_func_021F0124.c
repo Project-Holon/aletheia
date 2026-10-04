@@ -20,9 +20,10 @@
  *   func_021F0738 0x021F0738 thumb ov033
  */
 
-extern void func_021EFEE4(unsigned);
+struct Node;
+extern void func_021EFEE4(void *p);
 extern void func_021F0C0C(char *p);
-extern void func_02030EAC(unsigned);
+extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
 extern void func_021F0A90(char *p);
 extern void func_021F08EC(char *p);
@@ -32,9 +33,9 @@ extern void func_021F0738(char *p);
 void func_021F0124(char *p)
 {
     *(volatile unsigned short *)0x04001050 = 0;
-    func_021EFEE4(*(unsigned *)(p + 0xD0));
+    func_021EFEE4((void *)(*(unsigned *)(p + 0xD0)));
     func_021F0C0C(p);
-    func_02030EAC(*(unsigned *)(p + 0xA8));
+    func_02030EAC((struct Node *)(*(unsigned *)(p + 0xA8)));
     func_020307B0(*(void **)(p + 0x60));
     func_021F0A90(p);
     func_021F08EC(p);

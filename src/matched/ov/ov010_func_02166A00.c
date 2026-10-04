@@ -28,7 +28,7 @@ extern int func_02012F38(int base);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern unsigned short *func_02159AE8(void *a, void *b);
 extern int func_02166854(void *a, int b, unsigned short *c, unsigned short *d, unsigned short *e);
-extern void func_0215897C(void *a, int b);
+extern void func_0215897C(void *vm, void *task);
 
 int func_02166A00(void *a, void *b)
 {
@@ -47,6 +47,6 @@ int func_02166A00(void *a, void *b)
     t = func_02166854(r7, v1, v2, v3, v4);
     if (t == 0)
         return 1;
-    func_0215897C(r6, t);
+    func_0215897C(r6, (void *)t);
     return 1;
 }

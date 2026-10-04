@@ -58,7 +58,8 @@ struct Rec44;
 struct Sub0200852CObj;
 struct Sub24;
 struct Entry *func_020399A8(void);
-unsigned char func_0203D1A4(void *p);
+struct Link;
+u32 func_0203D1A4(struct Link *p);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 void *func_020084F4(void *p);
 u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -71,7 +72,7 @@ void func_0215444C(O *a, void *b)
     void *t;
     Sub *q;
 
-    x = func_0203D1A4(func_020399A8());
+    x = func_0203D1A4((struct Link *)func_020399A8());
     y = 1 - x;
     t = func_02012950(b, y);
     a->s.f0 = a->r->f1c;

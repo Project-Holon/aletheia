@@ -44,14 +44,16 @@ extern struct G3dSys *g_02146A5C;
 extern u8 sG3dSystemFile;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02049250(u32 a0, u32 a1, u32 n);
-extern void func_02046CE0(void *node, u32 v);
+struct ArcFile;
+struct S02046CE0;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 
 void *func_02046E24(u32 a0, u32 a1)
 {
     u8 *node = func_02030734(g_02146A5C->h18, 8, 0,
                              (const char *)&sG3dSystemFile, 0x2c8);
 
-    func_02046CE0(node, func_02049250(a0, a1, g_02146A5C->h18));
+    func_02046CE0((struct S02046CE0 *)node, func_02049250((struct ArcFile *)a0, a1, g_02146A5C->h18));
     return node;
 }

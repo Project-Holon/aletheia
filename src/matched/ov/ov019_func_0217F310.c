@@ -23,14 +23,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02034714(const char *a, u32 b, const char *c);
-extern u32 func_02188C54(u32 a);
+struct Handle;
+extern u32 func_02188C54(u8 *p);
 extern int func_0219049C(u32 a);
-extern int func_021909E4(u32 a);
+extern int func_021909E4(struct Handle *h);
 extern u32 d_021807F8[];
 
 int func_0217F310(char *p, u32 a1)
 {
-    u32 h = func_02188C54(a1);
+    u32 h = func_02188C54((u8 *)a1);
 
     if (h == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
@@ -41,5 +42,5 @@ int func_0217F310(char *p, u32 a1)
     if (*(u32 *)(p + 0x2810) == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    return func_021909E4(*(u32 *)(p + 0x2810));
+    return func_021909E4((struct Handle *)(*(u32 *)(p + 0x2810)));
 }

@@ -26,7 +26,7 @@ typedef unsigned short u16;
 extern int func_0201134C(int a);
 typedef unsigned int   u32;
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_02049624(int a, int b, int c, int d, int e, int f, u16 g);
+extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_020215EC(int a, int b, int c, u16 d, int e, int f, int g, int h);
 extern u32 func_020407E8(u32 layer);
@@ -41,7 +41,7 @@ int func_021FB3DC(int a, char *b)
 
     t = func_0201134C(a);
     func_0204047C(3, 1);
-    func_02049624(0x5f, t + 1, 3, 0, 0, 0, (*(u16 *)(b + 0x238) & 0x7fff) | 0x8000);
+    func_02049624((void *)0x5f, (void *)(t + 1), (void *)3, 0, 0, 0, (*(u16 *)(b + 0x238) & 0x7fff) | 0x8000);
     func_0204989C(0x5f, t, 3, 0, 0, 0, (*(u16 *)(b + 0x238) & 0x7fff) | 0x8000);
     func_020215EC(func_021F86E0(), 0x5f, t + 2, (*(u16 *)(b + 0x238) & 0x7fff) | 0x8000, 0, 0, 0x80, 0);
     *(int *)(b + 0x264) = func_020407E8(3);

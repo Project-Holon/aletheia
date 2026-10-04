@@ -21,7 +21,7 @@
  */
 
 extern char g_021AA860[];
-extern void func_020592A0(int, int);
+extern void func_020592A0(void *frienddata, int setflag);
 
 void func_021689BC(char *p, int a1, int a2, int a3, int n)
 {
@@ -59,5 +59,5 @@ void func_021689BC(char *p, int a1, int a2, int a3, int n)
     *(int *)(*(char **)(g_021AA860 + 0xc) + 0x5c) = 0;
 
     for (i = 0; i < n; i++)
-        func_020592A0(*(int *)(*(char **)(g_021AA860 + 0xc) + 0x18) + i * 12, 0);
+        func_020592A0((void *)(*(int *)(*(char **)(g_021AA860 + 0xc) + 0x18) + i * 12), 0);
 }

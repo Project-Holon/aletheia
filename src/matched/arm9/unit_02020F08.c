@@ -48,7 +48,8 @@
 typedef unsigned int u32;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32   func_02049250(void *handle, u32 member, u32 arg);
+struct ArcFile;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 
 u32 func_02020F08(void)
 {
@@ -76,5 +77,5 @@ u32 func_02020F20(void *handle, u32 item, u32 arg)
         item = 0;
     }
 
-    return func_02049250(handle, item, arg);
+    return (u32)func_02049250(handle, item, arg);
 }

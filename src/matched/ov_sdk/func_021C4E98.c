@@ -18,12 +18,12 @@
 
 extern void func_021D0014(void);
 extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(void *);
+extern void func_021C0E40(unsigned int v);
 
 void func_021C4E98(void)
 {
     func_021D0014();
     func_021CFFAC(7);
     *(unsigned char *)0x021DE5CC = 0;
-    func_021C0E40((void *)0x021C4C60);
+    func_021C0E40((unsigned int)((void *)0x021C4C60));
 }

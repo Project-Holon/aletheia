@@ -40,7 +40,8 @@ typedef struct {
 extern void *func_02046F48(void *p);
 extern Q *func_0206E964(void *p);
 extern void func_02021F64(u16 *src, u16 *dst, u32 count, int weight, u16 color);
-extern void func_02061CA4(int a, u32 b, void *c, u32 d);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021F9364(P *p)
 {
@@ -57,7 +58,7 @@ void func_021F9364(P *p)
                 sz = q->h30 << 3;
                 off = (u16)q->w2c << 3;
                 func_02021F64((u16 *)((char *)q + q->o38), p->a4[i], (u16)(sz >> 1), p->cur, p->col);
-                func_02061CA4(1, off, p->a4[i], sz);
+                func_02061CA4((void *)1, off, (u32)p->a4[i], sz);
             }
             if (p->cur == p->tgt) {
                 p->en = 0;

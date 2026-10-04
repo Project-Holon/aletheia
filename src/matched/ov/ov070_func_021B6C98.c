@@ -23,9 +23,11 @@ typedef unsigned int u32;
 
 struct Obj;
 extern u32 func_02028754(struct Obj *obj, u32 n);
-extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
-extern void func_0201F02C(u32 a0, u32 a1, u32 a2);
-extern void func_0201F250(u32 a0, u32 a1, u32 a2);
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021B6100(void *obj, void *fn);
 extern void func_021B6AD8(int p);
 
@@ -36,9 +38,9 @@ u32 func_021B6C98(u8 *p)
         func_021B6100(p, 0);
         return 1;
     }
-    func_02045CAC(*(u32 *)(p + 0x51C), 0x3A, *(u32 *)(p + 0x524));
-    func_0201F02C(*(u32 *)(p + 0x520), 0, *(u32 *)(p + 8));
-    func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x3A, (void *)(*(u32 *)(p + 0x524)));
+    func_0201F02C((struct WordSet *)(*(u32 *)(p + 0x520)), 0, (void *)(*(u32 *)(p + 8)));
+    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
     func_021B6100(p, (void *)func_021B6AD8);
     return 0;
 }

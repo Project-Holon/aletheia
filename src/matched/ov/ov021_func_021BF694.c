@@ -30,47 +30,50 @@ typedef struct { int x, y, z; } Vec;
 
 extern const Vec d_021DA080;
 
-extern int func_02188C58(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Evt;
+extern void *func_02188C58(void *p);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02188D38(int);
+extern u32 func_02188D38(u8 *p);
 extern void *func_021A3074(unsigned char *p);
-extern int func_0218E138(int);
-extern void func_0218E13C(int, int);
+extern u32 func_0218E138(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
 extern void func_0216D8C0(void *, Vec *);
 typedef unsigned short u16;
 extern void func_0216D410(void *a0, u16 a1);
-extern int func_021BE92C(int, int, int, int, int, int, int);
-extern void func_02012374(int, int);
-extern int func_021C7684(int, void *, int, int);
-extern void func_021C6DE0(int, int, int);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *func_021C7684(u32 a, u32 b, int c, int d);
+extern void func_021C6DE0(u8 *p, u32 a, u32 b);
 extern int func_021C6E48(int);
 
 int func_021BF694(int a, int *s, int *q)
 {
-    int h = func_02188C58(q[1]);
+    int h = (int)func_02188C58((void *)q[1]);
     Vec rot;
     void *t;
     int r;
 
     switch (s[0]) {
     case 0:
-        q[2] = func_0218E138(h);
-        func_0218E13C(h, 0);
+        q[2] = func_0218E138((u8 *)h);
+        func_0218E13C((u8 *)h, 0);
         rot = d_021DA080;
         t = func_021A3074(func_02188CB4((unsigned char *)q[1]));
         func_0216D8C0(t, &rot);
         func_0216D410(t, 1);
-        func_02012374(a, func_021BE92C(q[0], q[1], 0, 1, 1, 0, 0));
-        r = func_021C7684(q[1], func_021A3074(func_02188CB4((unsigned char *)q[1])), 0x28, 0xfa);
-        func_021C6DE0(func_02188D38(q[1]), r, 0);
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)q[0], q[1], 0, 1, 1, 0, 0));
+        r = (int)func_021C7684(q[1], (u32)func_021A3074(func_02188CB4((unsigned char *)q[1])), 0x28, 0xfa);
+        func_021C6DE0((u8 *)func_02188D38((u8 *)q[1]), r, 0);
         s[0] = s[0] + 1;
         break;
     case 1:
-        if (func_021C6E48(func_02188D38(q[1])) != 0)
+        if (func_021C6E48(func_02188D38((u8 *)q[1])) != 0)
             s[0] = s[0] + 1;
         break;
     case 2:
-        func_0218E13C(h, q[2]);
+        func_0218E13C((u8 *)h, q[2]);
         s[0] = s[0] + 1;
         break;
     case 3:

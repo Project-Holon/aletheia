@@ -27,7 +27,8 @@ struct Obj {
     u32  unk1c;
 };
 
-extern u32 func_0201D304(u32 a, u32 b, u32 c);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 u32 func_0201FC1C(struct Obj *o)
 {
@@ -35,7 +36,7 @@ u32 func_0201FC1C(struct Obj *o)
     u8 i;
 
     for (i = 0; i < o->unk09 * o->unk0a; i++) {
-        u32 r = (u8)func_0201D304(o->arr[i].f0, o->unk1c, 0);
+        u32 r = (u8)func_0201D304((struct StrObj *)o->arr[i].f0, o->unk1c, 0);
 
         if (best < r) {
             best = r;

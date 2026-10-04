@@ -40,7 +40,7 @@ extern u32 func_021BCC1C(u8 *);
 extern void func_021BCA78(char *);
 extern void func_021BC800(char *);
 extern u32 func_021BCA10(u8 *);
-extern void func_021BED54(char *);
+extern void func_021BED54(int p);
 extern void func_021BE3B4(char *);
 extern u32 func_021BC99C(char *);
 extern void func_021BC578(u32);
@@ -58,7 +58,7 @@ int func_021BD064(char *p)
     func_021BCA78(p);
     func_021BC800(p);
     func_021BCA10((u8 *)p);
-    func_021BED54(p);
+    func_021BED54((int)p);
     func_021BE3B4(p);
     func_021BC578(func_021BC99C(p));
     func_0207D534((void *)0x0400006c, -16);

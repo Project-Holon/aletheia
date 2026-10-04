@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02011330();
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern int func_0201137C();
 
 int func_021593DC(int a0, int a1)
@@ -26,7 +27,7 @@ int func_021593DC(int a0, int a1)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_02011330(a0);
+    a0 = func_02011330((struct Stream *)a0);
 loc_021593E4:
 a1 = a0 + 0;
 a0 = t4 + 0;

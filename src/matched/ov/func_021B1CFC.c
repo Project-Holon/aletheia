@@ -24,14 +24,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_02158F58(void *);
+extern int func_02158F58(int a0);
 extern void *func_0215A5F4();
 extern void *func_02188CB4(unsigned char *p);
 extern int func_021A2F54(u8 *p);
 
 int func_021B1CFC(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021A2F54(func_02188CB4(*(void **)((u8 *)(func_02158F58(func_0215A5F4(b, b, c, d))) + 4))) == 1) {
+if (func_021A2F54(func_02188CB4(*(void **)((u8 *)(func_02158F58((int)func_0215A5F4(b, b, c, d))) + 4))) == 1) {
     return 1;
 }
 return 0;

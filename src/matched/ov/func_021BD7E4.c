@@ -15,9 +15,11 @@
  * Returns 1 when the ARM9 call at 0x0204B98C on the word at [p] comes back zero.
  */
 
-extern int func_0204B98C(int);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 
 int func_021BD7E4(int *p)
 {
-    return func_0204B98C(*p) == 0;
+    return func_0204B98C((struct Actor *)(*p)) == 0;
 }

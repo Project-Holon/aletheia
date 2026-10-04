@@ -97,7 +97,7 @@ void func_021F18EC(void *);
 int func_021F1B14(void *);
 void func_021F19E4(void *, int);
 int func_021F1A2C(void *);
-void *func_0201293C(void *);
+u32 func_0201293C(const struct BigObj *p);
 int func_02007774(void *);
 void func_021F1A24(u8 *p);
 int func_021F11F0(void *p, unsigned char kind, unsigned int val);
@@ -161,7 +161,7 @@ void func_021EFFB0(Ov107Main *p)
         p->f34 = func_021F1A2C(p->f68);
         if (p->f34 == 1) {
             b = func_021F1118(p->f0C);
-            a = (unsigned short)func_02007774(func_0201293C(p->f08->f04));
+            a = (unsigned short)func_02007774((void *)func_0201293C(p->f08->f04));
             func_021F1A24(p->f68);
             if ((unsigned int)a < (unsigned int)b) {
                 p->f40 = 1;

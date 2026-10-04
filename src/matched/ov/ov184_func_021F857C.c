@@ -22,7 +22,9 @@ extern void func_021F9C6C(char *);
 extern void func_021FD71C(char *);
 extern int func_021FD72C(int *);
 extern void func_021FD854(char *);
-extern void func_0201C4E4(int);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021FD1BC(char *);
 extern void func_021F3C50(char *);
 int func_021F857C(int a,int b,int c,char *p)
@@ -35,7 +37,7 @@ int func_021F857C(int a,int b,int c,char *p)
     func_021FD71C(*(char **)(p+12));
     if (func_021FD72C(*(int **)(p+12))) return 1;
     for (i=0;i<2;i++) func_021FD854(*(char **)(p+i*4+20));
-    func_0201C4E4(*(int *)(p+32));
+    func_0201C4E4((struct PrintSys *)(*(int *)(p+32)));
     if (*(char **)(p+16)) func_021FD1BC(*(char **)(p+16));
     if (*(char **)p) func_021F3C50(*(char **)p);
     return 0;

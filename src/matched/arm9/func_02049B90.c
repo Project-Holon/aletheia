@@ -40,10 +40,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern void func_02049C28(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size);
 
 void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
     u32 r = func_0204A1BC(a0, a1, 0, (u16)((a6 & 0x7fff) | 0x8000));
-    func_02049C28(r, a2, a3, a4, a5);
+    func_02049C28((void *)r, a2, a3, a4, a5);
 }

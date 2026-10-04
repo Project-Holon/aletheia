@@ -25,11 +25,14 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(int);
-extern void func_020113B0(int, int);
+struct Cur;
+struct QG;
+struct Work;
+extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern u32 func_021D5478(void *);
-extern u32 func_021D5448(void *);
+extern u8 func_021D5478(struct Work *p);
+extern u8 func_021D5448(struct QG *p);
 
 int func_021899DC(int a, int b) {
     int r4;
@@ -40,8 +43,8 @@ int func_021899DC(int a, int b) {
     r7 = func_0201134C(a);
     t = func_0218A160((u8 *)b, r4);
     s = func_0218A2FC((u8 *)b, t);
-    if (func_021D5478(s) >= func_021D5448(s) && func_021D5448(s) > 1) {
-        func_020113B0(a, *(int *)(a + 0x14) + r7);
+    if (func_021D5478((struct Work *)s) >= func_021D5448((struct QG *)s) && func_021D5448((struct QG *)s) > 1) {
+        func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + r7);
     }
     return *(int *)(b + 0xc4);
 }

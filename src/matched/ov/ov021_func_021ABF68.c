@@ -34,14 +34,15 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_02030CB0(u32 idx);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02030CBC(int n, void *buf);
-extern int func_021ABFFC(int heap, int a, int n);
+struct Ctx;
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern char *func_021ABFFC(u16 heap, int b, int cnt);
 extern char d_021DE018[];
 
 void func_021ABF68(T *t, int n)
 {
     t->h14 = n;
     t->f18 = func_02030734(t->h4, func_02030CB0(n), 0, d_021DE018, 0x1db);
-    t->f1c = func_02030CBC(n, t->f18);
-    t->f20 = func_021ABFFC(t->h4, t->f1c, n);
+    t->f1c = (int)func_02030CBC(n, t->f18);
+    t->f20 = (int)func_021ABFFC(t->h4, t->f1c, n);
 }

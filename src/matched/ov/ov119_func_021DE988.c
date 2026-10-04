@@ -18,8 +18,11 @@
  *   func_021DE950 0x021DE950 thumb ov119
  *   func_021DEA24 0x021DEA24 thumb ov119
  */
-extern int func_020279E8(int);
-extern int func_02027A04(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern void func_021E12F8(char *p);
 extern void func_021E1098(char *p);
 extern void func_021D8980(char *p);
@@ -30,8 +33,8 @@ extern void func_021DEA24(char *p);
 void func_021DE988(char *p)
 {
     int v;
-    if(func_020279E8(*(int *)(p+0x64c))) {
-        v=func_02027A04(*(int *)(p+0x64c));
+    if(func_020279E8((struct TaskMenu *)(*(int *)(p+0x64c)))) {
+        v=func_02027A04((const u8 *)(*(int *)(p+0x64c)));
         func_021E12F8(p);
         func_021E1098(p);
         *(int *)(p+0x64c)=0;

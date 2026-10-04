@@ -29,10 +29,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_0203159C();
-extern u32 func_020433E0();
+struct DispVram;
+struct Obj0203159C;
+extern void func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
-extern u32 func_021B985C();
+extern void func_021B985C(void *p, u32 value);
 extern void func_021B9874(u32 a0);
 extern void func_021B9894(u32 a0);
 extern u32 func_021B98B8();
@@ -42,12 +44,12 @@ u32 func_021B95A0(u32 a0, u32 a1, u8 *a2, u32 a3)
 {
     switch (*(u32*)(((u8*)a1))) {
     case 0:
-    func_0203159C(a0, 32, 1);
+    func_0203159C((struct Obj0203159C *)a0, 32, 1);
     *(u32*)(((u8*)a1)) = (u32)(*(u32*)(((u8*)a1)) + 1);
     break;
     case 1:
-    func_021B985C(a3, *(u32*)(((u8*)a2)));
-    func_020433E0(0x21C2EA0);
+    func_021B985C((void *)a3, *(u32*)(((u8*)a2)));
+    func_020433E0((const struct DispVram *)0x21C2EA0);
     func_0204363C(0);
     func_021B98B8(*(u16*)(((u8*)a3)));
     func_021B9A24(*(u16*)(((u8*)a3)));

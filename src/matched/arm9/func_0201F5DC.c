@@ -22,12 +22,12 @@ typedef signed char s8;
 
 extern u8 func_0201F53C(int i);
 extern void *func_020496E4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6);
-extern void func_0201F57C(void *a0, u32 a1, u32 a2, u32 a3);
+extern void func_0201F57C(u32 a, u32 b, u32 c, u32 d);
 
 void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3)
 {
     void *r = func_020496E4(5, func_0201F53C(a2), (u32)a0, 0, 0, a3);
 
-    func_0201F57C(a0, a1, a2, a3);
+    func_0201F57C((u32)a0, a1, a2, a3);
     return r;
 }

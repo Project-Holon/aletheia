@@ -17,13 +17,13 @@
 
 typedef unsigned int u32;
 
-extern void *func_021C3BB0(void *a);
+extern int func_021C3BB0(u32 a);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_02005728(u32 v);
 
 void func_021C3ADC(void *a, u32 *out)
 {
-    u32 sp = func_02017E1C(func_021C3BB0(a), 5, 0);
+    u32 sp = func_02017E1C((void *)func_021C3BB0((u32)a), 5, 0);
 
     if (sp == 0x139 || sp == 0x13A) {
         if (func_02005728(2) == 0)

@@ -42,12 +42,14 @@ struct Pos0202DE6C {
     u32 y;
 };
 
-extern u32 func_02045758(u32 a);
-extern u32 func_02045760(u32 a);
+typedef unsigned char  u8;
+struct Descriptor;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
 
 void sub_0202DE6C(u32 a, u32 b, u32 c, const struct Pos0202DE6C *base,
                   struct Pos0202DE6C *out)
 {
-    out->x = base->x + (b + func_02045758(a) * 8);
-    out->y = base->y + ((c << 4) + func_02045760(a) * 8);
+    out->x = base->x + (b + func_02045758((struct Descriptor *)a) * 8);
+    out->y = base->y + ((c << 4) + func_02045760((struct Descriptor *)a) * 8);
 }

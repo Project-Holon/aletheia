@@ -28,7 +28,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021B6AE4(u8 *,void *,u16,u16,void *,void *,u16,unsigned);
+extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void func_021CA4B4(char *p);
 void func_021C6ADC(u8 *p,u8 *q,unsigned v)
 {
@@ -36,6 +36,6 @@ void func_021C6ADC(u8 *p,u8 *q,unsigned v)
     func_02045334(*(void **)q);
     func_02045CAC(*(void **)(p+4),v,*(void **)(p+0x18));
     func_0201F250(*(void **)p,*(void **)(p+0x14),*(void **)(p+0x18));
-    func_021B6AE4(q,*(void **)(p+0x34),0,4,*(void **)(p+0x14),*(void **)(p+0x17c),0x3c40,0);
+    func_021B6AE4(q,(u32)(*(void **)(p+0x34)),0,4,(u32)(*(void **)(p+0x14)),(u32)(*(void **)(p+0x17c)),0x3c40,0);
     func_021CA4B4(*(void **)q);
 }

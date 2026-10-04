@@ -22,11 +22,12 @@
 
 typedef unsigned char u8;
 
-extern int func_021B9A84(u8 *p);
+typedef unsigned int   u32;
+extern int func_021B9A84(u32 p);
 extern int func_021B9AB4(u8 *p);
 extern void func_021BBE5C(int h, int f);
 extern void func_021B8F68(u8 *p, int v);
-extern void func_021BAFA0(u8 *p, int v, int z);
+extern void func_021BAFA0(u8 *a, u8 *s, int k);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
@@ -37,14 +38,14 @@ void func_021B8418(u8 *p)
     W(0x2c) = *(int *)(W(0x280) + 0x3c);
     p[0xe] = 0;
     W(0x3c) = 0x17;
-    if (func_021B9A84(p) == 1) {
+    if (func_021B9A84((u32)p) == 1) {
         func_021BBE5C(W(0x108), 0);
         func_021BBE5C(W(0x10c), 0);
     }
     if (W(8) == 0) {
         if (W(0x2c) <= 5) {
             func_021B8F68(p, W(0x2c));
-            func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 1);
+            func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
         } else {
             func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
         }
@@ -52,16 +53,16 @@ void func_021B8418(u8 *p)
         func_0204B3DC((struct Obj *)W(0x1d8), 0);
         if (W(0x2c) <= 5) {
             if (p[0xc] == 3) {
-                func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 1);
+                func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
             } else {
-                func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 0);
+                func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 0);
             }
         } else {
             func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 0);
         }
     }
     func_0204B3DC((struct Obj *)W(0x1e4), W(0x14));
-    if (func_021B9A84(p) == 1 || func_021B9AB4(p) == 0) {
+    if (func_021B9A84((u32)p) == 1 || func_021B9AB4(p) == 0) {
         func_0204B3DC((struct Obj *)W(0x1e0), 0);
     } else {
         func_0204B3DC((struct Obj *)W(0x1e0), 1);

@@ -69,7 +69,7 @@ typedef struct Holder {
 
 extern Record d_021DDF38;
 
-extern void *func_02188C5C(void *o);
+extern u32 func_02188C5C(u8 *p);
 extern void *func_02188C58(void *o);
 struct Actor;
 extern void *func_021A3074(u8 *p);
@@ -89,9 +89,9 @@ extern void func_021A3680(void *p, VecFx32 *v);
 extern u32 func_021A36A4(void *p);
 extern void func_021BB3AC(void *x, u32 v);
 extern void func_0218F05C(unsigned char *a);
-extern void func_0216D5E0(void *m, u16 e);
+extern void func_0216D5E0(int a0, int a1);
 extern void func_0216D600(void *m, u16 e);
-extern void func_0219F0B0(void *m, u16 a, u16 b);
+extern void func_0219F0B0(u32 a, u32 b, u32 c);
 
 void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16 g)
 {
@@ -100,7 +100,7 @@ void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16
     void *m;
     VecFx32 v;
 
-    x = func_02188C5C(o);
+    x = (void *)func_02188C5C(o);
     y = func_02188C58(o);
     if (h->mode == mode) {
         return;
@@ -126,8 +126,8 @@ void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16
         func_021BB3AC(x, func_021A36A4(h->f04));
         func_0218F05C(y);
     }
-    func_0216D5E0(m, e);
+    func_0216D5E0((int)m, e);
     func_0216D600(m, e);
-    func_0219F0B0(m, f, g);
+    func_0219F0B0((u32)m, f, g);
     h->mode = mode;
 }

@@ -18,11 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D5A8(u32);
+extern u32 func_0216D5A8(u8 *p);
 
 int func_0219B358(u32 a)
 {
-    u32 v = func_0216D5A8(a);
+    u32 v = func_0216D5A8((u8 *)a);
     if (v == 7 || v == 8 || v - 17 <= 1) {
         return 1;
     }

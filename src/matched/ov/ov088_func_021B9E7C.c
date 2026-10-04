@@ -25,7 +25,7 @@ struct AnmCtl;
 struct IcaAnime;
 extern void func_020115EC(struct IcaAnime *p, s32 v);
 extern u32 func_020489F4(u8 *a0, int i);
-extern void *func_02048A18(void *, int);
+extern u32 func_02048A18(u8 *a0, int i);
 extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 
 void func_021B9E7C(int *p, int x)
@@ -38,7 +38,7 @@ void func_021B9E7C(int *p, int x)
     func_020115EC((void *)p[3], v);
     base = func_020489F4((void *)p[0], *(unsigned short *)((char *)p + 4));
     for (i = 0; i < 3; i++) {
-        h = func_02048A18((void *)p[0], (unsigned short)(base + i));
+        h = (void *)func_02048A18((void *)p[0], (unsigned short)(base + i));
         func_0204784C(h, 0, &v);
         if (i == 0)
             func_0204784C(h, 1, &v);

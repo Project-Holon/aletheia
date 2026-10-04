@@ -23,9 +23,9 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
-extern int func_021BE6E8(void *p, int i, u16 j, int k);
+extern int func_021BE6E8(int a, int b, int c, int d);
 
 int func_021F3C6C(void *a)
 {
@@ -36,7 +36,7 @@ int func_021F3C6C(void *a)
     int *p;
 
     t = func_0201210C(func_020124E4(a));
-    s = func_02188D2C(t);
+    s = (void *)func_02188D2C(t);
     p = func_021897BC(t, 1);
     flag = 1;
     if (*p == 0) {
@@ -45,7 +45,7 @@ int func_021F3C6C(void *a)
     } else {
         lim = 0x22000;
     }
-    if (func_021BE6E8(s, 0, (u16)flag, 0) >= lim) {
+    if (func_021BE6E8((int)s, 0, (u16)flag, 0) >= lim) {
         return 1;
     }
     return 0;

@@ -21,8 +21,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02012EBC(int);
-extern u8 *func_021D5BA0(int);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern int func_021D5BA0(char *p);
 typedef unsigned int   u32;
 struct Sub020090B0Obj;
 struct Sub02009210Obj;
@@ -45,8 +46,8 @@ void func_021D76F0(int a)
     u8 *p;
     int x;
     u16 checksum;
-    b=func_02012EBC(*(int *)(a+0x2c));
-    p=func_021D5BA0(*(int *)(a+8));
+    b=(int)func_02012EBC((struct Big *)(*(int *)(a+0x2c)));
+    p=(u8 *)func_021D5BA0((char *)(*(int *)(a+8)));
     checksum=func_0203F1FC(p,0x6200);
     if(checksum!=*(u16 *)(p+0x6200)) {
         *(int *)(a+0x80)=0xfff0;

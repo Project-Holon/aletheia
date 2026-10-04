@@ -22,11 +22,11 @@
  * and is left parked so the address is not sharded twice.
 */
 
-void func_0202822C(int, int);
+void func_0202822C(char *p, int v);
 
 void func_021BBE68(int p, int v)
 {
     if (p) {
-        func_0202822C(p, v);
+        func_0202822C((char *)p, v);
     }
 }

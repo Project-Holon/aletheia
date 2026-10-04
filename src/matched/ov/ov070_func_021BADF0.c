@@ -24,27 +24,31 @@
 
 typedef unsigned int u32;
 
-extern int func_0201CE30(int);
-extern void func_020286C4(int, int, int);
-extern void func_0201CE48(int);
+typedef signed int     s32;
+struct Ctx;
+struct Rec;
+struct Rec3;
+extern u32 func_0201CE30(void *p);
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void func_0201CE48(struct Rec3 *p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_020061E4(u32 a);
-extern void func_0201CE38(int);
+extern void func_0201CE38(void *p);
 extern unsigned int func_0203630C(void);
 extern int func_02035C38(void);
-extern void func_0201CE5C(int, int);
+extern void func_0201CE5C(struct Rec *p, s32 v);
 
 int func_021BADF0(int p)
 {
     int r;
 
     if (*(int *)(p + 0x510) != 0) {
-        r = func_0201CE30(*(int *)(p + 0x510));
-        func_020286C4(*(int *)(p + 0x518), *(int *)(p + 0x510), *(int *)(p + 0x4FC));
+        r = func_0201CE30((void *)(*(int *)(p + 0x510)));
+        func_020286C4((struct Ctx *)(*(int *)(p + 0x518)), (void *)(*(int *)(p + 0x510)), (void *)(*(int *)(p + 0x4FC)));
         switch (r) {
         case 2:
-            func_0201CE48(*(int *)(p + 0x510));
+            func_0201CE48((struct Rec3 *)(*(int *)(p + 0x510)));
             *(int *)(p + 0x510) = 0;
             *(int *)(p + 0x514) = 0;
             break;
@@ -52,14 +56,14 @@ int func_021BADF0(int p)
             if (*(int *)(p + 0x514) == 0) {
                 if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
                     func_020061E4(0x547);
-                    func_0201CE38(*(int *)(p + 0x510));
+                    func_0201CE38((void *)(*(int *)(p + 0x510)));
                     *(int *)(p + 0x514) = 1;
                 }
             }
             break;
         case 0:
             if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
-                func_0201CE5C(*(int *)(p + 0x510), 0);
+                func_0201CE5C((struct Rec *)(*(int *)(p + 0x510)), 0);
             }
             *(int *)(p + 0x514) = 0;
             break;

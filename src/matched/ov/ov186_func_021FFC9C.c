@@ -37,7 +37,7 @@ extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(char *,u32,const Pair *);
 extern void func_021FCD0C(char *);
 extern int func_021FCDA8(char *),func_021FD938(char *),func_021FE7B0(int *);
-extern void func_021FE784(void *,int,int,int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern void func_021FFFCC(char *),func_022000D0(char *),func_021FFF28(char *),func_021FFFF8(char *);
 extern u16 *func_02200188(void *,u32,u16 *,u32 *,u16);
 extern void func_02034714(const char *,int,const char *),func_020307B0(void *);
@@ -80,7 +80,7 @@ int func_021FFC9C(char *p)
         }
         case 4:
             if (func_021FD938(*(char **)(p+0x78))) {
-                func_021FE784(*(void **)(p+0x30),2,2,1);
+                func_021FE784((int)(*(void **)(p+0x30)),2,2,1);
                 (*(u32 *)p)++;
             }
             break;
@@ -101,7 +101,7 @@ int func_021FFC9C(char *p)
                 }
                 func_021FFF28(p);
             }
-            func_021FE784(*(void **)(p+0x30),2,2,0);
+            func_021FE784((int)(*(void **)(p+0x30)),2,2,0);
             (*(u32 *)p)++;
             break;
         case 7:

@@ -35,13 +35,16 @@ typedef unsigned char u8;
 
 extern u8 d_021F4E94[];
 
-extern int func_02188D2C(int a);
-extern int func_02188C80(int a);
+struct Big;
+struct Ctx;
+struct Sub02008700Obj;
+extern int func_02188D2C(int *p);
+extern void *func_02188C80(void *p);
 extern void func_021BE760(int a, void *b, int c);
-extern int func_020120F4(int a);
-extern int func_02012EBC(int a);
-extern int func_0200873C(int a);
-extern int func_020083E4(int a);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern int func_020083E4(unsigned short *p);
 extern int *func_021F3880(int a);
 extern void func_021F392C(int *p);
 extern void func_021F3BC0(int *p);
@@ -61,8 +64,8 @@ void func_021F36C0(int a)
     int *p;
     int v;
 
-    r6 = func_02188D2C(a);
-    v = func_020083E4(func_0200873C(func_02012EBC(func_020120F4(func_02188C80(a)))));
+    r6 = func_02188D2C((int *)a);
+    v = func_020083E4((short unsigned int *)func_0200873C(func_02012EBC(func_020120F4(func_02188C80((void *)a)))));
     if (v != 0) {
         if (v == 1) {
             r4 = 0;

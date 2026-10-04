@@ -26,12 +26,12 @@ typedef short s16;
 extern void func_02163A08();
 extern int func_02163A40();
 extern int func_0216D55C(int a0, int a1);
-extern int func_0216D83C();
-extern int func_0216D86C();
-extern int func_0216D854();
-extern int func_0216D804();
-extern int func_0216D81C();
-extern int func_0216D810();
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
+extern int func_0216D854(void *p);
+extern int func_0216D804(void *p);
+extern int func_0216D81C(void *p);
+extern int func_0216D810(void *p);
 
 int func_02163AF0(int a, int b, int c, int d, s16 e, int g)
 {
@@ -41,9 +41,9 @@ int func_02163AF0(int a, int b, int c, int d, s16 e, int g)
 
     func_02163A08(a, c, e, v1);
     if (func_0216D55C(b, 0x80) == 0) {
-        func_02163A08(b, func_0216D83C(b), func_0216D86C(b), v0);
+        func_02163A08(b, func_0216D83C((void *)b), func_0216D86C((void *)b), v0);
         if (func_02163A40(v1, v0) != 0) {
-            t = d - func_0216D854(b);
+            t = d - func_0216D854((void *)b);
             if (t < 0) {
                 t = -t;
             }
@@ -52,9 +52,9 @@ int func_02163AF0(int a, int b, int c, int d, s16 e, int g)
             }
         }
         if (g == 1) {
-            func_02163A08(b, func_0216D804(b), func_0216D81C(b), v0);
+            func_02163A08(b, func_0216D804((void *)b), func_0216D81C((void *)b), v0);
             if (func_02163A40(v1, v0) != 0) {
-                t = d - func_0216D810(b);
+                t = d - func_0216D810((void *)b);
                 if (t < 0) {
                     t = -t;
                 }

@@ -52,7 +52,8 @@ extern Voice *func_021B14A8(u8 id);
 extern void func_021B043C(struct AdpcmState *hdr, void *dst, int n, int mode);
 extern void func_021B1634(void *src, void *dst, u32 n, int fmt);
 extern void func_021B16B4(void *src, void *dst, u32 n, int fmt);
-extern void func_021B14F8(Voice *v);
+struct Node;
+extern u32 func_021B14F8(struct Node *n);
 extern int func_021B1810(Voice *v, u32 idx);
 extern void func_021B2FE4(void *p);
 extern int func_02087988(void);
@@ -85,7 +86,7 @@ int func_021B111C(void)
         else
             func_021B16B4(q->f474, q->buf, q->f14, fmt);
         q->f474 = q->buf;
-        func_021B14F8(q);
+        func_021B14F8((struct Node *)q);
         if (func_021B1810(q, q->f11) < 0)
             func_021B2FE4(q);
     }

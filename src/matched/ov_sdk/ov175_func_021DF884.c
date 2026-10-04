@@ -21,12 +21,12 @@
 typedef int s32;
 typedef unsigned int u32;
 
-extern s32 func_021E06DC(void *, void *);
+extern s32 func_021E06DC(char *p, u32 v);
 extern void *func_020923B0(void *p, int c, u32 n);
 
 s32 func_021DF884(char *p)
 {
-    s32 e = func_021E06DC(p, p);
+    s32 e = func_021E06DC(p, (u32)p);
 
     if (e != 0)
         return e;

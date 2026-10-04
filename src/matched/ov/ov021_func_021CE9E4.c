@@ -26,11 +26,15 @@ typedef struct {
     u32 f0, f4, f8, fc, f10, f14, f18;
 } S;
 
-extern u32 func_02045EC0(u32 bank, u32 idx);
-extern void func_0201F250(u32, u32, u32);
-extern void func_02045808(u32);
-extern void func_02190F7C(u32);
-extern void func_02190EB8(u32, u32, u32, u32);
+struct MsgBank;
+struct P;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02190F7C(struct P *p);
+extern void func_02190EB8(struct P *p, u32 b, u16 c, u32 d);
 
 void func_021CE9E4(S *p, u32 m)
 {
@@ -39,9 +43,9 @@ void func_021CE9E4(S *p, u32 m)
     if (m == 8 && *(u16 *)((u8 *)p + 0x57a) == 8)
         return;
     *(u16 *)((u8 *)p + 0x57a) = m;
-    n = func_02045EC0(p->f8, m);
-    func_0201F250(p->f4, p->f18, n);
-    func_02045808(n);
-    func_02190F7C(p->f14);
-    func_02190EB8(p->f14, 0, 0, p->f18);
+    n = (u32)func_02045EC0((struct MsgBank *)p->f8, m);
+    func_0201F250((struct WordSet *)p->f4, (void *)p->f18, (void *)n);
+    func_02045808((struct U16Vec *)n);
+    func_02190F7C((struct P *)p->f14);
+    func_02190EB8((struct P *)p->f14, 0, 0, p->f18);
 }

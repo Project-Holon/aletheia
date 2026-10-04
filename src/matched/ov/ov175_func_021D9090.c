@@ -45,9 +45,9 @@ struct RTCTime { u32 hour,minute,second; };
 struct Request { u8 a,b,c,d; u32 id; };
 struct Obj;
 struct Reg2;
-extern void func_021E8738(u32,u32,u32,u32);
+extern void func_021E8738(int *p, int a, int b, int c);
 extern void func_021E8AB4(u32,u32),func_021E8AB8(u32),func_021E8AA8(u32);
-extern int func_021E8844(u32);
+extern int func_021E8844(const int *p);
 extern void func_021D97E4(char *,u32);
 extern u32 func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
@@ -95,13 +95,13 @@ void func_021D9090(u32 sys,int *state,char *p)
         else if(got && startDay<=nowDay && nowDay<=endDay) {*(u32 *)(p+64)=0;*state=13;}
         else {*(u32 *)(p+64)=1;*state=3;}
         break;
-    case 2:func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),96,1);
+    case 2:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),96,1);
         *state=14;func_021E8AB4(sys,13);break;
-    case 3:func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),80,1);
+    case 3:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),80,1);
         *state=14;func_021E8AB4(sys,4);break;
     case 4:if((u8)((*(u8 **)(q+48))[5]+255)<=1) *state=5;
         else *state=13;break;
-    case 5:func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),40,2);
+    case 5:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),40,2);
         *state=14;func_021E8AB4(sys,6);break;
     case 6:box=func_0200BAC8(func_02012EBC(**(void ***)(q+8)));
         *(u32 *)(p+620)=func_0200BBFC(box,1);
@@ -112,9 +112,9 @@ void func_021D9090(u32 sys,int *state,char *p)
     case 8:func_0200BAC8(func_02012EBC(**(void ***)(q+8)));
         if(*(u32 *)(p+620)!=0) *state=9;else *state=10;break;
     case 9:func_021D97E4(p,1);
-        func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),81,1);
+        func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),81,1);
         *state=14;func_021E8AB4(sys,10);break;
-    case 10:func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),70,2);
+    case 10:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),70,2);
         *state=14;func_021E8AB4(sys,11);break;
     case 11:func_02082BCC(&req,0,8);req.b=3;
         req.id=func_021DD020(*(char **)(p+52));
@@ -125,6 +125,6 @@ void func_021D9090(u32 sys,int *state,char *p)
         else if(v==3) {*(u32 *)(p+64)=3;*state=13;}
         break;
     case 13:func_021E8AA8(sys);break;
-    case 14:if(func_021E8844(*(u32 *)(p+44)))func_021E8AB8(sys);break;
+    case 14:if(func_021E8844((const int *)(*(u32 *)(p+44))))func_021E8AB8(sys);break;
     }
 }

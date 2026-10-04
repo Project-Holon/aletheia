@@ -17,9 +17,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
-extern u8 *func_021AC1E0(u32 a);
+extern int func_021AC1E0(u32 a);
 void func_021C909C(u32 a)
 {
     if (a != 0)
-        func_021AC1E0(a)[0x14] = 1;
+        ((u8 *)func_021AC1E0(a))[0x14] = 1;
 }

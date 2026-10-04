@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0204A380(u32 a, u32 b, u32 c, u32 d);
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 extern int func_02062B30(void *p, u8 **out);
 extern int func_0204169C(u8 a);
 extern int func_0204162C(u8 a);
@@ -53,7 +53,7 @@ void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
     int i;
     u16 *arr;
 
-    h = func_0204A380(a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
+    h = func_0204A380((void *)a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
     func_02062B30(h, &out);
     if (a3 != 0) {
         if (func_0204169C(a2) == 0) {

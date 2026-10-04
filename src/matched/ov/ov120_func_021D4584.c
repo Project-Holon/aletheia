@@ -16,11 +16,13 @@
  */
 typedef unsigned char u8;
 extern int func_0203CD98(void);
-extern int func_02012944(int);
-extern int func_02008530(int);
-extern int func_02008554(int);
-extern void func_021D880C(int, int, int);
-extern void func_021D74B0(int, int);
+typedef unsigned int   u32;
+struct Sub0200852CObj;
+extern u8 *func_02012944(void *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern void func_021D880C(char *p, void *q, u32 n);
+extern void func_021D74B0(u8 *p, int n);
 extern void func_021D4244(int, void (*)(int), int);
 extern void func_021D4544(int);
 void func_021D4584(u8 *p)
@@ -29,17 +31,17 @@ void func_021D4584(u8 *p)
     int value;
     int mode = 2;
     if (func_0203CD98() == 0) {
-        value = func_02012944(*(int *)q);
+        value = (int)func_02012944((void *)(*(int *)q));
     } else {
         value = *(int *)(q + 0x18);
         mode = *(int *)(p + 0x17c);
-        *(int *)(q + *(int *)(q + 0x1ac) * 4 + 0x1c) = func_02008530(value);
+        *(int *)(q + *(int *)(q + 0x1ac) * 4 + 0x1c) = func_02008530((const struct Sub0200852CObj *)value);
         *(int *)(q + 0x1ac) = *(int *)(q + 0x1ac) + 1;
         if (*(int *)(q + 0x1ac) >= 100)
             *(int *)(q + 0x1ac) = 0;
     }
-    func_021D880C(*(int *)(p + 0x40), value, mode);
-    func_021D74B0(*(int *)(p + 0x3c), func_02008554(value));
+    func_021D880C((char *)(*(int *)(p + 0x40)), (void *)value, mode);
+    func_021D74B0((u8 *)(*(int *)(p + 0x3c)), func_02008554((const struct Sub0200852CObj *)value));
     *(int *)(p + 0x14) = 0xb4;
     func_021D4244((int)p, func_021D4544, 0x265);
 }

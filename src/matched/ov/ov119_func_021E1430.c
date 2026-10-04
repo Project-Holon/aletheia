@@ -15,10 +15,13 @@
  *   func_0201C7A4 0x0201C7A4 thumb
  */
 typedef unsigned int u32;
-extern void func_02045CAC(int,int,int);
+typedef signed short   s16;
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(int,int,int);
-extern void func_0201C7A4(void *,short,short,int,int);
-void func_021E1430(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC(*(int *)(p+0x720),28,*(int *)(p+0x734));func_0201EE84(*(void **)(p+0x724),0,a);}else {func_02045CAC(*(int *)(p+0x720),29,*(int *)(p+0x734));func_0201EEF4(*(void **)(p+0x724),0,a);}func_0201F250(*(int *)(p+0x724),*(int *)(p+0x730),*(int *)(p+0x734));}else {func_02045CAC(*(int *)(p+0x720),105,*(int *)(p+0x730));}func_0201C7A4(b,x,y,*(int *)(p+0x730),*(int *)(p+0x728));}
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+void func_021E1430(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),28,(void *)(*(int *)(p+0x734)));func_0201EE84(*(void **)(p+0x724),0,a);}else {func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),29,(void *)(*(int *)(p+0x734)));func_0201EEF4(*(void **)(p+0x724),0,a);}func_0201F250((struct WordSet *)(*(int *)(p+0x724)),(void *)(*(int *)(p+0x730)),(void *)(*(int *)(p+0x734)));}else {func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),105,(void *)(*(int *)(p+0x730)));}func_0201C7A4(b,x,y,(void *)(*(int *)(p+0x730)),(void *)(*(int *)(p+0x728)));}

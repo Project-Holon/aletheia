@@ -29,7 +29,8 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02012EBC(void *sys);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_020A721C[];
@@ -45,7 +46,7 @@ extern void func_020307B0(void *p);
 
 void func_0200E608(void *sys, void *dst, u32 heap)
 {
-    u32 sv = func_02012EBC(sys);
+    u32 sv = (u32)func_02012EBC(sys);
     void *buf = func_02030734(heap, 0x1000, 0, data_020A721C, 0x99);
 
     func_020072CC(sv, 5, heap, buf, 0x1000);

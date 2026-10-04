@@ -52,10 +52,11 @@ extern void func_021BBA14(char *);
 extern u16 func_021B9BEC(char *,int);
 extern u16 func_021B9BE0(char *,int);
 extern int func_021B9C98(void *,int,int);
-extern void func_021B9CB0(void *,int,int);
+struct Big;
+extern void func_021B9CB0(void *unused, int code, struct Big *save);
 extern u16 func_021B9BC8(char *,int);
 extern u16 func_021B9C0C(char *,int,int);
-extern int func_021B9CC8(char *,int);
+extern int func_021B9CC8(unsigned unused, unsigned key);
 extern u16 func_021B9BF8(char *,int,int);
 extern char *func_021BBA74(char *,char *);
 extern int func_021BBB0C(char *);
@@ -125,12 +126,12 @@ innerDone:
      count=func_021B9BEC(*(char **)(*(char **)(p+8)+0x2c),id);
      selected=func_021B9BE0(*(char **)(*(char **)(p+8)+0x2c),id);
      if(!func_021B9C98(*(char **)(*(char **)(p+8)+0x2c),selected,**(int **)(p+8)))
-      func_021B9CB0(*(char **)(*(char **)(p+8)+0x2c),selected,**(int **)(p+8));
+      func_021B9CB0(*(char **)(*(char **)(p+8)+0x2c),selected,(struct Big *)(**(int **)(p+8)));
      *(u16 *)(p+0x4a)=func_021B9BC8(*(char **)(*(char **)(p+8)+0x2c),id);
      *(unsigned char *)(p+0x48)=func_021B9BEC(*(char **)(*(char **)(p+8)+0x2c),id);
      for(i=0;i<count;i++) {
       item=func_021B9C0C(*(char **)(*(char **)(p+8)+0x2c),id,i);
-      if(!func_021B9CC8(*(char **)(*(char **)(p+8)+0x2c),item)) item=65535;
+      if(!func_021B9CC8((unsigned int)(*(char **)(*(char **)(p+8)+0x2c)),item)) item=65535;
       *(u16 *)(p+i*4+0x4c)=item;
       *(u16 *)(p+i*4+0x4e)=func_021B9BF8(*(char **)(*(char **)(p+8)+0x2c),id,i);
      }

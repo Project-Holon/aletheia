@@ -16,11 +16,13 @@
  */
 
 extern int func_021D775C(int key);
-extern void func_021D7320(char *, int (*)(int, int, int, int, unsigned short));
+typedef unsigned int   u32;
+struct QS;
+extern void func_021D7320(struct QS *p, u32 v);
 extern int func_021E0900(int, int, int, int, unsigned short);
 
 void func_021E0818(char *a, int b, int c)
 {
     if (c == func_021D775C(3))
-        func_021D7320(a, func_021E0900);
+        func_021D7320((struct QS *)a, (u32)func_021E0900);
 }

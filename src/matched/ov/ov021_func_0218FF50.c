@@ -21,13 +21,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_02082BCC(void *dst, int val, u32 size);
-extern u32 func_02188C58(void *a);
+extern void *func_02188C58(void *p);
 
 void func_0218FF50(u32 *o, void *a)
 {
     func_02082BCC(o, 0, 0x20);
     o[0] = (u32)a;
-    o[1] = func_02188C58(a);
+    o[1] = (u32)func_02188C58(a);
     o[2] = 0;
     o[3] = 0;
     o[5] = 0;

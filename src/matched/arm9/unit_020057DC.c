@@ -94,7 +94,7 @@ extern void  func_02072EA8(u32 *info);
 struct S;
 extern int   func_02074894(struct S *a);
 extern void  func_020748E0(u32 *a, u32 b);
-extern int   func_02074AC4(u32 a, int b, u32 *c);
+extern u32 func_02074AC4(u32 a, u32 b, u32 c);
 
 void sub_020057E8(u32 i);
 void sub_02005834(u32 v);
@@ -183,11 +183,11 @@ int sub_02005924(u32 a)
         &sub_020057DC_Table[sub_020057DC_Cur.index];
     int r;
 
-    if (func_02074AC4(a, 3, *sub_020057DC_Cur.unk08) == 0) {
+    if (func_02074AC4(a, 3, (u32)(*sub_020057DC_Cur.unk08)) == 0) {
         return 0;
     }
     slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
-    r = func_02074AC4(a, 4, *sub_020057DC_Cur.unk08);
+    r = func_02074AC4(a, 4, (u32)(*sub_020057DC_Cur.unk08));
     if (r == 0) {
         return 0;
     }

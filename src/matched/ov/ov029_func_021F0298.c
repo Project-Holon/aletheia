@@ -27,7 +27,7 @@ struct E {
 };
 
 extern void func_021F0CA0(void *e, u16 a, u8 b, u8 c);
-extern void func_021F0D10(void *e, int v);
+extern void func_021F0D10(char *p, char v);
 extern void func_021F0390(u8 *p, int i, int j, int k, int l);
 extern u16 d_021F31BC[];
 extern u8 d_021F31AB[];
@@ -42,7 +42,7 @@ void func_021F0298(u8 *p)
     for (i = 0; i < 5; i++) {
         func_021F0CA0(&q[i], d_021F31BC[i], d_021F31AB[i], d_021F31B0[i]);
         if (i == 0) {
-            func_021F0D10(&q[i], 0);
+            func_021F0D10((char *)(&q[i]), 0);
         }
     }
     for (i = 0; i < 5; i++) {

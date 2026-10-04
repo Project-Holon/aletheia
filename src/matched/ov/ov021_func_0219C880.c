@@ -31,22 +31,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0219CBD4(u8 *, u32, u16 *, u16 *);
-extern u32 func_020508D8();
-extern void func_02050278();
-extern int func_0216DFC4(u32, u32);
+struct BbActSys;
+extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
+extern u32 func_020508D8(u8 *o, u32 i);
+extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
+extern int func_0216DFC4(void *a, u32 id);
 extern void func_0219CB98(u8 *, u32);
 
 void func_0219C880(u8 *o, u32 a, u32 b, u32 c)
 {
     u16 v[2];
-    if (func_0219CBD4(o, c, &v[1], &v[0]) == 1) {
+    if (func_0219CBD4((u32)o, c, (u32)(&v[1]), (u32)(&v[0])) == 1) {
         if (v[0] & 2) {
-            u32 t = func_020508D8(*(u32 *)(o + 4), b);
-            func_02050278(*(u32 *)(o + 4), t, 1);
+            u32 t = func_020508D8((u8 *)(*(u32 *)(o + 4)), b);
+            func_02050278((struct BbActSys *)(*(u32 *)(o + 4)), t, 1);
         }
         if (v[0] & 1) {
-            if (func_0216DFC4(a, c) == 0)
+            if (func_0216DFC4((void *)a, c) == 0)
                 func_0219CB98(o, c);
         }
     }

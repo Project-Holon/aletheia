@@ -21,12 +21,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u8 *func_02158F88(u32 a);
+extern u8 *func_02158F88(void *p);
 extern int func_02006148(u32 a);
 
 void func_021AF21C(u32 a, u32 b)
 {
-    u8 *p = func_02158F88(a);
+    u8 *p = func_02158F88((void *)a);
 
     *p |= 1 << func_02006148(b);
 }

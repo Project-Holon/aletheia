@@ -24,9 +24,9 @@ typedef unsigned int u32;
 
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern u32 func_021CD9E0(u8 *p);
-extern int func_021B8590(u32 p);
+extern unsigned int func_021B8590(unsigned char *p);
 extern int func_021D3558(u16 v);
-extern void func_021EA3B8(u32 a, int b, u16 c);
+extern void func_021EA3B8(char *ctx, int a, int b);
 extern int func_021EA3D4(u32 a);
 
 int func_021D34E8(u32 *a, int *b, u32 *c)
@@ -38,12 +38,12 @@ int func_021D34E8(u32 *a, int *b, u32 *c)
         if (func_021CD9E0((u8 *)a) != 0) {
             return 1;
         }
-        if (func_021B8590(a[0]) == 0) {
+        if (func_021B8590((unsigned char *)a[0]) == 0) {
             if (func_021D3558((u16)c[1]) != 0) {
                 return 1;
             }
         }
-        func_021EA3B8(a[0x15], k, (u16)c[1]);
+        func_021EA3B8((char *)a[0x15], k, (u16)c[1]);
         (*b)++;
     } else {
         if (func_021EA3D4(a[0x15]) != 0) {

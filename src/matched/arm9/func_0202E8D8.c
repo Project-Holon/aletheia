@@ -29,7 +29,10 @@
  *       --func func_0202E8D8 --addr 0x0202E8D8 --cc 1.1p1 --thumb
  */
 
-extern int func_02009D1C(int a0, int a1, int a2);
+typedef unsigned int   u32;
+struct Sub0200852CObj;
+struct Sub020097BCObj;
+extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
 
 int func_0202E8D8(char *a0, int a1, char *a2)
 {
@@ -50,7 +53,7 @@ int func_0202E8D8(char *a0, int a1, char *a2)
             }
         }
         if (ok == 1) {
-            return func_02009D1C(a1, (int)a0, 0);
+            return func_02009D1C((struct Sub020097BCObj *)a1, (struct Sub0200852CObj *)((int)a0), 0);
         }
     }
     return 0;

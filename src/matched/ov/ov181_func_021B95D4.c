@@ -13,9 +13,9 @@
  *   func_021B95F8  0x021B95F8  thumb  ov181
  */
 
-extern int func_021B95F8(int);
+extern int func_021B95F8(char *p);
 
 int func_021B95D4(int a0, int a1, int a2, int a3)
 {
-    return func_021B95F8(a3) == 0;
+    return func_021B95F8((char *)a3) == 0;
 }

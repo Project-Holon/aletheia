@@ -21,18 +21,18 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021F62FC(int, int);
-extern void func_021F62DC(int);
+extern void func_021F62DC(char *p);
 
 void func_021F53D8(int a) {
     if (*(int *)(a + 4) == 1) {
         func_021F62FC(*(int *)(a + 0xc), *(int *)(a + 0x10));
         *(int *)(a + 8) = *(int *)(a + 0x10);
         *(int *)(a + 4) = 0;
-        func_021F62DC(*(int *)(a + 0xc));
+        func_021F62DC((char *)(*(int *)(a + 0xc)));
     } else {
         func_021F62FC(*(int *)(a + 0x10), *(int *)(a + 0xc));
         *(int *)(a + 8) = *(int *)(a + 0xc);
         *(int *)(a + 4) = 1;
-        func_021F62DC(*(int *)(a + 0x10));
+        func_021F62DC((char *)(*(int *)(a + 0x10)));
     }
 }

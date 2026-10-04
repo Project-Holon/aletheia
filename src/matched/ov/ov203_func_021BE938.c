@@ -13,10 +13,11 @@
  *   func_021BE7A8 0x021BE7A8 thumb
  */
 
-extern char *func_021BE7A8(void *);
+typedef unsigned int   u32;
+extern u32 func_021BE7A8(u32 id);
 
 int func_021BE938(void *a)
 {
-    unsigned int v = *(unsigned short *)(func_021BE7A8(a) + 6);
+    unsigned int v = *(unsigned short *)(func_021BE7A8((u32)a) + 6);
     return (v << 30) >> 31;
 }

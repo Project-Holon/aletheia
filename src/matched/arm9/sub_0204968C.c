@@ -42,7 +42,7 @@ struct Res {
 };
 
 extern s32 func_02062A4C(void *buf, struct Res **out);
-extern void func_02040B1C(u8 a0, u32 a1, u32 a2, u32 a3);
+extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
 extern void ENV_SetResourceSet(void *p);
 
 u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3)
@@ -53,7 +53,7 @@ u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3)
         if (a3 == 0) {
             a3 = res->unk_10;
         }
-        func_02040B1C(a1, res->unk_14, a3, a2);
+        func_02040B1C(a1, (const void *)res->unk_14, a3, a2);
     }
 
     ENV_SetResourceSet(buf);

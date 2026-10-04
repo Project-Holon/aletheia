@@ -71,11 +71,12 @@ extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(Obj *p, u32 mode);
 extern int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
 extern void func_021FB2F0(Obj *p, int page, int total);
-extern u32 func_021F9EEC(int n, u32 per);
+struct Obj;
+extern u32 func_021F9EEC(u8 *p, u32 n);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0204B878(u32 v, int k);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
@@ -92,11 +93,11 @@ int func_021FB3D8(Obj *p)
     p->count = func_021FB26C(&p->menu, p->msg, p->bank, p->x2c, tbl_02203324[p->layout] + p->start, p->bag);
     p->page = 0;
     func_021FB2F0(p, 0, p->count);
-    pages = func_021F9EEC(p->count, 4);
+    pages = func_021F9EEC((u8 *)p->count, 4);
     func_021FBF04(p->mgr, p->list, p->strs[4], p->page, pages);
     func_021FBEB8(p->mgr, p->bank, p->strs[14], 0x4A, p->g);
     func_0202CB4C(p->mgr, 0, 0x10, 0);
-    func_0204B878(p->cursor, 6);
+    func_0204B878((struct Obj *)p->cursor, 6);
     p->pos = 0;
     func_021F4FF4(p->cursor, tbl_02203220[p->pos].x, tbl_02203220[p->pos].y);
     func_021F4FF4(p->left, 0xE4, 0x78);
@@ -107,11 +108,11 @@ int func_021FB3D8(Obj *p)
         func_0204B3DC((struct Obj *)p->cursor, 1);
     }
     if (pages == 1) {
-        func_0204B878(p->left, 0x3D);
-        func_0204B878(p->right, 0x3E);
+        func_0204B878((struct Obj *)p->left, 0x3D);
+        func_0204B878((struct Obj *)p->right, 0x3E);
     } else {
-        func_0204B878(p->left, 0x26);
-        func_0204B878(p->right, 0x27);
+        func_0204B878((struct Obj *)p->left, 0x26);
+        func_0204B878((struct Obj *)p->right, 0x27);
     }
     func_0204B92C((struct Obj *)p->left, 0);
     func_0204B92C((struct Obj *)p->right, 0);

@@ -37,10 +37,12 @@ extern void func_0218D1D0(char *p, void *a, struct Elem *e);
 extern void func_0218D304(char *p, void *a, void *b);
 extern void func_0218D444(char *p, void *a, void *b);
 extern void func_0218D570(char *p, void *a, void *b);
-extern void func_0218D7A8(char *p, void *b);
+struct Cell;
+struct Obj;
+extern int func_0218D7A8(struct Obj *p, struct Cell *nc);
 extern void func_0218DE78(char *p);
-extern void func_02169520(int o, u16 **out);
-extern void func_02169308(int o);
+extern int func_02169520(int a0, int a1);
+extern void func_02169308(u8 *p);
 extern void func_0218DEFC(char *p, int o, int i);
 extern void func_0218DF80(char *p);
 extern u32 func_0207C768(u32 a, u32 b);
@@ -74,14 +76,14 @@ int func_0218CB34(char *p)
         func_0218D570(p, p + 0x34, *(void **)(p + 0x28));
         break;
     }
-    func_0218D7A8(p, *(void **)(p + 0x28));
+    func_0218D7A8((struct Obj *)p, *(void **)(p + 0x28));
     r = 0;
     func_0218DE78(p);
     for (i = 0; i < *(u16 *)(p + 0x2E); i++) {
-        func_02169520(*(int *)(*(char **)(p + 0x24) + i * 0x28), &h);
+        func_02169520(*(int *)(*(char **)(p + 0x24) + i * 0x28), (int)(&h));
         if (*h == 1)
             r = 1;
-        func_02169308(*(int *)(*(char **)(p + 0x24) + i * 0x28));
+        func_02169308((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28)));
         func_0218DEFC(p, *(int *)(*(char **)(p + 0x24) + i * 0x28), i);
     }
     func_0218DF80(p);

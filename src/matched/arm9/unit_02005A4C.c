@@ -60,7 +60,7 @@ extern struct Sub02005A4CSlot sub_02005A4C_Table[];
 extern void sub_02005858(void);
 struct S;
 extern int  func_02074894(struct S *a);
-extern int  func_02074AC4(u32 a, int b, u32 *c);
+extern u32 func_02074AC4(u32 a, u32 b, u32 c);
 
 int sub_02005A4C(void)
 {
@@ -77,7 +77,7 @@ int sub_02005A4C(void)
     v = slot->unk04;
     sub_02005A4C_Cur.index = i;
     if (v != 0xFFFF) {
-        func_02074AC4(v, 6, *sub_02005A4C_Cur.unk08);
+        func_02074AC4(v, 6, (u32)(*sub_02005A4C_Cur.unk08));
         slot->unk18 = func_02074894((struct S *)*sub_02005A4C_Cur.unk08);
     }
     return 1;

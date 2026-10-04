@@ -27,9 +27,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0203174C(void *a, void *b, u32 c, u32 d, u32 e);
+struct Blk;
+struct In;
+extern struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
 
 u32 func_0203192C(void *a, void *b)
 {
-    return func_0203174C(a, b, 0, 0, 1);
+    return (u32)func_0203174C(a, (u32)b, 0, 0, 1);
 }

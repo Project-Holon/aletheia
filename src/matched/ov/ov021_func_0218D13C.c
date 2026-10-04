@@ -17,14 +17,15 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_020470D0(u32 a);
-extern void func_02046EFC(u32 a);
+struct Tagged;
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_0218D13C(u8 *a)
 {
     if (*(u32 *)(a + 0x60) != 0) {
-        func_020470D0(*(u32 *)(a + 0x60));
-        func_02046EFC(*(u32 *)(a + 0x60));
+        func_020470D0((u32 *)(*(u32 *)(a + 0x60)));
+        func_02046EFC((struct Tagged *)(*(u32 *)(a + 0x60)));
         *(u32 *)(a + 0x60) = 0;
     }
 }

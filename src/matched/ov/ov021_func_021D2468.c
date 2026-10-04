@@ -36,12 +36,15 @@ extern Tbl d_021DD6D0;
 extern void *func_0215A5E4(void *a0);
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_02008B08(u32 a);
+typedef unsigned char  u8;
+struct Big;
+struct Sub02008AECObj;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008AECObj *func_02008B08(void *sys);
 extern int func_021690D0(int a0);
 extern int func_021690E0(int a0);
-extern u32 func_02008B94(u32 a);
-extern u32 func_02008B98(u32 a);
+extern u8 func_02008B94(const struct Sub02008AECObj *obj);
+extern u8 func_02008B98(const struct Sub02008AECObj *obj);
 extern u32 func_020056EC(u32 a);
 
 int func_021D2468(u32 a, u32 b)
@@ -56,11 +59,11 @@ int func_021D2468(u32 a, u32 b)
     p4 = func_02159AE8((void *)a, (void *)b);
     p5 = func_02159AE8((void *)a, (void *)b);
     t = d_021DD6D0;
-    z = func_02008B08(func_02012EBC(x));
+    z = (u32)func_02008B08(func_02012EBC((struct Big *)x));
     v = func_021690D0(x);
     w = func_021690E0(x);
-    k = func_02008B94(z);
-    if (w == func_02008B98(z) && v == k) {
+    k = func_02008B94((const struct Sub02008AECObj *)z);
+    if (w == func_02008B98((const struct Sub02008AECObj *)z) && v == k) {
         *p6 = 0x34;
         *p4 = 0x53;
         *p5 = t.h[30];

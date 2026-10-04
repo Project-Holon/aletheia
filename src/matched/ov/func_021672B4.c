@@ -22,7 +22,8 @@ typedef unsigned int u32;
 
 extern int func_02190788();
 extern int func_021907C0();
-extern int func_02045730();
+struct Descriptor;
+extern u8 func_02045730(struct Descriptor *p);
 extern int func_020409B4();
 
 int func_021672B4(int a0)
@@ -36,7 +37,7 @@ loc_021672BE:
 a0 = *(int *)((char *)t4 + 0x14);
     a0 = func_021907C0(a0);
 loc_021672C4:
-    a0 = func_02045730(a0);
+    a0 = func_02045730((struct Descriptor *)a0);
 loc_021672C8:
     a0 = func_020409B4(a0);
 loc_021672CC:

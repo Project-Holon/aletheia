@@ -32,9 +32,11 @@ struct ArcFile {
     u8 raw[0x50];
 };
 
-extern void func_02078B70(struct ArcFile *arc, void *dst, u32 size);
+typedef signed int     s32;
+struct FSFile;
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
 void func_020495F4(struct ArcFile *arc, u32 size, void *dst)
 {
-    func_02078B70(arc, dst, size);
+    func_02078B70((struct FSFile *)arc, dst, size);
 }

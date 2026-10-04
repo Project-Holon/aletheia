@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0204B1CC();
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 
 void func_021BC7B0(u8 *p)
 {
-    func_0204B1CC(*(u32 *)(p + 0x34));
+    func_0204B1CC((struct Bank *)(*(u32 *)(p + 0x34)));
 }

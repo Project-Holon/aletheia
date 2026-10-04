@@ -38,7 +38,9 @@
 
 extern void *func_02058380(void *p);
 extern void func_020583CC(void *a, void *b);
-extern void func_02058300(void *a, void *b);
+struct List;
+struct Node;
+extern struct Node *func_02058300(struct List *list, struct Node *node);
 
 void func_0205250C(char *p, char *q)
 {
@@ -60,6 +62,6 @@ void func_0205250C(char *p, char *q)
         n = func_02058380(list);
     }
 
-    func_02058300(p + 4, q);
+    func_02058300((struct List *)(p + 4), (struct Node *)q);
     func_020583CC(p + 0x10, q);
 }

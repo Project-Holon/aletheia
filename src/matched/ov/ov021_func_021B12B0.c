@@ -28,19 +28,22 @@
  */
 
 extern void *func_0215A5F4(void *p);
-extern int func_02011330(int);
-extern int *func_02158F58(void *);
+typedef unsigned short u16;
+struct Stream;
+struct WordSet;
+extern u16 func_02011330(struct Stream *s);
+extern int func_02158F58(int a0);
 extern int func_0215A60C(int);
 extern int func_02191A04(int, int);
 extern void func_0215A614(int, int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02158F78(u8 *p);
-extern int func_02158F74(void *);
+extern void *func_02158F74(void *p);
 extern u32 func_02158F7C(u8 *p);
 extern void func_02045CAC(int, int, int);
-extern void func_0201F250(int, int, int);
-extern void func_020113D0(int, int (*)(int, int));
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_020113D0(char *p, int val);
 extern void func_02159144(int);
 extern int func_021B1240(int, int);
 
@@ -51,17 +54,17 @@ int func_021B12B0(int a, int b)
     int *q;
     int x, y, z;
     o = func_0215A5F4((void *)b);
-    s0 = func_02011330(a);
-    s1 = func_02011330(a);
-    q = func_02158F58(o);
+    s0 = func_02011330((struct Stream *)a);
+    s1 = func_02011330((struct Stream *)a);
+    q = (int *)func_02158F58((int)o);
     s2 = func_0215A60C(b);
     func_0215A614(b, func_02191A04(*q, s1));
     x = func_02158F78(o);
-    y = func_02158F74(o);
+    y = (int)func_02158F74(o);
     z = func_02158F7C(o);
     func_02045CAC(s2, s0, z);
-    func_0201F250(y, x, z);
-    func_020113D0(a, func_021B1240);
+    func_0201F250((struct WordSet *)y, (void *)x, (void *)z);
+    func_020113D0((char *)a, (int)func_021B1240);
     func_02159144(4);
     return 1;
 }

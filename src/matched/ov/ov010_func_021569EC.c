@@ -44,7 +44,7 @@ extern u8 func_021568A8(Work *w, u8 n);
 struct Deal;
 struct Sub0200852CObj;
 extern u8 func_02157374(struct Deal *d, u8 i);
-extern void *func_021FCE28(void *sess, u32 i);
+extern int func_021FCE28(char *p, u32 index);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 u8 func_021569EC(Work *w, u8 j)
@@ -55,7 +55,7 @@ u8 func_021569EC(Work *w, u8 j)
     if (j == w->f4c)
         return 0;
     if (w->f14 == 1) {
-        p = func_021FCE28(w->f28, k);
+        p = (void *)func_021FCE28(w->f28, k);
         if (p != 0) {
             if (func_02008550(p) == 0)
                 return 1;

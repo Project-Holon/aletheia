@@ -31,7 +31,7 @@ struct QG;
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
 extern u32 sub_0201C1BC(u16 move);
-extern u32 func_0201C314(u32 c);
+extern u32 func_0201C314(void *p);
 extern u8 sub_0201C1C8(void *p);
 extern int func_021D799C(int a, int b);
 
@@ -48,7 +48,7 @@ int func_021DA5BC(void *a, void *b)
         t = func_021D54C0(b, i);
         if (sub_0201C1BC(t) == 9)
             return 1;
-        if (func_0201C314(t) != 0) {
+        if (func_0201C314((void *)t) != 0) {
             if (func_021D799C(sub_0201C1C8((void *)t), s) > 3)
                 return 1;
         }

@@ -27,13 +27,18 @@
 typedef unsigned int u32;
 
 extern void func_0216E68C();
-extern int func_020122C0(int a, int b, void (*fn)(), int c);
-extern u32 *func_020124E8(int task);
+typedef unsigned char  u8;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sub02008C20Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_0216EE40(int a, int b);
-extern int func_020120F4(int a);
-extern int func_02012F2C(int p);
-extern void func_02008DF0(int a, int b);
-extern int func_02188CE8(int a);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012F2C(int *p);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 func_02188CE8(u8 *p);
 extern void func_021AAABC(int s);
 
 int func_0216E7C8(int a0, int a1, int a2, int a3, int a4)
@@ -41,14 +46,14 @@ int func_0216E7C8(int a0, int a1, int a2, int a3, int a4)
     int h;
     u32 *t;
 
-    h = func_020122C0(a0, 0, func_0216E68C, 0x10);
-    t = func_020124E8(h);
+    h = (int)func_020122C0((void *)a0, 0, func_0216E68C, 0x10);
+    t = func_020124E8((struct Obj *)h);
     t[0] = a0;
     t[1] = a2;
     t[2] = a3;
     t[3] = a4;
     func_0216EE40(a2, 0);
-    func_02008DF0(func_02012F2C(func_020120F4(a0)), 5);
-    func_021AAABC(func_02188CE8(a1));
+    func_02008DF0(func_02012F2C(func_020120F4((const struct Ctx *)a0)), 5);
+    func_021AAABC(func_02188CE8((u8 *)a1));
     return h;
 }

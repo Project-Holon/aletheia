@@ -23,18 +23,19 @@ typedef unsigned int u32;
 
 extern u8 *g_021797A4;
 int func_02178E4C(void);
-int func_021785B4(void *fn, u32 b, u32 c);
+typedef unsigned short u16;
+int func_021785B4(u32 a, u16 *b, u32 c);
 u32 func_020056EC(u32 n);
-void func_0217727C(u8 *p, void *fn);
+void func_0217727C(u32 *p, u32 v);
 int func_021773E0(u8 *p);
 void func_02177FC4(unsigned char *p);
 
 void func_02177FF0(u8 *a)
 {
     if (func_02178E4C() == 1) {
-        if (func_021785B4(func_021773E0, 0, 0) != 0) {
+        if (func_021785B4((u32)func_021773E0, 0, 0) != 0) {
             a[0xCF2] = func_020056EC(0x28) + 0x3C;
-            func_0217727C(g_021797A4, func_02177FC4);
+            func_0217727C((u32 *)g_021797A4, (u32)func_02177FC4);
         }
     }
 }

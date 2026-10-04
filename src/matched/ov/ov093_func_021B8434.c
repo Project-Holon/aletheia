@@ -36,8 +36,8 @@ extern int func_021BAB9C(int);
 extern void func_021BABDC(int, u8 *);
 extern u8 func_021CD97C(int);
 extern int func_021B8564(u8 *);
-extern void func_021CDD94(int, u8 *);
-extern void func_021E908C(int);
+extern void func_021CDD94(char *p, int *o);
+extern void func_021E908C(char *p);
 
 int func_021B8434(u8 *p)
 {
@@ -60,9 +60,9 @@ int func_021B8434(u8 *p)
         }
     }
     if (func_021B8564(p)) {
-        func_021CDD94(*(int *)(p + p[0x46c] * 4 + 0x10), p + 0x448);
+        func_021CDD94((char *)(*(int *)(p + p[0x46c] * 4 + 0x10)), (int *)(p + 0x448));
         r = 1;
     }
-    func_021E908C(*(int *)(p + 4));
+    func_021E908C((char *)(*(int *)(p + 4)));
     return r;
 }

@@ -16,13 +16,13 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0216D7A8(u32 h, int i);
+int func_0216D7A8(void *p, unsigned int v);
 
 int func_021A3B94(u32 *p)
 {
     int r = 0;
 
-    if ((u16)func_0216D7A8(p[7], 0) != 0xFFFF)
+    if ((u16)func_0216D7A8((void *)p[7], 0) != 0xFFFF)
         r = 1;
     return r;
 }

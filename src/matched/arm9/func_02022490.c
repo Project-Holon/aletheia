@@ -69,7 +69,7 @@ typedef unsigned int u32;
 extern char g_021468A4[];
 extern void func_02022478(int a0, int *p);
 extern void func_020225F0(void);
-extern int func_02005624(int fn, void *ctx, int arg);
+extern void *func_02005624(u32 a, u32 b, u32 c);
 
 void func_02022490(char *p, int a1, int a2, int a3)
 {
@@ -77,7 +77,7 @@ void func_02022490(char *p, int a1, int a2, int a3)
 
     if (*(u32 *)(p + 0x10) == 0 && *(u32 *)(p + 0x14) == 0)
         *(u32 *)(g_021468A4 + 0x54) =
-            (u32)func_02005624((int)func_02022478, p, 0);
+            (u32)func_02005624((int)func_02022478, (u32)p, 0);
 
     i4 = a3 * 4;
     *(u32 *)(p + i4) = a1;

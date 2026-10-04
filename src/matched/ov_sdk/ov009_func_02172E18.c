@@ -20,7 +20,7 @@
 
 extern int func_02175F3C(void);
 extern int **func_0216BBDC(int profileID, int flag);
-extern void func_02195DC4(int *connection);
+extern void func_02195DC4(int a);
 extern int func_02176254(int profileID);
 
 int func_02172E18(int profileID)
@@ -32,7 +32,7 @@ int func_02172E18(int profileID)
     connection = func_0216BBDC(profileID, 0);
     if (connection) {
         *(char *)(func_02175F3C() + 0x629) = 1;
-        func_02195DC4(*connection);
+        func_02195DC4((int)(*connection));
         *(char *)(func_02175F3C() + 0x629) = 0;
         func_02176254(profileID);
         ret = 1;

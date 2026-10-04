@@ -16,21 +16,22 @@
  *   func_021FD714 0x021FD714 thumb ov186
  *   func_020315D4 0x020315D4 arm
  */
-extern void func_021FD820(int);
+struct PrintSys;
+extern void func_021FD820(char *r5);
 extern void func_021E24AC(char *,char *);
 extern void func_021E24C4(char *,char *);
-extern void func_0201C4C0(int);
-extern void func_021FD714(int);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_021FD714(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 int func_021E20A4(int obj,int b,char *arg,char *p)
 {
     int i;
-    for (i=0;i<2;i++) func_021FD820(*(int *)(p+i*4+0x14));
+    for (i=0;i<2;i++) func_021FD820((char *)(*(int *)(p+i*4+0x14)));
     if (*(int *)(*(char **)(p+0x20)+0x1c)) func_021E24AC(p,arg);
     else { func_021E24AC(p,arg); func_021E24C4(p,arg); }
-    func_0201C4C0(*(int *)p);
-    func_021FD714(*(int *)(p+8));
+    func_0201C4C0((struct PrintSys *)(*(int *)p));
+    func_021FD714((void *)(*(int *)(p+8)));
     func_020315D4((struct S020315D4 *)obj);
     return 1;
 }

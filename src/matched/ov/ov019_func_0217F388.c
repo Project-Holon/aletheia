@@ -45,7 +45,7 @@ typedef struct Ent {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
 extern void  func_02082D44(const void *src, void *dst, int size);
-extern void  func_0217F2A8(char *p, u32 a1, void *a2, u32 a3, Tmpl *a4);
+extern void func_0217F2A8(char *p, u32 a1, u32 a2, u32 a3, u32 a4);
 
 extern const Tmpl d_0218046C;
 extern const Ent  d_021805A4[];
@@ -76,16 +76,16 @@ void func_0217F388(char *p, u32 a1, int kind, u8 *arg)
         obj[0] = arg[0] + 0xff;
         obj[2] = arg[1] + 0x104;
         obj[4] = arg[2] + 0x106;
-        func_0217F2A8(p, a1, obj, v, &t);
+        func_0217F2A8(p, a1, (u32)obj, v, (u32)(&t));
         func_020307B0(obj);
     } else if (kind == 5) {
         obj = func_02030734(0x41, 0x28, 1, d_021807FC, 0x657);
         func_02082D44(d_021804B4, obj, 0x28);
         obj[0] = arg[1] + 0x104;
         obj[2] = arg[2] + 0x106;
-        func_0217F2A8(p, a1, obj, v, &t);
+        func_0217F2A8(p, a1, (u32)obj, v, (u32)(&t));
         func_020307B0(obj);
     } else {
-        func_0217F2A8(p, a1, d_021805A4[kind].p, v, &t);
+        func_0217F2A8(p, a1, (u32)d_021805A4[kind].p, v, (u32)(&t));
     }
 }

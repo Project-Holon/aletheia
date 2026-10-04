@@ -26,16 +26,19 @@
 typedef unsigned int u32;
 extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
-extern u32 func_02188C80(void *a);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(u32, u32);
 extern void func_021BE580(u32);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_021F40D8(int *);
-extern void func_021F3FA8(u32, void *, int);
+extern void func_021F3FA8(u32 a, u32 b, u32 c);
 
 void func_021F3A28(void *a)
 {
@@ -44,13 +47,13 @@ void func_021F3A28(void *a)
     int *r6 = func_021897BC(a, 1);
     int r4 = 1;
 
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 10);
+    func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(a))), 10);
     func_021BE580(r7);
     func_021A3038(func_02188CB4((void *)a), (struct VecFx32 *)v);
     if (func_021F40D8(v) == 0)
         r4 = 0;
     if (r6[9] != r4) {
-        func_021F3FA8(r7, a, r4);
+        func_021F3FA8(r7, (u32)a, r4);
         r6[9] = r4;
     }
 }

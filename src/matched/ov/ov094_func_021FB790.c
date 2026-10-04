@@ -18,7 +18,7 @@ typedef short s16;
 
 extern int func_0201134C(int a);
 extern int func_021F86F0(void);
-extern void func_02201CD0(int a, int b, int c, s16 *d, int e, int f, int g);
+extern void func_02201CD0(char *o, int idx, int c, s16 *p, int s1, int s2, int s3);
 
 int func_021FB790(int a, char *b)
 {
@@ -32,6 +32,6 @@ int func_021FB790(int a, char *b)
     t3 = func_0201134C(a);
     t4 = func_0201134C(a);
     t5 = func_0201134C(a);
-    func_02201CD0(func_021F86F0(), *(int *)(b + t0 * 4 + 0xcc), t1, arr, t3, t4, t5);
+    func_02201CD0((char *)func_021F86F0(), *(int *)(b + t0 * 4 + 0xcc), t1, arr, t3, t4, t5);
     return *(int *)(b + 0x23c);
 }

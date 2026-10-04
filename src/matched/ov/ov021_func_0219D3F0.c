@@ -18,7 +18,10 @@
 
 typedef unsigned int   u32;
 extern int func_0219C4AC(u32 a, u32 b, u32 c, u32 d);
-extern unsigned short func_020500F0(int, void *, int);
+typedef unsigned short u16;
+struct BbActRec;
+struct BbActSys;
+extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
 extern unsigned short d_021D8064[];
 extern unsigned short d_021D75C4[];
 
@@ -44,5 +47,5 @@ unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5)
     s.b6 = q[0];
     s.b7 = q[1];
     s.w2 = a5;
-    return func_020500F0(o[1], &s, 1);
+    return func_020500F0((struct BbActSys *)o[1], (const struct BbActRec *)(&s), 1);
 }

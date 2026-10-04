@@ -27,8 +27,9 @@ typedef struct {
     int fc;
 } S3ECC;
 
-extern int func_0218C6F4(u32 a, u32 b, int c);
-extern void func_02028A7C(int a, int b);
+struct SoundSys2;
+extern int func_0218C6F4(unsigned char *p, int b, int id);
+extern void func_02028A7C(struct SoundSys2 *s, u32 id);
 extern int d_021F425C[];
 
 void func_021F3ECC(int a, int b, S3ECC *c)
@@ -37,10 +38,10 @@ void func_021F3ECC(int a, int b, S3ECC *c)
     int r;
 
     i = 0;
-    r = func_0218C6F4(c->f0, c->f4, 0);
+    r = func_0218C6F4((unsigned char *)c->f0, c->f4, 0);
     for (; i < 2; i++) {
         if (r == d_021F425C[i]) {
-            func_02028A7C(c->fc, 0x743);
+            func_02028A7C((struct SoundSys2 *)c->fc, 0x743);
             c->f8 = 1;
             c->fa = 0x1f;
             break;
@@ -49,7 +50,7 @@ void func_021F3ECC(int a, int b, S3ECC *c)
     if (c->f8 != 0) {
         c->fa = c->fa - 1;
         if (c->fa <= 0) {
-            func_02028A7C(c->fc, 0x76e);
+            func_02028A7C((struct SoundSys2 *)c->fc, 0x76e);
             c->f8 = 0;
             c->fa = 0;
         }

@@ -16,9 +16,9 @@
  * branch, so the pool relocation cannot be witnessed.  All bytes correct.
  */
 
-void func_0202E7DC(int);
+char *func_0202E7DC(char *p);
 
 void func_021BA080(char **p)
 {
-    func_0202E7DC(*(int *)(*p + 0x70));
+    func_0202E7DC((char *)(*(int *)(*p + 0x70)));
 }

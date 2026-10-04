@@ -56,15 +56,16 @@ struct WordSet;
 void *func_020124E4(struct Obj *p);
 struct Ctx;
 u32 func_02012138(const struct Ctx *p);
-int func_02158344(void *);
+struct S0201235C;
+int func_02158344(int a0);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);
 void func_0217FE38(int v, Ov018Outer *c);
 void func_020061E4(u32 a);
-int func_0217CA1C(void *);
-void func_0201235C(void *, int);
+void *func_0217CA1C(void *p);
+void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_02181A98(void *a, int *state, Ov018Outer *c)
 {
@@ -74,7 +75,7 @@ int func_02181A98(void *a, int *state, Ov018Outer *c)
 
     sub = func_020124E4(a);
     sys = (void *)func_02012138(sub);
-    v = func_02158344(sys);
+    v = func_02158344((int)sys);
     switch (*state) {
     case 0:
         func_0201F02C(c->obj.f00, 0, &c->f78);
@@ -93,7 +94,7 @@ int func_02181A98(void *a, int *state, Ov018Outer *c)
         break;
     case 3:
         func_0217FE38(v, c);
-        if (func_02158344(sys) != 0) {
+        if (func_02158344((int)sys) != 0) {
             func_020061E4(0x737);
             func_0201235C(a, func_0217CA1C(sub));
             return 0;

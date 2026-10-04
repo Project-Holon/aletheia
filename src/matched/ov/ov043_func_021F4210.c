@@ -18,7 +18,7 @@
 
 typedef unsigned char u8;
 
-extern void func_0218EC54(int p);
+extern void func_0218EC54(u8 *p);
 extern void func_0218EC30(int p, int v);
 extern void func_0218ECC4(int p, int *v);
 extern void func_0218ECD4(int p, void *v);
@@ -29,7 +29,7 @@ int func_021F4210(u8 *s)
 
     switch (s[0]) {
     case 0:
-        func_0218EC54(*(int *)(s + 8));
+        func_0218EC54((u8 *)(*(int *)(s + 8)));
         s[0]++;
     case 1:
         if (s[3] % 2 == 0) {

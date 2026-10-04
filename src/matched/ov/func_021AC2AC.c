@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02050278(u32 a, u32 b, u32 c);
+struct BbActSys;
+extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
 
 void func_021AC2AC(u8 *p)
 {
-    func_02050278(*(u32 *)(p + 0x10), (u16)*(u32 *)(p + 0x18), 1);
+    func_02050278((struct BbActSys *)(*(u32 *)(p + 0x10)), (u16)*(u32 *)(p + 0x18), 1);
 }

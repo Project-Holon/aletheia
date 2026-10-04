@@ -12,6 +12,6 @@
  *   func_02187684 0x02187684 thumb ov020
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02187684(int a);
+extern void func_02187684(void *p);
 extern void func_020307B0(void *p);
-void func_021F4B40(int *p) { func_02187684(p[3]); func_020307B0(p); }
+void func_021F4B40(int *p) { func_02187684((void *)p[3]); func_020307B0(p); }

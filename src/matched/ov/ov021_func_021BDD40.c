@@ -15,9 +15,10 @@
  *   func_021BE1C4  0x021BE1C4  thumb  ov021
  */
 
-extern int func_021BE1C4(void *a);
+typedef unsigned int   u32;
+extern int func_021BE1C4(u32 a);
 
 int func_021BDD40(void *a)
 {
-    return func_021BE1C4(a);
+    return func_021BE1C4((u32)a);
 }

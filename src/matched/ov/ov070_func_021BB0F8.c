@@ -33,11 +33,14 @@ typedef struct {
     u8 h;
 } Desc;
 
-extern int func_020457B0(int, int);
-extern void func_02045CAC(int, int, int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_02027778(Desc *, int);
-extern void func_02045808(int);
-extern void func_021BB580(int, int);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_021BB580(char *p, int v);
 extern void func_021BB3F4(int, int);
 
 void func_021BB0F8(int p)
@@ -55,19 +58,19 @@ void func_021BB0F8(int p)
     s.f = 0xC;
     s.g = 8;
     s.h = 3;
-    r = func_020457B0(0x64, h);
+    r = (int)func_020457B0(0x64, h);
     *(int *)(p + 0x780) = r;
-    func_02045CAC(*(int *)(p + 0x51C), 0x84, r);
+    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), 0x84, (void *)r);
     *(u16 *)(p + 0x784) = 0x39E0;
     *(int *)(p + 0x788) = 0;
-    r = func_020457B0(0x64, *(u16 *)(p + 0x544));
+    r = (int)func_020457B0(0x64, *(u16 *)(p + 0x544));
     *(int *)(p + 0x78C) = r;
-    func_02045CAC(*(int *)(p + 0x51C), 0x85, r);
+    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), 0x85, (void *)r);
     *(u16 *)(p + 0x790) = 0x39E0;
     *(int *)(p + 0x794) = 0;
     *(int *)(p + 0x77C) = func_02027778(&s, *(int *)(p + 0x7E0));
-    func_02045808(*(int *)(p + 0x780));
-    func_02045808(*(int *)(p + 0x78C));
-    func_021BB580(p, 0);
+    func_02045808((struct U16Vec *)(*(int *)(p + 0x780)));
+    func_02045808((struct U16Vec *)(*(int *)(p + 0x78C)));
+    func_021BB580((char *)p, 0);
     func_021BB3F4(p, 0);
 }

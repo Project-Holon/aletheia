@@ -25,18 +25,18 @@ typedef struct Obj {
     u32 f10;
 } Obj;
 
-extern int func_02159E00(int, u32 *, u32 *);
-extern void func_02159B94(Obj *, u32, u32, int);
+extern int func_02159E00(u8 *a, u32 *b, u32 *c);
+extern int func_02159B94(int a0, int a1, int a2, int a3);
 
 void func_02159C68(Obj *a, int b, int c)
 {
     u32 v[2];
-    int r = func_02159E00(b, &v[1], &v[0]);
+    int r = func_02159E00((u8 *)b, &v[1], &v[0]);
     switch (r) {
     case 0:
         break;
     case 2:
-        func_02159B94(a, (u16)v[0], a->f02, c);
+        func_02159B94((int)a, (u16)v[0], a->f02, c);
         return;
     case 1: {
         u32 i;

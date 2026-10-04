@@ -26,7 +26,7 @@ struct Obj;
 extern void *func_020490F4(unsigned int id, u16 heap);
 typedef unsigned int   u32;
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void *func_02049E74(unsigned,unsigned,unsigned,unsigned,u16);
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u16 func_0204B7F0(u8 *);
 extern void func_0204AA94(int,void *,unsigned,int,int);
 extern void func_020307B0(void *);
@@ -42,7 +42,7 @@ void func_021BE1B8(char *p,int index,unsigned species,unsigned form,u16 half,int
     unsigned saved;
     owner=func_020490F4(7,0x806b);
     saved=half;
-    data=func_02049E74((unsigned)owner,func_0201BABC(species,form,saved,0),0,(unsigned)&out,0x806b);
+    data=func_02049E74((void *)((unsigned)owner),func_0201BABC(species,form,saved,0),0,(unsigned)&out,0x806b);
     if (mode==1) {
         slot=(struct Obj **)(p+0xa74+index*4);
         func_0204AA94(func_0204B7F0((u8 *)*slot),out->f14,1024,0,0);

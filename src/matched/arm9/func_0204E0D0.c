@@ -53,17 +53,20 @@ struct Owner {
     struct Slot *slots;
 };
 
-extern s32  func_02062A00(u32 handle, u32 *out);
-extern void func_0204DACC(struct Owner *owner, s32 idx, u32 value, u32 a4,
-                          u32 a3);
+struct NitroFileHeader;
+struct Ovr;
+struct Res;
+struct Sink;
+extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
+extern void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr, u32 mode);
 
 void func_0204E0D0(struct Owner *owner, s32 idx, u32 handle, u32 a3, u32 a4)
 {
     u32 value;
     struct Slot *slot;
 
-    if (func_02062A00(handle, &value) != 0) {
-        func_0204DACC(owner, idx, value, a4, a3);
+    if (func_02062A00((struct NitroFileHeader *)handle, (void **)(&value)) != 0) {
+        func_0204DACC((struct Res *)owner, idx, (struct Sink *)value, (struct Ovr *)a4, a3);
         slot = &owner->slots[idx];
         slot->unk_3c &= ~0x80000000;
     }

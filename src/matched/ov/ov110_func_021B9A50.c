@@ -44,7 +44,7 @@ extern void func_0207D534(volatile u16 *reg, int brightness);
 extern u32 func_021BF7D0(u8 *);
 extern void func_021B9BAC(int a, unsigned char *b);
 extern void *func_02030DA8(u32,u32,void *,int);
-extern void func_021B9BD0(void *,u8 *);
+extern void func_021B9BD0(int a, unsigned char *b);
 extern void *func_021B9BA4(void (*fn)(void *, u8 *), u8 *p, int n);
 extern void *func_020490F4(unsigned int id, u16 heap);
 void *func_021B9A50(u8 *context,void *arg) {
@@ -64,7 +64,7 @@ void *func_021B9A50(u8 *context,void *arg) {
         func_0207D534((void *)0x0400006c,-16);
         func_0207D534((void *)0x0400106c,-16);
         *(void **)p=func_02030DA8(func_021BF7D0(context),(u32)func_021B9BAC,p,2);
-        *(void **)(p+4)=func_021B9BA4(func_021B9BD0,p,1);
+        *(void **)(p+4)=func_021B9BA4((void (*)(void *, u8 *))func_021B9BD0,p,1);
         for(i=0;i<4;++i) *(void **)(p+8+i*4)=0;
         *(u32 *)(p+0x70)=0;
         p[0x74]=0;

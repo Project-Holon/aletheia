@@ -64,8 +64,10 @@ extern Tmpl d_02183AF0;
 extern Tmpl g_02183AF0;
 
 extern void func_02082BCC(void *, int, int);
-extern int func_020120F4(void *);
-extern int func_02012964(int);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012964(const struct BigObj *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern u16 func_02188C9C(unsigned char *);

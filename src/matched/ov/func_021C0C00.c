@@ -17,10 +17,11 @@
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(void *);
+typedef unsigned int   u32;
+extern void func_0204A8D4(u32 i);
 
 void func_021C0C00(void *a, void *b)
 {
     func_0204B3B4(b);
-    func_0204A8D4(a);
+    func_0204A8D4((u32)a);
 }

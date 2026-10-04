@@ -28,19 +28,25 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_020120F4(void *p);
+struct Big;
+struct BigObj;
+struct Comm;
+struct Ctx;
+struct Party;
+struct Reg;
+void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 struct Obj;
 u32 func_02012138(const struct Ctx *p);
 void *func_020124E8(struct Obj *p);
-int func_02026454(int x);
-void func_02026400(int x);
-u32 func_0201A920(u32 a);
+u32 func_02026454(void *obj);
+void func_02026400(struct Comm *p);
+struct Party *func_0201A920(u32 heap);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-int func_02012EBC(int a);
-int func_0201283C(int a);
+void *func_02012EBC(struct Big *p);
+u32 func_0201283C(const struct BigObj *p);
 u16 func_02005C44(void);
-int func_0200ADF0(u32 a);
+struct Reg *func_0200ADF0(u32 heap);
 
 extern char d_02154C80[];
 
@@ -65,8 +71,8 @@ void func_02154B08(void *obj_in, void *p, int a, int b)
     char *obj;
     Sub *s;
 
-    if (func_02026454(func_02012138(p)))
-        func_02026400(func_02012138(p));
+    if (func_02026454((void *)func_02012138(p)))
+        func_02026400((struct Comm *)func_02012138(p));
     obj = func_020124E8(obj_in);
     *(void **)(obj + 0x4) = p;
     *(int *)(obj + 0x8) = a;
@@ -74,18 +80,18 @@ void func_02154B08(void *obj_in, void *p, int a, int b)
     *(int *)(obj + 0x14) = b;
     *(Sub **)(obj + 0x5c) = func_02030734(0x8004, 0x4c, 1, d_02154C80, 0x2b0);
     (*(Sub **)(obj + 0x5c))->f00 = (int)func_02030734(0x8004, 0x20, 1, d_02154C80, 0x2b1);
-    (*(Sub **)(obj + 0x5c))->f04 = func_020120F4(*(void **)(obj + 0x4));
-    (*(Sub **)(obj + 0x5c))->f08 = func_02012EBC((*(Sub **)(obj + 0x5c))->f04);
+    (*(Sub **)(obj + 0x5c))->f04 = (int)func_020120F4(*(void **)(obj + 0x4));
+    (*(Sub **)(obj + 0x5c))->f08 = (int)func_02012EBC((struct Big *)((*(Sub **)(obj + 0x5c))->f04));
     (*(Sub **)(obj + 0x5c))->f46 = 1;
     (*(Sub **)(obj + 0x5c))->f49 = 0;
     *(int *)(obj + 0x90) = (*(Sub **)(obj + 0x5c))->f04;
-    *(int *)(obj + 0x94) = func_0201283C(*(int *)(obj + 0x90));
+    *(int *)(obj + 0x94) = func_0201283C((const struct BigObj *)(*(int *)(obj + 0x90)));
     (*(Sub **)(obj + 0x5c))->f0c = 0;
-    *(int *)(obj + 0x7c) = *(int *)(obj + 0x168) = func_0201A920(0x8004);
+    *(int *)(obj + 0x7c) = *(int *)(obj + 0x168) = (int)func_0201A920(0x8004);
     *(char **)(obj + 0xc) = obj;
     *(u16 *)(obj + 0x170) = func_02005C44();
-    (*(Sub **)(obj + 0x5c))->f14 = func_0201A920(0x8001);
-    (*(Sub **)(obj + 0x5c))->f18 = func_0201A920(0x8001);
-    (*(Sub **)(obj + 0x5c))->f1c = func_0200ADF0(0x8001);
+    (*(Sub **)(obj + 0x5c))->f14 = (int)func_0201A920(0x8001);
+    (*(Sub **)(obj + 0x5c))->f18 = (int)func_0201A920(0x8001);
+    (*(Sub **)(obj + 0x5c))->f1c = (int)func_0200ADF0(0x8001);
     (*(Sub **)(obj + 0x5c))->f20 = 1;
 }

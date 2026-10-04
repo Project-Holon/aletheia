@@ -28,8 +28,8 @@ typedef struct { int x, y, z; } V;
 u32 func_021B8220(u8 *p);
 u8 *func_021B830C(void);
 u32 func_021B821C(u8 *p);
-u32 func_0218E124(u32 a, u32 b);
-u32 func_0218EC54(u32 a);
+void func_0218E124(u8 *a, u32 s);
+void func_0218EC54(u8 *p);
 void func_0218ECF4(u32 a, V *v);
 void func_0218EC90(u32 a, V *v);
 
@@ -43,8 +43,8 @@ void func_021BA4FC(u8 *p)
     func_021B8220(p);
     q = func_021B830C();
     o = func_021B821C(p);
-    func_0218E124(o, 2);
-    func_0218EC54(func_021B821C(p));
+    func_0218E124((u8 *)o, 2);
+    func_0218EC54((u8 *)func_021B821C(p));
     a.x = *(int *)(q + 4);
     a.y = *(int *)(q + 8);
     a.z = *(int *)(q + 12);

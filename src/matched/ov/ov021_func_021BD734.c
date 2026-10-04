@@ -28,7 +28,7 @@ extern u32 func_021BD8C0(u32 *ctx);
 extern void func_021BD96C(u32 *, u32);
 extern void func_021BD94C(u32 *);
 extern void func_021BD988(u32 *, u32);
-extern u32 func_02161B1C(u32);
+extern int func_02161B1C(void *a);
 extern int func_02161B74(int a0);
 extern void func_020061E4(u32);
 
@@ -43,7 +43,7 @@ u32 func_021BD734(u32 a, int *st, u32 *ctx)
             func_021BD96C(ctx, a);
         else
             func_021BD94C(ctx);
-        ctx[1] = func_02161B1C(x);
+        ctx[1] = func_02161B1C((void *)x);
         (*st)++;
         break;
     case 1:

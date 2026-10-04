@@ -37,10 +37,10 @@ struct P {
 
 typedef unsigned short u16;
 extern u16 func_02039338(void);
-extern int  func_02184180(int a, int b);
+extern char *func_02184180(unsigned char *p, int i);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0218506C(int obj, int a, int b);
+extern void func_0218506C(void *actor, int x, int y);
 
 #define E(p) ((struct e6 *)((char *)(p) + 0x4212))
 
@@ -51,9 +51,9 @@ void func_02185EA0(struct P *p)
     for (i = 0; i < 5; i++) {
         if (i == func_02039338())
             continue;
-        if (E(p)[i].n != 0 && func_02184180(*p->unk4, (unsigned char)i) != 0) {
+        if (E(p)[i].n != 0 && func_02184180((unsigned char *)(*p->unk4), (unsigned char)i) != 0) {
             func_0204B3DC((struct Obj *)p->unk60[i], 1);
-            func_0218506C(p->unk60[i], E(p)[i].b[E(p)[i].n - 1], E(p)[i].b[E(p)[i].n + 1]);
+            func_0218506C((void *)p->unk60[i], E(p)[i].b[E(p)[i].n - 1], E(p)[i].b[E(p)[i].n + 1]);
         } else {
             func_0204B3DC((struct Obj *)p->unk60[i], 0);
         }

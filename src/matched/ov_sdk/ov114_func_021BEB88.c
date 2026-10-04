@@ -18,9 +18,10 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021BEAB8(int, int, int);
+struct Conn;
+extern struct Conn *func_021BEAB8(void *mutexInfo_p, struct Conn *handle_p, unsigned long order);
 
 int func_021BEB88(int a, int b)
 {
-    return -(func_021BEAB8(a, b, 3) == 0);
+    return -(func_021BEAB8((void *)a, (struct Conn *)b, 3) == 0);
 }

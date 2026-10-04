@@ -46,7 +46,8 @@ typedef struct Obj {
 
 extern T5 d_021D91F8;
 
-extern S16 *func_021AC1AC(int a);
+typedef unsigned int   u32;
+extern int func_021AC1AC(u32 a);
 extern int func_021ABE18(int a);
 extern u16 func_021C6590(int a, int b, int c, int d);
 extern void func_021AC1B8(int a, Vec *v);
@@ -61,7 +62,7 @@ void func_021AD5E0(int a, int *bp)
     int m;
     Tab *t;
 
-    b->s14 = *func_021AC1AC(a);
+    b->s14 = *((S16 *)func_021AC1AC(a));
     t = (Tab *)b->s14.b;
     r = func_021ABE18(t->f0);
     switch (b->s14.c) {

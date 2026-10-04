@@ -21,7 +21,7 @@
 typedef unsigned int   u32;
 extern void *func_021F279C(int a, int b, int c, int d);
 extern void func_021EFEF8(char *p, void (*f)(void), int a);
-extern void func_021F21F8(void);
+extern void func_021F21F8(char *p);
 extern u32 func_020056EC(u32 range);
 extern void func_021F3190(int a, int b, int c, int d);
 extern void func_021F20AC(char *p);
@@ -33,7 +33,7 @@ char *func_021F27D8(int a0, int a1, int a2, void (*cb)(int), int arg, int flag)
     *(void (**)(int))(p + 0x1fc) = cb;
     *(int *)(p + 0x200) = arg;
     if (flag != 0) {
-        func_021EFEF8(p, func_021F21F8, 0x1160);
+        func_021EFEF8(p, (void (*)(void))func_021F21F8, 0x1160);
         *(unsigned char *)(p + 0x45b) = 0;
     } else {
         if (*(void (**)(int))(p + 0x1fc) != 0)

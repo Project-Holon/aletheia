@@ -50,7 +50,7 @@ extern void func_021C6390(u8 *);
 extern void func_021C6360(void *, int);
 extern void func_021C6438(u8 *p, u8 a, u8 b);
 extern void func_021C6440(u8 *p, void *a, void *b);
-extern void func_0216C0C0(void *);
+extern int func_0216C0C0(int a0);
 extern char id67[], id194[], id129[];
 extern char d_021F5580[], d_021DA62C[];
 int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
@@ -88,7 +88,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
         }
         break;
     case 3:
-        func_0216C0C0(p[1]);
+        func_0216C0C0((int)p[1]);
         func_0202E54C(p[2]);
         func_02034AC4((u32)id67);
         func_021C6360(a, heap);
@@ -116,7 +116,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
         }
         break;
     case 6:
-        func_0216C0C0(p[1]);
+        func_0216C0C0((int)p[1]);
         func_02034AC4((u32)id67);
         func_021C6360(a, heap);
         return 1;

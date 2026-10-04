@@ -17,7 +17,7 @@
  */
 
 extern int func_021D157C(void);
-extern void func_021C0E40(void *);
+extern void func_021C0E40(unsigned int v);
 
 void func_021C7CA0(void)
 {
@@ -27,6 +27,6 @@ void func_021C7CA0(void)
         return;
     p = *(int **)(*(int *)0x021DE5E4 + 4);
     *p &= 0xC1FFFCFF;
-    func_021C0E40((void *)0x021C7314);
+    func_021C0E40((unsigned int)((void *)0x021C7314));
 }
 

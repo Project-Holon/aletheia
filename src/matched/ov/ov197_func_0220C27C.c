@@ -20,7 +20,9 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
 extern int func_0204ABF0(void *,unsigned,unsigned,unsigned,u16);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
-extern void func_020216B4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_02049238(void *);
 void func_0220C27C(char *p)
 {
@@ -28,6 +30,6 @@ void func_0220C27C(char *p)
     *(int *)(p+0x560)=func_0204A6C8(arc,13,1,1,*(u16 *)(*(char **)p+0xc));
     *(int *)(p+0x584)=func_0204ABF0(arc,14,1,224,*(u16 *)(*(char **)p+0xc));
     *(int *)(p+0x590)=func_0204AF28(arc,15,16,*(u16 *)(*(char **)p+0xc));
-    func_020216B4(*(void **)(p+8),(unsigned)arc,14,*(u16 *)(*(char **)p+0xc),3,32,112);
+    func_020216B4(*(void **)(p+8),(void *)((unsigned)arc),14,*(u16 *)(*(char **)p+0xc),3,32,112);
     func_02049238(arc);
 }

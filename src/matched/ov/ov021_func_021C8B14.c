@@ -25,14 +25,14 @@ typedef struct { u32 x, y, z; } V;
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; void *f10; } P;
 extern u32 func_021C8A7C(P *p);
 extern void func_0216D410(u32 a, u32 b);
-extern void func_0216D548(u32 a, u32 b);
+extern void func_0216D548(u32 *p, u32 v);
 extern int func_02006148(u32 a0);
 extern int func_02006224(u32 a0);
 extern void func_020061E4(u32 id);
 void func_021C8B14(P *p)
 {
     func_0216D410(p->fC, func_021C8A7C(p));
-    func_0216D548(p->fC, 8);
+    func_0216D548((u32 *)p->fC, 8);
     if (func_02006224(func_02006148(0x694)) == 0)
         func_020061E4(0x694);
 }

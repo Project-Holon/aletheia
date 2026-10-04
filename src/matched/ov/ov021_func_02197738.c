@@ -27,8 +27,9 @@ typedef unsigned int   u32;
 
 extern int func_02012DD0(u8 *p);
 extern void func_02196228(u8 *p, int flag);
-extern void func_0201F7A8(u32, u32);
-extern void func_020456F8(u32);
+struct Descriptor;
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020456F8(struct Descriptor *d);
 extern void func_02041B6C(u32);
 extern void func_02196034(u8 *, void (*)(), u32);
 extern void func_02196A60(u8 *p);
@@ -38,8 +39,8 @@ void func_02197738(u8 *a)
 {
     if (func_02012DD0(*(u8 **)(a + 0x30)) == 2) {
         func_02196228(a, 0);
-        func_0201F7A8(*(u32 *)(a + 0x2b0), 2);
-        func_020456F8(*(u32 *)(a + 0x2b0));
+        func_0201F7A8((void *)(*(u32 *)(a + 0x2b0)), 2);
+        func_020456F8((struct Descriptor *)(*(u32 *)(a + 0x2b0)));
         func_02041B6C(5);
         if (*(u32 *)(a + 8) == 1) {
             func_02196034(a, func_02196A60, 0x776);

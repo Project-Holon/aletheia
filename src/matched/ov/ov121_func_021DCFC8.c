@@ -52,7 +52,7 @@ extern struct Obj *func_0204B294(void *owner,unsigned int i,unsigned int j,unsig
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_0202D7C8(u16);
-extern int func_0202D7D8(void *,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
 extern int func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D81C(void *,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void func_0204B570(struct Actor *actor, u32 value);
@@ -91,7 +91,7 @@ void *func_021DCFC8(const Desc *p,u16 heap)
     func_0204B688(*(void **)(out+28),0);
     func_0204B3DC(*(void **)(out+28),0);
     arc2=func_0202D7C8(heap);
-    *(int *)(out+16)=func_0202D7D8(arc2,1,0,0,0,0,0,*(u32 *)(out+0x98),p->w[5]<<5,heap);
+    *(int *)(out+16)=func_0202D7D8((int)arc2,1,0,0,0,0,0,*(u32 *)(out+0x98),p->w[5]<<5,heap);
     *(int *)(out+24)=func_0202D898(1,0,0,0,0,0,2,*(u32 *)(out+0x98),heap);
     *(int *)(out+20)=func_0202D81C(arc2,1,0,0,0,0,0,0,*(u32 *)(out+0x98),heap);
     func_02049238(arc2);

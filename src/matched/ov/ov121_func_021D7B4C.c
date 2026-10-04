@@ -43,7 +43,7 @@ extern void func_02082BCC(void *,int,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D9288(void *,int);
 extern void func_021D8380(void *);
 extern void func_021D9E04(u8 *p);
@@ -117,7 +117,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 7:
-        func_021DA8B0(task,func_021D6E3C);
+        func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     case 8:
         if(!func_0204E804()) func_021DA8C4(task);

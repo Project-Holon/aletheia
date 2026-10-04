@@ -31,7 +31,7 @@ struct Rec;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32   func_020490A8(u32 a, u32 b);
-extern void  func_02048F74(void *dst, u32 a, u32 b, u32 c, u32 d);
+extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -48,7 +48,7 @@ void func_0202A310(u16 key, u16 want, void *dest, u32 heap)
 
     bank = func_02045B38(0, 2, 0xbd, heap);
     end = func_020490A8(0x5a, 0);
-    func_02048F74(rec, 0x5b, 0, key * 2, 2);
+    func_02048F74(rec, 0x5b, 0, key * 2, (u32 *)2);
     h = func_020490F4(0x5a, heap);
 
     while (rec[0] != end) {

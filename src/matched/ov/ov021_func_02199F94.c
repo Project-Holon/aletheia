@@ -20,9 +20,9 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern int func_0219FCC0(u32, u16 *, u16 *);
-extern u16 func_0216D598(u32);
+extern u16 func_0216D598(void *p);
 extern void func_020061E4(u32);
 extern void func_0216D7CC(u32);
 
@@ -30,12 +30,12 @@ int func_02199F94(u32 a)
 {
     u16 *p;
     u16 v[2];
-    p = func_0216D6D4(a);
+    p = func_0216D6D4((void *)a);
     if (func_0219FCC0(a, &v[1], &v[0]) != 1)
         return 0;
     p[0] = p[0] + 1;
     v[0] = v[0] - 1;
-    if (func_0216D598(a) == 0xDD && v[1] == 0 && *((u8 *)p + 2) != v[0]) {
+    if (func_0216D598((void *)a) == 0xDD && v[1] == 0 && *((u8 *)p + 2) != v[0]) {
         *((u8 *)p + 2) = v[0];
         switch (v[0]) {
         case 0:

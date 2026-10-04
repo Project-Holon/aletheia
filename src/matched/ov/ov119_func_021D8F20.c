@@ -15,10 +15,12 @@
 extern int func_021D8A24(void *, int);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern unsigned func_0203D1A4(unsigned);
+typedef unsigned int   u32;
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 int func_021D8F20(void *p,int idx) {
  unsigned v=func_021D8A24(p,idx);
  if(v==0) return *(int *)((char *)p+idx*4+0x5e4);
- if(func_0203D1A4((unsigned)func_020399A8())==0) return *(int *)((char *)p+idx*4+0x5e4);
+ if(func_0203D1A4((struct Link *)((unsigned)func_020399A8()))==0) return *(int *)((char *)p+idx*4+0x5e4);
  return *(int *)((char *)p+(1-idx)*4+0x5e4);
 }

@@ -32,13 +32,14 @@ extern void func_021F2CC4(char *p);
 extern void func_021F2BD4(char *p);
 extern void func_021F2A04(char *p);
 extern void func_021F28DC(char *p);
-extern void func_0203115C(u32 a);
+struct Tcbl;
+extern void func_0203115C(struct Tcbl *p);
 extern void func_02049238(u32 a);
 extern void func_020307B0(void *p);
 
 void func_021F22FC(char *p)
 {
-    func_0203115C(*(u32 *)(p + 0xa0));
+    func_0203115C((struct Tcbl *)(*(u32 *)(p + 0xa0)));
     func_021F30B4(p);
     func_021F2FCC(p);
     func_021F2EDC(p);

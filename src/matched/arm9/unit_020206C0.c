@@ -69,8 +69,11 @@ struct Obj {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f);
-extern void func_02020D5C(void *a, u32 b, u32 c, void *d, void *e, void *f);
+struct Bmp;
+struct Desc;
+struct Handle;
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
 
 void func_020206C0(struct Obj *obj)
 {
@@ -80,7 +83,7 @@ void func_020206C0(struct Obj *obj)
 
     switch (obj->f1Atop) {
     case 0:
-        func_02020D5C(obj->f3C, b, v, obj->f28, obj->f2C, obj->f30);
+        func_02020D5C(obj->f3C, b, v, obj->f28, obj->f2C, (u32)obj->f30);
         break;
     case 1:
     case 2:
@@ -93,7 +96,7 @@ void func_0202071C(struct Obj *obj, u32 n)
 {
     switch (obj->f1Atop) {
     case 0:
-        func_02043AF4((u32)func_02045770((struct Descriptor *)obj->unk0C),
+        func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C)),
                       obj->f16,
                       (s16)(u16)(obj->f17lo + n * (u8)(obj->f22 + obj->f1Amid)),
                       obj->f20,

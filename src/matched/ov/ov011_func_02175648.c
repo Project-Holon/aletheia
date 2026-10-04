@@ -41,7 +41,7 @@ extern u16 *func_0200BE48(void *sys);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_0200BF70(struct Rec1B0 *p);
 extern u8 func_02012B70(const struct BigObj *p);
-extern void *func_02012FCC(void *p);
+extern int func_02012FCC(int p0);
 extern unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
 extern unsigned long long func_0200BF94(struct Rec1B0 *p);
 extern void  func_0200BF54(void *p, void *out, u32 n);
@@ -54,7 +54,7 @@ void func_02175648(void *sv, Out *o)
     MI_CpuFill8(o, 0, 0x10);
     o->f00 = func_0200BF70(q);
     if (func_02012B70(sv) == 1) {
-        o->f04 = func_0200BFA4(q, func_02012FCC(sv), 2);
+        o->f04 = func_0200BFA4(q, (void *)func_02012FCC((int)sv), 2);
     } else {
         o->f04 = func_0200BF94(q);
     }

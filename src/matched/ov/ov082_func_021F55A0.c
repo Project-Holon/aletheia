@@ -30,7 +30,8 @@ extern void *func_0201210C(const struct Ctx *p);
 extern u8 *func_02189A60(u8 *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int  func_0204E804(void);
-extern void func_02030EAC(int a);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021F5648(void *a, void *p);
 
 int func_021F55A0(void *a0, int *st)
@@ -52,7 +53,7 @@ int func_021F55A0(void *a0, int *st)
     case 1:
         if (func_0204E804() != 0)
             break;
-        func_02030EAC(*(int *)(w + 0x14));
+        func_02030EAC((struct Node *)(*(int *)(w + 0x14)));
         (*st)++;
         break;
     case 2:
@@ -60,7 +61,7 @@ int func_021F55A0(void *a0, int *st)
             break;
         if (*(int *)(w + 0x50) != 0)
             break;
-        func_02030EAC(*(int *)(w + 0x18));
+        func_02030EAC((struct Node *)(*(int *)(w + 0x18)));
         t = *(int *)(w + 0x70);
         func_021F5648(obj, w);
         if (t != 0)

@@ -16,9 +16,10 @@
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
-extern void func_022094BC(u32 obj, u32 a, u32 b, u32 c);
+typedef unsigned char  u8;
+extern void func_022094BC(u8 *p, int i, int a, int b);
 
 void func_021F8504(u32 a, u32 b, u32 c)
 {
-    func_022094BC(*(u32 *)(d_0220AF20 + 0x1B0), a, b, c);
+    func_022094BC((u8 *)(*(u32 *)(d_0220AF20 + 0x1B0)), a, b, c);
 }

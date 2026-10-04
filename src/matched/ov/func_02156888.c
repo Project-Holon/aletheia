@@ -25,14 +25,14 @@ typedef unsigned int u32;
 struct Desc;
 struct Evt;
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern void *func_021589D0(void *h);
+extern int func_021589D0(int a0);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_02156888(void *a0, void *a1, int a2)
 {
     void *r4 = func_02158768(*(u32 *)a1, a2, 0, 0x15);
 
-    func_021589D0(r4);
+    func_021589D0((int)r4);
     func_02012374(a0, r4);
 }
 

@@ -18,17 +18,19 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0204B98C(u32);
+struct Actor;
+struct Obj;
+extern u32 func_0204B98C(struct Actor *a);
 extern int func_021FE9B0(u8 *);
-extern void func_0204B878(u32, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern const u16 d_02203D4A[][4];
 int func_021FF2D0(u8 *p)
 {
-    if (func_0204B98C(*(u32 *)(p + 0xBF4)) == 0) {
-        func_0204B878(*(u32 *)(p + 0xBF4), d_02203D4A[func_021FE9B0(p)][0]);
+    if (func_0204B98C((struct Actor *)(*(u32 *)(p + 0xBF4))) == 0) {
+        func_0204B878((struct Obj *)(*(u32 *)(p + 0xBF4)), d_02203D4A[func_021FE9B0(p)][0]);
         if (func_020355C4() == 1) {
             func_0204B3DC((struct Obj *)*(u32 *)(p + 0xBF4), 0);
         } else {

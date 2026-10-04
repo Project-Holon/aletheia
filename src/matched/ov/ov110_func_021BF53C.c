@@ -25,7 +25,7 @@ typedef unsigned int u32;
 typedef int (*Handler)(u8 *, void *);
 struct T245;
 struct T241;
-extern int func_021B9C74(void *);
+extern int func_021B9C74(unsigned int a);
 extern int func_021BF680(u8 *);
 extern void func_021BF6CC(u8 *, u8, u8);
 extern void func_021B9BEC(u8 *, int);
@@ -39,7 +39,7 @@ void func_021BF53C(u8 *p, u32 *q)
 {
     switch (*q) {
     case 0:
-        if (func_021B9C74(*(void **)(p + 20))) {
+        if (func_021B9C74((unsigned int)(*(void **)(p + 20)))) {
             if (func_021BF680(p)) {
                 func_021BF6CC(p + 107, 1, 0);
                 *(u16 *)(p + 72) = 0;
@@ -66,7 +66,7 @@ void func_021BF53C(u8 *p, u32 *q)
         if (*(u16 *)(p + 52) & 243) *q = 3;
         break;
     case 3:
-        if (func_021B9C74(*(void **)(p + 20))) func_021BF500(p);
+        if (func_021B9C74((unsigned int)(*(void **)(p + 20)))) func_021BF500(p);
         break;
     }
 }

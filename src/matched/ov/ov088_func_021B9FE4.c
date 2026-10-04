@@ -17,7 +17,8 @@
 
 typedef int (*StateFn)(char *);
 
-extern void func_020310C4(int);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern void func_0204A600(void);
 extern StateFn d_021BD63C[];
 
@@ -28,7 +29,7 @@ int func_021B9FE4(int a0, int a1, int a2, char *p)
     if (s == 12) {
         return 1;
     }
-    func_020310C4(*(int *)(p + 0x70));
+    func_020310C4((struct Tcbl *)(*(int *)(p + 0x70)));
     func_0204A600();
     return 0;
 }

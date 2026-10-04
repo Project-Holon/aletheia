@@ -24,19 +24,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201F7A8(u32, u32);
-extern u32 func_0202F038(u32);
+struct Descriptor;
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_0202F038(u8 *p);
 extern u32 func_02041B6C(u32);
-extern u32 func_020456F8(u32);
+extern void func_020456F8(struct Descriptor *d);
 
 int func_021962C4(u32 a)
 {
 if (*(u32 *)((u8 *)(a) + ((186 << 2))) != 0) {
-    func_0202F038(*(u32 *)((u8 *)(a) + ((186 << 2))));
+    func_0202F038((u8 *)(*(u32 *)((u8 *)(a) + ((186 << 2)))));
     *(u32 *)((u8 *)(a) + ((186 << 2))) = 0;
 }
-func_0201F7A8(*(u32 *)((u8 *)(a) + ((43 << 4))), 2);
-func_020456F8(*(u32 *)((u8 *)(a) + ((43 << 4))));
+func_0201F7A8((void *)(*(u32 *)((u8 *)(a) + ((43 << 4)))), 2);
+func_020456F8((struct Descriptor *)(*(u32 *)((u8 *)(a) + ((43 << 4)))));
 return func_02041B6C(5);
 }
 

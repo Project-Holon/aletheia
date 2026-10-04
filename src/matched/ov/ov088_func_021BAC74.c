@@ -22,21 +22,26 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02045B38(u32, u32, u32, u32);
-extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
-extern u32 func_0201EC64(u32 heap);
-extern u32 func_0201C440(u32 heap);
-extern u32 func_020457B0(u32 n, u32 heap);
-extern u32 func_0203101C(u32, u32, int, int);
+struct GfFont;
+struct MsgBank;
+struct Tcbl;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern u32 func_0201C440(void *p);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32, u32, u32, u32);
 
 void func_021BAC74(char *p)
 {
-    *(u32 *)(p + 0x5c) = func_02045B38(0, 2, 0xb3, 0xb);
-    *(u32 *)(p + 0x58) = func_0201D7EC(0x17, 0, 0, 0, 0xb);
-    *(u32 *)(p + 0x60) = func_0201EC64(0xb);
-    *(u32 *)(p + 0x68) = func_0201C440(0xb);
-    *(u32 *)(p + 0x64) = func_020457B0(0x400, 0xb);
-    *(u32 *)(p + 0x70) = func_0203101C(0xb, 0xb, 1, 4);
+    *(u32 *)(p + 0x5c) = (u32)func_02045B38(0, 2, 0xb3, 0xb);
+    *(u32 *)(p + 0x58) = (u32)func_0201D7EC(0x17, 0, 0, 0, 0xb);
+    *(u32 *)(p + 0x60) = (u32)func_0201EC64(0xb);
+    *(u32 *)(p + 0x68) = func_0201C440((void *)0xb);
+    *(u32 *)(p + 0x64) = (u32)func_020457B0(0x400, 0xb);
+    *(u32 *)(p + 0x70) = (u32)func_0203101C(0xb, 0xb, 1, 4);
     *(u32 *)(p + 0x74) = func_02028590(0xf, 1, 0, 0xb);
 }

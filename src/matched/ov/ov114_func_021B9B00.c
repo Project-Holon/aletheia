@@ -17,21 +17,22 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_02082BCC(int, int, int);
-extern u8 func_0200856C(int);
-extern u8 func_02008570(int);
-extern u32 func_02008530(int);
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_020084F4(int);
-extern void func_0201F41C(int, u8 *, int);
+extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 
 void func_021B9B00(u8 *p, int a)
 {
     func_02082BCC((int)p, 0, 0x64);
     p[0] = 0x15;
     p[1] = 2;
-    p[2] = func_0200856C(a);
-    p[3] = func_02008570(a);
-    *(u32 *)(p + 4) = func_02008530(a);
-    func_0201F41C(func_020084F4(a), p + 8, 8);
+    p[2] = func_0200856C((const struct Sub0200852CObj *)a);
+    p[3] = func_02008570((const struct Sub0200852CObj *)a);
+    *(u32 *)(p + 4) = func_02008530((const struct Sub0200852CObj *)a);
+    func_0201F41C((const u16 *)func_020084F4(a), (u16 *)(p + 8), 8);
     *(u32 *)(p + 0x18) = 0;
     *(u8 *)(p + 0x24) = 0;
     *(u32 *)(p + 0x5c) = 0;

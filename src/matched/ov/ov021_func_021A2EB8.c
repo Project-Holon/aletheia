@@ -34,34 +34,37 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A3994();
+struct H4;
+struct Rec44;
+struct Vec12;
+extern u32 func_021A3994(u8 *p);
 extern void *func_021A3960(unsigned char *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void func_02012A90();
+extern void func_02012A90(struct Rec44 *p, const struct Vec12 *src);
 extern u16 func_0216D5F8(void *p);
-extern void func_02012AD4();
-extern int func_02188CFC();
-extern void func_02012ABC();
+extern void func_02012AD4(u8 *p, int i);
+extern u32 func_02188CFC(u8 *p);
+extern void func_02012ABC(struct Rec44 *p, u8 v);
 extern void func_0219E2F4(void *o, void *out);
-extern void func_02012AA4();
+extern void func_02012AA4(struct Rec44 *p, const struct H4 *src);
 
 void func_021A2EB8(u32 *a)
 {
     u8 b[12];
     u8 c[8];
-    u32 d = func_021A3994(a[1]);
+    u32 d = func_021A3994((u8 *)a[1]);
     void *e = func_021A3960((u8 *)a[1]);
 
     func_0216D88C(e, (struct VecFx32 *)b);
-    func_02012A90(d, b);
-    func_02012AD4(d, func_0216D5F8(e));
-    if (func_02188CFC(a[0]) == 0) {
-        func_02012ABC(d, 0);
+    func_02012A90((struct Rec44 *)d, (const struct Vec12 *)b);
+    func_02012AD4((u8 *)d, func_0216D5F8(e));
+    if (func_02188CFC((u8 *)a[0]) == 0) {
+        func_02012ABC((struct Rec44 *)d, 0);
         return;
     }
     func_0219E2F4(e, c);
-    func_02012AA4(d, c);
-    func_02012ABC(d, 1);
+    func_02012AA4((struct Rec44 *)d, (const struct H4 *)c);
+    func_02012ABC((struct Rec44 *)d, 1);
 }

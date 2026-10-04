@@ -37,7 +37,8 @@ extern void func_0203D668(u32);
 extern int func_021BCB8C(void *);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201283C(const struct BigObj *);
-extern u32 func_0200873C(u32);
+struct Sub02008700Obj;
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void func_021C24D4(char *, int);
 extern void func_020434DC(u32, u32);
 extern void func_02043598(u32, u32);
@@ -60,7 +61,7 @@ int func_021C24F0(void *obj, int unused, char *args)
     *(int *)(p + 0xcc) = func_021BCB8C(*(void **)(p + 0xc4));
     *(void **)(p + 0xc8) = func_02012934(*(struct BigObj **)(p + 0xc4));
     *(u32 *)(p + 4) = func_0201283C(*(struct BigObj **)(p + 0xc4));
-    *(u32 *)(p + 0xd8) = func_0200873C(*(u32 *)(args + 8));
+    *(u32 *)(p + 0xd8) = (u32)func_0200873C((void *)(*(u32 *)(args + 8)));
     *(u32 *)(p + 0x1d8) = *(u32 *)(args + 0xc);
     *(int *)(p + 0x135c) = *(u8 *)(args + 0x49);
     if (*(int *)(args + 0xc) == 1) {

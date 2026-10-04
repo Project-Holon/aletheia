@@ -22,7 +22,9 @@ typedef unsigned short u16;
 struct Descriptor;
 extern void func_020310C4(void *),func_020286C4(void *,void *,void *),func_0201CE48(void *),func_02045334(struct Descriptor *),func_02027974(void *);
 extern int func_02028484(void *,void *),func_0201C4E4(void *),func_0201C6B4(void *);
-extern void *func_0202EE8C(void *,void *,unsigned char,unsigned char,u16);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
 #define P(k) (*(void **)(p+(k)))
 #define I(k) (*(int *)(p+(k)))
 void func_021F15B0(char *p)
@@ -37,7 +39,7 @@ void func_021F15B0(char *p)
     func_0201C4E4(P(0x30));
     if(I(0x34)==1 && func_0201C6B4(P(0x30))==1){
         func_02045334(P(0x10));I(0x34)=0;
-        if(I(0x58)==1){I(0x58)=0;P(0x5C)=func_0202EE8C(P(12),P(0x10),15,16,*(u16 *)p);}
+        if(I(0x58)==1){I(0x58)=0;P(0x5C)=func_0202EE8C((u32)P(12),P(0x10),15,16,*(u16 *)p);}
     }
     if(P(0x3C))func_02027974(P(0x3C));
 }

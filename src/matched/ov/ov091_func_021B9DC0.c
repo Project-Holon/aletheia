@@ -26,19 +26,20 @@ typedef signed short   s16;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02045EC0(u32 h, u32 idx);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void  func_0201C7D0(u32 bmp, s16 x, s16 y, void *text, u32 f, u16 color);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 
 void func_021B9DC0(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color)
 {
     void *buf = func_020457B0(16, *(u16 *)p);
-    void *text = func_02045EC0(*(u32 *)(p + 0x134), idx);
+    void *text = func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x134)), idx);
     func_0201F250(set, buf, text);
-    func_0201C7D0((u32)func_02045770((struct Descriptor *)win), x, y, buf, *(u32 *)(p + 0x13c), color);
+    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)win)), x, y, buf, (void *)(*(u32 *)(p + 0x13c)), color);
     func_02045808(text);
     func_02045808(buf);
 }

@@ -35,13 +35,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D67C(u32);
-extern u32 func_0216D520(u32);
-extern u32 func_0219C9DC(u32);
+extern void *func_0216D67C(void *a0);
+extern u32 func_0216D520(void *p);
+extern u32 func_0219C9DC(u8 *p);
 extern int func_02197C9C();
 extern int func_0219C648(u32 a);
-extern u32 func_0216D7A8();
-extern int func_020508EC();
+extern int func_0216D7A8(void *p, unsigned int v);
+extern u32 func_020508EC(u8 *p, int i, u16 *out);
 
 int func_021A3A3C(u32 *p)
 {
@@ -49,11 +49,11 @@ int func_021A3A3C(u32 *p)
     u32 h;
     u32 k;
 
-    h = func_0219C9DC(func_0216D520(func_0216D67C(p[7])));
+    h = func_0219C9DC((u8 *)func_0216D520(func_0216D67C((void *)p[7])));
     if (func_02197C9C(p[7]) == 1 && func_0219C648(p[7]) == 1)
         return 1;
-    k = func_0216D7A8(p[7], 0);
-    if (k != 0xFFFF && func_020508EC(h, (u16)k, &v) != 0 && v == (0xFFFF >> 2))
+    k = func_0216D7A8((void *)p[7], 0);
+    if (k != 0xFFFF && func_020508EC((u8 *)h, (u16)k, &v) != 0 && v == (0xFFFF >> 2))
         return 1;
     return 0;
 }

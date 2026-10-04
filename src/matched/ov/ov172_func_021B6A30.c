@@ -18,7 +18,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021B6ADC(int a, int b);
+typedef signed char    s8;
+extern s8 func_021B6ADC(int sample, char *p);
 
 void func_021B6A30(short *src, unsigned char *dst, int n, int ctx)
 {
@@ -28,7 +29,7 @@ void func_021B6A30(short *src, unsigned char *dst, int n, int ctx)
     int have = 0;
 
     for (i = 0; i < n; i++) {
-        unsigned char v = (unsigned char)func_021B6ADC(src[i], ctx);
+        unsigned char v = (unsigned char)func_021B6ADC(src[i], (char *)ctx);
 
         if (have == 0) {
             pend = v;

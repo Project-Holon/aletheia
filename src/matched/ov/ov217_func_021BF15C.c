@@ -38,7 +38,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern u32 func_021BF854(char *p);
-extern void func_021C0FF8(u32 a, u32 b);
+extern void func_021C0FF8(u8 *p, int visible);
 extern void func_021C0F78(u32 a, void *b);
 extern u8 func_021C11C8(u8 *p, u8 key);
 extern u8 func_021C11DC(u8 *p, u8 key);
@@ -56,11 +56,11 @@ void func_021BF15C(char *p)
     u32 a, b, c;
     void *x, *y, *z;
     if (*(u32 *)(p + 0x3c8) == 0 || *(u32 *)(p + 0x3d0) == 1) {
-        func_021C0FF8(t, 0);
+        func_021C0FF8((u8 *)t, 0);
         return;
     }
     if (func_021BF810(p) == 0) {
-        func_021C0FF8(t, 0);
+        func_021C0FF8((u8 *)t, 0);
         return;
     }
     k = func_021BF7F4(p);
@@ -77,7 +77,7 @@ void func_021BF15C(char *p)
     func_0201EFA4(*(void **)(p + 0x18), 3, c, 3, 1, 1);
     func_0201F250(*(void **)(p + 0x18), z, x);
     func_021C0F78(t, z);
-    func_021C0FF8(t, 1);
+    func_021C0FF8((u8 *)t, 1);
     func_02045808(x);
     func_02045808(z);
     func_02045808(y);

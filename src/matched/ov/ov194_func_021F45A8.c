@@ -15,19 +15,21 @@
  *   func_021F253C 0x021F253C thumb
  */
 
-extern int func_021F23F4(int);
-extern int func_021F23F8(int);
-extern int func_021F253C(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021F23F4(const u8 *p);
+extern u32 func_021F23F8(const u8 *p);
+extern int func_021F253C(u8 *p);
 
 int func_021F45A8(int p)
 {
     int *q = *(int **)(p + 0x2c4);
 
     if (*q == 0 || *q == 3) {
-        if (func_021F23F4(p + 0x68) == 0 && func_021F23F8(p + 0x68) == 0) {
+        if (func_021F23F4((const u8 *)(p + 0x68)) == 0 && func_021F23F8((const u8 *)(p + 0x68)) == 0) {
             return 0;
         }
-        if (func_021F253C(p + 0x68) == 0) {
+        if (func_021F253C((u8 *)(p + 0x68)) == 0) {
             return 0;
         }
     }

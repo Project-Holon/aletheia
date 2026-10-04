@@ -77,7 +77,8 @@ struct RtcDate {
 
 extern u16 tbl_020A08B6[];
 
-extern void func_02088F58(struct RtcDate *d);
+struct RTCDate;
+extern s32 func_02088F58(struct RTCDate *date);
 
 s32 func_0203F540(struct RtcDate *d)
 {
@@ -94,7 +95,7 @@ s32 func_0203F540(struct RtcDate *d)
     t = *d;
     t.month = 1;
     t.day = 1;
-    func_02088F58(&t);
-    func_02088F58(d);
+    func_02088F58((struct RTCDate *)(&t));
+    func_02088F58((struct RTCDate *)d);
     return n;
 }

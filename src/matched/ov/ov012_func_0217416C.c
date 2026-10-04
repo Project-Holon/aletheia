@@ -29,7 +29,8 @@ typedef int (*Fn)(int, u8 *, int, int, int, int *, u8 *);
 typedef unsigned int   u32;
 extern void func_0217F074(void *p);
 extern void func_021734A8(u8 *self, u32 id, u32 v);
-extern void func_02012374(int a, int b);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u8 d_0217549C[];
 extern u8 d_0217549D[];
 extern u8 d_02175498[];
@@ -58,7 +59,7 @@ int func_0217416C(int a, int *b, int *c)
         int r;
         r = (*(Fn *)(d_02175498 + r4->f4 * 8))(first, base, c[1], r4->f8, a, &loc, &r4->fc);
         if (loc != 0) {
-            func_02012374(a, loc);
+            func_02012374((struct Evt *)a, (struct Evt **)loc);
         } else if (r == 1) {
             (*b)++;
         }

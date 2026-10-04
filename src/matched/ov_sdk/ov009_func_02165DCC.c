@@ -38,7 +38,7 @@ struct WCMWork {
         unsigned long nbdmode;
     } config;
 };
-extern struct WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 
 struct WCMApList *func_02165DCC(void)
 {
@@ -49,7 +49,7 @@ struct WCMApList *func_02165DCC(void)
     struct WCMApListHeader *pHeader;
     struct WCMWork *w;
 
-    w = func_021657C8();
+    w = (struct WCMWork *)func_021657C8();
     pHeader = (struct WCMApListHeader *)w->config.pbdbuffer;
     p = 0;
 

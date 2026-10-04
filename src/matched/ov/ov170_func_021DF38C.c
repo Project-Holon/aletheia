@@ -26,11 +26,11 @@ typedef unsigned int   u32;
 struct Big;
 struct U16Vec;
 extern void *func_02012EBC(struct Big *p);
-extern int func_0200C0F0(void *p);
+extern void *func_0200C0F0(void *sys);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0200785C(void *save, unsigned box, void *dest);
-extern void *func_0216BFD4(unsigned heap, int a, int b, int c, int d, void *s, int e);
+extern int *func_0216BFD4(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
 extern void func_02031348(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
 extern const unsigned d_021F5580[];
@@ -39,11 +39,11 @@ int func_021DF38C(char *p)
 {
     int value;
     Request *r;
-    value = func_0200C0F0(func_02012EBC((*(void ***)p)[0]));
+    value = (int)func_0200C0F0(func_02012EBC((*(void ***)p)[0]));
     r = func_02030734(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = func_020457B0(20, 0x4B);
     func_0200785C((*(void ***)p)[1], *(unsigned char *)(p + 0x14), r->text);
-    r->task = func_0216BFD4(0x4B, 2, 0, 0, 8, r->text, value);
+    r->task = func_0216BFD4(0x4B, 2, 0, 0, 8, (int)r->text, value);
     func_02031348(*(void **)(p + 4), (int)ov194_id, d_021F5580, r->task);
     *(Request **)(p + 12) = r;
     return 0;

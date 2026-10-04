@@ -17,10 +17,10 @@
 
 
 
-extern void func_021EC000(int, unsigned, int);
+extern void func_021EC000(char *p, int i, int v);
 void func_021DF128(int p)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        func_021EC000(p, i + 0x13, 0);
+        func_021EC000((char *)p, i + 0x13, 0);
 }

@@ -14,12 +14,13 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0201296C(void *);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *, int);
 extern const u16 d_021700A8[2];
 int func_02158590(void *p)
 {
-    void *q = func_0201296C(p);
+    void *q = (void *)func_0201296C(p);
     unsigned int i;
     for (i = 0; i < 2; i++) {
         if (func_020142E8(q, d_021700A8[i]) == 0)

@@ -15,9 +15,11 @@
  *   func_0202C794  0x0202C794  thumb
  */
 
-extern int func_0202C794(int a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 func_0202C794(void *a0, u32 a1);
 
 int func_02188C70(int *p, int b)
 {
-    return func_0202C794(p[1], b);
+    return func_0202C794((void *)p[1], b);
 }

@@ -16,6 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
-extern struct WordSet*func_021BF55C(u8*);
+extern int func_021BF55C(u8 *p);
 extern void func_0201F02C(struct WordSet*,u32,void*);
-void func_021BEF08(u8*p,u32 a){struct WordSet*q=func_021BF55C(*(u8**)(p+24));func_0201F02C(q,a,**(void***)(p+4));}
+void func_021BEF08(u8*p,u32 a){struct WordSet*q=(struct WordSet *)func_021BF55C(*(u8**)(p+24));func_0201F02C(q,a,**(void***)(p+4));}

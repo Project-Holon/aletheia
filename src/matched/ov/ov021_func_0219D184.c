@@ -18,7 +18,8 @@
  *   func_02046EFC  0x02046EFC  arm
  */
 
-extern unsigned int func_0216D4F0(int);
+typedef unsigned short u16;
+extern u16 func_0216D4F0(void *p);
 extern int func_0219CF00(int *, unsigned int, unsigned short *);
 extern int func_0219CF54(int *, unsigned int);
 extern int func_0219D144(int *, unsigned int, int);
@@ -34,7 +35,7 @@ void func_0219D184(int *obj, int key)
     unsigned short s;
 
     i = 0;
-    n = func_0216D4F0(obj[4]);
+    n = func_0216D4F0((void *)obj[4]);
     p = *(int **)(obj[7] + 0x14);
     for (; i < n; i++, p += 10) {
         if (p[0] != 0 && p[1] == key) {

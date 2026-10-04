@@ -15,10 +15,11 @@
  */
 
 extern void func_0220B188(char *a);
-extern void func_020452E8(int);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 
 void func_0220B1A0(char *a)
 {
     func_0220B188(a);
-    func_020452E8(*(int *)(a + 0x24));
+    func_020452E8((struct Descriptor *)(*(int *)(a + 0x24)));
 }

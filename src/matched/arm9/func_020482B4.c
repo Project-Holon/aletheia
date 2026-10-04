@@ -43,9 +43,10 @@ struct Owner {
     u8  *unk_04;
 };
 
-extern u32  func_02046F50(u32 p, u32 mode);
-extern void func_020470D0(u32 p);
-extern void func_02046EFC(u32 p);
+struct Tagged;
+extern u32 func_02046F50(struct Tagged *p, u32 sel);
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_020482B4(struct Owner *owner, u32 index)
 {
@@ -60,10 +61,10 @@ void func_020482B4(struct Owner *owner, u32 index)
         if (v != 0) {
             owner->unk_04[base + i] = 0;
 
-            if (func_02046F50(v, 2) == 1)
-                func_020470D0(v);
+            if (func_02046F50((struct Tagged *)v, 2) == 1)
+                func_020470D0((u32 *)v);
 
-            func_02046EFC(v);
+            func_02046EFC((struct Tagged *)v);
         }
     }
 }

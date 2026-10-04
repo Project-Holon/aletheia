@@ -29,7 +29,7 @@ struct Big;
 struct Ctx;
 struct Self;
 extern void *func_02012EBC(struct Big *p);
-extern void *func_02188CE8(u8 *p);
+extern u32 func_02188CE8(u8 *p);
 extern int func_021AA944(struct Self *self);
 extern void func_021AA80C(struct Ctx *ctx);
 
@@ -39,7 +39,7 @@ int func_0218AC84(u8 *pos, void *msg, void *sys)
     int r;
 
     func_02012EBC(sys);
-    obj = func_02188CE8(pos);
+    obj = (void *)func_02188CE8(pos);
     r = func_021AA944(obj);
     if (r == 0) {
         func_021AA80C(obj);

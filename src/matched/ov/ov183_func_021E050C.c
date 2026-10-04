@@ -25,41 +25,43 @@
  */
 typedef unsigned short u16;
 struct Data { void *a, *b, *c, *d; u16 heap; u16 pad; void *e; };
-extern int func_021FC20C(int);
+typedef unsigned int   u32;
+struct Object;
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern u16 func_021F9B9C(void *);
 extern void *func_0203159C(void *, int, u16);
 extern void func_02082BCC(void *, int, unsigned int);
-extern void func_021FB964(int, int, u16);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBE54(char *, unsigned int, unsigned int);
-extern void *func_021FD760(void *, int, int, u16);
-extern void *func_021E07A4(u16, int, void *, int, void *, int *);
+extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
+extern struct Object *func_021E07A4(int heap, int n, void *a, void *b, void *c, int *entries);
 struct Source;
 extern char *func_021E06D0(const struct Source *src, u16 heap);
-extern void *func_0201C440(u16);
+extern u32 func_0201C440(void *p);
 extern void *func_021FD12C(int, void *, u16);
-extern void func_021FD170(void *, int, int);
+extern void func_021FD170(char *p, char *q, void *text);
 int func_021E050C(void *task, int unused, char *q)
 {
     struct Data *p;
     int entries[3];
-    func_021FC20C(*(int *)(q + 8));
+    func_021FC20C((char *)(*(int *)(q + 8)));
     func_021FC214(*(char **)(q + 8));
     p = func_0203159C(task, 24, func_021F9B9C(*(void **)(q + 12)));
     func_02082BCC(p, 0, 24);
     p->heap = func_021F9B9C(*(void **)(q + 12));
-    func_021FB964(*(int *)(q + 8), 29, p->heap);
+    func_021FB964((void *)(*(int *)(q + 8)), 29, p->heap);
     func_021FBE54(*(char **)(q + 8), 11, p->heap);
     func_021FBE54(*(char **)(q + 8), 12, p->heap);
     func_021FBE54(*(char **)(q + 8), 6, p->heap);
-    p->e = func_021FD760(*(void **)(q + 4), *(int *)(q + 8), 1, p->heap);
+    p->e = func_021FD760((unsigned int)(*(void **)(q + 4)), (char *)(*(int *)(q + 8)), 1, p->heap);
     entries[0] = 2;
     entries[1] = 5;
     entries[2] = 5;
-    p->a = func_021E07A4(p->heap, 12, *(void **)(q + 4), *(int *)(q + 8), p->e, entries);
+    p->a = func_021E07A4(p->heap, 12, *(void **)(q + 4), (void *)(*(int *)(q + 8)), p->e, entries);
     p->b = func_021E06D0(p->a, p->heap);
-    p->d = func_0201C440(p->heap);
+    p->d = (void *)func_0201C440((void *)p->heap);
     p->c = func_021FD12C(*(int *)(q + 8), p->d, p->heap);
-    func_021FD170(p->c, *(int *)(q + 8), 104);
+    func_021FD170(p->c, (char *)(*(int *)(q + 8)), (void *)104);
     return 1;
 }

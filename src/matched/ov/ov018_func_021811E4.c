@@ -28,7 +28,7 @@ typedef struct {
 
 struct Obj;
 void *func_020124E4(struct Obj *p);
-void func_0201232C(void *, void (*)(void), int);
+void func_0201232C(char *p, int a1, int a2);
 void *func_020124E8(struct Obj *p);
 void func_02082D44(void *, void *, int);
 void func_0218123C(void);
@@ -39,7 +39,7 @@ void func_021811E4(void *a, Ov018Src *src)
     u8 *t;
 
     r = func_020124E4(a);
-    func_0201232C(a, func_0218123C, 0xB0);
+    func_0201232C(a, (int)func_0218123C, 0xB0);
     t = func_020124E8(a);
     func_02082D44(src, t, 0x98);
     *(int *)(t + 0xA4) = 0;

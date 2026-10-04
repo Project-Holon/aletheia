@@ -18,13 +18,13 @@ typedef unsigned short u16;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0215A168(void *,int,int);
+extern void *func_0215A168(int a, int b, int c);
 extern void func_0215897C(void *,void *);
 int func_0215DB00(void *a,void *b)
 {
  int x = (int)func_02159AE8(a,b);
  int y = (int)func_02159AE8(a,b);
  void *p = func_0215A5F4(b);
- func_0215897C(p,func_0215A168(func_0215A5DC(b),x,y));
+ func_0215897C(p,func_0215A168((int)func_0215A5DC(b),x,y));
  return 1;
 }

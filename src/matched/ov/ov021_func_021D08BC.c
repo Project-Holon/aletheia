@@ -23,14 +23,14 @@ typedef struct Row {
     u32 f8[3];
 } Row;
 
-extern void func_021D08B0(Row *r);
+extern void func_021D08B0(u32 a);
 
 void func_021D08BC(Row *r, int v)
 {
     if (r->f0 != 0) {
         r->f4 += 0x1000;
         if (r->f4 > v) {
-            func_021D08B0(r);
+            func_021D08B0((u32)r);
         }
     }
 }

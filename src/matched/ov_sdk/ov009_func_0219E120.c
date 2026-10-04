@@ -25,7 +25,8 @@ struct SBServer;
 extern int func_020948E0(const char *a, const char *b);
 extern int func_0219E8F8(struct SBServer *server);
 extern char *func_0219E0C0(struct SBServer *server, char *key, char *def);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern char g_021A8158[];
 extern const unsigned short g_020A61DC[];
 
@@ -44,5 +45,5 @@ int func_0219E120(struct SBServer *server, char *key, int idefault)
         return idefault;
     if (!isdigit(*(unsigned char *)(*s != 0x2d ? s : s + 1)))
         return idefault;
-    return func_020964E0(s);
+    return func_020964E0((u32)s);
 }

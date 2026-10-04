@@ -46,11 +46,12 @@ typedef struct {
     u8 g[4];
 } Menu;
 
-extern int func_021F9EEC(u32 total, u32 per);
+struct Obj;
+extern u32 func_021F9EEC(u8 *p, u32 n);
 extern void func_020061E4(u32 se);
 struct Obj;
 extern void func_0204B92C(struct Obj *v, u32 k);
-extern void func_0204B878(u32 v, int k);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021FB2F0(Menu *m, int page, int total);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
 
@@ -59,7 +60,7 @@ void func_021FA2B0(Menu *m, int dir)
     if (dir < 0) {
         func_020061E4(0x548);
         func_0204B92C((struct Obj *)m->down, 1);
-        func_0204B878(m->down, 0x27);
+        func_0204B878((struct Obj *)m->down, 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
         } else {
@@ -68,7 +69,7 @@ void func_021FA2B0(Menu *m, int dir)
     } else {
         func_020061E4(0x548);
         func_0204B92C((struct Obj *)m->up, 1);
-        func_0204B878(m->up, 0x26);
+        func_0204B878((struct Obj *)m->up, 0x26);
         if (m->page < 2) {
             m->page = m->page + 1;
         } else {
@@ -76,5 +77,5 @@ void func_021FA2B0(Menu *m, int dir)
         }
     }
     func_021FB2F0(m, m->page, m->total);
-    func_021FBF04(m->mgr, m->num, m->wins[4], m->page, func_021F9EEC(m->total, 4));
+    func_021FBF04(m->mgr, m->num, m->wins[4], m->page, func_021F9EEC((u8 *)m->total, 4));
 }

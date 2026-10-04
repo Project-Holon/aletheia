@@ -30,7 +30,8 @@ typedef struct Slot {
     u8  f20;
 } Slot;
 
-extern u32 func_020457B0(u32 a, u32 b);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 Slot *func_021904EC(u32 *p, u32 a, u32 b)
 {
@@ -46,7 +47,7 @@ Slot *func_021904EC(u32 *p, u32 a, u32 b)
             e->f04 = 1;
             e->f08 = p[2];
             e->f0c = p[3];
-            e->f18 = func_020457B0(0xa0, *(u16 *)p);
+            e->f18 = (u32)func_020457B0(0xa0, *(u16 *)p);
             e->f10 = a;
             e->f1c = b;
             e->f20 = 0;

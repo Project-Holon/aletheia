@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 func_0202846C(u8 *p);
-extern void func_02028178(u32 w);
+extern void func_02028178(u8 *p);
 extern u32 func_0202824C(u32 *w);
 extern void func_0202822C(char *p, int v);
 extern void func_021F0DD8(unsigned int a);
@@ -44,7 +44,7 @@ int func_021F0C70(char *p, int flag)
     }
     for (i = 0; i < n; i++) {
         if (func_0202846C(*(u8 **)(q + i * 16)) == 1) {
-            func_02028178(*(u32 *)(q + i * 16));
+            func_02028178((u8 *)(*(u32 *)(q + i * 16)));
             return -1;
         }
     }
@@ -59,7 +59,7 @@ int func_021F0C70(char *p, int flag)
                 s = i;
             }
         }
-        func_02028178(*(u32 *)(q + i * 16));
+        func_02028178((u8 *)(*(u32 *)(q + i * 16)));
     }
     return s;
 }

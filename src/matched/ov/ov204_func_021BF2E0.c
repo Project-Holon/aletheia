@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201CE30(u32);
-u32 func_021BF2E0(u8*p){u32 a=*(u32*)(p+20);if(a==0){return 2;}else{return func_0201CE30(a);}}
+extern u32 func_0201CE30(void *p);
+u32 func_021BF2E0(u8*p){u32 a=*(u32*)(p+20);if(a==0){return 2;}else{return func_0201CE30((void *)a);}}

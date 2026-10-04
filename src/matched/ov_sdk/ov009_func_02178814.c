@@ -55,9 +55,11 @@ typedef struct DWCWFCUtil {
 
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
-extern int func_020964E0(const char *s);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
-extern long func_02095F40(const char *s, char **endptr, int base);
+extern s32 func_02095F40(u32 a0, u32 *a1, u32 a2);
 extern unsigned long func_0209477C(const char *s);
 extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_len);
 
@@ -84,7 +86,7 @@ int func_02178814(void)
 
     endptr = 0;
     g_02153FAC = 0;
-    returncode = func_020964E0(func_0217A728(g_021AB184.auth->http, g_021A239C));
+    returncode = func_020964E0((u32)func_0217A728(g_021AB184.auth->http, g_021A239C));
     if (g_02153FAC == 0x22) {
         g_021AB184.auth->error = 20101;
         return 12;
@@ -97,7 +99,7 @@ int func_02178814(void)
         g_021AB184.auth->error = 20101;
         return 14;
     }
-    returncode = func_02095F40(g_021AB184.auth->retcode, &endptr, 10);
+    returncode = func_02095F40((u32)g_021AB184.auth->retcode, (u32 *)(&endptr), 10);
     if (endptr != g_021AB184.auth->retcode + func_0209477C(g_021AB184.auth->retcode)) {
         g_021AB184.auth->error = 20101;
         return 12;

@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 
 void *func_021A3960(unsigned char *p);
-int func_0216D3CC(void *h);
+int func_0216D3CC(int a0);
 typedef unsigned short u16;
 u16 func_0216D5F8(void *p);
 
@@ -26,7 +26,7 @@ int func_021A4254(u32 *p, int a)
 {
     void *h = func_021A3960((unsigned char *)p[3]);
 
-    if (func_0216D3CC(h) == 1)
+    if (func_0216D3CC((int)h) == 1)
         return 1;
     if (a != 9 && p[0] == 3 && a != func_0216D5F8(h))
         return 1;

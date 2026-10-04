@@ -29,13 +29,13 @@ typedef struct WCMWork {
     unsigned char deviceId;
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 
 WMLinkLevel func_02166710(unsigned char rssi)
 {
     WCMWork *w;
 
-    w = func_021657C8();
+    w = (WCMWork *)func_021657C8();
     switch (w->deviceId) {
     case 1:
     default:

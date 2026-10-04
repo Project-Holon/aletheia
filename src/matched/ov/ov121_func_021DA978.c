@@ -18,12 +18,14 @@
 
 typedef unsigned short u16;
 
-extern void func_02043B5C(int, int);
+typedef unsigned char  u8;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Obj;
 extern void func_020257D0(struct Obj *o);
 
 void func_021DA978(char *p)
 {
-    func_02043B5C(*(int *)p, (unsigned char)(*(u16 *)(p + 4) & 0x1f));
+    func_02043B5C((struct CharBuf *)(*(int *)p), (unsigned char)(*(u16 *)(p + 4) & 0x1f));
     func_020257D0(*(void **)(p + 0x1c));
 }

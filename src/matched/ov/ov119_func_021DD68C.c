@@ -43,12 +43,12 @@ struct Descriptor;
 struct MsgBank;
 struct WordSet;
 extern void func_020452E8(struct Descriptor *d);
-extern void *func_020450F0(u32, u8, u8, u8, u8, u32, u32);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201DD78(u32, u32, u32);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void func_0201F02C(void *a, int b, int c);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
@@ -74,7 +74,7 @@ void func_021DD68C(char *p)
         func_020452E8(*(void **)(p + 0x5D4));
         func_020452E8(*(void **)(p + 0x5D8));
     }
-    h = func_020450F0(3, 0, 0, 0x20, 2, 13, 0);
+    h = (void *)func_020450F0(3, 0, 0, 0x20, 2, 13, 0);
     *(void **)(p + 0x5D4) = h;
     func_0201DD78(14, 15, 0);
     if (*(int *)(p + 0x118C) == 3 && *(int *)(p + 0x1050) != -1) {
@@ -86,7 +86,7 @@ void func_021DD68C(char *p)
     func_02045334(h);
     func_02045374(h);
     i = 0;
-    h2 = func_020450F0(3, 0, 3, 0x20, 8, 5, 0);
+    h2 = (void *)func_020450F0(3, 0, 3, 0x20, 8, 5, 0);
     *(void **)(p + 0x5D8) = h2;
     for (i = 0; i < 2; i++) {
         k = i * 4;
@@ -99,7 +99,7 @@ void func_021DD68C(char *p)
             }
             func_0201DD78(1, 2, 0);
             func_02045CAC(*(void **)(p + 0x720), m, *(void **)(p + 0x734));
-            func_0201F02C(*(void **)(p + 0x724), 0, q);
+            func_0201F02C(*(void **)(p + 0x724), 0, (void *)q);
             func_0201F250(*(void **)(p + 0x724), *(void **)(p + 0x730), *(void **)(p + 0x734));
             x = *(int *)((char *)&t + k) * 8;
             func_0201C7A4(func_02045770(h2), x, 2, *(void **)(p + 0x730), *(void **)(p + 0x728));

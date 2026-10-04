@@ -67,7 +67,7 @@ typedef struct {
 extern u32 func_0201134C(void *p);
 extern void func_021FDB20(Ctx *c);
 extern int func_021F8710(void);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FF16C(void *w);
 extern void func_021FE9F0(int a, int b, int n, int s, int z);
 extern void func_021F7208(VecFx32 *a, VecFx32 *b);
@@ -171,7 +171,7 @@ int func_021F9AB8(void *r, Ctx *c)
     case 20:
         k = func_021F8710();
         if (k == 0 || k == 3) {
-            func_021FF16C(func_021F8694());
+            func_021FF16C((void *)func_021F8694());
             return c->ret;
         }
         mode = 14;

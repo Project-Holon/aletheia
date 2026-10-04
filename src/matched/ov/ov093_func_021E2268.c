@@ -24,9 +24,9 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern void *func_021C88A4(int a, int k, int b);
-extern void func_021C88C8(int a, void *b);
+extern void func_021C88C8(void *a, void *b);
 extern void func_021D7DC0(int a, void *b, void *c);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
@@ -42,7 +42,7 @@ void func_021E2268(void *u, int a, int b, int *p)
     int f;
 
     if (b == func_021D775C(2)) {
-        q = func_021C7CF4(a, b);
+        q = func_021C7CF4((int *)a, b);
         if (p[6] != 0) {
             f = 0;
             if (p[0] != 0)
@@ -53,7 +53,7 @@ void func_021E2268(void *u, int a, int b, int *p)
                 f = 1;
                 r[0x14] = 1;
                 r[8] = b;
-                func_021C88C8(a, r);
+                func_021C88C8((void *)a, r);
             }
             if (p[0] == 0) {
                 r = func_021C88A4(a, 0xc, b);
@@ -64,7 +64,7 @@ void func_021E2268(void *u, int a, int b, int *p)
                 r[0xf] = b;
                 func_021C8838(r + 0x14, 2, 0x168);
                 func_021C8860((struct S *)(r + 0x14), b);
-                func_021C88C8(a, r);
+                func_021C88C8((void *)a, r);
             }
             if (f != 0)
                 func_021E03D8(q, func_021D70A8(u));

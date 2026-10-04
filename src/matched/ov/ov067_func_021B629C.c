@@ -33,7 +33,7 @@ typedef struct {
 
 struct Obj;
 extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *r, u16 e, u16 f);
-extern void func_0204B878(int h, u8 e);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 int func_021B629C(P *p, int a, u16 x, u16 y, u8 e, u16 f)
 {
@@ -43,6 +43,6 @@ int func_021B629C(P *p, int a, u16 x, u16 y, u8 e, u16 f)
     rc.x = x;
     rc.y = y;
     r = (int)func_0204B294((void *)a, p->f0, p->f4, p->f8, &rc, (u16)p->fC, f);
-    func_0204B878(r, e);
+    func_0204B878((struct Obj *)r, e);
     return r;
 }

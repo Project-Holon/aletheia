@@ -32,9 +32,9 @@ typedef short s16;
 typedef signed char s8;
 struct WinMgr;
 extern void func_021BC068(u8 *,void *);
-extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040618(u32,u32,u32);
-extern void func_02049658(u32,u32,u32,u32,u32,u32,u16);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
@@ -50,12 +50,12 @@ extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 void func_021BBD60(u8 *p,u32 a)
 {
     func_021BC068(p,(void *)a);
-    func_020498F4(a,25,0,0,0,0,42);
-    func_020498F4(a,25,4,0,0,0,42);
+    func_020498F4((void *)a,25,0,0,0,0,42);
+    func_020498F4((void *)a,25,4,0,0,0,42);
     *(s16 *)(p+0x19a)=-192;
     func_02040618(4,3,*(s16 *)(p+0x19a));
-    func_02049658(a,14,0,0,0,0,42);
-    func_02049658(a,14,4,0,0,0,42);
+    func_02049658((void *)a,14,0,0,0,0,42);
+    func_02049658((void *)a,14,4,0,0,0,42);
     *(u32 *)(p+0xc)=func_020450F0(0,3,1,28,4,0,1);
     *(u32 *)(p+0x10)=func_020450F0(4,3,1,28,4,0,1);
     func_02045374(*(void **)(p+0xc));

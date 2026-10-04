@@ -31,7 +31,7 @@ typedef unsigned int u32;
 struct S;
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern u8 func_021D5440(u8 *p);
-extern int func_021B8CE8(void *, u8, int);
+extern int func_021B8CE8(int a, unsigned char b, int c);
 extern int func_021D1DF4(void *);
 extern void func_021EAF18(void *, int, int);
 extern int func_021B9F70(u8 *p, int i);
@@ -59,7 +59,7 @@ int func_021D1CF4(u8 *p, int *state, const u32 *params)
     case 0:
         if (flag != 0) {
             id = func_021D5440(func_021B9920(*(void **)(p + 4), a, b));
-            if (func_021B8CE8(*(void **)p, p[0x1A6], a) == 0) {
+            if (func_021B8CE8((int)(*(void **)p), p[0x1A6], a) == 0) {
                 if (p[0x1A6] == a) {
                     func_021EAF18(p + 0x58, 1, func_021D1DF4(p));
                     func_021EAF50(p + 0x58, id);

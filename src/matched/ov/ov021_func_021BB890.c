@@ -21,7 +21,8 @@ extern int d_021DE2F8;
 void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 typedef unsigned int   u32;
 u32 func_02030CB0(u32 idx);
-int func_02030CBC(int n, int buf);
+struct Ctx;
+struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 
 int *func_021BB890(int a, int b, int n)
 {
@@ -34,8 +35,8 @@ int *func_021BB890(int a, int b, int n)
     p[3] = (int)func_02030734(b, 0x18 * n, 1, (const char *)&d_021DE2F8, 0x4a);
     sz = func_02030CB0(n);
     p[5] = (int)func_02030734(b, sz, 1, (const char *)&d_021DE2F8, 0x56);
-    p[5] = func_02030CBC(n, p[5]);
+    p[5] = (int)func_02030CBC(n, (struct Ctx *)p[5]);
     p[4] = (int)func_02030734(b, sz, 1, (const char *)&d_021DE2F8, 0x59);
-    p[4] = func_02030CBC(n, p[4]);
+    p[4] = (int)func_02030CBC(n, (struct Ctx *)p[4]);
     return p;
 }

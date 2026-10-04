@@ -31,7 +31,8 @@ struct SpritePos {
 extern void func_021BCC40(void *ctx, char *list, char *row, int idx);
 struct Obj;
 extern void func_0204B3DC(struct Obj *spr, unsigned int on);
-extern void func_0204B404(u32 spr, struct SpritePos *pos, int n);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021BCB88(void *ctx, char *list)
 {
@@ -57,7 +58,7 @@ void func_021BCB88(void *ctx, char *list)
         if (*(u32 *)(list + 0x10) == 0) {
             pos.x = 0xf8;
             pos.y = *(u16 *)(list + 6) + 0x18;
-            func_0204B404(*(u32 *)(list + 0x404), &pos, 1);
+            func_0204B404((struct Obj *)(*(u32 *)(list + 0x404)), (const struct Vec2 *)(&pos), 1);
         }
     } else {
         func_0204B3DC((struct Obj *)*(u32 *)(list + 0x404), 0);

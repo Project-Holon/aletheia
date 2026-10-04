@@ -20,12 +20,12 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF810(void *p);
-extern void func_021C0FF8(u32 a, u32 b);
+extern void func_021C0FF8(u8 *p, int visible);
 void func_021BF38C(char *p)
 {
     if (func_021BF810(p) == 0) {
-        func_021C0FF8(*(u32 *)(p + 0x360), 1);
+        func_021C0FF8((u8 *)(*(u32 *)(p + 0x360)), 1);
     } else {
-        func_021C0FF8(*(u32 *)(p + 0x360), 0);
+        func_021C0FF8((u8 *)(*(u32 *)(p + 0x360)), 0);
     }
 }

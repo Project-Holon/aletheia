@@ -23,7 +23,7 @@ extern void func_021F0AE4(unsigned);
 extern u16 func_021F0D28(void);
 typedef unsigned int   u32;
 extern void func_0208459C(int clear, u32 irqFlags);
-extern int func_02179570(int);
+extern int func_02179570(void (*cb)(int));
 extern u8 d_021F6EA0[];
 extern int func_021EFC10(void);
 void func_021EFCA8(u8 *p) {
@@ -32,7 +32,7 @@ void func_021EFCA8(u8 *p) {
  while(func_021F0D28()!=0&&func_021F0D28()!=5) func_0208459C(1,1);
  if(*(int *)(p+28)==1) {
  *(int *)(d_021F6EA0+8)=0;
- while(func_02179570((int)func_021EFC10)) func_0208459C(1,1);
+ while(func_02179570((void (*)(int))((int)func_021EFC10))) func_0208459C(1,1);
  while(*(int *)(d_021F6EA0+8)==0) func_0208459C(1,1);
  }
 }

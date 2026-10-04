@@ -21,7 +21,7 @@ extern int func_021FB1F4(char *, int);
 typedef unsigned int   u32;
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
-extern void func_021F812C(char *, char *, int);
+extern int func_021F812C(int unused, int *p, int flag);
 int func_021FB258(int unused, char *p)
 {
     char *obj;
@@ -40,7 +40,7 @@ int func_021FB258(int unused, char *p)
             slot = func_021F9DA4(*(void **)(obj + 0x34), i);
             flag = 0;
             if (value != 0) flag = 1;
-            func_021F812C(ctx, slot, flag);
+            func_021F812C((int)ctx, (int *)slot, flag);
         }
     }
     return 0;

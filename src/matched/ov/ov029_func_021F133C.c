@@ -23,7 +23,8 @@ extern int func_021F2BB8(void *, int, int);
 extern int func_021F2BD4(void *, int, int, int);
 extern void func_021F0D14(int, int, int *, int *);
 extern void func_021F1290(void *, int, int, int);
-extern void func_020091AC(int, int, int, int, int, int);
+struct Sub020090B0Obj;
+extern void func_020091AC(struct Sub020090B0Obj *obj, int row, int col, int kind, int marked, int flagged);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
@@ -57,7 +58,7 @@ int func_021F133C(char *p, int v, int *o1, int *o2)
     }
     if (found) {
         func_021F0D14(a, b, o1, o2);
-        func_020091AC(*(int *)(p + 0x20), a, b, v, 1, 0);
+        func_020091AC((struct Sub020090B0Obj *)(*(int *)(p + 0x20)), a, b, v, 1, 0);
         func_021F1290(p, a, b, v);
         func_020409B4(4);
         return 1;

@@ -23,7 +23,7 @@ typedef short s16;
 
 extern int func_0201134C(int a);
 extern int func_021FCF2C(int a, int b);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FF3F4(void *obj, void *out, int idx);
 extern int func_021F86F0(void);
 extern int func_02201AF8(int a, int b, int c, s16 d, s16 e, int f, int g);
@@ -42,7 +42,7 @@ int func_021FB6F4(int a, char *b)
     t4 = func_0201134C(a);
     t5 = func_0201134C(a);
     t6 = func_0201134C(a);
-    func_021FF3F4(func_021F8694(), pt, t2);
+    func_021FF3F4((void *)func_021F8694(), pt, t2);
     pt[0] += t3;
     pt[1] += t4;
     func_0206DF3C(pt, &o1, &o2);

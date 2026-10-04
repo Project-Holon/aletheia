@@ -50,12 +50,13 @@ extern int func_021D8B0C(int, int);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
-extern int func_02061CA4(int, int, int, int);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void func_02082D44(int src, int dst, int n);
 extern int func_0201BBE8(int);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern int func_02017E88(int, int, int);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021E4A84(char *p, int i);
 void func_021E4B00(char *p, int v, int a, int row, int flag)
 {
@@ -101,7 +102,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
             idx += n * 30;
             func_0204B454((struct Actor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct PtS *)&pt, 1);
             if (flag == 1 && pt.x >= -16 && pt.x <= 0x110) {
-                if (func_02061CA4(0x23, info.c, *(int *)(p + 0x1184) + idx * 0x200, 0x200) == 0) {
+                if (func_02061CA4((void *)0x23, info.c, *(int *)(p + 0x1184) + idx * 0x200, 0x200) == 0) {
                     vram = VRAM_BASE;
                     func_02082D44(*(int *)(p + 0x1184) + idx * 0x200, vram + info.c, 0x200);
                 }
@@ -114,7 +115,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
             func_0204B92C(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
             func_0204B3DC(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }
-        if (func_02017E88(rec, 0x4c, 0) == 0 && func_021E4A84(p, id)) {
+        if (func_02017E88((void *)rec, 0x4c, 0) == 0 && func_021E4A84(p, id)) {
             ((u8 *)(p + row * 5) + j)[0xebc] = 1;
         }
     }

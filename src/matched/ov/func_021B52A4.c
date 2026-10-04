@@ -28,21 +28,21 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02159168(u32);
-extern u32 func_02188C5C(u32);
-extern u32 func_02188CFC(u32);
-extern u32 func_0218F05C(u32);
-extern u32 func_0218F0F8(u32);
+extern u32 func_02188C5C(u8 *p);
+extern u32 func_02188CFC(u8 *p);
+extern void func_0218F05C(unsigned char *a);
+extern int func_0218F0F8(u8 *a);
 extern u32 func_0218F878(u32, u32, u32, u32);
 extern u32 func_021BB260(u32, u32);
 
 int func_021B52A4(u32 a, u32 b, u32 c, u32 d)
 {
 func_0218F878(b, b, c, d);
-if (func_0218F0F8(b) != 0) {
-    func_0218F05C(b);
+if (func_0218F0F8((u8 *)b) != 0) {
+    func_0218F05C((unsigned char *)b);
 }
-if (func_02188CFC(a) == 1) {
-    func_021BB260(func_02188C5C(a), 1);
+if (func_02188CFC((u8 *)a) == 1) {
+    func_021BB260(func_02188C5C((u8 *)a), 1);
 }
 return func_02159168(0);
 }

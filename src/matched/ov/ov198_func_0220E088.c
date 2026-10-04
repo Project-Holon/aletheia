@@ -27,7 +27,8 @@ extern void func_0220BEB8(char *,int,int,u8,u8);
 extern int func_022110D4(u8 *,int);
 extern void func_0220C4DC(char *,int,int,int,u16,short,unsigned);
 extern void func_0220D6DC(char *,char *,int);
-extern int func_02020FE4(unsigned,int,u16);
+typedef unsigned int   u32;
+extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern void func_0220C60C(char *p, int id);
 void func_0220E088(char *p)
 {
@@ -48,6 +49,6 @@ void func_0220E088(char *p)
             func_0220D6DC((char *)p,rec+offset,i+1);
         }
     }
-    if (func_02020FE4(*(u16 *)(*(char **)p+36),40,*(u16 *)(*(char **)p+16)) == 0)
+    if (func_02020FE4((void *)(*(u16 *)(*(char **)p+36)),40,*(u16 *)(*(char **)p+16)) == 0)
         func_0220C60C((char *)p,104);
 }

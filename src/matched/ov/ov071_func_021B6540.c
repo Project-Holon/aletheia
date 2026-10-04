@@ -15,16 +15,19 @@
  *   func_02021EE4  0x02021EE4  thumb
  */
 
+typedef unsigned int   u32;
+struct Obj02021EE4;
+struct PalAnmSlot;
 void func_021B6540(int *p)
 {
-    int func_02021518(int);
-    void func_0202155C(int, int, int, int);
-    void func_02021EE4(int, int);
+    void *func_02021518(u32 heap);
+    void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+    void func_02021EE4(struct Obj02021EE4 *o, int v);
 
-    *p = func_02021518(0x61);
-    func_0202155C(*p, 2, 0x1c0, 0x61);
-    func_0202155C(*p, 3, 0x1c0, 0x61);
-    func_0202155C(*p, 0, 0x1c0, 0x61);
-    func_0202155C(*p, 1, 0x1c0, 0x61);
-    func_02021EE4(*p, 1);
+    *p = (int)func_02021518(0x61);
+    func_0202155C((struct PalAnmSlot *)(*p), 2, 0x1c0, 0x61);
+    func_0202155C((struct PalAnmSlot *)(*p), 3, 0x1c0, 0x61);
+    func_0202155C((struct PalAnmSlot *)(*p), 0, 0x1c0, 0x61);
+    func_0202155C((struct PalAnmSlot *)(*p), 1, 0x1c0, 0x61);
+    func_02021EE4((struct Obj02021EE4 *)(*p), 1);
 }

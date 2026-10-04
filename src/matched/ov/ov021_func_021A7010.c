@@ -39,15 +39,15 @@ extern unsigned int func_0203630C(void);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_021A2FA4(u32 a, u32 b);
 extern u16 func_0216D608(void *p);
-extern u32 func_0216D3CC(void *a);
+extern int func_0216D3CC(int a0);
 extern u32 func_021A2FB0(u32 a);
-extern u32 func_021A30C8(u32 a);
-extern u32 func_021A3128(u32 a, u32 b);
+extern u32 func_021A30C8(void **ctx);
+extern u32 func_021A3128(u32 *a, u32 b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021BB1A0(int x);
 extern int func_021AB11C(u32 attr);
 extern u32 func_021A7198(u32 a, u32 *b, u16 *c, u32 d);
-extern void func_021A712C(u32 a, u32 *b, u32 c, u32 d, u16 *e, u32 f, u32 g);
+extern void func_021A712C(u32 a, u32 *b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern u32 func_021A3698(u32 a);
 extern void func_021A3674(u32 a, u32 b, u32 c);
 
@@ -71,14 +71,14 @@ void func_021A7010(u32 a, u32 *b)
         r4 = func_0216D608(v10);
         r7 = 0;
     }
-    if (func_0216D3CC(v10) == 1 || func_021A2FB0(b[1]) == 1) {
+    if (func_0216D3CC((int)v10) == 1 || func_021A2FB0(b[1]) == 1) {
         if (r4 != 9) {
-            v18 = func_021A30C8(b[1]);
-            v1c = func_021A3128(b[1], r4);
+            v18 = func_021A30C8((void **)b[1]);
+            v1c = func_021A3128((u32 *)b[1], r4);
             if (func_021BB1A0(func_021AB0F0(v18)) != 0) {
                 if (func_021AB11C(v1c) != 0) {
                     if (func_021A7198(a, b, out, r4) != 0) {
-                        func_021A712C(a, b, r4, r7, out, v14, r6);
+                        func_021A712C(a, b, r4, r7, (u32)out, v14, r6);
                         b[2] = 0;
                         return;
                     }

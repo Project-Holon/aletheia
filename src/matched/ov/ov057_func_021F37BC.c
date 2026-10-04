@@ -18,25 +18,28 @@
  *   func_02046EFC  0x02046EFC  arm
  */
 
-extern int func_02047738(int);
-extern int func_0204762C(int);
-extern int func_02047504(int);
-extern int func_02046F50(int, int);
-extern int func_020470D0(int);
-extern int func_02046EFC(int);
+typedef unsigned int   u32;
+struct Rec;
+struct Tagged;
+extern void func_02047738(struct Rec *p);
+extern void func_0204762C(struct Rec *p);
+extern void func_02047504(struct Rec *p);
+extern u32 func_02046F50(struct Tagged *p, u32 sel);
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_021F37BC(int a, int b, char *p)
 {
     int i;
     for (i = 0; i < 3; i++)
-        func_02047738(*(int *)(p + i * 4 + 0x38));
+        func_02047738((struct Rec *)(*(int *)(p + i * 4 + 0x38)));
     for (i = 0; i < 4; i++)
-        func_0204762C(*(int *)(p + i * 4 + 0x28));
+        func_0204762C((struct Rec *)(*(int *)(p + i * 4 + 0x28)));
     for (i = 0; i < 3; i++)
-        func_02047504(*(int *)(p + i * 4 + 0x1c));
+        func_02047504((struct Rec *)(*(int *)(p + i * 4 + 0x1c)));
     for (i = 0; i < 7; i++) {
-        if (func_02046F50(*(int *)(p + i * 4), 2))
-            func_020470D0(*(int *)(p + i * 4));
-        func_02046EFC(*(int *)(p + i * 4));
+        if (func_02046F50((struct Tagged *)(*(int *)(p + i * 4)), 2))
+            func_020470D0((u32 *)(*(int *)(p + i * 4)));
+        func_02046EFC((struct Tagged *)(*(int *)(p + i * 4)));
     }
 }

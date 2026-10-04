@@ -27,19 +27,21 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
 extern int func_021BE05C(void *p);
-extern u32 func_021B8BA4(u8 *unused, char *base, int i);
-extern u32 func_021B8B8C(u8 *unused, char *base, int i);
-extern u32 func_021B7B30(u8 *unused, char *base, int i);
-extern char *func_021B8B94(u8 *unused, char *base, int i);
+struct Cfg;
+struct Descriptor;
+extern u32 func_021B8BA4(int unused, char *base, int i);
+extern u32 func_021B8B8C(int unused, char *base, int i);
+extern u32 func_021B7B30(int unused, char *base, int i);
+extern char *func_021B8B94(int unused, char *base, int i);
 extern void func_021BDEF0(u8 *p, char *a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(u32 a);
-extern int func_02045730(u32 p);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern u8 func_021B8B68(u8 *unused, char *p);
+extern u8 func_021B8B68(int unused, char *p);
 extern void func_021BE210(u8 *p, u32 v);
 void func_021BDD6C(u8 *p)
 {
@@ -55,13 +57,13 @@ void func_021BDD6C(u8 *p)
     }
     r = func_021BE05C(p);
     for (i = found; i < 4; i++) {
-        if (func_021B8BA4(p, *(char **)(p + 0x1e4), i) != 1) continue;
-        if (func_021B8B8C(p, *(char **)(p + 0x1e4), i) != 1) continue;
-        if (func_021B7B30(p, *(char **)(p + 0x1e0), i) != 0) continue;
+        if (func_021B8BA4((int)p, *(char **)(p + 0x1e4), i) != 1) continue;
+        if (func_021B8B8C((int)p, *(char **)(p + 0x1e4), i) != 1) continue;
+        if (func_021B7B30((int)p, *(char **)(p + 0x1e0), i) != 0) continue;
         m = 1 << i;
         if (m & p[0x1b4]) continue;
         {
-            char *k = func_021B8B94(p, *(char **)(p + 0x1e4), i);
+            char *k = func_021B8B94((int)p, *(char **)(p + 0x1e4), i);
             if (r == 1) {
                 if (i == 0) b = 2; else b = 3;
             } else {
@@ -78,13 +80,13 @@ void func_021BDD6C(u8 *p)
         if (func_0201C6C4(*(void **)(p + 0x1d0), func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))) != 0) continue;
         w = *(u32 *)(p + i * 4 + 0x1b8);
         func_02045334((struct Descriptor *)w);
-        func_02045374(w);
-        func_02041B6C(func_02045730(w));
+        func_02045374((struct Cfg *)w);
+        func_02041B6C(func_02045730((struct Descriptor *)w));
         p[0x1b5] -= (u8)m;
         found = 1;
     }
     if (found == 1) {
-        u32 v = func_021B8B68(p, *(char **)(p + 0x1e4));
+        u32 v = func_021B8B68((int)p, *(char **)(p + 0x1e4));
         if (v != 0xff) {
             func_021BE210(p, v);
         }

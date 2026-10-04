@@ -25,18 +25,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02062B64(u32 a, u32 tag);
-extern void func_02062688(u32 a);
+struct AnimBank;
+struct NitroFileHeader;
+extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
+extern void func_02062688(volatile struct AnimBank *bank);
 
 int func_02062634(u32 a, u32 *out)
 {
-    u32 r = func_02062B64(a, 0x41424E4B);
+    u32 r = (u32)func_02062B64((struct NitroFileHeader *)a, 0x41424E4B);
 
     if (r == 0) {
         *out = 0;
         return 0;
     }
-    func_02062688(r + 8);
+    func_02062688((volatile struct AnimBank *)(r + 8));
     *out = r + 8;
     return 1;
 }

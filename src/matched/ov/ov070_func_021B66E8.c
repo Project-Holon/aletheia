@@ -14,9 +14,9 @@
  *   func_021B8AF4 0x021B8AF4 thumb ov070
  */
 extern void func_021BB5DC(int, int);
-extern void func_021B8AF4(int);
+extern void func_021B8AF4(void *p);
 void func_021B66E8(int p)
 {
     func_021BB5DC(p, 1);
-    func_021B8AF4(p);
+    func_021B8AF4((void *)p);
 }

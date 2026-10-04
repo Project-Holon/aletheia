@@ -17,15 +17,16 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_020282A4(u32 a);
-extern void func_02028218(u32 a, u32 b);
+struct Obj;
+extern void func_020282A4(struct Obj *obj);
+extern void func_02028218(struct Obj *obj, u32 a);
 
 void func_021BA694(u8 *p)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_020282A4(*(u32 *)(p + i * 4 + 0x34));
-        func_02028218(*(u32 *)(p + i * 4 + 0x34), 0);
+        func_020282A4((struct Obj *)(*(u32 *)(p + i * 4 + 0x34)));
+        func_02028218((struct Obj *)(*(u32 *)(p + i * 4 + 0x34)), 0);
     }
 }

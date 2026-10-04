@@ -15,10 +15,10 @@
  *   func_0215C910  0x0215C910  arm
  */
 
-extern void func_0215C910(int v);
+extern unsigned long func_0215C910(char *name);
 
 void func_021798E4(const char *p)
 {
-    func_0215C910(*(const int *)(p + 0x1124));
+    func_0215C910((char *)(*(const int *)(p + 0x1124)));
 }
 

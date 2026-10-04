@@ -34,8 +34,9 @@ struct Tail {u32 s0,s1,s2,s3,s4;u16 key,pad;};
 struct Args {u32 w0,w1,w2,w3;u16 key,pad;};
 struct Desc {u16 x,y,z;u8 a,b;u16 c,d;u32 sx,sy;u16 e,f;};
 extern u16 func_021BC3C0(int);
-extern int func_021BC3A4(int);
-extern void *func_0200CA1C(int);
+struct Actor;
+extern int func_021BC3A4(int *p);
+extern void *func_0200CA1C(void *a);
 extern void func_0200CC40(void *,u32,u32 *,u32 *,u32 *,u16);
 typedef signed int     s32;
 struct Blk37;
@@ -51,7 +52,7 @@ extern void func_021BC738(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e,
 extern void func_02049238(u32);
 extern void func_02082BCC(void *,u8,u32);
 extern u32 func_0204B324(u32,u32,u32,u32,void *,u16,u16);
-extern void func_0204B688(u32,u32);
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
 {
     struct Desc desc;
@@ -60,7 +61,7 @@ void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
     void *ctx;
     species=func_021BC3C0(key);
     special=0;
-    ctx=func_0200CA1C(func_021BC3A4(key));
+    ctx=func_0200CA1C((void *)func_021BC3A4((int *)key));
     func_0200CC40(ctx,species,&form,&b,&a,*heap);
     if(species==327)special=func_0200D288(ctx,special);
     arc=func_0202D7C8(*heap);
@@ -73,6 +74,6 @@ void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
     desc.x=128;desc.y=128;desc.z=0;desc.a=0;desc.b=0;desc.c=0;desc.d=0;
     desc.sx=4096;desc.sy=4096;desc.e=0;desc.f=2;
     *(u32 *)((u32)p+0x54+slot*4)=func_0204B324(*(u32 *)p,*(u32 *)((u32)p+0x44+slot*4),*(u32 *)((u32)p+0x3c+slot*4),*(u32 *)((u32)p+0x4c+slot*4),&desc,1,*heap);
-    func_0204B688(*(u32 *)((u32)p+0x54+slot*4),0);
+    func_0204B688((struct Actor *)(*(u32 *)((u32)p+0x54+slot*4)),0);
     *(u32 *)(p+0x60)=0;
 }

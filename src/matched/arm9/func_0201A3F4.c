@@ -36,11 +36,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void  func_0201EFA4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
+struct MsgBank;
+struct WordSet;
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void  func_02045CAC(u32 a0, u32 a1, u32 a2);
-extern void  func_0201F250(u32 a0, void *a1, u32 a2);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 void *func_0201A3F4(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
 {
@@ -62,9 +64,9 @@ void *func_0201A3F4(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
     } else {
         mode = 6;
     }
-    func_0201EFA4(a1, 0, a0[4], 3, 0, 1);
+    func_0201EFA4((struct WordSet *)a1, 0, a0[4], 3, 0, 1);
     p = func_020457B0(0x40, a4);
-    func_02045CAC(*a2, mode, a3);
-    func_0201F250(a1, p, a3);
+    func_02045CAC((struct MsgBank *)(*a2), mode, (void *)a3);
+    func_0201F250((struct WordSet *)a1, p, (void *)a3);
     return p;
 }

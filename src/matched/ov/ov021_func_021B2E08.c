@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern unsigned int func_02159B10(void *, void *);
 extern int func_021B2BD8(u32 a);
 extern u32 func_0218BA98(u32, u32);
-extern void func_0218C88C(u32, u32, u32);
+extern void func_0218C88C(unsigned char *p, int v, int c);
 
 int func_021B2E08(u32 a, u32 b)
 {
@@ -30,7 +30,7 @@ int func_021B2E08(u32 a, u32 b)
     u32 o = func_0218BA98(func_021B2BD8(b), x);
 
     if (o != 0) {
-        func_0218C88C(o, y, 2);
+        func_0218C88C((unsigned char *)o, y, 2);
     }
     return 0;
 }

@@ -25,16 +25,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern u32 func_02045EC0(u32 a, u32 b);
-extern void func_0201F250(u32 a, u32 b, u32 c);
-extern void func_02045808(u32 a);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Cfg;
+struct Descriptor;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 extern signed char func_02012FFC(void);
-extern u32 func_0201CD10(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f, u32 g, u32 h,
-                         u32 i, u32 j, u32 k);
+extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(u32 a);
-extern u32 func_02045730(u32 a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 
 void func_021B4894(char *w, u32 b)
@@ -42,14 +49,14 @@ void func_021B4894(char *w, u32 b)
     u32 t;
     u32 win;
 
-    t = func_02045EC0(*(u32 *)(w + 0x188), b);
-    func_0201F250(*(u32 *)(w + 0x190), *(u32 *)(w + 0x198), t);
-    func_02045808(t);
-    *(u32 *)(w + 0x1B8) = func_0201CD10(*(u32 *)(w + 0x17C), 0, 0, *(u32 *)(w + 0x198),
+    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), b);
+    func_0201F250((struct WordSet *)(*(u32 *)(w + 0x190)), (void *)(*(u32 *)(w + 0x198)), (void *)t);
+    func_02045808((struct U16Vec *)t);
+    *(u32 *)(w + 0x1B8) = (u32)func_0201CD10(*(u32 *)(w + 0x17C), 0, 0, *(u32 *)(w + 0x198),
                                         *(u32 *)(w + 8), func_02012FFC(), *(u32 *)(w + 0x1B4), 0,
                                         *(u16 *)(w + 4), 0xFFFF, 0);
     win = *(u32 *)(w + 0x17C);
     func_02045334((struct Descriptor *)win);
-    func_02045374(win);
-    func_020409B4(func_02045730(win));
+    func_02045374((struct Cfg *)win);
+    func_020409B4(func_02045730((struct Descriptor *)win));
 }

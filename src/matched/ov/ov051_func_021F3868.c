@@ -23,11 +23,13 @@
  */
 typedef unsigned char u8;
 extern unsigned short func_02188C84(u8 *);
-extern unsigned func_02188C80(u8 *);
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
 extern unsigned func_02188CD0(u8 *);
 extern unsigned short func_02188C9C(u8 *);
-extern unsigned func_020120F4(unsigned);
-extern unsigned func_02012EC4(unsigned);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int func_021F3D94(int);
 extern char *func_0200B3A4(unsigned,int);
 extern void func_020307B0(void *);
@@ -35,7 +37,7 @@ void func_021F3868(u8 *p)
 {
     unsigned h;
     func_02188C84(p);
-    h=func_02012EC4(func_020120F4(func_02188C80(p)));
+    h=(unsigned int)func_02012EC4(func_020120F4(func_02188C80(p)));
     func_02188CD0(p);
     func_020307B0(*(void **)(func_0200B3A4(h,func_021F3D94(func_02188C9C(p)))+4));
 }

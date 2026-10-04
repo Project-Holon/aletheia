@@ -27,7 +27,7 @@ extern u32 func_02159B10(void *, void *);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern int func_021B6934(void *);
-extern void func_021B6708(void *, int);
+extern void func_021B6708(u32 a, int idx);
 extern void func_021B6904(void *);
 
 u32 func_021B66B8(void *a, void *b)
@@ -47,7 +47,7 @@ u32 func_021B66B8(void *a, void *b)
         func_021B6904(b);
         break;
     case 2:
-        func_021B6708(b, *out);
+        func_021B6708((u32)b, *out);
         func_021B6904(b);
         break;
     }

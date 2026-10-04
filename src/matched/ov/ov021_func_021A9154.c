@@ -86,20 +86,24 @@ typedef struct Hdr {
     u16 f16;
 } Hdr;
 
-extern void *func_02188C54(void *p);
+typedef signed int     s32;
+struct Actor;
+struct Cfg;
+struct CharBuf;
+extern u32 func_02188C54(u8 *p);
 extern u32 func_021904AC(u8 *p);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045374(int a);
+extern void func_02045374(struct Cfg *cfg);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int, int);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
-extern u32 func_0204A6C8(u32 arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204AF28(u32 a, u32 b, u32 c, u32 d);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_0204B324(u32 a, u32 b, u32 c, u32 d, Hdr *h, u32 f, u32 g);
-extern void func_0204B954(u32, u32);
+extern void func_0204B954(struct Actor *a, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(u32, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_021A9154(Obj *p, Item *it, const Src *s)
@@ -107,18 +111,18 @@ void func_021A9154(Obj *p, Item *it, const Src *s)
     Hdr h;
     u32 k;
 
-    k = func_021904AC(func_02188C54(p->f04));
+    k = func_021904AC((u8 *)func_02188C54(p->f04));
     it->f00 = 1;
     it->f08 = s->f00;
     it->f14 = s->f04;
     it->f15 = s->f05;
     it->f04 = func_020450F0(6, s->f06, s->f07, 8, 2, 0xD, 1);
-    func_02045374(it->f04);
-    func_02043B5C((int)func_02045770((struct Descriptor *)it->f04), 0);
+    func_02045374((struct Cfg *)it->f04);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)it->f04)), 0);
     func_0201C724(p->f12C, (int)func_02045770((struct Descriptor *)it->f04), 2, 1, s->f0C, k, 0x440);
     if (s->f10 != 0) {
-        it->f0C = func_0204A6C8(s->f10, s->f14, 0, 1, p->f00);
-        it->f10 = func_0204AF28(s->f10, s->f18, s->f1C, p->f00);
+        it->f0C = func_0204A6C8((void *)s->f10, s->f14, 0, 1, p->f00);
+        it->f10 = func_0204AF28((void *)s->f10, s->f18, s->f1C, p->f00);
         h.f00 = s->f08;
         h.f02 = s->f09;
         h.f04 = 0;
@@ -131,9 +135,9 @@ void func_021A9154(Obj *p, Item *it, const Src *s)
         h.f14 = 0;
         h.f16 = 2;
         it->f18 = func_0204B324(p->f11C, it->f0C, p->f104, it->f10, &h, 0, p->f00);
-        func_0204B954(it->f18, 0x1000);
+        func_0204B954((struct Actor *)it->f18, 0x1000);
         func_0204B92C((struct Obj *)it->f18, 1);
-        func_0204B878(it->f18, 0);
+        func_0204B878((struct Obj *)it->f18, 0);
         if (it->f08 == 7)
             func_0204B3DC((struct Obj *)it->f18, 0);
         else

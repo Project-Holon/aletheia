@@ -25,7 +25,7 @@ extern int func_020221A4(void *);
 typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_021E1D68(void *,void *);
-extern void func_021E6440(void *,int,int);
+extern void func_021E6440(int p, int a, int b);
 extern void func_021DEBD4(void *);
 extern void func_0202208C(int,int,int,int,int,int,int);
 extern void func_021D8980(void *);
@@ -46,7 +46,7 @@ void func_021DE518(State *p)
         obj=p->obj[other][col];
         b[0x11f3]=1;
         if(obj && func_02017E1C(obj,169,0)) {
-            func_021E1D68(p,obj); func_021E6440(p,row,col);
+            func_021E1D68(p,obj); func_021E6440((int)p,row,col);
         }
         func_021DEBD4(p);
         func_0202208C(3,1,1,0,6,1,*(u16 *)(b+0x5f4));

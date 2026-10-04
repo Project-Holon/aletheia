@@ -105,7 +105,8 @@ extern const char sub_02006674_File[];
 struct Sub02006948;
 extern void  sub_02006948(struct Sub02006948 *e);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32   func_02072CC4(u32 handle);
+struct O;
+extern int func_02072CC4(struct O *o);
 
 void sub_020065D8(void)
 {
@@ -130,9 +131,9 @@ void sub_020065FC(void)
     for (i = 0; i < sub_02006544_State.count; i++) {
         e = &sub_02006544_State.entries[i];
         if (e->unk00 == 1) {
-            a = func_02072CC4(e->unk14);
+            a = func_02072CC4((struct O *)e->unk14);
             if (e->unk2C == 1) {
-                b = func_02072CC4(e->unk18);
+                b = func_02072CC4((struct O *)e->unk18);
             } else {
                 b = 0;
             }

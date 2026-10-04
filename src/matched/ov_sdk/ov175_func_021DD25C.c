@@ -16,12 +16,12 @@
  * count and set the live flag at +0.
  */
 
-extern void func_02094798(void *, int);
+extern char *func_02094798(char *dst, const char *src);
 
 void func_021DD25C(char *p, int b, int c, int d)
 {
-    func_02094798(p + 4, b);
-    func_02094798(p + 0x18, d);
+    func_02094798(p + 4, (const char *)b);
+    func_02094798(p + 0x18, (const char *)d);
     *(int *)(p + 0x14) = c;
     *(int *)p = 1;
 }

@@ -55,9 +55,11 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188CE0(u8 *p);
-extern int func_0217AED4(struct ent *e, int v);
-extern int func_02012964(int);
-extern int func_0216DE94(int, int);
+typedef unsigned short u16;
+struct BigObj;
+extern u16 func_0217AED4(u8 *a, u8 *b);
+extern u32 func_02012964(const struct BigObj *p);
+extern void *func_0216DE94(void *map, u32 id);
 extern void func_0217F93C(int, int);
 
 int func_0217B1D0(struct obj *o, struct ent *e)
@@ -78,8 +80,8 @@ int func_0217B1D0(struct obj *o, struct ent *e)
         if (func_02012114((const struct Ctx *)o->in->fc) == 1) {
             t = func_02188CE0(func_0201210C((void *)o->in->fc));
             if (t != 0) {
-                r = func_0217AED4(e, v);
-                r = func_0216DE94(func_02012964(o->in->f8), r);
+                r = func_0217AED4((u8 *)e, (u8 *)v);
+                r = (int)func_0216DE94((void *)func_02012964((const struct BigObj *)o->in->f8), r);
                 if (r != 0) {
                     func_0217F93C(t, r);
                 }

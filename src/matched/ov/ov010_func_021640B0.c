@@ -27,19 +27,20 @@
 
 typedef short s16;
 
-extern int func_0216DCB4(int a);
-extern int func_0216D804(int a);
-extern int func_0216D810(int a);
-extern int func_0216D81C(int a);
+typedef unsigned int   u32;
+extern int func_0216DCB4(void *a0);
+extern int func_0216D804(void *p);
+extern int func_0216D810(void *p);
+extern int func_0216D81C(void *p);
 extern int func_02163E34(int a, int *p, int *out);
-extern int func_0216D83C(int a);
-extern int func_0216D86C(int a);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
 extern void func_02164280(int x, int y, int *p);
-extern int func_0216D8AC(int a);
-extern void func_0216D7E0(int a, int b);
-extern void func_0216D7D8(int a, int b);
-extern void func_0216D570(int a, int b);
-extern void func_0216D568(int a, int b);
+extern u32 func_0216D8AC(void *p);
+extern void func_0216D7E0(void *p, u32 v);
+extern void func_0216D7D8(void *p, u32 v);
+extern void func_0216D570(char *p, u32 v);
+extern void func_0216D568(void *p, u32 v);
 
 int func_021640B0(int a)
 {
@@ -53,26 +54,26 @@ int func_021640B0(int a)
     r2 = 0;
     o1 = -1;
     o2 = -1;
-    if (func_0216DCB4(a) == 0) {
-        int x = func_0216D804(a);
-        int y = func_0216D810(a);
-        int z = func_0216D81C(a);
+    if (func_0216DCB4((void *)a) == 0) {
+        int x = func_0216D804((void *)a);
+        int y = func_0216D810((void *)a);
+        int z = func_0216D81C((void *)a);
         rect[0] = x << 16;
         rect[1] = y << 16;
         rect[2] = z << 16;
         r1 = func_02163E34(a, rect, &o1);
-        func_02164280((s16)func_0216D83C(a), (s16)func_0216D86C(a), rect);
-        rect[1] = func_0216D8AC(a);
+        func_02164280((s16)func_0216D83C((void *)a), (s16)func_0216D86C((void *)a), rect);
+        rect[1] = func_0216D8AC((void *)a);
         r2 = func_02163E34(a, rect, &o2);
     }
     if (r1 == 1)
-        func_0216D7E0(a, o1);
+        func_0216D7E0((void *)a, o1);
     if (r2 == 1)
-        func_0216D7D8(a, o2);
+        func_0216D7D8((void *)a, o2);
     if (r2 == 1) {
-        func_0216D570(a, 0x800);
+        func_0216D570((char *)a, 0x800);
         return 1;
     }
-    func_0216D568(a, 0x800);
+    func_0216D568((void *)a, 0x800);
     return 0;
 }

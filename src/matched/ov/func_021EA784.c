@@ -20,9 +20,9 @@
 
 struct WinMgr;
 extern void func_021EF32C(struct WinMgr *mgr);
-extern void func_021EC688(int);
+extern void func_021EC688(char *p);
 void func_021EA784(int p)
 {
-    func_021EC688(p);
+    func_021EC688((char *)p);
     func_021EF32C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
 }

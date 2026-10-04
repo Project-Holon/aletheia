@@ -18,11 +18,11 @@
 
 
 struct WinMgr;
-extern void func_021EB6F0(char *, int, int);
-extern void func_021EB708(struct WinMgr *mgr, int, int);
+extern void func_021EB6F0(int a, int b, int c);
+extern void func_021EB708(void *m, unsigned i, void *d);
 void func_021EB7C8(char *p)
 {
-    func_021EB6F0(p, 0x17, 0x46);
+    func_021EB6F0((int)p, 0x17, 0x46);
     func_021EB708(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74), 0xb,
-                  *(int *)(*(int *)(p + 0x2c) + 0x14C));
+                  (void *)(*(int *)(*(int *)(p + 0x2c) + 0x14C)));
 }

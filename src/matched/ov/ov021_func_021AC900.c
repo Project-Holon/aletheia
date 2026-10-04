@@ -37,12 +37,12 @@ typedef struct B {
     u16 f30;
 } B;
 
-extern int func_0216E1C4(u32 a, u16 *b);
+extern int func_0216E1C4(int a0, int a1);
 extern int func_021AC9D8(B *p);
-extern u32 func_0216D608(u32 a);
+extern u16 func_0216D608(void *p);
 extern void func_021AC154(u32 a);
-extern u32 func_020508EC(u32 h, u32 i, u16 *out);
-extern void func_0205085C(u32 h, u32 i, u32 v);
+extern u32 func_020508EC(u8 *p, int i, u16 *out);
+extern void func_0205085C(void *p, int idx, u16 v);
 extern u8 d_021D90C0[];
 extern u16 d_021D90C8[];
 
@@ -56,26 +56,26 @@ void func_021AC900(u32 a, B *b)
     case 0:
         if (d_021D90C0[b->blk.w[8]] == 1) {
             m = b->blk.w[1];
-            if (func_0216E1C4(m, b->f28) == 1 && func_021AC9D8(b) == 0 && func_0216D608(m) == 1) {
+            if (func_0216E1C4(m, (int)b->f28) == 1 && func_021AC9D8(b) == 0 && func_0216D608((void *)m) == 1) {
                 func_021AC154(a);
                 return;
             }
         }
-        if (func_020508EC(h, b->f30, &tmp) != 0)
+        if (func_020508EC((u8 *)h, b->f30, &tmp) != 0)
             b->f0++;
         break;
     case 1:
-        if (func_0216E1C4(b->blk.w[1], b->f28) == 0) {
+        if (func_0216E1C4(b->blk.w[1], (int)b->f28) == 0) {
             func_021AC154(a);
             return;
         }
-        func_0205085C(h, b->f30, d_021D90C8[b->blk.w[8]]);
+        func_0205085C((void *)h, b->f30, d_021D90C8[b->blk.w[8]]);
         b->f0++;
         break;
     case 2:
         b->f0++;
     case 3:
-        if (func_0216E1C4(b->blk.w[1], b->f28) == 0) {
+        if (func_0216E1C4(b->blk.w[1], (int)b->f28) == 0) {
             func_021AC154(a);
             return;
         }

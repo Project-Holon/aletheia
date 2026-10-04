@@ -31,7 +31,13 @@ extern int func_021FE7B0(int *),func_02035D20(int *,int *);
 extern int func_021DE940(char *,int,int),func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,struct Pair *);
 extern void func_021DE780(char *,char *),func_021DE404(char *,char *),func_021DE55C(char *,char *),func_021DE66C(char *,char *);
-extern void func_021F9BA0(void *),func_021FC830(void *),func_021FD854(void *),func_021FD1BC(void *),func_0201C4E4(void *);
+typedef unsigned char  u8;
+struct PrintSys;
+extern void func_021F9BA0(void *);
+extern int func_021FC830(u8 *p);
+extern void func_021FD854(void *);
+extern void func_021FD1BC(void *);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021DE274(void *unused,u32 *state,char *q,char *p)
 {
  int x,y,i;

@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F1400[];
-extern void *func_021DD2D0(void ***,int,unsigned);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern unsigned func_02017E88(void *,unsigned,unsigned);
 extern int func_021DE720(unsigned short);
 void func_021DE728(unsigned char *p)
@@ -33,7 +33,7 @@ void func_021DE728(unsigned char *p)
     s->p=*(void **)(*(char **)(p+0x2c)+*(unsigned char *)(*(char **)(p+0x2c)+p[0x16]+0x3dd2)*4+0x9e74);
     s->f4=0;
     s->flags=0;
-    m=func_021DD2D0((void ***)p,p[0x14],p[0x16]);
+    m=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);
     for(i=0;i<4;i++){
         r=func_021DE720((unsigned short)func_02017E88(m,i+0x36,0));
         if(r!=-1){s->flags|=(unsigned char)(1<<r);return;}

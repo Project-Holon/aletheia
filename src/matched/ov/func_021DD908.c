@@ -33,12 +33,12 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-void *func_021C7CF4(int a, int b);
+void *func_021C7CF4(int *p, int i);
 struct QQ;
 struct UtilWork;
 int func_021D5BDC(struct UtilWork *p, u32 n);
 void *func_021C88A4(int a, int k, int b);
-void func_021C88C8(int a, void *p);
+void func_021C88C8(void *a, void *b);
 void func_021C8838(void *p, int a, int b);
 struct S;
 void func_021C8860(struct S *p, unsigned int a);
@@ -50,15 +50,15 @@ void func_021DD908(void *a, int b, int c)
 
     if (c != func_021D775C(2))
         return;
-    if (func_021D5BDC(func_021C7CF4(b, c), 9) != 0)
+    if (func_021D5BDC(func_021C7CF4((int *)b, c), 9) != 0)
         return;
     p = func_021C88A4(b, 0x17, c);
     *(u8 *)((u8 *)p + 8) = c;
     *(u32 *)((u8 *)p + 4) = 9;
-    func_021C88C8(b, p);
+    func_021C88C8((void *)b, p);
     q = func_021C88A4(b, 4, c);
     func_021C8838((u8 *)q + 4, 2, 0x3e9);
     func_021C8860((struct S *)((u8 *)q + 4), c);
     func_021C8860((struct S *)((u8 *)q + 4), func_021D70A8(a));
-    func_021C88C8(b, q);
+    func_021C88C8((void *)b, q);
 }

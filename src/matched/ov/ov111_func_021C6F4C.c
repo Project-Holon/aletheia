@@ -40,7 +40,8 @@ typedef struct {
 extern void func_0204ADA4(u32 r);
 extern void func_0204A8D4(u32 r);
 extern void func_0204AFD8(u32 r);
-extern void func_0204B1CC(u32 r);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 
 void func_021C6F4C(Anim *a)
@@ -52,7 +53,7 @@ void func_021C6F4C(Anim *a)
         func_0204A8D4(a->res[i].b);
         func_0204AFD8(a->res[i].c);
     }
-    func_0204B1CC(a->f4);
+    func_0204B1CC((struct Bank *)a->f4);
     func_0204A5AC();
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0x300010) | 0x10;
 }

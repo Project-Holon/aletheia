@@ -24,12 +24,14 @@ typedef unsigned int u32;
 
 extern u16 func_021BD2C8(void *p);
 extern u16 func_02045A98(void);
-extern u32 func_020457B0(u32 a, u32 b);
+struct Obj;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *a, const u16 *b, u32 c);
-extern void func_0201C7D0(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f);
-extern void func_020257D0(u32 a);
-extern void func_02045808(u32 a);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void func_020257D0(struct Obj *o);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021BD588(u32 *p)
 {
@@ -38,9 +40,9 @@ void func_021BD588(u32 *p)
 
     buf[0] = func_021BD2C8(p);
     buf[1] = func_02045A98();
-    h = func_020457B0(2, *(u16 *)p);
+    h = (u32)func_020457B0(2, *(u16 *)p);
     func_02045994((struct Strbuf *)h, buf, 2);
-    func_0201C7D0(p[2], 0, 0, h, p[1], 0x440);
-    func_020257D0(p[3]);
-    func_02045808(h);
+    func_0201C7D0((void *)p[2], 0, 0, (void *)h, (void *)p[1], 0x440);
+    func_020257D0((struct Obj *)p[3]);
+    func_02045808((struct U16Vec *)h);
 }

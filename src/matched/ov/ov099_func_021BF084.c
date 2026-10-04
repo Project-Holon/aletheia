@@ -31,8 +31,8 @@ extern void *func_021BE2A8(char *,int);
 extern void func_021B99F4(char *,void *);
 extern void func_021BE244(char *,void *);
 extern void func_021C203C(char *,int);
-extern void func_021C1A14(char *,int,int);
-extern char *func_021C23B8(int);
+extern void func_021C1A14(char *p, int b, void *c);
+extern int func_021C23B8(int i);
 extern void *func_021B9968(char *,int,int);
 typedef unsigned int   u32;
 extern void func_021C2028(char *p, int i, u8 v);
@@ -60,7 +60,7 @@ int func_021BF084(char *p)
                     func_021B99F4(p+0x274,v);
                     func_021BE244(p,v);
                     func_021C203C(p,*(u8 *)(p+i+0x30));
-                    func_021C1A14(p,*(u8 *)(p+i+0x30),33);
+                    func_021C1A14(p,*(u8 *)(p+i+0x30),(void *)33);
                     added=1;
                 }else{
                     func_021C203C(p,*(u8 *)(p+i+0x30));
@@ -71,7 +71,7 @@ int func_021BF084(char *p)
                 if(*(u8 *)(p+i+0x10)==*(u8 *)(p+j+0x30)){found=1;break;}
             }
             if(!found && *(u8 *)(p+i+0x10)){
-                s=func_021C23B8(*(u8 *)(p+i+0x10)-1);
+                s=(char *)func_021C23B8(*(u8 *)(p+i+0x10)-1);
                 v=func_021B9968(p+0x274,*(u8 *)(s+0x14),*(u8 *)(p+i+0x10));
                 if(v){
                     func_021C2028(p,*(u8 *)(p+i+0x10),2);

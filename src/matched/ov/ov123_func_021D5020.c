@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D4E7C(char *);
-extern void func_02012DAC(void *);
+extern int func_02012DAC(int a0);
 extern void func_021D4244(char *,void *,int);
 extern void func_021D4FEC(char *);
-void func_021D5020(char *p) { if(func_021D4E7C(p)) { func_02012DAC(*(void **)(p+0x260)); func_021D4244(p,func_021D4FEC,0x4fa); } }
+void func_021D5020(char *p) { if(func_021D4E7C(p)) { func_02012DAC((int)(*(void **)(p+0x260))); func_021D4244(p,func_021D4FEC,0x4fa); } }

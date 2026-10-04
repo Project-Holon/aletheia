@@ -24,29 +24,32 @@ typedef unsigned short u16;
 typedef struct Pt { u16 x; u16 y; } Pt;
 extern const Pt d_021E7580;
 extern const Pt d_021E757C;
-extern int func_0204B404(int a, void *b, int c);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void *func_021D8FA4(void *p, int a);
-extern void func_021E5B6C(void *p, int a, int b);
+extern void func_021E5B6C(int p, int b, int c);
 extern void func_021E219C(char *p, void *mon, int side, int flag);
 void func_021D9780(char *p, int a1, int a2)
 {
     Pt t0, t1;
     if (a1 == 0) {
         t0 = d_021E7580;
-        func_0204B404(*(int *)(p + 0xf0c), &t0, 1);
+        func_0204B404((struct Obj *)(*(int *)(p + 0xf0c)), (const struct Vec2 *)(&t0), 1);
     } else {
         t1 = d_021E757C;
-        func_0204B404(*(int *)(p + 0xf0c), &t1, 1);
+        func_0204B404((struct Obj *)(*(int *)(p + 0xf0c)), (const struct Vec2 *)(&t1), 1);
     }
     if (func_020355C4()) {
-        func_021E5B6C(p, a1, 0);
+        func_021E5B6C((int)p, a1, 0);
         func_0204B3DC((struct Obj *)*(int *)(p + 0xf0c), 0);
     } else {
-        func_021E5B6C(p, a1, 1);
+        func_021E5B6C((int)p, a1, 1);
         func_0204B3DC((struct Obj *)*(int *)(p + 0xf0c), 1);
     }
     if (a2 != 0) {

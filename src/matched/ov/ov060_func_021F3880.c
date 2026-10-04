@@ -36,9 +36,12 @@ extern u8 func_02012B80(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern u8 func_02012B40(const struct BigObj *p);
 extern int func_020127B8(void *p);
-extern int func_020127AC(void *p, int i);
-extern u16 func_0200BDF8(int p);
-extern u16 func_0200BDFC(int p);
+typedef unsigned int   u32;
+struct Rec1B0;
+struct SaveBlock;
+extern void *func_020127AC(struct SaveBlock *p, u32 idx);
+extern u16 func_0200BDF8(struct Rec1B0 *p);
+extern u16 func_0200BDFC(struct Rec1B0 *p);
 extern int func_021F3870(int x);
 extern V *func_021BE480(void *p, int i, u16 j);
 extern void func_021BE4B4(void *p, int i, u16 j, int v);
@@ -60,11 +63,11 @@ u8 func_021F3880(void *a, void *b, void *unused)
     if (r6 == func_02012B58(a)) {
         e = func_020127B8(a);
     } else {
-        e = func_020127AC(a, r6);
+        e = (int)func_020127AC(a, r6);
     }
     r7 = e;
-    r5 = func_021F3870(func_0200BDF8(r7));
-    r7 = func_021F3870(func_0200BDFC(r7));
+    r5 = func_021F3870(func_0200BDF8((struct Rec1B0 *)r7));
+    r7 = func_021F3870(func_0200BDFC((struct Rec1B0 *)r7));
     p = func_021BE480(b, 0, r5 + 10);
     r4 = (r4 << 22) + 0x1F8000;
     p->a = r4;

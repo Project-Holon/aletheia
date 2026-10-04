@@ -23,7 +23,11 @@ struct Methods { Method init,update,finish; };
 extern const struct Methods d_021E37A8[];
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
-extern void func_021FC830(void *),func_021FD1BC(void *),func_0201C4E4(void *);
+typedef unsigned char  u8;
+struct PrintSys;
+extern int func_021FC830(u8 *p);
+extern void func_021FD1BC(void *);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021FD854(char *);
 int func_021DFA10(void *unused,u32 *state,int *q,char *p)
 {

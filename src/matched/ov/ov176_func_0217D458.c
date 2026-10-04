@@ -20,15 +20,16 @@
  *   func_0217DB0C 0x0217DB0C thumb ov176
  *   func_0217DBE0 0x0217DBE0 thumb ov176
  */
-extern unsigned func_02012EBC(void *);
-extern void *func_0200B358(unsigned);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200B358(void *sys);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Rec160;
 struct Reg2;
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
-extern void func_021E8AA0(int, int);
+extern void func_021E8AA0(int *p, int v);
 extern void func_0217D4FC(int *a, int *state, int *p);
 extern void func_0217D730(int *a, int *state, int *p);
 extern void func_0217D964(int *a, int *state, int *p);
@@ -44,24 +45,24 @@ void func_0217D458(int a, int unused, char *p)
     x = func_0200B078(m, 2);
     y = func_0200B078(m, 10);
     if (x && y == 1) {
-        func_021E8AA0(a, (int)func_0217D4FC);
+        func_021E8AA0((int *)a, (int)func_0217D4FC);
         return;
     }
     if (x && y == 2) {
-        func_021E8AA0(a, (int)func_0217D730);
+        func_021E8AA0((int *)a, (int)func_0217D730);
         return;
     }
     if (x && y == 3) {
-        func_021E8AA0(a, (int)func_0217D964);
+        func_021E8AA0((int *)a, (int)func_0217D964);
         return;
     }
     if (x && y == 4) {
-        func_021E8AA0(a, (int)func_0217DA38);
+        func_021E8AA0((int *)a, (int)func_0217DA38);
         return;
     }
     if (x && y == 5) {
-        func_021E8AA0(a, (int)func_0217DB0C);
+        func_021E8AA0((int *)a, (int)func_0217DB0C);
         return;
     }
-    func_021E8AA0(a, (int)func_0217DBE0);
+    func_021E8AA0((int *)a, (int)func_0217DBE0);
 }

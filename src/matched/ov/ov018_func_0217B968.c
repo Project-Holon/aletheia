@@ -46,8 +46,9 @@ extern int func_02035390(void);
 extern int func_020353B0(void);
 extern u32 func_02012204(const struct Ctx *p);
 extern int func_020120D8(char *p);
-extern int func_020120F4(void *);
-extern int func_020127A4(int);
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_020127A4(struct SaveBlock *p);
 extern unsigned short func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013D5C(u32 id);
 struct VecFx32;
@@ -56,9 +57,9 @@ extern u32 func_02026454(void *obj);
 extern int func_0217B930(Vec *);
 extern void func_0217BA54(void *);
 extern int func_020392B8(void);
-extern u8 *func_02026474(void *);
+extern u32 func_02026474(void *obj);
 extern void func_02026400(struct Comm *p);
-extern void func_0202640C(void *, void (*)(int, int), void *);
+extern void func_0202640C(struct Comm *p, u32 a, u32 b);
 extern void func_0217BA48(int, int);
 
 void func_0217B968(int a0, void *a1, void *a2, void *a3)
@@ -90,13 +91,13 @@ void func_0217B968(int a0, void *a1, void *a2, void *a3)
             return;
         if (func_020392B8() > 1)
             return;
-        if (func_02026474(a2)[0x8FD] == 4)
+        if (((u8 *)func_02026474(a2))[0x8FD] == 4)
             return;
         func_02026400(a2);
         break;
     case 1:
         if (func_0217B930(&v) == 1)
-            func_0202640C(a2, func_0217BA48, a1);
+            func_0202640C(a2, (u32)func_0217BA48, (u32)a1);
         break;
     }
 }

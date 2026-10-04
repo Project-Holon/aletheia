@@ -80,7 +80,7 @@ extern void func_021EA614(void *win, MsgParam *msg);
 extern void func_021EA638(void *win, MsgParam *msg, void (*cb)(void));
 extern int func_021EA720(void *win);
 extern int func_021EA710(u32 *p);
-extern void func_02005DE4(int a);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 extern void func_02005D90(int a, int b);
 extern int func_02005F38(void);
@@ -93,7 +93,7 @@ extern void func_021EAC64(u8 *p, u8 a, int c);
 extern int func_021EAC80(u8 *p, u8 *out);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_020181F4(void *p, u16 move, u32 slot);
-extern void func_021D2C7C(void);
+extern int func_021D2C7C(int n);
 
 int func_021D2CA8(LearnSeq *s, int *state, void *mon)
 {
@@ -129,7 +129,7 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
     }
     case 3:
         if (func_021EA720(s->msgWin)) {
-            func_02005DE4(1);
+            func_02005DE4((void *)1);
             func_02005E64();
             func_02005D90(0x515, 0xFFFF);
         }
@@ -188,7 +188,7 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         func_021EAF18(&s->msg, 5, 5);
         func_021EAF50(&s->msg, idx);
         func_021EAF50(&s->msg, old);
-        func_021EA638(s->msgWin, &s->msg, func_021D2C7C);
+        func_021EA638(s->msgWin, &s->msg, (void (*)(void))func_021D2C7C);
         *state = 9;
         break;
     }

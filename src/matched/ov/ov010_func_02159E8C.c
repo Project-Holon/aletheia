@@ -29,27 +29,29 @@ typedef struct Ent {
     u16 f04;
 } Ent;
 
-extern int func_020120F4(int);
-extern int func_0201296C(int);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_0202E83C(int);
-extern int func_0215843C(int);
-extern u16 *func_020143CC(int, int);
+extern int func_0202E83C(void *a0);
+extern int func_0215843C(void *p);
+extern u32 func_020143CC(u32 a, u32 b);
 extern Ent d_02170FB0[];
 
 void func_02159E8C(u8 *out, int obj)
 {
-    int a = func_0201296C(func_020120F4(obj));
+    int a = func_0201296C(func_020120F4((const struct Ctx *)obj));
     int b = func_02012138((const struct Ctx *)obj);
-    int c = func_0202E83C(obj);
+    int c = func_0202E83C((void *)obj);
     int i;
     out[0] = c;
-    out[1] = (func_0215843C(b) != 0x15);
+    out[1] = (func_0215843C((void *)b) != 0x15);
     out[2] = (out[1] == 0) ? 0 : c + 1;
     for (i = 0; i < 10; i++) {
         Ent *e = &d_02170FB0[i];
-        u16 *p = func_020143CC(a, e->f02);
+        u16 *p = (u16 *)func_020143CC(a, e->f02);
         if (*p == e->f04)
             out[3 + i] = 1;
         else

@@ -34,7 +34,8 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_02047CFC(u16,u16,u32);
 extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u32);
 extern u16 func_02047E88(void *,const void *);
-extern void *func_02048A18(void *,u16);
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 struct G3dSys;
 struct Owner;
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
@@ -52,7 +53,7 @@ char *func_021BF8DC(void *owner,int kind,u32 heap)
     *(void **)(p+12)=func_02048A24(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
     if(kind!=7){
         *(u16 *)(p+16)=func_02047E88(*(void **)(p+8),setup);
-        obj=func_02048A18(*(void **)(p+8),*(u16 *)(p+16));
+        obj=(void *)func_02048A18(*(void **)(p+8),*(u16 *)(p+16));
         func_020477A4(obj,3);func_020477A4(obj,4);
         func_020477D4(obj,0);func_020477D4(obj,1);func_020477D4(obj,2);
     }else *(u16 *)(p+16)=0xffff;

@@ -40,7 +40,7 @@ struct S {
     int (*f464)(struct S *);
 };
 
-extern int func_021B9114(struct S *s);
+extern u8 func_021B9114(u8 **p);
 extern int func_021BA54C(struct S *s);
 extern void func_021BA6C0(struct S *s);
 extern void func_021BA878(struct S *s);
@@ -56,7 +56,7 @@ int func_021B6434(int a0, int a1, int a2, struct S *s)
         return 1;
     }
     if (s->f464(s) != 0) {
-        if (func_021B9114(s) == 0) {
+        if (func_021B9114((u8 **)s) == 0) {
             t = func_021BA54C(s);
             func_021BA6C0(s);
             func_021BA878(s);

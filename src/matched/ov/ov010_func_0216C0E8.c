@@ -78,10 +78,10 @@ struct S0201235C;
 extern u16 func_02188C84(u8 *p);
 extern void *func_020114D0(u32 heap, u32 a1, u32 a2);
 extern int func_02006148(u32 a0);
-extern void func_0200616C(u32 id, u32 v);
+extern void func_0200616C(void *arg, int i);
 struct Rec12;
 extern u32 func_02011610(struct IcaAnime *anim, struct Rec12 *out);
-extern void *func_02188D2C(void *field);
+extern int func_02188D2C(int *p);
 extern VecFx32 *func_021BE480(void *p, int a, int b);
 extern void *func_02188CB4(u8 *p);
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
@@ -119,12 +119,12 @@ int func_0216C0E8(void *evt, u32 *state, Work *w)
         break;
     case 2:
         w->anim = func_020114D0(func_02188C84(field), 0x9D, 0x18);
-        func_0200616C(1953, func_02006148(1953));
+        func_0200616C((void *)1953, func_02006148(1953));
         (*state)++;
         break;
     case 3:
         func_02011610(w->anim, (struct Rec12 *)&cur);
-        func_021BE480(func_02188D2C(field), 0, 0)->y = cur.y;
+        func_021BE480((void *)func_02188D2C(field), 0, 0)->y = cur.y;
         q = func_02188CB4(field);
         func_021A3038(q, &v);
         v.y = cur.y;

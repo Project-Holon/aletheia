@@ -21,7 +21,7 @@ extern int func_021FB1F4(char *, int);
 typedef unsigned int   u32;
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
-extern void func_021F80A0(char *, char *);
+extern void func_021F80A0(int a, u8 *p);
 int func_021FB5A4(int unused, char *p)
 {
     char *obj;
@@ -33,7 +33,7 @@ int func_021FB5A4(int unused, char *p)
     ctx = func_021F9DA0(*(void **)(obj + 0x34));
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80A0(ctx, func_021F9DA4(*(void **)(obj + 0x34), i));
+            func_021F80A0((int)ctx, func_021F9DA4(*(void **)(obj + 0x34), i));
         }
     }
     return 0;

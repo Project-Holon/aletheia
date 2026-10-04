@@ -16,11 +16,11 @@
 
 typedef unsigned int u32;
 
-int func_021A2BC4(u32 *p);
+int func_021A2BC4(u32 a);
 void func_021A27B8(u32 x, u32 *p);
 
 void func_021A21E0(u32 *p)
 {
-    if (func_021A2BC4(p) != 0)
+    if (func_021A2BC4((u32)p) != 0)
         func_021A27B8(p[0], p);
 }

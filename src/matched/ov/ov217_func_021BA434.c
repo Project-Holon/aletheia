@@ -14,11 +14,13 @@
  *   func_020142E8 0x020142E8 thumb
  */
 extern unsigned func_021C09B4(void *);
-extern void *func_0201296C(unsigned);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern unsigned func_020142E8(void *,int);
 unsigned char func_021BA434(char *p)
 {
-    void *bitmap=func_0201296C(func_021C09B4(*(void **)p));
+    void *bitmap=(void *)func_0201296C((const struct BigObj *)func_021C09B4(*(void **)p));
     int count=1;
     if(func_020142E8(bitmap,240)==1)count++;
     if(func_020142E8(bitmap,241)==1)count++;

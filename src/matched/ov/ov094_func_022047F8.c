@@ -27,20 +27,23 @@ typedef struct Ctx {
     void *ent[6];
 } Ctx;
 
-extern Ctx *func_02030EE8(void *h);
+typedef unsigned int   u32;
+struct Bank;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204B1CC(int h);
+extern void func_0204B1CC(struct Bank *bank);
 
 void func_022047F8(void *h)
 {
-    Ctx *c = func_02030EE8(h);
+    Ctx *c = (Ctx *)func_02030EE8(h);
     int i;
 
     for (i = 0; i < 6; i++) {
         if (c->ent[i] != 0)
             func_0204B3B4(c->ent[i]);
     }
-    func_0204B1CC(c->h4);
+    func_0204B1CC((struct Bank *)c->h4);
     c->main->st = c->main->st - 1;
 }

@@ -42,9 +42,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BC390(u8 *);
-extern void func_021BB724(u8 *, int, void *, int);
+extern void func_021BB724(u8 *p, int a, int b, int c);
 extern int func_021BB798(u8 *);
-extern void func_021BB718(u8 *, int);
+extern void func_021BB718(int a, int b);
 extern void func_021BB7D0(const u8 *p);
 extern int func_021BA5D8(char *);
 extern void func_021BABEC(void *, void *);
@@ -54,7 +54,7 @@ extern int func_021BB280(u8 *p);
 extern void func_021BB6A8(u8 *);
 extern int func_021BB628(u8 *, int, int);
 extern void func_021BBC34(u8 *);
-extern int func_021BBC44(u8 *, void *);
+extern int func_021BBC44(u8 *p, int a);
 extern u8 func_021B86C0(u8 **p);
 extern void func_021BB56C(void *);
 extern void func_021BABF4(void *);
@@ -65,8 +65,8 @@ extern int func_021BAEF8(u8 *, int *);
 extern int func_021BB0E0(u8 *p, int *s);
 extern u8 func_021BC55C(u8 *);
 extern void func_021B9120(void *, int);
-extern int func_021C84D8(int);
-extern void func_021B916C(int, int);
+extern int func_021C84D8(u8 *p);
+extern void func_021B916C(u8 *p, u32 x);
 int func_021BAE5C(u8 *);
 
 int func_021BACAC(u8 *p, int *s)
@@ -75,7 +75,7 @@ int func_021BACAC(u8 *p, int *s)
     case 0:
         if (func_021BC390(*(u8 **)(p + 0x44))) {
             int *q = *(int **)(p + 0xcb0);
-            func_021BB724(p, 8, q + 2, *q);
+            func_021BB724(p, 8, (int)(q + 2), *q);
             (*s)++;
         } else
             *s += 2;
@@ -87,7 +87,7 @@ int func_021BACAC(u8 *p, int *s)
         }
         break;
     case 2:
-        func_021BB718(p, 3);
+        func_021BB718((int)p, 3);
         (*s)++;
         break;
     case 3:
@@ -119,12 +119,12 @@ int func_021BACAC(u8 *p, int *s)
         func_021BB7D0(p);
         (*s)++;
     case 6:
-        *(int *)(p + 0x48) = func_021BBC44(*(u8 **)(p + 0x44), p + 0xb4);
+        *(int *)(p + 0x48) = func_021BBC44(*(u8 **)(p + 0x44), (int)(p + 0xb4));
         if (func_021B86C0(*(void **)(p + 0xc)))
             func_021BB56C(p + 0xb4);
         {
             int *q = *(int **)(p + 0xcb0);
-            func_021BB724(p, 8, q + 2, *q);
+            func_021BB724(p, 8, (int)(q + 2), *q);
         }
         (*s)++;
         break;
@@ -156,7 +156,7 @@ int func_021BACAC(u8 *p, int *s)
                 func_021BABEC(p, (void *)func_021BB280);
                 return 0;
             case 4:
-                func_021B916C(*(int *)(p + 0xc), func_021C84D8(*(int *)(p + 0x44)));
+                func_021B916C((u8 *)(*(int *)(p + 0xc)), func_021C84D8((u8 *)(*(int *)(p + 0x44))));
                 func_021BABEC(p, (void *)func_021BB280);
                 return 0;
             case 5:

@@ -32,7 +32,7 @@ struct PalAnmSlot;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0204ACEC(void *, u32, u32, u16, u16);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void *func_021F86E0(void);
+extern int func_021F86E0(void);
 extern u32 func_0204AEF4(int, int);
 extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 struct Obj;
@@ -54,7 +54,7 @@ int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16
     *(int *)(p + 12 + off) = func_0204A6C8(archive, a, 0, 0, *(u16 *)(p + 0x80));
     *(int *)(p + 16 + off) = func_0204ACEC(archive, b, 0, i * 32 + 0x140, *(u16 *)(p + 0x80));
     *(int *)(p + 20 + off) = func_0204AF28(archive, c, d, *(u16 *)(p + 0x80));
-    slots = func_021F86E0();
+    slots = (void *)func_021F86E0();
     pal = func_0204AEF4(*(int *)(p + 16 + off), 0);
     func_02021640(slots, archiveId, b, *(u16 *)(p + 0x80), 2, 32, (pal & 0x3ff) >> 1);
     cfg.x = x;

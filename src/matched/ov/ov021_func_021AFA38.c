@@ -32,7 +32,7 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_02158F74(void *a);
+extern void *func_02158F74(void *p);
 extern unsigned int func_02159B10(void *a, void *b);
 struct Ctx;
 struct WordSet;
@@ -43,7 +43,7 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
 int func_021AFA38(Script *a, u32 b)
 {
-    u32 x = func_02158F74(func_0215A5F4((void *)b));
+    u32 x = (u32)func_02158F74(func_0215A5F4((void *)b));
     u8 *p = a->cur;
     u32 v = *p;
     u32 e;

@@ -35,8 +35,8 @@ typedef int            s32;
 
 typedef struct Vec { s32 x, y, z; } Vec;
 
-extern u32 func_021AB760(u32 a);
-extern u32 func_0218E124(u32 a, u32 b);
+extern u32 func_021AB760(u8 *p);
+extern void func_0218E124(u8 *a, u32 s);
 extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
 extern void func_0207CCA4(const Vec *v, Vec *out);
 extern void func_0218EC90(u32 a, Vec *v);
@@ -60,8 +60,8 @@ void func_021AB908(u32 a0, const u8 *p, const Vec *q)
     s16 t0;
     s16 t1;
 
-    obj = func_021AB760(a0);
-    func_0218E124(obj, 2);
+    obj = func_021AB760((u8 *)a0);
+    func_0218E124((u8 *)obj, 2);
     a.x = *(const s32 *)(p + 0x10);
     a.y = *(const s32 *)(p + 0x14);
     a.z = *(const s32 *)(p + 0x18);

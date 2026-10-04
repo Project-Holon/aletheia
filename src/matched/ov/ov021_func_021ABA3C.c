@@ -17,8 +17,10 @@
 typedef unsigned short u16;
 typedef struct { int x; int y; int z; } V;
 
-extern int func_021AB764(int a);
-extern int func_02188CFC(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021AB764(u8 *p);
+extern u32 func_02188CFC(u8 *p);
 
 int func_021ABA3C(int a, const u16 *r, V *v)
 {
@@ -28,7 +30,7 @@ int func_021ABA3C(int a, const u16 *r, V *v)
     int w;
     int h;
 
-    if (func_02188CFC(func_021AB764(a)) == 1)
+    if (func_02188CFC((u8 *)func_021AB764((u8 *)a)) == 1)
         return 0;
     t = *v;
     t.x -= 0x8000;

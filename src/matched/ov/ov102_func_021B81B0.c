@@ -34,9 +34,10 @@ extern void func_021B8624(u8 *);
 extern int func_021B86FC(u8 *),func_021B870C(u8 *,u32 *);
 extern void func_021B86F8(u8 *,u32);
 extern int func_021B7254(void *),func_021B7250(void *);
-extern void func_021B72A0(void *,int),func_021B72A8(void *,u32);
+extern void func_021B72A0(int p, int b);
+extern void func_021B72A8(void *,u32);
 extern void func_021B63BC(int *p);
-extern void func_021B7F08(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B7F08(unsigned p, unsigned x);
 extern void func_021B7DFC(u8 *,void *,int,int,short);
 extern void func_021B82DC(u8 *,u16 *),func_021B838C(u8 *,u16 *),func_021B7F24(u8 *,u16 *);
 void func_021B81B0(u8 *p,u16 *state)
@@ -50,13 +51,13 @@ void func_021B81B0(u8 *p,u16 *state)
         break;
     case 1:
         func_021B8624(p+0xc0);
-        if(func_021B86FC(p+0xc0)) func_021B72A0(*(void **)(p+0x468),0);
+        if(func_021B86FC(p+0xc0)) func_021B72A0((int)(*(void **)(p+0x468)),0);
         if(func_021B870C(p+0xc0,(u32 *)(p+0x494))) {
             switch(*(u32 *)(p+0x494)) {
             case 0: *state=2; break;
             case 1:
                 *(u32 *)(*(u8 **)(p+0x48c)+12)=1;
-                func_021B7F08(p,func_021B82DC);
+                func_021B7F08((unsigned int)p,(unsigned int)func_021B82DC);
                 break;
             }
         }
@@ -64,14 +65,14 @@ void func_021B81B0(u8 *p,u16 *state)
         if(func_021B7254(*(void **)(p+0x468))) func_021B86F8(p+0xc0,0);
         if(func_021B7250(*(void **)(p+0x468))==1) {
             func_021B63BC(*(void **)(*(u8 **)(p+0x48c)+4));
-            func_021B7F08(p,func_021B838C);
+            func_021B7F08((unsigned int)p,(unsigned int)func_021B838C);
         }
         break;
     case 2:
         func_021B7DFC(p+0xac,p+0x9c,3,0,0);
         func_021B72A8(*(void **)(p+0x468),1);
-        func_021B72A0(*(void **)(p+0x468),0);
-        func_021B7F08(p,func_021B7F24);
+        func_021B72A0((int)(*(void **)(p+0x468)),0);
+        func_021B7F08((unsigned int)p,(unsigned int)func_021B7F24);
         break;
     }
 }

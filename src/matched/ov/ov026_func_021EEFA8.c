@@ -27,12 +27,13 @@
 typedef unsigned short u16;
 typedef signed short   s16;
 
-extern s16 *func_021A21B8(int);
+typedef unsigned char  u8;
+extern int *func_021A21B8(int *p);
 extern void func_021A2108(int, int, int);
-extern void func_021A25BC(int, int);
-extern void func_021A2160(int, int, int);
-extern void func_021A232C(int, int, int, int, int);
-extern int func_021A223C(int, int);
+extern void func_021A25BC(unsigned char *o, int arg);
+extern void func_021A2160(unsigned char *o, unsigned int v, int i);
+extern void func_021A232C(u8 *p, int a, int b, int c, int d);
+extern int func_021A223C(unsigned char *o, int arg);
 extern int func_021A23B0(int);
 typedef unsigned int   u32;
 extern u16 func_02014A10(u32 i);
@@ -46,7 +47,7 @@ int func_021EEFA8(int a, int b, int c)
     int t;
     int u;
 
-    p = func_021A21B8(a);
+    p = (s16 *)func_021A21B8((int *)a);
     switch (p[0]) {
     case 0:
         func_021A2108(a, 0x3E, func_02014A10(7));
@@ -65,11 +66,11 @@ int func_021EEFA8(int a, int b, int c)
     case 2:
         p[1] = p[1] - 1;
         if (p[1] == 0) {
-            func_021A25BC(a, 0x690);
-            func_021A2160(a, 1, 0);
-            func_021A232C(a, 9, 0x7F80, 10, b);
+            func_021A25BC((unsigned char *)a, 0x690);
+            func_021A2160((unsigned char *)a, 1, 0);
+            func_021A232C((u8 *)a, 9, 0x7F80, 10, b);
         }
-        t = func_021A223C(a, c);
+        t = func_021A223C((unsigned char *)a, c);
         u = func_021A23B0(a);
         if (t == 1 && u == 1 && p[1] <= 0) {
             return 1;

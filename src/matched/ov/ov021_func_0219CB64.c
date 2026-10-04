@@ -23,12 +23,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u16 id; u8 pad[5]; u8 f7; u8 f8; } D;
 extern u16 *func_0216E3C8(const D *);
-extern u32 func_0216D518(u32);
-extern u32 func_02046E24(u32, u16);
+extern u32 func_0216D518(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
 extern void func_0219CB24(u8 *o, u32 a, u32 b, u32 c, u8 s0, u32 s1);
 
 void func_0219CB64(u8 *s, const D *d, u32 g)
 {
     u16 *q = func_0216E3C8(d);
-    func_0219CB24(s, func_02046E24(func_0216D518(*(u32 *)(s + 0x10)), *q), d->id, d->f7, d->f8, g);
+    func_0219CB24(s, (u32)func_02046E24(func_0216D518((u8 *)(*(u32 *)(s + 0x10))), *q), d->id, d->f7, d->f8, g);
 }

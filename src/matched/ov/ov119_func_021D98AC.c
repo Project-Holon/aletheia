@@ -31,9 +31,19 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020221A4(void),func_020355C4(void),func_02035C08(const void *),func_021B6448(u8 *);
+extern int func_020221A4(void);
+extern u8 func_020355C4(void);
+extern int func_02035C08(const void *);
+extern int func_021B6448(u8 *);
 extern u32 func_020362DC(void);
-extern void func_020355D8(int),func_021D9780(char *,int,int),func_02040588(int,int),func_020061E4(int),func_021B63D0(void *),func_0202208C(int,int,int,int,int,int,int),func_021D8E84(void *,int),func_021D9810(char *);
+extern void func_020355D8(u8 v);
+extern void func_021D9780(char *,int,int);
+extern void func_02040588(int,int);
+extern void func_020061E4(int);
+extern void func_021B63D0(void *);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void func_021D8E84(void *,int);
+extern void func_021D9810(char *);
 extern const char d_021E75F0[];
 static inline int poll(void) {int v=func_020362DC();if(v)func_020355D8(0);return v;}
 void func_021D98AC(char *p)
@@ -60,6 +70,6 @@ void func_021D98AC(char *p)
   }
   func_021B63D0(*(void **)(p+0x9c0));
   if(func_021B6448(*(u8 **)(p+0x9c0))==1)done=1;
-  if(done) {func_0202208C(3,0,0,0,6,1,*(u16 *)(p+0x5f4));func_021D8E84(p,(int)func_021D9810);}
+  if(done) {func_0202208C((void *)3,0,0,0,6,1,*(u16 *)(p+0x5f4));func_021D8E84(p,(int)func_021D9810);}
  }
 }

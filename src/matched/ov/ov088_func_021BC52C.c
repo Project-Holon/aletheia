@@ -19,7 +19,7 @@
  */
 typedef unsigned char u8;
 extern void func_021BC84C(u8 *p);
-extern void func_0201D83C(int p);
+extern void func_0201D83C(void *ptr);
 extern void func_020450C8(void);
 typedef unsigned int   u32;
 extern void func_020403F4(u32 i);
@@ -27,4 +27,4 @@ extern void func_0203F9B4(void);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *a);
 extern void func_020306F0(u32 a);
-int func_021BC52C(int a,int b,int c,u8 *p) { func_021BC84C(p);func_0201D83C(*(int *)(p+8));func_020450C8();func_020403F4(3);func_020403F4(1);func_020403F4(5);func_0203F9B4();func_020315D4((struct S020315D4 *)a);func_020306F0(0x39);return 1; }
+int func_021BC52C(int a,int b,int c,u8 *p) { func_021BC84C(p);func_0201D83C((void *)(*(int *)(p+8)));func_020450C8();func_020403F4(3);func_020403F4(1);func_020403F4(5);func_0203F9B4();func_020315D4((struct S020315D4 *)a);func_020306F0(0x39);return 1; }

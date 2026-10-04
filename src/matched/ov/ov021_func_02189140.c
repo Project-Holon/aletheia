@@ -15,10 +15,12 @@
 
 typedef enum { B_FALSE, B_TRUE } Bool;
 
-void func_02061CA4(int on, int b, void *c, int d);
+typedef signed int     s32;
+typedef unsigned int   u32;
+s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 /* Callback: forwards its last three arguments, with the first folded to 0/1. */
 void func_02189140(int x, int b, void *c, int d)
 {
-    func_02061CA4(x == 0 ? B_FALSE : B_TRUE, b, c, d);
+    func_02061CA4((void *)(x == 0 ? B_FALSE : B_TRUE), b, (u32)c, d);
 }

@@ -30,7 +30,8 @@ struct S;
 extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C8810(u8 *p);
 extern int func_021C20BC(u8 *p, u8 *a, int r);
-extern void func_021C99A0(u8 *p, u8 *l);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern int func_021C8010(u8 *p, u32 x);
 extern void func_021C70E4(u8 *p, int a, int b, int c, int e, u32 f);
 extern int func_021D59B4(u8 *p, int k);
@@ -53,7 +54,7 @@ void func_021C4EA4(u8 *p, u8 *a, int k, int n)
         break;
     }
     if (n > 0 && func_021C20BC(p, a, n) != 0) {
-        func_021C99A0(p, p + 0x1AE4);
+        func_021C99A0(p, (const struct Msg *)(p + 0x1AE4));
         func_021C8810(p + 0x1AE4);
         func_021C70E4(p, 0x290, func_021C8010(p, x), 6, 0, 0);
         if ((int)func_021D59B4(a, 0xd) <= n) {

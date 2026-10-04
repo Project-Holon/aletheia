@@ -26,8 +26,9 @@ extern u32 func_02039CB4(struct Link *,u32,u32);
 extern unsigned func_0203D378(void);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern void func_02039C68(struct Link *, u32, u32);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021B9B7C(void);
+typedef unsigned char  u8;
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021B9B7C(int a);
 void func_021B9BE4(int a)
 {
  int k=12;
@@ -35,11 +36,11 @@ void func_021B9BE4(int a)
   if(func_0203D378()!=0) {
    if(func_0203D3A8(func_020399A8(),0xc05,4,*(int *)(a+0x244)+0x18)!=0) {
     func_02039C68((struct Link *)func_020399A8(),0x7e,k);
-    func_021B95B8(a,func_021B9B7C);
+    func_021B95B8((u8 *)a,(u32)func_021B9B7C);
    }
   } else {
    func_02039C68((struct Link *)func_020399A8(),0x7e,k);
-   func_021B95B8(a,func_021B9B7C);
+   func_021B95B8((u8 *)a,(u32)func_021B9B7C);
   }
  }
 }

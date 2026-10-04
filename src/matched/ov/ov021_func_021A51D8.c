@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 int func_02197E7C(int k, int a);
 void func_0216D410(int b, int v);
-void func_021A3964(u32 h, int s);
+void func_021A3964(u8 *p, u32 v);
 
 void func_021A51D8(u32 *p, int b, u8 *c)
 {
@@ -29,5 +29,5 @@ void func_021A51D8(u32 *p, int b, u8 *c)
 
     func_0216D410(b, func_02197E7C(*(u16 *)(c + 8), a));
     p[0] = 1;
-    func_021A3964(p[3], 1);
+    func_021A3964((u8 *)p[3], 1);
 }

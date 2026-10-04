@@ -17,7 +17,7 @@
 
 
 extern void func_021C5078(int, int);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 void func_021C51A0(char *p, int a)
 {
@@ -25,7 +25,7 @@ void func_021C51A0(char *p, int a)
         func_021C5078(a, *(int *)p);
     *(int *)p = 0;
     if (*(int *)(p + 4) != 0)
-        func_020307B0(*(int *)(p + 4));
+        func_020307B0((void *)(*(int *)(p + 4)));
     *(int *)(p + 4) = 0;
 }
 

@@ -33,9 +33,10 @@ struct Big;
 struct Blk34;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sys);
-extern int func_02158F74();
+struct WordSet;
+extern void *func_02158F74(void *p);
 extern u32 func_0200C1C4(struct Blk34 *p);
-extern int func_0201EFA4();
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 int func_021AFC88(Ctx *a0, int a1)
 {
@@ -46,10 +47,10 @@ int func_021AFC88(Ctx *a0, int a1)
     int b;
 
     h = func_0200C0F0(func_02012EBC(func_0215A5E4((void *)a1)));
-    r = func_02158F74(t);
+    r = (int)func_02158F74(t);
     p = a0->cur;
     b = *p;
     a0->cur = p + 1;
-    func_0201EFA4(r, b, func_0200C1C4(h), 9, 1, 1);
+    func_0201EFA4((struct WordSet *)r, b, func_0200C1C4(h), 9, 1, 1);
     return 0;
 }

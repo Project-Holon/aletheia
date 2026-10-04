@@ -18,18 +18,21 @@
 
 typedef unsigned char u8;
 
-extern int func_020120F4(int);
-extern int func_02012B70(int);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012B70(const struct BigObj *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_02025774(int, int);
+extern void func_02025774(u8 *g, u32 a);
 
 void func_0217E4D0(int *p)
 {
     int h;
 
-    h = func_020120F4(p[0]);
-    if (*((u8 *)p + 0xe9) == 0 && func_02012B70(h) == 1) {
+    h = (int)func_020120F4((const struct Ctx *)p[0]);
+    if (*((u8 *)p + 0xe9) == 0 && func_02012B70((const struct BigObj *)h) == 1) {
         switch (p[0xdc / 4]) {
         case 0:
         case 1:
@@ -37,7 +40,7 @@ void func_0217E4D0(int *p)
         case 3:
         case 4:
             func_0204B3DC((struct Obj *)p[0x9c / 4], 0);
-            func_02025774(p[0xc0 / 4], 0);
+            func_02025774((u8 *)p[0xc0 / 4], 0);
             break;
         }
     }

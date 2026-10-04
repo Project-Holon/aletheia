@@ -19,7 +19,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0201CE48(u32 a);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
 extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
 
 void func_0219499C(u8 *p, int i, u32 b, u32 c)
@@ -28,7 +29,7 @@ void func_0219499C(u8 *p, int i, u32 b, u32 c)
 
     e = p + 0x18 + i * 100;
     if (*(u32 *)(e + 8) != 0) {
-        func_0201CE48(*(u32 *)(e + 8));
+        func_0201CE48((struct Rec3 *)(*(u32 *)(e + 8)));
         *(u32 *)(e + 8) = 0;
     }
     if (b != 0) {

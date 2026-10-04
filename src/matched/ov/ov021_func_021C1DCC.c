@@ -27,8 +27,10 @@ int func_02034AC4(signed int id);
 void func_02034A5C(int id);
 int *func_021F54E0(int a);
 int func_021C1CB0(int a, char *b, u8 c);
-int func_020124E8(int a);
-void func_021C313C(char *a, int b);
+typedef unsigned int   u32;
+struct Obj;
+void *func_020124E8(struct Obj *p);
+void func_021C313C(u32 a, u32 *p);
 int func_021C2D68(int a, int *b);
 int func_021C2CF4(void *a, u8 *p);
 
@@ -46,8 +48,8 @@ int func_021C1DCC(int a, char *b, int c, int d)
         func_02034A5C((int)abs_id_4A);
         return 0;
     }
-    x = func_020124E8(r);
-    func_021C313C(b, x);
+    x = (int)func_020124E8((struct Obj *)r);
+    func_021C313C((u32)b, (u32 *)x);
     *(int *)(x + 0x3c) = d;
     if (q[4] != 0)
         *(void **)(b + 0x128) = func_021C2D68;

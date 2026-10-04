@@ -55,7 +55,9 @@ struct S { char pad0[8]; u16 h8; char pad1[2]; u32 f0c; u32 arr[0x28]; };
 extern const struct Ent d_021C33C8[];
 extern const struct Ent d_021C3520[];
 extern int func_021BC6DC(struct S *p);
-extern u32 func_021C0EF4(struct Loc *l, u32 a, u32 b, u32 c);
+struct Config;
+struct Record;
+extern struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
 extern u32 func_021C0F5C(u32 a0, u32 a1);
 
 void func_021BCC68(struct S *p)
@@ -76,7 +78,7 @@ void func_021BCC68(struct S *p)
         l1.b9 = e->b9;
         l1.b10 = e->b10;
         l1.w = e->w;
-        p->arr[0xdc / 4 - 4 + i] = func_021C0EF4(&l1, p->f0c, p->arr[e->idx], p->h8);
+        p->arr[0xdc / 4 - 4 + i] = (u32)func_021C0EF4((const struct Config *)(&l1), p->f0c, p->arr[e->idx], p->h8);
         func_021C0F5C(p->arr[0xdc / 4 - 4 + i], e->arg);
     }
     for (i = 0; i < func_021BC6DC(p); i++) {
@@ -94,7 +96,7 @@ void func_021BCC68(struct S *p)
         l2.b9 = e->b9;
         l2.b10 = e->b10;
         l2.w = e->w;
-        p->arr[0xb4 / 4 - 4 + i] = func_021C0EF4(&l2, p->f0c, p->arr[e->idx], p->h8);
+        p->arr[0xb4 / 4 - 4 + i] = (u32)func_021C0EF4((const struct Config *)(&l2), p->f0c, p->arr[e->idx], p->h8);
         func_021C0F5C(p->arr[0xb4 / 4 - 4 + i], e->arg);
     }
 }

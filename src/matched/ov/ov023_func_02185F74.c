@@ -56,15 +56,19 @@ extern u16 func_02039338(void);
 extern int  func_02186170(W *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0201C6EC(u32 a);
+struct Bmp;
+struct Cfg;
+struct Descriptor;
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043AF4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_02008500(u32 a, u32 b);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void func_02008500(void *a, void *b);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(u32 a);
-extern u32  func_02045730(u32 a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 
 void func_02185F74(u32 *win, u16 color, W *p)
@@ -83,12 +87,12 @@ void func_02185F74(u32 *win, u16 color, W *p)
         else
             func_0204B3DC((struct Obj *)p->arr98[i], 1);
     }
-    func_0201C6EC(p->f164);
+    func_0201C6EC((struct PrintSys *)p->f164);
     for (i = 0; i < 5; i++)
-        func_02043AF4((u32)func_02045770((struct Descriptor *)win[i]), 0, 0, 0x50, 0x10, 0);
+        func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)win[i])), 0, 0, 0x50, 0x10, 0);
     for (i = 0; i < 5; i++) {
         if (p->e1c8[i].w != 0) {
-            func_02008500(p->e1c8[i].w, p->arr18[i]);
+            func_02008500((void *)p->e1c8[i].w, (void *)p->arr18[i]);
             if (sel == i) {
                 t = p->f164;
                 func_0201C724(t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, 0xc80);
@@ -101,7 +105,7 @@ void func_02185F74(u32 *win, u16 color, W *p)
         }
         w = win[i];
         func_02045334((struct Descriptor *)w);
-        func_02045374(w);
-        func_020409B4(func_02045730(w));
+        func_02045374((struct Cfg *)w);
+        func_020409B4(func_02045730((struct Descriptor *)w));
     }
 }

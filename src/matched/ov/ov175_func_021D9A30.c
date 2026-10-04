@@ -21,12 +21,12 @@
 typedef unsigned long u32;
 
 extern void func_021E8A80(u32 h);
-extern int func_021E8A90(u32 h);
+extern int func_021E8A90(int **p);
 
 u32 func_021D9A30(char *obj)
 {
     func_021E8A80(*(u32 *)(obj + 0x3c));
-    if (func_021E8A90(*(u32 *)(obj + 0x3c)) != 0)
+    if (func_021E8A90((int **)(*(u32 *)(obj + 0x3c))) != 0)
         return *(u32 *)(obj + 0x40);
     return 0xFFFF;
 }

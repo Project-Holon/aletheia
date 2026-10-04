@@ -26,30 +26,33 @@
 
 typedef unsigned int u32;
 extern unsigned char abs_id_1d[];
-extern u32 func_02188C80(u32);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EBC(u32);
-extern u32 func_02009210(u32);
+struct Big;
+struct Ctx;
+struct Sub02009210Obj;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009210Obj *func_02009210(void *sys);
 extern void func_02009200(u32, u32);
 struct Ctx;
 extern u32 func_0201214C(const struct Ctx *p);
-extern u32 func_02012204(u32);
-extern void func_02012210(u32);
+extern u32 func_02012204(const struct Ctx *p);
+extern void func_02012210(struct Ctx *p);
 extern int func_02034AC4(int);
-extern u32 func_021F27D8(u32, u32 *, u32, u32, u32, u32);
+extern char *func_021F27D8(int a0, int a1, int a2, void (*cb)(int), int arg, int flag);
 
 void ov021_func_021A1050(u32 *p)
 {
     u32 a, b, c, d;
-    a = func_02188C80(p[5]);
-    b = func_02012EBC(func_020120F4(a));
+    a = (u32)func_02188C80((void *)p[5]);
+    b = (u32)func_02012EBC(func_020120F4((const struct Ctx *)a));
     func_02034AC4((int)abs_id_1d);
     c = func_0201214C((const struct Ctx *)a);
-    d = func_02009210(b);
-    p[8] = func_021F27D8(d, p, func_02188C80(p[5]), p[6], p[7], c);
+    d = (u32)func_02009210((void *)b);
+    p[8] = (u32)func_021F27D8(d, (int)p, (int)func_02188C80((void *)p[5]), (void (*)(int))p[6], p[7], c);
     func_02009200(d, c);
-    if (func_02012204(a) != 0)
-        func_02012210(a);
+    if (func_02012204((const struct Ctx *)a) != 0)
+        func_02012210((struct Ctx *)a);
     p[0] = 0;
     p[1] = 0;
 }

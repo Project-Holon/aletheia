@@ -28,7 +28,7 @@ struct U16Vec;
 struct WordSet;
 extern void func_021D9B28(u8 *p, unsigned v);
 extern void func_021D9B2C(void *,int,int,int);
-extern void func_021D9AC8(void *,void *,int);
+extern void func_021D9AC8(u8 *p, int a, int b);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
@@ -47,7 +47,7 @@ void func_021DB478(char *p,int a,int b,int c,u16 heap)
     func_0201F250(*(void **)(p+24),text,other);
     func_021D9B28(*(void **)(p+0xab4),0x39ea);
     func_021D9B2C(*(void **)(p+0xab4),0,0,1);
-    func_021D9AC8(*(void **)(p+0xab4),text,*(int *)(p+16));
+    func_021D9AC8(*(void **)(p+0xab4),(int)text,*(int *)(p+16));
     func_02045808(text);
     func_02045808(other);
     func_020409B4(3);

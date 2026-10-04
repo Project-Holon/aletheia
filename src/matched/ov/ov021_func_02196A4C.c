@@ -22,11 +22,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern u32 func_020221A4(void);
-extern void func_02051C88(u32);
+typedef signed int     s32;
+struct Ctx;
+extern s32 func_02051C88(struct Ctx *c);
 
 void func_02196A4C(u8 *a)
 {
     if (func_020221A4() != 0) {
-        func_02051C88(*(u32 *)(a + 0x24));
+        func_02051C88((struct Ctx *)(*(u32 *)(a + 0x24)));
     }
 }

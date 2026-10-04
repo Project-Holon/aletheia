@@ -14,11 +14,13 @@
  *   func_0201C4E4  0x0201C4E4  thumb
  */
 
-extern void func_021E867C(int);
-extern void func_0201C4E4(int);
+typedef unsigned int   u32;
+struct PrintSys;
+extern void func_021E867C(char *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 
 void func_0217AFBC(int *p)
 {
-    func_021E867C(*(int *)((char *)p + 8));
-    func_0201C4E4(*(int *)((char *)p + 0x14));
+    func_021E867C((char *)(*(int *)((char *)p + 8)));
+    func_0201C4E4((struct PrintSys *)(*(int *)((char *)p + 0x14)));
 }

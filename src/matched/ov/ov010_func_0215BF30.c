@@ -34,7 +34,7 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_02017988(void *, void *);
+extern u32 func_02017988(void *p, u32 a);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 
@@ -48,7 +48,7 @@ int func_0215BF30(void *a0, void *a1)
     func_0215A5F4(a1);
     h = func_020120F4(func_0215A5DC(a1));
     e = func_0201AB28(func_02012934(h), (u32)k);
-    func_02017988(e, v);
+    func_02017988(e, (u32)v);
     func_0200CFA0(func_0200CA1C(h), e);
     return 0;
 }

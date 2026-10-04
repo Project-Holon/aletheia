@@ -23,9 +23,12 @@
 
 typedef unsigned short u16;
 
-extern void *func_02013B38(int a);
-extern void *func_0218BC1C(void *a);
-extern int func_020140D8(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub020140BCObj;
+extern u32 func_02013B38(u32 id);
+extern unsigned short func_0218BC1C(int x);
+extern u8 func_020140D8(struct Sub020140BCObj *p);
 extern void func_0218BB0C(char *p, u16 k, void *s);
 extern void func_0218BC40(char *p, u16 k, void *s, int c);
 extern void func_0218BB78(char *p, int k);
@@ -39,8 +42,8 @@ void func_0218B8AC(char *p, int a, int b, int c)
     int k2;
     int k3;
 
-    s = func_0218BC1C(func_02013B38(a));
-    if (func_020140D8(b)) {
+    s = (void *)func_0218BC1C(func_02013B38(a));
+    if (func_020140D8((struct Sub020140BCObj *)b)) {
         k1 = 0xE5;
         k2 = 0xB0;
         k3 = 0x15;

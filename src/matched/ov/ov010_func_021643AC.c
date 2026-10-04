@@ -28,9 +28,11 @@ struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *);
 extern u16 func_02188C9C(u8 *p);
-extern void func_0215E428(void *, u16);
+typedef unsigned int   u32;
+struct BigObj;
+extern void func_0215E428(int a0, int a1);
 extern void func_0215E3A0(void *);
-extern char *func_0201296C(void *);
+extern u32 func_0201296C(const struct BigObj *p);
 extern void func_0201433C(char *, int);
 extern void func_0215E33C(void *);
-void func_021643AC(void *a, void *b) { void *p=func_0200D418(func_02012EBC(a)); func_0215E428(p,func_02188C9C(b)); func_0215E3A0(a); func_0201433C(func_0201296C(a),0x964); func_0215E33C(b); }
+void func_021643AC(void *a, void *b) { void *p=func_0200D418(func_02012EBC(a)); func_0215E428((int)p,func_02188C9C(b)); func_0215E3A0(a); func_0201433C((char *)func_0201296C(a),0x964); func_0215E33C(b); }

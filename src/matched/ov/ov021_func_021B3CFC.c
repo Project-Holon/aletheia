@@ -17,13 +17,16 @@
  */
 
 extern unsigned func_02020E60(unsigned a, unsigned b);
-extern void *func_0204AC18(void *a, unsigned b, unsigned c, unsigned d, unsigned e, unsigned f, unsigned g);
-extern void *func_0204A6C8(void *a, unsigned b, unsigned c, unsigned d, unsigned e);
-extern void *func_0204AF28(void *a, unsigned b, unsigned c, unsigned d);
+typedef signed int     s32;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 void func_021B3CFC(char *w)
 {
-    *(void **)(w + 0x1EC) = func_0204AC18(*(void **)(w + 0x1F8), func_02020E60(1, 2), 0, 0x20, 0, 1, *(unsigned short *)(w + 4));
-    *(void **)(w + 0x1F0) = func_0204A6C8(*(void **)(w + 0x1F8), func_02020E60(1, 1), 0, 0, *(unsigned short *)(w + 4));
-    *(void **)(w + 0x1F4) = func_0204AF28(*(void **)(w + 0x1F8), 1, 0, *(unsigned short *)(w + 4));
+    *(void **)(w + 0x1EC) = (void *)func_0204AC18(*(void **)(w + 0x1F8), func_02020E60(1, 2), 0, 0x20, 0, 1, *(unsigned short *)(w + 4));
+    *(void **)(w + 0x1F0) = (void *)func_0204A6C8(*(void **)(w + 0x1F8), func_02020E60(1, 1), 0, 0, *(unsigned short *)(w + 4));
+    *(void **)(w + 0x1F4) = (void *)func_0204AF28(*(void **)(w + 0x1F8), 1, 0, *(unsigned short *)(w + 4));
 }

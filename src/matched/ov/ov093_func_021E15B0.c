@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 typedef unsigned int   u32;
 extern int func_021D76BC(int key, u32 val);
@@ -30,6 +30,6 @@ void func_021E15B0(int a, int b, int c)
 
     if (c != func_021D775C(3))
         return;
-    n = (unsigned char)func_021D59B4(func_021C7CF4(b, c), 15);
+    n = (unsigned char)func_021D59B4(func_021C7CF4((int *)b, c), 15);
     func_021D76BC(55, n);
 }

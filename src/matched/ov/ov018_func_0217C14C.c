@@ -30,8 +30,9 @@ typedef struct {
 } S;
 
 extern void *func_02188C7C(unsigned char *p);
-extern int func_02188C9C();
-extern void func_0216CE60();
+typedef unsigned char  u8;
+extern u16 func_02188C9C(u8 *p);
+extern void func_0216CE60(int a, int b, int c);
 extern const S d_021835D4;
 
 void func_0217C14C(int a0, u16 a1, u16 a2, int a3)
@@ -42,11 +43,11 @@ void func_0217C14C(int a0, u16 a1, u16 a2, int a3)
     T *t;
 
     v = func_02188C7C((void *)a0);
-    c = func_02188C9C(a0);
+    c = func_02188C9C((u8 *)a0);
     s = d_021835D4;
     t = &s.t;
     t->h0 = a1;
     t->h2 = a2;
     t->w4 = a3;
-    func_0216CE60(v, &s, c);
+    func_0216CE60((int)v, (int)(&s), c);
 }

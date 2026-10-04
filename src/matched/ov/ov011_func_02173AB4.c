@@ -13,12 +13,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021754E8(int a, int b, int c, int d);
+void func_021754E8(u8 *p, int a, int b, int c);
 
 void func_02173AB4(int a, int b, u8 *c, u8 *d)
 {
     u8 v;
     v = c[1];
-    if (v == d[0x159]) func_021754E8((int)d, a, c[0], v);
+    if (v == d[0x159]) func_021754E8((u8 *)((int)d), a, c[0], v);
     else (d + a)[0x948] = v;
 }

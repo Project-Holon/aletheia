@@ -24,8 +24,10 @@ typedef unsigned int u32;
 
 extern u8 d_021DB414[];
 extern u8 d_021DB42C[];
-extern void *func_02190A28(void *a, int b, u32 c, u32 d);
-extern void *func_02190938(u32 a, void *b, void *c, u32 d, u32 d2, void *e, void *f, void *g);
+struct Handle;
+struct Pair;
+extern u32 func_02190A28(const struct Pair *arr, int n, u32 c, u16 d);
+extern struct Handle *func_02190938(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u32 g, u32 h, u32 i);
 extern void func_021CCF60(void *a, u32 sel);
 extern void func_021CCF7C(void *p, int k);
 
@@ -33,7 +35,7 @@ void func_021CCEFC(u8 *p)
 {
     void *r;
 
-    r = func_02190A28(d_021DB414, 3, *(u32 *)(p + 0xa8), *(u16 *)(p + 0xc));
-    *(void **)(p + 0xac) = func_02190938(*(u32 *)(p + 0xa4), d_021DB42C, r, 0, 0,
-        func_021CCF60, func_021CCF7C, p);
+    r = (void *)func_02190A28((const struct Pair *)d_021DB414, 3, *(u32 *)(p + 0xa8), *(u16 *)(p + 0xc));
+    *(void **)(p + 0xac) = func_02190938((u16 *)(*(u32 *)(p + 0xa4)), d_021DB42C, (u32)r, 0, 0,
+        (u32)func_021CCF60, (u32)func_021CCF7C, (u32)p);
 }

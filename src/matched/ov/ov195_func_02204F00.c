@@ -13,14 +13,16 @@
  *   func_020063B4 0x020063B4 thumb
  */
 
-extern void func_020063B4(void *, void *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
 
 void func_02204F00(int unused, char *p)
 {
     if (*(int *)(p + 0x30) == 0)
     {
         *(int *)(p + 0x34) = 0;
-        func_020063B4((void *)0x3f3, p + 0x34, 1);
+        func_020063B4((void *)0x3f3, (u32 *)(p + 0x34), 1);
         *(int *)(p + 0x30) = 3;
     }
 }

@@ -41,20 +41,21 @@ typedef unsigned int   u32;
 
 extern u32  func_020362DC(void);
 extern unsigned int func_0203633C(void);
-extern int  func_0204B3F4(int h);
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 extern void func_021B8F68(u8 *p, int v);
-extern void func_021BAFA0(u8 *p, int v, int z);
+extern void func_021BAFA0(u8 *a, u8 *s, int k);
 extern void func_021BBE5C(int h, int f);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_020061E4(u32 id);
-extern int  func_021BB468(u8 *p, int v);
-extern int  func_021B9A84(u8 *p);
-extern int  func_021B9AA0(u8 *p);
+extern int func_021BB468(int unused, int *p);
+extern int func_021B9A84(u32 p);
+extern int func_021B9AA0(u32 p);
 extern int  func_021B9AB4(u8 *p);
 extern u32 func_0201AA18(void *p);
 extern int func_021BB3C4(void *unused, u32 p);
-extern void func_0204B878(int h, int f);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 extern const u8 d_021BEAB0[];
 extern const u8 d_021BEAAA[];
@@ -73,11 +74,11 @@ void func_021B8AC4(u8 *p)
 
     trg = func_020362DC();
     rep = func_0203633C();
-    if (W(8) == 1 && func_0204B3F4(W(0x1d8)) == 0) {
+    if (W(8) == 1 && func_0204B3F4((struct Obj *)W(0x1d8)) == 0) {
         if (trg != 0 && (trg & 0x402) == 0) {
             if (W(0x2c) <= 5) {
                 func_021B8F68(p, W(0x2c));
-                func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 1);
+                func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
             } else {
                 func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
                 func_0204B3DC((struct Obj *)W(0x1d8), 0);
@@ -104,7 +105,7 @@ void func_021B8AC4(u8 *p)
                 p[0xf] = 0;
             } else if (W(0x2c) == 7) {
                 p[0xf] = 1;
-            } else if (W(0x28) == 0 && func_021BB468(p, *(int *)(p + W(0x2c) * 4 + 0x160)) == 1) {
+            } else if (W(0x28) == 0 && func_021BB468((int)p, (int *)(*(int *)(p + W(0x2c) * 4 + 0x160))) == 1) {
                 func_020061E4(0x557);
             } else {
                 p[0xf] = 3;
@@ -113,8 +114,8 @@ void func_021B8AC4(u8 *p)
         if (dir != 0) {
             old = W(0x2c);
             done = 0;
-            if (func_021B9A84(p) == 1) {
-                if (func_021B9AA0(p) == 1) {
+            if (func_021B9A84((u32)p) == 1) {
+                if (func_021B9AA0((u32)p) == 1) {
                     max = 7;
                 } else {
                     max = 6;
@@ -125,13 +126,13 @@ void func_021B8AC4(u8 *p)
             if ((u32)(W(0x2c) - 6) <= 1 && (rep & 0xc0)) {
                 cnt = func_0201AA18((void *)*(int *)W(0x280));
                 if (up) {
-                    if (W(0x2c) == 7 || func_021B9AA0(p) == 0) {
+                    if (W(0x2c) == 7 || func_021B9AA0((u32)p) == 0) {
                         W(0x2c) = d_021BEAB0[cnt - 1];
                     } else {
                         W(0x2c) = d_021BEAAA[cnt - 1];
                     }
                 } else {
-                    if (W(0x2c) == 7 || func_021B9AA0(p) == 0) {
+                    if (W(0x2c) == 7 || func_021B9AA0((u32)p) == 0) {
                         if (cnt > 1) {
                             W(0x2c) = 1;
                         } else {
@@ -167,13 +168,13 @@ void func_021B8AC4(u8 *p)
             if (old != W(0x2c)) {
                 if (W(0x2c) <= 5) {
                     func_021B8F68(p, W(0x2c));
-                    func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 1);
+                    func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
                 } else {
                     func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
                     func_0204B3DC((struct Obj *)W(0x1d8), 0);
                 }
                 if (old <= 5) {
-                    func_021BAFA0(p, *(int *)(p + old * 4 + 0x160), 0);
+                    func_021BAFA0(p, (u8 *)(*(int *)(p + old * 4 + 0x160)), 0);
                 } else {
                     func_021BBE5C(*(int *)(p + (u8)(old - 6) * 4 + 0x108), 0);
                 }
@@ -183,18 +184,18 @@ void func_021B8AC4(u8 *p)
         }
     }
     if (trg & 2) {
-        if (func_021B9A84(p) == 0 || func_021B9AA0(p) == 1) {
+        if (func_021B9A84((u32)p) == 0 || func_021B9AA0((u32)p) == 1) {
             if (func_021B9AB4(p) == 1) {
                 p[0xf] = 1;
                 W(0x1e8) = W(0x1e0);
-                func_0204B878(W(0x1e8), 9);
+                func_0204B878((struct Obj *)W(0x1e8), 9);
                 W(8) = 0;
             }
         }
     } else if ((trg & 0x400) && W(0x14) == 1) {
         p[0xf] = 2;
         W(0x1e8) = W(0x1e4);
-        func_0204B878(W(0x1e8), 8);
+        func_0204B878((struct Obj *)W(0x1e8), 8);
         W(8) = 0;
     }
 }

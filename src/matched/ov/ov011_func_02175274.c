@@ -22,9 +22,12 @@ typedef struct C12 {
     int w[3];
 } C12;
 
-int func_02026478(int a);
-int func_02012B58(int a);
-void func_021751D4(u8 *p, int a, int b, u8 *e);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ent;
+u32 func_02026478(void *obj);
+u8 func_02012B58(const struct BigObj *p);
+void func_021751D4(u8 *p, u16 a, int b, struct Ent *c);
 
 void func_02175274(u8 *p, int arg)
 {
@@ -34,7 +37,7 @@ void func_02175274(u8 *p, int arg)
     int i;
     u8 *e;
 
-    n = func_02012B58(func_02026478(*(int *)(p + 4)));
+    n = func_02012B58((const struct BigObj *)func_02026478((void *)(*(int *)(p + 4))));
     h = p + 0x70;
     i = 0;
     arr = p + 0x8C;
@@ -42,7 +45,7 @@ void func_02175274(u8 *p, int arg)
         if ((p[0x8FB] & (1 << i)) && i != n) {
             e = arr + i * 0x1C;
             *(C12 *)(e + 4) = *(C12 *)(p + 0xE4 + i * 0x14);
-            func_021751D4(p, *(u16 *)(h + 0x14), arg, e);
+            func_021751D4(p, *(u16 *)(h + 0x14), arg, (struct Ent *)e);
         }
     }
 }

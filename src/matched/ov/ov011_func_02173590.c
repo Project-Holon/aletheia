@@ -35,8 +35,8 @@ typedef struct {
 extern int func_0203D1B4(void);
 typedef unsigned int   u32;
 extern u32 func_02039414(void);
-extern int func_02012944(int a);
-extern void func_02008494(int a, void *b);
+extern u8 *func_02012944(void *p);
+extern void func_02008494(void *src, void *dst);
 
 void func_02173590(int a, Hdr *p, int c)
 {
@@ -46,5 +46,5 @@ void func_02173590(int a, Hdr *p, int c)
         p->b = c;
     p->c = func_02039414();
     p->d = 1;
-    func_02008494(func_02012944(a), (char *)p + 8);
+    func_02008494(func_02012944((void *)a), (char *)p + 8);
 }

@@ -17,7 +17,8 @@
  */
 
 extern void *func_021D6414(unsigned long size, int alignment);
-extern void func_0207D658(unsigned short *, int, int);
+typedef unsigned int   u32;
+extern void func_0207D658(u32 addr, int plane, int brightness);
 
 void func_021D551C(void)
 {
@@ -25,7 +26,7 @@ void func_021D551C(void)
 
     *(int *)0x021DE67C = (int)func_021D6414(0x18, 4);
     p = (unsigned short *)0x04000050;
-    func_0207D658(p, 0x3f, 0x10);
-    func_0207D658(p + 0x800, 0x3f, 0x10);
+    func_0207D658((u32)p, 0x3f, 0x10);
+    func_0207D658((u32)(p + 0x800), 0x3f, 0x10);
 }
 

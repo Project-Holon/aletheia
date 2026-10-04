@@ -40,7 +40,7 @@ extern void func_0207CA00(V *, V *, V *);
 extern void func_0207CCA4(V *, V *);
 extern M43 *func_0206AAD4(void);
 extern void func_02082B60(M43 *, M *);
-extern void *func_02047788(void *);
+extern int func_02047788(int *p);
 extern Q *func_0204755C(void *);
 extern void func_0206E394(void *, int, int);
 extern void func_0206E4FC(void *, int, int);
@@ -72,7 +72,7 @@ void func_021C8078(Obj *p, int b, int c)
     srt.s.y = (int)(((long long)b * y + 0x800) >> 12);
     srt.s.z = 0x4000;
     func_02082B60(func_0206AAD4(), &srt.r);
-    q = func_0204755C(func_02047788(p->f4))->f4;
+    q = func_0204755C((void *)func_02047788(p->f4))->f4;
     func_0206E394(q, 0, 0);
     func_0206E4FC(q, 0, 0);
     func_0206E484(q, 0, 2);

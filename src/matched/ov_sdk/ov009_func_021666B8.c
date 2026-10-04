@@ -15,10 +15,10 @@
  *   func_02166680  0x02166680  arm  ov009
  */
 
-extern void func_02166680(int a, int b, int c);
+extern int func_02166680(unsigned char *a, unsigned char *b, unsigned int n);
 
 void func_021666B8(int a, int b)
 {
-    func_02166680(a, b, 6);
+    func_02166680((unsigned char *)a, (unsigned char *)b, 6);
 }
 

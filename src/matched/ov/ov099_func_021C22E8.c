@@ -17,7 +17,7 @@
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
-extern void *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern void func_021BE4BC(char *, int, u8, u8, int, int, int);
@@ -34,7 +34,7 @@ void func_021C22E8(char *p, int unused, int id, int flag, int x, int y)
     int icon;
     offset = 0;
     if (flag != 0) offset = 16;
-    s = func_021C23B8(id - 1);
+    s = (void *)func_021C23B8(id - 1);
     kind = func_021BDD48(p, s);
     value = func_021BDD54(p, s);
     func_021BE4BC(p + 0x898, 6, x + 2, y + 2, kind, value, offset);

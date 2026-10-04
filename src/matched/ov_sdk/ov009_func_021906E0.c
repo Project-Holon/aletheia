@@ -51,7 +51,7 @@ extern void func_02193734(int *connection, int string);
 extern int func_021905A4(int *connection, GPISearchData **out, int type);
 extern void func_0219327C(char *p, int b, int n);
 extern char *func_0217F21C(char *s);
-extern int func_02190650(void *a, void *a1, int a2, int a3, int a4);
+extern int func_02190650(void *a, int a1, int a2, int a3, int a4);
 extern char g_021A5344[];
 
 int func_021906E0(int *connection, char *nick, char *uniquenick, char *email,
@@ -102,7 +102,7 @@ int func_021906E0(int *connection, char *nick, char *uniquenick, char *email,
         skip = 0;
     data->skip = skip;
 
-    result = func_02190650(connection, data, blocking, callback, param);
+    result = func_02190650(connection, (int)data, blocking, callback, param);
     if (result != 0)
         return result;
     return 0;

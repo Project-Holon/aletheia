@@ -28,10 +28,10 @@ typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 extern u32 func_0216D6BC(u32, u32);
 extern int func_0219BF48(u32 a);
-extern void func_021D04A4(u32 a);
+extern void func_021D04A4(void *a);
 extern void func_0216D8C0(u32, Vec *);
-extern u32 func_0216D568(u32, u32);
-extern u32 func_0216D570(u32, u32);
+extern void func_0216D568(void *p, u32 v);
+extern void func_0216D570(char *p, u32 v);
 extern u32 func_0216D7CC(u32);
 
 int func_02198F68(u32 a)
@@ -41,14 +41,14 @@ int func_02198F68(u32 a)
     func_0216D6BC(a, 4);
     t = func_0219BF48(a);
     if (t != 0) {
-        func_021D04A4(t);
+        func_021D04A4((void *)t);
     }
     {
         Vec v = { 0, 0, 0 };
         func_0216D8C0(a, &v);
     }
-    func_0216D568(a, 160);
-    func_0216D570(a, (2 << 14));
+    func_0216D568((void *)a, 160);
+    func_0216D570((char *)a, (2 << 14));
     func_0216D7CC(a);
     return 0;
 }

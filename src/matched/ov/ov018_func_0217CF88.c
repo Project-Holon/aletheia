@@ -29,11 +29,12 @@ extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned int   u32;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_02026454();
-extern int func_02026474();
-extern void func_0217BBCC();
-extern void func_0217BBD8();
-extern void func_0217BC94();
+typedef unsigned char  u8;
+extern u32 func_02026454(void *obj);
+extern u32 func_02026474(void *obj);
+extern void func_0217BBCC(int a, int b, char *p);
+extern void func_0217BBD8(int a, int b, u8 *c);
+extern void func_0217BC94(int a, int n);
 extern void func_0217C194();
 
 int func_0217CF88(int a0, int a1)
@@ -48,13 +49,13 @@ int func_0217CF88(int a0, int a1)
     c = func_0201210C((void *)w);
     h = func_02012138(w);
     v = 0;
-    if (func_02026454(h) == 2)
-        v = func_02026474(h);
+    if (func_02026454((void *)h) == 2)
+        v = func_02026474((void *)h);
     if (v != 0) {
-        func_0217BBCC(c, w, v);
-        func_0217BBD8(c, w, v);
+        func_0217BBCC((int)c, (int)w, (char *)v);
+        func_0217BBD8((int)c, (int)w, (u8 *)v);
     } else {
-        func_0217BC94(c, 1);
+        func_0217BC94((int)c, 1);
     }
     func_0217C194(c);
     return 0;

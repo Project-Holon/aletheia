@@ -44,10 +44,10 @@ extern void func_0215AD00(void);
 extern void func_0215AD3C(void);
 extern void func_0215AB5C(void);
 extern void func_0215AA70(void);
-extern int func_0215CEB0(void *pipe, void *command);
+extern int func_0215CEB0(int a0, char *a1);
 extern unsigned long func_02087988(void);
-extern void func_0215F31C(Socket *socket);
-extern void func_0215F304(Socket *socket);
+extern void func_0215F31C(int a);
+extern void func_0215F304(int a);
 extern unsigned long func_0208799C(unsigned long state);
 
 static inline int IsStream(Socket *socket)
@@ -73,10 +73,10 @@ int func_0215E980(void *arg)
 	}
 	func_0215AA70();
 	socket->state &= ~6;
-	func_0215CEB0(socket->flag_mode == 2 ? socket->send_pipe : socket->recv_pipe, 0);
+	func_0215CEB0((int)(socket->flag_mode == 2 ? socket->send_pipe : socket->recv_pipe), 0);
 	enable = func_02087988();
-	func_0215F31C(socket);
-	func_0215F304(socket);
+	func_0215F31C((int)socket);
+	func_0215F304((int)socket);
 	func_0208799C(enable);
 	socket->state |= 0x20;
 	return 0;

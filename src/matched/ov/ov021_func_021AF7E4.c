@@ -29,15 +29,16 @@ typedef struct {
 } Script;
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F74(void *);
+struct WordSet;
+extern void *func_02158F74(void *p);
 extern unsigned int func_02159B10(void *, void *);
-extern void func_0201EF5C(u32, u32, u32);
-extern void func_0201EF4C(u32, u32, u32);
-extern void func_0201EF40(u32, u32, u32);
+extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EF4C(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 
 void func_021AF7E4(Script *a, u32 b)
 {
-    u32 x = func_02158F74(func_0215A5F4((void *)b));
+    u32 x = (u32)func_02158F74(func_0215A5F4((void *)b));
     u8 *p = a->cur;
     u32 v = *p;
     u32 y, n, flag;
@@ -49,10 +50,10 @@ void func_021AF7E4(Script *a, u32 b)
     flag = *q;
     a->cur = q + 1;
     if (n > 1) {
-        func_0201EF5C(x, v, y);
+        func_0201EF5C((struct WordSet *)x, v, y);
     } else if (flag != 0) {
-        func_0201EF4C(x, v, y);
+        func_0201EF4C((struct WordSet *)x, v, y);
     } else {
-        func_0201EF40(x, v, y);
+        func_0201EF40((struct WordSet *)x, v, y);
     }
 }

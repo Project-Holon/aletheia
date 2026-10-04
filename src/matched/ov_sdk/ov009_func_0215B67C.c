@@ -126,7 +126,7 @@ extern struct thread_info g_02150FEC;
 extern CPSFragTable g_021A8A64[8];
 
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
-extern void func_0215AA5C(CPSSoc *soc);
+extern void func_0215AA5C(int v);
 extern void func_02085A38(unsigned long msec);
 extern unsigned long long func_020870D0(void);
 extern void func_0215B644(void);
@@ -165,7 +165,7 @@ void func_0215B67C(void)
     g_021A83E4.rcvbuf.data = g_021A88E4;
     g_021A83E4.sndbuf.size = sizeof(g_021A8764);
     g_021A83E4.sndbuf.data = g_021A8764;
-    func_0215AA5C(&g_021A83E4);
+    func_0215AA5C((int)(&g_021A83E4));
     gwcache_sleep = 1;
     dhcp_sleep = 1;
     first = 1;

@@ -12,10 +12,11 @@
  *   func_0217F9DC  0x0217F9DC  thumb ov019
  */
 
-void func_0217F9DC(int x, int y);
+typedef unsigned int   u32;
+void func_0217F9DC(char *p, u32 a);
 
 void func_0217F93C(int x, int y)
 {
     if (x != 0)
-        func_0217F9DC(x, y);
+        func_0217F9DC((char *)x, y);
 }

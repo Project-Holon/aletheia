@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_02005E30(u32 a);
-extern void func_021E8AA0(void *,void *);
+extern void func_021E8AA0(int *p, int v);
 extern void func_0217B00C(void *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E5E0[];
@@ -35,7 +35,7 @@ void func_0217B064(void *a,int *state,char *p)
         *state=1;
         break;
     case 1: if(!func_0204E804()) *state=2; break;
-    case 2: func_021E8AA0(a,func_0217B00C); break;
+    case 2: func_021E8AA0(a,(int)func_0217B00C); break;
     default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
     }
 }

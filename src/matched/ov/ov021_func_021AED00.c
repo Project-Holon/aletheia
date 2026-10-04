@@ -22,12 +22,12 @@ typedef signed char    s8;
 
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_0202A230(u32 a, u32 b);
+extern u32 func_0202A230(void *a, u32 idx);
 
 int func_021AED00(u32 a, u32 b)
 {
     u32 x = func_02159B10((void *)a, (void *)b);
 
-    *func_02159AE8((void *)a, (void *)b) = func_0202A230(x, 0xb);
+    *func_02159AE8((void *)a, (void *)b) = func_0202A230((void *)x, 0xb);
     return 0;
 }

@@ -16,7 +16,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_0218C654(int a, int b, int *c);
+extern int func_0218C654(int a, int b, int c);
 
 int func_021B2BEC(int a, int b, int c, int d)
 {
@@ -25,5 +25,5 @@ int func_021B2BEC(int a, int b, int c, int d)
     buf[0] = c << 16;
     buf[1] = 0;
     buf[2] = d << 16;
-    return func_0218C654(a, b, buf);
+    return func_0218C654(a, b, (int)buf);
 }

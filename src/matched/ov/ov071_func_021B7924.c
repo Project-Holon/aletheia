@@ -31,7 +31,7 @@ struct Descriptor;
 struct PalAnmSlot;
 extern u8 func_0201F548(int i);
 extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-extern void *func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045374(struct Cfg *cfg);
@@ -41,7 +41,7 @@ void func_021B7924(void **p, void **q)
 {
     func_0201F554(5, 1, 0, 0x61);
     func_020215EC(q[0], 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
-    p[0] = func_020450F0(5, 1, 0x13, 0x1e, 4, 0xd, 1);
+    p[0] = (void *)func_020450F0(5, 1, 0x13, 0x1e, 4, 0xd, 1);
     func_02043B5C(func_02045770(p[0]), 0xff);
     func_02045374(p[0]);
     func_0201F73C(p[0], 0, 1, 0xb);

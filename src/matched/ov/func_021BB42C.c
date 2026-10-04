@@ -27,9 +27,9 @@ typedef int BOOL;
 
 struct Obj;
 extern void sub_0204B3B4(struct Obj *p);
-extern void sub_0204A8D4(void *p);
-extern void sub_0204ADA4(void *p);
-extern void sub_0204AFD8(void *p);
+extern void sub_0204A8D4(u32 i);
+extern void sub_0204ADA4(u32 i);
+extern void sub_0204AFD8(u32 i);
 
 typedef struct {
     char pad[0x180];
@@ -43,9 +43,9 @@ void func_021BB42C(S *s)
 {
     if (s->f180 != 0) {
         sub_0204B3B4(s->f180);
-        sub_0204A8D4(s->f184);
-        sub_0204ADA4(s->f188);
-        sub_0204AFD8(s->f18C);
+        sub_0204A8D4((u32)s->f184);
+        sub_0204ADA4((u32)s->f188);
+        sub_0204AFD8((u32)s->f18C);
         s->f180 = 0;
     }
 }

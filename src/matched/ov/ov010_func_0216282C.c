@@ -34,7 +34,8 @@ struct Ctx {
 
 extern u16 func_0216279C(int mode);
 extern int func_02162F74(struct Rec *r, int *key);
-extern u16 *func_020143CC(void *p, int k);
+typedef unsigned int   u32;
+extern u32 func_020143CC(u32 a, u32 b);
 
 struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode)
 {
@@ -51,7 +52,7 @@ struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode)
             if (func_02162F74(r, key) != 0 && r->f6 == t) {
                 if (r->f4 == 0)
                     return r;
-                v = *func_020143CC(a, r->f4);
+                v = *((u16 *)func_020143CC((u32)a, r->f4));
                 if (v == r->f2)
                     return r;
             }

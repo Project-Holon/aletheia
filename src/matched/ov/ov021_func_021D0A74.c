@@ -20,7 +20,9 @@
 
 typedef unsigned int u32;
 
-void func_0201A954(int a, int b);
+typedef signed int     s32;
+struct Party;
+void func_0201A954(struct Party *p, s32 capacity);
 
 void func_021D0A74(int *p, u32 mode)
 {
@@ -41,5 +43,5 @@ void func_021D0A74(int *p, u32 mode)
         p[0x4B] = 0;
         p[0x49] = 3;
     }
-    func_0201A954(p[0x4A], p[0x49]);
+    func_0201A954((struct Party *)p[0x4A], p[0x49]);
 }

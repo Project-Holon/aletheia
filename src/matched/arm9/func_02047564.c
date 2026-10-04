@@ -70,9 +70,9 @@ extern struct G3dCtx *g_02146A5C;
 extern char g_020A7EA8[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int  func_0206E9A4(struct G3dSub *a0, int a1);
+extern u8 *func_0206E9A4(u8 *p, u32 idx);
 extern int  func_02047554(struct G3dOwner *a0);
-extern int  func_0206E964(u32 a0);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern u32  func_0206E364(struct G3dCtx *a0, int a1, u32 a2);
 extern void func_02069C74(u32 a0, int a1, u32 a2, int a3);
 
@@ -86,10 +86,10 @@ struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int
     r = func_02030734(g_02146A5C->heap_id, 0xC, 0, g_020A7EA8, 0x6D2);
     r->tag = 0x59D1;
     r->unk_08 = a1;
-    x = func_0206E9A4(a1->f04, a2);
+    x = (int)func_0206E9A4((u8 *)a1->f04, a2);
     y = a0->f04->handle;
     if (func_02047554(a0) != 0)
-        z = func_0206E964(a0->f0c->handle);
+        z = (int)func_0206E964((unsigned char *)a0->f0c->handle);
     r->unk_04 = func_0206E364(g_02146A5C, x, y);
     func_02069C74(r->unk_04, x, y, z);
     return r;

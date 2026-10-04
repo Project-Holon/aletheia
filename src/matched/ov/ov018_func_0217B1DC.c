@@ -23,7 +23,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_0217B214();
 extern void func_02082BCC(void *, int, int);
-extern int func_021A3074(int);
+extern void *func_021A3074(u8 *p);
 void *func_0217B1DC(void *a, int b, int c, unsigned short d) {
     void *t;
     u8 *p;
@@ -31,7 +31,7 @@ void *func_0217B1DC(void *a, int b, int c, unsigned short d) {
     p = func_020124E8(t);
     func_02082BCC(p, 0, 0x30);
     *(int *)p = b;
-    *(int *)(p + 4) = func_021A3074(c);
+    *(int *)(p + 4) = (int)func_021A3074((u8 *)c);
     *(unsigned short *)(p + 0x14) = d;
     return t;
 }

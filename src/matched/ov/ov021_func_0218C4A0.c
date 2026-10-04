@@ -21,8 +21,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021693D4(u32 a, u32 b, u16 c);
-extern u32 func_02169444(u32 a, u16 c);
+extern void func_021693D4(u8 *base, u8 *src, u32 idx);
+extern u32 *func_02169444(u8 *base, u32 idx);
 
 u32 *func_0218C4A0(u8 *base, u32 a, u32 b, u16 c)
 {
@@ -32,12 +32,12 @@ u32 *func_0218C4A0(u8 *base, u32 a, u32 b, u16 c)
     for (i = 0; i < 0x120; i++) {
         e = (u32 *)(base + 0x1F8 + i * 16);
         if (e[0] == 0) {
-            func_021693D4(a, b, c);
+            func_021693D4((u8 *)a, (u8 *)b, c);
             e[0] = a;
             e[1] = -1;
             *(u16 *)(e + 2) = c;
             *((u16 *)(e + 2) + 1) = 1;
-            e[3] = func_02169444(a, c);
+            e[3] = (u32)func_02169444((u8 *)a, c);
             return e;
         }
     }

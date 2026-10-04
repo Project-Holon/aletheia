@@ -13,11 +13,13 @@
  *   func_0218C944  0x0218C944  thumb  ov021
  */
 
-int func_0218C944(unsigned char *p, int a, int b);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+int func_0218C944(void *p, u32 idx, u16 *out);
 
 int func_0218C990(unsigned char *p, int v)
 {
     if (p == 0)
         return 0;
-    return func_0218C944(p, *(int *)(p + 4), v);
+    return func_0218C944(p, *(int *)(p + 4), (u16 *)v);
 }

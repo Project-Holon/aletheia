@@ -24,7 +24,8 @@ int func_021A01AC(u32 a, u32 b);
 int func_021A01CC(u32 a, u32 b);
 int func_021A01B4(u32 a, u32 b);
 int func_021A01BC(u32 a, u32 b);
-void func_021A01D8(u32 x);
+typedef unsigned char  u8;
+void func_021A01D8(u8 *p);
 int func_021A01A4(u32 a, u32 b);
 
 void func_021A22E0(u32 *p, int a, int b, int c)
@@ -34,7 +35,7 @@ void func_021A22E0(u32 *p, int a, int b, int c)
         func_021A01CC(p[1], 0x1F);
         func_021A01B4(p[1], a);
         func_021A01BC(p[1], b);
-        func_021A01D8(p[1]);
+        func_021A01D8((u8 *)p[1]);
         func_021A01A4(p[1], 1);
     }
 }

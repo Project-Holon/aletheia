@@ -40,12 +40,13 @@ typedef struct {
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
+struct BigObj;
 int func_021B7E60(int a, int unused, C *c)
 {
     extern void *func_020120F4(const struct Ctx *p);
     extern void *func_0203159C(int, int, int);
     extern void func_02082BCC(void *, int, int);
-    extern void *func_0201296C(void *);
+    extern u32 func_0201296C(const struct BigObj *p);
     extern u32 func_020142E8(void *bitmap, s32 id);
     extern void func_021B8308(void);
     extern void func_021B8350(W *, int *);
@@ -56,7 +57,7 @@ int func_021B7E60(int a, int unused, C *c)
     W *w = func_0203159C(a, 0x48, 0x61);
 
     func_02082BCC(w, 0, 0x48);
-    if (func_020142E8(func_0201296C(h), 0x980) == 0) {
+    if (func_020142E8((void *)func_0201296C(h), 0x980) == 0) {
         w->f32 = 2;
     } else if (c->q->f3d == 1) {
         w->f32 = 1;

@@ -60,15 +60,16 @@ struct Obj {
 
 extern int func_021AA3E0(struct Ctx *t, int i, int add);
 extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u32 v);
+struct Unit;
+extern u16 func_021A1BF4(u8 *p);
 extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
-extern u32 func_021A94B0(struct Sel *o, void *unused, u32 n);
+extern u32 func_021A94B0(struct Obj *o, u32 unused, u32 n);
 extern u32 func_021AA6E0(void);
 extern void func_02082BCC(void *p, int v, int n);
 extern u16 func_02188C9C(u8 *p);
 extern int func_021A954C(void *a0, void *u, u16 id, void *slots);
 extern void *func_02013090(u32 heap);
-extern void func_021AA490(struct Ctx *ctx, struct Sel *s, void *a, int b, struct Slot14 *o);
+extern void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
 extern void func_02013144(void *p, int v);
 
 struct Obj *func_021AA180(struct Ctx *ctx, int mode)
@@ -88,9 +89,9 @@ struct Obj *func_021AA180(struct Ctx *ctx, int mode)
     m = func_021AA3E0(ctx, k, 0);
     if (m == 0)
         return 0;
-    func_021A9350(&sel, ctx->f08, k, mode, func_021A1BF4(func_02188C6C(ctx->f00)));
+    func_021A9350(&sel, ctx->f08, k, mode, func_021A1BF4((u8 *)func_02188C6C(ctx->f00)));
     if (mode != 1) {
-        rate = func_021A94B0(&sel, ctx->f08, m);
+        rate = func_021A94B0((struct Obj *)(&sel), (u32)ctx->f08, m);
         if (func_021AA6E0() > rate)
             return 0;
     }
@@ -99,7 +100,7 @@ struct Obj *func_021AA180(struct Ctx *ctx, int mode)
     if ((u32)func_021A954C(ctx->f0C, &sel, func_02188C9C(ctx->f00), slots) < sel.f15)
         return h;
     h = func_02013090(4);
-    func_021AA490(ctx, &sel, h, 4, slots);
+    func_021AA490(ctx, (struct Unit *)(&sel), h, 4, slots);
     func_02013144(h, 1);
     h->f0C = 6;
     return h;

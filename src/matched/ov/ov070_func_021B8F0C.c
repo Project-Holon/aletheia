@@ -24,27 +24,28 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 extern int func_02035C60();
-extern void func_021B80C4();
-extern void func_021B6138();
-extern void func_021BA9AC();
+struct Obj;
+extern void func_021B80C4(struct Obj *o, int flag);
+extern void func_021B6138(char *p);
+extern void func_021BA9AC(char *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_021BB3F4(int p, int mode);
-extern void func_021B8AF4();
+extern void func_021B8AF4(void *p);
 
 void func_021B8F0C(int p)
 {
     if (func_020362DC() & 3) {
-        func_021B80C4(p, 1);
+        func_021B80C4((struct Obj *)p, 1);
     } else if (func_02035C60()) {
-        func_021B80C4(p, 0);
+        func_021B80C4((struct Obj *)p, 0);
     } else {
         return;
     }
     *(int *)((char *)p + 0x818) = 0xFFFF;
-    func_021B6138(p);
-    func_021BA9AC(p);
+    func_021B6138((char *)p);
+    func_021BA9AC((char *)p);
     func_0204B92C((struct Obj *)*(int *)((char *)p + 0x6A8), 1);
     func_021BB3F4(p, 1);
-    func_021B8AF4(p);
+    func_021B8AF4((void *)p);
 }

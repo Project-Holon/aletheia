@@ -30,14 +30,18 @@ typedef unsigned int   u32;
 
 struct WordSet;
 extern u16 func_021A9810(int a);
-extern int func_02012984(int a);
+struct BigObj;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern u8 func_02012984(const struct BigObj *p);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern u32 func_02045B38(u32, u32, u32, u32);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02013E4C(u32 id);
-extern u32 func_02045EC0(u32, u32);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(void *, u32, u32, u32, u32, u32);
-extern void func_02045808(u32);
-extern void func_02045C04(u32);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
 extern u8 d_021F50C0[];
@@ -52,14 +56,14 @@ void func_021F4058(int *p)
     k = func_021A9810(p[2]);
     if (k == 0xFFFF)
         return;
-    if (k == 0x159 && func_02012984(p[2]) == 3)
+    if (k == 0x159 && func_02012984((const struct BigObj *)p[2]) == 3)
         return;
     h = func_0201EC64(*(u16 *)p);
-    r7 = func_02045B38(0, 2, 0x59, *(u16 *)p);
-    r6 = func_02045EC0(r7, func_02013E4C(k));
+    r7 = (u32)func_02045B38(0, 2, 0x59, *(u16 *)p);
+    r6 = (u32)func_02045EC0((struct MsgBank *)r7, func_02013E4C(k));
     func_0201EE0C(h, 0, r6, 0, 1, 0);
-    func_02045808(r6);
-    func_02045C04(r7);
+    func_02045808((struct U16Vec *)r6);
+    func_02045C04((struct Rec *)r7);
     s.a = *(u16 *)(d_021F50C0 + 8);
     s.b = *(int *)(d_021F50C0 + 0x34);
     s.c = *(int *)(d_021F50C0 + 0x50);

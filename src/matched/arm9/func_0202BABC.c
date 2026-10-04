@@ -24,7 +24,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32  func_02005C44(u32 v);
-extern u32  func_0202B9F0(void *o, u32 v);
+struct Obj;
+extern u8 func_0202B9F0(const struct Obj *p, u32 key);
 extern void func_0202B9E0(void *o, u32 v);
 extern void func_0202BB48(void *o);
 
@@ -34,6 +35,6 @@ void func_0202BABC(u8 *o)
         return;
     }
     *(u32 *)(o + 4) = 1;
-    func_0202B9E0(o, func_0202B9F0(o, func_02005C44(1)));
+    func_0202B9E0(o, func_0202B9F0((const struct Obj *)o, func_02005C44(1)));
     func_0202BB48(o);
 }

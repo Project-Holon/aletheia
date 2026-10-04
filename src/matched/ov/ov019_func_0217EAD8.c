@@ -39,11 +39,13 @@ void func_0217F188(u8 *w, int msg);
 u32 func_0217F1EC(u8 *p);
 void func_0217F074(void *p);
 int func_0217B8E4(u8 *w, int v);
-void func_0217422C(u8 *w, int b, void *c);
+struct Sub0200852CObj;
+struct WordSet;
+void func_0217422C(u8 *p, int a, int b);
 int func_02174268(u8 *w);
 void *func_0216F7F4(int a, u8 *e, int b);
-int func_0200855C(u8 *a);
-void func_0201F02C(int a, int b, u8 *c);
+u8 func_0200855C(const struct Sub0200852CObj *obj);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
 u32 func_020362DC(void);
 
 int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
@@ -58,7 +60,7 @@ int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
     switch (*state) {
     case 0:
         func_0217BAF0(w, a2, 1);
-        t = func_0200855C(p + 0x18 + p[0x16c] * 0x2c);
+        t = func_0200855C((const struct Sub0200852CObj *)(p + 0x18 + p[0x16c] * 0x2c));
         if (t == 0x14 || t == 0x15) {
             v = (*(u8 **)(p + 0x134 + p[0x16c] * 4))[3];
             if (v < 5) {
@@ -82,7 +84,7 @@ int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
             msg = 0x15d;
         }
         func_0217F098(w, a2);
-        func_0201F02C(*(int *)(w + 0x2804), 0, p + 0x18 + p[0x16c] * 0x2c);
+        func_0201F02C((struct WordSet *)(*(int *)(w + 0x2804)), 0, p + 0x18 + p[0x16c] * 0x2c);
         func_0217F188(w, msg);
         (*state)++;
         break;
@@ -92,7 +94,7 @@ int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
             (*(u8 **)(p + 0x134 + p[0x16c] * 4))[4] |= 0x20;
             q = func_0216F7F4((*(Sys **)w)->f8, *(u8 **)(p + 0x134 + p[0x16c] * 4), 0x41);
             *(void **)(w + 0x3558) = q;
-            func_0217422C(w, 0x1c, q);
+            func_0217422C(w, 0x1c, (int)q);
             (*state)++;
         }
         break;

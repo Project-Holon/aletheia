@@ -23,7 +23,8 @@ int func_021736D8(void);
 void func_02175D20(char *a);
 struct Entry;
 struct Entry *func_020399A8(void);
-int func_0203D3A8(void *a, u16 b, u16 c, char *d);
+typedef unsigned int   u32;
+int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 void func_02175BAC(char *a);
 
 int func_0217405C(char *a, char *b)
@@ -34,7 +35,7 @@ int func_0217405C(char *a, char *b)
         return 0;
     }
     func_02175D20(a + 0x1AC);
-    r = func_0203D3A8(func_020399A8(), 0x216, 0x34, b + 0x78);
+    r = func_0203D3A8(func_020399A8(), 0x216, 0x34, (u32)(b + 0x78));
     if (r == 1) {
         func_02175BAC(a + 0x1AC);
     }

@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0215A5CC(u32 a);
+extern u16 func_0215A5CC(void *a0);
 extern void *func_0215A5E4(void *a0);
 struct BigObj;
 extern void *func_0201292C(const struct BigObj *p);
@@ -37,7 +37,7 @@ int func_021AF544(u32 a, u32 b)
     u32 u, v;
     u16 *h;
 
-    p = func_0215A5CC(b);
+    p = func_0215A5CC((void *)b);
     x = func_0201292C(func_0215A5E4((void *)b));
     u = func_02159B10((void *)a, (void *)b);
     v = func_02159B10((void *)a, (void *)b);

@@ -31,7 +31,7 @@ typedef struct {
 } Msg;
 
 extern u8 func_0201441C(int i);
-extern int func_0216D67C(int a);
+extern void *func_0216D67C(void *a0);
 extern int func_0216D4D4(int a, int b);
 extern void func_0219E2C0(int a, Msg *m);
 extern void func_0216D684(int a, int b);
@@ -48,7 +48,7 @@ void func_02164304(int a, u8 *p)
     m.c = func_0201441C(*(s16 *)(p + 0xc));
     m.e = q[1];
     m.d = ((s16 *)q)[2];
-    if (func_0216D4D4(func_0216D67C(a), 0x10) != 0) {
+    if (func_0216D4D4((int)func_0216D67C((void *)a), 0x10) != 0) {
         func_0219E2C0(a, &m);
         return;
     }

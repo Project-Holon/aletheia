@@ -20,9 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void func_0201D304(u32 a, u32 b, u32 c);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 void func_022026C4(u32 *p, u32 b, u32 a, u32 c)
 {
-    func_0201D304(a, *p, (u16)c);
+    func_0201D304((struct StrObj *)a, *p, (u16)c);
 }

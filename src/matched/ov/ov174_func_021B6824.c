@@ -21,11 +21,19 @@
  *   func_0201DD68 0x0201DD68 thumb
  */
 typedef unsigned char u8;
-extern void func_02028604(void *),func_0201C4C0(void *),func_0201CE48(void *),func_02045808(void *),func_0201ED04(void *),func_02045C04(void *),func_020452E8(void *),func_0201D83C(void *),func_02031140(void *);
+extern int func_02028604(int a0);
+extern void func_0201C4C0(void *);
+extern void func_0201CE48(void *);
+extern void func_02045808(void *);
+extern void func_0201ED04(void *);
+extern void func_02045C04(void *);
+extern void func_020452E8(void *);
+extern void func_0201D83C(void *);
+extern void func_02031140(void *);
 extern void func_0201DD68(void);
 void func_021B6824(u8 *p)
 {
-    func_02028604(*(void **)(p+124));
+    func_02028604((int)(*(void **)(p+124)));
     func_0201C4C0(*(void **)(p+120));
     if(*(void **)(p+100)) func_0201CE48(*(void **)(p+100));
     if(*(void **)(p+112)) func_02045808(*(void **)(p+112));

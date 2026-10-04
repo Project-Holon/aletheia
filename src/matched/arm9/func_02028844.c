@@ -62,20 +62,20 @@ extern const char g_020A7590[];
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_02028CD4(struct Sys *s, void *desc);
-extern void *func_02028760(u32 heap, u32 kind);
-extern void *func_02029F14(u32 heap, void *owner);
+extern void func_02028CD4(u8 *p, u32 v);
+extern void *func_02028760(void *a, int v);
+extern u32 *func_02029F14(u32 a0, u32 a1);
 extern void  func_02005D08(void (*cb)(void));
-extern void  func_02028CB0(void);
+extern int func_02028CB0(u32 v);
 
 struct Sys *func_02028844(void *desc, u32 heap)
 {
     struct Sys *s;
 
     s = func_02030734(heap, 0xb8, 1, g_020A7590, 331);
-    func_02028CD4(s, desc);
-    s->unkA4 = func_02028760(heap, 0);
-    s->unkA8 = func_02029F14(heap, s->unkA4);
-    func_02005D08(func_02028CB0);
+    func_02028CD4((u8 *)s, (u32)desc);
+    s->unkA4 = func_02028760((void *)heap, 0);
+    s->unkA8 = func_02029F14(heap, (u32)s->unkA4);
+    func_02005D08((void (*)(void))func_02028CB0);
     return s;
 }

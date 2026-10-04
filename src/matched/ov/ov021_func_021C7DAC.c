@@ -25,13 +25,13 @@ extern void func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021DE4FC[];
 extern u32 func_021C8018(u32 heap);
-extern void func_021C7E58(void *p);
+extern void func_021C7E58(u32 a);
 M *func_021C7DAC(u32 heap)
 {
     M *m = func_02030734(heap, 0x20, 1, d_021DE4FC, 0x7a);
     m->f0 = func_021C8018(heap);
     m->f1C = 0;
     m->f1E = 4;
-    func_021C7E58(m->sub);
+    func_021C7E58((u32)m->sub);
     return m;
 }

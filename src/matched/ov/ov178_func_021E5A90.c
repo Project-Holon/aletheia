@@ -26,7 +26,8 @@ struct Link;
 extern void func_02039C68(struct Link *,u32,u32);
 extern u32 func_02039CB4(struct Link *,u32,u32);
 extern int func_0217E258(void *,unsigned);
-extern int func_0217E298(void *,unsigned);
+typedef unsigned char  u8;
+extern int func_0217E298(u8 *p, const void *q);
 extern void func_0217E074(void *);
 unsigned func_021E5A90(void **d,unsigned *c,unsigned *state)
 {
@@ -36,7 +37,7 @@ unsigned func_021E5A90(void **d,unsigned *c,unsigned *state)
  case 1:func_02039C68((struct Link *)func_020399A8(),0x11,0x1F);++*state;break;
  case 2:if(func_02039CB4((struct Link *)func_020399A8(),0x11,0x1F)!=0)++*state;break;
  case 3:if(func_0217E258(*d,c[3])!=0)++*state;break;
- case 4:if(func_0217E298(*d,c[4])!=0)++*state;break;
+ case 4:if(func_0217E298(*d,(const void *)c[4])!=0)++*state;break;
  case 5:return 1;
  }
  func_0217E074(*d);return 0;

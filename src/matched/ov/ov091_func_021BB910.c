@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02005DE4(int a);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 extern void func_02005D90(int a, int b);
 extern void func_020061E4(u32 a);
@@ -34,7 +34,7 @@ int func_021BB910(int k)
 {
     switch (k) {
     case 2:
-        func_02005DE4(1);
+        func_02005DE4((void *)1);
         func_02005E64();
         func_02005D90(0x515, 0xffff);
         break;

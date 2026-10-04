@@ -21,7 +21,7 @@
  *   _ffix  0x0209C494  arm
  */
 
-extern int func_02188C58(int);
+extern void *func_02188C58(void *p);
 extern void func_0218ECE4(int, int *);
 
 int func_021F3AA0(char *a, int b)
@@ -30,7 +30,7 @@ int func_021F3AA0(char *a, int b)
     float x;
     float r;
 
-    func_0218ECE4(func_02188C58(b), v);
+    func_0218ECE4((int)func_02188C58((void *)b), v);
     x = v[1] / 4096.0f;
     if (x <= *(float *)(a + 0x5c))
         return 0;

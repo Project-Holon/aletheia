@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0200D488();
+struct Blk38;
+extern u8 func_0200D488(struct Blk38 *p, u32 i);
 
 int func_0215E404(int a0)
 {
@@ -30,7 +31,7 @@ t5 = 0;
 loc_0215E40A:
 a0 = t4 + 0;
 a1 = t5 + 0;
-    a0 = func_0200D488(a0, a1);
+    a0 = func_0200D488((struct Blk38 *)a0, a1);
 loc_0215E412:
     if (a0 == 0) goto loc_0215E41A;
 loc_0215E416:

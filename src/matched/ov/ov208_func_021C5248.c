@@ -24,7 +24,7 @@ struct Ov208Turn {
     int done;
 };
 
-extern void func_02016380(u32 obj);
+extern void func_02016380(void *o);
 
 void ov208_func_021C5248(struct Ov208Turn *t)
 {
@@ -33,5 +33,5 @@ void ov208_func_021C5248(struct Ov208Turn *t)
     t->count++;
     if (t->count >= 2)
         t->done = 1;
-    func_02016380(*(u32 *)(scene + t->side * 0x44 + 0xc));
+    func_02016380((void *)(*(u32 *)(scene + t->side * 0x44 + 0xc)));
 }

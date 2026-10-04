@@ -32,11 +32,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020279E8(u32);
-extern u32 func_02027A04(u32);
-extern void func_02012EBC(u32);
+struct Big;
+struct MsgBank;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
+extern void *func_02012EBC(struct Big *p);
 extern u32 func_020071F0(void);
-extern void func_02045CAC(u32, u32, u32);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02197644(u8 *, u32);
 extern void func_02196290(u8 *);
 extern void func_02196228(u8 *p, int flag);
@@ -46,19 +49,19 @@ extern void func_02196034(u8 *, void (*)(), u32);
 extern void func_021977C0(u8 *a);
 extern void func_02197798(u8 *a);
 extern void func_02196A4C(u8 *a);
-extern void func_02027858(u32);
+extern void func_02027858(struct TaskMenu *m);
 
 void func_02197800(u8 *a)
 {
-    if (func_020279E8(*(u32 *)(a + 0x2c0)) != 0) {
-        if (func_02027A04(*(u32 *)(a + 0x2c0)) == 0) {
-            func_02012EBC(*(u32 *)(a + 0x30));
+    if (func_020279E8((struct TaskMenu *)(*(u32 *)(a + 0x2c0))) != 0) {
+        if (func_02027A04((const u8 *)(*(u32 *)(a + 0x2c0))) == 0) {
+            func_02012EBC((struct Big *)(*(u32 *)(a + 0x30)));
             if (func_020071F0() != 0) {
-                func_02045CAC(*(u32 *)(a + 0x28), 0x2d, *(u32 *)(a + 0x38));
+                func_02045CAC((struct MsgBank *)(*(u32 *)(a + 0x28)), 0x2d, (void *)(*(u32 *)(a + 0x38)));
                 func_02197644(a, 0);
                 func_02196034(a, func_021977C0, 0x7b9);
             } else {
-                func_02045CAC(*(u32 *)(a + 0x28), 0x1c, *(u32 *)(a + 0x38));
+                func_02045CAC((struct MsgBank *)(*(u32 *)(a + 0x28)), 0x1c, (void *)(*(u32 *)(a + 0x38)));
                 func_02197644(a, 1);
                 func_02196290(a);
                 func_02196034(a, func_02197798, 0x7bf);
@@ -70,7 +73,7 @@ void func_02197800(u8 *a)
             *(u32 *)(a + 8) = 12;
             func_02196034(a, func_02196A4C, 0x7c7);
         }
-        func_02027858(*(u32 *)(a + 0x2c0));
+        func_02027858((struct TaskMenu *)(*(u32 *)(a + 0x2c0)));
         *(u32 *)(a + 0x2c0) = 0;
     }
 }

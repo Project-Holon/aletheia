@@ -16,10 +16,12 @@
  */
 
 
-extern void func_02014CD4(int);
-extern void func_02014BA8(int);
+typedef unsigned char  u8;
+struct Sub02014CB8Obj;
+extern void func_02014CD4(struct Sub02014CB8Obj *o);
+extern void func_02014BA8(u8 *a0);
 extern void func_02030DA4(int);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 typedef struct {
     int a;
@@ -30,9 +32,9 @@ typedef struct {
 
 void func_021C4FDC(int unused, T *p)
 {
-    func_02014CD4(p[0].c);
-    func_02014BA8(p[0].c);
+    func_02014CD4((struct Sub02014CB8Obj *)p[0].c);
+    func_02014BA8((u8 *)p[0].c);
     func_02030DA4(p[0x12].a);
-    func_020307B0(p[0x11].d);
+    func_020307B0((void *)p[0x11].d);
 }
 

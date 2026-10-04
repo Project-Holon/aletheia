@@ -42,24 +42,26 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_02017E1C(void *,u32,u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_020185F4(void *p);
-extern int func_0201BA68(int);
+struct Obj;
+struct WordSet;
+extern u32 func_0201BA68(void *mon);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern int func_0201BBE8(int);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B6F4(u32,int,int);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Obj;
 extern void func_0204B92C(struct Obj *p,u32 v);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern u32 func_0202136C(u16);
-extern void func_0204B878(u32,int);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_020450F0(int,u8,u8,int,u8,u8,u8);
 extern void func_021B9C1C(u8 *,u32,u32,u16,s16,u16);
-extern int func_02018430(int);
-extern u32 func_0201EC64(u16);
-extern void func_0201EFA4(u32,int,int,int,int,int);
-extern void func_021B9D58(u8 *,u32,u32,u32,s16,s16,u16);
-extern void func_0201ED04(u32);
+extern u32 func_02018430(void *p);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_021B9D58(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
+extern void func_0201ED04(struct WordSet *p);
 extern const char d_021BED48[];
 #define P(k) (*(u32 *)(p+(k)))
 u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
@@ -83,14 +85,14 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     egg=func_02017E1C(mon,0x4c,0);
     h=func_020490F4(7,*(u16 *)p);
     species=(int)func_020185F4(mon);
-    s[3]=func_0204A6C8(h,func_0201BA68(species),0,1,*(u16 *)p);
+    s[3]=func_0204A6C8(h,func_0201BA68((void *)species),0,1,*(u16 *)p);
     func_02049238(h);
     frame=func_0201BBE8(species);
     a.a=x+16;a.b=y+8;a.c=1;a.d=16;a.e=2;
     {
         int obj=(int)func_0204B294((void *)P(0x1ec),s[3],P(0x194),P(0x1d0),&a,1,*(u16 *)p);
         s[4]=obj;
-        func_0204B6F4(obj,frame,1);
+        func_0204B6F4((struct Obj *)obj,frame,1);
     }
     func_0204B92C((struct Obj *)s[4],1);
     gender=func_02017E1C(mon,6,0);
@@ -98,8 +100,8 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     s[5]=(u32)func_0204B294((void *)P(0x1ec),P(0x1a8),P(0x184),P(0x1c4),&b,1,*(u16 *)p);
     if(gender!=0) {
         func_0204B3DC((struct Obj *)s[5],1);
-        if(func_0202136C(gender)==1) func_0204B878(s[5],1);
-        else func_0204B878(s[5],0);
+        if(func_0202136C(gender)==1) func_0204B878((struct Obj *)s[5],1);
+        else func_0204B878((struct Obj *)s[5],0);
     } else func_0204B3DC((struct Obj *)s[5],0);
     special=func_02017E1C(mon,0x6e,0);
     rem=x%8;
@@ -111,14 +113,14 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
         if(special==0) func_021B9C1C(p,s[1],7,z+4,0,0x14c0);
         else if(special==1) func_021B9C1C(p,s[1],8,z+4,0,0xc80);
     }
-    level=func_02018430((int)mon);
+    level=func_02018430((void *)((int)mon));
     z=rem;
     s[2]=func_020450F0(4,(u8)gx,(u8)gy+3,6,1,14,1);
     if(egg==0) {
-        text=func_0201EC64(*(u16 *)p);
-        func_0201EFA4(text,0,level,3,0,1);
-        func_021B9D58(p,s[2],text,2,z,0,0x3c40);
-        func_0201ED04(text);
+        text=(u32)func_0201EC64(*(u16 *)p);
+        func_0201EFA4((struct WordSet *)text,0,level,3,0,1);
+        func_021B9D58(p,s[2],(void *)text,2,z,0,0x3c40);
+        func_0201ED04((struct WordSet *)text);
     }
     s[0]=1;
     return s;

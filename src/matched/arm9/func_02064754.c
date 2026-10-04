@@ -49,7 +49,7 @@ struct MultiCellBank;
 extern u16 func_02064648(struct MultiCellBank *bank);
 extern u16 func_020648E0(struct MultiCellBank *bank);
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
-extern void func_0206428C(char *cell, void *row, int a2);
+extern void func_0206428C(char *self, int a1, char *c);
 extern void func_02064178(char *o, u32 a);
 extern void func_02062F38(char *self);
 extern void func_02064140(char *p, int v);
@@ -68,7 +68,7 @@ void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind)
     for (i = 0; i < n; i++)
     {
       char *cell = cells + i * 0x5c;
-      func_0206428C(cell, func_020627D8(set, 0), a3);
+      func_0206428C(cell, (int)func_020627D8(set, 0), (char *)a3);
       *((int *) (cell + 0x58)) = 1;
     }
   }
@@ -90,7 +90,7 @@ void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind)
       func_02064178(hdr, 1);
       cell = base + i * 0x58;
       *((char **) hdr) = cell;
-      func_0206428C(cell, func_020627D8(set, 0), a3);
+      func_0206428C(cell, (int)func_020627D8(set, 0), (char *)a3);
     }
     func_02062F38(o);
     *((void **) (o + 0x44)) = bank;

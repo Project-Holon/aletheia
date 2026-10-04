@@ -33,7 +33,7 @@ typedef struct tagMEMBTN {
 
 extern MEMBTN *g_021DE508;
 
-extern void func_021D771C();
+extern void func_021D771C(char *p, unsigned int v);
 extern void func_021BCD00(void);
 
 void func_021BCCB0(void *task)
@@ -42,6 +42,6 @@ void func_021BCCB0(void *task)
     g_021DE508->count++;
     if (g_021DE508->count >= 4) {
         g_021DE508->count = 0;
-        func_021D771C(task, func_021BCD00);
+        func_021D771C(task, (unsigned int)func_021BCD00);
     }
 }

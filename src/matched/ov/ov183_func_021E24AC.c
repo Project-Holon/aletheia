@@ -13,12 +13,12 @@
  *   func_021FD15C  0x021FD15C  thumb  ov186
  */
 
-extern void func_021FD15C(int, int);
+extern void func_021FD15C(void *p, int a1);
 
 void func_021E24AC(char *p, char *a1)
 {
     if (*(int *)(p + 4) != 0) {
-        func_021FD15C(*(int *)(p + 4), *(int *)(a1 + 0xc));
+        func_021FD15C((void *)(*(int *)(p + 4)), *(int *)(a1 + 0xc));
         *(int *)(p + 4) = 0;
     }
 }

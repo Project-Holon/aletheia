@@ -33,12 +33,13 @@
 
 typedef unsigned int u32;
 
-extern void func_02036CA8(u32 handler);
+struct Icon;
+extern void func_02036CA8(struct Icon *c);
 extern u32  g_021469C8[];
 
 void func_02037154(void)
 {
     if (g_021469C8[1] == 0)
         return;
-    func_02036CA8(g_021469C8[1]);
+    func_02036CA8((struct Icon *)g_021469C8[1]);
 }

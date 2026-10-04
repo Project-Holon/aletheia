@@ -27,9 +27,9 @@
 
 typedef unsigned int u32;
 
-extern void func_02063000(void *obj, u32 one, u32 a, u32 b);
+extern void func_02063000(int p0, int p1, int p2, int p3);
 
 void sub_02015F2C(void *a, u32 arg1, u32 arg2)
 {
-    func_02063000((char *)a + 0x34, 1, arg1, arg2);
+    func_02063000((int)((char *)a + 0x34), 1, arg1, arg2);
 }

@@ -25,7 +25,7 @@ extern int func_0203D1A4(int v);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02183FB8(int o, void *p, u8 i, int y);
-extern void func_02184060(int o, u8 i);
+extern void func_02184060(u8 *s, int i);
 
 void func_0217403C(int a, int x, int y, u8 *p)
 {
@@ -35,6 +35,6 @@ void func_0217403C(int a, int x, int y, u8 *p)
             return;
         }
         func_02183FB8(*(int *)(p + 0x3528), p, (u8)a, y);
-        func_02184060(*(int *)(p + 0x3528), (u8)a);
+        func_02184060((u8 *)(*(int *)(p + 0x3528)), (u8)a);
     }
 }

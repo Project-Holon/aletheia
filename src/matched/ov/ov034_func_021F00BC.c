@@ -17,8 +17,10 @@
  *   func_0204B3DC 0x0204B3DC arm
  */
 
-extern void func_020456F8(int);
-extern int func_02045730(int);
+typedef unsigned char  u8;
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 struct Obj;
@@ -29,8 +31,8 @@ void func_021F00BC(int *p)
     int h = p[0x11];
     unsigned int i;
 
-    func_020456F8(h);
-    func_02041B6C(func_02045730(h));
+    func_020456F8((struct Descriptor *)h);
+    func_02041B6C(func_02045730((struct Descriptor *)h));
     for (i = 6; i <= 15; i++)
         func_0204B3DC((struct Obj *)p[0x15 + i], 1);
     p[0x44] = 1;

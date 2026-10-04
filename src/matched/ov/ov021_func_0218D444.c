@@ -35,7 +35,7 @@ typedef struct Elem { int idx; int x; int y; int z; } Elem;
 extern u32 func_0207C768(u32 a, u32 b);
 extern int func_0218D980(u32 a, int b, int c);
 extern void func_0218DD80(Elem *e, int idx);
-extern void func_0218DD9C(Elem *e, int x, int y, int z);
+extern int func_0218DD9C(u32 a, u32 b, u32 c, u32 d);
 
 void func_0218D444(char *p, int *a, Elem *e)
 {
@@ -77,7 +77,7 @@ void func_0218D444(char *p, int *a, Elem *e)
                     k += w;
                 el = &e[col + row * *(u8 *)(p + 0x2c)];
                 func_0218DD80(el, k + m * w);
-                func_0218DD9C(el, base + (int)(((long long)(cc << 12) * ls + 0x800LL) >> 12), 0, base + y);
+                func_0218DD9C((u32)el, base + (int)(((long long)(cc << 12) * ls + 0x800LL) >> 12), 0, base + y);
             }
             row++;
         } while (row < *(u8 *)(p + 0x2d));

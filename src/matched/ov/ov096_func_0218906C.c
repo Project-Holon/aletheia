@@ -11,5 +11,6 @@
  * symbols:
  *   func_0218908C 0x0218908C thumb ov096
  */
-extern int func_0218908C(void *, unsigned char *, int);
-int func_0218906C(void *a, unsigned char *b) { func_0218908C(a,b,2); return *(int *)(b+0xC4); }
+typedef unsigned char  u8;
+extern void func_0218908C(u8 *a, int b, int c);
+int func_0218906C(void *a, unsigned char *b) { func_0218908C(a,(int)b,2); return *(int *)(b+0xC4); }

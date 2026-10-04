@@ -22,18 +22,19 @@ struct Ov208Eff { char pad[0x30]; struct Ov208Mgr *mgr; char pad2[0x10]; void *f
 extern void func_021BE1BC(struct Ov208Eff *e);
 extern void func_021BE16C(struct Ov208Eff *e);
 extern void func_021BD208(struct Ov208Mgr *m);
-extern void func_0204ADA4(void *p);
-extern void func_0204A8D4(void *p);
-extern void func_0204AFD8(void *p);
+typedef unsigned int   u32;
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 void func_021BDFA8(struct Ov208Eff *e)
 {
     if (e->mgr != 0) {
         func_021BE1BC(e);
         func_021BE16C(e);
         func_021BD208(e->mgr);
-        func_0204ADA4(e->f44);
-        func_0204A8D4(e->f48);
-        func_0204AFD8(e->f4c);
+        func_0204ADA4((u32)e->f44);
+        func_0204A8D4((u32)e->f48);
+        func_0204AFD8((u32)e->f4c);
     }
     e->mgr = 0;
 }

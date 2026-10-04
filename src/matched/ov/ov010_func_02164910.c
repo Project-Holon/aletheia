@@ -34,8 +34,8 @@ struct Stream;
 extern u16 func_02011330(struct Stream *s);
 extern void func_02159144(int a);
 extern int func_02034AC4(int a);
-extern int  func_021F5260(u32 a, u32 b, u32 c, void *d, void *e);
-extern void func_0215897C(void *a, int b);
+extern void *func_021F5260(int a0, int a1, int a2, void *a3, int a4);
+extern void func_0215897C(void *vm, void *task);
 extern u8 ov_id_52[];
 
 int func_02164910(void *s, void *q)
@@ -48,10 +48,10 @@ int func_02164910(void *s, void *q)
     int r;
     func_02159144(7);
     func_02034AC4((int)ov_id_52);
-    r = func_021F5260(a, b, c, y, q);
+    r = (int)func_021F5260(a, b, c, y, (int)q);
     if (r == 0) {
         return 1;
     }
-    func_0215897C(x, r);
+    func_0215897C(x, (void *)r);
     return 1;
 }

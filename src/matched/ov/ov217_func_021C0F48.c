@@ -24,11 +24,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_020452E8(u32);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *p);
 void func_021C0F48(u8 *p)
 {
-    func_020452E8(*(u32*)(p + 0x18));
+    func_020452E8((struct Descriptor *)(*(u32*)(p + 0x18)));
     func_020307B0(p);
 }
 

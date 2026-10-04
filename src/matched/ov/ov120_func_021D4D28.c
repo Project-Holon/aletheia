@@ -32,10 +32,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021D6988(void *);
+extern u32 func_021D6988(u8 *p);
 extern int func_021D7AF4(char *p);
 extern int func_021B6498(u8 *);
-extern void func_021D7C10(int);
+extern int func_021D7C10(char *p);
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
@@ -60,10 +60,10 @@ void func_021D4D28(u8 *p)
 {
     int changed = 0;
     int done = 0;
-    u8 *q = func_021D6988(*(void **)(p + 0x3c));
+    u8 *q = (u8 *)func_021D6988(*(void **)(p + 0x3c));
     if (func_021D7AF4(*(void **)(p + 0x40))) {
         if (func_021B6498(q) == 0) {
-            func_021D7C10(*(int *)(p + 0x40));
+            func_021D7C10((char *)(*(int *)(p + 0x40)));
             if (func_020362DC() != 0 && func_020355C4() == 1) {
                 func_021D69F4(*(void **)(p + 0x3c), *(void **)(p + 0x34), *(int *)(p + 0x160));
                 func_020355D8(changed);
@@ -98,8 +98,8 @@ void func_021D4D28(u8 *p)
                 return;
             }
         }
-        func_021B63D0(func_021D6988(*(void **)(p + 0x3c)));
-        if (func_021B6448(func_021D6988(*(void **)(p + 0x3c))) == 1) done = 1;
+        func_021B63D0((u8 *)func_021D6988(*(void **)(p + 0x3c)));
+        if (func_021B6448((u8 *)func_021D6988(*(void **)(p + 0x3c))) == 1) done = 1;
         if (done) {
             int zero = 0;
             func_02040588(4, 0);

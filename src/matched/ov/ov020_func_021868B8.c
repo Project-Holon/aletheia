@@ -43,14 +43,15 @@ extern const Tmpl d_02187DE0;
 
 extern int func_02186854(u16 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_021867C4(int, int);
-extern u8 *func_02186830(int h, int b, int heap);
+struct ArcFile;
+extern int *func_021867C4(int a, int id);
+extern void *func_02186830(struct ArcFile **p, int b, unsigned int heap);
 extern int func_021868A0(u16 *p, int i);
 extern u8 *func_0218684C(u8 *t, int i);
 extern u16 func_02186898(u16 *p, int i);
 extern void func_0216E618(Tmpl *, u16, u16, int);
 extern void func_0218683C(void *p);
-extern void func_02186804(int);
+extern void func_02186804(void **p);
 
 Tmpl *func_021868B8(void *p, int a1, int a2, int id)
 {
@@ -73,8 +74,8 @@ Tmpl *func_021868B8(void *p, int a1, int a2, int id)
     n = func_02186854(p);
     k = 0;
     buf = func_02030734(heap, n * 0x24, 1, d_02187EB4, 0x561);
-    h = func_021867C4(0, heap);
-    t = func_02186830(h, a2, heap);
+    h = (int)func_021867C4(0, heap);
+    t = func_02186830((struct ArcFile **)h, a2, heap);
     i = 0;
     tmp = d_02187DE0;
     for (; i < 10; i++) {
@@ -90,6 +91,6 @@ Tmpl *func_021868B8(void *p, int a1, int a2, int id)
         }
     }
     func_0218683C(t);
-    func_02186804(h);
+    func_02186804((void **)h);
     return buf;
 }

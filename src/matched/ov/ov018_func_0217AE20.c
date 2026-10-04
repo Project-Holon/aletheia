@@ -78,11 +78,12 @@ typedef struct {
 } Obj;
 
 extern u32 func_02012138(const struct Ctx *p);
-extern void *func_02026474();
+struct Work;
+extern u32 func_02026474(void *obj);
 extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u8 func_02012E40(const u8 *o);
-extern int func_02026454();
+extern u32 func_02026454(void *obj);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013D5C(u32 id);
@@ -90,17 +91,17 @@ extern u32 func_0200FB24(void);
 extern u8 func_02012B70(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-extern void func_0217B968();
-extern void func_0217BBD8();
+extern void func_0217B968(int a0, void *a1, void *a2, void *a3);
+extern void func_0217BBD8(int a, int b, u8 *c);
 extern int func_0217C11C(u32 value);
-extern void func_0217BAB4();
-extern void func_02175004();
-extern int func_02175598();
-extern void func_02167590();
-extern int func_021677E4();
+extern void func_0217BAB4(int a0, void *a1, void *a2, u8 *p);
+extern void func_02175004(u8 *p);
+extern u16 func_02175598(u8 *o, u32 id);
+extern void func_02167590(void *a, struct Work *w);
+extern int func_021677E4(void *p, int i);
 extern void func_021675D0();
-extern void func_02167848();
-extern void func_021679C4();
+extern void func_02167848(char *a0, int a1, char *a2);
+extern int func_021679C4(struct Work *w, int i);
 
 void func_0217AE20(int a0, int a1, int a2)
 {
@@ -112,17 +113,17 @@ void func_0217AE20(int a0, int a1, int a2)
     int r;
 
     h = func_02012138((const struct Ctx *)a1);
-    p = func_02026474(h);
+    p = (Obj *)func_02026474((void *)h);
     ctx = func_020120F4((const struct Ctx *)a1);
     if (func_02012E40(ctx) == 1)
         return;
-    func_0217B968(a0, a1, h, a2);
-    if (func_02026454(h) != 2 || p == 0)
+    func_0217B968(a0, (void *)a1, (void *)h, (void *)a2);
+    if (func_02026454((void *)h) != 2 || p == 0)
         return;
     h = func_02012AC8(func_020127A4(ctx));
     if (p->f910 == 0 && func_02013D5C(h) == 1)
         p->f910 = 1;
-    func_0217BBD8(a0, a1, p);
+    func_0217BBD8(a0, a1, (u8 *)p);
     if (p->f8fd != 7 || func_0200FB24() != 0)
         return;
     if (func_02012B70(ctx) == 0) {
@@ -136,23 +137,23 @@ void func_0217AE20(int a0, int a1, int a2)
             return;
     }
     skip = func_02012B58(ctx);
-    func_02175004(p);
-    func_02167590(a1, p->f8);
+    func_02175004((u8 *)p);
+    func_02167590((void *)a1, (struct Work *)p->f8);
     for (i = 0; i < 3; i++) {
         if (i == skip || !(p->f8fb & (1 << i)))
             continue;
-        if (func_021677E4(p->f8, i) == 0) {
+        if (func_021677E4((void *)p->f8, i) == 0) {
             func_02012950(ctx, i);
-            r = func_02175598(&p->recs[i], func_02012950(ctx, i));
+            r = func_02175598((u8 *)(&p->recs[i]), (u32)func_02012950(ctx, i));
             if (p->recs[i].f18 != 0 || func_02012B70(ctx) != 0)
                 func_021675D0(p->f8, i, r, &p->recs[i]);
         } else {
-            func_02167848(p->f8, i, &p->recs[i]);
+            func_02167848((char *)p->f8, i, (char *)(&p->recs[i]));
             if (p->recs[i].f0 == 0) {
                 if ((u16)(p->recs[i].mode + 0xFFFE) <= 1)
-                    func_021679C4(p->f8, i);
+                    func_021679C4((struct Work *)p->f8, i);
             }
         }
     }
-    func_0217BAB4(a0, a1, a2, p);
+    func_0217BAB4(a0, (void *)a1, (void *)a2, (u8 *)p);
 }

@@ -20,19 +20,20 @@ typedef signed char    s8;
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_0202B66C(u32 a);
-extern void func_0202B67C(u32 a);
+struct Obj;
+extern void func_0202B66C(struct Obj *o);
+extern void func_0202B67C(u8 *p);
 extern void func_0202B68C(int a0);
 extern void func_0202B69C(int a0);
-extern void func_0202B6AC(u32 a);
+extern void func_0202B6AC(u8 *p);
 extern void func_0202B6BC(int a0);
 
 void func_0202B5D4(u32 a)
 {
-    func_0202B66C(a);
-    func_0202B67C(a);
+    func_0202B66C((struct Obj *)a);
+    func_0202B67C((u8 *)a);
     func_0202B68C(a);
     func_0202B69C(a);
-    func_0202B6AC(a);
+    func_0202B6AC((u8 *)a);
     func_0202B6BC(a);
 }

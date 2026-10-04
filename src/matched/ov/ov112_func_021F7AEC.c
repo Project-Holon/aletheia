@@ -19,8 +19,9 @@
  */
 typedef struct { int x, y, z; } Vec;
 typedef struct { short count, pad; int index, a, b; } Tail;
-extern int func_021F9DC0(int);
-extern int func_021F9EDC(int, int);
+typedef unsigned short u16;
+extern void *func_021F9DC0(void *p);
+extern char *func_021F9EDC(char *p, u16 a);
 extern void func_021F9F74(int, int, Vec *);
 extern char *func_021F5450(char *, int);
 extern Vec *func_021F5464(char *);
@@ -28,10 +29,10 @@ extern void func_0207C9D0(Vec *, Vec *, Vec *);
 extern void func_021F4EA4(int, int, Vec *);
 void func_021F7AEC(char *p, char *q) {
     Tail *t = (Tail *)(q + 0xf0);
-    int a = func_021F9DC0(*(int *)(p + 4));
+    int a = (int)func_021F9DC0((void *)(*(int *)(p + 4)));
     char *r = func_021F5450(*(char **)(q + 0x58), *(int *)(q + 0xf4));
     Vec v;
-    t->a = func_021F9EDC(a, 0x35);
+    t->a = (int)func_021F9EDC((char *)a, 0x35);
     if (*(int *)(q + 8) == 1 && *(int *)r == 1) {
         func_021F4EA4(*(int *)(p + 0x10), *(int *)(q + 0x84 + t->index * 4), &v);
         v.x /= 16;

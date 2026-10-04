@@ -20,7 +20,9 @@
 typedef unsigned short u16;
 struct Src;struct Descriptor;struct MsgBank;struct Rec;struct Slot;
 typedef struct {const void *str;unsigned param;} BmpMenuWork;
-extern struct Descriptor *func_02184968(const unsigned char *,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02184968(const u8 *p, int flag);
 extern struct MsgBank *func_02045B38(unsigned,unsigned,u16,u16);
 extern BmpMenuWork *func_0201F81C(unsigned,unsigned);
 extern void func_0201F878(struct Slot *,unsigned,unsigned,unsigned,u16);
@@ -29,7 +31,7 @@ void func_021850EC(char *p,const unsigned char *descriptor,const struct Src *cfg
 {
     struct MsgBank *bank;
     unsigned i;
-    *(struct Descriptor **)(p+0xc018)=func_02184968(descriptor,1);
+    *(struct Descriptor **)(p+0xc018)=(struct Descriptor *)func_02184968(descriptor,1);
     bank=func_02045B38(0,2,file,*(unsigned *)p);
     *(BmpMenuWork **)(p+0xc050)=func_0201F81C(130,*(unsigned *)p);
     for(i=0;i<count;i++)func_0201F878(*(struct Slot **)(p+0xc050),(unsigned)bank,ids[i],ids[i],(u16)*(unsigned *)p);

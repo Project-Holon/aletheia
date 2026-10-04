@@ -26,7 +26,7 @@ typedef struct {
 
 extern int func_0215F4DC(int s, void *buf, int len, int flags);
 extern void func_021BA100(void *dst_p, void *src_p, int size);
-extern void func_021BA13C(void *p_p, int size);
+extern void func_021BA13C(int a, int b);
 
 int func_021B9ECC(Con *connection_p, int socket, char *buf_p, int len, int flags)
 {
@@ -56,7 +56,7 @@ int func_021B9ECC(Con *connection_p, int socket, char *buf_p, int len, int flags
             if (connection_p->size != 0) {
                 connection_p->pos += size;
             } else {
-                func_021BA13C(tmpBuf_p, 0x8000);
+                func_021BA13C((int)tmpBuf_p, 0x8000);
                 connection_p->pos = 0;
             }
             ret = size;

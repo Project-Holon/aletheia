@@ -17,12 +17,12 @@
  */
 
 extern int func_0215CE9C(int a, int b);
-extern void func_0215CEB0(int v, int b);
+extern int func_0215CEB0(int a0, char *a1);
 
 void func_0215CEFC(int a, int b)
 {
     int v = func_0215CE9C(a, b);
 
-    func_0215CEB0(v, b);
+    func_0215CEB0(v, (char *)b);
 }
 

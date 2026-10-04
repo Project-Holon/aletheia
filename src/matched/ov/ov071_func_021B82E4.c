@@ -17,6 +17,6 @@
 
 void func_021B82E4(void *p, int a)
 {
-    void func_021B7070(void *, int);
-    func_021B7070(*(void **)((char *)p + 4), a + 0x34);
+    void func_021B7070(int *p, int *out);
+    func_021B7070(*(void **)((char *)p + 4), (int *)(a + 0x34));
 }

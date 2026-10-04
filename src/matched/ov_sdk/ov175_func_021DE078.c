@@ -26,7 +26,9 @@ typedef unsigned int u32;
 
 extern void func_02182AC0(int a, int b, int c, int d);
 extern void func_02182CF0(int a, int b, int c, int d);
-extern void func_021DDBE4(void *p, int a, int b);
+struct SAKEField;
+struct SAKERequestInternal;
+extern void func_021DDBE4(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
 extern u32  g_021E3A8C[];
 extern u32  g_021E3B4C[];
 extern u32  g_021E3B54[];
@@ -37,6 +39,6 @@ int func_021DE078(int *p)
 
     func_02182AC0(p[6], (int)g_021E3A8C, (int)g_021E3B4C, q[0]);
     func_02182CF0(p[6], (int)g_021E3A8C, (int)g_021E3B54, q[1]);
-    func_021DDBE4(p, q[2], q[3]);
+    func_021DDBE4((struct SAKERequestInternal *)p, (struct SAKEField *)q[2], q[3]);
     return 0;
 }

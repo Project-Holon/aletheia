@@ -32,7 +32,8 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
-extern int func_02008550(void *p);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
@@ -57,7 +58,7 @@ void func_021EFECC(Obj *p)
     int i;
 
     h = func_020490F4(0x1E, p->heap);
-    i = func_02008550(func_02012944(func_020120F4(p->w18)));
+    i = func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4(p->w18)));
     func_02049B68(h, d_021F0134[i], 4, 0, 0, p->heap);
     p->w14 = func_02049740(h, d_021F0140[i], 6, 0, 0, p->heap);
     func_02049990(h, 3, 6, 0, (u16)p->w14, 0, 0, p->heap);

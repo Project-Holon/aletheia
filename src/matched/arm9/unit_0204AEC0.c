@@ -50,7 +50,7 @@ struct Ctx {
 
 extern struct Ctx *g_02146A74;
 
-extern void func_02063800(struct Record *record, u32 selector);
+extern int func_02063800(char *p, int i);
 
 void sub_0204AEC0(u32 idx, struct Record *dest)
 {
@@ -68,5 +68,5 @@ void sub_0204AEF4(u32 idx, u32 alternate)
     }
 
     sub_0204AEC0(idx, &record);
-    func_02063800(&record, selector);
+    func_02063800((char *)(&record), selector);
 }

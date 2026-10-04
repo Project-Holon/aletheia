@@ -22,11 +22,13 @@ typedef unsigned short u16;
 
 extern const u16 d_021C3620[];
 extern const u8 d_021C3618[];
-extern int func_0204B100(u16 a, u8 b, u16 c);
+typedef unsigned int   u32;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 
 void func_021C03A0(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++)
-        *(int *)(p + i * 4 + 0x384) = func_0204B100(d_021C3620[i], d_021C3618[i], *(u16 *)(p + 4));
+        *(int *)(p + i * 4 + 0x384) = (int)func_0204B100(d_021C3620[i], d_021C3618[i], *(u16 *)(p + 4));
 }

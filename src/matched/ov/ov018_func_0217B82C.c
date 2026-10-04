@@ -39,7 +39,10 @@ typedef struct {
     u8 f8[1];
 } Work;
 
-extern int func_020124E4(int);
+struct Evt;
+struct Obj;
+struct Rec;
+extern void *func_020124E4(struct Obj *p);
 typedef unsigned int   u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
@@ -52,14 +55,14 @@ extern int func_02190F64(int, int);
 extern void func_02190E74(int, int, int, int);
 extern int func_02190EF0(int);
 extern int func_02190E40(u32 a);
-extern void func_02045C04(int);
+extern void func_02045C04(struct Rec *rec);
 extern int func_02188BE8(void *);
 extern void *func_02188CB4(unsigned char *p);
 extern int func_021A3238(void *);
 extern void func_0217C658(void *, int, void *, int, int, int);
 extern int func_0217C688(void *, int);
 extern int func_02185214(int);
-extern void func_02012374(int, int);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_0216D9E4(void *);
 
 int func_0217B82C(int a0, int *state, Work *w)
@@ -68,7 +71,7 @@ int func_0217B82C(int a0, int *state, Work *w)
     void *obj;
     int hnd;
 
-    sys = func_020124E4(a0);
+    sys = (int)func_020124E4((struct Obj *)a0);
     obj = func_0201210C((void *)sys);
     func_02012138((const struct Ctx *)sys);
     switch (*state) {
@@ -83,7 +86,7 @@ int func_0217B82C(int a0, int *state, Work *w)
     case 1:
         if (func_02190EF0(w->f4) == 1) {
             func_02190E40(w->f4);
-            func_02045C04(w->f0);
+            func_02045C04((struct Rec *)w->f0);
             (*state)++;
         }
         break;
@@ -103,7 +106,7 @@ int func_0217B82C(int a0, int *state, Work *w)
             (*state)++;
         break;
     case 4:
-        func_02012374(a0, func_02185214(sys));
+        func_02012374((struct Evt *)a0, (struct Evt **)func_02185214(sys));
         (*state)++;
         break;
     case 5:

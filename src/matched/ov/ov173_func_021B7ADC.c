@@ -11,8 +11,10 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0204B404(u32 obj, u16 *rect, int n);
-void func_0204B8C4(u32 obj, int n);
+struct Obj;
+struct Vec2;
+void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+void func_0204B8C4(struct Obj *p, u32 value);
 
 void func_021B7ADC(unsigned char *p, u32 idx)
 {
@@ -21,17 +23,17 @@ void func_021B7ADC(unsigned char *p, u32 idx)
     if (idx < 4) {
         local[0] = 0x82;
         local[1] = idx * 0x18 + 0x54;
-        func_0204B404(*(u32 *)(p + 0x10c), local, 1);
-        func_0204B8C4(*(u32 *)(p + 0x10c), 0);
+        func_0204B404((struct Obj *)(*(u32 *)(p + 0x10c)), (const struct Vec2 *)local, 1);
+        func_0204B8C4((struct Obj *)(*(u32 *)(p + 0x10c)), 0);
     } else if (idx < 6) {
         local[0] = (idx - 4) * 0x28;
         local[1] = 0xa8;
-        func_0204B404(*(u32 *)(p + 0x10c), local, 1);
-        func_0204B8C4(*(u32 *)(p + 0x10c), 1);
+        func_0204B404((struct Obj *)(*(u32 *)(p + 0x10c)), (const struct Vec2 *)local, 1);
+        func_0204B8C4((struct Obj *)(*(u32 *)(p + 0x10c)), 1);
     } else {
         local[0] = 0xc0;
         local[1] = 0xa0;
-        func_0204B404(*(u32 *)(p + 0x10c), local, 1);
-        func_0204B8C4(*(u32 *)(p + 0x10c), 2);
+        func_0204B404((struct Obj *)(*(u32 *)(p + 0x10c)), (const struct Vec2 *)local, 1);
+        func_0204B8C4((struct Obj *)(*(u32 *)(p + 0x10c)), 2);
     }
 }

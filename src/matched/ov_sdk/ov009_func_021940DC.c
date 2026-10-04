@@ -24,7 +24,8 @@
  */
 
 extern char *func_02193FD0(char *s, char *key);
-extern int func_020964E0(char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern int func_0219405C(int reqtype, int localid, int profileid);
 extern int *func_02184208(void *array, int n);
 extern void func_0219451C(int reqindex, int success, long modified, char *data, int length);
@@ -40,8 +41,8 @@ void func_021940DC(char *buf)
     int pid;
     int lid;
 
-    pid = func_020964E0(func_02193FD0(buf, g_021A5898));
-    lid = func_020964E0(func_02193FD0(buf, g_021A58A0));
+    pid = func_020964E0((u32)func_02193FD0(buf, g_021A5898));
+    lid = func_020964E0((u32)func_02193FD0(buf, g_021A58A0));
     errmsg = func_02193FD0(buf, g_021A58A4);
     reqindex = func_0219405C(0, lid, 0);
     if (reqindex == -1)

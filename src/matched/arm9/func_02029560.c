@@ -27,8 +27,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020289F8(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern int func_020289B8(u32 a);
+struct Sys;
+extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern u32 func_020289B8(struct Sys *s);
 
 int func_02029560(u32 unused, u32 *state, u8 *cfg)
 {
@@ -36,11 +37,11 @@ int func_02029560(u32 unused, u32 *state, u8 *cfg)
 
     switch (*state) {
     case 0:
-        func_020289F8(v, 3, 0, *(u16 *)(cfg + 0xe), 0);
+        func_020289F8((struct Sys *)v, 3, 0, *(u16 *)(cfg + 0xe), 0);
         (*state)++;
         break;
     case 1:
-        if (func_020289B8(v) == 0) {
+        if (func_020289B8((struct Sys *)v) == 0) {
             (*state)++;
         }
         break;

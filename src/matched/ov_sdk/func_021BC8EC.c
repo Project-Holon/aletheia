@@ -20,17 +20,17 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D7744(int, int);
-extern void func_021D6F38(int);
-extern void func_021D6438(int);
+extern void func_021D7744(unsigned int idx, void *r4);
+extern void func_021D6F38(unsigned int *obj);
+extern void func_021D6438(void **mem);
 extern unsigned char dat_021DE504[];
 
 void func_021BC8EC(void)
 {
     unsigned char *g = (unsigned char *)0x021DE504;
 
-    func_021D7744(1, **(int **)g);
-    func_021D6F38(*(int *)(*(int *)g + 4));
-    func_021D6438((int)dat_021DE504);
+    func_021D7744(1, (void *)(**(int **)g));
+    func_021D6F38((unsigned int *)(*(int *)(*(int *)g + 4)));
+    func_021D6438((void **)((int)dat_021DE504));
 }
 

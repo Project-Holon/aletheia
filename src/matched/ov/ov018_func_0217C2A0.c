@@ -38,7 +38,7 @@ typedef struct {
     u32 f29 : 3;
 } Entry;
 
-extern u8 *func_0204A1BC(int, int, int, int);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void func_020307B0(void *);
 struct Mon;
 extern u8 *func_02012944(void *p);
@@ -59,7 +59,7 @@ void *func_0217C2A0(int heap, void *a1, const Entry *e)
     u32 pid;
     void *mon;
 
-    tbl = func_0204A1BC(0xE3, 0, 0, heap);
+    tbl = (u8 *)func_0204A1BC(0xE3, 0, 0, heap);
     lvl = tbl[e->species];
     func_020307B0(tbl);
     id = func_02008530(func_02012944(a1));

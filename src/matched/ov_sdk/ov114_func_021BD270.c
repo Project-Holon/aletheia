@@ -76,13 +76,14 @@ typedef struct _NHTTPConnection {
 
 extern NHTTPSysInfo *func_021BEF08(void);
 extern NHTTPBgnEndInfo *func_021BEF3C();
-extern NHTTPReqInfo *func_021BEF48();
+typedef unsigned char  u8;
+extern void *func_021BEF48(int p);
 extern NHTTPMutexInfo *func_021BEF58();
 extern NHTTPConnection *func_021BEBE0(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
 extern int func_021B9CFC(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
-extern void func_021BA874();
+extern void func_021BA874(u8 *p, int v);
 extern void func_021BEFCC();
-extern void func_021BA850(void *ptr_p);
+extern void func_021BA850(int a);
 extern void func_021BEFD8();
 extern int func_021BB934(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
 extern void func_021BEE1C(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
@@ -101,7 +102,7 @@ static void func_021BD270(NHTTPThreadData *threadData_p)
 
     sysInfo_p = func_021BEF08();
     bgnEndInfo_p = func_021BEF3C(sysInfo_p);
-    reqInfo_p = func_021BEF48(sysInfo_p);
+    reqInfo_p = func_021BEF48((int)sysInfo_p);
     mutexInfo_p = func_021BEF58(sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     res_p = req_p->res_p;
@@ -120,7 +121,7 @@ static void func_021BD270(NHTTPThreadData *threadData_p)
         res_p->isSuccess = 1;
     } else {
         res_p->isSuccess = 0;
-        func_021BA874(bgnEndInfo_p, threadData_p->result);
+        func_021BA874((u8 *)bgnEndInfo_p, threadData_p->result);
         if (res_p->recvBuf_p == threadData_p->tmpBodyBuf) {
             res_p->recvBuf_p = 0;
             res_p->recvBufLen = 0;
@@ -130,7 +131,7 @@ static void func_021BD270(NHTTPThreadData *threadData_p)
         connection_p->nhttpError = threadData_p->result;
 
     func_021BEFCC(mutexInfo_p);
-    func_021BA850(reqInfo_p->reqCurrent);
+    func_021BA850((int)reqInfo_p->reqCurrent);
     reqInfo_p->reqCurrent = 0;
     func_021BEFD8(mutexInfo_p);
     func_021BB934(mutexInfo_p, req_p);

@@ -25,19 +25,23 @@ typedef struct {
     int f14;
 } S;
 
-extern void func_0202020C(int, int, int);
-extern void func_0201F868(int);
-extern void func_0201F7A8(int, int);
-extern void func_020456F8(int);
-extern void func_020452E8(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Descriptor;
+struct Obj;
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
+extern void func_0201F868(void *p);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
 
 void func_021E89D0(S *p)
 {
-    func_0202020C(p->f10, 0, 0);
-    func_0201F868(p->f14);
-    func_0201F7A8(p->f0, 0);
-    func_020456F8(p->f0);
-    func_020452E8(p->f0);
+    func_0202020C((struct Obj *)p->f10, 0, 0);
+    func_0201F868((void *)p->f14);
+    func_0201F7A8((void *)p->f0, 0);
+    func_020456F8((struct Descriptor *)p->f0);
+    func_020452E8((struct Descriptor *)p->f0);
     func_020307B0(p);
 }

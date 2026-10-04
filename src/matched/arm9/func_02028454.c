@@ -19,11 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02045374(u32 v);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 v);
 
 void func_02028454(u8 *p)
 {
-    func_02045374(*(u32 *)p);
+    func_02045374((struct Cfg *)(*(u32 *)p));
     func_02041B6C((u8)*(u16 *)(*(u32 *)(p + 0x18)));
 }

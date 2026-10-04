@@ -38,7 +38,7 @@ extern char *func_021B6100(int);
 extern void func_021B6950(char *, int);
 extern void func_021B69BC(void *p, u32 v);
 extern void func_021B674C(char *, int, u16);
-extern void func_021B6744(char *, void *, void *);
+extern void func_021B6744(void *p, u32 a, u32 b);
 extern void func_021B6814(void *a0);
 extern void func_021B7888(void *p, u16 a, u16 b, u16 c, u16 d);
 extern void func_021B78A0(void *p, u16 a, u16 b, u16 c, u16 d);
@@ -63,7 +63,7 @@ char *func_021B6EE0(void *a, int b)
         func_021B6950(*(char **)(p + 0xA4), 5);
         func_021B69BC(*(char **)(p + 0xA4), 1);
         func_021B674C(*(char **)(p + 0xA4), 2, (u16)((*(u16 *)p & 0x7FFF) | 0x8000));
-        func_021B6744(*(char **)(p + 0xA4), (void *)func_021B75AC, a);
+        func_021B6744(*(char **)(p + 0xA4), (u32)((void *)func_021B75AC), (u32)a);
         func_021B6814(*(char **)(p + 0xA4));
         *(void **)(p + 0xA8) = func_02030734((u16)((*(u16 *)p & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
         *(void **)(p + 0xAC) = func_02030734((u16)((*(u16 *)p & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);

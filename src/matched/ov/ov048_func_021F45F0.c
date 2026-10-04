@@ -18,8 +18,9 @@
  *   func_020111E8  0x020111E8  thumb
  */
 
-extern int func_02012EBC(int a);
-extern int func_0200D418(int sys);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200D418(void *sys);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021F44B8(u8 *p);
@@ -34,7 +35,7 @@ void func_021F45F0(int *a, void *b)
     int r6;
     int r0;
 
-    r7 = func_0200D418(func_02012EBC(a[2]));
+    r7 = (int)func_0200D418(func_02012EBC((struct Big *)a[2]));
     func_021F44B8(b);
     if (func_0215E404(r7)) {
         r0 = func_020111E8();

@@ -30,8 +30,11 @@ extern void func_021F253C(u8 *p, int v);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021F0A18(u8 *p, Pair *v);
 extern int func_021F08E4(u8 *p, void *pt);
-extern void func_02165AC4(int, int, void *, int);
-extern int func_02165C10(int);
+typedef unsigned short u16;
+struct Queue;
+struct Rec;
+extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
+extern int func_02165C10(u8 *p);
 extern void func_021F1F00(u8 *p, u8 i);
 extern int func_021F096C(u8 *p, void *pt);
 extern void func_021F1340(u8 *p, int a, int b);
@@ -62,8 +65,8 @@ int func_021EFF7C(u8 *p)
     }
     r = func_021F08E4(p, &v);
     if (r != -1) {
-        func_02165AC4(*(int *)(p + 0x3C), *(int *)(p + 0x40), p + 0x48, p[0x7C] + r);
-        if (func_02165C10(*(int *)(p + 0x40)) != 0)
+        func_02165AC4((struct Queue *)(*(int *)(p + 0x3C)), (struct Rec *)(*(int *)(p + 0x40)), (u16 *)(p + 0x48), p[0x7C] + r);
+        if (func_02165C10((u8 *)(*(int *)(p + 0x40))) != 0)
             return 0;
         p[0x7E] = r;
         func_021F1F00(p, r);

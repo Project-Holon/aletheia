@@ -25,11 +25,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02045758(u32 w);
-extern int func_02045760(u32 w);
-extern int func_02045748(u32 w);
-extern int func_02045750(u32 w);
-extern u32 func_02045730(u32 w);
+struct Descriptor;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
+extern u8 func_02045730(struct Descriptor *p);
 extern u32 func_02040804(u32 layer);
 extern void func_02194F5C(int x, int w, int side, u16 *a, u16 *b);
 extern void func_0206E0C4(int x, int y, void *c, int z);
@@ -48,11 +49,11 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
     u16 yb;
     u16 v[2];
 
-    x = (func_02045758(*(u32 *)(e + 0xC)) - 1) << 3;
-    y = (func_02045760(*(u32 *)(e + 0xC)) - 1) << 3;
-    w = (func_02045748(*(u32 *)(e + 0xC)) + 2) << 3;
-    h = (func_02045750(*(u32 *)(e + 0xC)) + 2) << 3;
-    y += func_02040804(func_02045730(*(u32 *)(e + 0xC)));
+    x = (func_02045758((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
+    y = (func_02045760((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
+    w = (func_02045748((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
+    h = (func_02045750((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
+    y += func_02040804(func_02045730((struct Descriptor *)(*(u32 *)(e + 0xC))));
     switch (*(u32 *)(e + 4)) {
     case 0:
     default:

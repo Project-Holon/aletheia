@@ -13,13 +13,14 @@
  *   func_021BA3B4  0x021BA3B4  thumb  ov217
  */
 
-extern int func_021BA3B4(void *, int);
+typedef unsigned int   u32;
+extern u32 func_021BA3B4(u32 a0, u32 a1);
 
 void func_021BA388(char *self, int d)
 {
     int n = *(int *)(self + 0x28);
     do {
         n = (n + d + 2) % 2;
-    } while (!func_021BA3B4(self, n));
+    } while (!func_021BA3B4((u32)self, n));
     *(int *)(self + 0x28) = n;
 }

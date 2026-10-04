@@ -47,11 +47,11 @@ struct GPIConnection {
     struct GPIPeer *peerList;
 };
 
-extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_021888C0(void **connection, int profileid, int type, char *message);
-extern void func_0218437C(void *array, int n);
+extern void func_0218437C(int a, int b);
 extern void func_0218EEC0(void **connection, struct GPIPeer *peer);
 extern char g_021A4F4C[];
 
@@ -69,7 +69,7 @@ void func_0218EF04(void **connection, struct GPIPeer *peer)
     } else {
         while (pprev->pnext != peer) {
             if (pprev->pnext == 0) {
-                func_0217D254(1, 4, 1, g_021A4F4C);
+                func_0217D254(1, (char *)4, 1, g_021A4F4C);
                 return;
             }
             pprev = pprev->pnext;
@@ -80,7 +80,7 @@ void func_0218EF04(void **connection, struct GPIPeer *peer)
         message = (struct GPIMessage *)func_02184208(peer->messages, 0);
         if (message->type < 100)
             func_021888C0(connection, peer->profile, message->type, message->buffer + message->start);
-        func_0218437C(peer->messages, 0);
+        func_0218437C((int)peer->messages, 0);
     }
     func_0218EEC0(connection, peer);
 }

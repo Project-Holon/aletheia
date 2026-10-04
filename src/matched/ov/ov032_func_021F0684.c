@@ -19,8 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02165AC4(u32 q, u32 rec, u16 *tag, int delta);
-extern u8 func_02165D08(u32 rec);
+struct Queue;
+struct Rec;
+extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
+extern u8 func_02165D08(struct Rec *r);
 extern u32 func_02165C48(u32 rec);
 
 void func_021F0684(u8 *p, u8 *a, u8 *b)
@@ -31,8 +33,8 @@ void func_021F0684(u8 *p, u8 *a, u8 *b)
     *a = 0;
     *b = 0;
     for (; i < p[0x7b]; i++) {
-        func_02165AC4(*(u32 *)(p + 0x3c), *(u32 *)(p + 0x44), &tag, i);
-        if (p[0x30] != func_02165D08(*(u32 *)(p + 0x44)))
+        func_02165AC4((struct Queue *)(*(u32 *)(p + 0x3c)), (struct Rec *)(*(u32 *)(p + 0x44)), &tag, i);
+        if (p[0x30] != func_02165D08((struct Rec *)(*(u32 *)(p + 0x44))))
             (*a)++;
         if (p[0x32] != func_02165C48(*(u32 *)(p + 0x44)))
             (*b)++;

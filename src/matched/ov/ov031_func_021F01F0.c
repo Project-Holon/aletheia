@@ -21,13 +21,13 @@ struct Bank;
 struct GfFont;
 struct MsgBank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern u32 func_0201C440(u32);
+extern u32 func_0201C440(void *p);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 void func_021F01F0(char *p)
 {
     *(void **)(p + 0x14) = func_0204B100(12, 5, 21);
-    *(u32 *)(p + 0x40) = func_0201C440(21);
+    *(u32 *)(p + 0x40) = func_0201C440((void *)21);
     *(void **)(p + 0x44) = func_0201D7EC(23, 0, 0, 0, 21);
     *(void **)(p + 0x48) = func_02045B38(0, 2, 201, 21);
 }

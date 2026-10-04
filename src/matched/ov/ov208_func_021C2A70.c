@@ -37,7 +37,7 @@ extern int func_021BC3B4(int *p);
 extern u16 func_021BC3C0(void *p);
 extern void func_021BC3CC(char *p);
 extern void func_021BC40C(void *p);
-extern void func_021C34A4(void *heap, struct S *st, void *obj);
+extern void func_021C34A4(u16 *heap, u8 *p, int key);
 extern void func_021BDBA0(int p);
 extern int func_021BC3A4(int *p);
 extern int func_021BDC2C(char *p);
@@ -71,7 +71,7 @@ void func_021C2A70(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         u16 old = func_021BC3C0(obj);
         func_021BC3CC((char *)obj);
         if (old != func_021BC3C0(obj)) {
-            func_021C34A4(heap, st, obj);
+            func_021C34A4(heap, (u8 *)st, (int)obj);
         }
         break;
     }
@@ -79,7 +79,7 @@ void func_021C2A70(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         u16 old = func_021BC3C0(obj);
         func_021BC40C(obj);
         if (old != func_021BC3C0(obj)) {
-            func_021C34A4(heap, st, obj);
+            func_021C34A4(heap, (u8 *)st, (int)obj);
         }
         break;
     }

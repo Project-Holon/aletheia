@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021BC3B4(int key);
+extern int func_021BC3B4(int *p);
 extern u32  func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(u32 a);
@@ -46,7 +46,7 @@ void func_021C10B8(u16 *heap, u8 *p, int key)
     int moved, done;
     u32 x, y, tx, ty;
 
-    s = func_021BC3B4(key);
+    s = (void *)func_021BC3B4((int *)key);
     if (W(0x428) == 0 || p[0xd8] != 7)
         return;
 

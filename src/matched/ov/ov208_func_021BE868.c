@@ -30,7 +30,9 @@ struct Bmp;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(int a, int b);
+struct CharBuf;
+struct MsgBank;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *a);
 extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern u32 func_020437EC(const struct Bmp *bmp);
@@ -38,16 +40,16 @@ extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_02040B58(u32 index, const void *src, u32 size);
 extern u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern int func_02045B38(int a, int b, int c, u32 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 void func_021BE868(struct Ov208Gfx *g)
 {
     g->f14 = func_020450F0(5, 0, 0, 0x10, 1, 13, 0);
-    func_02043B5C((int)func_02045770((struct Descriptor *)g->f14), 0);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)g->f14)), 0);
     func_02045334((struct Descriptor *)g->f14);
     g->f18 = func_0204384C(0x9f, 14, 0, g->heap);
     g->f20 = func_020437EC(g->f18);
     g->f1c = func_02040B58(5, func_020437D4(g->f18), g->f20);
     func_0204994C(0x9f, 0x25, 5, 0, g->f1c, 0xc0, 0, g->heap);
     func_020413B0(5, 0, 0, 0x20, 0x18, 13);
-    g->f24 = func_02045B38(0, 2, 0xea, g->heap);
+    g->f24 = (int)func_02045B38(0, 2, 0xea, g->heap);
 }

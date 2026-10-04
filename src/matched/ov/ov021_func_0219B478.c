@@ -20,10 +20,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef void (*Handler)(u32);
-extern u32 func_0216D5A8(u32);
+extern u32 func_0216D5A8(u8 *p);
 extern Handler d_021D5320[];
 
 void func_0219B478(u32 a)
 {
-    d_021D5320[func_0216D5A8(a)](a);
+    d_021D5320[func_0216D5A8((u8 *)a)](a);
 }

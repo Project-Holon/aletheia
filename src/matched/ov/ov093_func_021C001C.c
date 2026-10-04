@@ -48,8 +48,9 @@ extern void func_021C03D8(u8 *, u8 *, u16);
 extern int func_021D62A8(u8 *);
 extern int func_021C0274(u8 *, u8 *, u32, u32);
 extern int func_021C0404(u8 *, u8 *, void *);
-extern int func_021D5778(u8 *, int);
-extern int func_021D5584(u8 *, int);
+struct UtilWork;
+extern u8 func_021D5778(struct UtilWork *p, u16 id);
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern int func_021C02CC(u8 *, u8 *, u32, int);
 extern int func_021D5BB0(u8 *, u32);
 extern int func_021D62C4(u8 *, int);
@@ -59,7 +60,7 @@ extern u32 func_0201BEB8(u16, u32);
 extern int func_021EF948(int);
 extern u16 func_021D67B8(u8 *);
 extern u16 func_021D67A8(u8 *);
-extern int func_0201C314(u16);
+extern u32 func_0201C314(void *p);
 extern int func_021EF91C(void *, u8 *, u16);
 extern int func_021C031C(u8 *, u8 *);
 extern int func_021D7AF0(u32);
@@ -88,8 +89,8 @@ int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
     if (*(int *)(p + 0x1f78) == 4) { reason = 22; goto done; }
     if (*(int *)(p + 0x1f78) == 2) { reason = 23; goto done; }
     if (d == 0) {
-        int index = func_021D5778(a, c);
-        if (index != 4 && func_021D5584(a, index) == 0) { reason = 1; goto done; }
+        int index = func_021D5778((struct UtilWork *)a, c);
+        if (index != 4 && func_021D5584((struct UtilWork *)a, index) == 0) { reason = 1; goto done; }
     }
     reason = func_021C02CC(p, a, c, 30);
     if (reason) goto done;
@@ -107,7 +108,7 @@ int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
             if (id != 165 && id != c) { reason = 17; goto done; }
         }
         if (func_021D62C4(a, 25) && c != func_021D67A8(a)) { reason = 17; goto done; }
-        if (func_021D62C4(a, 11) && func_0201C314(c) == 0) { reason = 10; goto done; }
+        if (func_021D62C4(a, 11) && func_0201C314((void *)c) == 0) { reason = 10; goto done; }
         if (func_021EF948(3) && func_021EF91C(*(void **)(p + 8), a, c)) { reason = 12; goto done; }
     }
     if (func_021C031C(p, a)) { reason = 5; goto done; }

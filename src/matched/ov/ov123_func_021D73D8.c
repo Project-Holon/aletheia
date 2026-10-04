@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 extern int func_021B95D4(int index, u8 *p);
 extern int func_021B973C(char *p);
 extern int func_021B9748(u8 *p);
-extern int func_021BE79C(int,unsigned int,unsigned int);
+extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D7390(char *);
 void func_021D73D8(char *p)
@@ -34,7 +34,7 @@ void func_021D73D8(char *p)
         if (func_021B95D4(8,*(void **)(p+0x10))) {
             p[2]=1;
             p[3]=0;
-            func_021BE79C(func_021B973C(*(void **)(p+0x10)),(unsigned int)(p+2),4);
+            func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)((unsigned int)(p+2)),4);
             if (func_021B9748(*(void **)(p+0x10))==0)
                 func_021D6EE0(p,(int)func_021D7390,0x2cd);
         }

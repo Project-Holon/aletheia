@@ -34,13 +34,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02188C58(u32 a);
-extern void func_0218ED58(u32 a, int v);
+extern void *func_02188C58(void *p);
+extern void func_0218ED58(u8 *p, u32 v);
 extern double _dsqrt(double x);
 
 void func_021C6BB4(u8 *p)
 {
-    u32 h = func_02188C58(*(u32 *)p);
+    u32 h = (u32)func_02188C58((void *)(*(u32 *)p));
     u32 n = *(u16 *)(p + 6);
     float t, a, b, v;
 
@@ -55,6 +55,6 @@ void func_021C6BB4(u8 *p)
             v = 4096.0f * v + 0.5f;
         else
             v = 4096.0f * v - 0.5f;
-        func_0218ED58(h, (int)v);
+        func_0218ED58((u8 *)h, (int)v);
     }
 }

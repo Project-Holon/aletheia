@@ -69,7 +69,7 @@ extern void func_021A3038(unsigned char *t, struct VecFx32 *v);
 extern void func_021BE158(u32 h, Vec *v);
 extern void func_0218FEA4(u32 p);
 extern void func_0218FE78(u32 p, void *sub);
-extern void func_0218FEC0(u32 p);
+extern void func_0218FEC0(u8 *o);
 
 void func_021BDEB4(A *a)
 {
@@ -136,5 +136,5 @@ void func_021BDEB4(A *a)
     }
     func_0218FE78(a->f04, sub);
     if (a->f6C != 0)
-        func_0218FEC0(a->f54);
+        func_0218FEC0((u8 *)a->f54);
 }

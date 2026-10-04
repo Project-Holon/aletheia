@@ -13,7 +13,7 @@
  *   func_02051838 0x02051838 arm
  */
 typedef struct { int x,y,z; } Vec;
-extern void *func_02051A34(void *);
+extern int func_02051A34(void *p);
 struct IcaAnime;
 struct Rec12;
 extern unsigned int func_02011610(struct IcaAnime *p, struct Rec12 *dst);
@@ -21,7 +21,7 @@ extern void func_02051838(void *, Vec *);
 void func_021D49F4(void *obj, int on) {
  int buf[3]; Vec *v; void *w;
  if (on != 0 && obj != 0) {
- w=func_02051A34(obj);
+ w=(void *)func_02051A34(obj);
  if (*(void **)(*(char **)((char *)w+12)+0x98)!=0) {
  v=(Vec *)buf; v->x=0; v->y=0; v->z=0;
  func_02011610(*(void **)(*(char **)((char *)w+12)+0x98),(struct Rec12 *)v);

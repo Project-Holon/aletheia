@@ -21,16 +21,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern u32 func_021E5548(u32 p);
-extern u32 func_0200B078(u32 id, u32 kind);
+typedef signed int     s32;
+struct Reg2;
+extern int func_021E5548(int *p);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u32 func_021E7520(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g,
                          u32 h, u32 i, u32 j, u32 k);
 
 void func_021D9804(u32 *obj, u32 arg)
 {
     if (obj[8] == 0) {
-        u32 base = func_021E5548(obj[0]);
+        u32 base = func_021E5548((int *)obj[0]);
         obj[8] = func_021E7520(arg, base, obj[1], obj[2], obj[4], obj[5], obj[6], 0, 1,
-                               func_0200B078(obj[0x42], 0xb), 0x57);
+                               func_0200B078((struct Reg2 *)obj[0x42], 0xb), 0x57);
     }
 }

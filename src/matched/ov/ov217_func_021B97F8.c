@@ -27,14 +27,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BABC4();
-extern u32 func_021BAC90();
-extern u32 func_021BAC98();
+extern void func_021BABC4(void *self);
+extern u32 func_021BAC90(void *p);
+extern u32 func_021BAC98(void *p);
 u32 func_021B97F8(u32 a0)
 {
-    func_021BABC4(*(u32*)(((u8*)a0) + 20));
-    if (func_021BAC90(*(u32*)(((u8*)a0) + 20)) != 0) {
-    if (func_021BAC98(*(u32*)(((u8*)a0) + 20)) == 0) {
+    func_021BABC4((void *)(*(u32*)(((u8*)a0) + 20)));
+    if (func_021BAC90((void *)(*(u32*)(((u8*)a0) + 20))) != 0) {
+    if (func_021BAC98((void *)(*(u32*)(((u8*)a0) + 20))) == 0) {
     return 1;
     }
     return 4;

@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef signed int     s32;
 struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
-extern int func_0203D3F8(void *,int,int,u32,void *,int,int,int);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 int func_021FD5E4(char *p,u32 i)
 {
     char *q;
@@ -28,5 +28,5 @@ int func_021FD5E4(char *p,u32 i)
     n=0x3800;
     s=*(char **)(q+0x10)+i*0x3800;
     if((i+1)*0x3800>*(u32 *)(q+0x2c)) n=*(u32 *)(q+0x2c)%0x3800U;
-    return func_0203D3F8(func_0203996C(0xff),0xff,0x1105,n,s,0,1,1);
+    return func_0203D3F8((u32)func_0203996C(0xff),0xff,0x1105,n,(u32)s,0,1,1);
 }

@@ -54,9 +54,11 @@ struct Sys {
 
 extern struct Sys *unk_02146A74;
 
-extern u32  func_02049250(void *a, u32 b, u16 flags);
-extern void func_0204DD08(struct Owner *owner, u32 idx, u32 handle, u32 c, u32 d, u16 e, u16 f);
-extern void func_020307B0(u32 handle);
+struct ArcFile;
+struct Holder;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void func_0204DD08(struct Holder *h, int idx, void *src, void *sel, u32 size, u16 head, u16 tail);
+extern void func_020307B0(void *p);
 
 s32 sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g)
 {
@@ -78,10 +80,10 @@ found:
         return i;
     }
 
-    handle = func_02049250(a, b, (u16)((g & 0x7fff) | 0x8000));
+    handle = (u32)func_02049250(a, b, (u16)((g & 0x7fff) | 0x8000));
 
-    func_0204DD08(&unk_02146A74->owner, i, handle, c, d, e, f);
-    func_020307B0(handle);
+    func_0204DD08((struct Holder *)(&unk_02146A74->owner), i, (void *)handle, (void *)c, d, e, f);
+    func_020307B0((void *)handle);
 
     return i;
 }

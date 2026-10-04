@@ -25,13 +25,13 @@ struct Record {u32 words[21];};
 extern int func_021DD044(int);
 extern void func_021DA470(u8 *);
 extern void func_021DB6A8(char *);
-extern void func_02034714(int,int,int);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const u8 d_021E2EF8[],d_021E2F8C[],d_021E2F38[],d_021E2F7C[];
 extern const u32 d_021E2DF8[];
 void func_021DBC04(u8 *p,u32 mode,struct Record *src)
 {
     *(u32 *)(p+0x12c)=0;
-    if(**(u32 **)(p+0x1464)==0)func_02034714((int)d_021E2EF8,0,(int)d_021E2EF8);
+    if(**(u32 **)(p+0x1464)==0)func_02034714((const char *)((int)d_021E2EF8),0,(const char *)((int)d_021E2EF8));
     switch(mode) {
     case 0:
         *(u32 *)(*(u8 **)(p+0x190)+0)=func_021DD044(36);

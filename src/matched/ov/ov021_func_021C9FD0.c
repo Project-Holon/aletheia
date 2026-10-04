@@ -26,12 +26,13 @@ typedef struct {
     u16 rest : 15;
 } Latch;
 
-extern u32 func_0200DA54(u32 h);
+struct Blk3C;
+extern u16 func_0200DA54(struct Blk3C *p);
 
 int func_021C9FD0(u8 *p)
 {
     if (((Latch *)p)->done == 0) {
-        if (func_0200DA54(*(u32 *)(p + 0x70)) < 7)
+        if (func_0200DA54((struct Blk3C *)(*(u32 *)(p + 0x70))) < 7)
             return 0;
         ((Latch *)p)->done = 1;
     }

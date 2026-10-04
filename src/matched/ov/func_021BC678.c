@@ -17,22 +17,24 @@
  */
 
 
-extern void func_02030D28(int);
-extern int func_02021ED8(int);
+typedef unsigned int   u32;
+struct Ctx;
+extern void func_02030D28(struct Ctx *c);
+extern u32 func_02021ED8(const char *ptr);
 
 void func_021BC678(char *p)
 {
-    func_02030D28(*(int *)p);
+    func_02030D28((struct Ctx *)(*(int *)p));
     switch (*(int *)(p + 0x10)) {
     case 0:
     case 1:
         break;
     case 2:
-        if (func_02021ED8(*(int *)(p + 8)) == 0)
+        if (func_02021ED8((const char *)(*(int *)(p + 8))) == 0)
             *(int *)(p + 0x10) = 0;
         break;
     case 3:
-        if (func_02021ED8(*(int *)(p + 8)) == 0)
+        if (func_02021ED8((const char *)(*(int *)(p + 8))) == 0)
             *(int *)(p + 0x10) = 1;
         break;
     }

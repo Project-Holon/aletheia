@@ -13,9 +13,9 @@
  *   func_021DF4E0  0x021DF4E0  thumb  ov093
  */
 
-void func_021DF4E0(int, int, int, int);
+void func_021DF4E0(void *a, int b, int c, int d);
 
 void func_021DF4D4(int a, int b, int c)
 {
-    func_021DF4E0(a, b, c, 2);
+    func_021DF4E0((void *)a, b, c, 2);
 }

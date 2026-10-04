@@ -27,7 +27,16 @@ typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
 extern int func_021FD750(int *,int);
 extern void func_021FD73C(int *,int),func_020061E4(int);
-extern void func_021FDE88(void),func_021FD964(void),func_021FD9A0(void),func_021FDA7C(void),func_021FDBF4(void),func_021FDF40(void),func_021FDFF0(void),func_021FDFF4(void),func_021FE1C4(void);
+typedef unsigned char  u8;
+extern void func_021FDE88(void);
+extern void func_021FD964(void *unused, int *state, u8 *p);
+extern void func_021FD9A0(void);
+extern void func_021FDA7C(void);
+extern void func_021FDBF4(void);
+extern void func_021FDF40(void);
+extern void func_021FDFF0(void);
+extern void func_021FDFF4(void);
+extern void func_021FE1C4(int *task, int *state, char *p);
 void func_021FD860(char *p,u32 mode,const Pair *pair)
 {
     if(pair) {

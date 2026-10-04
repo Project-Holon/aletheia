@@ -86,13 +86,14 @@ static inline struct Slot *rig_cfg(struct Rig *rig)
     return (struct Slot *)((u8 *)rig + 0x200);
 }
 
-extern u32   func_02046DB8(u32 a, u16 b);
-extern u32   func_02046E90(u32 a, u16 b);
+struct S02046CE0;
+extern void *func_02046DB8(u32 a0, u32 a1);
+extern void *func_02046E90(u32 a0, u32 a1);
 extern int func_02046C94(void);
-extern void  func_02046CE0(void *node, u32 v);
+extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern void *func_02048F9C(u32 path, u16 a, u16 heap);
+extern void *func_02048F9C(const char *path, u32 a, u32 heap);
 
 void func_02048120(struct Rig *rig, u32 index, struct Desc *desc)
 {
@@ -112,25 +113,25 @@ void func_02048120(struct Rig *rig, u32 index, struct Desc *desc)
 
         switch (rec->unk_08) {
         case 0:
-            out[slotno] = func_02046DB8(rec->unk_00, rec->unk_04);
+            out[slotno] = (u32)func_02046DB8(rec->unk_00, rec->unk_04);
             break;
         case 1:
-            out[slotno] = func_02046E90(rec->unk_00, rec->unk_04);
+            out[slotno] = (u32)func_02046E90(rec->unk_00, rec->unk_04);
             break;
         case 2:
             node = func_02030734(rig_cfg(rig)->unk_16, func_02046C94(), 0,
                                  func_02048120_File, 342);
             func_02046CE0(node,
-                          (u32)func_02048F60(rec->unk_00, rec->unk_04,
-                                             rig_cfg(rig)->unk_16));
+                          (u32 *)((u32)func_02048F60(rec->unk_00, rec->unk_04,
+                                             rig_cfg(rig)->unk_16)));
             out[slotno] = (u32)node;
             break;
         case 3:
             node = func_02030734(rig_cfg(rig)->unk_16, func_02046C94(), 0,
                                  func_02048120_File, 355);
             func_02046CE0(node,
-                          (u32)func_02048F9C(rec->unk_00, rec->unk_04,
-                                             rig_cfg(rig)->unk_16));
+                          (u32 *)((u32)func_02048F9C((const char *)rec->unk_00, rec->unk_04,
+                                             rig_cfg(rig)->unk_16)));
             out[slotno] = (u32)node;
             break;
         }

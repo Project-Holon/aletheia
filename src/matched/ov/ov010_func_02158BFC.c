@@ -32,11 +32,13 @@ struct W { u16 w, h; int p; int q; };
 extern int func_02158DB0(int);
 extern int func_0215A55C(const struct V *, int);
 extern int *func_0201121C(int, struct W *);
-extern void func_0201126C(int *, int);
+typedef unsigned char  u8;
+struct ScriptVm;
+extern void func_0201126C(struct ScriptVm *vm, void *user);
 extern int func_02158CD0(int, int, u16 *, u16 *, u16 *);
-extern int func_02158D78(int, int);
-extern void func_0215A760(int, unsigned, unsigned);
-extern void func_0201127C(int *, int);
+extern void *func_02158D78(int a, int b);
+extern void func_0215A760(u8 *a, unsigned b, unsigned c);
+extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
 extern int func_0201134C(int *);
 extern void func_02158E38(void *a);
 extern int d_0217062C;
@@ -62,14 +64,14 @@ int *func_02158BFC(u16 a0, int a1, u16 a2, u16 a3, int a4)
     w.p = (int)&d_0217062C;
     w.q = d_021705D8;
     o = func_0201121C(a0, &w);
-    func_0201126C(o, t);
+    func_0201126C((struct ScriptVm *)o, (void *)t);
     n = func_02158CD0(a2, a3, &s[2], &s[1], &s[0]);
-    o[0x2C / 4] = func_02158D78(s[2], a0);
+    o[0x2C / 4] = (int)func_02158D78(s[2], a0);
     if (r6 == 0) {
         if (s[0] != -1)
-            func_0215A760(t, s[1], s[0]);
+            func_0215A760((u8 *)t, s[1], s[0]);
     }
-    func_0201127C(o, o[0x2C / 4]);
+    func_0201127C((struct ScriptVm *)o, (u8 *)o[0x2C / 4]);
     o[0x14 / 4] += n << 2;
     o[0x14 / 4] += func_0201134C(o);
     func_02158E38(o);

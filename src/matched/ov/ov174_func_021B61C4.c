@@ -22,7 +22,15 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
-extern void func_02030EAC(void *),func_0204B3B4(void *),func_0204ADA4(void *),func_0204A8D4(void *),func_0204AFD8(void *),func_0204B1CC(void *),func_02049238(void *),func_020307B0(void *);
+typedef unsigned int   u32;
+extern void func_02030EAC(void *);
+extern void func_0204B3B4(void *);
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern void func_0204B1CC(void *);
+extern void func_02049238(void *);
+extern void func_020307B0(void *);
 extern void func_021B6824(u8 *),func_021B6508(u8 *),func_021B6D00(u8 *,void *);
 void func_021B61C4(u8 *p)
 {
@@ -31,9 +39,9 @@ void func_021B61C4(u8 *p)
     func_021B6824(p);
     for(i=0;i<*(int *)(p+8);i++) if(*(void **)(p+28+i*4)) func_021B6D00(p,*(void **)(p+28+i*4));
     func_0204B3B4(*(void **)(p+84));
-    func_0204ADA4(*(void **)(p+68));
-    func_0204A8D4(*(void **)(p+72));
-    func_0204AFD8(*(void **)(p+76));
+    func_0204ADA4((u32)(*(void **)(p+68)));
+    func_0204A8D4((u32)(*(void **)(p+72)));
+    func_0204AFD8((u32)(*(void **)(p+76)));
     func_0204B1CC(*(void **)(p+80));
     func_02049238(*(void **)(p+24));
     func_021B6508(p);

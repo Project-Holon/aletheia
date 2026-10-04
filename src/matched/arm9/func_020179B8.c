@@ -29,27 +29,29 @@
  *       --func func_020179B8 --addr 0x020179B8 --cc 1.1p1 --thumb
  */
 
-extern int func_02017DBC(int a0);
-extern int func_02017E88(int a0, int a1, int a2);
-extern int func_02017E64(int a0, int a1, int a2);
+typedef unsigned int   u32;
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern void func_02017E64(void *p, u32 id, u32 v);
 extern int func_02017C50(int a0, int a1, int a2);
-extern int func_02017CC8(int a0, int a1, int a2);
-extern int func_02017DE4(int a0, int a1);
+extern void func_02017CC8(void *a0, void *a1, void *a2);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 int func_020179B8(int a0, int a1)
 {
     int r4 = 0;
-    int r7 = (unsigned char)func_02017DBC(a0);
-    int t = (unsigned short)func_02017E88(a0, 0x6f, 0);
+    int r7 = (unsigned char)func_02017DBC((struct Sav *)a0);
+    int t = (unsigned short)func_02017E88((void *)a0, 0x6f, 0);
 
     if (t != a1) {
-        func_02017E88(a0, 0x6f, r4);
-        r4 = (unsigned short)func_02017E88(a0, 5, r4);
-        func_02017E64(a0, 0x6f, a1);
+        func_02017E88((void *)a0, 0x6f, r4);
+        r4 = (unsigned short)func_02017E88((void *)a0, 5, r4);
+        func_02017E64((void *)a0, 0x6f, a1);
         func_02017C50(a0, r4, r4);
-        func_02017CC8(a0, r4, r4);
+        func_02017CC8((void *)a0, (void *)r4, (void *)r4);
         r4 = 1;
     }
-    func_02017DE4(a0, r7);
+    func_02017DE4((struct Sav *)a0, r7);
     return r4;
 }

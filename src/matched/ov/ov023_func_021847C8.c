@@ -31,18 +31,22 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02030EAC(u32);
+struct Bank;
+struct Node;
+struct Rec;
+struct WordSet;
+extern void func_02030EAC(struct Node *n);
 extern void func_0204A8D4(u32);
 extern void func_0204ADA4(u32);
 extern void func_0204AFD8(u32);
-extern void func_0204B1CC(u32);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_02186694(u8 *);
 extern void func_02185004(u8 *);
 extern void func_02184B34(void);
-extern void func_02045C04(u32);
-extern void func_0201ED04(u32);
-extern void func_0201D83C(u32);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_0201D83C(void *ptr);
 extern int  func_02186558(u8 *);
 extern void func_02184B04(u8 *);
 struct S020315D4;
@@ -53,7 +57,7 @@ int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
 {
     switch (*seq) {
     case 0:
-        func_02030EAC(*(u32 *)(d + 0x08));
+        func_02030EAC((struct Node *)(*(u32 *)(d + 0x08)));
         func_0204A8D4(*(u32 *)(d + 0x58));
         func_0204ADA4(*(u32 *)(d + 0x54));
         func_0204AFD8(*(u32 *)(d + 0x5C));
@@ -63,16 +67,16 @@ int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
         func_0204A8D4(*(u32 *)(d + 0x40));
         func_0204ADA4(*(u32 *)(d + 0x3C));
         func_0204AFD8(*(u32 *)(d + 0x44));
-        func_0204B1CC(*(u32 *)(d + 0x38));
+        func_0204B1CC((struct Bank *)(*(u32 *)(d + 0x38)));
         func_0204A5AC();
         if (*(u32 *)(d + 0x178) != 0) {
             func_02186694(d);
         }
         func_02185004(d);
         func_02184B34();
-        func_02045C04(*(u32 *)(d + 0x14));
-        func_0201ED04(*(u32 *)(d + 0x10));
-        func_0201D83C(*(u32 *)(d + 0x0C));
+        func_02045C04((struct Rec *)(*(u32 *)(d + 0x14)));
+        func_0201ED04((struct WordSet *)(*(u32 *)(d + 0x10)));
+        func_0201D83C((void *)(*(u32 *)(d + 0x0C)));
         (*seq)++;
         break;
     case 1:

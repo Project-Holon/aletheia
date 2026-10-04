@@ -31,14 +31,15 @@ struct O {
 
 extern void func_02167154(struct O *o);
 extern void func_02167178(struct O *o);
-extern void func_021671DC(struct O *o);
+struct WordSet;
+extern struct WordSet *func_021671DC(int a0);
 extern void func_021671FC(struct O *o);
 extern int func_0219077C(int a);
 extern u32 func_020362DC(void);
-extern void func_021672B4(struct O *o);
-extern void func_021671EC(struct O *o);
-extern void func_021671CC(struct O *o);
-extern void func_02167168(struct O *o);
+extern int func_021672B4(int a0);
+extern int func_021671EC(int a0);
+extern int func_021671CC(int a0);
+extern int func_02167168(int a0);
 
 int func_02167080(void *a, int *st, struct O *o)
 {
@@ -46,7 +47,7 @@ int func_02167080(void *a, int *st, struct O *o)
     case 0:
         func_02167154(o);
         func_02167178(o);
-        func_021671DC(o);
+        func_021671DC((int)o);
         func_021671FC(o);
         *st = *st + 1;
         break;
@@ -59,10 +60,10 @@ int func_02167080(void *a, int *st, struct O *o)
             *st = *st + 1;
         break;
     case 3:
-        func_021672B4(o);
-        func_021671EC(o);
-        func_021671CC(o);
-        func_02167168(o);
+        func_021672B4((int)o);
+        func_021671EC((int)o);
+        func_021671CC((int)o);
+        func_02167168((int)o);
         return 1;
     }
     return 0;

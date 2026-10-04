@@ -24,10 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02030EAC();
+struct Node;
+extern void func_02030EAC(struct Node *n);
 void func_021BD5E0(u32 a0)
 {
-    func_02030EAC(*(u32*)(((u8*)a0) + 340));
+    func_02030EAC((struct Node *)(*(u32*)(((u8*)a0) + 340)));
     *(u32*)(((u8*)a0) + 340) = 0;
 }
 

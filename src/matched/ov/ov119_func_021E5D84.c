@@ -21,9 +21,10 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_020456F8(int);
-extern void func_0201F7A8(int, int);
-extern void func_020452E8(int);
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 void func_021E5D84(char *p)
 {
@@ -35,9 +36,9 @@ void func_021E5D84(char *p)
     if (*(int *)(p + 0xf18)) func_0204B3DC((struct Obj *)*(int *)(p + 0xf18), 1);
     for (i = 0; i < 26; i++) {
         if (*(int *)(p + i * 4 + 0x750)) {
-            func_020456F8(*(int *)(p + i * 4 + 0x750));
-            func_0201F7A8(*(int *)(p + i * 4 + 0x750), 2);
-            func_020452E8(*(int *)(p + i * 4 + 0x750));
+            func_020456F8((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
+            func_0201F7A8((void *)(*(int *)(p + i * 4 + 0x750)), 2);
+            func_020452E8((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
             *(int *)(p + i * 4 + 0x750) = 0;
         }
     }

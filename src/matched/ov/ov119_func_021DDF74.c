@@ -36,7 +36,8 @@ typedef unsigned int u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 h);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 struct MsgBank;
 struct WordSet;
 extern int func_021E12AC(char *p);
@@ -61,7 +62,7 @@ extern void func_021DE8C0(char *p);
 void func_021DDF74(char *p)
 {
     int a, b, c, i, m;
-    a = func_0203D1A4((u32)func_020399A8());
+    a = func_0203D1A4((struct Link *)((u32)func_020399A8()));
     b = 1 - a;
     if (func_021E12AC(p) == 0) return;
     if (func_021DD140(p) == 0) return;

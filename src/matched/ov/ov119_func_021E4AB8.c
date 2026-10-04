@@ -15,10 +15,12 @@
  *   (none)
  */
 
-extern void func_0204B688(int a, int b);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 
 void func_021E4AB8(int a0, int a1, int a2)
 {
-    func_0204B688(a1, a2 != 0);
+    func_0204B688((struct Actor *)a1, a2 != 0);
 }
 

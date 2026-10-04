@@ -30,14 +30,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02163F10(u32);
-extern u32 func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern u32 func_0216D684(u32, u32, u32, u32);
 extern u32 func_0216DA50(u32);
 
 int func_0219A528(u32 a, u32 b, u32 c, u32 d)
 {
 *(u32 *)((u8 *)(func_0216D684(a, 8, c, d))) = b;
-func_0216D674(a, 0);
+func_0216D674((void *)a, 0);
 func_0216DA50(a);
 return func_02163F10(a);
 }

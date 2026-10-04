@@ -33,8 +33,9 @@ extern void *func_02045770(struct Descriptor *a);
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(u32 a);
-extern u8 func_02045730(u32 a);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_021844D8(u8 *d, int x, int y);
 extern void func_02186860(u8 *d, int x, int y);
@@ -57,8 +58,8 @@ void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
                       0x3840);
         t = *(u32 *)(d + 0x118);
         func_02045334((struct Descriptor *)t);
-        func_02045374(t);
-        func_020409B4(func_02045730(t));
+        func_02045374((struct Cfg *)t);
+        func_020409B4(func_02045730((struct Descriptor *)t));
     } else {
         n = *(int *)(d + 0x428c);
         if (n * 1000 < 0x3840) {

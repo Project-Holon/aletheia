@@ -27,7 +27,7 @@ struct S {
 };
 
 extern struct S *d_021F3B88;
-extern u32 func_02007B50(void *p);
+extern void *func_02007B50(void **p);
 extern u32 func_02007B00(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
@@ -35,7 +35,7 @@ u32 func_021D450C(u32 *a)
 {
     u32 t;
 
-    if (func_02007B50(a) != 0) {
+    if (func_02007B50((void **)a) != 0) {
         t = func_02007B00();
     } else {
         t = 4;

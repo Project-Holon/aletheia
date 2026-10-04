@@ -29,7 +29,8 @@ typedef struct Obj {
 struct CodeIn;
 extern void func_020355D8(u8 v);
 extern int func_021B61C8(Obj *o);
-extern void func_021BB398(Obj *o, int v);
+typedef unsigned int   u32;
+extern void func_021BB398(int p, u32 val);
 extern void func_0202EB04(struct CodeIn *p);
 extern void func_021B97E8(Obj *o, int v);
 
@@ -44,9 +45,9 @@ void func_021B80C4(Obj *o, int flag)
     if (func_021B61C8(o) == 0)
         flag = 0;
     if (flag == 0) {
-        func_021BB398(o, 0);
+        func_021BB398((int)o, 0);
     } else {
-        func_021BB398(o, 1);
+        func_021BB398((int)o, 1);
         func_0202EB04(o->f850);
     }
     func_021B97E8(o, flag);

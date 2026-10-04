@@ -29,7 +29,9 @@ struct Ov208Cursor {
 
 extern u16  ov208_func_021C6E30(void *a0, u8 *p, int a2, u16 skip, u16 stop);
 extern void ov208_func_021C6D6C(int n, int i, u8 *lo, u8 *mid, u8 *hi);
-extern void func_0204B404(u32 obj, s16 *pos, int flag);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -46,7 +48,7 @@ int ov208_func_021C6D10(void *a0, u8 *p, int a2)
         ov208_func_021C6D6C((u16)(H(0x548) - 1), i, 0, &c.slot, 0);
         c.x = c.slot;
         c.y = 0x30;
-        func_0204B404(W(0x5e8), &c.x, 0);
+        func_0204B404((struct Obj *)W(0x5e8), (const struct Vec2 *)(&c.x), 0);
         moved = 1;
     }
     return moved;

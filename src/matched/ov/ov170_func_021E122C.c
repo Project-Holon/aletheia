@@ -39,7 +39,7 @@ extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021EC000(char *w, int i, int v);
 extern int func_021EBFEC(char *w, int i);
 extern void func_021DE980(unsigned char *p, int mode);
-extern void func_021DEA3C(unsigned char *p, int a, int b, int mode);
+extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DEAFC(unsigned char *p);
 extern void func_020061E4(unsigned se);
 
@@ -67,7 +67,7 @@ int func_021E122C(unsigned char *p)
         if (p[0x17] != 0xFF && p[0x17] != p[0x14])
             func_021DE980(p, 2);
         else
-            func_021DEA3C(p, old, old, 2);
+            func_021DEA3C((int)p, old, old, 2);
         b->state = 3;
         break;
     }

@@ -20,19 +20,19 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 func_021CC8D8(void *lock, int line);
-extern u8 *func_021C78F4(u8 *p, u8 *q, u32 a, u32 b);
+extern u16 func_021C78F4(u8 *p, u8 *a, u8 *b, u32 s);
 extern int func_021C3370(u8 *p, void *q);
-extern int func_021C334C(u8 *p, u8 *q, u8 *t, int k);
+extern int func_021C334C(u8 *p, u8 *q, int a, int b);
 extern void func_021CC95C(void *lock, u32 v, int line);
 
 int func_021C1E14(u8 *p, u8 *q, u32 a, u32 b)
 {
     u32 s = func_021CC8D8(p + 0x1D74, 7154);
     int r = 0;
-    u8 *t = func_021C78F4(p, q, a, b);
+    u8 *t = (u8 *)func_021C78F4(p, q, (u8 *)a, b);
     if (t) {
         if (func_021C3370(p, q) == 0) {
-            r = func_021C334C(p, q, t, 1);
+            r = func_021C334C(p, q, (int)t, 1);
         }
     }
     func_021CC95C(p + 0x1D74, s, 7168);

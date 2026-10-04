@@ -21,7 +21,7 @@ typedef struct SOCHostEnt {
     unsigned int **addrList;
 } SOCHostEnt;
 
-extern unsigned int func_0217ED38(char *name);
+extern int func_0217ED38(int a);
 extern SOCHostEnt *func_0215F650(char *name);
 
 unsigned int func_02199CE8(char *name)
@@ -29,7 +29,7 @@ unsigned int func_02199CE8(char *name)
     SOCHostEnt *hent;
     unsigned int ret;
 
-    ret = func_0217ED38(name);
+    ret = func_0217ED38((int)name);
     if (ret != (unsigned int)-1)
         return ret;
     hent = func_0215F650(name);

@@ -97,7 +97,8 @@ extern void func_0201ED04(struct WordSet *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04();
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern u32 func_020362DC(void);
 extern Peer *func_02158344();
 extern int func_021584A4();
@@ -204,7 +205,7 @@ int func_0217B214(int a0, int *state, Obj *o)
     case 6:
         if (o->fc != 0) {
             func_02190728(o->fc);
-            func_02045C04(o->f8);
+            func_02045C04((struct Rec *)o->f8);
             func_0201ED04(o->f10);
         }
         func_0216D9E4(func_02188C7C(o->f0));

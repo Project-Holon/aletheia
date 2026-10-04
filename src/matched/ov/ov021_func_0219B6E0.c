@@ -26,16 +26,16 @@ typedef struct St {
     s8 max;
 } St;
 
-extern St *func_0216D6B8(int a);
+extern void *func_0216D6B8(void *p);
 extern int func_0219B494(int a);
 extern int func_0219B4C8(int a);
-extern int func_0216DA5C(int a);
+extern int func_0216DA5C(void *a0);
 
 int func_0219B6E0(int a)
 {
     St *p;
 
-    p = func_0216D6B8(a);
+    p = func_0216D6B8((void *)a);
     switch (p->state) {
     case 0:
         if (func_0219B494(a) == 1) {
@@ -53,7 +53,7 @@ int func_0219B6E0(int a)
         }
         p->state++;
     case 2:
-        if (func_0216DA5C(a) == 1) {
+        if (func_0216DA5C((void *)a) == 1) {
             break;
         }
         p->state++;

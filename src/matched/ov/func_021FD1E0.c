@@ -27,8 +27,9 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern void func_02202940(u8 *p);
-extern void sub_020452E8(u32 a);
-extern void sub_020456F8(u32 a);
+struct Descriptor;
+extern void sub_020452E8(struct Descriptor *d);
+extern void sub_020456F8(struct Descriptor *d);
 extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
 
@@ -38,21 +39,21 @@ void func_021FD1E0(u8 *p)
     s32 i;
 
     func_02202940(p + 0xfa0);
-    sub_020452E8(*(u32 *)(p + 0xd40));
+    sub_020452E8((struct Descriptor *)(*(u32 *)(p + 0xd40)));
     if (*(u32 *)(p + 0x12fc) == 0) {
         h = *(u32 *)(p + 0xd54);
-        sub_020456F8(h);
+        sub_020456F8((struct Descriptor *)h);
         sub_020409B4(unit_02045730(h));
         h = *(u32 *)(p + 0xd50);
-        sub_020456F8(h);
+        sub_020456F8((struct Descriptor *)h);
         sub_020409B4(unit_02045730(h));
-        sub_020452E8(*(u32 *)(p + 0xd54));
-        sub_020452E8(*(u32 *)(p + 0xd50));
+        sub_020452E8((struct Descriptor *)(*(u32 *)(p + 0xd54)));
+        sub_020452E8((struct Descriptor *)(*(u32 *)(p + 0xd50)));
     }
     for (i = 0; i < 0x10; i++) {
         h = *(u32 *)(p + i * 4 + 0xd90);
-        sub_020456F8(h);
+        sub_020456F8((struct Descriptor *)h);
         sub_020409B4(unit_02045730(h));
-        sub_020452E8(*(u32 *)(p + i * 4 + 0xd90));
+        sub_020452E8((struct Descriptor *)(*(u32 *)(p + i * 4 + 0xd90)));
     }
 }

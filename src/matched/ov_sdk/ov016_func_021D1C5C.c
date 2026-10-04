@@ -41,7 +41,7 @@ typedef struct {
 extern void func_021D4F60(u8 *p);
 extern void func_021D5A2C(char *a);
 extern void func_021D7724();
-extern void func_021D6438();
+extern void func_021D6438(void **mem);
 extern MemWinT *g_021DE658;
 extern MemWinT *g_021DE658_b;
 extern u8 g_021DA9A6[6];
@@ -59,5 +59,5 @@ void func_021D1C5C(void *task)
     }
     func_021D5A2C(g_021DE658->canv);
     func_021D7724(1, task);
-    func_021D6438(&g_021DE658_b);
+    func_021D6438((void **)(&g_021DE658_b));
 }

@@ -40,10 +40,12 @@ struct Node;
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(int h);
+struct Bank;
+struct S02030EE8;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *p);
 extern void func_02049238(u32 h);
-extern void *func_02030EE8(void *h);
+extern u32 func_02030EE8(struct S02030EE8 *p);
 extern void func_02030EAC(struct Node *n);
 
 void func_02206E28(char *p)
@@ -65,10 +67,10 @@ void func_02206E28(char *p)
     func_0204AFD8(*(int *)(p + 0x34));
     func_0204ADA4(*(int *)(p + 0x38));
     func_0204ADA4(*(int *)(p + 0x3c));
-    func_0204B1CC(*(int *)p);
+    func_0204B1CC((struct Bank *)(*(int *)p));
     func_020307B0(*(void **)(p + 0x10));
     func_02049238(*(u32 *)(p + 4));
-    func_020307B0(func_02030EE8(*(void **)(p + 0xc)));
+    func_020307B0((void *)func_02030EE8(*(void **)(p + 0xc)));
     func_02030EAC(*(void **)(p + 0xc));
     func_020307B0(p);
 }

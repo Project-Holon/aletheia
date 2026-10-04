@@ -16,9 +16,12 @@
  */
 struct Ent { unsigned int a; unsigned short b; unsigned short pad; unsigned int c[3]; };
 extern const struct Ent d_021C326C[];
-extern void func_021C29F8(int p, unsigned int a, unsigned int b);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021C29F8(u8 *p, u32 b, u16 c);
 
 void func_021BC580(char *p, int i)
 {
-    func_021C29F8(*(int *)(p + 0x9c + i * 4), d_021C326C[i].a, d_021C326C[i].b);
+    func_021C29F8((u8 *)(*(int *)(p + 0x9c + i * 4)), d_021C326C[i].a, d_021C326C[i].b);
 }

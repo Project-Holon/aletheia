@@ -113,7 +113,7 @@ extern struct U16Vec *func_020457B0(u32,u32);
 extern void func_0216C0D4(int *,int),func_02017E40(void *,u32,u32),func_02045808(struct U16Vec *);
 extern void *func_02012F2C(int *);
 extern u32 func_02008DF0(struct Sub02008C20Obj *,int);
-extern void func_0216C0C0(int *);
+extern int func_0216C0C0(int a0);
 extern int func_021F603C(void *,char *);
 extern void func_021F604C(u32 *,u32 *),func_021F5ECC(u8 *,u8 *),func_021F6158(void *,char *),func_021F62CC(void *,char *);
 extern void func_021F67E0(char *);
@@ -171,7 +171,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
             func_02017E40((void *)a[1],115,(u32)vec);func_02045808(vec);
             func_02008DF0(func_02012F2C((int *)a[0]),30);
         }
-        func_0216C0C0((int *)p[33]);p[4]=16;func_021F602C(a,(char *)p);
+        func_0216C0C0((int)((int *)p[33]));p[4]=16;func_021F602C(a,(char *)p);
         }else{return 0;}break;
     case 16:if(!func_021F603C(a,(char *)p)){p[4]=17;func_021F604C(a,p);return 1;}break;
     case 17:break;

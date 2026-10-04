@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void sub_020266C0(void *p, int idx, u8 val3);
+extern void sub_020266C0(u32 a, u32 b, u32 c);
 
 void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag)
 {
@@ -42,6 +42,6 @@ void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag)
     elem[6] = old5;
     elem[5] = val3;
     if (!flag) {
-        sub_020266C0(p, idx, val3);
+        sub_020266C0((u32)p, idx, val3);
     }
 }

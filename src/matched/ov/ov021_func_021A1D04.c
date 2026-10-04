@@ -22,9 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern const u32 d_021D8868[];
-extern void func_021A2050(u32 obj, int a, int b);
+struct O;
+extern void func_021A2050(struct O *p, u32 a, u32 b);
 extern int func_021A21B0(u32 obj);
-extern void func_021A1FEC(u32 obj, u32 v, int b, int c, int d, int e, int f);
+extern void func_021A1FEC(struct O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
 
 void func_021A1D04(u8 *p, int x)
 {
@@ -34,9 +35,9 @@ void func_021A1D04(u8 *p, int x)
     case 0:
         break;
     case 1:
-        func_021A1FEC(*(u32 *)(p + 0x24), d_021D8868[*(u16 *)(p + 0xe) * 2], 1, 1, 2,
+        func_021A1FEC((struct O *)(*(u32 *)(p + 0x24)), d_021D8868[*(u16 *)(p + 0xe) * 2], 1, 1, 2,
                       *(u32 *)(p + 0x10), x);
-        func_021A2050(*(u32 *)(p + 0x20), 1, 2);
+        func_021A2050((struct O *)(*(u32 *)(p + 0x20)), 1, 2);
         *(u16 *)(p + 0xa) = 2;
         break;
     case 2:

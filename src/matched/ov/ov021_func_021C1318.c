@@ -43,7 +43,7 @@ extern void func_02164280(int x, int y, void *p);
 extern void func_02163E58(void *a, Vec3 *v, int *out);
 extern u32 func_021A2F98(u32 a);
 extern void func_021ACBB8(u32 a, u8 v);
-extern u32 func_02188CD0(u32 a);
+extern u32 func_02188CD0(u8 *p);
 extern void func_021ABE30(int a, int *b, int c);
 extern u32 func_021AD564(u32 a, u32 b, u32 c);
 extern void func_021C6B18(u32 a, u16 b, u32 c);
@@ -82,7 +82,7 @@ int func_021C1318(u8 *p)
     func_021ACBB8(r6, 2);
     if ((u16)(*(u16 *)(p + 4) + 0xfffe) <= 1)
         k = 3;
-    r7 = func_02188CD0(*(u32 *)(p + 0x40));
+    r7 = func_02188CD0((u8 *)(*(u32 *)(p + 0x40)));
     n = 9;
     func_021ABE30(r7, &n, 1);
     *(u32 *)(p + 0x48) = func_021AD564(r7, k, r6);

@@ -77,7 +77,7 @@ extern void func_0203D1E8(int a, int b);
 struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
-extern int func_02012944(int a);
+extern u8 *func_02012944(void *p);
 extern int func_0217BB20(Ctx *ctx);
 extern void func_0217F074(void *p);
 extern u8 func_0217F060(int i);
@@ -125,16 +125,16 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         func_0203D7BC(0);
         if (func_0203D378() == 1) {
-            w->f168 = func_021CD48C(func_02012944(ctx->sys->f8), a2,
+            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), a2,
                                     func_0217F060(obj->f2d),
                                     func_0217F060(obj->f2d), 0x41, 0, 0, 0);
             func_021CD60C(w->f168, ctx, func_0217DC64, func_0217DC94);
         } else if (obj->b1 == 0) {
-            w->f168 = func_021CD48C(func_02012944(ctx->sys->f8), a2,
+            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), a2,
                                     func_0217F060(obj->f2d),
                                     func_0217F060(obj->f2d), 0x41, 2, 0, 0);
         } else {
-            w->f168 = func_021CD48C(func_02012944(ctx->sys->f8), a2,
+            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), a2,
                                     func_0217F060(obj->f2d),
                                     func_0217F060(obj->f2d), 0x41, 3, 0, 0);
         }

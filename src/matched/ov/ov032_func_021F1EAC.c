@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021F1080(u32 a, u32 b, int c, int d);
+extern void func_021F1080(char *p, char *q, int r, int t);
 extern void func_021F0ED0(char *q, int a);
 struct TcblNode;
 extern void func_02031194(struct TcblNode *n);
@@ -32,7 +32,7 @@ void func_021F1EAC(void *task, u8 *s)
         if (c != 0)
             return;
         if (*(u32 *)(s + 0xc) == 1 || *(u32 *)(s + 0xc) == 0x18 || *(u32 *)(s + 0xc) == 0x31) {
-            func_021F1080(*(u32 *)(s + 0x10), *(u32 *)(s + 8), 1, 0);
+            func_021F1080((char *)(*(u32 *)(s + 0x10)), (char *)(*(u32 *)(s + 8)), 1, 0);
             s[0]++;
             return;
         }

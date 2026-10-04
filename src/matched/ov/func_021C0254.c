@@ -24,12 +24,12 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BAD50(void *a);
+extern void func_021BAD50(int a);
 extern void func_021B9B64(char *p);
 
 int func_021C0254(char *p, int v)
 {
-    func_021BAD50(p);
+    func_021BAD50((int)p);
     *(u32 *)(p + 0x1CC) = 0x83;
     func_021B9B64(p + 0x274);
     return v;

@@ -57,7 +57,10 @@ extern u32  func_02037258(void);
 extern void func_02038380(void);
 extern int  func_02038524(void);
 extern void func_02038570(void);
-extern void func_02038AE0(u32 a, u8 *b, u32 c, u32 d);
+typedef signed int     s32;
+struct Conn;
+struct Hdr;
+extern s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3);
 extern int  func_02039160(u32 a);
 extern const u8 str_020A7A24[];
 extern const u8 str_020A7A54[];
@@ -95,7 +98,7 @@ void func_020385C4(void)
             u8 *g = (u8 *)g_021469D0;
             u32 t = func_02037258();
 
-            func_02038AE0(*(u32 *)(g + 8), g + 0xf4, t, g[0x1d4]);
+            func_02038AE0((struct Hdr *)(*(u32 *)(g + 8)), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
             g = (u8 *)g_021469D0;
             g[0x1d4] = (u8)(g[0x1d4] + 1);
             func_02037224(1, 0x4f4);
@@ -111,7 +114,7 @@ void func_020385C4(void)
         u8 *g = (u8 *)g_021469D0;
         u32 t = func_02037258();
 
-        func_02038AE0(*(u32 *)(g + 8), g + 0xf4, t, g[0x1d4]);
+        func_02038AE0((struct Hdr *)(*(u32 *)(g + 8)), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
         g = (u8 *)g_021469D0;
         g[0x1d4] = (u8)(g[0x1d4] + 1);
         func_02037224(1, 0x501);

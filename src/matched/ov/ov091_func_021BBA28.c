@@ -18,10 +18,13 @@
  */
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int,int);
+typedef unsigned char  u8;
+struct Cfg;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(unsigned int);
-extern unsigned char func_02045730(unsigned int);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-void func_021BBA28(int a,int b) {unsigned int q; func_02043B5C((int)func_02045770((struct Descriptor *)*(unsigned int *)(b+4)),15); q=*(unsigned int *)(b+4); func_02045334((struct Descriptor *)q);func_02045374(q);func_02041B6C(func_02045730(q));}
+void func_021BBA28(int a,int b) {unsigned int q; func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(unsigned int *)(b+4))),15); q=*(unsigned int *)(b+4); func_02045334((struct Descriptor *)q);func_02045374((struct Cfg *)q);func_02041B6C(func_02045730((struct Descriptor *)q));}

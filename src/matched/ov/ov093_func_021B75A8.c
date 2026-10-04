@@ -29,7 +29,7 @@ extern int func_021D4348(void);
 extern int func_021D4360(void);
 extern u8 func_021D4378(void);
 extern int func_021BA1A8(void *,int);
-extern u32 func_021D43B8(void *);
+extern u32 func_021D43B8(u32 a);
 extern int func_021D440C(void *);
 int func_021B75A8(u8 *p,u32 *state)
 {
@@ -63,7 +63,7 @@ int func_021B75A8(u8 *p,u32 *state)
             p[0x426] = 2;
             ((Nibbles *)(p + 0x427))->a = 1;
         }
-        if (func_021D43B8(p + 0x408)) ++*state;
+        if (func_021D43B8((u32)(p + 0x408))) ++*state;
         break;
     case 3:
         if (func_021D440C(p + 0x408)) {

@@ -19,12 +19,16 @@
 
 typedef unsigned char u8;
 
-extern void func_021BB3D4(u8 *p, int v, int *buf);
-extern void func_0204B404(int h, int *buf, int z);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_021BB3D4(void *a, u8 *s, u16 *out);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B84C(int h, int f);
-extern void func_0204B878(int h, int f);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -32,13 +36,13 @@ void func_021B8FC4(u8 *p, int idx)
 {
     int buf;
 
-    func_021BB3D4(p, *(int *)(p + idx * 4 + 0x160), &buf);
-    func_0204B404(W(0x1dc), &buf, 0);
+    func_021BB3D4(p, (u8 *)(*(int *)(p + idx * 4 + 0x160)), (u16 *)(&buf));
+    func_0204B404((struct Obj *)W(0x1dc), (const struct Vec2 *)(&buf), 0);
     func_0204B3DC((struct Obj *)W(0x1dc), 1);
     func_0204B84C(W(0x1dc), 2);
     if (idx == 0) {
-        func_0204B878(W(0x1dc), 2);
+        func_0204B878((struct Obj *)W(0x1dc), 2);
     } else {
-        func_0204B878(W(0x1dc), 3);
+        func_0204B878((struct Obj *)W(0x1dc), 3);
     }
 }

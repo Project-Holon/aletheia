@@ -30,7 +30,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021BC3B4(int key);
+extern int func_021BC3B4(int *p);
 extern void func_021BDBAC(void *s, u32 on);
 extern void func_021C0D3C(u16 *heap, u8 *p, int key);
 extern u8   func_021C0D5C(u16 *heap, u8 *p, int key, u8 x, u8 y);
@@ -42,7 +42,7 @@ extern u16  func_021BC3BC(char *p);
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBA0(void *s);
 extern void func_021BDC48(void *s, u32 on);
-extern int  func_021BC3A4(int key);
+extern int func_021BC3A4(int *p);
 extern int func_02012BF8(int a0, int a1);
 extern void func_021BDC14(char *p, int b);
 
@@ -53,7 +53,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
     void *s;
     u32 wide;
 
-    s = func_021BC3B4(key);
+    s = (void *)func_021BC3B4((int *)key);
     switch (W(0x6c)) {
     case 0:
         if (mode == 1) {
@@ -118,7 +118,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
             func_0204B3DC((struct Obj *)W(0xd0), 0);
             wide = func_021BC3BC((char *)key) > 1 ? 1 : 0;
             func_021BDAAC(s, 0, 1, wide);
-            func_021BDC14(s, func_02012BF8(func_021BC3A4(key), 0x12));
+            func_021BDC14(s, func_02012BF8(func_021BC3A4((int *)key), 0x12));
         }
         break;
     case 8:

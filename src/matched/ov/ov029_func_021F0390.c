@@ -31,9 +31,10 @@ typedef unsigned int u32;
 
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_020120F4(int);
-extern u32 func_0201283C(int);
-extern u32 func_0201058C(u32);
+struct BigObj;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_0201058C(void *key);
 extern int func_02158630(int);
 extern int func_021F09DC(u8 *p, int row, int v, int st, int a, int b);
 extern const u32 d_021F31EC[];
@@ -63,7 +64,7 @@ void func_021F0390(u8 *p, int a, int b, int c, int e)
     if (c != 0) {
         s18 = s8 = sc = s14 = 0;
     }
-    keys = func_0201058C(func_0201283C(func_020120F4(*(int *)(p + 0x1c))));
+    keys = func_0201058C((void *)func_0201283C(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
     mode = func_02158630(sv);
     if (e != 0) {
         if (mode == 3) {

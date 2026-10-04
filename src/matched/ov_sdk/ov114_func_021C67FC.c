@@ -23,7 +23,7 @@ typedef struct {
 	int pad[3];
 } WiFiInfo;
 
-extern void func_021C7A30(void *p, int size);
+extern void func_021C7A30(int a, int b);
 extern void func_02058518(WiFiInfo *buf);
 extern int func_021C7A74(char *p, unsigned long long n, int figure);
 extern int func_021C60C8(char *encstr, char *srcbin, int length);
@@ -32,7 +32,7 @@ int func_021C67FC(char *gamecode, char *userid)
 {
 	WiFiInfo wifiinfo;
 	char strId[13];
-	func_021C7A30(&wifiinfo, 20);
+	func_021C7A30((int)(&wifiinfo), 20);
 	func_02058518(&wifiinfo);
 	if (wifiinfo.macid == 0)
 		return 0;

@@ -18,7 +18,7 @@
 
 typedef unsigned char u8;
 
-extern int func_0216DC34();
+extern int func_0216DC34(void *a0);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int func_02163F40(int a, int dir);
@@ -29,7 +29,7 @@ void func_02163868(int a, int q)
 {
     u8 *t = *(u8 **)(q + 0x10);
 
-    if (t[6] != 0 && func_0216DC34(a) != 0) {
+    if (t[6] != 0 && func_0216DC34((void *)a) != 0) {
         int r = func_02163F40(a, 1);
 
         if (r == -1) {

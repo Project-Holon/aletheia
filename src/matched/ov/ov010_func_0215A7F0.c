@@ -30,7 +30,8 @@ typedef struct {
 
 extern unsigned func_0201F91C(int);
 extern void func_02045CAC(int, int, int);
-extern void func_0201F250(int, int, int);
+struct WordSet;
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int func_02045874(int, int);
 typedef unsigned int   u32;
 extern int func_02190A64(u32 a, u32 b, u32 c, u32 d);
@@ -45,10 +46,10 @@ void func_0215A7F0(unsigned short *p, int a, int b, int c, int s0, int s1)
             return;
         }
         func_02045CAC(q->i, b, s1);
-        func_0201F250(q->g, s0, s1);
+        func_0201F250((struct WordSet *)q->g, (void *)s0, (void *)s1);
         q->k[i] = func_02045874(s0, *p);
     }
     func_02045CAC(q->i, a, s1);
-    func_0201F250(q->g, s0, s1);
+    func_0201F250((struct WordSet *)q->g, (void *)s0, (void *)s1);
     func_02190A64(q->j, s0, c, *p);
 }

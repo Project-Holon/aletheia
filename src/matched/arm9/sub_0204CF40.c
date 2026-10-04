@@ -53,13 +53,15 @@ struct Obj {
     u16 unk_5e;
 };
 
-extern void sub_0204B784(struct Obj *o, u32 value);
-extern void sub_0204B728(struct Obj *o, u32 value);
+struct Struct36;
+struct Xform;
+extern void sub_0204B784(char *dst, const struct Struct36 *src);
+extern void sub_0204B728(struct Obj *o, const struct Xform *m);
 
 void sub_0204CF40(struct Obj *o, const struct Req *r)
 {
-    sub_0204B784(o, r->unk_04);
-    sub_0204B728(o, r->unk_08);
+    sub_0204B784((char *)o, (const struct Struct36 *)r->unk_04);
+    sub_0204B728(o, (const struct Xform *)r->unk_08);
     o->unk_5c = r->unk_00;
     o->unk_5e = r->unk_02;
 }

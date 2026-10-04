@@ -12,7 +12,7 @@
  *   func_021E0450 0x021E0450 thumb ov137
  */
 typedef unsigned char u8;
-extern void func_021E0450(void *, int, int, int);
+extern void func_021E0450(u8 *p, void *text, int index, int a);
 int func_021DF3E8(u8 *p)
 {
     int index, i, count, selected;
@@ -20,7 +20,7 @@ int func_021DF3E8(u8 *p)
     *(int *)(p + 92) = 0;
     for (i = 0; i < *(int *)(p + 48); i++) {
         selected = *(int *)(p + 748 + index * 180);
-        func_021E0450(p, *(int *)(p + 164 + selected * 4), i, selected);
+        func_021E0450(p, (void *)(*(int *)(p + 164 + selected * 4)), i, selected);
         count = *(int *)(p + 48);
         index = (index + 1) % count;
     }

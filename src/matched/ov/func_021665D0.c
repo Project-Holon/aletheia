@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0216649C();
+extern u32 func_0216649C(void *p);
 extern int func_02166324(u8 *grid, int id);
 
 int func_021665D0(int a0, int a1)
@@ -27,7 +27,7 @@ int func_021665D0(int a0, int a1)
     void *p;
 
 t4 = a1 + 0;
-    p = func_0216649C(a0);
+    p = (void *)func_0216649C((void *)a0);
 loc_021665D8:
     if (p == 0) goto loc_021665E8;
 loc_021665DC:

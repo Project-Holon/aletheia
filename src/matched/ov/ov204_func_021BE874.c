@@ -13,10 +13,10 @@
  *   func_021BFBC8 0x021BFBC8 thumb
  */
 
-extern void func_021BFBC8(int, int);
+extern void func_021BFBC8(char *p, unsigned value);
 
 int func_021BE874(char *a, int b, int *p)
 {
-    func_021BFBC8(*(int *)(a + 0xc), *p);
+    func_021BFBC8((char *)(*(int *)(a + 0xc)), *p);
     return 1;
 }

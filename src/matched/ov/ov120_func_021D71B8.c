@@ -15,13 +15,14 @@
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_02008554(int);
+struct Sub0200852CObj;
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void func_021D7128(u8 *, int, int);
 extern void func_021D7190(u8 *, int, int, int);
 void func_021D71B8(u8 *p, void *entry, int index)
 {
     if (entry != 0) {
-        func_021D7128(p, index, func_02008554((int)entry));
+        func_021D7128(p, index, func_02008554((const struct Sub0200852CObj *)((int)entry)));
         func_021D7190(p, index, 16, -48 * (1 - index));
     }
 }

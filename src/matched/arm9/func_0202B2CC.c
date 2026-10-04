@@ -23,13 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02005EE0(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_02005C3C(void);
-extern void func_02073018(u32 a, u32 b, u32 c);
+struct Obj;
+extern u32 *func_02005C3C(void);
+extern void func_02073018(struct Obj *o, u32 v, u32 w);
 
 void func_0202B2CC(u8 *p, u32 idx)
 {
     u32 off = idx << 1;
 
     func_02005EE0(0xffff, *(u16 *)(p + 0xc + off), 0xffffffff, 0);
-    func_02073018(func_02005C3C(), 0xfcff, (u32)*(short *)(p + 4 + off));
+    func_02073018((struct Obj *)func_02005C3C(), 0xfcff, (u32)*(short *)(p + 4 + off));
 }

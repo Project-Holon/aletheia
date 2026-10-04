@@ -29,9 +29,10 @@ extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void *func_02188C7C(unsigned char *p);
 extern int func_0216DD1C(void *a, void **b, int *c);
-extern int func_021AE288(int a, void *b, void *c, u16 *d);
+struct S;
+extern int func_021AE288(int a, int b, int c, u16 *d);
 extern int func_021AE890(void *a, void *b);
-extern void func_021AE8B4(int a, void *b, int c, int d);
+extern void func_021AE8B4(struct S *s, u32 a, u32 b, u32 c);
 
 int func_021AE1FC(int a, void *b, int c)
 {
@@ -50,9 +51,9 @@ int func_021AE1FC(int a, void *b, int c)
     s10 = 0;
     while (func_0216DD1C(r7, &s14, &s10) == 1) {
         if (s14 != r4 && (b == 0 || b != s14)) {
-            s8 = func_021AE288(s4, s14, r4, &sc);
+            s8 = func_021AE288(s4, (int)s14, (int)r4, &sc);
             if (s8 != -1 && func_021AE890((void *)a, s14) == 0) {
-                func_021AE8B4(s0, s14, s8, sc);
+                func_021AE8B4((struct S *)s0, (u32)s14, s8, sc);
                 return 1;
             }
         }

@@ -26,22 +26,22 @@ typedef struct MatchCnt {
     NodeInfo nodes[1];
 } MatchCnt;
 
-extern MatchCnt *func_02175F3C(void);
+extern int func_02175F3C(void);
 
 int func_02176254(int profileID)
 {
     int removeIndex;
 
-    if (func_02175F3C()->nodeCount == 0)
+    if (((MatchCnt *)func_02175F3C())->nodeCount == 0)
         return 0;
-    for (removeIndex = 0; removeIndex < func_02175F3C()->nodeCount; removeIndex++) {
-        if (profileID == func_02175F3C()->nodes[removeIndex].profileID)
+    for (removeIndex = 0; removeIndex < ((MatchCnt *)func_02175F3C())->nodeCount; removeIndex++) {
+        if (profileID == ((MatchCnt *)func_02175F3C())->nodes[removeIndex].profileID)
             break;
     }
-    if (removeIndex == func_02175F3C()->nodeCount)
+    if (removeIndex == ((MatchCnt *)func_02175F3C())->nodeCount)
         return 0;
-    for (; removeIndex < func_02175F3C()->nodeCount - 1; removeIndex++)
-        func_02175F3C()->nodes[removeIndex] = func_02175F3C()->nodes[removeIndex + 1];
-    func_02175F3C()->nodeCount--;
+    for (; removeIndex < ((MatchCnt *)func_02175F3C())->nodeCount - 1; removeIndex++)
+        ((MatchCnt *)func_02175F3C())->nodes[removeIndex] = ((MatchCnt *)func_02175F3C())->nodes[removeIndex + 1];
+    ((MatchCnt *)func_02175F3C())->nodeCount--;
     return 1;
 }

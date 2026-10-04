@@ -28,7 +28,7 @@ extern void func_02082BCC(void *,int,unsigned);
 extern void *func_021D4D38(u16,int,int);
 extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
 extern void func_021D6134(void *,void (*)(void),int);
-extern void func_021D6150(void);
+extern void func_021D6150(u8 *p);
 extern void func_021D5CCC(u8 *p, u32 n);
 extern void func_02005D90(int,int);
 extern void func_0203D34C(u32 a, u32 b);
@@ -43,7 +43,7 @@ int func_021D603C(void *ctx,int unused,u8 *q) {
     if(*(u32 *)(q+16)==0) *(u32 *)(q+16)=6;
     *(void **)(p+4)=func_021D4D38(*(u16 *)(p+20),*(int *)(q+4),*(int *)(q+8));
     *(void **)(p+8)=func_021D5984(*(u16 *)(p+20),232,*(int *)(q+8));
-    func_021D6134(p,func_021D6150,173);
+    func_021D6134(p,(void (*)(void))func_021D6150,173);
     if(*(u32 *)(q+4)==0) {
         func_021D5CCC(*(void **)(p+8),36);
         if(*(u32 *)(q+12)==0) func_02005D90(1153,65535);

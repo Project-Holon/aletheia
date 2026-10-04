@@ -15,6 +15,9 @@
  */
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02028618(int,unsigned int,int);
+typedef unsigned int   u32;
+struct Bmp;
+struct Ctx;
+extern void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void func_02045334(struct Descriptor *d);
-void func_021BBA70(int a,int b) {func_02028618(*(int *)(b+20),(unsigned int)func_02045770((struct Descriptor *)*(unsigned int *)(b+4)),15);func_02045334((struct Descriptor *)*(unsigned int *)(b+4));}
+void func_021BBA70(int a,int b) {func_02028618((struct Ctx *)(*(int *)(b+20)),(const struct Bmp *)((unsigned int)func_02045770((struct Descriptor *)*(unsigned int *)(b+4))),15);func_02045334((struct Descriptor *)*(unsigned int *)(b+4));}

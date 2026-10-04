@@ -28,7 +28,7 @@ typedef short s16;
 extern int func_021B7CA0(void *);
 extern int func_021B7CA4(void *);
 extern int func_021B7CA8(void *);
-extern void *func_021B7CAC(void *);
+extern int func_021B7CAC(void *p);
 typedef unsigned int   u32;
 struct CharBuf;
 struct Descriptor;
@@ -47,7 +47,7 @@ void func_021B7EEC(u8 *p, void *a, int b, u16 c, u16 d)
 {
  void *msg; int bank; void *text; int font; int tag;
  func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10));
- msg=func_021B7CAC(a); bank=func_021B7CA8(a);
+ msg=(void *)func_021B7CAC(a); bank=func_021B7CA8(a);
  func_0201EFA4(msg,d,c,3,0,1);
  text=func_02045EC0(bank,b);
  func_0201F250(msg,*(void **)(p+0xc),text); func_02045808(text);

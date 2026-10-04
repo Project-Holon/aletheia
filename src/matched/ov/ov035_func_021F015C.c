@@ -14,9 +14,10 @@
  *   func_02027FD8 0x02027FD8 thumb
  */
 
-extern void func_02027FD8(int);
+struct TaskMenuState;
+extern void func_02027FD8(struct TaskMenuState *s);
 
 void func_021F015C(char *p)
 {
-    func_02027FD8(*(int *)(p + 0x40));
+    func_02027FD8((struct TaskMenuState *)(*(int *)(p + 0x40)));
 }

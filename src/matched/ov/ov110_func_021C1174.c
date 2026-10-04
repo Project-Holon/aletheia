@@ -18,7 +18,9 @@
  */
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(unsigned, unsigned);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 typedef unsigned char  u8;
 struct Cfg;
 struct Descriptor;
@@ -28,7 +30,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 int func_021C1174(unsigned owner, void *p, int *state) {
     unsigned q = (unsigned)func_02045770(p);
-    if (*state == 1 && func_0201C6C4(owner, q) == 0) {
+    if (*state == 1 && func_0201C6C4((struct PrintSys *)owner, (void *)q) == 0) {
         func_02045334(p);
         func_02045374(p);
         func_02041B6C(func_02045730(p));

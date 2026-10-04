@@ -18,13 +18,15 @@
  *   func_0216CE6C 0x0216CE6C thumb ov010
  */
 
-extern void *func_02188C7C(int);
-extern int func_02188C9C(int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void *func_02188C7C(u8 *p);
+extern u16 func_02188C9C(u8 *p);
 extern void *func_0216CE6C(void *, int, int, unsigned short, unsigned, unsigned, unsigned, unsigned);
 
 void *func_021F3D38(int a, int x, int y)
 {
-    void *p = func_02188C7C(a);
-    int n = func_02188C9C(a);
+    void *p = func_02188C7C((u8 *)a);
+    int n = func_02188C9C((u8 *)a);
     return func_0216CE6C(p, (short)x, (short)y, 0, 0xfd, 0, 0, n);
 }

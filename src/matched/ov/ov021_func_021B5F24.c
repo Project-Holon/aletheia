@@ -18,27 +18,28 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0201891C(u32 a, u32 b);
+typedef signed int     s32;
+extern u32 func_0201891C(void *p, s32 v);
 
 int func_021B5F24(u32 a, int sel)
 {
     switch (sel) {
     case 1:
-        if (func_0201891C(a, 3))
+        if (func_0201891C((void *)a, 3))
             return 0x152;
-        if (func_0201891C(a, 4))
+        if (func_0201891C((void *)a, 4))
             return 0x133;
-        if (func_0201891C(a, 5))
+        if (func_0201891C((void *)a, 5))
             return 0x134;
         break;
     case 0:
         return 0x1b2;
     case 2:
-        if (func_0201891C(a, 0))
+        if (func_0201891C((void *)a, 0))
             return 0x208;
-        if (func_0201891C(a, 1))
+        if (func_0201891C((void *)a, 1))
             return 0x207;
-        if (func_0201891C(a, 2))
+        if (func_0201891C((void *)a, 2))
             return 0x206;
         break;
     }

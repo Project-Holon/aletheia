@@ -15,14 +15,16 @@
  */
 typedef unsigned char u8;
 typedef struct { int f0; int f4; u8 *f8; } Work;
-extern int func_020122C0(int, int, int, int);
+typedef unsigned int   u32;
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern Work *func_020124E8(int);
 extern int func_0217416C(int, int *, int *);
 int func_0217413C(int a, int b, u8 *p)
 {
     int task;
     Work *w;
-    task = func_020122C0(a, 0, (int)func_0217416C, 12);
+    task = (int)func_020122C0((void *)a, 0, (void *)((int)func_0217416C), 12);
     w = func_020124E8(task);
     w->f0 = a;
     w->f4 = b;

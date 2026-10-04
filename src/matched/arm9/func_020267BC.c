@@ -21,8 +21,9 @@ typedef unsigned int   u32;
 
 extern u32 *g_02146940;
 
-extern void func_02026D88(u32 *p, u32 a0);
-extern void *func_02012FCC(void *sys);
+struct Rec;
+extern void func_02026D88(struct Rec *o, void *sys);
+extern int func_02012FCC(int p0);
 struct PlayTime;
 extern u16 func_0200864C(const struct PlayTime *p);
 
@@ -31,7 +32,7 @@ void func_020267BC(u32 a0)
     u32 *p = g_02146940;
 
     *p++ = a0;
-    func_02026D88(p, a0);
+    func_02026D88((struct Rec *)p, (void *)a0);
     *(u16 *)((char *)g_02146940 + 0xbb0) =
-        func_0200864C(func_02012FCC((void *)a0));
+        func_0200864C((const struct PlayTime *)func_02012FCC((int)((void *)a0)));
 }

@@ -18,13 +18,13 @@ typedef unsigned char u8;
 struct Order {u8 ids[6];};
 struct Flags {u8 low:7,high:1;};
 extern const struct Order d_02212130;
-extern unsigned func_02210EFC(unsigned);
+extern int func_02210EFC(char **p);
 extern int func_02210B00(u8 *p, int i);
 extern int func_022110D4(u8 *,int);
 u8 func_02210B30(u8 *p,int i,int delta)
 {
     int current=i;
-    if(func_02210EFC((unsigned)p)==1) {
+    if(func_02210EFC((char **)((unsigned)p))==1) {
         struct Order order=d_02212130;
         u8 selected;
         for(i=0;i<6;i++) if(current==order.ids[i]) break;

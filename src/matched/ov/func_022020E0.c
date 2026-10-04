@@ -20,12 +20,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_020120F4(u32 v);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012DAC(int a0);
 
 int func_022020E0(u8 *p)
 {
-    func_02012DAC(func_020120F4(*(u32 *)(*(u32 *)p + 0x40)));
+    func_02012DAC((int)func_020120F4((const struct Ctx *)(*(u32 *)(*(u32 *)p + 0x40))));
     *(u32 *)(p + 0x28) = 0x27;
     return 2;
 }

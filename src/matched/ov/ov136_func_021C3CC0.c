@@ -20,7 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021C7EE0[];
-extern unsigned func_02008FEC(void *);
+struct Sub02008F80Obj;
+extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 typedef unsigned int   u32;
 struct Big;
 struct Sub02008EACObj;
@@ -35,7 +36,7 @@ void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
 {
     u8 *p;
     unsigned v;
-    v = func_02008FEC(a);
+    v = (unsigned int)func_02008FEC(a);
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x43);
     func_02082AC0(0, p, 0x1C);
     p[0xF] = d;

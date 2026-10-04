@@ -25,11 +25,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_02167A14(int a, int b);
+typedef unsigned int   u32;
+struct Ctx;
+struct Work;
+u32 func_02167A14(struct Work *w, int i);
 int func_0217F5F0(u8 *a, int b);
-int func_020120F4(int a);
-int func_021583EC(int a, int b);
-void func_02008494(int a, void *b);
+void *func_020120F4(const struct Ctx *p);
+int func_021583EC(void *a0, int a1);
+void func_02008494(void *src, void *dst);
 int func_02175B14(u8 *a);
 u8 *func_02175B34(u8 *p);
 void func_02082D44(void *src, void *dst, int n);
@@ -44,11 +47,11 @@ void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g)
     *(u16 *)c = g;
     *(int *)(c + 4) = e;
     loc = f;
-    *(int *)(c + 8) = func_02167A14(*(int *)(b + 8), loc);
+    *(int *)(c + 8) = func_02167A14((struct Work *)(*(int *)(b + 8)), loc);
     *(int *)(c + 0xc) = d;
     c[0x40] = (u8)f;
     c[0x42] = func_0217F5F0(b, (u8)f);
-    func_02008494(func_021583EC(func_020120F4(a), loc), c + 0x78);
+    func_02008494((void *)func_021583EC(func_020120F4((const struct Ctx *)a), loc), c + 0x78);
     if (func_02175B14(b + 0x1ac) == 1) {
         func_02082D44(func_02175B34(b + 0x1ac), c + 0x44, 0x34);
     }

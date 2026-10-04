@@ -18,7 +18,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021B8BD0(unsigned char *p, unsigned char k);
-extern void func_021EEEC8(u32 a, u16 k, u32 *p);
+extern void func_021EEEC8(u32 a, u32 b, u32 c);
 extern const u16 d_021F39A0[];
 extern void *d_021F6398;
 
@@ -33,5 +33,5 @@ void func_021EEE80(u32 a, u16 k, u32 *p)
             break;
         }
     }
-    func_021EEEC8(a, k, p);
+    func_021EEEC8(a, k, (u32)p);
 }

@@ -33,19 +33,20 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
 extern int func_021BCE58(u8 *p);
-extern u32 func_02021ED8(u32 a);
+struct Row;
+extern u32 func_02021ED8(const char *ptr);
 extern u32 func_021BFF68(u8 *p);
 extern void func_020061E4(u32 id);
 extern u32 func_021BE314(u8 *p, u32 a);
 extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021BE324(u8 *p);
-extern void func_021BEDB8(u8 *p, u32 a, u32 b);
+extern void func_021BEDB8(int p, int i, int v);
 extern void func_021BCF38(u8 *p);
-extern void func_0202EA40(u32 a);
+extern void func_0202EA40(struct Row *p);
 
 u32 func_021BD19C(u8 *p)
 {
-    if (func_021BCE58(p) == 1 || func_02021ED8(*(u32 *)(p + 0xc)) != 0) {
+    if (func_021BCE58(p) == 1 || func_02021ED8((const char *)(*(u32 *)(p + 0xc))) != 0) {
         return 4;
     }
     switch (func_021BFF68(p)) {
@@ -77,13 +78,13 @@ u32 func_021BD19C(u8 *p)
     case 8:
         func_020061E4(0x556);
         *(u32 *)(*(u8 **)p + 0xc) = 2;
-        func_021BEDB8(p, 3, 8);
+        func_021BEDB8((int)p, 3, 8);
         return func_021BE2F4(p, 1, 3, 0x1a);
     case 9:
         func_020061E4(0x551);
         func_021BCF38(p);
         *(u32 *)(*(u8 **)p + 0xc) = 1;
-        func_021BEDB8(p, 2, 9);
+        func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 0x1a);
     case (u32)-4:
         func_020061E4(0x548);
@@ -95,9 +96,9 @@ u32 func_021BD19C(u8 *p)
         func_020061E4(0x551);
         func_021BCF38(p);
         *(u32 *)(*(u8 **)p + 0xc) = 1;
-        func_021BEDB8(p, 2, 9);
+        func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 0x1a);
     }
-    func_0202EA40(*(u32 *)(p + 0x2b4));
+    func_0202EA40((struct Row *)(*(u32 *)(p + 0x2b4)));
     return 4;
 }

@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0218C8D8(u32);
+extern int func_0218C8D8(void *p);
 extern u32 func_021A8268(u32, u32, u32, u32);
 
 int func_021A8244(u32 a, u32 b, u32 c, u32 d)
@@ -30,7 +30,7 @@ int func_021A8244(u32 a, u32 b, u32 c, u32 d)
 if (func_021A8268(a, b, c, d) == 0) {
     return 1;
 }
-if (func_0218C8D8(*(u32 *)((u8 *)(a) + 40)) != 0) {
+if (func_0218C8D8((void *)(*(u32 *)((u8 *)(a) + 40))) != 0) {
     return 1;
 }
 return 0;

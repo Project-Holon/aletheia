@@ -18,9 +18,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021E8A78(int);
+struct Rec;
+struct WordSet;
+extern void func_021E8A78(void *p);
 extern void func_0217DE60(int *);
-extern void func_0201ED04(int);
-extern void func_02045C04(int);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
-void func_0217D410(int *p) {func_021E8A78(p[4]);func_0217DE60(p);func_0201ED04(p[1]);func_02045C04(p[0]);func_020307B0(p);}
+void func_0217D410(int *p) {func_021E8A78((void *)p[4]);func_0217DE60(p);func_0201ED04((struct WordSet *)p[1]);func_02045C04((struct Rec *)p[0]);func_020307B0(p);}

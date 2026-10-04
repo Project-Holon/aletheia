@@ -97,7 +97,8 @@ typedef struct {
     u8 queue[4];        /* 0x1D74 */
 } BattleCtx;
 
-extern int func_021CC960(void *q);
+struct S;
+extern unsigned short func_021CC960(struct S *p);
 extern int func_021CC96C(void *q);
 extern int func_021CC99C(void *q);
 extern void func_021CC974(void *q, int r);
@@ -165,7 +166,7 @@ extern u8 func_021CA7D4(BattleCtx *s, BtlCmd *cmd);
 
 void func_021C8918(BattleCtx *s, BtlCmd *cmd)
 {
-    int arg = func_021CC960(s->queue);
+    int arg = func_021CC960((struct S *)s->queue);
     u8 r;
 
     if (func_021CC96C(s->queue))

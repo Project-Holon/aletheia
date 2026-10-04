@@ -13,5 +13,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02049F34(int,int,void *,int);
-void func_021DE6C0(char *p) { *(void **)(p+272)=func_02049F34(32,0,p+276,114); }
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+void func_021DE6C0(char *p) { *(void **)(p+272)=func_02049F34(32,0,(u32)(p+276),114); }

@@ -22,16 +22,18 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 extern int func_02028604(int a0);
-extern void func_0201C4C0(u32 v);
-extern void func_0201D83C(u32 v);
-extern void func_02031140(u32 v);
+struct PrintSys;
+struct S02031140;
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201D83C(void *ptr);
+extern void func_02031140(struct S02031140 *p);
 extern void func_02082BCC(u32 p, u32 v, u32 n);
 
 void func_02202744(u8 *p)
 {
     func_02028604(*(u32 *)(p + 0x138));
-    func_0201C4C0(*(u32 *)(p + 0xc));
-    func_0201D83C(*(u32 *)p);
-    func_02031140(*(u32 *)(p + 4));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0xc)));
+    func_0201D83C((void *)(*(u32 *)p));
+    func_02031140((struct S02031140 *)(*(u32 *)(p + 4)));
     func_02082BCC((u32)p, 0, 0x13c);
 }

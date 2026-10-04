@@ -63,7 +63,8 @@ extern int func_021BD1EC(u32 a);
 extern int func_021BD19C(u32 a, Params *prm);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern u32 sub_0201DC6C(u32 font, u16 c);
+struct Font;
+extern u32 sub_0201DC6C(struct Font *p, u16 ch);
 
 void func_021BC848(Obj *p)
 {
@@ -79,7 +80,7 @@ void func_021BC848(Obj *p)
     prm.ch = buf[n];
     for (i = 0; i < n; i++) {
         if (p->fC8[i] == 0) {
-            prm.x += sub_0201DC6C(p->f18, 0x20);
+            prm.x += sub_0201DC6C((struct Font *)p->f18, 0x20);
         } else {
             prm.x += func_021BD1EC(p->fC8[i]);
         }

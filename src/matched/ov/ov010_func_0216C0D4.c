@@ -13,9 +13,10 @@
  *   func_02045838  0x02045838  arm
  */
 
-extern void func_02045838(int, int);
+struct U16Vec;
+extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 
 void func_0216C0D4(int *p, int a1)
 {
-    func_02045838(a1, p[8]);
+    func_02045838((struct U16Vec *)a1, (struct U16Vec *)p[8]);
 }

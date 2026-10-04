@@ -71,19 +71,24 @@ typedef unsigned char  u8;
 struct Obj;
 extern u32 func_0201AA50(void *p);
 extern int func_0200AE14(unsigned);
-extern int func_0201A090(int,void *,unsigned *);
+typedef signed int     s32;
+struct Big;
+struct Rec1E;
+struct RecBig;
+struct Reg2;
+extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern void func_021DCB58(char *,void *,int);
 extern int func_021DCC28(char *,void *);
 extern u32 func_0201AA18(void *p);
 extern void func_021DBC04(char *,int,void *);
 extern int func_021DBDAC(char *);
-extern unsigned func_02012EBC(unsigned);
+extern void *func_02012EBC(struct Big *p);
 extern void * func_0200BAC8(void *);
-extern unsigned func_0200B358(unsigned);
-extern unsigned func_0200B204(unsigned,int);
-extern unsigned func_0200BAF4(void *,unsigned);
+extern void *func_0200B358(void *sys);
+extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
+extern void *func_0200BAF4(int a0, int a1);
 extern void func_0200BBC8(struct Obj *p, u32 v);
-extern void func_0200B110(unsigned,int,int);
+extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern void func_0200B2A4(int,int);
 extern void func_020307B0(void *);
 extern int func_02012DAC(int);
@@ -93,11 +98,11 @@ extern unsigned func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
 extern int func_021DC908(char *);
 extern int func_021D9F04(char *,void *,void *);
-extern void func_021E8738(unsigned,unsigned,int,int);
-extern void func_021E8AA0(unsigned,void *);
+extern void func_021E8738(int *p, int a, int b, int c);
+extern void func_021E8AA0(int *p, int v);
 extern void func_021E8AB4(unsigned,unsigned);
 extern void func_021E8AB8(unsigned);
-extern int func_021E8844(unsigned);
+extern int func_021E8844(const int *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
 extern void func_021D7BE4(u32 sys, int *state, char *p);
 extern void func_021D8EC8(u32 sys, int *state, char *p);
@@ -113,25 +118,25 @@ void func_021D76D4(u32 sys,int *state,char *p)
     switch(*state) {
     case 0: func_021D965C(p); func_021D97E4(p,2); func_021D9874(p); *state=1; break;
     case 1: r=1; r &= func_021D97B8(p); r &= func_021D98CC(p); if(r) *state=2; break;
-    case 2: func_021E8738(W(0x2c),W(0x14),0x41,1); func_021E8AB4(sys,3); *state=30; break;
+    case 2: func_021E8738((int *)W(0x2c),W(0x14),0x41,1); func_021E8AB4(sys,3); *state=30; break;
     case 3: func_021D98E4(p,2); *state=4; break;
     case 4: r=func_021D9A08(p); if(r!=-1) {func_021D99F4(p); switch(r) {case 0:*state=12;break;case 1:*state=5;break;}} break;
-    case 5: func_021E8738(W(0x2c),W(0x14),0x44,1); func_021E8AB4(sys,6); *state=30; break;
+    case 5: func_021E8738((int *)W(0x2c),W(0x14),0x44,1); func_021E8AB4(sys,6); *state=30; break;
     case 6: func_021D98E4(p,0); *state=7; break;
     case 7: r=func_021D9A08(p); if(r!=-1) {func_021D99F4(p); switch(r) {case 0:*state=8;break;case 1:*state=2;break;}} break;
-    case 8: func_021E8738(W(0x2c),W(0x14),0x45,1); func_021E8AB4(sys,9); *state=30; break;
+    case 8: func_021E8738((int *)W(0x2c),W(0x14),0x45,1); func_021E8AB4(sys,9); *state=30; break;
     case 9: func_021D98E4(p,0); *state=10; break;
     case 10: r=func_021D9A08(p); if(r!=-1) {func_021D99F4(p); switch(r) {case 0:*state=11;break;case 1:*state=2;break;}} break;
     case 11: if(func_021D98D8(p)) {func_021D98B8(p); *state=29;} break;
     case 12:
         rec=(char *)ctx[5]; func_021D9A50(rec,p);
         if(func_0201AA50(rec+0xd4)==0) *state=14;
-        else {out=0; if(func_0201A090(func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
+        else {out=0; if(func_0201A090((void *)func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
         break;
-    case 13: func_021E8738(W(0x2c),W(0x14),0x49,1); func_021E8AB4(sys,29); *state=30; break;
-    case 14: func_021E8738(W(0x2c),W(0x14),0x61,1); func_021E8AB4(sys,29); *state=30; break;
+    case 13: func_021E8738((int *)W(0x2c),W(0x14),0x49,1); func_021E8AB4(sys,29); *state=30; break;
+    case 14: func_021E8738((int *)W(0x2c),W(0x14),0x61,1); func_021E8AB4(sys,29); *state=30; break;
     case 15: if(func_021D98D8(p)) {func_021D98B8(p); *state=16;} break;
-    case 16: func_021E8738(W(0x2c),W(0x14),0x46,2); func_021E8AB4(sys,17); *state=30; break;
+    case 16: func_021E8738((int *)W(0x2c),W(0x14),0x46,2); func_021E8AB4(sys,17); *state=30; break;
     case 17:
         func_021DCB58((char *)W(0x34),(void *)(ctx[5]+0xd4),1);
         func_02082BCC(p+0x44,0,0x9c); *state=18; break;
@@ -141,21 +146,21 @@ void func_021D76D4(u32 sys,int *state,char *p)
             n=func_0201AA18((void *)(ctx[5]+0xd4)); empty=0;
             for(i=0;i<n;i++) if(((SlotView *)p)->slots[i]==0) empty++;
             if(*(unsigned char *)(p+0x44)==0 && empty==n) *state=20; else *state=19;
-        } else if(r==3) func_021E8AA0(sys,func_021D9064);
-        switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0(sys,func_021D9064);break;}
+        } else if(r==3) func_021E8AA0((int *)sys,(int)func_021D9064);
+        switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;}
         break;
-    case 19: func_021E8738(W(0x2c),W(0x14),0x47,1); func_021E8AB4(sys,29); *state=30; break;
+    case 19: func_021E8738((int *)W(0x2c),W(0x14),0x47,1); func_021E8AB4(sys,29); *state=30; break;
     case 20: if(*(u32 *)ctx[8]==0) {func_021DBC04((char *)W(0x34),0,(void *)(ctx[5]+0xd4));*state=21;} break;
     case 21:
         r=func_021DBDAC((char *)W(0x34));
         if(r==1) {*(u32 *)((u32 *)W(0x104))[8]=0x708; *state=22;}
-        if(r!=0) switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0(sys,func_021D9064);break;}
+        if(r!=0) switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;}
         break;
     case 22:
-        saved=func_02012EBC(*(u32 *)ctx[2]); box=func_0200BAC8((void *)saved);
-        tmp=func_0200B204(func_0200B358(saved),0);
-        saved=func_0200BAF4(box,0x8056); func_0200BBC8(box,1);
-        func_0200B110(W(0x108),10,2); func_0200B2A4(tmp,saved); func_020307B0((void *)saved);
+        saved=(u32)func_02012EBC((struct Big *)(*(u32 *)ctx[2])); box=func_0200BAC8((void *)saved);
+        tmp=(u32)func_0200B204(func_0200B358((void *)saved),0);
+        saved=(u32)func_0200BAF4((int)box,0x8056); func_0200BBC8(box,1);
+        func_0200B110((struct Reg2 *)W(0x108),10,2); func_0200B2A4(tmp,saved); func_020307B0((void *)saved);
         *state=23; break;
     case 23: func_02012DAC(*(u32 *)ctx[2]); *state=24; break;
     case 24: r=func_02012DD0((unsigned char *)*(u32 *)ctx[2]); if(r==2) *state=25; else if(r==3) *state=29; break;
@@ -164,11 +169,11 @@ void func_021D76D4(u32 sys,int *state,char *p)
         ((unsigned char *)((u32 *)W(0x104))[12])[5]=2;
         func_021DC8B4((char *)W(0x34),&request,87); *state=26; break;
     case 26:
-        r=func_021DC908((char *)W(0x34)); if(r==1) *state=27; else if(r==3) func_021E8AA0(sys,func_021D9064);
-        switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0(sys,func_021D9064);break;} break;
-    case 27: func_021D97E4(p,0); func_021E8738(W(0x2c),W(0x14),0x48,1); func_021E8AB4(sys,28); *state=30; break;
-    case 28: func_021E8AA0(sys,func_021D7BE4); break;
-    case 29: ctx[1]=0; func_021E8AA0(sys,func_021D8EC8); break;
-    case 30: if(func_021E8844(W(0x2c))) func_021E8AB8(sys); break;
+        r=func_021DC908((char *)W(0x34)); if(r==1) *state=27; else if(r==3) func_021E8AA0((int *)sys,(int)func_021D9064);
+        switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;} break;
+    case 27: func_021D97E4(p,0); func_021E8738((int *)W(0x2c),W(0x14),0x48,1); func_021E8AB4(sys,28); *state=30; break;
+    case 28: func_021E8AA0((int *)sys,(int)func_021D7BE4); break;
+    case 29: ctx[1]=0; func_021E8AA0((int *)sys,(int)func_021D8EC8); break;
+    case 30: if(func_021E8844((const int *)W(0x2c))) func_021E8AB8(sys); break;
     }
 }

@@ -25,9 +25,10 @@ extern const Entry d_021B8420[];
 extern u32 func_020450F0(u8,u8,u8,u8,u8,u8,int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(u32,int);
-extern void func_020456F8(u32);
-extern u32 func_02045730(u32);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern u32 func_02028590(int,int,int,int);
 void func_021B67A4(u8 *p)
@@ -36,10 +37,10 @@ void func_021B67A4(u8 *p)
     u32 h;
     for (i=0;i<16;i++) {
         *(u32 *)(p+i*4+4)=func_020450F0(d_021B8420[i].a,d_021B8420[i].b,d_021B8420[i].c,d_021B8420[i].d,d_021B8420[i].e,d_021B8420[i].f,1);
-        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p+i*4+4)),0);
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+i*4+4))),0);
     }
     h=*(u32 *)(p+0x28);
-    func_020456F8(h);
-    func_02041B6C(func_02045730(h));
+    func_020456F8((struct Descriptor *)h);
+    func_02041B6C(func_02045730((struct Descriptor *)h));
     *(u32 *)(p+0x21c)=func_02028590(15,1,1,79);
 }

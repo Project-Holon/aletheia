@@ -19,9 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_020457B0(u32 a, u32 b);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 void func_02200EB0(u8 *p)
 {
-    *(u32 *)(p + 0xb88) = func_020457B0(0xb4, 0x48);
+    *(u32 *)(p + 0xb88) = (u32)func_020457B0(0xb4, 0x48);
 }

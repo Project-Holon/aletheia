@@ -22,30 +22,33 @@
  *   func_02012374 0x02012374 thumb
  */
 
-extern int func_02188C58(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Evt;
+extern void *func_02188C58(void *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern int func_0218E138(int);
-extern void func_0218E13C(int, int);
+extern u32 func_0218E138(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
 typedef unsigned short u16;
 extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D454(void *);
 extern int func_0216D480(char *p);
-extern int func_021BE92C(int, int, int, int, int, int, int);
-extern void func_02012374(int, int);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021BFC98(int a, int *s, int *q)
 {
-    int h = func_02188C58(q[1]);
+    int h = (int)func_02188C58((void *)q[1]);
     void *t;
 
     t = func_021A3074(func_02188CB4((unsigned char *)q[1]));
     switch (s[0]) {
     case 0:
-        q[2] = func_0218E138(h);
-        func_0218E13C(h, 0);
+        q[2] = func_0218E138((u8 *)h);
+        func_0218E13C((u8 *)h, 0);
         func_0216D410(t, 0x44);
-        func_02012374(a, func_021BE92C(q[0], q[1], 0, 1, 1, 0, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)q[0], q[1], 0, 1, 1, 0, 0));
         s[0] = s[0] + 1;
         break;
     case 1:
@@ -55,7 +58,7 @@ int func_021BFC98(int a, int *s, int *q)
         }
         break;
     case 2:
-        func_0218E13C(h, q[2]);
+        func_0218E13C((u8 *)h, q[2]);
         s[0] = s[0] + 1;
         break;
     case 3:

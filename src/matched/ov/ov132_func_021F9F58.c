@@ -16,5 +16,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02051620(u32);
-extern void func_02050DB8(u32);
-void func_021F9F58(u8 *unused,u8 *p) { *(u32 *)p=0; func_02051620(*(u32 *)(p+0x4804)); func_02050DB8(*(u32 *)(p+0x4804)); }
+extern void func_02050DB8(u8 *p);
+void func_021F9F58(u8 *unused,u8 *p) { *(u32 *)p=0; func_02051620(*(u32 *)(p+0x4804)); func_02050DB8((u8 *)(*(u32 *)(p+0x4804))); }

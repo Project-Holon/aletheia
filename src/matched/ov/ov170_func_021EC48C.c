@@ -23,7 +23,7 @@
 
 extern void func_021EC000(char *w, int i, int v);
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, unsigned short box, unsigned id, unsigned v);
-extern void *func_021DD2D0(unsigned char *p, int a, unsigned b);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021EC45C(unsigned char *p, void *a, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -33,7 +33,7 @@ void func_021EC48C(unsigned char *p, int box, int pos, int win)
     char *w = WORK(p);
     func_021EC000(WORK(p), win, 0);
     if (func_021DD25C(p, pos, box, 0xA9, 0)) {
-        func_021EC45C(p, func_021DD2D0(p, box, pos), win);
+        func_021EC45C(p, (void *)func_021DD2D0((void ***)p, box, pos), win);
         func_021EC000(w, win, 1);
     }
 }

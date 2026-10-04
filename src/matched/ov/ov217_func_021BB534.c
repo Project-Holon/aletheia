@@ -34,9 +34,9 @@ extern unsigned func_021BB98C(void *);
 extern void func_021BBD14(void *, unsigned);
 extern void func_021BBD28(int, int);
 extern void func_021BBD18(int, int);
-extern unsigned func_021BC580(unsigned, unsigned);
+extern void func_021BC580(char *p, int i);
 extern void func_021BC72C(u8 *, unsigned, u8 *);
-extern unsigned func_021C1038(unsigned, unsigned);
+extern void func_021C1038(u8 *p, u8 palette);
 extern void func_021BC4B4(char *);
 extern void func_021BBBE4(u8 *);
 extern void func_021BB990(void *);
@@ -56,12 +56,12 @@ void func_021BB534(u8 *p)
         func_021BBD14(p, 0);
         func_021BBD28((int)p, 1);
         func_021BBD18((int)p, 0);
-        func_021BC580((unsigned)p, 3);
+        func_021BC580((char *)((unsigned)p), 3);
         func_021BC72C(p, 0, (u8 *)1);
         func_021BC72C(p, 1, (u8 *)1);
         func_021BC72C(p, 2, (u8 *)1);
         if (*(unsigned *)(p + 0x15c) == 0) {
-            func_021C1038(*(unsigned *)(p + p[0x32] * 4 + 0xb4), 14);
+            func_021C1038((u8 *)(*(unsigned *)(p + p[0x32] * 4 + 0xb4)), 14);
             func_021BC4B4((char *)p);
         }
         func_021BBBE4(p);

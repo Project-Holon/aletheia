@@ -45,7 +45,7 @@ extern void func_021DBC08(void *,int);
 extern void func_021DB528(char *,int);
 extern void func_021DB478(char *,int,int,int,u16);
 extern void func_021DA2F0(u8 *p, u32 i);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D9E50(u8 *);
 extern void func_021DC08C(void *task, u32 *state, char *p);
 extern void func_02082BCC(void *,int,int);
@@ -98,7 +98,7 @@ void func_021DC734(void *task,u32 *state,char *p)
             if(!result) *state=3;
             else {
                 if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
-                func_021DA8B0(task,func_021DC08C);
+                func_021DA8B0(task,(u32)func_021DC08C);
             }
         }
         break;
@@ -130,7 +130,7 @@ void func_021DC734(void *task,u32 *state,char *p)
     case 9:if(func_021D9FF8(P(0xabc))) *state=10;break;
     case 10:
         if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
-        func_021DA8B0(task,func_021DC08C);break;
+        func_021DA8B0(task,(u32)func_021DC08C);break;
     }
     if(P(0xabc)) func_021D9E50(P(0xabc));
 }

@@ -65,7 +65,7 @@ union Hdr {
 extern void *func_02074450(int index);
 extern u32 func_0207466C(u32 a);
 extern u32 func_02075080(u32 a, u32 b, u32 c);
-extern u32 func_020750EC(u32 a, u32 b, u32 c);
+extern u32 func_020750EC(u32 idx, u32 *heap, int flag);
 
 u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out)
 {
@@ -75,7 +75,7 @@ u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out)
     o = func_02074450(a);
     if (o == 0) return 5;
     if (b & 4) {
-        if ((o->w >> 24) & 1) r = func_020750EC(o->b.v, c, d);
+        if ((o->w >> 24) & 1) r = func_020750EC(o->b.v, (u32 *)c, d);
         else                  r = func_02075080(o->b.v, c, d);
         if (r == 0) return 9;
     } else {

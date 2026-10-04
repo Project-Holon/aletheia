@@ -24,12 +24,12 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021C83E8(int a, int k, int b);
 extern void *func_021C88A4(int a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C88C8(int a, void *b);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021E203C(int u, int a, int b)
 {
@@ -37,11 +37,11 @@ void func_021E203C(int u, int a, int b)
     u8 *s;
 
     if (b == func_021D775C(3)) {
-        t = func_021D59B4(func_021C7CF4(a, b), 0xf);
+        t = func_021D59B4(func_021C7CF4((int *)a, b), 0xf);
         if (func_021C83E8(a, t * 5, b) != 0) {
             s = func_021C88A4(a, 4, b);
             func_021C8838(s + 4, 1, 0x7a);
-            func_021C88C8(a, s);
+            func_021C88C8((void *)a, s);
         }
     }
 }

@@ -24,7 +24,7 @@ typedef struct { int x, y, z; } Vec;
 extern const Vec d_021D4ACC;
 extern u16 *func_0216D6BC(u32, u32);
 extern void func_0216D8C0(u32, const Vec *);
-extern void func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern void func_0216D7CC(u32);
 
 int func_02199F50(u32 a)
@@ -35,7 +35,7 @@ int func_02199F50(u32 a)
     *p = 0;
     *(u8 *)((u8 *)p + 2) = 0;
     func_0216D8C0(a, &t);
-    func_0216D674(a, 10);
+    func_0216D674((void *)a, 10);
     func_0216D7CC(a);
     return 1;
 }

@@ -23,7 +23,7 @@ typedef struct {
 
 extern int func_0201134C(void *);
 extern int func_021FCA04(State *s, int id, int *out);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FF374(void *w, int a, int b);
 extern void func_02200654(void *w);
 
@@ -37,10 +37,10 @@ int func_021FB168(void *a, State *s)
     n = func_021FCA04(s, func_0201134C(a), buf);
     v = func_0201134C(a);
     if (v == 5) {
-        func_02200654(func_021F8694());
+        func_02200654((void *)func_021F8694());
     } else if (n != 0) {
         for (i = 0; i < n; i++)
-            func_021FF374(func_021F8694(), buf[i], v);
+            func_021FF374((void *)func_021F8694(), buf[i], v);
     }
     return s->f23c;
 }

@@ -42,7 +42,7 @@ struct Descriptor;
 extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 extern void func_02045334(struct Descriptor *d);
-extern void func_0220687C(Main *m, int a);
+extern void func_0220687C(char *p, void *q);
 
 void func_02203A78(int a0, Ctx *c)
 {
@@ -58,5 +58,5 @@ void func_02203A78(int a0, Ctx *c)
         func_020498F4(c->main->f48, 0x69, 5, 0, z, z, c->main->h240);
     }
     func_02045334(c->main->obj228);
-    func_0220687C(c->main, a0);
+    func_0220687C((char *)c->main, (void *)a0);
 }

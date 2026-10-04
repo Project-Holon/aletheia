@@ -37,19 +37,21 @@ typedef struct {
     u16 f5a;
 } D;
 
-extern void func_02045CAC(u32 a, u16 b, u32 c);
-extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_0201F250(u32 a, u32 b, u32 c);
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern D d_021F6398;
 
 void func_021EF7AC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
-    func_02045CAC(d_021F6398.f1c, 0x11, d_021F6398.fc);
-    func_0201EFA4(d_021F6398.f8, 0, b, 3, 0, 1);
-    func_0201EFA4(d_021F6398.f8, 1, c, 3, 0, 1);
-    func_0201EFA4(d_021F6398.f8, 2, d, 3, 0, 1);
-    func_0201EFA4(d_021F6398.f8, 3, e, 3, 0, 1);
-    func_0201EFA4(d_021F6398.f8, 4, f, 3, 0, 1);
-    func_0201EFA4(d_021F6398.f8, 5, g, 3, 0, 1);
-    func_0201F250(d_021F6398.f8, a, d_021F6398.fc);
+    func_02045CAC((struct MsgBank *)d_021F6398.f1c, 0x11, (void *)d_021F6398.fc);
+    func_0201EFA4((struct WordSet *)d_021F6398.f8, 0, b, 3, 0, 1);
+    func_0201EFA4((struct WordSet *)d_021F6398.f8, 1, c, 3, 0, 1);
+    func_0201EFA4((struct WordSet *)d_021F6398.f8, 2, d, 3, 0, 1);
+    func_0201EFA4((struct WordSet *)d_021F6398.f8, 3, e, 3, 0, 1);
+    func_0201EFA4((struct WordSet *)d_021F6398.f8, 4, f, 3, 0, 1);
+    func_0201EFA4((struct WordSet *)d_021F6398.f8, 5, g, 3, 0, 1);
+    func_0201F250((struct WordSet *)d_021F6398.f8, (void *)a, (void *)d_021F6398.fc);
 }

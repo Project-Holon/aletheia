@@ -19,7 +19,9 @@
 extern unsigned func_0201AA18(void *party);
 extern void *func_0201AB28(void *party, unsigned i);
 extern int func_020185F0(void *p);
-extern int func_02007A18(void *save, int box, unsigned slot);
+typedef unsigned int   u32;
+struct Sub020079BCEntry;
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
 int func_021DD2D0(void ***p, int a, unsigned b)
 {
@@ -29,7 +31,7 @@ int func_021DD2D0(void ***p, int a, unsigned b)
         if (func_0201AA18((*p)[2]) > b)
             return func_020185F0(func_0201AB28((*p)[2], b));
     } else if (b != 0xFF) {
-        return func_02007A18((*p)[1], a, b);
+        return (int)func_02007A18((*p)[1], a, b);
     }
     return 0;
 }

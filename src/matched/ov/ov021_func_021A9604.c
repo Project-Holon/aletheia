@@ -36,7 +36,7 @@ struct Out {
     u8 f07;
 };
 
-extern int func_0219390C(int a, int b);
+extern void *func_0219390C(void *a, u32 b);
 extern u8 *func_02193C00(int a);
 extern u32 func_020056EC(u32 v);
 extern void func_02082BCC(void *p, int v, int n);
@@ -65,7 +65,7 @@ u32 func_021A9604(int obj, struct Sel *sel, struct Out *out)
     }
     sum = 0;
     for (i = 0; i < 30; i++) {
-        p = func_0219390C(obj, i);
+        p = (int)func_0219390C((void *)obj, i);
         if (p) {
             sum += func_02193C00(p)[k + 0x14];
         }
@@ -73,7 +73,7 @@ u32 func_021A9604(int obj, struct Sel *sel, struct Out *out)
     r = func_020056EC(sum);
     sum = 0;
     for (i = 0; i < 30; i++) {
-        p = func_0219390C(obj, i);
+        p = (int)func_0219390C((void *)obj, i);
         if (p) {
             q = func_02193C00(p);
             sum += q[k + 0x14];

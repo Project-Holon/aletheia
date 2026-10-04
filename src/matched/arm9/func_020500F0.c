@@ -40,7 +40,9 @@ struct BbActSys {
     u32 f14;
 };
 
-extern int  func_02033CA8(u32 pool, u32 n);
+typedef signed int     s32;
+struct AreaMan;
+extern s32 func_02033CA8(struct AreaMan *p, u32 len);
 extern u16  func_0204EF58(void *board, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_0204F10C(void *board, u32 id);
 
@@ -49,7 +51,7 @@ u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n)
     int base;
     u32 i;
 
-    base = func_02033CA8(o->f14, n);
+    base = func_02033CA8((struct AreaMan *)o->f14, n);
     for (i = 0; i < n; i++) {
         const struct BbActRec *e = &recs[i];
         u16 id;

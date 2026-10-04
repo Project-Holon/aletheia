@@ -51,7 +51,7 @@ struct Quad { u16 a,b,c,d; };
 struct Rgb555 { u16 r:5,g:5,b:5,pad:1; };
 struct WordSet; struct U16Vec; struct Obj; struct Rec; struct S;
 struct Obj0202DCC4; struct Obj0202DC98;
-extern void func_02165CC0(u16 *,void *);
+extern void func_02165CC0(int a0, int a1);
 extern void func_02021F64(u16 *,u16 *,u32,int,u16);
 extern void func_021BCD08(void *,u32,u16,u32);
 extern int func_021BCDC0(void *);
@@ -92,7 +92,7 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     u16 value;
     int position;
     int index;
-    func_02165CC0(&colors.a,record);
+    func_02165CC0((int)(&colors.a),(int)record);
     func_02021F64(&colors.a,&colors.b,1,3,0);
     position=slot*16;
     func_021BCD08(&colors,1,position+1,2);

@@ -33,13 +33,16 @@ typedef struct {
 } Ov208ObjPos;
 
 extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern u32  func_0204A6C8(u32 a, u32 b, u32 c, u32 d, u32 heap);
+typedef signed int     s32;
+struct Actor;
+struct Obj;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int res, unsigned int j, unsigned int k, const void *pos, unsigned short f, unsigned short heap);
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
-extern void func_0204B688(u32 obj, u32 v);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B688(struct Actor *actor, u32 value);
 
 u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
                         u32 form, u32 gender, u32 isEgg)
@@ -52,10 +55,10 @@ u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u3
     pos.z = 1;
     pos.b6 = 1;
     pos.b7 = 0;
-    *res = func_0204A6C8(arc, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
+    *res = func_0204A6C8((void *)arc, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
     obj = (u32)func_0204B294((void *)owner, *res, j, k, &pos, 1, heap);
     func_0204B92C((struct Obj *)obj, 0);
-    func_0204B6F4(obj, func_0201BB5C(species, form, gender, isEgg), 0);
-    func_0204B688(obj, 0);
+    func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);
+    func_0204B688((struct Actor *)obj, 0);
     return obj;
 }

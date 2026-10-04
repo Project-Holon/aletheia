@@ -67,9 +67,11 @@ extern u32 *func_02159C20(void *p);
 extern void func_02159C00(void *p, u8 w, u8 h);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
-extern u32 func_02188C80(u32 a);
-extern void *func_020120F4(u32 a);
-extern void *func_02012974(void *p);
+struct BigObj;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012974(const struct BigObj *p);
 extern int func_0218DD84(u32 *p);
 extern char d_021DD9EC[];
 
@@ -129,7 +131,7 @@ int func_0218CD20(u32 a, Map *m, void *blk)
     m->w = nw;
     m->h = nh;
     m->n = nn;
-    func_02159C00(func_02012974(func_020120F4(func_02188C80(a))), nw, nh);
+    func_02159C00((void *)func_02012974(func_020120F4(func_02188C80((void *)a))), nw, nh);
     func_020307B0(buf);
     return 1;
 }

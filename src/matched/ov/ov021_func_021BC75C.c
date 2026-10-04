@@ -23,12 +23,14 @@ typedef struct {
 
 extern u16 func_021BD090(Obj *p);
 extern u16 func_021BD094(Obj *p);
-extern void *func_0204AC18(int a, int b, int c, int d, int e, int f, int g);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 void func_021BC75C(Obj *p)
 {
     u16 a = func_021BD090(p);
     u16 b = func_021BD094(p);
 
-    p->f2C = func_0204AC18(b, 3, 0, 0x20, 0, 1, a);
+    p->f2C = (void *)func_0204AC18((void *)b, 3, 0, 0x20, 0, 1, a);
 }

@@ -16,14 +16,16 @@
  */
 
 unsigned short func_02013BD0(unsigned short id);
-void func_0218F14C(int h, int r, int c);
-void func_0218F134(int h);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+void func_0218F14C(u8 *p, u32 a, u32 b);
+void func_0218F134(u8 *a);
 
 void func_021895E8(unsigned char *p, int id, int c)
 {
     int r = func_02013BD0(id);
     if (r != 0xFFFF)
-        func_0218F14C(*(int *)(p + 0x10), r, c);
+        func_0218F14C((u8 *)(*(int *)(p + 0x10)), r, c);
     else
-        func_0218F134(*(int *)(p + 0x10));
+        func_0218F134((u8 *)(*(int *)(p + 0x10)));
 }

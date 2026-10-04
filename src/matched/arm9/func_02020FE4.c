@@ -31,7 +31,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02020F34(void *a, u32 b, u32 id);
+extern void *func_02020F34(u32 item, u32 which, u32 heap);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern void  func_020307B0(void *p);
@@ -41,7 +41,7 @@ u32 func_02020FE4(void *a, u32 sel, u32 id)
     void *rec;
     u32   v;
 
-    rec = func_02020F34(a, 0, (u16)((id & 0x7FFF) | 0x8000));
+    rec = func_02020F34((u32)a, 0, (u16)((id & 0x7FFF) | 0x8000));
     v = func_02021014(rec, sel);
     func_020307B0(rec);
     return v;

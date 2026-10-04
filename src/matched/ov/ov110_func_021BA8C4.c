@@ -23,7 +23,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BFC20(u32,int);
+extern void func_021BFC20(u8 *p, unsigned visible);
 extern void func_021BFB7C(u8 *p);
 extern int func_021BFBA0(u8 *p);
 extern void func_021BB804(void *);
@@ -40,7 +40,7 @@ void func_021BA8C4(void *unused,u8 *p) {
     q=*(u8 **)p;
     switch(*(u32 *)(p+0x14)) {
     case 0:
-        func_021BFC20(*(u32 *)(q+0x5c),0);
+        func_021BFC20((u8 *)(*(u32 *)(q+0x5c)),0);
         func_021BFB7C(*(void **)(q+0x5c));
         ++*(u32 *)(p+0x14); break;
     case 1:

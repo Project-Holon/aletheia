@@ -19,24 +19,25 @@
  *   func_021A2114  0x021A2114  thumb  ov021
  */
 
-int func_021A23E8(int p);
-int func_021A2400(int p);
-int func_021A240C(int p);
-void func_021A22E0(int p, int a, int b, int c);
-int func_021A23F4(int p);
-int func_021A2418(int p);
+typedef unsigned int   u32;
+int func_021A23E8(int *p);
+int func_021A2400(int *p);
+int func_021A240C(int *p);
+void func_021A22E0(u32 *p, int a, int b, int c);
+int func_021A23F4(int *p);
+int func_021A2418(int *p);
 void func_021A2114(int p, int a, int b);
 
 int func_021EE7F0(int p, int v)
 {
     int t;
 
-    if (func_021A23E8(p)) {
-        t = func_021A2400(p);
-        func_021A22E0(p, func_021A240C(p), t, v);
+    if (func_021A23E8((int *)p)) {
+        t = func_021A2400((int *)p);
+        func_021A22E0((u32 *)p, func_021A240C((int *)p), t, v);
     }
-    if (func_021A23F4(p)) {
-        func_021A2114(p, 0x52, func_021A2418(p));
+    if (func_021A23F4((int *)p)) {
+        func_021A2114(p, 0x52, func_021A2418((int *)p));
     }
     return 1;
 }

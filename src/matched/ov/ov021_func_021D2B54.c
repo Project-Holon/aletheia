@@ -57,22 +57,24 @@ extern void *func_0215A5DC(void *a0);
 struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012944(void *a);
-extern u32 func_02158F74(void *a);
+struct Sub02008C20Obj;
+struct WordSet;
+extern u8 *func_02012944(void *p);
+extern void *func_02158F74(void *p);
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern void func_0201F02C(u32 ws, u32 i, u32 a);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void func_0201EE60(u32 ws, u32 i, u16 v);
+extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0203F4CC(RtcTime *t);
 extern u32 func_020056EC(u32 v);
-extern u32 func_02012F2C(void *a);
+extern void *func_02012F2C(int *p);
 extern const Entry d_021DD774[];
-extern u32 func_02008DFC(u32 p, u32 v);
-extern void func_0201EFA4(u32 ws, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int func_02008550(u32 a);
 extern u32 func_021D2CE8(void *a, int i);
 extern u32 func_021D2D24(void *a, u32 v, int c);
@@ -95,17 +97,17 @@ int func_021D2B54(u32 a, u32 b)
 
     o = func_0215A5F4((void *)b);
     h = func_020120F4(func_0215A5DC((void *)b));
-    name = func_02012944(h);
-    ws = func_02158F74(o);
+    name = (u32)func_02012944(h);
+    ws = (u32)func_02158F74(o);
     v = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
-    func_0201F02C(ws, 0, name);
+    func_0201F02C((struct WordSet *)ws, 0, (void *)name);
     party = func_02012934(h);
     n = func_0201AA18(party);
     for (i = 0; i < n; i++) {
         mon = func_0201AB28(party, i);
         if (func_02017E1C(mon, 0x4C, 0) == 0) {
-            func_0201EE60(ws, 3, func_02017E1C(mon, 5, 0));
+            func_0201EE60((struct WordSet *)ws, 3, func_02017E1C(mon, 5, 0));
             break;
         }
     }
@@ -115,16 +117,16 @@ int func_021D2B54(u32 a, u32 b)
         k = func_020056EC(0x1D);
         s0 = 0;
         s1 = 0;
-        tr = func_02012F2C(h);
+        tr = (u32)func_02012F2C(h);
         e0 = d_021DD774[k].a;
         if (e0 != -1) {
-            s0 = func_02008DFC(tr, e0);
-            func_0201EFA4(ws, 1, s0, d_021DD774[k].c, 0, 1);
+            s0 = func_02008DFC((struct Sub02008C20Obj *)tr, e0);
+            func_0201EFA4((struct WordSet *)ws, 1, s0, d_021DD774[k].c, 0, 1);
         }
         e1 = d_021DD774[k].b;
         if (e1 != -1) {
-            s1 = func_02008DFC(tr, e1);
-            func_0201EFA4(ws, 2, s1, d_021DD774[k].d, 0, 1);
+            s1 = func_02008DFC((struct Sub02008C20Obj *)tr, e1);
+            func_0201EFA4((struct WordSet *)ws, 2, s1, d_021DD774[k].d, 0, 1);
         }
         if (k < 11) {
             if (e0 != -1 && e1 != -1) {

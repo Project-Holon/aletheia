@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj_0201691C;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void func_02016C38(void *p);
+extern int func_02016C38(int a0);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_0201691C(void *a0, struct Obj_0201691C *a1);
@@ -75,7 +75,7 @@ void func_0201624C(u8 *a0, u8 *a1)
     MIi_CpuCopy16(*(void **)(a1 + 0xD4), p->f04->f0c, *(u32 *)(a1 + 0xDC));
 
     if (*(void **)(a1 + 8) != 0) {
-        func_02016C38(*(void **)(a1 + 8));
+        func_02016C38((int)(*(void **)(a1 + 8)));
         *(void **)(a1 + 8) = (void *)flag;
     }
 

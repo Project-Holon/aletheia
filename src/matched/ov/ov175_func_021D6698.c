@@ -19,25 +19,29 @@
  *   func_02009CC0 0x02009CC0 thumb
  */
 typedef unsigned int u32;
-extern u32 func_02012EBC(u32);
-extern u32 func_02012944(u32);
+typedef unsigned char  u8;
+struct Big;
+struct BigObj;
+struct Rec0200E6FC;
+extern void *func_02012EBC(struct Big *p);
+extern u8 *func_02012944(void *p);
 extern int func_02008468(void);
 extern void func_02082D44(const void *,void *,int);
-extern u32 func_0200E6E8(u32);
-extern void func_0200E6FC(u32,int,char *);
+extern void *func_0200E6E8(u32 a);
+extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 func_0200DFD8(u32,u32,u32);
-extern u32 func_0201283C(u32);
+extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009CC0(u32);
 void func_021D6698(u32 *p,u32 *q)
 {
     u32 save=((u32 *)((u32 *)q[16])[2])[0];
-    u32 profile=func_02012EBC(save);
+    u32 profile=(u32)func_02012EBC((struct Big *)save);
     u32 blob;
     u32 *ctx;
     p[17]=100;
-    blob=func_02012944(save);
+    blob=(u32)func_02012944((void *)save);
     func_02082D44((void *)blob,p,func_02008468());
-    func_0200E6FC(func_0200E6E8(profile),0,(char *)(p+14));
+    func_0200E6FC(func_0200E6E8(profile),0,(struct Rec0200E6FC *)((char *)(p+14)));
     ctx=(u32 *)q[16];
     if(ctx[0]==0) {
         p[10]=func_0200DFD8(ctx[4],((u32 *)ctx[2])[1]+5,1);
@@ -48,5 +52,5 @@ void func_021D6698(u32 *p,u32 *q)
         ctx=(u32 *)q[16];
         p[11]=func_0200DFD8(ctx[4],((u32 *)ctx[2])[1],2);
     }
-    p[18]=func_02009CC0(func_0201283C(save));
+    p[18]=func_02009CC0(func_0201283C((const struct BigObj *)save));
 }

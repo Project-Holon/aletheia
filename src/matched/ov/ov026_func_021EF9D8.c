@@ -58,10 +58,10 @@ typedef struct {
 } Obj;
 
 extern u32 func_020056EC(u32 v);
-extern void func_021A2130(int, int, int, int);
-extern void func_021A2154(int, int, int);
-extern void func_021A25DC(int, int);
-extern int func_021A213C(int);
+extern void func_021A2130(u8 *p, u32 b, u32 c, u32 d);
+extern void func_021A2154(u8 *p, u32 b, u32 c);
+extern void func_021A25DC(u8 *p, int a);
+extern int func_021A213C(u8 *p);
 extern void func_021EFBA4(Obj *p);
 extern void func_021EFBFC(Obj *p);
 extern void func_021EFC3C(Obj *p);
@@ -113,7 +113,7 @@ void func_021EF9D8(Obj *p, int b)
             p->state = 4;
             break;
         }
-        func_021A2154(b, 0x3129, 4);
+        func_021A2154((u8 *)b, 0x3129, 4);
         p->timer = 10;
         p->state = 3;
         break;
@@ -124,7 +124,7 @@ void func_021EF9D8(Obj *p, int b)
         break;
     case 4:
         if (p->mode != 0) {
-            func_021A2130(b, func_021EFCD4(p), p->ent[p->cur].a, p->ent[p->cur].b);
+            func_021A2130((u8 *)b, func_021EFCD4(p), p->ent[p->cur].a, p->ent[p->cur].b);
         }
         if (p->x2 == 2) {
             p->timer = p->ent[p->cur].a / 2 + func_020056EC(p->ent[p->cur].b);
@@ -145,10 +145,10 @@ void func_021EF9D8(Obj *p, int b)
         if (p->t3c > 0) {
             p->t3c--;
             if (p->t3c == 0) {
-                func_021A25DC(b, p->t3e);
+                func_021A25DC((u8 *)b, p->t3e);
             }
         }
-        if (func_021A213C(b) == 0) {
+        if (func_021A213C((u8 *)b) == 0) {
             p->state = 6;
         }
         break;
@@ -156,7 +156,7 @@ void func_021EF9D8(Obj *p, int b)
         if (p->t3c > 0) {
             p->t3c--;
             if (p->t3c == 0) {
-                func_021A25DC(b, p->t3e);
+                func_021A25DC((u8 *)b, p->t3e);
             }
         }
         p->ent[p->cur].d--;

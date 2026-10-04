@@ -26,8 +26,9 @@ typedef short          s16;
 extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0201CD10(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f, u32 g, u32 h,
-                         u32 i, u32 j, void *k);
+typedef signed int     s32;
+struct Rec;
+extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern int func_02190D08(int x);
 extern void func_02193200(u32 a);
 
@@ -38,8 +39,8 @@ u32 *func_02190C94(u32 *a, u32 b, u32 c, u32 d, s16 e0, u32 f, u16 g)
     r = (u32 *)func_02030734(*(u16 *)a, 0xc, 1, d_021DDA50, 0x85e);
     r[2] = (u32)a;
     *(u16 *)((u8 *)r + 2) = f;
-    r[1] = func_0201CD10(c, d, e0, b, a[2], f, a[0x59], 0, *(u16 *)a, g,
-                         (void *)func_02190D08);
+    r[1] = (u32)func_0201CD10(c, d, e0, b, a[2], f, a[0x59], 0, *(u16 *)a, g,
+                         (u32)((void *)func_02190D08));
     func_02193200(r[2] + 0x160);
     return r;
 }

@@ -16,12 +16,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_021D8F78(int);
+extern int func_021D8F78(char *p);
 extern void func_0204A600(void *);
 
 int func_021D8714(int a, int b, int c, int d)
 {
-    void *r = func_021D8F78(d);
+    void *r = (void *)func_021D8F78((char *)d);
 
     func_0204A600(r);
     return r != 0;

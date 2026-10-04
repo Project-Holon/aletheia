@@ -42,7 +42,7 @@ struct GPIConnection {
 extern int func_021814EC(void);
 extern int func_0218EE48(void **connection, struct GPIPeer *peer);
 extern long func_02184098(long *timer);
-extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0218EF04(void **connection, struct GPIPeer *peer);
 extern char g_021A4F70[];
 
@@ -58,12 +58,12 @@ int func_0218EFEC(void **connection)
     while (peer != 0) {
         nextPeer = peer->pnext;
         if (peer->state == 0x6a) {
-            func_0217D254(1, 4, 8, g_021A4F70, peer->profile);
+            func_0217D254(1, (char *)4, 8, g_021A4F70, peer->profile);
             func_0218EF04(connection, peer);
         } else {
             result = func_0218EE48(connection, peer);
             if (peer->state == 0x6a || result != 0 || func_02184098(0) > peer->timeout) {
-                func_0217D254(1, 4, 8, g_021A4F70, peer->profile);
+                func_0217D254(1, (char *)4, 8, g_021A4F70, peer->profile);
                 func_0218EF04(connection, peer);
             }
         }

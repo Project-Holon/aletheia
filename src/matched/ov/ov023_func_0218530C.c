@@ -26,7 +26,9 @@ extern u16 func_02039338(void);
 extern int func_02185F50(char *p);
 extern void func_021860D0(char *p);
 extern void func_02185EA0(char *p);
-extern void func_02185DE8(u32 a, char *b, char *c, int d);
+struct e6;
+struct o4;
+extern void func_02185DE8(char *p, struct e6 *e, struct o4 *o, int flag);
 
 int func_0218530C(char *p, int x)
 {
@@ -40,6 +42,6 @@ int func_0218530C(char *p, int x)
         func_021860D0(p);
     }
     func_02185EA0(p);
-    func_02185DE8(*(u32 *)(p + 0x118), p + 0x4212, p + 0x4230, 1);
+    func_02185DE8((char *)(*(u32 *)(p + 0x118)), (struct e6 *)(p + 0x4212), (struct o4 *)(p + 0x4230), 1);
     return x;
 }

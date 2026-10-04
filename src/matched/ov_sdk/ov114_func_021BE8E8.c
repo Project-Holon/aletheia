@@ -35,7 +35,7 @@ extern u8 *func_021BEF08(void);
 extern void *func_021BEF58(void);
 extern Req *func_021BEC10(void *mutexInfo_p, void *handle_p);
 extern int func_021BA124(char *s, int max);
-extern void func_021BA13C(void *p_p, int size);
+extern void func_021BA13C(int a, int b);
 extern void func_021BA100(void *dst_p, void *src_p, int size);
 extern int func_021BA714(char *dst_p, const char *src_p);
 
@@ -56,7 +56,7 @@ int func_021BE8E8(void *handle, char *username_p, char *password_p)
     username_len = func_021BA124(username_p, 0x21);
     password_len = func_021BA124(password_p, 0x21);
     if (username_len <= 0x20 && password_len <= 0x20) {
-        func_021BA13C(tmpbuf, 0x41);
+        func_021BA13C((int)tmpbuf, 0x41);
         func_021BA100(tmpbuf, username_p, username_len);
         func_021BA100(tmpbuf + username_len, g_021CE53C, 1);
         func_021BA100(tmpbuf + (username_len + 1), password_p, password_len);

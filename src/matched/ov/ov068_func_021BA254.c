@@ -18,16 +18,18 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0201CE48(u32 a);
-extern void func_02045808(u32 a);
+struct Rec3;
+struct U16Vec;
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02082BCC(void *p, u32 a, u32 b);
 
 void func_021BA254(u8 *p)
 {
     if (*(u32 *)(p + 8) != 0) {
-        func_0201CE48(*(u32 *)(p + 8));
+        func_0201CE48((struct Rec3 *)(*(u32 *)(p + 8)));
         *(u32 *)(p + 8) = 0;
     }
-    func_02045808(*(u32 *)(p + 0x14));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x14)));
     func_02082BCC(p, 0, 0x38);
 }

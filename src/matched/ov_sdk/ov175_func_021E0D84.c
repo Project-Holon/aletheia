@@ -20,13 +20,14 @@
 
 typedef unsigned long u32;
 
-extern void func_021C24B4(char *, u32, int, int, u32, u32);
+struct GHIPost;
+extern int func_021C24B4(struct GHIPost *_post, char *name, char *buffer, int bufferLen, char *reportFilename, char *contentType);
 extern u32 g_021E4370[];
 extern u32 g_021E4378[];
 
 void func_021E0D84(char *a, char *b)
 {
-    func_021C24B4(a, (u32)g_021E4370, *(int *)(b + 0x40), *(int *)(b + 0x44),
-                  (u32)g_021E4370, (u32)g_021E4378);
+    func_021C24B4((struct GHIPost *)a, (char *)((u32)g_021E4370), (char *)(*(int *)(b + 0x40)), *(int *)(b + 0x44),
+                  (char *)((u32)g_021E4370), (char *)((u32)g_021E4378));
 }
 

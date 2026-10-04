@@ -24,7 +24,7 @@ struct WinMgr;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u16 func_0204B898(struct Obj *p);
-extern void func_0204B878(u32 p, u16 k);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021FA9C8(u8 *p, int mode, int pos);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
@@ -33,13 +33,13 @@ extern const u8 tbl_02203298[][2];
 int func_021FB614(u8 *p)
 {
     func_021FA9C8(p, 6, 0x20);
-    func_0204B878(*(u32 *)(p + 8), 18);
+    func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 18);
     func_0202CD64(*(void **)(p + 0x18), 0, -4, 0, 4);
     *(int *)(p + 0x48) = 1;
     *(int *)(p + 0x4c) = 19;
     *(int *)(p + 0x44) = 10;
     *(s16 *)(p + 0x38) = -1;
     func_021F4FF4(*(u32 *)(p + 8), (tbl_02203298[*(int *)(p + 0x44)][0] + 16) * 8, tbl_02203298[*(int *)(p + 0x44)][1] * 8);
-    func_0204B878(*(u32 *)(p + 8), 6);
+    func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 6);
     return -1;
 }

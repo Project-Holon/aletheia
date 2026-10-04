@@ -32,24 +32,25 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-int func_020120F4(void *p);
-int func_02012944(int x);
-u8 *func_02012ED0(int x);
+struct Big;
+void *func_020120F4(const struct Ctx *p);
+u8 *func_02012944(void *p);
+u8 *func_02012ED0(struct Big *p);
 void func_0201213C(struct Ctx *p, u8 v);
-void *func_0215F630(int x);
+int func_0215F630(void *p);
 void func_0215F64C(void);
 void func_021666A4(int a0);
 
 void *func_0215F6E8(void *p)
 {
-    int r4 = func_020120F4(p);
+    int r4 = (int)func_020120F4(p);
     void *r7 = func_020122C0(p, 0, func_0215F64C, 0xc);
     int *r6 = func_020124E8(r7);
 
     r6[0] = (int)p;
-    r6[1] = (int)func_0215F630(r4);
-    r6[2] = func_02012944(r4);
-    func_021666A4((int)func_02012ED0(r4));
+    r6[1] = (int)func_0215F630((void *)r4);
+    r6[2] = (int)func_02012944((void *)r4);
+    func_021666A4((int)func_02012ED0((struct Big *)r4));
     func_0201213C(p, 0);
     return r7;
 }

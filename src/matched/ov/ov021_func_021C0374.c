@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
 
 void func_021C0374(u32 *p)
 {
@@ -25,7 +25,7 @@ void func_021C0374(u32 *p)
     u32 b = p[1];
 
     if (p[30] != 0)
-        func_021BE8D4(a, b, 0, 0);
+        func_021BE8D4((void *)a, b, 0, 0);
     else
-        func_021BE8D4(a, b, 1, 0);
+        func_021BE8D4((void *)a, b, 1, 0);
 }

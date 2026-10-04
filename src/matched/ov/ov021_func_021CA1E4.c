@@ -24,13 +24,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020307B0(void *h);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_0200BAC8(u32 a);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200BAC8(void *p);
 extern void *func_0200BAF4(int a0, int a1);
 
 void func_021CA1E4(u8 *p)
 {
     if (*(void **)(p + 0x7c8) != 0)
         func_020307B0(*(void **)(p + 0x7c8));
-    *(void **)(p + 0x7c8) = func_0200BAF4(func_0200BAC8(func_02012EBC(*(u32 *)(p + 0x6c))), 4);
+    *(void **)(p + 0x7c8) = func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)(*(u32 *)(p + 0x6c)))), 4);
 }

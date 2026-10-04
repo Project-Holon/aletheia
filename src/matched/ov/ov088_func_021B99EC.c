@@ -22,8 +22,10 @@
 typedef unsigned int   u32;
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
-extern void func_02030EAC(int);
-extern void func_02031140(int);
+struct Node;
+struct S02031140;
+extern void func_02030EAC(struct Node *n);
+extern void func_02031140(struct S02031140 *p);
 extern void func_02046788(void);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
@@ -32,8 +34,8 @@ void func_021B99EC(int *p)
 {
     func_0204363C(1);
     func_0204361C();
-    func_02030EAC(p[1]);
-    func_02031140(p[0]);
+    func_02030EAC((struct Node *)p[1]);
+    func_02031140((struct S02031140 *)p[0]);
     func_02046788();
     func_020450C8();
     func_0203F9B4();

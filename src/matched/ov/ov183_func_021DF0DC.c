@@ -17,10 +17,10 @@
  *   func_021DEE7C 0x021DEE7C thumb ov183
  */
 typedef unsigned short u16;
-extern int func_021FD12C(int, int, unsigned int);
-extern void func_021FD170(int, int, int);
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int, int, int *);
-extern void func_021FE784(int *, int, int, int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *, int);
 extern void func_021DEE7C(void);
@@ -30,12 +30,12 @@ void func_021DF0DC(int *p, int *state, char *q)
     switch (*state) {
     case 0:
         if (*(int *)(q + 0x24) == 0) {
-            *(int *)(q + 0x24) = func_021FD12C(*(int *)(*(char **)(q + 0x108) + 0x10), *(int *)(q + 0x14), *(u16 *)(q + 0x18));
+            *(int *)(q + 0x24) = (int)func_021FD12C(*(int *)(*(char **)(q + 0x108) + 0x10), (void *)(*(int *)(q + 0x14)), *(u16 *)(q + 0x18));
         }
         if (**(int **)(q + 0x108) == 3) {
-            func_021FD170(*(int *)(q + 0x24), *(int *)(*(char **)(q + 0x108) + 0x10), 0x14B);
+            func_021FD170((char *)(*(int *)(q + 0x24)), (char *)(*(int *)(*(char **)(q + 0x108) + 0x10)), (void *)0x14B);
         } else {
-            func_021FD170(*(int *)(q + 0x24), *(int *)(*(char **)(q + 0x108) + 0x10), 0x13E);
+            func_021FD170((char *)(*(int *)(q + 0x24)), (char *)(*(int *)(*(char **)(q + 0x108) + 0x10)), (void *)0x13E);
         }
         args[0] = 0x80;
         args[1] = 0x60;
@@ -43,7 +43,7 @@ void func_021DF0DC(int *p, int *state, char *q)
         *state = 1;
         break;
     case 1:
-        func_021FE784(*(int **)(*(char **)(q + 0x108) + 8), 2, 3, 0);
+        func_021FE784((int)(*(int **)(*(char **)(q + 0x108) + 8)), 2, 3, 0);
         *state = 2;
         break;
     case 2:

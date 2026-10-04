@@ -13,9 +13,9 @@
  *   func_021E5440  0x021E5440  thumb  ov177
  */
 
-extern int func_021E5440(int, int);
+extern int *func_021E5440(unsigned swap, int heap);
 
 void func_0217AEF4(int *p)
 {
-    *(int *)((char *)p + 0x24) = func_021E5440(1, *(unsigned short *)p);
+    *(int *)((char *)p + 0x24) = (int)func_021E5440(1, *(unsigned short *)p);
 }

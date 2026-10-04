@@ -15,7 +15,8 @@
  *   func_0204ADA4 0x0204ADA4 arm
  */
 extern void func_021BB92C(char *,int);
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
@@ -27,7 +28,7 @@ void func_021BB480(char *p)
     if(*(int *)(p+0xe4)) {
         for(i=0;i<17;i++) {
             char *slot=p+i*4;
-            func_0204B3B4(*(int *)(slot+0x12c));
+            func_0204B3B4((struct Obj *)(*(int *)(slot+0x12c)));
             func_0204A8D4(*(int *)(slot+0xe8));
         }
         *(int *)(p+0xe4)=0;

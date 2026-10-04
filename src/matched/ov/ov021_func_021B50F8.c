@@ -23,14 +23,14 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_0216E95C(void *, void *, u32);
-extern void func_0215897C(void *, u32);
+extern void *func_0216E95C(void *sys, u32 arg, u32 heap);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B50F8(u32 a, u32 b)
 {
     void *s = func_0215A5F4((void *)b);
     void *d = func_0215A5DC((void *)b);
 
-    func_0215897C(s, func_0216E95C(d, func_0201210C((void *)d), 4));
+    func_0215897C(s, func_0216E95C(d, (u32)func_0201210C((void *)d), 4));
     return 1;
 }

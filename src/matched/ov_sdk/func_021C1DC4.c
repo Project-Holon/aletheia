@@ -33,10 +33,10 @@ struct D {
 extern int  func_021D5580(int x);
 extern void func_021BD5A8(void);
 extern void func_021BD138(void);
-extern void func_021D4C68(int x);
+extern void func_021D4C68(void *file);
 extern void func_021D6090(int a, int b);
 extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern struct D dat_021DE59C;
 extern void func_021CBC90(void);
 extern void func_021C2A3C(void);
@@ -49,17 +49,17 @@ void func_021C1DC4(void)
         return;
     func_021BD5A8();
     func_021BD138();
-    func_021D4C68(dat_021DE59C.f4);
+    func_021D4C68((void *)dat_021DE59C.f4);
     func_021D6090(1, 1);
     func_021D6090(0, 0x14);
     switch (dat_021DE59C.f0) {
     case 0:
         func_021C0E50(1, 0);
-        func_021C0E40(func_021CBC90);
+        func_021C0E40((unsigned int)func_021CBC90);
         return;
     case 1:
         func_021C0E50(0, 0);
-        func_021C0E40(func_021C2A3C);
+        func_021C0E40((unsigned int)func_021C2A3C);
         return;
     }
 }

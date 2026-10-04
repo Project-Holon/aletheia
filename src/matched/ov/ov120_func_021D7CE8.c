@@ -20,16 +20,19 @@ struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045CAC(void *,u16,int);
-extern void func_0201C7A4(void *,int,int,int,int);
+typedef signed short   s16;
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045334(struct Descriptor *d);
 void func_021D7CE8(char *p,u16 n,int i)
 {
     void *q=*(void **)(p+0x38+4*i);
     if(q) {
         func_02043B5C(func_02045770(q),0);
-        func_02045CAC(*(void **)(p+0xc),n,*(int *)(p+0x18));
-        func_0201C7A4(func_02045770(q),2,2,*(int *)(p+0x18),*(int *)(p+0x14));
+        func_02045CAC(*(void **)(p+0xc),n,(void *)(*(int *)(p+0x18)));
+        func_0201C7A4(func_02045770(q),2,2,(void *)(*(int *)(p+0x18)),(void *)(*(int *)(p+0x14)));
         func_02045334(q);
     }
 }

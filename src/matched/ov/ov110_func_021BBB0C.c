@@ -19,7 +19,9 @@ typedef unsigned char u8;
 extern unsigned func_021BAC4C(u8 *);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(unsigned, unsigned);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 extern int func_021BC7DC(u8 *p);
@@ -33,7 +35,7 @@ int func_021BBB0C(u8 *p, int a)
     ready = 1;
     if (a) {
         if (p[0xa0]) {
-            if (func_0201C6C4(owner, (unsigned)func_02045770(*(void **)(p + 0x9c))) == 0) {
+            if (func_0201C6C4((struct PrintSys *)owner, (void *)((unsigned)func_02045770(*(void **)(p + 0x9c)))) == 0) {
                 func_02045334(*(void **)(p + 0x9c));
                 p[0xa0] = 0;
             }

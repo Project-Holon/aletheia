@@ -30,7 +30,8 @@ extern int func_0216D86C(void *o);
 extern int func_021641E8(u16 d);
 extern int func_021641F8(u16 d);
 extern void *func_02188C7C(u8 *p);
-extern int func_0216DDC0(void *c, int x, int z, int a);
+typedef unsigned int   u32;
+extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
 
 int func_0218B6F8(char *p, void *q)
 {
@@ -43,7 +44,7 @@ int func_0218B6F8(char *p, void *q)
     for (i = 0; i < 2; i++) {
         x = (s16)(x + func_021641E8(d));
         z = (s16)(z + func_021641F8(d));
-        if (func_0216DDC0(func_02188C7C(q), x, z, 1))
+        if (func_0216DDC0((u32)func_02188C7C(q), x, z, 1))
             return 0;
     }
     return 1;

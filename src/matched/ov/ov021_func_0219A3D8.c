@@ -24,11 +24,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef struct { int left, top, right, bottom; } Rect;
-extern int func_0216D7E8(u32);
-extern int func_0216D7F8(u32);
-extern int func_0216D660(u32);
-extern int func_0216D66C(u32);
-extern u32 func_0216D5A0(u32);
+extern int func_0216D7E8(void *p);
+extern int func_0216D7F8(void *p);
+extern int func_0216D660(void *p);
+extern int func_0216D66C(void *p);
+extern u16 func_0216D5A0(void *p);
 
 void func_0219A3D8(u32 a, Rect *r)
 {
@@ -37,11 +37,11 @@ void func_0219A3D8(u32 a, Rect *r)
     int w;
     int h;
 
-    x = func_0216D7E8(a);
-    y = func_0216D7F8(a);
-    w = func_0216D660(a);
-    h = func_0216D66C(a);
-    switch (func_0216D5A0(a)) {
+    x = func_0216D7E8((void *)a);
+    y = func_0216D7F8((void *)a);
+    w = func_0216D660((void *)a);
+    h = func_0216D66C((void *)a);
+    switch (func_0216D5A0((void *)a)) {
     case 6:
         r->left = x - w;
         r->right = x;

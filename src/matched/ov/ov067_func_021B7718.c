@@ -18,7 +18,8 @@
 
 typedef unsigned int u32;
 
-extern void func_02061CA4(int type, u32 addr, void *data, u32 size);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021B7718(int which, int idx, void *data)
 {
@@ -43,5 +44,5 @@ void func_021B7718(int which, int idx, void *data)
     default:
         return;
     }
-    func_02061CA4(type, idx << 5, data, 0x20);
+    func_02061CA4((void *)type, idx << 5, (u32)data, 0x20);
 }

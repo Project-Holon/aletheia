@@ -13,7 +13,7 @@
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE618 0x021DE618 thumb ov121
  */
-extern void func_02157E8C(void *);
+extern int func_02157E8C(int a0);
 extern unsigned func_0203D210(void);
 typedef unsigned int   u32;
 extern void func_021DEEA4(u32 *p, void *f);
@@ -22,7 +22,7 @@ void func_021DE8D0(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_02157E8C(*(void **)(p + 0x79c));
+        func_02157E8C((int)(*(void **)(p + 0x79c)));
         *state = 1;
         break;
     case 1:

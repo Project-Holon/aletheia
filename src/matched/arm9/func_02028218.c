@@ -28,10 +28,11 @@ struct Obj {
     u32 field_18;
 };
 
-extern void func_02027B30(u32 a, u32 b, u32 c);
+struct S;
+extern void func_02027B30(u32 a0, struct S *s, int mode);
 
 void func_02028218(struct Obj *obj, u32 a)
 {
     obj->field_14 = 0;
-    func_02027B30(obj->field_00, obj->field_18, a);
+    func_02027B30(obj->field_00, (struct S *)obj->field_18, a);
 }

@@ -21,7 +21,9 @@ typedef unsigned char u8;
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(int a, int b);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
 extern void func_021C577C(int a, int b, int c);
 struct Obj;
@@ -34,7 +36,7 @@ int func_021C56F8(int *a)
     int r7;
 
     if (*(u8 *)(a + 5) != 0) {
-        if (func_0201C6C4(r4, (int)func_02045770((struct Descriptor *)a[4])) == 0) {
+        if (func_0201C6C4((struct PrintSys *)r4, (void *)((int)func_02045770((struct Descriptor *)a[4]))) == 0) {
             func_02045334((struct Descriptor *)a[4]);
             *(u8 *)(a + 5) = 0;
         }

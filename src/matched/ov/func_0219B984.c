@@ -24,17 +24,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216D67C(u32, u32, u32, u32);
-extern u32 func_0216DEE0(u32);
-extern u32 func_0219B9B0(u32, u32);
+extern void *func_0216DEE0(void *a0);
+extern void func_0219B9B0(u32 a, u8 *s);
 
 int func_0219B984(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0216DEE0(func_0216D67C(a, b, c, d)) == 0) {
+if (func_0216DEE0((void *)func_0216D67C(a, b, c, d)) == 0) {
     *(u8 *)((u8 *)(b) + 1) = 0;
     return 0;
 }
 if (*(u8 *)((u8 *)(b) + 1) == 0) {
-    func_0219B9B0(a, b);
+    func_0219B9B0(a, (u8 *)b);
 }
 return 1;
 }

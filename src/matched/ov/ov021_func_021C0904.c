@@ -29,12 +29,12 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u16 func_02188C84(u8 *p);
 extern u32 func_02188C98(u8 *p);
-extern u32 func_0218DC6C(u32 a);
+extern u32 func_0218DC6C(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *pos);
 extern u32 *func_0218C584(u32 a, int *rect, u32 n, int *cnt);
-extern void func_0218C6D0(u32 a, u8 *dst);
+extern void func_0218C6D0(int *p, int b);
 extern void func_020307B0(void *p);
 
 void func_021C0904(u8 *p, u32 a, u32 n)
@@ -54,7 +54,7 @@ void func_021C0904(u8 *p, u32 a, u32 n)
     p[0x14] = n;
     *(void **)(p + 4) = s;
     p[0x15] = 0;
-    *(u32 *)(p + 0x18) = func_0218DC6C(t);
+    *(u32 *)(p + 0x18) = func_0218DC6C((u8 *)t);
     *(u32 *)(p + 0x34) = 0;
     if (p[0x14] > 6) {
         p[0x14] = 6;
@@ -67,7 +67,7 @@ void func_021C0904(u8 *p, u32 a, u32 n)
     r = func_0218C584(*(u32 *)(p + 0x18), rect, 3, &cnt);
     if (r) {
         *(u32 *)(p + 0x34) = *r;
-        func_0218C6D0(*r, p + 8);
+        func_0218C6D0((int *)(*r), (int)(p + 8));
     }
     func_020307B0(r);
 }

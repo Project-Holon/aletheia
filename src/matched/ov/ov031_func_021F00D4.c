@@ -33,9 +33,10 @@ typedef unsigned int   u32;
 
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern u8 *func_02026474(void *p);
+struct Src;
+extern u32 func_02026474(void *obj);
 extern u32 func_02026454(void *obj);
-extern void func_021BBA70(u8 *q, int a, u8 *b, int c);
+extern void func_021BBA70(struct Ctx *ctx, struct Src *src, u16 *v, u8 kind);
 extern void func_021F0680(char *p, u8 *b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
@@ -57,11 +58,11 @@ void func_021F00D4(char *p, int mode)
     int res;
 
     s = (void *)func_02012138(*(void **)p);
-    q = func_02026474(s);
+    q = (u8 *)func_02026474(s);
     if (q != 0) {
         r = q + 0x2830;
         if (r[0xe] == 1) {
-            func_021BBA70(q, 0, r + 4, r[0xf]);
+            func_021BBA70((struct Ctx *)q, 0, (u16 *)(r + 4), r[0xf]);
             r[0xe] = 0;
         }
         func_021F0680(p, q + 0x30E0);

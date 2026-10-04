@@ -13,9 +13,10 @@
  *   func_02014D2C  0x02014D2C  thumb
  */
 
-void func_02014D2C(int);
+struct McssSys;
+void func_02014D2C(struct McssSys *sys);
 
 void func_021FEE9C(int *p)
 {
-    func_02014D2C(p[1]);
+    func_02014D2C((struct McssSys *)p[1]);
 }

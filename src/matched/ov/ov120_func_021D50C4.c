@@ -31,7 +31,7 @@ struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
 extern void func_021D8418(int);
-extern void *func_021D6988(void *);
+extern u32 func_021D6988(u8 *p);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D79F4(u8 *p, u16 n);
 extern void func_021D7550(u8 *p);
@@ -52,7 +52,7 @@ void func_021D50C4(u8 *p)
         func_021D8418(*(int *)(p + 0x38));
         zero = 0;
         *(int *)(p + 0x38) = zero;
-        func_021B6558(func_021D6988(*(void **)(p + 0x3c)), 1, 1);
+        func_021B6558((unsigned char *)func_021D6988(*(void **)(p + 0x3c)), 1, 1);
         switch (state) {
         case 0:
             func_021D79F4(*(void **)(p + 0x40), 0xe);

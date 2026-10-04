@@ -21,7 +21,8 @@
 extern int func_02175F3C(void);
 extern int func_02059F38(void);
 extern int func_0219F058(int a, int b);
-extern int func_0219E120(int a, int b, int c);
+struct SBServer;
+extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 
 int func_0216CB30(int a, int b, int c)
 {
@@ -32,7 +33,7 @@ int func_0216CB30(int a, int b, int c)
     }
     t = func_0219F058(*(int *)(func_02175F3C() + 0x5e0), a);
     if (t != 0) {
-        c = func_0219E120(t, b, c);
+        c = func_0219E120((struct SBServer *)t, (char *)b, c);
     }
     return c;
 }

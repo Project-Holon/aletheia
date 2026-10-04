@@ -42,7 +42,7 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int i);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -67,7 +67,7 @@ int func_021F44C0(void *a, int *state)
     Id id;
 
     sys = (void *)func_0201210C(func_020124E4(a));
-    h = func_02188D2C(sys);
+    h = (void *)func_02188D2C(sys);
     s = (u8 *)func_021897BC(sys, 1);
     func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(sys))), 6);
     switch (*state) {

@@ -14,10 +14,12 @@
  *   func_02035B58   0x02035B58  arm
  */
 
-extern int func_02035224(void);
-extern void func_02035B58(int a, const void *p);
+typedef unsigned int   u32;
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
+extern int func_02035B58(u32 a, u32 b);
 
 void func_02035BA4(const void *p)
 {
-    func_02035B58(func_02035224(), p);
+    func_02035B58((u32)func_02035224(), (u32)p);
 }

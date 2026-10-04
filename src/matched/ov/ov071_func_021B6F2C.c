@@ -15,9 +15,9 @@
 typedef unsigned char u8;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_021583EC(void *, u8);
+extern int func_021583EC(void *a0, int a1);
 void *func_021B6F2C(u8 **p)
 {
     u8 *q = *p;
-    return func_021583EC(func_020120F4(*(void **)q), q[0x3c]);
+    return (void *)func_021583EC(func_020120F4(*(void **)q), q[0x3c]);
 }

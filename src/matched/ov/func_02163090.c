@@ -22,12 +22,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216DA5C();
-extern int func_0216D57C();
-extern int func_0216D5A0();
-extern int func_0216D564();
-extern int func_0216DB68();
-extern int func_0216DCB4();
+extern int func_0216DA5C(void *a0);
+extern u32 func_0216D57C(void *p, u32 v);
+extern u16 func_0216D5A0(void *p);
+extern u32 func_0216D564(void *p);
+extern int func_0216DB68(void *a0);
+extern int func_0216DCB4(void *a0);
 
 int func_02163090(int a0, int a1)
 {
@@ -35,14 +35,14 @@ int func_02163090(int a0, int a1)
     int t5;
 
 t5 = a0 + 0;
-    a0 = func_0216DA5C(a0);
+    a0 = func_0216DA5C((void *)a0);
 loc_02163098:
     if (a0 != 0) goto loc_021630F0;
 loc_0216309C:
 a1 = 6;
 a0 = t5 + 0;
 a1 = a1 << 0xa;
-    a0 = func_0216D57C(a0, a1);
+    a0 = func_0216D57C((void *)a0, a1);
 loc_021630A6:
     if (a0 != 0) goto loc_021630AE;
 loc_021630AA:
@@ -50,7 +50,7 @@ a0 = 1;
     return a0;
 loc_021630AE:
 a0 = t5 + 0;
-    a0 = func_0216D5A0(a0);
+    a0 = func_0216D5A0((void *)a0);
 loc_021630B4:
     if (a0 != 0x32) goto loc_021630BC;
 loc_021630B8:
@@ -58,7 +58,7 @@ a0 = 1;
     return a0;
 loc_021630BC:
 a0 = t5 + 0;
-    a0 = func_0216D564(a0);
+    a0 = func_0216D564((void *)a0);
 loc_021630C2:
 t4 = a0 + 0;
 a0 = 1;
@@ -66,7 +66,7 @@ a0 = a0 << 0xc;
     if ((a0 & t4) == 0) goto loc_021630DA;
 loc_021630CC:
 a0 = t5 + 0;
-    a0 = func_0216DB68(a0);
+    a0 = func_0216DB68((void *)a0);
 loc_021630D2:
     if (a0 != 0) goto loc_021630DA;
 loc_021630D6:
@@ -78,7 +78,7 @@ a0 = a0 << 0xa;
     if ((a0 & t4) == 0) goto loc_021630F0;
 loc_021630E2:
 a0 = t5 + 0;
-    a0 = func_0216DCB4(a0);
+    a0 = func_0216DCB4((void *)a0);
 loc_021630E8:
     if (a0 != 0) goto loc_021630F0;
 loc_021630EC:

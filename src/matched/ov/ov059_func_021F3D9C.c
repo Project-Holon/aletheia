@@ -49,19 +49,19 @@ struct Rec44;
 struct SaveBlock;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern W *func_021897BC(void *p, int i);
-extern int func_021BE6E8(void *p, int i, u16 j, int k);
+extern int func_021BE6E8(int a, int b, int c, int d);
 extern void *func_02188C7C(u8 *p);
 extern void *func_0216DE94(void *map, u32 id);
 extern void func_0216CF2C(void *o);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012844(void *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern u16 func_02162744(u8 *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_0201296C(const struct BigObj *p);
-extern void *func_02162740(void *p);
+extern u32 func_02162740(u8 *p);
 extern void *func_0216CEE4(void *a, void *e, u32 b, int n, u32 c, u32 id);
 extern void func_0216DAF8(void *obj);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
@@ -86,20 +86,20 @@ int func_021F3D9C(void *a)
 
     o = func_020124E4(a);
     t = func_0201210C(o);
-    s = func_02188D2C(t);
+    s = (void *)func_02188D2C(t);
     w = func_021897BC(t, 1);
-    if (func_021BE6E8(s, 0, 2, 0) == 0xF000) {
+    if (func_021BE6E8((int)s, 0, 2, 0) == 0xF000) {
         x = w->p24[0];
         y = w->p24[1];
         map = func_02188C7C(t);
         func_0216CF2C(func_0216DE94(map, x));
         v = func_020120F4(o);
-        m = func_02012844(v);
+        m = (void *)func_02012844(v);
         k = func_02162744(m);
         b = func_02012AC8(func_020127A4(v));
         if (k != 0) {
             c = func_0201296C(v);
-            e = func_0216CEE4(map, func_02162740(m), b, k, c, y);
+            e = func_0216CEE4(map, (void *)func_02162740(m), b, k, c, y);
             if (e != 0)
                 func_0216DAF8(e);
         }

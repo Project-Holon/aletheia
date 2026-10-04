@@ -36,7 +36,7 @@ typedef struct WCMWork {
 
 extern unsigned char g_021AA7E8[];
 extern unsigned long OS_DisableInterrupts(void);
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02086028(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
@@ -52,13 +52,13 @@ long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen
     unsigned long e;
 
     e = OS_DisableInterrupts();
-    w = func_021657C8();
+    w = (WCMWork *)func_021657C8();
     if (w == 0) {
         OS_RestoreInterrupts(e);
         return -1;
     }
     func_02086028(g_021AA7E8);
-    w = func_021657C8();
+    w = (WCMWork *)func_021657C8();
     if (w == 0) {
         OS_UnlockMutex(g_021AA7E8);
         OS_RestoreInterrupts(e);

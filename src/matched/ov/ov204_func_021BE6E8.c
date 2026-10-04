@@ -17,10 +17,10 @@
  * the bl site resolves as matched and the verdict promoted to EXACT.
  */
 
-extern void func_021BD374(int);
+extern void func_021BD374(unsigned char *p);
 
 int func_021BE6E8(char *a)
 {
-    func_021BD374(*(int *)(a + 0xa4));
+    func_021BD374((unsigned char *)(*(int *)(a + 0xa4)));
     return 1;
 }

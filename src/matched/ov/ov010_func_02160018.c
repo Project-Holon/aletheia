@@ -83,7 +83,7 @@ extern void func_02164480(Flags *f, void *a, void *b);
 extern int func_0216070C(Work *w);
 extern void *func_0216075C(Req *r, u16 id);
 extern void func_0216D9E4(void *c);
-extern void *func_021644F4(u32 i, void *a, void *p);
+extern int func_021644F4(int i, void *a, void *p);
 extern void *func_021606DC(void *p, u32 a);
 struct BigObj;
 struct Ctx;
@@ -214,7 +214,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
 
             func_020307B0(w->f10);
             w->f10 = 0;
-            func_02012374(evt, func_021644F4(i, w->f04, w->f08));
+            func_02012374(evt, (struct Evt **)func_021644F4(i, w->f04, w->f08));
             *state = 13;
         }
         break;

@@ -30,34 +30,35 @@
  *   func_020306F0  0x020306F0  arm
  *   ov067_id       0x00000043  data
  */
-extern int func_02208770(int);
-extern void func_02205D28(int);
-extern void func_02205100(int, int *);
+struct PrintSys;
+extern void func_02208770(char *a);
+extern void func_02205D28(char *p);
+extern void func_02205100(void *unused, char *p);
 extern void func_0220506C(int, int *);
-extern void func_02205580(int, int *);
+extern void func_02205580(void *unused, char *p);
 extern void func_022052E8(int, int *);
-extern void func_0201C6EC(int);
-extern void func_0201C4C0(int);
-extern void func_0201D83C(int);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201D83C(void *ptr);
 extern void func_02205A84(int);
-extern void func_022059A0(int);
+extern void func_022059A0(char *p);
 extern void func_02034A5C(int);
 extern void func_020306F0(unsigned int);
 extern unsigned char ov067_id[];
 
 void func_02204D5C(int a, int *p)
 {
-    func_02208770(p[0x42]);
-    func_02205D28(p[0x41]);
-    func_02205100(a, p);
+    func_02208770((char *)p[0x42]);
+    func_02205D28((char *)p[0x41]);
+    func_02205100((void *)a, (char *)p);
     func_0220506C(a, p);
-    func_02205580(a, p);
+    func_02205580((void *)a, (char *)p);
     func_022052E8(a, p);
-    func_0201C6EC(p[3]);
-    func_0201C4C0(p[3]);
-    func_0201D83C(p[2]);
+    func_0201C6EC((struct PrintSys *)p[3]);
+    func_0201C4C0((struct PrintSys *)p[3]);
+    func_0201D83C((void *)p[2]);
     func_02205A84(p[1]);
-    func_022059A0(p[1]);
+    func_022059A0((char *)p[1]);
     func_02034A5C((int)ov067_id);
     func_020306F0(0x68);
 }

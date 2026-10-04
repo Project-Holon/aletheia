@@ -30,12 +30,15 @@ extern int func_02159190(int a0);
 extern int func_0215A61C(int a0);
 extern void func_02191164(struct P *p);
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *);
-extern u32 func_0215A60C(u32);
-extern u32 func_0215A654(u32);
-extern u32 func_02190FA0(u32, u32, u32);
-extern void func_0215A660(u32, u32);
-extern void func_0215A614(u32, u32);
+typedef unsigned char  u8;
+struct Fx;
+struct Obj2;
+extern int func_02158F58(int a0);
+extern u32 func_0215A60C(u8 *p);
+extern u32 func_0215A654(u8 *p);
+extern struct Obj2 *func_02190FA0(struct Fx *a, u32 b, u32 c);
+extern void func_0215A660(u8 *p, u32 v);
+extern void func_0215A614(u8 *p, u32 v);
 extern void func_02159144(int n);
 
 void func_021B03E4(u32 a, u32 b)
@@ -48,14 +51,14 @@ void func_021B03E4(u32 a, u32 b)
         func_02191164((void *)func_0215A61C(a));
         return;
     }
-    p = func_02158F58(func_0215A5F4((void *)a));
-    x = func_0215A60C(a);
+    p = (u32 *)func_02158F58((int)func_0215A5F4((void *)a));
+    x = func_0215A60C((u8 *)a);
     r4 = b;
     if (b == 1) {
     } else if (b == 2) {
         r5 = 0x13;
     } else if (b == 0) {
-        switch (func_0215A654(a)) {
+        switch (func_0215A654((u8 *)a)) {
         case 1:
         case 3:
         case 5:
@@ -80,8 +83,8 @@ void func_021B03E4(u32 a, u32 b)
         r5 = 0x13;
         r4 = 2;
     }
-    r5 = func_02190FA0(*p, x, r5);
-    func_0215A660(a, r4);
-    func_0215A614(a, r5);
+    r5 = (u32)func_02190FA0((struct Fx *)(*p), x, r5);
+    func_0215A660((u8 *)a, r4);
+    func_0215A614((u8 *)a, r5);
     func_02159144(1);
 }

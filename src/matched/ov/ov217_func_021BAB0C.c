@@ -20,13 +20,13 @@ typedef unsigned int u32;
 
 struct Ent { u32 a; u32 b; u8 c; u8 pad[11]; };
 
-extern void func_021C29E8(int obj, u32 a, u32 b, u8 c);
+extern void func_021C29E8(void *p, u32 b, u32 c, u32 d);
 extern struct Ent d_021C2FF8[];
 
 void func_021BAB0C(char *self)
 {
     int i;
     for (i = 0; i < 5; i++) {
-        func_021C29E8(*(int *)(self + i * 4 + 0x38), d_021C2FF8[i].a, d_021C2FF8[i].b, d_021C2FF8[i].c);
+        func_021C29E8((void *)(*(int *)(self + i * 4 + 0x38)), d_021C2FF8[i].a, d_021C2FF8[i].b, d_021C2FF8[i].c);
     }
 }

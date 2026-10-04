@@ -21,8 +21,9 @@ extern void *func_02009EC8(void *);
 typedef unsigned int   u32;
 struct Sub02009D9CObj;
 extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
-extern int func_02012944(int);
-extern int func_02008530(int);
+struct Sub0200852CObj;
+extern u8 *func_02012944(void *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 #define I(k) (*(int *)(p + (k)))
 int func_021D4A20(int a, u8 *p)
 {
@@ -48,7 +49,7 @@ int func_021D4A20(int a, u8 *p)
                 if (I(0x18) == id) score = 100;
             }
         } else {
-            if (group == func_02008530(func_02012944(*(int *)q))) {
+            if (group == func_02008530((const struct Sub0200852CObj *)func_02012944((void *)(*(int *)q)))) {
                 if (I(0x148) == -1) {
                     if (func_02009E74(func_02009EC8(*(void **)(p + 0x30)), id) != 0)
                         score = 100;

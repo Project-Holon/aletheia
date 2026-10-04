@@ -51,20 +51,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_0200873C(u32 a);
-extern u32  func_0200C0E8(u32 sys);
-extern u32  func_0200C258(u32 a);
-extern u32  func_0200CA1C(void *a);
+typedef signed int     s32;
+struct Big;
+struct Blk34;
+struct Sub02008700Obj;
+extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern void *func_0200C0E8(void *sys);
+extern u32 func_0200C258(struct Blk34 *p);
+extern void *func_0200CA1C(void *a);
 struct BigObj;
 extern u32 func_02012924(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
-extern u32  func_02012944(void *a);
+extern u8 *func_02012944(void *p);
 extern u32 func_0201296C(const struct BigObj *p);
-extern u32  func_02012EBC(void *a);
+extern void *func_02012EBC(struct Big *p);
 extern u32  func_02012F20(void *a);
-extern u32  func_02012F2C(void *a);
+extern void *func_02012F2C(int *p);
 extern void func_02013144(void *p, int v);
-extern int  func_020142E8(u32 a, u32 b);
+extern u32 func_020142E8(void *bitmap, s32 id);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 
 void func_02013360(u8 *o, void *a1, const void *a2)
@@ -95,21 +99,21 @@ void func_02013360(u8 *o, void *a1, const void *a2)
     for (i = 0; i < 7; i++) {
         *(o + i + 0x78) = 0;
     }
-    *(u32 *)(o + 0x34) = func_02012944(a1);
+    *(u32 *)(o + 0x34) = (u32)func_02012944(a1);
     *(void **)(o + 0x60) = func_0201292C(a1);
     *(u32 *)(o + 0x64) = func_02012924(a1);
-    *(u32 *)(o + 0x68) = func_0200CA1C(a1);
+    *(u32 *)(o + 0x68) = (u32)func_0200CA1C(a1);
     *(u32 *)(o + 0x70) = func_02012F20(a1);
-    *(u32 *)(o + 0x6c) = func_02012F2C(a1);
-    t = func_02012EBC(a1);
-    u = func_0200C0E8(t);
-    *(u32 *)(o + 0x5c) = func_0200873C(t);
-    *(o + 0x80) = (u8)func_0200C258(u);
+    *(u32 *)(o + 0x6c) = (u32)func_02012F2C(a1);
+    t = (u32)func_02012EBC(a1);
+    u = (u32)func_0200C0E8((void *)t);
+    *(u32 *)(o + 0x5c) = (u32)func_0200873C((void *)t);
+    *(o + 0x80) = (u8)func_0200C258((struct Blk34 *)u);
     func_02082D44(a2, o + 8, 0x10);
     *(u16 *)(o + 0x18) = 0x468;
     *(u16 *)(o + 0x1a) = 0x468 + 0x14;
     *(u32 *)(o + 0x8c) = 1;
-    if (func_020142E8(func_0201296C(a1), 0x96d) != 0) {
+    if (func_020142E8((void *)func_0201296C(a1), 0x96d) != 0) {
         func_02013144(o, 2);
     }
 }

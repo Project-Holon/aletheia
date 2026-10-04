@@ -104,41 +104,48 @@ typedef unsigned int   u32;
 
 extern char  g_020A728C[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32   func_020070A4(void);
+struct Sub02006E40Obj;
+struct Sub02007084Ctrl;
+struct Sub020071E4Ctrl;
+struct Sub0200852CObj;
+struct Sub02008700Obj;
+struct Sub02008828Obj;
+struct Sys;
+extern struct Sub02007084Ctrl *func_020070A4(void);
 extern u8    func_0202E888(void);
-extern u32   func_02008854(u32 h);
+extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u32   func_02008844(u32 a);
-extern u32   func_02008848(u32 a);
-extern u32   func_0200884C(u32 a);
-extern u32   func_02006E40(int heap);
+extern void *func_02008848(struct Sub02008828Obj *obj);
+extern void *func_0200884C(struct Sub02008828Obj *obj);
+extern struct Sub02006E40Obj *func_02006E40(u32 heap);
 extern void  func_02012A60(void *p);
 extern u32   func_02008468(void);
 extern void *func_02012944(void *p);
-extern void *func_02008730(u32 h);
+extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void *memcpy(void *dst, const void *src, u32 n);
-extern void *func_0216237C(int heap);
+extern int func_0216237C(int a);
 extern void  func_021623DC(void *p);
 extern u32   func_02012FE4(u32 h);
-extern u32   func_02159B48(int heap);
+extern u16 *func_02159B48(int a);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern u32   func_0216CC58(int heap, u32 n, u32 c);
-extern u32   func_02028844(void *p, int heap);
+extern char *func_0216CC58(int a, int b, int c);
+extern struct Sys *func_02028844(void *desc, u32 heap);
 extern u32   func_02014428(int heap);
-extern u32   func_02008254(int heap);
-extern u32   func_0200873C(u32 h);
-extern u32   func_02007AA4(int heap, u32 h);
-extern u32   func_020097C4(int heap);
+extern void *func_02008254(u32 heap);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern u32 *func_02007AA4(u32 heap, u32 value);
+extern void *func_020097C4(int a0);
 extern void  func_0200BDE4(void *p);
 extern void  func_02161D98(char *p);
-extern u32   func_0200857C(int heap);
-extern u32   func_020071E4(u32 h);
-extern u32   func_0215E31C(int heap);
+extern void *func_0200857C(u32 heap);
+extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
+extern void *func_0215E31C(u32 heap);
 extern void  func_0202E43C(void *p);
 extern void  func_02012C18(void *p);
-extern u32   func_0202E770(int heap);
+extern void *func_0202E770(void *heap);
 extern u32   func_0202751C(int heap, u32 n);
-extern u32   func_021647A0(void *p, int heap);
+extern u8 *func_021647A0(void *a, u32 b);
 
 void *func_020124F4(u16 heap)
 {
@@ -149,17 +156,17 @@ void *func_020124F4(u16 heap)
     void *obj;
 
     p = func_02030734(heap, 0x6B0, 1, g_020A728C, 0xAD);
-    *(u32 *)p = func_020070A4();
+    *(u32 *)p = (u32)func_020070A4();
     *(u8 *)(p + 0x1C4) = func_0202E888();
     *(u8 *)(p + 0x1C6) = 0;
 
-    *(u32 *)(p + 0x15C) = func_02008854(*(u32 *)p);
+    *(u32 *)(p + 0x15C) = (u32)func_02008854((void *)(*(u32 *)p));
     *(u32 *)(p + 0x160) = func_02008844(*(u32 *)(p + 0x15C));
     *(u32 *)(p + 0x164) = func_02008844(*(u32 *)(p + 0x15C));
-    *(u32 *)(p + 0x168) = func_02008848(*(u32 *)(p + 0x15C));
-    *(u32 *)(p + 0x16C) = func_0200884C(*(u32 *)(p + 0x15C));
+    *(u32 *)(p + 0x168) = (u32)func_02008848((struct Sub02008828Obj *)(*(u32 *)(p + 0x15C)));
+    *(u32 *)(p + 0x16C) = (u32)func_0200884C((struct Sub02008828Obj *)(*(u32 *)(p + 0x15C)));
 
-    *(u32 *)(p + 0x1A4) = func_02006E40(heap);
+    *(u32 *)(p + 0x1A4) = (u32)func_02006E40(heap);
 
     for (i = 0; i < 5; i++) {
         func_02012A60(p + 4 + i * 0x44);
@@ -167,21 +174,21 @@ void *func_020124F4(u16 heap)
 
     n = func_02008468();
     src = func_02012944(p);
-    memcpy(func_02008730(*(u32 *)p), src, n);
+    memcpy(func_02008730((void *)(*(u32 *)p)), src, n);
 
-    *(void **)(p + 0x158) = obj = func_0216237C(heap);
+    *(void **)(p + 0x158) = obj = (void *)func_0216237C(heap);
     func_021623DC(obj);
     *(u32 *)(p + 0x1AC) = func_02012FE4(*(u32 *)p);
-    *(u32 *)(p + 0x1B0) = func_02159B48(heap);
-    *(u32 *)(p + 0x1A8) = func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x33));
-    *(u32 *)(p + 0x1B4) = func_02028844(p, heap);
+    *(u32 *)(p + 0x1B0) = (u32)func_02159B48(heap);
+    *(u32 *)(p + 0x1A8) = (u32)func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x33));
+    *(u32 *)(p + 0x1B4) = (u32)func_02028844(p, heap);
     *(u32 *)(p + 0x1B8) = func_02014428(heap);
-    *(u32 *)(p + 0x18C) = func_02008254(heap);
+    *(u32 *)(p + 0x18C) = (u32)func_02008254(heap);
     *(u32 *)(p + 0x190) = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x19);
     *(u32 *)(p + 0x194) = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x1A);
-    *(u32 *)(p + 0x198) = func_0200873C(*(u32 *)p);
-    *(u32 *)(p + 0x19C) = func_02007AA4(heap, *(u32 *)p);
-    *(u32 *)(p + 0x1A0) = func_020097C4(heap);
+    *(u32 *)(p + 0x198) = (u32)func_0200873C((void *)(*(u32 *)p));
+    *(u32 *)(p + 0x19C) = (u32)func_02007AA4(heap, *(u32 *)p);
+    *(u32 *)(p + 0x1A0) = (u32)func_020097C4(heap);
 
     for (i = 0; i < 4; i++) {
         func_0200BDE4(p + 0x1D4 + i * 0x10);
@@ -191,18 +198,18 @@ void *func_020124F4(u16 heap)
         func_02161D98((char *)(p + 0x214 + i * 0x1E8));
     }
 
-    *(u32 *)(p + 0x6AC) = func_0200857C(heap);
+    *(u32 *)(p + 0x6AC) = (u32)func_0200857C(heap);
     *(u32 *)(p + 0x1C0) = 0;
-    func_020071E4(*(u32 *)p);
+    func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)p));
 
-    *(u32 *)(p + 0x5E4) = func_0215E31C(heap);
+    *(u32 *)(p + 0x5E4) = (u32)func_0215E31C(heap);
     func_0202E43C(p + 0x5E8);
     func_02012C18(p);
     *(u32 *)(p + 0x680) = 0;
     *(u32 *)(p + 0x688) = 0;
-    *(u32 *)(p + 0x684) = func_0202E770(heap);
+    *(u32 *)(p + 0x684) = (u32)func_0202E770((void *)heap);
     *(u32 *)(p + 0x68C) = func_0202751C(heap, 0x8001);
-    *(u32 *)(p + 0x690) = func_021647A0(p, heap);
+    *(u32 *)(p + 0x690) = (u32)func_021647A0(p, heap);
     *(u32 *)(p + 0x6A4) = 0;
     *(u32 *)(p + 0x6A8) = 0;
 

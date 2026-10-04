@@ -19,16 +19,17 @@ typedef unsigned short u16;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void func_021DD080(void *,int,void *);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern void func_021DD080(void *a, void *b, void *c);
 extern void func_021D8E84(void *,int);
 extern void func_021DDBF0(char *p);
 
 void func_021DDDB8(unsigned char *p)
 {
     unsigned char v=14;
-    if(func_0203D3A8(func_020399A8(),0xc00,1,&v)) {
-        func_021DD080(func_020399A8(),29,p);
+    if(func_0203D3A8(func_020399A8(),0xc00,1,(u32)(&v))) {
+        func_021DD080(func_020399A8(),(void *)29,p);
         func_021D8E84(p,(int)func_021DDBF0);
     }
 }

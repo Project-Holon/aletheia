@@ -59,7 +59,8 @@ struct WazaTool {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern void func_020457A0(u16 stamp);
-extern void *func_02043678(u32 a, u32 b, u32 c, void *d);
+struct Bmp;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 
 extern struct WazaTool *gWazaTool;
 extern const char sub_0201C328_File[];
@@ -111,5 +112,5 @@ u32 sub_0201C408(void)
 void sub_0201C41C(void *arg)
 {
     func_020457A0(0xFFFF);
-    g_02146558 = func_02043678(2, 2, 0x20, arg);
+    g_02146558 = func_02043678(2, 2, 0x20, (u32)arg);
 }

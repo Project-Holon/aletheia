@@ -22,10 +22,11 @@ extern int func_021D8A24(void *),func_021D8AA8(void *);
 extern void func_021D8E84(void *,int),func_021D4B88(void *),func_021D6F2C(void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 void func_021DA700(char *p) {
  u8 b=*(int *)(p+0x10a0);
- if(func_021D8A24(p)) {if(func_0203D3A8(func_020399A8(),0xc03,1,&b)==0) return;}
+ if(func_021D8A24(p)) {if(func_0203D3A8(func_020399A8(),0xc03,1,(u32)(&b))==0) return;}
  *(unsigned *)0x04001000 &= 0xffff1fff;
  if(func_021D8AA8(p)==0) func_021D8E84(p,(int)func_021D4B88);
  else func_021D8E84(p,(int)func_021D6F2C);

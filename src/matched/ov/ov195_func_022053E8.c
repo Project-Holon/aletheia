@@ -25,9 +25,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0201CE30(u32);
-extern u32 func_0201CE5C(u32, int);
-extern u32 func_0201CE38(u32);
+typedef signed int     s32;
+struct Rec;
+extern u32 func_0201CE30(void *p);
+extern void func_0201CE5C(struct Rec *p, s32 v);
+extern void func_0201CE38(void *p);
 typedef unsigned char  u8;
 extern void func_020061E4(u32 a);
 extern unsigned int func_0203630C(void);
@@ -40,10 +42,10 @@ int func_022053E8(char *a)
 {
     int r = 0;
 
-    switch (func_0201CE30(*(u32 *)(a + 0x64))) {
+    switch (func_0201CE30((void *)(*(u32 *)(a + 0x64)))) {
     case 0:
         if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
-            func_0201CE5C(*(u32 *)(a + 0x64), 0);
+            func_0201CE5C((struct Rec *)(*(u32 *)(a + 0x64)), 0);
             if ((func_0203630C() & 3) != 0)
                 func_020355D8(0);
             else
@@ -53,7 +55,7 @@ int func_022053E8(char *a)
     case 1:
         if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
             func_020061E4(0x547);
-            func_0201CE38(*(u32 *)(a + 0x64));
+            func_0201CE38((void *)(*(u32 *)(a + 0x64)));
             if ((func_020362DC() & 3) != 0)
                 func_020355D8(0);
             else

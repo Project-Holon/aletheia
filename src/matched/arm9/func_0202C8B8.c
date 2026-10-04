@@ -30,11 +30,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern u32 func_0201296C(u32 a);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02013D74(u32 key);
-extern s32 func_020142E8(u32 a, u16 b);
+extern u32 func_020142E8(void *bitmap, s32 id);
 extern s32 func_0215843C(u32 a);
 
 struct Pair {
@@ -50,14 +51,14 @@ s32 func_0202C8B8(void *a0, u32 a1, u32 a2)
     u32 r4;
     u32 i;
 
-    r6 = func_0201296C(a1);
+    r6 = func_0201296C((const struct BigObj *)a1);
     r4 = func_02012138(a0);
     if (func_02013D74((u16)a2) == 0 || r4 == 0) {
         goto done;
     }
     for (i = 0; i < 0x19; i++) {
         if (a2 == gTbl_0209FFF4[i].a) {
-            if (func_020142E8(r6, gTbl_0209FFF4[i].b) == 0) {
+            if (func_020142E8((void *)r6, gTbl_0209FFF4[i].b) == 0) {
                 if (func_0215843C(r4) == 0x14) return 0xd;
                 return 0xe;
             }

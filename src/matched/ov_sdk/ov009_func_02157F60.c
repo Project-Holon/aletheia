@@ -23,7 +23,7 @@ extern unsigned long g_021A1CA8[];
 extern char g_021A826C[];
 extern void func_02157E54(unsigned long ip);
 extern void func_02085A38(unsigned long msec);
-extern unsigned long func_02157D8C(unsigned long ip);
+extern unsigned char *func_02157D8C(unsigned long ip);
 
 unsigned long func_02157F60(unsigned long ip)
 {
@@ -37,7 +37,7 @@ unsigned long func_02157F60(unsigned long ip)
             if (*(unsigned long *)(g_021A826C + 0x50) == 0)
                 return 0;
             func_02085A38(100);
-            r = func_02157D8C(ip);
+            r = (long unsigned int)func_02157D8C(ip);
             if (r != 0)
                 return r;
         }

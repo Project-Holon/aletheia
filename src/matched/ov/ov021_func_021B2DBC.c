@@ -23,8 +23,8 @@ extern unsigned int func_02159B10(void *, void *);
 typedef unsigned int   u32;
 extern int func_021B2BD8(u32 a);
 extern int func_0218BA98(int a, int b);
-extern void func_0218C88C(int a, int b, int c);
-extern int func_0218C990(int a, unsigned short *b);
+extern void func_0218C88C(unsigned char *p, int v, int c);
+extern int func_0218C990(unsigned char *p, int v);
 extern void func_020061E4(u32 a);
 
 int func_021B2DBC(int a, int b)
@@ -35,8 +35,8 @@ int func_021B2DBC(int a, int b)
     int h = func_0218BA98(func_021B2BD8(b), p);
 
     if (h) {
-        func_0218C88C(h, q, 0);
-        if (func_0218C990(h, &v)) {
+        func_0218C88C((unsigned char *)h, q, 0);
+        if (func_0218C990((unsigned char *)h, (int)(&v))) {
             func_020061E4(v);
         }
     }

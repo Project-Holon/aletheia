@@ -54,9 +54,9 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern void *func_020923B0(void *dst, int val, unsigned long len);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern GPIProfile *func_0219008C(void **connection, int buddyIndex);
-extern void func_0219327C(char *dest, char *src, unsigned long len);
+extern void func_0219327C(char *p, int b, int n);
 extern char g_021A40A0[];
 extern char g_021A40B0[];
 
@@ -74,17 +74,17 @@ int func_02185FD4(void **connection, int index, GPBuddyStatus *status)
         return 0;
     }
     if (status == 0) {
-        func_02193734(connection, g_021A40A0);
+        func_02193734((int *)connection, (int)g_021A40A0);
         return 2;
     }
     num = iconnection->numBuddies;
     if (index < 0 || index >= num) {
-        func_02193734(connection, g_021A40B0);
+        func_02193734((int *)connection, (int)g_021A40B0);
         return 2;
     }
     profile = func_0219008C(connection, index);
     if (profile == 0) {
-        func_02193734(connection, g_021A40B0);
+        func_02193734((int *)connection, (int)g_021A40B0);
         return 2;
     }
     status->profile = profile->f0;
@@ -92,11 +92,11 @@ int func_02185FD4(void **connection, int index, GPBuddyStatus *status)
     if (profile->buddyStatus->statusString == 0)
         status->statusString[0] = 0;
     else
-        func_0219327C(status->statusString, profile->buddyStatus->statusString, 256);
+        func_0219327C(status->statusString, (int)profile->buddyStatus->statusString, 256);
     if (profile->buddyStatus->locationString == 0)
         status->locationString[0] = 0;
     else
-        func_0219327C(status->locationString, profile->buddyStatus->locationString, 256);
+        func_0219327C(status->locationString, (int)profile->buddyStatus->locationString, 256);
     status->ip = profile->buddyStatus->ip;
     status->port = profile->buddyStatus->port;
     status->quietModeFlags = profile->buddyStatus->quietModeFlags;

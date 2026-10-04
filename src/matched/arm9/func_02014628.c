@@ -23,9 +23,10 @@
 
 typedef unsigned int u32;
 
-extern u32  func_021BE8D4(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_021BE92C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern u32  func_02014728(u32 a, u32 b, u32 c, u32 d, u32 e);
+typedef unsigned char  u8;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void *func_02014728(char *a0, int a1, int a2, int a3, int a4);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
@@ -36,16 +37,16 @@ u32 func_02014628(void *obj, u32 *mode, u32 *p)
 
     switch (*mode) {
     case 0:
-        r = (void *)func_021BE8D4(a0, p[1], 0, 0);
+        r = (void *)func_021BE8D4((void *)a0, p[1], 0, 0);
     tail:
         func_02012374(obj, r);
         (*mode)++;
         goto ret0;
     case 1:
-        r = (void *)func_02014728(a0, p[1], p[2], p[3], p[4]);
+        r = (void *)func_02014728((char *)a0, p[1], p[2], p[3], p[4]);
         goto tail;
     case 2:
-        r = (void *)func_021BE92C(a0, p[1], 0, 0, 1, 0, 0);
+        r = (void *)func_021BE92C((void *)a0, p[1], 0, 0, 1, 0, 0);
         goto tail;
     case 3:
         return 1;

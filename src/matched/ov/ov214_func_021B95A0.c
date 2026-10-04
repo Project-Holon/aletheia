@@ -63,7 +63,7 @@ extern u32 func_0201C440(void*);
 extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_020056A0(void(*)(void*),void*,u32);
-extern void func_021B9F18(void*);
+extern void func_021B9F18(void *unused, char *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_021BABF4(int,char*),func_021BAD08(void*,char*),func_021BAD14(void*,char*),func_021B9F24(void*,char*),func_021BA074(int,char*),func_021BA2F4(int,char*),func_021BA3C4(int,char*);
 extern void func_021B9EB8(char*,int,char*,int,int,int,int,int,int);
@@ -88,7 +88,7 @@ int func_021B95A0(void *manager,char *state,char * const obj)
     *(u32*)(p+0x18)=func_0201C440((void*)(u32)*(u16*)p);
     *(int*)(p+0x50)=func_02007F68(func_0201292C(*(void**)obj),0x1d1,1,*(u16*)p);
     *(int*)(p+0x54)=0;
-    *(u32*)(p+0x4c)=func_020056A0(func_021B9F18,p,1);
+    *(u32*)(p+0x4c)=func_020056A0((void (*)(void *))func_021B9F18,p,1);
     *(void**)(p+0x58)=func_02045B38(0,2,19,*(u16*)p);
     func_021BABF4((int)obj,p);func_021BAD08(obj,p);func_021BAD14(obj,p);
     func_021B9F24(obj,p);func_021BA074((int)obj,p);func_021BA2F4((int)obj,p);func_021BA3C4((int)obj,p);

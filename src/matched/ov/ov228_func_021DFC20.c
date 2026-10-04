@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
-extern int func_020334CC(u32 ofs,void *dest,u32 size);
+extern int func_020334CC(u32 a, u32 b, u32 c);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02082D44(const void *src,void *dest,u32 size);
 extern void func_020307B0(void *p);
@@ -51,8 +51,8 @@ void *func_021DFC20(u32 heap)
         ok[i]=0;
         bad[i]=0;
     }
-    ok[0]=func_020334CC(0x7F800,buf[0],0x374);
-    ok[1]=func_020334CC(0x7FC00,buf[1],0x374);
+    ok[0]=func_020334CC(0x7F800,(u32)buf[0],0x374);
+    ok[1]=func_020334CC(0x7FC00,(u32)buf[1],0x374);
     for(i=0;i<2;i++){
         if(ok[i]==1){
             p=buf[i];

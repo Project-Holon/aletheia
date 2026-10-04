@@ -22,12 +22,13 @@ typedef unsigned long u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 link);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern u32 func_0203D3F8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 void func_021DC268(char *obj, u32 data)
 {
-    u32 busy = func_0203D1A4((u32)func_020399A8());
+    u32 busy = func_0203D1A4((struct Link *)((u32)func_020399A8()));
     int flag = 1;
 
     if (busy != 0)

@@ -42,8 +42,8 @@ typedef struct R {
     u32 f20;
 } R;
 
-extern void func_021C6744(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_021C6694(u32 a, u32 b, u32 c);
+extern void func_021C6744(u32 *a, int idx, int mode, u32 val);
+extern int func_021C6694(u32 *a, int idx, int v);
 extern u32 func_021C67A8(u32 a, u32 b, u32 c);
 extern void func_021AC1B8(u32 a, Vec3 *v);
 extern void func_021C6664(u32 a, u32 b, Vec3 *v);
@@ -54,13 +54,13 @@ void func_021D0568(u32 a, R *b)
     Vec3 v;
 
     if (b->h1a == 1 && b->h1c == 0) {
-        func_021C6744(b->f4, b->h18, 0, b->f20);
-        if (func_021C6694(b->f4, b->h18, 0x1000) == 0) {
+        func_021C6744((u32 *)b->f4, b->h18, 0, b->f20);
+        if (func_021C6694((u32 *)b->f4, b->h18, 0x1000) == 0) {
             b->h1c = 1;
         }
         b->f20 = func_021C67A8(b->f4, b->h18, 0);
     } else {
-        func_021C6744(b->f4, b->h18, 0, b->f20);
+        func_021C6744((u32 *)b->f4, b->h18, 0, b->f20);
     }
     func_021AC1B8(a, &v);
     func_021C6664(b->f4, b->h18, &v);

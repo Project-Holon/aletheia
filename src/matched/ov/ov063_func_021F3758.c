@@ -17,11 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02030EAC(u32 a);
-extern void func_020307B0(u32 a);
+struct Node;
+extern void func_02030EAC(struct Node *n);
+extern void func_020307B0(void *p);
 
 void func_021F3758(u8 *p)
 {
-    func_02030EAC(*(u32 *)(p + 0x80));
-    func_020307B0((u32)p);
+    func_02030EAC((struct Node *)(*(u32 *)(p + 0x80)));
+    func_020307B0((void *)((u32)p));
 }

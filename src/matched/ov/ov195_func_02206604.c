@@ -40,7 +40,8 @@ typedef struct Owner {
 
 extern void func_022076A0(Owner *o);
 extern int func_02208410(Grid *g, u16 heap);
-extern void func_02208430(Grid *g, u16 heap);
+struct Fade;
+extern void func_02208430(struct Fade *p, int x);
 
 void func_02206604(Owner *o)
 {
@@ -64,7 +65,7 @@ void func_02206604(Owner *o)
         if (g != 0) {
             if (o->f40 != 0 && func_02208410(g, heap))
                 g->state = 4;
-            func_02208430(g, heap);
+            func_02208430((struct Fade *)g, heap);
         }
     }
 }

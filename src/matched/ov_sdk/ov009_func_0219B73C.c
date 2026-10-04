@@ -46,7 +46,7 @@ typedef struct SOCSockAddrIn {
 } SOCSockAddrIn;
 
 extern char g_021A768C[];
-extern unsigned int func_0217ED38(char *name);
+extern int func_0217ED38(int a);
 extern int func_020948E0(const char *a, const char *b);
 extern SOCHostEnt *func_0215F650(char *name);
 extern void *memset(void *s, int c, unsigned long n);
@@ -66,7 +66,7 @@ int func_0219B73C(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **saveh
     saddr->family = 2;
     saddr->port = (unsigned short)((((unsigned short)port >> 8) & 0xff) | (((unsigned short)port << 8) & 0xff00));
     if (host)
-        saddr->addr = func_0217ED38(host);
+        saddr->addr = func_0217ED38((int)host);
     else
         saddr->addr = 0;
     if (saddr->addr == 0xFFFFFFFF) {

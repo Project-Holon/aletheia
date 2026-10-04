@@ -43,15 +43,19 @@ typedef struct {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(int a, u32 b);
+struct Cfg;
+struct Obj;
+struct PrintSys;
+struct Vec2;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(u32 a);
-extern u8 func_02045730(u32 a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern int func_02017F90(int a);
+extern u32 func_02017F90(void *p);
 extern void func_021BB56C(S *s, int a, int b, s16 *out);
-extern int func_0204B8F4(int a);
-extern void func_0204B404(int a, s16 *b, int c);
+extern u32 func_0204B8F4(struct Obj *p);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021BA8CC(u32 a, S *s)
 {
@@ -62,18 +66,18 @@ void func_021BA8CC(u32 a, S *s)
     if (s->w18 == 1) {
         u32 t = (u32)func_02045770((struct Descriptor *)s->w20);
 
-        if (func_0201C6C4(*(int *)(a + 0x140), t) == 0) {
+        if (func_0201C6C4((struct PrintSys *)(*(int *)(a + 0x140)), (void *)t) == 0) {
             a = s->w20;
             s->w18 = 0;
             func_02045334((struct Descriptor *)a);
-            func_02045374(a);
-            func_02041B6C(func_02045730(a));
+            func_02045374((struct Cfg *)a);
+            func_02041B6C(func_02045730((struct Descriptor *)a));
         }
     }
-    if (s->w10 == 1 && func_02017F90(s->w0) == 0 && s->h6 != 0) {
+    if (s->w10 == 1 && func_02017F90((void *)s->w0) == 0 && s->h6 != 0) {
         func_021BB56C(s, 0x1a, 0x13, buf);
-        if (func_0204B8F4(s->w30) == 1)
+        if (func_0204B8F4((struct Obj *)s->w30) == 1)
             buf[1] = buf[1] - 6;
-        func_0204B404(s->w30, buf, 0);
+        func_0204B404((struct Obj *)s->w30, (const struct Vec2 *)buf, 0);
     }
 }

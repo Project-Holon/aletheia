@@ -30,13 +30,18 @@ extern int func_021B7CC0(void *);
 extern int func_021B7CBC(void *);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(int, u8);
-extern void func_02045CAC(int, int, int);
-extern int func_02045738(int);
-extern int func_02045740(int);
-extern int func_0201D304(int, int, int);
-extern int func_0201D42C(int, int);
-extern void func_0201C6EC(int);
+typedef unsigned int   u32;
+struct CharBuf;
+struct MsgBank;
+struct PrintSys;
+struct StrObj;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045740(struct Descriptor *p);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
+extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C724(int, int, s16, s16, int, int, int);
 void func_021B7E60(u8 *p, void *q, int n)
 {
@@ -45,13 +50,13 @@ void func_021B7E60(u8 *p, void *q, int n)
     a = func_021B7CC4(q);
     b = func_021B7CC0(q);
     c = func_021B7CBC(q);
-    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p), *(u16 *)(p + 16));
-    func_02045CAC(a, n, *(int *)(p + 12));
-    x = func_02045738(*(int *)p) * 4;
-    y = func_02045740(*(int *)p) * 4;
-    x -= (u16)(func_0201D304(*(int *)(p + 12), c, 0) >> 1);
-    y -= (u16)(func_0201D42C(*(int *)(p + 12), c) >> 1);
-    func_0201C6EC(b);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)p)), *(u16 *)(p + 16));
+    func_02045CAC((struct MsgBank *)a, n, (void *)(*(int *)(p + 12)));
+    x = func_02045738((struct Descriptor *)(*(int *)p)) * 4;
+    y = func_02045740((struct Descriptor *)(*(int *)p)) * 4;
+    x -= (u16)(func_0201D304((struct StrObj *)(*(int *)(p + 12)), c, 0) >> 1);
+    y -= (u16)(func_0201D42C((struct StrObj *)(*(int *)(p + 12)), (void *)c) >> 1);
+    func_0201C6EC((struct PrintSys *)b);
     func_0201C724(b, (int)func_02045770((struct Descriptor *)*(int *)(p + 4)), x, y, *(int *)(p + 12), c, 0x3dc1);
     p[8] = 1;
 }

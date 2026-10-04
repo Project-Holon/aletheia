@@ -43,7 +43,8 @@ struct Ov208Menu {
     u32 print[5];
 };
 
-extern void func_0201C6EC(u32 print);
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
 extern void *func_02045770(struct Descriptor *d);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -76,7 +77,7 @@ void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
     void *src2;
     for (i = 0; i <= 1; i++) {
         p->active[i] = 0;
-        func_0201C6EC(p->print[i]);
+        func_0201C6EC((struct PrintSys *)p->print[i]);
         func_02043B5C(func_02045770(p->win[i]), 0);
     }
     species = ov208_func_021BC3C0(key);

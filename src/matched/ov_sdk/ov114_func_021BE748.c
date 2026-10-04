@@ -22,15 +22,15 @@
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern void *func_021BEF3C(void);
-extern void *func_021BEF58(void *sysInfo_p);
-extern void *func_021BEC10(void *mutexInfo_p, void *handle_p);
+extern void *func_021BEF58(int p);
+extern int func_021BEC10(int a, int d);
 extern int func_021BAC58(void *req_p, void *bgnEndInfo_p, char *label_p, char *value_p);
 
 int func_021BE748(void *handle, char *label_p, char *value_p)
 {
     void *sysInfo_p = func_021BEF08();
     void *bgnEndInfo_p = func_021BEF3C();
-    void *mutexInfo_p = func_021BEF58(sysInfo_p);
-    void *req_p = func_021BEC10(mutexInfo_p, handle);
+    void *mutexInfo_p = func_021BEF58((int)sysInfo_p);
+    void *req_p = (void *)func_021BEC10((int)mutexInfo_p, (int)handle);
     return -(func_021BAC58(req_p, bgnEndInfo_p, label_p, value_p) == 0);
 }

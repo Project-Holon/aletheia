@@ -28,12 +28,13 @@ typedef struct {
     void *f2C;
 } Ov018Obj;
 
-void func_02190E40(void *);
+typedef unsigned int   u32;
+int func_02190E40(u32 a);
 
 void func_0217F390(Ov018Obj *p)
 {
     if (p->f18 != 0) {
-        func_02190E40(p->f18);
+        func_02190E40((u32)p->f18);
         p->f18 = 0;
     }
 }

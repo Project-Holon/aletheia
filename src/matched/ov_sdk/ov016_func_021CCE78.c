@@ -26,7 +26,7 @@
 extern int func_021D5580(int lcd);
 extern void func_021BCAE4(void);
 extern int func_021D55A4(int kind, int lcd, int plane, int frame);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 typedef struct { signed char last; signed char cur; unsigned char flag; void *screen; } FocusState;
 extern FocusState g_021DE614;
 extern void func_021CCEE4(void);
@@ -39,5 +39,5 @@ void func_021CCE78(void)
         func_021BCAE4();
     func_021D55A4(3, 1, 1, 8);
     func_021D55A4(3, 0, 20, 8);
-    func_021C0E40(func_021CCEE4);
+    func_021C0E40((unsigned int)func_021CCEE4);
 }

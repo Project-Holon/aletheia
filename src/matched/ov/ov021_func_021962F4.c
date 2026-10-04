@@ -21,12 +21,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void func_021962C4(u8 *a);
-extern void func_020452E8(u32 a);
+struct Descriptor;
+extern int func_021962C4(u32 a);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021962F4(u8 *a)
 {
-    func_021962C4(a);
-    func_020452E8(*(u32 *)(a + 0x2B0));
+    func_021962C4((u32)a);
+    func_020452E8((struct Descriptor *)(*(u32 *)(a + 0x2B0)));
     *(u32 *)(a + 0x2B0) = 0;
 }

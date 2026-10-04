@@ -45,7 +45,7 @@ struct gamekey_s {
 
 extern int func_0217603C(void);
 extern int func_0219B628(void *outbuf, int value);
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern unsigned char func_02175FB8(void);
 extern int func_0219B660(void *outbuf, char *value);
 extern struct gamekey_s g_021AAA40[154];
@@ -64,13 +64,13 @@ void func_02174AA0(int keyid, void *outbuf)
         func_0219B628(outbuf, numPlayers);
         return;
     case 10:
-        func_0219B628(outbuf, func_02175F3C()->f17);
+        func_0219B628(outbuf, ((struct DWCstMatchControl *)func_02175F3C())->f17);
         return;
     case 50:
-        func_0219B628(outbuf, func_02175F3C()->f678);
+        func_0219B628(outbuf, ((struct DWCstMatchControl *)func_02175F3C())->f678);
         return;
     case 51:
-        func_0219B628(outbuf, func_02175F3C()->f15);
+        func_0219B628(outbuf, ((struct DWCstMatchControl *)func_02175F3C())->f15);
         return;
     case 52:
         func_0219B628(outbuf, 90);
@@ -80,16 +80,16 @@ void func_02174AA0(int keyid, void *outbuf)
         return;
     case 54:
         if (func_02175FB8() == 2)
-            suspendMatch = func_02175F3C()->f790;
+            suspendMatch = ((struct DWCstMatchControl *)func_02175F3C())->f790;
         else
             suspendMatch = 0;
         func_0219B628(outbuf, suspendMatch);
         return;
     case 55:
-        func_0219B628(outbuf, func_02175F3C()->f16);
+        func_0219B628(outbuf, ((struct DWCstMatchControl *)func_02175F3C())->f16);
         return;
     case 56:
-        func_0219B628(outbuf, func_02175F3C()->f28);
+        func_0219B628(outbuf, ((struct DWCstMatchControl *)func_02175F3C())->f28);
         return;
     }
     index = keyid - 100;

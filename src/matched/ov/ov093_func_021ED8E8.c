@@ -29,7 +29,8 @@ struct Q {
 
 extern void func_021ED798(void *p);
 extern int func_021ED814(void *p);
-extern void func_02031194(int a);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 void func_021ED8E8(int a,struct Q *q)
 {
@@ -41,7 +42,7 @@ void func_021ED8E8(int a,struct Q *q)
     case 1:
         if (func_021ED814(q->f00 + 0x154) != 0) {
             (*q->f08)--;
-            func_02031194(a);
+            func_02031194((struct TcblNode *)a);
         }
         break;
     }

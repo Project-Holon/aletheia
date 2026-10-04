@@ -24,7 +24,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern void *func_02045EC0(u32 bank, u32 index);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Bmp;
 struct StrObj;
 struct U16Vec;
@@ -44,7 +45,7 @@ void func_021C1F50(u16 *heap, u8 *p, int key)
     u16 tw;
     u32 w;
 
-    str = func_02045EC0(W(0xc), p[0x78] + 0xbe);
+    str = func_02045EC0((struct MsgBank *)W(0xc), p[0x78] + 0xbe);
     tw = func_0201D304(str, W(4), 0);
     w = func_020437DC(func_02045770((struct Descriptor *)W(0x1c)));
     func_0201C724(W(0x3c), func_02045770((struct Descriptor *)W(0x1c)), (u16)((int)(w - tw) / 2), 1, str, W(4), 0x3c40);

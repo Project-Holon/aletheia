@@ -17,10 +17,10 @@
  */
 
 extern void func_02195CC0(void);
-extern void func_02176C14(void (*p)(void));
+extern int func_02176C14(int (*func)(void *, unsigned char *, int, int));
 
 void func_02176C00(void)
 {
-    func_02176C14(func_02195CC0);
+    func_02176C14((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
 }
 

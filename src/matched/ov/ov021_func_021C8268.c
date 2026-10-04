@@ -21,11 +21,15 @@
  */
 
 extern int func_020122C0(int a, int b, void *c, int d);
-extern int *func_020124E8(int a);
+typedef unsigned char  u8;
+struct Ctx;
+struct Obj;
+struct Sub0200852CObj;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_020120F4(int a);
-extern int func_02012944(int a);
-extern int func_02008550(int a);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02014204(void *p, int v);
 typedef unsigned int   u32;
 struct Ctx;
@@ -38,11 +42,11 @@ int func_021C8268(int a, int b, int c)
     int v;
 
     r7 = func_020122C0(a, 0, func_021C82C4, 0x30);
-    r4 = func_020124E8(r7);
+    r4 = func_020124E8((struct Obj *)r7);
     func_02082BCC(r4, 0, 0x30);
     r4[0] = a;
     r4[2] = c;
-    if (func_02008550(func_02012944(func_020120F4(a))) == 0) {
+    if (func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4((const struct Ctx *)a))) == 0) {
         r4[10] = 11;
         v = 12;
     } else {

@@ -17,7 +17,7 @@
  *   func_02201CA4 0x02201CA4 thumb ov094
  */
 extern int func_0201134C(void *);
-extern void *func_021F86F0(void);
+extern int func_021F86F0(void);
 struct Res;
 extern void func_02201CA4(struct Res *r, int i);
 
@@ -26,7 +26,7 @@ int func_021FB8F4(void *a, char *s)
     int *tab = (int *)(s + 0xcc);
     int i = func_0201134C(a);
 
-    func_02201CA4(func_021F86F0(), tab[i]);
+    func_02201CA4((struct Res *)func_021F86F0(), tab[i]);
     tab[i] = -1;
     return *(int *)(s + 0x23c);
 }

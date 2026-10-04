@@ -35,11 +35,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 sub_0203046C(u32 heapId);
-extern void sub_02030B50(u32 heapId);
+extern void sub_02030B50(void *p);
 
 void sub_02030A5C(u32 heapId)
 {
     if (sub_0203046C(heapId) != 0) {
-        sub_02030B50(heapId);
+        sub_02030B50((void *)heapId);
     }
 }

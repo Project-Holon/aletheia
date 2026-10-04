@@ -22,7 +22,7 @@
  *   g_021DE5F8  0x021DE5F8  data  a1
  */
 extern int func_021C1518(void);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern void func_021D0014(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
@@ -36,7 +36,7 @@ void func_021CAB68(void)
     switch (func_021C1518()) {
     case 2:
         g_021DE5F8 = 1;
-        func_021C0E40(func_021CAA08);
+        func_021C0E40((unsigned int)func_021CAA08);
         break;
     case 4:
         g_021DE5F8 = 0;
@@ -44,7 +44,7 @@ void func_021CAB68(void)
         func_021CFFAC(9);
         func_021D1208(13, 1, 1, -1, 0);
         func_021BCB9C();
-        func_021C0E40(func_021CABF8);
+        func_021C0E40((unsigned int)func_021CABF8);
         break;
     }
 }

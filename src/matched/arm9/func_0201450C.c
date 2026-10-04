@@ -45,8 +45,11 @@
 
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *v);
-extern void func_02188BD8(int v);
-extern int  func_020120F0(int v);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Ctx;
+extern void func_02188BD8(u8 *obj);
+extern u32 func_020120F0(const struct Ctx *p);
 extern void func_0215FA44(void);
 
 int func_0201450C(int a0, int *a1, int *a2)
@@ -57,11 +60,11 @@ int func_0201450C(int a0, int *a1, int *a2)
     func_02012A30((const struct BigObj *)a2[2]);
     switch (*a1) {
     case 0:
-        func_02188BD8(v6);
+        func_02188BD8((u8 *)v6);
         *a1 = *a1 + 1;
         break;
     case 1:
-        if (func_020120F0(v7) == 0) {
+        if (func_020120F0((const struct Ctx *)v7) == 0) {
             if (a2[3] != 0) {
                 func_0215FA44();
             }

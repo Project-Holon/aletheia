@@ -14,15 +14,16 @@
  *   func_0204ADA4 0x0204ADA4 arm
  */
 extern void func_021BBBD8(char *, int);
-extern void func_0204AFD8(void *);
-extern void func_0204ADA4(void *);
+typedef unsigned int   u32;
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
 void func_021BBA7C(char *p)
 {
     unsigned char i;
     for (i = 0; i < 2; i++) {
         func_021BBBD8(p, i);
     }
-    func_0204AFD8(*(void **)(p + 0x184));
-    func_0204AFD8(*(void **)(p + 0x180));
-    func_0204ADA4(*(void **)(p + 0x17c));
+    func_0204AFD8((u32)(*(void **)(p + 0x184)));
+    func_0204AFD8((u32)(*(void **)(p + 0x180)));
+    func_0204ADA4((u32)(*(void **)(p + 0x17c)));
 }

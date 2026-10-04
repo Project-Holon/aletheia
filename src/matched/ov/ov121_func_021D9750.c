@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_0203FC28(Config *);
 extern void func_02050B80(u32 heap);
-extern void func_021D98F4(void *,u16);
+extern void func_021D98F4(u32 *p, u32 heap);
 void func_021D9750(u8 *p)
 {
     Config c;
@@ -30,6 +30,6 @@ void func_021D9750(u8 *p)
     c=d_021DF598;
     c.d=1;
     func_0203FC28(&c);
-    func_021D98F4(p+12,*(u16 *)(p+24));
+    func_021D98F4((u32 *)(p+12),*(u16 *)(p+24));
     func_02050B80(*(u16 *)(p+24));
 }

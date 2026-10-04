@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02210C88(u32, u32);
+extern int func_02210C88(u8 *p, unsigned mode);
 
 u32 func_022101C0(u32 a)
 {
-    if (func_02210C88(a, 1) == 0) {
+    if (func_02210C88((u8 *)a, 1) == 0) {
         return 0xc;
     }
     return 0x4;

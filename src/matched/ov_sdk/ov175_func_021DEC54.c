@@ -26,8 +26,8 @@ typedef unsigned int u32;
 extern char d_021E3DF8[];
 extern char d_021E3EFC[];
 extern void func_02182AC0(void *, void *, void *, void *);
-extern int func_021DE1F8(u32, u32, u32);
-extern int func_021DE184(u32, u32, u32);
+extern void func_021DE1F8(u32 ctx, u32 *arr, int n);
+extern void func_021DE184(u32 ctx, u32 *arr, int n);
 
 int func_021DEC54(u32 ctx)
 {
@@ -35,7 +35,7 @@ int func_021DEC54(u32 ctx)
 
     func_02182AC0(*(void **)((char *)ctx + 0x18), d_021E3DF8, d_021E3EFC,
                   (void *)p[0]);
-    func_021DE1F8(ctx, p[1], p[2]);
-    func_021DE184(ctx, p[3], p[4]);
+    func_021DE1F8(ctx, (u32 *)p[1], p[2]);
+    func_021DE184(ctx, (u32 *)p[3], p[4]);
     return 0;
 }

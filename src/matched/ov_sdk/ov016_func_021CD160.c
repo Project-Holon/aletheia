@@ -41,7 +41,7 @@ extern void func_021BC820(int color);
 extern void func_021CD2A0(void);
 extern void func_021BD744(int type);
 extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CD338(void);
 
 void func_021CD160(void)
@@ -60,5 +60,5 @@ void func_021CD160(void)
     func_021CD2A0();
     func_021BD744(0);
     func_021CFFAC(12);
-    func_021C0E40(func_021CD338);
+    func_021C0E40((unsigned int)func_021CD338);
 }

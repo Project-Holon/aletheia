@@ -53,17 +53,20 @@ struct Obj;
 struct Ctx;
 void *func_020124E4(struct Obj *p);
 unsigned int func_02012138(const struct Ctx *p);
-int func_02158344(void *);
+typedef unsigned int   u32;
+struct Desc;
+struct S0201235C;
+int func_02158344(int a0);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
-void *func_02158768(void *, int, int, int);
-int func_021589D0(void *);
+struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+int func_021589D0(int a0);
 void func_02159058(int a, int b, int c, int d, u16 e);
 void func_02012374(struct Evt *evt, struct Evt **out);
 void func_0217FE38(int v, Ov018Outer *c);
 int func_0217CA84(void *a, int b);
-void func_0201235C(void *, int);
+void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_02182AA4(void *a, int *state, Ov018Outer *c)
 {
@@ -72,7 +75,7 @@ int func_02182AA4(void *a, int *state, Ov018Outer *c)
     void *w;
 
     sub = func_020124E4(a);
-    v = func_02158344((void *)func_02012138(sub));
+    v = func_02158344((int)((void *)func_02012138(sub)));
     switch (*state) {
     case 0:
         func_0217F3C4(&c->obj, c->f9C);
@@ -85,8 +88,8 @@ int func_02182AA4(void *a, int *state, Ov018Outer *c)
         break;
     case 2:
         func_0217F318(&c->obj);
-        w = func_02158768(sub, 0xAFD, 0, 4);
-        func_02159058(func_021589D0(w), 0x23F, 1, 0, 0);
+        w = func_02158768((int)sub, 0xAFD, 0, 4);
+        func_02159058(func_021589D0((int)w), 0x23F, 1, 0, 0);
         func_02012374(a, w);
         (*state)++;
         break;
@@ -95,7 +98,7 @@ int func_02182AA4(void *a, int *state, Ov018Outer *c)
         break;
     case 4:
         func_0217FE38(v, c);
-        func_0201235C(a, func_0217CA84(sub, 0));
+        func_0201235C(a, (u32 *)func_0217CA84(sub, 0));
         return 0;
     }
     return 0;

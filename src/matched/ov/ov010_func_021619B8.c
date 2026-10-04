@@ -59,9 +59,9 @@ extern void func_0216D89C(void *obj, const VecFx32 *pos);
 struct Actor;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern u16 func_0216D5F8(void *obj);
-extern void func_0216E014(void *obj, const VecFx32 *pos, u16 dir);
+extern void func_0216E014(void *a, int *p, int b);
 extern void func_020061E4(u32 se);
-extern void func_021AC528(void *obj, void *owner);
+extern void func_021AC528(u32 a, u32 b);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
@@ -99,9 +99,9 @@ int func_021619B8(void *task, u32 *seq, HopWork *w)
             done = 1;
             pos.x = w->start.x + w->delta.x;
             pos.z = w->start.z + w->delta.z;
-            func_0216E014(w->obj, &pos, func_0216D5F8(w->obj));
+            func_0216E014(w->obj, (int *)(&pos), func_0216D5F8(w->obj));
             func_020061E4(0x67B);
-            func_021AC528(w->obj, w->owner);
+            func_021AC528((u32)w->obj, (u32)w->owner);
         }
         break;
     }

@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 
 extern u8 d_021DDECC[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_021A395C(u32);
-extern void func_021A5354(u32 *);
+extern u32 func_021A395C(u8 *p);
+extern void func_021A5354(u32 a);
 extern int func_021A3974(u32);
 extern int func_021A3CB0(u32, u32);
 extern void func_021A3CE8(u32);
@@ -39,9 +39,9 @@ u32 *func_021A4140(u32 a, u32 b)
 
     o = func_02030734(b, 0x20, 1, (const char *)d_021DDECC, 0x17D);
     o[3] = a;
-    o[4] = func_021A395C(a);
+    o[4] = func_021A395C((u8 *)a);
     *(u16 *)(o + 6) = 0x546;
-    func_021A5354(o);
+    func_021A5354((u32)o);
     k = func_021A3974(o[3]);
     switch (k) {
     case 2:

@@ -17,8 +17,8 @@
 
 
 
-extern void func_021EB378(int, int, int, int, int, int);
+extern void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon);
 void func_021EB6F0(int a, int b, int c)
 {
-    func_021EB378(a, b, c, 0, 0xf6 << 6, 0);
+    func_021EB378((char *)a, b, c, 0, 0xf6 << 6, 0);
 }

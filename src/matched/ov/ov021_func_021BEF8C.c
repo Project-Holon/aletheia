@@ -31,7 +31,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02189A58(u32 o, u32 v);
+extern void func_02189A58(u8 *p, u32 v);
 typedef signed int     s32;
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040588(u32 a, u32 b);
@@ -43,10 +43,10 @@ extern void func_02080B98(void);
 extern void func_0207FDCC(u32 a);
 extern void func_02166B2C(void);
 extern void func_021BF564(u32 a);
-extern void func_02188DF0(u32 a);
-extern u32 func_02188C54(u32 a);
-extern int func_021903CC(u32 a);
-extern void func_021902AC(u32 a, u32 b);
+extern void func_02188DF0(u8 *a);
+extern u32 func_02188C54(u8 *p);
+extern int func_021903CC(u8 *p);
+extern void func_021902AC(u16 *p, int v);
 
 int func_021BEF8C(u32 p0, int *st, u8 *q)
 {
@@ -54,7 +54,7 @@ int func_021BEF8C(u32 p0, int *st, u8 *q)
 
     switch (*st) {
     case 0:
-        func_02189A58(*(u32 *)(q + 4), 1);
+        func_02189A58((u8 *)(*(u32 *)(q + 4)), 1);
         *(int *)(q + 0x1C) = 0x10;
         func_0204047C(2, 0);
         func_0204047C(0, 1);
@@ -82,28 +82,28 @@ int func_021BEF8C(u32 p0, int *st, u8 *q)
         *st = *st + 1;
         break;
     case 3:
-        func_02188DF0(*(u32 *)(q + 4));
+        func_02188DF0((u8 *)(*(u32 *)(q + 4)));
         *st = *st + 1;
         break;
     case 4:
-        m = func_02188C54(*(u32 *)(q + 4));
-        if (func_021903CC(m) != 0) {
-            func_021902AC(m, 0);
+        m = func_02188C54((u8 *)(*(u32 *)(q + 4)));
+        if (func_021903CC((u8 *)m) != 0) {
+            func_021902AC((u16 *)m, 0);
             *st = *st + 1;
         }
         break;
     case 5:
-        func_021902AC(func_02188C54(*(u32 *)(q + 4)), 1);
+        func_021902AC((u16 *)func_02188C54((u8 *)(*(u32 *)(q + 4))), 1);
         *st = *st + 1;
         break;
     case 6:
-        func_021902AC(func_02188C54(*(u32 *)(q + 4)), 2);
+        func_021902AC((u16 *)func_02188C54((u8 *)(*(u32 *)(q + 4))), 2);
         *st = *st + 1;
         break;
     case 7:
         *st = *st + 1;
     case 8:
-        func_02189A58(*(u32 *)(q + 4), 0);
+        func_02189A58((u8 *)(*(u32 *)(q + 4)), 0);
         return 1;
     }
     return 0;

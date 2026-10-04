@@ -38,7 +38,7 @@ extern struct Row *func_021D07FC(struct S *s);
 extern void func_021D0824(int *p, int a);
 extern void func_021D08BC(void *row, int v);
 extern int func_0216D3CC(int p);
-extern void func_02047888(int a, int b, int *out);
+extern int func_02047888(int *a, int idx, int *out);
 
 void func_021D0750(int unused, S *s)
 {
@@ -65,7 +65,7 @@ void func_021D0750(int unused, S *s)
         }
         s->f8 = func_0216D3CC(s->f4);
     }
-    func_02047888(s->f0[7], 0, &v);
+    func_02047888((int *)s->f0[7], 0, &v);
     for (i = 0; i < 6; i++) {
         func_021D08BC(s->rows[i], v);
     }

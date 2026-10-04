@@ -42,17 +42,21 @@ typedef struct {
 
 extern void func_021F44D8(int *p, Slots *q);
 extern void *func_0201EC74(int a, int b, int heap);
-extern u32 func_02045B38(u32, u32, u32, u32);
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 struct U16Vec;
 struct WordSet;
 extern u32 func_02013E4C(u32 id);
-extern u32 func_02045EC0(u32, u32);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE0C(void *, u32, u32, u32, u32, u32);
-extern void func_0201F250(void *ws, void *dst, u32 src);
-extern void func_02045808(u32);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(u32);
+extern void func_02045C04(struct Rec *rec);
 extern int func_021F4488(Slots *q);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
 extern u32 d_021F5124[];
@@ -79,29 +83,29 @@ void func_021F3EE8(int *p)
     sz = 4;
     sz = 0x100;
     h1 = func_0201EC74(4, sz, *(u16 *)p);
-    a = func_02045B38(0, 2, 0x59, *(u16 *)p);
-    b = func_02045B38(0, 2, 0x26, *(u16 *)p);
+    a = (u32)func_02045B38(0, 2, 0x59, *(u16 *)p);
+    b = (u32)func_02045B38(0, 2, 0x26, *(u16 *)p);
     for (i = 0; i < 4; i++) {
         if (s.h[i] == 0x1AB)
             continue;
         c = s.b[i];
-        s1 = func_02045EC0(a, func_02013E4C(s.h[i]));
-        s2 = func_02045EC0(b, d_021F5124[c]);
+        s1 = (u32)func_02045EC0((struct MsgBank *)a, func_02013E4C(s.h[i]));
+        s2 = (u32)func_02045EC0((struct MsgBank *)b, d_021F5124[c]);
         h2 = func_0201EC74(2, sz, *(u16 *)p);
-        s3 = func_02045EC0(b, 0xc0);
+        s3 = (u32)func_02045EC0((struct MsgBank *)b, 0xc0);
         buf = func_020457B0(0x40, *(u16 *)p);
         func_0201EE0C(h2, 0, s1, 0, 1, 0);
         func_0201EE0C(h2, 1, s2, 0, 1, 0);
-        func_0201F250(h2, buf, s3);
-        func_02045808(s3);
+        func_0201F250(h2, buf, (void *)s3);
+        func_02045808((struct U16Vec *)s3);
         func_0201ED04(h2);
         func_0201EE0C(h1, i, (u32)buf, 0, 1, 0);
-        func_02045808(s1);
-        func_02045808(s2);
-        func_02045808((u32)buf);
+        func_02045808((struct U16Vec *)s1);
+        func_02045808((struct U16Vec *)s2);
+        func_02045808((struct U16Vec *)((u32)buf));
     }
-    func_02045C04(b);
-    func_02045C04(a);
+    func_02045C04((struct Rec *)b);
+    func_02045C04((struct Rec *)a);
     switch (func_021F4488(&s)) {
     case 0:
         break;

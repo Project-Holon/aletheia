@@ -42,9 +42,9 @@ extern void func_0204361C(void);
 extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0201DD60(void);
-extern void func_02205AC0(void *, u32);
+extern void func_02205AC0(void *a, void *b);
 extern void func_02205B6C(void *, void *, u32);
-extern void func_02205BDC(void *, u32);
+extern void func_02205BDC(u32 *a, void *b);
 extern void func_02205AAC(int a, char *b);
 extern u32 func_020056A0(void *, void *, int);
 
@@ -64,9 +64,9 @@ char *func_022058F8(u32 a, u32 b)
     func_020434CC();
     func_02043588();
     func_0201DD60();
-    func_02205AC0(p, b);
+    func_02205AC0(p, (void *)b);
     func_02205B6C(p + 4, d_02208CEC, b);
-    func_02205BDC(p + 8, b);
+    func_02205BDC((u32 *)(p + 8), (void *)b);
     *(u32 *)(p + 0xc) = func_020056A0(func_02205AAC, p, 0);
     return p;
 }

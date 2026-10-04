@@ -34,18 +34,18 @@ typedef struct {
 } Mode;
 
 extern Mode d_021D872C[];
-extern s32 func_02189A2C(u32 a);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, int g);
+extern int func_02189A2C(int *a);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
 
 void func_021A0D68(u32 *a)
 {
     switch (a[2]) {
     case 0:
-        d_021D872C[a[0]].update(a, func_02189A2C(a[5]) == 0);
+        d_021D872C[a[0]].update(a, func_02189A2C((int *)a[5]) == 0);
         break;
     case 1:
-        func_0202208C(4, 0, 0, 0, 1, 1, *(u16 *)(a + 3));
+        func_0202208C((void *)4, 0, 0, 0, 1, 1, *(u16 *)(a + 3));
         a[2] = 2;
         break;
     case 2:
@@ -59,14 +59,14 @@ void func_021A0D68(u32 *a)
     case 3:
         break;
     case 4:
-        func_0202208C(4, 1, 1, 0, 1, 1, *(u16 *)(a + 3));
+        func_0202208C((void *)4, 1, 1, 0, 1, 1, *(u16 *)(a + 3));
         a[2] = 5;
         break;
     case 5:
         if (func_020221A4() == 1) {
             a[2] = 0;
         }
-        d_021D872C[a[0]].update(a, func_02189A2C(a[5]) == 0);
+        d_021D872C[a[0]].update(a, func_02189A2C((int *)a[5]) == 0);
         break;
     }
 }

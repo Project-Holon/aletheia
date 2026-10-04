@@ -29,7 +29,7 @@
  *       --func func_02176164 --addr 0x02176164 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 
 typedef struct NodeRec { int w[10]; } NodeRec;
 typedef struct Node { char pad[0x54]; NodeRec rec; } Node;
@@ -49,8 +49,8 @@ int func_02176164(unsigned char aid)
     }
     if (removeAidIndex == *(int *)(func_02175F3C() + 0x50)) return 0;
     for (i = removeAidIndex; i < *(int *)(func_02175F3C() + 0x50) - 1; ) {
-        char *a = func_02175F3C();
-        char *b = func_02175F3C();
+        char *a = (char *)func_02175F3C();
+        char *b = (char *)func_02175F3C();
         d = (Node *)(a + i * 0x28);
         i++;
         s = (Node *)(b + i * 0x28);

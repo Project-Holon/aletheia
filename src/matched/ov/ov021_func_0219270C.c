@@ -28,14 +28,15 @@ typedef struct Q {
     void *f14;
 } Q;
 
-extern int func_0201D304(int a, int b, int c);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 u32 func_0219270C(Q *q, int a, int n)
 {
     u32 x;
     u32 r;
 
-    x = n * 2 + func_0201D304(a, (int)q->f08, 0);
+    x = n * 2 + func_0201D304((struct StrObj *)a, (int)q->f08, 0);
     r = x >> 3;
     if (x & 7)
         r++;

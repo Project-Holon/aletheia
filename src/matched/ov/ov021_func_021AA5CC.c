@@ -37,12 +37,14 @@ extern void func_020130C4(u8 *p);
 extern u32 func_0202A230(void *a, u32 idx);
 extern u32 func_0202A420(u32 key);
 extern void func_021AA304(struct Info *out, void *a1, void *a2);
-extern void func_02013734(void *o, void *a1, struct Info *a2, u32 a3, void *a4, u32 a5, u16 a6);
-extern void func_020136E0(void *o, void *a1, struct Info *a2, void *a3, u32 a4, u16 a5);
-extern void func_02013644(void *p, void *a, struct Info *b, void *c, u16 d);
-extern void func_02013610(void *p, void *a, struct Info *b, void *c, u16 d);
-extern void func_02013678(void *p, void *a, struct Info *b, void *c, u16 d);
-extern void func_020136AC(void *p, void *a, struct Info *b, void *c, u16 d);
+struct Obj020136E0;
+struct Obj02013734;
+extern void func_02013734(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void func_020136E0(struct Obj020136E0 *o, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5);
+extern void func_02013644(u8 *p, u32 a, u32 b, u32 c, u16 d);
+extern void func_02013610(u8 *p, u32 a, u32 b, u32 c, u16 d);
+extern void func_02013678(u8 *p, u32 a, u32 b, u32 c, u16 d);
+extern void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d);
 
 void func_021AA5CC(struct Ctx *ctx, void *a1, u32 mode, u32 flag, void *mon, u32 a5, u16 heap)
 {
@@ -59,23 +61,23 @@ void func_021AA5CC(struct Ctx *ctx, void *a1, u32 mode, u32 flag, void *mon, u32
     switch (mode) {
     case 1:
         if (flag) {
-            func_02013734(a1, x, &info, flag, mon, a5, heap);
+            func_02013734(a1, (u32)x, (u32)(&info), flag, (u32)mon, a5, heap);
         } else {
-            func_02013644(a1, x, &info, mon, heap);
+            func_02013644(a1, (u32)x, (u32)(&info), (u32)mon, heap);
         }
         return;
     case 0:
         if (a5) {
-            func_020136E0(a1, x, &info, mon, a5, heap);
+            func_020136E0(a1, (u32)x, (u32)(&info), (u32)mon, a5, heap);
         } else {
-            func_02013610(a1, x, &info, mon, heap);
+            func_02013610(a1, (u32)x, (u32)(&info), (u32)mon, heap);
         }
         return;
     case 2:
-        func_02013678(a1, x, &info, mon, heap);
+        func_02013678(a1, (u32)x, (u32)(&info), (u32)mon, heap);
         return;
     case 3:
-        func_020136AC(a1, x, &info, mon, heap);
+        func_020136AC(a1, (u32)x, (u32)(&info), (u32)mon, heap);
         return;
     }
 }

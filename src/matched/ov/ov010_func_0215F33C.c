@@ -32,7 +32,7 @@ extern u32 func_02012844(const struct BigObj *p);
 extern u32 func_0215911C(void *p);
 extern int func_0215F608();
 extern u16 func_0215A480(unsigned a);
-extern int func_02162788();
+extern void func_02162788(char *p, unsigned i, u16 v);
 
 int func_0215F33C(int a, int b)
 {
@@ -46,6 +46,6 @@ int func_0215F33C(int a, int b)
     r = func_02012844(func_0215A5E4((void *)b));
     base = (u8 *)func_0215911C(x);
     h = *(u16 *)(base + (u16)func_0215F608(base, y, w) * 8 + 6);
-    func_02162788(r, z, func_0215A480(h));
+    func_02162788((char *)r, z, func_0215A480(h));
     return 0;
 }

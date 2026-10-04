@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {u16 x,y,n;u8 flag,pad;} Desc;
 typedef struct {int a,b,c;} Triple;
-extern void func_021FB964(int,int,int);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBE54(char *,u32,u32);
 extern int func_021FC20C(char *),func_021FC214(char *);
 extern int func_021FC124(void *,int,Triple *);
@@ -37,7 +37,7 @@ void func_021DCEE4(char *p,char *q)
     int a,b;
     if(!*(int *)(p+0xd8)) {
         *(int *)(p+0xd8)=1;
-        func_021FB964(*(int *)(q+0x10),5,*(u16 *)(p+0xb4));
+        func_021FB964((void *)(*(int *)(q+0x10)),5,*(u16 *)(p+0xb4));
         func_021FBE54(*(char **)(q+0x10),6,*(u16 *)(p+0xb4));
         a=func_021FC20C(*(char **)(q+0x10));
         b=func_021FC214(*(char **)(q+0x10));

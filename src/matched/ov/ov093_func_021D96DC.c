@@ -13,5 +13,5 @@
  *   func_021D96FC 0x021D96FC thumb ov093
  */
 extern int func_021D775C(int);
-extern void func_021D96FC(int, int, int);
-void func_021D96DC(int a,int b,int c) { if(b==func_021D775C(2)) func_021D96FC(a,b,c); }
+extern void func_021D96FC(void *a, int b, int c);
+void func_021D96DC(int a,int b,int c) { if(b==func_021D775C(2)) func_021D96FC((void *)a,b,c); }

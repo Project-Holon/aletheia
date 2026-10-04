@@ -20,9 +20,10 @@
 typedef unsigned int u32;
 
 extern void *g_021469BC;
-extern void func_0203512C(void *obj, void *fn, u32 arg);
+struct Obj02035120;
+extern void func_0203512C(struct Obj02035120 *p, u32 a, u32 b);
 
 void func_02035138(void *fn, u32 arg)
 {
-    func_0203512C(g_021469BC, fn, arg);
+    func_0203512C(g_021469BC, (u32)fn, arg);
 }

@@ -17,25 +17,28 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_021FD1BC 0x021FD1BC thumb ov186
  */
-extern int func_02012E40(int);
-extern int func_021FF88C(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct PrintSys;
+extern u8 func_02012E40(const u8 *o);
+extern int func_021FF88C(char *p);
 extern void func_021F9C6C(int);
-extern void func_021FD71C(int);
-extern int func_021FD72C(int);
-extern void func_021FD854(int);
-extern void func_0201C4E4(int);
+extern void func_021FD71C(u8 *p);
+extern int func_021FD72C(int *p);
+extern void func_021FD854(char *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021FD1BC(int);
 int func_021E1D48(int a,int b,int c,char *p)
 {
     int i;
-    if (!func_02012E40(*(int *)(*(char **)(p+0x18)+0x14)) && func_021FF88C(*(int *)(*(char **)(p+0x18)+0x10))==2) {
+    if (!func_02012E40((const u8 *)(*(int *)(*(char **)(p+0x18)+0x14))) && func_021FF88C((char *)(*(int *)(*(char **)(p+0x18)+0x10)))==2) {
         func_021F9C6C(*(int *)(*(char **)(p+0x18)+0xc));
         return 1;
     }
-    func_021FD71C(*(int *)(p+4));
-    if (func_021FD72C(*(int *)(p+4))) return 1;
-    for (i=0;i<2;i++) func_021FD854(*(int *)(p+i*4+0x10));
-    func_0201C4E4(*(int *)p);
+    func_021FD71C((u8 *)(*(int *)(p+4)));
+    if (func_021FD72C((int *)(*(int *)(p+4)))) return 1;
+    for (i=0;i<2;i++) func_021FD854((char *)(*(int *)(p+i*4+0x10)));
+    func_0201C4E4((struct PrintSys *)(*(int *)p));
     func_021FD1BC(*(int *)(p+0xc));
     return 0;
 }

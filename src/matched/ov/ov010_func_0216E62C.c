@@ -20,10 +20,11 @@
 
 typedef unsigned short u16;
 
-extern int func_0200CA1C(int a);
+struct Blk37;
+extern void *func_0200CA1C(void *a);
 extern unsigned int func_02017E1C(void *a, unsigned int b, unsigned int c);
 extern void func_02017988(int a, u16 v);
-extern void func_0200CFA0(int a, int b);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern u16 d_02172554[][2];
 extern u16 d_02172556[][2];
 
@@ -33,14 +34,14 @@ void func_0216E62C(int a, int p, u16 id)
     int t;
     int i;
 
-    h = func_0200CA1C(a);
+    h = (int)func_0200CA1C((void *)a);
     t = func_02017E1C((void *)p, 5, 0);
     for (i = 0; i < 25; i++) {
         if (id == d_02172554[i][0]) {
             int v = d_02172556[i][0];
             if (t == 0x19c) {
                 func_02017988(p, v);
-                func_0200CFA0(h, p);
+                func_0200CFA0((struct Blk37 *)h, (void *)p);
             }
             return;
         }

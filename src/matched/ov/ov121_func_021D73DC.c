@@ -47,7 +47,7 @@ extern int func_021DEF6C(char *,void *,u16);
 extern int func_021D9554(void *,int);
 extern int func_021DE500(void *);
 extern void func_021DE550(char *p);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
 extern void func_021D81B0(u8 *,u32,int);
@@ -91,7 +91,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             } else if(v==2) *state=2;
         }
         v=func_021DE500(P(944));
-        switch(v) {case 1:case 2:func_021DE550(P(944));func_021DA8B0(task,func_021D6E3C);break;}
+        switch(v) {case 1:case 2:func_021DE550(P(944));func_021DA8B0(task,(u32)func_021D6E3C);break;}
         if((func_020362DC()&2) || W(964)++>7200) {
             flag=0;
             switch(W(940)) {
@@ -116,7 +116,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             func_021DA8C0(task,4);*state=14;
         }
         break;
-    case 4:func_021DA8B0(task,func_021D6E3C);break;
+    case 4:func_021DA8B0(task,(u32)func_021D6E3C);break;
     case 5:
         func_021D81B0(p,2,29);func_021D83DC(p,29);
         func_021D9F08(P(644),W(932),106,0);*state=6;break;
@@ -145,7 +145,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
                 W(1144)=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
                 func_0200A034(P(956),p+972);
                 func_0200A1E4(P(956),*(u16 *)(p+1148));
-                func_021DA8B0(task,func_021D7814);
+                func_021DA8B0(task,(u32)func_021D7814);
             } else if(v==1) *state=5;
         }
         break;
@@ -156,7 +156,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             func_021D8198((char *)p);
             if(v==0) {
                 func_021D8380(p);func_021D849C(p);
-                func_021DA8B0(task,func_021D6E3C);
+                func_021DA8B0(task,(u32)func_021D6E3C);
             } else if(v==1) *state=5;
         }
         break;
@@ -168,7 +168,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
         func_021DA8C0(task,13);*state=14;break;
     case 13:
         func_021D8380(p);func_021D849C(p);
-        func_021DA8B0(task,func_021D6E3C);break;
+        func_021DA8B0(task,(u32)func_021D6E3C);break;
     case 14:
         if(func_021D9FF8(P(644))) func_021DA8C4(task);
         break;

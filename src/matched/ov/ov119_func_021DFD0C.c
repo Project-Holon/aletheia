@@ -14,10 +14,10 @@
 
 typedef unsigned int u32;
 
-extern void func_02015E04(u32);
+extern void func_02015E04(void *p);
 
 void func_021DFD0C(char *p)
 {
-    func_02015E04(*(u32 *)(p + 0x844));
+    func_02015E04((void *)(*(u32 *)(p + 0x844)));
     *(u32 *)(p + 0x854) = 1;
 }

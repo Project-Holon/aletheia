@@ -24,7 +24,8 @@ struct Ent {
 };
 
 extern struct Ent d_02186BEC[];
-extern void func_0204B878(u32 a, u32 b);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021852B4(u32 *p, int n)
 {
@@ -32,8 +33,8 @@ void func_021852B4(u32 *p, int n)
 
     for (i = 0; i < 8; i++) {
         if (i == n)
-            func_0204B878(p[i], (u16)(d_02186BEC[i].c + 1));
+            func_0204B878((struct Obj *)p[i], (u16)(d_02186BEC[i].c + 1));
         else
-            func_0204B878(p[i], d_02186BEC[i].c);
+            func_0204B878((struct Obj *)p[i], d_02186BEC[i].c);
     }
 }

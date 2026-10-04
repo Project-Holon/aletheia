@@ -34,8 +34,8 @@ typedef struct Main {
 
 typedef unsigned int   u32;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201C7A4(int a, s16 x, s16 y, int d, int e);
-extern void func_020498F4(int a, int b, int c, int d, int e, int f, int g);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02204C98(int a, int b, int *w, int *h);
 
 void func_02205340(Main *m, const int *c)
@@ -45,10 +45,10 @@ void func_02205340(Main *m, const int *c)
 
     func_0201DD78(1, 2, 0);
     func_02204C98(c[0], m->o224, &w, &h);
-    func_0201C7A4(m->o22c, 0x80 - w / 2, 0x10, c[0], m->o224);
+    func_0201C7A4((void *)m->o22c, 0x80 - w / 2, 0x10, (void *)c[0], (void *)m->o224);
     func_02204C98(c[1], m->o224, &w, &h);
-    func_0201C7A4(m->o22c, 0x80 - w / 2, 0x40, c[1], m->o224);
+    func_0201C7A4((void *)m->o22c, 0x80 - w / 2, 0x40, (void *)c[1], (void *)m->o224);
     m->b25a = 1;
     m->b25b = 1;
-    func_020498F4(m->f48, 0x6b, 5, 0, 0, 0, m->h240);
+    func_020498F4((void *)m->f48, 0x6b, 5, 0, 0, 0, m->h240);
 }

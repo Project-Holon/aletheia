@@ -48,11 +48,11 @@ extern void func_021BD6F8(State *,void *);
 extern void func_021BD6B4(State *,void *);
 extern void func_021BAC30(u8 *,int);
 extern void func_021BF82C(u8 *);
-extern int func_021B9C90(u8 *,int);
+extern int func_021B9C90(unsigned int a, int b);
 extern void func_021BF4F8(u8 *,u32);
 extern void func_021BF53C(u8 *,u32 *);
 extern void func_021BF608(u8 *,u32 *);
-extern int func_021B9C74(u8 *);
+extern int func_021B9C74(unsigned int a);
 extern void func_021BD7A0(u8 *,Handler);
 extern int func_021BE3B8(u8 *,u32 *);
 extern int func_021BE4C0(u8 *,u32 *);
@@ -118,12 +118,12 @@ int func_021BE1B8(u8 *p,u32 *q)
             }
         }
         break;
-    case 3: if(func_021B9C90(*(u8 **)(p+0x14),3)) *q=0; break;
+    case 3: if(func_021B9C90((unsigned int)(*(u8 **)(p+0x14)),3)) *q=0; break;
     case 4: *q=6; func_021BF4F8(p,(u32)func_021BF53C); break;
     case 5: *q=6; func_021BF4F8(p,(u32)func_021BF608); break;
     case 6: *q=2; break;
-    case 7: if(func_021B9C74(*(u8 **)(p+0x14))) func_021BD7A0(p,(Handler)func_021BE3B8); break;
-    case 8: if(func_021B9C74(*(u8 **)(p+0x14))) func_021BD7A0(p,(Handler)func_021BE4C0); break;
+    case 7: if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) func_021BD7A0(p,(Handler)func_021BE3B8); break;
+    case 8: if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) func_021BD7A0(p,(Handler)func_021BE4C0); break;
     }
     return 0;
 }

@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_021B82F0(u8 *p);
 extern int func_021B833C(void *a);
-extern void func_021BB014(void *p, void *a, int c);
+typedef unsigned int   u32;
+extern void func_021BB014(u32 a, u32 b, u32 c);
 
 void func_021BABB4(void *p)
 {
@@ -30,6 +31,6 @@ void func_021BABB4(void *p)
     int c = func_021B833C(a);
 
     if (b == 1) {
-        func_021BB014(p, a, c);
+        func_021BB014((u32)p, (u32)a, c);
     }
 }

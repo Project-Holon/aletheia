@@ -23,12 +23,12 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 extern u8 *func_021C0DA4(int);
 extern void func_021C2BB0(u8 *);
-extern void func_021C2464(int);
+extern void func_021C2464(u8 *p);
 
 void func_021C2490(int a, int b)
 {
     u8 *p = func_021C0DA4(a);
     if (p != 0)
         func_021C2BB0(p);
-    func_021C2464(b);
+    func_021C2464((u8 *)b);
 }

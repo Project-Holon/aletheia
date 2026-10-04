@@ -25,8 +25,8 @@ extern void *func_0215A5F4(void *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02158F50(void *p);
-extern u32 func_021C978C(void *, void *, void *);
-extern void func_0215897C(void *, u32);
+extern u32 func_021C978C(u32 a, u32 b, u32 c);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B2B24(u32 a, u32 b)
 {
@@ -34,6 +34,6 @@ int func_021B2B24(u32 a, u32 b)
     void *s = func_0215A5F4((void *)b);
     void *w = func_0201210C((void *)d);
 
-    func_0215897C(s, func_021C978C(func_02158F50((void *)s), d, w));
+    func_0215897C(s, (void *)func_021C978C((u32)func_02158F50((void *)s), (u32)d, (u32)w));
     return 1;
 }

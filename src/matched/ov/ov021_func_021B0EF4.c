@@ -50,15 +50,15 @@ typedef struct S {
 } S;
 
 extern void *func_0215A5F4(void *p);
-extern unsigned char **func_02158F58(void *);
+extern int func_02158F58(int a0);
 extern unsigned int func_02159B10(void *, void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02158F78(u8 *p);
 extern int func_02159190(int);
-extern int func_0215A5CC(int);
+extern u16 func_0215A5CC(void *a0);
 extern void func_0202A310(int, int, int, int);
-extern void *func_0215A5EC(int);
+extern void *func_0215A5EC(void *p);
 extern void *func_0216DE94(void *map, u32 id);
 extern S *func_0215A63C(int);
 extern void func_02082BCC(void *p, int v, int n);
@@ -68,10 +68,10 @@ struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_021B0A40(void *, V3 *);
-extern void func_021B0B08(int, int);
+extern void func_021B0B08(void *a, int b);
 extern void func_021B0ADC(int, unsigned char *, int, V3 *, int, int, int);
 extern void func_0215A660(int, int);
-extern void func_020113D0(void *, int (*)(int, int));
+extern void func_020113D0(char *p, int val);
 extern int func_021B0CEC(int, int);
 
 int func_021B0EF4(void *a, int b)
@@ -86,7 +86,7 @@ int func_021B0EF4(void *a, int b)
     V3 v;
 
     o = func_0215A5F4((void *)b);
-    q = func_02158F58(o);
+    q = (unsigned char **)func_02158F58((int)o);
     k0 = func_02159B10(a, (void *)b);
     k1 = func_02159B10(a, (void *)b);
     k2 = func_02159B10(a, (void *)b);
@@ -94,8 +94,8 @@ int func_021B0EF4(void *a, int b)
     if (func_02159190(2) != 0) {
         return 1;
     }
-    func_0202A310(k0, k1, m, func_0215A5CC(b));
-    if (func_0216DE94(func_0215A5EC(b), k2) == 0) {
+    func_0202A310(k0, k1, m, func_0215A5CC((void *)b));
+    if (func_0216DE94(func_0215A5EC((void *)b), k2) == 0) {
         k2 = 0xff;
     }
     s = func_0215A63C(b);
@@ -103,7 +103,7 @@ int func_021B0EF4(void *a, int b)
     func_02082BCC(s, 0, 0x28);
     s->id = k2;
     x = func_02188CB4(q[1]);
-    y = (int)func_0215A5EC(b);
+    y = (int)func_0215A5EC((void *)b);
     z = func_021A3074((void *)x);
     func_0216D88C(func_0216DE94((void *)y, s->id), (struct VecFx32 *)&v);
     r = func_021B0A40(z, &v);
@@ -111,9 +111,9 @@ int func_021B0EF4(void *a, int b)
         flag = 1;
     }
     s->flag = flag;
-    func_021B0B08(b, 1);
+    func_021B0B08((void *)b, 1);
     func_021B0ADC(b, *q, flag, &s->sum, m, 0, 0);
     func_0215A660(b, r);
-    func_020113D0(a, func_021B0CEC);
+    func_020113D0(a, (int)func_021B0CEC);
     return 1;
 }

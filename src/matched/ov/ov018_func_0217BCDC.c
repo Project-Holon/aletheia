@@ -30,13 +30,16 @@ typedef struct { u16 f : 3; u16 g : 13; } Fh;
 typedef struct { u8 lo : 4; u8 b4 : 1; u8 hi : 3; } Fb;
 typedef struct { int x, y, z; } Vec;
 
-extern int func_020120F4(void *);
+struct BigObj;
+struct Ctx;
+struct Sub0200852CObj;
+extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Ctx;
 extern u32 func_02012114(const struct Ctx *p);
-extern int func_02012944(int);
-extern int func_02008550(int);
-extern int func_02012B58(int);
+extern u8 *func_02012944(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 func_02012B58(const struct BigObj *p);
 extern u16 func_02175598(u8 *o, u32 id);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
@@ -51,16 +54,16 @@ void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
     void *obj;
     int has;
     int x;
-    int y = func_020120F4(a1);
+    int y = (int)func_020120F4(a1);
     Vec v = { 0, 0, 0 };
 
     if (func_02012114(a1) == 0)
         return;
-    x = func_02012944(func_020120F4(a1));
-    has = func_02008550(x);
+    x = (int)func_02012944(func_020120F4(a1));
+    has = func_02008550((const struct Sub0200852CObj *)x);
     if (p != 0) {
         if (id == 0xFFFF) {
-            if (((Fh *)(p + 0x86))->f == func_02012B58(y))
+            if (((Fh *)(p + 0x86))->f == func_02012B58((const struct BigObj *)y))
                 id = 0;
         }
         if (id == 0) {

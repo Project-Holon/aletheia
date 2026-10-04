@@ -21,19 +21,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020124E4(int p);
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern int func_02176850();
-extern int func_02176870();
+extern u32 func_02176870(u8 *p);
 
 int func_0216B280(int a0, int *state, u8 **work)
 {
     int r;
     u16 *p;
 
-    r = func_02158344(func_02012138((const struct Ctx *)func_020124E4(a0)));
+    r = func_02158344(func_02012138((const struct Ctx *)func_020124E4((struct Obj *)a0)));
     if (r == 0) {
         p = *(u16 **)work;
         if (p != 0)
@@ -46,7 +47,7 @@ int func_0216B280(int a0, int *state, u8 **work)
             (*state)++;
         break;
     case 1:
-        if (func_02176870(r) == 1)
+        if (func_02176870((u8 *)r) == 1)
             (*state)++;
         break;
     case 2:

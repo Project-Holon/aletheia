@@ -18,13 +18,14 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02048A18(unsigned char *,int);
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *);
 extern int func_02047910(void *,int,int);
 typedef signed int     s32;
 struct IcaAnime;
 extern u32 func_02011590(struct IcaAnime *p, s32 v);
-extern void *func_021BC52C(void *);
+extern unsigned func_021BC52C(unsigned char *p);
 extern void func_02011B8C(void *,void *);
 void func_021B9914(char *p)
 {
@@ -32,11 +33,11 @@ void func_021B9914(char *p)
     u32 n;
     u16 i,j;
     for(i=0;i<*(u16 *)(p+58);i++) {
-        obj=func_02048A18(*(unsigned char **)(p+40),*(u16 *)(*(char **)(p+60)+i*68));
+        obj=(int *)func_02048A18(*(unsigned char **)(p+40),*(u16 *)(*(char **)(p+60)+i*68));
         n=func_0204779C(obj);
         for(j=0;j<n;j++) func_02047910(obj,j,2048);
     }
     func_02011590(*(void **)(p+64),2048);
-    func_02011B8C(func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
+    func_02011B8C((void *)func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
     (*(u32 *)(p+80))++;
 }

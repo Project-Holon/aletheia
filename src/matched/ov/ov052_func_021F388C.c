@@ -16,16 +16,20 @@
  *   func_0200B3A4 0x0200B3A4 thumb
  */
 
-extern int func_02188C80(int);
-extern unsigned func_020120F4(unsigned);
-extern unsigned func_02012EC4(unsigned);
-extern int func_02188C9C(int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
+extern u16 func_02188C9C(u8 *p);
 extern char *func_0200B3A4(unsigned, int);
 
 void func_021F388C(int a)
 {
-    unsigned h = func_02012EC4(func_020120F4(func_02188C80(a)));
-    if (func_02188C9C(a) == 0x4b) {
+    unsigned h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a)));
+    if (func_02188C9C((u8 *)a) == 0x4b) {
         char *p = func_0200B3A4(h, 0x27);
         if (p != 0) {
             unsigned char *q = *(unsigned char **)(p + 0x24);

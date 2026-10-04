@@ -24,9 +24,14 @@ typedef unsigned short u16;
 
 typedef struct { int id; u16 v; u16 pad; } Ent;
 
-int func_02012EC4(int a);
-void func_0200B37C(int a);
-void func_0200B394(int a, int b);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Big;
+struct Rec94;
+struct Struct_0200B37C;
+u8 *func_02012EC4(struct Big *p);
+void func_0200B37C(struct Struct_0200B37C *p);
+s32 *func_0200B394(struct Rec94 *p, s32 value);
 void *func_020490F4(unsigned int id, u16 heap);
 typedef unsigned int   u32;
 struct ArcFile;
@@ -38,18 +43,18 @@ void func_02049238(void *h);
 void func_02185B9C(int a0, int id)
 {
     unsigned n, i;
-    int r0 = func_02012EC4(a0);
+    int r0 = (int)func_02012EC4((struct Big *)a0);
     void *h;
     int c = 0x8001;
     Ent *e;
 
-    func_0200B37C(r0);
+    func_0200B37C((struct Struct_0200B37C *)r0);
     h = func_020490F4(0x65, c);
     e = func_02049250(h, 0, c);
     n = func_020493D4(h, 0) >> 3;
     for (i = 0; i < n; i++) {
         if (id == e[i].id) {
-            func_0200B394(r0, e[i].v);
+            func_0200B394((struct Rec94 *)r0, e[i].v);
             break;
         }
     }

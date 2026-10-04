@@ -32,7 +32,9 @@ typedef struct {
 
 extern int func_021F0D40(B *);
 extern u32 func_021F0D58(void *unused, u32 d);
-extern void func_0204B404(int, void *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021F0CEC(char *o, B *b)
 {
@@ -46,5 +48,5 @@ void func_021F0CEC(char *o, B *b)
         b->n = b->a - 0x1B;
     t[1] = 0x9C - ((u32)((b->a - b->n) * c) >> 8);
     t[0] = 0xF4;
-    func_0204B404(*(int *)(o + 0x2C), t, 1);
+    func_0204B404((struct Obj *)(*(int *)(o + 0x2C)), (const struct Vec2 *)t, 1);
 }

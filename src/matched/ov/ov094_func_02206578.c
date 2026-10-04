@@ -36,7 +36,7 @@ typedef struct {
 extern unsigned int func_0203630C(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
-extern void func_0220684C(char *p, void *h, void *cb);
+extern void func_0220684C(char *p, int a, int b);
 extern void func_0220663C(void);
 extern void func_02206710(void *h);
 extern char d_0220AEB0[];
@@ -64,6 +64,6 @@ int func_02206578(char *s, int a, int b)
         c->fc = 1;
     else
         c->fc = 0;
-    func_0220684C(s, func_02030DA8(*(void **)s, (void *)func_0220663C, c, 0), (void *)func_02206710);
+    func_0220684C(s, (int)func_02030DA8(*(void **)s, (void *)func_0220663C, c, 0), (int)((void *)func_02206710));
     return -1;
 }

@@ -32,7 +32,8 @@ struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
-extern void func_0204B688(u32 obj, u32 on);
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern B5 d_021D3FC8;
 extern B5 d_021D3FB0;
 extern B5 d_021D3FA8;
@@ -56,6 +57,6 @@ void func_0219707C(u8 *p)
             *(u32 *)(p + 0x274), *(u32 *)(p + 0x284), &pos, 1, *(u16 *)(p + 0x10));
         func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0x294), 0);
         func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x294), 1);
-        func_0204B688(*(u32 *)(p + i * 4 + 0x294), 1);
+        func_0204B688((struct Actor *)(*(u32 *)(p + i * 4 + 0x294)), 1);
     }
 }

@@ -17,14 +17,16 @@
  */
 
 extern void func_02197594(int a, int b, int c);
-extern void func_02197930(int a, int b, int c);
+typedef unsigned char  u8;
+struct GTI2Connection;
+extern int func_02197930(struct GTI2Connection *connection, u8 *message, int len);
 
 void func_02197CE0(int a, int b, int c, int d)
 {
     if (d != 0) {
         func_02197594(a, b, c);
     } else {
-        func_02197930(a, b, c);
+        func_02197930((struct GTI2Connection *)a, (u8 *)b, c);
     }
 }
 

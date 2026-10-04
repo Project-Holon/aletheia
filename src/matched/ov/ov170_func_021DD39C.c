@@ -15,7 +15,7 @@
  *   func_0201A98C 0x0201A98C thumb
  *   func_020307B0 0x020307B0 arm
  */
-extern void *func_021DD2D0(void ***, int, unsigned);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021DD314(void *, int, int);
 extern void func_021EDAB0(void *, int);
 typedef unsigned int   u32;
@@ -28,7 +28,7 @@ extern void func_020307B0(void *);
 void func_021DD39C(unsigned char *p, unsigned short *q)
 {
     void *m;
-    m = func_0201747C(func_021DD2D0((void ***)p,p[0x17],q[2]),0x804c);
+    m = func_0201747C((struct Mon *)func_021DD2D0((void ***)p,p[0x17],q[2]),0x804c);
     func_0201A98C((*(void ***)p)[2],m);
     func_021DD314(p,p[0x17],q[2]);
     func_020307B0(m);

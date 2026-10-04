@@ -14,7 +14,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0204AF28(u32, u32, u32, u32);
+typedef signed int     s32;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 int func_021DBEA4(u8 *p, int screen, u32 owner)
 {
     int mode;
@@ -27,6 +28,6 @@ int func_021DBEA4(u8 *p, int screen, u32 owner)
     default: mode = 0; break;
     }
     if (*(int *)(p + 8 + mode * 4) != -1) return mode;
-    *(int *)(p + 8 + mode * 4) = func_0204AF28(owner, 0x4d, 0x80, *(u16 *)(p + 4));
+    *(int *)(p + 8 + mode * 4) = func_0204AF28((void *)owner, 0x4d, 0x80, *(u16 *)(p + 4));
     return mode;
 }

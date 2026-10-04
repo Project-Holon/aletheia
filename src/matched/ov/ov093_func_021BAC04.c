@@ -22,7 +22,7 @@
  *   func_021BB280  0x021BB280  thumb  ov093
  */
 
-extern void func_021BB718(void *, int);
+extern void func_021BB718(int a, int b);
 extern int func_021BB798(void *);
 extern void func_021BB7D0(void *);
 extern void *func_021B86B8(void ***);
@@ -40,7 +40,7 @@ int func_021BAC04(char *p, int *st)
 
     switch (*st) {
     case 0:
-        func_021BB718(p, 1);
+        func_021BB718((int)p, 1);
         (*st)++;
     case 1:
         if (func_021BB798(p)) {

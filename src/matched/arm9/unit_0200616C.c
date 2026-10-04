@@ -42,9 +42,9 @@ extern struct Sub0200616CEntry sub_0200616C_Table[];
 extern int  sub_02005CE0(void *arg);
 extern int  sub_02006148(u32 a);
 extern void sub_020062BC(int i, u32 b);
-extern int  func_020755A8(u32 *req, int a, int b, int c, void *arg);
+extern u32 func_020755A8(u32 a, int b, int c, int d, u32 e);
 extern void func_02072E7C(u32 *req, int a);
-extern int  func_02075560(u32 *req, u32 a);
+extern u32 func_02075560(u32 a, u32 b);
 
 void sub_020061A4(u32 a, u32 b);
 void sub_020061F8(int i);
@@ -55,7 +55,7 @@ void sub_0200616C(void *arg, int i)
         return;
     }
     sub_0200616C_Table[i].unk00 = 0;
-    if (func_020755A8(&sub_0200616C_Table[i].unk04, i + 1, -1, -1, arg) == 1) {
+    if (func_020755A8((u32)(&sub_0200616C_Table[i].unk04), i + 1, -1, -1, (u32)arg) == 1) {
         sub_0200616C_Table[i].unk00 = arg;
     }
 }
@@ -69,7 +69,7 @@ void sub_020061A4(u32 a, u32 b)
     }
     i = sub_02006148(a);
     sub_0200616C_Table[i].unk00 = 0;
-    if (func_02075560(&sub_0200616C_Table[i].unk04, a) != 1) {
+    if (func_02075560((u32)(&sub_0200616C_Table[i].unk04), a) != 1) {
         return;
     }
     sub_0200616C_Table[i].unk00 = (void *)a;

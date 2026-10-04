@@ -25,10 +25,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D67C(u32);
-extern u32 func_0216D4F8(u32);
-extern u32 func_0216D4F4(u32);
-extern u32 func_0216D514(u32);
+extern void *func_0216D67C(void *a0);
+extern u32 func_0216D4F8(u8 *p);
+extern u16 func_0216D4F4(void *p);
+extern u32 func_0216D514(void *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02030DA8(u32, void (*)(), u32 *, u32);
 extern u8 d_021DDBE0;
@@ -40,10 +40,10 @@ void func_02197D3C(u32 p0, u32 p1)
     u32 *r;
     u32 n;
 
-    h = func_0216D67C(p0);
-    r = func_02030734((u16)(0x8000 | (func_0216D4F8(h) & 0x7fff)), 0x14, 1, (const char *)&d_021DDBE0, 0x115);
-    n = func_0216D4F4(func_0216D67C(p0)) - 2;
-    func_02030DA8(func_0216D514(h), func_02197DCC, r, n);
+    h = (u32)func_0216D67C((void *)p0);
+    r = func_02030734((u16)(0x8000 | (func_0216D4F8((u8 *)h) & 0x7fff)), 0x14, 1, (const char *)&d_021DDBE0, 0x115);
+    n = func_0216D4F4(func_0216D67C((void *)p0)) - 2;
+    func_02030DA8(func_0216D514((void *)h), func_02197DCC, r, n);
     r[3] = p0;
     r[4] = p1;
 }

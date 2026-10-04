@@ -53,12 +53,14 @@ extern int d_021F3A58;
 extern T d_021F3AD4;
 extern T d_021F3A68;
 
-extern void *func_02188D2C(void *p);
-extern u32   func_02188C80(void *p);
+struct Big;
+struct Ctx;
+extern int func_02188D2C(int *p);
+extern void *func_02188C80(void *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern u32   func_020120F4(u32 a);
-extern u32   func_02012EC4(u32 a);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern u8   *func_0200B3A4(u32 a, u32 b);
 extern void  func_021BE760(void *p, void *a, int b);
 extern char *func_021BE480(void *p, int i, u16 j);
@@ -67,8 +69,8 @@ extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_021BE6B8(unsigned char *p, int v);
-extern int   func_021BE748(void *p);
-extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
+extern int func_021BE748(u32 a);
+extern void func_021BE6CC(int a, int b, int c, int d, int e);
 
 void func_021F36C0(void *a0)
 {
@@ -81,8 +83,8 @@ void func_021F36C0(void *a0)
     T ta;
     T tb;
 
-    s = func_02188D2C(a0);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a0))), 4);
+    s = (void *)func_02188D2C(a0);
+    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(a0))), 4);
     func_02189764(a0, 1, func_02188C84(a0), 4);
     func_021BE760(s, &d_021F3A58, 0);
     ta = d_021F3AD4;
@@ -104,7 +106,7 @@ void func_021F36C0(void *a0)
             b = func_021BE674(s, 0, x, 0);
             func_021BE6B0(b, 0);
             func_021BE6B8(b, 0);
-            func_021BE6CC(s, 0, x, 0, func_021BE748(b));
+            func_021BE6CC((int)s, 0, x, 0, func_021BE748((u32)b));
         }
     }
 }

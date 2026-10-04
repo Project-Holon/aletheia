@@ -73,7 +73,7 @@ void *func_020124E4(struct Obj *p);
 u32 func_02012138(const struct Ctx *p);
 void *func_020120F4(const struct Ctx *p);
 void *func_0201210C(const struct Ctx *p);
-u8 *func_02158344(void *);
+int func_02158344(int a0);
 int func_0217405C(void *, void *);
 int func_02175CF4(void *, void *);
 int func_021745F8(u8, void *);
@@ -100,7 +100,7 @@ int func_02182214(void *a, int *state, Ov018Work *c)
     v = (u8 *)func_02012138(sub);
     x = func_020120F4(sub);
     func_0201210C(sub);
-    v = func_02158344(v);
+    v = (u8 *)func_02158344((int)v);
     if (v == 0) {
         if (func_0217F40C(&c->obj) == 0) {
             return 0;

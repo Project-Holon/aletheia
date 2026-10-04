@@ -16,13 +16,16 @@
  *   store order, because the index term is computed between the stores.
  */
 
-extern void func_0204B404(int, void *, int);
-extern void func_0204B404(int, void *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021EC08C(char *p, int i, unsigned short a, unsigned short b, unsigned short c)
 {
     unsigned short t[2];
     t[0] = a;
     t[1] = b;
-    func_0204B404(*(int *)(p + i * 4 + 0x9E74), t, c);
+    func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)), (const struct Vec2 *)t, c);
 }
 

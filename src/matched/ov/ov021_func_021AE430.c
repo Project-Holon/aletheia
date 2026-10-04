@@ -19,17 +19,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u32 func_020122C0(u32 a, u32 b, void (*cb)(void), u32 size);
-extern u32 *func_020124E8(u32 h);
-extern void func_021AE754(void);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern int func_021AE754(u32 a, u32 b, u32 *c);
 
 u32 func_021AE430(u32 a, u32 x, u32 y)
 {
     u32 h;
     u32 *p;
 
-    h = func_020122C0(a, 0, func_021AE754, 8);
-    p = func_020124E8(h);
+    h = (u32)func_020122C0((void *)a, 0, func_021AE754, 8);
+    p = func_020124E8((struct Obj *)h);
     p[0] = x;
     p[1] = y;
     return h;

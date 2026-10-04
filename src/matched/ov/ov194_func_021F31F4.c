@@ -32,7 +32,8 @@ extern void func_021F391C(char *,int *);
 extern int func_021F3BD4(char *,int *),func_021F3A0C(char *,int *),func_021F3B18(char *,int *);
 extern void func_021F3C40(char *,int *);
 extern int func_021F33C0(char *),func_021F23E4(char *),func_021F3304(char *);
-extern int func_021F2828(const char *,int,Pair *),func_021F2818(char *,int,int);
+extern int func_021F2828(const char *,int,Pair *);
+extern void func_021F2818(char *a, int b, int c);
 extern void func_021F1BFC(char *,int,const Rect *);
 void func_021F31F4(char *p,char *q)
 {

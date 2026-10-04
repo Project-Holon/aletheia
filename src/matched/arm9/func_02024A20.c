@@ -62,7 +62,7 @@ extern u8    func_0203568C(void);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02012BB0(const struct BigObj *p);
 extern void  func_02024ABC(void);
-extern void  func_02024DFC(void *work);
+extern void func_02024DFC(void);
 
 void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
 {
@@ -71,7 +71,7 @@ void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
     gInfoWin->f06 = a0;
     gInfoWin->f07 = a1;
     func_020251FC(a0, a1, heap);
-    gInfoWin->f24 = func_020056A0(func_02024DFC, gInfoWin, 1);
+    gInfoWin->f24 = func_020056A0((void (*)(void *))func_02024DFC, gInfoWin, 1);
     gInfoWin->f20 = 0;
     gInfoWin->f1F = func_0203568C();
     if (a2 != 0) {

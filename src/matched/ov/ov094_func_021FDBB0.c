@@ -40,7 +40,7 @@ typedef struct {
     char pad288[0x18];
     int f2a0;
 } State;
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern int func_021FFF0C(char *p, int key);
 extern int func_021FFF38(char *p, int key);
 extern int func_021FFF68(void *, int);
@@ -53,8 +53,8 @@ int func_021FDBB0(State *s, unsigned int key)
 {
     switch (key) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        return func_021FFF0C(func_021F8694(), key);
-    case 8: return func_021FFF0C(func_021F8694(), s->dc);
+        return func_021FFF0C((char *)func_021F8694(), key);
+    case 8: return func_021FFF0C((char *)func_021F8694(), s->dc);
     case 9: return s->b248;
     case 10: return s->b249;
     case 11: return s->b24a;
@@ -64,25 +64,25 @@ int func_021FDBB0(State *s, unsigned int key)
     case 15: return s->f254;
     case 16: return s->f4;
     case 17: return s->dc;
-    case 18: return func_021FF348(func_021F8694(), s->dc);
+    case 18: return func_021FF348((void *)func_021F8694(), s->dc);
     case 19: return s->dc & 1;
     case 20: case 21: case 22: case 23: case 24: case 25: case 26: case 27:
-        if (func_021FFF38(func_021F8694(), key - 20) & 2)
+        if (func_021FFF38((char *)func_021F8694(), key - 20) & 2)
             return 1;
         return 0;
     case 28:
-        if (func_021FFF38(func_021F8694(), s->dc) & 2)
+        if (func_021FFF38((char *)func_021F8694(), s->dc) & 2)
             return 1;
         return 0;
     case 29: case 30: case 31: case 32: case 33: case 34: case 35: case 36:
-        return func_021FFF68(func_021F8694(), key - 29);
-    case 37: return func_021FFF68(func_021F8694(), s->dc);
+        return func_021FFF68((void *)func_021F8694(), key - 29);
+    case 37: return func_021FFF68((void *)func_021F8694(), s->dc);
     case 38: return func_021F8730();
     case 39: return func_021F8710();
     case 40: case 41: case 42: case 43: return func_021F8740(key - 40);
     case 44: case 45: case 46: case 47: case 48: case 49: case 50: case 51:
-        return func_021FFFAC(func_021F8694(), key - 44);
-    case 52: return func_021FFFAC(func_021F8694(), s->dc);
+        return func_021FFFAC((void *)func_021F8694(), key - 44);
+    case 52: return func_021FFFAC((void *)func_021F8694(), s->dc);
     case 53: return s->f13;
     case 54: return s->f284;
     case 55: return s->f2a0;

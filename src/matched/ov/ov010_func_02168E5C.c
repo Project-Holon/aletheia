@@ -24,26 +24,31 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern int func_020120F4(int);
-extern int func_020122C0(int, int, void *, int);
-extern int *func_020124E8(int);
+struct Big;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sub0200852CObj;
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02012944(int);
-extern u8 func_02008550(int);
-extern int func_02012EBC(int);
-extern int func_0200E8F8(int);
+extern u8 *func_02012944(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E8F8(void *sys);
 extern void func_02168EB0(void);
 
 int func_02168E5C(int a, int b, int c)
 {
-    int x = func_020120F4(a);
-    int h = func_020122C0(a, 0, func_02168EB0, 0x18);
-    int *p = func_020124E8(h);
+    int x = (int)func_020120F4((const struct Ctx *)a);
+    int h = (int)func_020122C0((void *)a, 0, func_02168EB0, 0x18);
+    int *p = func_020124E8((struct Obj *)h);
     p[0] = a;
     p[1] = (int)func_0201210C((void *)a); /* int-typed on purpose: field is int in record */
-    *(u8 *)(p + 2) = func_02008550(func_02012944(x));
-    p[3] = func_0200E8F8(func_02012EBC(x));
+    *(u8 *)(p + 2) = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)x));
+    p[3] = (int)func_0200E8F8(func_02012EBC((struct Big *)x));
     p[4] = b;
     p[5] = c;
     return h;

@@ -30,13 +30,15 @@
 
 typedef unsigned int u32;
 
-extern int func_0200856C(u32 a1);
-extern u32 func_0202EB9C(u32 a0, u32 a1);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u32 func_0202EB9C(u32 a, void *b);
 
 u32 func_0202EB7C(u32 a0, u32 a1)
 {
-    if (func_0200856C(a1) == 0) {
+    if (func_0200856C((const struct Sub0200852CObj *)a1) == 0) {
         return 0;
     }
-    return func_0202EB9C(a0, a1);
+    return func_0202EB9C(a0, (void *)a1);
 }

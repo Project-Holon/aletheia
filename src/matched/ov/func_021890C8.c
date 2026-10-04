@@ -24,18 +24,19 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02048AC4(u32);
+struct BbActSys;
+extern void func_02048AC4(void *ptr);
 extern u32 func_02048C4C(u32, u32, u32, u32);
-extern u32 func_0204FFFC(u32);
+extern void func_0204FFFC(struct BbActSys *o);
 extern u32 func_021C6400(u32);
 
 int func_021890C8(u32 a, u32 b, u32 c, u32 d)
 {
 func_02048C4C(*(u32 *)((u8 *)((a + 168))), b, c, d);
-func_02048AC4(*(u32 *)((u8 *)((a + 164))));
-func_0204FFFC(*(u32 *)((u8 *)((a + 176))));
-func_0204FFFC(*(u32 *)((u8 *)((a + 180))));
-func_0204FFFC(*(u32 *)((u8 *)((a + 184))));
+func_02048AC4((void *)(*(u32 *)((u8 *)((a + 164)))));
+func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 176)))));
+func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 180)))));
+func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 184)))));
 return func_021C6400(*(u32 *)((u8 *)(a) + ((19 << 4))));
 }
 

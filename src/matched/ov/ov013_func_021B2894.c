@@ -41,7 +41,7 @@ typedef struct St {
 extern St d_021B60D8;
 extern s8 d_021B3BC8[][11];
 extern s8 d_021B3AFC[][11];
-extern int func_021B25B0(Ctx *c, int n);
+extern int func_021B25B0(int a, int b);
 
 int func_021B2894(Ctx *c, Msg *m)
 {
@@ -63,12 +63,12 @@ int func_021B2894(Ctx *c, Msg *m)
     case -1:
         return r;
     case -2:
-        func_021B25B0(c, 1);
+        func_021B25B0((int)c, 1);
         c->fC = 0;
         c->f0 = 0;
         return r;
     case -3:
-        func_021B25B0(c, 3);
+        func_021B25B0((int)c, 3);
         c->fC = 0;
         c->f0 = 0;
         return r;

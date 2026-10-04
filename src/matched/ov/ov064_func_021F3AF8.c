@@ -45,7 +45,7 @@ extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
-extern int func_021BE480(int a, unsigned b, int c);
+extern int func_021BE480(char *p, unsigned i, int j);
 
 int func_021F3AF8(void *task)
 {
@@ -76,7 +76,7 @@ int func_021F3AF8(void *task)
     if (n >= (m + 1) / 2)
         n = m - n;
     v.b += w->f30 * n / m;
-    *(V3 *)func_021BE480(s, 0, 1) = v;
+    *(V3 *)func_021BE480((char *)s, 0, 1) = v;
     if (w->h36 >= w->h34)
         return 1;
     return 0;

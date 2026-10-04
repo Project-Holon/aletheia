@@ -35,13 +35,13 @@ struct S {
     u32 f34;
 };
 
-extern u32 *func_0204A298(u32, u32, u32, u32, u32 *);
+extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_0209C2B0(u32, u32);
 
 void func_0219EF7C(struct S *p, u32 b, u32 c)
 {
     u32 loc;
-    p->f0 = func_0204A298(0x4f, b, 0, (u16)c, &loc);
+    p->f0 = (u32 *)func_0204A298(0x4f, b, 0, (u16)c, &loc);
     p->f4 = loc;
     p->f18 = (u32)p->f0 + p->f0[2];
     p->h8 = func_0209C2B0(p->f0[3] - p->f0[2], 0x70);

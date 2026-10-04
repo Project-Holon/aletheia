@@ -38,8 +38,8 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct Flags { unsigned low:3; unsigned count:2; unsigned high:27; } Flags;
 typedef struct GlobalFlags { unsigned low:2; unsigned disabled:1; unsigned high:29; } GlobalFlags;
-extern char *func_021F8694(void);
-extern void *func_021F86C4(void);
+extern int func_021F8694(void);
+extern int func_021F86C4(void);
 extern int func_021F9824(void *);
 extern u8 func_02015EF4(char *p);
 extern u32 func_0203F0A8(void);
@@ -51,7 +51,7 @@ extern void func_02201304(void *, int *);
 extern const char d_0220AE7C[];
 void func_02201718(int i)
 {
-    char *p = func_021F8694();
+    char *p = (char *)func_021F8694();
     char *e;
     int off;
     unsigned n;
@@ -61,7 +61,7 @@ void func_02201718(int i)
     e = p + 8;
     off = i * 0x5c;
     if (*(void **)(e + off) == 0) return;
-    if (func_021F9824(func_021F86C4()) == 0) return;
+    if (func_021F9824((void *)func_021F86C4()) == 0) return;
     if (((GlobalFlags *)(p + 0x510))->disabled) return;
     if (func_02015EF4(*(void **)(e + off)) == 0xff) {
         *(u32 *)(p + 0x54 + off) |= 0x800;

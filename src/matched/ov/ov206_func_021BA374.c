@@ -25,7 +25,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Pt { s16 x; s16 y; };
 extern void func_021BBC9C(char *p);
-extern void func_0207D658(volatile u16 *reg, int plane, int brightness);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 extern u32 func_02006984(u32, u32, u32, u32, u32, u32, u32, u32);
 struct Actor;
 struct PrintSys;
@@ -54,7 +54,7 @@ void func_021BA374(char *p)
         *(volatile u16 *)0x04000044 = (u16)(((8 << 8) & 0xFF00) | (v & 0xFF));
         if (*(int *)(p+0x68) == 16) {
             *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
-            func_0207D658((volatile u16 *)0x04000050, 0x10, 0);
+            func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, 0);
             func_02006984(*(u16 *)(p+0xc), *(u16 *)(p+0xe), 0x40, 0, 0, 0, 0, 0);
             *(int *)(p+0x54) = 3;
         }

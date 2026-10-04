@@ -80,10 +80,10 @@ extern char g_021A52EC[];
 extern char g_021A531C[];
 
 extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_0217EE50(int sock, int isblocking);
 extern struct SOCHostEnt *func_0215F650(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
@@ -102,27 +102,27 @@ int func_021903B0(void **connection, GPIOperation *operation)
     data->inputBuffer.size = 4096;
     data->inputBuffer.buffer = (char *)func_0217EAB0(data->inputBuffer.size + 1);
     if (data->inputBuffer.buffer == 0) {
-        func_02193734(connection, g_021A5280);
+        func_02193734((int *)connection, (int)g_021A5280);
         return 1;
     }
 
     data->sock = func_0217EB18(2, 1, 0);
     if (data->sock == -1) {
-        func_02193710(connection, 5, g_021A5290);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 5, (int)g_021A5290);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
 
     if (!func_0217EE50(data->sock, 0)) {
-        func_02193710(connection, 5, g_021A52B8);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 5, (int)g_021A52B8);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
 
     host = func_0215F650(g_021A5240);
     if (host == 0) {
-        func_02193710(connection, 5, g_021A52EC);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 5, (int)g_021A52EC);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
 
@@ -138,8 +138,8 @@ int func_021903B0(void **connection, GPIOperation *operation)
     if (rcode == -1) {
         error = func_0217ED54(data->sock);
         if (error != -6 && error != -26 && error != -76) {
-            func_02193710(connection, 5, g_021A531C);
-            func_02189D78(connection, 3, 1);
+            func_02193710((int *)connection, 5, (int)g_021A531C);
+            func_02189D78((int *)connection, 3, 1);
             return 3;
         }
     }

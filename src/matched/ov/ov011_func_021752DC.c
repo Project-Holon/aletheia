@@ -29,11 +29,15 @@ typedef struct Hd {
     u16 top : 1;
 } Hd;
 
-int func_02026478(int a);
-void *func_020127A4(int a);
+typedef unsigned int   u32;
+struct Report;
+struct SaveBlock;
+struct Work;
+u32 func_02026478(void *obj);
+void *func_020127A4(struct SaveBlock *p);
 struct Rec44;
 u16 func_02012AC8(const struct Rec44 *p);
-int func_0216786C(int a, Hd *b);
+int func_0216786C(struct Work *w, struct Report *out);
 u8 func_02012FB0(int a);
 
 int func_021752DC(u8 *p)
@@ -44,10 +48,10 @@ int func_021752DC(u8 *p)
     int k;
     Hd *h;
 
-    ctx = func_02026478(*(int *)(p + 4));
-    v = func_02012AC8(func_020127A4(ctx));
+    ctx = func_02026478((void *)(*(int *)(p + 4)));
+    v = func_02012AC8(func_020127A4((struct SaveBlock *)ctx));
     h = (Hd *)(p + 0x70);
-    r = func_0216786C(*(int *)(p + 8), h);
+    r = func_0216786C((struct Work *)(*(int *)(p + 8)), (struct Report *)h);
     if (h->f14 != v) {
         h->f14 = v;
         r = 1;

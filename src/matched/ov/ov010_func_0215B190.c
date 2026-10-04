@@ -33,7 +33,8 @@ struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
 extern u32 func_0201296C(const struct BigObj *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_020142E8();
+typedef signed int     s32;
+extern u32 func_020142E8(void *bitmap, s32 id);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
@@ -47,7 +48,7 @@ int func_0215B190(int a0, int a1)
     u16 *out = func_02159AE8((void *)a0, (void *)a1);
     void *t;
     int r;
-    if (func_020142E8(q, 0x97B) != 0) {
+    if (func_020142E8((void *)q, 0x97B) != 0) {
         t = func_02012EBC((struct Big *)p);
         r = func_0200725C(t, 8, 4);
         switch (r) {

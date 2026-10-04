@@ -18,13 +18,13 @@
 
 extern void func_02208B54(char *a);
 extern void func_02208A6C(char *p);
-extern void func_02208994(int);
+extern void func_02208994(char *a);
 extern void func_020307B0(void *);
 
 void func_02208770(char *a)
 {
     func_02208B54(a);
     func_02208A6C(a);
-    func_02208994(*(int *)(a + 0x10));
+    func_02208994((char *)(*(int *)(a + 0x10)));
     func_020307B0(a);
 }

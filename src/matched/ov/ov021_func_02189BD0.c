@@ -127,72 +127,76 @@ struct FieldInput {
 extern void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos);
 extern int func_0218A738(struct FieldInput *p);
 extern u32 *func_02012ED0(void *p);
-extern int func_021C868C(void *sys, u32 v);
-extern int func_021AE0CC(u8 *pos);
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct VecFx32;
+extern int func_021C868C(int a, char *b);
+extern int func_021AE0CC(int a);
 extern void func_0218A728(void *p);
 extern int func_0218A76C(struct FieldInput *p);
-extern int func_0218ACD0(struct FieldInput *p, u8 *pos, u32 arg);
+extern int func_0218ACD0(u8 *p, void *a, void *arg);
 extern void *func_0218AD28(struct FieldInput *p, u8 *pos);
 extern int func_0218A9B0(struct FieldInput *p, u8 *pos);
 extern int func_0218A7F0(struct FieldInput *p);
 extern int func_0218A824(struct FieldInput *p);
-extern int func_0218A878(struct FieldInput *p, void *sys, u8 *pos);
+extern void *func_0218A878(u8 *p, void *a, void *b);
 extern int func_0218B208(struct FieldInput *p, void *sys, u8 *pos);
-extern void *func_0201296C(void *p);
+extern u32 func_0201296C(const struct BigObj *p);
 extern int func_020142E8(void *p, u32 id);
-extern int func_021A2F20(u32 obj, u32 trg, u32 cont, u32 flags);
-extern void *func_02012138(void *sys);
-extern void *func_02158344(void *p);
-extern void *func_021A3074(u32 p);
-extern int func_0217BFD8(void *sys, u16 v);
+extern int func_021A2F20(u32 *p, int a, int b, int c);
+extern u32 func_02012138(const struct Ctx *p);
+extern int func_02158344(int a0);
+extern void *func_021A3074(u8 *p);
+extern int func_0217BFD8(int a, int b);
 extern int func_0217CA84(void *sys, int v);
 extern int func_02026454(void *p);
-extern int func_02012B70(void *p);
+extern u8 func_02012B70(const struct BigObj *p);
 extern int func_0217C070(void *ev);
 extern int func_0217B810(void *sys, u8 *pos);
-extern int func_0217689C(void *ev, u16 v);
+extern int func_0217689C(u8 *ctx, int arg);
 extern u32 func_02012FB0(void *p);
 struct Desc;
-extern struct Desc *func_0216B3A8(void *sys, int a1, int a2);
+extern struct Desc *func_0216B3A8(int a0, int a1, int a2);
 extern int func_021754B4(void *ev, u32 *out);
-extern void func_021A2F6C(u32 obj);
-extern int func_0217FC6C(void *sys, u8 *pos, void *ev, void *m, u32 out, u16 id);
-extern int func_0217BDE0(void *sys, void *ev, u32 obj);
+extern void func_021A2F6C(u32 *p);
+extern void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e);
+extern int func_0217BDE0(int a, u8 *b, int c);
 extern int func_0217AFC4(void *ev, u32 obj, u32 *out);
-extern int func_0217FB5C(void *sys, u8 *pos, void *ev, void *m, u32 out, u16 id);
-extern u32 func_021A3050(u32 obj);
-extern void func_021A3038(u32 obj, int *out);
+extern void *func_0217FB5C(void *owner, int b, int unused, int d, int e, u16 f);
+extern u16 func_021A3050(u8 *p);
+extern void func_021A3038(u8 *p, struct VecFx32 *out);
 extern void func_02164208(u32 v, int *pos, int step);
 extern int func_0218B4B0(struct FieldInput *p, u8 *pos);
-extern u32 func_0216D5B8(int p);
+extern u16 func_0216D5B8(void *p);
 extern int func_02158D90(u16 v);
 extern int func_0219F01C(void *sys, u8 *pos, u32 a, void *m, int ev, u16 id);
 extern u32 func_02162A54(void *p, void *q, int *pos, u32 d);
-extern int func_02158768(void *sys, u32 msg, int a, u16 id);
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 extern u16 func_0218B56C(struct FieldInput *p, u8 *pos);
 extern void *func_02012EBC(void *p);
 extern void *func_0200BE48(void *p);
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_021CFAC0(void *p, u16 v, s16 x, s16 y, s16 z);
-extern int func_021CFC14(void *sys, u16 id, u32 v);
+extern void *func_021CFC14(void *a, void *unused, void *c);
 extern int func_021CD440(u8 *pos, u16 *out);
-extern int func_02013FFC(u16 id);
-extern u32 func_02162940(void *p, void *q, int *pos);
+extern u32 func_02013FFC(u32 id);
+extern u16 func_02162940(void *p, void *q, int key);
 extern int func_0218B408(struct FieldInput *p, void *sys, u8 *pos);
-extern int func_0218AED4(struct FieldInput *p, void *sys, u8 *pos);
+extern int func_0218AED4(char *p, int unused, void *a);
 extern int func_0218AF90(struct FieldInput *p, void *sys, u8 *pos);
 extern int func_020221A4(void);
-extern void *func_02188CCC(u8 *pos);
+extern u32 func_02188CCC(u8 *p);
 extern int func_0215FF34(void *sys);
-extern int func_021A0ED4(void *p);
-extern int func_0215FF54(void *sys, u8 *pos, u16 id);
-extern int func_0201212C(void *sys);
+extern int func_021A0ED4(u32 a);
+extern struct Desc *func_0215FF54(int a0, int a1, u16 a2);
+extern u8 func_0201212C(const struct Ctx *p);
 extern int func_021C06CC(void *sys, u8 *pos);
 extern int func_021A0F90(void *p);
-extern int func_0215FC40(void *sys, u8 *pos, u16 id);
+extern struct Desc *func_0215FC40(int a0, int a1, u16 a2);
 extern int func_021A0EB0(void *p, u32 flag);
-extern int func_0218ACA8(void *sys);
-extern int func_0217B410(u8 *pos, void *sys, u32 obj);
+extern struct Desc *func_0218ACA8(void *a);
+extern int func_0217B410(int a0, int a1, int a2);
 
 int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
 {
@@ -214,10 +218,10 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
         *outA = 1;
         return r;
     }
-    r = func_021C868C(sys, *func_02012ED0(in.f8));
+    r = func_021C868C((int)sys, (char *)(*func_02012ED0(in.f8)));
     if (r != 0)
         return r;
-    r = func_021AE0CC(pos);
+    r = func_021AE0CC((int)pos);
     if (r != 0) {
         *outA = 1;
         return r;
@@ -230,7 +234,7 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
             *outA = 1;
             return r;
         }
-        r = func_0218ACD0(&in, pos, in.f34);
+        r = func_0218ACD0((u8 *)(&in), pos, (void *)in.f34);
         if (r != 0)
             return r;
         r = (int)func_0218AD28(&in, pos);
@@ -248,7 +252,7 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
     r = func_0218A824(&in);
     if (r != 0)
         return r;
-    r = func_0218A878(&in, sys, pos);
+    r = (int)func_0218A878((u8 *)(&in), sys, pos);
     if (r != 0)
         return r;
     r = func_0218B208(&in, sys, pos);
@@ -256,39 +260,39 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
         return r;
 
     flags = 0;
-    if (func_020142E8(func_0201296C(in.f8), 0x964) == 1)
+    if (func_020142E8((void *)func_0201296C(in.f8), 0x964) == 1)
         flags |= 1;
-    r = func_021A2F20(in.f18, in.trg, in.cont, flags);
+    r = func_021A2F20((u32 *)in.f18, in.trg, in.cont, flags);
     if (r != 0)
         return r;
 
-    obj = func_02012138(sys);
-    ev = func_02158344(obj);
-    model = func_021A3074(in.f18);
-    if (func_0217BFD8(sys, in.f10) == 1)
+    obj = (void *)func_02012138(sys);
+    ev = (void *)func_02158344((int)obj);
+    model = func_021A3074((u8 *)in.f18);
+    if (func_0217BFD8((int)sys, in.f10) == 1)
         return func_0217CA84(sys, 0);
     if (func_02026454(obj) == 2 && ev != 0) {
         if (func_02012B70(in.f8) == 1 && func_0217C070(ev) == 1)
             return func_0217B810(sys, pos);
         if (func_0217689C(ev, in.f10) == 1)
-            return (int)func_0216B3A8(sys, 9, func_02012FB0(in.f8));
+            return (int)func_0216B3A8((int)sys, 9, func_02012FB0(in.f8));
         if (in.b10 == 1 && func_021754B4(ev, &out) == 1) {
-            func_021A2F6C(in.f18);
-            return func_0217FC6C(sys, pos, ev, model, out, in.f0);
+            func_021A2F6C((u32 *)in.f18);
+            return (int)func_0217FC6C(sys, (int)pos, (int)ev, (int)model, out, in.f0);
         }
         if (in.b3) {
-            r = func_0217BDE0(sys, ev, in.f18);
+            r = func_0217BDE0((int)sys, ev, in.f18);
             if (r != 0)
                 return r;
         }
         if (in.b0 && func_0217AFC4(ev, in.f18, &out) == 1) {
-            func_021A2F6C(in.f18);
-            return func_0217FB5C(sys, pos, ev, model, out, in.f0);
+            func_021A2F6C((u32 *)in.f18);
+            return (int)func_0217FB5C(sys, (int)pos, (int)ev, (int)model, out, in.f0);
         }
     }
 
     if (in.b0) {
-        u32 dir = func_021A3050(in.f18);
+        u32 dir = func_021A3050((u8 *)in.f18);
         int target;
         u32 msg;
         int x;
@@ -296,39 +300,39 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
         int z;
         void *map;
 
-        func_021A3038(in.f18, xyz);
+        func_021A3038((u8 *)in.f18, (struct VecFx32 *)xyz);
         func_02164208(dir, xyz, 0x10000);
         target = func_0218B4B0(&in, pos);
         if (target != 0) {
-            u32 kind = func_0216D5B8(target);
+            u32 kind = func_0216D5B8((void *)target);
 
             if (func_02158D90(kind) == 1) {
-                void *m = func_021A3074(in.f18);
+                void *m = func_021A3074((u8 *)in.f18);
 
-                func_021A2F6C(in.f18);
+                func_021A2F6C((u32 *)in.f18);
                 *outA = 1;
                 return func_0219F01C(sys, pos, kind, m, target, in.f0);
             }
         }
-        msg = func_02162A54(in.fC, func_0201296C(in.f8), xyz, dir);
+        msg = func_02162A54(in.fC, (void *)func_0201296C(in.f8), xyz, dir);
         if (msg != 0xFFFF)
-            return func_02158768(sys, msg, 0, in.f0);
+            return (int)func_02158768((int)sys, msg, 0, in.f0);
         msg = func_0218B56C(&in, pos);
         if (msg != 0xFFFF)
-            return func_02158768(sys, msg, 0, in.f0);
+            return (int)func_02158768((int)sys, msg, 0, in.f0);
         x = xyz[0] >> 12;
         y = xyz[1] >> 12;
         z = xyz[2] >> 12;
         map = func_0200BE48(func_02012EBC(in.f8));
         msg = func_021CFAC0(map, func_02188C9C(pos), x / 16, y / 16, z / 16);
         if (msg != 0xFF)
-            return func_021CFC14(sys, in.f0, msg);
+            return (int)func_021CFC14(sys, (void *)in.f0, (void *)msg);
         if (func_021CD440(pos, &id) == 1)
-            return func_02158768(sys, 0x271B, 0, in.f0);
+            return (int)func_02158768((int)sys, 0x271B, 0, in.f0);
         if (func_02013FFC(in.f10)) {
-            msg = func_02162940(in.fC, func_0201296C(in.f8), xyz);
+            msg = func_02162940(in.fC, (void *)func_0201296C(in.f8), (int)xyz);
             if (msg != 0xFFFF)
-                return func_02158768(sys, msg, 0, in.f0);
+                return (int)func_02158768((int)sys, msg, 0, in.f0);
         }
     }
 
@@ -338,7 +342,7 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
             return r;
     }
     if (in.b5) {
-        r = func_0218AED4(&in, sys, pos);
+        r = func_0218AED4((char *)(&in), (int)sys, pos);
         if (r != 0)
             return r;
         r = func_0218AF90(&in, sys, pos);
@@ -346,10 +350,10 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
             return r;
     }
     if (in.b6 && func_020221A4()) {
-        void *pl = func_02188CCC(pos);
+        void *pl = (void *)func_02188CCC(pos);
 
-        if (func_0215FF34(sys) && func_021A0ED4(pl)) {
-            r = func_0215FF54(sys, pos, in.f0);
+        if (func_0215FF34(sys) && func_021A0ED4((u32)pl)) {
+            r = (int)func_0215FF54((int)sys, (int)pos, in.f0);
             if (r != 0)
                 return r;
         }
@@ -357,22 +361,22 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
     if (func_0201212C(sys) == 1 && func_020221A4() && in.b10)
         return func_021C06CC(sys, pos);
     if (in.b1 && func_020221A4()) {
-        if (func_021A0F90(func_02188CCC(pos)) == 6)
+        if (func_021A0F90((void *)func_02188CCC(pos)) == 6)
             return 0;
         *outB = 1;
-        return func_0215FC40(sys, pos, in.f0);
+        return (int)func_0215FC40((int)sys, (int)pos, in.f0);
     }
     if (func_020221A4()) {
-        r = func_021A0EB0(func_02188CCC(pos), in.b7);
+        r = func_021A0EB0((void *)func_02188CCC(pos), in.b7);
         if (r != 0)
             return r;
     }
     if (in.b7 && func_020221A4()) {
-        r = func_0218ACA8(sys);
+        r = (int)func_0218ACA8(sys);
         if (r != 0)
             return r;
     }
-    r = func_0217B410(pos, sys, in.f18);
+    r = func_0217B410((int)pos, (int)sys, in.f18);
     if (r == 0)
         return 0;
     return r;

@@ -23,7 +23,7 @@ struct Ctx;
 struct Desc;
 extern void *func_0201210C(const struct Ctx *p);
 extern int *func_021897BC(char *p, int idx);
-extern void *func_02188D2C(void *a);
+extern int func_02188D2C(int *p);
 extern void  func_021BE700(void *p, int i, int j, int k, int flag);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F37F0(void *a, int *b);
@@ -44,7 +44,7 @@ void func_021F3770(void *a0, int a1)
     } else {
         r4[0] = -0x50000;
         r4[1] = 0;
-        x = func_02188D2C(r6);
+        x = (void *)func_02188D2C(r6);
         func_021BE700(x, 0, 0, 0, 1);
         func_021BE700(x, 0, 0, 1, 0);
     }

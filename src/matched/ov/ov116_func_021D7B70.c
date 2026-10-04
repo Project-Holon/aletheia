@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_021D821C(int, u32);
 extern void func_021D7D0C(u8 *, u32);
-extern void *func_020450F0(u32, u32, u32, u32, u8, u8, u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *, int, u16, int);
 struct Cfg;
 struct CharBuf;
@@ -62,7 +62,7 @@ void func_021D7B70(u8 *p, u32 heap)
     P(8) = func_021D821C(1, heap);
     *(u16 *)(p + 4) = heap;
     func_021D7D0C(p, heap);
-    P(0x97c) = func_020450F0(1, 1, 19, 30, 4, 12, 1);
+    P(0x97c) = (void *)func_020450F0(1, 1, 19, 30, 4, 12, 1);
     func_0201F73C(P(0x97c), 1, *(u32 *)(p + 0x984), 13);
     func_02043B5C(func_02045770(P(0x97c)), 15);
     func_02045374(P(0x97c));

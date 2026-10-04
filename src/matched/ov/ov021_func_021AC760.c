@@ -46,12 +46,12 @@ typedef struct Arg {
 } Arg;
 
 extern int func_021ABEA0(u32 a, u32 b);
-extern u16 func_0216D588(u32 a);
-extern u16 func_0216D590(u32 a);
-extern int func_0216D83C(u32 a);
-extern int func_0216D86C(u32 a);
+extern u16 func_0216D588(void *p);
+extern u16 func_0216D590(void *p);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
 extern void func_02164280(s16 a, s16 b, V3 *out);
-extern int func_0216D8AC(u32 a);
+extern u32 func_0216D8AC(void *p);
 extern int func_0216D55C(int a0, int a1);
 extern void func_02163E58(u32 a, V3 *v, int *out);
 extern void func_021ABFA8(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
@@ -68,12 +68,12 @@ void func_021AC760(u32 a, u32 b, u32 c, int d)
     s.f0 = func_021ABEA0(a, 2);
     s.f4 = b;
     s.f20 = d;
-    s.h10 = func_0216D588(b);
-    s.h12 = func_0216D590(b);
-    s.f8 = func_0216D83C(b);
-    s.fc = func_0216D86C(b);
+    s.h10 = func_0216D588((void *)b);
+    s.h12 = func_0216D590((void *)b);
+    s.f8 = func_0216D83C((void *)b);
+    s.fc = func_0216D86C((void *)b);
     func_02164280(s.f8, s.fc, &v);
-    v.y = func_0216D8AC(b);
+    v.y = func_0216D8AC((void *)b);
     if (func_0216D55C(b, 0x2000) != 0) {
         v.y += 7 * 0x1000;
         v.z -= 0x2000;

@@ -13,10 +13,11 @@
  *   func_021B62E0  0x021B62E0  thumb  ov179
  */
 
-extern void func_021B62E0(int, int, int, int);
+typedef unsigned int   u32;
+extern void func_021B62E0(char *p, u32 a, u32 b, u32 c);
 
 int func_021B6758(int a, int *q)
 {
-    func_021B62E0(a, *(int *)((char *)q + 4), *(int *)((char *)q + 8), 5);
+    func_021B62E0((char *)a, *(int *)((char *)q + 4), *(int *)((char *)q + 8), 5);
     return 1;
 }

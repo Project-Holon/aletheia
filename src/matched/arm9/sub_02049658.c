@@ -34,10 +34,10 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  sub_0204A380(void *a, u32 b, u32 f, u16 g);
+extern void *sub_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 extern void sub_0204968C(u32 handle, u32 c, u32 d, u32 e, u32 f);
 
 void sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
-    sub_0204968C(sub_0204A380(a, b, f, g), c, d, e, f);
+    sub_0204968C((u32)sub_0204A380(a, b, f, g), c, d, e, f);
 }

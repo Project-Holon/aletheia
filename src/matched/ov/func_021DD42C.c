@@ -17,12 +17,14 @@
 
 
 extern unsigned int func_0201AA18(void *);
-extern void func_0201AB8C(int, int, int, int);
+typedef unsigned int   u32;
+struct Party;
+extern u32 func_0201AB8C(struct Party *p, u32 i, u32 j, u32 heap);
 void func_021DD42C(int *p, unsigned char *a)
 {
     unsigned i = *(unsigned short *)(a + 4) - 0x1e;
     while (i < func_0201AA18(*(void **)(*p + 8)) - 1) {
-        func_0201AB8C(*(int *)(*p + 8), i, i + 1, 0x4c);
+        func_0201AB8C((struct Party *)(*(int *)(*p + 8)), i, i + 1, 0x4c);
         i++;
     }
 }

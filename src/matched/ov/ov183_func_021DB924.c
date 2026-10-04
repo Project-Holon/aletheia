@@ -13,7 +13,7 @@
  *   func_021FC240  0x021FC240  thumb  ov186
  */
 
-extern void func_021FC240(int, int, int);
+extern void func_021FC240(char *p, void *owner, unsigned short heap);
 
 void func_021DB924(int a0, char *p)
 {
@@ -21,7 +21,7 @@ void func_021DB924(int a0, char *p)
     char *q = *(char **)(p + 0xc);
 
     if (v == 0) {
-        func_021FC240(*(int *)(q + 0x18), *(int *)(q + 0x10),
+        func_021FC240((char *)(*(int *)(q + 0x18)), (void *)(*(int *)(q + 0x10)),
                       *(unsigned short *)(p + 0x14));
     }
     *(int *)(p + 0x10) = 1;

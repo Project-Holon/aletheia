@@ -33,9 +33,10 @@ typedef struct {
     u16 f12;
 } Obj;
 
-extern int func_02188C84(int);
+typedef unsigned int   u32;
+extern u16 func_02188C84(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02188CD0(int);
+extern u32 func_02188CD0(u8 *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_021C6C70(int, int, int (*)(Obj *));
 extern Obj *func_021C6CCC(int);
@@ -48,12 +49,12 @@ int func_021C7D28(int a, int b, u16 c, u16 d)
     int h;
     Obj *o;
 
-    w = func_02188C84(a);
+    w = func_02188C84((u8 *)a);
     s = func_02188CB4((void *)a);
     h = func_021C6C70(w, 0x14, func_021C7D78);
     o = func_021C6CCC(h);
     o->f0 = a;
-    o->f4 = func_02188CD0(a);
+    o->f4 = func_02188CD0((u8 *)a);
     o->f8 = func_021A3074((void *)s);
     o->fC = 0;
     o->fE = 0;

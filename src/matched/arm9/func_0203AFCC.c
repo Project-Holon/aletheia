@@ -30,7 +30,7 @@
 typedef unsigned int u32;
 
 extern void func_02034F84(u32 a);
-extern void func_0203AD8C(void *p);
+extern void func_0203AD8C(u32 a0);
 extern void func_0203AD80(void *ctx, void *ptr, u32 cond, u32 line);
 struct Rec;
 extern void func_0203AF40(struct Rec *p);
@@ -39,7 +39,7 @@ extern u32 *g_021469DC;
 void func_0203AFCC(void *a, u32 b)
 {
     func_02034F84(4);
-    func_0203AD8C(a);
+    func_0203AD8C((u32)a);
     g_021469DC[0xb] = b;
     func_0203AD80(g_021469DC, (void *)func_0203AF40, 0, 0x13F);
 }

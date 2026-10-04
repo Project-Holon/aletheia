@@ -23,13 +23,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B9A84(u8 *a);
+struct Bmp;
+extern int func_021B9A84(u32 p);
 extern u8 func_021BB554(u8 *s);
 extern u32 func_02017E1C(void *obj, u32 key, u32 off);
 extern u32 func_0202D01C(u32 a, u32 b, u32 c);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043AF4(u32 a, int b, int c, int d, int e, int f);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
@@ -41,7 +42,7 @@ void func_021BAE94(u8 *a, u8 *s)
     int h;
     u32 w;
 
-    if (func_021B9A84(a) != 0)
+    if (func_021B9A84((u32)a) != 0)
         return;
     if (*(int *)(*(u8 **)(a + 0x280) + 0x34) == 6)
         return;
@@ -58,7 +59,7 @@ void func_021BAE94(u8 *a, u8 *s)
         x = 0xa;
         y = 0xb;
     }
-    func_02043AF4(w, 0x3d, 0x1b, h, 1, x);
-    func_02043AF4(w, 0x3d, 0x1c, h, 1, y);
+    func_02043AF4((struct Bmp *)w, 0x3d, 0x1b, h, 1, x);
+    func_02043AF4((struct Bmp *)w, 0x3d, 0x1c, h, 1, y);
     func_0204B3DC((struct Obj *)*(int *)(s + 0x38), 1);
 }

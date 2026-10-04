@@ -19,7 +19,8 @@ struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(int,const Pt *,unsigned int);
 extern void func_021E66E8(void *);
-extern void func_021E729C(void *);
+struct Curve;
+extern int func_021E729C(struct Curve *c);
 int func_021E665C(char *p) {
     Pt pos;
     if (*(short *)(p+0x11dc)) {
@@ -29,7 +30,7 @@ int func_021E665C(char *p) {
         if (pos.y<0) *(short *)(p+0x11dc)=1;
         if (*(short *)(p+0x11dc)==1) func_021E66E8(p);
         else {
-            func_021E729C(p+0x1190);
+            func_021E729C((struct Curve *)(p+0x1190));
             pos.x=*(int *)(p+0x1190)/4096;
             pos.y=*(int *)(p+0x1194)/4096;
             func_0204B404(*(int *)(p+0xf20),&pos,1);

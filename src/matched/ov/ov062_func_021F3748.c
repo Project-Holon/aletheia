@@ -18,7 +18,7 @@
 
 void func_021F3748(void *p)
 {
-    void *func_02188D2C(void *p);
+    int func_02188D2C(int *p);
     void func_021BE580(void *p);
-    func_021BE580(func_02188D2C(p));
+    func_021BE580((void *)func_02188D2C(p));
 }

@@ -21,13 +21,13 @@ typedef unsigned int u32;
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188C58(void *);
+extern void *func_02188C58(void *p);
 extern void func_021B52A4(void *, u32);
 
 int func_021B536C(u32 a, u32 b)
 {
     void *w = func_0201210C(func_0215A5DC((void *)b));
 
-    func_021B52A4(w, func_02188C58(w));
+    func_021B52A4(w, (u32)func_02188C58(w));
     return 0;
 }

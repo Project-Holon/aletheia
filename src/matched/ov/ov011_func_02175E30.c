@@ -29,8 +29,11 @@ typedef struct {
 } Rec;
 
 extern u8 *func_020127B8(void *a);
-extern int func_02012950(void *a, int i);
-extern u32 func_02008530(int a);
+struct Rec44;
+struct Sub0200852CObj;
+struct Sub24;
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_021584F4(int a0, int a1);
 
 void func_02175E30(void *a, u8 *b, Rec *c)
@@ -41,9 +44,9 @@ void func_02175E30(void *a, u8 *b, Rec *c)
     int t;
 
     d = func_020127B8(a);
-    t = func_02012950(a, ((u8 *)c)[0x34]);
+    t = (int)func_02012950(a, ((u8 *)c)[0x34]);
     v = ((Bf6 *)(b + ((u8 *)c)[0x34] * 0x1c + 0xa7))->v;
-    r = func_021584F4((u8)v, func_02008530(t));
+    r = func_021584F4((u8)v, func_02008530((const struct Sub0200852CObj *)t));
     if (r == 0x14) {
         *(u8 *)((u8 *)(d + c->slot) + 6) = 1;
     } else if (r == 0x15) {

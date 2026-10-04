@@ -31,7 +31,7 @@ extern void func_021CD870(void);
 extern int func_021BD060(int messageId, int n, int num);
 extern void func_021BD6D4(void);
 extern void func_021CF8D8(void);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CD8DC(void);
 
 void func_021CD80C(void)
@@ -45,5 +45,5 @@ void func_021CD80C(void)
         func_021BD6D4();
     if (prm == 1)
         func_021CF8D8();
-    func_021C0E40(func_021CD8DC);
+    func_021C0E40((unsigned int)func_021CD8DC);
 }

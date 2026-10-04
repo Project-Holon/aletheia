@@ -21,19 +21,19 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D67C(u32);
-extern u32 func_0216DEE0(u32);
-extern int func_0216D83C(u32);
-extern int func_0216D86C(u32);
+extern void *func_0216D67C(void *a0);
+extern void *func_0216DEE0(void *a0);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
 
 int func_0219B9D8(u32 a, u8 *s)
 {
-    u32 o = func_0216DEE0(func_0216D67C(a));
+    u32 o = (u32)func_0216DEE0(func_0216D67C((void *)a));
     int x;
     int y;
     if (o != 0) {
-        x = func_0216D83C(o);
-        y = func_0216D86C(o);
+        x = func_0216D83C((void *)o);
+        y = func_0216D86C((void *)o);
         if (x != *(s16 *)(s + 2) || y != *(s16 *)(s + 4)) {
             return 1;
         }

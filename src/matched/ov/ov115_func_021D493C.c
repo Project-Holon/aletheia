@@ -21,13 +21,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020221A4(void);
 extern int func_021D4240(u8 *);
-extern void func_021D5D3C(int);
-extern void func_021D5ED8(int,int);
+extern void func_021D5D3C(u8 *p);
+extern void func_021D5ED8(u8 *p, u32 n);
 extern u32 func_0202EB0C(void);
 extern void func_021D426C(u8 *,u32);
 extern void func_021D4910(u8 *);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
 void func_021D493C(u8 *p) {
- if (func_020221A4() && func_021D4240(p)) { func_021D5D3C(W(0x38)); if (func_0202EB0C()) func_021D5ED8(W(0x38), 0x2e); else func_021D5ED8(W(0x38), 0x15); func_021D426C(p, (u32)func_021D4910); }
+ if (func_020221A4() && func_021D4240(p)) { func_021D5D3C((u8 *)W(0x38)); if (func_0202EB0C()) func_021D5ED8((u8 *)W(0x38), 0x2e); else func_021D5ED8((u8 *)W(0x38), 0x15); func_021D426C(p, (u32)func_021D4910); }
 }

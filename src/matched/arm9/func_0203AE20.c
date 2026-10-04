@@ -45,7 +45,9 @@ static inline void MATH_InitRand64(MATHRandContext64 *context, u64 seed)
 }
 
 extern void OS_GetMacAddress(u8 *p);
-extern void func_020889C0(void *date, void *time);
+struct RTCDate;
+struct RTCTime;
+extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
 extern void func_0203F034(u32 seed);
 extern u32 func_0203F0A8(void);
 extern u32 g_02FFFC3C;
@@ -59,7 +61,7 @@ void func_0203AE20(MATHRandContext64 *o)
   u8 mac[6];
   u32 seed;
   OS_GetMacAddress(mac);
-  func_020889C0(&d, &t);
+  func_020889C0((struct RTCDate *)(&d), (struct RTCTime *)(&t));
   seed = ((d.year + ((d.day * (d.mon << 8)) << 16)) + (t.hour << 16)) + ((t.min + t.sec) << 24);
   seed = seed + (mac[5] + ((mac[3] << 16) + (mac[4] << 8)));
   seed = seed + g_02FFFC3C;

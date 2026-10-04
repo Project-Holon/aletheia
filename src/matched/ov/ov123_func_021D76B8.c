@@ -17,10 +17,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02012EBC(int);
-extern int func_02012E7C(int,int);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern int func_02012E7C(char *p, int a1);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl,u32 id);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D768C(u8 *);
-void func_021D76B8(char *p) { int v; v=func_02012EBC(*(int *)(p+44)); if(func_02012E7C(*(int *)(p+44),7)==2) { func_0200734C((struct Sub02007324Ctrl *)v,7); func_021D6EE0(p,(int)func_021D768C,0x36a); } }
+void func_021D76B8(char *p) { int v; v=(int)func_02012EBC((struct Big *)(*(int *)(p+44))); if(func_02012E7C((char *)(*(int *)(p+44)),7)==2) { func_0200734C((struct Sub02007324Ctrl *)v,7); func_021D6EE0(p,(int)func_021D768C,0x36a); } }

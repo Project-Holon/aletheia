@@ -25,7 +25,7 @@ extern int func_02175F3C(void);
 extern int func_0217603C(void);
 extern char *func_0217637C(int index);
 extern int func_0216B908(void);
-extern int func_0216FF2C(int cmd, int a, int b, int c, void *data, int len);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int result);
 extern void func_02173CFC(void);
 
@@ -47,7 +47,7 @@ int func_02175458(void)
             command = 0x55;
         else
             command = 0x52;
-        result = func_0216FF2C(command, *(int *)pNodeInfo, *(int *)(pNodeInfo + 4), *(unsigned short *)(pNodeInfo + 12), &aidBitmap, 1);
+        result = func_0216FF2C(command, *(int *)pNodeInfo, *(int *)(pNodeInfo + 4), *(unsigned short *)(pNodeInfo + 12), (const unsigned int *)(&aidBitmap), 1);
         if (func_021719A4(result))
             return 0;
     }

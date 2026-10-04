@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02026D04(void *);
+struct Rec;
+extern int func_02026D04(const struct Rec *r);
 
 void func_02165940(unsigned char *p)
 {
@@ -29,7 +30,7 @@ void func_02165940(unsigned char *p)
     for (i = 0; i < 0x1E; i++) {
         if (p[i * 0x5C] == 0)
             break;
-        func_02026D04(p + i * 0x5C);
+        func_02026D04((const struct Rec *)(p + i * 0x5C));
     }
 }
 

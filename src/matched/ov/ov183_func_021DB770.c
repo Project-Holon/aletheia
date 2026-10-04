@@ -40,7 +40,7 @@ extern void func_021F9BF4(unsigned *,unsigned),func_021F9BA0(void *);
 extern int func_021FC238(char *),func_021FC224(char *);
 extern void func_021FC230(char *,int),func_021FE7F4(int *,int);
 extern void func_021FD854(char *);
-extern void func_021DB924(void);
+extern void func_021DB924(int a0, char *p);
 extern u32 func_02035D20(u32 *,u32 *);
 struct Node;
 extern void func_020061E4(u32 a);
@@ -79,7 +79,7 @@ int func_021DB770(int *task,int *state,char *p,char *q)
         func_021FE784(*(int *)(p+0x10),3,3,1);*state=7;break;
     }
     case 7: if(func_021FE7B0(*(int **)(p+0x10)))*state=8;break;
-    case 8: *(void **)(q+8)=func_020056A0(func_021DB924,q,0);*(int *)(q+0x10)=0;*state=9;break;
+    case 8: *(void **)(q+8)=func_020056A0((void (*)(void))func_021DB924,q,0);*(int *)(q+0x10)=0;*state=9;break;
     case 9: if(*(int *)(q+0x10)) {func_02030EAC(*(void **)(q+8));*state=10;}break;
     case 10: func_021FE784(*(int *)(p+0x10),3,3,0);*state=11;break;
     case 11: if(func_021FE7B0(*(int **)(p+0x10)))*state=2;break;

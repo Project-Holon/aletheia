@@ -21,9 +21,9 @@
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 
-void func_021B9234(int);
+void func_021B9234(unsigned char *p);
 
 void func_021BB914(int *p)
 {
-    func_021B9234(p[3]);
+    func_021B9234((unsigned char *)p[3]);
 }

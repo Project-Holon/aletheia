@@ -41,7 +41,9 @@ extern char d_021A1C7C[];
 
 extern u32 func_02087988(void);
 extern void func_0208799C(u32 h);
-extern u32 func_02060CA0(u32 heap, u32 size, u32 c);
+typedef signed int     s32;
+struct ExpHeap;
+extern void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern void func_0200FB6C(void);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
@@ -52,12 +54,12 @@ u32 func_02156F5C(u32 a, u32 b, u32 c)
 
     if (d_021A8268->f8 != 0 && a == d_021A8268->f10 && b > d_021A8268->f18) {
         h = func_02087988();
-        r = func_02060CA0(d_021A8268->f8, b, c);
+        r = (u32)func_02060CA0((struct ExpHeap *)d_021A8268->f8, b, c);
         func_0208799C(h);
         d_021A8268->f14++;
     } else {
         h = func_02087988();
-        r = func_02060CA0(d_021A8268->f0, b, c);
+        r = (u32)func_02060CA0((struct ExpHeap *)d_021A8268->f0, b, c);
         func_0208799C(h);
     }
     if (r == 0) {

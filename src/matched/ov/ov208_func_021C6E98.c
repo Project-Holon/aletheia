@@ -72,7 +72,7 @@ extern void ov208_func_021C6A10(void *a0, u8 *p, void *ctx);
 extern u16  func_021BC3C0(void *ctx);
 struct Blk37;
 extern int func_021BC3A4(int *p);
-extern void *func_0200CA1C(int a);
+extern void *func_0200CA1C(void *a);
 extern void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern s16  tbl_020A1B38[];
 
@@ -133,7 +133,7 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 func_021C4EAC(a0, p, ctx);
                 ov208_func_021C6A10(a0, p, ctx);
                 id = func_021BC3C0(ctx);
-                obj = func_0200CA1C(func_021BC3A4(ctx));
+                obj = func_0200CA1C((void *)func_021BC3A4(ctx));
                 f = *(p + H(0x54e) * 16 + 0x152);
                 sh = *(p + H(0x54e) * 16 + 0x153) != 0 ? 1 : 0;
                 func_0200CA98(obj, id, f, sh, *(u16 *)(p + H(0x54e) * 16 + 0x154));

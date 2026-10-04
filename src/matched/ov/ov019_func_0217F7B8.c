@@ -14,6 +14,6 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021915B4(void *p);
+extern int func_021915B4(u32 a);
 extern void func_0201A570(void *p);
-void func_0217F7B8(char *p) { if(*(void **)(p+0x3530)) { func_021915B4(*(void **)(p+0x2818)); *(void **)(p+0x2818)=0; func_0201A570(*(void **)(p+0x3530)); *(void **)(p+0x3530)=0; } }
+void func_0217F7B8(char *p) { if(*(void **)(p+0x3530)) { func_021915B4((u32)(*(void **)(p+0x2818))); *(void **)(p+0x2818)=0; func_0201A570(*(void **)(p+0x3530)); *(void **)(p+0x3530)=0; } }

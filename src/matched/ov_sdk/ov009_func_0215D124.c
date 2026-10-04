@@ -34,7 +34,7 @@ typedef struct {
 	Socket *socket;
 } Cmd;
 
-extern void func_0215AA5C(void *soc);
+extern void func_0215AA5C(int v);
 extern void func_0215AB7C(void *thread);
 extern void func_0215AB10(void);
 extern void func_0215AA88(void);
@@ -47,7 +47,7 @@ int func_0215D124(void *arg)
 	unsigned char *send_pipe;
 
 	socket = ((Cmd *)arg)->socket;
-	func_0215AA5C(socket);
+	func_0215AA5C((int)socket);
 	send_pipe = socket->send_pipe;
 	switch (socket->flag_mode) {
 	case 0:

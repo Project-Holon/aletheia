@@ -33,7 +33,7 @@ struct U16Vec;
 struct WordSet;
 extern void func_020452E8(struct Descriptor *d);
 extern void func_0203FB44(int,u16,u16);
-extern void func_02028604(void *);
+extern int func_02028604(int a0);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_0201DD68(void);
 extern void func_02045C04(struct Rec *rec);
@@ -60,7 +60,7 @@ void func_021D5644(char *p)
     a=*(u32 *)(p+4)>>16;
     func_0203FB44(6,*(u32 *)(p+4),a);
     func_021D54E0(p);
-    func_02028604(*(void **)(p+0x40));
+    func_02028604((int)(*(void **)(p+0x40)));
     func_0201ED04(*(void **)(p+0x24));
     func_0201DD68();
     func_02045C04(*(void **)(p+0x20));

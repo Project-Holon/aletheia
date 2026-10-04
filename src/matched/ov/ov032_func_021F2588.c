@@ -20,7 +20,9 @@
 extern int func_021F25D4(char *, int *);
 extern int func_021F2608(char *, int *);
 extern int func_021F2624(int, int *);
-extern void func_0201235C(int, int);
+typedef unsigned int   u32;
+struct S0201235C;
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_021F2588(int a0, int a1, int *st)
 {
@@ -42,7 +44,7 @@ int func_021F2588(int a0, int a1, int *st)
     }
     if (r) {
         *(unsigned short *)(o + 0x72) = 0;
-        func_0201235C(a0, st[4]);
+        func_0201235C((struct S0201235C *)a0, (u32 *)st[4]);
     }
     return 0;
 }

@@ -63,7 +63,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void *func_02188C58(void *o);
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
-extern Vec *func_0218EC5C(void *h);
+extern u32 func_0218EC5C(u8 *p);
 extern void func_0218EC54(u8 *p);
 extern void func_0218ED04(u8 *p, const struct Vec *v);
 extern void func_0218EC30(void *h, Vec *v);
@@ -92,7 +92,7 @@ int func_021D2D7C(void *task, int *state)
         break;
     case 1:
         if (func_0218F0E8(h) == 0) {
-            w->pos = func_0218EC5C(h);
+            w->pos = (Vec *)func_0218EC5C(h);
             func_0218EC54(h);
             (*state)++;
         }

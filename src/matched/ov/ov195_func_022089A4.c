@@ -49,7 +49,7 @@ typedef struct Ptc {
     s32 timer;
 } Ptc;
 
-extern void func_020515B4(void *spl, u32 id, VecFx32 *pos);
+extern int func_020515B4(void *p, int b, int c);
 extern void func_02051620(void *spl);
 
 void func_022089A4(Ptc *p)
@@ -62,7 +62,7 @@ void func_022089A4(Ptc *p)
             if (p->frame != p->cues[(int)p->cue].frame)
                 break;
             c = &p->cues[p->cue];
-            func_020515B4(p->emit[c->emit].spl, c->id, &v);
+            func_020515B4(p->emit[c->emit].spl, c->id, (int)(&v));
         }
         p->frame++;
     }

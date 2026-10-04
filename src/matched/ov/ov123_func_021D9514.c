@@ -25,7 +25,7 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_020450F0(int,int,u8,int,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(unsigned int,unsigned int,unsigned int);
@@ -39,7 +39,7 @@ void func_021D9514(char *p, int n)
 {
     void *q;
     func_02045CAC(*(void **)(p+0x20),n,*(void **)(p+0x2c));
-    if (!*(void **)(p+0x48)) *(void **)(p+0x48)=func_020450F0(5,1,3,30,4,11,1);
+    if (!*(void **)(p+0x48)) *(void **)(p+0x48)=(void *)func_020450F0(5,1,3,30,4,11,1);
     q=*(void **)(p+0x48);
     func_02043B5C(func_02045770(q),15);
     func_0201DD78(1,2,15);

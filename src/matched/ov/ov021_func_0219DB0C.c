@@ -24,19 +24,19 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D67C(u32);
+extern void *func_0216D67C(void *a0);
 extern int func_0216D98C(int a0);
-extern int func_0216D57C(u32, u32);
+extern u32 func_0216D57C(void *p, u32 v);
 extern u32 func_0219DC08(u32);
 extern void func_021AC2C0(u32, u32);
-extern void func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 
 void func_0219DB0C(u32 a)
 {
-    if (func_0216D98C(func_0216D67C(a)) != 0) {
-        if (func_0216D57C(a, 0x4000) == 0) {
+    if (func_0216D98C((int)func_0216D67C((void *)a)) != 0) {
+        if (func_0216D57C((void *)a, 0x4000) == 0) {
             func_021AC2C0(a, func_0219DC08(a));
-            func_0216D568(a, 0x4000);
+            func_0216D568((void *)a, 0x4000);
         }
     }
 }

@@ -16,8 +16,8 @@
  *   func_020414EC 0x020414EC arm
  *   func_020409B4 0x020409B4 arm
  */
-extern void func_021E5EF8(int);
-extern void func_021E62A0(int);
+extern void func_021E5EF8(void *p);
+extern void func_021E62A0(void *p);
 typedef unsigned int   u32;
 extern void func_020414EC(u32 i);
 extern void func_020409B4(u32 index);
@@ -27,9 +27,9 @@ void func_0217DE60(int *p)
 {
     if (p[2]) {
         if (p[5] == 0)
-            func_021E5EF8(p[2]);
+            func_021E5EF8((void *)p[2]);
         else
-            func_021E62A0(p[2]);
+            func_021E62A0((void *)p[2]);
         p[2] = 0;
     }
     func_020414EC(1);

@@ -34,7 +34,7 @@ extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long state);
 extern void func_02159404(struct _CPSSoc *soc, int flush);
 extern void func_02085868(void *thread);
-extern void func_02159494(struct _CPSSoc *soc);
+extern void func_02159494(int a);
 extern void func_021594A4(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
 
 void func_02159FE8(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
@@ -67,7 +67,7 @@ void func_02159FE8(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 		soc->ackno++;
 		soc->state = 6;
 		func_0208799C(enabled);
-		func_02159494(soc);
+		func_02159494((int)soc);
 		break;
 	default:
 		func_0208799C(enabled);

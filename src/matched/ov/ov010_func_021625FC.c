@@ -27,7 +27,7 @@ typedef short s16;
 typedef struct { u16 a, b; s16 c; u16 d; } B;
 typedef struct { int x, y, z; } A;
 extern void *func_021625CC(char *p, unsigned i);
-extern void func_020140F8(int *);
+extern void func_020140F8(int p0);
 extern void func_02014110(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
 extern void func_02014134(int *, u16, s16, u16, int, u16, u16, s16);
 extern void func_02162C84(u8 *, int, A *);
@@ -39,7 +39,7 @@ int func_021625FC(const u8 *q, int *out, int id, int k)
     B t;
     r = func_021625CC((char *)q, id);
     if (r == 0) return 0;
-    func_020140F8(out);
+    func_020140F8((int)out);
     if (*(u16 *)(r + 2) == 0x100) *out = 3;
     else *out = 2;
     if (*(u16 *)(r + 6) == 0) {

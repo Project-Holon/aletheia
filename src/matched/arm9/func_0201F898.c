@@ -38,7 +38,8 @@ struct Slot {
 };
 
 extern struct Slot *func_0201F8B8(struct Slot *s, u32 *tag_out);
-extern void        *func_02045874(u32 a, u32 b);
+struct U16Vec;
+extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 
 void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag)
 {
@@ -47,7 +48,7 @@ void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag)
 
     slot = func_0201F8B8(table, &unused);
     if (slot != 0) {
-        slot->u.ptr = func_02045874(a, tag);
+        slot->u.ptr = func_02045874((struct U16Vec *)a, tag);
         slot->tag = b;
     }
 }

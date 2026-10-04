@@ -15,9 +15,10 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02027A04(int);
+typedef unsigned char  u8;
+extern u8 func_02027A04(const u8 *p);
 
 int func_021BB508(int *p)
 {
-    return func_02027A04(p[0x99]) == 0;
+    return func_02027A04((const u8 *)p[0x99]) == 0;
 }

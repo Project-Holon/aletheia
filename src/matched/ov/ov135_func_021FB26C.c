@@ -26,7 +26,7 @@ typedef signed int s32;
 
 extern u16 *func_021F8498(u32 heap, u32 unused, u32 *count);
 extern void func_021F84BC(u32 i, int *start, int *end);
-extern int func_021FB240(u32 unused, void *bag, u32 c, u16 *list, int start, int end);
+extern int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
 extern void *func_0201F81C(u32 n, u32 heap);
 struct Blk37;
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
@@ -45,7 +45,7 @@ int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag
     list = func_021F8498(0x48, 0, &count);
     func_021F84BC(kind, &start, &end);
     count = end - start;
-    n = func_021FB240(x, bag, count, list, start, end);
+    n = func_021FB240(x, (u32)bag, count, list, start, end);
     *menu = func_0201F81C(n + 1, 0x48);
     for (i = start; i < end; i++) {
         if (func_0200D064(bag, list[i]) != 0) {

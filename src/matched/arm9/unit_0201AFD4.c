@@ -63,7 +63,8 @@ struct Personal {
     u8  unk21[0x1B];
 };
 
-extern void *func_02049578(void *handle, u32 id);
+struct ArcFile;
+extern u32 func_02049578(struct ArcFile *arc, u32 member);
 extern void *func_0204960C(void *handle, void *x);
 struct ArcFile;
 extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
@@ -77,7 +78,7 @@ u32 sub_0201AFD4(u32 species, s32 form)
     if ((u16)(species + 0xFD76) <= 1) {
         return 0;
     }
-    func_0204960C(g_0214652C, func_02049578(g_0214652C, species));
+    func_0204960C(g_0214652C, (void *)func_02049578(g_0214652C, species));
     func_020495F4(g_0214652C, 0x3C, &rec);
     if (rec.unk1C == 0 || rec.unk20 <= form || form == 0) {
         return species;

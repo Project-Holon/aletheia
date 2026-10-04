@@ -21,10 +21,11 @@
  */
 
 typedef unsigned short u16;
-extern int func_02158E7C(u16, int, int, u16, int, int);
+struct ScriptVm;
+extern int *func_02158E7C(u16 a, int b, int c, u16 d, int e, int f);
 extern int func_021588D0(int);
 extern int func_02158BFC(int, int, int, int, int);
-extern int func_02011298(int);
+extern int func_02011298(struct ScriptVm *vm);
 extern int func_02158CB4(int a0);
 extern int func_02158F18(int a0);
 
@@ -33,11 +34,11 @@ void func_02158A34(int a, int b, u16 c, int d)
     int t = 0;
     int r;
     if (b == 0) {
-        t = func_02158E7C(4, a, t, c, t, d);
+        t = (int)func_02158E7C(4, a, t, c, t, d);
         b = t;
     }
     r = func_02158BFC(4, b, func_021588D0(a), c, d);
-    while (func_02011298(r) == 1)
+    while (func_02011298((struct ScriptVm *)r) == 1)
         ;
     func_02158CB4(r);
     if (t != 0)

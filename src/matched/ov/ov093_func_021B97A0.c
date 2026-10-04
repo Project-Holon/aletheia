@@ -29,7 +29,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern const u8 data_021EFCF0[4];
 
-extern void *func_021B985C(char *p, int i);
+struct S2;
+extern int func_021B985C(char *p, int i);
 extern char *func_021B9AEC(char *p, int i);
 struct Party;
 struct PartyMon;
@@ -37,7 +38,7 @@ struct R3;
 struct Rec534;
 extern u32 func_0201AA18(void *p);
 extern void func_0201A948(struct Party *p);
-extern void *func_021B9BF0(void *p, int i);
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D6B84(void *m, int k);
 extern void *func_021D5844(void *m);
@@ -55,14 +56,14 @@ void func_021B97A0(char *a, char *b, int k)
     u32 j;
     void *m;
 
-    list = func_021B985C(a, k);
+    list = (void *)func_021B985C(a, k);
     g = func_021B9AEC(a, k);
     n = func_0201AA18(list);
     func_0201A948(*(void **)(b + 0x2b8));
     t = data_021EFCF0[k];
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            m = func_021B9BF0(g, (u8)j);
+            m = (void *)func_021B9BF0((struct S2 *)g, (u8)j);
             if (t + i == func_021D5440(m)) {
                 func_021D6B84(m, 1);
                 func_0201A98C(*(void **)(b + 0x2b8), func_021D5844(m));

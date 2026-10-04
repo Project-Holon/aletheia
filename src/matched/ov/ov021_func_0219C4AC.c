@@ -30,23 +30,26 @@ typedef unsigned int u32;
 
 extern u16 d_021D75C4[][2];
 extern u16 d_021D8064[];
-extern int func_02046FF8(u32);
-extern u32 func_02050080(u32);
-extern u32 func_02047388(u32);
-extern u32 func_020473B8(u32);
-extern u32 func_0204F044(u32, u32, u32, u32, u32, u32, u32);
+struct Board;
+struct Layer;
+struct Tagged;
+extern int func_02046FF8(int *self);
+extern u32 func_02050080(u32 *p);
+extern u32 func_02047388(struct Layer *layer);
+extern u32 func_020473B8(struct Layer *layer);
+extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 extern u32 func_02050238(u32, u32, u32);
-extern void func_02046EFC(u32);
+extern void func_02046EFC(struct Tagged *p);
 
 int func_0219C4AC(u32 a, u32 b, u32 c, u32 d)
 {
     int r = -1;
-    if (func_02046FF8(b) == 1) {
-        u32 x = func_02050080(a);
+    if (func_02046FF8((int *)b) == 1) {
+        u32 x = func_02050080((u32 *)a);
         u16 *e = d_021D75C4[c];
-        u32 w = func_02047388(b);
-        r = func_02050238(a, func_0204F044(x, w, func_020473B8(b), 0, d_021D8064[d], (u8)e[0], (u8)e[1]), 0);
-        func_02046EFC(b);
+        u32 w = func_02047388((struct Layer *)b);
+        r = func_02050238(a, func_0204F044((struct Board *)x, w, func_020473B8((struct Layer *)b), 0, d_021D8064[d], (u8)e[0], (u8)e[1]), 0);
+        func_02046EFC((struct Tagged *)b);
     }
     return r;
 }

@@ -18,7 +18,8 @@
 typedef unsigned int u32;
 extern void *func_02188C7C(unsigned char *p);
 extern int func_0216DD1C(void *, int *, int *);
-extern int func_0216D588(int);
+typedef unsigned short u16;
+extern u16 func_0216D588(void *p);
 
 int func_021F4020(u32 a, int b)
 {
@@ -27,7 +28,7 @@ int func_021F4020(u32 a, int b)
     void *it = func_02188C7C((void *)a);
 
     while (func_0216DD1C(it, &s0, &s1) == 1) {
-        if (b == func_0216D588(s0))
+        if (b == func_0216D588((void *)s0))
             return s0;
     }
     return 0;

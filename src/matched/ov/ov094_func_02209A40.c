@@ -10,10 +10,12 @@
  * status:   EXACT*
  */
 
-extern int **func_02030EE8(void *h);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 
 void func_02209A40(void *h)
 {
-    int *w = *func_02030EE8(h);
+    int *w = *((int **)func_02030EE8(h));
     w[1] &= ~1;
 }

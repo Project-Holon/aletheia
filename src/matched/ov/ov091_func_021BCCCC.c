@@ -18,16 +18,16 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_021BCE84(int);
-extern void func_021BCEAC(int);
+extern void func_021BCE84(char *p);
+extern void func_021BCEAC(u8 *p);
 extern int func_021BD05C(int, int, int, int, int);
-extern void func_021BD59C(int);
+extern void func_021BD59C(char *p);
 
 void func_021BCCCC(int p)
 {
     int r;
-    func_021BCE84(p);
-    func_021BCEAC(p);
+    func_021BCE84((char *)p);
+    func_021BCEAC((u8 *)p);
     r = *(int *)(p + 0x280);
     if (*(int *)(r + 0x8c) == 1) {
         switch (*(int *)(r + 0x64)) {
@@ -45,7 +45,7 @@ void func_021BCCCC(int p)
     *(u8 *)(p + 0x20c) = *(u8 *)(r + 0x94);
     *(u8 *)(p + 0x20d) = 0;
     if (*(int *)(r + 0x90) == 1) {
-        func_021BD59C(p);
+        func_021BD59C((char *)p);
     }
     *(u16 *)(p + 0x24e) = 0;
 }

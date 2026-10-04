@@ -23,15 +23,15 @@ typedef unsigned int u32;
 
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
-extern int func_02012944(void *);
-extern int func_02012FCC(void *);
+extern u8 *func_02012944(void *p);
+extern int func_02012FCC(int p0);
 
 void func_0215F900(void *a0)
 {
     char *p = (char *)a0;
 
     *(void **)(p + 0x1C) = func_02012934(*(void **)(p + 4));
-    *(int *)(p + 0x20) = func_02012944(*(void **)(p + 4));
-    *(int *)(p + 0x24) = func_02012FCC(*(void **)(p + 4));
+    *(int *)(p + 0x20) = (int)func_02012944(*(void **)(p + 4));
+    *(int *)(p + 0x24) = func_02012FCC((int)(*(void **)(p + 4)));
 }
 

@@ -85,7 +85,7 @@ void func_0203C9AC(int a, unsigned int b, unsigned int c, unsigned int d);
 void func_02168994(Fn f, int a);
 void func_02155374(int v);
 int func_02155F58(void);
-void func_02155B98(void);
+void func_02155B98(int a);
 void func_02155C0C(int a);
 void func_02155C24(void);
 void func_02155C28(void);
@@ -127,7 +127,7 @@ int func_021554C8(void)
         d_021A8264->b7A9 = 1;
         { u16 name[2] = {0, 0};
         func_02087C88(&info);
-        func_0216B0E0(name, 0, func_02155B98, 0);
+        func_0216B0E0(name, 0, (Fn)func_02155B98, 0);
         }
         func_02155374(3);
     case 3:

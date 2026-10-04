@@ -22,8 +22,11 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int  func_02028484(void *a, u32 b);
-extern int  func_0201C6C4(u32 a, u32 b);
+typedef signed int     s32;
+struct Blk;
+struct PrintSys;
+extern s32 func_02028484(struct Blk *blk, void *h);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
@@ -39,7 +42,7 @@ int func_021BA31C(u8 *p)
     case 2:
         t = *(u32 *)(p + 0x24);
         if (p[0x20] != 0) {
-            if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1c))) == 0) {
+            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1c)))) == 0) {
                 func_02045334((struct Descriptor *)*(u32 *)(p + 0x1c));
                 p[0x20] = 0;
             }
@@ -49,6 +52,6 @@ int func_021BA31C(u8 *p)
         }
         return 0;
     case 1:
-        return func_02028484(p + 0x2c, *(u32 *)(p + 8));
+        return func_02028484((struct Blk *)(p + 0x2c), (void *)(*(u32 *)(p + 8)));
     }
 }

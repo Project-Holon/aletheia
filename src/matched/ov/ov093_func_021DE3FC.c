@@ -25,7 +25,7 @@ extern int func_021D775C(int key);
 extern int func_021DCFF8(int a, int b);
 extern int func_021DCFD0(int *a, unsigned int b);
 extern int func_021D76BC(int key, u32 val);
-extern void func_021DD044(int a, void *b, int c);
+extern void func_021DD044(void *a, void *b, int c);
 
 void func_021DE3FC(int a, void *b, int c)
 {
@@ -34,6 +34,6 @@ void func_021DE3FC(int a, void *b, int c)
     if (c == func_021D775C(2)) {
         j = func_021DCFF8(a, 2);
         if (func_021DCFD0(b, j) != 0 && func_021D76BC(0x11, 2) != 0)
-            func_021DD044(a, b, c);
+            func_021DD044((void *)a, b, c);
     }
 }

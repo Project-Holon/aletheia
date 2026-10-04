@@ -19,9 +19,10 @@
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
-extern void func_02208814(u32 obj, u32 a, u32 b);
+struct O;
+extern void func_02208814(struct O *obj, int k, int idx);
 
 void func_021F81D0(u32 a, u32 b)
 {
-    func_02208814(*(u32 *)(d_0220AF20 + 0x1A4), a, b);
+    func_02208814((struct O *)(*(u32 *)(d_0220AF20 + 0x1A4)), a, b);
 }

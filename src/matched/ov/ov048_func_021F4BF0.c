@@ -12,6 +12,9 @@
  *   func_020477D4 0x020477D4 arm
  *   func_02047804 0x02047804 arm
  */
-extern void func_020477D4(unsigned int h,unsigned short i);
-extern void func_02047804(unsigned int h,unsigned short i);
-void func_021F4BF0(int *p) { if(p[1]==1) { p[1]=0; func_020477D4(p[4],*(unsigned short *)(p+5)); func_02047804(p[4],*(unsigned short *)(p+5)); } }
+typedef unsigned int   u32;
+struct AnmCtl;
+struct Owner;
+extern int func_020477D4(struct Owner *owner, u32 index);
+extern u32 func_02047804(struct AnmCtl *c, u32 idx);
+void func_021F4BF0(int *p) { if(p[1]==1) { p[1]=0; func_020477D4((struct Owner *)p[4],*(unsigned short *)(p+5)); func_02047804((struct AnmCtl *)p[4],*(unsigned short *)(p+5)); } }

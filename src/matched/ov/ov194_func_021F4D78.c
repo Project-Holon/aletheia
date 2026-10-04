@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021F4D34(u32);
+extern void func_021F4D34(void *p);
 extern void func_020307B0(u8 *);
 
 void func_021F4D78(u8 *p)
@@ -28,7 +28,7 @@ void func_021F4D78(u8 *p)
     int i;
 
     for (i = 0; i < 5; i++) {
-        func_021F4D34(*(u32 *)(p + i * 4));
+        func_021F4D34((void *)(*(u32 *)(p + i * 4)));
     }
     func_020307B0(p);
 }

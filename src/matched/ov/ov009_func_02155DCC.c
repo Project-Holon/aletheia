@@ -41,7 +41,7 @@ extern char d_021A1C5C[];
 void func_02034714(const char *expr, u32 line, const char *file);
 unsigned char func_0216B838(void);
 void func_02155DA4(u32 x);
-int func_021AEF44(u32 a, u8 *p, int c);
+int func_021AEF44(int a, int b, int c);
 
 void func_02155DCC(u32 a, u8 *p, int c)
 {
@@ -59,7 +59,7 @@ void func_02155DCC(u32 a, u8 *p, int c)
             d_021A8264->b7a6 = 1;
             return;
         } else {
-            if (func_021AEF44(a, p, c) == 0)
+            if (func_021AEF44(a, (int)p, c) == 0)
                 return;
             return;
         }

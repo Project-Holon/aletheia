@@ -45,7 +45,8 @@ extern char d_02209CE8[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02048A24(int, int, int, int, int, int, int, int, void *, void *, void *, int);
-extern void func_02048AD0(u32 a);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_021F73A4(Obj *o);
 extern void func_021F7208(VecFx32 *a, VecFx32 *b);
 
@@ -58,7 +59,7 @@ Obj *func_021F6E3C(int a, u16 b)
     o->h4 = func_02048A24(0, 0x399, 0xf97, 0x159a, 0, 0x1000, 0x200000, 0,
                           d_02209CF4, d_02209D00, d_02209CE8, b);
     func_021F73A4(o);
-    func_02048AD0(o->h4);
+    func_02048AD0((struct Light *)o->h4);
     func_021F7208(&o->v18, &o->v24);
     return o;
 }

@@ -16,15 +16,20 @@
  *   func_0204AF28  0x0204AF28  arm
  */
 
-extern int func_02008550(int);
-extern int func_0204AC18(int, int, int, int, int, int, unsigned short);
-extern int func_0204A6C8(int, int, int, int, unsigned short);
-extern int func_0204AF28(int, int, int, unsigned short);
+typedef signed int     s32;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 void func_021B91FC(char *p, int bg)
 {
     int a, b, c, d;
-    int r = func_02008550(*(int *)(p + 8));
+    int r = func_02008550((const struct Sub0200852CObj *)(*(int *)(p + 8)));
     if (r == 0) {
         a = 0x10;
         b = 0xf;
@@ -36,7 +41,7 @@ void func_021B91FC(char *p, int bg)
         c = 0xa;
         d = 9;
     }
-    *(int *)(p + 0x590) = func_0204AC18(bg, a, 0, 0xc0, 0, 4, *(unsigned short *)(p + 0x544));
-    *(int *)(p + 0x594) = func_0204A6C8(bg, b, 0, 0, *(unsigned short *)(p + 0x544));
-    *(int *)(p + 0x598) = func_0204AF28(bg, c, d, *(unsigned short *)(p + 0x544));
+    *(int *)(p + 0x590) = func_0204AC18((void *)bg, a, 0, 0xc0, 0, 4, *(unsigned short *)(p + 0x544));
+    *(int *)(p + 0x594) = func_0204A6C8((void *)bg, b, 0, 0, *(unsigned short *)(p + 0x544));
+    *(int *)(p + 0x598) = func_0204AF28((void *)bg, c, d, *(unsigned short *)(p + 0x544));
 }

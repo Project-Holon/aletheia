@@ -42,7 +42,12 @@ extern u32 func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
 extern int func_021DC908(char *);
 extern void *func_02012EBC(struct Big *),*func_0200BAC8(void *);
-extern void func_0200BBD8(void *,unsigned),func_0200B110(unsigned,int,int);
+typedef signed int     s32;
+typedef unsigned short u16;
+struct Obj;
+struct Reg2;
+extern void func_0200BBD8(struct Obj *p, u16 v);
+extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern void func_02082BCC(void *,int,u32);
 void func_021D9344(u32 sys,int *state,char *p) {
@@ -79,7 +84,7 @@ void func_021D9344(u32 sys,int *state,char *p) {
         *state=16; func_021E8AB4(sys,9); break;
     case 9:
         func_0200BBD8(func_0200BAC8(func_02012EBC(**(struct Big ***)(ctx+8))),1);
-        func_0200B110(*(u32 *)(p+0x108),10,4);
+        func_0200B110((struct Reg2 *)(*(u32 *)(p+0x108)),10,4);
         func_02012DAC(**(int **)(ctx+8)); *state=10; break;
     case 10:
         r=func_02012DD0(**(u8 ***)(ctx+8));

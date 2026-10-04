@@ -15,7 +15,9 @@
  */
 
 extern void func_0204B908(int, int);
-extern void func_0204B954(int, int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B954(struct Actor *a, u32 v);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
 
@@ -23,7 +25,7 @@ void func_021F1910(char *p, int on)
 {
     if (on) {
         func_0204B908(*(int *)(p + 0x150), 0);
-        func_0204B954(*(int *)(p + 0x150), 0x2000);
+        func_0204B954((struct Actor *)(*(int *)(p + 0x150)), 0x2000);
         func_0204B92C((struct Obj *)*(int *)(p + 0x150), 1);
     } else {
         func_0204B92C((struct Obj *)*(int *)(p + 0x150), 0);

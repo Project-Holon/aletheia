@@ -48,7 +48,7 @@ typedef struct BuddyStatus {
 } BuddyStatus;
 
 extern int func_0216AA70(void);
-extern void *func_0216A39C(void);
+extern int func_0216A39C(void);
 struct DWCstAccUserData;
 extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02186108(void **connection, int profile, int *index);
@@ -61,7 +61,7 @@ int func_0216980C(void *friendData, BuddyStatus *status)
 	int profileid;
 	if (stpFriendCnt == 0 || !func_0216AA70())
 		return 0;
-	profileid = func_020598EC(func_0216A39C(), friendData);
+	profileid = func_020598EC((struct DWCstAccUserData *)func_0216A39C(), friendData);
 	if (profileid > 0) {
 		if (func_02186108(stpFriendCnt->connection, profileid, &buddyIdx) != 0)
 			goto end;

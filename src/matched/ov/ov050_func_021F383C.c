@@ -24,8 +24,8 @@ typedef struct { int a; int b; int c; } T12;
 extern int func_02188D2C(int a);
 extern void func_021BE760(int a, void *b, int c);
 extern T12 *func_021BE480(int a, int b, unsigned short c);
-extern void func_021F3744(int a);
-extern void func_021F3788(int a);
+extern void func_021F3744(int *p);
+extern void func_021F3788(int *p);
 extern int d_021F38A4;
 extern const T12 d_021F38B4[];
 
@@ -45,6 +45,6 @@ void func_021F383C(int unused, int b)
         p->b = s->b;
         p->c = s->c;
     }
-    func_021F3744(b);
-    func_021F3788(b);
+    func_021F3744((int *)b);
+    func_021F3788((int *)b);
 }

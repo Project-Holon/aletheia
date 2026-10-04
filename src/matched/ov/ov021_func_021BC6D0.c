@@ -20,9 +20,10 @@ typedef struct {
     Inner *f150;
 } Obj;
 
-extern void func_02040E78(int a, int b, int c, int d);
+typedef unsigned int   u32;
+extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
 
 void func_021BC6D0(Obj *p)
 {
-    func_02040E78(3, p->f150->fC, 0x20, 0);
+    func_02040E78(3, (void *)p->f150->fC, 0x20, 0);
 }

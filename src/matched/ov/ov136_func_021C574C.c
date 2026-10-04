@@ -25,7 +25,7 @@ extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049DF4(void *, u32, u32, u8 **, u32);
+extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02082B0C(void *, const void *, u32);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
@@ -44,7 +44,7 @@ void func_021C574C(u8 *p)
     func_02049658(h, 0x26, 1, 0, 0, 1, 0x66);
     func_020498F4(h, 0x25, 3, 0, 0, 1, 0x66);
     func_02049B68(h, 0x27, 0, 0, 0, 0x66);
-    buf = func_02049DF4(h, 0x26, 1, &out, 0x66);
+    buf = func_02049DF4(h, 0x26, 1, (u32)(&out), 0x66);
     dst = *(u8 **)(out + 0x14);
     func_02082B0C(dst + 0x100, *(u8 **)(p + 8) + 4, 0x20);
     func_02082B0C(dst + 0x100, *(u8 **)(p + 8) + 0x24, 0x20);

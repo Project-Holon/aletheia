@@ -27,7 +27,8 @@ extern int func_021904B0(u32 a, u32 b);
 extern int func_020457B0(int a, int b);
 extern void func_0217F020(unsigned char *p);
 extern int func_02191558(int a, int b, int c, int d, int e, int f, int g);
-extern void func_021915EC(int a);
+struct R;
+extern void func_021915EC(struct R *r);
 extern int d_021807F8[];
 
 void func_0217F098(unsigned char *base, int x)
@@ -43,6 +44,6 @@ void func_0217F098(unsigned char *base, int x)
         func_0217F020(base);
         *(int *)(base + 0x280C) = func_02191558(r6, *(int *)(base + 0x2808), 0, 1, 0x13, 0x1e, 4);
     } else {
-        func_021915EC(*(int *)(base + 0x280C));
+        func_021915EC((struct R *)(*(int *)(base + 0x280C)));
     }
 }

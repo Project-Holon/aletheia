@@ -74,14 +74,15 @@ typedef struct GPGetBuddyStatusInfoKeysArg {
 } GPGetBuddyStatusInfoKeysArg;
 
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
-extern void func_02193734(void **connection, char *errorString);
+typedef unsigned int   u32;
+extern void func_02193734(int *p, int b);
 extern int func_020948E0(const char *a, const char *b);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, void *operation, int type);
 extern int func_0219359C(void **connection, char *buffer, int *index, char *key, char *value);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
-extern int func_020964E0(const char *s);
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
+extern int func_020964E0(u32 a0);
 extern unsigned long func_0209477C(const char *s);
 extern void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern char *func_0217F1E0(char *src);
@@ -99,7 +100,7 @@ int func_02188BA0(void **connection, GPIPeer *peer, char *buffer)
     GPIProfile *pProfile;
 
     if (!func_0218FD9C(connection, peer->profile, &pProfile)) {
-        func_02193734(connection, g_021A446C);
+        func_02193734((int *)connection, (int)g_021A446C);
         return 2;
     }
 
@@ -141,11 +142,11 @@ int func_02188BA0(void **connection, GPIPeer *peer, char *buffer)
 
         func_0219359C(connection, buffer, &index, keyName, keyVal);
         if (func_020948E0(keyName, g_021A4480) != 0) {
-            func_02193710(connection, 1, g_021A4488);
-            func_02189D78(connection, 3, 0);
+            func_02193710((int *)connection, 1, (int)g_021A4488);
+            func_02189D78((int *)connection, 3, 0);
             return 3;
         }
-        numKeys = func_020964E0(keyVal);
+        numKeys = func_020964E0((u32)keyVal);
         if (numKeys == 0) {
             GPIPeerOp *anIterator;
             for (anIterator = peer->firstOp; anIterator != 0; anIterator = anIterator->next)

@@ -58,7 +58,7 @@ u8 func_02012B70(const struct BigObj *p);
 u32 func_02013D5C(u32 id);
 u32 func_02026454(void *obj);
 u32 func_0202648C(void *obj);
-unsigned char *func_02158344(void *);
+int func_02158344(int a0);
 int func_02175DA8(u8 *p);
 int func_02175B8C(u8 *p);
 int func_0217EBD8(Ov018Menu *);
@@ -85,7 +85,7 @@ void func_0217D3AC(Ov018Menu *w)
 
     s1 = (void *)func_02012138(w->f0);
     s2 = func_020120F4(w->f0);
-    p = func_02158344(s1);
+    p = (unsigned char *)func_02158344((int)s1);
     q = func_02012AC8((const struct Rec44 *)func_020120F8(w->f0));
     flag = 0;
     k = func_0217EBD8(w);

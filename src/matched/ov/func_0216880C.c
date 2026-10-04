@@ -39,9 +39,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A1BC(u32 archive_id, u32 member, u32 flag, u32 heap);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 
 void *func_0216880C(u32 group, u32 heap)
 {
-    return func_0204A1BC(215, (u16)(group + 1), 0, heap);
+    return (void *)func_0204A1BC(215, (u16)(group + 1), 0, heap);
 }

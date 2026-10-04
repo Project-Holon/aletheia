@@ -25,7 +25,8 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *h, unsigned int a, unsigned int b);
-extern int func_0200AE54(int a, int b);
+struct Reg;
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);
 
@@ -36,8 +37,8 @@ int func_021BD3A8(char *p, int v)
     int id;
 
     if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 0xA) != 0) {
-        a = func_0200AE54(*(int *)(p + 0x1348), 2);
-        b = func_0200AE54(*(int *)(p + 0x1348), 3);
+        a = func_0200AE54((struct Reg *)(*(int *)(p + 0x1348)), 2);
+        b = func_0200AE54((struct Reg *)(*(int *)(p + 0x1348)), 3);
         if (a == 3 && b == 3) {
             id = 0x92;
         } else if (a == 4 && b == 4) {

@@ -18,13 +18,13 @@ extern char ov037_id[];
 extern void *func_0215A5DC(void *a0);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
-extern void func_021F3800(void *);
+extern void func_021F3800(unsigned int a0);
 
 int func_0215CE70(void *a, void *b)
 {
     void *p = func_0215A5DC(b);
     func_02034AC4((int)ov037_id);
-    func_021F3800(p);
+    func_021F3800((unsigned int)p);
     func_02034A5C((int)ov037_id);
     return 0;
 }

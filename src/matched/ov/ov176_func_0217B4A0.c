@@ -29,8 +29,12 @@ extern void func_0217B7D8(int *,int);
 extern unsigned func_0217B930(int *);
 extern void func_0217B924(int *);
 extern void func_0217B970(int *,int);
-extern void func_021E8AA0(int,int);
-extern void func_0217B7A0(void),func_0217B55C(void),func_0217B594(void),func_0217B3C0(void);
+typedef unsigned char  u8;
+extern void func_021E8AA0(int *p, int v);
+extern void func_0217B7A0(int *p, int *state, u8 *q);
+extern void func_0217B55C(int p, int *state, int *q);
+extern void func_0217B594(int p, int *state, char *q);
+extern void func_0217B3C0(int p, unsigned *state, int *q);
 extern int func_0202EB44(void);
 extern void func_0200B480(void);
 void func_0217B4A0(int p,unsigned *state,int *q)
@@ -45,12 +49,12 @@ void func_0217B4A0(int p,unsigned *state,int *q)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(func_0202EB44()==0) func_021E8AA0(p,(int)func_0217B7A0);
+                if(func_0202EB44()==0) func_021E8AA0((int *)p,(int)func_0217B7A0);
                 else {func_0200B480(); func_0217B970(q,2);}
                 break;
-            case 1: func_021E8AA0(p,(int)func_0217B55C); break;
-            case 2: func_021E8AA0(p,(int)func_0217B594); break;
-            case 3: func_021E8AA0(p,(int)func_0217B3C0); break;
+            case 1: func_021E8AA0((int *)p,(int)func_0217B55C); break;
+            case 2: func_021E8AA0((int *)p,(int)func_0217B594); break;
+            case 3: func_021E8AA0((int *)p,(int)func_0217B3C0); break;
             }
             func_0217B924(q);
         }

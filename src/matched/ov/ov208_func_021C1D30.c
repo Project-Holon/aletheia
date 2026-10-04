@@ -35,19 +35,22 @@ typedef struct {
     u16 y;
 } Pt;
 
-extern void func_0201C6EC(u32 a);
+struct MsgBank;
+struct Obj;
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 struct U16Vec;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern u16  func_021BBB3C(u32 tbl, int idx, int field);
+extern unsigned short func_021BBB3C(char *p, int a, int b);
 extern u32 func_02013E4C(u32 id);
-extern void *func_02045EC0(u32 bank, u32 index);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(u32 a, void *b, s16 x, s16 y, void *e, u32 f, u16 g);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
-extern void func_0204B878(u32 obj, u32 anim);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
@@ -61,17 +64,17 @@ void func_021C1D30(u16 *heap, u8 *p, int key)
     Pt pt;
 
     W(0x28) = 0;
-    func_0201C6EC(W(0x38));
+    func_0201C6EC((struct PrintSys *)W(0x38));
     func_02043B5C(func_02045770((struct Descriptor *)W(0x18)), 0);
     if (p[0x79] != 0xff) {
-        str = func_02045EC0(W(0x10), func_02013E4C(func_021BBB3C(W(0x3c8), p[0x79], 0)));
+        str = func_02045EC0((struct MsgBank *)W(0x10), func_02013E4C(func_021BBB3C((char *)W(0x3c8), p[0x79], 0)));
         func_0201C724(W(0x38), func_02045770((struct Descriptor *)W(0x18)), 0, 1, str, W(4), 0x3c40);
         func_02045808(str);
         W(0x28) = 1;
         func_021C0740(heap, p, key, 1);
-        pt.x = func_021BBB3C(W(0x3c8), p[0x79], 2);
-        pt.y = func_021BBB3C(W(0x3c8), p[0x79], 3);
-        func_0204B878(W(0xd0), 5);
+        pt.x = func_021BBB3C((char *)W(0x3c8), p[0x79], 2);
+        pt.y = func_021BBB3C((char *)W(0x3c8), p[0x79], 3);
+        func_0204B878((struct Obj *)W(0xd0), 5);
         func_0204B404(W(0xd0), &pt, 0);
         func_0204B3DC((struct Obj *)W(0xd0), 1);
     } else {

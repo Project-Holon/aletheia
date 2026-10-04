@@ -35,7 +35,7 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern int func_021F91DC(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
+extern int func_021F91DC(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -46,7 +46,7 @@ void func_021FD790(void *bank, Pane *pane, u32 index, void *g)
     void *str = func_02045EC0(bank, index);
     void *win;
 
-    func_021F91DC(pane->win, str, 0, 0, 1, 0x3C40, g);
+    func_021F91DC(pane->win, (u32)str, 0, 0, 1, 0x3C40, (u32)g);
     win = pane->win;
     func_02045334(win);
     func_02045374(win);

@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 extern void *func_021B6E24(void *);
 extern u16 func_0216D588(void *);
-extern int func_021B6E68(void *);
+extern int func_021B6E68(int a);
 
 u16 func_021B6DE4(void *a, void *b)
 {
@@ -32,7 +32,7 @@ u16 func_021B6DE4(void *a, void *b)
     if (t != 0) {
         return func_0216D588(t);
     }
-    r = func_021B6E68(b);
+    r = func_021B6E68((int)b);
     if (r >= 0) {
         return r;
     }

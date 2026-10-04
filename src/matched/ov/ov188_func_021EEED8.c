@@ -24,10 +24,11 @@
 typedef unsigned int u32;
 
 extern void func_02082BCC(int, int, int);
-extern int func_0201AA14(int);
+struct Mon;
+extern u32 func_0201AA14(void *p);
 extern u32 func_0201AA18(void *);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_021EE920(int, char *);
+extern void func_021EE920(struct Mon *p, char *q);
 
 void func_021EEED8(int a, char *p)
 {
@@ -35,8 +36,8 @@ void func_021EEED8(int a, char *p)
     func_02082BCC((int)p, 0, 0x2A4);
     if (func_0201AA18((void *)a) == 0)
         return;
-    *(unsigned short *)p = func_0201AA14(a);
+    *(unsigned short *)p = func_0201AA14((void *)a);
     *(unsigned short *)(p + 2) = func_0201AA18((void *)a);
     for (i = 0; i < *(unsigned short *)(p + 2); i++)
-        func_021EE920((int)func_0201AB28((void *)a, i), p + 4 + i * 0x70);
+        func_021EE920((struct Mon *)((int)func_0201AB28((void *)a, i)), p + 4 + i * 0x70);
 }

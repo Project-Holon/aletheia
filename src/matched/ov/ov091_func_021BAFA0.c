@@ -29,11 +29,13 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern int func_021B9A84(u8 *a);
-extern void func_021BB050(u8 *a, u8 *s, int k);
-extern void func_0204B878(int a, int b);
+struct Obj;
+struct Vec2;
+extern int func_021B9A84(u32 p);
+extern void func_021BB050(int unused, u8 *s, int k);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021BB56C(u8 *s, int a, int b, s16 *out);
-extern void func_0204B404(int a, s16 *b, int c);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 static inline s16 *get(u8 *s, int x, int y, s16 *buf)
 {
@@ -49,24 +51,24 @@ void func_021BAFA0(u8 *a, u8 *s, int k)
 
     if (k == 1) {
         if ((u8)(a[0xc] + 253) <= 1)
-            func_021BB050(a, s, 8);
-        else if (func_021B9A84(a) == 1 && *(int *)(s + 0x1c) < 6)
-            func_021BB050(a, s, 8);
+            func_021BB050((int)a, s, 8);
+        else if (func_021B9A84((u32)a) == 1 && *(int *)(s + 0x1c) < 6)
+            func_021BB050((int)a, s, 8);
         else
-            func_021BB050(a, s, 6);
-        func_0204B878(*(int *)(s + 0x34), 1);
+            func_021BB050((int)a, s, 6);
+        func_0204B878((struct Obj *)(*(int *)(s + 0x34)), 1);
         p = get(s, 0x1a, 0x13, b1);
     } else {
         if ((a[0xc] == 3 && *(int *)(a + 0x30) == s[4]) ||
             (a[0xc] == 4 && *(int *)(a + 0x34) == s[4]))
-            func_021BB050(a, s, 5);
-        else if (func_021B9A84(a) == 1 && *(int *)(s + 0x1c) < 6)
-            func_021BB050(a, s, 5);
+            func_021BB050((int)a, s, 5);
+        else if (func_021B9A84((u32)a) == 1 && *(int *)(s + 0x1c) < 6)
+            func_021BB050((int)a, s, 5);
         else
-            func_021BB050(a, s, 3);
-        func_0204B878(*(int *)(s + 0x34), 0);
+            func_021BB050((int)a, s, 3);
+        func_0204B878((struct Obj *)(*(int *)(s + 0x34)), 0);
         p = get(s, 0x18, 0x10, b0);
     }
-    func_0204B404(*(int *)(s + 0x30), p, 0);
+    func_0204B404((struct Obj *)(*(int *)(s + 0x30)), (const struct Vec2 *)p, 0);
     *(int *)(s + 0x10) = k;
 }

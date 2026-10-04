@@ -26,7 +26,7 @@ typedef struct { int a, b, c; } Tri;
 
 extern const Tri d_0218A580;
 extern int func_0201134C(int);
-extern void func_0218A0F4(int, int, int, int, int);
+extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 extern int func_021D59B4(u8 *p, int k);
 
 int func_021895C4(int a, int b) {
@@ -40,6 +40,6 @@ int func_021895C4(int a, int b) {
     t = d_0218A580;
     x = func_021D59B4(*(u8 **)(b + 0xbc), 15);
     y = func_021D59B4(*(u8 **)(b + 0xc0), 15);
-    func_0218A0F4(a, ((int *)&t)[r6], x, y, r7);
+    func_0218A0F4((u8 *)a, ((int *)&t)[r6], x, y, r7);
     return *(int *)(b + 0xc4);
 }

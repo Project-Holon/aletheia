@@ -28,9 +28,9 @@ extern void *func_0200C0E8(void *sys);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
 extern int func_0216BB70(int index);
-extern int func_0216B994();
+extern int func_0216B994(int c, int vm);
 extern int func_0216B9D8(int a0);
-extern int func_0216BA08();
+extern int func_0216BA08(void *p);
 
 int func_0216B8B8(int a0, u16 *a1)
 {
@@ -56,7 +56,7 @@ a0 = a0 << 0x18;
 a0 = (unsigned)a0 >> 0x18;
     if (a0 != 0) goto loc_0216B8F2;
 loc_0216B8DA:
-    a0 = func_0216B994(t6, t7);
+    a0 = func_0216B994((int)t6, t7);
 loc_0216B8E2:
     if (a0 == 0) goto loc_0216B8EC;
 loc_0216B8E6:
@@ -76,7 +76,7 @@ loc_0216B8FC:
     if (a0 == 0) goto loc_0216B916;
 loc_0216B900:
 a0 = t5 + 0;
-    a0 = func_0216BA08(a0);
+    a0 = func_0216BA08((void *)a0);
 loc_0216B906:
     if (a0 == 0) goto loc_0216B910;
 loc_0216B90A:

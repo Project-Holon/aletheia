@@ -17,21 +17,22 @@
  *   func_02040588  0x02040588  arm
  */
 
-extern void func_02051C6C(int);
+struct Bank;
+extern void func_02051C6C(void *p);
 typedef unsigned int   u32;
 extern void func_021F1E98(char *p);
 extern void func_0204B084(int);
-extern void func_0204B1CC(int);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020403F4(u32 i);
 extern void func_02040588(u32 which, u32 enable);
 
 void func_021F1F24(char *p)
 {
     if (*(int *)(p + 0x10))
-        func_02051C6C(*(int *)(p + 0x10));
+        func_02051C6C((void *)(*(int *)(p + 0x10)));
     func_021F1E98(p);
     func_0204B084(*(int *)(p + 0x38));
-    func_0204B1CC(*(int *)(p + 0x34));
+    func_0204B1CC((struct Bank *)(*(int *)(p + 0x34)));
     func_020403F4(4);
     func_020403F4(5);
     func_020403F4(6);

@@ -36,7 +36,7 @@ typedef struct {
     void *palData;
 } Obj;
 
-extern void *func_02049F34(u32 arc, u32 file, void **out, u32 heap);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_02049E34(u32 arc, u32 file, u32 comp, CharData **out, u32 heap);
 extern void DC_FlushRange(void *p, u32 size);
 
@@ -44,7 +44,7 @@ void func_021FFC18(Obj *p)
 {
     int i;
 
-    p->pal = func_02049F34(0x20, 0, &p->palData, 0x48);
+    p->pal = func_02049F34(0x20, 0, (u32)(&p->palData), 0x48);
     for (i = 0; i < 16; i++) {
         p->res[i] = func_02049E34(0x20, i + 0x31, 0, &p->chr[i], 0x48);
     }

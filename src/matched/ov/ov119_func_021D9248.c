@@ -29,7 +29,8 @@ typedef unsigned int u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 a);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 struct Big;
 struct Sub02009470Obj;
 extern void *func_02012EBC(struct Big *p);
@@ -41,7 +42,7 @@ extern u8 func_02008564(void *p);
 extern void func_02008574(void *p, u8 a, u8 b);
 extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
-extern void func_0202EB7C(void *a, void *b);
+extern u32 func_0202EB7C(u32 a0, u32 a1);
 
 void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
 {
@@ -52,7 +53,7 @@ void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
 
     if (a4 != (int)func_020399A8())
         return;
-    if (p == (void *)func_0203D1A4((u32)func_020399A8()))
+    if (p == (void *)func_0203D1A4((struct Link *)((u32)func_020399A8())))
         return;
     saved = func_02009470(func_02012EBC(*(void **)(a3 + 0x82c)));
     func_02082D44(a2, buf, 0x28);
@@ -64,5 +65,5 @@ void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
         func_02008574(buf, x, y);
     else
         func_02008574(buf, 0, 0);
-    func_0202EB7C(saved, buf);
+    func_0202EB7C((u32)saved, (u32)buf);
 }

@@ -54,12 +54,17 @@
 extern int func_02062D4C(char *self, int a1);
 extern void func_02064934(char *self, int a1);
 extern char *func_02062D40(char *self);
-extern int func_020629E8(int h, int v);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct MCInstance;
+struct MultiCellBank;
+struct MultiCellData;
+extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
 extern void func_02064140(char *self, int v);
 extern void func_020640DC(char *self, int a, int b);
 extern void func_02064120(char *self, int a, int b);
 extern void func_02064100(char *self, int a);
-extern void func_020643CC(char *self, int a, int b);
+extern void func_020643CC(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
 void func_020649D4(char *self, int a1)
 {
@@ -75,7 +80,7 @@ void func_020649D4(char *self, int a1)
     if (*(unsigned short *)(*(int *)(self + 4) + 4) == 0)
         return;
     p = func_02062D40(self);
-    r7 = func_020629E8(*(int *)(self + 0x44), *(unsigned short *)p);
+    r7 = (int)func_020629E8((struct MultiCellBank *)(*(int *)(self + 0x44)), *(unsigned short *)p);
     kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
     func_02064140(self + 0x48, 1);
     switch (kind) {
@@ -90,7 +95,7 @@ void func_020649D4(char *self, int a1)
         func_020640DC(self + 0x48, *(short *)(p + 0xc), *(short *)(p + 0xe));
         break;
     }
-    func_020643CC(self + 0x34, r7, *(unsigned short *)(self + 0x30));
+    func_020643CC((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)r7, *(unsigned short *)(self + 0x30));
     return;
 miss:
     func_02064934(self + 0x34, a1);

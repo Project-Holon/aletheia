@@ -51,7 +51,7 @@ struct Ctx;
 struct Desc;
 extern void *func_0201210C(const struct Ctx *p);
 extern W *func_021897BC(void *p, int i);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern void func_020061E4(u32 a);
 extern V *func_021BE480(void *p, int i, u16 j);
 extern void func_021BE4B4(void *p, int i, u16 j, int v);
@@ -74,7 +74,7 @@ void *func_021F39B8(void *a, int b, V *c, const V *d, int e, int f)
     t = func_0201210C(a);
     flag = 1;
     w = func_021897BC(t, 1);
-    s = func_02188D2C(t);
+    s = (void *)func_02188D2C(t);
     if (b == 0) {
         flag = 0;
         func_020061E4(0x566);

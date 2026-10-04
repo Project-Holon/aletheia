@@ -15,11 +15,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021D44C8(int);
+extern int func_021D44C8(char *p);
 
 int func_021D65BC(int a, int b, int c, int d)
 {
-    int r = func_021D44C8(d);
+    int r = func_021D44C8((char *)d);
 
     if (r == 1)
         return 1;

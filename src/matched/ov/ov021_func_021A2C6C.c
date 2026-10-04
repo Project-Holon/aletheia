@@ -25,7 +25,8 @@ typedef struct {
     u32 flag;
 } Snd021A2C6C;
 
-void func_02028B50(int a, u16 id);
+typedef unsigned char  u8;
+void func_02028B50(u8 *p, int a0);
 int func_02006148(u32 a0);
 void func_020061F8(int h);
 
@@ -34,7 +35,7 @@ void func_021A2C6C(Snd021A2C6C *p, int a)
     if (p->state == 1) {
         p->state = 0;
         if (p->flag != 0)
-            func_02028B50(a, p->id);
+            func_02028B50((u8 *)a, p->id);
         else
             func_020061F8(func_02006148(p->id));
     }

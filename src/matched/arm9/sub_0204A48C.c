@@ -88,8 +88,11 @@ extern char s_clact_c[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  func_02082BCC(void *dst, int fill, u32 size);
-extern void  func_0204D7E0(void *sub, u32 heapId, u32 arg, const u16 *dims);
-extern void  func_0204BC94(void *sub, u8 a, u8 b, u8 c, u8 d);
+struct Caps;
+struct Obj;
+struct Res;
+extern void func_0204D7E0(struct Res *res, u32 heapId, const struct Cfg *cfg, const struct Caps *caps);
+extern void func_0204BC94(struct Obj *o, u32 base, u32 count, u32 base2, u8 count2);
 extern void  func_0204BA38(void *sub, const struct Cfg *cfg, u32 heapId);
 extern void  func_0204C660(void *sub, u8 count, u32 heapId);
 extern void  func_0204BAEC(u32 on);
@@ -110,8 +113,8 @@ void sub_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId)
     dims[4] = cfg->unk_18;
     dims[5] = cfg->unk_1a;
 
-    func_0204D7E0((u8 *)g_02146A74 + 0x104, heapId, arg, dims);
-    func_0204BC94(g_02146A74, cfg->unk_08, cfg->unk_09, cfg->unk_0a,
+    func_0204D7E0((struct Res *)((u8 *)g_02146A74 + 0x104), heapId, (const struct Cfg *)arg, (const struct Caps *)dims);
+    func_0204BC94((struct Obj *)g_02146A74, cfg->unk_08, cfg->unk_09, cfg->unk_0a,
                   cfg->unk_0b);
     func_0204BA38((u8 *)g_02146A74 + 0x40, cfg, heapId);
     func_0204C660((u8 *)g_02146A74 + 0xe0, cfg->unk_0c, heapId);

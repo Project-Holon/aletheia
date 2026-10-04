@@ -66,7 +66,9 @@ extern void sub_02005D90(u32 a, u16 b);
 extern void sub_02005FF4(void);
 extern void sub_02006368(void);
 extern int  func_02072EE0(u16 a);
-extern void func_02072F34(u32 *req, int a);
+typedef unsigned char  u8;
+struct Obj;
+extern void func_02072F34(struct Obj *o, u8 v);
 
 void sub_02005F90(void);
 
@@ -106,7 +108,7 @@ void sub_02005F90(void)
     sub_02005F38_State.unk26 = 0xFFFF;
     sub_02005F38_State.unk28 = 0;
     sub_02005F38_State.unk24 = 0;
-    func_02072F34(sub_0200590C(), 0x7F);
+    func_02072F34((struct Obj *)sub_0200590C(), 0x7F);
     sub_02005F38_State.unk20 = 0;
     sub_02006368();
 }

@@ -15,10 +15,10 @@
  */
 
 extern int func_021BD404(int, int);
-extern void func_021BD844(int, int);
+extern void func_021BD844(char *p, int v);
 
 void func_021BD394(int a, int b, int c)
 {
-    func_021BD844(func_021BD404(a, b), c);
+    func_021BD844((char *)func_021BD404(a, b), c);
 }
 

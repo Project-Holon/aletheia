@@ -52,7 +52,7 @@ struct GetBuddyStatusInfoKeysArg {
 extern unsigned int func_0217F264(void);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_02189DFC(void **connection, struct GPICallback callback, void *arg, void *operation, int type);
-extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0218F900(struct GPIPeer *peer, struct GPIPeerOp *operation);
 extern char g_021A4F30[];
 
@@ -81,7 +81,7 @@ void func_0218ED58(void **connection, struct GPIPeer *peer)
             arg->profileid = peer->profile;
             func_02189DFC(connection, callback, arg, 0, 0);
         }
-        func_0217D254(1, 4, 8, g_021A4F30);
+        func_0217D254(1, (char *)4, 8, g_021A4F30);
         func_0218F900(peer, anIterator);
     }
 }

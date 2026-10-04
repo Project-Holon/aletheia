@@ -38,10 +38,12 @@ struct Obj0202E38C {
 
 struct Descriptor;
 extern void *sub_02045770(struct Descriptor *a);
-extern void sub_02043B5C(u32 a, u32 b);
+typedef unsigned char  u8;
+struct CharBuf;
+extern void sub_02043B5C(struct CharBuf *buf, u8 value);
 extern void sub_02045334(struct Descriptor *a);
-extern void sub_020456F8(u32 a);
-extern u32 sub_02045730(u32 a);
+extern void sub_020456F8(struct Descriptor *d);
+extern u8 sub_02045730(struct Descriptor *p);
 extern void sub_020409B4(u32 index);
 struct Obj;
 extern void sub_0204B3DC(struct Obj *a, unsigned int b);
@@ -51,12 +53,12 @@ void func_0202E38C(struct Obj0202E38C *obj, u32 a1)
     u32 h;
     int i;
 
-    sub_02043B5C((u32)sub_02045770((struct Descriptor *)obj->f00), 0);
+    sub_02043B5C((struct CharBuf *)((u32)sub_02045770((struct Descriptor *)obj->f00)), 0);
     if (a1 != 0) {
         sub_02045334((struct Descriptor *)obj->f00);
         h = obj->f00;
-        sub_020456F8(h);
-        sub_020409B4(sub_02045730(h));
+        sub_020456F8((struct Descriptor *)h);
+        sub_020409B4(sub_02045730((struct Descriptor *)h));
     }
     for (i = 0; i < 2; i++) {
         sub_0204B3DC((struct Obj *)obj->f08[i], 0);

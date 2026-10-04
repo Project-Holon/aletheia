@@ -27,12 +27,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0202F038(u32 v);
-extern void func_02031140(u32 v);
-extern void func_0201C6EC(u32 v);
-extern void func_0201C4C0(u32 v);
-extern void func_02045C04(u32 v);
-extern void func_0201D83C(u32 v);
+struct PrintSys;
+struct Rec;
+struct S02031140;
+extern void func_0202F038(u8 *p);
+extern void func_02031140(struct S02031140 *p);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201D83C(void *ptr);
 
 void func_021BDC70(u32 *a0)
 {
@@ -42,13 +45,13 @@ void func_021BDC70(u32 *a0)
     i = 0x77;
     v = a0[i];
     if (v != 0) {
-        func_0202F038(v);
+        func_0202F038((u8 *)v);
         a0[i] = 0;
     }
     i = 0x76;
-    func_02031140(a0[i]);
-    func_0201C6EC(a0[i - 2]);
-    func_0201C4C0(a0[i - 2]);
-    func_02045C04(a0[i - 3]);
-    func_0201D83C(a0[i - 4]);
+    func_02031140((struct S02031140 *)a0[i]);
+    func_0201C6EC((struct PrintSys *)a0[i - 2]);
+    func_0201C4C0((struct PrintSys *)a0[i - 2]);
+    func_02045C04((struct Rec *)a0[i - 3]);
+    func_0201D83C((void *)a0[i - 4]);
 }

@@ -51,15 +51,16 @@ extern void func_021B71E4(u8 *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int func_021BA6A0(u8 *p, int k, int e);
 extern int func_021BA81C(u8 *p, int k);
-extern int func_021BB43C(int p);
-extern u32 func_02027F60(u32 a, u32 b, u32 c, u32 d, u32 heap);
+struct R;
+extern int func_021BB43C(int *p);
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_021B709C(u8 *p);
-extern int func_021B9A84(u8 *p);
-extern void func_021BCCCC(u8 *p);
+extern int func_021B9A84(u32 p);
+extern void func_021BCCCC(int p);
 extern int func_020056A0(void (*cb)(void *, u8 *), u8 *p, int pri);
 extern void func_021B6D64(void *tcb, u8 *p);
-extern int func_021BB594(u8 *p);
-extern int func_021BBA8C(u8 *p);
+extern u32 *func_021BB594(u16 *h);
+extern u32 *func_021BBA8C(u16 *h);
 extern void func_021B7698(u8 *p);
 extern void func_02041B6C(u32 id);
 extern void func_0203D34C(u32 a, u32 b);
@@ -131,16 +132,16 @@ int func_021B660C(u8 *p)
             *(int *)(p + i * 4 + 0x160) = func_021BA6A0(p, i, e);
         } else
             *(int *)(p + i * 4 + 0x160) = func_021BA81C(p, i);
-        if (func_021BB43C(*(int *)(p + i * 4 + 0x160)) <= 5)
+        if (func_021BB43C((int *)(*(int *)(p + i * 4 + 0x160))) <= 5)
             p[0x105]++;
     }
-    W(0x254) = func_02027F60(0, 1, W(0x138), W(0x140), H(0));
+    W(0x254) = (int)func_02027F60(0, 1, W(0x138), W(0x140), H(0));
     func_021B709C(p);
-    if (func_021B9A84(p) == 1)
-        func_021BCCCC(p);
+    if (func_021B9A84((u32)p) == 1)
+        func_021BCCCC((int)p);
     W(4) = func_020056A0(func_021B6D64, p, 8);
-    W(0x150) = func_021BB594(p);
-    W(0x154) = func_021BBA8C(p);
+    W(0x150) = (int)func_021BB594((u16 *)p);
+    W(0x154) = (int)func_021BBA8C((u16 *)p);
     func_021B7698(p);
     func_02041B6C(3);
     func_02041B6C(2);

@@ -29,16 +29,19 @@ typedef struct {
 } D;
 
 extern D d_021F6398;
-extern void func_0201ED04(u32);
-extern void func_02045808(u32);
-extern void func_02045C04(u32);
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 
 void func_021EECD8(void)
 {
     int i;
 
-    func_0201ED04(d_021F6398.f8);
-    func_02045808(d_021F6398.fc);
+    func_0201ED04((struct WordSet *)d_021F6398.f8);
+    func_02045808((struct U16Vec *)d_021F6398.fc);
     for (i = 0; i < 8; i++)
-        func_02045C04(d_021F6398.t[i]);
+        func_02045C04((struct Rec *)d_021F6398.t[i]);
 }

@@ -28,7 +28,7 @@ struct E {
 extern void func_021F0CB8(void *e);
 extern int func_021F0CDC(void *e, int i);
 extern void func_021F0CF0(void *e, int i);
-extern void func_021F0D10(void *e, int v);
+extern void func_021F0D10(char *p, char v);
 extern void func_021F0390(u8 *p, int i, int j, int k, int l);
 
 void func_021F05D0(u8 *p)
@@ -59,12 +59,12 @@ void func_021F05D0(u8 *p)
         q2 = (struct E *)(p + 0x418);
         for (i = 0; i < 5; i++) {
             if (i != 0) {
-                func_021F0D10(&q2[i], 1);
+                func_021F0D10((char *)(&q2[i]), 1);
                 for (j = 0; j < 3; j++) {
                     func_021F0390(p, i, j, 0, p[0x461]);
                 }
             } else {
-                func_021F0D10(&q2[i], 0);
+                func_021F0D10((char *)(&q2[i]), 0);
             }
         }
     }

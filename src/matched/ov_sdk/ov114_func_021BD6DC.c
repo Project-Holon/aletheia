@@ -55,7 +55,7 @@ typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern BgnEnd *func_021BEF3C(void);
 extern ReqInfo *func_021BEF48(void *sysInfo);
-extern void *func_021BEF58(void *sysInfo);
+extern void *func_021BEF58(int p);
 extern int func_021BC504(ThreadData *td);
 extern int func_021BC740(ThreadData *td);
 extern int func_021B9E3C(BgnEnd *bgn, void *mutex, Req *req, int socket);
@@ -74,7 +74,7 @@ static int func_021BD6DC(ThreadData *threadData_p)
     sysInfo_p = func_021BEF08();
     bgnEndInfo_p = func_021BEF3C();
     reqInfo_p = func_021BEF48(sysInfo_p);
-    mutexInfo_p = func_021BEF58(sysInfo_p);
+    mutexInfo_p = func_021BEF58((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     threadData_p->result = 10;
     threadData_p->sendBufwp = 0;

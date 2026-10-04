@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216D520(void *p);
-extern u32 func_0219CCF0(u32);
+extern int func_0219CCF0(u8 *s);
 
 int func_0219C630(void *p)
 {
-if (func_0219CCF0(func_0216D520(p)) == 1) {
+if (func_0219CCF0((u8 *)func_0216D520(p)) == 1) {
     return 1;
 }
 return 0;

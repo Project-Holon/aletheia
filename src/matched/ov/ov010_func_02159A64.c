@@ -39,14 +39,16 @@ extern int func_02188C84(void *);
 extern int func_02188CCC(void *);
 extern int func_021D1164(int, void *);
 extern void func_021D11B0(int);
-extern int func_021A0F90(int);
-extern void func_021A1524(int);
-extern void func_021A1530(int);
+typedef unsigned char  u8;
+struct Sub02008C20Obj;
+extern u32 func_021A0F90(u8 *p);
+extern void func_021A1524(u32 *p);
+extern void func_021A1530(u32 *p);
 extern void func_021590F4(void *p, u32 v);
-extern int func_02012F2C(void *);
-extern void func_02008DF0(int, int);
-extern void func_02012DAC(void *);
-extern void func_020113D0(int, int (*)(int, int));
+extern void *func_02012F2C(int *p);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern int func_02012DAC(int a0);
+extern void func_020113D0(char *p, int val);
 extern int func_021599A8(int, int);
 
 int func_02159A64(int a, int b)
@@ -60,13 +62,13 @@ int func_02159A64(int a, int b)
     z = func_02188CCC(x);
     t = func_021D1164(y, x);
     func_021D11B0(t);
-    if (func_021A0F90(z) == 7) {
-        func_021A1524(z);
-        func_021A1530(z);
+    if (func_021A0F90((u8 *)z) == 7) {
+        func_021A1524((u32 *)z);
+        func_021A1530((u32 *)z);
     }
     func_021590F4(s0, t);
     func_02008DF0(func_02012F2C(s4), 1);
-    func_02012DAC(s4);
-    func_020113D0(a, func_021599A8);
+    func_02012DAC((int)s4);
+    func_020113D0((char *)a, (int)func_021599A8);
     return 1;
 }

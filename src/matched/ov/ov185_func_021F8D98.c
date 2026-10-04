@@ -25,14 +25,16 @@ typedef struct Config {u16 x,y,z; unsigned char a,b;} Config;
 typedef struct Triple {int a,b,c;} Triple;
 extern const char d_021F90A0[];
 extern int func_021FC20C(char *),func_021FC214(char *);
-extern void *func_021FC4DC(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021FC4DC(u8 *p);
 extern int func_021FC124(void *,unsigned,void *);
 extern void func_02082BCC(void *,int,unsigned);
 extern void func_02034714(const char *,unsigned,const char *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
 extern void func_021FC754(char *,void *,void *,void *,u16);
-extern void func_021FB964(int,int,u16);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 void func_021F8D98(char *p,char *q)
 {
     int a,b;
@@ -45,11 +47,11 @@ void func_021F8D98(char *p,char *q)
         func_021FC4DC(*(void **)(q+8));
         func_02082BCC(&cfg,0,8);
         cfg.x=0x50;cfg.y=0xa8;cfg.z=0;cfg.a=1;
-        v=func_021FC4DC(*(void **)(q+8));
+        v=(void *)func_021FC4DC(*(void **)(q+8));
         if (!func_021FC124(*(void **)(q+12),6,&triple)) func_02034714(d_021F90A0,0,d_021F90A0);
         *(void **)(p+0x18)=func_021FB378(&cfg,4,0x60,1,(int)v,*(int *)(p+0x28),a,b,&triple,*(u16 *)(p+0x30));
         *(void **)(p+0x1c)=func_021FC6A4(4,8,3,0x10,2,0xe,*(void **)(p+0x2c),*(u16 *)(p+0x30));
         func_021FC754(*(char **)(p+0x1c),(void *)b,(void *)0x71,(void *)a,0x3da0);
-        func_021FB964(*(int *)(q+12),0x16,*(u16 *)(p+0x30));
+        func_021FB964((void *)(*(int *)(q+12)),0x16,*(u16 *)(p+0x30));
     }
 }

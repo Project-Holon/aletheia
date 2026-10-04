@@ -25,7 +25,8 @@ struct Entry;
 extern u16 func_02039338(void);
 extern struct Entry *func_020399A8(void);
 extern int  func_0203D56C(void *h);
-extern int func_0203D3A8(void *a, u16 b, u16 c, char *p);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern void func_02186A04(char *a, char *b);
 extern void func_021869C0(char *a, char *b);
 extern void func_02186958(char *a);
@@ -40,14 +41,14 @@ void func_021860D0(char *p)
             return;
         func_02186A04(p + 0x9e4c, p + 0x928c);
         *(unsigned char *)(p + 0x9e51) = *(int *)(p + 0x9e6c);
-        if (func_0203D3A8(h, 0x2902, 0x1e, p + 0x9e4c) == 1)
+        if (func_0203D3A8(h, 0x2902, 0x1e, (u32)(p + 0x9e4c)) == 1)
             func_02186958(p + 0x928c);
     } else {
         h = func_020399A8();
         func_021869C0(p + 0x420c, p + 0x928c);
         if (func_0203D56C(h) == 0)
             return;
-        if (func_0203D3A8(func_020399A8(), 0x2901, 6, p + 0x420c) == 1)
+        if (func_0203D3A8(func_020399A8(), 0x2901, 6, (u32)(p + 0x420c)) == 1)
             func_02186958(p + 0x928c);
     }
 }

@@ -15,11 +15,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_020437AC(int);
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
 
 void func_021C06AC(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        func_020437AC(p[i + 0xEC]);
+        func_020437AC((struct Obj020437AC *)p[i + 0xEC]);
 }

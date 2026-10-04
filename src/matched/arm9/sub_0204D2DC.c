@@ -39,11 +39,11 @@ struct Obj {
     void *unk_64;
 };
 
-extern void sub_02066B38(void *p);
+extern void sub_02066B38(u32 idx);
 extern void sub_02082BCC(void *dst, int value, u32 len);
 
 void sub_0204D2DC(struct Obj *o)
 {
-    sub_02066B38(o->unk_64);
+    sub_02066B38((u32)o->unk_64);
     sub_02082BCC(o, 0, 0x7c);
 }

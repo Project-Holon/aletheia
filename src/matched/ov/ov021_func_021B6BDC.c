@@ -49,26 +49,27 @@ typedef struct Ent {
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern u32 func_0215A5CC(u32 a);
+struct Big;
+extern u16 func_0215A5CC(void *a0);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_02012EBC(void *a);
-extern void *func_0200A300(u32 a, u32 b, u32 c);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200A300(void *a0, void *a1, void *a2);
 extern void func_0200A338(void *h);
 extern u8 *func_021B7834(void *h, u32 *x, u8 *buf);
 struct Ctx;
 extern u8 func_021B7864(void *a);
 extern void func_021B785C(u8 *p, u32 i);
-extern u16 func_021B6D0C(int k, u32 b, void *sv, u8 *p);
-extern u16 func_021B6D30(int k, u8 *p, u32 b);
-extern u16 func_021B6D64(int k, u8 *p, u32 b);
-extern int func_021B6D98(int k, u32 b, void *sv, u8 *p);
-extern u16 func_021B6DC0(int k, u32 b, void *sv, u8 *p);
+extern int func_021B6D0C(int idx, void *x, void *y, void *z);
+extern int func_021B6D30(int idx, void *x, void *c);
+extern int func_021B6D64(int idx, void *x, void *c);
+extern int func_021B6D98(int idx, void *x, void *y, void *z);
+extern int func_021B6DC0(int idx, void *x, void *y, void *z);
 extern u16 func_021B6DE4(void *a, void *sv);
 extern u16 func_021B6E0C(void *a);
 extern int func_021B6EB0(u8 *p, int k);
-extern u32 func_02012F08(void *sv);
-extern u32 func_02012944(void *sv);
-extern void func_0216BF74(u32 a, u32 b, u32 c);
+extern void *func_02012F08(int *p);
+extern u8 *func_02012944(void *p);
+extern void func_0216BF74(void *a, int i, void *b);
 extern void *func_0201210C(const struct Ctx *p);
 extern Ent d_021D9970[];
 
@@ -87,8 +88,8 @@ int func_021B6BDC(u32 a, u32 b)
     mode = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
     sv = func_0215A5E4((void *)b);
-    heap = func_0215A5CC(b);
-    h = func_0200A300(func_02012EBC(sv), 0, heap);
+    heap = func_0215A5CC((void *)b);
+    h = func_0200A300(func_02012EBC(sv), 0, (void *)heap);
     p = func_021B7834(h, &x, buf);
     k = func_021B7864(h);
     if (k != d_021D9970[k].id) {
@@ -104,16 +105,16 @@ int func_021B6BDC(u32 a, u32 b)
         }
         break;
     case 1:
-        *out = func_021B6D0C(k, b, sv, p);
+        *out = func_021B6D0C(k, (void *)b, sv, p);
         break;
     case 2:
-        *out = func_021B6D30(k, p, b);
+        *out = func_021B6D30(k, p, (void *)b);
         break;
     case 3:
-        *out = func_021B6D64(k, p, b);
+        *out = func_021B6D64(k, p, (void *)b);
         break;
     case 4:
-        if (func_021B6D98(k, b, sv, p) == 1) {
+        if (func_021B6D98(k, (void *)b, sv, p) == 1) {
             func_021B785C(h, x);
             if (func_021B6EB0(p, k) == 1) {
                 func_0216BF74(func_02012F08(sv), 1, func_02012944(sv));
@@ -128,7 +129,7 @@ int func_021B6BDC(u32 a, u32 b)
         *out = func_021B6E0C(func_0201210C(func_0215A5DC((void *)b)));
         break;
     case 7:
-        *out = func_021B6DC0(k, b, sv, p);
+        *out = func_021B6DC0(k, (void *)b, sv, p);
         break;
     }
     func_0200A338(h);

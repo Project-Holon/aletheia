@@ -44,7 +44,7 @@ extern u32 func_020362DC(void);
 extern void func_021D5A9C(char *,int);
 extern void func_021DB468(u8 *,u8 *,u8,int);
 extern void func_021D9EE8(u8 *,u8 *);
-extern void func_021D9E30(void *,u8 *);
+extern void func_021D9E30(void *a, int b);
 extern void func_021DBA78(u8 *,int);
 extern void func_021DBA54(u8 *,u8 *);
 extern void func_021DB508(u8 *,u8 *,u32,u32);
@@ -73,7 +73,7 @@ int func_021DA998(u8 *a,u8 *b)
             func_0204B878(*(struct Obj **)(a+404),9);
             func_021DBA78(b+176+b[41]*24,0);
             func_0204B3DC(*(struct Obj **)(b+152),0);
-            func_021D9E30(a,b);
+            func_021D9E30(a,(int)b);
             a[28]=0;
             func_020061E4(1361);
             return 1;

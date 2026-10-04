@@ -16,7 +16,7 @@
  */
 extern int func_0201134C(int a);
 extern int func_021F86F0(void);
-extern void func_02201D5C(int a, int b, int c, int *d, int e, int f, int g);
+extern void func_02201D5C(char *o, int idx, int c, void *d, int s1, int s2, int s3);
 
 int func_021FB7F8(int a, char *b)
 {
@@ -31,6 +31,6 @@ int func_021FB7F8(int a, char *b)
     t3 = func_0201134C(a);
     t4 = func_0201134C(a);
     t5 = func_0201134C(a);
-    func_02201D5C(func_021F86F0(), *(int *)(b + t0 * 4 + 0xcc), t1, arr, t3, t4, t5);
+    func_02201D5C((char *)func_021F86F0(), *(int *)(b + t0 * 4 + 0xcc), t1, arr, t3, t4, t5);
     return *(int *)(b + 0x23c);
 }

@@ -56,7 +56,7 @@ typedef struct {
     int sessionEstablished;     /* 0x1A8 */
 } GHIConnection;
 
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen);
 extern int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen);
 extern int func_021C0378(GHIConnection *connection);
@@ -77,7 +77,7 @@ void func_021C492C(GHIConnection *connection)
     char *endOfStatus;
     int statusLength;
 
-    func_0217D254(8, 3, 0x10, g_021CF220);
+    func_0217D254(8, (char *)3, 0x10, g_021CF220);
 
     bufferLen = sizeof(buffer);
     result = func_021C04D4(connection, buffer, &bufferLen);

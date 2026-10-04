@@ -39,16 +39,17 @@ typedef struct {
 
 extern St *func_0216D6F0(u32);
 extern int func_0216D910(int a0);
-extern u32 func_0216D678(u32);
-extern u32 func_0219C9DC(u32);
+struct Trip;
+extern u16 func_0216D678(void *p);
+extern u32 func_0219C9DC(u8 *p);
 extern u32 func_0219FFD4(u32);
 extern void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id);
 extern void func_0219FFBC(u32, u32 *);
 extern void func_02197CCC(u32, u32 *);
 extern void func_021A000C(u32, u32, u32, u32, u32);
-extern void func_0205082C(u32, u32, u16);
-extern u32 func_02050080(u32);
-extern void func_0204F638(u32, u32, u32 *);
+extern void func_0205082C(void *p, int idx, u16 h);
+extern u32 func_02050080(u32 *p);
+extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 
 void func_0219F354(u32 a)
 {
@@ -61,8 +62,8 @@ void func_0219F354(u32 a)
 
     p = func_0216D6F0(a);
     if (p->id != 0xFFFF) {
-        h = func_0219C9DC(func_0216D910(a));
-        n = func_0216D678(a);
+        h = func_0219C9DC((u8 *)func_0216D910(a));
+        n = func_0216D678((void *)a);
         if (n >= 10) {
             flag = 0;
             v = func_0219FFD4(a);
@@ -71,7 +72,7 @@ void func_0219F354(u32 a)
                 p->f4 = v;
                 p->f5 = n;
                 p->f6 = 0;
-                func_0205082C(h, p->id, n + 30);
+                func_0205082C((void *)h, p->id, n + 30);
             }
             func_021A000C(a, h, p->id, flag, 0);
         } else {
@@ -79,6 +80,6 @@ void func_0219F354(u32 a)
         }
         func_02197CCC(a, buf);
         func_0219FFBC(a, buf);
-        func_0204F638(func_02050080(h), p->id, buf);
+        func_0204F638((u8 *)func_02050080((u32 *)h), p->id, (struct Trip *)buf);
     }
 }

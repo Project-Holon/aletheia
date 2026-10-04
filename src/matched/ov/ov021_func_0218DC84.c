@@ -19,7 +19,9 @@ typedef unsigned short u16;
 
 extern u16 d_021DD9E0[];
 extern u16 g_021DD9E0[];
-extern void func_021A7360(void *p, int b, int n);
+typedef unsigned int   u32;
+struct D;
+extern u32 *func_021A7360(const struct D *p, u32 c, u32 heap);
 
 void func_0218DC84(int a, int b, const int *q, int c)
 {
@@ -41,5 +43,5 @@ void func_0218DC84(int a, int b, const int *q, int c)
         d_021DD9E0[0] = (d_021DD9E0[0] & 0xffff00ff) | 0x100;
         d_021DD9E0[5] = y;
     }
-    func_021A7360(g_021DD9E0, b, (u16)c);
+    func_021A7360((const struct D *)g_021DD9E0, b, (u16)c);
 }

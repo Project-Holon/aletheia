@@ -18,12 +18,18 @@
  *   func_02062A98  0x02062A98  arm
  */
 
-extern int func_021BD090(int a);
-extern int func_021BD094(int a);
-extern int func_020493D4(int a, int b);
+typedef signed int     s32;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct ArcFile;
+struct NitroFileHeader;
+extern u16 func_021BD090(u8 *p);
+extern u32 func_021BD094(u8 *p);
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_0204932C(int a, int b, int c);
-extern void func_02062A98(int a, int b);
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
 typedef struct S {
     char pad[0x14c];
@@ -35,10 +41,10 @@ void func_021BC664(S *p)
 {
     int r4, r6, h;
 
-    r4 = func_021BD090((int)p);
-    r6 = func_021BD094((int)p);
-    h = (int)func_02030734(r4, func_020493D4(r6, 1), 0, (const char *)0x021DE354, 0x2c8);
+    r4 = func_021BD090((u8 *)((int)p));
+    r6 = func_021BD094((u8 *)((int)p));
+    h = (int)func_02030734(r4, func_020493D4((struct ArcFile *)r6, 1), 0, (const char *)0x021DE354, 0x2c8);
     p->a = h;
-    func_0204932C(r6, 1, h);
-    func_02062A98(p->a, (int)&p->b);
+    func_0204932C((struct ArcFile *)r6, 1, (void *)h);
+    func_02062A98((struct NitroFileHeader *)p->a, (void **)((int)&p->b));
 }

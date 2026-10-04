@@ -16,7 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_020495F4(u32 h, u32 n, u32 dst);
+struct ArcFile;
+extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 
 typedef struct S {
     u8 pad0[0x10];
@@ -47,12 +48,12 @@ int func_02169620(S *p)
         return 0;
     rem = tot - len;
     if (rem > p->n) {
-        func_020495F4(p->h, p->n, base + cur);
+        func_020495F4((struct ArcFile *)p->h, p->n, (void *)(base + cur));
         p->cur = p->cur + p->n;
         p->len = p->len + p->n;
         return 1;
     }
-    func_020495F4(p->h, rem, base + cur);
+    func_020495F4((struct ArcFile *)p->h, rem, (void *)(base + cur));
     p->cur = p->cur + rem;
     return 0;
 }

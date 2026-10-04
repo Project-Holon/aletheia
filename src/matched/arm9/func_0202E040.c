@@ -39,7 +39,8 @@ extern u32   func_02045730(u32 cell);
 typedef unsigned char  u8;
 struct Obj;
 extern u8 func_020416D4(u32 layer);
-extern void  func_0204B404(void *h, struct Pt *p, u16 v);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void  func_0204B84C(void *h, u32 a);
 extern void func_0204B878(struct Obj *p, u16 value);
 
@@ -54,7 +55,7 @@ void func_0202E040(void *h, u32 cell, u32 b, u32 c,
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
     t = func_02045730(cell);
-    func_0204B404(h, &pt, (u16)sub_0202E430(t));
+    func_0204B404(h, (const struct Vec2 *)(&pt), (u16)sub_0202E430(t));
     func_0204B84C(h, func_020416D4(t));
     func_0204B878(h, (u16)(n - 1));
 }

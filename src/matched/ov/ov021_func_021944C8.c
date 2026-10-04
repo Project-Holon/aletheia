@@ -20,9 +20,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0216D69C(u32);
+extern void *func_0216D69C(void *p);
 
 void func_021944C8(u32 a)
 {
-    *(u16 *)(*(u8 **)((u8 *)func_0216D69C(a) + 0xC) + 4) = 1;
+    *(u16 *)(*(u8 **)((u8 *)func_0216D69C((void *)a) + 0xC) + 4) = 1;
 }

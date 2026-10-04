@@ -27,7 +27,7 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188CCC(u32 a);
+extern u32 func_02188CCC(u8 *p);
 extern u32 func_021D29A8(u32 a, u32 *st, u32 *p);
 
 void *func_021D297C(void *a)
@@ -36,6 +36,6 @@ void *func_021D297C(void *a)
     u32 *w = func_020124E8(task);
 
     w[0] = (u32)func_0201210C((void *)a);
-    w[1] = func_02188CCC(w[0]);
+    w[1] = func_02188CCC((u8 *)w[0]);
     return task;
 }

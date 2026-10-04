@@ -85,7 +85,8 @@ extern u8 func_0215699C(void *w, u8 i);
 extern u8 func_021569A4(void *w, u8 idx);
 extern u8 func_021569EC(void *w, u8 j);
 extern void *func_02012F44(void *h);
-extern void **func_02012F80(void *h);
+struct Big;
+extern int func_02012F80(char *base);
 extern void *func_02012934(void *h);
 extern u32 func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, int i);
@@ -94,11 +95,11 @@ extern Flags *func_0200A640(void *sv);
 extern u32 func_0200A644(void *sv, u8 i);
 extern u16 func_0200A75C(void *sv);
 extern u16 func_0200A780(void *sv);
-extern u8 func_0200A7A0(void *sv, u8 i);
-extern u16 func_0200A7B8(void *sv);
-extern u16 func_0200A7C8(void *sv);
+extern u8 func_0200A7A0(struct Big *p, u32 index);
+extern u8 func_0200A7B8(struct Big *p);
+extern u8 func_0200A7C8(struct Big *p);
 extern void func_0200A7D4(void *sv, u8 v);
-extern u32 func_0200A7E0(void *sv);
+extern u8 func_0200A7E0(struct Big *p);
 extern u32 func_021F6744(void *mon);
 
 int func_0215D504(Ctx *c, void *vm)
@@ -128,7 +129,7 @@ int func_0215D504(Ctx *c, void *vm)
     sv = func_02012F44(h);
     w = 0;
     if (op >= 30) {
-        void **pw = func_02012F80(h);
+        void **pw = (void **)func_02012F80(h);
 
         if (pw == 0) {
             *dst = 0;

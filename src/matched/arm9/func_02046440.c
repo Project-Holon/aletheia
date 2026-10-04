@@ -97,10 +97,10 @@ extern u32  *func_02030BBC(u32 size);
 extern void  func_0206DB40(u32 *p);
 extern void  func_020307C8(void *p, u16 heap, u32 n);
 extern int func_0206210C(int v);
-extern void  func_02062114(u32 a, u32 b, void *c, u32 d, u32 e);
+extern void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void  func_020613D8(u32 mode, u32 flag);
 extern int func_0206246C(int v);
-extern void  func_02062474(u32 a, void *b, u32 c, u32 d);
+extern void func_02062474(u32 a, u32 b, u32 c, u32 d);
 extern void  func_02046858(const struct Setup32 *p);
 extern void  func_02046A94(u32 index, const struct Rect16 *r);
 extern void  func_02046B40(struct Setup36 *p);
@@ -135,7 +135,7 @@ void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
     if (texMode == 0) {
         size = func_0206210C(texSize << 7);
         g_02146A5C->f14 = func_02030734(g_02146A5C->heap_id, size, 0, g_020A7EA8, 0x7e);
-        func_02062114(texSize << 17, 0, g_02146A5C->f14, size, 1);
+        func_02062114(texSize << 17, 0, (u32)g_02146A5C->f14, size, 1);
     } else {
         func_020613D8((u16)texSize, 1);
         g_02146A5C->f14 = 0;
@@ -144,7 +144,7 @@ void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
     if (plttMode == 0) {
         size = func_0206246C(plttSize << 9);
         g_02146A5C->f10 = func_02030734(g_02146A5C->heap_id, size, 0, g_020A7EA8, 0x8d);
-        func_02062474(plttSize << 14, g_02146A5C->f10, size, 1);
+        func_02062474(plttSize << 14, (u32)g_02146A5C->f10, size, 1);
     } else {
         func_020613D8((u16)(plttSize << 14), 1);
         g_02146A5C->f14 = 0;

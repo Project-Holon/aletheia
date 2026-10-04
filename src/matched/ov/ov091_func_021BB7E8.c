@@ -23,12 +23,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02045EC0(u32 a, u32 b);
-extern u32 func_020457B0(u32 a, u32 b);
-extern void func_0201F250(u32 a, u32 b, u32 c);
-extern void func_02045808(u32 a);
-extern void func_021BBA28(u8 *a, u32 *s);
-extern void func_0201C6EC(u32 a);
+struct MsgBank;
+struct PrintSys;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_021BBA28(int a, int b);
+extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 a, u32 b, int c, int d, u32 e, u32 f, u32 g);
@@ -38,16 +42,16 @@ void func_021BB7E8(u8 *a, u32 *s, u32 x)
     u32 t;
     u32 n;
 
-    t = func_02045EC0(*(u32 *)(a + 0x134), x);
+    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(a + 0x134)), x);
     if (s[11] != 0) {
-        n = func_020457B0(0x100, *(u16 *)a);
-        func_0201F250(s[11], n, t);
-        func_02045808(t);
+        n = (u32)func_020457B0(0x100, *(u16 *)a);
+        func_0201F250((struct WordSet *)s[11], (void *)n, (void *)t);
+        func_02045808((struct U16Vec *)t);
         t = n;
     }
-    func_021BBA28(a, s);
-    func_0201C6EC(s[10]);
+    func_021BBA28((int)a, (int)s);
+    func_0201C6EC((struct PrintSys *)s[10]);
     func_0201C724(s[10], (u32)func_02045770((struct Descriptor *)s[1]), 1, 1, t, *(u32 *)(a + 0x138), 0x440);
     s[9] = 1;
-    func_02045808(t);
+    func_02045808((struct U16Vec *)t);
 }

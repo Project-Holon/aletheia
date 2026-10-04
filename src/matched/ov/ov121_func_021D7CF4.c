@@ -36,7 +36,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 w[9]; } Desc;
-extern void *func_0200A0C8(void *);
+extern u32 func_0200A0C8(u8 *p);
 typedef signed int     s32;
 struct Obj;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -45,7 +45,7 @@ extern void func_02082BCC(void *,int,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D9288(void *,int);
 extern void func_021D8380(void *);
 extern void func_021D9E04(u8 *p);
@@ -119,8 +119,8 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 7:
-        *(void **)(p+968)=func_0200A0C8(*(void **)(p+956));
-        func_021DA8B0(task,func_021D6E3C);
+        *(void **)(p+968)=(void *)func_0200A0C8(*(void **)(p+956));
+        func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     case 8:
         if(!func_0204E804()) func_021DA8C4(task);

@@ -21,10 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021BDBF8(u32 *);
-extern u32 func_021BE92C(u32, u32, u32, u32, u32, u32, u32);
+struct Evt;
+extern int func_021BDBF8(u32 a);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void func_021BDC80(u32 *);
-extern void func_02012374(u32, u32);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 u32 func_021BDB9C(u32 a, int *st, u32 *ctx)
 {
@@ -35,11 +36,11 @@ u32 func_021BDB9C(u32 a, int *st, u32 *ctx)
     switch (*st) {
     case 0:
         if (*(u32 *)(p + 0x48) != 0)
-            func_021BDBF8(ctx);
+            func_021BDBF8((u32)ctx);
         (*st)++;
         break;
     case 1:
-        func_02012374(a, func_021BE92C(x, y, 2, 0, 0, 0, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)x, y, 2, 0, 0, 0, 0));
         (*st)++;
         break;
     case 2:

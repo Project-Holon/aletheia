@@ -25,7 +25,7 @@ typedef signed long    s32;
 typedef int BOOL;
 
 extern int func_021BA928(void *p, int v);
-extern void func_021BAD50(void *a);
+extern void func_021BAD50(int a);
 
 int func_021BC29C(char *p, int v)
 {
@@ -33,7 +33,7 @@ int func_021BC29C(char *p, int v)
         return v;
     }
 
-    func_021BAD50(p);
+    func_021BAD50((int)p);
     *(u32 *)(p + 0x1CC) = 0x46;
     return v;
 }

@@ -30,9 +30,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void *func_0201283C(const void *);
+struct BigObj;
+extern u32 func_0201283C(const struct BigObj *p);
 extern int func_020107FC(void *);
-extern void *func_0203CF10(u32);
+extern u32 func_0203CF10(u32 a);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -65,9 +66,9 @@ void func_021D5110(char *p)
 {
     int index;
     void *record, *text;
-    index = func_020107FC(func_0201283C(*(void **)(p + 0x350)));
+    index = func_020107FC((void *)func_0201283C(*(void **)(p + 0x350)));
     if (index != -1) {
-        record = func_0203CF10(index);
+        record = (void *)func_0203CF10(index);
         text = func_020457B0(200, *(u16 *)(p + 0xc));
         func_02045994(text, func_0202E930(record), 8);
         if (!func_0204B3F4(*(void **)(p + 0x3a0))) {

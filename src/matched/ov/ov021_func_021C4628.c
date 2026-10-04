@@ -33,9 +33,9 @@ extern void *func_02188CB4(unsigned char *p);
 extern u16 func_021A3050(u8 *p);
 extern u32 func_02159B10(void *a, void *b);
 extern u32 func_021C1228(void *a, u32 b, u32 c, u32 d);
-extern void func_0215A644(u32 a, u32 b);
-extern void func_020113D0(u32 a, int (*f)(int, int));
-extern int func_021C4608(int a, int b);
+extern void func_0215A644(void *p, u32 v);
+extern void func_020113D0(char *p, int val);
+extern int func_021C4608(void *a, void *b);
 
 u32 func_021C4628(u32 a, u32 b)
 {
@@ -47,7 +47,7 @@ u32 func_021C4628(u32 a, u32 b)
     y = func_021A3050(x);
     t = func_02159B10((void *)a, (void *)b);
     t = func_021C1228(x, y, t, w);
-    func_0215A644(b, t);
-    func_020113D0(a, func_021C4608);
+    func_0215A644((void *)b, t);
+    func_020113D0((char *)a, (int)func_021C4608);
     return 1;
 }

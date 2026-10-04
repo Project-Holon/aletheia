@@ -55,9 +55,11 @@ extern int func_02166CD0(void *a, u32 msg);
 extern int func_021BA774(W *p, int i);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B570(int obj, int v);
+struct Actor;
+struct Node;
+extern void func_0204B570(struct Actor *actor, u32 value);
 extern void func_0204B84C(int obj, int v);
-extern void func_0204B800(int obj, int v);
+extern void func_0204B800(struct Node *node, u32 val);
 extern void func_021BAE44(W *p);
 
 void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, u16 s4, int s5)
@@ -124,9 +126,9 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
         pos.x = func_021BA774(p, 2);
         pos.y = func_021BA774(p, 3);
         p->obj = (int)func_0204B294((void *)c, s0, s2, s1, &pos, 0, s4);
-        func_0204B570(p->obj, 2);
+        func_0204B570((struct Actor *)p->obj, 2);
         func_0204B84C(p->obj, 2);
-        func_0204B800(p->obj, 4);
+        func_0204B800((struct Node *)p->obj, 4);
     }
     func_021BAE44(p);
 }

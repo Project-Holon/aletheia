@@ -37,8 +37,8 @@ extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02006984(u32, u32, u32, u32, u32, u32, u32, u32);
-extern void func_02015C30(u32, void *);
-extern void func_021DFD24(u32);
+extern void func_02015C30(void *p, u32 *out);
+extern void func_021DFD24(u32 *p);
 extern u32 func_021DFBB4(u32, u32, void *, const void *, u16);
 extern const Quad d_021D5200;
 extern const u8 d_021D52F8[];
@@ -56,8 +56,8 @@ void func_021D4A48(u8 *p, int idx)
         func_02006984(func_02017E1C(x, 0xab, 0), func_02017E1C(x, 0x6f, 0), 0x40, 0, 0, 0, 0, 0);
     }
     if (*(u8 *)(p + 0x11EE) == 0) {
-        func_02015C30(((u32 *)(p + 0x844))[idx], buf);
-        func_021DFD24(*(u32 *)(p + 0x868));
+        func_02015C30((void *)(((u32 *)(p + 0x844))[idx]), buf);
+        func_021DFD24((u32 *)(*(u32 *)(p + 0x868)));
         if (*(u8 *)(p + 0x11F0) != 0) {
             *(u32 *)(p + 0x868) = func_021DFBB4(((u32 *)(p + 0x844))[idx], 0x14, buf, d_021D5600, *(u16 *)(p + 0x5F4));
         } else {
@@ -66,8 +66,8 @@ void func_021D4A48(u8 *p, int idx)
     } else {
         Quad t = d_021D5200;
         u32 obj = ((u32 *)(p + 0x844))[t.v[idx]];
-        func_02015C30(((u32 *)(p + 0x844))[idx], buf);
-        func_021DFD24(*(u32 *)(p + 0x868));
+        func_02015C30((void *)(((u32 *)(p + 0x844))[idx]), buf);
+        func_021DFD24((u32 *)(*(u32 *)(p + 0x868)));
         if (*(u8 *)(p + 0x11F0) != 0) {
             *(u32 *)(p + 0x868) = func_021DFBB4(obj, 0x14, buf, d_021D5600, *(u16 *)(p + 0x5F4));
         } else {

@@ -27,11 +27,12 @@ typedef signed short   s16;
 
 extern void *func_02188C7C(unsigned char *p);
 extern u32 func_02188CFC(u8 *p);
-extern void func_021A3460();
-extern void func_0216DDDC(void *, int, int, int, u32, int);
+typedef signed int     s32;
+extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
+extern u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
 extern void *func_021A3960(unsigned char *p);
 extern void func_0219E634();
-extern void func_0219E570();
+extern u32 func_0219E570(u32 o, u32 k, u32 flag);
 
 void func_021A32A8(unsigned char **a, u32 b)
 {
@@ -39,10 +40,10 @@ void func_021A32A8(unsigned char **a, u32 b)
     void *h = func_02188C7C(a[0]);
 
     if (func_02188CFC(a[0]) == 0) {
-        func_021A3460(a, &v[2], &v[1], &v[0]);
-        func_0216DDDC(h, v[2], v[0], v[1] << 16, b, 0);
+        func_021A3460((u32)a, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
+        func_0216DDDC((u32)h, v[2], v[0], v[1] << 16, b, 0);
         return;
     }
     func_0219E634(func_021A3960(a[1]), &v[3]);
-    func_0219E570(h, &v[3], 0);
+    func_0219E570((u32)h, (u32)(&v[3]), 0);
 }

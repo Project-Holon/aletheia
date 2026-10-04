@@ -16,7 +16,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D5640(u8 *, u8, u8);
+struct Work;
+extern void func_021D5640(struct Work *p, u32 i, u32 n);
 int func_021D3734(u32 *a, int b, u32 *c)
 {
     u8 *m;
@@ -24,6 +25,6 @@ int func_021D3734(u32 *a, int b, u32 *c)
     k = c[1];
     n = c[2];
     m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5640(m, k, n);
+    func_021D5640((struct Work *)m, k, n);
     return 1;
 }

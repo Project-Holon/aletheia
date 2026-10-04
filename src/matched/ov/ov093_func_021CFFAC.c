@@ -28,8 +28,8 @@ struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern Word func_021D6314(void *, int);
 extern u16 func_021E8B80(Word);
-extern int func_0201C314(u32);
-extern u8 func_0201C1C8(u32);
+extern u32 func_0201C314(void *p);
+extern u8 func_0201C1C8(void *p);
 extern u16 func_021D57FC(void *);
 extern int func_021D799C(int, int);
 extern int func_021D055C(void *, void *, int);
@@ -43,8 +43,8 @@ int func_021CFFAC(struct G *g, void *mon, void *target)
         slot = func_021D6314(mon, 0x1b);
         id = func_021E8B80(slot);
         if (id) {
-            valid = func_0201C314(id);
-            kind = func_0201C1C8(id);
+            valid = func_0201C314((void *)id);
+            kind = func_0201C1C8((void *)id);
             if (func_021D799C(kind, func_021D57FC(target)) == 0 && valid) {
                 if (func_021D055C(g, target, 4)) {
                     g->seed = g->mul * g->seed + g->add;

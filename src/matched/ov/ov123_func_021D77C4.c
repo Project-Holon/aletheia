@@ -16,7 +16,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *func_021D5BA0(int);
+extern int func_021D5BA0(char *p);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern int func_0200C5C8(int,void *,int,u16);
@@ -29,7 +29,7 @@ void func_021D77C4(int a,int n)
     int h;
     u16 checksum;
     *(u8 *)(a+0xa4)=0;
-    p=func_021D5BA0(*(int *)(a+8));
+    p=(u8 *)func_021D5BA0((char *)(*(int *)(a+8)));
     h=n/2;
     if(n>0x1fc0e) {
         *(int *)(a+0x80)=0xfff0;

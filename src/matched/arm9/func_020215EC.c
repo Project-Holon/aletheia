@@ -52,7 +52,7 @@ struct PltRes {
     u16 *data;
 };
 
-extern void *func_02049F34(u32 arcId, u32 fileId, struct PltRes **out, u16 tag);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx,
                           u32 off, u16 size);
 extern void func_020307B0(void *p);
@@ -63,7 +63,7 @@ void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag,
     struct PltRes *res;
     void *block;
 
-    block = func_02049F34(arcId, fileId, &res, (u16)((tag & 0x7fff) | 0x8000));
+    block = func_02049F34(arcId, fileId, (u32)(&res), (u16)((tag & 0x7fff) | 0x8000));
     if (count == 0) {
         count = res->count;
     }

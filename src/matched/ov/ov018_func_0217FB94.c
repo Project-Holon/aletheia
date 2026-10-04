@@ -29,30 +29,32 @@ typedef struct {
     u16 fC;
 } Req;
 
-int func_020124E4(int);
+struct Evt;
+struct Obj;
+void *func_020124E4(struct Obj *p);
 struct Ctx;
 unsigned int func_02012138(const struct Ctx *p);
-u8 *func_02158344(int);
+int func_02158344(int a0);
 void *func_02188C7C(unsigned char *p);
 void func_0216D9A0(void *x);
 void func_0216D9E4(void *x);
 void *func_0217FC08(int a, int b, u8 *c, int d, int e, u16 f);
-void func_02012374(int a, void *b);
+void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_0217FB94(int a, int *state, Req *req)
 {
     int s;
     u8 *w;
 
-    s = func_020124E4(a);
-    w = func_02158344(func_02012138((const struct Ctx *)s));
+    s = (int)func_020124E4((struct Obj *)a);
+    w = (u8 *)func_02158344(func_02012138((const struct Ctx *)s));
     switch (*state) {
     case 0:
         if (w == 0) {
             return 1;
         }
         func_0216D9A0(func_02188C7C((u8 *)req->f0));
-        func_02012374(a, func_0217FC08(s, req->f0, w, req->f4, req->f8, req->fC));
+        func_02012374((struct Evt *)a, func_0217FC08(s, req->f0, w, req->f4, req->f8, req->fC));
         (*state)++;
         break;
     case 1:

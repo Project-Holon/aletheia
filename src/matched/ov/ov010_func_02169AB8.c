@@ -98,7 +98,7 @@ typedef struct Work {
     Res *f18;           /* 0x18 */
 } Work;
 
-extern int func_02169E0C(Work *w);
+extern int func_02169E0C(int a0);
 extern void func_02169E4C(Work *w);
 extern void func_02169EA4(Work *w, u32 n);
 extern void func_02169EBC(Work *w);
@@ -107,39 +107,39 @@ extern void func_02169FFC(Work *w, u32 n);
 extern int func_0216A07C(Work *w);
 extern void func_0216A0BC(Work *w);
 extern void func_0216A148(Work *w);
-extern int func_0216A184(Work *w);
-extern void func_0216A1C0(Work *w);
-extern void func_0216A1F8(Work *w);
-extern int func_0216A21C(Work *w);
+extern int func_0216A184(int a0);
+extern int func_0216A1C0(int a0);
+extern void func_0216A1F8(int a0);
+extern int func_0216A21C(int a0);
 extern int func_0216A244(Work *w);
 extern void func_0216A264(Work *w);
-extern void func_0216A280(Work *w);
+extern int func_0216A280(int a0);
 
 extern u32 func_02188CCC(u8 *p);
-extern void func_021A0F30(u32 a, u32 b);
+extern int func_021A0F30(u32 a, u32 b);
 extern int func_021A0ED4(u32 a);
 extern int func_021A1518(u32 a);
-extern void func_021A1524(u32 a);
+extern void func_021A1524(u32 *p);
 extern int func_021A1554(u32 a);
-extern void func_021A1530(u32 a);
-extern void func_021A1548(u32 a);
+extern void func_021A1530(u32 *p);
+extern void func_021A1548(u32 *p);
 extern int func_021A153C(u32 a);
-extern void func_021A0FB4(u32 a, u16 heap);
+extern void func_021A0FB4(u32 *p, u32 a);
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02045B38(u32 resident, u32 arc, u32 file, u32 heap);
 extern void *func_020457B0(u32 cap, u32 heap);
 extern void *func_0203101C(u32 heap, u16 tag, u32 count, u32 size);
 extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
-extern u32 func_0201C440(u32 heap);
+extern u32 func_0201C440(void *p);
 extern int func_020071F0(void *p);
 extern void func_0201F7A8(void *p, u32 kind);
 extern void *func_020120F4(void *p);
 extern void *func_02012F2C(void *p);
 extern u32 func_02008DF0(void *p, int i);
 extern void *func_020056BC(void);
-extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, u16 heap);
-extern void func_02012DAC(void *p);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern int func_02012DAC(int a0);
 extern int func_02012DD0(u8 *p);
 extern void func_0202F038(u8 *p);
 extern void func_020061E4(u32 a);
@@ -173,7 +173,7 @@ int func_02169AB8(Work *w, u32 *state)
             w->f18->f18 = func_020457B0(0x200, w->f10);
             w->f18->f00 = func_0203101C(w->f10, w->f10, 1, 4);
             w->f18->f1C = func_02028590(0xF, 1, 1, w->f10);
-            w->f18->f14 = func_0201C440(w->f10);
+            w->f18->f14 = func_0201C440((void *)w->f10);
             w->f18->f4C = 0;
             func_02169E4C(w);
             func_0216A0BC(w);
@@ -191,7 +191,7 @@ int func_02169AB8(Work *w, u32 *state)
         }
         break;
     case 4:
-        switch (func_0216A184(w)) {
+        switch (func_0216A184((int)w)) {
         case 0:
             if (func_020071F0(w->f00) == 1) {
                 func_02169EA4(w, 8);
@@ -208,7 +208,7 @@ int func_02169AB8(Work *w, u32 *state)
         break;
     case 5:
         func_02008DF0(func_02012F2C(func_020120F4(w->f04)), 1);
-        func_021A1524(func_02188CCC(w->f08));
+        func_021A1524((u32 *)func_02188CCC(w->f08));
         if (func_021A1554(func_02188CCC(w->f08)) == 1)
             func_02169FFC(w, 10);
         else
@@ -217,20 +217,20 @@ int func_02169AB8(Work *w, u32 *state)
         break;
     case 6:
         if (func_0216A07C(w) == 1) {
-            func_0216A1C0(w);
+            func_0216A1C0((int)w);
             *state = 7;
         }
         break;
     case 7:
-        if (func_0216A21C(w) == 1)
+        if (func_0216A21C((int)w) == 1)
             *state = 8;
         break;
     case 8:
         if (func_0216A244(w) != 0) {
             w->f18->f44 = func_0202EE30(func_020056BC(), w->f18->f08, 0xF, 0x10, w->f10);
-            func_021A1530(func_02188CCC(w->f08));
+            func_021A1530((u32 *)func_02188CCC(w->f08));
             func_0216A264(w);
-            func_02012DAC(func_020120F4(w->f04));
+            func_02012DAC((int)func_020120F4(w->f04));
             *state = 9;
         }
         break;
@@ -243,9 +243,9 @@ int func_02169AB8(Work *w, u32 *state)
             *state = 10;
             break;
         case 3:
-            func_021A1548(func_02188CCC(w->f08));
-            func_0216A280(w);
-            func_0216A1F8(w);
+            func_021A1548((u32 *)func_02188CCC(w->f08));
+            func_0216A280((int)w);
+            func_0216A1F8((int)w);
             func_02169EA4(w, 7);
             func_0202F038(w->f18->f44);
             *state = 0xD;
@@ -255,8 +255,8 @@ int func_02169AB8(Work *w, u32 *state)
     case 10:
         if (func_021A153C(func_02188CCC(w->f08)) == 1) {
             func_020061E4(0x558);
-            func_0216A280(w);
-            func_0216A1F8(w);
+            func_0216A280((int)w);
+            func_0216A1F8((int)w);
             ws = func_0201EC64(w->f10);
             str = func_02045EC0(w->f18->f04, 5);
             func_0201F02C(ws, 0, func_02012944(func_020120F4(w->f04)));
@@ -269,7 +269,7 @@ int func_02169AB8(Work *w, u32 *state)
         }
         break;
     case 11:
-        if (func_0216A21C(w) == 1 && func_0216A244(w) != 0 && func_02169FB8(w) == 0)
+        if (func_0216A21C((int)w) == 1 && func_0216A244(w) != 0 && func_02169FB8(w) == 0)
             *state = 0xC;
         break;
     case 12:
@@ -277,7 +277,7 @@ int func_02169AB8(Work *w, u32 *state)
             *state = 0x10;
         break;
     case 13:
-        if (func_0216A21C(w) != 1 || func_0216A244(w) == 0)
+        if (func_0216A21C((int)w) != 1 || func_0216A244(w) == 0)
             break;
         *state = 0xE;
     case 14:
@@ -297,19 +297,19 @@ int func_02169AB8(Work *w, u32 *state)
             w->f18->f4C++;
         break;
     case 17:
-        func_02169E0C(w);
+        func_02169E0C((int)w);
         func_021A0F30(func_02188CCC(w->f08), 1);
         *state = 0x12;
         break;
     case 18:
         return 1;
     case 19:
-        func_02169E0C(w);
+        func_02169E0C((int)w);
         func_021A0F30(func_02188CCC(w->f08), 0);
         *state = 0x14;
         break;
     case 20:
-        func_021A0FB4(func_02188CCC(w->f08), w->f10);
+        func_021A0FB4((u32 *)func_02188CCC(w->f08), w->f10);
         return 0;
     }
     return 2;

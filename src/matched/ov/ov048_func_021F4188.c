@@ -19,7 +19,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02088864(void *);
+struct RTCDate;
+extern int func_02088864(struct RTCDate *date);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
 extern u8 d_021F50C0[];
 
@@ -28,7 +29,7 @@ void func_021F4188(int *p)
     struct { u16 a; int b, c, d, e, f, g; } s;
     int buf[4];
 
-    func_02088864(buf);
+    func_02088864((struct RTCDate *)buf);
     switch (buf[3]) {
     case 0: s.f = *(int *)(p[7] + 0x40); break;
     case 1: s.f = *(int *)(p[7] + 0x34); break;

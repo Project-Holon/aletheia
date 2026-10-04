@@ -23,7 +23,8 @@ extern void func_02082BCC(void *p, int v, int n);
 extern void func_02087C6C(void *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D4D0(int a, int b, int c, int d, void *e, int f, int g, int h);
+typedef unsigned int   u32;
+extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 void func_02174084(int a, B32 *src)
 {
@@ -32,5 +33,5 @@ void func_02174084(int a, B32 *src)
     func_02082BCC(&m, 0, 0x28);
     m.a = *src;
     func_02087C6C(m.t);
-    func_0203D4D0((int)func_020399A8(), a, 0x1413, 0x28, &m, 1, 0, 0);
+    func_0203D4D0((int)func_020399A8(), a, 0x1413, 0x28, (u32)(&m), 1, 0, 0);
 }

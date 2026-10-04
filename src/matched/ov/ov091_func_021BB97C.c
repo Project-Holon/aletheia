@@ -13,5 +13,6 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_0201EC64(u16);
-void func_021BB97C(u16 *p,u32 s) { *(u32 *)(s+44)=func_0201EC64(*p); }
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+void func_021BB97C(u16 *p,u32 s) { *(u32 *)(s+44)=(u32)func_0201EC64(*p); }

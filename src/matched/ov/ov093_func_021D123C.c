@@ -17,19 +17,20 @@
  */
 
 extern int func_021EEC20(int, int *);
-extern void func_021EE608(int, int, int);
+typedef unsigned char  u8;
+extern void func_021EE608(u8 *p, const u8 *src, int n);
 extern void func_021BB4E0(int, int, int);
-extern int func_021EE638(int);
+extern u8 func_021EE638(u8 *p);
 
 int func_021D123C(int a)
 {
     int tmp;
     int r4 = func_021EEC20(*(int *)(a + 0x50), &tmp);
     if (*(int *)(a + 0x10) != 0)
-        func_021EE608(*(int *)(a + 0x10), tmp, r4);
+        func_021EE608((u8 *)(*(int *)(a + 0x10)), (const u8 *)tmp, r4);
     if (*(int *)(a + 0xa0) != 0) {
         func_021BB4E0(*(int *)(a + 0xa0), tmp, r4);
-        *(unsigned char *)(a + 0x1ae) = func_021EE638(tmp);
+        *(unsigned char *)(a + 0x1ae) = func_021EE638((u8 *)tmp);
     }
     return 1;
 }

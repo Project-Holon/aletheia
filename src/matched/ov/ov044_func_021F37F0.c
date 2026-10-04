@@ -39,14 +39,15 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D2C(void *a);
+typedef unsigned char  u8;
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
-extern u32 func_02188C58(void *a);
-extern int func_0218EC5C(u32 a);
-extern void func_0218EC54(u32 a);
+extern void *func_02188C58(void *p);
+extern u32 func_0218EC5C(u8 *p);
+extern void func_0218EC54(u8 *p);
 extern void func_0218EC30(u32 a, int v);
 extern void func_020061E4(u32 a);
-extern int *func_021BE480(void *p, int i, int j);
+extern int func_021BE480(char *p, unsigned i, int j);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021BE6BC(int *p);
@@ -67,14 +68,14 @@ int func_021F37F0(void *a, int *b)
     int v[3];
 
     s = func_0201210C(func_020124E4(a));
-    r = func_02188D2C(s);
+    r = (void *)func_02188D2C(s);
     w = func_021897BC(s, 1);
-    h = func_02188C58(s);
+    h = (u32)func_02188C58(s);
     switch (*b) {
     case 0:
         if (w[4] != 0) {
-            w[3] = func_0218EC5C(h);
-            func_0218EC54(h);
+            w[3] = func_0218EC5C((u8 *)h);
+            func_0218EC54((u8 *)h);
         }
         func_020061E4(w[4] == 0 ? 0x6da : 0x6ca);
         (*b)++;
@@ -88,7 +89,7 @@ int func_021F37F0(void *a, int *b)
             }
             (*b)++;
         }
-        func_021BE480(r, 0, 0)[1] = w[0];
+        ((int *)func_021BE480(r, 0, 0))[1] = w[0];
         c = func_02188CB4((void *)s);
         func_021A3038(c, (struct VecFx32 *)v);
         v[1] = w[0];

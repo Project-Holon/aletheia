@@ -50,7 +50,7 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 func_02008374(void *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_02188D30(void *a);
+extern u32 func_02188D30(u8 *p);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern int func_021F5338(void *task, int *st);
@@ -83,7 +83,7 @@ void *func_021F5260(int a0, int a1, int a2, void *a3, int a4)
         w[0x55] = 1;
     w[0x31] = 2;
     task = func_020122C0(a3, 0, (void *)func_021F5338, 0);
-    *(void **)(w + 0x14) = func_02030DA8(func_02188D30(obj), (void *)func_021F5748, w, 0);
+    *(void **)(w + 0x14) = func_02030DA8((void *)func_02188D30(obj), (void *)func_021F5748, w, 0);
     *(void **)(w + 0x18) = func_020056A0((void *)func_021F57D8, w, 1);
     *(int *)(w + 0x1c) = 0;
     *(int *)(w + 0x74) = 1;

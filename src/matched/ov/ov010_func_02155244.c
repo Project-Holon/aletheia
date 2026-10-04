@@ -43,12 +43,14 @@ struct Ctx {
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 v);
+struct BigObj;
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 struct Rec44;
 struct Sub020097BCObj;
 struct Sub24;
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-extern void *func_0201283C(void *party);
+extern u32 func_0201283C(const struct BigObj *p);
 extern int func_02009D1C(void *obj, void *mon, int *out);
 extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
@@ -68,7 +70,7 @@ void func_02155244(struct Ctx *ctx, void *party)
         sel = sel - 1;
         count = 2;
     } else {
-        v = ctx->b78[func_0203D1A4((u32)func_020399A8())];
+        v = ctx->b78[func_0203D1A4((struct Link *)((u32)func_020399A8()))];
         if (v < 2) {
             t = 1;
         } else {
@@ -87,16 +89,16 @@ void func_02155244(struct Ctx *ctx, void *party)
 
     for (i = 0; i < count; i++) {
         mon = func_02012950(party, i);
-        if (i != func_0203D1A4((u32)func_020399A8()) && mon != 0
-            && func_02009D1C(func_0201283C(party), mon, &out) != 0) {
+        if (i != func_0203D1A4((struct Link *)((u32)func_020399A8())) && mon != 0
+            && func_02009D1C((void *)func_0201283C(party), mon, &out) != 0) {
             if (i == sel) {
-                func_02009B80(func_0201283C(party), out);
+                func_02009B80((struct Sub020097BCObj *)func_0201283C(party), out);
             } else if (ctx->fcc == 0) {
-                func_02009BB8(func_0201283C(party), out, 1, 0, 0);
+                func_02009BB8((struct Sub020097BCObj *)func_0201283C(party), out, 1, 0, 0);
             } else if (ctx->fcc == 1) {
-                func_02009BB8(func_0201283C(party), out, 0, 1, 0);
+                func_02009BB8((struct Sub020097BCObj *)func_0201283C(party), out, 0, 1, 0);
             } else {
-                func_02009B80(func_0201283C(party), out);
+                func_02009B80((struct Sub020097BCObj *)func_0201283C(party), out);
             }
         }
     }

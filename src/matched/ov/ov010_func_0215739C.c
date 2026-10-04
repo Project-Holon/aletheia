@@ -54,13 +54,14 @@ extern u8 ov008_id[];
 struct Evt;
 extern void *func_02029BCC(void *a, u32 b);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020124AC(void *h, u32 n, u32 (*fn)(void *, u32), Args *a);
+struct Desc;
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void func_020130DC(Obj *o);
 extern void *func_02029C00(void *h);
 extern void *func_020145CC(void *h);
 extern void *func_02029CC0(void *h);
-extern void *func_021BE92C(void *a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern u32 func_021550A0(void *p, u32 n);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void *func_021550A0(void *a, const int *p);
 
 int func_0215739C(void *evt, u32 *state, Work *w)
 {
@@ -83,7 +84,7 @@ int func_0215739C(void *evt, u32 *state, Work *w)
         a.obj = &w->f08;
         a.sub = w->fF8;
         a.zero = 0;
-        func_02012374(evt, func_020124AC(h, (u32)ov008_id, func_021550A0, &a));
+        func_02012374(evt, (struct Evt **)func_020124AC(h, (u32)ov008_id, (u32 (*)(void *, u32))func_021550A0, (u32)(&a)));
         (*state)++;
         break;
     }
@@ -97,7 +98,7 @@ int func_0215739C(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 7:
-        func_02012374(evt, func_021BE92C(h, w->f04, 0, 0, 1, 0, 0));
+        func_02012374(evt, (struct Evt **)func_021BE92C(h, (int)w->f04, 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 8:

@@ -18,23 +18,23 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 sub_0201C1BC(u16 move);
-extern void func_021C2CD8(u8 *p, u8 *q, u32 a, u32 b);
-extern void func_021C232C(u8 *p, u8 *q, u32 a, u32 b);
+extern void func_021C2CD8(u8 *p, u16 *q, u8 *a, u8 *b);
+extern void func_021C232C(u8 *p, const u16 *a, u32 b, u8 *c);
 
 void func_021C1880(u8 *p, u8 *q, u32 a, u32 b, u32 s0, int s1)
 {
     switch (sub_0201C1BC(*(u16 *)q)) {
     case 7:
-        func_021C2CD8(p, q, a, a);
+        func_021C2CD8(p, (u16 *)q, (u8 *)a, (u8 *)a);
         break;
     case 6:
         if (s1 == 0) {
-            func_021C2CD8(p, q, a, b);
+            func_021C2CD8(p, (u16 *)q, (u8 *)a, (u8 *)b);
         }
         break;
     case 4:
         if (s1 == 0) {
-            func_021C232C(p, q, a, b);
+            func_021C232C(p, (const u16 *)q, a, (u8 *)b);
         }
         break;
     }

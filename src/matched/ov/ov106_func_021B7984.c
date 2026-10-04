@@ -47,7 +47,12 @@ extern int func_0207CA68(const Vec *,const Vec *),func_0207C768(int,int);
 extern void func_021B900C(u8 *,int,int),func_021B8408(u8 *,s16),func_021B9134(u8 *);
 extern int func_021B9198(u8 *);
 extern s16 func_021B913C(u8 *);
-extern void func_021B78D0(u8 *,u32),func_021B7948(u8 *,u32,u8 *),func_021B838C(u8 *),func_021B8DA8(int *),func_021B8FD0(u8 *),func_021B71E4(u32);
+extern void func_021B78D0(u8 *,u32);
+extern void func_021B7948(u8 *a, int *s);
+extern void func_021B838C(u8 *);
+extern void func_021B8DA8(int *);
+extern void func_021B8FD0(u8 *);
+extern void func_021B71E4(u32);
 #define ROUND(a) ((int)((a)!=0 ? (float)((a)<<12)+0.5f : (float)((a)<<12)-0.5f))
 #define SCALE(a) ((int)(((long long)func_0207C768(ROUND(a)-81920,163840)*245760+2048)>>12))
 void func_021B7984(u8 *a,u32 unused,u8 *p) {

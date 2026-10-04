@@ -20,11 +20,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B404(void *, u32, u32);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_0220E7CC(u8 *p, u32 b)
 {
     func_0204B3DC((struct Obj *)p, 1);
-    func_0204B404(p, b, 1);
+    func_0204B404((struct Obj *)p, (const struct Vec2 *)b, 1);
 }
 

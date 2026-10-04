@@ -17,7 +17,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02033CA8(u32 a, u32 b);
+typedef signed int     s32;
+struct AreaMan;
+extern s32 func_02033CA8(struct AreaMan *p, u32 len);
 
 int func_02034660(u8 *p, u32 a, void **out)
 {
@@ -28,7 +30,7 @@ int func_02034660(u8 *p, u32 a, void **out)
     if (a % d != 0) {
         q++;
     }
-    v = func_02033CA8(*(u32 *)p, q);
+    v = func_02033CA8((struct AreaMan *)(*(u32 *)p), q);
     if (v != (u32)-1) {
         out[0] = (void *)v;
         out[1] = (void *)q;

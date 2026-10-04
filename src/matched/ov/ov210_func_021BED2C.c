@@ -19,8 +19,10 @@
  */
 
 extern void func_021BEE94(void);
-extern void func_021BEEC4(int p);
-extern void func_021BF0DC(int p);
+struct Obj021BF0DC;
+struct Res021BEEC4;
+extern void func_021BEEC4(struct Res021BEEC4 *p);
+extern void func_021BF0DC(struct Obj021BF0DC *p);
 typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
@@ -28,8 +30,8 @@ extern void func_02043598(u32 mask, u32 enable);
 void func_021BED2C(int p)
 {
     func_021BEE94();
-    func_021BEEC4(p);
-    func_021BF0DC(p);
+    func_021BEEC4((struct Res021BEEC4 *)p);
+    func_021BF0DC((struct Obj021BF0DC *)p);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

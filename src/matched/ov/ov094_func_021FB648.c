@@ -28,9 +28,9 @@ extern void *func_02030734(unsigned int heap, unsigned int size, int clear, cons
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern int func_02030DA8(int a, void (*fn)(void), int *p, int d);
-extern void func_021F896C(int a, void (*fn)(void), int b);
-extern void func_021FE79C(void);
-extern void func_021FE8AC(void);
+extern void func_021F896C(void *h, void (*cb)(void *), int arg);
+extern void func_021FE79C(void *h, int *s);
+extern void func_021FE8AC(void *h);
 
 int func_021FB648(int a, char *b)
 {
@@ -47,7 +47,7 @@ int func_021FB648(int a, char *b)
     p[9] = func_0201134C(a);
     func_02040588(1, 0);
     func_02040588(2, 0);
-    func_021F896C(func_02030DA8(*(int *)(b + 8), func_021FE79C, p, 0), func_021FE8AC, 1);
+    func_021F896C((void *)func_02030DA8(*(int *)(b + 8), (void (*)(void))func_021FE79C, p, 0), func_021FE8AC, 1);
     *(unsigned int *)b |= 0x100;
     return *(int *)(b + 0x23c);
 }

@@ -82,7 +82,8 @@ typedef struct {
 } Work;
 
 extern void func_021D1F50(Work *);
-extern void *func_021904B0(void *, u32);
+struct P;
+extern int func_021904B0(u32 a, u32 b);
 extern void *func_02190F64(void *, void *);
 extern void *func_0201EC64(u32);
 extern void *func_020457B0(u32, u32);
@@ -92,36 +93,36 @@ extern void func_02190E74(void *, u32, u32, u32);
 extern int func_02190EF0(void *);
 extern void *func_02190BE4(void *, u32);
 extern int func_02190C78(void *);
-extern void func_021909BC(void *);
+extern int func_021909BC(u32 a);
 extern void func_02190F7C(void *);
 extern void func_02034F84(u32);
 extern void *func_02006CBC(u32);
 extern void *sub_020056BC(void *);
 extern void *func_02190F9C(void *);
-extern void *func_0202EE30(void *, void *, u32, u32, u32);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void func_02006D64(u32);
 extern int func_02006D94(void);
 extern void func_0202F038(void *);
 extern void *func_020295A4(void *, u32);
 extern void func_02012374(void *, void *);
-extern int func_02006DD8(void *, int *);
-extern void func_021D1F48(void);
+extern u32 func_02006DD8(void *a, u32 b);
+extern void func_021D1F48(void *unused, int *done);
 extern void *func_02045EC0(void *, u32);
 extern void func_0201EEF4(void *, u32, void *);
 extern void func_0201F250(void *, void *, void *);
 extern void func_02045808(void *);
-extern void func_02190EB8(void *, u32, u32, void *);
+extern void func_02190EB8(struct P *p, u32 b, u16 c, u32 d);
 extern void func_02006D44(void);
 extern void func_02034FB8(u32);
-extern void *func_02029620(void *, u32, u32);
+extern void *func_02029620(void *a, u16 b, u16 c);
 extern void func_02006E18(void *);
 extern int func_021D2040(Work *);
 extern void func_02006CAC(void *);
-extern void *func_02006984(u32, u32, u32, u32, u32, u32, u32, void *);
-extern int sub_02006BD0(void *);
+extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern u32 sub_02006BD0(u32 i);
 extern void func_021D2124(Work *);
 extern void func_0201ED04(void *);
-extern void func_02190E40(void *);
+extern int func_02190E40(u32 a);
 extern void func_021904C8(void *);
 extern void func_021D1F64(Work *);
 
@@ -137,7 +138,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         *seq = 1;
         break;
     case 1:
-        w->x18 = t = func_021904B0(w->x1C, 88);
+        w->x18 = t = (void *)func_021904B0((u32)w->x1C, 88);
         w->x20 = func_02190F64(w->x1C, t);
         w->x28 = func_0201EC64(21);
         w->x2C = func_020457B0(0x400, 21);
@@ -159,13 +160,13 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
     case 3:
         switch (func_02190C78(w->x24)) {
         case 0:
-            func_021909BC(w->x24);
+            func_021909BC((u32)w->x24);
             func_02190F7C(w->x20);
             func_02190E74(w->x20, 0, 0, 6);
             *seq = 4;
             break;
         case 1:
-            func_021909BC(w->x24);
+            func_021909BC((u32)w->x24);
             *seq = 13;
             break;
         }
@@ -190,7 +191,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         break;
     case 6:
         if (func_02190EF0(w->x20) == 1) {
-            if (func_02006DD8(func_021D1F48, &w->x54) == 0) {
+            if (func_02006DD8(func_021D1F48, (u32)(&w->x54)) == 0) {
                 *seq = 7;
             } else {
                 a = func_02045EC0(w->x18, 3);
@@ -198,7 +199,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
                 func_0201F250(w->x28, w->x2C, a);
                 func_02045808(a);
                 func_02190F7C(w->x20);
-                func_02190EB8(w->x20, 0, 0, w->x2C);
+                func_02190EB8(w->x20, 0, 0, (u32)w->x2C);
                 func_02006D44();
                 func_02034FB8(8);
                 func_02012374(proc, func_02029620(w->x04, 0, 30));
@@ -222,7 +223,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
             func_0201F250(w->x28, w->x2C, a);
             func_02045808(a);
             func_02190F7C(w->x20);
-            func_02190EB8(w->x20, 0, 0, w->x2C);
+            func_02190EB8(w->x20, 0, 0, (u32)w->x2C);
             *seq = 9;
         }
         break;
@@ -233,11 +234,11 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         break;
     case 10:
         func_02006CAC(&buf);
-        w->x50 = func_02006984(0x1B9, 0, 64, 0, 0, 0, 0, &buf);
+        w->x50 = (void *)func_02006984(0x1B9, 0, 64, 0, 0, 0, 0, (u32)(&buf));
         *seq = 11;
         break;
     case 11:
-        if (sub_02006BD0(w->x50) == 0) {
+        if (sub_02006BD0((u32)w->x50) == 0) {
             *seq = 13;
         }
         break;
@@ -250,7 +251,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         func_021D2124(w);
         func_02045808(w->x2C);
         func_0201ED04(w->x28);
-        func_02190E40(w->x20);
+        func_02190E40((u32)w->x20);
         func_021904C8(w->x18);
         *seq = 14;
         break;

@@ -23,7 +23,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 struct Desc;
-extern struct Desc *func_02158920(void *a, int b, int c, int d, int e);
+extern struct Desc *func_02158920(int a, int b, int c, int d, int e);
 extern void *func_020124E8(struct Obj *p);
 extern int func_0201235C();
 
@@ -48,7 +48,7 @@ a1 = 0;
 a1 = t6 + 0;
 a2 = t5 + 0;
 a3 = t4 + 0;
-    v0 = func_02158920(p, a1, a2, a3, o4);
+    v0 = func_02158920((int)p, a1, a2, a3, o4);
 loc_021587CC:
     q = func_020124E8((struct Obj *)v0);
 loc_021587D2:

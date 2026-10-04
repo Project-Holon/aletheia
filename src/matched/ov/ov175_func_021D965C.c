@@ -72,16 +72,22 @@ struct Profile {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 func_02012944(u32 a);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_0200B358(u32 a);
-extern u32 func_0200B204(u32 a, u32 b);
-extern void *func_0200B074(u32 a);
-extern u32 func_0200B078(u32 a, u32 b);
-extern u32 func_02008554(u32 a);
+typedef signed int     s32;
+struct Big;
+struct Rec1E;
+struct RecBig;
+struct Reg2;
+struct Sub0200852CObj;
+extern u8 *func_02012944(void *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200B358(void *sys);
+extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
+extern u8 *func_0200B074(struct Reg2 *p);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_0200DFD8(u32 a, u32 b, u32 c);
-extern u32 func_021E5548(u32 a);
-extern u32 func_021E5D68(struct Profile *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 j, u32 k);
+extern int func_021E5548(int *p);
+extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 
 void func_021D965C(struct Obj *obj)
 {
@@ -96,26 +102,26 @@ void func_021D965C(struct Obj *obj)
 
     if (obj->f1c == 0) {
         data = obj->f108;
-        sys = func_02012944(*obj->f104->f08);
-        id = func_021E5548(obj->f00);
-        kind = func_0200B204(func_0200B358(func_02012EBC(*obj->f104->f08)), 0);
+        sys = (u32)func_02012944((void *)(*obj->f104->f08));
+        id = func_021E5548((int *)obj->f00);
+        kind = (u32)func_0200B204(func_0200B358(func_02012EBC((struct Big *)(*obj->f104->f08))), 0);
         MI_CpuFill8(&prof, 0, sizeof(prof));
-        MI_CpuCopy8(func_0200B074(data), &prof, 0x92);
-        a = func_0200B078(data, 6);
-        b = func_0200B078(data, 5);
-        c = func_0200B078(data, 4);
+        MI_CpuCopy8(func_0200B074((struct Reg2 *)data), &prof, 0x92);
+        a = func_0200B078((struct Reg2 *)data, 6);
+        b = func_0200B078((struct Reg2 *)data, 5);
+        c = func_0200B078((struct Reg2 *)data, 4);
         prof.f94 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
-        a = func_0200B078(data, 9);
-        b = func_0200B078(data, 8);
-        c = func_0200B078(data, 7);
+        a = func_0200B078((struct Reg2 *)data, 9);
+        b = func_0200B078((struct Reg2 *)data, 8);
+        c = func_0200B078((struct Reg2 *)data, 7);
         prof.f98 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
-        prof.f9c = func_02008554(sys);
+        prof.f9c = func_02008554((const struct Sub0200852CObj *)sys);
         prof.fa0 = func_0200DFD8(obj->f104->f10, 10, 0);
         a = func_0200DFD8(obj->f104->f10, 10, 1);
         prof.fa4 = a + func_0200DFD8(obj->f104->f10, 10, 2);
-        prof.faa = func_0200B078(data, 11);
+        prof.faa = func_0200B078((struct Reg2 *)data, 11);
         if (prof.fa4 == 0 && prof.fa0 == 0)
             prof.fa0 = 1500;
-        obj->f1c = func_021E5D68(&prof, 0, sys, id, obj->f04, obj->f08, obj->f10, obj->f14, obj->f18, kind, 0, 0x57);
+        obj->f1c = (u32)func_021E5D68((char *)(&prof), 0, (void *)sys, (void *)id, (void *)obj->f04, obj->f08, (void *)obj->f10, (void *)obj->f14, (void *)obj->f18, (void *)kind, 0, 0x57);
     }
 }

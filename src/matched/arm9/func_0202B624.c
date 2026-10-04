@@ -24,10 +24,11 @@ typedef unsigned int   u32;
 struct Obj;
 
 extern void *func_0202B7F8(struct Obj *o);
-extern u32 func_0202B3A0(u32 a, u32 b, u32 c);
+struct Node;
+extern struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId);
 
 void func_0202B624(struct Obj *o)
 {
-    *(u32 *)((u8 *)o + 0x18) = func_0202B3A0(*(u32 *)((u8 *)o + 0x4),
+    *(u32 *)((u8 *)o + 0x18) = (u32)func_0202B3A0(*(u32 *)((u8 *)o + 0x4),
                                              (u32)func_0202B7F8(o), *(u16 *)o);
 }

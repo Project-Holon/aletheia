@@ -38,7 +38,8 @@ struct Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020122C0(int, int, void (*)(void), int);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_0215A214(void);
@@ -54,7 +55,7 @@ void *func_0215A07C(int a, u16 *b, u16 *c)
     p[0x34 / 4] = 3;
     p[0x38 / 4] = 0;
     p[0x3c / 4] = 0;
-    r = func_020122C0(a, 0, func_0215A214, 0x18);
+    r = func_020122C0((void *)a, 0, func_0215A214, 0x18);
     q = func_020124E8(r);
     q->f0 = (void *)a;
     q->f4 = func_0201210C((void *)a);

@@ -24,12 +24,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16  func_021BC3C0(int key);
-extern u32  func_0201EC64(u32 heap);
-extern u32  func_020457B0(u32 size, u32 heap);
-extern void func_0201EE60(u32 ws, u32 i, u16 v);
-extern void func_0201F250(u32 ws, u32 dst, u32 src);
-extern void func_0201ED04(u32 ws);
-extern u32  func_02045EC0(u32 msg, u32 id);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201ED04(struct WordSet *p);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,
                          u16 idx)
@@ -47,12 +50,12 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
     k = func_021BC3C0(key);
     switch (*(u32 *)(p + 0x148 + idx * 16)) {
     case 0:
-        ws = func_0201EC64(*heap);
+        ws = (u32)func_0201EC64(*heap);
         src = *(u32 *)(p + 0x5a4);
-        str = func_020457B0(0x40, *heap);
-        func_0201EE60(ws, 0, k);
-        func_0201F250(ws, str, src);
-        func_0201ED04(ws);
+        str = (u32)func_020457B0(0x40, *heap);
+        func_0201EE60((struct WordSet *)ws, 0, k);
+        func_0201F250((struct WordSet *)ws, (void *)str, (void *)src);
+        func_0201ED04((struct WordSet *)ws);
         c = 1;
         break;
     case 1:
@@ -72,7 +75,7 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
             if (k == 0)
                 break;
         }
-        str = func_02045EC0(*(u32 *)(p + 0x598), k);
+        str = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x598)), k);
         c = 1;
         break;
     }

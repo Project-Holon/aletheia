@@ -32,11 +32,11 @@ typedef unsigned int u32;
 extern u32  func_0203D29C(void);
 typedef signed short   s16;
 extern s16 func_02156B70(void);
-extern void func_02005F24(void *a, void *b);
+extern void func_02005F24(u32 a0, u32 a1);
 
 void sub_0200F698(void *a, void *b)
 {
     if (func_0203D29C() == 0 || func_02156B70() == 0) {
-        func_02005F24(a, b);
+        func_02005F24((u32)a, (u32)b);
     }
 }

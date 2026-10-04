@@ -24,13 +24,17 @@ typedef unsigned short u16;
 extern void func_02082BCC(void *, int, int);
 typedef unsigned int   u32;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern int func_020457B0(int, u16);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(int, u8);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(int);
-extern int func_02045730(int);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 void func_021B7D38(u8 *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g, u8 h, u16 heap)
 {
@@ -38,12 +42,12 @@ void func_021B7D38(u8 *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g, u8 h, u16
     func_02082BCC(p, 0, 20);
     *(u16 *)(p + 16) = g;
     *(int *)p = func_020450F0(a, b, c, d, e, f, h);
-    *(int *)(p + 12) = func_020457B0(255, heap);
+    *(int *)(p + 12) = (int)func_020457B0(255, heap);
     *(int *)(p + 4) = *(int *)p;
     p[8] = 0;
-    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p), *(u16 *)(p + 16));
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)p)), *(u16 *)(p + 16));
     win = *(int *)p;
     func_02045334((struct Descriptor *)win);
-    func_02045374(win);
-    func_020409B4(func_02045730(win));
+    func_02045374((struct Cfg *)win);
+    func_020409B4(func_02045730((struct Descriptor *)win));
 }

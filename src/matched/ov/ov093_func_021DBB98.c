@@ -19,7 +19,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 struct QI;
 extern u16 func_021D5B40(struct QI *p);
 extern void func_021D7704(int a, int b);
@@ -27,7 +27,7 @@ extern void func_021D7704(int a, int b);
 void func_021DBB98(int u, int a, int b, int *c)
 {
     if (b == func_021D775C(2) && *c == 1) {
-        if (func_021D5B40(func_021C7CF4(a, b)) == 0) {
+        if (func_021D5B40(func_021C7CF4((int *)a, b)) == 0) {
             func_021D7704(0x35, 2 << 12);
         }
     }

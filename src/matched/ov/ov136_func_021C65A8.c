@@ -23,7 +23,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 d_021C7BA0[];
 extern const u8 d_021C78E0[];
-extern void func_0204A48C(const void *, const void *, u32);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204B270(struct Bank *bank);
@@ -33,7 +34,7 @@ void func_021C65A8(u8 *p)
 {
     void *bank;
 
-    func_0204A48C(d_021C7BA0, d_021C78E0, 0x66);
+    func_0204A48C((const struct Cfg *)d_021C7BA0, (u32)d_021C78E0, 0x66);
     bank = func_0204B100(8, 0, 0x66);
     *(void **)(p + 0x1EC) = bank;
     func_0204B270(bank);

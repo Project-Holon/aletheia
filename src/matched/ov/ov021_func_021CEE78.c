@@ -49,7 +49,7 @@ typedef struct {
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(const void *src, void *dst, u32 n);
-extern void func_02008494(u32 name, void *dst);
+extern void func_02008494(void *src, void *dst);
 
 void func_021CEE78(u8 *p, u8 *a, u32 b)
 {
@@ -65,7 +65,7 @@ void func_021CEE78(u8 *p, u8 *a, u32 b)
     for (i = 0; i < 16; i++) {
         if (n->e[i].used == 0) {
             func_02082D44(a, n->e[i].mac, 6);
-            func_02008494(b, n->e[i].name);
+            func_02008494((void *)b, n->e[i].name);
             n->e[i].timer = 150;
             n->e[i].used = 1;
             n->f2d1 = 1;

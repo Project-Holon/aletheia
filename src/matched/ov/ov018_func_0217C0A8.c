@@ -26,15 +26,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int func_02026478();
-extern int func_02012B70();
-extern int func_02012B80();
-extern int func_02012B58();
+struct BigObj;
+extern u8 func_02012B70(const struct BigObj *p);
+extern u8 func_02012B80(const struct BigObj *p);
+extern u8 func_02012B58(const struct BigObj *p);
 extern int func_02026454();
 extern u8 *func_02026474();
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 extern u8 *func_02012950();
-extern u8 *func_02012944();
+extern u8 *func_02012944(void *p);
 extern u8 func_02008550(u8 *obj);
 
 u8 func_0217C0A8(int a0)
@@ -44,20 +45,20 @@ u8 func_0217C0A8(int a0)
     u8 *obj;
 
     h = func_02026478(a0);
-    if (func_02012B70(h) == 0) {
-        obj = func_02012944(h);
-    } else if (func_02012B80(h) == func_02012B58(h)) {
-        obj = func_02012944(h);
+    if (func_02012B70((const struct BigObj *)h) == 0) {
+        obj = func_02012944((void *)h);
+    } else if (func_02012B80((const struct BigObj *)h) == func_02012B58((const struct BigObj *)h)) {
+        obj = func_02012944((void *)h);
     } else {
         q = 0;
         if (func_02026454(a0) == 2 && func_02026474(a0) != 0)
             q = func_02026474(a0);
         if (q == 0) {
-            obj = func_02012944(h);
+            obj = func_02012944((void *)h);
         } else if (func_02013D5C(*(u16 *)(q + 0x84)) == 1) {
-            obj = func_02012944(h);
+            obj = func_02012944((void *)h);
         } else {
-            obj = func_02012950(h, func_02012B80(h));
+            obj = func_02012950(h, func_02012B80((const struct BigObj *)h));
         }
     }
     return func_02008550(obj);

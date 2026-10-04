@@ -24,10 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_0201D7EC();
+struct GfFont;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 void func_021BC8B4(u32 a0)
 {
     u8 s[4];
-    *(u32*)(((u8*)a0) + 12) = func_0201D7EC(23, 0, 0, 0, (u32)(*(u16*)(((u8*)a0) + 8)));
+    *(u32*)(((u8*)a0) + 12) = (u32)func_0201D7EC(23, 0, 0, 0, (u32)(*(u16*)(((u8*)a0) + 8)));
 }
 

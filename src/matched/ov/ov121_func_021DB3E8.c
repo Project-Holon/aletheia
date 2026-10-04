@@ -22,9 +22,9 @@ struct Descriptor;
 struct Obj;
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(void *);
-extern void func_0204AFD8(void *);
-extern void func_0204ADA4(void *);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_021D9A40(u8 *p);
 void func_021DB3E8(char *p)
@@ -35,11 +35,11 @@ void func_021DB3E8(char *p)
     for(i=0;i<2;i++) func_0204B3B4(*(void **)(p+0xaf4+i*4));
     func_0204B3B4(*(void **)(p+0xaf0));
     func_0204B3B4(*(void **)(p+0xaec));
-    func_0204A8D4(*(void **)(p+0xafc));
-    func_0204AFD8(*(void **)(p+0xb00));
-    func_0204ADA4(*(void **)(p+0xb04));
+    func_0204A8D4((u32)(*(void **)(p+0xafc)));
+    func_0204AFD8((u32)(*(void **)(p+0xb00)));
+    func_0204ADA4((u32)(*(void **)(p+0xb04)));
     func_021D9A40(*(void **)(p+0xab4));
     *(void **)(p+0xab4)=0;
-    func_0204ADA4(*(void **)(p+0xba8));
+    func_0204ADA4((u32)(*(void **)(p+0xba8)));
     for(i=0;i<8;i++) func_020452E8(*(void **)(p+0xb08+i*4));
 }

@@ -17,7 +17,7 @@
  *   g_021DE594  0x021DE594  data
  */
 
-extern int func_021BC7F0(void *param);
+extern int func_021BC7F0(int a);
 extern void OS_Terminate(void);
 extern int *g_021DE594;
 
@@ -36,7 +36,7 @@ int func_021C1518(void)
 	case 4:
 		return 2;
 	case 6:
-		if (func_021BC7F0(prm) != 1)
+		if (func_021BC7F0((int)prm) != 1)
 			OS_Terminate();
 		if (prm[8] >= 0 && prm[8] <= 3 && prm[9] == 1)
 			return 3;

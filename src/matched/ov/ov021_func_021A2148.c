@@ -16,9 +16,9 @@
  *   func_0218E188 0x0218E188 thumb ov021
  */
 
-int func_0218E188(int a);
+int func_0218E188(unsigned char *o);
 
 int func_021A2148(unsigned char *o)
 {
-    return func_0218E188(*(int *)(o + 0x14));
+    return func_0218E188((unsigned char *)(*(int *)(o + 0x14)));
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021E0E2C 0x021E0E2C thumb ov137
  */
-extern void func_021E0E2C(char *,char *);
+extern void func_021E0E2C(char *p, int value);
 typedef struct { int active; char rest[0xb0]; } Record;
 typedef struct { char pad[0x140]; Record records[1]; } Block;
 void func_021E0E50(char *p)
@@ -22,7 +22,7 @@ void func_021E0E50(char *p)
     int i;
     i=0;
     do {
-        if (base->records[i].active) func_021E0E2C(p,(char *)&base->records[i]);
+        if (base->records[i].active) func_021E0E2C(p,(int)((char *)&base->records[i]));
         i++;
     } while (i<count);
 }

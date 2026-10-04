@@ -53,7 +53,7 @@ extern void func_021BD310(unsigned short *name, int msgId);
 extern void func_021BC820(int color);
 extern int func_021D0B44(void (*callback)(int));
 extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CE45C(int state);
 extern void func_021CE1B0(void);
 
@@ -72,5 +72,5 @@ void func_021CE070(void)
     func_021BC820(0);
     func_021D0B44(func_021CE45C);
     func_021CFFAC(11);
-    func_021C0E40(func_021CE1B0);
+    func_021C0E40((unsigned int)func_021CE1B0);
 }

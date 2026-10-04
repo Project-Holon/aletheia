@@ -20,10 +20,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02026474();
+extern u32 func_02026474(void *obj);
 extern u32 func_0200FB24(void);
-extern int func_02026454();
-extern int func_02026460();
+extern u32 func_02026454(void *obj);
+extern u32 func_02026460(void *obj);
 
 int func_02158344(int a0)
 {
@@ -31,7 +31,7 @@ int func_02158344(int a0)
     int t5;
 
 t5 = a0 + 0;
-    a0 = func_02026474(a0);
+    a0 = func_02026474((void *)a0);
 loc_0215834C:
 t4 = a0 + 0;
     a0 = func_0200FB24();
@@ -39,12 +39,12 @@ loc_02158352:
     if (a0 != 0) goto loc_0215836E;
 loc_02158356:
 a0 = t5 + 0;
-    a0 = func_02026454(a0);
+    a0 = func_02026454((void *)a0);
 loc_0215835C:
     if (a0 != 2) goto loc_0215836E;
 loc_02158360:
 a0 = t5 + 0;
-    a0 = func_02026460(a0);
+    a0 = func_02026460((void *)a0);
 loc_02158366:
     if (a0 == 1) goto loc_0215836E;
 loc_0215836A:

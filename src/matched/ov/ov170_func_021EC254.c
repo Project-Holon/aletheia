@@ -20,15 +20,17 @@ typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0201BC3C(void);
-extern void *func_0204ACEC(void *, unsigned, int, int, unsigned);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern void *func_0204AF28(void *, unsigned, unsigned, unsigned);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 void func_021EC254(char *p)
 {
     void *h = func_020490F4(7, 0x4C);
-    *(void **)(p + 0xA108) = func_0204ACEC(h, func_0201BC3C(), 0, 0x60, 0x4C);
-    *(void **)(p + 0xA134) = func_0204AF28(h, func_0201BC40(), func_0201BCB4(), 0x4C);
+    *(void **)(p + 0xA108) = (void *)func_0204ACEC(h, func_0201BC3C(), 0, 0x60, 0x4C);
+    *(void **)(p + 0xA134) = (void *)func_0204AF28(h, func_0201BC40(), func_0201BCB4(), 0x4C);
     func_02049238(h);
 }

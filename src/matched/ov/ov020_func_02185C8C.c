@@ -28,14 +28,16 @@ typedef unsigned char  u8;
 struct Desc;
 struct Obj;
 void func_020061E4(u32 a);
-int func_02189A08(int a);
-int func_021CF498(int a, int b, int c);
+struct Ctx;
+struct Evt;
+int func_02189A08(unsigned char *p);
+void func_021CF498(struct Ctx *c, u32 x, int idx);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void func_02184CEC(void *obj, void *p);
 int func_02184504(int a, int *state, u8 *p);
-void func_02012374(int a, void *b);
-void *func_021BE9F0(int a, int b, int c, int d, int e);
+void func_02012374(struct Evt *evt, struct Evt **out);
+void *func_021BE9F0(void *p, int a1, int a2, int a3, int a4);
 
 int func_02185C8C(int a0, int *st, int *p)
 {
@@ -47,7 +49,7 @@ int func_02185C8C(int a0, int *st, int *p)
     switch (st[0]) {
     case 0:
         func_020061E4(0x773);
-        func_021CF498(func_02189A08(r6), a0, 0x24);
+        func_021CF498((struct Ctx *)func_02189A08((unsigned char *)r6), a0, 0x24);
         st[0]++;
         break;
     case 1:
@@ -57,11 +59,11 @@ int func_02185C8C(int a0, int *st, int *p)
         *(S7 *)(n + 4) = *(S7 *)p;
         n[0xb] = 0;
         n[0x10] = 0;
-        func_02012374(a0, h);
+        func_02012374((struct Evt *)a0, h);
         st[0]++;
         break;
     case 2:
-        func_02012374(a0, func_021BE9F0(r7, r6, 0, 0, 2));
+        func_02012374((struct Evt *)a0, func_021BE9F0((void *)r7, r6, 0, 0, 2));
         st[0]++;
         break;
     case 3:

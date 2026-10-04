@@ -20,12 +20,13 @@
 
 typedef signed short s16;
 
-int func_0215A5EC(int b);
+typedef unsigned int   u32;
+void *func_0215A5EC(void *p);
 unsigned int func_02159B10(void *a0, void *a1);
-int func_0216DE94(int a, int b);
+void *func_0216DE94(void *map, u32 id);
 s16 *func_02159AE8(void *a0, void *a1);
-s16 func_0216D83C(int a);
-s16 func_0216D86C(int a);
+int func_0216D83C(void *p);
+int func_0216D86C(void *p);
 
 int func_021B176C(int a, int b)
 {
@@ -33,11 +34,11 @@ int func_021B176C(int a, int b)
     s16 *r7;
     s16 *r4;
 
-    r6 = func_0215A5EC(b);
-    r6 = func_0216DE94(r6, func_02159B10((void *)a, (void *)b));
+    r6 = (int)func_0215A5EC((void *)b);
+    r6 = (int)func_0216DE94((void *)r6, func_02159B10((void *)a, (void *)b));
     r7 = func_02159AE8((void *)a, (void *)b);
     r4 = func_02159AE8((void *)a, (void *)b);
-    *r7 = func_0216D83C(r6);
-    *r4 = func_0216D86C(r6);
+    *r7 = func_0216D83C((void *)r6);
+    *r4 = func_0216D86C((void *)r6);
     return 0;
 }

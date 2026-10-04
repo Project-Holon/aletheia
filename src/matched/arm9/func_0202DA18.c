@@ -14,9 +14,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32  func_0202D61C(u32 a, u32 b);
-extern void func_0204AC18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+typedef signed int     s32;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 void func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e)
 {
-    func_0204AC18(a, func_0202D61C(b, 0), c, d, 0, 1, e);
+    func_0204AC18((void *)a, func_0202D61C(b, 0), c, d, 0, 1, e);
 }

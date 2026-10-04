@@ -69,7 +69,7 @@ struct Ctrl {
 
 extern struct Desc func_0200725C_Table[];
 
-extern void *func_0203192C(struct Desc *desc, u32 heap);
+extern u32 func_0203192C(void *a, void *b);
 struct Obj02031DC0;
 extern int func_02008784(void *sys, u32 index);
 extern u32 *func_020087D4(void *sys, u32 index);
@@ -77,7 +77,7 @@ extern int func_02031DC0(struct Obj02031DC0 *a0, u32 a1, u32 a2);
 
 u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap)
 {
-    ctrl->unk14[id] = func_0203192C(&func_0200725C_Table[id], heap);
+    ctrl->unk14[id] = (void *)func_0203192C(&func_0200725C_Table[id], (void *)heap);
     if (func_02008784(ctrl, id) == 0) {
         return 0;
     }

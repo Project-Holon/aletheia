@@ -34,7 +34,7 @@ typedef unsigned int u32;
 extern char d_021F4080[];
 extern char d_021F3E74[];
 
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(void *a, int b, u16 c, int d);
 extern u8 *func_021897BC(void *p, int i);
@@ -55,7 +55,7 @@ void func_021F3868(void *a)
     int h;
     u8 *w;
 
-    s = func_02188D2C(a);
+    s = (void *)func_02188D2C(a);
     h = (func_02188C84(a) & 0x7FFF) | 0x8000;
     func_02189764(a, 1, h, 0x28);
     w = func_021897BC(a, 1);

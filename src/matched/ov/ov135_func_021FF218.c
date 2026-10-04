@@ -17,9 +17,12 @@
  *   d_02203D4A 0x02203D4A data a2
  */
 typedef unsigned short u16;
-extern int func_0204B98C(unsigned);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern u32 func_0204B98C(struct Actor *a);
 extern int func_021FE9B0(char *);
-extern void func_0204B878(unsigned, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 struct Obj;
@@ -28,8 +31,8 @@ extern const u16 d_02203D4A[][4];
 extern void func_021FE264(char *, int);
 int func_021FF218(char *p)
 {
-    if (func_0204B98C(*(unsigned *)(p + 0xbf4)) == 0) {
-        func_0204B878(*(unsigned *)(p + 0xbf4), d_02203D4A[func_021FE9B0(p)][0]);
+    if (func_0204B98C((struct Actor *)(*(unsigned *)(p + 0xbf4))) == 0) {
+        func_0204B878((struct Obj *)(*(unsigned *)(p + 0xbf4)), d_02203D4A[func_021FE9B0(p)][0]);
         if (func_020355C4() == 1)
             func_0204B3DC((struct Obj *)*(unsigned *)(p + 0xbf4), 0);
         else

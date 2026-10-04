@@ -33,7 +33,7 @@ typedef struct GPGetReverseBuddiesListResponseArg {
 
 typedef void (*GPCallback)(void **, void *, void *);
 
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_021908B0(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern char g_021A4010[];
 extern char g_021A4024[];
@@ -46,12 +46,12 @@ int func_02186564(void **connection, int *targets, int numOfTargets, int blockin
     if (connection == 0 || *connection == 0)
         return 2;
     if (callback == 0) {
-        func_02193734(connection, g_021A4010);
+        func_02193734((int *)connection, (int)g_021A4010);
         return 2;
     }
     iconnection = (GPIConnection *)*connection;
     if (iconnection->f1F4 == 4) {
-        func_02193734(connection, g_021A4024);
+        func_02193734((int *)connection, (int)g_021A4024);
         return 2;
     }
     if (iconnection->f108 != 0) {

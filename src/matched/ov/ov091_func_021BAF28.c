@@ -26,29 +26,33 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern u32 func_0201EC64(u16 a);
+struct MsgBank;
+struct Obj;
+struct U16Vec;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void *g_020A7370;
-extern u32 func_02045EC0(void *a, int b);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(u32 a, int b, u32 c, int d, int e, int f);
-extern void func_021B9CF4(u8 *a, u32 b, u32 c, int d, s16 e, s16 f, u16 g);
-extern void func_02045808(u32 a);
-extern void func_0201ED04(u32 a);
+extern void func_021B9CF4(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B878(int a, int b);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BAF28(u8 *a, u8 *s)
 {
     u32 r6;
     u32 r7;
 
-    r6 = func_0201EC64(*(u16 *)a);
-    r7 = func_02045EC0(g_020A7370, 0x28a);
+    r6 = (u32)func_0201EC64(*(u16 *)a);
+    r7 = (u32)func_02045EC0(g_020A7370, 0x28a);
     func_0201EE0C(r6, 0, r7, 0, 1, 2);
-    func_021B9CF4(a, *(u32 *)(s + 0x20), r6, 3, 0x29, 9, 0x440);
-    func_02045808(r7);
-    func_0201ED04(r6);
+    func_021B9CF4(a, *(u32 *)(s + 0x20), (void *)r6, 3, 0x29, 9, 0x440);
+    func_02045808((struct U16Vec *)r7);
+    func_0201ED04((struct WordSet *)r6);
     func_0204B3DC((struct Obj *)*(int *)(s + 0x38), 0);
-    func_0204B878(*(int *)(s + 0x30), 1);
+    func_0204B878((struct Obj *)(*(int *)(s + 0x30)), 1);
     *(int *)(s + 0x18) = 1;
 }

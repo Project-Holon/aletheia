@@ -37,7 +37,7 @@ typedef struct WMStatus {
     unsigned short state;
 } WMStatus;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern WMStatus *WMi_GetStatusAddress(void);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_Finish(void);
@@ -54,7 +54,7 @@ long func_02166C44(void)
     long wmResult;
     WMStatus *ws;
 
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     ws = WMi_GetStatusAddress();
     DC_InvalidateRange(ws, 2);
     switch (ws->state) {

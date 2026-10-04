@@ -27,9 +27,10 @@ typedef signed short s16;
 typedef signed char s8;
 
 extern u8   tbl_0209E010[];
-extern void func_02013B10(u32 a, u8 *p, u32 b);
+typedef signed int     s32;
+extern u32 func_02013B10(u32 id, const u16 *table, s32 count);
 
 void func_02013C70(u32 a)
 {
-    func_02013B10(a, tbl_0209E010, 0xb);
+    func_02013B10(a, (const u16 *)tbl_0209E010, 0xb);
 }

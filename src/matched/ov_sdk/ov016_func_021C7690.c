@@ -24,7 +24,8 @@ typedef struct MemSsea {
 } MemSsea;
 
 extern void func_02082D44();
-extern int func_020964E0();
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern MemSsea *g_021DE5E4;
 
 int func_021C7690(int val)
@@ -44,6 +45,6 @@ int func_021C7690(int val)
             break;
         buf[i] = ' ';
     }
-    v = func_020964E0(buf);
+    v = func_020964E0((u32)buf);
     return v >= val;
 }

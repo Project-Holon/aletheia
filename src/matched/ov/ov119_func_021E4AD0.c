@@ -12,12 +12,12 @@
  *   func_021E4AB8 0x021E4AB8 thumb ov119
  */
 extern int func_021DF614(char *p, int a, int b);
-extern void func_021E4AB8(char *p, int a1, int a2);
+extern void func_021E4AB8(int a0, int a1, int a2);
 void func_021E4AD0(char *p, int a1, int a2, int a3, int a4, int a5)
 {
     int flag = 0;
     if (func_021DF614(p, a1, a2)) {
         flag = 1;
     }
-    func_021E4AB8(p, ((int (*)[5])(p + 0xAC0))[a5][a2], flag);
+    func_021E4AB8((int)p, ((int (*)[5])(p + 0xAC0))[a5][a2], flag);
 }

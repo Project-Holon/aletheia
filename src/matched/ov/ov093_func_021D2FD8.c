@@ -39,13 +39,14 @@ extern u8 func_021D5440(u8 *p);
 extern void func_021EAF50(u8 *, int);
 extern void func_021F883C(u32);
 extern const u16 d_021EFF80[];
-extern int func_021EA710(u32);
+struct H;
+extern int func_021EA710(u32 *p);
 extern void func_021BA2D4(void *p, void *m);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
 extern void func_02005D90(u32, u32);
-extern void func_021B92A0(u32);
-extern void func_021EA614(u32, u8 *);
+extern void func_021B92A0(u8 *p);
+extern void func_021EA614(char *p, struct H *h);
 int func_021D2FD8(u32 *a, int *b, const u32 *c)
 {
     switch (*b) {
@@ -66,12 +67,12 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
                 else msg = 0x3d;
                 func_021EAF18((u8 *)a + 0x58, 1, msg);
             }
-            func_021EA614(a[21], (u8 *)a + 0x58);
+            func_021EA614((char *)a[21], (struct H *)((u8 *)a + 0x58));
             (*b)++;
         }
         break;
     case 2:
-        if (func_021EA710(a[21])) {
+        if (func_021EA710((u32 *)a[21])) {
             if (c[2]) {
                 func_021BA2D4((void *)a[0], func_021B98AC((char *const *)a[1], (u8)c[0]));
                 (*b)++;
@@ -82,18 +83,18 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
         if (!func_02005F38()) {
             func_021F7C0C();
             func_02005D90(0x47c, 0xffff);
-            func_021B92A0(a[0]);
+            func_021B92A0((u8 *)a[0]);
             if (c[3]) {
                 u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);
                 func_021EAF18((u8 *)a + 0x58, 1, 0x42);
                 func_021EAF50((u8 *)a + 0x58, func_021D5440(p));
-                func_021EA614(a[21], (u8 *)a + 0x58);
+                func_021EA614((char *)a[21], (struct H *)((u8 *)a + 0x58));
                 (*b)++;
             } else return 1;
         }
         break;
     case 4:
-        if (func_021EA710(a[21])) (*b)++;
+        if (func_021EA710((u32 *)a[21])) (*b)++;
         break;
     default:
         return 1;

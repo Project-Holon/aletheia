@@ -18,15 +18,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02047738(u32 a);
-extern void func_0204762C(u32 a);
+struct Rec;
+extern void func_02047738(struct Rec *p);
+extern void func_0204762C(struct Rec *p);
 
 void func_021D0308(void *unused, u32 *p)
 {
     int i;
 
-    func_02047738(p[3]);
+    func_02047738((struct Rec *)p[3]);
     for (i = 0; i < 4; i++) {
-        func_0204762C(p[4 + i]);
+        func_0204762C((struct Rec *)p[4 + i]);
     }
 }

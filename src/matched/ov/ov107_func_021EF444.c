@@ -40,8 +40,9 @@ struct Descriptor;struct MsgBank;struct Rec;struct U16Vec;struct CharBuf;struct 
 extern u8 d_021F6EA0[];
 extern void func_02040588(u32,u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049B68(u32,u32,u32,u32,u32,u16);
-extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8),func_020409B4(u32),func_02049238(void *);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
@@ -61,10 +62,10 @@ void func_021EF444(u8 *p) {
  else {*(u32 *)(d_021F6EA0+4)=0;bg=2;}
  func_02040588(bg,0);
  archive=func_020490F4(22,*(u16 *)p);
- func_02049B68((u32)archive,0,4,224,32,*(u16 *)p);
- func_02049B68((u32)archive,0,0,224,32,*(u16 *)p);
- func_02049658((u32)archive,1,bg,0,0,0,*(u16 *)p);
- func_020498F4((u32)archive,2,bg,0,0,0,*(u16 *)p);
+ func_02049B68((void *)((u32)archive),0,4,224,32,*(u16 *)p);
+ func_02049B68((void *)((u32)archive),0,0,224,32,*(u16 *)p);
+ func_02049658((void *)((u32)archive),1,bg,0,0,0,*(u16 *)p);
+ func_020498F4((void *)((u32)archive),2,bg,0,0,0,*(u16 *)p);
  func_020413B0(bg,0,0,32,24,7);func_020409B4(bg);func_02049238(archive);
  window=func_020450F0(bg,1,4,30,8,7,1);
  bank=func_02045B38(0,2,0x52,*(u16 *)p);

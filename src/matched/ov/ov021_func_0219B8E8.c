@@ -22,16 +22,16 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
-extern u8 *func_0216D69C(u32);
+extern void *func_0216D69C(void *p);
 extern int func_0219B984(u32, u8 *);
-extern void func_0216DAE0(u32, u32);
+extern void func_0216DAE0(unsigned int *p, unsigned int v);
 extern Step d_021D5374[];
 
 void func_0219B8E8(u32 a)
 {
-    u8 *p = func_0216D69C(a);
+    u8 *p = func_0216D69C((void *)a);
     if (func_0219B984(a, p)) {
-        func_0216DAE0(a, 0);
+        func_0216DAE0((unsigned int *)a, 0);
         while (d_021D5374[p[0]](a, p) == 1) {
         }
     }

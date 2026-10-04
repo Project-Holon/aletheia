@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern u8 *d_021B3C80;
 
-extern int func_021B2180(void *p, int x);
+extern int func_021B2180(int a, int b);
 extern int func_021B0614(void *p);
 
 int func_021AECC4(void)
@@ -30,7 +30,7 @@ int func_021AECC4(void)
 
     if (p != 0 && *(int *)(p + 0xc) == 4) {
         r = 0;
-        if (func_021B2180(p, 0) != 0) {
+        if (func_021B2180((int)p, 0) != 0) {
             return r;
         }
         if (func_021B0614(*(void **)(d_021B3C80 + 0x1A1C)) != 0) {

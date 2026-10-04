@@ -40,8 +40,9 @@ extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204ABF0(u32,u32,u32,u32,u16);
-extern int func_0204A6C8(u32,u32,u32,u32,u16);
-extern int func_0204AF28(u32,u32,u32,u32);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B84C(void *,u32),func_0204B92C(struct Obj *,u32);
@@ -60,8 +61,8 @@ void func_021B7B3C(struct State *p,const void *config,u16 heap)
     func_02043598(16,1);
     arc=func_020490F4(94,heap);
     p->palette=func_0204ABF0((u32)arc,12,1,0,heap);
-    p->chars=func_0204A6C8((u32)arc,11,0,1,heap);
-    p->other=func_0204AF28((u32)arc,10,9,heap);
+    p->chars=func_0204A6C8((void *)((u32)arc),11,0,1,heap);
+    p->other=func_0204AF28((void *)((u32)arc),10,9,heap);
     func_02049238(arc);
     func_02082BCC(point,0,8);
     for(i=0;i<32;i++) {

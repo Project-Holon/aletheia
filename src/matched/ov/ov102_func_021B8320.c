@@ -22,7 +22,7 @@ extern void func_021B7DFC(u8 *, void *, int, int, s16);
 extern void func_021B63C4(int *);
 extern void func_021B63BC(int *);
 extern int func_021B61E8(int *);
-extern void func_021B7F08(u8 *, void (*)(u8 *, u16 *));
+extern void func_021B7F08(unsigned p, unsigned x);
 extern void func_021B81B0(u8 *, u16 *);
 void func_021B8320(u8 *p, u16 *state)
 {
@@ -38,7 +38,7 @@ void func_021B8320(u8 *p, u16 *state)
             *state = 2;
         break;
     case 2:
-        func_021B7F08(p, func_021B81B0);
+        func_021B7F08((unsigned int)p, (unsigned int)func_021B81B0);
         break;
     }
 }

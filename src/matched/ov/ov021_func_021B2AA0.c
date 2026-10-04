@@ -13,11 +13,12 @@
  *   sub_020113D0   0x020113D0  thumb
  */
 
-extern void sub_020113D0(void *p, void (*cb)(void));
-extern void func_021B2874(void);
+typedef unsigned int   u32;
+extern void sub_020113D0(char *p, int val);
+extern int func_021B2874(u32 a, u32 b, u32 c, u32 d);
 
 int func_021B2AA0(void *p)
 {
-    sub_020113D0(p, func_021B2874);
+    sub_020113D0(p, (int)func_021B2874);
     return 1;
 }

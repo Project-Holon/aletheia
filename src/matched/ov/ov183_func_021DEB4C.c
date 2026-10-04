@@ -32,7 +32,7 @@ typedef struct Config {u16 left,right,top;u8 flag,pad;} Config;
 typedef struct Triple {u32 a,b,c;} Triple;
 extern int func_021FC20C(char *),func_021FC214(char *);
 extern void func_021FD15C(void *,int);
-extern void func_021FB964(int,int,int);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBE54(char *,u32,u32);
 extern void func_02082BCC(void *,int,int);
 extern int func_021FC124(void *,int,Triple *);
@@ -56,7 +56,7 @@ void func_021DEB4C(int *task,int *state,char *p)
         func_021FD15C(*(void **)(p+0x24),*(int *)(*(char **)(p+0x108)+0x10));
         *(void **)(p+0x24)=0;
     }
-    func_021FB964(*(int *)(*(char **)(p+0x108)+0x10),24,*(u16 *)(p+0x18));
+    func_021FB964((void *)(*(int *)(*(char **)(p+0x108)+0x10)),24,*(u16 *)(p+0x18));
     func_021FBE54(*(char **)(*(char **)(p+0x108)+0x10),6,*(u16 *)(p+0x18));
     *(int *)(p+0x104)=1;
     func_02082BCC(&config,0,8);

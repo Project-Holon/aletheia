@@ -15,12 +15,13 @@
 
 typedef unsigned int u32;
 
-void func_021A1670(u32 x);
+typedef unsigned char  u8;
+void func_021A1670(u8 *p);
 
 void func_021A1C1C(int a, u32 *p)
 {
     int i;
 
     for (i = 0; i < 2; i++)
-        func_021A1670(p[i]);
+        func_021A1670((u8 *)p[i]);
 }

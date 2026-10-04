@@ -15,6 +15,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021D9EA0(void *),func_021E8AA8(void *);
+extern void func_021D9EA0(void *);
+extern void func_021E8AA8(int a);
 extern u32 func_0200FBB0(void);
-void func_021D9064(void *obj,int unused,u8 *p) { *(u32 *)(*(u8 **)(p+0x104)+4)=3; if(*(void **)(p+52)) { func_021D9EA0(*(void **)(p+52)); *(u32 *)(p+52)=0; } func_0200FBB0(); func_021E8AA8(obj); }
+void func_021D9064(void *obj,int unused,u8 *p) { *(u32 *)(*(u8 **)(p+0x104)+4)=3; if(*(void **)(p+52)) { func_021D9EA0(*(void **)(p+52)); *(u32 *)(p+52)=0; } func_0200FBB0(); func_021E8AA8((int)obj); }

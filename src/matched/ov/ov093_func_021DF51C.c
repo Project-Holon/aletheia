@@ -17,12 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021D775C(int);
-extern void *func_021C7CF4(int, int);
+extern void *func_021C7CF4(int *p, int i);
 struct QF;
 extern u16 func_021D5444(struct QF *p);
 extern void func_021D7704(int, int);
 void func_021DF51C(int a, int b, int c)
 {
-    if (c == func_021D775C(3) && func_021D5444(func_021C7CF4(b, c)) == 0x19)
+    if (c == func_021D775C(3) && func_021D5444(func_021C7CF4((int *)b, c)) == 0x19)
         func_021D7704(0x35, 2 << 12);
 }

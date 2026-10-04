@@ -50,7 +50,9 @@ extern void func_0201EFA4(void *p, int idx, int v, int digits, int a, int b);
 struct Descriptor;
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern int func_0201D304(void *str, void *font, int a);
+typedef unsigned int   u32;
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *bmp, s16 x, s16 y, void *str, void *font, u16 col);
 extern const u16 d_021C8768[];
@@ -65,6 +67,6 @@ void func_021C6A84(Work *p, void *win, int x, int ofs, int y, void *str, int mod
     func_0201EFA4(p->f3204, 3, p->info->h2C, 2, 2, 1);
     func_0201EFA4(p->f3204, 4, p->info->b35, 2, 2, 1);
     func_0201F250(p->f3204, str, p->f32A0);
-    w = func_0201D304(str, p->f31FC, 0);
+    w = func_0201D304(str, (u32)p->f31FC, 0);
     func_0201C7D0(func_02045770(win), x - (w + ofs), y, str, p->f31FC, d_021C8768[col]);
 }

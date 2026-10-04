@@ -17,7 +17,8 @@
  */
 typedef unsigned char u8;
 struct Link;
-extern void *func_02026478(void *);
+typedef unsigned int   u32;
+extern u32 func_02026478(void *obj);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern unsigned int func_0203D1A4(struct Link *);
@@ -27,7 +28,7 @@ void func_02173728(unsigned int a, int b, u8 *c, u8 *d)
 {
     void *h;
     unsigned int n;
-    h = func_02026478(*(void **)(d + 4));
+    h = (void *)func_02026478(*(void **)(d + 4));
     if (a != func_0203D1A4((struct Link *)func_020399A8())) {
         n = *c;
         d[0x902] = n;

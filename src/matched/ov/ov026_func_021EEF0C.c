@@ -17,19 +17,21 @@
  *   func_021A21A0 0x021A21A0 thumb ov021
  */
 
-extern void func_021A244C(int, int *, int *);
+typedef signed int     s32;
+typedef unsigned char  u8;
+extern void func_021A244C(u8 *o, s32 *outX, s32 *outY);
 extern void func_021A2564(int, int, int);
-extern void func_021A2190(int, int, int);
-extern void func_021A21A0(int, int, int);
+extern void func_021A2190(unsigned char *o, unsigned int v, int i);
+extern void func_021A21A0(unsigned char *o, unsigned int v, int i);
 
 void func_021EEF0C(int a, int *b)
 {
     int x;
     int y;
 
-    func_021A244C(a, &x, &y);
+    func_021A244C((u8 *)a, &x, &y);
     func_021A2564(a, x, y);
     b[1] = (b[1] + 9) % 256;
-    func_021A2190(a, -(b[1] + x), 0);
-    func_021A21A0(a, y - b[1], 0);
+    func_021A2190((unsigned char *)a, -(b[1] + x), 0);
+    func_021A21A0((unsigned char *)a, y - b[1], 0);
 }

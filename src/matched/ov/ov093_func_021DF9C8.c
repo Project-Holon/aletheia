@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 typedef unsigned short u16;
 struct QF;
 extern u16 func_021D5444(struct QF *p);
@@ -33,7 +33,7 @@ void func_021DF9C8(int self, int a, int b)
 
     if (b != func_021D775C(3))
         return;
-    if (func_021D5444(func_021C7CF4(a, b)) != 0x1e3)
+    if (func_021D5444(func_021C7CF4((int *)a, b)) != 0x1e3)
         return;
     v = func_021D775C(0x16);
     if (v == 0xf || v == 8)

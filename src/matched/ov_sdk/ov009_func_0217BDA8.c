@@ -47,7 +47,8 @@ typedef struct DWCProfFieldNames {
 extern int func_0217A484(DWCHttp *http, int noparsebody);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void func_02059F54(int error, int errorCode);
 
@@ -82,13 +83,13 @@ int func_0217BDA8(void)
     strp = func_0217A728(DWChttp, g_021A2820);
     if (strp == 0)
         goto error;
-    httpretcode = func_020964E0(strp);
+    httpretcode = func_020964E0((u32)strp);
     if (g_02153FAC == 34 || httpretcode != 200)
         goto error;
 
     if (func_0217A77C(DWChttp, g_021A282C, retcode, 4) <= 0)
         goto error;
-    httpretcode = func_020964E0(retcode);
+    httpretcode = func_020964E0((u32)retcode);
     if (g_02153FAC == 34)
         goto error;
     if (httpretcode == 1 || (httpretcode >= 100 && httpretcode != 100)) {

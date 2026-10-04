@@ -21,7 +21,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern void func_021CE068(u8 *p);
 extern void func_021CE08C(u8 *p);
-extern void func_021CE150(u8 *p, u32 fn);
+extern void func_021CE150(u8 *p, void *q);
 extern u32 func_021CE160(u8 *p);
 extern u32 func_021CE308(u8 *p);
 
@@ -29,7 +29,7 @@ u32 func_021CE170(u8 *p, s32 *st)
 {
     switch (*st) {
     case 0:
-        func_021CE150(p, (u32)func_021CE308);
+        func_021CE150(p, (void *)((u32)func_021CE308));
         func_021CE068(p);
         *st = *st + 1;
         break;

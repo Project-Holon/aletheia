@@ -62,8 +62,9 @@ struct Ctx {
     struct Enc *f10;
 };
 
-extern struct Entry *func_02012A38(void *p);
-extern void *func_02012974(void *p);
+struct BigObj;
+extern u32 func_02012A38(const struct BigObj *p);
+extern u32 func_02012974(const struct BigObj *p);
 struct Blk34;
 extern u16 func_02188C9C(u8 *p);
 extern void *func_02188CB4(u8 *p);
@@ -71,8 +72,8 @@ extern void *func_021A3074(u8 *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern int func_02159C48(void *a, int x, int z);
-extern int func_02159BD4(void *a, int x, int z);
+extern int func_02159C48(int a0, int a1, int a2);
+extern int func_02159BD4(int a0, int a1, int a2);
 extern void *func_02012F08(int *p);
 extern u32 func_0200C234(struct Blk34 *p, u32 bit);
 extern u32 func_02188CFC(u8 *p);
@@ -85,7 +86,7 @@ extern void func_021AAE34(struct Ctx *ctx, struct Enc *e);
 void func_021AA80C(struct Ctx *ctx)
 {
     struct Enc *e = ctx->f10;
-    struct Entry *p = func_02012A38(ctx->f08);
+    struct Entry *p = (struct Entry *)func_02012A38(ctx->f08);
     void *m;
     u16 id;
     s32 pos[3];
@@ -93,14 +94,14 @@ void func_021AA80C(struct Ctx *ctx)
 
     if (ctx == 0 || ctx->f0C == 0 || !ctx->f0C->b7)
         return;
-    m = func_02012974(ctx->f08);
+    m = (void *)func_02012974(ctx->f08);
     if (ctx->f00 == 0 || m == 0)
         return;
     id = func_02188C9C(ctx->f00);
     func_0216D88C(func_021A3074(func_02188CB4(ctx->f00)), (struct VecFx32 *)pos);
-    if (func_02159C48(m, pos[0], pos[2]) == 0)
+    if (func_02159C48((int)m, pos[0], pos[2]) == 0)
         return;
-    r = func_02159BD4(m, pos[0], pos[2]);
+    r = func_02159BD4((int)m, pos[0], pos[2]);
     if (id == 0xFFFF || r == 0xFFFF || id != r)
         return;
     if (func_0200C234(func_02012F08(ctx->f08), 0) == 0)

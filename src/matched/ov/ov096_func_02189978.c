@@ -29,7 +29,8 @@ extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A3F4(int, u16, int);
 extern int func_021D62C4(void *, int);
-extern int func_021D5B40(void *);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 
 int func_02189978(int a, int b) {
     int r;
@@ -39,7 +40,7 @@ int func_02189978(int a, int b) {
     t = func_0218A160((u8 *)b, r);
     *(int *)(b + 0x38) = 0;
     if (func_021D62C4(func_0218A2FC((u8 *)b, t), 0x13) == 0) {
-        s = func_021D5B40(func_0218A2FC((u8 *)b, t));
+        s = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, t));
         *(int *)(b + 0x38) = func_0218A3F4(b, s, 10);
     }
     return *(int *)(b + 0xc4);

@@ -15,11 +15,12 @@
 
 typedef unsigned char u8;
 
-extern int func_021A8268(void *p);
+typedef unsigned int   u32;
+extern int func_021A8268(u32 a);
 
 void func_021A7EB4(u8 *p)
 {
-    if (func_021A8268(p) != 0) {
+    if (func_021A8268((u32)p) != 0) {
         p[0x2C] = 0;
         p[0x2D] = 3;
         p[0x2E] = 1;

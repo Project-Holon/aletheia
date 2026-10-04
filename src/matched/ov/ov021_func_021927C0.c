@@ -34,10 +34,11 @@ typedef struct G {
 } G;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_020436FC(u32 a, u32 b, u32 c, u32 d, u32 e);
+struct Bmp;
+extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
 void func_021927C0(G *g, Fx *a)
 {
     func_02082BCC(g, 0, 8);
-    g->f04 = func_020436FC(*(u32 *)(*(u8 **)((u8 *)a + 0x178) + 0x14), 1, 1, 0x20, a->f00);
+    g->f04 = (u32)func_020436FC((void *)(*(u32 *)(*(u8 **)((u8 *)a + 0x178) + 0x14)), 1, 1, 0x20, a->f00);
 }

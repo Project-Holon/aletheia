@@ -61,7 +61,7 @@ typedef struct {
 
 extern char d_0220AE7C[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02014B08(u32 id, u32 heap);
+extern void *func_02014B08(u32 id, void *heap);
 extern void func_020163B0(char *p, int v);
 extern void func_020163B4(void *o, int v);
 
@@ -72,7 +72,7 @@ Work *func_021FEAC0(int mode, int a1, u16 a2)
     int i;
 
     w = func_02030734(a2, 0x5b4, 1, d_0220AE7C, 0x184);
-    w->obj = func_02014B08(v, a2);
+    w->obj = func_02014B08(v, (void *)a2);
     w->cb = (int *)a1;
     w->heap = a2;
     v += 0xf2;

@@ -15,11 +15,12 @@
  *   ov088_id       0x00000058  data  a1
  */
 
-extern void func_020312F8(void *a, void *b, int c);
+typedef unsigned int   u32;
+extern void func_020312F8(u32 a1, u32 a2, u32 a3);
 extern char d_021BD824[];
 extern char ov088_id[];
 
 void func_021BC0FC(void)
 {
-    func_020312F8(ov088_id, d_021BD824, 1);
+    func_020312F8((u32)ov088_id, (u32)d_021BD824, 1);
 }

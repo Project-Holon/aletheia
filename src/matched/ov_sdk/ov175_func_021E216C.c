@@ -52,7 +52,7 @@ typedef struct {
 } DWCiGdbEntity;
 
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
-extern int func_021BF520(char *url);
+extern int func_021BF520(int a);
 extern int func_021DD4B0(char *a, char *b);
 extern int func_021DD3F8(char *a, char *b);
 extern char g_021E4C88[];
@@ -73,20 +73,20 @@ void func_021E216C(int ssl_type)
     switch (ssl_type) {
     case 1:
         func_02084F80(g_021E4C88, 128, g_021E47DC, g_021AE01C);
-        func_021BF520(g_021E4C88);
+        func_021BF520((int)g_021E4C88);
         func_02084F80(upload_url, 128, g_021E4830, g_021AE01C);
-        func_021BF520(upload_url);
+        func_021BF520((int)upload_url);
         func_02084F80(download_url, 128, g_021E4878, g_021AE01C);
-        func_021BF520(download_url);
+        func_021BF520((int)download_url);
         break;
     case 0:
     default:
         func_02084F80(g_021E4C88, 128, g_021E48C4, g_021AE01C);
-        func_021BF520(g_021E4C88);
+        func_021BF520((int)g_021E4C88);
         func_02084F80(upload_url, 128, g_021E4914, g_021AE01C);
-        func_021BF520(upload_url);
+        func_021BF520((int)upload_url);
         func_02084F80(download_url, 128, g_021E495C, g_021AE01C);
-        func_021BF520(download_url);
+        func_021BF520((int)download_url);
         break;
     }
     func_021DD4B0(g_021E5334.sake, upload_url);

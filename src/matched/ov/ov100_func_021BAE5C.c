@@ -18,18 +18,23 @@
  *   func_021BAE14 0x021BAE14 thumb ov100
  */
 typedef unsigned char u8;
-extern int func_020279E8(int);
+typedef unsigned int   u32;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
-extern void func_02027858(int),func_02041B6C(int),func_021BA5F4(int);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021BADFC(void),func_021BAE14(void);
+extern void func_02027858(struct TaskMenu *m);
+extern void func_02041B6C(int);
+extern void func_021BA5F4(int);
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021BADFC(int p);
+extern void func_021BAE14(int a);
 void func_021BAE5C(int a) {
- if(func_020279E8(*(int *)(a+0xcc0))!=0) {
+ if(func_020279E8((struct TaskMenu *)(*(int *)(a+0xcc0)))!=0) {
   int v=func_02027A04(*(const u8 **)(a+0xcc0));
-  func_02027858(*(int *)(a+0xcc0));
+  func_02027858((struct TaskMenu *)(*(int *)(a+0xcc0)));
   *(int *)(a+0xcc0)=0;
   if(v==0) {
-   func_021BA5F4(a); func_02041B6C(6); func_021B95B8(a,func_021BADFC); return;
-  } else { func_021BA5F4(a); func_021B95B8(a,func_021BAE14); }
+   func_021BA5F4(a); func_02041B6C(6); func_021B95B8((u8 *)a,(u32)func_021BADFC); return;
+  } else { func_021BA5F4(a); func_021B95B8((u8 *)a,(u32)func_021BAE14); }
  }
 }

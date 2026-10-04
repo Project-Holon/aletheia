@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 extern void func_021FAEE4(char *p, int *out);
 extern void func_021FAD18(char *ctx, int mode, const int *target);
 extern int func_021FAD74(char *ctx);
-extern void func_021FD73C(void *, void *);
+extern void func_021FD73C(int *p, int v);
 extern void func_021FA500(void *p, int *state, u8 *ctx);
 void func_021FA444(void *p, int *state, unsigned char *ctx)
 {
@@ -39,10 +39,10 @@ void func_021FA444(void *p, int *state, unsigned char *ctx)
         break;
     case 2:
         if (*(int *)(ctx + 0x1c) == 4) {
-            func_021FD73C(p, func_021FA500);
+            func_021FD73C(p, (int)func_021FA500);
             return;
         } else {
-            func_021FD73C(p, func_021FA500);
+            func_021FD73C(p, (int)func_021FA500);
         }
         break;
     }

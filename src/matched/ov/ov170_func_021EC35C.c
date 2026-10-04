@@ -20,7 +20,7 @@
 
 typedef unsigned int   u32;
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
-extern void *func_021DD2D0(char **p, int a, unsigned b);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void *func_021EC338(char *p, void *m, void **out);
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
 extern void func_020307B0(void *p);
@@ -39,7 +39,7 @@ void func_021EC35C(char **p, int box)
                    && ((unsigned char *)p)[0x16] == i) {
             *(int *)(p[11] + i * 4 + 0x3DF8) = 0;
         } else {
-            m = func_021DD2D0(p, box, i);
+            m = (void *)func_021DD2D0((void ***)p, box, i);
             r = func_021EC338(p[11], m, &buf);
             MIi_CpuCopy32(*(void **)((char *)buf + 0x14), p[11] + 0x1B4 + i * 0x200, 0x200);
             func_020307B0(r);

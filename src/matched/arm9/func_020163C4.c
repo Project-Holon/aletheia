@@ -34,9 +34,9 @@ extern void *func_02049FBC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *func_0204A03C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *func_0204A0BC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *func_0204A13C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern u32 *func_02048F60(void *a0, void *a1, u32 a2);
-extern void *func_02049DB4(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_02049F34(void *a0, void *a1, void *a2, u32 a3);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02063790(void *p);
 extern void func_020637D4(void *p);
 extern void sub_02016028(void *p, u32 flag);
@@ -123,7 +123,7 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     *(void **)(a1 + 0x24) = func_0204A13C(a2->f00, a2->f18, 0, a1 + 0x28, h);
     sub_02016028(a1, 0);
 
-    q = func_02048F60(a2->f00, a2->f1c, h);
+    q = func_02048F60((u32)a2->f00, (u32)a2->f1c, h);
     *(u32 **)(a1 + 0x2C) = q;
     *(u32 **)(a1 + 0x30) = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
 
@@ -140,9 +140,9 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     p->f1c = a0->f34 + (idx << 5);
     p->f24 = a1;
 
-    p->f10 = func_02049DB4(a2->f00, a2->f04, 1, p,
+    p->f10 = func_02049DB4((u32)a2->f00, (u32)a2->f04, 1, (u32)p,
                            (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
-    p->f14 = func_02049F34(a2->f00, a2->f08, &p->f04,
+    p->f14 = func_02049F34((u32)a2->f00, (u32)a2->f08, (u32)(&p->f04),
                            (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
 
     *(void **)(a1 + 0xD4) = func_02030734(h,

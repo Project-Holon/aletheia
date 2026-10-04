@@ -23,13 +23,13 @@ struct Big;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern void func_021BE418(unsigned char *p, unsigned short i);
 extern void func_021897A0(unsigned char *p, int id);
 
 void func_021F3724(unsigned char *p)
 {
     func_02012EC4(func_020120F4(func_02188C80(p)));
-    func_021BE418(func_02188D2C(p), 0);
+    func_021BE418((unsigned char *)func_02188D2C((int *)p), 0);
     func_021897A0(p, 0);
 }

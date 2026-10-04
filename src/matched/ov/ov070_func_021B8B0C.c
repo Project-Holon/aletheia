@@ -14,11 +14,11 @@
  *   func_02036270 0x02036270 arm
  */
 typedef unsigned int u32;
-extern void func_021B6100(void *p, void (*callback)(void *));
+extern void func_021B6100(char *p, int k);
 extern void func_021B66FC(void *p);
 extern void func_02036270(u32 a, u32 b);
 void func_021B8B0C(void *p)
 {
-    func_021B6100(p, func_021B66FC);
+    func_021B6100(p, (int)func_021B66FC);
     func_02036270(3, 6);
 }

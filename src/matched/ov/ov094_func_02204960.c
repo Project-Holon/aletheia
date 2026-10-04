@@ -39,7 +39,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020056A0(void *cb, void *ctx, int a);
 struct Ctx;
 extern void func_022049C8(int a0, struct Ctx *c);
-extern void func_0220684C(Main *m, void *t, int b);
+extern void func_0220684C(char *p, int a, int b);
 
 void func_02204960(Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
@@ -54,5 +54,5 @@ void func_02204960(Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int 
     o->f14 = a5;
     o->f18 = a6;
     o->f1c = a7;
-    func_0220684C(m, func_020056A0((void *)func_022049C8, o, 0), 0);
+    func_0220684C((char *)m, (int)func_020056A0((void *)func_022049C8, o, 0), 0);
 }

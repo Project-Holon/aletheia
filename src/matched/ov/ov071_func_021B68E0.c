@@ -21,13 +21,14 @@
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
+typedef signed int     s32;
 void func_021B68E0(int *p)
 {
     void *func_020490F4(unsigned int id, u16 heap);
     u32 func_02025470(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-    int func_0204A6C8(int, int, int, int, int);
-    int func_0204AF28(int, int, int, int);
-    int func_020254BC(int, int, void *, int, int, int, int);
+    s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+    s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+    u32 func_020254BC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
     void func_02049238(void *);
     void *tmp;
     int i;
@@ -42,9 +43,9 @@ void func_021B68E0(int *p)
         }
         e = p + i * 4;
         e[16] = func_02025470(p[0], p[1], p[12], 3, flag, 3, 0x61);
-        e[17] = func_0204A6C8(p[12], 0, 1, flag, 0x61);
-        e[18] = func_0204AF28(p[12], 1, 2, 0x61);
-        e[19] = func_020254BC(p[0], p[1], tmp, 5, flag, 1, 0x61);
+        e[17] = func_0204A6C8((void *)p[12], 0, 1, flag, 0x61);
+        e[18] = func_0204AF28((void *)p[12], 1, 2, 0x61);
+        e[19] = func_020254BC(p[0], p[1], (u32)tmp, 5, flag, 1, 0x61);
     }
     func_02049238(tmp);
 }

@@ -15,17 +15,18 @@
  *   func_021F5330 0x021F5330 thumb ov112
  */
 typedef unsigned char u8;
-extern void func_0204F5A8(int, int);
-extern void func_021F4D40(int, int);
+typedef unsigned int   u32;
+extern void func_0204F5A8(void *p, u32 idx);
+extern void func_021F4D40(u8 *p, u8 *e);
 extern void func_021F4B4C(int);
 extern void func_021F5330(int, int);
 typedef struct { int pad[24]; int value; int pad2[8]; int other; } Slot;
 void func_021F77A0(char *p, char *q) {
     u8 i;
-    func_0204F5A8(*(int *)(p + 8), *(int *)(q + 0x5c));
+    func_0204F5A8((void *)(*(int *)(p + 8)), *(int *)(q + 0x5c));
     for (i = 0; i < 9; i++) {
         if (((Slot *)(q + i * 4))->other != 0) {
-            func_021F4D40(*(int *)(p + 0x10), ((Slot *)(q + i * 4))->other);
+            func_021F4D40((u8 *)(*(int *)(p + 0x10)), (u8 *)(((Slot *)(q + i * 4))->other));
             func_021F4B4C(((Slot *)(q + i * 4))->value);
             ((Slot *)(q + i * 4))->value = 0;
             ((Slot *)(q + i * 4))->other = 0;

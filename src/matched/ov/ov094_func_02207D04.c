@@ -37,7 +37,8 @@ typedef struct O {
 extern void func_02208D50(O *obj, int idx, int a);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern int func_0204B898(int h);
+typedef unsigned short u16;
+extern u16 func_0204B898(struct Obj *p);
 
 void func_02207D04(O *obj, int a, int idx)
 {
@@ -48,7 +49,7 @@ void func_02207D04(O *obj, int a, int idx)
         func_0204B3DC((struct Obj *)obj->e[idx].f10, a);
     }
     if (obj->e[idx].f14 != 0) {
-        if (func_0204B898(obj->e[idx].f14) != 0) {
+        if (func_0204B898((struct Obj *)obj->e[idx].f14) != 0) {
             func_0204B3DC((struct Obj *)obj->e[idx].f14, a);
         }
     }

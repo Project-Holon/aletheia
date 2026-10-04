@@ -34,7 +34,7 @@ typedef struct Work {
     Ent e[4];
 } Work;
 
-extern void func_02167A74(void *a, Work *w);
+extern void func_02167A74(int a0, int a1);
 struct Ctx;
 extern u32 func_02012114(const struct Ctx *p);
 extern int func_021BB5C8(u32 v);
@@ -43,7 +43,7 @@ void func_02167590(void *a, Work *w)
 {
     int i;
 
-    func_02167A74(a, w);
+    func_02167A74((int)a, (int)w);
     if (func_02012114(w->sys) == 1) {
         for (i = 0; i < 4; i++) {
             if (w->e[i].used == 1 && w->e[i].f18 != 0 && func_021BB5C8(w->e[i].f18) == 1)

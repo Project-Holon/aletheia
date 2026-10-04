@@ -16,7 +16,9 @@
  */
 typedef unsigned char u8;
 typedef short s16;
-extern void func_0204B878(int,unsigned short);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021D9FF0(char *,int,int);
 void func_021DA004(char *p)
 {
@@ -36,19 +38,19 @@ void func_021DA004(char *p)
         case 1:
             *(u8 *)(q+0x1f4)+=1;
             if(*(u8 *)(q+0x1f4)==1) {
-                func_0204B878(*(int *)(q+0x1e8),1);
+                func_0204B878((struct Obj *)(*(int *)(q+0x1e8)),1);
                 func_021D9FF0(*(char **)(r+0x304),x,y);
             } else if(*(u8 *)(q+0x1f4)==2) {
-                func_0204B878(*(int *)(q+0x1e8),2);
+                func_0204B878((struct Obj *)(*(int *)(q+0x1e8)),2);
                 func_021D9FF0(*(char **)(r+0x304),x,y);
             } else if(*(u8 *)(q+0x1f4)==10) {
-                func_0204B878(*(int *)(q+0x1e8),0);
+                func_0204B878((struct Obj *)(*(int *)(q+0x1e8)),0);
                 func_021D9FF0(*(char **)(r+0x304),x,y);
                 *(int *)(q+0x1dc)+=1;
             }
             break;
         default:
-            func_0204B878(*(int *)(q+0x1e8),0);
+            func_0204B878((struct Obj *)(*(int *)(q+0x1e8)),0);
             func_021D9FF0(*(char **)(r+0x304),x,y);
             *(int *)(q+0x1dc)=0;
             break;

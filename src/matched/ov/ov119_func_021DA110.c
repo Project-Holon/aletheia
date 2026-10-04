@@ -15,14 +15,16 @@
  *   func_021DA064 0x021DA064 thumb ov119
  */
 
-extern void func_02045CAC(int,int,int);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E0FF4(void *,int,int);
 extern void func_021E4E64(int a, char *p, int b);
 extern void func_021D8E84(void *,int);
 extern void func_021DA064(char *p);
 void func_021DA110(char *p)
 {
-    func_02045CAC(*(int *)(p+0x720), 0x8E, *(int *)(p+0x738));
+    func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)), 0x8E, (void *)(*(int *)(p+0x738)));
     func_021E0FF4(p,1,0);
     *(short *)(p+0x1080) = -1;
     func_021E4E64(*(int *)(p+0x828), p, 0);

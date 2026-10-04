@@ -36,7 +36,8 @@ extern void func_02046440(u32, u32, u32, u32, u16, u16, void (*)(void));
 extern void func_02046BE0(u32, u32);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207D63C(void *, int, int, int, int);
-extern void func_0204A48C(const void *, const void *, u16);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 #define BLDCNT (*(volatile u16 *)0x04000050)
 #define SBLDCNT (*(volatile u16 *)0x04001050)
 #define POWCNT (*(volatile u16 *)0x04000304)
@@ -60,5 +61,5 @@ void func_021E8E38(u16 heap)
     func_0207DC44(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
     func_0207D63C((void *)0x04000050, 2, 0x3d, 0x1f, 3);
-    func_0204A48C(d_021F3860, d_021F387C, heap);
+    func_0204A48C((const struct Cfg *)d_021F3860, (u32)d_021F387C, heap);
 }

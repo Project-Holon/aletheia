@@ -30,9 +30,9 @@ extern u8 func_020355C4(void);
 typedef unsigned short u16;
 struct BigObj;
 extern void func_021D69F4(u8 *p, void *q, u32 n);
-extern void func_021D7D6C(void *, void (*)(void), void *);
-extern void func_021D4C98(void);
-extern void func_021D42D8(void);
+extern void func_021D7D6C(char *p, int a, int b);
+extern void func_021D4C98(void *p, int n, u8 *s);
+extern int func_021D42D8(int n, u8 *p);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA1C(void *);
 extern void func_021D79F4(u8 *p, u16 n);
@@ -52,8 +52,8 @@ void func_021D588C(u8 *p)
         func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x15c));
     else
         func_021D69F4(*(void **)(p + 0x3c), 0, 9);
-    func_021D7D6C(*(void **)(p + 0x40), func_021D4C98, p);
-    *(void (**)(void))(p + 4) = func_021D42D8;
+    func_021D7D6C(*(void **)(p + 0x40), (int)func_021D4C98, (int)p);
+    *(void (**)(void))(p + 4) = (void (*)(void))func_021D42D8;
     if ((int)func_0201AA1C(func_02012934(*(void **)(p + 0x2c))) < 2)
         *(int *)(p + 0x184) = 1;
     if (*(int *)(p + 0x184) == 0)

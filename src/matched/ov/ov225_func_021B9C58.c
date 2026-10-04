@@ -21,7 +21,9 @@ struct Sub020090B0Obj;
 extern void *func_02012EBC(struct Big *);
 extern struct Sub02009210Obj *func_02009210(void *);
 extern u8 func_020090E0(const struct Sub020090B0Obj *);
-extern void *func_0201296C(void *);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern unsigned func_020142E8(void *,int);
 int func_021B9C58(void *unused,int kind,void *save)
 {
@@ -32,7 +34,7 @@ int func_021B9C58(void *unused,int kind,void *save)
         if(func_020090E0((const struct Sub020090B0Obj *)func_02009210(func_02012EBC((struct Big *)save)))!=0)result=1;
         break;
     case 2:
-        if(func_020142E8(func_0201296C(save),2400)!=0)result=1;
+        if(func_020142E8((void *)func_0201296C(save),2400)!=0)result=1;
         break;
     }
     return result;

@@ -21,7 +21,7 @@ typedef struct ConnData {
 	unsigned char aid;
 } ConnData;
 
-extern ConnData *func_02195E78(void *connection);
+extern int func_02195E78(const int *p);
 extern void *g_021AA8A0[];
 
 int func_0216BC3C(unsigned char aid)
@@ -30,7 +30,7 @@ int func_0216BC3C(unsigned char aid)
 
 	for (i = 0; i < 0x20; i++) {
 		if (g_021AA8A0[i] != 0) {
-			if (aid == func_02195E78(g_021AA8A0[i])->aid)
+			if (aid == ((ConnData *)func_02195E78(g_021AA8A0[i]))->aid)
 				return 1;
 		}
 	}

@@ -61,7 +61,8 @@ typedef struct {
     void *f328C;
 } Work;
 
-extern u32 func_0201D304(void *a, void *b, u32 c);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_021C6380(void *a, Work *p, int x, int y, void *s, int idx);
 extern void func_021C68F0(Work *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx);
 extern void func_021C69D4(Work *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx);
@@ -96,7 +97,7 @@ void func_021C63B8(Work *p, void *a, u32 sel, int y, int idx)
         if (info->b33 != 0) {
             func_021C6A84(p, a, 0xD8, 0, y, s, 0, idx);
         } else {
-            w = func_0201D304(p->f328C, p->f31FC, 0);
+            w = func_0201D304(p->f328C, (u32)p->f31FC, 0);
             func_021C6380(a, p, 0xD8 - w, y, p->f328C, idx);
         }
         break;

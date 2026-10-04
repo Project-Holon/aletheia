@@ -22,12 +22,13 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021C3370(int a, int b);
-extern int func_021C3394(int a, int b, int c);
+struct Msg;
+extern int func_021C3370(u8 *p, void *q);
+extern int func_021C3394(u8 *p, u8 *q, int r);
 extern void func_021C33E8(int a, int b, int c);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021C5A34(u8 *p, u8 *a);
-extern void func_021C99A0(int a, void *b);
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern void func_021CD64C(void *w, u8 id, ...);
 
 typedef struct {
@@ -41,18 +42,18 @@ u8 func_021C8D2C(int p, const Ent *e, int c)
     u8 *a = func_021B9934(*(char **)(p + 8), (u8)e->idx);
     int b = (int)func_021B9934(*(char **)(p + 8), e->b6);
 
-    if (func_021C3370(p, b) == 0) {
+    if (func_021C3370((u8 *)p, (void *)b) == 0) {
         if (e->fl)
             func_021C5A1C((u8 *)p, a);
         if (e->b7 == 0) {
-            r = !func_021C3394(p, b, 1);
+            r = !func_021C3394((u8 *)p, (u8 *)b, 1);
         } else {
             r = 1;
         }
         if (r) {
             func_021C33E8(p, b, e->h4);
             if ((u8)e->ha)
-                func_021C99A0(p, (void *)&e->h8);
+                func_021C99A0((void *)p, (void *)&e->h8);
             else if (c)
                 func_021CD64C(*(void **)(p + 0xc), 0x5b, 0x38c, e->b6, c, 0xffff0000);
         }

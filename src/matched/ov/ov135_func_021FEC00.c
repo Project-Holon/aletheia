@@ -68,8 +68,9 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021F7F9C(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
 extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32 func_0201AE1C(u32 h, u32 k);
-extern void func_0201AE14(u32 h);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern void func_0201AE14(void *p);
 extern int func_021F7B9C(void *p, int event);
 extern void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
 
@@ -94,8 +95,8 @@ int func_021FEC00(Work *p)
         func_02043B5C(func_02045770(p->winA), 0);
         func_021F7F9C(p->winA, p->bankB, r, 0, 0, 0x3C40, p->g);
         h = (u32)func_0201ADE4((u16)r, 0, 0x48);
-        v = func_0201AE1C(h, 0x14);
-        func_0201AE14(h);
+        v = func_0201AE1C((const struct Personal *)h, 0x14);
+        func_0201AE14((void *)h);
         p->target->x20 = v;
         func_021F89A8(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
         if (func_021F7B9C(&p->sel, p->target->x20) != 0) {

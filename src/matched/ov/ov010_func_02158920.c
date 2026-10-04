@@ -29,7 +29,7 @@ extern void *func_02158804(u32 heap);
 extern int *func_02158E7C(int, int, struct Desc *, int, int, int);
 extern void func_02158F94(void *, int);
 extern int func_021588D0(int);
-extern void func_021589A0(void *, int, int);
+extern int func_021589A0(int a, int b, int c);
 extern int func_021588DC(int a0, int a1, int a2);
 
 struct Desc *func_02158920(int a, int b, int c, int d, int e)
@@ -39,6 +39,6 @@ struct Desc *func_02158920(int a, int b, int c, int d, int e)
     w[1] = func_02158804(4);
     w[0] = func_02158E7C(4, a, h, c, e, 0);
     func_02158F94(w[0], d);
-    func_021589A0(w[0], func_021588D0(a), c);
+    func_021589A0((int)w[0], func_021588D0(a), c);
     return h;
 }

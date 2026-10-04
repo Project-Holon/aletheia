@@ -39,7 +39,9 @@ struct Grid {
     u8    rows;
 };
 
-extern void func_0204B404(void *cell, struct Point *pt, u16 flags);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_0202590C(struct Grid *g, s16 x, s16 y)
 {
@@ -50,7 +52,7 @@ void func_0202590C(struct Grid *g, s16 x, s16 y)
         for (j = 0; j < g->cols; j++) {
             pt.x = (s16)(x + (j << 5));
             pt.y = (s16)(y + (i << 4));
-            func_0204B404(g->a[j + i * g->cols], &pt, g->flags);
+            func_0204B404(g->a[j + i * g->cols], (const struct Vec2 *)(&pt), g->flags);
         }
     }
 }

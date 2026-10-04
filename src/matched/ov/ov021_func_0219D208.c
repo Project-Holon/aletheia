@@ -20,14 +20,17 @@
  *   func_02050468  0x02050468  arm
  */
 
-extern int func_0216D67C(int);
-extern int *func_0216D520(int);
-extern int func_0216D7A8(int, int);
-extern unsigned short func_0216D598(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct BbActSys;
+extern void *func_0216D67C(void *a0);
+extern u32 func_0216D520(void *p);
+extern int func_0216D7A8(void *p, unsigned int v);
+extern u16 func_0216D598(void *p);
 extern void func_0216E204(int, unsigned int);
-extern int func_0219CBD4(int *, unsigned int, unsigned short *, unsigned short *);
+extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
 extern void func_0219C880(int *, int, unsigned int, unsigned int);
-extern void func_02050468(int, unsigned int, int);
+extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
 
 void func_0219D208(int a, unsigned int id)
 {
@@ -37,15 +40,15 @@ void func_0219D208(int a, unsigned int id)
     unsigned short h;
     unsigned short v[2];
 
-    ctx = func_0216D520(func_0216D67C(a));
+    ctx = (int *)func_0216D520(func_0216D67C((void *)a));
     r = (unsigned char *)ctx[8];
-    func_0219CBD4(ctx, id, &v[1], &v[0]);
+    func_0219CBD4((u32)ctx, id, (u32)(&v[1]), (u32)(&v[0]));
     if (v[1] != 0xFFFF && !(v[0] & 2)) {
         func_0216E204(a, id);
         return;
     }
     i = 0;
-    h = func_0216D7A8(a, 0);
+    h = func_0216D7A8((void *)a, 0);
     if (h == 0xFFFF) {
         func_0216E204(a, id);
         return;
@@ -61,13 +64,13 @@ void func_0219D208(int a, unsigned int id)
     }
     *(int *)r = a;
     *(unsigned short *)(r + 4) = h;
-    *(unsigned short *)(r + 6) = func_0216D598(a);
+    *(unsigned short *)(r + 6) = func_0216D598((void *)a);
     *(unsigned short *)(r + 8) = id;
     func_0216E204(a, id);
     i = 0;
-    if (func_0216D7A8(a, 0) != 0xFFFF) {
+    if (func_0216D7A8((void *)a, 0) != 0xFFFF) {
         func_0219C880(ctx, a, *(unsigned short *)(r + 4), *(unsigned short *)(r + 6));
-        func_02050468(ctx[1], *(unsigned short *)(r + 4), 1);
+        func_02050468((struct BbActSys *)ctx[1], *(unsigned short *)(r + 4), 1);
         *(int *)r = i;
     }
 }

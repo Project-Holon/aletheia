@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 
 typedef struct V { u32 x, y, z; } V;
 
-extern u32 func_02188C5C(u32 a);
-extern u32 func_021BB480(u32 a);
+extern u32 func_02188C5C(u8 *p);
+extern void *func_021BB480(void *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *b);
 extern u32 func_021B7A84(u32 a, V *b, V *c, u16 *d, V *e);
@@ -41,7 +41,7 @@ int func_021A71E4(u32 a, u32 *b, u16 *c, u32 d)
     V q;
     u16 r[8];
     u32 h;
-    h = func_021BB480(func_02188C5C(a));
+    h = (u32)func_021BB480((void *)func_02188C5C((u8 *)a));
     func_021A3038((unsigned char *)b[1], (struct VecFx32 *)&in);
     q.x = in.x;
     q.y = in.y + 0x4000;

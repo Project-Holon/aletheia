@@ -25,9 +25,12 @@ typedef unsigned char  u8;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
-extern void func_0204B878(unsigned, unsigned);
+typedef unsigned short u16;
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020061E4(unsigned);
-extern int func_0204B98C(unsigned);
+extern u32 func_0204B98C(struct Actor *a);
 extern int func_021A0F30(u32 a, u32 b);
 
 typedef struct {
@@ -61,15 +64,15 @@ void func_021F0AC4(T *p)
         }
         if (hit != 0) {
             p->f28 = 1;
-            func_0204B878(p->f24, 8);
+            func_0204B878((struct Obj *)p->f24, 8);
             func_020061E4(0x556);
             return;
         }
         break;
     case 1:
-        if (func_0204B98C(p->f24) == 0) {
+        if (func_0204B98C((struct Actor *)p->f24) == 0) {
             p->f28 = 2;
-            func_0204B878(p->f24, 0);
+            func_0204B878((struct Obj *)p->f24, 0);
             return;
         }
         break;

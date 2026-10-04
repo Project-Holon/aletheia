@@ -24,12 +24,16 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int, int);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(int);
-extern unsigned char func_02045730(int);
+typedef unsigned char  u8;
+struct Cfg;
+struct Rec3;
+struct U16Vec;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-extern void func_0201CE48(int);
-extern void func_02045808(int);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_0220549C(char *a, int b)
 {
@@ -38,12 +42,12 @@ void func_0220549C(char *a, int b)
     func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(a + 0x6c)), b);
     p = *(int *)(a + 0x6c);
     func_02045334((struct Descriptor *)p);
-    func_02045374(p);
-    func_02041B6C(func_02045730(p));
+    func_02045374((struct Cfg *)p);
+    func_02041B6C(func_02045730((struct Descriptor *)p));
     if (*(int *)(a + 0x64) != 0)
-        func_0201CE48(*(int *)(a + 0x64));
+        func_0201CE48((struct Rec3 *)(*(int *)(a + 0x64)));
     if (*(int *)(a + 0x80) != 0)
-        func_02045808(*(int *)(a + 0x80));
+        func_02045808((struct U16Vec *)(*(int *)(a + 0x80)));
     *(int *)(a + 0x64) = 0;
     *(int *)(a + 0x80) = 0;
 }

@@ -22,14 +22,16 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02049238(void *);
 extern void func_021D6548(void *, u8 *);
-extern void *func_02005624(void (*)(void *, u8 *), u8 *, int);
-extern void func_02024230(void *, int, int, int);
+typedef signed short   s16;
+typedef signed int     s32;
+extern void *func_02005624(u32 a, u32 b, u32 c);
+extern void func_02024230(s16 *out, u32 count, u16 step, s32 amp);
 void func_021D65F4(u8 *p)
 {
     void *h;
     h = func_020490F4(143, *(u16 *)(p + 0x43c4));
     func_02049990(h, 22, 3, 0, (u16)*(u32 *)(p + 4), 0, 0, *(u16 *)(p + 0x43c4));
     func_02049238(h);
-    *(void **)(p + 0x14) = func_02005624(func_021D6548, p, 0);
-    func_02024230(p + 0x43c8, 192, 0x5b0, 0x1800);
+    *(void **)(p + 0x14) = func_02005624((u32)func_021D6548, (u32)p, 0);
+    func_02024230((s16 *)(p + 0x43c8), 192, 0x5b0, 0x1800);
 }

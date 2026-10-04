@@ -16,17 +16,20 @@
  */
 
 
-extern void func_02045C04(int);
+struct Descriptor;
+struct Obj020437AC;
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_020437AC(int);
-extern void func_020452E8(int);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021BE8FC(char *p)
 {
-    func_02045C04(*(int *)(p + 0x24));
+    func_02045C04((struct Rec *)(*(int *)(p + 0x24)));
     func_0203FB44(5, *(int *)(p + 0x1c), *(int *)(p + 0x20));
-    func_020437AC(*(int *)(p + 0x18));
-    func_020452E8(*(int *)(p + 0x14));
+    func_020437AC((struct Obj020437AC *)(*(int *)(p + 0x18)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x14)));
 }
 

@@ -38,7 +38,7 @@ extern void func_021D6C64(u8 *);
 extern void func_021D7484(u8 *);
 extern void func_021D6FB4(u8 *);
 extern void func_021D6B5C(u8 *);
-extern void *func_020490F4(void *,u16);
+extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049990(void *,u32,u32,u32,u16,u32,u32,u16);
 extern void func_02049BDC(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
@@ -62,7 +62,7 @@ void func_021D761C(u8 *p)
     func_021D7484(p);
     func_021D6FB4(p);
     func_021D6B5C(p);
-    t=func_020490F4((void *)144,*(u16 *)(p+0xf4));
+    t=func_020490F4((u32)((void *)144),*(u16 *)(p+0xf4));
     func_02049990(t,12,0,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0xf4));
     func_02049990(t,18,4,0,*(u32 *)p,0,0,*(u16 *)(p+0xf4));
     func_02049BDC(t,2,5,0,0x100,0x100,*(u16 *)(p+0xf4));

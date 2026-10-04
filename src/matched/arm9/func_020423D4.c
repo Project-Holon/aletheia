@@ -37,13 +37,15 @@ struct Param {
     u32 unk0c;
 };
 
-extern void func_02051E74(void *p, u32 a, u32 b, u32 c, u32 d);
-extern void sub_02040860(u32 layer, const void *p, u32 b, u32 c);
+typedef unsigned char  u8;
+struct Mtx22;
+extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
+extern void sub_02040860(u32 layer, u32 a, u32 b, u32 c);
 
 void func_020423D4(u32 layer)
 {
     struct Param p;
 
-    func_02051E74(&p, 0, 0x1000, 0x1000, 0);
-    sub_02040860(layer, &p, 0, 0);
+    func_02051E74((struct Mtx22 *)(&p), 0, (const void *)0x1000, (const void *)0x1000, 0);
+    sub_02040860(layer, (u32)(&p), 0, 0);
 }

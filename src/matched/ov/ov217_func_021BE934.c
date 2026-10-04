@@ -35,7 +35,7 @@ extern E d_021C3AC8[];
 typedef unsigned int   u32;
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_020409B4(int);
-extern void func_021BEB6C(char *p);
+extern u32 func_021BEB6C(u32 a0);
 
 int func_021BE934(char *p)
 {
@@ -53,7 +53,7 @@ int func_021BE934(char *p)
         func_020413B0(2, 0x10, 8, 0x10, 3, 0xa);
         break;
     case 4:
-        func_021BEB6C(p);
+        func_021BEB6C((u32)p);
         break;
     }
     return func_020409B4(2);

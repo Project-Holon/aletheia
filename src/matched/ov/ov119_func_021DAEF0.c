@@ -29,7 +29,11 @@ extern int func_02035C60(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern void func_021E1098(void *),func_021E1024(void *),func_021E1030(void *);
-extern void func_02045CAC(int,int,int),func_021D8E84(void *,int),func_021DAEC8(void *),func_021DBA80(void *);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021D8E84(void *,int);
+extern void func_021DAEC8(void *);
+extern void func_021DBA80(void *);
 static inline int poll_a(void) {int r=func_020362DC();if(r)func_020355D8(0);return r;}
 static inline int poll_b(void) {int r=func_02035C60();if(r)func_020355D8(1);return r;}
 void func_021DAEF0(char *p) {
@@ -37,7 +41,7 @@ void func_021DAEF0(char *p) {
   if(poll_a() || poll_b()) {
    func_021E1098(p);
    if(func_021D8A24(p)) {
-    func_02045CAC(*(int *)(p+0x720),50,*(int *)(p+0x738));func_021E1024(p);func_021E1030(p);func_021D8E84(p,(int)func_021DAEC8);
+    func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),50,(void *)(*(int *)(p+0x738)));func_021E1024(p);func_021E1030(p);func_021D8E84(p,(int)func_021DAEC8);
    } else func_021D8E84(p,(int)func_021DBA80);
   }
  }

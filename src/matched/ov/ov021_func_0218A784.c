@@ -43,28 +43,30 @@ struct Ctx784 {
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0201296C(void *p);
+struct BigObj;
+struct Desc;
+extern u32 func_0201296C(const struct BigObj *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void *func_02188C98(void *p);
+extern u32 func_02188C98(u8 *p);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB188(u16 id);
-extern u32 func_02162928(void *p, void *q, u32 *pos, int a);
-extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);
+extern u16 func_02162928(void *p, void *q, int key, int mode);
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 
 int func_0218A784(struct Ctx784 *c, int a)
 {
     void *x = func_0201210C(c->f4);
-    void *y = func_0201296C(c->f8);
+    void *y = (void *)func_0201296C(c->f8);
     u32 pos[3];
     u32 msg;
 
     func_021A3038(c->f18, (struct VecFx32 *)pos);
-    if (func_021AB188(func_021AB0F0(func_021AB0D4(func_02188C98(x), pos))) == 1)
+    if (func_021AB188(func_021AB0F0(func_021AB0D4((void *)func_02188C98(x), pos))) == 1)
         return 0;
-    msg = func_02162928(c->fC, y, pos, a);
+    msg = func_02162928(c->fC, y, (int)pos, a);
     if (msg != 0xFFFF)
-        return func_02158768(c->f4, msg, 0, c->f0);
+        return (int)func_02158768((int)c->f4, msg, 0, c->f0);
     return 0;
 }

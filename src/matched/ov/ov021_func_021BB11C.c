@@ -16,13 +16,13 @@
 
 typedef unsigned int u32;
 
-extern void func_020307B0(u32);
+extern void func_020307B0(void *p);
 
 void func_021BB11C(u32 *p)
 {
     if (p[0] != 0) {
-        func_020307B0(p[3]);
-        func_020307B0(p[0]);
+        func_020307B0((void *)p[3]);
+        func_020307B0((void *)p[0]);
         p[2] = 0;
         p[3] = 0;
         p[0] = 0;

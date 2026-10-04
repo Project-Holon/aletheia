@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern void func_021C21C4(u8 *p, int index);
-extern void func_021C2250(void *p, u32 i);
+extern void func_021C2250(u32 a0, u32 a1);
 extern u32 func_021C2194(void *p);
 extern void func_021C218C(void *p, u32 v);
 
@@ -36,7 +36,7 @@ void func_021C211C(void *p)
         if (*(u32 *)(e + 0x28) == 0 && *(u16 *)(e + 0x2c) <= *(u32 *)((char *)p + 0x24))
             func_021C21C4(p, (u8)i);
         if (*(u32 *)(e + 0x28) == 1 && *(u32 *)(e + 0x30) == 1 && *(u16 *)(e + 0x34) <= *(u32 *)((char *)p + 0x24))
-            func_021C2250(p, (u8)i);
+            func_021C2250((u32)p, (u8)i);
     }
     if (func_021C2194(p))
         func_021C218C(p, 2);

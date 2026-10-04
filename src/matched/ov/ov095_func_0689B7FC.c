@@ -33,11 +33,11 @@ extern int func_0689B89C(u32 a);
 extern int func_0689B8AC(u32 a, u32 b);
 extern void func_0689B8BC(u32 a, u32 b, u32 c, int d);
 extern void func_0689B974(u32 a, u32 b, u32 c);
-extern void func_0689B9F4(u32 a, u32 b, u32 c);
-extern void func_0689BB7C(u32 a, u32 b, u32 c);
+extern void func_0689B9F4(void *a, void *b, int c);
+extern void func_0689BB7C(void *a, void *b, int c);
 extern void func_0689BC30(u32 a, u32 b, u32 c);
-extern void func_0689BDE0(u32 a, u32 b, u32 c);
-extern void func_0689BEAC(u32 a, u32 b, u32 c);
+extern void func_0689BDE0(void *a, void *b, int c);
+extern void func_0689BEAC(void *a, void *b, int c);
 
 void func_0689B7FC(u32 a, u32 b, u32 c, int t)
 {
@@ -53,19 +53,19 @@ void func_0689B7FC(u32 a, u32 b, u32 c, int t)
         func_0689B974(a, b, c);
         break;
     case 0x12:
-        func_0689B9F4(a, b, c);
+        func_0689B9F4((void *)a, (void *)b, c);
         break;
     case 0x15:
-        func_0689BB7C(a, b, c);
+        func_0689BB7C((void *)a, (void *)b, c);
         break;
     case 8:
         func_0689BC30(a, b, c);
         break;
     case 0x23:
-        func_0689BDE0(a, b, c);
+        func_0689BDE0((void *)a, (void *)b, c);
         break;
     case 0x17:
-        func_0689BEAC(a, b, c);
+        func_0689BEAC((void *)a, (void *)b, c);
         break;
     }
 }

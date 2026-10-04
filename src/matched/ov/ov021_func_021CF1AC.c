@@ -37,28 +37,28 @@ typedef struct {
 } B;
 
 extern void func_02082BCC(void *dst, int v, u32 n);
-extern void func_02008494(u32 name, void *dst);
+extern void func_02008494(void *src, void *dst);
 extern void func_02087C6C(void *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_0203D3F8(u32, u32, u32, u32, void *, u32, u32, u32);
-extern void func_021CF110(u32, u32, u32);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern void func_021CF110(u8 *p, u32 v, void *a);
 
 void func_021CF1AC(u32 a, u32 b, u32 c)
 {
     B buf;
 
     func_02082BCC(&buf, 0, 0x28);
-    func_02008494(a, &buf);
+    func_02008494((void *)a, &buf);
     func_02087C6C(buf.x);
     buf.x[6] = b;
     if (c == 1)
-        func_0203D3F8((u32)func_020399A8(), 0xff, 0x2700, 0x28, &buf, 0, 0, 0);
+        func_0203D3F8((u32)func_020399A8(), 0xff, 0x2700, 0x28, (u32)(&buf), 0, 0, 0);
     else
-        func_0203D3F8((u32)func_020399A8(), 0, 0x2700, 0x28, &buf, 0, 0, 0);
+        func_0203D3F8((u32)func_020399A8(), 0, 0x2700, 0x28, (u32)(&buf), 0, 0, 0);
 }
 
 void func_021CF214(u32 a, u32 b, u32 c, u32 d)
 {
-    func_021CF110(d, 1, c);
+    func_021CF110((u8 *)d, 1, (void *)c);
 }

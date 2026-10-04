@@ -22,10 +22,10 @@ typedef unsigned int  u32;
 
 struct Obj;
 
-extern void func_0202B1EC(u32 v);
+extern void func_0202B1EC(void *ptr);
 
 void func_0202B66C(struct Obj *o)
 {
-    func_0202B1EC(*(u32 *)((u8 *)o + 0x14));
+    func_0202B1EC((void *)(*(u32 *)((u8 *)o + 0x14)));
     *(u32 *)((u8 *)o + 0x14) = 0;
 }

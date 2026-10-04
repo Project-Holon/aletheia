@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02045730(int);
+struct Descriptor;
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern void func_020409B4(u32);
 void func_021B8724(u8 *p)
@@ -30,7 +31,7 @@ void func_021B8724(u8 *p)
     *(u16 *)(p + 0x34) = 0;
     *(u16 *)(p + 0x32) = 0;
     for (i = 0; i < *(u16 *)(p + 0x2c); i++) {
-        win = func_02045730(*(int *)(p + i * 4 + 4));
+        win = func_02045730((struct Descriptor *)(*(int *)(p + i * 4 + 4)));
         row = (u16 *)(*(u8 **)(p + 0x28) + i * 12);
         a = row[1];
         b = row[2];

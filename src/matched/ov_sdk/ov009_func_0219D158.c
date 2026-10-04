@@ -23,15 +23,15 @@ extern char g_021A8088[];
 extern char g_021A80A0[];
 extern char g_021A80CC[];
 extern char *g_021A7C90[254];
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 
 void func_0219D158(int keyid, char *key)
 {
-    func_0217D254(3, 4, 0x40, g_021A8088);
+    func_0217D254(3, (char *)4, 0x40, g_021A8088);
     if (keyid < 0x32 || keyid > 0xfe) {
-        func_0217D254(3, 4, 2, g_021A80A0, keyid, key);
+        func_0217D254(3, (char *)4, 2, g_021A80A0, keyid, key);
         return;
     }
-    func_0217D254(3, 4, 0x10, g_021A80CC, keyid, key);
+    func_0217D254(3, (char *)4, 0x10, g_021A80CC, keyid, key);
     g_021A7C90[keyid] = key;
 }

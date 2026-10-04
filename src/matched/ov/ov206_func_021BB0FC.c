@@ -18,8 +18,10 @@
 
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(int);
-extern int func_02045730(int);
+typedef unsigned char  u8;
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 
@@ -30,13 +32,13 @@ void func_021BB0FC(void *obj)
     if (*(int *)((char *)obj + 8) != 0) {
         p = *(int *)((char *)obj + 0x8c);
         func_02045334((struct Descriptor *)p);
-        func_02045374(p);
-        func_02041B6C(func_02045730(p));
+        func_02045374((struct Cfg *)p);
+        func_02041B6C(func_02045730((struct Descriptor *)p));
         return;
     }
     p = *(int *)((char *)obj + 0x90);
     func_02045334((struct Descriptor *)p);
-    func_02045374(p);
-    func_02041B6C(func_02045730(p));
+    func_02045374((struct Cfg *)p);
+    func_02041B6C(func_02045730((struct Descriptor *)p));
 }
 

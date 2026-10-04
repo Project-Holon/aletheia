@@ -16,14 +16,16 @@
  */
 
 
-extern void func_020437AC(int);
-extern void func_020452E8(int);
-extern void func_020307B0(int);
+struct Descriptor;
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_020307B0(void *p);
 
 void func_021C3638(int unused, char *p)
 {
-    func_020437AC(*(int *)(p + 0x2c));
-    func_020452E8(*(int *)(p + 0x20));
-    func_020307B0(*(int *)(p + 0x14));
+    func_020437AC((struct Obj020437AC *)(*(int *)(p + 0x2c)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x20)));
+    func_020307B0((void *)(*(int *)(p + 0x14)));
 }
 

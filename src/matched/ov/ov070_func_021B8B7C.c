@@ -21,10 +21,12 @@
 typedef unsigned int   u32;
 struct Obj;
 extern void func_020061E4(u32 a);
-extern void func_021BB398();
-extern void func_0202EB04();
-extern void func_0202EA40();
-extern void func_021B6100();
+struct CodeIn;
+struct Row;
+extern void func_021BB398(int p, u32 val);
+extern void func_0202EB04(struct CodeIn *p);
+extern void func_0202EA40(struct Row *p);
+extern void func_021B6100(char *p, int k);
 extern void func_021B7128(struct Obj *o);
 
 void func_021B8B7C(int p)
@@ -53,9 +55,9 @@ void func_021B8B7C(int p)
     case 7:
         *(unsigned short *)((char *)p + 0x864) = 0;
         func_021BB398(p, 1);
-        func_0202EB04(*(int *)((char *)p + 0x850));
-        func_0202EA40(*(int *)((char *)p + 0x850));
-        func_021B6100(p, func_021B7128);
+        func_0202EB04((struct CodeIn *)(*(int *)((char *)p + 0x850)));
+        func_0202EA40((struct Row *)(*(int *)((char *)p + 0x850)));
+        func_021B6100((char *)p, (int)func_021B7128);
         return;
     }
 }

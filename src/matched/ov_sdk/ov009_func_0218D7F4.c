@@ -24,7 +24,7 @@ struct GPIConnection {
 };
 
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern void func_0218D7CC(void *element);
 extern char g_021A4D80[];
 
@@ -36,6 +36,6 @@ int func_0218D7F4(void **connection)
     iconnection->statusInfoKeys = func_02184144(8, result, func_0218D7CC);
     if (iconnection->statusInfoKeys != 0)
         return 0;
-    func_02193734(connection, g_021A4D80);
+    func_02193734((int *)connection, (int)g_021A4D80);
     return result;
 }

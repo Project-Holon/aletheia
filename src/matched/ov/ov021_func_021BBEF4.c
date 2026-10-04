@@ -23,7 +23,9 @@ typedef struct Obj {
     u16 h8;
 } Obj;
 
-extern void func_02050468(int a, int b, int c);
+typedef unsigned int   u32;
+struct BbActSys;
+extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
 
 void func_021BBEF4(int a0, Obj *p)
 {
@@ -31,6 +33,6 @@ void func_021BBEF4(int a0, Obj *p)
     u16 i = p->h8;
 
     if (i != 0xFFFF) {
-        func_02050468(h, i, 1);
+        func_02050468((struct BbActSys *)h, i, 1);
     }
 }

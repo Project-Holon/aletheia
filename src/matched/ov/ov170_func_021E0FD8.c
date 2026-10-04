@@ -53,7 +53,7 @@ extern int func_021DF1DC(short x, short y);
 extern int func_021DF228(short x, short y, const unsigned char *r);
 extern const unsigned char d_021EF79C[];
 extern int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
-extern void func_021DEA3C(unsigned char *p, unsigned a, unsigned b, int mode);
+extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(unsigned char *p, int box);
 extern int func_021DEDCC(unsigned char *p, int box);
@@ -105,7 +105,7 @@ int func_021E0FD8(unsigned char *p)
                 r = p[0x16];
                 back = 1;
             }
-            func_021DEA3C(p, first, r, 2);
+            func_021DEA3C((int)p, first, r, 2);
             if (back == 1 && p[0x17] != 0xFF && p[0x17] != p[0x14]) {
                 int dir = func_021DD210(p, p[0x14], p[0x17]);
                 p[0x14] = p[0x17];

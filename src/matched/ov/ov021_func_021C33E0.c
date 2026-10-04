@@ -20,10 +20,12 @@ typedef unsigned short u16;
 extern void *func_02188C80(void *p);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201296C(void *p);
-extern u16 *func_020143CC(void *p, int id);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_020143CC(u32 a, u32 b);
 
 void func_021C33E0(void *a)
 {
-    *func_020143CC(func_0201296C(func_020120F4(func_02188C80(a))), 0x4139) = 0;
+    *((u16 *)func_020143CC(func_0201296C(func_020120F4(func_02188C80(a))), 0x4139)) = 0;
 }

@@ -21,8 +21,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern unsigned func_02025DE8(void *);
 extern void func_020061E4(unsigned);
-extern void func_021EA908(u8 *, unsigned);
-extern void func_021DD2B4(u8 *, int, int, int, int);
+extern void func_021EA908(int p, int bit);
+extern void func_021DD2B4(int a, int b, int c, int d, int e);
 extern void func_021DF11C(u8 *, unsigned);
 extern int func_021E94AC(u8 *, int, int);
 extern int func_021E8FD0(u8 *, int);
@@ -32,31 +32,31 @@ int func_021E7E54(u8 *p)
     switch (func_02025DE8(*(void **)(*(u8 **)(p + 44) + 112))) {
     case 0:
         func_020061E4(0x54c);
-        func_021EA908(p, 0);
+        func_021EA908((int)p, 0);
         break;
     case 1:
         func_020061E4(0x54c);
-        func_021EA908(p, 1);
+        func_021EA908((int)p, 1);
         break;
     case 2:
         func_020061E4(0x54c);
-        func_021EA908(p, 2);
+        func_021EA908((int)p, 2);
         break;
     case 3:
         func_020061E4(0x54c);
-        func_021EA908(p, 3);
+        func_021EA908((int)p, 3);
         break;
     case 4:
         func_020061E4(0x54c);
-        func_021EA908(p, 4);
+        func_021EA908((int)p, 4);
         break;
     case 5:
         func_020061E4(0x54c);
-        func_021EA908(p, 5);
+        func_021EA908((int)p, 5);
         break;
     case 6:
         mask = *(u32 *)(*(u8 **)(p + 44) + 0xa174);
-        func_021DD2B4(p, p[22], p[20], 11, mask);
+        func_021DD2B4((int)p, p[22], p[20], 11, mask);
         func_021DF11C(p, mask);
         func_020061E4(0x54c);
         return func_021E94AC(p, 0, 87);

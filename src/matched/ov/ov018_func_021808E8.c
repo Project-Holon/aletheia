@@ -28,13 +28,19 @@ typedef unsigned short u16;
 
 extern u16 d_0218383C[];
 
-int func_020124E4(int x);
-int func_020120F4(int x);
+typedef unsigned int   u32;
+struct Ctx;
+struct Obj;
+struct Rec44;
+struct Sub24;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
+void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 unsigned int func_02012138(const struct Ctx *p);
-void *func_02158344(int x);
-int func_02012950(int a, int b);
-void func_0201F02C(int a, int b, int c);
+int func_02158344(int a0);
+struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(u8 *p, int a);
 int func_0217F40C(u8 *p);
 int func_0217F420(void);
@@ -42,14 +48,14 @@ void func_0217FE38(void *m, u8 *obj);
 
 int func_021808E8(int x, int *st, u8 *obj)
 {
-    int v = func_020124E4(x);
-    int w = func_020120F4(v);
+    int v = (int)func_020124E4((struct Obj *)x);
+    int w = (int)func_020120F4((const struct Ctx *)v);
     void *m;
 
-    m = func_02158344(func_02012138((const struct Ctx *)v));
+    m = (void *)func_02158344(func_02012138((const struct Ctx *)v));
     switch (*st) {
     case 0:
-        func_0201F02C(*(int *)(obj + 0x10), 0, func_02012950(w, obj[0x40]));
+        func_0201F02C((struct WordSet *)(*(int *)(obj + 0x10)), 0, func_02012950((struct Sub24 *)w, obj[0x40]));
         func_0217F3C4(obj + 0x10, d_0218383C[obj[0x42]]);
         *st = *st + 1;
         break;

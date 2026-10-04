@@ -35,12 +35,14 @@ extern void  func_02082D44(void *src, void *dst, int n);
 struct Ctx;
 extern u32   func_02012138(const struct Ctx *p);
 extern void  func_020307B0(void *a);
-extern int   func_02012164(u32 a);
-extern int   func_020264AC(u32 a);
+struct Comm;
+struct IcaAnime;
+extern u32 func_02012164(struct IcaAnime *p);
+extern u32 func_020264AC(void *obj);
 extern int   func_0203CD98(void);
-extern int   func_02026454(u32 a);
+extern u32 func_02026454(void *obj);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020263D8(u32 a, int b, void *c);
+extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
 extern const char d_021729BC[];
 
 void func_02164FD0(u8 *obj, int flag)
@@ -52,12 +54,12 @@ void func_02164FD0(u8 *obj, int flag)
     func_02082D44(obj + 4, buf, 6);
     w = func_02012138((const struct Ctx *)o);
     func_020307B0(obj);
-    if (flag == 0 && func_02012164(o) == 1 && func_020264AC(w) == 0
-        && func_0203CD98() == 0 && func_02026454(w) == 0) {
+    if (flag == 0 && func_02012164((struct IcaAnime *)o) == 1 && func_020264AC((void *)w) == 0
+        && func_0203CD98() == 0 && func_02026454((void *)w) == 0) {
         p = func_02030734(5, 0x10, 1, d_021729BC, 0x287);
         *(u32 *)p = o;
         *(u32 *)(p + 4) = func_02012138((const struct Ctx *)o);
         func_02082D44(buf, p + 8, 6);
-        func_020263D8(w, 2, p);
+        func_020263D8((struct Comm *)w, 2, (u32)p);
     }
 }

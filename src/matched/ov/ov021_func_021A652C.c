@@ -21,13 +21,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D3CC(void *p);
+extern int func_0216D3CC(int a0);
 extern u16 func_0216D5F8(void *p);
 extern int func_021A658C(void *a, void *b, int c, int d, u16 e, int f);
 
 int func_021A652C(void *a, void *b, int c, int d, u16 e, int f)
 {
-    if (func_0216D3CC(b) == 1) {
+    if (func_0216D3CC((int)b) == 1) {
         if (e != 9) {
             if (e != func_0216D5F8(b) && f == 0) {
                 return 3;

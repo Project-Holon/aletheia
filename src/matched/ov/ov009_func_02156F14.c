@@ -22,14 +22,14 @@ typedef struct {
     u32 f0; u32 f4; u32 f8; u32 fC; u32 f10; u32 f14; u32 f18; u32 f1C; u16 f20;
 } Obj;
 extern Obj *d_021A8268;
-extern void func_02060C94(u32 heap);
-extern void func_020307B0(u32 p);
+extern void func_02060C94(void *heap);
+extern void func_020307B0(void *p);
 extern void func_020306F0(u32 heap);
 void func_02156F14(void)
 {
     if (d_021A8268->fC != 0) {
-        func_02060C94(d_021A8268->f8);
-        func_020307B0(d_021A8268->fC);
+        func_02060C94((void *)d_021A8268->f8);
+        func_020307B0((void *)d_021A8268->fC);
         d_021A8268->f8 = 0;
         d_021A8268->fC = 0;
         if (d_021A8268->f20 != 0) {

@@ -64,7 +64,7 @@ typedef struct DWCstMatchControl {
 } DWCstMatchControl;
 
 extern DWCstNodeInfo *func_0217637C(int index);
-extern DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_0216F20C(int status);
 extern int func_02175EB4(void);
 extern u8 func_0216B838(void);
@@ -89,14 +89,14 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
     result = 1;
     sendlen = 0;
     pServerNodeInfo = func_0217637C(0);
-    oldbitmap = func_02175F3C()->suspendBitmap;
+    oldbitmap = ((DWCstMatchControl *)func_02175F3C())->suspendBitmap;
     if (suspend)
-        func_02175F3C()->suspendBitmap |= result << AID;
+        ((DWCstMatchControl *)func_02175F3C())->suspendBitmap |= result << AID;
     else
-        func_02175F3C()->suspendBitmap &= ~(result << AID);
-    if (oldbitmap != func_02175F3C()->suspendBitmap)
+        ((DWCstMatchControl *)func_02175F3C())->suspendBitmap &= ~(result << AID);
+    if (oldbitmap != ((DWCstMatchControl *)func_02175F3C())->suspendBitmap)
         func_0216F20C(-1);
-    bitmap = func_02175F3C()->suspendBitmap;
+    bitmap = ((DWCstMatchControl *)func_02175F3C())->suspendBitmap;
     if (!func_02175EB4())
         bitmap &= ~(result << func_0216B838());
     sm = func_0216CB90();
@@ -107,10 +107,10 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
         DWCstNodeInfo *pNodeInfo;
 
         pNodeInfo = func_02176410(AID);
-        senddata[sendlen++] = func_02175F3C()->w678;
+        senddata[sendlen++] = ((DWCstMatchControl *)func_02175F3C())->w678;
         senddata[sendlen++] = result;
         if (bRet) {
-            if (func_02175F3C()->suspendSent != 0) {
+            if (((DWCstMatchControl *)func_02175F3C())->suspendSent != 0) {
                 senddata[sendlen++] = suspend;
                 senddata[sendlen++] = bitmap;
             }
@@ -121,9 +121,9 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
             return 0;
     }
     if (bRet) {
-        if (func_02175F3C()->suspendSent != 1) {
-            func_02175F3C()->suspendSent = 1;
-            senddata[0] = func_02175F3C()->w678;
+        if (((DWCstMatchControl *)func_02175F3C())->suspendSent != 1) {
+            ((DWCstMatchControl *)func_02175F3C())->suspendSent = 1;
+            senddata[0] = ((DWCstMatchControl *)func_02175F3C())->w678;
             senddata[1] = 1;
             senddata[2] = suspend;
             senddata[3] = bitmap;

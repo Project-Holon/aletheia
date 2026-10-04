@@ -37,15 +37,16 @@ typedef struct {
     void *f18;
 } S;
 
-extern int  func_020146F8(int a0, int a1, int a2, int a3, int a4);
-extern void func_02012374(int a0, int a1);
+struct Evt;
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_020307B0(void *p);
 
 int func_02014758(int a0, int *a1, S *a2)
 {
     switch (*a1) {
     case 0:
-        func_02012374(a0, func_020146F8(a2->f00, a2->f04, a2->f08, a2->f0c,
+        func_02012374((struct Evt *)a0, func_020146F8((char *)a2->f00, a2->f04, a2->f08, a2->f0c,
                                         a2->f10));
         *a1 = *a1 + 1;
         break;

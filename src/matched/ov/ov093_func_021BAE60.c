@@ -24,13 +24,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021BB718(u8 *, int);
-extern void func_021BB724(u8 *, int, int *, int);
+struct QW;
+extern void func_021BB718(int a, int b);
+extern void func_021BB724(u8 *p, int a, int b, int c);
 extern int func_021BB798(u8 *);
 extern void func_021BB7D0(const u8 *p);
 extern u8 func_021B8FF4(u8 *);
-extern u8 *func_021EEB64(u32, int);
-extern int func_021BC360(int);
+extern u32 func_021EEB64(struct QW *p, u32 *out);
+extern int func_021BC360(u8 *p);
 extern void func_021BABEC(u8 *, void *);
 extern int func_021BAEF8(u8 *, int *);
 
@@ -38,7 +39,7 @@ int func_021BAE60(u8 *p, int *s)
 {
     switch (*s) {
     case 0:
-        func_021BB718(p, 7);
+        func_021BB718((int)p, 7);
         (*s)++;
         break;
     case 1:
@@ -47,12 +48,12 @@ int func_021BAE60(u8 *p, int *s)
             int *q;
 
             func_021BB7D0(p);
-            if (*func_021EEB64(*(u32 *)(p + 0x14 + idx * 12), 0) == 0) {
+            if (*((u8 *)func_021EEB64((struct QW *)(*(u32 *)(p + 0x14 + idx * 12)), 0)) == 0) {
                 func_021BABEC(p, (void *)func_021BAEF8);
             } else {
-                *(int *)(p + 0x48) = func_021BC360(*(int *)(p + 0x44));
+                *(int *)(p + 0x48) = func_021BC360((u8 *)(*(int *)(p + 0x44)));
                 q = *(int **)(p + 0xcb0);
-                func_021BB724(p, 8, q + 2, *q);
+                func_021BB724(p, 8, (int)(q + 2), *q);
                 (*s)++;
             }
         }

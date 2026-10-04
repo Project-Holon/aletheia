@@ -57,64 +57,73 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_020071E4(u32 h);
-extern u32  func_020127A4(void *p);
-extern void func_02008808(u32 h, u32 v);
-extern void func_020088B8(u32 h, u32 v);
+struct PlayTime;
+struct Rec2Head;
+struct Rec94;
+struct SaveBlock;
+struct Sub020071E4Ctrl;
+struct Sub020087E8Arg;
+struct Sub02008828Obj;
+struct Sub02008860Buf;
+struct Sub020097BCObj;
+extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
+extern void *func_020127A4(struct SaveBlock *p);
+extern void func_02008808(void *sys, struct Sub020087E8Arg *dest);
+extern void func_020088B8(void *sys, struct Sub02008860Buf *dest);
 extern u32  func_02012964(void *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
-extern void func_0200EEAC(u32 a, u32 b);
+extern void func_0200EEAC(void *ctx, void *list);
 extern u32  func_020127B8(void *p);
-extern void func_0200BE6C(u32 h, u32 v);
+extern void func_0200BE6C(void *sys, u16 *dest);
 extern u32  func_020127C4(void *p);
-extern u32  func_0200A864(u32 h);
-extern void func_0200A884(u32 a, u32 b);
-extern void func_0200B3C8(u32 h, void *p);
-extern void func_0200893C(u32 a, u32 b);
-extern void func_02008954(u32 a, void *b);
+extern void *func_0200A864(void *sys);
+extern void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest);
+extern void func_0200B3C8(void *sys, const struct Rec94 *src);
+extern void func_0200893C(const struct Sub02008828Obj *obj, void *dest);
+extern void func_02008954(const struct Sub02008828Obj *obj, u8 *out);
 extern u32  func_0201283C(void *p);
-extern u32  func_02009D08(u32 h);
-extern void func_020097F0(u32 a, u32 b);
-extern void func_02008964(u32 a, void *b);
-extern void func_0200E89C(u32 h, void *p);
-extern u32  func_02008748(u32 h);
-extern void func_0200863C(u32 a, u32 b);
+extern struct Sub020097BCObj *func_02009D08(void *sys);
+extern void func_020097F0(const struct Sub020097BCObj *src, struct Sub020097BCObj *dest);
+extern void func_02008964(const struct Sub02008828Obj *obj, u8 *out);
+extern void func_0200E89C(void *sys, void *dest);
+extern struct PlayTime *func_02008748(void *sys);
+extern void func_0200863C(struct PlayTime *dest, const struct PlayTime *src);
 
 void func_02012C18(u8 *p)
 {
     u32 v;
     u32 h;
 
-    if (func_020071E4(*(u32 *)p) == 1) {
+    if (func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)p)) == 1) {
         return;
     }
 
-    v = func_020127A4(p);
-    func_02008808(*(u32 *)p, v);
-    func_020088B8(*(u32 *)p, v);
+    v = (u32)func_020127A4((struct SaveBlock *)p);
+    func_02008808((void *)(*(u32 *)p), (struct Sub020087E8Arg *)v);
+    func_020088B8((void *)(*(u32 *)p), (struct Sub02008860Buf *)v);
 
     v = func_02012964(p);
-    func_0200EEAC(v, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x29));
+    func_0200EEAC((void *)v, (void *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x29)));
 
-    func_0200BE6C(*(u32 *)p, func_020127B8(p));
+    func_0200BE6C((void *)(*(u32 *)p), (u16 *)func_020127B8(p));
 
     v = func_020127C4(p);
-    func_0200A884(func_0200A864(*(u32 *)p), v);
+    func_0200A884(func_0200A864((void *)(*(u32 *)p)), (struct Rec2Head *)v);
 
-    func_0200B3C8(*(u32 *)p, p + 0x5EC);
+    func_0200B3C8((void *)(*(u32 *)p), (const struct Rec94 *)(p + 0x5EC));
 
     h = *(u32 *)(p + 0x15C);
-    func_0200893C(h, *(u32 *)(p + 0x1B8));
-    func_02008954(h, p + 0x1C4);
+    func_0200893C((const struct Sub02008828Obj *)h, (void *)(*(u32 *)(p + 0x1B8)));
+    func_02008954((const struct Sub02008828Obj *)h, p + 0x1C4);
 
     v = func_0201283C(p);
-    func_020097F0(func_02009D08(*(u32 *)p), v);
+    func_020097F0(func_02009D08((void *)(*(u32 *)p)), (struct Sub020097BCObj *)v);
 
-    func_02008964(*(u32 *)(p + 0x15C), p + 0x1C5);
+    func_02008964((const struct Sub02008828Obj *)(*(u32 *)(p + 0x15C)), p + 0x1C5);
 
-    func_0200E89C(*(u32 *)p, p + 0x694);
+    func_0200E89C((void *)(*(u32 *)p), p + 0x694);
 
-    v = func_02008748(*(u32 *)p);
-    func_0200863C(*(u32 *)(p + 0x6AC), v);
+    v = (u32)func_02008748((void *)(*(u32 *)p));
+    func_0200863C((struct PlayTime *)(*(u32 *)(p + 0x6AC)), (const struct PlayTime *)v);
 }

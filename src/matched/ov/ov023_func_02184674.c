@@ -52,18 +52,19 @@ extern int func_02186558(char *p);
 extern void func_0218644C(char *p, int state);
 extern u32 func_020221A4(void);
 extern void func_021840FC(u32 obj, void (*a)(void), void (*b)(void), char *arg);
-extern void func_021848A8(void);
+struct Tcbl;
+extern void func_021848A8(int a, int unused, char *p);
 extern void func_021848CC(void);
 extern void func_02184560(char *p, int a);
 extern void func_02185F74(void *win, int color, char *p);
 extern int func_02186324(char *p);
 extern void func_02185F10(void *p);
 extern void func_0203A5E4(u32 key);
-extern void func_02184174(u32 obj);
-extern int func_0218417C(u32 obj);
+extern void func_02184174(u8 *p);
+extern u32 func_0218417C(u8 *p);
 extern void func_021867C4(char *p);
 extern void func_0204A600(void);
-extern void func_020310C4(u32 x);
+extern void func_020310C4(struct Tcbl *p);
 extern void func_02186708(char *p);
 extern u32 func_0200FB24(void);
 extern Step d_02186E80[];
@@ -81,7 +82,7 @@ int func_02184674(void *task, int *state, int a2, char *p)
     switch (*state) {
     case 0:
         if (func_020221A4() != 0) {
-            func_021840FC(**(u32 **)(p + 4), func_021848A8, func_021848CC, p);
+            func_021840FC(**(u32 **)(p + 4), (void (*)(void))func_021848A8, func_021848CC, p);
             if (func_02039338() == 0) {
                 func_02184560(p, 1);
             }
@@ -111,19 +112,19 @@ int func_02184674(void *task, int *state, int a2, char *p)
     case 3:
         if (func_020221A4() != 0) {
             func_0203A5E4(0x2900);
-            func_02184174(**(u32 **)(p + 4));
+            func_02184174((u8 *)(**(u32 **)(p + 4)));
             *state = 4;
         }
         break;
     case 4:
-        if (func_0218417C(**(u32 **)(p + 4)) != 0) {
+        if (func_0218417C((u8 *)(**(u32 **)(p + 4))) != 0) {
             return 1;
         }
         break;
     }
     func_021867C4(p);
     func_0204A600();
-    func_020310C4(*(u32 *)(p + 0x170));
+    func_020310C4((struct Tcbl *)(*(u32 *)(p + 0x170)));
     func_02186708(p);
     if (func_020221A4() != 0 && func_0200FB24() != 0) {
         return 1;

@@ -26,19 +26,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020124E4(void *a);
-extern void func_02012374(void *a, u32 b);
-extern u32  func_021F5550(int a);
+struct Evt;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *func_021F5550(void *p);
 extern int func_02159168(int a, int b);
 extern void func_02034A5C(int a);
 extern u8 ov_id_52[];
 
 int func_021649E8(void *a, int *st)
 {
-    int r = func_020124E4(a);
+    int r = (int)func_020124E4(a);
     switch (*st) {
     case 0:
-        func_02012374(a, func_021F5550(r));
+        func_02012374(a, func_021F5550((void *)r));
         (*st)++;
         break;
     case 1:

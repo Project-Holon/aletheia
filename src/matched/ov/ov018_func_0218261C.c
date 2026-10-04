@@ -79,14 +79,14 @@ extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u8   *func_02158344(void *);
-extern int   func_02173AE0(u8 *, u8, int, u8);
+extern int func_02158344(int a0);
+extern int func_02173AE0(int a, int b, int c, int d);
 extern void func_021763D8(u8 *p, u32 key);
 extern void  func_0217F3C4(u8 *, int);
 extern int   func_0217F40C(u8 *);
 extern int   func_0217F420();
 extern void  func_0217F4C4(u8 *);
-extern void  func_0217F4D8(u8 *, void *);
+extern void func_0217F4D8(void **p, int a);
 extern int   func_0217F508(u8 *);
 extern void  func_0217FE38(u8 *, Outer *);
 
@@ -104,7 +104,7 @@ int func_0218261C(void *a, int *state, Outer *c)
     x = func_020120F4(sub);
     t = (void *)func_02012138(sub);
     h = c->h58;
-    v = func_02158344(t);
+    v = (u8 *)func_02158344((int)t);
     if (v == 0) {
         if (func_0217F40C((u8 *)c + 0x10) == 0) {
             return 0;
@@ -133,7 +133,7 @@ int func_0218261C(void *a, int *state, Outer *c)
         break;
     case 2:
         if (func_0217F40C((u8 *)c + 0x10) == 1) {
-            func_0217F4D8((u8 *)c + 0x10, sub);
+            func_0217F4D8((void **)((u8 *)c + 0x10), (int)sub);
             (*state)++;
         }
         break;
@@ -164,7 +164,7 @@ int func_0218261C(void *a, int *state, Outer *c)
         }
         break;
     case 4:
-        if (func_02173AE0(v, v[0x154], 7, v[0x158]) == 1) {
+        if (func_02173AE0((int)v, v[0x154], 7, v[0x158]) == 1) {
             func_0200C29C(func_02012F08(x), h[1]);
             func_02007E50(func_0201292C(x), h[0], 1, 0x15);
             func_0217F3C4((u8 *)c + 0x10, d_021839A4[5][c->b42]);
@@ -172,19 +172,19 @@ int func_0218261C(void *a, int *state, Outer *c)
         }
         break;
     case 5:
-        if (func_02173AE0(v, v[0x154], 9, v[0x158]) == 1) {
+        if (func_02173AE0((int)v, v[0x154], 9, v[0x158]) == 1) {
             func_0217F3C4((u8 *)c + 0x10, d_021839A4[3][c->b42]);
             *state = 8;
         }
         break;
     case 6:
-        if (func_02173AE0(v, v[0x154], 10, v[0x158]) == 1) {
+        if (func_02173AE0((int)v, v[0x154], 10, v[0x158]) == 1) {
             func_0217F3C4((u8 *)c + 0x10, d_021839A4[4][c->b42]);
             *state = 8;
         }
         break;
     case 7:
-        if (func_02173AE0(v, v[0x154], 8, v[0x158]) == 1) {
+        if (func_02173AE0((int)v, v[0x154], 8, v[0x158]) == 1) {
             func_0217F3C4((u8 *)c + 0x10, d_021839A4[2][c->b42]);
             *state = 8;
         }

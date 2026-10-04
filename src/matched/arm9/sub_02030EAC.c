@@ -56,7 +56,10 @@ struct Node {
     struct Node  *next;
 };
 
-extern void sub_02030C68(struct Owner *o, struct Node *n);
+typedef unsigned int   u32;
+struct Ctx02030C68;
+struct Frame02030C68;
+extern u32 sub_02030C68(struct Ctx02030C68 *ctx, struct Frame02030C68 *frame);
 
 void sub_02030EAC(struct Node *n)
 {
@@ -67,5 +70,5 @@ void sub_02030EAC(struct Node *n)
     }
     n->prev->next = n->next;
     n->next->prev = n->prev;
-    sub_02030C68(n->owner, n);
+    sub_02030C68((struct Ctx02030C68 *)n->owner, (struct Frame02030C68 *)n);
 }

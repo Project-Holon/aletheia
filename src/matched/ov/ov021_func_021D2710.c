@@ -28,9 +28,10 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012F08(u32 a);
-extern u32 func_02012944(u32 a);
-extern u16 func_0216BF9C(u32 a, u32 b, u32 c);
+typedef unsigned char  u8;
+extern void *func_02012F08(int *p);
+extern u8 *func_02012944(void *p);
+extern int func_0216BF9C(void *a, int i, void *b);
 
 u32 func_021D2710(u32 a, u32 b)
 {
@@ -42,7 +43,7 @@ u32 func_021D2710(u32 a, u32 b)
     r7 = func_02159B10((void *)a, (void *)b);
     r5 = func_02159AE8((void *)a, (void *)b);
     t = (u32)func_020120F4((const struct Ctx *)func_0215A5DC((void *)b));
-    r6 = func_02012F08(t);
-    *r5 = func_0216BF9C(r6, r7, func_02012944(t));
+    r6 = (u32)func_02012F08((int *)t);
+    *r5 = func_0216BF9C((void *)r6, r7, func_02012944((void *)t));
     return 0;
 }

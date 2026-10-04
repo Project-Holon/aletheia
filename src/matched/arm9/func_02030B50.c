@@ -63,22 +63,23 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_020303D8(void *p);
-extern void func_02030344(void *p);
-extern void func_0203038C(void *p);
-extern void func_0203046C(void *p);
-extern void *func_02030428(void *p);
+typedef unsigned short u16;
+extern u32 func_020303D8(u32 heapId);
+extern void *func_02030344(u32 heapId);
+extern void *func_0203038C(u32 heapId);
+extern u16 func_0203046C(u32 heapId);
+extern void *func_02030428(u32 heapId);
 extern void func_0209128C(int x);
 extern void func_02060F50(int *p, void (*fn)(void *, void *, int), int ctx);
-extern void func_02030A7C(void *data, void *ctx, int v);
+extern void func_02030A7C(void *heap);
 
 void func_02030B50(void *p)
 {
-    func_020303D8(p);
-    func_02030344(p);
-    func_0203038C(p);
-    func_0203046C(p);
+    func_020303D8((u32)p);
+    func_02030344((u32)p);
+    func_0203038C((u32)p);
+    func_0203046C((u32)p);
     func_0209128C(1);
-    func_02060F50(func_02030428(p), func_02030A7C, 0);
+    func_02060F50(func_02030428((u32)p), (void (*)(void *, void *, int))func_02030A7C, 0);
     func_0209128C(0);
 }

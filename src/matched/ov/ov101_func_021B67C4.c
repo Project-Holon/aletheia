@@ -10,5 +10,6 @@
  * symbols:
  *   func_021B6494 0x021B6494 thumb ov101
  */
-extern int func_021B6494(int *,int,int,int *);
-int func_021B67C4(int *p) { int value; return func_021B6494((int *)p[0],0x1001,4,&value)!=0; }
+typedef unsigned int   u32;
+extern int func_021B6494(u32 p, u32 a, u32 b, u32 c);
+int func_021B67C4(int *p) { int value; return func_021B6494((u32)((int *)p[0]),0x1001,4,(u32)(&value))!=0; }

@@ -20,14 +20,15 @@
  *   func_021747F4 0x021747F4 thumb ov011
  *   func_02162040 0x02162040 thumb ov010
  */
-int func_02026478(int a);
+typedef unsigned int   u32;
+u32 func_02026478(void *obj);
 int func_020127C4(int h);
 int func_02174734(void *p, int b, int c);
 int func_02162024(void *p, int i, void *o);
 int func_021747A8(void *a, int b);
 void func_02162038(void *p, int i);
 int func_0216202C(void *p, void *o, unsigned char *i);
-int func_021747F4(void *a, int b);
+int func_021747F4(int a, int b);
 void func_02162040(void *p);
 void func_02174C38(unsigned char *p)
 {
@@ -35,7 +36,7 @@ void func_02174C38(unsigned char *p)
     int b2[2];
     unsigned char i;
     int h;
-    h = func_02026478(*(int *)(p + 4));
+    h = func_02026478((void *)(*(int *)(p + 4)));
     if (p[0x908] != 0) {
         if (func_02174734(p, p[0x908], func_020127C4(h)) == 1) {
             p[0x908] = 0;
@@ -49,7 +50,7 @@ void func_02174C38(unsigned char *p)
         }
     }
     if (func_0216202C(p + 0x35C, b2, &i) == 1) {
-        if (func_021747F4(b2, i) == 1) {
+        if (func_021747F4((int)b2, i) == 1) {
             func_02162040(p + 0x35C);
         }
     }

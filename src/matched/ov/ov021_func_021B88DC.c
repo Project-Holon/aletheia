@@ -64,7 +64,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 u8 *func_021B8514(u8 *p, u32 v, u8 *q, u16 *r, int flag);
 int func_021B854C(Ov021Mover *p, void *e, int dir, int a, int b, int len, int pos);
-int func_021B8674(void *map, void *e, void *row);
+int func_021B8674(u8 *p, u32 *q, u32 v);
 int func_021B868C(void *map, void *e, void *row);
 u8 *func_021B87D8(u8 *p, u32 idx);
 int func_021B9278(void *e, int a, void *map);
@@ -116,7 +116,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (e1 != 0 && p->f14 <= 0) {
-            if (func_021B8674(p->f24, e1, row)) {
+            if (func_021B8674(p->f24, e1, (u32)row)) {
                 int len;
                 int pos;
                 func_021B96AC(row, p->f24);
@@ -139,7 +139,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (e2 != 0 && p->f14 >= 0) {
-            if (func_021B8674(p->f24, e2, row)) {
+            if (func_021B8674(p->f24, e2, (u32)row)) {
                 int len;
                 int pos;
                 func_021B96AC(row, p->f24);
@@ -202,7 +202,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (e1 != 0 && p->f14 <= 0) {
-            if (func_021B8674(p->f24, e1, row)) {
+            if (func_021B8674(p->f24, e1, (u32)row)) {
                 int len;
                 int pos;
                 func_021B96AC(row, p->f24);
@@ -225,7 +225,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (e2 != 0 && p->f14 >= 0) {
-            if (func_021B8674(p->f24, e2, row)) {
+            if (func_021B8674(p->f24, e2, (u32)row)) {
                 int len;
                 int pos;
                 func_021B96AC(row, p->f24);
@@ -264,7 +264,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             row = func_021B87D8(p->f24, seg->f00);
             e = func_021B8514(row, dir, p->f24, p->f28, 0);
             if (e != 0) {
-                if (func_021B8674(p->f24, e, row)) {
+                if (func_021B8674(p->f24, e, (u32)row)) {
                     int len;
                     int pos;
                     func_021B96AC(row, p->f24);
@@ -290,7 +290,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             row2 = func_021B87D8(p->f24, seg->f04);
             e2 = func_021B8514(row2, dir, p->f24, p->f28, 0);
             if (e2 != 0) {
-                if (func_021B8674(p->f24, e2, row2)) {
+                if (func_021B8674(p->f24, e2, (u32)row2)) {
                     int len;
                     int pos;
                     func_021B96AC(row2, p->f24);
@@ -331,7 +331,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             row = func_021B87D8(p->f24, seg->f00);
             e = func_021B8514(row, dir, p->f24, p->f28, 0);
             if (e != 0) {
-                if (func_021B8674(p->f24, e, row)) {
+                if (func_021B8674(p->f24, e, (u32)row)) {
                     int pos;
                     func_021B96AC(row, p->f24);
                     lenA = func_021B9278(e, p->f1C, p->f24);
@@ -356,7 +356,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             row2 = func_021B87D8(p->f24, seg->f04);
             e2 = func_021B8514(row2, dir, p->f24, p->f28, 0);
             if (e2 != 0) {
-                if (func_021B8674(p->f24, e2, row2)) {
+                if (func_021B8674(p->f24, e2, (u32)row2)) {
                     int pos;
                     func_021B96AC(row2, p->f24);
                     lenB = func_021B9278(e2, p->f1C, p->f24);

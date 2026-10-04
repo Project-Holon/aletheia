@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021DA8A8(void *a, int id, int k);
+extern int func_021DA8A8(int a, int b, int c);
 struct UtilWork;
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
@@ -39,7 +39,7 @@ void func_021DAF58(int unused, void *a, int id)
 {
     u8 *r;
 
-    if (func_021DA8A8(a, id, 9) != 0) {
+    if (func_021DA8A8((int)a, id, 9) != 0) {
         func_021C88B4(a, 2, id);
         if (func_021D5BDC(func_021C7CF4(a, id), 13) == 0) {
             r = (u8 *)func_021C88A4(a, 4, id);

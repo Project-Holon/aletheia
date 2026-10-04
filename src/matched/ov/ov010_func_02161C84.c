@@ -31,8 +31,9 @@ typedef struct {
 } S;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern int func_020120F4(int);
-extern int func_02012944(int);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
 extern int func_02008550(int);
 
 void func_02161C84(S *s, int a, int b, u8 d, u32 c, u8 e, u8 f, u8 g)
@@ -45,5 +46,5 @@ void func_02161C84(S *s, int a, int b, u8 d, u32 c, u8 e, u8 f, u8 g)
     s->e = e;
     s->f = f;
     s->g = g;
-    s->h = (u8)func_02008550(func_02012944(func_020120F4(a)));
+    s->h = (u8)func_02008550((int)func_02012944(func_020120F4((const struct Ctx *)a)));
 }

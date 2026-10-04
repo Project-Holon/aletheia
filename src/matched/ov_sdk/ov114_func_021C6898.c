@@ -15,9 +15,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02084F80(int, int, void *, int, int);
+extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 
 void func_021C6898(int a)
 {
-    func_02084F80(a, 0x21, (void *)0x021CF464, 5, 3);
+    func_02084F80((char *)a, 0x21, (void *)0x021CF464, 5, 3);
 }

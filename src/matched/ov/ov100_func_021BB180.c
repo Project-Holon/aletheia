@@ -30,7 +30,9 @@ extern const struct Word d_021BB69C,d_021BB68C;
 extern void func_021BA5F4(unsigned a);
 extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA64C(unsigned a, unsigned b);
-extern void func_0204BA00(int,struct Task *);
+struct Actor;
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_021BB0C4(int),func_021BB10C(int);
 void func_021BB180(int p)
@@ -58,9 +60,9 @@ void func_021BB180(int p)
             task.state=0;
             task.context=p;
             task.callback=func_021BB0C4;
-            func_0204BA00(*(int *)(p+0x2c8),&task);
+            func_0204BA00((struct Actor *)(*(int *)(p+0x2c8)),(const struct Cmd *)(&task));
             task.callback=func_021BB10C;
-            func_0204BA00(*(int *)(p+0x2d0),&task);
+            func_0204BA00((struct Actor *)(*(int *)(p+0x2d0)),(const struct Cmd *)(&task));
         }
         *(int *)(p+0xc8c)=0;
     }

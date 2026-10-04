@@ -18,7 +18,7 @@
  *   func_021C909C  0x021C909C  thumb
  */
 
-extern int func_021F3D38(int a, int b, int c);
+extern void *func_021F3D38(int a, int x, int y);
 extern int func_021F3C98(int *a, int *b);
 struct Actor;
 struct VecFx32;
@@ -31,7 +31,7 @@ void func_021F3B44(int *a, int *out, int x, int y)
 {
     int buf[3];
 
-    out[0] = func_021F3D38(a[2], x, y);
+    out[0] = (int)func_021F3D38(a[2], x, y);
     func_0216D88C((const struct Actor *)out[0], (struct VecFx32 *)buf);
     out[1] = func_021C9064(func_02188CD0(a[2]), buf, out[0]);
     if (func_021F3C98(a, out) == 1)

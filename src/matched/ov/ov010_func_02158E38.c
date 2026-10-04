@@ -17,9 +17,9 @@
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern void *func_0215A5DC(void *a0);
-extern int func_02158DE8(int, void *, void *, int);
+extern int func_02158DE8(int a, int b, int c, int idx);
 extern void func_02011328(void *, int (*)(int, void *, void *, int), void *);
 void func_02158E38(void *a) {
     void *b = func_0215A5DC(func_02011324(a));
-    func_02011328(a, func_02158DE8, b);
+    func_02011328(a, (int (*)(int,  void *, void *, int))func_02158DE8, b);
 }

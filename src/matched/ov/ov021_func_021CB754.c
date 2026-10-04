@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern int func_02158F58(void *a);
+extern int func_02158F58(int a0);
 extern void *func_02158F54(void *a);
 struct Big;
 struct BigObj;
@@ -41,8 +41,8 @@ extern u32 func_0201296C(const struct BigObj *p);
 extern void *func_02012ED8(struct Big *p);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
-extern int func_021CD688(u32 a);
-extern void func_021CD5A4(u32 a);
+extern u32 func_021CD688(u8 *p);
+extern u32 func_021CD5A4(u32 *p);
 
 int func_021CB754(u32 unused, u32 a)
 {
@@ -53,7 +53,7 @@ int func_021CB754(u32 unused, u32 a)
     u32 z;
 
     t = func_0215A5F4((void *)a);
-    func_02158F58(t);
+    func_02158F58((int)t);
     s = func_020120F4(func_02158F54(t));
     h = func_02012EBC(s);
     func_0201296C(s);
@@ -61,9 +61,9 @@ int func_021CB754(u32 unused, u32 a)
     z = 0;
     func_0200D884(func_020071CC(h, 0x39), 0, 0);
     func_020071CC(h, 0x3A);
-    r = func_021CD688(*(u32 *)(p + 0x71C));
+    r = func_021CD688((u8 *)(*(u32 *)(p + 0x71C)));
     if (r != 0) {
-        func_021CD5A4(*(u32 *)(p + 0x71C));
+        func_021CD5A4((u32 *)(*(u32 *)(p + 0x71C)));
         *(u32 *)(p + 0x71C) = z;
         switch (r) {
         case 1:

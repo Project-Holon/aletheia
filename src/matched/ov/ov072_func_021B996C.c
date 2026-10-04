@@ -20,7 +20,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 int func_0204E804(void);
-void func_021B995C(int a, int b);
+void func_021B995C(int *p, int x);
 int func_021B99E8(int *a, int unused, char *p);
 
 void func_021B996C(int a, int *b)
@@ -36,7 +36,7 @@ void func_021B996C(int a, int *b)
         }
         break;
     case 2:
-        func_021B995C(a, (int)func_021B99E8);
+        func_021B995C((int *)a, (int)func_021B99E8);
         break;
     }
 }

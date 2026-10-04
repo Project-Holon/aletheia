@@ -30,12 +30,12 @@ struct Triple { int a,b,c; };
 extern const struct Rec6 d_021E3734[];
 extern const struct Rec8 d_021E3740[];
 extern int func_021FC20C(char *),func_021FC214(char *);
-extern void func_021FB964(int,int,int);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern int func_021FC124(int,int,struct Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void func_021FC754(char *,void *,void *,void *,u16);
-extern void func_021FD170(void *,int,int);
+extern void func_021FD170(char *p, char *q, void *text);
 extern void func_02082BCC(void *,int,int);
 int func_021DFB90(char *p,char *q)
 {
@@ -46,7 +46,7 @@ int func_021DFB90(char *p,char *q)
     const struct Rec8 *s;
     first=func_021FC20C(*(char **)(q+8));
     second=func_021FC214(*(char **)(q+8));
-    func_021FB964(*(int *)(q+8),26,*(u16 *)(p+0x54));
+    func_021FB964((void *)(*(int *)(q+8)),26,*(u16 *)(p+0x54));
     func_02082BCC(&req,0,8);
     func_021FC124(*(int *)(q+8),6,&triple);
     for(i=0;i<2;i++) {
@@ -59,6 +59,6 @@ int func_021DFB90(char *p,char *q)
         *(void **)(p+i*4)=func_021FC6A4(4,s->a,s->b,s->c,s->d,14,*(void **)(p+0x48),*(u16 *)(p+0x54));
         func_021FC754(*(char **)(p+i*4),(void *)second,s->value,(void *)first,0x3da0);
     }
-    func_021FD170(*(void **)(p+0x38),*(int *)(q+8),107);
+    func_021FD170(*(void **)(p+0x38),(char *)(*(int *)(q+8)),(void *)107);
     return 1;
 }

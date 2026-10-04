@@ -18,13 +18,13 @@
 
 typedef unsigned long u32;
 
-extern void func_021E82BC(u32 p);
+extern void func_021E82BC(char *p);
 
 void func_021D98B8(char *obj)
 {
     u32 p = *(u32 *)(obj + 0x24);
     if (p != 0) {
-        func_021E82BC(p);
+        func_021E82BC((char *)p);
         *(u32 *)(obj + 0x24) = 0;
     }
 }

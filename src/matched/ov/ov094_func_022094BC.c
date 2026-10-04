@@ -27,7 +27,8 @@ typedef struct {
 } W;
 
 extern u64 func_020870D0(void);
-extern void func_0204B22C(int h, int a);
+struct Bank;
+extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_02209540(W *w, int i);
 
 void func_022094BC(u8 *p, int i, int a, int b)
@@ -40,6 +41,6 @@ void func_022094BC(u8 *p, int i, int a, int b)
             w->x64[i] = 0;
             func_02209540(w, i);
         }
-        func_0204B22C(w->h[i], a);
+        func_0204B22C((struct Bank *)w->h[i], a);
     }
 }

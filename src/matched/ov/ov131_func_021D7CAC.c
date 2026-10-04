@@ -51,7 +51,8 @@ extern void func_0204AB84(u32,struct Rec *);
 extern void func_0204B784(void *,const struct Rec *);
 extern u8 func_020275EC(u8 i);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B404(void *,const struct Point *,u16);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B84C(void *,u32);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -89,7 +90,7 @@ void func_021D7CAC(u8 *a,u8 *p)
         func_0204B6F4(*(void **)(a+0x198),func_020275EC(first),1);
         point.x=96;
         point.y=48;
-        func_0204B404(*(void **)(a+0x198),&point,0);
+        func_0204B404(*(void **)(a+0x198),(const struct Vec2 *)(&point),0);
         func_0204B3DC(*(void **)(a+0x198),1);
         func_0204B84C(*(void **)(a+0x198),1);
         if(first!=second) {
@@ -98,7 +99,7 @@ void func_021D7CAC(u8 *a,u8 *p)
             func_0204B6F4(*(void **)(a+0x19c),func_020275EC(second),1);
             point.x=130;
             point.y=48;
-            func_0204B404(*(void **)(a+0x19c),&point,0);
+            func_0204B404(*(void **)(a+0x19c),(const struct Vec2 *)(&point),0);
             func_0204B3DC(*(void **)(a+0x19c),1);
             func_0204B84C(*(void **)(a+0x19c),1);
         } else func_0204B3DC(*(void **)(a+0x19c),0);

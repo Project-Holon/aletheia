@@ -30,20 +30,22 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A1BC(u32 a0, u32 a1, u32 a2, u32 a3);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
-extern int   func_02062820(void *ptr, u32 val);
-extern int   func_02062A00(void *ptr, u32 val);
-extern int   func_02062A4C(void *ptr, u32 val);
-extern int   func_02062A98(void *ptr, u32 val);
+extern int func_02062820(int a, int *out);
+extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern int   func_02062B30(void *ptr, void **out);
 extern void  func_020307B0(void *ptr);
 
 void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
-    void *res = func_0204A1BC(a0, a1, a2, a4);
+    void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062A4C(res, a3)) {
+        if (!func_02062A4C(res, (void **)a3)) {
             func_020307B0(res);
             return 0;
         }
@@ -55,7 +57,7 @@ void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062A4C(res, a3)) {
+        if (!func_02062A4C(res, (void **)a3)) {
             func_020307B0(res);
             return 0;
         }
@@ -65,9 +67,9 @@ void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
-    void *res = func_0204A1BC(a0, a1, a2, a4);
+    void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062A00(res, a3)) {
+        if (!func_02062A00(res, (void **)a3)) {
             func_020307B0(res);
             return 0;
         }
@@ -79,7 +81,7 @@ void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062A00(res, a3)) {
+        if (!func_02062A00(res, (void **)a3)) {
             func_020307B0(res);
             return 0;
         }
@@ -89,7 +91,7 @@ void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
-    void *res = func_0204A1BC(a0, a1, a2, a4);
+    void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
         if (!func_02062B30(res, (void **)a3)) {
             func_020307B0(res);
@@ -113,9 +115,9 @@ void *func_02049EF4(void *a0, u32 a1, u32 a2, void **out, u16 a4)
 
 void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3)
 {
-    void *res = func_0204A1BC(a0, a1, 0, a3);
+    void *res = (void *)func_0204A1BC(a0, a1, 0, a3);
     if (res != 0) {
-        if (!func_02062A98(res, a2)) {
+        if (!func_02062A98(res, (void **)a2)) {
             func_020307B0(res);
             return 0;
         }
@@ -127,7 +129,7 @@ void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3)
 {
     void *res = func_0204A380(a0, a1, 0, a3);
     if (res != 0) {
-        if (!func_02062A98(res, a2)) {
+        if (!func_02062A98(res, (void **)a2)) {
             func_020307B0(res);
             return 0;
         }
@@ -137,9 +139,9 @@ void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3)
 
 void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
-    void *res = func_0204A1BC(a0, a1, a2, a4);
+    void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062820(res, a3)) {
+        if (!func_02062820((int)res, (int *)a3)) {
             func_020307B0(res);
             return 0;
         }
@@ -151,7 +153,7 @@ void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062820(res, a3)) {
+        if (!func_02062820((int)res, (int *)a3)) {
             func_020307B0(res);
             return 0;
         }

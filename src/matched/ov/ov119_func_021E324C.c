@@ -18,7 +18,9 @@ typedef unsigned short u16;
 typedef struct {int a,b,c; u16 d,e;} Entry;
 extern const Entry d_021E7B3C[];
 extern u16 func_02047E88(void *,const Entry *);
-extern void *func_02048A18(void *,u16);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
 extern void func_020477A4(void *,u16);
 void func_021E324C(char *p,int n) {
@@ -27,7 +29,7 @@ void func_021E324C(char *p,int n) {
     if(d_021E7B3C[n].d) *(u16 *)(p+0x824)=func_02047E88(*(void **)(p+0x820),&d_021E7B3C[n]);
     else *(u16 *)(p+0x824)=0xffff;
     if(*(u16 *)(p+0x824)!=0xffff) {
-        q=func_02048A18(*(void **)(p+0x820),*(u16 *)(p+0x824));
+        q=(void *)func_02048A18(*(void **)(p+0x820),*(u16 *)(p+0x824));
         count=func_0204779C(q);
         for(i=0;i<count;i++) func_020477A4(q,i);
     }

@@ -17,6 +17,6 @@
 typedef unsigned short u16;
 extern int func_021D775C(int);
 extern int func_021DC6DC(u16);
-extern int func_021E8624(void *,int);
+extern int func_021E8624(int a, int b);
 extern void func_021D7704(int,int);
-void func_021DC6A0(int a, void *b, int c) { if (c == func_021D775C(3) && func_021DC6DC(func_021D775C(18)) == 0 && func_021E8624(b,c) != 0) func_021D7704(49,0x14cd); }
+void func_021DC6A0(int a, void *b, int c) { if (c == func_021D775C(3) && func_021DC6DC(func_021D775C(18)) == 0 && func_021E8624((int)b,c) != 0) func_021D7704(49,0x14cd); }

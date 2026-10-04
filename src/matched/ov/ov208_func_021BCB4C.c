@@ -25,7 +25,8 @@
  */
 extern void func_0204E720(unsigned,int,int,int);
 extern void func_021BC26C(void *);
-extern void func_020307B0(unsigned);
+struct PrintSys;
+extern void func_020307B0(void *p);
 extern void func_021BC39C(void *);
 struct Node;
 struct Ov208Mgr;
@@ -34,7 +35,7 @@ struct S020315D4;
 extern void func_021BE778(struct Ov208Mgr *m);
 extern void func_021BD954(struct Ov208Mgr *m);
 extern void func_02030EAC(struct Node *n);
-extern void func_0201C6EC(unsigned);
+extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 extern void func_021BCEC0(char *);
@@ -44,12 +45,12 @@ int func_021BCB4C(void *a,int b,int c,char *p)
 {
     func_0204E720(3,16,16,0);
     if(*(void **)(p+0x20))func_021BC26C(*(void **)(p+0x20));
-    if(*(unsigned *)(p+0x24))func_020307B0(*(unsigned *)(p+0x24));
+    if(*(unsigned *)(p+0x24))func_020307B0((void *)(*(unsigned *)(p+0x24)));
     func_021BC39C(*(void **)(p+0x1c));
     func_021BE778(*(void **)(p+0x18));
     func_021BD954(*(void **)(p+0x14));
     func_02030EAC(*(void **)(p+0x10));
-    func_0201C6EC(*(unsigned *)(p+0xc));
+    func_0201C6EC((struct PrintSys *)(*(unsigned *)(p+0xc)));
     func_0201C4C0(*(void **)(p+0xc));
     func_0201D83C(*(void **)(p+8));
     func_021BCEC0(*(char **)(p+4));

@@ -20,8 +20,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A01FC(u32 obj, int a, int b, int c);
-extern int func_021A01D4(u32 obj);
+extern void func_021A01FC(u8 *p, u32 a, u32 b, u32 c);
+extern u8 func_021A01D4(u8 *p);
 extern void func_021A2CC8(void *p, int a, int b, int c);
 
 void func_021A232C(u8 *p, int a, int b, int c, int d)
@@ -29,16 +29,16 @@ void func_021A232C(u8 *p, int a, int b, int c, int d)
     int h;
 
     if (d == 1) {
-        func_021A01FC(*(u32 *)(p + 4), b, a, c);
+        func_021A01FC((u8 *)(*(u32 *)(p + 4)), b, a, c);
         return;
     }
     if (d == 2) {
-        if (a == func_021A01D4(*(u32 *)(p + 4))) {
-            func_021A01FC(*(u32 *)(p + 4), b, a, c);
+        if (a == func_021A01D4((u8 *)(*(u32 *)(p + 4)))) {
+            func_021A01FC((u8 *)(*(u32 *)(p + 4)), b, a, c);
             return;
         }
         h = c / 2;
-        func_021A01FC(*(u32 *)(p + 4), 0x7FDF, func_021A01D4(*(u32 *)(p + 4)), h);
+        func_021A01FC((u8 *)(*(u32 *)(p + 4)), 0x7FDF, func_021A01D4((u8 *)(*(u32 *)(p + 4))), h);
         func_021A2CC8(p, a, b, h);
     }
 }

@@ -15,13 +15,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02045808(u32);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021BA254(u8 *);
 extern void func_02082BCC(void *, u32, u32);
 void func_021BADFC(u8 *p)
 {
     int i;
-    for (i = 0; i < 2; i++) func_02045808(*(u32 *)(p + i * 12 + 60));
+    for (i = 0; i < 2; i++) func_02045808((struct U16Vec *)(*(u32 *)(p + i * 12 + 60)));
     func_021BA254(p);
     func_02082BCC(p, 0, 112);
 }

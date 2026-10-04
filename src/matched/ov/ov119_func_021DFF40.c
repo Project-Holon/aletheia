@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct WordSet;
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F02C(void *, int, int);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021E0FF4(void *, int, int);
@@ -45,7 +45,7 @@ void func_021DFF40(char *p)
         a = func_021D8FA4(p, 1);
     }
     func_0201EEF4(*(void **)(p + 0x724), 1, a);
-    func_0201F02C(*(void **)(p + 0x724), 0, *(int *)(p + 0x834));
+    func_0201F02C(*(void **)(p + 0x724), 0, (void *)(*(int *)(p + 0x834)));
     if (*(int *)(p + 0x118C) != 7 && *(int *)(p + 0x118C) != 8) {
         if (*(unsigned char *)(p + 0x11EE)) {
             func_02045CAC(*(void **)(p + 0x720), 0x84, *(void **)(p + 0x73C));

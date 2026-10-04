@@ -43,7 +43,8 @@ struct Descriptor;
 struct Obj;
 struct Sub020097BCObj;
 extern void func_02155664(void (*callback)(void));
-extern void func_021BEE64(void);
+struct Sub0200852CObj;
+extern int func_021BEE64(void *a, char *b);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021C19A8(char *);
 extern void func_021C0290(char *);
@@ -53,7 +54,7 @@ extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *);
 extern int func_021B96CC(char *);
 extern u8 *func_02012944(void *p);
-extern int func_02008550(void *);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02009A54(struct Sub020097BCObj *obj);
 extern void func_021B95A0(char *,int,void *,int,int,int,void *,void *);
 extern void *func_021B9900(char *,int);
@@ -72,7 +73,7 @@ void func_021BEEBC(char *p)
 {
     void *h;
     int kind, enabled;
-    func_02155664(func_021BEE64);
+    func_02155664((void (*)(void))func_021BEE64);
     h=func_020490F4(33,33);
     func_021C19A8(p);
     func_021C0290(p);
@@ -85,7 +86,7 @@ void func_021BEEBC(char *p)
         *(void **)(p+0xb0)=0;
     }
     if(!func_021B96CC(p+0x274)){
-        enabled=func_02008550(func_02012944(*(void **)(p+0xc4)));
+        enabled=func_02008550((const struct Sub0200852CObj *)func_02012944(*(void **)(p+0xc4)));
         kind=16;
         if(enabled)kind=17;
         *(u16 *)(p+0x132a)=func_02009A54(*(void **)(p+4));

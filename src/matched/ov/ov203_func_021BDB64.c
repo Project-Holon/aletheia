@@ -27,7 +27,7 @@ extern int func_021BDC88(char *);
 extern int func_021BE620(void *);
 extern void func_021BE638(char *p, int a);
 extern u32 func_020221A4(void);
-extern int func_021BDC20(unsigned char, int, unsigned short);
+extern int func_021BDC20(void *ctx, unsigned mode, unsigned heap);
 extern unsigned int d_02FFFC3C;
 int func_021BDB64(void *unused, int *state, void *c, char *work)
 {
@@ -55,7 +55,7 @@ int func_021BDB64(void *unused, int *state, void *c, char *work)
         break;
     case 1:
         if (func_020221A4() == 1) {
-            if (func_021BDC20((unsigned char)(*(int **)(work + 4))[1], 0, *(unsigned short *)work))
+            if (func_021BDC20((void *)((unsigned char)(*(int **)(work + 4))[1]), 0, *(unsigned short *)work))
                 return 1;
             (*state)++;
         }

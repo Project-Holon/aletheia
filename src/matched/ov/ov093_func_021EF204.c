@@ -47,7 +47,7 @@ extern u8 func_021B8DDC(u32 x);
 extern int func_021B8CE8(int a, u8 b, int c);
 extern void *func_021B86B8(void ***p);
 extern void func_02045CAC(void *s, u16 v, void *buf);
-extern void func_021EEFE0(u32 a, u32 *p, u32 b);
+extern void func_021EEFE0(void *s, const u32 *values, void *w);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 void func_021EF204(u32 a, u32 b, u32 *p)
@@ -65,6 +65,6 @@ void func_021EF204(u32 a, u32 b, u32 *p)
         x = 0;
     }
     func_02045CAC((void *)d_021F6398.t[1], b + x, (void *)d_021F6398.f0c);
-    func_021EEFE0(d_021F6398.f0c, p, d_021F6398.f08);
+    func_021EEFE0((void *)d_021F6398.f0c, p, (void *)d_021F6398.f08);
     func_0201F250((void *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }

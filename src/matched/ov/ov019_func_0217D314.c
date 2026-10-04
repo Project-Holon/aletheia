@@ -68,7 +68,7 @@ extern u8 func_0217F060(int i);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int a);
-extern void func_021734A8(u8 *a, int b, u8 *c);
+extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern void func_0217B8E4(u8 *a, int b);
 extern void func_02034714(void *a, int b, void *c);
 extern u32 func_020362DC(void);
@@ -104,7 +104,7 @@ int func_0217D314(u8 *a, Obj *b, int c, u8 *d)
             if (n <= func_0203D1A4((int)func_020399A8())) {
                 *d = 4;
             } else {
-                func_021734A8(a, 3, a + 0x2910 + idx * 0x8c);
+                func_021734A8(a, 3, (u32)(a + 0x2910 + idx * 0x8c));
                 b->b1 = 1;
                 switch (b->f2d) {
                 case 0x14:

@@ -38,7 +38,7 @@ extern void func_021DA280(u8 *p);
 extern void func_021DB528(char *,int);
 extern void func_021DB3E8(char *);
 extern u32 func_0200A348(struct Obj *);
-extern void func_021DBEE4(void *);
+extern void func_021DBEE4(u32 p);
 extern void func_020414EC(u32);
 extern void func_02041B6C(u32);
 extern void func_021DA890(void *);
@@ -67,7 +67,7 @@ void func_021DAE1C(Obj *obj)
     func_021DB528(p,0);
     func_021DB3E8(p);
     for(j=0;j<func_0200A348(*(void **)(p+0xc));j++)
-        func_021DBEE4(p+0x28+j*0xdc);
+        func_021DBEE4((u32)(p+0x28+j*0xdc));
     func_020414EC(4);
     func_020414EC(6);
     func_02041B6C(4);

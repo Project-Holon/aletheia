@@ -24,7 +24,7 @@ extern const char d_021F5224[];
 
 extern u32 func_02049030(u32 a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021F4DE4(void *a, int b, int c);
+extern int func_021F4DE4(int a, int b, int c);
 
 void func_021F3BC0(u8 *p)
 {
@@ -35,7 +35,7 @@ void func_021F3BC0(u8 *p)
         n = func_02049030(0xa6);
         *(void **)(p + 0x20) = func_02030734(*(u16 *)p, n * 0x24, 0, d_021F5224, 0x4cb);
         for (i = 0; i < n; i++) {
-            func_021F4DE4(*(u8 **)(p + 0x20) + i * 0x24, 0xa6, i);
+            func_021F4DE4((int)(*(u8 **)(p + 0x20) + i * 0x24), 0xa6, i);
         }
         p[0x24] = n;
     }

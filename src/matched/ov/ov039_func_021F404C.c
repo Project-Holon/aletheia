@@ -46,8 +46,10 @@ typedef struct {
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C80(void *p);
-extern unsigned int func_020120F4(unsigned int);
-extern unsigned int func_02012EC4(unsigned int);
+struct Big;
+struct Desc;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(unsigned int, unsigned int);
 extern u8 *func_021897BC(void *p, int idx);
 extern void *func_02188CB4(u8 *p);
@@ -62,8 +64,8 @@ extern int func_02188D2C(int *p);
 extern void *func_021BE674(char *base, int i, u8 j, u16 k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021F4158(u8 *p, int i);
-extern int func_020122C0(void *owner, int a, void (*fn)(void), int size);
-extern void func_021F4610(void);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern int func_021F4610(void *a0, int *a1);
 extern void func_021F41A8(void);
 
 int func_021F404C(void *a0)
@@ -79,7 +81,7 @@ int func_021F404C(void *a0)
     int h;
 
     sys = func_0201210C(a0);
-    p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))), 2);
+    p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
     s = func_021897BC(sys, 1);
     x = func_02188CB4(sys);
     if (func_021A3050(x)) {
@@ -98,9 +100,9 @@ int func_021F404C(void *a0)
         func_021BE6B0(func_021BE674((char *)h, 0, c, k), 1);
         s[7] = c;
         if (func_021F4158(p, c)) {
-            return func_020122C0(a0, 0, func_021F4610, 0);
+            return (int)func_020122C0(a0, 0, func_021F4610, 0);
         }
-        return func_020122C0(a0, 0, func_021F41A8, 0);
+        return (int)func_020122C0(a0, 0, func_021F41A8, 0);
     }
     return 0;
 }

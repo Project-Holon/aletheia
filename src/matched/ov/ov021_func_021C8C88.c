@@ -49,12 +49,12 @@ extern void *func_020124E8(struct Obj *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_02006148(u32 a0);
-extern int func_021C8BFC(void *task, int *state, void *work);
+extern int func_021C8BFC(int a, int *st, int *p);
 
 void *func_021C8C88(u32 prio, void *sys, u8 *owner)
 {
     void *v = func_02188CB4(owner);
-    void *task = func_020122C0(sys, prio, func_021C8BFC, 0x28);
+    void *task = func_020122C0(sys, prio, (TaskFn)func_021C8BFC, 0x28);
     struct Work8C88 *w = func_020124E8(task);
 
     w->sys = sys;

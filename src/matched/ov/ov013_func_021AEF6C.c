@@ -80,7 +80,7 @@ typedef struct Work {
 
 extern Work *d_021B3C80;
 
-extern void *func_02156F5C(void *heap, u32 size, int align);
+extern u32 func_02156F5C(u32 a, u32 b, u32 c);
 extern void func_02082BCC(void *p, int v, u32 n);
 extern void func_021AEB20(void);
 extern u32 func_0202EB0C(void);
@@ -88,11 +88,11 @@ extern int func_02073838(u8 *o, int n, u8 *src);
 extern void func_02073AD0(void *ch, int v);
 extern int func_020738C0(void *ch, int fmt, void *buf, u32 len, int rate,
                          int x, void (*cb)(void), void *arg);
-extern void func_021AEB7C(void);
+extern void func_021AEB7C(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u8 func_0216B838(void);
-extern void func_021AED08(void);
-extern void func_021AED30(void);
+extern void func_021AED08(int unused, int code, void *p);
+extern void func_021AED30(int a, int code, u32 *p);
 extern void func_021B370C(WorkerParam *p);
 extern int func_021B0C64(int x);
 extern void func_021AF124(void);
@@ -104,9 +104,9 @@ void func_021AEF6C(void *heap, int arg1, int mode)
     u8 vals[3] = {0, 0, 0};
 
     if (d_021B3C80 == 0) {
-        d_021B3C80 = func_02156F5C(heap, sizeof(Work), 0x20);
+        d_021B3C80 = (Work *)func_02156F5C((u32)heap, sizeof(Work), 0x20);
         func_02082BCC(d_021B3C80, 0, sizeof(Work));
-        d_021B3C80->f880 = func_02156F5C(heap, mode * 0x23C0 + 0x20, 0x20);
+        d_021B3C80->f880 = (void *)func_02156F5C((u32)heap, mode * 0x23C0 + 0x20, 0x20);
         d_021B3C80->f1984 = 0;
         func_021AEB20();
     }
@@ -125,7 +125,7 @@ void func_021AEF6C(void *heap, int arg1, int mode)
     func_02073838(d_021B3C80->f19B8, 1, vals);
     func_02073AD0(d_021B3C80->f19B8, 0);
     if (func_020738C0(d_021B3C80->f19B8, 1, d_021B3C80->f884, 0x880,
-                      func_0202EB0C() ? 0x40 : 0x41, 2, func_021AEB7C,
+                      func_0202EB0C() ? 0x40 : 0x41, 2, (void (*)(void))func_021AEB7C,
                       d_021B3C80) == 0) {
         func_02034714((void *)0x021B3C20, 0, (void *)0x021B3C20);
     }
@@ -139,9 +139,9 @@ void func_021AEF6C(void *heap, int arg1, int mode)
         func_02034714((void *)0x021B3C20, 0, (void *)0x021B3C20);
     }
     if (d_021B3C80->f19A8 == 3) {
-        param.cb = func_021AED08;
+        param.cb = (void (*)(void))func_021AED08;
     } else {
-        param.cb = func_021AED30;
+        param.cb = (void (*)(void))func_021AED30;
     }
     param.zero = 0;
     param.buf = d_021B3C80->f880;

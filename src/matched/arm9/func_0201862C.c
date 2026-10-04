@@ -32,8 +32,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020185F8(int a0, int a1, int a2);
-extern int func_02019C54(int a0, int a1);
-extern int func_0201AE1C(int a0, int a1);
+struct Personal;
+extern void *func_02019C54(u32 a, u32 b);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32 func_0201AF6C(u32 v);
 
 u32 func_0201862C(u32 a0, int a1, int a2, int a3, u8 a4, int a5)

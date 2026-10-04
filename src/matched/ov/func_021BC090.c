@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 typedef int BOOL;
 
-extern void func_0202F038(u32 p);
-extern u32 func_0202EE8C(u32 a, u32 b, int c, int d, int e);
+extern void func_0202F038(u8 *p);
+extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
 
 typedef struct {
     char pad[0x100];
@@ -38,9 +38,9 @@ typedef struct {
 void func_021BC090(S *s)
 {
     if (s->f100 != 0) {
-        func_0202F038(s->f100);
+        func_0202F038((u8 *)s->f100);
         s->f100 = 0;
     }
 
-    s->f100 = func_0202EE8C(s->f1C0, s->f190, 0xF, 0x10, 0x21);
+    s->f100 = (u32)func_0202EE8C(s->f1C0, (void *)s->f190, 0xF, 0x10, 0x21);
 }

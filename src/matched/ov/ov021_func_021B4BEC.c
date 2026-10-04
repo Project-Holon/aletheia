@@ -23,13 +23,13 @@ extern void *func_0215A5DC(void *a0);
 extern u16 *func_02159AE8(void *a0, void *a1);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern u16 func_021896F4(u32);
+extern int func_021896F4(void *p);
 
 int func_021B4BEC(u32 a, u32 b)
 {
     void *d = func_0215A5DC((void *)b);
     u16 *o = func_02159AE8((void *)a, (void *)b);
 
-    *o = func_021896F4(func_02012138(d));
+    *o = func_021896F4((void *)func_02012138(d));
     return 1;
 }

@@ -30,9 +30,11 @@ typedef struct {
 } Conn;
 
 extern int func_0201134C(int);
-extern void func_020113B0(int, int);
+struct Cur;
+struct QG;
+extern void func_020113B0(struct Cur *c, u32 v);
 extern int func_0218A378(Conn *, int, int);
-extern int func_021D5448(void *);
+extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
 
 int func_02188C1C(int a, Conn *b)
@@ -41,11 +43,11 @@ int func_02188C1C(int a, Conn *b)
     int i;
 
     m = func_0201134C(a);
-    for (i = 0; i < func_021D5448(b->fbc); i++) {
+    for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
         if (func_0218A378(b, func_021D54C0(b->fbc, (u8)i), 3) != 0)
             break;
     }
-    if (i == func_021D5448(b->fbc))
-        func_020113B0(a, *(int *)(a + 0x14) + m);
+    if (i == func_021D5448((struct QG *)b->fbc))
+        func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + m);
     return b->fc4;
 }

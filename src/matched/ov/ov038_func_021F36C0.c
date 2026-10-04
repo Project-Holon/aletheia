@@ -53,9 +53,10 @@ extern V d_021F46E8[];
 extern V d_021F4748[];
 extern V d_021F4694[];
 
-extern void *func_02188D2C(void *p);
-extern u32   func_02188C80(void *p);
-extern u32   func_020120F4(u32 a);
+struct Ctx;
+extern int func_02188D2C(int *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern u32   func_02012EC4(u32 a);
 extern int  *func_0200B3A4(u32 a, u32 b);
 typedef unsigned char  u8;
@@ -71,7 +72,7 @@ extern void func_021BE6B8(unsigned char *p, int v);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int v);
-extern int   func_021BE748(void *p);
+extern int func_021BE748(u32 a);
 
 void func_021F36C0(void *a0)
 {
@@ -87,8 +88,8 @@ void func_021F36C0(void *a0)
     V *e;
     V v;
 
-    r5 = func_02188D2C(a0);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a0))), 6);
+    r5 = (void *)func_02188D2C(a0);
+    q = func_0200B3A4(func_02012EC4((u32)func_020120F4(func_02188C80(a0))), 6);
     func_02030344(0x15);
     func_02189764(a0, 1, func_02188C84(a0), 0x24);
     func_021BE760(r5, &d_021F464C, 0);
@@ -103,7 +104,7 @@ void func_021F36C0(void *a0)
             func_021BE700(r5, 0, i, j, 1);
             func_021BE6B0(b, 1);
             if (q[i] != 0)
-                func_021BE6CC(r5, 0, i, j, func_021BE748(b));
+                func_021BE6CC(r5, 0, i, j, func_021BE748((u32)b));
         }
     }
     for (i = 0; i < 10; i++) {
@@ -117,7 +118,7 @@ void func_021F36C0(void *a0)
             func_021BE700(r5, 0, k, j, 1);
             func_021BE6B0(b, 1);
             if (q[i + 8] != 0)
-                func_021BE6CC(r5, 0, k, j, func_021BE748(b));
+                func_021BE6CC(r5, 0, k, j, func_021BE748((u32)b));
         }
     }
     for (n = 0; n < 7; n++) {

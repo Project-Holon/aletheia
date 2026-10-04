@@ -114,7 +114,7 @@ void *func_020120F4(void *);
 struct Ctx;
 void *func_0201210C(const struct Ctx *p);
 u32 func_02026454(void *);
-u8 *func_02026474(void *);
+u32 func_02026474(void *obj);
 int func_0200FB24(void);
 int func_02175E90(u8 *, u8 *);
 int func_02175DA8(u8 *);
@@ -134,11 +134,11 @@ void func_0217F4A0(Ov018Obj *p, int a, int b, int c);
 void *func_02029830(void *, int);
 void func_02012374(void *, void *);
 int func_02005F38(void);
-void *func_02029620(void *, int, int);
+void *func_02029620(void *a, u16 b, u16 c);
 void *func_0201292C(void *);
-u32 func_02007FB8(void *, int, u32);
+u32 func_02007FB8(u8 *base, u16 id, u16 d);
 u32 func_0200823C(int);
-void func_02007E50(void *, int, u16, u32);
+u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 void *func_02012EBC(void *);
 void *func_0200BE48(void *);
 u32 func_0200BF78(void *);
@@ -146,7 +146,7 @@ void func_0201EFA4(void *, u32, u32, u32, u32, u32);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
-void *func_0217CA84(void *, int);
+int func_0217CA84(void *a, int b);
 void func_0201235C(void *, void *);
 
 int func_02180538(void *a, int *state, Outer *c)
@@ -169,7 +169,7 @@ int func_02180538(void *a, int *state, Outer *c)
     case 0:
         v = 0;
         if (func_02026454(t) == 2) {
-            v = func_02026474(t);
+            v = (u8 *)func_02026474(t);
         }
         if (c->f34 == 0) {
             if (v != 0 && func_0200FB24() == 0 && func_02175E90(v, v + 0x1AC) == 1) {
@@ -288,7 +288,7 @@ int func_02180538(void *a, int *state, Outer *c)
         break;
     case 12:
         func_0217F318(&c->obj);
-        func_0201235C(a, func_0217CA84(sub, 0));
+        func_0201235C(a, (void *)func_0217CA84(sub, 0));
         return 0;
     }
     return 0;

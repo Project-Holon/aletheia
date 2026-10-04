@@ -90,7 +90,7 @@ extern void func_02163E58(void *a, VecFx32 *v, fx32 *y);
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
 extern void func_021F3714(int *p);
-extern void func_021F37B8(void *field);
+extern void func_021F37B8(int a);
 extern int func_021F3758(int *p);
 extern int func_021F3808(int *p);
 extern void func_021F3744(int *p);
@@ -129,7 +129,7 @@ int func_0216C2FC(void *evt, u32 *state, Work *w)
         break;
     case 2:
         func_021F3714(w->field);
-        func_021F37B8(w->field);
+        func_021F37B8((int)w->field);
         func_02012374(evt, func_021BE92C(w->sys, w->field, 0, 0, 1, 0, 0));
         (*state)++;
         break;

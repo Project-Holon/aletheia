@@ -20,17 +20,18 @@ struct Bank;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0220AFC4(u8 *p);
-extern void func_0204A8D4(void *);
-extern void func_0204ADA4(void *);
-extern void func_0204AFD8(void *);
+typedef unsigned int   u32;
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern void func_0204B1CC(struct Bank *bank);
 void func_0220E74C(char *p)
 {
     unsigned i;
     for(i=0;i<41;i++) func_0204B3B4(*(void **)(p+i*4+0x1ebc));
     func_0220AFC4(*(void **)(p+0x2188));
-    for(i=0;i<26;i++) func_0204A8D4(*(void **)(p+i*4+0x24a4));
-    for(i=0;i<6;i++) func_0204ADA4(*(void **)(p+i*4+0x250c));
-    for(i=0;i<6;i++) func_0204AFD8(*(void **)(p+i*4+0x2524));
+    for(i=0;i<26;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x24a4)));
+    for(i=0;i<6;i++) func_0204ADA4((u32)(*(void **)(p+i*4+0x250c)));
+    for(i=0;i<6;i++) func_0204AFD8((u32)(*(void **)(p+i*4+0x2524)));
     func_0204B1CC(*(void **)(p+0x1eb8));
 }

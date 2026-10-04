@@ -29,9 +29,10 @@ typedef struct { unsigned w[9]; } T;
 extern T d_021D3F68;
 
 extern void *func_0216CE60(void *a, void *b, int c);
-extern void func_02194588(void *o, void *q, int d, int e, int f);
+typedef unsigned int   u32;
+extern void func_02194588(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern int func_021945A0(int x);
-extern void func_0216E014(void *o, int d, int n);
+extern void func_0216E014(void *a, int *p, int b);
 extern void func_0216DB4C(void *o, int v);
 extern void func_0216DC98(void *o, int v);
 extern void func_0216DB80(unsigned int *p, unsigned int v);
@@ -47,8 +48,8 @@ void *func_02194434(unsigned char *a, int x, u16 *q, int d, int e, int f)
 
     *(u16 *)((unsigned char *)&local + 2) = x;
     o = func_0216CE60(m, &local, 0);
-    func_02194588(o, q, d, e, f);
-    func_0216E014(o, d, func_021945A0(*q));
+    func_02194588((u32)o, (u32)q, d, e, f);
+    func_0216E014(o, (int *)d, func_021945A0(*q));
     func_0216DB4C(o, 1);
     func_0216DC98(o, 1);
     func_0216DB80(o, 1);

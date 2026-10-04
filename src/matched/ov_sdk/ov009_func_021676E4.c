@@ -32,7 +32,7 @@ typedef struct WCMWork {
     unsigned short field22E8;
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern void func_02165A4C(unsigned char phase);
 extern void func_02166E5C(void);
 extern void func_021659B4(short result, void *para0, void *para1, long para2);
@@ -41,7 +41,7 @@ void func_021676E4(void *arg)
 {
     WCMWork *wcmw;
 
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     switch (((WMCallback *)arg)->errcode) {
     case 0:
         if (wcmw->phase == 12) {

@@ -27,18 +27,18 @@ typedef unsigned short u16;
 extern u16  d_021DDEE0[2];
 extern u16  d_021DDEE0b[2];
 
-extern int func_0216D5A0(int o);
-extern u16 func_0216D598(int o);
-extern void func_0216E0AC(int o, void *d);
-extern int func_0219E348(int o);
-extern void func_0219E2C0(int o, int v);
+extern u16 func_0216D5A0(void *p);
+extern u16 func_0216D598(void *p);
+extern void func_0216E0AC(void *a0, void *a1);
+extern void *func_0219E348(void *a);
+extern void func_0219E2C0(void *a, void *r);
 
 void func_021A5928(u8 *p, int v)
 {
-    if (func_0216D5A0(*(int *)(p + 0x1c)) != 0x45) {
-        d_021DDEE0[1] = func_0216D598(*(int *)(p + 0x1c));
-        func_0216E0AC(*(int *)(p + 0x1c), d_021DDEE0b);
+    if (func_0216D5A0((void *)(*(int *)(p + 0x1c))) != 0x45) {
+        d_021DDEE0[1] = func_0216D598((void *)(*(int *)(p + 0x1c)));
+        func_0216E0AC((void *)(*(int *)(p + 0x1c)), d_021DDEE0b);
     }
-    *(int *)(p + 0x20) = func_0219E348(*(int *)(p + 0x1c));
-    func_0219E2C0(*(int *)(p + 0x1c), v);
+    *(int *)(p + 0x20) = (int)func_0219E348((void *)(*(int *)(p + 0x1c)));
+    func_0219E2C0((void *)(*(int *)(p + 0x1c)), (void *)v);
 }

@@ -47,7 +47,7 @@ extern u32 func_0200A348(struct Obj *list);
 typedef unsigned char  u8;
 extern u32 func_0200A0E4(u8 *p, u32 a);
 extern int func_0200A000(char *p, int idx, void *buf);
-extern void func_021DBEE4(Item *it);
+extern void func_021DBEE4(u32 p);
 extern void func_021DBDF4(Item *it, void *data, Obj *o, u16 f);
 extern void func_021DD980(char *p);
 
@@ -58,7 +58,7 @@ void func_021DBC08(Obj *o, int idx)
 
     func_0200A094(o->list, idx);
     for (i = 0; i < func_0200A348(o->list); i++)
-        func_021DBEE4(&o->items[i]);
+        func_021DBEE4((u32)(&o->items[i]));
     for (i = 0; i < func_0200A348(o->list); i++) {
         if (func_0200A0E4(o->list, i)) {
             func_0200A000(o->list, i, buf);

@@ -21,8 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02027974();
-extern int func_020279E8();
-extern int func_02027A04();
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern int func_02027858();
 
 int func_0216A184(int a0)
@@ -37,13 +38,13 @@ a0 = *(int *)((char *)a0 + 0x40);
 loc_0216A190:
 a0 = *(int *)((char *)t5 + 0x18);
 a0 = *(int *)((char *)a0 + 0x40);
-    a0 = func_020279E8(a0);
+    a0 = func_020279E8((struct TaskMenu *)a0);
 loc_0216A198:
     if (a0 != 1) goto loc_0216A1B8;
 loc_0216A19C:
 a0 = *(int *)((char *)t5 + 0x18);
 a0 = *(int *)((char *)a0 + 0x40);
-    a0 = func_02027A04(a0);
+    a0 = func_02027A04((const u8 *)a0);
 loc_0216A1A4:
 t4 = a0 + 0;
 a0 = *(int *)((char *)t5 + 0x18);

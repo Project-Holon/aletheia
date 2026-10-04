@@ -50,7 +50,7 @@ extern T d_021F4208;
 extern u8 d_021F4660[];
 extern s16 d_020A1B38[];
 
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
@@ -69,7 +69,7 @@ void func_021F36C0(void *a0)
     T tbl;
     void *s;
 
-    s = func_02188D2C(a0);
+    s = (void *)func_02188D2C(a0);
     func_02189764(a0, 1, func_02188C84(a0), 0x730);
     func_021BE760(s, &d_021F40A4, 0);
     i = 0;

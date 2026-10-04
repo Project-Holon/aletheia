@@ -32,7 +32,7 @@ extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *func_02031290(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern u16 func_02165E24(void *r);
+extern int func_02165E24(int a0);
 extern u8 func_02165FC0(u32 type);
 
 void func_021F1E40(char *p, char *q, void *x, int flag)
@@ -50,7 +50,7 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
     if (flag)
         *(u32 *)(r + 0xc) = 1;
     else
-        *(u32 *)(r + 0xc) = func_02165E24(x);
+        *(u32 *)(r + 0xc) = func_02165E24((int)x);
     func_021F0FC8(p, q, func_02165FC0(*(u32 *)(r + 0xc)));
     func_021F0ED0(q, flag ? 0 : 1);
 }

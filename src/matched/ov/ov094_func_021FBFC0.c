@@ -35,7 +35,7 @@ extern void func_021FE6A4(void *, void *);
 extern void func_021FE750(void *);
 extern int func_021FCA04(char *, int, int *);
 extern int func_021FE4D0(char *);
-extern char *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FE410(char *, int, int, int);
 extern int func_02200218(char *, int, int, int, int, int, int);
 int func_021FBFC0(void *a, char *s)
@@ -62,7 +62,7 @@ int func_021FBFC0(void *a, char *s)
         if (duration == 0) {
             for (i = 0; i < n; i++) {
                 slot = func_021FE4D0(s);
-                *(int *)(s + slot * 4 + 0x26c) = func_02200218(func_021F8694(), buf[i], x, y, z, q, r);
+                *(int *)(s + slot * 4 + 0x26c) = func_02200218((char *)func_021F8694(), buf[i], x, y, z, q, r);
             }
             func_021FE410(s, 0x7f000, 0x6b000, 10);
             if (!((Flags *)s)->bit10) {

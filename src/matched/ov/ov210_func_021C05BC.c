@@ -17,12 +17,13 @@
 
 typedef unsigned char u8;
 
-extern void func_021BEC60(int p, int a, int b);
-extern void func_021BF7B0(int p, int a, int b, int c);
+typedef unsigned int   u32;
+extern void func_021BEC60(int p, int *a, u32 b);
+extern void func_021BF7B0(char *p, int idx, int y, int flag);
 
 void func_021C05BC(int p, unsigned a, int b, int c, int d)
 {
-    func_021BEC60(p, b, *(int *)(p + a * 4 + 0x1e4));
+    func_021BEC60(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
     if ((*(u8 **)(*(int **)p + 2))[2] == a)
-        func_021BF7B0(p, 0, c, d);
+        func_021BF7B0((char *)p, 0, c, d);
 }

@@ -29,21 +29,23 @@
 typedef unsigned int u32;
 
 extern u32  func_0200974C(u32 a);
-extern u32  func_02009750(u32 a, u32 b);
-extern void func_020095E8(u32 a);
+struct Sub02009470Obj;
+extern u32 func_02009750(struct Sub02009470Obj *obj, u32 n);
+extern void func_020095E8(struct Sub02009470Obj *obj);
 typedef unsigned char  u8;
 struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern void func_0202ED90(u32 a, void *b, u32 c);
+struct Slot;
+extern void func_0202ED90(u8 *a, struct Slot *b, u32 c);
 
 void func_0202ED60(u32 a, void *b, u32 c)
 {
     u32 t = func_0200974C(a);
     u32 v;
 
-    func_0202ED90(t, b, c);
+    func_0202ED90((u8 *)t, b, c);
 
     v = func_0200856C(b);
-    if (func_02009750(a, v) != 0)
-        func_020095E8(a);
+    if (func_02009750((struct Sub02009470Obj *)a, v) != 0)
+        func_020095E8((struct Sub02009470Obj *)a);
 }

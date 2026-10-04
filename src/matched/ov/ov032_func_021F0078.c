@@ -22,16 +22,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_021585E0(int);
-extern int func_02012204(u32);
+struct Ctx;
+extern u32 func_02012204(const struct Ctx *p);
 extern void func_021F253C(char *p, u16 v);
-extern int func_0201058C(int);
+extern u32 func_0201058C(void *key);
 
 int func_021F0078(char *p)
 {
     int r;
 
     r = func_021585E0(*(int *)(p + 0x1C));
-    if (func_02012204(*(u32 *)p) != 0) {
+    if (func_02012204((const struct Ctx *)(*(u32 *)p)) != 0) {
         func_021F253C(p, 1);
         return 1;
     }
@@ -39,7 +40,7 @@ int func_021F0078(char *p)
         func_021F253C(p, 2);
         return 1;
     }
-    if (func_0201058C(*(int *)(p + 0x20)) & 8) {
+    if (func_0201058C((void *)(*(int *)(p + 0x20))) & 8) {
         func_021F253C(p, 3);
         return 1;
     }

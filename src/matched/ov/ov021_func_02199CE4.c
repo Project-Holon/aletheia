@@ -19,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern void func_0216D7CC(u32);
 
 int func_02199CE4(u32 a)
 {
-    int *p = func_0216D6D4(a);
+    int *p = func_0216D6D4((void *)a);
     if (++*p >= 22) {
         func_0216D7CC(a);
     }

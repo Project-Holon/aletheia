@@ -24,17 +24,17 @@ typedef unsigned int   u32;
 
 typedef struct { u8 a : 6; u8 f : 1; u8 b : 1; } FlagsF8;
 
-int func_02026454(int x);
-int func_02026474(int x);
+u32 func_02026454(void *obj);
+u32 func_02026474(void *obj);
 int func_0203CDBC(void);
 
 int func_0215870C(void *p)
 {
     u8 *q;
 
-    if (func_02026454((int)p) != 2)
+    if (func_02026454((void *)((int)p)) != 2)
         return 0;
-    q = (u8 *)func_02026474((int)p);
+    q = (u8 *)func_02026474((void *)((int)p));
     if (q == 0)
         return 0;
     if (((FlagsF8 *)(q + 0x8f8))->f == 0)

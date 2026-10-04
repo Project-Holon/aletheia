@@ -29,12 +29,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02007C34(u32, u32);
-extern u32 func_020120F4(u32);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012F98(u32);
 extern u32 func_02188C80(u32, u32, u32, u32);
 
 int func_021C38DC(u32 a, u32 b, u32 c, u32 d)
 {
-return func_02007C34(func_02012F98(func_020120F4(func_02188C80(a, b, c, d))), b);
+return func_02007C34(func_02012F98((u32)func_020120F4((const struct Ctx *)func_02188C80(a, b, c, d))), b);
 }
 

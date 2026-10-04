@@ -26,11 +26,11 @@ typedef unsigned int   u32;
 extern u32  g_02146944;
 extern void func_02029FD0(void);
 extern void func_02029FE4(void);
-extern void func_0203508C(void *a, void *b, u32 c);
+extern void func_0203508C(u32 a, u32 b, u32 c);
 
 void func_02029F6C(void)
 {
     if (g_02146944 != 0) {
-        func_0203508C((void *)func_02029FD0, (void *)func_02029FE4, g_02146944);
+        func_0203508C((u32)((void *)func_02029FD0), (u32)((void *)func_02029FE4), g_02146944);
     }
 }

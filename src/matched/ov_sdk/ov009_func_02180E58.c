@@ -68,16 +68,16 @@ typedef struct GSUdpEngineObject {
 extern void *func_02180404(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void func_02195E68(void *socket, int (*callback)(unsigned int, unsigned short, unsigned char *, int));
-extern void func_02195B20(void *socket, void (*callback)());
+extern void func_02195E68(int *p, int v);
+extern void func_02195B20(int *p, int v);
 extern int func_02195E38(const int *p);
 extern unsigned short func_02195E40(const unsigned short *p);
 extern void func_0218048C(void);
 extern void func_02180410(void *theMsgHandler);
-extern int func_02180BFC(unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
-extern void func_02180C94();
+extern int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
+extern void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
 extern char g_021A3B44[];
 extern char g_021A3B7C[];
 
@@ -118,18 +118,18 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
 
     aUdp->mRemotePeers = func_02184144(12, 1, 0);
     if (aUdp->mRemotePeers == 0) {
-        func_0217D254(12, 2, 1, g_021A3B7C);
+        func_0217D254(12, (char *)2, 1, g_021A3B7C);
         return 1;
     }
 
     aUdp->mMsgHandlers = func_02184144(60, 1, func_02180410);
     if (aUdp->mMsgHandlers == 0) {
-        func_0217D254(12, 2, 1, g_021A3B7C);
+        func_0217D254(12, (char *)2, 1, g_021A3B7C);
         return 1;
     }
 
-    func_02195E68(aUdp->mSocket, func_02180BFC);
-    func_02195B20(aUdp->mSocket, func_02180C94);
+    func_02195E68(aUdp->mSocket, (int)func_02180BFC);
+    func_02195B20(aUdp->mSocket, (int)func_02180C94);
     aUdp->mLocalAddr = func_02195E38(aUdp->mSocket);
     aUdp->mLocalPort = func_02195E40(aUdp->mSocket);
     aUdp->mAppPendingConnections = 0;

@@ -37,7 +37,7 @@ void *func_021C88A4(int a, int k, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
 void func_021C8860(struct S *p, unsigned int a);
-void func_021C88C8(int a, void *p);
+void func_021C88C8(void *a, void *b);
 
 void func_021D89B8(void *a, int b, int c, void *d)
 {
@@ -60,7 +60,7 @@ void func_021D89B8(void *a, int b, int c, void *d)
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 0x1f3);
     func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8(b, p);
+    func_021C88C8((void *)b, p);
     *(int *)((u8 *)d + 0xc) = 0;
     *(int *)((u8 *)d + 8) = 1;
 }

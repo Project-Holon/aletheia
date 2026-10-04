@@ -55,15 +55,15 @@ typedef struct Msg {
     u8     idx;
 } Msg;
 
-extern int  func_0217AE38(Msg *m, int v);
-extern int  func_0217AED4(Entry *e, Msg *m);
+extern int func_0217AE38(char *p, char v);
+extern u16 func_0217AED4(u8 *a, u8 *b);
 extern void *func_0217AFB0(u8 *w, Entry *e, Msg *m);
 extern int  func_0217F060(u8 v);
 extern int func_0217F858(int a);
-extern int  func_0216D3CC(void *p);
+extern int func_0216D3CC(int a0);
 extern void func_0216D410(void *a0, u16 a1);
 extern u16 func_0216D5A0(void *p);
-extern void func_0216E0E8(void *p, int v);
+extern int func_0216E0E8(int a0, int a1);
 
 int func_0217B4C4(u8 *w, Msg *m)
 {
@@ -76,34 +76,34 @@ int func_0217B4C4(u8 *w, Msg *m)
     s = w + 0x2830;
     e = m->e;
     if (e->h6C == 0) {
-        func_0217AE38(m, 2);
+        func_0217AE38((char *)m, 2);
         return 1;
     }
     if (!e->recs[m->idx].valid || m->b4 != e->recs[m->idx].b6) {
-        func_0217AE38(m, 2);
+        func_0217AE38((char *)m, 2);
         return 1;
     }
     t = func_0217F858(e->bB);
-    if (*(u16 *)(s + 0x58) == func_0217AED4(m->e, m)) {
-        func_0217AE38(m, 3);
+    if (*(u16 *)(s + 0x58) == func_0217AED4((u8 *)m->e, (u8 *)m)) {
+        func_0217AE38((char *)m, 3);
         return 1;
     }
     v = s[2];
     if (v != 0 && (v == t || (t == 0 && v == e->kind)) && m->idx == 0
         && func_0217F060(e->bB) > e->n) {
         r = func_0217AFB0(w, m->e, m);
-        if (func_0216D3CC(r) == 1) {
+        if (func_0216D3CC((int)r) == 1) {
             func_0216D410(r, 0x31);
         }
     } else if (m->idx == 0 && e->n > 1) {
         r = func_0217AFB0(w, m->e, m);
         if (func_0216D5A0(r) == 2) {
-            func_0216E0E8(r, 0xF);
+            func_0216E0E8((int)r, 0xF);
         }
     } else if (m->idx == 0 && e->n <= 1) {
         r = func_0217AFB0(w, m->e, m);
         if (func_0216D5A0(r) == 0xF) {
-            func_0216E0E8(r, 2);
+            func_0216E0E8((int)r, 2);
         }
     }
     return 0;

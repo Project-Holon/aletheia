@@ -21,8 +21,9 @@ typedef unsigned short u16;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void func_02157960();
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern void func_02157960(int a, int b, int c);
 struct Object;
 extern void func_02157C48(struct Object *p);
 
@@ -31,10 +32,10 @@ void func_02157D0C(int *p)
     if (*((u8 *)p + 0x675) == 0) {
         *(int *)((u8 *)p + 0x67C) = p[4];
         *(int *)((u8 *)p + 0x680) = p[5];
-        if (func_0203D3A8(func_020399A8(), (p[0] << 8) + 2, 8, (u8 *)p + 0x67C) == 0)
+        if (func_0203D3A8(func_020399A8(), (p[0] << 8) + 2, 8, (u32)((u8 *)p + 0x67C)) == 0)
             return;
-        func_02157960(p, (void *)func_02157C48, 0x1A2);
+        func_02157960((int)p, (int)((void *)func_02157C48), 0x1A2);
         return;
     }
-    func_02157960(p, (void *)func_02157C48, 0x1A6);
+    func_02157960((int)p, (int)((void *)func_02157C48), 0x1A6);
 }

@@ -22,7 +22,7 @@
 extern int func_0216F20C(int status);
 extern int func_02173D28(int gpResult);
 extern void func_0216F6C0(void);
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_02169038(int profileID);
 
 void func_02172A58(void)
@@ -41,7 +41,7 @@ void func_02172A58(void)
     }
     b = *(int *)(func_02175F3C() + 0x680) == 0;
     {
-        char *m = func_02175F3C();
+        char *m = (char *)func_02175F3C();
 
         (*(int (**)(int, int, int, int, int, int))(m + 0x770))(0, 1, b, a, func_02169038(*(int *)(func_02175F3C() + 0x680)), *(int *)(func_02175F3C() + 0x774));
     }

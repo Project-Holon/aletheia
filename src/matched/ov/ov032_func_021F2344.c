@@ -25,7 +25,8 @@
 
 extern void func_021F0208(char *, int);
 extern void func_021F2544(char *);
-extern void func_020310C4(int);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern int func_021F2674(char *);
 extern int func_021F26D8(char *);
 extern int func_021F26F0(char *);
@@ -63,7 +64,7 @@ void func_021F2344(char *p, int a1)
         return;
     }
     if (a1 != 0) {
-        func_020310C4(*(int *)(p + 0xa0));
+        func_020310C4((struct Tcbl *)(*(int *)(p + 0xa0)));
         switch (*(int *)(p + 0x68)) {
         case 0:
             *(int *)(p + 0x68) = func_021F2674(p);

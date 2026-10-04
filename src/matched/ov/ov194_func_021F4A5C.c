@@ -15,7 +15,10 @@
  *   func_021F4AA8 0x021F4AA8 thumb ov194
  */
 extern unsigned func_021F3350(char *);
-extern void func_0200C0FC(void *, void *, unsigned char);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Blk34;
+extern void func_0200C0FC(struct Blk34 *p, u32 i, u8 v);
 extern void func_021F462C(unsigned char *, unsigned);
 extern void func_021F4634(unsigned char *);
 extern void func_021F4AA8(unsigned char *p, int *state, unsigned char *q);
@@ -25,7 +28,7 @@ void func_021F4A5C(unsigned char *a, int unused, char *p)
     unsigned n;
     if (*(void **)(OBJ(p) + 0x28) != 0) {
         n = func_021F3350(p + 0xFC);
-        func_0200C0FC(*(void **)(OBJ(p) + 0x28), *(void **)OBJ(p), n);
+        func_0200C0FC(*(void **)(OBJ(p) + 0x28), (u32)(*(void **)OBJ(p)), n);
     }
     if (*(void **)(OBJ(p) + 0x24) != 0) func_021F462C(a, (unsigned)func_021F4AA8);
     else func_021F4634(a);

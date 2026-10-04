@@ -16,15 +16,19 @@
  *   func_021F2F60  0x021F2F60  thumb  ov029
  */
 
-extern int func_020122C0(int a, int b, void (*c)(void), int d);
-extern int *func_020124E8(int a);
-extern void func_021F0194(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_021F0194(u8 *p);
 extern void func_021F2F60(void);
 
 int func_021F2EEC(char *p, int k)
 {
-    int r = func_020122C0(*(int *)(p + 0x1c), 0, func_021F2F60, 8);
-    int *w = func_020124E8(r);
+    int r = (int)func_020122C0((void *)(*(int *)(p + 0x1c)), 0, func_021F2F60, 8);
+    int *w = func_020124E8((struct Obj *)r);
 
     w[0] = (int)p;
     w[1] = k;
@@ -32,7 +36,7 @@ int func_021F2EEC(char *p, int k)
     case 1:
     case 5:
     case 6:
-        func_021F0194(w[0]);
+        func_021F0194((u8 *)w[0]);
         break;
     case 11:
         *(unsigned char *)(p + 0x416) = 4;

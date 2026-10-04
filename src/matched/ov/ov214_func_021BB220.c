@@ -21,7 +21,8 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_02030EAC(u32);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021BB448(int *);
 extern void func_021BB3AC(void *);
 extern void func_021BB328(void *);
@@ -30,7 +31,7 @@ extern void func_02082BCC(void *,u32,u32);
 extern void func_020307B0(void *);
 void func_021BB220(char *p)
 {
-    func_02030EAC(*(u32 *)(p+12));
+    func_02030EAC((struct Node *)(*(u32 *)(p+12)));
     func_021BB448((int *)(p+8));
     func_021BB3AC(p+4);
     func_021BB328(p);

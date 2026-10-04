@@ -44,7 +44,7 @@ extern u8 d_021D9414[];
 extern u8 d_021D941C[];
 
 extern void *func_0215A5F4(void *p);
-extern int *func_02158F58(void *);
+extern int func_02158F58(int a0);
 extern void *func_0215A5E4(void *a0);
 extern void *func_0215A5DC(void *a0);
 struct BigObj;
@@ -55,7 +55,7 @@ struct VecFx32;
 extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_021627C8(u32, u32, V *, int);
 extern u16 func_021A3050(u8 *p);
-extern void *func_021618A0(void *p, int a1, int a2, void *a3);
+extern void *func_021618A0(void *p, int a1, int a2, int a3);
 extern void func_0215897C(void *, void *);
 
 int func_021B1E80(void *a, u32 b)
@@ -75,7 +75,7 @@ int func_021B1E80(void *a, u32 b)
     u8 *tbl;
 
     o = func_0215A5F4((void *)b);
-    q = func_02158F58(o)[1];
+    q = ((int *)func_02158F58((int)o))[1];
     e = func_0215A5E4((void *)b);
     d = func_0215A5DC((void *)b);
     ids = d_021D93FC;
@@ -103,7 +103,7 @@ int func_021B1E80(void *a, u32 b)
         } else {
             return 0;
         }
-        func_0215897C(o, func_021618A0(d, q, 0xff, tbl));
+        func_0215897C(o, func_021618A0(d, q, 0xff, (int)tbl));
         return 1;
     }
     return 0;

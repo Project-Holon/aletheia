@@ -21,7 +21,7 @@
 
 extern void func_021D55A4();
 extern void func_021D603C(int lcd, int plane);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C3EC4();
 extern unsigned char g_021DE5C0;
 
@@ -33,5 +33,5 @@ void func_021C3E48(void)
         func_021D55A4(2, 1, 1, 8);
         func_021D603C(1, 1);
     }
-    func_021C0E40(func_021C3EC4);
+    func_021C0E40((unsigned int)func_021C3EC4);
 }

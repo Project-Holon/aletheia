@@ -114,15 +114,18 @@ extern const u32 d_021BD3DC[];
 
 extern u32   func_02047CFC(u32 a, u32 b, u32 heap);
 extern u16   func_02047E88(u32 a, const void *b);
-extern int   func_020489F4(u32 a, int b);
+struct G3dSys;
+struct LightSet;
+struct LightSlot;
+extern u32 func_020489F4(u8 *a0, int i);
 extern u32   func_02048A18(u32 a, u16 b);
-extern void  func_020477A4(u32 a, int b);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern fx32  FX_Div(fx32 numer, fx32 denom);
 extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h,
                            VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
-extern u32   func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
-extern u32   func_02048BC4(const void *a, u32 heap);
-extern void  func_02048C58(u32 a);
+extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
+extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
+extern void func_02048C58(struct LightSlot *slots);
 extern void func_0204044C(u32 mode);
 
 void func_021B9C2C(Work *p, u32 heap)
@@ -138,11 +141,11 @@ void func_021B9C2C(Work *p, u32 heap)
 
     p->f0 = func_02047CFC(7, 3, heap);
     p->f4 = func_02047E88(p->f0, d_021BD410);
-    base = func_020489F4(p->f0, p->f4);
-    func_020477A4(func_02048A18(p->f0, base), 0);
-    func_020477A4(func_02048A18(p->f0, base), 1);
-    func_020477A4(func_02048A18(p->f0, base + 1), 0);
-    func_020477A4(func_02048A18(p->f0, base + 2), 0);
+    base = func_020489F4((u8 *)p->f0, p->f4);
+    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base), 0);
+    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base), 1);
+    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base + 1), 0);
+    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base + 2), 0);
 
     c = FX_SinCosTable_[0x2AB];
     s = FX_SinCosTable_[0x2AA];
@@ -154,9 +157,9 @@ void func_021B9C2C(Work *p, u32 heap)
     p->f10 = func_02048A24(1, top, bottom, left, right,
                            0x19A, 0x800000, 0x19A,
                            &d_021BD3EC, &d_021BD3F8, &d_021BD404, heap);
-    p->fC = func_02011510(heap, 0xA0, 0xE9, 0xA);
-    p->f8 = func_02048BC4(d_021BD3DC, heap);
-    func_02048C58(p->f8);
+    p->fC = (u32)func_02011510(heap, 0xA0, 0xE9, 0xA);
+    p->f8 = (u32)func_02048BC4((const struct LightSet *)d_021BD3DC, heap);
+    func_02048C58((struct LightSlot *)p->f8);
     func_0204044C(1);
     G3X_AntiAlias(1);
     G3X_AlphaTest(0, 0);

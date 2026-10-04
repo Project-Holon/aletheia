@@ -36,14 +36,14 @@ typedef struct {
 } Obj;
 
 extern u32 func_02012134(u32 a);
-extern void *func_0202B580(u32 a);
+extern u32 func_0202B580(void *obj);
 extern u32 func_0202B434(u8 *p);
 extern u32 func_0202B438(u8 *p, u32 id);
 
 int func_021BD904(Obj *o)
 {
     Ent *e = o->e;
-    void *s = func_0202B580(func_02012134(e->x4));
+    void *s = (void *)func_0202B580((void *)func_02012134(e->x4));
 
     if (func_0202B434(s) && func_0202B438(s, e->h18) && func_0202B438(s, e->h20)) {
         return 1;

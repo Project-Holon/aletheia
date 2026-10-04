@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 func_020056EC(u32 v);
-extern u32 func_02045B38(u32 a, u32 b, u32 c, u32 d);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_021F4510(u8 *p, u32 i);
 
 void func_021F43D8(u32 *a, u32 b, s16 *c, u32 d, u16 e)
@@ -38,7 +39,7 @@ void func_021F43D8(u32 *a, u32 b, s16 *c, u32 d, u16 e)
     m = c[d];
     h[0] = i;
     h[1] = 0x10 + t % m;
-    a[2] = func_02045B38(0, 3, 0x9f, e);
+    a[2] = (u32)func_02045B38(0, 3, 0x9f, e);
     a[3] = b;
     a[1] = t & 0xf;
     q = (u8 *)a + 0x10;

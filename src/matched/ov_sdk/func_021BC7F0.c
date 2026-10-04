@@ -33,11 +33,11 @@
  *       --func func_021BC7F0 --addr 0x021BC7F0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void func_02092344(int, char *, int);
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern char func_021DD13C[];
 
 int func_021BC7F0(int a)
 {
-    func_02092344(a, func_021DD13C, 0xe8);
+    func_02092344((void *)a, func_021DD13C, 0xe8);
     return 1;
 }

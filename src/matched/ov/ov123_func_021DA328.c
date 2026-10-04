@@ -25,7 +25,7 @@ extern int func_021B9790(u8 *p);
 extern int *func_021B97F4(void *);
 extern int func_021D9FD4(char *,int);
 extern void func_021D9634(char *p);
-extern void func_021DA034(char *,void *,int);
+extern void func_021DA034(char *p, int n, int unused);
 extern void func_021DA1A0(char *p);
 extern void func_021DA1EC(char *p);
 void func_021DA328(char *p)
@@ -34,9 +34,9 @@ void func_021DA328(char *p)
     if (func_0203CD98() && !func_021D9FD4(p,func_021B99DC(*(void **)(p + 8))) && !func_021B9790(*(void **)(p + 8))) {
         q = func_021B97F4(*(void **)(p + 8));
         func_021D9634(*(void **)(p + 0x10));
-        if (*q == 2) { func_021DA034(p,func_021DA1A0,0x1d4); return; }
-        if (*q == 0) { func_021DA034(p,func_021DA1A0,0x1d7); return; }
+        if (*q == 2) { func_021DA034(p,(int)func_021DA1A0,0x1d4); return; }
+        if (*q == 0) { func_021DA034(p,(int)func_021DA1A0,0x1d7); return; }
         *(int *)(p + 0x70) = *q;
-        func_021DA034(p,func_021DA1EC,0x1db);
+        func_021DA034(p,(int)func_021DA1EC,0x1db);
     }
 }

@@ -25,7 +25,8 @@ typedef struct {
 } Blk;
 
 extern u32 func_02026478(void *obj);
-extern u8  func_02012B58(int a);
+struct BigObj;
+extern u8 func_02012B58(const struct BigObj *p);
 
 int func_02175DE4(void *p)
 {
@@ -39,7 +40,7 @@ int func_02175DE4(void *p)
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        if (b->f34[i] == func_02012B58(sv)) {
+        if (b->f34[i] == func_02012B58((const struct BigObj *)sv)) {
             u32 v = (b->w0 << 10) >> 25;
             if (v > 0x14) {
                 return 1;

@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u16 *func_0204162C(u8 bg);
+extern u32 func_0204162C(int channel);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 
@@ -30,7 +30,7 @@ int func_021F0F68(void *unused, int idx, int flag)
     u16 *map;
     int pal;
 
-    map = func_0204162C(6);
+    map = (u16 *)func_0204162C(6);
     switch ((u16)(map[idx * 0xE0] >> 12)) {
     case 0:
     case 1:

@@ -10,5 +10,6 @@
  * symbols:
  *   func_0204B1CC 0x0204B1CC arm
  */
-extern void func_0204B1CC(unsigned int);
-void func_021BCE9C(unsigned int p) { func_0204B1CC(*(unsigned int *)(p + 0x1EC)); }
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
+void func_021BCE9C(unsigned int p) { func_0204B1CC((struct Bank *)(*(unsigned int *)(p + 0x1EC))); }

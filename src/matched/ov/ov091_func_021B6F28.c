@@ -27,7 +27,8 @@ typedef unsigned int u32;
 extern void func_0207D4B0(int, int, int);
 extern void func_02046440(int, int, int, int, int, int, int);
 extern int func_02048A24(int, int, int, int, int, int, int, int, void *, void *, void *, int);
-extern void func_02048AD0(int);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_02050B80(u32 heap);
 extern char d_021BEAB8[];
@@ -46,7 +47,7 @@ void func_021B6F28(char *p)
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 8;
     r = func_02048A24(2, 0, 0x50D7, 0, 0x6BCA, 0x1000, 0x80000, 0, d_021BEAB8, d_021BEAD0, d_021BEAC4, *(u16 *)p);
     *(int *)(p + 0x258) = r;
-    func_02048AD0(r);
+    func_02048AD0((struct Light *)r);
     func_0207D63C(0x04000050, 4, 0x1e, 0x10, 10);
     func_02050B80(*(u16 *)p);
 }

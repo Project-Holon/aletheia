@@ -22,7 +22,8 @@ typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern int func_021D76BC(int key, u32 val);
 extern int func_021DCFF8(int a, int b);
-extern void func_021E8C50(int *p, u8 v);
+union U;
+extern void func_021E8C50(union U *p, u32 v);
 
 void func_021DEDF8(int a, int b, int c)
 {
@@ -32,7 +33,7 @@ void func_021DEDF8(int a, int b, int c)
     if (c == func_021D775C(2) && (u32)func_021D775C(0x53) <= 1) {
         t = func_021D775C(0x1e);
         k = func_021DCFF8(a, 2);
-        func_021E8C50(&t, k);
+        func_021E8C50((union U *)(&t), k);
         func_021D76BC(0x1e, t);
     }
 }

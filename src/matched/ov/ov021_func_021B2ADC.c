@@ -28,8 +28,9 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_02158F50(void *p);
-extern int func_021C0820(void *a, void *b, int c);
-extern void func_0215897C(void *a, int b);
+typedef unsigned int   u32;
+extern void *func_021C0820(void *p, int a1, u32 n);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B2ADC(int a, int b)
 {
@@ -38,6 +39,6 @@ int func_021B2ADC(int a, int b)
     int p = (int)func_02159B10((void *)a, (void *)b);
 
     func_02188CB4(func_0201210C((void *)y));
-    func_0215897C(x, func_021C0820(y, func_02158F50((void *)x), (unsigned char)p));
+    func_0215897C(x, func_021C0820(y, (int)func_02158F50((void *)x), (unsigned char)p));
     return 1;
 }

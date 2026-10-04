@@ -73,14 +73,14 @@ extern const u8 str_020A7A50[];
 extern void *func_0203D798(void);
 extern int  func_020365E8(struct Src *s);
 extern u32  func_02036540(struct Src *s);
-extern u8   func_02036500(struct Src *s);
+extern u32 func_02036500(u32 a);
 extern int  func_020364D4(struct Src *s, u8 *buf, u32 n, u32 max);
 extern int  func_0203A804(u32 h);
 extern int  func_0203A7EC(u32 h);
 extern u32 func_0203A634(u32 a0);
-extern u8  *func_0203A81C(u32 h, u32 a, u32 b);
+extern u32 func_0203A81C(u32 a0, u32 a1, u32 a2);
 extern void func_02082D44(void *dst, const void *src, int n);
-extern void func_02038D68(u32 h, u32 total, u8 *dst, struct St *st);
+extern void func_02038D68(int a0, u32 a1, u32 a2, u8 *a3);
 extern void func_02034714(const u8 *file, int line, const u8 *msg);
 
 void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
@@ -114,12 +114,12 @@ void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
                 st->total = v;
             }
             st->f0E = a1;
-            st->f0F = func_02036500(src);
+            st->f0F = func_02036500((u32)src);
         }
         sv = src->pos;
         if (func_0203A804(h) && func_0203A634(st->f0F)) {
             if (st->dst == 0)
-                st->dst = func_0203A81C(h, st->f0E, st->total);
+                st->dst = (u8 *)func_0203A81C(h, st->f0E, st->total);
             p = st->dst + st->done;
         } else {
             p = buf;
@@ -142,7 +142,7 @@ void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
         }
         st->done += cnt;
         if (st->left == 0) {
-            func_02038D68(h, st->total, st->dst, st);
+            func_02038D68(h, st->total, (u32)st->dst, (u8 *)st);
             continue;
         }
         if (!func_0203A7EC(h))

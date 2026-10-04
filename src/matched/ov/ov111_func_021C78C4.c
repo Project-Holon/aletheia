@@ -65,13 +65,13 @@ typedef struct {
 struct CharBuf;
 struct Descriptor;
 extern void func_02045088(u16 heapId);
-extern void *func_020450F0(int a, int b, int c, int d, int e, int f, int g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 
 void func_021C78C4(Work *p)
 {
     func_02045088(0x27);
-    p->f8 = func_020450F0(4, 2, 10, 0x1C, 0xC, 0xF, 1);
+    p->f8 = (void *)func_020450F0(4, 2, 10, 0x1C, 0xC, 0xF, 1);
     func_02043B5C(func_02045770(p->f8), 0xF);
 }

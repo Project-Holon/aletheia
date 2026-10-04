@@ -28,20 +28,23 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02011330(u32);
-extern u32 func_020120F4(u32);
+struct Big;
+struct Ctx;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012ED0(u32);
+extern u8 *func_02012ED0(struct Big *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4();
-extern u32 func_02188C80(void *);
+extern void *func_02188C80(void *p);
 extern u32 func_021C86E8(u32, u32, u32);
 
 int func_021C88AC(u32 a, u32 b, u32 c, u32 d)
 {
 func_0215A5F4(b, b, c, d);
-func_021C86E8(*(u32 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))))), func_02011330(a), func_02011330(a));
+func_021C86E8(*(u32 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))))), func_02011330((struct Stream *)a), func_02011330((struct Stream *)a));
 return 0;
 }
 

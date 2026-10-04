@@ -61,7 +61,8 @@ extern void sub_02007CC8(u8 *base, void *buf, u32 id, int save);
 extern int func_021B61C8(Obj *o);
 extern int func_02020F14(u32 heap);
 extern int func_02020F20(int h, int id, u16 heap);
-extern u32 func_02021014(int rec, u32 sel);
+struct Rec;
+extern u32 func_02021014(struct Rec *p, u32 sel);
 extern void func_020307B0(void *p);
 extern void func_02049238(int h);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(Ent *, Ent *), void *buf);
@@ -86,8 +87,8 @@ void func_021B7F54(Obj *o)
     for (i = 0; i < n; i++) {
         rec = func_02020F20(h, items[i].id, o->heap);
         e = &ents[i];
-        x = func_02021014(rec, 0xF);
-        e->key = (x << 28) + (func_02021014(rec, 0x11) << 16) + items[i].id;
+        x = func_02021014((struct Rec *)rec, 0xF);
+        e->key = (x << 28) + (func_02021014((struct Rec *)rec, 0x11) << 16) + items[i].id;
         e->item = items[i];
         func_020307B0((void *)rec);
     }

@@ -17,12 +17,13 @@
  */
 
 extern void func_021BF370(int p);
-extern void func_021BF080(int p);
+typedef unsigned char  u8;
+extern void func_021BF080(u8 *p);
 extern void func_0204A5AC(void);
 
 void func_021BED54(int p)
 {
     func_021BF370(p);
-    func_021BF080(p);
+    func_021BF080((u8 *)p);
     func_0204A5AC();
 }

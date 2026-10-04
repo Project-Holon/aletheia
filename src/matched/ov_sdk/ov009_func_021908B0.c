@@ -23,7 +23,7 @@ struct GPISearchData {
 };
 
 extern int func_021905A4(void **connection, struct GPISearchData **searchData, int type);
-extern int func_02190650(void **connection, struct GPISearchData *data, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern int func_02190650(void *a, int a1, int a2, int a3, int a4);
 
 int func_021908B0(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param)
 {
@@ -35,7 +35,7 @@ int func_021908B0(void **connection, int *profiles, int numOfProfiles, int block
         return result;
     data->profiles = profiles;
     data->numProfiles = numOfProfiles;
-    result = func_02190650(connection, data, blocking, callback, param);
+    result = func_02190650(connection, (int)data, blocking, (int)callback, (int)param);
     if (result != 0)
         return result;
     return 0;

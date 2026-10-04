@@ -33,32 +33,32 @@ typedef unsigned int u32;
 typedef struct { u32 a, b, c; } T12;
 extern int d_021DDD70;
 extern T12 d_021D8058;
-extern u32 func_0216D4F8(u32);
+extern u32 func_0216D4F8(u8 *p);
 extern void *sub_02030734(u32, u32, int, const char *, u16);
-extern void func_0216D51C(u32, void *);
+extern void func_0216D51C(u8 *p, u32 v);
 extern void func_0219CAD8(void *, u32);
 extern void func_0219CBE0(u8 *o);
 extern void func_0219D2CC(void *);
-extern u32 func_02050080(u32);
+extern u32 func_02050080(u32 *p);
 extern void func_0204ED70(u32, T12 *);
-extern void func_0204EDB0(u32, u8 *);
+extern void func_0204EDB0(u8 *dst, u8 *src);
 
 void func_0219C554(u32 a, u32 b, u32 c)
 {
-    u8 *p = sub_02030734(func_0216D4F8(a), 0x24, 1, (const char *)&d_021DDD70, 360);
+    u8 *p = sub_02030734(func_0216D4F8((u8 *)a), 0x24, 1, (const char *)&d_021DDD70, 360);
     u32 h;
     T12 t;
     u8 z;
     *(u32 *)(p + 0x10) = a;
     *(u32 *)(p + 4) = b;
     *(u16 *)(p + 2) = c;
-    func_0216D51C(a, p);
+    func_0216D51C((u8 *)a, (u32)p);
     func_0219CAD8(p, c);
     func_0219CBE0(p);
     func_0219D2CC(p);
-    h = func_02050080(b);
+    h = func_02050080((u32 *)b);
     t = d_021D8058;
     func_0204ED70(h, &t);
     z = 0;
-    func_0204EDB0(h, &z);
+    func_0204EDB0((u8 *)h, &z);
 }

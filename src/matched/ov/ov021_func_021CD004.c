@@ -29,10 +29,11 @@ typedef struct {
     void *fB4;
 } Work;
 
-extern void *func_02190708(void *a, void *b, u32 c, u32 d, u32 e, u32 f);
+struct Fx;
+extern void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
 
 void func_021CD004(Work *w)
 {
     if (w->fB4 == 0)
-        w->fB4 = func_02190708(w->fA4, w->fA8, 1, 2, 0x1e, 6);
+        w->fB4 = func_02190708(w->fA4, (u32)w->fA8, 1, 2, 0x1e, 6);
 }

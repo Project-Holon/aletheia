@@ -37,23 +37,23 @@ struct Ctx;
 struct U16Vec;
 struct WordSet;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C54(unsigned char *p);
+extern u32 func_02188C54(u8 *p);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_021904B0(void *a, int b);
+extern int func_021904B0(u32 a, u32 b);
 
 void func_0217F2B4(Ov018Obj *p, void *a)
 {
     void *r;
 
-    r = func_02188C54(func_0201210C(a));
+    r = (void *)func_02188C54(func_0201210C(a));
     if (p->f00 == 0) {
         p->f00 = func_0201EC74(6, 0x20, 4);
         p->f04 = func_020457B0(0x1F0, 4);
         p->f08 = func_020457B0(0x1D0, 4);
-        p->f0C = func_021904B0(r, 0x44);
-        p->f10 = func_021904B0(r, 0x42);
-        p->f14 = func_021904B0(r, 0x43);
+        p->f0C = (void *)func_021904B0((u32)r, 0x44);
+        p->f10 = (void *)func_021904B0((u32)r, 0x42);
+        p->f14 = (void *)func_021904B0((u32)r, 0x43);
         p->f24 = r;
         p->f28 = 0;
     }

@@ -24,7 +24,8 @@ typedef unsigned long  u32;
 extern int func_021BA928(char *p, int v);
 extern u32 func_020362DC(void);
 extern void func_021BA8EC(char *p);
-extern void func_021BCB70(int a, int b, int *out);
+struct BigObj;
+extern int func_021BCB70(void *rules, const struct BigObj *obj, u32 *mask);
 extern void func_021BBEB4(char *p, int a, u8 b, int c);
 
 int func_021BCD58(char *p, int v)
@@ -36,7 +37,7 @@ int func_021BCD58(char *p, int v)
     }
     if (func_020362DC() != 0) {
         func_021BA8EC(p);
-        func_021BCB70(*(int *)(p + 0x1348), *(int *)(p + 0xC4), &out);
+        func_021BCB70((void *)(*(int *)(p + 0x1348)), (const struct BigObj *)(*(int *)(p + 0xC4)), (u32 *)(&out));
         func_021BBEB4(p, out, *(u8 *)(*(u8 **)(p + 0x248) + 0x48), 2);
         *(u32 *)(p + 0x1CC) = 0x77;
     }

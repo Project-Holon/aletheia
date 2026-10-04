@@ -84,7 +84,7 @@ extern const u8 d_0220A380[3];
 extern void *const d_0220AE98[];
 extern void *const d_0220AEA4[];
 
-extern int func_02021ED8(int);
+extern u32 func_02021ED8(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
 extern void func_02021848(int a, int b, u16 c, int d, int e, int f, int g, void *h);
@@ -108,7 +108,7 @@ int func_022030F0(Main *m, u8 *key, int *out)
     u32 held;
     int r;
 
-    if (m->b0 || func_02021ED8(m->f64) != 0 || m->b31)
+    if (m->b0 || func_02021ED8((const char *)m->f64) != 0 || m->b31)
         return 0;
     if (func_020362DC() & 8)
         func_021F8168();

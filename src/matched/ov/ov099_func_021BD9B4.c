@@ -18,11 +18,11 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_02039CB4(struct Link *, u32, u32);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 int func_021BD9B4(char *p, int v)
 {
     if (func_02039CB4((struct Link *)func_020399A8(), 0x1b, 10) != 0) {
-        if (func_0203D3A8(func_020399A8(), 0xa05, 1, p + 0x1353) != 0) {
+        if (func_0203D3A8(func_020399A8(), 0xa05, 1, (u32)(p + 0x1353)) != 0) {
             *(int *)(p + 0x1cc) = 0x48;
         }
     }

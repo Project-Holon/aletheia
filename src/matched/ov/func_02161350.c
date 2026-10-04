@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_021616A4(void *, void *, u16, void *, void *);
+extern void *func_021616A4(void *p, int a1, int a2, int a3, int a4);
 extern void *func_02188C54(void *);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
@@ -35,7 +35,7 @@ void func_02161350(void *a0)
     void *t = func_02188C54(*(void **)(r4 + 4));
 
     func_02012374(*(void **)((char *)a0 + 0x14),
-                  func_021616A4(*(void **)r4, *(void **)(r4 + 4),
-                                *(u16 *)a0, t, (char *)a0 + 0x10));
+                  func_021616A4(*(void **)r4, (int)(*(void **)(r4 + 4)),
+                                *(u16 *)a0, (int)t, (int)((char *)a0 + 0x10)));
 }
 

@@ -30,9 +30,10 @@ struct W {
 
 extern struct W *d_021B3C80;
 
-extern int func_021B2180(void *p, int x);
+struct Node;
+extern int func_021B2180(int a, int b);
 extern int func_021B0614(void *p);
-extern void func_021B1F54(void *p);
+extern int func_021B1F54(struct Node *p);
 extern void func_021AEDEC(void *p);
 
 void func_021AED30(int a, int code, u32 *p)
@@ -40,21 +41,21 @@ void func_021AED30(int a, int code, u32 *p)
     switch (code) {
     case 1:
         if (d_021B3C80->f1A1C != 0) {
-            func_021B2180(p, 3);
-            func_021B1F54(p);
+            func_021B2180((int)p, 3);
+            func_021B1F54((struct Node *)p);
             return;
         }
         d_021B3C80->f1A1C = (u32)p;
         return;
     case 8:
-        func_021B2180(p, 0);
+        func_021B2180((int)p, 0);
         func_021AEDEC(p);
         return;
     case 9:
         func_021AEDEC(p);
         return;
     case 4:
-        func_021B2180(p, 4);
+        func_021B2180((int)p, 4);
         func_021AEDEC(p);
         return;
     case 7:

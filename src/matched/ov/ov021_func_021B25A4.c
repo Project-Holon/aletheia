@@ -21,19 +21,21 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_02011330(u32);
-extern u32 func_021F41DC(void *, u32);
-extern void func_0215897C(void *, u32);
+typedef unsigned short u16;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern void *func_021F41DC(void *p, int v);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B25A4(u32 a, u32 b)
 {
     void *s = func_0215A5F4((void *)b);
     void *d = func_0215A5DC((void *)b);
-    u32 r = func_021F41DC(d, func_02011330(a));
+    u32 r = (u32)func_021F41DC(d, func_02011330((struct Stream *)a));
 
     if (r == 0) {
         return 1;
     }
-    func_0215897C(s, r);
+    func_0215897C(s, (void *)r);
     return 1;
 }

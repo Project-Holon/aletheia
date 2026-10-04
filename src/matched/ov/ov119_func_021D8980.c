@@ -18,10 +18,10 @@
 typedef unsigned int u32;
 extern void func_021B65B4(u32 *p, u32 a1);
 extern void func_021B6558(u32 *p, u32 a1, u32 a2);
-extern void func_021B6548(u32 *p, u32 a1, u32 a2);
+extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 void func_021D8980(char *p)
 {
     func_021B65B4(*(u32 **)(p + 0x9c0), 1);
     func_021B6558(*(u32 **)(p + 0x9c0), 1, 1);
-    func_021B6548(*(u32 **)(p + 0x9c0), 1, 1);
+    func_021B6548((unsigned char *)(*(u32 **)(p + 0x9c0)), 1, 1);
 }

@@ -17,7 +17,7 @@
  *   func_02019CE0 0x02019CE0 thumb
  */
 typedef unsigned char u8;
-extern void *func_021DCE00(char *, int);
+extern int func_021DCE00(char *p, int i);
 extern void *func_0201AB28(void *, unsigned);
 typedef unsigned short u16;
 struct RecDC;
@@ -35,7 +35,7 @@ void func_021E1784(char *p, int i)
     void *b;
     void *q;
     party = *(void **)(p + 0x24);
-    other = func_021DCE00(*(char **)(p + 0xdc), i);
+    other = (void *)func_021DCE00(*(char **)(p + 0xdc), i);
     slot = *(int *)(p + 0x44 + i * 4);
     a = func_0201AB28(party, (*(int **)(p + 0xd8))[1]);
     b = func_0201AB28(other, slot);

@@ -19,7 +19,7 @@
 
 extern int *d_021A8260;
 extern char d_021A1C4C[];
-int func_0203D798(void);
+void *func_0203D798(void);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 void func_02157048(u32 a, u32 b);
@@ -31,7 +31,7 @@ int func_02155168(int a, int b)
 
     if (d_021A8260 != 0)
         return 0;
-    p = func_0203D798();
+    p = (int)func_0203D798();
     func_02157048(*(unsigned short *)(p + 0x58), *(int *)(p + 0x48));
     d_021A8260 = func_02030734(a, 8, 1, d_021A1C4C, 0xba);
     *d_021A8260 = b;

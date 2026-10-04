@@ -49,7 +49,7 @@ extern int func_02019ED4(void *ctx, void *q);
 extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern void *func_0200BAC8(void *);
 extern u32 func_0200BBA8(void *a);
-extern void *func_0200BAF4(void *a0, int a1);
+extern void *func_0200BAF4(int a0, int a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_020307B0(void *p);
@@ -79,7 +79,7 @@ void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
     q = func_0200BAC8(func_02012EBC(w));
     if (func_0200BBA8(q) == 1) {
         mask = 0;
-        w = func_0200BAF4(q, k);
+        w = func_0200BAF4((int)q, k);
         if (flag) {
             r2 = func_02019ED4(rules, w);
         } else {

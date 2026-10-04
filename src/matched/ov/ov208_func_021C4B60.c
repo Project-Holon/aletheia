@@ -30,21 +30,23 @@ struct Ov208Menu {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern int  func_0201C6C4(u32 print, u32 bmp);
+struct Cfg;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *win);
-extern void func_02045374(u32 win);
-extern u32  func_02045730(u32 win);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 layer);
 
 void ov208_func_021C4B60(void *a0, struct Ov208Menu *p, int a2, int i)
 {
     u32 w;
 
-    if (p->active[i] != 0 && func_0201C6C4(p->print[i], (u32)func_02045770((struct Descriptor *)p->win[i])) == 0) {
+    if (p->active[i] != 0 && func_0201C6C4((struct PrintSys *)p->print[i], (void *)((u32)func_02045770((struct Descriptor *)p->win[i]))) == 0) {
         w = p->win[i];
         func_02045334((struct Descriptor *)w);
-        func_02045374(w);
-        func_02041B6C(func_02045730(w));
+        func_02045374((struct Cfg *)w);
+        func_02041B6C(func_02045730((struct Descriptor *)w));
         p->active[i] = 0;
     }
 }

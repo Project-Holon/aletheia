@@ -20,11 +20,11 @@
  *   func_021E8A90  0x021E8A90  thumb  ov177
  */
 
-extern int func_021E8A90(int);
+extern int func_021E8A90(int **p);
 
 int func_0217BB3C(int *p)
 {
-    if (func_021E8A90(*(int *)p))
+    if (func_021E8A90((int **)(*(int *)p)))
         return *(int *)((char *)p + 0x19c);
     return 0;
 }

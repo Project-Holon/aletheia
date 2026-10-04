@@ -16,8 +16,10 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_0202F038(u32);
-extern void func_0201F7A8(u32,int);
-extern void func_020452E8(int);
-extern void func_0201C6EC(u32);
-void func_021BB7A4(void *p,u32 *s) { if(s[0]!=4) { if(s[13]!=0) {func_0202F038(s[13]);s[13]=0;} func_0201F7A8(s[1],1); func_020452E8(s[1]); func_0201C6EC(s[10]); s[0]=4; } }
+struct Descriptor;
+struct PrintSys;
+extern void func_0202F038(u8 *p);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0201C6EC(struct PrintSys *p);
+void func_021BB7A4(void *p,u32 *s) { if(s[0]!=4) { if(s[13]!=0) {func_0202F038((u8 *)s[13]);s[13]=0;} func_0201F7A8((void *)s[1],1); func_020452E8((struct Descriptor *)s[1]); func_0201C6EC((struct PrintSys *)s[10]); s[0]=4; } }

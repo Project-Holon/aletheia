@@ -17,22 +17,23 @@
  */
 extern void func_0203D644(int);
 extern void func_021BDD0C(void *, int);
-extern int func_021BDDB4(int, int);
+typedef unsigned int   u32;
+extern int func_021BDDB4(int a, void *b);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1E8(int, int);
+extern void func_0203D1E8(u32 unused, void *arg);
 void func_021BDE30(void *p, int kind, int value)
 {
     if (kind == 1) {
         func_0203D644(0);
         func_021BDD0C(p, 0);
     } else {
-        if (func_021BDDB4(kind, value)) func_0203D644(1);
+        if (func_021BDDB4(kind, (void *)value)) func_0203D644(1);
     }
     switch (kind) {
     case 2:
     case 5:
-        func_0203D1E8((int)func_020399A8(), 1);
+        func_0203D1E8((int)func_020399A8(), (void *)1);
         return;
     case 0:
     case 1:
@@ -40,7 +41,7 @@ void func_021BDE30(void *p, int kind, int value)
     case 4:
     case 6:
     default:
-        func_0203D1E8((int)func_020399A8(), 1);
+        func_0203D1E8((int)func_020399A8(), (void *)1);
         break;
     }
 }

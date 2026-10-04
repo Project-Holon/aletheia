@@ -34,7 +34,8 @@ extern void *func_0215A5E4(void *a0);
 extern void *func_020127A4(struct SaveBlock *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub020089A8Obj *func_020089C0(void *sys);
-extern int func_02008554();
+struct Sub0200852CObj;
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_02025C88(u32 x);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern int func_02008A00();
@@ -68,7 +69,7 @@ loc_0215B0DE:
     obj = func_020089C0(p);
 loc_0215B0E2:
 sb = sb + 0x20;
-    a0 = func_02008554(sb);
+    a0 = func_02008554((const struct Sub0200852CObj *)sb);
 loc_0215B0EC:
     a0 = func_02025C88(a0);
 loc_0215B0F0:

@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215E2B8();
+struct R;
+extern int func_0215E2B8(struct R *r, int a, int b, int n);
 
 void func_02162438(int a0, int a1, int a2, int a3)
 {
@@ -30,7 +31,7 @@ a3 = a2 + 0;
 a1 = *(int *)((char *)t4 + 8);
 a0 = a0 + 0x38;
 a2 = t5 + 0;
-    a0 = func_0215E2B8(a0, a1, a2, a3);
+    a0 = func_0215E2B8((struct R *)a0, a1, a2, a3);
 loc_0216244A:
 a0 = 1;
 *(int *)((char *)t4 + 0x34) = a0;

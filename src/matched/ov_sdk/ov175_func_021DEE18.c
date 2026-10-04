@@ -17,7 +17,8 @@
  * word are handed to func_021DE840.
  */
 
-extern void func_021DE840(int, int);
+struct SAKEField;
+extern void func_021DE840(int numFields, struct SAKEField *record);
 
 void func_021DEE18(char *p)
 {
@@ -26,6 +27,6 @@ void func_021DEE18(char *p)
 
     if (q == 0)
         return;
-    func_021DE840(r[2], q[0]);
+    func_021DE840(r[2], (struct SAKEField *)q[0]);
 }
 

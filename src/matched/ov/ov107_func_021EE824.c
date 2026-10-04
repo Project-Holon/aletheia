@@ -29,8 +29,9 @@ extern void func_02030EAC(struct Node *n);
 extern void func_0200566C(void);
 extern void func_020370C8(void);
 extern void func_02005D28(void);
-extern void *func_0201296C(void *);
-extern u16 *func_020143CC(void *,unsigned);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_020143CC(u32 a, u32 b);
 extern void func_020307B0(void *);
 extern void func_021F0E40(void *);
 extern void func_021F1520(char *p);
@@ -39,7 +40,7 @@ void func_021EE824(u8 *p) {
  void *q; u16 *a,*b;
  func_02034FB8(16); func_02030EAC(*(void **)(p+4));func_0200566C();func_020370C8();
  if(p[40]==1) func_02005D28();
- else { q=func_0201296C(*(void **)(*(u8 **)(p+8)+4)); a=func_020143CC(q,16384);b=func_020143CC(q,16385);*a=*(u16 *)(p+56);*b=*(u16 *)(p+58); }
+ else { q=(void *)func_0201296C(*(void **)(*(u8 **)(p+8)+4)); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=*(u16 *)(p+56);*b=*(u16 *)(p+58); }
  if(*(void **)(p+96)) func_020307B0(*(void **)(p+96));
  func_021F0E40(*(void **)(p+12));func_021F1520(*(void **)(p+104));func_021EF080(p);
 }

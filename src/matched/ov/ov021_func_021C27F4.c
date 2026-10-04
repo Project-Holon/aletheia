@@ -18,31 +18,33 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-void *func_020124F0(int a);
+struct Obj;
+struct Obj020437AC;
+void *func_020124F0(struct Obj *p);
 struct Ctx;
 struct Obj;
 void *func_020124E8(struct Obj *p);
-void *func_020124E4(int a);
+void *func_020124E4(struct Obj *p);
 void *func_0201210C(const struct Ctx *p);
-void func_021C2918(int a);
-void func_020437AC(int a);
-void func_020307B0(int a);
+void func_021C2918(struct Obj *p);
+void func_020437AC(struct Obj020437AC *p);
+void func_020307B0(void *p);
 
 int func_021C27F4(int a, int *b)
 {
     char *p;
 
-    p = *(char **)func_020124E8(func_020124F0(a));
-    func_0201210C(func_020124E4(a));
+    p = *(char **)func_020124E8(func_020124F0((struct Obj *)a));
+    func_0201210C(func_020124E4((struct Obj *)a));
     switch (*b) {
     case 0:
-        func_021C2918((int)p);
+        func_021C2918((struct Obj *)((int)p));
         (*b)++;
         break;
     case 1:
-        func_020437AC(*(int *)(p + 0x90));
-        func_020307B0(*(int *)(p + 0x94));
-        func_020307B0(*(int *)(p + 0x98));
+        func_020437AC((struct Obj020437AC *)(*(int *)(p + 0x90)));
+        func_020307B0((void *)(*(int *)(p + 0x94)));
+        func_020307B0((void *)(*(int *)(p + 0x98)));
         (*b)++;
         break;
     case 2:

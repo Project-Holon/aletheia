@@ -31,8 +31,9 @@ struct Obj;
 void *func_020120F4(const struct Ctx *p);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 u32 func_02012138(const struct Ctx *p);
-int func_02026454(int x);
-void func_02026400(int x);
+struct Comm;
+u32 func_02026454(void *obj);
+void func_02026400(struct Comm *p);
 void *func_020124E8(struct Obj *p);
 u32 func_02154310(void *obj, u32 *mode, u32 *args);
 
@@ -47,7 +48,7 @@ void *func_021542CC(void *p, int a, int b)
     obj[0] = a;
     obj[1] = (int)p;
     obj[3] = b;
-    if (func_02026454(func_02012138(p)))
-        func_02026400(func_02012138(p));
+    if (func_02026454((void *)func_02012138(p)))
+        func_02026400((struct Comm *)func_02012138(p));
     return r7;
 }

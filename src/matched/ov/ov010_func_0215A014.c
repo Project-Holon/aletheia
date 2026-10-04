@@ -15,7 +15,9 @@
 typedef unsigned short u16;
 typedef struct Ent { u16 h0; u16 unused:1; u16 on:1; u16 rest:14; u16 h4, h6, h8; char pad[10]; } Ent;
 extern Ent d_02170FEC[];
-extern char *func_0201296C(void *);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern void func_02014314(char *, int);
 void func_0215A014(void *a, int b) {
  unsigned i;
@@ -23,7 +25,7 @@ void func_0215A014(void *a, int b) {
  for(i=0; i<17; i++) {
  p = &d_02170FEC[i];
  if (b == p->h8 && p->on) {
- func_02014314(func_0201296C(a), p->h0);
+ func_02014314((char *)func_0201296C(a), p->h0);
  return;
  }
  }

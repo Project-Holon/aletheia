@@ -21,7 +21,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_02169A88(void *a, u32 b);
-extern u32 func_020493D4(u32 h, u32 member);
+struct ArcFile;
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 struct ArcFile;
 extern void func_0204944C(struct ArcFile *h, u32 b, u32 c, u32 d, void *e);
 
@@ -49,7 +50,7 @@ void func_021695BC(S *p, u32 b)
         return;
     }
     t = p->base + p->cur;
-    p->tot = func_020493D4(p->h, b);
+    p->tot = func_020493D4((struct ArcFile *)p->h, b);
     p->len = 0;
     func_0204944C((struct ArcFile *)p->h, b, 0, p->n, (void *)t);
     p->cur = p->cur + p->n;

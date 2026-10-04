@@ -15,11 +15,11 @@
 
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_0217601C(void)
 {
-    func_02082BCC(func_02175F3C() + 0x50, 0, 0x504);
+    func_02082BCC((void *)(func_02175F3C() + 0x50), 0, 0x504);
 }
 

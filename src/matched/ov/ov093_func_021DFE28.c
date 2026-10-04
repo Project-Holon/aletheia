@@ -28,13 +28,13 @@ extern int func_021C83D4(u8 *p);
 extern unsigned int func_021C830C(u8 *p);
 extern int func_021C7F24(u8 *p, int i);
 extern int func_021C7F4C(struct Flag *p);
-extern void func_021DD044(int a, int b, int c);
+extern void func_021DD044(void *a, void *b, int c);
 
 void func_021DFE28(int a, void *b, int c)
 {
     if (func_021E85F8(c) != 0 && func_021D775C(0x4d) == 0 && func_021C8374(b, c) == 0
         && func_021C83D4(b) == 0 && func_021C830C(b) == 0 && func_021C7F24(b, c) != 0
         && func_021C7F4C(b) != 0) {
-        func_021DD044(a, (int)b, c);
+        func_021DD044((void *)a, (void *)((int)b), c);
     }
 }

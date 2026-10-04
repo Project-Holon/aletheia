@@ -14,12 +14,14 @@
  *   func_020286C4 0x020286C4 thumb
  */
 
-extern void func_020310C4(int);
-extern void func_020286C4(int, int, int);
+struct Ctx;
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
 
 void func_02205340(int a, char *b)
 {
-    func_020310C4(*(int *)(b + 0x68));
+    func_020310C4((struct Tcbl *)(*(int *)(b + 0x68)));
     if (*(int *)(b + 0x64) != 0)
-        func_020286C4(*(int *)(b + 0x84), *(int *)(b + 0x64), *(int *)(b + 0x6c));
+        func_020286C4((struct Ctx *)(*(int *)(b + 0x84)), (void *)(*(int *)(b + 0x64)), (void *)(*(int *)(b + 0x6c)));
 }

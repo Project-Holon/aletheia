@@ -29,12 +29,12 @@ typedef struct {
     u32 f2C;
 } Obj;
 
-extern u32 *func_021AC1AC(u32 a);
-extern void func_0216E1A4(u32, u32 *);
+extern int func_021AC1AC(u32 a);
+extern int func_0216E1A4(int a0, int a1);
 
 void func_021BBFF4(u32 a, Obj *o)
 {
-    u32 *p = func_021AC1AC(a);
+    u32 *p = (u32 *)func_021AC1AC(a);
 
     o->blk = *(Blk *)p;
     o->f0C = 0x40;
@@ -43,5 +43,5 @@ void func_021BBFF4(u32 a, Obj *o)
     if (o->blk.w[1] == 2) {
         o->f0C = 0;
     }
-    func_0216E1A4(p[2], &o->f2C);
+    func_0216E1A4(p[2], (int)(&o->f2C));
 }

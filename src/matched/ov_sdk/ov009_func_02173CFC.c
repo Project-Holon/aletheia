@@ -16,14 +16,14 @@
  *   OS_GetTick  0x020870D0  arm
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern unsigned long long OS_GetTick(void);
 
 void func_02173CFC(void)
 {
     unsigned long long t;
 
-    func_02175F3C()[0x62e] = 0;
+    ((char *)func_02175F3C())[0x62e] = 0;
     t = OS_GetTick();
     *(unsigned long long *)(func_02175F3C() + 0x670) = t;
 }

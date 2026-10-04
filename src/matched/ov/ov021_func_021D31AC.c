@@ -36,7 +36,7 @@ typedef struct {
 
 extern void (*d_021DE6AC[])(void *, int);
 extern void func_02040588(u32 which, u32 enable);
-extern void func_0207D534(u32 a, int b);
+extern void func_0207D534(volatile u16 *reg, int brightness);
 
 void func_021D31AC(Rec *p)
 {
@@ -57,11 +57,11 @@ void func_021D31AC(Rec *p)
         }
     }
     if (p->b34 != 0) {
-        func_0207D534(0x0400006C, p->s36);
+        func_0207D534((volatile u16 *)0x0400006C, p->s36);
         p->b34 = 0;
     }
     if (p->b35 != 0) {
-        func_0207D534(0x0400106C, p->s37);
+        func_0207D534((volatile u16 *)0x0400106C, p->s37);
         p->b35 = 0;
     }
 }

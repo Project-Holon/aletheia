@@ -17,10 +17,13 @@
  *   func_0218CD20  0x0218CD20  thumb  ov021
  */
 
-extern int func_02159B48(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u16 *func_02159B48(int a);
 extern int func_02159B94(int a0, int a1, int a2, int a3);
 extern void func_02159BBC(int);
-extern int func_02188C98(int);
+extern u32 func_02188C98(u8 *p);
 extern void func_0218CD20(int, int, int);
 
 void func_0217BC94(int a, int n)
@@ -29,10 +32,10 @@ void func_0217BC94(int a, int n)
 
     if (n >= 3)
         n = 2;
-    r = func_02159B48(0x15);
+    r = (int)func_02159B48(0x15);
     func_02159B94(r, 0x76, 0x76 + 0xa1, 0x8015);
     while (n > 0) {
-        func_0218CD20(a, func_02188C98(a), r);
+        func_0218CD20(a, func_02188C98((u8 *)a), r);
         n--;
     }
     func_02159BBC(r);

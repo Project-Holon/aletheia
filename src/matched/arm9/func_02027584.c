@@ -19,13 +19,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02045808(u32 v);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02082BCC(void *p, u32 v, u32 size);
 extern void func_020307B0(void *p);
 
 void func_02027584(u8 *p)
 {
-    func_02045808(*(u32 *)(p + 0xb08));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0xb08)));
     func_02082BCC(p, 0, 0xb10);
     func_020307B0(p);
 }

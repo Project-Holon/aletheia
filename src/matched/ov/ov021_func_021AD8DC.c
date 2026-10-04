@@ -42,24 +42,25 @@ typedef struct P {
     int f24;
 } P;
 
-extern u8 func_021ABE28(int a);
+typedef unsigned int   u32;
+extern u8 func_021ABE28(u8 *p);
 extern void func_021AD82C(void *a, void *b, int c);
-extern int func_02046E24(int a, int b);
+extern void *func_02046E24(u32 a0, u32 a1);
 extern int func_02046FF8(int *self);
 
 void func_021AD8DC(P *a, Desc *d, int c)
 {
     int r7;
 
-    r7 = func_021ABE28(a->f0);
-    func_02046FF8((int *)(a->f8 = func_02046E24(c, d->h4 + r7)));
-    a->f18 = func_02046E24(c, d->h6 + r7);
+    r7 = func_021ABE28((u8 *)a->f0);
+    func_02046FF8((int *)(a->f8 = (int)func_02046E24(c, d->h4 + r7)));
+    a->f18 = (int)func_02046E24(c, d->h6 + r7);
     func_021AD82C((char *)a + 0x28, a, 0);
     r7 += d->mid;
-    func_02046FF8((int *)(a->fc = func_02046E24(c, d->h4 + r7)));
-    a->f1c = func_02046E24(c, d->h6 + r7);
+    func_02046FF8((int *)(a->fc = (int)func_02046E24(c, d->h4 + r7)));
+    a->f1c = (int)func_02046E24(c, d->h6 + r7);
     func_021AD82C((char *)a + 0x40, a, 1);
-    func_02046FF8((int *)(a->f10 = func_02046E24(c, d->h4)));
-    a->f20 = func_02046E24(c, d->h6);
+    func_02046FF8((int *)(a->f10 = (int)func_02046E24(c, d->h4)));
+    a->f20 = (int)func_02046E24(c, d->h6);
     func_021AD82C((char *)a + 0x58, a, 2);
 }

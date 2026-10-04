@@ -85,7 +85,7 @@ extern void func_0216D9E4(void *p);
 extern int func_0216060C(Ctx *c);
 extern void *func_0216075C(Req *r, u16 id);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_021644F4(u32 i, void *a, void *b);
+extern int func_021644F4(int i, void *a, void *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
 extern void *func_021606DC(void *p, u32 a);
@@ -158,7 +158,7 @@ int func_0216025C(void *evt, u32 *state, Ctx *c)
         next = c->req->next;
         func_020307B0(c->req);
         c->req = 0;
-        h = func_021644F4(next, c->f04, c->f08);
+        h = (void *)func_021644F4(next, c->f04, c->f08);
         func_02012374(evt, h);
         *state = 6;
         break;

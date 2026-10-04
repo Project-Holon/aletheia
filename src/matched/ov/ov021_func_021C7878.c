@@ -32,7 +32,7 @@ typedef struct {
     int f28;
 } Obj;
 
-extern int func_02188C84(int);
+extern u16 func_02188C84(u8 *p);
 extern int func_021C6C70(int, int, int (*)(Obj *));
 extern Obj *func_021C6CCC(int);
 struct Actor;
@@ -55,7 +55,7 @@ int func_021C7878(int a, int b, const Vec *c, int d)
     Obj *o;
     int h;
 
-    h = func_021C6C70(func_02188C84(a), 0x2c, func_021C7A20);
+    h = func_021C6C70(func_02188C84((u8 *)a), 0x2c, func_021C7A20);
     o = func_021C6CCC(h);
     o->f0 = 0;
     o->f4 = a;

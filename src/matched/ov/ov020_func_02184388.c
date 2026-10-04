@@ -28,8 +28,9 @@ extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *map);
 extern void func_0218409C(u8 *p, int a);
 extern int func_021BD648(u8 *p);
-extern void func_02012374(int a, int b);
-extern int func_02184360(u8 *p, int a);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *func_02184360(u8 *p, int value);
 extern void func_02184120(u8 *p, int a);
 extern int func_021BD9BC(u8 *p);
 
@@ -42,16 +43,16 @@ int func_02184388(int a, int *state, u8 *p)
         func_0218403C(p);
         func_0216D9A0(func_02188C7C((u8 *)w));
         func_0218409C(p, a);
-        func_02012374(a, func_021BD648(p + 0x4c));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BD648(p + 0x4c));
         (*state)++;
         return 0x21;
     case 1:
-        func_02012374(a, func_02184360(p, 0));
+        func_02012374((struct Evt *)a, func_02184360(p, 0));
         (*state)++;
         break;
     case 2:
         func_02184120(p, a);
-        func_02012374(a, func_021BD9BC(p + 0x4c));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BD9BC(p + 0x4c));
         (*state)++;
         break;
     case 3:

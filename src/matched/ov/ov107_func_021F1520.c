@@ -26,7 +26,21 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov021_id 0x00000015 data
  */
-extern void func_02194798(void *),func_02027858(void *),func_0201FEF4(void *),func_0202F038(void *),func_02028604(void *),func_02027FD8(void *),func_0201C4C0(void *),func_0201CE48(void *),func_02045808(void *),func_021F18EC(void *),func_02045C04(void *),func_020452E8(void *),func_0201D83C(void *),func_02031140(void *),func_020307B0(void *);
+extern void func_02194798(void *);
+extern void func_02027858(void *);
+extern void func_0201FEF4(void *);
+extern void func_0202F038(void *);
+extern int func_02028604(int a0);
+extern void func_02027FD8(void *);
+extern void func_0201C4C0(void *);
+extern void func_0201CE48(void *);
+extern void func_02045808(void *);
+extern void func_021F18EC(void *);
+extern void func_02045C04(void *);
+extern void func_020452E8(void *);
+extern void func_0201D83C(void *);
+extern void func_02031140(void *);
+extern void func_020307B0(void *);
 extern void func_02034A5C(int);
 extern char ov021_id[];
 #define P(k) (*(void **)(p+(k)))
@@ -36,7 +50,7 @@ void func_021F1520(char *p)
     if(P(0x3C))func_02027858(P(0x3C));
     if(P(0x50))func_0201FEF4(P(0x50));
     if(P(0x5C)){func_0202F038(P(0x5C));P(0x5C)=0;}
-    func_02028604(P(0x44));func_02027FD8(P(0x40));func_0201C4C0(P(0x30));
+    func_02028604((int)P(0x44));func_02027FD8(P(0x40));func_0201C4C0(P(0x30));
     if(P(0x18))func_0201CE48(P(0x18));
     if(P(0x20))func_02045808(P(0x20));
     if(P(0x24))func_021F18EC(p);

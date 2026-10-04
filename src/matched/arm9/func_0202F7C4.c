@@ -48,7 +48,7 @@ typedef unsigned int u32;
 #define REG32(a) (*(volatile u32 *)(a))
 #define REG16(a) (*(volatile u16 *)(a))
 
-extern void func_0207D534(u32 a, u32 b);
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern long func_0207D3AC(int enable);
 extern long func_0207D3E4(int enable);
 extern void func_020808F4(void);
@@ -60,8 +60,8 @@ extern void func_0202F940(u32 a);
 
 void func_0202F7C4(u32 a0)
 {
-    func_0207D534(0x0400006C, 0xFFFFFFF0);
-    func_0207D534(0x0400106C, 0xFFFFFFF0);
+    func_0207D534((volatile u16 *)0x0400006C, 0xFFFFFFF0);
+    func_0207D534((volatile u16 *)0x0400106C, 0xFFFFFFF0);
     func_0207D3AC(0);
     func_0207D3E4(0);
     func_020808F4();
@@ -76,6 +76,6 @@ void func_0202F7C4(u32 a0)
     REG16(0x04000050) = 0;
     func_0202F870();
     func_0202F940(a0);
-    func_0207D534(0x0400006C, 0);
-    func_0207D534(0x0400106C, 0x10);
+    func_0207D534((volatile u16 *)0x0400006C, 0);
+    func_0207D534((volatile u16 *)0x0400106C, 0x10);
 }

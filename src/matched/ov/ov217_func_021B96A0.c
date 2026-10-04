@@ -32,13 +32,14 @@ extern u32 func_0201058C(void *key);
 struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_020121CC();
+struct IcaAnime;
+extern u32 func_020121CC(struct IcaAnime *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern void func_0203D34C(u32 a, u32 b);
 void func_021B96A0(u32 a0)
 {
     func_0201058C((void *)func_0201283C(func_020120F4(*(void **)(((u8*)a0) + 4))));
-    if (func_020121CC(*(u32*)(((u8*)a0) + 4)) != 0) {
+    if (func_020121CC((struct IcaAnime *)(*(u32*)(((u8*)a0) + 4))) != 0) {
     func_0203D34C(1, *(u16*)(((u8*)a0)));
     }
 }

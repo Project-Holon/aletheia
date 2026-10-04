@@ -61,7 +61,7 @@ typedef union {
 } InitData;
 
 extern char *func_02094860(char *dst, const char *src, u32 n);
-extern u32 func_02095EAC(const char *s, char **end, int base);
+extern u32 func_02095EAC(u32 a0, u32 *a1, u32 mode);
 extern int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4);
 extern int func_021BF558();
 extern Session g_021CF7AC;
@@ -102,10 +102,10 @@ void func_021C9EE4(int server, char *initdata)
     ptr = (InitData *)initdata;
     func_02094860(secretkey, ptr->info.secretkey, 20);
     secretkey[20] = '\0';
-    randkey_1 = func_02095EAC(func_02094860(buf, ptr->info.key1, 8), 0, 16);
-    randkey_2 = func_02095EAC(func_02094860(buf, ptr->info.key2, 8), 0, 16);
-    randkey_3 = func_02095EAC(func_02094860(buf, ptr->info.key3, 8), 0, 16);
-    randkey_4 = func_02095EAC(func_02094860(buf, ptr->info.key4, 8), 0, 16);
+    randkey_1 = func_02095EAC((u32)func_02094860(buf, ptr->info.key1, 8), 0, 16);
+    randkey_2 = func_02095EAC((u32)func_02094860(buf, ptr->info.key2, 8), 0, 16);
+    randkey_3 = func_02095EAC((u32)func_02094860(buf, ptr->info.key3, 8), 0, 16);
+    randkey_4 = func_02095EAC((u32)func_02094860(buf, ptr->info.key4, 8), 0, 16);
     func_021C98E0(ptr->info.gamename, secretkey, randkey_1, randkey_2, randkey_3, randkey_4);
     func_021BF558(0);
     g_021CF7AC.state = 3;

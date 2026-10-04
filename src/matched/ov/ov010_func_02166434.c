@@ -38,7 +38,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern u8 func_021767A0(void *a, void *b);
 extern u8 func_021673C4(u8 *p);
 extern u8 func_021673A8(u8 *p);
-extern void *func_02158344(void *p);
+extern int func_02158344(int a0);
 struct Rec {
     u8 pad[0x50];
     u32 : 6;
@@ -63,7 +63,7 @@ int func_02166434(void *a, u32 *out0, u32 *out1)
         *out1 = func_021673A8(sav);
         return 1;
     }
-    r = func_02158344(r);
+    r = (void *)func_02158344((int)r);
     if (r == 0) {
         *out0 = 0;
         *out1 = 0;

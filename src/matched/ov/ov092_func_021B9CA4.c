@@ -30,7 +30,7 @@ extern u32 func_0201AA18(void *party);
 struct Blk37;
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 buf);
-extern void *func_0200CA1C(u32 a);
+extern void *func_0200CA1C(void *a);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 
 void func_021B9CA4(struct S *s, void *party)
@@ -47,7 +47,7 @@ void func_021B9CA4(struct S *s, void *party)
             if (s->f04[0xc2 + i] != 0) {
                 mon = func_0201AB28(party, i);
                 if (func_02017E1C(mon, 5, 0) == 0x1ec) {
-                    func_0200CFA0(func_0200CA1C(s->f00), mon);
+                    func_0200CFA0(func_0200CA1C((void *)s->f00), mon);
                 }
             }
         }

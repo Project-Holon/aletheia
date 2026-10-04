@@ -15,9 +15,10 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021FCEA8(char *, int, int, int);
+typedef unsigned int   u32;
+extern void func_021FCEA8(int unused, int kind, u32 value, u32 id);
 
 void func_021FD6F0(char *p)
 {
-    func_021FCEA8(p, 6, *(int *)(*(int *)(p + 0x140) + 0x28), 0xff);
+    func_021FCEA8((int)p, 6, *(int *)(*(int *)(p + 0x140) + 0x28), 0xff);
 }

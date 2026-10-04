@@ -20,8 +20,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021F6C7C(u32);
-extern void func_021F6F4C(u32);
+extern void func_021F6C7C(char *p);
+extern void func_021F6F4C(u8 *p);
 struct Descriptor;
 extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
@@ -33,8 +33,8 @@ extern void func_020307B0(void *);
 void func_021F3BF0(u8 *p)
 {
     u8 i;
-    func_021F6C7C(*(u32 *)(p+0x40));
-    func_021F6F4C(*(u32 *)(p+0x28));
+    func_021F6C7C((char *)(*(u32 *)(p+0x40)));
+    func_021F6F4C((u8 *)(*(u32 *)(p+0x28)));
     func_021F7120(*(void **)(p+0x2c));
     func_021F51B0(*(u32 *)(p+0x20));
     func_021F4948(*(u8 **)(p+0x24));

@@ -17,7 +17,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0201D304(u32 a, u32 b, u32 c);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 u32 func_02190A74(u32 *obj, u32 *tab, u32 *out, u32 key)
 {
@@ -36,7 +37,7 @@ u32 func_02190A74(u32 *obj, u32 *tab, u32 *out, u32 key)
             if (tab[0] == 0) {
                 break;
             }
-            r = func_0201D304(tab[0], obj[2], k);
+            r = func_0201D304((struct StrObj *)tab[0], obj[2], k);
             if (r > best) {
                 best = r;
                 bestIdx = i;

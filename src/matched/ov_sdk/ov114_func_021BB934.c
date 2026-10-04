@@ -21,7 +21,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 u8 *func_021BEBE0(int, int);
-void func_021BB8F0(u32);
+struct List;
+void func_021BB8F0(struct List *list_p);
 void func_021BA850(int a);
 
 int func_021BB934(int a, u8 *b)
@@ -30,8 +31,8 @@ int func_021BB934(int a, u8 *b)
 
     if (p != 0)
         *(u32 *)(p + 0x10) = 0;
-    func_021BB8F0(*(u32 *)(b + 0x30));
-    func_021BB8F0(*(u32 *)(b + 0x34));
+    func_021BB8F0((struct List *)(*(u32 *)(b + 0x30)));
+    func_021BB8F0((struct List *)(*(u32 *)(b + 0x34)));
     func_021BA850(*(u32 *)(b + 0x24));
     func_021BA850(*(u32 *)(b + 0x28));
     func_021BA850((u32)b);

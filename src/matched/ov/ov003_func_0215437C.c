@@ -29,8 +29,9 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 u32 func_02012138(const struct Ctx *p);
-int func_02026454(int x);
-void func_02026400(int x);
+struct Comm;
+u32 func_02026454(void *obj);
+void func_02026400(struct Comm *p);
 void *func_020124E8(struct Obj *p);
 u32 func_021542C0(void *obj, u32 *mode, u32 *args);
 
@@ -39,8 +40,8 @@ void *func_0215437C(void *p, int a, int b)
     void *r7 = func_020122C0(p, 0, func_021542C0, 0x1C);
     int *obj;
 
-    if (func_02026454(func_02012138(p)))
-        func_02026400(func_02012138(p));
+    if (func_02026454((void *)func_02012138(p)))
+        func_02026400((struct Comm *)func_02012138(p));
     obj = func_020124E8(r7);
     obj[1] = (int)p;
     obj[2] = a;

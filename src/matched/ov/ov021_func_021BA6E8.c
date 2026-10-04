@@ -33,14 +33,14 @@ typedef long long      s64;
 
 typedef struct { int x, y, z; } V;
 
-u32 func_021B8220(u32 p);
-u32 func_021B821C(u32 p);
-u16 func_021B82F0(u32 q);
+u32 func_021B8220(u8 *p);
+u32 func_021B821C(u8 *p);
+u16 func_021B82F0(u8 *p);
 u32 func_021B833C(u32 q);
 u32 func_021B834C(u32 q);
 int *func_021B836C(u32 q, u32 k);
-int func_021B82FC(u32 q);
-int func_021B82F8(u32 q);
+u32 func_021B82FC(u8 *p);
+u32 func_021B82F8(u8 *p);
 int *func_021B830C(u32 q);
 u32 func_0207C768(u32 a, u32 b);
 void func_021BA7E0(u32 p, u16 ang, int r, V *pos);
@@ -64,15 +64,15 @@ void func_021BA6E8(u32 p)
     int x0;
     int y;
 
-    q = func_021B8220(p);
-    func_021B821C(p);
-    if (func_021B82F0(q) == 1) {
+    q = func_021B8220((u8 *)p);
+    func_021B821C((u8 *)p);
+    if (func_021B82F0((u8 *)q) == 1) {
         a = func_021B833C(q);
         b = func_021B834C(q);
         k0 = func_021B836C(q, a);
         k1 = func_021B836C(q, b);
-        d = func_021B82FC(q);
-        t = func_021B82F8(q);
+        d = func_021B82FC((u8 *)q);
+        t = func_021B82F8((u8 *)q);
     } else {
         k0 = func_021B830C(q);
         k1 = func_021B830C(q);

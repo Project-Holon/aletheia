@@ -118,10 +118,11 @@ extern fx32           g_02147B98[];
 extern void func_02064EDC(void);
 extern void func_02067B28(Mtx *m, struct Aff *aff);
 extern void func_02067AC0(Mtx *m);
-extern void func_02067DC8(void *a, int n);
-extern void func_02067D14(void *a);
+typedef signed int     s32;
+extern void func_02067DC8(u32 a0, s32 a1);
+extern void func_02067D14(u32 arg0);
 extern void func_02067B40(struct Obj *o, fx32 v);
-extern void func_02067B48(struct Obj *o, struct Node *p);
+extern void func_02067B48(u32 *p, u32 v);
 extern void func_02067AAC(struct Obj *o, int x, int y);
 extern void func_02067BA4(struct Obj *o);
 extern void func_02067CB0(void);
@@ -166,9 +167,9 @@ static inline void Finish(void *a)
     int r = !(g_020A81F8.f04 == -1);
 
     if (r != 0)
-        func_02067DC8(a, g_020A81F8.f04);
+        func_02067DC8((u32)a, g_020A81F8.f04);
     else
-        func_02067D14(a);
+        func_02067D14((u32)a);
 }
 
 static inline void DrawA(void *a, struct Node *p)
@@ -177,7 +178,7 @@ static inline void DrawA(void *a, struct Node *p)
     struct Aff *aff;
 
     q->f74 = p;
-    func_02067B48(q, p);
+    func_02067B48((u32 *)q, (u32)p);
     func_02067AAC(q, p->f28, p->f2c);
     func_02067BA4(q);
     aff = GetAff();
@@ -192,7 +193,7 @@ static inline void DrawB(void *a, struct Obj *o, struct Node *p)
     struct Obj *q = g_02147B88.obj;
 
     q->f74 = p;
-    func_02067B48(q, p);
+    func_02067B48((u32 *)q, (u32)p);
     func_02067BA4(q);
     func_02067B40(o, g_02147B98[g_02147B88.slot]);
     func_02067AC0(GetMtx());

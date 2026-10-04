@@ -17,13 +17,15 @@ typedef unsigned char u8;
 
 typedef struct { int h; u8 a, b, c; } St;
 
-extern void func_0204B6F4(int, int, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void func_021B70C4(St *p)
 {
     if (p->a == 1) {
         if (p->b % 5 == 0) {
-            func_0204B6F4(p->h, p->c, 1);
+            func_0204B6F4((struct Obj *)p->h, p->c, 1);
             p->c ^= 1;
             if (p->b / 5 == 3)
                 p->a = 0;

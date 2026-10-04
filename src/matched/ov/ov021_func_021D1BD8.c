@@ -21,7 +21,8 @@
 typedef unsigned int u32;
 
 extern int func_02158F58(int a0);
-extern u32 func_02188CCC(u32 a);
+typedef unsigned char  u8;
+extern u32 func_02188CCC(u8 *p);
 extern int func_021A0ED4(u32 a);
 extern int func_021A0F30(u32 a, u32 b);
 extern void func_02159168(int n);
@@ -30,7 +31,7 @@ int func_021D1BD8(u32 *a, int *seq)
 {
     u32 r4;
 
-    r4 = func_02188CCC(((u32 *)func_02158F58(a[2]))[1]);
+    r4 = func_02188CCC((u8 *)(((u32 *)func_02158F58(a[2]))[1]));
     switch (*seq) {
     case 0:
         if (func_021A0ED4(r4)) {

@@ -13,9 +13,9 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern void func_021F26E0(char *p);
-extern void func_020307B0(int p);
+extern void func_020307B0(void *p);
 void func_021F2984(char *p)
 {
     func_021F26E0(p);
-    func_020307B0((int)p);
+    func_020307B0((void *)((int)p));
 }

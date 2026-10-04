@@ -75,8 +75,8 @@ struct G02146954 {
 extern struct G02146954 g_02146954;
 
 extern void *sub_0202FBAC(u32 id);
-extern void *sub_0202FBD0(u32 id);
-extern void *sub_0202FBF8(u32 id);
+extern u32 sub_0202FBD0(u32 idx);
+extern u32 sub_0202FBF8(u32 idx);
 extern void  func_02060C94(void *block);
 struct ExpHeap;
 extern void func_02060E30(struct ExpHeap *heap, void *block);
@@ -94,8 +94,8 @@ u32 sub_0202FF98(u32 handle)
     if (block == 0) {
         g_02146954.error = 1;
     } else {
-        a = sub_0202FBD0(handle);
-        b = sub_0202FBF8(handle);
+        a = (void *)sub_0202FBD0(handle);
+        b = (void *)sub_0202FBF8(handle);
         slot = g_02146954.slot[handle];
         func_02060C94(block);
 

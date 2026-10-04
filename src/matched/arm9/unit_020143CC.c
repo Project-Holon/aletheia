@@ -37,7 +37,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void sub_02014368(u32 a, int lo, int hi);
+extern void sub_02014368(char *a0, int a1, int a2);
 extern u32  sub_02082BCC(u32 dst, u32 val, u32 len);
 
 u32 sub_020143CC(u32 a, u32 b)
@@ -53,7 +53,7 @@ void sub_020143D8(u32 a, u32 y, u32 z)
 
 void sub_020143F0(u8 *a)
 {
-    sub_02014368((u32)a, 0xAA0, 0xB5F);
+    sub_02014368((char *)((u32)a), 0xAA0, 0xB5F);
     a[0x3E8] = 1;
 }
 

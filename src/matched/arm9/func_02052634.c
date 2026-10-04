@@ -37,7 +37,10 @@
 typedef unsigned int u32;
 
 extern void *func_02058380(void *p);
-extern void func_02053A60(void *a, void *b, int c);
+struct Cfg;
+struct Obj;
+struct Vec3;
+extern void func_02053A60(volatile struct Obj *o, struct Cfg *cfg, const struct Vec3 *pos);
 extern void func_020583CC(void *a, void *b);
 
 int func_02052634(char *p, int b, int c)
@@ -46,7 +49,7 @@ int func_02052634(char *p, int b, int c)
 
     if (*(u32 *)(p + 0x10) != 0) {
         r = func_02058380(p + 0x10);
-        func_02053A60(r, (void *)(*(u32 *)(p + 0x28) + (b << 5)), c);
+        func_02053A60(r, (void *)(*(u32 *)(p + 0x28) + (b << 5)), (const struct Vec3 *)c);
         func_020583CC(p + 4, r);
         if ((*(u32 *)(*(u32 *)(*(u32 *)((char *)r + 0x20))) << 0x11 >> 0x1f) != 0)
             r = 0;

@@ -16,7 +16,8 @@
  */
 
 
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 typedef struct {
     char pad[0x1e0];
@@ -29,6 +30,6 @@ void func_021C06A0(int unused, S *s)
 
     for (i = 0; i < 0x3d; i++) {
         if (s->arr[i * 2] == 2)
-            func_0204B3B4(s->arr[i * 2 + 1]);
+            func_0204B3B4((struct Obj *)s->arr[i * 2 + 1]);
     }
 }

@@ -44,7 +44,7 @@ typedef struct {
 } GPIConnection;
 
 extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_0219091C(void **connection, GPIOperation *operation);
 extern void func_0218E240(void **connection, GPIOperation *operation);
 extern void func_0217EAE0(void *ptr);
@@ -65,7 +65,7 @@ int func_02192E10(void **connection)
     if (iconnection->numSearches > 0) {
         searchList = (GPIOperation **)func_0217EAB0(iconnection->numSearches * sizeof(GPIOperation *));
         if (searchList == 0) {
-            func_02193734(connection, g_021A5280);
+            func_02193734((int *)connection, (int)g_021A5280);
             return 1;
         }
         for (operation = iconnection->operationList; operation != 0; operation = operation->pnext) {

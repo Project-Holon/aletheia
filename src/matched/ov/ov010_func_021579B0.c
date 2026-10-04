@@ -26,7 +26,7 @@ extern int func_0203CD98(void);
 extern void func_02082D44(void *, void *, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
-extern void func_02157960(void *, void (*)(void), int);
+extern void func_02157960(int a, int b, int c);
 extern void func_021579AC(void);
 
 void func_021579B0(u8 *p)
@@ -49,5 +49,5 @@ void func_021579B0(u8 *p)
         else
             p[0x674] = 3;
     }
-    func_02157960(p, func_021579AC, 0xF8);
+    func_02157960((int)p, (int)func_021579AC, 0xF8);
 }

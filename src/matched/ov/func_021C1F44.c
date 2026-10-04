@@ -16,11 +16,11 @@
  */
 
 
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 void func_021C1F44(int a)
 {
     if (a != 0)
-        func_020307B0(a);
+        func_020307B0((void *)a);
 }
 

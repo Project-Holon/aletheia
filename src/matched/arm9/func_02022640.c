@@ -42,10 +42,11 @@ struct Screen {
 };
 
 extern void func_020056A0(Task fn, void *arg, u32 prio);
-extern void func_0202262C(void *p);
+struct Q;
+extern void func_0202262C(void *obj, struct Q *q);
 
 void func_02022640(struct Screen *s)
 {
     if (s->f28 == 0 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0)
-        func_020056A0(func_0202262C, s, 1 << 10);
+        func_020056A0((Task)func_0202262C, s, 1 << 10);
 }

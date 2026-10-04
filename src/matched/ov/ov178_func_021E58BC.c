@@ -15,8 +15,8 @@
  */
 typedef unsigned int u32;
 
-extern u32 func_021E58F4(void *d, u32 *c, u32 b);
-extern u32 func_021E5A90(void *d, u32 *c, u32 b);
+extern int func_021E58F4(char **out, u32 *ctx, u32 *state);
+extern unsigned func_021E5A90(void **d, unsigned *c, unsigned *state);
 
 int func_021E58BC(u32 a, u32 b, u32 *c, void *d)
 {
@@ -24,10 +24,10 @@ int func_021E58BC(u32 a, u32 b, u32 *c, void *d)
 
     switch (c[1]) {
     case 0:
-        r = func_021E58F4(d, c, b);
+        r = func_021E58F4(d, c, (u32 *)b);
         break;
     case 1:
-        r = func_021E5A90(d, c, b);
+        r = func_021E5A90(d, c, (unsigned int *)b);
         break;
     }
     return r != 0;

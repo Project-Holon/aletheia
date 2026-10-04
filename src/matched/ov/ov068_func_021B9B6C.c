@@ -23,8 +23,9 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_020452E8(u32 a);
-extern void func_020307B0(u32 a);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
+extern void func_020307B0(void *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
 extern void func_020450C8(void);
@@ -38,10 +39,10 @@ void func_021B9B6C(u32 *p)
 
     for (i = 0; i < 19; i++) {
         if (p[i] != 0) {
-            func_020452E8(p[i]);
+            func_020452E8((struct Descriptor *)p[i]);
         }
     }
-    func_020307B0(p[21]);
+    func_020307B0((void *)p[21]);
     func_02040DA8(4, 1, 0);
     i = 0;
     func_02040DA8(3, 1, 0);

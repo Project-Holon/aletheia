@@ -27,7 +27,7 @@ typedef struct { fx32 x, y, z; } VecFx32;
 
 typedef enum { SLOT_0, SLOT_MAX = 8 } Slot;
 
-extern char *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FF134(char *p, int a, int b);
 extern int func_021FFD9C(char *p, int key);
 extern int func_021FF468(void *u, int i, int mode);
@@ -40,10 +40,10 @@ void func_021FE9F0(fx32 a, fx32 b, int n, int f48, int f4c)
     fx32 s;
     fx32 t;
 
-    func_021FF134(func_021F8694(), a, b);
+    func_021FF134((char *)func_021F8694(), a, b);
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C(func_021F8694(), i)) {
-            s = func_021FF468(func_021F8694(), i, 1);
+        if (func_021FFD9C((char *)func_021F8694(), i)) {
+            s = func_021FF468((void *)func_021F8694(), i, 1);
             if (i & 1)
                 t = (fx32)(((fx64)s * b + ((fx64)(1 << 12) >> 1)) >> 12);
             else
@@ -51,7 +51,7 @@ void func_021FE9F0(fx32 a, fx32 b, int n, int f48, int f4c)
             v.x = t;
             v.y = t;
             v.z = 1 << 12;
-            func_021FF630(func_021F8694(), i, 1, &v, n, f48, f4c);
+            func_021FF630((char *)func_021F8694(), i, 1, &v, n, f48, f4c);
         }
     }
 }

@@ -30,16 +30,16 @@ typedef signed int     s32;
 
 extern u32 func_021C2550(u32 a0);
 extern u32 func_021C256C();
-extern u32 func_021C25B0();
-extern u32 func_021C25D0();
-extern u32 func_021C2630();
+extern void func_021C25B0(u8 *p);
+extern void func_021C25D0(u8 *p);
+extern void func_021C2630(char *p, char *q);
 u32 func_021C2070(u32 a0, u32 a1)
 {
     u32 v1 = func_021C2550(a0);
     func_021C256C(v1, a0);
-    func_021C2630(v1, a1);
-    func_021C25B0(v1);
-    func_021C25D0(v1);
+    func_021C2630((char *)v1, (char *)a1);
+    func_021C25B0((u8 *)v1);
+    func_021C25D0((u8 *)v1);
     return v1;
 }
 

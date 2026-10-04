@@ -13,10 +13,11 @@
  *   func_021B630C  0x021B630C  thumb  ov179
  */
 
-extern void func_021B630C(int, int, int, int);
+typedef unsigned int   u32;
+extern void func_021B630C(char *p, u32 a, u32 b, u32 c);
 
 int func_021B676C(int a, int *q)
 {
-    func_021B630C(a, *(int *)((char *)q + 4), *(int *)((char *)q + 8), 5);
+    func_021B630C((char *)a, *(int *)((char *)q + 4), *(int *)((char *)q + 8), 5);
     return 1;
 }

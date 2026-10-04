@@ -17,8 +17,12 @@
 
 typedef short Pt;
 
-int func_021A2C28(int a);
-void func_0204B404(int a, Pt *p, int c);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+struct Vec2;
+u32 func_021A2C28(u8 *p);
+void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021A2654(int obj, unsigned short *src)
 {
@@ -38,5 +42,5 @@ void func_021A2654(int obj, unsigned short *src)
     } else if (pt[1] < -64) {
         pt[1] = pt[1] + 256;
     }
-    func_0204B404(func_021A2C28(obj), pt, 0);
+    func_0204B404((struct Obj *)func_021A2C28((u8 *)obj), (const struct Vec2 *)pt, 0);
 }

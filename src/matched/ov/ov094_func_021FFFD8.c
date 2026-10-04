@@ -20,7 +20,7 @@
 typedef unsigned int u32;
 typedef struct { u32 v[9]; } Rec;
 extern int func_022019F4(char *, int);
-extern void func_020172AC(void *, u32);
+extern void func_020172AC(int a0, int a1);
 extern void func_02014CF8(void *, void *, const Rec *);
 extern void func_02015F2C(void *, int, void (*)(int), int);
 extern void func_02201718(int);
@@ -43,7 +43,7 @@ void func_021FFFD8(char *w, int key, int flag, int clear)
     if (*(void **)(e + off) == 0)
         return;
     if (flag == 0) {
-        func_020172AC(*(void **)(w + 4), *(u32 *)(w + off + 0x3c));
+        func_020172AC((int)(*(void **)(w + 4)), *(u32 *)(w + off + 0x3c));
         func_02014CF8(*(void **)(w + 4), *(void **)(w + 8 + off), (const Rec *)(w + 0xc + off));
         func_02015F2C(*(void **)(w + 8 + off), idx, func_02201718, 1);
         if (clear)

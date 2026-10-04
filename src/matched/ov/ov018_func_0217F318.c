@@ -37,7 +37,8 @@ typedef struct {
 void func_0217F390(Ov018Obj *p);
 void func_0217F58C(Ov018Obj *p);
 void func_0217F45C(Ov018Obj *p);
-void func_02190E40(void *);
+typedef unsigned int   u32;
+int func_02190E40(u32 a);
 void func_021904C8(void *);
 struct U16Vec;
 struct WordSet;
@@ -51,7 +52,7 @@ void func_0217F318(Ov018Obj *p)
     func_0217F45C(p);
     if (p->f00 != 0) {
         if (p->f18 != 0) {
-            func_02190E40(p->f18);
+            func_02190E40((u32)p->f18);
             p->f18 = 0;
         }
         func_021904C8(p->f0C);

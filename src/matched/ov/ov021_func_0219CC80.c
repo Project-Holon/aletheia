@@ -20,8 +20,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020307B0(u32);
-extern void func_02046EFC(u32);
+struct Tagged;
+extern void func_020307B0(void *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_0219CC80(u8 *o)
 {
@@ -32,24 +33,24 @@ void func_0219CC80(u8 *o)
     if (c == 0) return;
     i = 0;
     *(u32 *)c = i;
-    func_020307B0(*(u32 *)(c + 0xc));
+    func_020307B0((void *)(*(u32 *)(c + 0xc)));
     p = *(u8 **)(c + 0x10);
     if (i < *(u16 *)(c + 6)) {
         for (; i < *(u16 *)(c + 6); i++, p += 0x14) {
             if (*(u32 *)(p + 0x10) != 0)
-                func_02046EFC(*(u32 *)(p + 0x10));
+                func_02046EFC((struct Tagged *)(*(u32 *)(p + 0x10)));
         }
     }
-    func_020307B0(*(u32 *)(c + 0x10));
+    func_020307B0((void *)(*(u32 *)(c + 0x10)));
     i = 0;
     p = *(u8 **)(c + 0x14);
     if (i < *(u16 *)(c + 8)) {
         for (; i < *(u16 *)(c + 8); i++, p += 0x28) {
             if (*(u32 *)p != 0 && *(u32 *)(p + 0x10) != 0)
-                func_02046EFC(*(u32 *)(p + 0x10));
+                func_02046EFC((struct Tagged *)(*(u32 *)(p + 0x10)));
         }
     }
-    func_020307B0(*(u32 *)(c + 0x14));
-    func_020307B0((u32)c);
+    func_020307B0((void *)(*(u32 *)(c + 0x14)));
+    func_020307B0((void *)((u32)c));
     *(u32 *)(o + 0x1c) = 0;
 }

@@ -14,6 +14,7 @@
  *   func_02157760 0x02157760 thumb ov010
  */
 extern void func_0203D010(void);
-extern void func_021576C4(void *, void (*)(void), int);
-extern void func_02157760(void);
-void func_02157870(void *p) { func_0203D010(); func_021576C4(p, func_02157760, 0x1d7); }
+typedef unsigned char  u8;
+extern void func_021576C4(char *p, int v, int line);
+extern void func_02157760(u8 *q);
+void func_02157870(void *p) { func_0203D010(); func_021576C4(p, (int)func_02157760, 0x1d7); }

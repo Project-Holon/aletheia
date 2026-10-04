@@ -15,9 +15,9 @@
 
 typedef int s32;
 
-extern void func_021543E8(s32 a, s32 b, s32 c, s32 d, s32 e);
+extern void *func_021543E8(void *p, int a1, int a2, int a3, int a4);
 
 void func_02154438(s32 a, s32 *b)
 {
-    func_021543E8(a, b[0], b[1], b[2], b[3]);
+    func_021543E8((void *)a, b[0], b[1], b[2], b[3]);
 }

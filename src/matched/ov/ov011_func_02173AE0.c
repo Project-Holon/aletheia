@@ -18,7 +18,8 @@
 int func_021736D8(void);
 struct Entry;
 struct Entry *func_020399A8(void);
-int func_0203D3F8(int a, int b, int c, int d, void *e, int f, int g, int h);
+typedef unsigned int   u32;
+u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 int func_02173AE0(int a, int b, int c, int d)
 {
@@ -29,5 +30,5 @@ int func_02173AE0(int a, int b, int c, int d)
     }
     buf[0] = c;
     buf[1] = d;
-    return func_0203D3F8((int)func_020399A8(), (unsigned char)b, 0x208, 4, buf, 0, 0, 0);
+    return func_0203D3F8((int)func_020399A8(), (unsigned char)b, 0x208, 4, (u32)buf, 0, 0, 0);
 }

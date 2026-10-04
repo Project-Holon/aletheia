@@ -29,7 +29,7 @@ typedef struct {
     char hdrBuf[0x400];
 } Res;
 
-extern char *func_021BA820(unsigned long size, int align);
+extern int func_021BA820(int a, int b);
 typedef unsigned char  u8;
 extern void func_021BA874(u8 *p, int v);
 extern int func_021BB210(Res *res_p, char *dst_p, int pos, int len);
@@ -43,7 +43,7 @@ int func_021BBDFC(void *bgnEndInfo_p, Res *res_p, char **value_pp)
         *value_pp = res_p->hdrBuf;
     } else {
         if (res_p->allHeader_p == 0) {
-            res_p->allHeader_p = func_021BA820(res_p->headerLen, 4);
+            res_p->allHeader_p = (char *)func_021BA820(res_p->headerLen, 4);
             if (res_p->allHeader_p == 0) {
                 func_021BA874(bgnEndInfo_p, 1);
                 return -1;

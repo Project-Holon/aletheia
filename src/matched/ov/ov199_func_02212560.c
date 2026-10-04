@@ -53,7 +53,7 @@ extern void *func_02012934(const struct BigObj *p);
 extern int func_0201A918(void);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
-extern void *func_0200BAF4(void *, int);
+extern void *func_0200BAF4(int a0, int a1);
 extern void func_020307B0(void *);
 extern const char d_02213D00[];
 extern const unsigned d_02213C58[];
@@ -102,7 +102,7 @@ int func_02212560(void *a, int unused, u8 *arg)
         func_02082D44(v, dst + 0xd4, func_0201A918());
         break;
     case 1:
-        v = func_0200BAF4(func_0200BAC8(func_02012EBC(*(void **)(p + 4))), 0x8056);
+        v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(*(void **)(p + 4))), 0x8056);
         func_02082D44(v, dst + 0xd4, func_0201A918());
         func_020307B0(v);
         break;

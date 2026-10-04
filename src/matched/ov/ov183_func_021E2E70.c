@@ -25,7 +25,7 @@
  *   d_021E3928 0x021E3928 data a4
  */
 typedef unsigned short u16;
-extern void *func_021FD12C(int, int, u16);
+extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern int func_021FC21C(char *);
 extern int func_021FC214(char *);
 typedef unsigned int   u32;
@@ -36,11 +36,11 @@ extern void *func_02045EC0(int, unsigned);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE0C(void *, int, unsigned, unsigned, int, int);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021FD19C(void *, int, void *);
+extern void func_021FD19C(char *p, void *q, void *text);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_021FB964(int, int, u16);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void *func_021FC6A4(u16, unsigned, u16, u16, unsigned char, unsigned char, void *, u16);
-extern void func_021FC754(void *, int, int, int, u16);
+extern void func_021FC754(char *p, void *a, void *b, void *font, unsigned short value);
 extern const unsigned char d_021E3928[];
 void func_021E2E70(char *p, const char *q)
 {
@@ -57,7 +57,7 @@ void func_021E2E70(char *p, const char *q)
   void **tmp1;
   char *tmp2;
   if (!(*((void **) (p + 8))))
-    *((void **) (p + 8)) = func_021FD12C(*((int *) (q + 8)), *((int *) (p + 4)), *((u16 *) (p + 0x38)));
+    *((void **) (p + 8)) = func_021FD12C(*((int *) (q + 8)), (void *)(*((int *) (p + 4))), *((u16 *) (p + 0x38)));
   a = (void *) func_021FC21C(*((char **) (q + 8)));
   s = func_02045EC0(func_021FC214(*((char **) (q + 8))), 0x141);
   b = func_020457B0(0x80, *((u16 *) (p + 0x38)));
@@ -66,10 +66,10 @@ void func_021E2E70(char *p, const char *q)
   base = *((unsigned *) (q + 0x18));
   func_0201EE0C(a, 0, *((unsigned *) ((base + index) + 0x14)), *((unsigned *) ((((unsigned) base) + index) + 0x24)), 1, 2);
   func_0201F250(a, b, s);
-  func_021FD19C(*((void **) (p + 8)), *((int *) (q + 8)), b);
+  func_021FD19C(*((void **) (p + 8)), (void *)(*((int *) (q + 8))), b);
   func_02045808(b);
   func_02045808(s);
-  func_021FB964(*((int *) (q + 8)), 0x1e, *((u16 *) (p + 0x38)));
+  func_021FB964((void *)(*((int *) (q + 8))), 0x1e, *((u16 *) (p + 0x38)));
   h = func_021FC20C(*((char **) (q + 8)));
   c = func_021FC214(*((char **) (q + 8)));
   for (i = 0; i < 2; i++)
@@ -80,7 +80,7 @@ void func_021E2E70(char *p, const char *q)
     *((void **) ((p + (i * 4)) + 0x28)) = func_021FC6A4(4, r[0], r[1], r[2], r[3], 14, *((void **) tmp2), *((u16 *) (p + 0x38)));
     tmp1 = (void **) (0x28 + (p + (i * 4)));
     tmp = tmp1;
-    func_021FC754(*tmp, c, *((int *) (r + 4)), h, 0x3da0);
+    func_021FC754(*tmp, (void *)c, (void *)(*((int *) (r + 4))), (void *)h, 0x3da0);
   }
 
 }

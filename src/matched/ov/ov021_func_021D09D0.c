@@ -26,13 +26,17 @@
 
 extern int d_021DE674;
 
-extern int func_020120F4(int x);
-extern int func_02012EBC(int x);
+typedef unsigned int   u32;
+struct Big;
+struct Ctx;
+struct Sub020073D8Ctrl;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 extern void func_020072CC(int a, int b, int c, void *d, int e);
-extern int func_020073D8(int a, int b, int c);
-extern int func_0200E5A0(int a);
-extern int func_0200E5CC(int a);
+extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
+extern int func_0200E5A0(void *a0);
+extern int func_0200E5CC(void *p);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
 extern void func_020307B0(void *p);
@@ -44,14 +48,14 @@ void func_021D09D0(int a, char *out)
     int h;
     void *buf;
 
-    h = func_02012EBC(func_020120F4(a));
+    h = (int)func_02012EBC(func_020120F4((const struct Ctx *)a));
     buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x79);
     v = 0x8004 >> 3;
     func_020072CC(h, 5, 0x8004, buf, v);
     v = 0;
-    t = func_020073D8(h, 5, 0);
-    if (func_0200E5A0(t)) {
-        int r = func_0200E5CC(t);
+    t = (int)func_020073D8((struct Sub020073D8Ctrl *)h, 5, 0);
+    if (func_0200E5A0((void *)t)) {
+        int r = func_0200E5CC((void *)t);
         v = 1;
         if (r == 0) {
             v = 2;

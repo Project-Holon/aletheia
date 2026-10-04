@@ -54,10 +54,10 @@ extern void *func_02189A10(struct Obj *p);
 extern void *func_021C7FBC(void **p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
-extern void func_02159058(void *p, u32 a, u32 b, u32 c, u32 d);
+extern void func_02159058(int a, int b, int c, int d, u16 e);
 extern u8 func_02014468(struct Sub02014444Obj *o);
 extern void func_02014464(struct Sub02014444Obj *o, u8 v);
-extern void func_02165534(int se);
+extern void func_02165534(void *a0);
 extern void func_021C7E50(u8 *p, u16 v);
 extern u16 func_02014470(struct Sub02014444Obj *o);
 extern void func_0201446C(void *p, u32 v);
@@ -83,14 +83,14 @@ int func_0215ECBC(void *a0, int *state, Arg *arg)
     case 0:
         id = arg->f0c;
         msg = func_02158780(a0, 0x2718, 0, 0, d);
-        func_02159058(msg, id, 0, 0, 0);
+        func_02159058((int)msg, id, 0, 0, 0);
         (*state)++;
         break;
     case 1:
         if (func_02014468(obj2) == 0) {
             o = func_02012B38(obj);
             func_02014464(obj2, 1);
-            func_02165534(0x94);
+            func_02165534((void *)0x94);
             func_021C7E50(ctl, 1);
             func_0201446C(o, (func_02014470(o) & ~1) | 2);
         } else {

@@ -42,7 +42,7 @@ typedef struct NodeInfo {
     unsigned char f16;
 } NodeInfo;
 
-extern MatchCnt *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_02175530(void);
 extern NodeInfo *func_02176344(void);
 extern void func_02175F4C(int status);
@@ -57,26 +57,26 @@ void func_021755D4(int init)
     int gpResult;
 
     if (init) {
-        func_02175F3C()->f790 = func_02175530();
+        ((MatchCnt *)func_02175F3C())->f790 = func_02175530();
         pMyNodeInfo = func_02176344();
         pMyNodeInfo->f16 = 0;
-        func_02175F3C()->f7C4 = 1;
+        ((MatchCnt *)func_02175F3C())->f7C4 = 1;
     }
-    func_02175F3C()->f14 = 2;
+    ((MatchCnt *)func_02175F3C())->f14 = 2;
     func_02175F4C(13);
     func_02175F84(2);
-    func_02175F3C()->f5DC = 0;
-    func_02175F3C()->f18 = 0;
-    if (func_02175F3C()->f15 == 0) {
+    ((MatchCnt *)func_02175F3C())->f5DC = 0;
+    ((MatchCnt *)func_02175F3C())->f18 = 0;
+    if (((MatchCnt *)func_02175F3C())->f15 == 0) {
         matchType = 3;
-    } else if (func_02175F3C()->f15 == 1) {
+    } else if (((MatchCnt *)func_02175F3C())->f15 == 1) {
         matchType = 4;
     } else {
         matchType = 6;
     }
-    if (func_02175F3C()->f15 == 3)
-        func_02175F3C()->f15 = 2;
+    if (((MatchCnt *)func_02175F3C())->f15 == 3)
+        ((MatchCnt *)func_02175F3C())->f15 = 2;
     gpResult = func_0216F20C(matchType);
     func_02173D28(gpResult);
-    func_02175F3C()->f67C = 0;
+    ((MatchCnt *)func_02175F3C())->f67C = 0;
 }

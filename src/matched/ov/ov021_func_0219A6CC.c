@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef struct { int v[5]; } Arr;
 extern const Arr d_021D5024;
 extern const Arr d_021D5038;
-extern int func_0216D5F8(u32);
+extern u16 func_0216D5F8(void *p);
 extern void func_0216D5E0(u32, u16);
 
 int func_0219A6CC(u32 a, s8 *b)
@@ -35,7 +35,7 @@ int func_0219A6CC(u32 a, s8 *b)
     t = ta.v;
     if (b[0] != 2)
         t = tb.v;
-    cur = func_0216D5F8(a);
+    cur = func_0216D5F8((void *)a);
     i = 0;
     if (t[0] != 9) {
         do {

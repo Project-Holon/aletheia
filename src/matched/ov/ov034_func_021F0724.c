@@ -47,12 +47,15 @@ typedef struct {
     u16 d;
 } Rect;
 
-extern void *func_020120F4(int);
+struct Bank;
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
 typedef signed int     s32;
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_0201AA18(void *);
-extern int func_0204B100(int, int, unsigned);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_0201AB28(void *list, u32 i);
 extern void *func_020185F4(void *a);
@@ -69,7 +72,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_0201BBE8(void *a0);
-extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02043598(u32 mask, u32 enable);
 
 extern const Rect d_021F0A60[2];
@@ -84,9 +87,9 @@ void func_021F0724(int *p)
     void *e;
     Rect r;
 
-    list = func_02012934(func_020120F4(p[0]));
+    list = func_02012934(func_020120F4((const struct Ctx *)p[0]));
     n = func_0201AA18(list);
-    p[0x14] = func_0204B100(0x10, 0, *(u16 *)(p + 0x4B));
+    p[0x14] = (int)func_0204B100(0x10, 0, *(u16 *)(p + 0x4B));
     h = func_020490F4(7, *(u16 *)(p + 0x4B));
     for (i = 0; i < n; i++)
         p[0x25 + i] = func_0204A6C8(h, func_0201BA68(func_020185F4(func_0201AB28(list, i))), 0, 1,
@@ -107,7 +110,7 @@ void func_021F0724(int *p)
                                     *(u16 *)(p + 0x4B));
         func_0204B3DC((struct Obj *)p[0x15 + i], 0);
         r.x += 0x20;
-        func_0204B6F4(p[0x15 + i], func_0201BBE8(func_020185F4(e)), 1);
+        func_0204B6F4((struct Obj *)p[0x15 + i], func_0201BBE8(func_020185F4(e)), 1);
     }
     r = d_021F0A60[1];
     for (i = 6; i <= 15; i++) {

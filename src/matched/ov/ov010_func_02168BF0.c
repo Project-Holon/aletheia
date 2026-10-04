@@ -49,7 +49,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *p);
-extern void *func_0200BAF4(void *a0, int a1);
+extern void *func_0200BAF4(int a0, int a1);
 extern void func_02168C74(void);
 
 struct Desc *func_02168BF0(int a, int b, int c, int d, u16 *e)
@@ -83,7 +83,7 @@ struct Desc *func_02168BF0(int a, int b, int c, int d, u16 *e)
         p->f1c = 0;
         v = func_02012934(h);
     } else {
-        v = func_0200BAF4(func_0200BAC8(func_02012EBC(h)), 5);
+        v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(h)), 5);
         p->f1c = v;
     }
     p->f18 = v;

@@ -48,8 +48,9 @@
 
 typedef unsigned int u32;
 
-extern void *func_020610E0(u32 size, u32 extra, u32 flag);
-extern u32   func_020749C4(u32 off, void *p);
+struct Table;
+extern void *func_020610E0(void *mem, u32 size, u32 opt);
+extern int func_020749C4(struct Table *t, void *heap);
 extern void  func_02061118(void *p);
 
 u32 func_020746E8(u32 off, u32 size)
@@ -66,9 +67,9 @@ u32 func_020746E8(u32 off, u32 size)
     rest = end - aligned;
     if (rest < 0x10) return 0;
 
-    p = func_020610E0(aligned + 0x10, rest - 0x10, 0);
+    p = func_020610E0((void *)(aligned + 0x10), rest - 0x10, 0);
     if (p == 0) return 0;
-    if (func_020749C4(aligned, p) != 0) return aligned;
+    if (func_020749C4((struct Table *)aligned, p) != 0) return aligned;
 
     func_02061118(p);
     return 0;

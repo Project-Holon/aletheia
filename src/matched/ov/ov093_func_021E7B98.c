@@ -26,10 +26,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int);
-extern void *func_021C7CF4(int, int);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B40(void *);
 extern u32 func_0202136C(u16);
-extern int func_021E869C(int, int);
+extern int func_021E869C(void *a, int b);
 struct QF;
 extern u16 func_021D5444(struct QF *p);
 extern int func_021E8638(int, int);
@@ -37,7 +37,7 @@ extern u8 *func_021C88A4(int, int, int);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
-extern void func_021C88C8(int, u8 *);
+extern void func_021C88C8(void *a, void *b);
 extern int d_021F2AE8[];
 
 void func_021E7B98(int a, int b, int c)
@@ -48,15 +48,15 @@ void func_021E7B98(int a, int b, int c)
     u8 *p;
     if (c == func_021D775C(3)) {
         k = func_021D775C(6);
-        x = func_021C7CF4(b, k);
-        h = func_021D5B40(func_021C7CF4(b, c));
+        x = func_021C7CF4((int *)b, k);
+        h = func_021D5B40(func_021C7CF4((int *)b, c));
         if (h != 0 && func_0202136C(h) == 0 && func_021D5B40(x) == 0
-            && func_021E869C(b, c) == 0 && func_021E869C(b, k) == 0
+            && func_021E869C((void *)b, c) == 0 && func_021E869C((void *)b, k) == 0
             && func_021E8638(func_021D5444(x), h) == 0) {
             p = func_021C88A4(b, 0x20, c);
             p[6] = c;
             *(u16 *)(p + 4) = 0;
-            func_021C88C8(b, p);
+            func_021C88C8((void *)b, p);
             p = func_021C88A4(b, 0x20, c);
             p[6] = k;
             *(u16 *)(p + 4) = h;
@@ -64,7 +64,7 @@ void func_021E7B98(int a, int b, int c)
             func_021C8860((struct S *)(p + 12), k);
             func_021C8860((struct S *)(p + 12), c);
             func_021C8860((struct S *)(p + 12), h);
-            func_021C88C8(b, p);
+            func_021C88C8((void *)b, p);
         }
     }
 }

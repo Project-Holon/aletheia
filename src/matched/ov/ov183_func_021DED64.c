@@ -13,7 +13,7 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DECB0 0x021DECB0 thumb ov183
  */
-extern void func_021FE784(int *, int, int, int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *, int);
 extern void func_021DECB0(void *a, int b, char *p);
@@ -21,7 +21,7 @@ void func_021DED64(int *p, int *state, char *q)
 {
     switch (*state) {
     case 0:
-        func_021FE784(*(int **)(*(char **)(q + 0x108) + 8), 2, 3, 1);
+        func_021FE784((int)(*(int **)(*(char **)(q + 0x108) + 8)), 2, 3, 1);
         *state = 1;
         break;
     case 1:

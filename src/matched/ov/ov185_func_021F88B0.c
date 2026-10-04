@@ -17,8 +17,8 @@
  *   func_021F86E4 0x021F86E4 thumb ov185
  */
 extern void func_021FE784(int a, int b, int c, int d);
-extern int func_021FE7B0(int);
-extern int func_021FD73C(int,void *);
+extern int func_021FE7B0(int *p);
+extern void func_021FD73C(int *p, int v);
 extern void func_021F8FB0(char *,char *);
 extern void func_021F8D18(char *,int *);
 extern void func_021F8D98(char *,char *);
@@ -27,10 +27,10 @@ void func_021F88B0(int a,int *state,char *p)
 {
     switch (*state) {
     case 0: func_021FE784(**(int **)(p+52),4,3,1); *state=1; break;
-    case 1: if (func_021FE7B0(**(int **)(p+52))) *state=2; break;
+    case 1: if (func_021FE7B0((int *)(**(int **)(p+52)))) *state=2; break;
     case 2: func_021F8FB0(p,*(char **)(p+52)); func_021F8D18(p,*(int **)(p+52)); func_021F8D98(p,*(char **)(p+52)); *state=3; break;
     case 3: func_021FE784(**(int **)(p+52),4,3,0); *state=4; break;
-    case 4: if (func_021FE7B0(**(int **)(p+52))) *state=5; break;
-    case 5: *(int *)(p+32)=1; func_021FD73C(a,func_021F86E4); break;
+    case 4: if (func_021FE7B0((int *)(**(int **)(p+52)))) *state=5; break;
+    case 5: *(int *)(p+32)=1; func_021FD73C((int *)a,(int)func_021F86E4); break;
     }
 }

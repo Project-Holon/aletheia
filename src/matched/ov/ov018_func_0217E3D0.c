@@ -49,8 +49,10 @@ typedef struct {
     Slot slots[1];
 } Obj;
 
-extern int func_020120F4(int a0);
-extern int func_02012B58(int a0);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012B58(const struct BigObj *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 extern Mon *func_0217BEA8(int a0);
@@ -71,7 +73,7 @@ void func_0217E3D0(Obj *p, int a1, u16 id)
     int v;
     int h;
 
-    idx = func_02012B58(func_020120F4(p->f00));
+    idx = func_02012B58(func_020120F4((const struct Ctx *)p->f00));
     sel = 0xFF;
     if (func_02013D5C(id) == 1) {
         pos[0] = d_021836A4[idx][0] + 0x80;

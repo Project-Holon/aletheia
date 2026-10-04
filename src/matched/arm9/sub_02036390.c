@@ -34,11 +34,11 @@ struct Rec {
     u32 unk38;
 };
 
-extern struct Rec *func_0203521C(struct Rec *p);
+extern u32 func_0203521C(u32 *p);
 
 void sub_02036390(struct Rec *p)
 {
-    struct Rec *rec = func_0203521C(p);
+    struct Rec *rec = (struct Rec *)func_0203521C((u32 *)p);
 
     rec->unk24 = 0;
     rec->unk28 = 0;

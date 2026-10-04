@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
 extern int func_0203CD98(void);
-extern void func_0203A574(int, const void *, int, void *);
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern const char d_0217E634[];
 extern const unsigned d_0217E544[];
 void *func_0217E00C(int unused, int heap)
@@ -29,6 +29,6 @@ void *func_0217E00C(int unused, int heap)
     func_02082BCC(p, 0, 0x1020);
     *(unsigned short *)(p + 4) = heap;
     if (func_0203CD98())
-        func_0203A574(0x1F00, d_0217E544, 4, p);
+        func_0203A574(0x1F00, (u32)d_0217E544, 4, (u32)p);
     return p;
 }

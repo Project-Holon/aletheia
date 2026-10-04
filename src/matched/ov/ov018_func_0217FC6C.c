@@ -25,7 +25,8 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
-void func_0217545C(int x);
+typedef unsigned char  u8;
+void func_0217545C(u8 *p);
 int func_0217FCAC(int x, int *st, int *obj);
 
 void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e)
@@ -38,6 +39,6 @@ void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e)
     q[1] = c;
     q[2] = d;
     *(u16 *)(q + 3) = e;
-    func_0217545C(b);
+    func_0217545C((u8 *)b);
     return r;
 }

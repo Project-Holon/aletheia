@@ -17,9 +17,10 @@
 struct Entry;
 
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3F8();
+typedef unsigned int   u32;
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 void func_02174E20(void)
 {
-    func_0203D3F8(func_020399A8(), 0, 0x1508, 0, 0, 1, 0, 0);
+    func_0203D3F8((u32)func_020399A8(), 0, 0x1508, 0, 0, 1, 0, 0);
 }

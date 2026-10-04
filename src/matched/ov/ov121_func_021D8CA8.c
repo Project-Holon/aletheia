@@ -25,9 +25,9 @@ extern void *func_021D6D7C(u8 *p);
 extern void func_021D6D38(void *);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(void *);
-extern void func_0204A8D4(void *);
-extern void func_0204AFD8(void *);
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern void func_02082BCC(void *,int,int);
 void func_021D8CA8(u8 *p)
 {
@@ -35,8 +35,8 @@ void func_021D8CA8(u8 *p)
     if(func_021D6D7C(p+280)) func_021D6D38(p+280);
     func_02040588(2,0);
     func_0204B3B4(*(void **)(p+4));
-    func_0204ADA4(*(void **)(p+12));
-    func_0204A8D4(*(void **)(p+16));
-    func_0204AFD8(*(void **)(p+20));
+    func_0204ADA4((u32)(*(void **)(p+12)));
+    func_0204A8D4((u32)(*(void **)(p+16)));
+    func_0204AFD8((u32)(*(void **)(p+20)));
     func_02082BCC(p,0,300);
 }

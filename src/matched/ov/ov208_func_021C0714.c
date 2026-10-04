@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern void func_0201C4E4(u32 a);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void ov208_func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 
 void ov208_func_021C0714(u16 *heap, u8 *p, int key)
@@ -27,7 +28,7 @@ void ov208_func_021C0714(u16 *heap, u8 *p, int key)
     u8 i;
 
     for (i = 0; i < 4; i++) {
-        func_0201C4E4(((u32 *)(p + 0x34))[i]);
+        func_0201C4E4((struct PrintSys *)(((u32 *)(p + 0x34))[i]));
         ov208_func_021C0740(heap, p, key, i);
     }
 }

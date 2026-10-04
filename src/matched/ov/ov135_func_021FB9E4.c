@@ -25,7 +25,7 @@ struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int on);
 extern u16 func_0204B898(struct Obj *p);
-extern void func_0204B878(u32 p, u16 k);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_021F9660(void *p, u32 mode);
 extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
@@ -40,7 +40,7 @@ int func_021FB9E4(u8 *p)
     } else {
             func_0202CD64(*(void **)(p + 0x18), 0, -4, 0, 3);
             if (*(u32 *)(p + 0x14) != 0) func_0204B3DC((struct Obj *)*(u32 *)(p + 0x14), 0);
-            func_0204B878(*(u32 *)(p + 8), 7);
+            func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 7);
             *(int *)(p + 0x48) = 2;
             func_0202CAE4(*(void **)(p + 0x18), 0, 0x60, 0x18, 1);
             *(int *)(p + 0x4c) = 26;

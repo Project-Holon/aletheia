@@ -69,7 +69,8 @@ struct Obj;
 extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *h);
-extern void func_02043814(u32 a, u32 b);
+struct Bmp;
+extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -97,7 +98,7 @@ void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
     dst = &p->elems[j];
     dx = func_02045758(dst->handle) - func_02045758(src->handle);
     dy = func_02045760(dst->handle) - func_02045760(src->handle);
-    func_02043814((u32)func_02045770((struct Descriptor *)src->handle), (u32)func_02045770((struct Descriptor *)dst->handle));
+    func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->handle)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->handle)));
     h = dst->handle;
     func_02045334(h);
     func_02045374(h);

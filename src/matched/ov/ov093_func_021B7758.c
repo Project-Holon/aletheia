@@ -35,7 +35,7 @@ typedef struct { u8 pad[0x473]; u8 a:1; u8 b:1; } B;
 extern int func_021D4270(void);
 extern void func_021D4AF4(u8);
 extern int func_021D4B18(u8);
-extern int func_021D4438(void *);
+extern u8 func_021D4438(u32 a);
 extern int func_021D44CC(void);
 extern void *func_021D4D24(u32,u16);
 extern void func_021D4D64(u32 *p, const void *src, u32 a);
@@ -70,7 +70,7 @@ int func_021B7758(u8 *p,u32 *state)
         if (func_021D4B18(2)) ++*state;
         break;
     case 2:
-        if (func_021D4438(*(void **)(q + 0x24))) ++*state;
+        if (func_021D4438((u32)(*(void **)(q + 0x24)))) ++*state;
         break;
     case 3:
         if (func_021D44CC()) {

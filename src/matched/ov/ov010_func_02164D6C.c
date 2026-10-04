@@ -40,7 +40,8 @@ extern void  func_0203D0FC(int a);
 extern Ent  *func_02164E04(u8 *obj, int *out);
 extern void  func_02082BCC(void *dst, int v, int n);
 extern void *func_0203CF3C(u32 a);
-extern void  func_02026A60(void *a);
+struct Req;
+extern int func_02026A60(struct Req *r);
 extern void func_02177BF4(unsigned int idx);
 
 u8 *func_02164D6C(u8 *obj, int *arg)
@@ -73,7 +74,7 @@ u8 *func_02164D6C(u8 *obj, int *arg)
                     rec[3 + i] = src[i];
                 }
             } else if (e->kind == 2) {
-                func_02026A60((u8 *)e + 8);
+                func_02026A60((struct Req *)((u8 *)e + 8));
                 func_02177BF4(*arg);
             }
         }

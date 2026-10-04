@@ -34,14 +34,14 @@ struct H {
     struct Heap h24;     /* +0x24 */
 };
 
-extern struct Node *func_02060FEC(struct Heap *h, u32 size, u32 align);
+extern u32 func_02060FEC(struct Heap *h, u32 size, u32 align);
 
 int func_02061184(struct H *h, u32 a1)
 {
     struct Node *p;
     u32 saved = h->h24.cur;
 
-    p = func_02060FEC(&h->h24, 0x10, 4);
+    p = (struct Node *)func_02060FEC(&h->h24, 0x10, 4);
     if (p == 0) {
         return 0;
     }

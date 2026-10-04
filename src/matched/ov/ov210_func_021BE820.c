@@ -20,12 +20,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(u32, u32);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *);
 
 void func_021BE820(u8 *p)
 {
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154))), 0);
     func_02045334((struct Descriptor *)*(u32 *)(p + 0x154));
 }
 

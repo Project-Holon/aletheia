@@ -31,7 +31,7 @@ struct GPIPeer {
     struct GPIPeerOp *last;
 };
 
-extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0217EAE0(void *ptr);
 extern char g_021A5170[];
 extern char g_021A518C[];
@@ -42,11 +42,11 @@ void func_0218F900(struct GPIPeer *peer, struct GPIPeerOp *operation)
     struct GPIPeerOp *aPrevOp;
 
     if (peer == 0 || operation == 0) {
-        func_0217D254(1, 4, 2, g_021A5170);
+        func_0217D254(1, (char *)4, 2, g_021A5170);
         return;
     }
     if (peer->head == 0) {
-        func_0217D254(1, 4, 2, g_021A5170);
+        func_0217D254(1, (char *)4, 2, g_021A5170);
         return;
     }
     if (peer->first == peer->last && peer->first == operation) {
@@ -62,13 +62,13 @@ void func_0218F900(struct GPIPeer *peer, struct GPIPeerOp *operation)
         aPrevOp = peer->first;
         while (aPrevOp->pnext != operation) {
             if (aPrevOp->pnext == 0) {
-                func_0217D254(1, 4, 1, g_021A518C);
+                func_0217D254(1, (char *)4, 1, g_021A518C);
                 return;
             }
             aPrevOp = aPrevOp->pnext;
         }
         aPrevOp->pnext = operation->pnext;
     }
-    func_0217D254(1, 4, 8, g_021A51B8);
+    func_0217D254(1, (char *)4, 8, g_021A51B8);
     func_0217EAE0(operation);
 }

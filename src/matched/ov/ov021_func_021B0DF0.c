@@ -24,10 +24,12 @@ typedef unsigned short u16;
 extern u16 func_02159B10(int, int);
 extern void *func_0215A5E4(void *a0);
 extern char *func_020127A4(void *);
-extern int func_02008550(void *);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 typedef unsigned int   u32;
 extern int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f);
-extern void func_020113D0(int, int (*)(int, int));
+extern void func_020113D0(char *p, int val);
 extern int func_021B0CEC(int, int);
 
 int func_021B0DF0(int a, int b)
@@ -39,11 +41,11 @@ int func_021B0DF0(int a, int b)
     v3 = func_02159B10(a, b);
     v4 = func_02159B10(a, b);
     v5 = func_02159B10(a, b);
-    if (func_02008550(func_020127A4(func_0215A5E4((void *)b)) + 0x20)) {
+    if (func_02008550((const struct Sub0200852CObj *)(func_020127A4(func_0215A5E4((void *)b)) + 0x20))) {
         v1 = v2;
     }
     if (func_021B0BAC(b, v3, v0, v1, v4, v5) == 1) {
-        func_020113D0(a, func_021B0CEC);
+        func_020113D0((char *)a, (int)func_021B0CEC);
         return 1;
     }
     return 0;

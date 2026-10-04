@@ -28,7 +28,7 @@ extern int func_0217BB04(u8 *a);
 extern void func_02172EDC(u8 *a);
 extern int func_02172D68(u8 *a);
 extern int func_0203CDBC(void);
-extern void func_02173650(u8 *a, int b);
+extern void func_02173650(int a, u8 *b);
 extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern void func_02172D50(u8 *a);
 extern u32 func_0217F1EC(u8 *p);
@@ -51,7 +51,7 @@ int func_0217D51C(u8 *a, int *b, int c, u8 *d)
         if (r == 1) {
             t = b[8];
             if (t != 0) {
-                func_02173650((u8 *)(b + 5), t);
+                func_02173650((int)((u8 *)(b + 5)), (u8 *)t);
                 func_021734A8(a, 3, 0);
             }
             func_02172D50(a);

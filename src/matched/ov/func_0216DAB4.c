@@ -31,11 +31,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D55C();
+extern int func_0216D55C(int a0, int a1);
 
 int func_0216DAB4(void *a0)
 {
-    if (func_0216D55C(a0, 4))
+    if (func_0216D55C((int)a0, 4))
         return 1;
     return 0;
 }

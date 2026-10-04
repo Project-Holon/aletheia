@@ -20,12 +20,12 @@
 
 extern void func_021BCB9C();
 extern void func_021D5790();
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C3FF4();
 
 void func_021C3FD4(void)
 {
     func_021BCB9C();
     func_021D5790(8);
-    func_021C0E40(func_021C3FF4);
+    func_021C0E40((unsigned int)func_021C3FF4);
 }

@@ -53,14 +53,14 @@ struct Pool {
     struct Entry *entries;
 };
 
-extern s32 func_02062820(void *handle, void **slot);
+extern int func_02062820(int a, int *out);
 extern s32 func_02062670(void *handle, void **slot);
 
 s32 func_0204E074(struct Pool *pool, s32 idx, void *a, void *b)
 {
     struct Entry *entry = &pool->entries[idx];
 
-    if (func_02062820(a, &entry->unk_08) != 0) {
+    if (func_02062820((int)a, (int *)(&entry->unk_08)) != 0) {
         if (func_02062670(b, &entry->unk_0c) != 0) {
             entry->unk_10 = 0;
             return 1;

@@ -22,14 +22,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D55C(void *, int);
-extern void func_02163028(void *);
+extern int func_0216D55C(int a0, int a1);
+extern void func_02163028(int a);
 extern void func_0219D6CC(void *);
 
 void func_0216D28C(void *a0)
 {
-    if (func_0216D55C(a0, 0x2000) == 0) {
-        func_02163028(a0);
+    if (func_0216D55C((int)a0, 0x2000) == 0) {
+        func_02163028((int)a0);
     } else {
         func_0219D6CC(a0);
     }

@@ -27,11 +27,11 @@ struct Ent {
 };
 
 extern const struct Ent d_021C3A28[];
-extern void func_021C29E8(int obj, u32 a, u32 b, u8 c);
+extern void func_021C29E8(void *p, u32 b, u32 c, u32 d);
 
 void func_021C0878(u8 *p)
 {
     int i;
     for (i = 0; i < 8; i++)
-        func_021C29E8(*(int *)(p + i * 4 + 0x324), d_021C3A28[i].a, d_021C3A28[i].b, d_021C3A28[i].c);
+        func_021C29E8((void *)(*(int *)(p + i * 4 + 0x324)), d_021C3A28[i].a, d_021C3A28[i].b, d_021C3A28[i].c);
 }

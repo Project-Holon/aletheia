@@ -38,8 +38,28 @@ struct Link;
 extern struct Entry *func_020399A8(void);
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern int func_021D8A24(void *),func_021D8AA8(void *);
-extern void func_021E1098(char *),func_021DD1B8(char *),func_021DF904(void *),func_0215642C(int),func_02045CAC(int,int,int),func_021E1024(void *);
-extern void func_021DD528(char *,int),func_021DD68C(void *),func_021DF78C(void *),func_021DF7AC(void *,int),func_02082BCC(void *,int,int),func_021D8C84(void *),func_02027858(int),func_021E4420(void *),func_021E6700(void *),func_021DBB6C(char *),func_021D8E84(void *,int),func_021DA898(char *),func_021DB7AC(char *,int,int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct TaskMenu;
+extern void func_021E1098(char *);
+extern void func_021DD1B8(char *);
+extern void func_021DF904(void *);
+extern void func_0215642C(int);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021E1024(void *);
+extern void func_021DD528(char *,int);
+extern void func_021DD68C(void *);
+extern void func_021DF78C(void *);
+extern void func_021DF7AC(void *,int);
+extern void func_02082BCC(void *,int,int);
+extern void func_021D8C84(void *);
+extern void func_02027858(struct TaskMenu *m);
+extern void func_021E4420(void *);
+extern void func_021E6700(void *);
+extern void func_021DBB6C(char *);
+extern void func_021D8E84(void *,int);
+extern void func_021DA898(char *);
+extern void func_021DB7AC(char *,int,int);
 void func_021DA8F8(char *p)
 {
  if(func_021D8A24(p) && !func_02039CB4((struct Link *)func_020399A8(),18,8)) return;
@@ -47,13 +67,13 @@ void func_021DA8F8(char *p)
  if(func_021D8AA8(p)) {
   func_021DD1B8(p);func_021DF904(p);
   if(*(int *)(p+0x118c)==2) func_0215642C(0);
-  func_02045CAC(*(int *)(p+0x720),134,*(int *)(p+0x738));func_021E1024(p);
+  func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),134,(void *)(*(int *)(p+0x738)));func_021E1024(p);
   func_021DD528(p,0);func_021DD68C(p);
   *(u8 *)(p+0x11e8)=0;*(u8 *)(p+0x11e9)=0;
   func_021DF78C(p);func_021DF7AC(p,1);
   func_02082BCC(p+0xca0,0,0x78);func_02082BCC(p+0xd18,0,0x3c);func_02082BCC(p+0xd54,0,0x3c);
   func_021D8C84(p);
-  if(*(int *)(p+0x64c)) {func_02027858(*(int *)(p+0x64c));*(int *)(p+0x64c)=0;}
+  if(*(int *)(p+0x64c)) {func_02027858((struct TaskMenu *)(*(int *)(p+0x64c)));*(int *)(p+0x64c)=0;}
   func_021E4420(p);func_021E6700(p);func_021DBB6C(p);
  }
  func_021D8E84(p,(int)func_021DA898);func_021DB7AC(p,0,1);

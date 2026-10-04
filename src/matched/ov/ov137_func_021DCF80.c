@@ -32,13 +32,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef void (*Cb)(void);
-extern int func_02039338(void),func_020221A4(void),func_0200FB24(void);
+extern u16 func_02039338(void);
+extern int func_020221A4(void);
+extern int func_0200FB24(void);
 extern void *func_021DCF50(u8 *p);
 extern unsigned char func_021841A0(unsigned char *p);
 extern void func_02184134(void *),func_02184174(void *);
 extern u32 func_0218417C(u8 *);
 extern void func_021840FC(u8 *,Cb,Cb,void *);
-extern void func_021DCF58(void),func_021DCF7C(void);
+extern void func_021DCF58(int a, int b, u8 *p);
+extern void func_021DCF7C(void);
 extern int (*const d_021E1C20[])(u8 *,u32);
 extern int func_021DE248(void *,int,u16,void *);
 extern void func_021DE5D0(void *);
@@ -55,7 +58,7 @@ int func_021DCF80(int a,int b,int c,u8 *p)
         if(func_020221A4()) {
             *(u32 *)p=1;
             func_02184134(func_021DCF50(p));
-            func_021840FC(func_021DCF50(p),func_021DCF58,func_021DCF7C,p);
+            func_021840FC(func_021DCF50(p),(Cb)func_021DCF58,func_021DCF7C,p);
         }
         break;
     case 1:

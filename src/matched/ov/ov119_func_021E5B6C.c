@@ -13,19 +13,22 @@
  */
 typedef unsigned short u16;
 typedef struct { u16 x, y; } Pos;
-extern int func_0204B404(int, void *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021E5B6C(int p, int b, int c)
 {
     Pos pos;
     if (c) {
         pos.x = 96; pos.y = 12;
-        func_0204B404(*(int *)(p + 0xf10), &pos, 1);
+        func_0204B404((struct Obj *)(*(int *)(p + 0xf10)), (const struct Vec2 *)(&pos), 1);
         pos.x = 160; pos.y = 12;
-        func_0204B404(*(int *)(p + 0xf14), &pos, 1);
+        func_0204B404((struct Obj *)(*(int *)(p + 0xf14)), (const struct Vec2 *)(&pos), 1);
     } else {
         pos.x = 96; pos.y = b == 0 ? 8 : 12;
-        func_0204B404(*(int *)(p + 0xf10), &pos, 1);
+        func_0204B404((struct Obj *)(*(int *)(p + 0xf10)), (const struct Vec2 *)(&pos), 1);
         pos.x = 160; pos.y = b ? 8 : 12;
-        func_0204B404(*(int *)(p + 0xf14), &pos, 1);
+        func_0204B404((struct Obj *)(*(int *)(p + 0xf14)), (const struct Vec2 *)(&pos), 1);
     }
 }

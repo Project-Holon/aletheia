@@ -28,22 +28,25 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16 func_021CA234(u8 *p);
-extern void func_0200DB08(u32 h, u8 kind, u16 v);
-extern u16 func_0200DAC4(u32 h, u8 kind);
-extern void func_0200DAEC(u32 h, u8 kind, u16 v);
-extern void func_0200DB60(u32 h, u8 kind);
-extern u32 func_02012EBC(u32 a);
+struct Big;
+struct Blk1AC;
+struct Blk3C;
+extern void func_0200DB08(struct Blk1AC *p, u32 i, u16 v);
+extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
+extern void func_0200DAEC(struct Blk1AC *p, u32 i, u16 v);
+extern void func_0200DB60(struct Blk1AC *p, u32 i);
+extern void *func_02012EBC(struct Big *p);
 extern void func_021CA2DC(u8 *p, u32 h, int flag, u16 v);
-extern void func_0200DA14(u32 h);
+extern void func_0200DA14(struct Blk3C *p);
 
 void func_021C9FFC(u8 *p)
 {
     u8 kind = p[9];
     u16 v = func_021CA234(p);
 
-    func_0200DB08(*(u32 *)(p + 0x74), kind, v);
-    func_0200DAEC(*(u32 *)(p + 0x74), kind, func_0200DAC4(*(u32 *)(p + 0x74), kind));
-    func_0200DB60(*(u32 *)(p + 0x74), kind);
-    func_021CA2DC(p, func_02012EBC(*(u32 *)(p + 0x6c)), 1, v);
-    func_0200DA14(*(u32 *)(p + 0x70));
+    func_0200DB08((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind, v);
+    func_0200DAEC((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind, func_0200DAC4((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind));
+    func_0200DB60((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind);
+    func_021CA2DC(p, (u32)func_02012EBC((struct Big *)(*(u32 *)(p + 0x6c))), 1, v);
+    func_0200DA14((struct Blk3C *)(*(u32 *)(p + 0x70)));
 }

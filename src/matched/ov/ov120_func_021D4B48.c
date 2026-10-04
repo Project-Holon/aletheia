@@ -41,11 +41,11 @@ extern void func_021D4988(int);
 extern int func_021D4A20(int, u8 *);
 extern void func_021D4244(int, int, int);
 extern void func_0203D644(int);
-extern void func_02009CA8(u32, u32 *);
+extern void func_02009CA8(void *account, void *out);
 extern void *func_021D4F70(void **p, int i);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_02082D44(const void *, void *, u32);
-extern u8 func_0216C8DC(u32, void *, void *);
+extern u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc);
 extern int func_0208D7E0(char *, const char *, ...);
 extern int func_0215580C(int, int, int, int);
 extern u32 func_0203C35C(void);
@@ -66,7 +66,7 @@ void func_021D4B48(u8 *p)
             return;
         }
         func_0203D644(0);
-        func_02009CA8(*(u32 *)(p + 0x44), values);
+        func_02009CA8((void *)(*(u32 *)(p + 0x44)), values);
         values[0] = *(u32 *)(p + 0x14c);
         values[1] = *(u32 *)(p + 0x138);
         values[2] = *(u32 *)(p + 0x144);
@@ -88,7 +88,7 @@ void func_021D4B48(u8 *p)
             r = (Record *)(p + 0x58) + i;
             func_02082D44(d_021D8B40 + i, &r->detail, 2);
             r->value = values[i];
-            r->kind = func_0216C8DC(r->kind, &r->detail, r);
+            r->kind = func_0216C8DC(r->kind, (char *)(&r->detail), (int *)r);
         }
         func_0208D7E0((char *)p + 0xb8, d_021D8B50, *(u32 *)(p + 0x138), 1);
         if (func_0215580C((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {

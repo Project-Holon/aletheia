@@ -21,17 +21,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u16 *func_0216D6D4(u32);
-extern void func_0216D7CC(u32);
+extern void *func_0216D6D4(void *p);
+extern void func_0216D7CC(u8 *p);
 
 int func_02199050(u32 a)
 {
     u16 *p;
 
-    p = func_0216D6D4(a);
+    p = func_0216D6D4((void *)a);
     p[0]++;
     if (p[0] >= p[1]) {
-        func_0216D7CC(a);
+        func_0216D7CC((u8 *)a);
     }
     return 0;
 }

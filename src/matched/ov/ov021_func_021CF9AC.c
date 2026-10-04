@@ -29,7 +29,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *p);
 extern void *func_0200BBEC(void *base, u32 i, u32 j);
 extern u32   func_02017E88(void *p, u32 id, u32 v);
-extern int   func_021CFA04(void *a, u32 b, int c);
+extern int func_021CFA04(int a, int v, void *l);
 
 int func_021CF9AC(void *a, void *heap, int x, int y)
 {
@@ -43,7 +43,7 @@ int func_021CF9AC(void *a, void *heap, int x, int y)
         void *p = func_0200BBEC(h, x, i);
         if (func_02017E88(p, 0xa9, 0) != 0) {
             u32 v = func_02017E88(p, 7, 0);
-            if (func_021CFA04(a, v, y) != 0) {
+            if (func_021CFA04((int)a, v, (void *)y) != 0) {
                 n++;
             }
         }

@@ -64,7 +64,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern u32 *func_021A1DB4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 h, u16 i);
-extern void func_021A1C1C(void *);
+extern void func_021A1C1C(int a, u32 *p);
 extern int func_020056A0(void (*cb)(void *), void *arg, int pri);
 
 Obj021A19E8 *func_021A19E8(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5, u16 heap)
@@ -88,6 +88,6 @@ Obj021A19E8 *func_021A19E8(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5, u16 h
     for (j = 0; j < 2; j++) {
         p->f20[j] = func_021A1DB4((u32)p->f18, a0, a1, a2, a3, (u32)p, a4, a5, heap);
     }
-    p->f2C = func_020056A0(func_021A1C1C, p, 0x40);
+    p->f2C = func_020056A0((void (*)(void *))func_021A1C1C, p, 0x40);
     return p;
 }

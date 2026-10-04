@@ -35,7 +35,7 @@ extern void func_02082BCC(void *, u32, u32);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_02031348(void *, u32, void *, void *);
 extern void func_0200F7B8(u32);
-extern void func_021F8F5C(void);
+extern u32 func_021F8F5C(u8 *p);
 extern char str_02203C34[];
 extern u8 tbl_021D654C[];
 extern u8 ov115_id[];
@@ -48,7 +48,7 @@ int func_021F8DE4(u8 *p)
     r->save = func_020120F4(*(void **)(*(u8 **)p + 64));
     r->zero = 0;
     r->enabled = 1;
-    r->callback = func_021F8F5C;
+    r->callback = (void (*)(void))func_021F8F5C;
     r->context = p;
     func_02031348(*(void **)(p + 0x12f0), (u32)ov115_id, tbl_021D654C, *(Req **)(p + 0x10dc));
     *(int *)(p + 40) = 5;

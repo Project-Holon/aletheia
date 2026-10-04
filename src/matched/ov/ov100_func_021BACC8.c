@@ -18,7 +18,9 @@ struct Word { int x; };
 extern void func_021BA5F4(unsigned a);
 extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA290(int,int);
-extern void func_021B95B8(int,void (*)(void));
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021BB270(void);
 void func_021BACC8(int a) {
  struct Word x;
@@ -27,9 +29,9 @@ void func_021BACC8(int a) {
  func_021BA3A4(&x,a);
  if(*(int *)(a+0x24c)==9 && *(int *)(a+0xce8)>0) {
   func_021BA290(a,1);
-  func_021B95B8(a,func_021BB270);
+  func_021B95B8((u8 *)a,(u32)func_021BB270);
   return;
  }
  func_021BA290(a,0);
- func_021B95B8(a,func_021BB270);
+ func_021B95B8((u8 *)a,(u32)func_021BB270);
 }

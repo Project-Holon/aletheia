@@ -36,7 +36,8 @@ extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern char *func_021D9DC8(u32,void *,u32,u16);
 extern u32 func_021DC200(char *,u32),func_021DC240(char *,u32);
-extern void func_021D9EA0(u32);
+typedef unsigned char  u8;
+extern void func_021D9EA0(u8 *p);
 extern unsigned char ov067_id[],ov114_id[],ov175_id[];
 int func_021E58F4(char **out,u32 *ctx,u32 *state)
 {
@@ -58,7 +59,7 @@ int func_021E58F4(char **out,u32 *ctx,u32 *state)
     case 6:if(func_021DC240(*out,ctx[4]))++*state;break;
     case 7:func_02039C68((struct Link *)func_020399A8(),18,36);++*state;break;
     case 8:if(func_02039CB4((struct Link *)func_020399A8(),18,36))++*state;break;
-    case 9:func_021D9EA0((u32)*out);*out=0;
+    case 9:func_021D9EA0((u8 *)((u32)*out));*out=0;
         func_02034A5C((int)ov175_id);func_02034A5C((int)ov114_id);func_02034A5C((int)ov067_id);++*state;break;
     case 10:func_02039C68((struct Link *)func_020399A8(),19,36);++*state;break;
     case 11:if(func_02039CB4((struct Link *)func_020399A8(),19,36))return 1;break;

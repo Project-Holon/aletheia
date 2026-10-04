@@ -22,12 +22,15 @@ typedef unsigned int u32;
 extern void func_0220549C(char *, int);
 extern u32 func_02205620(u32, u32, u32, u32, u32, u32, u32);
 extern signed char func_02012FFC(void);
-extern u32 func_0201CD10(u32, int, int, u32, u32, u32, u32, int, u16, int, u32);
+typedef signed short   s16;
+typedef signed int     s32;
+struct Rec;
+extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 
 void func_02205384(char *a, u32 b, u32 c, u32 d, u32 k0, u32 v0, u32 k1, u32 v1)
 {
     func_0220549C(a, 0xf);
     *(u32 *)(a + 0x80) = func_02205620(*(u16 *)(a + 2), b, c, k0, v0, k1, v1);
-    *(u32 *)(a + 0x64) = func_0201CD10(*(u32 *)(a + 0x6c), 0, 0, *(u32 *)(a + 0x80), *(u32 *)(a + 8),
+    *(u32 *)(a + 0x64) = (u32)func_0201CD10(*(u32 *)(a + 0x6c), 0, 0, *(u32 *)(a + 0x80), *(u32 *)(a + 8),
                                        func_02012FFC(), *(u32 *)(a + 0x68), 2, *(u16 *)(a + 2), 0xf, d);
 }

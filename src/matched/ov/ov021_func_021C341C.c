@@ -25,7 +25,8 @@ typedef unsigned int   u32;
 extern int func_0200BCA8(u32, u32);
 extern u32 func_0200BC2C(u32, u32);
 extern u32 func_02017E1C(void *, u32, u32);
-extern u32 func_0200BCD8(u32, u32);
+struct Obj;
+extern u32 func_0200BCD8(struct Obj *p, u32 i);
 extern u32 func_021C3510(u32, u32);
 extern u32 func_0201850C(u16 species, u16 form, u32 exp);
 
@@ -43,5 +44,5 @@ int func_021C341C(u32 *p, u32 b)
     s0 = func_02017E1C((void *)m, 0x6F, 0);
     s1 = func_02017E1C((void *)m, 8, 0);
     func_02017E1C((void *)m, 0x9E, 0);
-    return func_0201850C(s2, s0, func_021C3510(s1, func_0200BCD8(p[2], b)));
+    return func_0201850C(s2, s0, func_021C3510(s1, func_0200BCD8((struct Obj *)p[2], b)));
 }

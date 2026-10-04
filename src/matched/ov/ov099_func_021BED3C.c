@@ -25,7 +25,7 @@ extern void func_021BAAB8(char *, int, int);
 extern void func_021BE6F0(char *, int, int);
 extern int func_021BE788(char *);
 extern int func_021BE4F0(char *, int);
-extern void *func_021BA8BC(void *);
+extern int func_021BA8BC(void *p);
 int func_021BED3C(char *p, int ret)
 {
     if (func_020362DC() & 3) {
@@ -37,7 +37,7 @@ int func_021BED3C(char *p, int ret)
             func_021BE6F0(p, 1, 2);
             func_021BE788(p);
             *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
-            *(void **)(p + 0x19c) = func_021BA8BC(*(void **)(p + 0x19c));
+            *(void **)(p + 0x19c) = (void *)func_021BA8BC(*(void **)(p + 0x19c));
         }
     }
     return ret;

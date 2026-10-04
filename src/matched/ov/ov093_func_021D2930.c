@@ -25,7 +25,8 @@ extern u32 func_021CD9E0(u8 *p);
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern int func_021D7AD4(int a);
 extern void func_021EA1B8(u32 a, u32 b, int c, int d);
-extern int func_021EA1F0(u32 a);
+struct S;
+extern int func_021EA1F0(struct S *s);
 
 int func_021D2930(u32 *a, int *b, u32 *c)
 {
@@ -41,7 +42,7 @@ int func_021D2930(u32 *a, int *b, u32 *c)
         }
         return 1;
     case 1:
-        if (func_021EA1F0(a[0x15]) != 0) {
+        if (func_021EA1F0((struct S *)a[0x15]) != 0) {
             return 1;
         }
         break;

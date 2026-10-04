@@ -12,9 +12,10 @@
  */
 typedef unsigned short u16;
 
-extern void func_0204B878(int, u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021E67C4(void *p, int i)
 {
-    func_0204B878(*(int *)((char *)p + i * 4 + 0x10bc), (u16)(i + 15));
+    func_0204B878((struct Obj *)(*(int *)((char *)p + i * 4 + 0x10bc)), (u16)(i + 15));
 }

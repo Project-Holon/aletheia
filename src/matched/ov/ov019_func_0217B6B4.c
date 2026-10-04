@@ -28,16 +28,18 @@ struct S {
     u16 f58;
 };
 
-extern int func_0217AFB0(char *, int, int *);
-extern int func_0217AED4(int, int *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_0217AFB0(void **a, u8 *b, u8 *c);
+extern u16 func_0217AED4(u8 *a, u8 *b);
 extern int func_0216D3CC(int);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D5F8(void *p);
 extern void func_0216D410(int, int);
-extern int func_0216D480(int);
-extern void func_0216D548(int, int);
-extern void func_0216D550(int, int);
+extern int func_0216D480(char *p);
+extern void func_0216D548(u32 *p, u32 v);
+extern void func_0216D550(u32 *p, u32 v);
 
 int func_0217B6B4(char *base, int *p, int r2, unsigned char *state)
 {
@@ -45,7 +47,7 @@ int func_0217B6B4(char *base, int *p, int r2, unsigned char *state)
     int h;
     int k;
 
-    h = func_0217AFB0(base, *p, p);
+    h = (int)func_0217AFB0((void **)base, (u8 *)(*p), (u8 *)p);
     switch (*state) {
     case 0:
         if (func_0216D3CC(h) == 1) {
@@ -69,14 +71,14 @@ int func_0217B6B4(char *base, int *p, int r2, unsigned char *state)
         }
         break;
     case 1:
-        if (func_0216D480(h) == 1) {
-            func_0216D548(h, 8);
+        if (func_0216D480((char *)h) == 1) {
+            func_0216D548((u32 *)h, 8);
             *state = *state + 1;
         }
         break;
     case 2:
-        if (q->f58 != func_0217AED4(*p, p)) {
-            func_0216D550(h, 8);
+        if (q->f58 != func_0217AED4((u8 *)(*p), (u8 *)p)) {
+            func_0216D550((u32 *)h, 8);
             return 1;
         }
         break;

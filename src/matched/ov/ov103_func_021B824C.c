@@ -29,5 +29,7 @@ typedef short s16;
 extern int func_021B8004(void *); extern int func_021B8000(void *); extern int func_021B7FFC(void *); extern int func_021B8008(void *);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *); extern void func_02043B5C(int,u8); extern void func_02045CAC(int,int,int); extern void func_0201C6EC(int); extern void func_0201C6FC(int,int,s16,s16,int,int);
-extern void func_0201F02C(int,int,void *); extern int func_02045EC0(int,int); extern void func_0201F250(int,int,int); extern void func_02045808(int);
-void func_021B824C(u8 *p,void *q,int c,u8 *x,s16 y,s16 z,int k) {int a,b,d,e; func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p),*(u16 *)(p+16)); a=func_021B8008(q); b=func_021B8004(q); func_0201F02C(a,0,x+12); e=func_02045EC0(b,c); func_0201F250(a,*(int *)(p+12),e); func_02045808(e); b=func_021B8000(q); d=func_021B7FFC(q); func_0201C6EC(b); func_0201C6FC(b,(int)func_02045770((struct Descriptor *)*(int *)(p+4)),y,z,*(int *)(p+12),d); p[8]=1; }
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a); extern int func_02045EC0(int,int); extern void func_0201F250(int,int,int); extern void func_02045808(int);
+void func_021B824C(u8 *p,void *q,int c,u8 *x,s16 y,s16 z,int k) {int a,b,d,e; func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p),*(u16 *)(p+16)); a=func_021B8008(q); b=func_021B8004(q); func_0201F02C((struct WordSet *)a,0,x+12); e=func_02045EC0(b,c); func_0201F250(a,*(int *)(p+12),e); func_02045808(e); b=func_021B8000(q); d=func_021B7FFC(q); func_0201C6EC(b); func_0201C6FC(b,(int)func_02045770((struct Descriptor *)*(int *)(p+4)),y,z,*(int *)(p+12),d); p[8]=1; }

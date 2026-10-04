@@ -72,7 +72,8 @@ typedef struct Outer0204ACEC {
 extern Outer0204ACEC *lbl_02146A74;
 struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void func_0204DEE8(Inner0204ACEC *a0, u32 a1, void *a2, u32 a3, u32 a4);
+struct Holder;
+extern void func_0204DEE8(struct Holder *h, int idx, void *src, void *sel, u32 size);
 extern void func_020307B0(void *a0);
 
 int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
@@ -92,7 +93,7 @@ found:
     if (i == (u32)-1)
         return (int)i;
     v = func_02049250(a0, a1, (u16)((a4 & 0x7fff) | 0x8000));
-    func_0204DEE8((Inner0204ACEC *)&lbl_02146A74->in, i, v, a2, a3);
+    func_0204DEE8((struct Holder *)((Inner0204ACEC *)&lbl_02146A74->in), i, v, (void *)a2, a3);
     func_020307B0(v);
     return (int)i;
 }

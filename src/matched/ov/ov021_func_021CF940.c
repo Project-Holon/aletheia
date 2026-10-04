@@ -22,21 +22,22 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0201293C(void *p);
-extern u32   func_020079BC(void *a, void *b, int i, u32 id, u32 v);
-extern int   func_021CFA04(void *a, u32 b, int c);
+struct BigObj;
+extern u32 func_0201293C(const struct BigObj *p);
+extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
+extern int func_021CFA04(int a, int v, void *l);
 
 int func_021CF940(void *a, void *src, void *b, int c)
 {
-    void *h = func_0201293C(src);
+    void *h = (void *)func_0201293C(src);
     int n = 0;
     int i;
 
     for (i = 0; i < 30; i++) {
-        if (func_020079BC(h, b, i, 0xa9, 0) != 0) {
-            if (func_020079BC(h, b, i, 0x4c, 0) == 0) {
-                u32 v = func_020079BC(h, b, i, 7, 0);
-                if (func_021CFA04(a, v, c) != 0) {
+        if (func_020079BC(h, (u32)b, i, 0xa9, 0) != 0) {
+            if (func_020079BC(h, (u32)b, i, 0x4c, 0) == 0) {
+                u32 v = func_020079BC(h, (u32)b, i, 7, 0);
+                if (func_021CFA04((int)a, v, (void *)c) != 0) {
                     n++;
                 }
             }

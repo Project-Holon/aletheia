@@ -27,7 +27,7 @@ extern u32 g_021E4D08[];
 extern char d_021E4D1C[];
 extern char d_021E4F34[];
 extern void func_021DF1A8(int a, int b, int c, int d);
-extern int func_021DFBB8(u32 *, u32, u32, u32, u32, u32, u32, u32);
+extern int func_021DFBB8(void *theInterface, void *theReport, int isAuthoritative, void *theCertificate, void *thePrivateData, void *theCallback, unsigned int theTimeoutMs, void *theUserData);
 extern int func_021DF644(int, int);
 extern void func_02059F54(int, int);
 
@@ -36,8 +36,8 @@ int func_021DF130(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
     int r;
 
     g_021E4D08[4] = a2;
-    r = func_021DFBB8((u32 *)g_021E4D08[1], a0, a1, (u32)d_021E4F34,
-                      (u32)d_021E4D1C, (u32)func_021DF1A8, a3, a4);
+    r = func_021DFBB8((u32 *)g_021E4D08[1], (void *)a0, a1, (void *)((u32)d_021E4F34),
+                      (void *)((u32)d_021E4D1C), (void *)((u32)func_021DF1A8), a3, (void *)a4);
     if (r != 0)
         func_02059F54(8, func_021DF644(0xb, r));
     return r;

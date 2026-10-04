@@ -25,10 +25,12 @@
 typedef signed short s16;
 
 void *func_0215A5F4(void *p);
-int *func_02158F58(void *a);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+int func_02158F58(int a0);
 unsigned int func_02159B10(void *a0, void *a1);
-int func_02188C9C(int a);
-int func_0215A5EC(int b);
+u16 func_02188C9C(u8 *p);
+void *func_0215A5EC(void *p);
 void *func_0215A5E4(void *a0);
 typedef unsigned int   u32;
 struct BigObj;
@@ -49,15 +51,15 @@ int func_021B181C(int a, int b)
     int r5;
     int r0;
 
-    r6 = (int)func_02158F58(func_0215A5F4((void *)b));
+    r6 = (int)func_02158F58((int)func_0215A5F4((void *)b));
     v0 = func_02159B10((void *)a, (void *)b);
     v1 = func_02159B10((void *)a, (void *)b);
     v2 = func_02159B10((void *)a, (void *)b);
     v3 = func_02159B10((void *)a, (void *)b);
     v4 = func_02159B10((void *)a, (void *)b);
     r7 = func_02159B10((void *)a, (void *)b);
-    r5 = func_02188C9C(((int *)r6)[1]);
-    r6 = func_0215A5EC(b);
+    r5 = func_02188C9C((u8 *)(((int *)r6)[1]));
+    r6 = (int)func_0215A5EC((void *)b);
     r0 = func_0216E3D0(func_0201296C(func_0215A5E4((void *)b)), v4);
     r0 = func_0216CE6C(r6, v0, v1, v2, v3, r0, r7, r5);
     if (r0 != 0) {

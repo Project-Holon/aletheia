@@ -15,8 +15,12 @@
  */
 
 extern int func_021F133C(char *p, int v, int *o1, int *o2);
-extern void func_0204B404(int, void *, int);
-extern void func_0204B800(int, int);
+typedef unsigned int   u32;
+struct Node;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B800(struct Node *node, u32 val);
 
 void func_021F20AC(char *p)
 {
@@ -31,13 +35,13 @@ void func_021F20AC(char *p)
             b = b * 8;
             s[0] = a + 0x10;
             s[1] = b + 0xf;
-            func_0204B404(*(int *)(p + i * 4 + 0x158), s, 0);
+            func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x158)), (const struct Vec2 *)s, 0);
             a += 0x20;
-            func_0204B800(*(int *)(p + i * 4 + 0x158), (a / 8) & 0xff);
+            func_0204B800((struct Node *)(*(int *)(p + i * 4 + 0x158)), (a / 8) & 0xff);
         } else {
             s[0] = -0x40;
             s[1] = 0;
-            func_0204B404(*(int *)(p + i * 4 + 0x158), s, 0);
+            func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x158)), (const struct Vec2 *)s, 0);
         }
     }
 }

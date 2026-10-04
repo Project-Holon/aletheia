@@ -27,11 +27,12 @@ typedef struct {
     int f20;
 } T;
 
-extern void func_021AC074(int a);
+struct Mgr;
+extern void func_021AC074(struct Mgr *m);
 
 void func_021ABFEC(T *t)
 {
     if (t->f20 != 0) {
-        func_021AC074(t->f20);
+        func_021AC074((struct Mgr *)t->f20);
     }
 }

@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern void func_021C84E8(u8 *p);
 extern void func_021BBCC4(u8 *p);
 extern void func_021D6EE8(void);
-extern void func_021BB920(int);
+extern void func_021BB920(u8 *p);
 extern void func_021D74E4(void);
 extern void func_021BBCD4(u8 *p);
 extern u8 func_021BC610(u8 *p, int a, u8 *q, int n);
@@ -47,7 +47,7 @@ int func_021BBC44(u8 *p, int a)
         for (i = 0; i < 4; i++)
             p[i + 0x1fe8] = 0;
         func_021D6EE8();
-        func_021BB920(*(int *)p);
+        func_021BB920((u8 *)(*(int *)p));
         func_021D74E4();
         func_021BBCD4(p);
         p[0x782] = func_021BC610(p, a, p + 0x7e0, 6);

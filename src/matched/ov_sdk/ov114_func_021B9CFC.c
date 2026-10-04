@@ -26,7 +26,7 @@ typedef struct {
 extern int func_0215F644(int socket);
 extern void func_02085A38(unsigned long msec);
 extern void func_0215EBB4(void);
-extern void func_021BA850(void *ptr_p);
+extern void func_021BA850(int a);
 
 int func_021B9CFC(int unused, Req *req_p, int socket)
 {
@@ -41,7 +41,7 @@ int func_021B9CFC(int unused, Req *req_p, int socket)
         }
     }
     if (error != -26 && req_p != 0 && req_p->pSslCon != 0) {
-        func_021BA850(req_p->pSslCon);
+        func_021BA850((int)req_p->pSslCon);
         req_p->pSslCon = 0;
     }
     return error;

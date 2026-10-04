@@ -26,11 +26,15 @@
 struct Word { int x; };
 extern const struct Word d_021BB694,d_021BB690,d_021BB670,d_021BB680,d_021BB684,d_021BB67C,d_021BB66C,d_021BB6A0,d_021BB698;
 extern void func_021BA3A4(struct Word *,int),func_021BA454(int,int),func_021BA530(int,int);
-extern int func_0201283C(int),func_02009A34(int);
+typedef unsigned int   u32;
+struct BigObj;
+struct Sub020097BCObj;
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_02009A34(struct Sub020097BCObj *obj);
 void func_021BA668(int a) {
  if(*(int *)(a+0xca0)==1) {struct Word t=d_021BB694;func_021BA3A4(&t,a);return;}
  if(*(int *)(a+0x24c)==7) {
-  if(func_02009A34(func_0201283C(**(int **)(a+0x244)))==32) {struct Word t=d_021BB690;func_021BA3A4(&t,a);return;}
+  if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(**(int **)(a+0x244))))==32) {struct Word t=d_021BB690;func_021BA3A4(&t,a);return;}
   else {struct Word t=d_021BB670;func_021BA3A4(&t,a);func_021BA454(0x22,a);return;}
  }
  if(*(int *)(a+0x24c)==6) {struct Word t=d_021BB680;func_021BA3A4(&t,a);return;}

@@ -27,7 +27,8 @@ typedef signed char    s8;
 
 extern void func_02196228(u8 *p, int flag);
 extern void func_02041570(int channel, u16 val);
-extern void func_02045CAC(u32, u32, u32);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02197644(u8 *, u32);
 extern void func_02196034(u8 *, void (*)(), u32);
 extern void func_021978AC(u8 *a);
@@ -36,7 +37,7 @@ void func_02197700(u8 *a)
 {
     func_02196228(a, 1);
     func_02041570(5, 0);
-    func_02045CAC(*(u32 *)(a + 0x28), 25, *(u32 *)(a + 0x38));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(a + 0x28)), 25, (void *)(*(u32 *)(a + 0x38)));
     func_02197644(a, 0);
     func_02196034(a, func_021978AC, 0x761);
 }

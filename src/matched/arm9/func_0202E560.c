@@ -57,9 +57,10 @@ typedef unsigned short u16;
 extern int func_02046C94(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(void *src, void *dst, u32 n);
-extern void func_02046C9C(void *blk, u32 k, void *buf);
+struct Rec;
+extern void func_02046C9C(struct Rec *rec, u32 mode, u32 value);
 extern unsigned char *func_0206E964(unsigned char *p);
-extern u32 func_02069FD0(void *p);
+extern int func_02069FD0(int p);
 extern u16 func_02080C44(void);
 extern void func_02069FF8(char *p, int a, int b);
 
@@ -75,9 +76,9 @@ void *func_0202E560(u32 heap, u32 sel)
     blk = func_02030734(heap, func_02046C94(), 0, g_020A77E0, 0x3b);
     buf = func_02030734(heap, 0x8c, 0, g_020A77E0, 0x3c);
     func_02082D44(g_020A033C, buf, 0x8c);
-    func_02046C9C(blk, 2, buf);
+    func_02046C9C(blk, 2, (u32)buf);
     tex = func_0206E964(buf);
-    size = func_02069FD0(tex);
+    size = func_02069FD0((int)tex);
     bank = func_02080C44();
     acc = 0;
     switch (sel) {

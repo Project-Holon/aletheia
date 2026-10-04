@@ -18,10 +18,11 @@ typedef unsigned int u32;
 typedef struct { u8 low : 4; u8 flags : 2; u8 high : 2; } F93F;
 struct Entry;
 struct Entry *func_020399A8(void);
-u32 func_0203D1A4(u32 p);
+struct Link;
+u32 func_0203D1A4(struct Link *p);
 void func_0217449C(int a, int b, u8 *c, u8 *p)
 {
-    if (a != func_0203D1A4((u32)func_020399A8())) {
+    if (a != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
         ((F93F *)(p + 0x93f))->flags |= *c;
     }
 }

@@ -15,8 +15,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082D44(const void *,void *,unsigned);
 extern int func_0204A298(int,int,int,int,u32 *);
-extern void func_0203F37C(u32,u32,u32);
-extern void func_020307B0(u32);
+extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
+extern void func_020307B0(void *p);
 extern int func_021F546C(u16 *,u32,u32,u32,u32);
 int func_021F5370(const u32 *cache,const void *input,u16 heap)
 {
@@ -36,10 +36,10 @@ int func_021F5370(const u32 *cache,const void *input,u16 heap)
     for(i=0;i<7;i++) {
         if(cache==0) {
             data=func_0204A298(0xdd,i,0,heap,&size);
-            func_0203F37C(data,size,0x72012891);
+            func_0203F37C((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
         { u32 currentHeap=heap; result=func_021F546C(buf,i,currentHeap,data,size); }
-        if(cache==0) func_020307B0(data);
+        if(cache==0) func_020307B0((void *)data);
         if(result==1) break;
     }
     return result;

@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern int func_0216DD1C(u32 x, u8 **o, int *n);
 extern int func_0216D948(int a0);
-extern void func_0216DFAC(u8 *o);
+extern int func_0216DFAC(int a0);
 extern void func_0216D780(void *a0);
 extern void func_0216D568(void *p, u32 v);
 
@@ -36,7 +36,7 @@ void func_0216D2AC(u32 x)
     n = 0;
     if (func_0216D948(x)) {
         while (func_0216DD1C(x, &o, &n) == 1) {
-            func_0216DFAC(o);
+            func_0216DFAC((int)o);
             func_0216D780(o);
             func_0216D568(o, k);
         }

@@ -26,16 +26,16 @@ struct Big;
 extern u32 func_021BC6E4(void *p);
 extern u32 func_021BC628(u8 *p);
 extern void *func_02012EBC(struct Big *p);
-extern int func_0200E394(int p);
-extern void func_0200E440(int p,int value,int index);
+extern void *func_0200E394(void *a0);
+extern void func_0200E440(u8 *p, int value, int index);
 extern const u8 d_021C30A8[],d_021C3080[],d_021C308A[];
 void func_021BBCB0(u8 *p)
 {
     u32 index;
     int data;
     index=func_021BC6E4(p);
-    data=func_0200E394((int)func_02012EBC((struct Big *)func_021BC628(p)));
-    func_0200E440(data,d_021C30A8[index],0);
-    func_0200E440(data,d_021C3080[index],1);
-    func_0200E440(data,d_021C308A[index],2);
+    data=(int)func_0200E394((void *)((int)func_02012EBC((struct Big *)func_021BC628(p))));
+    func_0200E440((u8 *)data,d_021C30A8[index],0);
+    func_0200E440((u8 *)data,d_021C3080[index],1);
+    func_0200E440((u8 *)data,d_021C308A[index],2);
 }

@@ -21,15 +21,18 @@
 
 typedef unsigned char u8;
 
-extern int func_02045738(int a);
-extern int func_0201D304(int a, int b, int c);
+typedef unsigned int   u32;
+struct Descriptor;
+struct StrObj;
+extern u8 func_02045738(struct Descriptor *p);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 int func_021C1090(u8 *p, int a1)
 {
     int r;
     int x;
-    x = func_02045738(*(int *)(p + 0x18)) * 8;
-    x = x - func_0201D304(a1, *(int *)(p + 0x10), 0);
+    x = func_02045738((struct Descriptor *)(*(int *)(p + 0x18))) * 8;
+    x = x - func_0201D304((struct StrObj *)a1, *(int *)(p + 0x10), 0);
     r = (int)(0.5f * (float)x);
     if (r < 0) {
         r = 0;

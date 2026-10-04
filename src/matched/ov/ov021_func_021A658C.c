@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D3CC(void *p);
+extern int func_0216D3CC(int a0);
 extern int func_021A5B6C(void *a, void *b, int c, int *d);
 extern int func_021A652C(void *a, void *b, int c, int d, u16 e, int f);
 extern u16 func_021AB0F0(u32 attr);
@@ -33,7 +33,7 @@ int func_021A658C(void *a, void *b, int c, int d, u16 e, int f)
 {
     int r;
     int loc;
-    if (func_0216D3CC(b) == 0) {
+    if (func_0216D3CC((int)b) == 0) {
         return 0;
     }
     if (e == 9) {

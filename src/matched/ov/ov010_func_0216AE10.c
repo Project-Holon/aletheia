@@ -44,10 +44,11 @@ extern u32 func_02012138(const struct Ctx *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021767F0();
-extern void *func_02184D38();
-extern int func_021665F0();
 struct Desc;
-extern struct Desc *func_0216B3A8(void *a0, int a1, int a2);
+extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
+extern int func_021665F0(int a0, int a1, int a2);
+struct Desc;
+extern struct Desc *func_0216B3A8(int a0, int a1, int a2);
 extern void func_0215897C(void *vm, void *task);
 
 int func_0216AE10(int a0, int a1)
@@ -76,11 +77,11 @@ int func_0216AE10(int a0, int a1)
         func_021A3038(y, (struct VecFx32 *)q);
         func_021767F0(s, c, buf);
         buf[0] = buf[0] + (q[0] - (0x3E << 14));
-        r = func_02184D38(b, x, 0x117, buf, 1, 0);
+        r = func_02184D38(b, (int)x, 0x117, buf, 1, 0);
     } else {
         if (kind != 9)
-            v = func_021665F0(b, func_02012FB0(c), kind);
-        r = (void *)func_0216B3A8(b, kind, v);
+            v = func_021665F0((int)b, func_02012FB0(c), kind);
+        r = (void *)func_0216B3A8((int)b, kind, v);
     }
     func_0215897C(hd, r);
     return 1;

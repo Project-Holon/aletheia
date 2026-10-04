@@ -23,7 +23,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020450F0(int, u8, u8, u8, u8, int, int);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 typedef signed short   s16;
 struct Cfg;
 struct CharBuf;
@@ -31,7 +31,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void *func_02012FFC(void);
+extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *, int, int, void *, void *, void *, void *, int, u16, int);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_0201F73C(void *, int, u16, int);
@@ -42,13 +42,13 @@ void func_021D4EF0(char *p, int n, int flag)
 {
     void *obj;
     if (*(void **)(p + 0x224) == 0)
-        *(void **)(p + 0x224) = func_020450F0(5, 1, 3, 30, (u8)n, 13, 1);
+        *(void **)(p + 0x224) = (void *)func_020450F0(5, 1, 3, 30, (u8)n, 13, 1);
     obj = *(void **)(p + 0x224);
     func_02043B5C(func_02045770(obj), 15);
     func_0201DD78(1, 2, 15);
     if (flag) {
         void *value;
-        value = func_02012FFC();
+        value = (void *)func_02012FFC();
         *(void **)(p + 0x228) = func_0201CCE4(obj, 0, 0, *(void **)(p + 0x38), *(void **)(p + 0x30), value, *(void **)(p + 0x230), 2, *(u16 *)(p + 12), 15);
     } else {
         func_0201C7A4(func_02045770(obj), 0, 0, *(void **)(p + 0x38), *(void **)(p + 0x30));

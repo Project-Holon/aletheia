@@ -17,15 +17,17 @@
 
 typedef unsigned int u32;
 
-extern void *func_02158768(void *p, u32 msg, u32 a, u32 b);
-extern void *func_021589D0(void *h);
-extern void func_02159058(void *p, u32 a, u32 b, u32 c, u32 d);
+typedef unsigned short u16;
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern int func_021589D0(int a0);
+extern void func_02159058(int a, int b, int c, int d, u16 e);
 
 void *func_021606DC(void *p, u32 a)
 {
     void *h;
 
-    h = func_02158768(p, 0x7D6, 0, 0x15);
-    func_02159058(func_021589D0(h), a, 0, 0, 0);
+    h = func_02158768((int)p, 0x7D6, 0, 0x15);
+    func_02159058(func_021589D0((int)h), a, 0, 0, 0);
     return h;
 }

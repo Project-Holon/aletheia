@@ -22,11 +22,11 @@ typedef signed char    s8;
 
 typedef struct X { u32 f0; u32 f4; u16 f8; } X;
 
-extern u32 func_021C6694(u32 a, u32 b, u32 c);
+extern int func_021C6694(u32 *a, int idx, int v);
 extern void func_021AC154(u32 a);
 
 void func_021AC66C(u32 a, X *x)
 {
-    if (func_021C6694(x->f4, x->f8, 0x1000) == 0)
+    if (func_021C6694((u32 *)x->f4, x->f8, 0x1000) == 0)
         func_021AC154(a);
 }

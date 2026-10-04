@@ -20,18 +20,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0216D5F8(int b);
+u16 func_0216D5F8(void *p);
 int func_02197E7C(int k, int a);
 void func_0216D410(int b, int v);
-void func_021A3964(u32 h, int s);
+void func_021A3964(u8 *p, u32 v);
 
 void func_021A5014(u32 *p, int b, u8 *c)
 {
     int k = *(u16 *)(c + 8);
 
     if (k == 9)
-        k = func_0216D5F8(b);
+        k = func_0216D5F8((void *)b);
     func_0216D410(b, func_02197E7C(k, 0));
     p[0] = 0;
-    func_021A3964(p[3], 0);
+    func_021A3964((u8 *)p[3], 0);
 }

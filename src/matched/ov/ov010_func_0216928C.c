@@ -19,8 +19,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021693A0(void *p);
-extern void func_020307B0(u32 p);
+extern void func_021693A0(int a0);
+extern void func_020307B0(void *p);
 extern void (*d_020A814C)(u32);
 extern void (*d_020A8144)(u32);
 
@@ -28,17 +28,17 @@ extern void (*d_020A8144)(u32);
 
 void func_0216928C(void *p)
 {
-    func_021693A0(p);
+    func_021693A0((int)p);
     if (F(0x20) != 0) {
         d_020A814C(F(0x90));
         d_020A8144(F(0x8c));
     }
-    func_020307B0(F(0x88));
-    func_020307B0(F(0x84));
-    func_020307B0(F(0xd4));
+    func_020307B0((void *)F(0x88));
+    func_020307B0((void *)F(0x84));
+    func_020307B0((void *)F(0xd4));
     if (*(u16 *)((char *)p + 0xa4) != 0)
-        func_020307B0(F(0x9c));
+        func_020307B0((void *)F(0x9c));
     if (*(u16 *)((char *)p + 0xa6) != 0)
-        func_020307B0(F(0xa0));
-    func_020307B0((u32)p);
+        func_020307B0((void *)F(0xa0));
+    func_020307B0((void *)((u32)p));
 }

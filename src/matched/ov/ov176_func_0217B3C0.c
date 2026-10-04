@@ -25,7 +25,7 @@ extern void func_0217B7D8(int *,int);
 extern unsigned func_0217B930(int *);
 extern void func_0217B924(int *);
 extern void func_0217B970(int *,int);
-extern void func_021E8AA0(int,int);
+extern void func_021E8AA0(int *p, int v);
 typedef unsigned char  u8;
 extern void func_0217B4A0(int p, unsigned *state, int *q);
 extern void func_0217B6AC(int p, unsigned *state, int *q);
@@ -41,9 +41,9 @@ void func_0217B3C0(int p, unsigned *state, int *q)
         result = func_0217B930(q);
         if (result != -1) {
             switch (result) {
-            case 0: func_021E8AA0(p,(int)func_0217B4A0); break;
-            case 1: func_021E8AA0(p,(int)func_0217B6AC); break;
-            case 2: func_021E8AA0(p,(int)func_0217B468); break;
+            case 0: func_021E8AA0((int *)p,(int)func_0217B4A0); break;
+            case 1: func_021E8AA0((int *)p,(int)func_0217B6AC); break;
+            case 2: func_021E8AA0((int *)p,(int)func_0217B468); break;
             case 3: func_0217B970(q,1); break;
             }
             func_0217B924(q);

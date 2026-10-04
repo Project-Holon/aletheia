@@ -18,13 +18,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern void func_0201C7D0(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_0201C724(u32 a, u32 b, s16 c, s16 d, u32 e, u32 f, u32 g);
 
 void func_021B44CC(u32 a, u32 b, int c, int d, u32 e, u32 f, u16 g)
 {
     if (d <= 8) {
-        func_0201C7D0(b, c, d, e, f, g);
+        func_0201C7D0((void *)b, c, d, (void *)e, (void *)f, g);
     } else {
         func_0201C724(a, b, c, d, e, f, g);
     }

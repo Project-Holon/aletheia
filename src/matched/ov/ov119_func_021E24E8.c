@@ -38,7 +38,7 @@ extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern int func_021D8ADC(char *);
 extern void func_021E6CB8(char *);
 extern void func_021E6334(char *,int,int,void *,int,u32);
-extern void func_021E6E7C(char *);
+extern void func_021E6E7C(int p);
 extern void func_021E1430(void *,void *,int,int,int,int,char *);
 extern void func_021E1670(void *,void *,int,int,char *,int,int);
 extern void func_021E15F8(void *,void *,int,int,char *);
@@ -81,5 +81,5 @@ void func_021E24E8(char *p)
             }
         }
     }
-    func_021E6E7C(p);
+    func_021E6E7C((int)p);
 }

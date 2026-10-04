@@ -21,10 +21,10 @@ typedef unsigned short u16;
 
 typedef void (*IdHandler)(u16 id);
 
-extern int func_0216EDFC(u16 id);
+extern int func_0216EDFC(void *a0);
 extern const IdHandler d_021725C0[][2];
 
 void func_0216EE20(u16 id, int col)
 {
-    d_021725C0[func_0216EDFC(id)][col](id);
+    d_021725C0[func_0216EDFC((void *)id)][col](id);
 }

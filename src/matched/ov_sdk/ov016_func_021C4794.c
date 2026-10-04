@@ -35,7 +35,7 @@ extern void func_021D5CA8(int a);
 extern void func_021BD138();
 extern void func_021D6090(int lcd, int plane);
 extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C2A3C();
 extern void func_021C3D8C();
 extern void func_021C4110();
@@ -64,12 +64,12 @@ void func_021C4794(void)
     func_021D6090(0, 0x15);
     if (g_021DE5C8 == 0) {
         func_021C0E50(0, 1);
-        func_021C0E40(func_021C2A3C);
+        func_021C0E40((unsigned int)func_021C2A3C);
     } else if (g_021DE5C8 == 2) {
         func_021C0E50(0, 1);
-        func_021C0E40(func_021C3D8C);
+        func_021C0E40((unsigned int)func_021C3D8C);
     } else {
         func_021C0E50(0, 1);
-        func_021C0E40(func_021C4110);
+        func_021C0E40((unsigned int)func_021C4110);
     }
 }

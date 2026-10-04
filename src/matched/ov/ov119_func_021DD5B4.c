@@ -27,7 +27,7 @@ extern int func_021DD428(void *,int,int,int,void *);
 extern int func_021DF9E8(char *,void *,int);
 extern void func_021DD4F4(void *,int,int),func_020307B0(void *);
 extern u32 func_020173EC(void);
-extern void func_021E6334(void *,int,int,int,int,int);
+extern void func_021E6334(char *p, int i, int j, void *mon, int selected, u32 visible);
 int func_021DD5B4(char *p,int a,int b)
 {
     int value,slot;
@@ -49,7 +49,7 @@ int func_021DD5B4(char *p,int a,int b)
         slot=func_021DD428(p,0,a,b,(void *)value);
     }
     if(slot==-1) {func_020307B0((void *)value);return 1;}
-    func_021E6334(p,0,slot,value,1,0);
+    func_021E6334(p,0,slot,(void *)value,1,0);
     func_020307B0((void *)value);
     return 1;
 }

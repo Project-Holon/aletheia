@@ -18,7 +18,8 @@
  *   func_02012E4C 0x02012E4C thumb
  */
 typedef unsigned char u8;
-extern void func_02088864(void *);
+struct RTCDate;
+extern int func_02088864(struct RTCDate *date);
 typedef unsigned int   u32;
 struct Big;
 struct BigObj;
@@ -37,7 +38,7 @@ void func_021B9B20(char *p)
 {
     unsigned date[4];
     void *save,*object,*record;
-    func_02088864(date);
+    func_02088864((struct RTCDate *)date);
     object=func_02012934(*(void **)(p+4));
     save=func_02012EBC(*(void **)(p+4));
     func_0200725C(save,8,4);

@@ -20,9 +20,9 @@
  *   func_020257C4  0x020257C4  thumb
  */
 
-extern int func_020257C4(int);
+extern int func_020257C4(const int *p);
 
 int func_021EE234(int *a, int i)
 {
-    return func_020257C4(*(int *)((char *)a + i * 8 + 4));
+    return func_020257C4((const int *)(*(int *)((char *)a + i * 8 + 4)));
 }

@@ -34,7 +34,8 @@ typedef struct St {
     u8 pad[10];
 } St;
 
-extern void *func_02012EBC(int a);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern u32 func_0200725C(void *s, u32 id, u32 heap);
 struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
@@ -42,7 +43,7 @@ struct U16Vec;
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern u32 func_0200ECB4(char *o);
 extern int func_0200ECD0(void *t, int i);
-extern void func_0200ECF0(void *t, u32 a, int i, St *st);
+extern void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
@@ -56,7 +57,7 @@ void func_021F3AD4(const u16 *p, u32 *out, int *cnt)
 
     i = 0;
     *cnt = 0;
-    s = func_02012EBC(((int *)p)[2]);
+    s = func_02012EBC((struct Big *)(((int *)p)[2]));
     if (func_0200725C(s, 8, p[0]) - 1 <= 1) {
         t = func_020073D8(s, 8, i);
         if (func_0200ECB4(t) != 0) {
@@ -64,7 +65,7 @@ void func_021F3AD4(const u16 *p, u32 *out, int *cnt)
             for (; i < *cnt; i++) {
                 st.p0 = func_020457B0(0x40, p[0]);
                 st.p1 = func_020457B0(0x40, p[0]);
-                func_0200ECF0(t, 0, i, &st);
+                func_0200ECF0(t, 0, (void *)i, &st);
                 out[i] = st.c;
                 func_02045808(st.p0);
                 func_02045808(st.p1);

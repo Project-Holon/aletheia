@@ -50,7 +50,7 @@ extern void func_020061E4(u32 a);
 extern int func_02188BE8(void *);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern int func_0216D3CC(void *);
+extern int func_0216D3CC(int a0);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag);
 extern void func_0216D410(void *a0, u16 a1);
@@ -70,7 +70,7 @@ int func_0217C688(Rec *r, void *a1)
     case 1:
         if (func_02188BE8(r->f4) == 1) {
             obj = func_021A3074(func_02188CB4(r->f4));
-            if (func_0216D3CC(obj) == 1) {
+            if (func_0216D3CC((int)obj) == 1) {
                 if (r->fA >= 15 && r->f12 != 0 && d_021836A0[r->f11] == 1) {
                     r->f10++;
                     break;

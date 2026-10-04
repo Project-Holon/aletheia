@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Rec44;
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013E04(u32 id);
-extern int func_021C5C64();
+extern int func_021C5C64(u32 unused, u32 a, u32 *out);
 
 int func_0216459C(int a0, int a1, int a2)
 {
@@ -47,6 +47,6 @@ loc_021645B4:
 a0 = t5 + 0;
 a1 = t4 + 0;
 a2 = 0;
-    a0 = func_021C5C64(a0, a1, a2);
+    a0 = func_021C5C64(a0, a1, (u32 *)a2);
 loc_021645BE:
     return a0;}

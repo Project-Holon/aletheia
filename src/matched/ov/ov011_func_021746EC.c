@@ -18,23 +18,25 @@
  *   func_02012800  0x02012800  thumb
  */
 
-int func_02026478(int a);
-int func_020127D0(int a, int b);
-int func_021583EC(int a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u32 func_02026478(void *obj);
+u8 *func_020127D0(u8 *o, u32 idx);
+int func_021583EC(void *a0, int a1);
 typedef unsigned short u16;
 void func_021861F4(u16 *p, int x);
 void func_02082D44(void *d, void *s, int n);
-void func_02012800(int a, void *b);
+void func_02012800(u8 *obj, void *dst);
 
 void func_021746EC(int a, int b, void *c, char *d)
 {
     int h;
     int s;
 
-    h = func_02026478(*(int *)(d + 4));
-    s = func_020127D0(h, 0);
-    func_021861F4(c, func_021583EC(h, a));
+    h = func_02026478((void *)(*(int *)(d + 4)));
+    s = (int)func_020127D0((u8 *)h, 0);
+    func_021861F4(c, func_021583EC((void *)h, a));
     func_02082D44(c, (void *)s, 0x1E8);
-    func_02012800(h, c);
+    func_02012800((u8 *)h, c);
     d[0x90C] = 1;
 }

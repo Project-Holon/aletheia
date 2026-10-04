@@ -21,7 +21,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021C812C(void *p);
+extern u8 *func_021C812C(u8 *p);
 struct Q7;
 struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
@@ -36,7 +36,7 @@ void func_021E8310(void *a, void *b, int c)
     int t;
 
     if (c == func_021D775C(3)) {
-        m = func_021C812C(b);
+        m = (int)func_021C812C(b);
         switch (func_021D70A8(a)) {
         case 0x22e:
             t = 0x22f;

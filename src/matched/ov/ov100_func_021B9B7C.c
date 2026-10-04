@@ -25,8 +25,9 @@ typedef unsigned int   u32;
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 struct Link;
 extern void func_02039C68(struct Link *,u32,u32);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021B9AD8(void);
+typedef unsigned char  u8;
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021B9AD8(int a);
 void func_021B9B7C(int a)
 {
  int k=12;
@@ -35,7 +36,7 @@ void func_021B9B7C(int a)
   int q=func_0201A918();
   if(func_0203D3F8(p,0xff,0xc02,q,(*(int **)(a+0x244))[1],0,0,1)!=0) {
    func_02039C68((struct Link *)func_020399A8(),0x7a,k);
-   func_021B95B8(a,func_021B9AD8);
+   func_021B95B8((u8 *)a,(u32)func_021B9AD8);
   }
  }
 }

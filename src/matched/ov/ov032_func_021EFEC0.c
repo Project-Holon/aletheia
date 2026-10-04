@@ -31,18 +31,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void func_02021EE4(int, u32);
+struct Obj02021EE4;
+struct Queue;
+struct Rec;
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
 extern void func_021F0AC0(void *);
 extern void func_021F0B10(void *, int, int);
-extern void func_02165AC4(int, int, void *, int);
-extern int func_021659F0(int, int);
+extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
+extern int func_021659F0(u8 *q, int delta);
 extern u8 *func_021F0F44(u8 *p, int a);
 extern void func_021F0F30(u8 *, u8, u8);
-extern void func_021F1144(void *, u8 *, int, int, int, int);
+extern void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t);
 extern void func_021F0EA4(u8 *, int);
 extern void func_021F0E24(void *);
 extern void func_021F0E7C(void *);
-extern void func_021F0DF4(int, int);
+extern void func_021F0DF4(void *p, unsigned short v);
 extern void func_0203D34C(u32 a, u32 b);
 
 void func_021EFEC0(u8 *o)
@@ -53,22 +56,22 @@ void func_021EFEC0(u8 *o)
     int s;
     int t;
 
-    func_02021EE4(*(int *)(o + 0xAC), 1);
+    func_02021EE4((struct Obj02021EE4 *)(*(int *)(o + 0xAC)), 1);
     func_021F0AC0(o);
     func_021F0B10(o, 1, 0);
     for (i = 0; i < o[0x7D]; i++) {
         q = o + 0x48;
         t = o[0x7C];
-        func_02165AC4(*(int *)(o + 0x3C), *(int *)(o + 0x40), q, t + i);
-        s = func_021659F0(*(int *)(o + 0x3C), t + i);
+        func_02165AC4((struct Queue *)(*(int *)(o + 0x3C)), (struct Rec *)(*(int *)(o + 0x40)), (u16 *)q, t + i);
+        s = func_021659F0((u8 *)(*(int *)(o + 0x3C)), t + i);
         e = func_021F0F44(o, 0xFF);
         func_021F0F30(e, s, i + 1);
-        func_021F1144(o, e, *(int *)(o + 0x40), 2, 0, 0);
+        func_021F1144(o, e, (void *)(*(int *)(o + 0x40)), 2, 0, 0);
         func_021F0EA4(e, 1);
     }
     func_021F0E24(o);
     func_021F0E7C(o);
     if (*(int *)(o + 0x28) == 0x30)
-        func_021F0DF4(*(int *)(o + 0x2BC), 3);
+        func_021F0DF4((void *)(*(int *)(o + 0x2BC)), 3);
     func_0203D34C(0, *(u16 *)(o + 0x96));
 }

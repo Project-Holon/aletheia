@@ -22,9 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern int func_020437DC(u32 a);
-extern int func_020437E4(u32 a);
-extern void func_02043B5C(u32 a, u8 b);
+struct Bmp;
+struct CharBuf;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020439A0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u16 i);
 
 int func_021921C8(u32 a, u32 b, u32 c, int n, u16 col)
@@ -33,9 +35,9 @@ int func_021921C8(u32 a, u32 b, u32 c, int n, u16 col)
     int h;
     int rest;
 
-    w = func_020437DC(a);
-    h = func_020437E4(a);
-    func_02043B5C(a, col);
+    w = func_020437DC((const struct Bmp *)a);
+    h = func_020437E4((const struct Bmp *)a);
+    func_02043B5C((struct CharBuf *)a, col);
     if (n > h)
         n = h;
     rest = h - n;

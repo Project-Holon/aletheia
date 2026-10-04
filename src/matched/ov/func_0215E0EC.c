@@ -30,8 +30,8 @@ extern void *func_0215A5E4(void *a0);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02012F80(char *base);
-extern int func_02026454();
-extern int func_02026474();
+extern u32 func_02026454(void *obj);
+extern u32 func_02026474(void *obj);
 
 int func_0215E0EC(int a0, int a1)
 {
@@ -58,12 +58,12 @@ t5 = a0 + 0;
 loc_0215E114:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_02026454(a0);
+    a0 = func_02026454((void *)a0);
 loc_0215E11C:
     if (a0 != 4) goto loc_0215E12C;
 loc_0215E120:
 a0 = t5 + 0;
-    a0 = func_02026474(a0);
+    a0 = func_02026474((void *)a0);
 loc_0215E126:
 *(int *)((char *)t4 + 4) = a0;
 a0 = 1;

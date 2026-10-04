@@ -51,7 +51,7 @@ extern struct WordSet *func_0201EC64(u32);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void func_02040C14(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
-extern struct PalAnmSlot *func_021F86E0(void);
+extern int func_021F86E0(void);
 extern void func_020215EC(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
 extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void func_02045374(struct Cfg *);
@@ -75,7 +75,7 @@ u8 *func_021B67D4(void *a, void *b, void *c, u32 heap)
     func_02041300(1, 0, 0, 0, 32, 32, 17);
     func_02040C14(1, 0, 1, 0);
     idx = func_020496E4(11, 89, 1, 0, 0, *(u16 *)(p + 0x44));
-    func_020215EC(func_021F86E0(), 11, 90, *(u16 *)(p + 0x44), 0, 32, 0, 0);
+    func_020215EC((struct PalAnmSlot *)func_021F86E0(), 11, 90, *(u16 *)(p + 0x44), 0, 32, 0, 0);
     *(u32 *)(p + 0x1c) = func_020450F0(1, 1, 19, 30, 4, 0, 0);
     func_02045374(*(struct Cfg **)(p + 0x1c));
     func_020454E0(*(struct Cfg **)(p + 0x1c), idx, 0);

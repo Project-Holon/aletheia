@@ -22,13 +22,17 @@
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
-extern int func_0201F73C(int, int, int, int);
+typedef unsigned char  u8;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(int, int);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(int);
-extern unsigned char func_02045730(int);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
@@ -37,12 +41,12 @@ void func_022054E8(int a, int *p, int flag)
     if (flag != 0) {
         int *q;
 
-        func_0201F73C(p[0x1b], 0, (unsigned short)p[0x1d], 2);
-        func_02043B5C((int)func_02045770((struct Descriptor *)p[0x1b]), 0xf);
+        func_0201F73C((void *)p[0x1b], 0, (unsigned short)p[0x1d], 2);
+        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p[0x1b])), 0xf);
         q = (int *)p[0x1b];
         func_02045334((struct Descriptor *)q);
-        func_02045374((int)q);
-        func_020409B4(func_02045730((int)q));
+        func_02045374((struct Cfg *)((int)q));
+        func_020409B4(func_02045730((struct Descriptor *)((int)q)));
     } else {
         p[0x22] = 2;
     }

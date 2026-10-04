@@ -34,9 +34,12 @@ struct Obj0202E3E4 {
     u32 f20[2];
 };
 
-extern void sub_02045374(u32 a);
-extern void sub_020456F8(u32 a);
-extern u32 sub_02045730(u32 a);
+typedef unsigned char  u8;
+struct Cfg;
+struct Descriptor;
+extern void sub_02045374(struct Cfg *cfg);
+extern void sub_020456F8(struct Descriptor *d);
+extern u8 sub_02045730(struct Descriptor *p);
 extern void sub_02041B6C(u32 bit);
 struct Obj;
 extern void sub_0204B3DC(struct Obj *a, unsigned int b);
@@ -47,10 +50,10 @@ void func_0202E3E4(struct Obj0202E3E4 *obj, u32 a1)
 
     obj->f18 = (obj->f18 & ~2) | ((a1 & 1) << 1);
     if (a1 != 0)
-        sub_02045374(obj->f00);
+        sub_02045374((struct Cfg *)obj->f00);
     else
-        sub_020456F8(obj->f00);
-    sub_02041B6C(sub_02045730(obj->f00));
+        sub_020456F8((struct Descriptor *)obj->f00);
+    sub_02041B6C(sub_02045730((struct Descriptor *)obj->f00));
     for (i = 0; i < 2; i++) {
         if (obj->f20[i] != 0)
             sub_0204B3DC((struct Obj *)obj->f08[i], a1);

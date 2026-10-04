@@ -20,7 +20,8 @@
 
 typedef unsigned char u8;
 
-extern int func_021B9B94(void *);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
 typedef unsigned int u32;
 extern u8 *func_021B9C00(void *p, u32 i);
 extern u8 func_021D5440(u8 *p);
@@ -28,7 +29,7 @@ extern u8 func_021D5440(u8 *p);
 int func_021B9864(int a, int b, int c)
 {
     char *p = (char *)(a + 4) + b * 0x1c;
-    unsigned int n = func_021B9B94(p);
+    unsigned int n = func_021B9B94((struct Q1 *)p);
     unsigned int i;
     for (i = 0; i < n; i++) {
         if (c == func_021D5440((u8 *)func_021B9C00(p, (unsigned char)i)))

@@ -42,8 +42,8 @@ typedef unsigned short u16;
 
 struct Ctx;
 unsigned int func_02012138(const struct Ctx *p);
-void *func_02158344(void *a);
-void func_021620A0(void *a);
+int func_02158344(int a0);
+int func_021620A0(int a0);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
@@ -60,8 +60,8 @@ void func_0218748C(char *p, int a1, int *out, int a3, u16 a4);
 void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 int func_0204E804(void);
 void *func_020120F4(const struct Ctx *p);
-int func_02012944(void *a);
-void func_02161F90(void *a, void *b, void *c, int d, int e, int f);
+u8 *func_02012944(void *p);
+void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v);
 void func_02193B20(void *a, int b);
 void func_0216CF2C(void *a);
 int func_02187508(char *p);
@@ -89,12 +89,12 @@ void func_0201ED04(struct WordSet *p);
 
 int func_021871F8(void *a, int *st, char *o)
 {
-    if (func_02158344((void *)func_02012138(P(o))) == 0 && B56 != 0)
+    if (func_02158344((int)((void *)func_02012138(P(o)))) == 0 && B56 != 0)
         *st = 0x11;
 
     switch (*st) {
     case 0:
-        func_021620A0(P40);
+        func_021620A0((int)P40);
         func_02162048(P40, H4C, 0);
         *st = 1;
         break;
@@ -138,7 +138,7 @@ int func_021871F8(void *a, int *st, char *o)
         func_0218741C(o, 4, st, 0x11);
         break;
     case 9:
-        func_021620A0(P40);
+        func_021620A0((int)P40);
         func_02162048(P40, H4C, 1);
         *st = 10;
         break;
@@ -156,7 +156,7 @@ int func_021871F8(void *a, int *st, char *o)
         break;
     case 12:
         func_0218741C(o, 7, st, 0xd);
-        func_021620A0(P40);
+        func_021620A0((int)P40);
         func_02162048(P40, H4C, 2);
         B56 = 0;
         break;
@@ -167,7 +167,7 @@ int func_021871F8(void *a, int *st, char *o)
     case 14:
         if (func_0204E804() != 0)
             break;
-        func_02161F90(P40, P44, P48, func_02012944(func_020120F4(P(o))), H4C, H08);
+        func_02161F90((int)P40, P44, P48, (int)func_02012944(func_020120F4(P(o))), H4C, H08);
         func_02193B20(P28, H4C);
         func_0216CF2C(P30);
         func_0204E720(1, 0x10, 0, 0);

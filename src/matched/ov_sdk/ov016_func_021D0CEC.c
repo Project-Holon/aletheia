@@ -86,7 +86,7 @@ extern enum WMErrCode func_0208EBE4(unsigned short *);
 extern enum WMErrCode func_0208F400(void (*)(void *));
 extern enum WMErrCode func_0208F43C(void (*)(void *));
 extern void func_021D7744(unsigned int idx, void *r4);
-extern void func_021D6438();
+extern void func_021D6438(void **mem);
 extern M *g_021DE654;
 extern M *g_021DE654_b;
 extern void func_021D0DE0(void *);
@@ -111,6 +111,6 @@ int func_021D0CEC(void)
         func_021D7744(0, g_021DE654->task);
     while (g_021DE654->end != 2)
         ;
-    func_021D6438(&g_021DE654_b);
+    func_021D6438((void **)(&g_021DE654_b));
     return 1;
 }

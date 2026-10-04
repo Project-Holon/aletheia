@@ -38,7 +38,7 @@ struct Strbuf;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012FD8(void **p);
 extern u32 func_02159B10(void *, void *);
-extern void *func_02158F7C(void *);
+extern u32 func_02158F7C(u8 *p);
 extern void *func_02158F74(void *);
 extern u32 func_0200E740(const void *obj, u32 idx);
 extern void *func_0200E7AC(void *obj, u32 idx);
@@ -59,7 +59,7 @@ int func_021B6628(void *a, void *b)
     w = func_02012FD8(func_020120F4(func_0215A5DC(b)));
     i = func_02159B10(a, b);
     j = func_02159B10(a, b);
-    x = func_02158F7C(t);
+    x = (void *)func_02158F7C(t);
     y = func_02158F74(t);
     if (func_0200E740(w, i)) {
         func_02045924(x, func_0200E7AC(w, i));

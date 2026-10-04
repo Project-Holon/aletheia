@@ -25,8 +25,8 @@ extern void func_020061E4(u32);
 extern int  func_02006238(void);
 extern int func_02006A64(u32 idx);
 extern u32 func_02006BD0(u32 i);
-extern void func_021BF744(u32, int, int, int);
-extern int  func_021BF864(u32, u32, u32);
+extern void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
+extern int func_021BF864(char *p, int delta, int limit);
 
 int func_021BE7A8(u8 *p, u32 *q)
 {
@@ -40,14 +40,14 @@ int func_021BE7A8(u8 *p, u32 *q)
         }
         break;
     case 1:
-        if (func_021BF864(*(u32 *)(p + 8), 0x1000, 0xFFFF4800) == 1) {
+        if (func_021BF864((char *)(*(u32 *)(p + 8)), 0x1000, 0xFFFF4800) == 1) {
             func_020061E4(0x7F5);
             (*q)++;
         }
         break;
     case 2:
         if (func_02006238() == 0) {
-            func_021BF744(*(u32 *)(p + 8), 1, 0, 1);
+            func_021BF744((char *)(*(u32 *)(p + 8)), 1, 0, 1);
             func_02006A64(*(u32 *)(*(u32 *)(p + 4) + 0x10));
             (*q)++;
         }

@@ -28,11 +28,12 @@ typedef struct T { int w[15]; } T;
 extern T d_021DABCC;
 
 extern void func_0204784C(u32 h, u32 i, u32 *v);
-extern int func_020478B8(u32 h, u32 i, int v);
+struct Arg;
+extern int func_020478B8(void *a, int idx, int amount);
 extern int func_02047828(u32 h, u32 i, u32 *v);
 extern void func_0207ADC4(int *m);
 extern void func_021AC1B8(u32 a, T *t);
-extern void func_02047AC8(u32 a, T *t);
+extern int func_02047AC8(void *a0, struct Arg *a1);
 
 void func_021C8FF0(u32 a, u32 *b)
 {
@@ -43,7 +44,7 @@ void func_021C8FF0(u32 a, u32 *b)
         t = d_021DABCC;
         h = *(u32 *)(b[0] + 0x30);
         func_0204784C(h, 0, b + 1);
-        if (func_020478B8(h, 0, 0x1000) == 0) {
+        if (func_020478B8((void *)h, 0, 0x1000) == 0) {
             b[2] = 1;
         }
         if (func_02047828(h, 0, b + 1) == 0) {
@@ -51,6 +52,6 @@ void func_021C8FF0(u32 a, u32 *b)
         }
         func_0207ADC4(&t.w[6]);
         func_021AC1B8(a, &t);
-        func_02047AC8(h, &t);
+        func_02047AC8((void *)h, (struct Arg *)(&t));
     }
 }

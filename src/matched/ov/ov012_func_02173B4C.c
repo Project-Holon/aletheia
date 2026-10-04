@@ -23,12 +23,12 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_02008468(void);
 extern u8 *func_02012944(void *p);
-extern void func_0203D3A8(u32 a, u32 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 void func_02173B4C(u8 *p)
 {
     u32 link;
     int n;
     link = (u32)func_020399A8();
     n = func_02008468();
-    func_0203D3A8(link, 0x1405, n, (u32)func_02012944(*(void **)(*(u8 **)p + 8)));
+    func_0203D3A8((struct Entry *)link, 0x1405, n, (u32)func_02012944(*(void **)(*(u8 **)p + 8)));
 }

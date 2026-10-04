@@ -45,7 +45,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5E4(void *a0);
-extern u32 func_0215A5CC(u32 a);
+struct BigObj;
+extern u16 func_0215A5CC(void *a0);
 struct BigObj;
 struct Party;
 struct PartyMon;
@@ -54,9 +55,9 @@ struct Sub020079BCEntry;
 struct Sub02008EACObj;
 struct Sub02008F80Obj;
 extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201293C(void *a);
+extern u32 func_0201293C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
-extern int func_021B6850(void *a, u16 b, u16 *c, u16 *d);
+extern int func_021B6850(u32 a, u16 b, u16 *c, u16 *d);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0201AB28(void *p, u32 idx);
@@ -68,7 +69,7 @@ extern void *func_02008F08(int a0);
 extern int func_02009020(void *obj, int v);
 extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
-extern void func_02017E40(void *mon, u32 id, void *v);
+extern void func_02017E40(void *p, u32 id, u32 v);
 extern void func_020307B0(void *p);
 extern u32 func_02017988(void *p, u32 a);
 extern void func_020185C4(void *mon);
@@ -95,17 +96,17 @@ void func_021B6708(u32 a, int idx)
 
     sv = func_0215A5E4((void *)a);
     party = func_02012934((void *)sv);
-    if (func_021B6850(sv, 0x283, &pos[1], &pos[0]) == 0) {
+    if (func_021B6850((u32)sv, 0x283, &pos[1], &pos[0]) == 0) {
         return;
     }
-    heap = func_0215A5CC(a);
-    save = func_0201293C(sv);
+    heap = func_0215A5CC((void *)a);
+    save = (void *)func_0201293C(sv);
     mon = func_02030734(heap, func_020173EC(), 1, (const char *)d_021DE270, 0x4c7);
     sz = func_020173EC();
     func_02082D44(func_0201AB28(party, idx), mon, sz);
     if (func_0202136C(func_02017E1C(mon, 6, 0)) == 1) {
         o = func_02008FEC(sv);
-        buf = func_02008F08(func_0215A5CC(a));
+        buf = func_02008F08(func_0215A5CC((void *)a));
         i = func_02009020(o, 0);
         func_02017E1C(mon, 0xa7, (u32)buf);
         func_02012944(sv);
@@ -113,7 +114,7 @@ void func_021B6708(u32 a, int idx)
             func_0200903C(o, 0, i, buf);
         }
         func_02008EAC(buf);
-        func_02017E40(mon, 0xa7, buf);
+        func_02017E40(mon, 0xa7, (u32)buf);
         func_02017E40(mon, 6, 0);
         func_020307B0(buf);
     }

@@ -36,13 +36,13 @@ extern int func_02013DD0(int v);
 extern u32 func_0201444C(struct Sub02014444Obj *o);
 extern void *func_020127C4(void *p);
 extern u8 *func_020127D0(u8 *o, u32 idx);
-extern void func_0218DC74(void *a, void *b, int c);
+extern int func_0218DC74(u32 a, u32 b, u32 c);
 extern void *func_0218DC70(u8 *p);
-extern void *func_02012844(void *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern void func_021939C0(u8 *o, void *dst, int skip, u32 heap);
 extern void func_02193ABC(char *p, int a, int b);
-extern void *func_02012964(void *p);
-extern void func_02193AFC(void *a, void *b);
+extern u32 func_02012964(const struct BigObj *p);
+extern void func_02193AFC(u8 *p, u32 v);
 
 void func_02189614(void *p, char *q)
 {
@@ -58,9 +58,9 @@ void func_02189614(void *p, char *q)
             m = func_020127C4(*(void **)(q + 8));
         else
             m = func_020127D0(*(void **)(q + 8), 0);
-        func_0218DC74(*(void **)(q + 0x48), m, k);
+        func_0218DC74((u32)(*(void **)(q + 0x48)), (u32)m, k);
         a = func_0218DC70(*(void **)(q + 0x48));
-        func_021939C0(a, func_02012844(p), k, *(u16 *)q);
+        func_021939C0(a, (void *)func_02012844(p), k, *(u16 *)q);
         func_02193ABC(a, *(int *)(q + 0x10), *(u16 *)q);
         func_02193AFC(a, func_02012964(*(void **)(q + 8)));
     }

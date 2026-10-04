@@ -19,11 +19,13 @@
 
 typedef unsigned int u32;
 
-int func_0216D5F8(u32 h);
-void func_0216D4B4(u32 h);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+u16 func_0216D5F8(void *p);
+void func_0216D4B4(char *p);
 void func_0216D5E0(int a0, int a1);
-void func_0216D674(u32 h, int a);
-void func_021A3964(u32 h, int s);
+void func_0216D674(void *p, u16 v);
+void func_021A3964(u8 *p, u32 v);
 
 void func_021A5A34(u32 *p)
 {
@@ -32,10 +34,10 @@ void func_021A5A34(u32 *p)
 
     if (p[0] == 3) {
         h = p[7];
-        v = func_0216D5F8(h);
-        func_0216D4B4(h);
+        v = func_0216D5F8((void *)h);
+        func_0216D4B4((char *)h);
         func_0216D5E0(h, v);
-        func_0216D674(h, 0);
-        func_021A3964(p[5], 0);
+        func_0216D674((void *)h, 0);
+        func_021A3964((u8 *)p[5], 0);
     }
 }

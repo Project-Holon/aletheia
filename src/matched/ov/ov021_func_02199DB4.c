@@ -32,10 +32,10 @@ typedef struct {
 } State;
 extern State *func_0216D6D4(u32);
 extern int func_0219FC68(u32, u16 *, u16 *);
-extern u16 func_0216D598(u32);
+extern u16 func_0216D598(void *p);
 extern void func_020061E4(u32);
 extern void func_0216D8C0(u32, Vec *);
-extern void func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern void func_0216D7CC(u32);
 
 int func_02199DB4(u32 a)
@@ -48,7 +48,7 @@ int func_02199DB4(u32 a)
         return 0;
     p->timer = p->timer + 1;
     v[0] = v[0] - 1;
-    if (func_0216D598(a) == 0xD3) {
+    if (func_0216D598((void *)a) == 0xD3) {
         if (v[1] == 2 && p->last != v[0]) {
             p->last = v[0];
             switch (v[0]) {
@@ -77,7 +77,7 @@ int func_02199DB4(u32 a)
     }
     if (p->pos / 0x8000 < 16)
         return 0;
-    func_0216D674(a, 0);
+    func_0216D674((void *)a, 0);
     func_0216D7CC(a);
     return 1;
 }

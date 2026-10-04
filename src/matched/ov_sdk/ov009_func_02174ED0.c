@@ -42,7 +42,7 @@ struct DWCstBinaryMessage {
 };
 
 extern int func_0216B994(void);
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_02082D44(void *srcp, void *dstp, u32 size);
 extern int func_020949F4(const char *s1, const char *s2, u32 n);
 extern int func_021702A0(u8 command, int srcPid, u32 srcIP, u16 srcPort, u32 *data, int len);
@@ -58,7 +58,7 @@ void func_02174ED0(char *data, int len)
     if (func_0216B994() != 4) {
         if (func_0216B994() != 5)
             return;
-        if (func_02175F3C()->f14 != 2 && func_02175F3C()->f14 != 3)
+        if (((struct DWCstMatchControl *)func_02175F3C())->f14 != 2 && ((struct DWCstMatchControl *)func_02175F3C())->f14 != 3)
             return;
     }
     while (offset + 0x14 <= len) {

@@ -20,12 +20,13 @@ extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int),func_021E31FC(void *),func_021DAA4C(void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3F8(unsigned,unsigned,unsigned,unsigned,void *,int,int,int);
+typedef unsigned int   u32;
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned,unsigned);
 void func_021DAA7C(char *p) {
  if(func_021D8A24(p)) {
-  if(func_0203D3F8((unsigned)func_020399A8(),255,0xc0e,0x2d6,p+16,0,0,1)) {
+  if(func_0203D3F8((unsigned)func_020399A8(),255,0xc0e,0x2d6,(u32)(p+16),0,0,1)) {
    func_02039C68((struct Link *)func_020399A8(),18,8);func_021D8E84(p,(int)func_021DAA4C);
   }
  } else {func_021E31FC(p);func_021D8E84(p,(int)func_021DAA4C);}

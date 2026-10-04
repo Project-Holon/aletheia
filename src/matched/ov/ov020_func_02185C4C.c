@@ -29,7 +29,8 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-int func_020120F4(void *p);
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
 int func_02185C8C(int a0, int *st, int *p);
 
 void *func_02185C4C(void *p, int a1, S7 *a2)
@@ -39,7 +40,7 @@ void *func_02185C4C(void *p, int a1, S7 *a2)
 
     *(S7 *)r4 = *a2;
     r4[7] = (int)p;
-    r4[8] = func_020120F4(p);
+    r4[8] = (int)func_020120F4(p);
     r4[9] = a1;
     return r0v;
 }

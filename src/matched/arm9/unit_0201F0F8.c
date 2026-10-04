@@ -52,8 +52,8 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  sub_02008500(void *a, void *b);
 extern u32   func_02025B94(u32 a);
-extern u32   func_0202A230(u32 a, u32 b);
-extern void  func_0200785C(u32 a, u32 b, void *buf);
+extern u32 func_0202A230(void *a, u32 idx);
+extern void func_0200785C(void *save, u32 box, void *dest);
 
 struct Tag;
 
@@ -82,7 +82,7 @@ void func_0201F0F8(struct WordSet *p, u32 i, u32 v)
 
 void func_0201F104(struct WordSet *p, u32 i, u32 a)
 {
-    func_0201F0F8(p, i, (u8)func_0202A230(a, 1));
+    func_0201F0F8(p, i, (u8)func_0202A230((void *)a, 1));
 }
 
 void func_0201F124(struct WordSet *p, u32 i, u32 v)
@@ -112,7 +112,7 @@ void func_0201F158(struct WordSet *p, u32 i, u32 v)
 
 void func_0201F164(struct WordSet *p, u32 i, u32 a, u32 b)
 {
-    func_0200785C(a, b, p->buf);
+    func_0200785C((void *)a, b, p->buf);
     func_0201ED84(p, i, p->buf, 0);
 }
 

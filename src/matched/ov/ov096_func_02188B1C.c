@@ -18,7 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0201134C(int);
-extern void func_020113B0(int, int);
+struct Cur;
+extern void func_020113B0(struct Cur *c, u32 v);
 
 int func_02188B1C(int a, int b)
 {
@@ -33,7 +34,7 @@ int func_02188B1C(int a, int b)
     do {
         v = p[i] | (p[i + 1] << 16);
         if (*(int *)(b + 0x38) == v) {
-            func_020113B0(a, *(int *)(a + 0x14) + m);
+            func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + m);
             break;
         }
         i += 2;

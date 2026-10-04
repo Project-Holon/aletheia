@@ -28,7 +28,7 @@ extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_0202136C(u16);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B878(int,u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_020275E4(void);
 extern u32 func_02027694(void);
 extern u32 func_02027698(void);
@@ -47,7 +47,7 @@ void func_021E5DFC(char *p, int side, void *mon)
     if (*(int *)(q+0x10)) {
         if (!species) func_0204B3DC((struct Obj *)*(int *)(q+0x10),0);
         else {
-            func_0204B878(*(int *)(q+0x10),flag);
+            func_0204B878((struct Obj *)(*(int *)(q+0x10)),flag);
             func_0204B3DC((struct Obj *)*(int *)(q+0x10),1);
         }
         return;

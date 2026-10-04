@@ -33,7 +33,7 @@ extern u32 func_0207C768(u32 a, u32 b);
 extern int func_0218D934(u32 a, int b, int c);
 extern int func_0218D970(u32 a, int b, int c);
 extern void func_0218DD80(Elem *e, int idx);
-extern void func_0218DD9C(Elem *e, int x, int y, int z);
+extern int func_0218DD9C(u32 a, u32 b, u32 c, u32 d);
 
 static inline s32 FX_Mul(s32 a, s32 b)
 {
@@ -83,7 +83,7 @@ void func_0218D304(char *p, int *v, Elem *e)
             k = col + row * *(u8 *)(p + 0x2c);
             func_0218DD80(e + k, cc + rr * w);
             x = FX_Mul(cc << 12, s);
-            func_0218DD9C(e + k, base + x, 0, base + y);
+            func_0218DD9C((u32)(e + k), base + x, 0, base + y);
         } while (++col < *(u8 *)(p + 0x2c));
     }
 }

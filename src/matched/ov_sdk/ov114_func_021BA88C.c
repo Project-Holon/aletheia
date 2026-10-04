@@ -42,20 +42,20 @@ typedef struct {
 } BgnEnd;
 
 extern BgnEnd *func_021BEF3C(void);
-extern void *func_021BEF40(void *sysInfo_p);
-extern void *func_021BEF48(void *sysInfo_p);
-extern void *func_021BEF58(void *sysInfo_p);
-extern void *func_021BEF50(void *sysInfo_p);
+extern void *func_021BEF40(int p);
+extern void *func_021BEF48(int p);
+extern void *func_021BEF58(int p);
+extern void *func_021BEF50(int p);
 typedef unsigned char  u8;
 extern void func_021BACEC(u8 *p);
 extern void func_021BB3C0(u8 *p);
 extern void func_021BEFA4(u8 *p);
 extern void func_021BEF6C(void);
-extern void *func_021BA820(unsigned long size, int align);
+extern int func_021BA820(int a, int b);
 extern void func_021BA874(BgnEnd *bgnEndInfo_p, int error);
 extern void func_021BEFC8();
 extern int func_021B9B64(void *threadInfo_p, unsigned long priority, unsigned long *stack_p);
-extern void func_021BA850(void *ptr_p);
+extern void func_021BA850(int a);
 
 int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*free)(void *), unsigned long threadprio)
 {
@@ -67,10 +67,10 @@ int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*fr
     unsigned long *stack_p;
 
     bgnEndInfo_p = func_021BEF3C();
-    listInfo_p = func_021BEF40(sysInfo_p);
-    reqInfo_p = func_021BEF48(sysInfo_p);
-    mutexInfo_p = func_021BEF58(sysInfo_p);
-    threadInfo_p = func_021BEF50(sysInfo_p);
+    listInfo_p = func_021BEF40((int)sysInfo_p);
+    reqInfo_p = func_021BEF48((int)sysInfo_p);
+    mutexInfo_p = func_021BEF58((int)sysInfo_p);
+    threadInfo_p = func_021BEF50((int)sysInfo_p);
     bgnEndInfo_p->alloc = alloc;
     bgnEndInfo_p->free = free;
     bgnEndInfo_p->f14 = 0;
@@ -82,7 +82,7 @@ int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*fr
     func_021BEFA4(mutexInfo_p);
     func_021BEF6C();
     bgnEndInfo_p->fc = -1;
-    bgnEndInfo_p->buf = func_021BA820(0x2000, 8);
+    bgnEndInfo_p->buf = (void *)func_021BA820(0x2000, 8);
     stack_p = bgnEndInfo_p->buf;
     if (stack_p == 0) {
         func_021BA874(bgnEndInfo_p, 1);
@@ -94,7 +94,7 @@ int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*fr
         return 1;
     }
     func_021BA874(bgnEndInfo_p, 9);
-    func_021BA850(bgnEndInfo_p->buf);
+    func_021BA850((int)bgnEndInfo_p->buf);
     bgnEndInfo_p->buf = 0;
     func_021BEFC8();
     return 0;

@@ -15,10 +15,10 @@
  *   func_0219F7C4  0x0219F7C4  arm
  */
 
-extern void func_0219F7C4(char *p);
+extern int func_0219F7C4(int *p);
 
 void func_0219F058(char *p)
 {
-    func_0219F7C4(p + 0x60);
+    func_0219F7C4((int *)(p + 0x60));
 }
 

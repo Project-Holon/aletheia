@@ -16,14 +16,15 @@
  */
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
-extern char *func_02026474(void *);
+typedef unsigned int   u32;
+extern u32 func_02026474(void *obj);
 extern int func_0217413C(int, int, unsigned char *);
 int func_0217B80C(int a, int b)
 {
     char *p;
     char *q;
     int result;
-    p = func_02026474((void *)func_02012138((const struct Ctx *)a));
+    p = (char *)func_02026474((void *)func_02012138((const struct Ctx *)a));
     result = 0;
     q = p + 0x3548;
     if (*(int *)(q + 4) != 0 && *(int *)q == 0) result = func_0217413C(a, b, (unsigned char *)p);

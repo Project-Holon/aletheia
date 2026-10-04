@@ -16,8 +16,9 @@
  */
 
 
-extern void func_0201C6EC(int);
-extern void func_0201C4C0(int);
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 
 void func_021C06EC(int unused, char *p)
 {
@@ -26,8 +27,8 @@ void func_021C06EC(int unused, char *p)
     for (i = 0; i < 4; i++) {
         char *e = p + i * 4;
         *(int *)(e + 0x24) = 0;
-        func_0201C6EC(*(int *)(e + 0x34));
-        func_0201C4C0(*(int *)(e + 0x34));
+        func_0201C6EC((struct PrintSys *)(*(int *)(e + 0x34)));
+        func_0201C4C0((struct PrintSys *)(*(int *)(e + 0x34)));
     }
 }
 

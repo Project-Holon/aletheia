@@ -35,14 +35,14 @@ extern const Vec d_02209E10, d_02209DB4;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern u32 func_0201134C(void *);
-extern int func_020515CC(int *, int, void (*)(void), void *);
+extern int func_020515CC(int *p, int a, int b, int c);
 extern void func_02051648(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
 extern int func_02051788(char *p);
 extern u32 func_021FE38C(char *, u32);
 extern int func_021FD1A8(char *, int);
-extern void func_021FD9F0(void);
-extern int func_021FCF2C(void *, int);
-extern void *func_021F8694(void);
+extern void func_021FD9F0(void *p);
+extern int func_021FCF2C(int a, int idx);
+extern int func_021F8694(void);
 extern void func_021FF3F4(void *obj, void *out, int idx);
 extern int _s32_div_f(int, int);
 int func_021FDFA0(void *a, char *s, int mode)
@@ -96,13 +96,13 @@ int func_021FDFA0(void *a, char *s, int mode)
     switch (p[0]) {
     case 0:
     case 1:
-        flags = func_021FCF2C(a, 14);
-        func_021FF3F4(func_021F8694(), &p[1], flags);
+        flags = func_021FCF2C((int)a, 14);
+        func_021FF3F4((void *)func_021F8694(), &p[1], flags);
         break;
     case 2:
     case 3:
-        flags = func_021FCF2C(a, 16);
-        func_021FF3F4(func_021F8694(), &p[1], flags);
+        flags = func_021FCF2C((int)a, 16);
+        func_021FF3F4((void *)func_021F8694(), &p[1], flags);
         break;
     case 4:
     case 5:
@@ -114,7 +114,7 @@ int func_021FDFA0(void *a, char *s, int mode)
     if (flags & 1)
         p[6] = 0x8000;
     p[2] += y;
-    if (func_020515CC(*(int **)(s + 0xc + idx * 4), x, func_021FD9F0, p) == -1)
+    if (func_020515CC(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD9F0, (int)p) == -1)
         func_020307B0(p);
 end:
     return *(int *)(s + 0x23c);

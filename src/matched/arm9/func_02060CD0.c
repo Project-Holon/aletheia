@@ -75,8 +75,8 @@ struct Region {
 
 extern void sub_02060764(struct Region *rgn, struct MBlockHead *block);
 extern struct MBlockHead *sub_02060790(struct MBlockList *list, struct MBlockHead *block);
-extern struct MBlockHead *sub_020607E8(struct Region *rgn, u16 signature);
-extern void sub_020607B8(struct MBlockList *list, struct MBlockHead *block, struct MBlockHead *prev);
+extern void *sub_020607E8(int *p, int v);
+extern void *sub_020607B8(int *p, void *node, int *a);
 extern s32 sub_02060B6C(struct ExpHeapHead *heap, struct Region *rgn);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
@@ -123,7 +123,7 @@ u32 func_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
         }
         pMBHead->blockSize = rgnFree.start - (u32)memBlock;
         if (rgnFree.end - rgnFree.start >= 0x10) {
-            sub_020607B8(&pEHHead->freeList, sub_020607E8(&rgnFree, 0x4652), pMBlkFrPrev);
+            sub_020607B8((int *)(&pEHHead->freeList), sub_020607E8((int *)(&rgnFree), 0x4652), (int *)pMBlkFrPrev);
         }
         attr = (u8)heap->attribute;
         fillSize = rgnFree.start - oldStart;

@@ -28,10 +28,12 @@ typedef unsigned int u32;
 extern u32 func_021CE760(void *p);
 extern void func_021CE81C(u32 *p);
 extern int func_021909BC(u32 a);
-extern void func_02045808(u32 h);
+struct U16Vec;
+struct WordSet;
+extern void func_02045808(struct U16Vec *vec);
 extern int func_02190E40(u32 a);
 extern void func_021904C8(u32 h);
-extern void func_0201ED04(u32 h);
+extern void func_0201ED04(struct WordSet *p);
 extern int func_0203CD98(void);
 extern void func_021CF17C(void);
 extern void func_020307B0(void *p);
@@ -46,14 +48,14 @@ u32 func_021CD5A4(u32 *p)
         func_021909BC(p[0x4c]);
         p[0x4c] = 0;
     }
-    func_02045808(p[10]);
-    func_02045808(p[9]);
-    func_02045808(p[8]);
-    func_02045808(p[7]);
-    func_02045808(p[6]);
+    func_02045808((struct U16Vec *)p[10]);
+    func_02045808((struct U16Vec *)p[9]);
+    func_02045808((struct U16Vec *)p[8]);
+    func_02045808((struct U16Vec *)p[7]);
+    func_02045808((struct U16Vec *)p[6]);
     func_02190E40(p[5]);
     func_021904C8(p[2]);
-    func_0201ED04(p[1]);
+    func_0201ED04((struct WordSet *)p[1]);
     if (func_0203CD98() == 1) {
         func_021CF17C();
     }

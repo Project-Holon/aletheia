@@ -12,9 +12,9 @@
  *   func_02158A90  0x02158A90  thumb
  */
 
-void func_02158A90(int a, int b, int c, int d);
+int func_02158A90(void *a, int unused, int key, int d);
 
 void func_02158AD4(int a, int b)
 {
-    func_02158A90(a, b, 3, 1);
+    func_02158A90((void *)a, b, 3, 1);
 }

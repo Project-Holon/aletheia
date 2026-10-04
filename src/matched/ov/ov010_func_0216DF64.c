@@ -22,22 +22,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D4F4(u32 b);
+extern u16 func_0216D4F4(void *p);
 extern u16 func_0216D5A0(void *p);
 extern u16 func_0216D588(void *p);
-extern int func_0216D514(u32 b);
+extern u32 func_0216D514(void *p);
 extern void func_0216D3A8(u32 a, u32 b);
 extern int func_02030DA8(int owner, int fn, int arg, int n);
 
 void func_0216DF64(u8 *o, u32 b)
 {
     int d = 0;
-    int base = func_0216D4F4(b);
+    int base = func_0216D4F4((void *)b);
     int t = func_0216D5A0(o);
 
     if (t == 0x30 || t == 0x32)
         d = 1;
     else if (func_0216D588(o) == 0xff)
         d--;
-    *(int *)(o + 0x84) = func_02030DA8(func_0216D514(b), (int)func_0216D3A8, (int)o, base + d);
+    *(int *)(o + 0x84) = func_02030DA8(func_0216D514((void *)b), (int)func_0216D3A8, (int)o, base + d);
 }

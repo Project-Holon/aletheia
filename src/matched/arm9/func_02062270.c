@@ -85,7 +85,8 @@ extern u32 g_02146B98;
 extern u32 g_02146B9C;
 extern const struct Rgns g_020A17A8;
 extern void func_02061DF0(u32 *head);
-extern u32 func_02061DFC(u32 arr, u32 count);
+struct Node02061DFC;
+extern struct Node02061DFC *func_02061DFC(struct Node02061DFC *arr, u32 count);
 extern u32 func_02061E48(u32 *head, u32 *pool, u32 addr, u32 size);
 extern void func_02061FF8(u32 *head, u32 *pool);
 void func_02062270(void)
@@ -135,7 +136,7 @@ void func_02062270(void)
 
     func_02061DF0(&g_02146B94);
     func_02061DF0(&g_02146B98);
-    g_02146B94_blk.pool = func_02061DFC(g_02146B94_blk.f14, g_02146B94_blk.f18 >> 4);
+    g_02146B94_blk.pool = (u32)func_02061DFC((struct Node02061DFC *)g_02146B94_blk.f14, g_02146B94_blk.f18 >> 4);
 
     if (t.r[0].acc8 != 0)
         func_02061E48(&g_02146B98, &g_02146B9C, 0, t.r[0].acc8);

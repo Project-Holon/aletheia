@@ -19,9 +19,12 @@
 typedef unsigned short u16;
 
 extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);
-extern int func_02045B38(int, int, int, int);
-extern int func_02045EC0(int, int);
-extern void func_02045C04(int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct Rec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
 extern int d_021BEC8C[];
 
 int func_021BBD98(int a, int unused, int idx)
@@ -30,11 +33,11 @@ int func_021BBD98(int a, int unused, int idx)
     int h;
     if (idx >= 0x10 && idx <= 0x13) {
         r = func_02017E1C((void *)*(int *)(a + 0x38), idx + 0x26, 0);
-        h = func_02045B38(0, 2, 0xcb, *(u16 *)a);
-        r = func_02045EC0(h, r);
-        func_02045C04(h);
+        h = (int)func_02045B38(0, 2, 0xcb, *(u16 *)a);
+        r = (int)func_02045EC0((struct MsgBank *)h, r);
+        func_02045C04((struct Rec *)h);
     } else {
-        r = func_02045EC0(*(int *)(a + 0x134), d_021BEC8C[idx]);
+        r = (int)func_02045EC0((struct MsgBank *)(*(int *)(a + 0x134)), d_021BEC8C[idx]);
     }
     return r;
 }

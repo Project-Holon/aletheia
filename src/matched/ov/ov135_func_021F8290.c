@@ -29,7 +29,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045808(struct U16Vec *vec);
-extern int func_021F91A0(void *, void *, u32, u32, u32, u16, void *);
+extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 extern void func_021F7F9C(void *, void *, u32, u32, u32, u16, void *);
 extern void func_021F8098(void *, void *, int, int, u32, int, u16, void *);
 extern void func_021F8154(void *, void *, int, u32, u32, u16, int, void *);
@@ -39,7 +39,7 @@ void func_021F8290(void *bank, void *names, int unused, u8 *win, u32 index, int 
     void *str;
     int show = 1;
     str = func_02045EC0(bank, 0x6b);
-    func_021F91A0(*(void **)win, str, 0, 0, 0, 0x440, g);
+    func_021F91A0(*(void **)win, (u32)str, 0, 0, 0, 0x440, (u32)g);
     for (i = 1; i < 3; i++)
         func_02043B5C(func_02045770(*(void **)(win + i * 4)), 0);
     func_021F7F9C(*(void **)(win + 4), names, index, 0, 0, 0x440, g);

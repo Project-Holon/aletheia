@@ -94,16 +94,19 @@ typedef struct Work {
     int timer;
 } Work;
 
-extern u32 func_021F745C(u32 a, u32 b, u16 c);
+struct L;
+struct MsgBank;
+struct Rec;
+extern void *func_021F745C(u8 *p, int a, u16 heap);
 extern void func_021F7544(u32 a, u32 b, u16 c);
-extern void func_020307B0(u32 a);
-extern void func_021EB028(u32 a);
+extern void func_020307B0(void *p);
+extern void func_021EB028(u8 *p);
 extern void func_021E95B4(u32 a);
-extern u32 func_02045B38(int a, int b, int c, u16 d);
-extern void func_021EB32C(u32 a, int b);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_021EB32C(u8 *p, u32 flag);
 extern int func_021EB52C(u32 a);
 extern u8 *func_021E9634(Obj *p, u32 k);
-extern void func_021EAF18(void *msg, int a, int id);
+extern void func_021EAF18(struct L *p, int kind, u16 id);
 extern u8 func_021D5440(u8 *p);
 extern void func_021EAF50(void *msg, int v);
 extern void func_021EAF78(void *msg, u8 v);
@@ -117,9 +120,9 @@ extern void func_021EA6F4(void *p, u8 b, u16 c);
 extern void func_021E9624(u32 a);
 extern int func_021EA710(Obj *p);
 extern int func_021E95F4(u32 a);
-extern u32 func_0201BD28(int a, int b);
-extern void func_021ED118(u32 p, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u8 a7);
-extern int func_021ED1B0(u32 a);
+extern u32 func_0201BD28(u16 id, u32 field);
+extern void func_021ED118(u8 *p, int a, int b, u16 c, u32 d, int e, u8 f);
+extern int func_021ED1B0(char *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_0209C0A4(int a, int b);
 extern void func_021F80FC(int a, int b);
@@ -128,42 +131,42 @@ extern void func_021EAF00(Obj *p, u32 v);
 extern int func_021ED250(u32 a);
 extern void func_021EA7C8(Obj *p, int v);
 extern int func_021EA7E8(Obj *p, int v);
-extern void func_02045CAC(u32 heap, int a, u32 b);
-extern void func_021EA730(Obj *p, u32 a, int b, int c);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 extern int func_021E9614(u32 a);
-extern void func_021E9D04(Obj *p, int a, int b, int c, int d, int e);
+extern void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d);
 extern int func_021E9E80(Obj *p);
 extern int func_021F7EB4(void);
-extern void func_021F7CFC(int a, int b, int c, int d, int e);
+extern void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
 extern int func_021EA720(Obj *p);
 extern void func_02005D90(u32 a, u32 b);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
-extern void func_02045C04(u32 heap);
+extern void func_02045C04(struct Rec *rec);
 
 int func_021E91E8(Obj *p, int *state, Work *w)
 {
     switch (*state) {
     case 0: {
-        u32 h = func_021F745C(p->x0, p->x17C, p->h184);
+        u32 h = (u32)func_021F745C((u8 *)p->x0, p->x17C, p->h184);
         func_021F7544(h, p->xB4, p->h184);
-        func_020307B0(h);
-        func_021EB028(p->x17C);
+        func_020307B0((void *)h);
+        func_021EB028((u8 *)p->x17C);
         func_021E95B4(p->x180);
-        w->heap = func_02045B38(0, 2, 0x14, p->h184);
+        w->heap = (u32)func_02045B38(0, 2, 0x14, p->h184);
         w->timer = 0;
         (*state)++;
         break;
     }
     case 1:
-        func_021EB32C(p->x17C, 0);
+        func_021EB32C((u8 *)p->x17C, 0);
         (*state)++;
         break;
     case 2:
         if (func_021EB52C(p->x17C)) {
             u8 msg[0x24];
             u8 *v = func_021E9634(p, 0);
-            func_021EAF18(msg, 1, 0x45);
+            func_021EAF18((struct L *)msg, 1, 0x45);
             func_021EAF50(msg, func_021D5440(v));
             func_021EAF78(msg, 0);
             func_021EA65C(p, msg);
@@ -194,12 +197,12 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 6:
         if (func_021EA710(p) && func_021E95F4(p->x180)) {
-            func_021ED118(p->x17C, 0, 1, 1, func_0201BD28(1, 0x1B), 0, 0);
+            func_021ED118((u8 *)p->x17C, 0, 1, 1, func_0201BD28(1, 0x1B), 0, 0);
             (*state)++;
         }
         break;
     case 7:
-        if (func_021ED1B0(p->x17C)) {
+        if (func_021ED1B0((char *)p->x17C)) {
             func_021F80FC(1, func_0209C0A4(func_021D59B4(func_021E9634(p, 1), 0xE), 6));
             func_021F7C2C(1, 1);
             func_021EAF00(p, 0x564);
@@ -214,12 +217,12 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 9:
         if (func_021EA710(p)) {
-            func_021ED118(p->x17C, 1, 0, 0x2B, func_0201BD28(0x2B, 0x1B), 0, 0);
+            func_021ED118((u8 *)p->x17C, 1, 0, 0x2B, func_0201BD28(0x2B, 0x1B), 0, 0);
             (*state)++;
         }
         break;
     case 10:
-        if (func_021ED1B0(p->x17C)) {
+        if (func_021ED1B0((char *)p->x17C)) {
             func_021EA7C8(p, 0);
             (*state)++;
         }
@@ -228,7 +231,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         if (func_021EA7E8(p, 0)) {
             u8 msg[0x24];
             u8 *v = func_021E9634(p, 0);
-            func_021EAF18(msg, 2, 0x5D);
+            func_021EAF18((struct L *)msg, 2, 0x5D);
             func_021EAF50(msg, func_021D5440(v));
             func_021EAF78(msg, 0);
             func_021EA614(p, msg);
@@ -237,8 +240,8 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 12:
         if (func_021EA710(p)) {
-            func_02045CAC(w->heap, 0, p->xAC);
-            func_021EA730(p, p->xAC, 0, 0);
+            func_02045CAC((struct MsgBank *)w->heap, 0, (void *)p->xAC);
+            func_021EA730((char *)p, p->xAC, 0, 0);
             w->timer = 0x3C;
             (*state)++;
         }
@@ -251,14 +254,14 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 14:
         if (func_021E9614(p->x180)) {
-            func_021E9D04(p, 2, 0, 0, 1, 0);
+            func_021E9D04((u8 *)p, 2, 0, 0, 1, 0);
             (*state)++;
         }
         break;
     case 15:
         if (func_021E9E80(p)) {
-            func_02045CAC(w->heap, 1, p->xAC);
-            func_021EA730(p, p->xAC, 0, 0);
+            func_02045CAC((struct MsgBank *)w->heap, 1, (void *)p->xAC);
+            func_021EA730((char *)p, p->xAC, 0, 0);
             func_021E9624(p->x180);
             (*state)++;
         }
@@ -273,7 +276,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         if (!func_021F7EB4()) {
             u8 msg[0x24];
             u8 *v = func_021E9634(p, 1);
-            func_021EAF18(msg, 1, 0x41);
+            func_021EAF18((struct L *)msg, 1, 0x41);
             func_021EAF50(msg, func_021D5440(v));
             func_021EA614(p, msg);
             (*state)++;
@@ -290,7 +293,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 19:
         if (!func_02005F38()) {
             func_021F7C0C();
-            func_02045C04(w->heap);
+            func_02045C04((struct Rec *)w->heap);
             (*state)++;
         }
         break;

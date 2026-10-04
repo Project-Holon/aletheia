@@ -52,18 +52,20 @@
 typedef void (*Fn)(void);
 typedef unsigned int u32;
 
-extern void func_02050A58(void);
-extern void func_02050A00(void);
-extern void func_020509E8(void);
-extern void func_020509E0(void);
+struct Cmd;
+struct Ent;
+extern int func_02050A58(struct Ent *e, struct Cmd *c);
+extern int func_02050A00(struct Ent *e, struct Cmd *c);
+extern int func_020509E8(void *p, void *q);
+extern int func_020509E0(void);
 
 Fn func_02050984(u32 id)
 {
     switch (id) {
-    case 0x3FFF: return func_020509E0;
-    case 0x3FFE: return func_020509E8;
-    case 0x3FFD: return func_02050A00;
-    case 0x3FFC: return func_02050A58;
+    case 0x3FFF: return (Fn)func_020509E0;
+    case 0x3FFE: return (Fn)func_020509E8;
+    case 0x3FFD: return (Fn)func_02050A00;
+    case 0x3FFC: return (Fn)func_02050A58;
     }
     return 0;
 }

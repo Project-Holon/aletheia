@@ -19,14 +19,14 @@ extern void func_021E8A80(int);
 extern void func_0217E074(int);
 extern void func_021E7E08(int);
 extern int func_021E64C0(unsigned char *, void *);
-extern void func_021E7774(int, int);
-extern void func_021E84F8(int, int);
+extern int func_021E7774(void *p, void *mgr);
+extern int func_021E84F8(char *p, void *q);
 void func_0217BAF4(int *p)
 {
     func_021E8A80(p[0]);
     func_0217E074(p[3]);
     func_021E7E08(p[7]);
     if (p[4]) func_021E64C0((unsigned char *)p[4], (void *)p[0x6B]);
-    if (p[5]) func_021E7774(p[5], p[0x6B]);
-    if (p[6]) func_021E84F8(p[6], p[0x6B]);
+    if (p[5]) func_021E7774((void *)p[5], (void *)p[0x6B]);
+    if (p[6]) func_021E84F8((char *)p[6], (void *)p[0x6B]);
 }

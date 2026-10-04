@@ -27,7 +27,8 @@ extern void func_02183D1C(char *);
 extern void func_02183FA0(char *);
 extern void func_021841F4(char *);
 extern void func_0218441C(char *);
-extern void func_02030D28(int);
+struct Ctx;
+extern void func_02030D28(struct Ctx *c);
 
 int func_02183CCC(int a, int b, int c, char *p)
 {
@@ -37,6 +38,6 @@ int func_02183CCC(int a, int b, int c, char *p)
     func_02183FA0(p);
     func_021841F4(p + 0xE4);
     func_0218441C(p + 0xF8);
-    func_02030D28(*(int *)(p + 0x144));
+    func_02030D28((struct Ctx *)(*(int *)(p + 0x144)));
     return 0;
 }

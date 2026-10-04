@@ -42,9 +42,10 @@ typedef unsigned int  u32;
 
 extern void *func_02074388(int index);
 extern u32   func_0207466C(u32 a);
-extern void *func_02075B54(u32 a, u32 b);
-extern u32   func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, void *s0, u32 s1,
-                           u32 s2, u32 s3);
+struct Entry;
+struct Table;
+extern struct Entry *func_02075B54(struct Table *t, int idx);
+extern u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3);
 
 u32 func_02075618(u32 a, u32 b, u32 c)
 {
@@ -62,10 +63,10 @@ u32 func_02075618(u32 a, u32 b, u32 c)
         return 0;
     }
 
-    st = (u8 *)func_02075B54(q, c);
+    st = (u8 *)func_02075B54((struct Table *)q, c);
     if (st == 0) {
         return 0;
     }
 
-    return func_02075794(a, st[9], *(u16 *)(st + 4), st[8], st, q, b, c);
+    return func_02075794(a, st[9], *(u16 *)(st + 4), st[8], st, (u8 *)q, b, c);
 }

@@ -38,7 +38,8 @@ typedef struct {
 
 extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadOBJ(const void *src, u32 offset, u32 size);
-extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_020307B0(void *p);
 
 void func_021F6754(Work *p)
@@ -51,7 +52,7 @@ void func_021F6754(Work *p)
         if (e->spr != 0) {
             DC_FlushRange(e->pixels, 0x200);
             GX_LoadOBJ(e->pixels, e->vram, 0x200);
-            func_0204B6F4(e->spr, (u8)e->pal, 1);
+            func_0204B6F4((struct Obj *)e->spr, (u8)e->pal, 1);
         }
     }
     func_020307B0(p->icons);

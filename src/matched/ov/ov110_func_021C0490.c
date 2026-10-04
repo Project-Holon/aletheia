@@ -38,7 +38,7 @@ extern void func_0204B84C(void *,u32);
 struct Obj;
 struct R;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_021C060C(u8 *,u16,void *,void *,void *);
+extern void func_021C060C(u8 *p, u16 heap, u32 font, void *print, void *bank);
 extern void func_021C09E0(u8 *);
 extern void *func_021C0A54(int,void *,int);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
@@ -70,7 +70,7 @@ void func_021C0490(u8 *p)
     *(int *)(p+8)=func_021B629C(p+12,resource,240,16,16,*(u16 *)(p+4));
     func_0204B84C(*(void **)(p+8),1);
     func_0204B92C(*(void **)(p+8),1);
-    func_021C060C(p+0x24,*(u16 *)(p+4),*(void **)(p+0x58),*(void **)(p+0x5c),*(void **)(p+0x60));
+    func_021C060C(p+0x24,*(u16 *)(p+4),(u32)(*(void **)(p+0x58)),*(void **)(p+0x5c),*(void **)(p+0x60));
     func_021C09E0(p+0x24);
     p[0x44]=0;
     *(int *)(p+0x40)=0;

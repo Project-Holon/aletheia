@@ -22,7 +22,9 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int func_0203F768(int,int,int,int,int,int,int);
-extern u8 *func_021BA184(void *),*func_021BA208(u8 *),*func_021BA20C(u8 *);
+extern u8 * func_021BA184(void *);
+extern u32 func_021BA208(u8 *p);
+extern u32 func_021BA20C(u8 *p);
 extern int func_021BA25C(u8 *,int,int);
 extern void func_021B765C(u8 *,u16,s16,int,u16),func_020061E4(u32);
 void func_021B7CFC(u8 *p,s16 unused_x,s16 unused_y)
@@ -38,12 +40,12 @@ void func_021B7CFC(u8 *p,s16 unused_x,s16 unused_y)
         if(*(int *)(p+0x14)==1)*(u16 *)(p+0x182e)=0;
         *(u16 *)(p+0x1830)=0;*(u8 **)(p+0x38)=0;
         while(e){
-            data=func_021BA20C(e);
+            data=(u8 *)func_021BA20C(e);
             if(func_021BA25C(e,*(int *)(p+0x1c),*(int *)(p+0x20))==1){
                 hit=1;
                 if(*(int *)(data+12)==0){*(u8 **)(p+0x38)=e;*(int *)(p+0x3c)=1;e=0;}
             }
-            if(*(u8 **)(p+0x38)==0)e=func_021BA208(e);
+            if(*(u8 **)(p+0x38)==0)e=(u8 *)func_021BA208(e);
         }
         if(*(int *)(p+0x14)==1 && hit==1 && *(u8 **)(p+0x38)==0){*(int *)(p+0x3c)=1;func_020061E4(0x557);}
     }

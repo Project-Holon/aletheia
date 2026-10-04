@@ -26,7 +26,7 @@ extern void func_0204ADA4(u32 i);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0202570C(struct Grid *g);
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_0204A8D4(void *);
+extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_02082BCC(unsigned char *,unsigned,unsigned);
@@ -38,7 +38,7 @@ void func_021F42A0(unsigned char *p) {
         func_020437AC(*(void **)(p+0x30));
     }
     func_0204ADA4(*(int *)(p+8));
-    func_0204A8D4(*(void **)(p+12));
+    func_0204A8D4((u32)(*(void **)(p+12)));
     func_0204AFD8(*(int *)(p+16));
     func_0204B3B4(*(void **)p);
     func_02082BCC(p,0,0x3c);

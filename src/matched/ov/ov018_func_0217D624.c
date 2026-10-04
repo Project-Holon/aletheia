@@ -61,7 +61,7 @@ extern void *func_02025538(unsigned int a0, void *a1);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern int func_0201C440();
+extern u32 func_0201C440(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern unsigned char d_021836B4[];
@@ -78,7 +78,7 @@ void func_0217D624(struct State *o)
     o->tcbl = func_0203101C(0x70, 0x70, 4, 0x20);
     o->font = func_0201D7EC(0x17, 0, 0, 0, 0x70);
     o->words = func_0201EC64(0x70);
-    o->unk28 = func_0201C440(0x70);
+    o->unk28 = func_0201C440((void *)0x70);
     o->msg2C = func_02045B38(0, 2, 0x2D, 0x70);
     o->msg30 = func_02045B38(0, 2, 0x42, 0x70);
     o->str38 = func_020457B0(0x80, 0x70);

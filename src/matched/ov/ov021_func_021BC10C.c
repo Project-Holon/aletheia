@@ -27,12 +27,12 @@ typedef struct {
     char f2C[1];
 } Obj;
 
-extern int func_0216E1C4(void *a, void *b);
+extern int func_0216E1C4(int a0, int a1);
 extern void func_021BC138(u16 id, Obj *p);
 
 void func_021BC10C(int a0, Obj *p)
 {
-    if (func_0216E1C4(p->f1C, p->f2C) == 1 && p->b10 != 0 && p->h2A != 0xFFFF) {
+    if (func_0216E1C4((int)p->f1C, (int)p->f2C) == 1 && p->b10 != 0 && p->h2A != 0xFFFF) {
         func_021BC138(p->h2A, p);
     }
 }

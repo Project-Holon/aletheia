@@ -39,21 +39,24 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020124F0(int a);
-extern char **func_020124E8(int a);
-extern int func_020124E4(int a);
-extern int func_020120F4(int a);
-extern int func_02012944(int a);
+struct Ctx;
+struct Obj;
+struct Sub0200852CObj;
+extern void *func_020124F0(struct Obj *p);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
 struct Bmp;
 struct Ctx;
 struct Obj020437AC;
 extern void *func_0201210C(const struct Ctx *p);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
-extern void func_021C2BE4(char *p, char *a1, char *a2, u32 chrFile, u32 plttFile);
+extern void func_021C2BE4(struct Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile);
 extern void func_021C2F84(int s, char *p, char *a1, char *a2, u32 c, u32 d);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_020307B0(void *p);
-extern int func_02008550(int s);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02046BE0(u32 a, u32 b);
 
 extern char d_021DE3E4[];
@@ -75,16 +78,16 @@ int func_021C2D68(int a, int *b)
     u32 x;
     u32 y;
 
-    pp = func_020124E8(func_020124F0(a));
-    t = func_020124E4(a);
-    s = func_02012944(func_020120F4(t));
+    pp = func_020124E8(func_020124F0((struct Obj *)a));
+    t = (int)func_020124E4((struct Obj *)a);
+    s = (int)func_02012944(func_020120F4((const struct Ctx *)t));
     p = *pp;
     func_0201210C((void *)t);
     q = (u32 *)(p + 0x9c);
     switch (*b) {
     case 0:
         *(void **)(p + 0x90) = func_02043678(16, 16, 32, *(u16 *)(p + 0x10));
-        func_021C2BE4(p, d_021DE3E4, d_021DE3F4, q[1], q[2]);
+        func_021C2BE4((struct Obj *)p, (u32)d_021DE3E4, (u32)d_021DE3F4, q[1], q[2]);
         (*b)++;
         break;
     case 1:
@@ -100,14 +103,14 @@ int func_021C2D68(int a, int *b)
             break;
         }
         *(void **)(p + 0x90) = func_02043678(16, 16, 32, *(u16 *)(p + 0x10));
-        if (func_02008550(s) == 0) {
+        if (func_02008550((const struct Sub0200852CObj *)s) == 0) {
             x = 0;
             y = 0x16;
         } else {
             x = 1;
             y = 0x17;
         }
-        func_021C2BE4(p, d_021DE418, d_021DE428, x, y);
+        func_021C2BE4((struct Obj *)p, (u32)d_021DE418, (u32)d_021DE428, x, y);
         (*b)++;
         break;
     case 3:

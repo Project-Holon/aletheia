@@ -14,12 +14,13 @@
  *   func_021A2120  0x021A2120  thumb  ov021
  */
 
-void func_021A231C(int a0, int a1);
-void func_021A2120(int a0, int a1);
+typedef unsigned int   u32;
+void func_021A231C(u32 *p, int x);
+void func_021A2120(u32 *p, int x);
 
 int func_021EEA64(int a0, int a1)
 {
-    func_021A231C(a0, a1);
-    func_021A2120(a0, a1);
+    func_021A231C((u32 *)a0, a1);
+    func_021A2120((u32 *)a0, a1);
     return 1;
 }

@@ -13,9 +13,10 @@
  *   func_021BB724  0x021BB724  thumb  ov093
  */
 
-void func_021BB724(int, int, int, int);
+typedef unsigned char  u8;
+void func_021BB724(u8 *p, int a, int b, int c);
 
 void func_021BB718(int a, int b)
 {
-    func_021BB724(a, b, 0, 0);
+    func_021BB724((u8 *)a, b, 0, 0);
 }

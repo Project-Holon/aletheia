@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern void func_0218F19C(u32 a, void *b);
 extern void func_0218F18C(u32 a, void *b);
 extern void func_0207CA00(void *a, void *b, void *c);
-extern void func_0218ED5C(void *a, void *b, void *c, void *d);
+extern int func_0218ED5C(u32 a, u32 b, u32 c, u32 d);
 extern void func_0218ECC4(u32 a, void *b);
 
 void func_021900C4(u32 a, u8 *b)
@@ -37,7 +37,7 @@ void func_021900C4(u32 a, u8 *b)
     func_0218F19C(a, v0);
     func_0218F18C(a, v1);
     func_0207CA00(v0, v1, v2);
-    func_0218ED5C(v2, b, b + 2, b + 4);
+    func_0218ED5C((u32)v2, (u32)b, (u32)(b + 2), (u32)(b + 4));
     func_0218F18C(a, b + 8);
     func_0218ECC4(a, b + 0x14);
 }

@@ -22,26 +22,28 @@
  * Empty 5DA8 still receives both visibly loaded arguments.
  */
 typedef unsigned int u32;
-extern void func_021F67B0(u32);
+struct Node;
+struct PrintSys;
+extern void func_021F67B0(char *p);
 extern void func_021F62C8(u32,char *);
-extern void func_021F6114(u32,char *);
-extern void func_021F5E38(u32,char *);
+extern void func_021F6114(void *unused, char *p);
+extern void func_021F5E38(void *unused, char *p);
 extern void func_021F5DA8(u32,char *);
-extern void func_02030EAC(u32);
-extern void func_0201C6EC(u32);
-extern void func_0201C4C0(u32);
-extern void func_0201D83C(u32);
-extern void func_021F6474(u32);
+extern void func_02030EAC(struct Node *n);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201D83C(void *ptr);
+extern void func_021F6474(char *p);
 void func_021F5CFC(u32 a,char *p)
 {
-    func_021F67B0(*(u32 *)(p+128));
+    func_021F67B0((char *)(*(u32 *)(p+128)));
     func_021F62C8(a,p);
-    func_021F6114(a,p);
-    func_021F5E38(a,p);
+    func_021F6114((void *)a,p);
+    func_021F5E38((void *)a,p);
     func_021F5DA8(a,p);
-    func_02030EAC(*(u32 *)(p+40));
-    func_0201C6EC(*(u32 *)(p+12));
-    func_0201C4C0(*(u32 *)(p+12));
-    func_0201D83C(*(u32 *)(p+8));
-    func_021F6474(*(u32 *)(p+4));
+    func_02030EAC((struct Node *)(*(u32 *)(p+40)));
+    func_0201C6EC((struct PrintSys *)(*(u32 *)(p+12)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p+12)));
+    func_0201D83C((void *)(*(u32 *)(p+8)));
+    func_021F6474((char *)(*(u32 *)(p+4)));
 }

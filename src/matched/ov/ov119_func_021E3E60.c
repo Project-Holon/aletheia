@@ -24,9 +24,11 @@ typedef unsigned short u16;
 
 extern int d_021E7CC8;
 extern int d_021E7D40;
-extern void func_0204A48C(void *, void *, int);
+typedef unsigned int   u32;
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 
 void func_021E3E60(void *p)
 {
-    func_0204A48C(&d_021E7CC8, &d_021E7D40, *(u16 *)((char *)p + 0x5f4));
+    func_0204A48C((const struct Cfg *)(&d_021E7CC8), (u32)(&d_021E7D40), *(u16 *)((char *)p + 0x5f4));
 }

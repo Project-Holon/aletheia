@@ -30,13 +30,15 @@
  *   d_021F3272     0x021F3272  data  a2
  */
 
-extern int func_020120F4(int);
+struct Bank;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012944(int);
 extern int func_02008550(int);
 extern int func_020090F0(int);
 extern int func_0204B100(int, int, int);
 extern void *func_0204B034(void *a0, unsigned int a1, unsigned int heap);
-extern void func_0204B258(int, void *);
+extern void func_0204B258(struct Bank *bank, void *p);
 extern void func_021F1458(void *, int, int, int);
 typedef unsigned char  u8;
 extern void func_021F1574(char *p, int idx);
@@ -55,12 +57,12 @@ void func_021F1DE8(char *p, int flag)
 {
     int z;
 
-    *(unsigned char *)(p + 0x459) = func_02008550(func_02012944(func_020120F4(*(int *)(p + 0x1c))));
+    *(unsigned char *)(p + 0x459) = func_02008550(func_02012944((int)func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
     *(unsigned char *)(p + 0x458) = func_020090F0(*(int *)(p + 0x20));
     z = 0;
     *(int *)(p + 0x34) = func_0204B100(0x44, 0, *(unsigned short *)(p + 0xc));
     *(void **)(p + 0x38) = func_0204B034(d_021F3214, 1, *(unsigned short *)(p + 0xc));
-    func_0204B258(*(int *)(p + 0x34), *(void **)(p + 0x38));
+    func_0204B258((struct Bank *)(*(int *)(p + 0x34)), *(void **)(p + 0x38));
     func_021F1458(p, *(unsigned char *)(p + 0x459), *(unsigned char *)(p + 0x458), 1);
     func_021F1574(p, *(unsigned char *)(p + 0x459));
     func_021F1950(p);

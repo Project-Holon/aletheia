@@ -42,7 +42,7 @@ extern void func_021D0AB0(int x);
 extern void func_021BD060(int a, int b, int c);
 extern int  func_021D5368(int a, int b);
 extern void func_021BD4C8(int a, int b, int c, int d);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern struct G g_021DE5A8;
 extern u16 d_021DA4D0[][4];
 extern u16 d_021DA4D2[][4];
@@ -68,5 +68,5 @@ void func_021C2A3C(void)
     i = g_021DE5A8.f0;
     func_021BD4C8(d_021DA4D0[i][0], d_021DA4D4[i][0],
                   d_021DA4D2[i][0], d_021DA4D6[i][0]);
-    func_021C0E40(func_021C2C94);
+    func_021C0E40((unsigned int)func_021C2C94);
 }

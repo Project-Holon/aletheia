@@ -48,13 +48,16 @@ typedef struct Obj {
 } Obj;
 
 extern void func_020307B0(void *a);
-extern void func_02194798(u32 a);
-extern void func_02031140(u32 a);
+struct PrintSys;
+struct S02031140;
+struct U16Vec;
+extern void func_02194798(unsigned char *a);
+extern void func_02031140(struct S02031140 *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u8 a);
-extern void func_02045808(u32 a);
-extern void func_0201C4C0(u32 a);
-extern void func_0201D83C(u32 a);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201D83C(void *ptr);
 
 void func_021902BC(Obj *o)
 {
@@ -68,10 +71,10 @@ void func_021902BC(Obj *o)
         func_020307B0((void *)((u32 *)o)[0x5d]);
     }
     if (((u32 *)o)[0x57] != 0) {
-        func_02194798(((u32 *)o)[0x57]);
+        func_02194798((unsigned char *)(((u32 *)o)[0x57]));
     }
     if (((u32 *)o)[0x59] != 0) {
-        func_02031140(((u32 *)o)[0x59]);
+        func_02031140((struct S02031140 *)(((u32 *)o)[0x59]));
     }
     if (o->f02 != 0xff) {
         func_02040DA8(o->f02, 1, 0);
@@ -82,16 +85,16 @@ void func_021902BC(Obj *o)
     }
     do {
         if (s->f18 != 0) {
-            func_02045808(s->f18);
+            func_02045808((struct U16Vec *)s->f18);
         }
         i++;
         s++;
     } while (i < 4);
     if (o->f0c != 0) {
-        func_0201C4C0(o->f0c);
+        func_0201C4C0((struct PrintSys *)o->f0c);
     }
     if (o->f08 != 0) {
-        func_0201D83C(o->f08);
+        func_0201D83C((void *)o->f08);
     }
     func_020307B0(o);
 }

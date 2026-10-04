@@ -67,7 +67,7 @@ extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B878(u32, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021F9A1C(void *p, int mode);
 extern int func_021FA4FC(Obj *p, int mode);
 
@@ -112,13 +112,13 @@ int func_021FA514(Obj *p, u8 *enable)
         func_021F4FF4(p->cursor, (tbl_02203298[p->pos].x + 0x10) * 8, tbl_02203298[p->pos].y * 8);
         switch (p->pos) {
         case 9:
-            func_0204B878(p->cursor, 5);
+            func_0204B878((struct Obj *)p->cursor, 5);
             break;
         case 10:
-            func_0204B878(p->cursor, 6);
+            func_0204B878((struct Obj *)p->cursor, 6);
             break;
         default:
-            func_0204B878(p->cursor, 0x12);
+            func_0204B878((struct Obj *)p->cursor, 0x12);
             break;
         }
     }
@@ -127,13 +127,13 @@ int func_021FA514(Obj *p, u8 *enable)
         func_021F4FF4(p->cursor, (tbl_02203298[r].x + 0x10) * 8, tbl_02203298[r].y * 8);
         switch (r) {
         case 9:
-            func_0204B878(p->cursor, 5);
+            func_0204B878((struct Obj *)p->cursor, 5);
             break;
         case 10:
-            func_0204B878(p->cursor, 6);
+            func_0204B878((struct Obj *)p->cursor, 6);
             break;
         default:
-            func_0204B878(p->cursor, 0x12);
+            func_0204B878((struct Obj *)p->cursor, 0x12);
             p->pos = r;
             break;
         }
@@ -163,7 +163,7 @@ int func_021FA514(Obj *p, u8 *enable)
         }
     } else if (func_020362DC() & 2) {
         func_021F4FF4(p->cursor, 0xC0, 0x88);
-        func_0204B878(p->cursor, 5);
+        func_0204B878((struct Obj *)p->cursor, 5);
         func_020061E4(0x551);
         return -2;
     }

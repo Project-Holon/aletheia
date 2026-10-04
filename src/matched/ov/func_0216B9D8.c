@@ -25,7 +25,7 @@ extern void *func_0200E394(void *a0);
 extern void *func_0200C0E8(void *sys);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
-extern int func_0216BB18();
+extern int func_0216BB18(void *sys);
 extern int func_0216BBC4(int index);
 
 int func_0216B9D8(int a0)
@@ -44,7 +44,7 @@ loc_0216B9E6:
 loc_0216B9EA:
 t5 = a0 + 0;
 a0 = t4 + 0;
-    a0 = func_0216BB18(a0);
+    a0 = func_0216BB18((void *)a0);
 loc_0216B9F2:
 t4 = a0 + 0;
 a0 = t5 << 0x18;

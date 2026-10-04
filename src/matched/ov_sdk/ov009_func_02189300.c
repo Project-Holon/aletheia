@@ -22,7 +22,7 @@ typedef struct GPIProfile {
     int f2C;
 } GPIProfile;
 
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern char g_021A446C[];
 
@@ -31,7 +31,7 @@ int func_02189300(void **connection, int id, int isDeleted)
     GPIProfile *pProfile;
 
     if (id <= 0) {
-        func_02193734(connection, g_021A446C);
+        func_02193734((int *)connection, (int)g_021A446C);
         return 2;
     }
     if (func_0218FD9C(connection, id, &pProfile))

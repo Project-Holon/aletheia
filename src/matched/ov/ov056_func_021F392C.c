@@ -59,15 +59,15 @@ typedef struct Obj {
 } Obj;
 
 extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
-extern u32 func_0218EC2C(int a);
+extern u32 func_0218EC2C(u8 *p);
 extern void func_02048B30(u32 cam, VecFx32 *out);
 extern void func_02048AE8(u32 cam, VecFx32 *out);
 extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
-extern u32 func_0218E138(int a);
-extern void func_0218E13C(int a, u32 v);
-extern u8 func_0218F1B4(int a);
-extern void func_0218F1AC(int a, u32 b);
-extern void func_0218EC54(int a);
+extern u32 func_0218E138(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
+extern u8 func_0218F1B4(u8 *p);
+extern void func_0218F1AC(u8 *p, u8 v);
+extern void func_0218EC54(u8 *p);
 extern void func_0218ECC4(int a, VecFx32 *v);
 extern void func_0218ECD4(int a, VecFx32 *v);
 extern void func_0218ED20(int a, VecFx32 *v);
@@ -88,17 +88,17 @@ void func_021F392C(Obj *o, int a1, int heap, int idx)
 
     o->f28 = 0;
     o->f0 = func_02011510(heap, 0x96, idx + 0x18, 10);
-    cam = func_0218EC2C(a1);
+    cam = func_0218EC2C((u8 *)a1);
     func_02048B30(cam, &tgt);
     func_02048AE8(cam, &pos);
     up = d_021F4338;
     o->cam = func_02048A24(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &pos, &up, &tgt, heap);
     o->f8 = a1;
-    o->hc = func_0218E138(a1);
-    func_0218E13C(o->f8, 2);
-    o->he = func_0218F1B4(o->f8);
-    func_0218F1AC(o->f8, 0);
-    func_0218EC54(o->f8);
+    o->hc = func_0218E138((u8 *)a1);
+    func_0218E13C((u8 *)o->f8, 2);
+    o->he = func_0218F1B4((u8 *)o->f8);
+    func_0218F1AC((u8 *)o->f8, 0);
+    func_0218EC54((u8 *)o->f8);
     pz = (VecFx32 *)zero;
     pz->x = 0;
     pz->y = 0;

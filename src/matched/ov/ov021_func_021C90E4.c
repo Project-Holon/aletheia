@@ -25,23 +25,26 @@ typedef unsigned int   u32;
 
 typedef struct S5 { u32 v[5]; } S5;
 
-extern S5 *func_021AC1AC(u32);
+struct G3dOwner;
+struct G3dRec;
+struct G3dSys;
+extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32, u32 *);
-extern u32 func_02047400(u32, u32, u32);
-extern u32 func_02047564(u32, u32, u32);
-extern u32 func_0204767C(u32, u32 *, u32);
-extern void func_020477A4(u32, u32);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 
 void func_021C90E4(u32 a, u32 *q)
 {
-    *(S5 *)q = *func_021AC1AC(a);
+    *(S5 *)q = *((S5 *)func_021AC1AC(a));
     func_021AC1CC(a, q + 1);
-    q[9] = func_02047400(((u32 *)q[0])[2], 0, ((u32 *)q[0])[2]);
-    q[7] = func_02047564(q[9], ((u32 *)q[0])[6], 0);
-    q[8] = func_02047564(q[9], ((u32 *)q[0])[7], 0);
-    q[6] = func_0204767C(q[9], q + 7, 2);
-    func_020477A4(q[6], 0);
-    func_020477A4(q[6], 1);
-    q[14] = func_02047400(((u32 *)q[0])[4], 0, ((u32 *)q[0])[4]);
-    q[13] = func_0204767C(q[14], 0, 0);
+    q[9] = (u32)func_02047400((void *)(((u32 *)q[0])[2]), 0, (void *)(((u32 *)q[0])[2]));
+    q[7] = (u32)func_02047564((struct G3dOwner *)q[9], (const struct G3dOwner *)(((u32 *)q[0])[6]), 0);
+    q[8] = (u32)func_02047564((struct G3dOwner *)q[9], (const struct G3dOwner *)(((u32 *)q[0])[7]), 0);
+    q[6] = (u32)func_0204767C(q[9], q + 7, 2);
+    func_020477A4((struct G3dSys *)q[6], 0);
+    func_020477A4((struct G3dSys *)q[6], 1);
+    q[14] = (u32)func_02047400((void *)(((u32 *)q[0])[4]), 0, (void *)(((u32 *)q[0])[4]));
+    q[13] = (u32)func_0204767C(q[14], 0, 0);
 }

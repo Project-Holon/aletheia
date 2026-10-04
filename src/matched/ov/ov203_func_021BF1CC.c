@@ -12,7 +12,10 @@
  *   func_02031194 0x02031194 arm
  *   func_021BEFC4 0x021BEFC4 thumb ov203
  */
-extern void func_02023F60(short,unsigned,unsigned),func_02031194(void *),func_021BEFC4(char *,int,int,int,int,int,int *);
+typedef unsigned int   u32;
+extern void func_02023F60(u32 a0, u32 a1, u32 mask);
+extern void func_02031194(void *);
+extern void func_021BEFC4(char *,int,int,int,int,int,int *);
 void func_021BF1CC(void *task,char *work)
 {
     if(*(int *)(*(char **)work+0xC)) {

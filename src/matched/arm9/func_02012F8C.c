@@ -19,9 +19,10 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02009448(u32 a);
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 
 u32 func_02012F8C(u32 *p)
 {
-    return func_02009448(*p);
+    return (u32)func_02009448((void *)(*p));
 }

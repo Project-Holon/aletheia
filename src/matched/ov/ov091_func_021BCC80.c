@@ -17,19 +17,22 @@
  *   func_021B9E44  0x021B9E44  thumb  ov091
  */
 
-extern void func_021BB97C(int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB99C(int, int, int, int);
 extern void func_021BB9DC(int, int, int, int);
-extern void func_021B9788(int, int, int, void (*)(int));
-extern void func_021BB98C(int, int);
-extern void func_021B9E44(int);
+extern void func_021B9788(u8 *p, int a1, int a2, int a3);
+extern void func_021BB98C(void *p, u32 s);
+extern void func_021B9E44(u8 *p);
 
 void func_021BCC80(int p, int id, int v)
 {
     *(int *)(*(int *)(p + 0x280) + 0x40) = 10;
-    func_021BB97C(p, *(int *)(p + 0x150));
+    func_021BB97C((u16 *)p, *(int *)(p + 0x150));
     func_021BB99C(p, *(int *)(p + 0x150), 0, *(int *)(p + 0x38));
     func_021BB9DC(p, *(int *)(p + 0x150), 1, v);
-    func_021B9788(p, id, 1, func_021B9E44);
-    func_021BB98C(p, *(int *)(p + 0x150));
+    func_021B9788((u8 *)p, id, 1, (int)func_021B9E44);
+    func_021BB98C((void *)p, *(int *)(p + 0x150));
 }

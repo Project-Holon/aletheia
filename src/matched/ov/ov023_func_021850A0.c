@@ -66,7 +66,8 @@ extern int  func_02035BA4(const void *p);
 extern void func_02035CB8(int *a, int *b);
 extern int  func_02035C38(void);
 extern u16 func_02039338(void);
-extern void func_0204B878(u32 a, u16 b);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_020061E4(u32 a);
@@ -74,8 +75,8 @@ extern void func_021852B4(u32 *p, int n);
 extern int  func_02186558(char *p);
 extern void func_021861C4(char *p, int a, int b);
 extern void func_02186444(char *p, u32 v);
-extern void func_021852F4(u32 a, int b);
-extern void func_0218506C(int obj, int a, int b);
+extern void func_021852F4(void *p, int flag);
+extern void func_0218506C(void *actor, int x, int y);
 extern void func_021864C4(Rec *d, Ent *s, int a, int c);
 extern void func_02185080(Rec *d, int a, int c);
 extern void func_02186988(Rec *d, char *q, int z);
@@ -86,7 +87,7 @@ static inline u8 activate(char *p, int value)
 {
     func_021861C4(p, value, value);
     func_02186444(p, 5);
-    func_021852F4(*(u32 *)(p + 0x100), 1);
+    func_021852F4((void *)(*(u32 *)(p + 0x100)), 1);
     func_020061E4(0x551);
     return value;
 }
@@ -144,9 +145,9 @@ void func_021850A0(char *p)
         case 11:
             for (i = 0; i < 3; i++) {
                 if (r - 9 == i)
-                    func_0204B878(*(u32 *)(p + 0xf4 + i * 4), i * 2 + 0x1e);
+                    func_0204B878((struct Obj *)(*(u32 *)(p + 0xf4 + i * 4)), i * 2 + 0x1e);
                 else
-                    func_0204B878(*(u32 *)(p + 0xf4 + i * 4), i * 2 + 0x1d);
+                    func_0204B878((struct Obj *)(*(u32 *)(p + 0xf4 + i * 4)), i * 2 + 0x1d);
             }
             if (*(u8 *)(p + 0x420b) != r - 9) {
                 *(u8 *)(p + 0x420b) = r - 9;
@@ -159,7 +160,7 @@ void func_021850A0(char *p)
     func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 0);
     if (r != -1) {
         func_02035CB8(&tx, &ty);
-        func_0218506C(*(int *)(p + 0x60 + func_02039338() * 4), tx, ty);
+        func_0218506C((void *)(*(int *)(p + 0x60 + func_02039338() * 4)), tx, ty);
         func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 1);
     }
     x = 0;

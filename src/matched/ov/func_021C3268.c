@@ -16,13 +16,15 @@
  */
 
 
-extern void func_0201C6EC(int);
-extern void func_020452E8(int);
+struct Descriptor;
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021C3268(int unused, char *p)
 {
     *(int *)(p + 0x10) = 0;
-    func_0201C6EC(*(int *)(p + 8));
-    func_020452E8(*(int *)(p + 0xc));
+    func_0201C6EC((struct PrintSys *)(*(int *)(p + 8)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0xc)));
 }
 

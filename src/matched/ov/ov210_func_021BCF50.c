@@ -25,7 +25,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 typedef u32 (*StateFn)(u8 *);
 extern StateFn d_021C0894[];
-extern void func_021BED68(u8 *p);
+extern void func_021BED68(int p);
 extern void func_021BE3D4(u8 *p);
 extern void func_021C93E4(u32 a, u32 b, u8 *c);
 
@@ -38,7 +38,7 @@ u32 func_021BCF50(u8 *p)
     if (s == 0x1b) {
         return 0;
     }
-    func_021BED68(p);
+    func_021BED68((int)p);
     func_021BE3D4(p);
     func_021C93E4(2, 6, p + 0x2c4);
     return 1;

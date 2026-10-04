@@ -28,8 +28,8 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern u32 func_02029AF4(void *a, u32 b);
-extern void func_0215897C(void *a, u32 b);
+extern void *func_02029AF4(void *a, u32 b);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021AF0BC(u32 a, u32 b)
 {

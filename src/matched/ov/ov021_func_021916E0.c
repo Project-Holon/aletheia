@@ -31,13 +31,13 @@ typedef signed short   s16;
 
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern u32 func_02190D5C(u32);
-extern u32 func_0201CE30(u32);
+extern int func_02190D5C(u32 *p);
+extern u32 func_0201CE30(void *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern u32 func_021927F8(u32 *);
+extern u8 func_021927F8(u8 *p);
 extern void func_021927FC(u32 *, u32, u32);
 extern void func_021928C0(u32 *, u32, u32);
-extern u32 func_0219320C(u32);
+extern u8 func_0219320C(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02045334(struct Descriptor *);
@@ -47,8 +47,8 @@ u32 func_021916E0(u32 *a)
     u32 r;
     func_020362DC();
     func_0203630C();
-    r = func_02190D5C(a[7]);
-    a[9] = func_0201CE30(*(u32 *)(a[7] + 4));
+    r = func_02190D5C((u32 *)a[7]);
+    a[9] = func_0201CE30((void *)(*(u32 *)(a[7] + 4)));
     func_02040618(1, 3, *(s16 *)((u8 *)a + 0x28));
     if (*(s16 *)((u8 *)a + 0x28) < 0) {
         *(s16 *)((u8 *)a + 0x28) += 2;
@@ -59,13 +59,13 @@ u32 func_021916E0(u32 *a)
     *(s16 *)((u8 *)a + 0x28) = -*(s16 *)((u8 *)a + 0x28);
     switch (r) {
     case 0:
-        if (func_021927F8(a) == 1) {
+        if (func_021927F8((u8 *)a) == 1) {
             func_021927FC(a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
             func_02045334((struct Descriptor *)a[6]);
         }
         break;
     case 1:
-        if (func_0219320C(a[3] + 0x160) == 0) {
+        if (func_0219320C((u8 *)(a[3] + 0x160)) == 0) {
             func_021928C0(a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
             func_02045334((struct Descriptor *)a[6]);
         }

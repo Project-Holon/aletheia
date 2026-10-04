@@ -46,7 +46,7 @@ typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 
-extern u8   *func_0206E964(u32 h);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void  func_0206A0C4(u8 *p, u32 *a, u32 *b);
 extern u32   func_0206A17C(u8 *p);
 
@@ -58,7 +58,7 @@ int func_020470D0(u32 *p)
     u32  x;
     u32  y;
 
-    r = func_0206E964(p[1]);
+    r = func_0206E964((unsigned char *)p[1]);
     f1 = 0;
     f2 = 0;
     if (*(u16 *)(r + 0x10) & 1)

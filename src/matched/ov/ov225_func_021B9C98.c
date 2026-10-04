@@ -25,11 +25,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02012EBC(int);
-extern int func_0200ED48(int);
-extern int func_0200EDEC(int, int);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200ED48(void *p);
+extern int func_0200EDEC(char *obj, int i);
 
 void func_021B9C98(void *unused, int b, int c)
 {
-    func_0200EDEC(func_0200ED48(func_02012EBC(c)), b);
+    func_0200EDEC(func_0200ED48(func_02012EBC((struct Big *)c)), b);
 }

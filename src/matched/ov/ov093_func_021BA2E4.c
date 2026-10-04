@@ -50,15 +50,17 @@ extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern int func_021D805C(u32, int);
+struct Q1;
+struct S2;
+extern u32 func_021D805C(void *p, u32 n);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern u32 func_021B9064(u8 *, u8, int);
 extern void func_021B969C(char *, char *, int, int);
 extern u8 func_021BA710(int, int);
 extern int func_021B8B9C(u8 *, u8);
 extern char *func_021B9AEC(char *, int);
-extern u32 func_021B9B94(void *);
-extern u8 *func_021B9BF0(void *, u8);
+extern u8 func_021B9B94(struct Q1 *p);
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern u8 func_021D5440(u8 *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021D5B68(void *);
@@ -86,7 +88,7 @@ void func_021BA2E4(char *p)
                 old = func_0201AB28(*(void **)(*(char **)p + 0x24), i0);
                 mon = func_0201AB28(list, i0);
                 move = (u16)func_02017E1C(old, 6, 0);
-                if (!func_021D805C(move, 0x10))
+                if (!func_021D805C((void *)move, 0x10))
                     func_02017E40(mon, 6, move);
                 else if (move != func_02017E1C(mon, 6, 0))
                     func_02017E40(mon, 6, 0);
@@ -106,11 +108,11 @@ void func_021BA2E4(char *p)
         for (j = 0; j < 6; j++) { obj = *(u32 *)p; tmp1 = slot * 6; *(u8 *)(j + (tmp1 + obj) + 0xc8) = 0; }
         if (func_021B8B9C((u8 *)p, (u8)slot)) {
             group = func_021B9AEC(p + 0xc8, slot);
-            count = func_021B9B94(group);
+            count = func_021B9B94((struct Q1 *)group);
             total = maximum = 0;
             base = data_021EFCF0[slot];
             for (j = 0; j < count; j++) {
-                m = func_021B9BF0(group, (u8)j);
+                m = (u8 *)func_021B9BF0((struct S2 *)group, (u8)j);
                 i = (u8)(func_021D5440(m) - base);
                 total += func_021D59B4(m, 13);
                 maximum += func_021D59B4(m, 14);

@@ -20,13 +20,14 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021F626C(int);
-extern void func_021F6280(int);
+typedef unsigned char  u8;
+extern void func_021F626C(u8 *p);
+extern void func_021F6280(u8 *p);
 
 void func_021F5424(int a0, int a1)
 {
     if (a1 == 1)
-        func_021F626C(*(int *)(a0 + 8));
+        func_021F626C((u8 *)(*(int *)(a0 + 8)));
     else
-        func_021F6280(*(int *)(a0 + 8));
+        func_021F6280((u8 *)(*(int *)(a0 + 8)));
 }

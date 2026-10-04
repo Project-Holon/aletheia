@@ -21,13 +21,13 @@ extern unsigned int d_021CE320[];
 extern void *func_021B9AA8(int);
 extern void func_021B9AF8(void *);
 extern void func_021CAB1C(void *, void *, int);
-extern int func_021CAA70(int, int, int, void *);
+extern int func_021CAA70(void *data_ptr, int data_len, void *sign_ptr, void *mod_ptr);
 int func_021B9A1C(int a, int b, int c, int d, u16 e)
 {
     int result;
     d_021CE31C = e;
     func_021CAB1C(func_021B9AA8, func_021B9AF8, 0);
-    result = func_021CAA70(a, b*c, d, d_021CE320);
+    result = func_021CAA70((void *)a, b*c, (void *)d, d_021CE320);
     d_021CE31C = 0xffff;
     return result;
 }

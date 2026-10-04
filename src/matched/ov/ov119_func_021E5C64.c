@@ -38,8 +38,9 @@ extern void func_02041B6C(u32 bit);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_02049238(void *);
 extern void func_0201DD78(u32, u32, u32);
-extern void *func_020450F0(u32, u32, u32, u32, u8, u8, u8);
-extern void func_02045CAC(int, int, int);
+struct MsgBank;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void func_02045374(struct Cfg *cfg);
@@ -58,8 +59,8 @@ void func_021E5C64(char *p)
     func_02049238(h);
     func_0201DD78(1, 2, 15);
     for (i = 0; i < 26; i++) {
-        *(void **)(p + i * 4 + 0x750) = func_020450F0(6, (u8)d_021E81D4[i].x, (u8)d_021E81D4[i].y, 2, 2, 14, 0);
-        func_02045CAC(*(int *)(p + 0x720), i + 0x35, *(int *)(p + 0x730));
+        *(void **)(p + i * 4 + 0x750) = (void *)func_020450F0(6, (u8)d_021E81D4[i].x, (u8)d_021E81D4[i].y, 2, 2, 14, 0);
+        func_02045CAC((struct MsgBank *)(*(int *)(p + 0x720)), i + 0x35, (void *)(*(int *)(p + 0x730)));
         func_0201C7A4(func_02045770(*(void **)(p + i * 4 + 0x750)), 0, 0, *(void **)(p + 0x730), *(void **)(p + 0x728));
         func_02045374(*(void **)(p + i * 4 + 0x750));
         func_02045334(*(void **)(p + i * 4 + 0x750));

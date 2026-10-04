@@ -20,7 +20,8 @@ typedef unsigned int u32;
 struct Config { u8 a,b,c,d,e,f,g,h,i,j,k; u32 extra; };
 struct Entry { u8 a,b,c,d,e,f,g,h,i,j,k; u32 index, mode, extra; };
 extern const struct Entry d_021C3B7C[];
-extern u32 func_021C0EF4(struct Config *, u32, u32, u16);
+struct Record;
+extern struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
 extern u32 func_021C0F5C(u32, u32);
 void func_021C01B8(char *p)
 {
@@ -40,7 +41,7 @@ void func_021C01B8(char *p)
         args.j = d_021C3B7C[i].j;
         args.k = d_021C3B7C[i].k;
         args.extra = d_021C3B7C[i].extra;
-        *(u32 *)(p + i * 4 + 0x344) = func_021C0EF4(&args, *(u32 *)(p + 8), *(u32 *)(p + d_021C3B7C[i].index * 4 + 12), *(u16 *)(p + 4));
+        *(u32 *)(p + i * 4 + 0x344) = (u32)func_021C0EF4(&args, *(u32 *)(p + 8), *(u32 *)(p + d_021C3B7C[i].index * 4 + 12), *(u16 *)(p + 4));
         handle = *(u32 *)(p + i * 4 + 0x344);
         func_021C0F5C(handle, d_021C3B7C[i].mode);
     }

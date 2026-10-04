@@ -43,8 +43,10 @@ typedef struct Obj {
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0204B100(u32 a, u32 b, u32 heap);
-extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
+struct Bank;
+struct GfFont;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_021CCEB8(Obj *p);
 extern void func_021CC8DC(Obj *p);
 extern void func_021CCA00(Obj *p);
@@ -66,8 +68,8 @@ Obj *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap)
     p->fC = heap;
     p->f10 = d;
     p->f14 = e;
-    p->f18 = func_0204B100(0x20, 0xa, p->fC);
-    p->fB8 = func_0201D7EC(0x17, 3, 0, 0, p->fC);
+    p->f18 = (u32)func_0204B100(0x20, 0xa, p->fC);
+    p->fB8 = (u32)func_0201D7EC(0x17, 3, 0, 0, p->fC);
     func_021CCEB8(p);
     func_021CC8DC(p);
     func_021CCA00(p);

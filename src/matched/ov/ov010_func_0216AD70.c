@@ -45,11 +45,11 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E0B0(void *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_021767A0();
+extern u8 func_021767A0(void *a, void *b);
 extern int func_02012FB0(unsigned char *base);
 extern int func_02166618(int a0);
 extern int func_0216662C(int a0);
-extern void func_0216AEE8();
+extern void func_0216AEE8(int vm, int *out);
 
 int func_0216AD70(int a0, int a1)
 {
@@ -69,7 +69,7 @@ int func_0216AD70(int a0, int a1)
     t = func_02012138(x);
     switch (kind) {
     case 0:
-        if (func_021767A0(t, y) == 4)
+        if (func_021767A0((void *)t, y) == 4)
             *out = 1;
         else
             *out = 0;
@@ -81,11 +81,11 @@ int func_0216AD70(int a0, int a1)
         *out = func_0216662C(func_02012FB0(y));
         break;
     case 3:
-        func_0216AEE8(a1, &v);
+        func_0216AEE8(a1, (int *)(&v));
         *out = v.lo;
         break;
     case 4:
-        func_0216AEE8(a1, &w);
+        func_0216AEE8(a1, (int *)(&w));
         *out = w.f;
         break;
     }

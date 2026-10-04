@@ -14,13 +14,13 @@
  *   func_02005E64 0x02005E64 thumb
  */
 
-extern void func_02005DE4(int);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 
 void func_02204F24(int a, char *b)
 {
     if (*(int *)(b + 0x30) == 4) {
-        func_02005DE4(1);
+        func_02005DE4((void *)1);
         func_02005E64();
         *(int *)(b + 0x30) = 5;
     }

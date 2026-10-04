@@ -25,7 +25,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0203101C(unsigned,unsigned,unsigned,unsigned);
-extern void *func_0201C440(unsigned);
+extern u32 func_0201C440(void *p);
 void func_021C692C(u8 *p,unsigned heap)
 {
     func_0201DD68();
@@ -34,5 +34,5 @@ void func_021C692C(u8 *p,unsigned heap)
     *(void **)(p+0x17c)=func_0201D7EC(23,0,0,0,heap);
     *(void **)(p+0x28)=func_0203101C(heap,heap,3,256);
     *(void **)(p+0x2c)=0;
-    *(void **)(p+0x34)=func_0201C440(heap);
+    *(void **)(p+0x34)=(void *)func_0201C440((void *)heap);
 }

@@ -58,18 +58,18 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02188CAC(void *o, Holder *h);
+extern void func_02188CAC(u8 *p, u32 v);
 extern void *func_02188CB4(u8 *p);
 extern u8 func_02012AC0(const struct Rec44 *p);
 extern void *func_021A3074(u8 *p);
-extern void func_0219F058(void *m, u16 *a, u16 *b);
+extern void func_0219F058(u32 a, u16 *o1, u16 *o2);
 extern void func_021A35E0(u32 *p, u32 heap);
 extern void func_021A3664(u32 *p, u32 heap);
 extern void func_021A305C(char *p, u32 b);
 extern VecFx32 *func_02012AB8(void *r);
 extern void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16 g);
 extern void *func_0216D888(void *m);
-extern void func_02188D40(void *o, void *v);
+extern void func_02188D40(u8 *p, u32 v);
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 
 void func_021A6E30(void *o, VecFx32 *pos, u16 e)
@@ -85,12 +85,12 @@ void func_021A6E30(void *o, VecFx32 *pos, u16 e)
     r = func_020127A4(func_020120F4(func_02188C80(o)));
     heap = func_02188C84(o);
     h = func_02030734(heap, sizeof(Holder), 1, &d_021DDF64, 0xbd);
-    func_02188CAC(o, h);
+    func_02188CAC(o, (u32)h);
     h->f04 = func_02188CB4(o);
     mode = func_02012AC0(r);
     h->mode = 2;
     m = func_021A3074(h->f04);
-    func_0219F058(m, &anim[0], &anim[1]);
+    func_0219F058((u32)m, &anim[0], &anim[1]);
     if (mode == 0) {
         func_021A35E0(h->f04, heap);
         func_021A3664(h->f04, heap);
@@ -103,6 +103,6 @@ void func_021A6E30(void *o, VecFx32 *pos, u16 e)
         func_021A305C(h->f04, e);
         func_021A7258(o, h, mode, anchor, e, anim[0], anim[1]);
     }
-    func_02188D40(o, func_0216D888(m));
+    func_02188D40(o, (u32)func_0216D888(m));
     func_021A3038(h->f04, pos);
 }

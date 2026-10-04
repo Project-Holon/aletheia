@@ -16,18 +16,20 @@
 
 typedef unsigned char u8;
 
-extern void func_0204B878(int a, int b);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021F0E24(char *p)
 {
     if (*(u8 *)(p + 0x7c) == 0) {
-        func_0204B878(*(int *)(p + 0x2cc), 0x10);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x2cc)), 0x10);
     } else {
-        func_0204B878(*(int *)(p + 0x2cc), 0xd);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x2cc)), 0xd);
     }
     if (*(u8 *)(p + 0x7c) + *(u8 *)(p + 0x7d) < *(u8 *)(p + 0x7b)) {
-        func_0204B878(*(int *)(p + 0x2d0), 0x11);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x2d0)), 0x11);
         return;
     }
-    func_0204B878(*(int *)(p + 0x2d0), 0x14);
+    func_0204B878((struct Obj *)(*(int *)(p + 0x2d0)), 0x14);
 }

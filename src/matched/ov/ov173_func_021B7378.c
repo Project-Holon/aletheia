@@ -26,7 +26,7 @@ struct U16Vec;
 struct WordSet;
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F02C(void *, u32, u32);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u16 func_021B7438(char **);
 extern u16 func_021B7448(char **);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -56,7 +56,7 @@ void func_021B7378(char *p, u32 kind)
     case 8:
         func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p);
         func_0201EF34(*(void **)(p + 0x48), 1, func_021B7438((char **)p)); break;
-    case 9: func_0201F02C(*(void **)(p + 0x48), 2, *(u32 *)(*(char **)p + 4)); break;
+    case 9: func_0201F02C(*(void **)(p + 0x48), 2, (void *)(*(u32 *)(*(char **)p + 4))); break;
     case 10: func_0201EF34(*(void **)(p + 0x48), 0, func_021B7448((char **)p)); break;
     }
     str = func_02045EC0(*(void **)(p + 0x44), d_021B8350[*(u8 *)(*(char **)p + 0x19)][kind]);

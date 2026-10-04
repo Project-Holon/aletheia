@@ -19,8 +19,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern u32 func_0204B898(u32 p);
-extern void func_0204B878(u32 p, u16 k);
+extern u16 func_0204B898(struct Obj *p);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021F9FF0(void *p);
 extern void func_020061E4(u32 se);
 int func_021FB510(u8 *p)
@@ -31,14 +31,14 @@ int func_021FB510(u8 *p)
     case -2:
         func_020061E4(0x551);
         func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
+        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
         *(int *)(p + 0x48) = 16;
         *(s16 *)(p + 0x3c) = -1;
         break;
     case -1: break;
     default:
         func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
+        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
         *(int *)(p + 0x48) = 3;
         *(int *)(p + 0x4c) = 17;
         *(s16 *)(p + 0x3c) = r;

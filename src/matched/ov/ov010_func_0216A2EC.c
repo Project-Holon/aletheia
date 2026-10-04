@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 func_02011400(int row, int col);
-extern void func_0216A298();
+extern void func_0216A298(void *a, void *list);
 
 int func_0216A2EC(int a0, int a1, int a2, int *a3, int a4)
 {
@@ -38,14 +38,14 @@ int func_0216A2EC(int a0, int a1, int a2, int *a3, int a4)
         }
         t = t - r6;
         if (a3[1] + t * 60 < a2 + 1) {
-            func_0216A298(a0, a1);
+            func_0216A298((void *)a0, (void *)a1);
             return 1;
         }
         return 0;
     }
     t = r1 - r0;
     if (a3[1] + t * 60 < a2) {
-        func_0216A298(a0, a1);
+        func_0216A298((void *)a0, (void *)a1);
         return 1;
     }
     return 0;

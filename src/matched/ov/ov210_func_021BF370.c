@@ -16,7 +16,8 @@
  */
 
 extern void func_021BF358(int p, int i);
-extern void func_0204B1CC(int h);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 
 void func_021BF370(int p)
 {
@@ -24,5 +25,5 @@ void func_021BF370(int p)
 
     for (i = 0; i < 0x39; i++)
         func_021BF358(p, i);
-    func_0204B1CC(((int *)p)[9]);
+    func_0204B1CC((struct Bank *)(((int *)p)[9]));
 }

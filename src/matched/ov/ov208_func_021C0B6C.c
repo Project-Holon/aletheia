@@ -41,8 +41,9 @@ struct Obj;
 extern struct Obj *func_0204B294(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, unsigned short f, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
-extern void func_0204B688(u32 obj, u32 on);
+struct Actor;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_02049238(void *h);
 
 u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form,
@@ -61,8 +62,8 @@ u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 f
     *slot = func_0204A6C8(h, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
     obj = (u32)func_0204B294((void *)res, *slot, a, b, &pos, 1, heap);
     func_0204B92C((struct Obj *)obj, 0);
-    func_0204B6F4(obj, func_0201BB5C(species, form, gender, isEgg), 0);
-    func_0204B688(obj, 0);
+    func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);
+    func_0204B688((struct Actor *)obj, 0);
     func_02049238(h);
     return obj;
 }

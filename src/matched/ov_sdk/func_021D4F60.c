@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_021D6D8C(void *p);
-extern void func_021D546C(u32 a, void *p);
+extern void func_021D546C(void *queue, void *data);
 extern u8  *g_021DE670;
 
 void func_021D4F60(u8 *p)
@@ -38,5 +38,5 @@ void func_021D4F60(u8 *p)
     base = g_021DE670;
     if (p >= base + 0x228)
         sel = 1;
-    func_021D546C(*(u32 *)(base + sel * 0x228 + 0x224), p);
+    func_021D546C((void *)(*(u32 *)(base + sel * 0x228 + 0x224)), p);
 }

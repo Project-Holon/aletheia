@@ -84,10 +84,13 @@ typedef struct {
     s16 z;
 } Pos;
 
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012844(u32 a);
+struct ArcFile;
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern Rec *func_02162740(u32 a);
-extern int func_02162744(u32 a);
+extern u16 func_02162744(u8 *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C7C(unsigned char *p);
@@ -101,17 +104,17 @@ extern void func_021A35FC(void *o, s16 *z, s16 *y, s16 *x);
 extern u32 func_02188CFC(u8 *p);
 extern void func_021A36BC(void *o, Loc *l);
 extern void *func_021A3074(unsigned char *p);
-extern u32 func_0201296C(u32 a);
+extern u32 func_0201296C(const struct BigObj *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void *func_02162890(u32 c, u32 a, V3 *v);
-extern int func_021867C4(int, int);
-extern u8 *func_02186830(int h, int b, int heap);
+extern int *func_021867C4(int a, int id);
+extern void *func_02186830(struct ArcFile **p, int b, unsigned int heap);
 extern u8 *func_02186844(u8 *t, int i);
 extern u8 *func_0218684C(u8 *t, int i);
 extern void func_0218683C(void *p);
-extern void func_02186804(int);
+extern void func_02186804(void **p);
 
 int func_021D2750(u32 a)
 {
@@ -134,10 +137,10 @@ int func_021D2750(u32 a)
     u32 r5;
     void *r4;
 
-    h = func_020120F4(a);
-    f = func_02012844(h);
+    h = (u32)func_020120F4((const struct Ctx *)a);
+    f = func_02012844((const struct BigObj *)h);
     list = func_02162740(f);
-    n = func_02162744(f);
+    n = func_02162744((u8 *)f);
     y = func_0201210C((void *)a);
     x = func_02188C7C((void *)y);
     o = func_02188CB4((void *)y);
@@ -175,7 +178,7 @@ int func_021D2750(u32 a)
     }
     if (func_02188CFC(y) == 0) {
         r4 = func_021A3074((void *)o);
-        r5 = func_0201296C(h);
+        r5 = func_0201296C((const struct BigObj *)h);
         func_0216D88C(r4, (struct VecFx32 *)&v);
         if (func_02162890(f, r5, &v)) {
             return 0;
@@ -185,13 +188,13 @@ int func_021D2750(u32 a)
         int j;
         u8 *t;
         func_021A35FC(o, &pos.z, &pos.y, &pos.x);
-        hdl = func_021867C4(0, 0x8015);
-        t = func_02186830(hdl, id != 0, 0x8015);
+        hdl = (int)func_021867C4(0, 0x8015);
+        t = func_02186830((struct ArcFile **)hdl, id != 0, 0x8015);
         for (j = 0; j < 10; j++) {
             p = func_02186844(t, j);
             if (p[0] == pos.z && p[1] == pos.x) {
                 func_0218683C(t);
-                func_02186804(hdl);
+                func_02186804((void **)hdl);
                 return 0;
             }
         }
@@ -199,12 +202,12 @@ int func_021D2750(u32 a)
             p = func_0218684C(t, j);
             if (p[0] == pos.z && p[1] == pos.x) {
                 func_0218683C(t);
-                func_02186804(hdl);
+                func_02186804((void **)hdl);
                 return 0;
             }
         }
         func_0218683C(t);
-        func_02186804(hdl);
+        func_02186804((void **)hdl);
     }
     return 1;
 }

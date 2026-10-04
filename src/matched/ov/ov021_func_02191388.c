@@ -37,22 +37,22 @@ typedef signed short   s16;
 
 extern u32 func_02194974(u32, u32);
 extern u32 func_02194984(u32, u32);
-extern u32 func_0201CE30(u32);
+extern u32 func_0201CE30(void *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern u32 func_021927F8(u32 *);
+extern u8 func_021927F8(u8 *p);
 extern u32 func_02194990(u32, u32);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_021927FC(u32 *, u32, u32);
 extern void func_02045334(struct Descriptor *);
-extern u32 func_02193228(u32);
+extern int func_02193228(u8 *p);
 extern void func_021932A0(u32 a, int f);
-extern u32 func_0219320C(u32);
+extern u8 func_0219320C(u8 *p);
 extern void func_021928C0(u32 *, u32, u32);
-extern u32 func_0201CE34(u32);
+extern u32 func_0201CE34(void *p);
 extern u32 func_02193260(u32, u32);
 extern void func_020061E4(u32);
-extern void func_0201CE38(u32);
+extern void func_0201CE38(void *p);
 
 u32 func_02191388(u32 *a)
 {
@@ -65,7 +65,7 @@ u32 func_02191388(u32 *a)
         return 0;
     }
     h = func_02194984(a[2], *((u8 *)a + 1));
-    r = func_0201CE30(h);
+    r = func_0201CE30((void *)h);
     func_02040618(1, 3, *(s16 *)((u8 *)a + 2));
     if (*(s16 *)((u8 *)a + 2) < 0) {
         *(s16 *)((u8 *)a + 2) += 2;
@@ -76,12 +76,12 @@ u32 func_02191388(u32 *a)
     *(s16 *)((u8 *)a + 2) = -*(s16 *)((u8 *)a + 2);
     switch (r) {
     case 0:
-        if (func_021927F8(a + 3) == 1) {
+        if (func_021927F8((u8 *)(a + 3)) == 1) {
             w = func_02194990(a[2], *((u8 *)a + 1));
             func_021927FC(a + 3, (u32)func_02045770((struct Descriptor *)w), 15);
             func_02045334((struct Descriptor *)w);
         }
-        if (func_02193228(a[5] + 0x160) != 0) {
+        if (func_02193228((u8 *)(a[5] + 0x160)) != 0) {
             func_021932A0(h, 1);
         } else {
             func_021932A0(h, 0);
@@ -90,14 +90,14 @@ u32 func_02191388(u32 *a)
     case 1:
         w = func_02194990(a[2], *((u8 *)a + 1));
         c = (u32)func_02045770((struct Descriptor *)w);
-        if (func_0219320C(a[5] + 0x160) == 0) {
+        if (func_0219320C((u8 *)(a[5] + 0x160)) == 0) {
             func_021928C0(a + 3, c, 15);
         }
-        if (func_02193260(a[5] + 0x160, func_0201CE34(h)) != 0) {
-            if (func_0219320C(a[5] + 0x160) == 0) {
+        if (func_02193260(a[5] + 0x160, func_0201CE34((void *)h)) != 0) {
+            if (func_0219320C((u8 *)(a[5] + 0x160)) == 0) {
                 func_020061E4(0x547);
             }
-            func_0201CE38(h);
+            func_0201CE38((void *)h);
             func_021927FC(a + 3, c, 15);
             func_021932A0(h, 0);
         }

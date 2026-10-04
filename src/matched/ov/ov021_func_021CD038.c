@@ -29,12 +29,12 @@ typedef struct {
     void *fB4;
 } Work;
 
-extern void func_02190728(void *p);
+extern int func_02190728(u32 a);
 
 void func_021CD038(Work *w)
 {
     if (w->fB4 != 0) {
-        func_02190728(w->fB4);
+        func_02190728((u32)w->fB4);
         w->fB4 = 0;
     }
 }

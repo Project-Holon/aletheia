@@ -12,7 +12,8 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204A8D4 0x0204A8D4 arm
  */
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 void func_021BB92C(char *p, int index)
@@ -21,7 +22,7 @@ void func_021BB92C(char *p, int index)
     if (*(int *)(p + 0xe4) == 0) {
         for (i = 0; i < 2; i++) {
             if (*(int *)(p + index * 8 + i * 4 + 0xb8) != -1)
-                func_0204B3B4(*(int *)(p + index * 8 + i * 4 + 0xd0));
+                func_0204B3B4((struct Obj *)(*(int *)(p + index * 8 + i * 4 + 0xd0)));
         }
         for (i = 0; i < 2; i++) {
             if (*(int *)(p + index * 8 + i * 4 + 0xb8) != -1) {

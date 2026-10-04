@@ -34,7 +34,7 @@ typedef struct WCMWork {
 } WCMWork;
 
 extern unsigned long OS_DisableInterrupts(void);
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern unsigned char func_02166784(void);
 extern WMLinkLevel func_02166710(unsigned char rssi);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -46,7 +46,7 @@ WMLinkLevel func_021666C8(void)
     WMLinkLevel ret;
 
     e = OS_DisableInterrupts();
-    w = func_021657C8();
+    w = (WCMWork *)func_021657C8();
     ret = WM_LINK_LEVEL_0;
     if (w != 0 && w->phase == 9) {
         ret = func_02166710(func_02166784());

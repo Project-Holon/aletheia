@@ -23,10 +23,11 @@
 typedef struct B32 { int w[8]; } B32;
 
 extern int func_020122C0(int, int, void *, int);
-extern int *func_020124E8(int task);
-extern int func_02188C58(int);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
+extern void *func_02188C58(void *p);
 extern int func_02188D38(int);
-extern int func_0218FE80(int);
+extern void *func_0218FE80(void *a);
 extern void func_0218FEA0(int, int *);
 typedef unsigned int   u32;
 struct Work;
@@ -36,17 +37,17 @@ extern B32 d_02172528;
 int func_0216C204(int a, int b)
 {
     int r = func_020122C0(a, 0, (void *)func_0216C0E8, 0x64);
-    int *p = func_020124E8(r);
+    int *p = func_020124E8((struct Obj *)r);
     p[0] = a;
     p[1] = b;
     p[4] = 0;
-    p[2] = func_02188C58(b);
+    p[2] = (int)func_02188C58((void *)b);
     p[3] = func_02188D38(b);
     p[5] = 0x14;
     *(B32 *)(p + 14) = d_02172528;
     p[22] = 1;
     p[23] = 1;
-    p[24] = func_0218FE80(b);
+    p[24] = (int)func_0218FE80((void *)b);
     func_0218FEA0(p[24], p + 5);
     return r;
 }

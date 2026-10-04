@@ -15,17 +15,19 @@
  *   func_0216D7C4  0x0216D7C4  thumb  ov010
  */
 
-extern int func_0216D67C(int a);
-extern int func_0216DEE0(int a);
-extern int func_0216D7C4(int a);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void *func_0216D67C(void *a0);
+extern void *func_0216DEE0(void *a0);
+extern u16 func_0216D7C4(u8 *p);
 
 int func_0219B074(int a)
 {
     int t;
 
-    t = func_0216DEE0(func_0216D67C(a));
+    t = (int)func_0216DEE0(func_0216D67C((void *)a));
     if (t != 0) {
-        switch (func_0216D7C4(t)) {
+        switch (func_0216D7C4((u8 *)t)) {
         case 0x58:
         case 0x59:
         case 0x5a:

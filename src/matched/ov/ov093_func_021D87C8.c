@@ -25,7 +25,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-void *func_021C7CF4(int a, int b);
+void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
 int func_021D62A8(struct Unk021D62A8 *p);
 void func_021D7704(int a, int b);
@@ -35,7 +35,7 @@ void func_021D87C8(void *a, int b, int c)
 {
     void *r;
     if (c == func_021D775C(2)) {
-        r = func_021C7CF4(b, c);
+        r = func_021C7CF4((int *)b, c);
         if (func_021D62A8(r) != 0) {
             func_021D7704(0x35, 6 << 10);
             func_021D76BC(0x51, 0);

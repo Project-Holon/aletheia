@@ -42,7 +42,7 @@ extern void func_0204B1CC(struct Bank *bank);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_021E106C(char *p);
 extern void func_021E57A4(int);
-extern void func_021E53CC(void *);
+extern void func_021E53CC(int p);
 extern void func_021E57E8(int);
 extern void func_021E5680(char *p);
 extern void func_021E58A0(int);
@@ -62,7 +62,7 @@ void func_021E0CC0(char *p)
         func_02043534(0);func_020435F4(0);
         func_0204B1CC(*(void **)(p+0x9c4));
         *(void **)(p+0x9c4)=func_0204B100(0x154,0,*(u16 *)(p+0x5f4));
-        func_021E106C(p);func_021E57A4((int)p);func_021E53CC(p);
+        func_021E106C(p);func_021E57A4((int)p);func_021E53CC((int)p);
         func_021E57E8(0);func_021E5680(p);func_021E58A0((int)p);
         func_021E467C(p);func_021E4420(p);func_021E3E80(p);
         func_021E3FE4(p);func_021E3F74(p);func_021E3208(p,0);

@@ -44,26 +44,31 @@ typedef short s16;
 
 extern int func_021B61C8(char *);
 extern void func_021BB724(char *);
-extern void func_020456F8(u32);
-extern u32 func_02045730(u32);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Rec;
+struct WordSet;
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern int func_02020F14(u32 heap);
 extern u16 *func_021B616C(char *o, int k);
 extern int func_02020F20(int h, int id, u16 heap);
-extern u32 func_02021014(int rec, u32 sel);
+extern u32 func_02021014(struct Rec *p, u32 sel);
 extern const u8 d_021BBA79[];
 extern int func_021BA1D0(int);
-extern void func_02043B5C(u32, u32);
-extern void func_02045CAC(u32, u32, u32);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_020212B0(u16 id);
 extern void func_021B61F4(void *o, int a, u32 b);
-extern void func_0201EF34(u32 a, int b, u32 c);
-extern void func_0201F250(u32 a0, u32 a1, u32 a2);
-extern void func_0201C7D0(u32 x, s16 y, s16 z, u32 s, u32 w, u16 v);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u8 func_02021350(u16 id);
 extern u8 func_0202130C(u16 id);
 extern int func_021B83A0(char *p, int value);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 extern void func_02049238(int);
 
 void func_021BA218(char *p)
@@ -82,8 +87,8 @@ void func_021BA218(char *p)
         func_021BB724(p + 0x774);
     } else {
         w = *(u32 *)(p + 0x774);
-        func_020456F8(w);
-        func_020409B4(func_02045730(w));
+        func_020456F8((struct Descriptor *)w);
+        func_020409B4(func_02045730((struct Descriptor *)w));
     }
     if (*(int *)(p + 0x818) == *(int *)(p + 0x814)) {
         return;
@@ -100,7 +105,7 @@ void func_021BA218(char *p)
             continue;
         }
         rec = func_02020F20(h, *e, *(u16 *)(p + 0x544));
-        kind = func_02021014(rec, 0xf);
+        kind = func_02021014((struct Rec *)rec, 0xf);
         if (d_021BBA79[i] == 0) {
             if (func_021BA1D0(*e) == 1) {
                 color = 0x18AD;
@@ -114,16 +119,16 @@ void func_021BA218(char *p)
                 color = 0x106D;
             }
         }
-        func_02043B5C(*(u32 *)(p + i * 4 + 0x614), 0xd);
-        func_02045CAC(*(u32 *)(p + 0x51C), 0x82, *(u32 *)(p + 0x524));
+        func_02043B5C((struct CharBuf *)(*(u32 *)(p + i * 4 + 0x614)), 0xd);
+        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x82, (void *)(*(u32 *)(p + 0x524)));
         r = func_020212B0(*e);
         if (r == 0) {
             func_021B61F4(p, 0, *e);
         } else {
-            func_0201EF34(*(u32 *)(p + 0x520), 0, r);
+            func_0201EF34((struct WordSet *)(*(u32 *)(p + 0x520)), 0, r);
         }
-        func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
-        func_0201C7D0(*(u32 *)(p + i * 4 + 0x614), 0, 0, *(u32 *)(p + 0x528), *(u32 *)(p + 0x530), color);
+        func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+        func_0201C7D0((void *)(*(u32 *)(p + i * 4 + 0x614)), 0, 0, (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x530)), color);
         if (kind == 4) {
             *(u32 *)(p + i * 4 + 0x654) = 4;
         } else if (kind == 5) {
@@ -134,14 +139,14 @@ void func_021BA218(char *p)
             *(u32 *)(p + i * 4 + 0x654) = 8;
         } else if (func_0202130C(*e) != 0xff) {
             *(u32 *)(p + i * 4 + 0x654) = 7;
-        } else if (func_02021014(rec, 4) == 0) {
+        } else if (func_02021014((struct Rec *)rec, 4) == 0) {
             *(u32 *)(p + i * 4 + 0x654) = 3;
         } else if (func_021B83A0(p, *e) == 0) {
             *(u32 *)(p + i * 4 + 0x654) = 2;
         } else {
             *(u32 *)(p + i * 4 + 0x654) = 1;
         }
-        func_020307B0(rec);
+        func_020307B0((void *)rec);
     }
     func_02049238(h);
     *(u16 *)(p + 0x83C) = 1;

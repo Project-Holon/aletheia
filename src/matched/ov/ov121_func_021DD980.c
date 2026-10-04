@@ -19,7 +19,8 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
 extern void func_021DA3C0(u8 *p);
-extern void func_021DBEE4(void *);
+typedef unsigned int   u32;
+extern void func_021DBEE4(u32 p);
 void func_021DD980(char *p)
 {
     if (*(void **)(p+0x128)) {
@@ -29,6 +30,6 @@ void func_021DD980(char *p)
     if (*(void **)(p+0x13c)) func_020307B0(*(void **)(p+0x13c));
     if (*(void **)(p+0x134)) func_020307B0(*(void **)(p+0x134));
     func_021DA3C0(*(void **)(p+0x144));
-    func_021DBEE4(p);
+    func_021DBEE4((u32)p);
     func_020307B0(p);
 }

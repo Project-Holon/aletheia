@@ -32,7 +32,7 @@ typedef struct Entry32 {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u16 func_0216742C(Entry32 *list, Entry32 *out, u32 cap, u8 *n);
-extern u16 func_02167444(Entry32 *list, Entry32 *out, u32 cap, u8 *n);
+extern int func_02167444(int a0, int a1, int a2, int a3);
 extern u16 func_0216745C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
 extern u16 func_0216747C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
 
@@ -47,7 +47,7 @@ u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
         start = func_0216742C(list, out, cap, n);
         out += 10;
         cap -= 10;
-        func_02167444(list, out, cap, &more);
+        func_02167444((int)list, (int)out, cap, (int)(&more));
         *n += more;
     } else if (page >= 1 && page < 4) {
         start = func_0216745C(list, out, cap, page - 1, n);

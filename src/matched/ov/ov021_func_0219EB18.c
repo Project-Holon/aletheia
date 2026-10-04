@@ -26,14 +26,14 @@ typedef unsigned int   u32;
 extern u32 d_021D84AC[];
 extern void *func_0219E968(u32 a, u32 size);
 extern u16 func_0219EA10(u32 *, int);
-extern void func_0216D674(u32, u32);
-extern void func_0216DA50(u32);
+extern void func_0216D674(void *p, u16 v);
+extern void func_0216DA50(u8 *p);
 
 void func_0219EB18(u32 a, u16 b)
 {
     u8 *q = func_0219E968(a, 16);
     *(u16 *)(q + 0xc) = func_0219EA10(d_021D84AC, -1);
     *(u16 *)(q + 0xe) = b;
-    func_0216D674(a, 0);
-    func_0216DA50(a);
+    func_0216D674((void *)a, 0);
+    func_0216DA50((u8 *)a);
 }

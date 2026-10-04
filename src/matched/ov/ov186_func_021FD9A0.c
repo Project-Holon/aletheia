@@ -23,7 +23,11 @@ typedef struct { int x,y;char pad8[4];int heap;int *task;char pad14[4];char reco
 extern void func_021FE2BC(void *,void *,u16,u16,u16,u16,int);
 extern int func_021FE2F8(char *,int *,int);
 struct Obj;
-extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const ShortPair *,u16),func_021FD73C(int *,int),func_021FD964(void);
+typedef unsigned char  u8;
+extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void func_0204B404(void *,const ShortPair *,u16);
+extern void func_021FD73C(int *,int);
+extern void func_021FD964(void *unused, int *state, u8 *p);
 void func_021FD9A0(int unused,int *state,Motion *p)
 {
     Pair full;

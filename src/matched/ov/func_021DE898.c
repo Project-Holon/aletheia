@@ -22,12 +22,13 @@
  */
 
 extern int func_02012F98(int);
-extern void func_02007C34(int, int);
+struct PerapVoice;
+extern void func_02007C34(struct PerapVoice *p, void *a);
 
 void func_021DE898(int *q)
 {
     int *r = *(int **)q;
 
     if ((*(unsigned *)((char *)r + 0x24) - 4) > 1)
-        func_02007C34(func_02012F98(*(int *)r), *(int *)((char *)r + 8));
+        func_02007C34((struct PerapVoice *)func_02012F98(*(int *)r), (void *)(*(int *)((char *)r + 8)));
 }

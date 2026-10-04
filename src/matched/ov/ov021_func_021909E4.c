@@ -31,7 +31,9 @@ typedef struct Handle {
 
 extern Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
 extern int func_0219049C(u16 *p);
-extern int func_020200CC(u32 obj);
+typedef signed int     s32;
+struct Obj;
+extern s32 func_020200CC(struct Obj *o);
 
 int func_021909E4(Handle *h)
 {
@@ -39,7 +41,7 @@ int func_021909E4(Handle *h)
 
     if (func_0219049C(h->owner) == 0)
         return -1;
-    v = func_020200CC(h->obj);
+    v = func_020200CC((struct Obj *)h->obj);
     if (v == -1)
         return -1;
     if (v == -2)

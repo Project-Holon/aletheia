@@ -27,9 +27,10 @@ typedef struct {
 } D;
 
 extern D d_021F6398;
-extern void func_02045CAC(u32, u32, u32);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
 void func_021EF694(u32 a, u32 b)
 {
-    func_02045CAC(d_021F6398.t[3], b, a);
+    func_02045CAC((struct MsgBank *)d_021F6398.t[3], b, (void *)a);
 }

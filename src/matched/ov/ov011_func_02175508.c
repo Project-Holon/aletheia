@@ -13,9 +13,10 @@
  *   func_021754E8  0x021754E8  thumb ov011
  */
 
-void func_021754E8(int a, int b, int c, int d);
+typedef unsigned char  u8;
+void func_021754E8(u8 *p, int a, int b, int c);
 
 void func_02175508(int a, int b, int c)
 {
-    func_021754E8(a, b, 3, c);
+    func_021754E8((u8 *)a, b, 3, c);
 }

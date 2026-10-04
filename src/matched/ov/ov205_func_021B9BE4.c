@@ -56,7 +56,7 @@ struct WordSet;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void *func_020450F0(u32,u32,u32,u32,u32,u32,u32);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021B9DB8(char *,u32,u32,u32);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
@@ -87,7 +87,7 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         *(void **)(p+24)=func_0201D7EC(23,0,0,0,*(u16 *)p);
         *(void **)(p+12)=func_02045B38(0,2,37,*(u16 *)p);
         *(void **)(p+16)=func_0201EC64(*(u16 *)p);
-        *(void **)(p+20)=func_020450F0(0,2,7,27,15,13,1);
+        *(void **)(p+20)=(void *)func_020450F0(0,2,7,27,15,13,1);
         if(*(u32 *)(p+4)==0)func_021B9DB8(p,3,6,0);
         else func_021B9DB8(p,2,6,0);
         obj=*(void **)(p+20);

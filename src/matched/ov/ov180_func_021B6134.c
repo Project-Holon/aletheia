@@ -13,11 +13,11 @@
  *   func_021B6A10  0x021B6A10  thumb  ov180
  */
 
-extern int func_021B6A10(int);
+extern int func_021B6A10(char *p);
 
 int func_021B6134(int a, int b, int c, int d)
 {
-    if (func_021B6A10(d))
+    if (func_021B6A10((char *)d))
         return 0;
     return 1;
 }

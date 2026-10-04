@@ -35,7 +35,7 @@ extern const int d_021C8388[];
 extern const u8 d_021C8384[];
 extern int func_02040804(int a);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_021BDD48(struct Ov208Fade *m, int pos);
+extern void func_021BDD48(char *p, short offset);
 extern void func_021BD358(char *p, int v);
 extern void func_021BD23C(char *p);
 extern void func_021BDFDC(struct Ov208Fade *m);
@@ -53,7 +53,7 @@ void func_021BD974(struct Ov208Fade *m)
             if (func_02040804(1) >= 0) {
                 func_02041EE4(1, 3, 0);
                 m->pos = 0;
-                func_021BDD48(m, m->pos);
+                func_021BDD48((char *)m, m->pos);
                 m->state = 2;
                 if (m->f34 != 0)
                     func_021BD358(m->f30, 1);
@@ -61,7 +61,7 @@ void func_021BD974(struct Ov208Fade *m)
             }
             func_02041EE4(1, 4, d_021C8388[m->idx]);
             m->pos = m->pos - (s16)d_021C8388[m->idx];
-            func_021BDD48(m, m->pos);
+            func_021BDD48((char *)m, m->pos);
             m->cnt = d_021C8384[m->idx];
         } else {
             m->cnt--;
@@ -72,12 +72,12 @@ void func_021BD974(struct Ov208Fade *m)
             if (func_02040804(1) <= -24) {
                 func_02041EE4(1, 3, -24);
                 m->pos = 24;
-                func_021BDD48(m, m->pos);
+                func_021BDD48((char *)m, m->pos);
                 m->state = 0;
             } else {
                 func_02041EE4(1, 5, d_021C8388[m->idx]);
                 m->pos = m->pos + (s16)d_021C8388[m->idx];
-                func_021BDD48(m, m->pos);
+                func_021BDD48((char *)m, m->pos);
                 m->cnt = d_021C8384[m->idx];
             }
         } else {

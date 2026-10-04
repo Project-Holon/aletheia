@@ -15,11 +15,11 @@
  *   func_02155A80  0x02155A80  thumb  ov009
  */
 
-extern int func_02155A80(int a, int b, int c);
+extern int func_02155A80(void *src, int len, int c);
 
 int func_02155B00(int a, int b)
 {
-    if (func_02155A80(a, b, 3) != 0) {
+    if (func_02155A80((void *)a, b, 3) != 0) {
         return 1;
     }
 

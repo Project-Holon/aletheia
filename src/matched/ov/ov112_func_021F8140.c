@@ -13,5 +13,5 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021F5414(void *,int);
-void func_021F8140(int a,u8 *p,int b) { *(int *)(p+8)=b; func_021F5414(*(void **)(p+0x58),b); *(int *)(p+4)=1; }
+extern void func_021F5414(int a, int b);
+void func_021F8140(int a,u8 *p,int b) { *(int *)(p+8)=b; func_021F5414((int)(*(void **)(p+0x58)),b); *(int *)(p+4)=1; }

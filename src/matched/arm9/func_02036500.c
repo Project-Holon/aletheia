@@ -31,7 +31,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_020364D4(u32 a, void *out, u32 b, u32 c);
+extern int func_020364D4(char *p, unsigned char *dst, int len, int max);
 extern void func_02034714(const char *file, u32 line, const char *fmt);
 extern const char file_020A79A4[];
 extern const char file_020A79C0[];
@@ -40,7 +40,7 @@ u32 func_02036500(u32 a)
 {
     u8 b;
 
-    if (func_020364D4(a, &b, 1, 1) == 1)
+    if (func_020364D4((char *)a, &b, 1, 1) == 1)
         return b;
     func_02034714(file_020A79A4, 0x6C, file_020A79C0);
     return 0;

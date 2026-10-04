@@ -44,7 +44,7 @@ typedef struct GHIEncryptor {
     int field1C;
 } GHIEncryptor;
 
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_0217EAB0(unsigned long);
 struct CPSSslConnection;
 extern struct CPSSslConnection *func_021C1804(char *url);
@@ -59,10 +59,10 @@ int func_021C1920(GHIConnection *connection, GHIEncryptor *theEncryptor)
 {
     GsTwlSslInterface *sslInterface;
 
-    func_0217D254(8, 4, 0xf, g_021CEAE8, g_021CE7B0, g_021CE696, 0x417);
+    func_0217D254(8, (char *)4, 0xf, g_021CEAE8, g_021CE7B0, g_021CE696, 0x417);
     theEncryptor->engine = func_0217EAB0(8);
     if (theEncryptor->engine == 0) {
-        func_0217D254(8, 2, 2, g_021CEAF8, g_021CE7B0, g_021CE696, 0x425, 8);
+        func_0217D254(8, (char *)2, 2, g_021CEAF8, g_021CE7B0, g_021CE696, 0x425, 8);
         return 3;
     }
     {
@@ -80,7 +80,7 @@ int func_021C1920(GHIConnection *connection, GHIEncryptor *theEncryptor)
     sslInterface->sslCon = func_021C1804(connection->url);
     sslInterface->field4 = 0;
     if (sslInterface->sslCon == 0) {
-        func_0217D254(8, 4, 0xf, g_021CEB40, g_021CE7B0, g_021CE696, 0x431);
+        func_0217D254(8, (char *)4, 0xf, g_021CEB40, g_021CE7B0, g_021CE696, 0x431);
         return 3;
     }
     theEncryptor->field8 = 1;
@@ -89,6 +89,6 @@ int func_021C1920(GHIConnection *connection, GHIEncryptor *theEncryptor)
     theEncryptor->field14 = 0;
     theEncryptor->field18 = 1;
     theEncryptor->field1C = 1;
-    func_0217D254(8, 4, 0xf, g_021CEB7C, g_021CE7B0, g_021CE696, 0x43d);
+    func_0217D254(8, (char *)4, 0xf, g_021CEB7C, g_021CE7B0, g_021CE696, 0x43d);
     return 1;
 }

@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern char d_021BBD6C[];
 extern char d_021BBBDC[];
-extern void func_021BB80C(void);
+extern void func_021BB80C(int unused, char *p);
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -43,6 +43,6 @@ u32 *func_021BB6E8(u32 heap)
     func_021BB7BC();
     func_021BB820(p, heap);
     func_021BB9B8(p + 1, d_021BBBDC, heap);
-    p[10] = func_020056A0(func_021BB80C, p, 1);
+    p[10] = func_020056A0((void (*)(void))func_021BB80C, p, 1);
     return p;
 }

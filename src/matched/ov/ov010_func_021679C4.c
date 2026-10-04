@@ -46,8 +46,9 @@ typedef struct Work {
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188CD0(void *p);
-extern void *func_021943EC(void *obj, int i);
+struct Tbl;
+extern u32 func_02188CD0(u8 *p);
+extern u32 func_021943EC(struct Tbl *t, u32 key);
 extern u32 func_021BB578(void *a, void *b, int c, int d);
 
 int func_021679C4(Work *w, int i)
@@ -58,7 +59,7 @@ int func_021679C4(Work *w, int i)
     e = &w->e[i];
     if (w->obj == 0 || e->used == 0 || e->f18 != 0)
         return 0;
-    a = func_02188CD0(func_0201210C(w->sys));
-    e->f18 = func_021BB578(a, func_021943EC(w->obj, i), 0, 0);
+    a = (void *)func_02188CD0(func_0201210C(w->sys));
+    e->f18 = func_021BB578(a, (void *)func_021943EC(w->obj, i), 0, 0);
     return 1;
 }

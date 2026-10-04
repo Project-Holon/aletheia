@@ -25,7 +25,7 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
 extern unsigned int func_02159B10(void *a, void *b);
 extern u32 func_02029620(void *a, u32 b, u32 c);
-extern void func_0215897C(void *a, u32 b);
+extern void func_0215897C(void *vm, void *task);
 extern void func_02159168(int n);
 
 int func_021AF130(u32 a, u32 b)
@@ -37,7 +37,7 @@ int func_021AF130(u32 a, u32 b)
     x = func_0215A5DC((void *)b);
     p = func_0215A5F4((void *)b);
     u = func_02159B10((void *)a, (void *)b);
-    func_0215897C(p, func_02029620(x, u, func_02159B10((void *)a, (void *)b)));
+    func_0215897C(p, (void *)func_02029620(x, u, func_02159B10((void *)a, (void *)b)));
     func_02159168(10);
     return 1;
 }

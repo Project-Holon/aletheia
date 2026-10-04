@@ -18,12 +18,13 @@
  *   func_021EF830  0x021EF830  thumb  ov026
  */
 
-extern int func_021A21B8(int);
-extern int func_021A223C(int, int);
+typedef signed short   s16;
+extern int *func_021A21B8(int *p);
+extern int func_021A223C(unsigned char *o, int arg);
 extern int func_021A23B0(int);
-extern int func_021A21BC(int);
-extern void func_021EF664(int, int, int, int);
-extern void func_021EF830(int, int);
+extern int func_021A21BC(unsigned char *o);
+extern void func_021EF664(int a, s16 *p, int b, int d);
+extern void func_021EF830(int a, s16 *p);
 
 int func_021EF180(int a, int b, int c)
 {
@@ -31,13 +32,13 @@ int func_021EF180(int a, int b, int c)
     int y;
     int t;
 
-    x = func_021A21B8(a);
-    y = func_021A223C(a, c);
+    x = (int)func_021A21B8((int *)a);
+    y = func_021A223C((unsigned char *)a, c);
     t = (b != 0) ? func_021A23B0(a) : 1;
-    if (t != 0 && y != 0 && func_021A21BC(a) == 0) {
+    if (t != 0 && y != 0 && func_021A21BC((unsigned char *)a) == 0) {
         return 1;
     }
-    func_021EF664(a, x, b, 1);
-    func_021EF830(a, x);
+    func_021EF664(a, (s16 *)x, b, 1);
+    func_021EF830(a, (s16 *)x);
     return 0;
 }

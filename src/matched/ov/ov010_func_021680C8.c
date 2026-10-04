@@ -52,23 +52,30 @@ typedef struct {
     int f14;
 } R;
 
-extern int func_020120F4(int);
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct Ent;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C54(u8 *p);
-extern int func_020122C0(int, int, void *, int);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern R *func_020124E8(int);
-extern int func_020457B0(int, int);
-extern int func_02045B38(int, int, int, int);
-extern void func_02045CAC(int, int, int);
-extern void func_02045C04(int);
-extern int func_0202435C(void *, int);
-extern int func_02012964(int);
-extern int func_0216DE94(int, int);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02045C04(struct Rec *rec);
+extern void *func_0202435C(void *slots, unsigned int heap);
+extern u32 func_02012964(const struct BigObj *p);
+extern void *func_0216DE94(void *map, u32 id);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern int func_0219129C(int, int, void *, int, int, int);
+extern struct Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g);
 extern int func_02168174(int a0, int a1, int a2);
 
 int func_021680C8(int a, E *b, int c, int d)
@@ -77,21 +84,21 @@ int func_021680C8(int a, E *b, int c, int d)
     int h;
     int g;
     R *p;
-    h = func_020120F4(a);
+    h = (int)func_020120F4((const struct Ctx *)a);
     g = func_02188C54(func_0201210C((void *)a));
-    hd = func_020122C0(a, 0, func_02168174, 0x1c);
+    hd = (int)func_020122C0((void *)a, 0, func_02168174, 0x1c);
     p = func_020124E8(hd);
     p->f0 = a;
     if (b->f18 == 0xFFFF) {
         int t;
-        p->f14 = func_020457B0(0x5c, 4);
-        t = func_02045B38(0, 2, 0xb8, 4);
-        func_02045CAC(t, b->f1a, p->f14);
-        func_02045C04(t);
+        p->f14 = (int)func_020457B0(0x5c, 4);
+        t = (int)func_02045B38(0, 2, 0xb8, 4);
+        func_02045CAC((struct MsgBank *)t, b->f1a, (void *)p->f14);
+        func_02045C04((struct Rec *)t);
     } else {
-        p->f14 = func_0202435C(&b[c].f18, 4);
+        p->f14 = (int)func_0202435C(&b[c].f18, 4);
     }
-    func_0216D88C((const struct Actor *)func_0216DE94(func_02012964(h), d), (struct VecFx32 *)&p->f4);
-    p->f10 = func_0219129C(g, 1, &p->f4, p->f14, 0, 0);
+    func_0216D88C((const struct Actor *)func_0216DE94((void *)func_02012964((const struct BigObj *)h), d), (struct VecFx32 *)&p->f4);
+    p->f10 = (int)func_0219129C((u8 *)g, 1, (u32)(&p->f4), p->f14, 0, 0);
     return hd;
 }

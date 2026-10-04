@@ -36,9 +36,12 @@
  */
 
 extern int func_02188C84(int a);
-extern int func_02188C80(int a);
-extern unsigned func_020120F4(unsigned);
-extern unsigned func_02012EC4(unsigned);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int func_02188CD0(int a);
 extern int func_02188C9C(int a);
 extern int func_021F3D94(int a);
@@ -48,14 +51,14 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021ABE30(int, int *, int);
 extern int func_021F36EC(int a);
-extern int *func_021F36E0(int a);
+extern int func_021F36E0(int a);
 extern void func_021F3B44(int *a, int *out, int x, int y);
 extern void *func_02188C7C(unsigned char *p);
 extern int func_0216DD1C(void *it, int *cur, int *v);
 extern int func_0216D588(int a);
 extern void func_021F3B88(int *a, int *out, int c);
 extern int func_021F3724(int a);
-extern int *func_021F3718(int a);
+extern int func_021F3718(int a);
 extern void func_021F3CCC(int *a, int *out, int x, int y, int z);
 extern char d_021F40A0[];
 
@@ -76,7 +79,7 @@ void func_021F3730(int a)
     void *it;
 
     r4 = func_02188C84(a);
-    h = func_02012EC4(func_020120F4(func_02188C80(a)));
+    h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a)));
     sp8 = func_02188CD0(a);
     r5 = func_02188C9C(a);
     p = func_0200B3A4(h, func_021F3D94(r5));
@@ -89,7 +92,7 @@ void func_021F3730(int a)
     func_021ABE30(sp8, &n, 1);
     if (*(unsigned char *)p == 0) {
         cnt = func_021F36EC(q[0]);
-        e = func_021F36E0(q[0]);
+        e = (int *)func_021F36E0(q[0]);
         i = 0;
         if (i < cnt)
             for (; i < cnt; i++) {
@@ -110,7 +113,7 @@ void func_021F3730(int a)
         }
     }
     cnt = func_021F3724(q[0]);
-    e = func_021F3718(q[0]);
+    e = (int *)func_021F3718(q[0]);
     i = 0;
     if (i < cnt)
         for (; i < cnt; i++) {

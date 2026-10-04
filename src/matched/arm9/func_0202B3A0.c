@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Node;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32   func_0202B2FC(u32 heapId);
+extern u8 *func_0202B2FC(u32 heapId);
 extern void  func_0202B454(struct Node *p);
 
 struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId)
@@ -39,7 +39,7 @@ struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId)
     *(u32 *)((u8 *)p + 0xc) = 0;
     *(u16 *)((u8 *)p + 0x10) = 0xffff;
     *(u16 *)((u8 *)p + 0x12) = 0xffff;
-    *(u32 *)((u8 *)p + 0x14) = func_0202B2FC(heapId);
+    *(u32 *)((u8 *)p + 0x14) = (u32)func_0202B2FC(heapId);
     *(u32 *)((u8 *)p + 0x18) = 0;
     func_0202B454(p);
     return p;

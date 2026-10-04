@@ -75,8 +75,8 @@ extern int func_021C6C0C(DWCi_Ndi_HTTPREQ **phrq, void **preq, char *strAction, 
                          unsigned int recvbufLen, char *opt);
 extern int func_021C60C8(char *encstr, char *srcbin, int length);
 extern int func_021BE748(void *handle, char *label_p, char *value_p);
-extern int func_021C70D4(DWCi_Ndi_HTTPREQ *hrq, void *req);
-extern void func_021C6BEC(DWCi_Ndi_HTTPREQ *hrq, void *req);
+extern int func_021C70D4(int unused, void *req);
+extern void func_021C6BEC(void *a, int b);
 
 int func_021C73C0(DWCNdFileInfo *filelist, char *buf, unsigned int bufsize, char *opt)
 {
@@ -116,13 +116,13 @@ int func_021C73C0(DWCNdFileInfo *filelist, char *buf, unsigned int bufsize, char
     hrq->reason = 3;
     hrq->param.getfile.encName = encName;
     hrq->param.getfile.size = filelist->size;
-    if (func_021C70D4(hrq, req))
+    if (func_021C70D4((int)hrq, req))
         return 1;
     g_021D3B9C.free(encName);
     return 0;
 
 error:
-    func_021C6BEC(hrq, req);
+    func_021C6BEC(hrq, (int)req);
     g_021D3B9C.free(encName);
     func_021C659C(1, 0);
     return 0;

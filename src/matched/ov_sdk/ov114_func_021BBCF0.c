@@ -35,9 +35,9 @@ typedef struct {
 
 extern char g_021CE414[];
 
-extern void func_021BA850(void *p);
+extern void func_021BA850(int a);
 extern int func_021BBBC8(Res *res_p, char *label_p, int *pos_p);
-extern char *func_021BA820(int size, int a);
+extern int func_021BA820(int a, int b);
 extern void func_021BB210(Res *res_p, char *buf, int pos, int size);
 extern int func_021BA130(char *a, char *b);
 
@@ -50,12 +50,12 @@ int func_021BBCF0(Res *res_p, char *label_p, char **value_pp)
         return -1;
     }
     if (res_p->foundHeader_p) {
-        func_021BA850(res_p->foundHeader_p);
+        func_021BA850((int)res_p->foundHeader_p);
         res_p->foundHeader_p = 0;
     }
     size = func_021BBBC8(res_p, label_p, &pos);
     if (size >= 0) {
-        res_p->foundHeader_p = func_021BA820(size + 1, 4);
+        res_p->foundHeader_p = (char *)func_021BA820(size + 1, 4);
         if (res_p->foundHeader_p == 0) {
             return -1;
         }
@@ -65,7 +65,7 @@ int func_021BBCF0(Res *res_p, char *label_p, char **value_pp)
         return size;
     }
     if (func_021BA130(g_021CE414, label_p) == 0) {
-        res_p->foundHeader_p = func_021BA820(4, 4);
+        res_p->foundHeader_p = (char *)func_021BA820(4, 4);
         if (res_p->foundHeader_p == 0) {
             return -1;
         }

@@ -18,30 +18,31 @@
  *   func_021EEAF4  0x021EEAF4  thumb  ov027
  */
 
-int *func_021A21B8(int a);
-int func_021A223C(int a, int b);
-void func_021A2390(int a, int b, int c, int d);
+typedef unsigned int   u32;
+int *func_021A21B8(int *p);
+int func_021A223C(unsigned char *o, int arg);
+void func_021A2390(u32 *p, int a, int b, int c);
 int func_021A23B0(int a);
-int func_021A21BC(int a);
+int func_021A21BC(unsigned char *o);
 void func_021EEAF4(int a, int *p);
 
 int func_021EE908(int a, int b, int c)
 {
-    int *p = func_021A21B8(a);
-    int t = func_021A223C(a, c);
+    int *p = func_021A21B8((int *)a);
+    int t = func_021A223C((unsigned char *)a, c);
     int r;
 
     if (*p > 0) {
         *p = *p - 1;
         if (*p == 0)
-            func_021A2390(a, 0x7fdf, 0x5a, b);
+            func_021A2390((u32 *)a, 0x7fdf, 0x5a, b);
     } else {
         if (b != 0)
             r = func_021A23B0(a);
         else
             r = 1;
         if (r != 0 && t != 0) {
-            if (func_021A21BC(a) == 0)
+            if (func_021A21BC((unsigned char *)a) == 0)
                 return 1;
         }
     }

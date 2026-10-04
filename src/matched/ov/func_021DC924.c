@@ -16,7 +16,8 @@
  */
 
 
-extern void func_0200780C(int, int);
+typedef unsigned int   u32;
+extern void func_0200780C(void *save, u32 box);
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
 struct S020315D4;
@@ -24,7 +25,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 int func_021DC924(int a, int b, int c, int *d)
 {
-    func_0200780C(*(int *)(*d + 4), *(unsigned char *)((char *)d + 0x14));
+    func_0200780C((void *)(*(int *)(*d + 4)), *(unsigned char *)((char *)d + 0x14));
     func_0203133C((struct S020314B8 *)d[1]);
     func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x4b);

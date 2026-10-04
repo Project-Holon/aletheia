@@ -17,7 +17,7 @@
  *   func_021DEFEC 0x021DEFEC thumb ov170
  */
 extern unsigned func_021DD25C(void ***,unsigned short,unsigned short,unsigned,unsigned);
-extern void *func_021DD2D0(void ***,int,unsigned);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021DD6E8(void **,void *,unsigned);
 extern void func_021DD8A8(unsigned char *,unsigned);
 extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
@@ -29,7 +29,7 @@ void func_021DD810(unsigned char *p,unsigned a,unsigned b,unsigned box)
     if(a>=30) a=b;
     if(func_021DD25C((void ***)p,a,box,5,0)!=492) return;
     if(func_021DD25C((void ***)p,a,box,0x6f,0)==0) return;
-    func_021DD6E8((void **)p,func_021DD2D0((void ***)p,box,a),0);
+    func_021DD6E8((void **)p,(void *)func_021DD2D0((void ***)p,box,a),0);
     func_021DD8A8(p,a);
     if(box==p[0x14])
         func_021EC48C(p,box,a,*(unsigned char *)(*(char **)(p+0x2c)+a+0x3dd2));

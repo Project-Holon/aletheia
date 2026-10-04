@@ -108,7 +108,8 @@ extern void func_020307B0(void *p);
 extern void func_021C60A0(Work *p);
 extern void func_021C46F0(void);
 extern void func_02030EAC(struct Node *n);
-extern void func_02031140(u32 v);
+struct S02031140;
+extern void func_02031140(struct S02031140 *p);
 extern void func_020355D8(u32 v);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
@@ -139,7 +140,7 @@ int func_021C40DC(void *man, int *state, Args *args, Work *p)
     func_021C60A0(p);
     func_021C46F0();
     func_02030EAC(p->f31F4);
-    func_02031140(p->f31F8);
+    func_02031140((struct S02031140 *)p->f31F8);
     func_020355D8(p->f3060);
     func_020315D4(man);
     func_020306F0(0x27);

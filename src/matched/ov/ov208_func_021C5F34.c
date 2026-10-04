@@ -49,8 +49,8 @@ typedef struct {
 } Vec;
 
 extern int func_021BC3A4(int *p);
-extern void *func_021BC3B4(void *ctx);
-extern void *func_021BC3B8(void *ctx);
+extern int func_021BC3B4(int *p);
+extern int func_021BC3B8(char *p);
 extern u16  func_021BC3BC(char *p);
 extern void func_021C5200(void *p);
 extern void func_021BDC48(void *s, u32 on);
@@ -87,8 +87,8 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
     Vec v;
     Vec v2;
 
-    scene = func_021BC3B4(ctx);
-    icon = func_021BC3B8(ctx);
+    scene = (void *)func_021BC3B4(ctx);
+    icon = (void *)func_021BC3B8(ctx);
     flag = 0;
     switch (W(0x6b8)) {
     case 0:

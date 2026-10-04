@@ -29,7 +29,7 @@ typedef struct {
 extern const Pt data_021C8554;
 
 extern u8   func_021C0C14(u16 *heap, u8 *p, int key);
-extern u16  func_021BBB3C(u32 tbl, int idx, int field);
+extern unsigned short func_021BBB3C(char *p, int a, int b);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
@@ -43,8 +43,8 @@ void func_021C0CCC(u16 *heap, u8 *p, int key)
     if (p[0x79] == 0xff)
         p[0x79] = func_021C0C14(heap, p, key);
     if (p[0x79] != 0xff) {
-        pt.x = func_021BBB3C(W(0x3c8), p[0x79], 2);
-        pt.y = func_021BBB3C(W(0x3c8), p[0x79], 3);
+        pt.x = func_021BBB3C((char *)W(0x3c8), p[0x79], 2);
+        pt.y = func_021BBB3C((char *)W(0x3c8), p[0x79], 3);
     }
     func_0204B404(W(0xcc), &pt, 0);
     func_0204B3DC((struct Obj *)W(0xcc), 1);

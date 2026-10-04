@@ -25,19 +25,23 @@
  *   func_021BE92C  0x021BE92C  thumb  ov021
  */
 
-extern int func_02161824(int, int);
-extern void func_02012374(int, int);
-extern int func_02029BCC(int, int);
-extern int func_02188CE8(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Ctx;
+struct Evt;
+extern void *func_02161824(void *a, void *b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *func_02029BCC(void *a, u32 b);
+extern u32 func_02188CE8(u8 *p);
 extern void func_021AAABC(int);
-extern int func_02189A08(int);
-extern void func_021CF498(int, int, int);
+extern int func_02189A08(unsigned char *p);
+extern void func_021CF498(struct Ctx *c, u32 x, int idx);
 extern int func_020144DC(int, int);
-extern int func_0216C9CC(int, int, int);
-extern int func_02029C00(int);
-extern int func_020145CC(int);
-extern int func_02029CC0(int);
-extern int func_021BE92C(int, int, int, int, int, int, int);
+extern void *func_0216C9CC(void *a, void *b, void *c);
+extern void *func_02029C00(void *a);
+extern void *func_020145CC(void *a0);
+extern void *func_02029CC0(void *a);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 int func_0216C9F4(int a, int *st, int *o)
 {
@@ -45,40 +49,40 @@ int func_0216C9F4(int a, int *st, int *o)
     int y = o[1];
     switch (*st) {
     case 0:
-        func_02012374(a, func_02161824(x, y));
+        func_02012374((struct Evt *)a, func_02161824((void *)x, (void *)y));
         (*st)++;
         break;
     case 1:
-        func_02012374(a, func_02029BCC(x, *(unsigned short *)(o[2] + 0x18)));
+        func_02012374((struct Evt *)a, func_02029BCC((void *)x, *(unsigned short *)(o[2] + 0x18)));
         (*st)++;
         break;
     case 2:
-        func_021AAABC(func_02188CE8(y));
-        func_021CF498(func_02189A08(o[1]), a, 9);
+        func_021AAABC(func_02188CE8((u8 *)y));
+        func_021CF498((struct Ctx *)func_02189A08((unsigned char *)o[1]), a, 9);
         (*st)++;
         break;
     case 3:
-        func_02012374(a, func_020144DC(x, y));
+        func_02012374((struct Evt *)a, (struct Evt **)func_020144DC(x, y));
         (*st)++;
         break;
     case 4:
-        func_02012374(a, func_0216C9CC(x, o[2], o[3]));
+        func_02012374((struct Evt *)a, func_0216C9CC((void *)x, (void *)o[2], (void *)o[3]));
         (*st)++;
         break;
     case 5:
-        func_02012374(a, func_02029C00(x));
+        func_02012374((struct Evt *)a, func_02029C00((void *)x));
         (*st)++;
         break;
     case 6:
-        func_02012374(a, func_020145CC(x));
+        func_02012374((struct Evt *)a, func_020145CC((void *)x));
         (*st)++;
         break;
     case 7:
-        func_02012374(a, func_02029CC0(x));
+        func_02012374((struct Evt *)a, func_02029CC0((void *)x));
         (*st)++;
         break;
     case 8:
-        func_02012374(a, func_021BE92C(x, y, 0, 0, 1, 0, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)x, y, 0, 0, 1, 0, 0));
         (*st)++;
         break;
     case 9:

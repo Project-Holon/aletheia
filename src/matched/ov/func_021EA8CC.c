@@ -23,11 +23,12 @@ typedef unsigned int u32;
 
 extern int func_021DD694(char *, int);
 extern u32 func_02017E1C(void *, u32, u32);
-extern int func_0202136C(int);
+typedef unsigned short u16;
+extern u32 func_0202136C(u16 v);
 extern int func_021DD694(char *, int);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *, u32, u32);
-extern int func_0202136C(int);
+extern u32 func_0202136C(u16 v);
 int func_021EA8CC(unsigned char *p)
 {
     int i = p[0x16] - 0x1e;

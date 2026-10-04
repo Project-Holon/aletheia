@@ -30,7 +30,9 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void *func_02012894(int x);
+struct BigObj;
+struct Rec1C;
+struct Rec1C *func_02012894(const struct BigObj *p);
 int func_02184A14(int ctx, int *state, u8 *p);
 void func_02184CEC(void *obj, void *p);
 
@@ -41,7 +43,7 @@ void *func_02184F88(void *p)
     S7 *src;
 
     func_02184CEC(r4, p);
-    src = func_02012894(*(int *)(r4 + 4));
+    src = (S7 *)func_02012894((const struct BigObj *)(*(int *)(r4 + 4)));
     *(S7 *)(r4 + 0x10) = *src;
     *(int *)(r4 + 0x10) = 1;
     *(u16 *)(r4 + 0x18) = 2;

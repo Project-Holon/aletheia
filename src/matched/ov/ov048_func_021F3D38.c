@@ -16,19 +16,21 @@
  *   func_0201433C  0x0201433C  thumb
  */
 
-extern void func_021F472C(int a, int b);
+typedef unsigned int   u32;
+struct BigObj;
+extern void func_021F472C(unsigned char *p, const void *q);
 extern void func_021F3A50(int *, int, int);
-extern int func_0201296C(int);
-extern void func_0201433C(int, int);
+extern u32 func_0201296C(const struct BigObj *p);
+extern void func_0201433C(char *a0, int a1);
 
 void func_021F3D38(int *p, int a, int b, int *c)
 {
-    func_021F472C(p[5], a);
+    func_021F472C((unsigned char *)p[5], (const void *)a);
     if (b == 8)
         func_021F3A50(p, b, c[1]);
     else
         func_021F3A50(p, b, 0);
     if (b == 8 && c[2] == 1) {
-        func_0201433C(func_0201296C(p[2]), (unsigned short)c[1]);
+        func_0201433C((char *)func_0201296C((const struct BigObj *)p[2]), (unsigned short)c[1]);
     }
 }

@@ -29,7 +29,7 @@ typedef struct {
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_021DD2D0(void *p, int a, unsigned b);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern unsigned func_0201AA18(void *p);
 extern void func_02031348(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
@@ -41,7 +41,7 @@ int func_021DF288(char *p)
     unsigned mode;
     r = func_02030734(0x4B, 0x28, 0, d_021F1400, 0xEAC);
     if (*(unsigned char *)(p + 0x16) < 30) {
-        r->mon = func_021DD2D0(p, *(unsigned char *)(p + 0x17), 0);
+        r->mon = (void *)func_021DD2D0((void ***)p, *(unsigned char *)(p + 0x17), 0);
         r->kind = 2;
         r->count = 30;
         r->slot = *(unsigned char *)(p + 0x16);

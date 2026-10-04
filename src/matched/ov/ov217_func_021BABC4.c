@@ -55,7 +55,7 @@ extern void func_021BC5F0(u8 *a0);
 extern void func_021BC5D4(int *p);
 extern void func_0204A600(void);
 extern void func_021BB908(void *);
-extern void func_021BB94C(void *);
+extern void func_021BB94C(u32 a0);
 
 void func_021BABC4(void *self)
 {
@@ -82,5 +82,5 @@ void func_021BABC4(void *self)
         func_0204A600();
     }
     func_021BB908(self);
-    func_021BB94C(self);
+    func_021BB94C((u32)self);
 }

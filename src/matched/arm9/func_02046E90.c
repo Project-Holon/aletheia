@@ -48,14 +48,15 @@ extern struct G3dSys *g_02146A5C;
 extern u8 sG3dSystemFile;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02048F9C(u32 a0, u32 a1, u32 n);
-extern void func_02046CE0(void *node, u32 v);
+struct S02046CE0;
+extern void *func_02048F9C(const char *path, u32 a, u32 heap);
+extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 
 void *func_02046E90(u32 a0, u32 a1)
 {
     u8 *node = func_02030734(g_02146A5C->h18, 8, 0,
                              (const char *)&sG3dSystemFile, 0x2dc);
 
-    func_02046CE0(node, func_02048F9C(a0, a1, g_02146A5C->h18));
+    func_02046CE0((struct S02046CE0 *)node, func_02048F9C((const char *)a0, a1, g_02146A5C->h18));
     return node;
 }

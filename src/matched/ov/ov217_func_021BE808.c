@@ -39,7 +39,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_021BF78C(void *p);
+extern u32 func_021BF78C(u32 a0);
 extern void func_021BF764(void *p, u32 k);
 extern void func_021BF08C(char *p);
 extern int func_021BE934(char *p);
@@ -66,7 +66,7 @@ void func_021BE808(char *p)
 {
     int flag = 0;
     u32 k;
-    if (func_021BF78C(p) == 0) {
+    if (func_021BF78C((u32)p) == 0) {
         return;
     }
     if (*(u32 *)(p + 0x3c8) != 0 && func_021BF810(p) != 0) {

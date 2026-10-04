@@ -14,10 +14,11 @@
  */
 
 extern void func_021BFCE4(int a, signed char b);
-extern void func_021BF728(int a, int b);
+typedef unsigned char  u8;
+extern void func_021BF728(u8 *p, int a);
 
 void func_021C06FC(int a, int b)
 {
     func_021BFCE4(a, -b);
-    func_021BF728(a, 1);
+    func_021BF728((u8 *)a, 1);
 }

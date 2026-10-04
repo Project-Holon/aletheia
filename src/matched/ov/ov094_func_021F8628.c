@@ -16,11 +16,11 @@
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
-extern void func_021FF3F4(u32 obj, int *p, u32 a);
+extern void func_021FF3F4(void *obj, void *out, int idx);
 
 void func_021F8628(u32 a, int *out, int *p)
 {
-    func_021FF3F4(*(u32 *)(d_0220AF20 + 0x190), p, a);
+    func_021FF3F4((void *)(*(u32 *)(d_0220AF20 + 0x190)), p, a);
     out[0] = p[0] + 0x4B33;
     out[1] = p[1] + 0x2299;
     out[2] = p[2] + 0x99CD;

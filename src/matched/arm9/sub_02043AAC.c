@@ -47,11 +47,12 @@ struct Bmp {
     u16 unk0A;
 };
 
-extern void func_0204427C(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5,
-                          u32 a6, u32 a7, u32 a8, u16 a9, u8 a10);
+typedef signed int     s32;
+struct Surf;
+extern void func_0204427C(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy, u32 w, u32 h, u16 key, u8 pal);
 
 void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                    u32 a7, u32 a8, u16 a9, u16 a10)
 {
-    func_0204427C(dst, a2, a3, a4, a5, a6, a7, a8, a9, a10);
+    func_0204427C((struct Surf *)dst, (struct Surf *)a2, a3, a4, a5, a6, a7, a8, a9, a10);
 }

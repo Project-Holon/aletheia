@@ -31,30 +31,31 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-int func_020120F4(void *p);
-int func_02012944(int x);
-void func_0215E580(int x);
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
+u8 *func_02012944(void *p);
+void func_0215E580(void *a);
 void func_0215F734(void);
 void func_0215F900(void *obj);
-void func_0215F920(void *obj);
+int func_0215F920(int a0);
 void func_0215F948(void *obj);
 
 void *func_0215F8A8(void *p, int a1)
 {
-    int r7 = func_020120F4(p);
+    int r7 = (int)func_020120F4(p);
     void *r0v = func_020122C0(p, 0, func_0215F734, 0x7C);
     char *r4 = func_020124E8(r0v);
 
     *(int *)r4 = (int)p;
     *(int *)(r4 + 4) = r7;
     *(int *)(r4 + 8) = a1;
-    *(int *)(r4 + 0x10) = func_02012944(r7);
+    *(int *)(r4 + 0x10) = (int)func_02012944((void *)r7);
     *(int *)(r4 + 0x78) = 0;
     *(int *)(r4 + 0x14) = (int)p;
     *(int *)(r4 + 0x18) = a1;
-    func_0215E580(r7);
+    func_0215E580((void *)r7);
     func_0215F900(r4);
-    func_0215F920(r4);
+    func_0215F920((int)r4);
     func_0215F948(r4);
     return r0v;
 }

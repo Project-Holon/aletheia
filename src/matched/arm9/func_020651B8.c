@@ -118,7 +118,7 @@ extern struct Manager g_02147B88;
 extern Mtx            g_02147D18[];
 extern struct Scr     g_020A81F8;
 
-extern void *func_02066740(struct Actor *o);
+extern int func_02066740(int *p);
 extern int func_02063784(unsigned short *p, int i);
 
 static inline int GetColorParam(const OamAttr *oam)
@@ -140,7 +140,7 @@ void func_020651B8(struct Cell *c, void *a1, void *a2)
     Mtx *m;
     u32 i;
 
-    map = func_02066740(g_02147B88.obj);
+    map = (void *)func_02066740((int *)g_02147B88.obj);
     if (map != 0)
         c->oam.cParam = func_02063784(map, (u16)((c->oam.attr2 & 0xF000) >> 12));
 

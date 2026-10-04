@@ -33,13 +33,13 @@ typedef unsigned int   u32;
 
 extern void func_0203FCA0(u32 bgId, const void *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_02049658(u32 p, int a, int b, int c, int d, int e, int f);
-extern void func_020498F4(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u16 *func_0204162C(int a);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_0204162C(int channel);
 extern void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_020307B0(void *p);
-extern void func_02049B68(u32 p, int a, int b, int c, int d, int e);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040588(u32, u32);
 
@@ -62,13 +62,13 @@ void func_021F0250(void *p, u32 h)
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
-    func_02049658(h, 0xF, 7, 0, 0, 0, 0x15);
-    func_020498F4(h, 0x11, 7, 0, 0x800, 0, 0x15);
-    pal = func_0204162C(6);
+    func_02049658((void *)h, 0xF, 7, 0, 0, 0, 0x15);
+    func_020498F4((void *)h, 0x11, 7, 0, 0x800, 0, 0x15);
+    pal = (u16 *)func_0204162C(6);
     res = func_02049EF4((void *)h, 0x12, 0, (void **)&out, 0x15);
     func_02082D44(out + 0xC, pal, 0x1C0);
     func_020307B0(res);
-    func_02049B68(h, 0x10, 4, 0, 0xA0, 0x15);
+    func_02049B68((void *)h, 0x10, 4, 0, 0xA0, 0x15);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x15);
     func_02040588(4, 0);
     func_02040588(7, 1);

@@ -13,13 +13,15 @@
  *   func_0201F41C 0x0201F41C thumb
  */
 
-extern void func_0201F41C(int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 
 int func_021F4E58(int p, int idx, unsigned short *tab, int val, unsigned char *out)
 {
     unsigned char i;
 
-    func_0201F41C(p + 0xe + 0x18 * idx, (int)tab, val);
+    func_0201F41C((const u16 *)(p + 0xe + 0x18 * idx), (u16 *)((int)tab), val);
     i = 0;
     while (i < 3 && tab[i] != 0x3000) {
         i++;

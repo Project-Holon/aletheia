@@ -43,7 +43,7 @@ typedef struct WCMWork {
     unsigned long notifyCount;
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
@@ -55,7 +55,7 @@ long func_02166A24(void *bssid, void *essid, unsigned long option)
     WCMWork *wcmw;
     long wmResult;
 
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     switch (wcmw->phase) {
     case 5:
         func_02167CB4(bssid, essid, option);

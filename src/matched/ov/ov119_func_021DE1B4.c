@@ -15,7 +15,7 @@
 typedef unsigned char  u8;
 extern int func_021D89EC(const u8 *p);
 extern void func_021E219C(void *,void *,int,int);
-extern void func_021E6440(void *,int,int);
+extern void func_021E6440(int p, int a, int b);
 typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;
 void func_021DE1B4(State *p,int index)
 {
@@ -25,6 +25,6 @@ void func_021DE1B4(State *p,int index)
     void *obj=p->obj[other][col];
     if(func_021D89EC(obj)) {
         func_021E219C(p,obj,other,1);
-        func_021E6440(p,row,col);
+        func_021E6440((int)p,row,col);
     }
 }

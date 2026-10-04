@@ -35,7 +35,8 @@ typedef unsigned int   u32;
 extern const u16 d_021DB7E0[];
 extern const u8  d_021DB7F6[];
 
-extern u32  func_0202A230(u32 a, u32 b);
+struct Sub020140BCObj;
+extern u32 func_0202A230(void *a, u32 idx);
 extern u8 func_0202A3FC(u32 key);
 extern u8 func_0202A3D8(u32 key);
 extern void *func_02188CB4(unsigned char *p);
@@ -43,13 +44,13 @@ extern u32 func_021A30C8(void **ctx);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
 extern u32  func_021AB37C(u32 a);
-extern u32  func_02188D58(u32 x);
-extern u32  func_020140D8(u32 a);
+extern u32 func_02188D58(u8 *p);
+extern u8 func_020140D8(struct Sub020140BCObj *p);
 
 void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
 {
     int flag = 1;
-    u32 t = func_0202A230(a, 1);
+    u32 t = func_0202A230((void *)a, 1);
     u32 k = func_0202A3FC(t);
     u32 m = func_0202A3D8(t);
     int code;
@@ -68,7 +69,7 @@ void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
         } else if (func_021AB37C(z) != 0) {
             code = 8;
         } else {
-            if (func_020140D8(func_02188D58(x)) == 0) {
+            if (func_020140D8((struct Sub020140BCObj *)func_02188D58((u8 *)x)) == 0) {
                 flag = 0;
             }
             code = 5;

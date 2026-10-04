@@ -20,8 +20,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
 extern u8 *func_021C88A4(int a, int k, int b);
-extern void func_021C88C8(int a, void *p);
-extern u32 func_021C83CC(int a);
+extern void func_021C88C8(void *a, void *b);
+extern u32 func_021C83CC(u8 *p);
 
 void func_021E4A70(int u, int a, int b)
 {
@@ -33,7 +33,7 @@ void func_021E4A70(int u, int a, int b)
 
     if (b == func_021D775C(3)) {
         k = func_021D775C(6);
-        w = func_021C83CC(a);
+        w = func_021C83CC((u8 *)a);
         e = E_ONE;
         s = func_021C88A4(a, 0xe, b);
         s[0xf] = e;
@@ -43,7 +43,7 @@ void func_021E4A70(int u, int a, int b)
         s[0xc] = t;
         *(u32 *)(s + 8) = w;
         s[0xe] = 1;
-        func_021C88C8(a, s);
+        func_021C88C8((void *)a, s);
         s = func_021C88A4(a, 0xe, b);
         s[0xf] = e;
         s[0x10] = k;
@@ -51,9 +51,9 @@ void func_021E4A70(int u, int a, int b)
         s[0xc] = t;
         *(u32 *)(s + 8) = w;
         s[0xe] = 1;
-        func_021C88C8(a, s);
+        func_021C88C8((void *)a, s);
         s = func_021C88A4(a, 0x13, b);
         s[4] = b;
-        func_021C88C8(a, s);
+        func_021C88C8((void *)a, s);
     }
 }

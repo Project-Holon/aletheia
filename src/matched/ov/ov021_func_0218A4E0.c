@@ -76,7 +76,7 @@ struct BigObj;
 struct Ctx;
 struct Sub02014444Obj;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012844(void *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
@@ -86,7 +86,7 @@ extern u32 func_021A3080(u8 *p);
 extern u32 func_021A308C(void *v);
 extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
-extern u32 func_0216D888(void *p);
+extern void *func_0216D888(void *p);
 extern void *func_02012B38(const struct BigObj *p);
 extern u16 func_02014478(struct Sub02014444Obj *o);
 extern u32 func_021A30C8(void **ctx);
@@ -100,7 +100,7 @@ void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos)
     p->f0 = func_02188C84(pos);
     p->sys = sys;
     p->f8 = func_020120F4(sys);
-    p->fC = func_02012844(p->f8);
+    p->fC = (void *)func_02012844(p->f8);
     p->f10 = func_02188C9C(pos);
     p->trg = func_020362DC();
     p->cont = func_0203630C();
@@ -120,7 +120,7 @@ void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos)
     p->f1C = func_021A308C(p->f18);
     obj = func_021A3074(p->f18);
     p->f24 = func_0216D5F8(obj);
-    p->f34 = func_0216D888(obj);
+    p->f34 = (u32)func_0216D888(obj);
     p->f26 = func_02014478(func_02012B38(p->f8));
     p->f38 = func_021A30C8(p->f18);
 

@@ -24,7 +24,8 @@ struct Point { s16 x,y; u16 f4; u8 f6,f7; };
 extern void *func_020490F4(unsigned int id, u16 heap);
 struct Obj;
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void *func_0204A6C8(void *,u32,u32,u32,u16);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -36,7 +37,7 @@ void func_021D6CD8(u8 *p)
     u16 n;
     h=func_020490F4(7,*(u16 *)(p+0x43c4));
     n=func_0201BABC(1,0,0,0);
-    *(void **)(p+0x44)=func_0204A6C8(h,n,0,0,*(u16 *)(p+0x43c4));
+    *(void **)(p+0x44)=(void *)func_0204A6C8(h,n,0,0,*(u16 *)(p+0x43c4));
     pt.x=133; pt.y=128; pt.f4=0; pt.f6=3; pt.f7=2;
     *(void **)(p+0xb4)=func_0204B294((void *)*(u32 *)(p+0xc),(u32)*(void **)(p+0x44),*(u32 *)(p+0x28),*(u32 *)(p+0x5c),&pt,0,*(u16 *)(p+0x43c4));
     func_0204B92C(*(void **)(p+0xb4),0);

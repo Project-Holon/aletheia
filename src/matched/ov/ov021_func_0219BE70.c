@@ -22,20 +22,20 @@ typedef unsigned int u32;
 
 typedef struct { u32 a, b, c; } T12;
 extern T12 d_021D5480;
-extern u8 *func_0216D69C(u32);
+extern void *func_0216D69C(void *p);
 extern void func_0219BF3C(int a, u32 v);
 extern void func_0216D8C0(u32, void *);
-extern void func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 
 void func_0219BE70(u32 a)
 {
-    u8 *p = func_0216D69C(a);
+    u8 *p = func_0216D69C((void *)a);
     T12 t;
     p[0] = 0;
     func_0219BF3C(a, 0);
     if (p[2] == 0) {
         t = d_021D5480;
         func_0216D8C0(a, &t);
-        func_0216D568(a, 2 << 14);
+        func_0216D568((void *)a, 2 << 14);
     }
 }

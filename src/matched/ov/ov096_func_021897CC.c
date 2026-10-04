@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(int);
-extern int func_0218A160(int, int);
+extern u8 func_0218A160(u8 *p, int k);
 extern int func_021C82D0(int unused, unsigned int v, int k);
 
 int func_021897CC(int a, int b) {
@@ -31,7 +31,7 @@ int func_021897CC(int a, int b) {
     int t;
     r6 = func_0201134C(a);
     r4 = func_0201134C(a);
-    t = func_0218A160(b, r6);
+    t = func_0218A160((u8 *)b, r6);
     t = func_021C82D0(*(int *)(b + 0xb4), t, r4);
     *(int *)(b + 0x38) = t;
     return *(int *)(b + 0xc4);

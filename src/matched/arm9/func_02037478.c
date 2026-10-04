@@ -57,7 +57,8 @@ extern u32 func_0203D680(void);
 extern u32 func_02037258(void);
 extern u32 func_0203D6BC(void);
 extern void func_02082BCC(u8 *p, u32 v, u32 n);
-extern void func_0203640C(u8 *dst, u8 *src, u32 n);
+struct Rec;
+extern void func_0203640C(struct Rec *p, u32 a, int b);
 extern void func_02037234(u8 *p);
 extern void func_02037224(u32 a, u32 b);
 extern void func_02036B4C(u8 *p);
@@ -75,24 +76,24 @@ void func_02037478(void)
 
     func_02082BCC(g_021469D0->f10, 0, g_021469D0->f1E0 * n1);
     for (i = 0; i < n1; i++) {
-        func_0203640C((u8 *)g_021469D0 + 0x4c + i * 16,
-              g_021469D0->f10 + i * g_021469D0->f1E0, g_021469D0->f1E0);
+        func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x4c + i * 16),
+              (u32)(g_021469D0->f10 + i * g_021469D0->f1E0), g_021469D0->f1E0);
         ((u8 *)g_021469D0)[0x1d7 + i] = 0;
     }
 
     func_02082BCC(g_021469D0->f0C, 0, n2 + n2);
-    func_0203640C((u8 *)g_021469D0 + 0x3c, g_021469D0->f0C, (u32)n2 << 1);
+    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x3c), (u32)g_021469D0->f0C, (u32)n2 << 1);
     for (i = 0; i < n2; i++)
         g_021469D0->f08[i] = 0;
 
     func_02082BCC((u8 *)g_021469D0->f04, 0, n3 * 16 - n3);
-    func_0203640C((u8 *)g_021469D0 + 0x1c, (u8 *)g_021469D0->f04, ((u32)n3 << 4) - n3);
+    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x1c), (u32)((u8 *)g_021469D0->f04), ((u32)n3 << 4) - n3);
     *(u8 *)g_021469D0->f00 = 0xff;
     for (i = 1; i < n3; i++)
         ((u8 *)g_021469D0->f00)[i] = 0;
 
     func_02082BCC(g_021469D0->f14, 0, g_021469D0->f1E0 + g_021469D0->f1E0 * 2);
-    func_0203640C((u8 *)g_021469D0 + 0x2c, g_021469D0->f14,
+    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x2c), (u32)g_021469D0->f14,
                   g_021469D0->f1E0 * 3);
     for (i = 0; i < 8; i++) {
         func_02037234((u8 *)g_021469D0 + 0x11c + i * 16);

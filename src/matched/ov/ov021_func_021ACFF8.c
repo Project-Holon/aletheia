@@ -60,14 +60,14 @@ typedef struct B {
     Inner in;
 } B;
 
-extern u16 func_0216D5F8(u32 a);
+extern u16 func_0216D5F8(void *p);
 extern void func_0219E784(u32 a, u32 b, s16 *out);
 extern void func_0207CDB8(s16 *a, s16 *b);
 extern void func_0216D8E0(u32 a, V3 *v);
-extern void func_02197CCC(u32 a, V3 *v);
+extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_021AC1CC(u32 a, V3 *v);
 extern u32 func_021ABE18(u32 a);
-extern void func_021C66EC(u32 a, u32 b, u32 c);
+extern int func_021C66EC(u32 *a, int idx, int v);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
@@ -92,7 +92,7 @@ void func_021ACFF8(u32 a, B *b)
 
     if (b->f9 == 0)
         return;
-    b->fc = func_0216D5F8(b->f20);
+    b->fc = func_0216D5F8((void *)b->f20);
     func_0219E784(b->f20, 0, f);
     func_0219E784(b->f20, b->fc, d);
     f[1] = 0;
@@ -113,7 +113,7 @@ void func_021ACFF8(u32 a, B *b)
         v.z = FX_Mul(-f[2], 0x7000);
         func_0216D8E0(b->f20, &v);
     }
-    func_02197CCC(b->f20, &w);
+    func_02197CCC((u8 *)b->f20, (s32 *)(&w));
     w.x -= v.x;
     w.y -= v.y;
     w.z -= v.z;
@@ -126,7 +126,7 @@ void func_021ACFF8(u32 a, B *b)
             in->a = 1;
     } else {
         in = &b->in;
-        func_021C66EC(func_021ABE18(*b->f1c), in->c, 0x1000);
+        func_021C66EC((u32 *)func_021ABE18(*b->f1c), in->c, 0x1000);
         func_0216D88C((const struct Actor *)b->f20, (struct VecFx32 *)&u);
         if (b->fc != in->b) {
             in->b = b->fc;

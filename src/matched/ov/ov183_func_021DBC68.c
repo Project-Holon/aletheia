@@ -21,14 +21,14 @@
 
 
 extern void func_021DBCA8(int *task, int *state, char *p);
-extern void func_021DCEE4(char *, int);
+extern void func_021DCEE4(char *p, char *q);
 extern void func_021DCDD8(char *, int);
 extern void func_021DC8EC(char *, int);
 extern void func_021FD73C(int, void *);
 
 void func_021DBC68(int a, int b, char *p)
 {
-    func_021DCEE4(p, *(int *)(p + 0xD0));
+    func_021DCEE4(p, (char *)(*(int *)(p + 0xD0)));
     if (*(int *)(p + 0xB0) != 0)
         func_021DCDD8(p, *(int *)(p + 0xD0));
     else

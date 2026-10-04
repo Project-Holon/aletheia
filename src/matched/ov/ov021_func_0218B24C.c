@@ -29,7 +29,7 @@ extern int func_021A2FA4(void *a, int b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021BB188(u16 a);
 extern int func_0219E418(void *a, int b);
-extern int func_021C46F8(void *a, void *b, int c);
+extern u32 func_021C46F8(u32 a, u32 b, u32 c);
 
 int func_0218B24C(char *p, void *q, void *x)
 {
@@ -42,7 +42,7 @@ int func_0218B24C(char *p, void *q, void *x)
         if (t == 0 || t == 3) {
             if (func_021BB188(func_021AB0F0(*(int *)(p + 0x38)))) {
                 if (func_0219E418(o, r) & 3)
-                    return func_021C46F8(q, x, r);
+                    return func_021C46F8((u32)q, (u32)x, r);
             }
         }
     }

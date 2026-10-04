@@ -35,7 +35,8 @@ struct Slot {
 };
 
 extern struct Slot *func_0201F8B8(struct Slot *s, u32 *tag_out);
-extern void        *func_02045EC0(u32 a, u32 b);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag)
 {
@@ -44,7 +45,7 @@ void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag)
 
     slot = func_0201F8B8(table, &unused);
     if (slot != 0) {
-        slot->u.ptr = func_02045EC0(a, b);
+        slot->u.ptr = func_02045EC0((struct MsgBank *)a, b);
         slot->tag = tag;
     }
 }

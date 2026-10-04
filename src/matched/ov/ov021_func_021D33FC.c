@@ -42,7 +42,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern int func_02013D74(u32 key);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_021D3554(void *, int);
-extern int func_0215850C(int, void *);
+extern int func_0215850C(int a0, int a1);
 extern int func_02158468(int);
 extern void func_021D3478(u8 *a, u32 id, int c, int d, u16 heap);
 
@@ -61,7 +61,7 @@ void func_021D33FC(u8 *a0, u16 a1, u16 a2)
         return;
     r4 = func_020120F4(*(void **)a0);
     r7 = func_021D3554(r4, a1);
-    t = func_0215850C(r6, r4);
+    t = func_0215850C(r6, (int)r4);
     s = 0xffff;
     if (t == 2) {
         if (r7 == 1)

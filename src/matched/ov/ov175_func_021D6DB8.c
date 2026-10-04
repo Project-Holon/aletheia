@@ -106,9 +106,10 @@ extern int func_021DCC28(char *,void *);
 extern u32 func_0201AA18(void *);
 extern void func_021DBC04(char *,int,void *);
 extern int func_021DBDAC(char *);
-extern unsigned func_02012EBC(unsigned);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void * func_0200BAC8(void *);
-extern unsigned func_0200B358(unsigned);
+extern void *func_0200B358(void *sys);
 extern unsigned func_0200B204(unsigned,int);
 extern void *func_0200BAF4(int a0, int a1);
 extern void func_0200BBC8(void *,unsigned);
@@ -126,7 +127,7 @@ extern void func_021E8738(int *,int,int,int);
 extern void func_021E8AA0(int *,int);
 extern void func_021E8AB4(unsigned,unsigned);
 extern void func_021E8AB8(unsigned);
-extern int func_021E8844(unsigned);
+extern int func_021E8844(const int *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
 extern void func_021D7BE4(void);
 extern void func_021D8EC8(void);
@@ -218,10 +219,10 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 19:if(func_0200B078(aux,2)==0)*state=42;else *state=20;break;
     case 20:
         func_021D965C(p);
-        if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC(*(u32 *)ctx[2])),1))func_021D97E4(p,0);else func_021D97E4(p,1);
+        if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC((struct Big *)(*(u32 *)ctx[2]))),1))func_021D97E4(p,0);else func_021D97E4(p,1);
         *state=21;break;
     case 21:if(func_021D97B8(p))*state=22;break;
-    case 22:if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC(*(u32 *)ctx[2])),1))*state=23;else *state=29;break;
+    case 22:if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC((struct Big *)(*(u32 *)ctx[2]))),1))*state=23;else *state=29;break;
     case 23:func_021E8738((int *)W(0x2c),W(0x14),0x3d,1);func_021E8AB4((u32)sys,24);*state=56;break;
     case 24:func_021D98E4(p,0);*state=25;break;
     case 25:r=func_021D9A08(p);if(r!=-1){func_021D99F4(p);switch(r){case 0:*state=35;break;case 1:*state=26;break;}}break;
@@ -250,8 +251,8 @@ void func_021D6DB8(int *sys,int *state,char *p)
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
     case 42:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,43);*state=56;break;
     case 43:
-        saved=func_02012EBC(*(u32 *)ctx[2]);box=func_0200BAC8((void *)saved);
-        item=func_0200B204(func_0200B358(saved),0);
+        saved=(u32)func_02012EBC((struct Big *)(*(u32 *)ctx[2]));box=func_0200BAC8((void *)saved);
+        item=func_0200B204((unsigned int)func_0200B358((void *)saved),0);
         func_02082D44(p+0x10c,(void *)W(0x108),0x160);
         func_0200BBD8(box,1);func_0200B110(W(0x108),10,1);
         func_0200DFE4(ctx[4],10,0,0);func_0200DFE4(ctx[4],10,1,0);func_0200DFE4(ctx[4],10,2,0);
@@ -270,6 +271,6 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 53:func_021E8AA0(sys,(int)func_021D76D4);break;
     case 54:func_021E8AA0(sys,(int)func_021D7BE4);break;
     case 55:ctx[1]=0;func_021E8AA0(sys,(int)func_021D905C);break;
-    case 56:if(func_021E8844(W(0x2c)))func_021E8AB8((u32)sys);break;
+    case 56:if(func_021E8844((const int *)W(0x2c)))func_021E8AB8((u32)sys);break;
     }
 }

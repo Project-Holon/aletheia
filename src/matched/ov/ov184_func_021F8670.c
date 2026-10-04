@@ -18,7 +18,7 @@
 extern int func_02035D20(int *,int *);
 extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,int *);
-extern int func_021FD73C(int,void *);
+extern void func_021FD73C(int *p, int v);
 extern void func_021F8624(int,int *,char *);
 extern void func_021F86EC(int task, unsigned *state, char *p);
 void func_021F8670(int a,int b,char *p)
@@ -30,14 +30,14 @@ void func_021F8670(int a,int b,char *p)
             pair[0]=x; pair[1]=y;
             func_021FD860(*(int *)(p+24),1,pair);
             *(int *)(*(char **)(p+48)+28)=0;
-            func_021FD73C(a,func_021F8624);
+            func_021FD73C((int *)a,(int)func_021F8624);
         }
         if (func_021FB4B4(*(int *)(p+8),x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
             func_021FD860(*(int *)(p+24),1,pair);
             *(int *)(*(char **)(p+48)+28)=1;
-            func_021FD73C(a,func_021F86EC);
+            func_021FD73C((int *)a,(int)func_021F86EC);
         }
     }
 }

@@ -23,7 +23,7 @@
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern void func_021B6558(int,int,int);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D9468(void *,int,void *);
 extern u32 func_020173EC(void);
 extern void func_02082D44(void *,const void *,int);
@@ -47,7 +47,7 @@ int func_021DE754(char *p,int idx)
     if(mon==0 || func_02017E1C(mon,169,0)==0) goto fail;
     *(int *)(p+0x10a0)=idx;
     func_020061E4(0x54c);
-    func_021B6558(*(int *)(p+0x9c0),1,0);
+    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,0);
     if(row!=0) {
         func_021D8E84(p,(int)func_021DDAD4);
     } else {

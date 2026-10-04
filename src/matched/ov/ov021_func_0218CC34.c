@@ -28,7 +28,8 @@ typedef struct {
     unsigned short n;
 } S;
 
-void func_02169308(int h);
+typedef unsigned char  u8;
+void func_02169308(u8 *p);
 void func_0218DEF0(S *p);
 
 void func_0218CC34(S *p)
@@ -36,7 +37,7 @@ void func_0218CC34(S *p)
     int i;
     if (p->f1C != 0) {
         for (i = 0; i < p->n; i++)
-            func_02169308(p->f24[i].h);
+            func_02169308((u8 *)p->f24[i].h);
         func_0218DEF0(p);
     }
 }

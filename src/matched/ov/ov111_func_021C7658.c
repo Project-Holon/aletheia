@@ -92,21 +92,21 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void func_0204A8D4(void *p);
-extern void func_0204ADA4(void *p);
-extern void func_0204AFD8(void *p);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 
 void func_021C7658(Work *p)
 {
-    func_0204A8D4(p->fEC);
-    func_0204ADA4(p->fE8);
-    func_0204AFD8(p->fF0);
-    func_0204A8D4(p->fE0);
-    func_0204ADA4(p->fDC);
-    func_0204AFD8(p->fE4);
+    func_0204A8D4((u32)p->fEC);
+    func_0204ADA4((u32)p->fE8);
+    func_0204AFD8((u32)p->fF0);
+    func_0204A8D4((u32)p->fE0);
+    func_0204ADA4((u32)p->fDC);
+    func_0204AFD8((u32)p->fE4);
     func_0204B1CC(p->f48);
     func_0204A5AC();
 }

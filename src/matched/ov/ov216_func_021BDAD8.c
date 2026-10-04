@@ -20,9 +20,12 @@ typedef unsigned char u8;
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *x);
-extern int  func_0201C6C4(int q, int t);
+typedef unsigned int   u32;
+struct PrintSys;
+struct TcblNode;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *x);
-extern void func_02031194(int a);
+extern void func_02031194(struct TcblNode *n);
 
 void func_021BDAD8(int a, int **b)
 {
@@ -30,7 +33,7 @@ void func_021BDAD8(int a, int **b)
     int   q = *(int *)((char *)b[1] + 0x12c);
 
     if (s[4]) {
-        if (func_0201C6C4(q, (int)func_02045770((struct Descriptor *)*(int *)s)) == 0) {
+        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)*(int *)s))) == 0) {
             func_02045334((struct Descriptor *)*(int *)s);
             s[4] = 0;
         }
@@ -38,6 +41,6 @@ void func_021BDAD8(int a, int **b)
     if (s[4] == 0) {
         if (b[2])
             --*(int *)b[2];
-        func_02031194(a);
+        func_02031194((struct TcblNode *)a);
     }
 }

@@ -13,12 +13,14 @@
  */
 typedef unsigned char  u8;
 extern void func_0202F038(u8 *p);
-extern void *func_0202EE8C(void *, void *, unsigned char, unsigned char, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
 void func_021E1030(char *p)
 {
     if (*(void **)(p + 0x5F0)) {
         func_0202F038(*(void **)(p + 0x5F0));
         *(void **)(p + 0x5F0) = 0;
     }
-    *(void **)(p + 0x5F0) = func_0202EE8C(*(void **)(p + 0x744), *(void **)(p + 0x71C), 0xF, 0x10, *(unsigned short *)(p + 0x5F4));
+    *(void **)(p + 0x5F0) = func_0202EE8C((u32)(*(void **)(p + 0x744)), *(void **)(p + 0x71C), 0xF, 0x10, *(unsigned short *)(p + 0x5F4));
 }

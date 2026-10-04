@@ -24,9 +24,10 @@ extern u16 func_021F9B9C(void *);
 extern void *func_0203159C(void *, int, u16);
 extern void func_02082BCC(void *, int, unsigned int);
 extern void *func_02025538(unsigned int a0, void *a1);
-extern void *func_0201C440(u16);
-extern void *func_021FD760(void *, int, int, u16);
-extern void *func_021FD6D8(void *, int, u16);
+typedef unsigned int   u32;
+extern u32 func_0201C440(void *p);
+extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
+extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021FD73C(int *p, int v);
 extern void func_021DF0DC(int *p, int *state, char *q);
 extern void func_021DEB4C(int *task, int *state, char *p);
@@ -38,10 +39,10 @@ int func_021DE9A0(void *a, int b, char *q)
     *(char **)(p + 0x108) = q;
     *(u16 *)(p + 0x18) = func_021F9B9C(*(void **)(q + 0x14));
     *(void **)p = func_02025538(*(u16 *)(p + 0x18), *(void **)(q + 0xC));
-    *(void **)(p + 0x14) = func_0201C440(*(u16 *)(p + 0x18));
+    *(void **)(p + 0x14) = (void *)func_0201C440((void *)(*(u16 *)(p + 0x18)));
     for (i = 0; i < 2; i++)
-        *(void **)(p + i * 4 + 0x1C) = func_021FD760(*(void **)(q + 0xC), *(int *)(q + 0x10), i, *(u16 *)(p + 0x18));
-    *(void **)(p + 0x10) = func_021FD6D8(p, (int)func_021DF0DC, *(u16 *)(p + 0x18));
+        *(void **)(p + i * 4 + 0x1C) = func_021FD760((unsigned int)(*(void **)(q + 0xC)), (char *)(*(int *)(q + 0x10)), i, *(u16 *)(p + 0x18));
+    *(void **)(p + 0x10) = func_021FD6D8((int)p, (int)func_021DF0DC, *(u16 *)(p + 0x18));
     if (*(int *)(*(char **)(p + 0x108) + 4) != 0)
         func_021FD73C(*(void **)(p + 0x10), (int)func_021DEB4C);
     else

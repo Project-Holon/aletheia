@@ -17,10 +17,13 @@
  *   func_020282A4 0x020282A4 thumb
  */
 
-extern void func_0202822C(int, int);
-extern void func_02028178(int);
-extern int func_02028230(int);
-extern void func_020282A4(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_0202822C(char *p, int v);
+extern void func_02028178(u8 *p);
+extern u32 func_02028230(u8 *p);
+extern void func_020282A4(struct Obj *obj);
 
 int func_021F2624(int a0, int *st)
 {
@@ -28,13 +31,13 @@ int func_021F2624(int a0, int *st)
 
     switch (st[0]) {
     case 0:
-        func_0202822C(h, 1);
+        func_0202822C((char *)h, 1);
         st[0]++;
         break;
     case 1:
-        func_02028178(h);
-        if (func_02028230(h)) {
-            func_020282A4(h);
+        func_02028178((u8 *)h);
+        if (func_02028230((u8 *)h)) {
+            func_020282A4((struct Obj *)h);
             return 1;
         }
         break;

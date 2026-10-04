@@ -20,10 +20,10 @@
  *   func_021D61CC 0x021D61CC thumb ov175
  */
 typedef unsigned int u32;
-extern void func_021E8738(u32,u32,u32,u32);
+extern void func_021E8738(int *p, int a, int b, int c);
 extern void func_021E8AB4(u32,u32);
-extern void func_021E8AA0(u32,void *);
-extern int func_021E8844(u32);
+extern void func_021E8AA0(int *p, int v);
+extern int func_021E8844(const int *p);
 extern void func_021E8AB8(u32);
 extern void func_021D6550(u32 *,int);
 extern int func_021D65DC(char *);
@@ -36,7 +36,7 @@ void func_021D60E0(u32 sys,int *state,u32 *p)
     int result;
     switch(*state) {
     case 0:
-        func_021E8738(p[9],p[4],39,1); *state=5; func_021E8AB4(sys,1); break;
+        func_021E8738((int *)p[9],p[4],39,1); *state=5; func_021E8AB4(sys,1); break;
     case 1: func_021D6550(p,0); *state=2; break;
     case 2:
         result=func_021D65DC((char *)p);
@@ -44,12 +44,12 @@ void func_021D60E0(u32 sys,int *state,u32 *p)
             func_021D65C8(p);
             switch(result) {
             case 0: ctx[1]=0; *state=3; break;
-            case 1: func_021E8AA0(sys,func_021D6048); break;
+            case 1: func_021E8AA0((int *)sys,(int)func_021D6048); break;
             }
         }
         break;
-    case 3: func_021E8738(p[9],p[4],43,2); *state=5; func_021E8AB4(sys,4); break;
-    case 4: func_021E8AA0(sys,func_021D61CC); break;
-    case 5: if(func_021E8844(p[9])) func_021E8AB8(sys); break;
+    case 3: func_021E8738((int *)p[9],p[4],43,2); *state=5; func_021E8AB4(sys,4); break;
+    case 4: func_021E8AA0((int *)sys,(int)func_021D61CC); break;
+    case 5: if(func_021E8844((const int *)p[9])) func_021E8AB8(sys); break;
     }
 }

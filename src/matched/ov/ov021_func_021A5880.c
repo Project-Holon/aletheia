@@ -43,11 +43,11 @@ extern void *func_021A3960(unsigned char *p);
 extern u16 func_0216D5A0(void *p);
 extern u16 func_0216D598(void *o);
 extern void func_0216E0AC(void *o, void *d);
-extern int func_0219E348(void *o);
+extern void *func_0219E348(void *a);
 extern void func_0219E2C0(void *a, void *r);
 extern int func_021A6B88(void *a);
 extern int func_021A3974(u8 *p);
-extern void func_021A3CB0(u8 *p, int v);
+extern int func_021A3CB0(u32 a, u32 b);
 extern void func_021A3CE8(u8 *p);
 
 static void clr4(u16 *q)
@@ -70,7 +70,7 @@ u8 *func_021A5880(u8 *obj, int heap)
         d_021DDEE0[1] = func_0216D598(*(void **)(p + 0x1c));
         func_0216E0AC(*(void **)(p + 0x1c), d_021DDEE0b);
     }
-    *(int *)(p + 0x20) = func_0219E348(*(void **)(p + 0x1c));
+    *(int *)(p + 0x20) = (int)func_0219E348(*(void **)(p + 0x1c));
     {
         u16 v[4] = {0, 0, 0, 0};
         func_0219E2C0(*(void **)(p + 0x1c), v);
@@ -80,11 +80,11 @@ u8 *func_021A5880(u8 *obj, int heap)
         int t = func_021A3974(*(u8 **)(p + 0x14));
         switch (t) {
         case 2:
-            func_021A3CB0(*(u8 **)(p + 0x14), 4);
+            func_021A3CB0((u32)(*(u8 **)(p + 0x14)), 4);
             func_021A3CE8(*(u8 **)(p + 0x14));
             break;
         case 3:
-            func_021A3CB0(*(u8 **)(p + 0x14), 0x100);
+            func_021A3CB0((u32)(*(u8 **)(p + 0x14)), 0x100);
             func_021A3CE8(*(u8 **)(p + 0x14));
             break;
         }

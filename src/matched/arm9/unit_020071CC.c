@@ -53,9 +53,9 @@ struct Sub020071CCCtrl {
     void *unk14[9];
 };
 
-extern void *func_020319A4(void *p, u32 id);
+extern u32 func_020319A4(u8 *p, u32 id);
 
 void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id)
 {
-    return func_020319A4(ctrl->unk10, id);
+    return (void *)func_020319A4(ctrl->unk10, id);
 }

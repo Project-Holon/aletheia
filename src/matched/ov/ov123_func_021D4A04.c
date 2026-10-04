@@ -21,7 +21,8 @@
  */
 typedef unsigned short u16;
 extern void func_021D45F4(int, void *, char *, void *, void *, void *);
-extern void *func_02051B84(void *, void *, char *, u16);
+typedef unsigned char  u8;
+extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 extern void func_021D4778(void);
 extern int func_021D4BA8(int n, char *p);
 extern void func_021D4CA0(char *p);
@@ -33,7 +34,7 @@ void func_021D4A04(char *p)
 {
     struct { int value; } zero = {0};
     func_021D45F4(1, &zero, p, func_021DA9C0, d_021DA640, d_021DA640 + 1);
-    *(void **)(p + 0x20) = func_02051B84(d_021DA648, func_021D4778, p, *(u16 *)(p + 12));
+    *(void **)(p + 0x20) = func_02051B84((u8 *)d_021DA648, (int)func_021D4778, (int)p, *(u16 *)(p + 12));
     *(void **)(p + 4) = func_021D4BA8;
     func_021D4244(p, func_021D4CA0, 0x321);
 }

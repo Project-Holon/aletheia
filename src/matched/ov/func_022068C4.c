@@ -17,7 +17,7 @@
  * lane O10 candidate
  */
 
-extern void func_0220687C(char *p, int v);
+extern void func_0220687C(char *p, void *q);
 
 int func_022068C4(char *p)
 {
@@ -28,7 +28,7 @@ int func_022068C4(char *p)
             break;
     }
     if (i == 8) {
-        func_0220687C(p, *(int *)(p + 8));
+        func_0220687C(p, (void *)(*(int *)(p + 8)));
         i = 0;
     }
     return i;

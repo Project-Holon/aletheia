@@ -23,13 +23,13 @@ struct Desc;
 
 extern u8 abs_id_83[];
 extern u8 func_02010F18(void);
-extern struct Desc *func_020124AC(void *a0, const void *a1, void (*fn)(void *, u32), u32 a3);
-extern void func_021F532C(void *a, u32 b);
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+extern void func_021F532C(void *p);
 
 struct Desc *func_0218ACA8(void *a)
 {
     if (func_02010F18() == 0x30) {
         return 0;
     }
-    return func_020124AC(a, abs_id_83, func_021F532C, 0);
+    return func_020124AC(a, (u32)abs_id_83, (u32 (*)(void *, u32))func_021F532C, 0);
 }

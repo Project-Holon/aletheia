@@ -70,7 +70,7 @@ extern void  func_02021F64(int a, int b, u16 c, int d, u16 e);
 extern int   func_020056A0(int fn, int arg, int n);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern int   func_02030DA8(int owner, int fn, int arg, int n);
-extern void  func_020307B0(int p);
+extern void func_020307B0(void *p);
 extern void  func_02082A60(int a, int b, int c);
 
 void func_020160D4(char *a0, char *a1, u16 a2, int a3)
@@ -118,9 +118,9 @@ void func_020160D4(char *a0, char *a1, u16 a2, int a3)
             *(int *)(a1 + 8) = func_020056A0((int)func_0201691C, (int)o, 0);
         }
     } else {
-        func_020307B0(*(int *)(*(char **)(o + 4) + 0xc));
-        func_020307B0(*(int *)(o + 4));
-        func_020307B0((int)o);
+        func_020307B0((void *)(*(int *)(*(char **)(o + 4) + 0xc)));
+        func_020307B0((void *)(*(int *)(o + 4)));
+        func_020307B0((void *)((int)o));
     }
 
     *(int *)(a1 + 0x140) |= 0x10000000;

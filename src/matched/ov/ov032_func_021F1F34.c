@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021F1F9C(void *task, u8 *s);
-extern void func_02021FD8(u32 p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+struct Chan02021FD8;
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *func_02031290(struct S02030FB4 *p);
@@ -39,7 +40,7 @@ void func_021F1F34(char *p, u8 *q, int *r)
     *(u8 **)(t + 8) = q;
     t[2] = 2;
     t[3] = (q[0] + 4) << 4;
-    func_02021FD8(*(u32 *)(*(char **)(t + 0xc) + 0xac), 3, t[3], 0x10, 4, 0x7fff);
+    func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(*(char **)(t + 0xc) + 0xac)), 3, t[3], 0x10, 4, 0x7fff);
     if (r != 0) {
         *(int **)(t + 0x10) = r;
         (*r)++;

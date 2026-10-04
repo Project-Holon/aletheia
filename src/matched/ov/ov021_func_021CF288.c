@@ -25,7 +25,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0203996C(u32);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
 extern int func_02008468(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -37,7 +39,7 @@ void func_021CF288(u32 a, u32 flag, u32 c)
     u32 h;
 
     if (flag == 1) {
-        h = func_0203996C(0xff);
+        h = (u32)func_0203996C(0xff);
         func_0203D3F8(h, a, 0x2702, func_02008468(), c, 0, 0, 0);
     } else {
         h = (u32)func_020399A8();

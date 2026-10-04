@@ -20,16 +20,16 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02047910(u32 a, u32 b, u32 c);
+extern int func_02047910(void *a, int idx, int amount);
 extern void func_02046BE0(u32 a, u32 b);
 
 void func_021F381C(void *a, void *b, u8 *p)
 {
     u32 m = 1 << 12;
 
-    func_02047910(*(u32 *)(p + 0x38), 0, m);
-    func_02047910(*(u32 *)(p + 0x38), 3, m);
-    func_02047910(*(u32 *)(p + 0x3c), 1, m);
-    func_02047910(*(u32 *)(p + 0x40), 2, m);
+    func_02047910((void *)(*(u32 *)(p + 0x38)), 0, m);
+    func_02047910((void *)(*(u32 *)(p + 0x38)), 3, m);
+    func_02047910((void *)(*(u32 *)(p + 0x3c)), 1, m);
+    func_02047910((void *)(*(u32 *)(p + 0x40)), 2, m);
     func_02046BE0(1, 1);
 }

@@ -16,11 +16,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_02030EAC(int);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
 
 void func_021BB308(char *p)
 {
-    func_02030EAC(*(int *)(p + 0x14));
+    func_02030EAC((struct Node *)(*(int *)(p + 0x14)));
     func_020307B0(p);
 }

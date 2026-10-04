@@ -44,9 +44,9 @@ typedef struct {
 extern int func_0201134C(int);
 extern int func_0218A160(Conn *, int);
 extern u8 *func_0218A308(void *, u8);
-extern int func_021B8DE4(int, int);
+extern unsigned char func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
-extern int func_021B99B8(int, int);
+extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
 extern int func_021D5B7C(void *);
@@ -57,9 +57,9 @@ int func_02188E90(int a, Conn *b)
     char *p;
     int n;
 
-    x = func_021B8DE4(b->fb0, func_0218A160(b, func_0201134C(a)));
+    x = func_021B8DE4((char *)b->fb0, func_0218A160(b, func_0201134C(a)));
     p = func_021B9AF8(b->fb8, x);
-    n = func_021B99B8(b->fb0, x);
+    n = func_021B99B8((void *)b->fb0, x);
     b->f38 = 0;
     for (; n < func_021B9B94((struct Q1 *)p); n++) {
         if (func_021D5B7C(func_0218A308(p, n)) != 0)

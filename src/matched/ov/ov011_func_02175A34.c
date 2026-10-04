@@ -20,10 +20,10 @@
 
 typedef unsigned char u8;
 
-extern int func_02173DA0(void *a, u8 *b, int i);
+extern int func_02173DA0(int a, int b, int c);
 extern int func_02173EEC(void *a, u8 *b);
 extern int func_021741E8(void *a, u8 *b);
-extern int func_02173F74(void *a, u8 *b);
+extern int func_02173F74(int a, u8 *b);
 typedef unsigned int   u32;
 extern u32 func_021742EC(u32 a);
 extern int func_021742A8(int a);
@@ -33,7 +33,7 @@ void func_02175A34(void *a, u8 *b)
     int i;
 
     for (i = 0; i < 3; i++) {
-        if (b[0x194 + i] == 1 && func_02173DA0(a, b, i) == 1) {
+        if (b[0x194 + i] == 1 && func_02173DA0((int)a, (int)b, i) == 1) {
             b[0x194 + i] = 0;
         }
     }
@@ -43,7 +43,7 @@ void func_02175A34(void *a, u8 *b)
     if (b[0x19b] == 1 && func_021741E8(a, b) == 1) {
         b[0x19b] = 0;
     }
-    if (b[0x19c] == 1 && func_02173F74(a, b) == 1) {
+    if (b[0x19c] == 1 && func_02173F74((int)a, b) == 1) {
         b[0x19c] = 2;
     }
     if (b[0x19f] != 0 && func_021742EC(b[0x19f]) == 1) {

@@ -28,17 +28,19 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef short s16;
 
-extern u32 func_021B8220(u32);
+typedef unsigned char  u8;
+struct Sub;
+extern u32 func_021B8220(u8 *p);
 extern u32 *func_021B830C(u32);
-extern u32 func_021B821C(u32);
-extern void func_0218E124(u32, int);
+extern u32 func_021B821C(u8 *p);
+extern void func_0218E124(u8 *a, u32 s);
 extern void func_0218EC60(u32);
-extern void func_021B8050(u32, s16 *);
+extern void func_021B8050(struct Sub *o, s16 *out);
 extern int func_0207CFB8(int, int);
 extern int func_0207CC30(s16 *);
-extern void func_0218ED34(u32, u16);
-extern void func_0218ED58(u32, u32);
-extern void func_0218ED48(u32, u16);
+extern void func_0218ED34(u8 *p, u16 v);
+extern void func_0218ED58(u8 *p, u32 v);
+extern void func_0218ED48(u8 *p, u16 v);
 
 void func_021BAA9C(u32 a)
 {
@@ -47,18 +49,18 @@ void func_021BAA9C(u32 a)
     u32 *r;
     int x, y;
 
-    t = func_021B8220(a);
+    t = func_021B8220((u8 *)a);
     r = func_021B830C(t);
-    h = func_021B821C(a);
-    func_0218E124(h, 0);
-    func_0218EC60(func_021B821C(a));
-    func_021B8050(t, &b[3]);
+    h = func_021B821C((u8 *)a);
+    func_0218E124((u8 *)h, 0);
+    func_0218EC60(func_021B821C((u8 *)a));
+    func_021B8050((struct Sub *)t, &b[3]);
     x = func_0207CFB8(-b[3], -b[5]);
     b[0] = b[3];
     b[2] = b[5];
     b[1] = 0;
     y = func_0207CFB8(-b[4], func_0207CC30(b));
-    func_0218ED34(h, y + r[2]);
-    func_0218ED58(h, r[3]);
-    func_0218ED48(h, x + r[1]);
+    func_0218ED34((u8 *)h, y + r[2]);
+    func_0218ED58((u8 *)h, r[3]);
+    func_0218ED48((u8 *)h, x + r[1]);
 }

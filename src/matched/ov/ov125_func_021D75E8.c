@@ -12,7 +12,9 @@
  */
 typedef unsigned short u16;
 extern char *d_0214616C;
-extern int func_0200B67C(int, void *, int, int, u16);
+typedef unsigned int   u32;
+struct BattleRec;
+extern u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
 int func_021D75E8(int a, int x, int y, u16 *state, int b, u16 c)
 {
     char *p;
@@ -24,7 +26,7 @@ int func_021D75E8(int a, int x, int y, u16 *state, int b, u16 c)
         ++*state;
         break;
     case 1:
-        return func_0200B67C(a, d_0214616C, 0, b, c);
+        return func_0200B67C((void *)a, (struct BattleRec *)d_0214616C, 0, (u16 *)b, c);
     }
     return 0;
 }

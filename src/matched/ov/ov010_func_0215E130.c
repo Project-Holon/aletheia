@@ -25,8 +25,8 @@ extern void *func_0215A5DC(void *p);
 extern void *func_0215A5E4(void *p);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
-extern int *func_02012F80(void *p);
-extern void func_02156BAC(int p);
+extern int func_02012F80(char *base);
+extern void func_02156BAC(void *p);
 extern int func_02156BCC(int p);
 typedef unsigned int   u32;
 extern u32 func_02026454(void *obj);
@@ -41,9 +41,9 @@ int func_0215E130(void *a, void *b)
     t = func_0215A5DC(b);
     s = func_0215A5E4(b);
     t = (void *)func_02012138(t);
-    w = func_02012F80(s);
+    w = (int *)func_02012F80(s);
     if (*w != 0) {
-        func_02156BAC(*w);
+        func_02156BAC((void *)(*w));
         if (func_02156BCC(*w) == 1) {
             return 1;
         }

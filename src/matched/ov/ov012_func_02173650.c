@@ -15,9 +15,9 @@
 
 typedef unsigned char u8;
 
-extern void func_02173614(int a, u8 *b);
+extern void func_02173614(u8 *self, const u8 *mac);
 
 void func_02173650(int a, u8 *b)
 {
-    func_02173614(a, b + 0x64);
+    func_02173614((u8 *)a, b + 0x64);
 }

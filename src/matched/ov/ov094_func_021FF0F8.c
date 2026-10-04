@@ -32,7 +32,9 @@ typedef struct {
 
 extern int func_022019F4(Work *w, int key);
 extern void func_02015BA4(void *obj, void *h);
-extern void *func_02030EE8(void *task);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 extern void func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -44,7 +46,7 @@ void func_021FF0F8(Work *w, int key)
     func_02015BA4(w->obj, w->e[idx].h);
     w->e[idx].h = 0;
     if (w->e[idx].task != 0) {
-        func_020307B0(func_02030EE8(w->e[idx].task));
+        func_020307B0((void *)func_02030EE8(w->e[idx].task));
         func_02030EAC(w->e[idx].task);
         w->e[idx].task = 0;
     }

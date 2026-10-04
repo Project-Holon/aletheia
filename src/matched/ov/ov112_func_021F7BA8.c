@@ -27,7 +27,7 @@ extern char *func_021F5464(char *);
 extern void func_021F4EA4(int,int,Vec *);
 extern void func_0207C9D0(const Vec *,const Vec *,Vec *);
 extern void func_021F9FD0(char *,int,int);
-extern int func_021F9DC0(int);
+extern void *func_021F9DC0(void *p);
 extern void func_021F9FB4(char *,int);
 extern void func_021F9F58(u8 *unused, u8 *p);
 extern void func_020061F8(int);
@@ -51,7 +51,7 @@ void func_021F7BA8(u8 *p,u8 *q)
     func_021F9FD0((char *)t->a,0,(int)&v);
     t->count++;
     if(t->count>=180) {
-        a=func_021F9DC0(*(int *)(p+4));
+        a=(int)func_021F9DC0((void *)(*(int *)(p+4)));
         func_021F9FB4((char *)t->a,0);
         func_021F9F58((void *)a,(void *)t->a);
         *(int *)(q+260)=0;

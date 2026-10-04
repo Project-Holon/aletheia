@@ -17,11 +17,11 @@
 
 
 extern unsigned int func_02031330(void *);
-extern int func_021E1E34(int *, int);
+extern int func_021E1E34(char *p, int *state);
 int func_021DC900(int a, int b, int c, int *d)
 {
     d[2] = func_02031330((void *)d[1]);
-    if (func_021E1E34(d, b) == 0)
+    if (func_021E1E34((char *)d, (int *)b) == 0)
         return 1;
     return 0;
 }

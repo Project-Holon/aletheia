@@ -21,7 +21,8 @@ typedef signed short   s16;
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A26C4(int, s16 *);
-extern void func_021A21E0(int);
+typedef unsigned int   u32;
+extern void func_021A21E0(u32 *p);
 
 void func_021EF2D8(int a, s16 *b, s16 *c)
 {
@@ -44,7 +45,7 @@ void func_021EF2D8(int a, s16 *b, s16 *c)
     v[0] = c[0] / 8;
     v[1] = c[1] / 8;
     if (v[0] >= 256 || v[1] >= 192) {
-        func_021A21E0(a);
+        func_021A21E0((u32 *)a);
         return;
     }
     func_021A26C4(a, v);

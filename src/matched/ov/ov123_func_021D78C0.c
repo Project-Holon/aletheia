@@ -18,12 +18,14 @@ extern int func_021D5D8C(int);
 extern void func_021D77C4(int,int);
 extern void func_021D75D0(int a);
 extern void func_021D76F0(int a);
-extern void func_021D6EE0(int,int,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 void func_021D78C0(int a)
 {
     switch(*(unsigned char *)(a+0xa7)) {
-    case 0: func_021D6EE0(a,(int)func_021D75D0,0x3cb); break;
+    case 0: func_021D6EE0((u8 *)a,(int)func_021D75D0,0x3cb); break;
     case 1: func_021D77C4(a,func_021D5D8C(*(int *)(a+8))-2); break;
-    case 2: func_021D6EE0(a,(int)func_021D76F0,0x3d1); break;
+    case 2: func_021D6EE0((u8 *)a,(int)func_021D76F0,0x3d1); break;
     }
 }

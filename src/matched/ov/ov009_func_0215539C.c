@@ -71,8 +71,9 @@ typedef unsigned int   u32;
 void *func_0203D798(void);
 void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
 void func_02034714(const char *expr, u32 line, const char *file);
-int func_020597C8(int x);
-int func_02059760(int x);
+struct DWCstAccUserData;
+int func_020597C8(struct DWCstAccUserData *userdata);
+int func_02059760(struct DWCstAccUserData *userdata);
 void func_02155374(int v);
 
 int func_0215539C(int a0, int a1)
@@ -101,9 +102,9 @@ int func_0215539C(int a0, int a1)
     d_021A8264->b7A1 = 1;
     for (i = 0; i < 32; i++)
         d_021A8264->bytes[i] = 0;
-    if (func_020597C8(d_021A8264->w108) == 0)
+    if (func_020597C8((struct DWCstAccUserData *)d_021A8264->w108) == 0)
         return 1;
-    if (func_02059760(d_021A8264->w108) == 0)
+    if (func_02059760((struct DWCstAccUserData *)d_021A8264->w108) == 0)
         return 2;
     return 0;
 }

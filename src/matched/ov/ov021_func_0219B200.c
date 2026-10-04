@@ -23,10 +23,10 @@ extern int *func_0219B120(int id);
 extern int func_0219B0D8(int *tbl, int v);
 typedef unsigned int   u32;
 extern int func_0219B13C(u32 a);
-extern int func_0216D67C(int a);
-extern int func_0216DEE0(int a);
-extern int func_0216D83C(int a);
-extern int func_0216D86C(int a);
+extern void *func_0216D67C(void *a0);
+extern void *func_0216DEE0(void *a0);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
 
 int func_0219B200(int a, int id, int end)
 {
@@ -56,13 +56,13 @@ int func_0219B200(int a, int id, int end)
             }
             i++;
         } while (i < n);
-        o = func_0216DEE0(func_0216D67C(a));
+        o = (int)func_0216DEE0(func_0216D67C((void *)a));
         dx = 9;
         dy = 9;
-        ax = func_0216D83C(a);
-        ay = func_0216D86C(a);
-        ox = func_0216D83C(o);
-        oy = func_0216D86C(o);
+        ax = func_0216D83C((void *)a);
+        ay = func_0216D86C((void *)a);
+        ox = func_0216D83C((void *)o);
+        oy = func_0216D86C((void *)o);
         if (ax > ox) {
             dx = 2;
         } else if (ax < ox) {

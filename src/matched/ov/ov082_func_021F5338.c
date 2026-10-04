@@ -30,7 +30,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u8 *func_02189A60(u8 *p);
-extern void func_021F53B4(u8 *w, void *p);
+extern void func_021F53B4(u8 *w, int p);
 extern int func_021F5708(u8 *w);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
@@ -49,7 +49,7 @@ int func_021F5338(void *task, int *st)
         break;
     case 1:
         if (func_0204E804() == 0) {
-            func_021F53B4(w, p);
+            func_021F53B4(w, (int)p);
             func_0204E720(1, 0x10, 0, 0);
             (*st)++;
         }

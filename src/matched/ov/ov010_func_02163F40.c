@@ -18,9 +18,10 @@
  *   func_02163E34  0x02163E34  thumb
  */
 
-extern int func_0216D83C(int a);
-extern int func_0216D86C(int a);
-extern int func_0216D8AC(int a);
+typedef unsigned int   u32;
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
+extern u32 func_0216D8AC(void *p);
 extern void func_02164280(int x, int y, int *p);
 extern void func_02164208(int dir, int *p, int amt);
 extern void func_02163E34(int a, int *p, int *out);
@@ -31,8 +32,8 @@ int func_02163F40(int a, int dir)
     int v;
 
     v = -1;
-    func_02164280(func_0216D83C(a), func_0216D86C(a), buf);
-    buf[1] = func_0216D8AC(a);
+    func_02164280(func_0216D83C((void *)a), func_0216D86C((void *)a), buf);
+    buf[1] = func_0216D8AC((void *)a);
     func_02164208(dir, buf, 0x10000);
     func_02163E34(a, buf, &v);
     return v;

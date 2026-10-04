@@ -31,7 +31,8 @@ extern void func_021F7E38(void *a, int b);
 extern void func_021F80E4(u32 a);
 extern int func_021F7EB4(void);
 extern void func_021F803C(u32 a, void *m, u32 c);
-extern void func_02031194(u32 a);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 void func_021ED5E8(u32 x, struct S *t)
 {
@@ -52,7 +53,7 @@ void func_021ED5E8(u32 x, struct S *t)
             func_021F803C(*(u32 *)(t->w + 0x134),
                           func_021B98AC(*(char *const **)(t->w + 0x138), t->k), t->v);
             (*t->cnt)--;
-            func_02031194(x);
+            func_02031194((struct TcblNode *)x);
         }
         break;
     }

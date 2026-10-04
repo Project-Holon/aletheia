@@ -41,18 +41,18 @@ typedef long long      s64;
 
 typedef struct { int x, y, z; } V;
 
-u32 func_021B8220(u32 p);
+u32 func_021B8220(u8 *p);
 u32 func_021B833C(u32 q);
 u32 func_021B834C(u32 q);
-u32 func_021B821C(u32 p);
-void func_0218E124(u32 a, u32 b);
+u32 func_021B821C(u8 *p);
+void func_0218E124(u8 *a, u32 s);
 void func_0218EC60(u32 a);
 int *func_021B836C(u32 q, u32 k);
-int func_021B82FC(u32 q);
-int func_021B82F8(u32 q);
-void func_0218ED48(u32 o, u16 v);
-void func_0218ED34(u32 o, u16 v);
-void func_0218ED58(u32 o, int v);
+u32 func_021B82FC(u8 *p);
+u32 func_021B82F8(u8 *p);
+void func_0218ED48(u8 *p, u16 v);
+void func_0218ED34(u8 *p, u16 v);
+void func_0218ED58(u8 *p, u32 v);
 u32 func_0207C768(u32 a, u32 b);
 void func_0218ECD4(u32 o, V *v);
 
@@ -83,16 +83,16 @@ void func_021BACA8(u32 p)
     u16 x;
     u16 y;
 
-    q = func_021B8220(p);
+    q = func_021B8220((u8 *)p);
     a = func_021B833C(q);
     b = func_021B834C(q);
-    h = func_021B821C(p);
-    func_0218E124(h, 0);
-    func_0218EC60(func_021B821C(p));
+    h = func_021B821C((u8 *)p);
+    func_0218E124((u8 *)h, 0);
+    func_0218EC60(func_021B821C((u8 *)p));
     k0 = func_021B836C(q, a);
     k1 = func_021B836C(q, b);
-    d = func_021B82FC(q);
-    t = func_021B82F8(q);
+    d = func_021B82FC((u8 *)q);
+    t = func_021B82F8((u8 *)q);
     s = func_0207C768(t << 12, d << 12);
     x0 = (u16)k0[1];
     y0 = (u16)k0[2];
@@ -111,9 +111,9 @@ void func_021BACA8(u32 p)
     else if (dy <= -0x8000)
         dy += 0x10000;
     y = y0 + (FX_MUL(dy << 12, s) >> 12);
-    func_0218ED48(h, y);
-    func_0218ED34(h, x);
-    func_0218ED58(h, z0 + FX_MUL(z1 - z0, s));
+    func_0218ED48((u8 *)h, y);
+    func_0218ED34((u8 *)h, x);
+    func_0218ED58((u8 *)h, z0 + FX_MUL(z1 - z0, s));
     v.x = k0[4] + FX_MUL(k1[4] - k0[4], s);
     v.y = k0[5] + FX_MUL(k1[5] - k0[5], s);
     v.z = k0[6] + FX_MUL(k1[6] - k0[6], s);

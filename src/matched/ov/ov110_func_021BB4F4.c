@@ -38,7 +38,7 @@ extern int func_021BB1F4(void);
 extern void func_021BB1F8(u32,void *);
 extern void func_021BB224(u32,int *,int *);
 extern void func_0201DD78(u32,u32,u32);
-extern void func_0201C7A4(void *,s16,s16,void *,u32);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045808(struct U16Vec *vec);
 u8 *func_021BB4F4(u8 *p,u8 *q) {
@@ -55,7 +55,7 @@ u8 *func_021BB4F4(u8 *p,u8 *q) {
         func_021BB1F8(i,str);
         func_021BB224(i,&x,&y);
         func_0201DD78(1,2,15);
-        func_0201C7A4(func_02045770((struct Descriptor *)a),x+5,y,str,w);
+        func_0201C7A4(func_02045770((struct Descriptor *)a),x+5,y,str,(void *)w);
     }
     func_02045334((struct Descriptor *)a);
     func_02045808(str);

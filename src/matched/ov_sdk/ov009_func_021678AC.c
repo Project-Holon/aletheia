@@ -32,7 +32,7 @@ typedef struct WCMWork {
     unsigned char notifyParam[1];
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern void func_02165A4C(unsigned char phase);
 extern void func_02166E5C(void);
 extern long func_0208F938(void (*callback)(void *), unsigned long arg);
@@ -46,7 +46,7 @@ void func_021678AC(void *arg)
     WMEndDCFCallback *cb;
 
     cb = arg;
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     switch (cb->errcode) {
     case 0:
         if (wcmw->phase == 0xc) {

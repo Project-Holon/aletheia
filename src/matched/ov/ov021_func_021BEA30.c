@@ -25,14 +25,17 @@ typedef struct {
     int f14;
 } Ent;
 
-void func_021BEE74(void);
-int func_020122C0(int a, int b, void (*fn)(void), int c);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Desc;
+int func_021BEE74(u32 p0, int *st, u8 *q);
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 Ent *func_020124E8(int h);
 int func_021BEA6C(int a);
 
 int func_021BEA30(int a, int b, int c, int d)
 {
-    int h = func_020122C0(a, 0, func_021BEE74, 0x2c);
+    int h = (int)func_020122C0((void *)a, 0, func_021BEE74, 0x2c);
     Ent *e = func_020124E8(h);
     e->f0 = a;
     e->f4 = b;

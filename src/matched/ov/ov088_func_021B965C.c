@@ -32,7 +32,7 @@ extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_0204363C(u32 swap);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
-extern void *func_02006984(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, void *h);
+extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void func_02005E30(u32 a);
 extern void  func_021B9E7C(void *a, int b);
 extern void  func_021B9A14(u16 *p, u16 a, u16 b);
@@ -51,7 +51,7 @@ void func_021B965C(char *p)
     if (func_020362DC() & 9) {
         *(u32 *)(p + 4) = 0;
         *(u16 *)p = 4;
-        *(void **)(p + 0x90) = func_02006984(0x283, 0, 0x40, 0, 0, 0, 0, 0);
+        *(void **)(p + 0x90) = (void *)func_02006984(0x283, 0, 0x40, 0, 0, 0, 0, 0);
         func_021B9E7C(p + 0x40, 0x1389);
         func_0204363C(0);
         func_02040588(6, 1);

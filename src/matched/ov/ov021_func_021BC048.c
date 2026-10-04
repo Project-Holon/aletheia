@@ -47,7 +47,7 @@ typedef struct Obj {
 
 extern int func_0216E1C4(int a0, int a1);
 extern int func_0216DC34(void *a0);
-extern int func_0216D7A8(int a, int b);
+extern int func_0216D7A8(void *p, unsigned int v);
 extern void *func_0216E3C4(void *p);
 extern u32 func_021AC154(u32 a);
 extern int func_0219C928(u32 a, const u8 *b, u16 *c, V3 *d, u32 s0, u32 s1);
@@ -63,7 +63,7 @@ void func_021BC048(u32 a0, Obj *p)
         func_021AC154(a0);
         return;
     }
-    h = func_0216D7A8(p->f1c, 0);
+    h = func_0216D7A8((void *)p->f1c, 0);
     if (p->b10 == 0) {
         if (h == 0xFFFF) return;
         {

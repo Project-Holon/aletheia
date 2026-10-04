@@ -18,7 +18,8 @@
 typedef short s16;
 
 extern int func_021A3098(int);
-extern void func_021A3460(int, s16 *, s16 *, s16 *);
+typedef unsigned int   u32;
+extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
 extern int func_021679A4(int, int, int, int, int *, int *);
 
 int func_0217AFC4(int *a, int b, int *out)
@@ -36,7 +37,7 @@ int func_0217AFC4(int *a, int b, int *out)
     r = func_021A3098(b);
     if (r != 0 && r != 1)
         return ret;
-    func_021A3460(b, v + 2, v + 1, v);
+    func_021A3460(b, (u32)(v + 2), (u32)(v + 1), (u32)v);
     for (;;) {
         r = func_021679A4(a[2], v[2], v[1], v[0], &idx, &hit);
         if (r != 1)

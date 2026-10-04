@@ -19,18 +19,22 @@
  */
 typedef unsigned char u8;
 extern int func_0203D158(void);
-extern int func_020279E8(int);
+typedef unsigned int   u32;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
-extern void func_02027858(int),func_02041B6C(int);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021BAD78(void),func_021BB058(void);
+extern void func_02027858(struct TaskMenu *m);
+extern void func_02041B6C(int);
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021BAD78(unsigned a);
+extern void func_021BB058(int a);
 void func_021BADB0(int a) {
- if(func_0203D158()!=0) { func_021B95B8(a,func_021BAD78); return; }
- if(func_020279E8(*(int *)(a+0xcc0))!=0) {
+ if(func_0203D158()!=0) { func_021B95B8((u8 *)a,(u32)func_021BAD78); return; }
+ if(func_020279E8((struct TaskMenu *)(*(int *)(a+0xcc0)))!=0) {
   func_02027A04(*(const u8 **)(a+0xcc0));
-  func_02027858(*(int *)(a+0xcc0));
+  func_02027858((struct TaskMenu *)(*(int *)(a+0xcc0)));
   *(int *)(a+0xcc0)=0;
   func_02041B6C(6);
-  func_021B95B8(a,func_021BB058);
+  func_021B95B8((u8 *)a,(u32)func_021BB058);
  }
 }

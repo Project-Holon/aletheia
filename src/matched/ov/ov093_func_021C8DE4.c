@@ -21,8 +21,9 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021C8E48(int a, u8 b);
 extern int func_021D5B68(void *p);
-extern int func_021C1E14(int a, int b, int c, int d);
-extern void func_021C99A0(int a, void *b);
+struct Msg;
+extern int func_021C1E14(u8 *p, u8 *q, u32 a, u32 b);
+extern int func_021C99A0(void *w, const struct Msg *m);
 
 typedef struct {
     u32 w; u16 h4; u8 b6; u8 b7; u16 h8; u16 ha;
@@ -37,9 +38,9 @@ int func_021C8DE4(int p, const Ent *e)
         s = (int)func_021B9934(*(char **)(p + 8), e->b7);
     if (func_021C8E48(p + 0x1ab8, e->b6)) {
         t = (int)func_021B9934(*(char **)(p + 8), e->b6);
-        if (func_021D5B68((void *)t) == 0 && func_021C1E14(p, t, s, e->h4)) {
+        if (func_021D5B68((void *)t) == 0 && func_021C1E14((u8 *)p, (u8 *)t, s, e->h4)) {
             if ((u8)e->ha)
-                func_021C99A0(p, (void *)&e->h8);
+                func_021C99A0((void *)p, (void *)&e->h8);
             return 1;
         }
     }

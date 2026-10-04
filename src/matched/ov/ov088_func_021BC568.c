@@ -29,7 +29,8 @@ struct Flags02008450;
 extern void func_020083EC(unsigned short *p, unsigned int v);
 extern void func_021BC84C(int *);
 extern void func_021BC75C(int *);
-extern void func_0200854C(int, u32);
+struct Sub0200852CObj;
+extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008450(struct Flags02008450 *p, int on);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
@@ -56,9 +57,9 @@ int func_021BC568(int a, int b, int *s, int *q)
         r = func_021BC8AC(q);
         if (r != 0) {
             if (r == 1)
-                func_0200854C(s[2], 0);
+                func_0200854C((struct Sub0200852CObj *)s[2], 0);
             else
-                func_0200854C(s[2], 1);
+                func_0200854C((struct Sub0200852CObj *)s[2], 1);
             func_021BC84C(q);
             q[1] = 2;
             func_021BC75C(q);

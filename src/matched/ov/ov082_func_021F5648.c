@@ -34,11 +34,12 @@ typedef struct {
     u16 d : 2;
 } Cfg;
 
-extern int  func_02188D20(int a);
+typedef unsigned char  u8;
+extern u32 func_02188D20(u8 *p);
 extern void func_020414AC(int a);
-extern void func_021BC5D4(int a);
-extern int  func_02188C54(int a);
-extern void func_021904D0(int a);
+extern void func_021BC5D4(u8 *p);
+extern u32 func_02188C54(u8 *p);
+extern void func_021904D0(u8 *p);
 extern void func_021F56E4(void *p);
 extern void func_021F56FC(void *p);
 extern void func_020307B0(void *p);
@@ -61,12 +62,12 @@ static inline void G2_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMod
 
 void func_021F5648(int a0, Cfg *p)
 {
-    int t = func_02188D20(a0);
+    int t = func_02188D20((u8 *)a0);
 
     func_020414AC(2);
     G2_SetBG3ControlText(p->d, p->c, p->b, p->a);
-    func_021BC5D4(t);
-    func_021904D0(func_02188C54(a0));
+    func_021BC5D4((u8 *)t);
+    func_021904D0((u8 *)func_02188C54((u8 *)a0));
     reg_G2_BLDCNT = 0;
     func_021F56E4(p);
     func_021F56FC(p);

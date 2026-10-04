@@ -27,14 +27,14 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021E74C8(u16 k);
 extern u8 *func_021C88A4(int a, int k, int c);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
-extern void func_021C88C8(int a, u8 *p);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021E7420(int a, int b, int c)
 {
@@ -45,19 +45,19 @@ void func_021E7420(int a, int b, int c)
     u8 t;
 
     if (c == func_021D775C(3)) {
-        k = func_021D59B4(func_021C7CF4(b, c), 0x10);
+        k = func_021D59B4(func_021C7CF4((int *)b, c), 0x10);
         if (func_021E74C8(k) == 0) {
             n = func_021D775C(5);
             for (i = 0; i < n; i++) {
                 t = func_021D775C(i + 6);
-                if (func_021D59B4(func_021C7CF4(b, t), 0x10) != 0x36) {
+                if (func_021D59B4(func_021C7CF4((int *)b, t), 0x10) != 0x36) {
                     p = func_021C88A4(b, 0x1f, c);
                     *(u8 *)(p + 6) = func_021D775C(i + 6);
                     *(u16 *)(p + 4) = k;
                     func_021C8838(p + 0xc, 2, 0x195);
                     func_021C8860((struct S *)(p + 0xc), *(u8 *)(p + 6));
                     func_021C8860((struct S *)(p + 0xc), *(u16 *)(p + 4));
-                    func_021C88C8(b, p);
+                    func_021C88C8((void *)b, p);
                 }
             }
         }

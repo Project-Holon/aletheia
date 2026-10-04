@@ -15,17 +15,19 @@
  *   func_02045334 0x02045334 arm
  */
 typedef struct {int handle;unsigned char active;unsigned char pad[3];} Entry;
-extern void func_0201C4E4(int);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(int,int);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
 void func_0220B0B0(Entry *p,int b,unsigned n)
 {
     unsigned i;
-    func_0201C4E4(b);
+    func_0201C4E4((struct PrintSys *)b);
     for(i=0;i<n;i++) {
-        if(p[i].active && func_0201C6C4(b,(int)func_02045770((struct Descriptor *)p[i].handle))==0) {
+        if(p[i].active && func_0201C6C4((struct PrintSys *)b,(void *)((int)func_02045770((struct Descriptor *)p[i].handle)))==0) {
             func_02045334((struct Descriptor *)p[i].handle);
             p[i].active=0;
         }

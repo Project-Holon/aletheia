@@ -29,8 +29,9 @@ struct SBL {
 };
 extern void func_021A059C(struct SBL *slist, char *buf, int len, unsigned int *ip, unsigned short *port);
 extern int func_0219F6C8(struct SBL *slist, unsigned int ip, unsigned short port);
-extern void *func_0219E900(struct SBL *slist, unsigned int ip, unsigned short port);
-extern int func_0219E9D8(void *server);
+struct SBServer;
+extern struct SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
+extern int func_0219E9D8(int v);
 extern void *func_0219F7C4(struct SBL *slist, int i);
 extern int func_021A060C(struct SBL *slist, void *server, char *buf, int len, int usepopularlist);
 extern void func_0219F638(struct SBL *slist, void *server);
@@ -46,8 +47,8 @@ int func_021A12DC(struct SBL *slist, char *buf, int len)
 	func_021A059C(slist, buf, len, &ip, &port);
 	foundexisting = func_0219F6C8(slist, ip, port);
 	if (foundexisting == -1) {
-		server = func_0219E900(slist, ip, port);
-		if (func_0219E9D8(server))
+		server = func_0219E900((int)slist, ip, port);
+		if (func_0219E9D8((int)server))
 			return 5;
 	} else {
 		server = func_0219F7C4(slist, foundexisting);

@@ -28,7 +28,7 @@ int func_021551DC(void *p)
 {
     int func_02156690(int);
     int func_02156730(void);
-    void func_0215592C(void *);
+    int func_0215592C(int a);
     int t;
     if (p == 0) t = 1;
     else t = 0;
@@ -36,6 +36,6 @@ int func_021551DC(void *p)
         func_02156730();
         return 1;
     }
-    func_0215592C(p);
+    func_0215592C((int)p);
     return 1;
 }

@@ -18,12 +18,13 @@ typedef signed char    s8;
 
 typedef struct Q { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q;
 
-extern void func_02047204(u32 a);
+struct Tagged;
+extern u32 func_02047204(struct Tagged *p);
 
 void func_021ADD64(u32 a, Q *q)
 {
     if (q->f1c == 0) {
-        func_02047204(q->f4);
+        func_02047204((struct Tagged *)q->f4);
         q->f1c = 1;
     }
 }

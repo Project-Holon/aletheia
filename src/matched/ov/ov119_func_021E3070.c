@@ -23,8 +23,8 @@ typedef unsigned int u32;
 
 extern void func_02050B80(u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02050C04(void *, int, int, u16);
-extern void *func_0205121C(int, int, u16);
+extern int func_02050C04(int a, int b, int c, int d);
+extern int func_0205121C(u32 a, u32 b, u32 c);
 extern void func_02051230(void *, void *, int, int);
 extern const char d_021E81C0[];
 
@@ -47,9 +47,9 @@ void func_021E3070(S *p)
         q = &p->a[i];
         buf = func_02030734(p->heap, 0x4800, 1, d_021E81C0, 0x273);
         q[9] = buf;
-        *q = func_02050C04(buf, 0x4800, 0, p->heap);
+        *q = (void *)func_02050C04((int)buf, 0x4800, 0, p->heap);
     }
-    h = func_0205121C(0x68, 10, p->heap);
+    h = (void *)func_0205121C(0x68, 10, p->heap);
     for (i = 0; i < 6; i++)
         func_02051230(p->a[i], h, 1, 0);
 }

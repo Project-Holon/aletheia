@@ -19,9 +19,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021FEEC0(u32 a, u32 b, u32 c);
+extern void func_021FEEC0(char *p, int mode, u32 value);
 extern void func_021FBDA4(int a, unsigned mode);
-extern void func_021FC1F8(u32 a, u32 b);
+extern void func_021FC1F8(int *p, int i);
 extern void func_021FC610(u32 a, u16 b);
 extern u32 func_021F3AF0(u32 a, u16 b);
 
@@ -29,9 +29,9 @@ void func_021F88A4(char *p, char *q)
 {
     if (*(u32 *)p != 0)
         return;
-    func_021FEEC0(*(u32 *)(q + 4), 0, 0);
+    func_021FEEC0((char *)(*(u32 *)(q + 4)), 0, 0);
     func_021FBDA4(*(u32 *)(q + 0xc), 0);
-    func_021FC1F8(*(u32 *)(q + 0xc), 0);
+    func_021FC1F8((int *)(*(u32 *)(q + 0xc)), 0);
     func_021FC610(*(u32 *)(q + 8), *(u16 *)(p + 0x24));
     *(u32 *)p = func_021F3AF0(*(u32 *)(p + 0x28), *(u16 *)(p + 0x24));
 }

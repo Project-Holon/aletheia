@@ -25,11 +25,12 @@ typedef signed int     s32;
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(int a, int b);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 
 void func_021B9E3C(void *p, char *q)
 {
     q[0x30] = 3;
     q[0x31] = 0x20;
-    func_02043B5C((int)func_02045770((struct Descriptor *)*(u32 *)(q + 0x2c)), 0);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(u32 *)(q + 0x2c))), 0);
 }

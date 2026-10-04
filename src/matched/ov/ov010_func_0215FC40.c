@@ -27,18 +27,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02188CCC();
+struct Obj;
+extern u32 func_02188CCC(u8 *p);
 struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern u32 *func_020124E8();
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC();
 struct Ctx;
 extern int func_0215FD0C(void *task, void *unused, struct Ctx *c);
 extern int func_0215FED4(void *a0, void *a1);
 extern int func_0215FEF0(void);
 extern int func_0215FEF4(u32 *a0, u32 *a1);
-extern int func_021A0F90();
+extern u32 func_021A0F90(u8 *p);
 extern int func_021A0EE4();
 extern void func_020355D8(u8 v);
 
@@ -71,9 +72,9 @@ struct Desc *func_0215FC40(int a0, int a1, u16 a2)
     struct Rec *p;
     int r;
 
-    x = func_02188CCC(a1);
+    x = func_02188CCC((u8 *)a1);
     r7 = func_020122C0((void *)a0, 0, (void *)func_0215FD0C, sz);
-    p = (struct Rec *)func_020124E8(r7);
+    p = (struct Rec *)func_020124E8((struct Obj *)r7);
     func_02082BCC(p, 0, sz);
     p->owner = a0;
     p->desc = r7;
@@ -88,7 +89,7 @@ struct Desc *func_0215FC40(int a0, int a1, u16 a2)
     p->fn38 = (void *)func_0215FEF4;
     p->self = p;
     p->f2C = sz - 0x5d;
-    r = func_021A0F90(x);
+    r = func_021A0F90((u8 *)x);
     switch (r) {
     case 3:
         r = 3;
@@ -97,7 +98,7 @@ struct Desc *func_0215FC40(int a0, int a1, u16 a2)
         r = 4;
         break;
     default:
-        r = func_021A0EE4(func_02188CCC(p->field), 0);
+        r = func_021A0EE4(func_02188CCC((u8 *)p->field), 0);
         break;
     }
     p->f18 = r;

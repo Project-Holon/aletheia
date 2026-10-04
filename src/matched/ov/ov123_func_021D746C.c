@@ -20,17 +20,19 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02009448(int);
-extern void func_021D7224(int);
-extern int func_021D6EBC(int);
-extern void func_021D7CB4(int,int);
-extern void func_021D7DE8(int,int,int);
-extern void func_021D7C54(int,int);
-extern void func_020092D0(int,u8);
+struct Sub02009210Obj;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
+extern void func_021D7224(char *p);
+extern int func_021D6EBC(u8 *p);
+extern int func_021D7CB4(int a, u8 *p);
+extern void func_021D7DE8(u8 *p, int a, u8 *records);
+extern void func_021D7C54(void *p, char *q);
+extern void func_020092D0(struct Sub02009210Obj *obj, u8 value);
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
-extern void func_021D7D18(int,int,u16,u8,u8,u16,int);
-extern void func_02009348(int,int,u16,u8);
+extern void func_021D7D18(u8 *p, int unused, int species, int gender, int form, int n, int value);
+extern void func_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
 extern int func_02012DAC(int a0);
 extern void func_021D6EE0(int,int,int);
 extern void func_021D7430(u8 *p);
@@ -39,18 +41,18 @@ void func_021D746C(int a)
     int b;
     int i;
     u8 *p;
-    b=func_02009448(*(int *)(a+0x28));
+    b=(int)func_02009448((void *)(*(int *)(a+0x28)));
     *(u8 *)(a+0xab)=1;
-    func_021D7224(a);
-    if(func_021D6EBC(a)==0) {
-        func_021D7CB4(b,*(int *)(a+0x38));
-        func_021D7DE8(a,b,*(int *)(a+0x38));
-        func_021D7C54(b,*(int *)(a+0x38));
-        func_020092D0(b,*(u8 *)(*(int *)(a+0x38)+0x5a));
+    func_021D7224((char *)a);
+    if(func_021D6EBC((u8 *)a)==0) {
+        func_021D7CB4(b,(u8 *)(*(int *)(a+0x38)));
+        func_021D7DE8((u8 *)a,b,(u8 *)(*(int *)(a+0x38)));
+        func_021D7C54((void *)b,(char *)(*(int *)(a+0x38)));
+        func_020092D0((struct Sub02009210Obj *)b,*(u8 *)(*(int *)(a+0x38)+0x5a));
     } else {
         p=*(u8 **)(a+0x20)+0xc;
-        func_021D7D18(a,b,*(u16 *)(p+2),p[7],p[6],*(u16 *)(p+4),func_020056EC(8));
-        for(i=0;i<20;i++) func_02009348(b,i,*(u16 *)(p+8+i*2),p[0x30+i]);
+        func_021D7D18((u8 *)a,b,*(u16 *)(p+2),p[7],p[6],*(u16 *)(p+4),func_020056EC(8));
+        for(i=0;i<20;i++) func_02009348((struct Sub02009210Obj *)b,i,*(u16 *)(p+8+i*2),p[0x30+i]);
     }
     *(u8 *)(a+0xad)=1;
     func_02012DAC(*(int *)(a+0x2c));

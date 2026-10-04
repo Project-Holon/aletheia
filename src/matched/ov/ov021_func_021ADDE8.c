@@ -23,24 +23,26 @@ typedef signed char    s8;
 typedef struct Src { u32 f0; u32 f4; u32 arr[4]; } Src;
 typedef struct Q { Src *src; u32 f4; u32 arr[4]; u32 f18; } Q;
 
-extern u32 *func_021AC1AC(u32 a);
+struct G3dOwner;
+struct G3dRec;
+extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32 a, u32 *b);
-extern u32 func_02047400(u32 a, u32 b, u32 c);
-extern u32 func_02047564(u32 a, u32 b, u32 c);
-extern u32 func_0204767C(u32 a, u32 *b, u32 n);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern void func_020477A4(u32 a, u16 i);
 
 void func_021ADDE8(u32 a, Q *q)
 {
-    u32 *p = func_021AC1AC(a);
+    u32 *p = (u32 *)func_021AC1AC(a);
     int i;
 
     q->src = (Src *)p[0];
     func_021AC1CC(a, p + 1);
-    q->f18 = func_02047400(q->src->f4, 0, q->src->f4);
+    q->f18 = (u32)func_02047400((void *)q->src->f4, 0, (void *)q->src->f4);
     for (i = 0; i < 4; i++)
-        q->arr[i] = func_02047564(q->f18, q->src->arr[i], 0);
-    q->f4 = func_0204767C(q->f18, q->arr, 4);
+        q->arr[i] = (u32)func_02047564((struct G3dOwner *)q->f18, (const struct G3dOwner *)q->src->arr[i], 0);
+    q->f4 = (u32)func_0204767C(q->f18, q->arr, 4);
     for (i = 0; i < 4; i++)
         func_020477A4(q->f4, i);
 }

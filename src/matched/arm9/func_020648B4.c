@@ -18,17 +18,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02064648(u32 a);
-extern u32 func_020648E0(u32 a);
+struct MultiCellBank;
+extern u16 func_02064648(struct MultiCellBank *bank);
+extern u16 func_020648E0(struct MultiCellBank *bank);
 
 int func_020648B4(u32 a, u32 b)
 {
     u32 v;
 
     if (b == 1) {
-        v = func_02064648(a) * 0x5c;
+        v = func_02064648((struct MultiCellBank *)a) * 0x5c;
     } else {
-        v = func_020648E0(a) << 7;
+        v = func_020648E0((struct MultiCellBank *)a) << 7;
     }
     return v;
 }

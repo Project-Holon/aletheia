@@ -21,9 +21,10 @@ typedef struct {
     u16 id;
 } S;
 
-extern void func_02050278(u32 a, u32 id, u32 v);
+struct BbActSys;
+extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
 
 void func_021C4A00(S *s)
 {
-    func_02050278(s->obj, s->id, 1);
+    func_02050278((struct BbActSys *)s->obj, s->id, 1);
 }

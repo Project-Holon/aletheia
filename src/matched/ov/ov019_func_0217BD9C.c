@@ -28,10 +28,12 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern int func_02012EBC(int a);
-extern void func_0217422C(u8 *a, int b, int *c);
+typedef unsigned short u16;
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
-extern void func_021736A0(u8 *a, int b);
+extern void func_021736A0(u8 *a, volatile u16 *s);
 extern void func_020307B0(void *p);
 extern int d_021807E8[];
 
@@ -47,9 +49,9 @@ int func_0217BD9C(u8 *a, int b, int c, u8 *d)
         a[0x282E] = 0;
         func_020061E4(0x54B);
         p = func_02030734(4, 12, 1, (const char *)d_021807E8, 0x41A);
-        *p = func_02012EBC(*(int *)(*(int *)a + 8));
+        *p = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)a + 8)));
         *(int **)(a + 0x3558) = p;
-        func_0217422C(a, 0x1d, p);
+        func_0217422C(a, 0x1d, (int)p);
         (*d)++;
         break;
     case 1:
@@ -61,7 +63,7 @@ int func_0217BD9C(u8 *a, int b, int c, u8 *d)
         x = q[2];
         y = q[1];
         if (y == 0)
-            func_021736A0(a, x);
+            func_021736A0(a, (volatile u16 *)x);
         func_020307B0(*(int **)(a + 0x3558));
         *(int **)(a + 0x3558) = 0;
         return 1;

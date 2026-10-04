@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern void func_0204B688(u32 obj, u32 on);
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
 
 void ov208_func_021C24F0(u16 *heap, u8 *p, int key)
@@ -28,7 +29,7 @@ void ov208_func_021C24F0(u16 *heap, u8 *p, int key)
 
     for (i = 0; i < 2; i++) {
         if (((u32 *)(p + 0x5c))[i] != 0)
-            func_0204B688(((u32 *)(p + 0x5c))[i], 0);
+            func_0204B688((struct Actor *)(((u32 *)(p + 0x5c))[i]), 0);
     }
     func_0207D63C((volatile void *)0x04001050, 8, 0x3f, 12, 4);
 }

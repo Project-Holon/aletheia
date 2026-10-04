@@ -19,7 +19,8 @@
 extern void func_02082BCC(void *,int,int);
 extern void func_021D8C84(void *);
 extern void func_021DF7AC(void *,int);
-extern void func_02027858(int);
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
 extern void func_021D94A0(void *,int);
 extern void func_021D8E84(void *,int);
 extern void func_021DBA38(void *);
@@ -34,7 +35,7 @@ void func_021DBA80(char *p)
     func_021D8C84(p);
     func_021DF7AC(p,1);
     if(*(int *)(p+0x64c)) {
-        func_02027858(*(int *)(p+0x64c));
+        func_02027858((struct TaskMenu *)(*(int *)(p+0x64c)));
         *(int *)(p+0x64c)=0;
     }
     func_021D94A0(p,0);

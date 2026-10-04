@@ -47,7 +47,7 @@ extern Desc g_021469BC;
 extern void func_020363B8(int a0, int a1, int a2);
 extern void func_020363D4(int a0, int a1, int a2);
 extern void func_020363F0(int a0, int a1, int a2);
-extern void func_02035E84(int a0, int a1, int a2, int a3, int a4);
+extern void func_02035E84(void *p, u16 a, u16 b, u16 c, u16 d);
 extern void func_02035EB0(int a0, int a1, int a2);
 extern void func_02035ECC(int a0, int a1, int a2);
 
@@ -65,7 +65,7 @@ void func_020356A0(int a0)
     func_020363B8(a0, b.f00, a.f00);
     func_020363D4(a0, b.f02, a.f02);
     func_020363F0(a0, b.f04, a.f04);
-    func_02035E84(a0, b.f06, b.f08, a.f06, a.f08);
+    func_02035E84((void *)a0, b.f06, b.f08, a.f06, a.f08);
     func_02035EB0(a0, b.f0A, a.f0A);
     func_02035ECC(a0, b.f0B, a.f0B);
 }

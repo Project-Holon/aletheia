@@ -53,15 +53,17 @@ typedef struct Obj {
     u8 mask;
 } Obj;
 
-extern int func_02026478(int);
-extern int func_02012B58(int);
-extern int func_02012B70(int);
-extern int func_02188C9C(int);
+struct BigObj;
+struct Work;
+extern u32 func_02026478(void *obj);
+extern u8 func_02012B58(const struct BigObj *p);
+extern u8 func_02012B70(const struct BigObj *p);
+extern u16 func_02188C9C(u8 *p);
 extern int func_0217C11C(u32 value);
-extern void func_02167794(int);
-extern void func_021676E4(int);
-extern int func_021677E4(int, int);
-extern void func_02167848(int, int, Head *);
+extern void func_02167794(struct Work *w);
+extern void func_021676E4(struct Work *w);
+extern int func_021677E4(void *p, int i);
+extern void func_02167848(char *a0, int a1, char *a2);
 extern void func_02174F54(Obj *, int, Entry *, int);
 
 void func_02173464(u8 *a0, Obj *p, int a2)
@@ -74,23 +76,23 @@ void func_02173464(u8 *a0, Obj *p, int a2)
     if (p == 0) {
         return;
     }
-    h = func_02026478(*(int *)(a0 + 4));
-    me = func_02012B58(h);
-    if (func_02012B70(h) == 0) {
-        if (func_0217C11C(func_02188C9C(a2)) == 1) {
-            func_021676E4(p->f8);
+    h = func_02026478((void *)(*(int *)(a0 + 4)));
+    me = func_02012B58((const struct BigObj *)h);
+    if (func_02012B70((const struct BigObj *)h) == 0) {
+        if (func_0217C11C(func_02188C9C((u8 *)a2)) == 1) {
+            func_021676E4((struct Work *)p->f8);
         } else {
-            func_02167794(p->f8);
+            func_02167794((struct Work *)p->f8);
         }
     } else {
-        func_021676E4(p->f8);
+        func_021676E4((struct Work *)p->f8);
     }
     for (i = 0; i < 3; i++) {
-        if (i != me && func_021677E4(p->f8, i) == 1) {
+        if (i != me && func_021677E4((void *)p->f8, i) == 1) {
             p->ents[i].h.f0 = p->ents[i].hi;
             tmp = p->ents[i].h;
             tmp.f0 = 1;
-            func_02167848(p->f8, i, &tmp);
+            func_02167848((char *)p->f8, i, (char *)(&tmp));
         }
     }
     for (i = 0; i < 3; i++) {

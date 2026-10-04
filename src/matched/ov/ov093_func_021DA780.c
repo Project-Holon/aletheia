@@ -26,12 +26,12 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int func_021D775C(int a);
-extern void func_021C88B4(int a, int k, int b);
+extern void func_021C88B4(void *a, int k, int b);
 extern void *func_021C88A4(int a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 a);
-extern void func_021C88C8(int a, void *p);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021DA780(int a, int b, int c, int *d)
 {
@@ -41,11 +41,11 @@ void func_021DA780(int a, int b, int c, int *d)
         return;
     if (*d == 0)
         return;
-    func_021C88B4(b, 2, c);
+    func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 0x202);
     func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8(b, p);
-    func_021C88B4(b, 3, c);
+    func_021C88C8((void *)b, p);
+    func_021C88B4((void *)b, 3, c);
     *d = 0;
 }

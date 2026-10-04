@@ -65,7 +65,10 @@ extern const struct Templ g_020A1430;
 extern char s_clact_c[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  sub_0204DACC(struct Owner *owner, s32 idx, struct Templ *t, u32 a3, u32 a4);
+struct Ovr;
+struct Res;
+struct Sink;
+extern void sub_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr, u32 mode);
 extern void  sub_020307B0(void *p);
 
 s32 func_0204A7A0(u32 size, u32 a2, u16 heapId)
@@ -94,7 +97,7 @@ found:
         t.w4 = size;
         t.w5 = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
 
-        sub_0204DACC(&g_02146A74->owner, i, &t, 0, a2);
+        sub_0204DACC((struct Res *)(&g_02146A74->owner), i, (struct Sink *)(&t), 0, a2);
 
         slot->unk_3c &= ~0x80000000;
         slot->unk_24 = 0;

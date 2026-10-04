@@ -11,5 +11,7 @@
  * symbols:
  *   func_0201EF34 0x0201EF34 thumb
  */
-extern void func_0201EF34(int,int,int);
-void func_021BB9CC(int a,int b,int c,int d) {func_0201EF34(*(int *)(b+0x2c),c,d);}
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+void func_021BB9CC(int a,int b,int c,int d) {func_0201EF34((struct WordSet *)(*(int *)(b+0x2c)),c,d);}

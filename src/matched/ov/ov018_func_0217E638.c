@@ -45,18 +45,27 @@ typedef struct {
     u8 f10C;
 } Obj;
 
-int func_020120F4(int a0);
+typedef unsigned int   u32;
+struct BigObj;
+struct CharBuf;
+struct Ctx;
+struct MsgBank;
+struct PrintSys;
+struct Rec44;
+struct Sub24;
+struct WordSet;
+void *func_020120F4(const struct Ctx *p);
 struct Descriptor;
 void *func_02045770(struct Descriptor *a0);
-int func_0201C6C4(int a0, int a1);
-int func_02012B70(int a0);
-int func_02012B58(int a0);
-void func_02043B5C(int a0, int a1);
+u32 func_0201C6C4(struct PrintSys *p, void *v);
+u8 func_02012B70(const struct BigObj *p);
+u8 func_02012B58(const struct BigObj *p);
+void func_02043B5C(struct CharBuf *buf, u8 value);
 void func_02045334(struct Descriptor *a0);
-int func_02012950(int a0, int a1);
-void func_0201F02C(int a0, int a1, int a2);
-void func_02045CAC(int a0, int a1, int a2);
-void func_0201F250(int a0, int a1, int a2);
+struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_0201C724(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
 
 void func_0217E638(Obj *p)
@@ -66,13 +75,13 @@ void func_0217E638(Obj *p)
     int mode;
     int v;
 
-    h = func_020120F4(p->f00);
-    if (func_0201C6C4(p->f28, (int)func_02045770((struct Descriptor *)p->f44)) == 1) {
+    h = (int)func_020120F4((const struct Ctx *)p->f00);
+    if (func_0201C6C4((struct PrintSys *)p->f28, (void *)((int)func_02045770((struct Descriptor *)p->f44))) == 1) {
         return;
     }
-    if (func_02012B70(h) == 1) {
+    if (func_02012B70((const struct BigObj *)h) == 1) {
         v = p->fD8;
-        if (v == func_02012B58(h)) {
+        if (v == func_02012B58((const struct BigObj *)h)) {
             mode = 2;
             anim = 0x43;
         } else {
@@ -87,16 +96,16 @@ void func_0217E638(Obj *p)
     }
     p->f10C = mode;
     if (mode == 7) {
-        func_02043B5C((int)func_02045770((struct Descriptor *)p->f44), 0);
+        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f44)), 0);
         func_02045334((struct Descriptor *)p->f44);
         return;
     }
     if (mode >= 3 && mode <= 6) {
-        func_0201F02C(p->f24, 0, func_02012950(h, p->fD8));
+        func_0201F02C((struct WordSet *)p->f24, 0, func_02012950((struct Sub24 *)h, p->fD8));
     }
-    func_02045CAC(p->f2C, anim, p->f38);
-    func_0201F250(p->f24, p->f40, p->f38);
-    func_02043B5C((int)func_02045770((struct Descriptor *)p->f44), 0);
+    func_02045CAC((struct MsgBank *)p->f2C, anim, (void *)p->f38);
+    func_0201F250((struct WordSet *)p->f24, (void *)p->f40, (void *)p->f38);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f44)), 0);
     v = p->f28;
     func_0201C724(v, (int)func_02045770((struct Descriptor *)p->f44), 0, 0, p->f40, p->f1C, 0x3C40);
     p->f48 = 1;

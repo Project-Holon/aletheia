@@ -62,7 +62,7 @@ extern char g_021CE440[];
 
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(void *sysInfo);
+extern void *func_021BEF58(int p);
 extern ReqInfo *func_021BEF48(void *sysInfo);
 extern ThreadInfo *func_021BEF50(void *sysInfo);
 extern BgnEnd *func_021BEF3C(void *sysInfo);
@@ -87,7 +87,7 @@ static int func_021BC9F0(ThreadData *threadData_p)
     int result;
 
     sysInfo_p = func_021BEF08();
-    mutexInfo_p = func_021BEF58(sysInfo_p);
+    mutexInfo_p = func_021BEF58((int)sysInfo_p);
     reqInfo_p = func_021BEF48(sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     threadInfo_p = func_021BEF50(sysInfo_p);

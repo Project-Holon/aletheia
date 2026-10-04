@@ -13,13 +13,14 @@
  *   func_020437D4 0x020437D4 arm
  *   func_02082A90 0x02082A90 arm
  */
-extern char *func_020437D4(int);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A90(void *,const void *,unsigned);
 void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
 {
     char *d,*s;
     int doff,soff;
-    d=func_020437D4(dest);s=func_020437D4(src);
+    d=func_020437D4((const struct Bmp *)dest);s=func_020437D4((const struct Bmp *)src);
     doff=width*dy+dx;
     soff=width*sy+sx;
     func_02082A90(d+doff*32,s+soff*32,width*height*32);

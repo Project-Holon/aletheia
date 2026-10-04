@@ -50,7 +50,7 @@ extern int func_021834D0(int *p);
 extern int func_021834E8(void *stream, char *matchtag);
 extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
 extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
-extern void func_021DF948(void *theInterface, char *theConnectionId);
+extern void func_021DF948(char *obj, int v);
 extern char g_021E4338[];
 extern char g_021E4354[];
 extern char g_021E42BC[];
@@ -76,7 +76,7 @@ void func_021E0C68(int theHttpResult, int unused, void *theResponseData, void *t
         } else if (intentionResult != 0) {
             aTranslatedResult = 8;
         } else {
-            func_021DF948(aWebServices->mInterface, ccid);
+            func_021DF948(aWebServices->mInterface, (int)ccid);
         }
     } else {
         aTranslatedResult = 7;

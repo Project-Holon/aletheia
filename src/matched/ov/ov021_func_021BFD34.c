@@ -19,10 +19,12 @@
 
 typedef struct { int x, y, z; } V3;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+typedef unsigned int   u32;
+struct Desc;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 void *func_020124E8(struct Obj *p);
-void func_021BFE2C(void);
+int func_021BFE2C(int task, int *state, int *q);
 
 static inline void V3_Set(V3 *d, int x, int y, int z)
 {
@@ -33,7 +35,7 @@ static inline void V3_Set(V3 *d, int x, int y, int z)
 
 void *func_021BFD34(int a0, void *p, int a2, const V3 *v)
 {
-    void *t = func_020122C0(p, a0, func_021BFE2C, 0x7C);
+    void *t = func_020122C0(p, (void *)a0, func_021BFE2C, 0x7C);
     int *w = func_020124E8(t);
 
     w[0] = (int)p;

@@ -25,7 +25,9 @@ typedef struct {
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204BA20(int, int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204BA20(struct Actor *a, u32 v);
 
 void func_021F1C0C(char *p)
 {
@@ -39,7 +41,7 @@ void func_021F1C0C(char *p)
     *(int *)(p + 0x164) = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
                                         *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
     func_0204B3DC((struct Obj *)*(int *)(p + 0x164), 0);
-    func_0204BA20(*(int *)(p + 0x164), 0);
+    func_0204BA20((struct Actor *)(*(int *)(p + 0x164)), 0);
 
     s.x = 0x68;
     s.y = 0xaa;
@@ -49,7 +51,7 @@ void func_021F1C0C(char *p)
     *(int *)(p + 0x168) = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
                                         *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
     func_0204B3DC((struct Obj *)*(int *)(p + 0x168), 0);
-    func_0204BA20(*(int *)(p + 0x168), 0);
+    func_0204BA20((struct Actor *)(*(int *)(p + 0x168)), 0);
 
     s.x = 0x22;
     s.y = 0xaa;
@@ -59,5 +61,5 @@ void func_021F1C0C(char *p)
     *(int *)(p + 0x16c) = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
                                         *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
     func_0204B3DC((struct Obj *)*(int *)(p + 0x16c), 0);
-    func_0204BA20(*(int *)(p + 0x16c), 0);
+    func_0204BA20((struct Actor *)(*(int *)(p + 0x16c)), 0);
 }

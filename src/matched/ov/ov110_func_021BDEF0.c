@@ -37,7 +37,7 @@ typedef short s16;
 typedef struct { s16 a; s8 b,c; } State;
 typedef int (*Handler)(u8 *,void *);
 extern u32 func_021BABE8(u8 *);
-extern int func_02024158(u32);
+extern u32 func_02024158(const u8 *p);
 extern void func_020061E4(u32);
 extern void func_021B9BEC(u8 *,int);
 extern void func_021BD6F8(State *,void *);
@@ -48,8 +48,8 @@ extern void func_021BF608(u8 *,u32 *);
 extern void func_021BF53C(u8 *,u32 *);
 extern void func_021BF82C(u8 *);
 extern int func_021BF680(u8 *);
-extern int func_021B9C90(u8 *,int);
-extern int func_021B9C74(u8 *);
+extern int func_021B9C90(unsigned int a, int b);
+extern int func_021B9C74(unsigned int a);
 extern void func_021BD7A0(u8 *,Handler);
 extern int func_021BE3B8(u8 *,u32 *);
 extern int func_021BE4C0(u8 *,u32 *);
@@ -63,7 +63,7 @@ int func_021BDEF0(u8 *p,u32 *q)
         p[0x68]=func_021BABE8(*(u8 **)(p+0x14));
         *q=1;
     case 1:
-        if(func_02024158(*(u32 *)p)) {
+        if(func_02024158((const u8 *)(*(u32 *)p))) {
             if(*(u16 *)(p+0x38)&32) break;
             if(*(u16 *)(p+0x38)&16) break;
         }
@@ -117,9 +117,9 @@ int func_021BDEF0(u8 *p,u32 *q)
             *q=8;
         }
         break;
-    case 3: if(func_021B9C90(*(u8 **)(p+0x14),3)) *q=0; break;
+    case 3: if(func_021B9C90((unsigned int)(*(u8 **)(p+0x14)),3)) *q=0; break;
     case 2:
-        if(func_021B9C74(*(u8 **)(p+0x14))) {
+        if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) {
             if(*(u16 *)(p+0x34)&64) {
                 func_020061E4(1352);
                 if(*(u16 *)(p+0x48)) { *(u16 *)(p+0x48)^=1; func_021B9BEC(*(u8 **)(p+0x14),17); }
@@ -147,8 +147,8 @@ int func_021BDEF0(u8 *p,u32 *q)
     case 4: *q=6; func_021BF4F8(p,(u32)func_021BF53C); break;
     case 5: *q=6; func_021BF4F8(p,(u32)func_021BF608); break;
     case 6: *q=2; break;
-    case 7: if(func_021B9C74(*(u8 **)(p+0x14))) func_021BD7A0(p,(Handler)func_021BE3B8); break;
-    case 8: if(func_021B9C74(*(u8 **)(p+0x14))) func_021BD7A0(p,(Handler)func_021BE4C0); break;
+    case 7: if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) func_021BD7A0(p,(Handler)func_021BE3B8); break;
+    case 8: if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) func_021BD7A0(p,(Handler)func_021BE4C0); break;
     }
     return 0;
 }

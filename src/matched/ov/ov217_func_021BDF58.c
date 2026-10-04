@@ -57,7 +57,7 @@ extern void func_021C1154(u8 *h);
 extern void func_021BE930(void *p, u32 v);
 extern void func_021BF3D8(void *p);
 extern void func_021BEFF8(u8 *p);
-extern void func_021BE7F0(void *p);
+extern u32 func_021BE7F0(u32 a0);
 extern void func_021BF574(void *p);
 extern void func_021BF08C(void *p);
 extern void func_021BF15C(void *p);
@@ -95,7 +95,7 @@ void func_021BDF58(u8 *p)
         func_021BE930(p, 1);
         func_021BF3D8(p);
         func_021BEFF8(p);
-        func_021BE7F0(p);
+        func_021BE7F0((u32)p);
         func_021BF574(p);
         func_021BF08C(p);
         func_021BF15C(p);

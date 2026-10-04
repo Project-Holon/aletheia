@@ -35,7 +35,9 @@ typedef unsigned int u32;
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
 extern u32 func_02011330(u32 a);
-extern u32 func_020120F4(void *a);
+struct Ctx;
+struct S;
+extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
@@ -44,10 +46,10 @@ struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *a);
 extern u32 func_02012984(u32 a);
 extern u16 func_02188C9C(u8 *p);
-extern u32 func_02029DF4(u32 a, u32 b, u32 c);
+extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
 extern u32 func_020298A0(void *a, u32 b, u32 c, u32 d);
-extern void func_0215897C(void *a, u32 b);
-extern void func_02028BDC(u32 a, u32 b);
+extern void func_0215897C(void *vm, void *task);
+extern void func_02028BDC(struct S *s, u32 mask);
 extern void func_02159168(int n);
 
 int func_021AF044(u32 a, u32 b)
@@ -58,15 +60,15 @@ int func_021AF044(u32 a, u32 b)
     void *p;
 
     x = func_0215A5DC((void *)b);
-    y = func_020120F4(x);
+    y = (u32)func_020120F4(x);
     l = func_0201210C((void *)x);
     m = func_02012A30((const struct BigObj *)y);
     p = func_0215A5F4((void *)b);
     n = func_02011330(a);
     q = func_02012984(y);
-    s = func_02029DF4(y, func_02188C9C(l), q);
-    func_0215897C(p, func_020298A0(x, s, n, 0x3c));
-    func_02028BDC(m, 2);
+    s = func_02029DF4((void *)y, func_02188C9C(l), q);
+    func_0215897C(p, (void *)func_020298A0(x, s, n, 0x3c));
+    func_02028BDC((struct S *)m, 2);
     func_02159168(13);
     return 1;
 }

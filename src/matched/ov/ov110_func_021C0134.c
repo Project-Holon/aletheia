@@ -33,10 +33,10 @@ extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,unsigned);
-extern void *func_02024988(void *);
+extern void *func_02024988(int a0);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201C440(unsigned);
+extern u32 func_0201C440(void *p);
 extern void *func_02031324(unsigned);
 extern void func_021C0490(u8 *);
 int func_021C0134(void *owner,int unused,void **input) {
@@ -49,11 +49,11 @@ int func_021C0134(void *owner,int unused,void **input) {
     func_02082BCC(p,0,176);
     *(u16 *)(p+4)=81;
     *(void **)(p+0x1c)=*input;
-    *(void **)(p+0x20)=func_02024988(*input);
+    *(void **)(p+0x20)=func_02024988((int)(*input));
     *(void ***)p=input;
     *(void **)(p+0x58)=func_0201D7EC(23,0,0,0,*(u16 *)(p+4));
     *(void **)(p+0x60)=func_02045B38(0,2,146,*(u16 *)(p+4));
-    *(void **)(p+0x5c)=func_0201C440(*(u16 *)(p+4));
+    *(void **)(p+0x5c)=(void *)func_0201C440((void *)(*(u16 *)(p+4)));
     *(void **)(p+0xac)=func_02031324(*(u16 *)(p+4));
     *(u8 *)(p+0x94)=255;
     *(u8 *)(p+0x95)=255;

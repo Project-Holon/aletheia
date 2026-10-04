@@ -23,13 +23,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_021BCD3C(u8 *);
 extern void func_021BF38C(u8 *);
-extern void func_021C0550(u8 *);
+extern void func_021C0550(int p);
 
 u32 func_021BDD78(u8 *p)
 {
     func_021BCD3C(p);
     func_021BF38C(p);
-    func_021C0550(p);
+    func_021C0550((int)p);
     return 3;
 }
 

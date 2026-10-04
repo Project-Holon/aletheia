@@ -16,9 +16,9 @@
  *   func_021A0390  0x021A0390  thumb  ov021
  */
 
-int func_021A0390(int a);
+int func_021A0390(int *p);
 
 int func_021A23F4(int *p)
 {
-    return func_021A0390(p[4]);
+    return func_021A0390((int *)p[4]);
 }

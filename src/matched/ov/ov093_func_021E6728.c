@@ -32,8 +32,9 @@ extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B68(void *p);
 extern int func_021E67E4(u32 v);
 extern int func_021B9A24(u32 a, u32 b);
-extern void func_021D7090(int m);
-extern void func_021D7040(int m);
+struct Node;
+extern void func_021D7090(u8 *p);
+extern void func_021D7040(struct Node *n);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
@@ -52,7 +53,7 @@ void func_021E6728(int m, void *a, u32 b)
                 k = func_021D775C(3);
                 x = func_021C7CF4(a, k);
                 if (func_021B9A24(b, k) == 0 && func_021D5B68(x) == 0) {
-                    func_021D7090(m);
+                    func_021D7090((u8 *)m);
                     e = func_021C88A4(a, 0x13, b);
                     e[4] = b;
                     e[5] = 1;
@@ -64,7 +65,7 @@ void func_021E6728(int m, void *a, u32 b)
                     func_021C88C8(a, e);
                 }
             }
-            func_021D7040(m);
+            func_021D7040((struct Node *)m);
         }
     }
 }

@@ -31,7 +31,8 @@ struct Entry8 { u32 a, b; };
 struct Big;
 struct Blk38;
 extern void *func_02012EBC(struct Big *p);
-extern void *func_0201296C(void *p);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern void *func_0200D418(void *p);
 extern u8 func_0200D454(struct Blk38 *p);
@@ -42,7 +43,7 @@ const struct Entry8 *func_021A99A8(void *p)
     void *q = func_02012EBC(p);
     u32 k;
 
-    if (func_020142E8(func_0201296C(p), 0x960) == 0)
+    if (func_020142E8((void *)func_0201296C(p), 0x960) == 0)
         return 0;
     k = func_0200D454(func_0200D418(q));
     if (k >= 0x11)

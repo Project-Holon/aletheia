@@ -45,10 +45,10 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u32 func_02017E88(void *mon, u32 id, void *v);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void *func_02202670(void *words, void *msg, u32 id, u32 heap);
+extern u32 func_02202670(u32 a, u32 b, u32 c, u32 d);
 extern void func_02020F84(void *dst, u32 entry, u32 heap);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -75,7 +75,7 @@ void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, 
 
     nick = func_020457B0(0x1a, 0x48);
     ot = func_020457B0(0x26, 0x48);
-    func_02017E88(mon, 0x73, nick);
+    func_02017E88(mon, 0x73, (u32)nick);
     name = rec->name;
     mode = rec->mode;
     key = rec->key;
@@ -85,7 +85,7 @@ void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, 
     smode = func_02045EC0(bank, tbl_02202EB0[mode]);
     s70 = func_02045EC0(bank, 0x70);
     func_0201EFA4(words, 3, key, 3, 0, 1);
-    s71 = func_02202670(words, bank, 0x71, 0x48);
+    s71 = (void *)func_02202670((u32)words, (u32)bank, 0x71, 0x48);
     sname = func_02045EC0(names, name);
     func_02020F84(ot, (u16)lv, 0x48);
     s41 = func_02045EC0(bank, 0x41);

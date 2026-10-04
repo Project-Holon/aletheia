@@ -25,14 +25,15 @@ typedef int s32;
 extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_021D67A8(void *);
+struct QL;
+extern u16 func_021D67A8(struct QL *p);
 
 int func_02188E00(int a, int b) {
     int t;
     u8 s;
     t = func_0201134C(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D67A8(func_0218A2FC((u8 *)b, s));
+    t = func_021D67A8((struct QL *)func_0218A2FC((u8 *)b, s));
     *(int *)(b + 0x38) = t;
     return *(int *)(b + 0xc4);
 }

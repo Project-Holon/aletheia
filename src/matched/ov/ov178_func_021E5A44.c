@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021D9EA0(u32);
+extern void func_021D9EA0(u8 *p);
 typedef signed int     s32;
 extern void func_02034A5C(s32 handle);
 extern u8 ov175_id[];
@@ -30,7 +30,7 @@ void func_021E5A44(void **pp)
 {
     if (*pp == 0)
         return;
-    func_021D9EA0((u32)*pp);
+    func_021D9EA0((u8 *)((u32)*pp));
     func_02034A5C((u32)ov175_id);
     func_02034A5C((u32)ov114_id);
     func_02034A5C((u32)ov067_id);

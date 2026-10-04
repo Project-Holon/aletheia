@@ -18,7 +18,10 @@ struct Point { s16 x,y; };
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor,struct PtS *out,unsigned int space);
-extern void func_0204B404(int,struct Point *,u16);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B97BC(int a,int b,int c,int d)
 {
  struct Point p;
@@ -26,6 +29,6 @@ void func_021B97BC(int a,int b,int c,int d)
   func_0204B454((struct Actor *)*(int *)(a+0x2c8+d*4),(struct PtS *)&p,0);
   p.x += (s16)b;
   p.y += (s16)c;
-  func_0204B404(*(int *)(a+0x2c8+d*4),&p,0);
+  func_0204B404((struct Obj *)(*(int *)(a+0x2c8+d*4)),(const struct Vec2 *)(&p),0);
  }
 }

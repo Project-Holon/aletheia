@@ -29,9 +29,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u16 *func_0201AF80(u32 heap, u16 *countOut);
 extern void func_020307B0(void *);
-extern int func_0201EC64(int);
-extern void func_0201EFA4(int, int, int, int, int, int);
-extern void func_0201ED04(int);
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201ED04(struct WordSet *p);
 
 #define H(o) (*(unsigned short *)(p + (o)))
 #define W(o) (*(int *)(p + (o)))
@@ -65,14 +66,14 @@ void func_021BACB0(char *p, int idx)
         func_020307B0(tab);
     }
     if (c != 0x3e7) {
-        h = func_0201EC64(H(0));
+        h = (int)func_0201EC64(H(0));
         if (idx == 0) {
-            func_0201EFA4(h, 0, c, 3, 2, 0);
+            func_0201EFA4((struct WordSet *)h, 0, c, 3, 2, 0);
         } else {
-            func_0201EFA4(h, 0, c, 3, 2, 1);
+            func_0201EFA4((struct WordSet *)h, 0, c, 3, 2, 1);
         }
         func_021BA960(H(0), W(0x70), W(0x2c), W(0x28), W(0x270), 8, 5, 0x440, 0, h);
-        func_0201ED04(h);
+        func_0201ED04((struct WordSet *)h);
     } else {
         func_021BA960(H(0), W(0x70), W(0x2c), W(0x28), W(0x274), 8, 5, 0x440, 0, 0);
     }

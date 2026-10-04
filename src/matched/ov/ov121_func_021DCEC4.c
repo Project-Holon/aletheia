@@ -24,7 +24,7 @@ extern void func_021D9FFC(u8 *p, int a, int b);
 extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D9E04(u8 *p);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D9E50(u8 *p);
 extern void func_021DC08C(void *task, u32 *state, char *p);
 void func_021DCEC4(void *arg,int *state,char *p)
@@ -44,7 +44,7 @@ void func_021DCEC4(void *arg,int *state,char *p)
             func_021D9E04(*(void **)(p+0xabc));
             *(void **)(p+0xabc)=0;
         }
-        func_021DA8B0(arg,func_021DC08C);
+        func_021DA8B0(arg,(u32)func_021DC08C);
         break;
     }
     if (*(void **)(p+0xabc)) func_021D9E50(*(void **)(p+0xabc));

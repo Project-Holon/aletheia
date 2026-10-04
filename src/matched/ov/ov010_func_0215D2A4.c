@@ -63,8 +63,9 @@ struct Desc;
 struct Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
-extern u32 func_0200CA1C(void *);
-extern u32 func_0200CA38(u32);
+struct Blk37;
+extern void *func_0200CA1C(void *a);
+extern u32 func_0200CA38(struct Blk37 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0201AA18(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
@@ -76,7 +77,7 @@ void *func_0215D2A4(void *a, u32 b, u32 c)
 {
     void *r7 = func_020120F4(a);
     void *v = func_02012934(r7);
-    u32 w = func_0200CA1C(r7);
+    u32 w = (u32)func_0200CA1C(r7);
     A *x = func_02030734(4, 0x98, 0, d_02172900, 0x22B);
     B *y;
     Ctx *ctx;
@@ -94,7 +95,7 @@ void *func_0215D2A4(void *a, u32 b, u32 c)
     y->f0d = 0;
     y->f10 = 0;
     y->f0f = 0;
-    y->f18 = func_0200CA38(w);
+    y->f18 = func_0200CA38((struct Blk37 *)w);
     h = func_020122C0(a, 0, (void *)func_0215D1E4, 0x14);
     ctx = func_020124E8(h);
     ctx->f0 = a;

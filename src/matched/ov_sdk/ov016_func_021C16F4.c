@@ -68,7 +68,7 @@ extern void func_021D5280(int lcd, char *file);
 extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned int func_021C0ED8(void);
 extern void func_021D603C(int lcd, int plane);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021C18C4(void);
 
 extern void GXS_LoadBG1Char(void);
@@ -136,5 +136,5 @@ void func_021C16F4(void)
     *(volatile unsigned short *)0x0400000A = (*(volatile unsigned short *)0x0400000A & ~3) | 3;
     func_021D603C(1, 2);
     func_021D603C(0, 2);
-    func_021C0E40(func_021C18C4);
+    func_021C0E40((unsigned int)func_021C18C4);
 }

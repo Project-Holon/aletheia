@@ -22,11 +22,11 @@
 
 extern unsigned int func_02051774(void *);
 extern void func_02051A2C(void *p, int v);
-extern void func_02051A24(void *, void (*)(void));
-extern void func_021D6E6C(void);
+extern void func_02051A24(void *p, int v);
+extern void func_021D6E6C(void *obj, int on);
 
 void func_021D6EAC(void *p)
 {
     func_02051A2C(p, func_02051774(p));
-    func_02051A24(p, func_021D6E6C);
+    func_02051A24(p, (int)func_021D6E6C);
 }

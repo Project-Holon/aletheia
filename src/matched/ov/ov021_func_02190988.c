@@ -29,12 +29,12 @@ typedef struct Handle {
 } Handle;
 
 extern Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
-extern void func_02020D10(u32 a, u32 b);
+extern void func_02020D10(u8 *p, u8 v);
 
 Handle *func_02190988(u16 *a, const u8 *b, u32 c, u32 d, u32 x, u16 y, u16 z, u32 w)
 {
     Handle *r = func_02190860(a, b, c, y, z, a[3], d, 0, x);
     if (w == 0)
-        func_02020D10(r->obj, 1);
+        func_02020D10((u8 *)r->obj, 1);
     return r;
 }

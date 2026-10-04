@@ -13,10 +13,11 @@
  *   func_02050DB8  0x02050DB8  arm
  */
 
-extern void func_02050DB8(int);
+typedef unsigned char  u8;
+extern void func_02050DB8(u8 *p);
 
 void func_021B67B4(int *p)
 {
-    func_02050DB8(*(int *)((char *)p + 0x28));
+    func_02050DB8((u8 *)(*(int *)((char *)p + 0x28)));
     *(int *)((char *)p + 0x28) = 0;
 }

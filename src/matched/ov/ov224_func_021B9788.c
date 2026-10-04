@@ -22,9 +22,13 @@
 typedef unsigned int u32;
 extern int func_0204E804(void);
 extern u32 func_020362DC(void);
-extern void func_0204E720(int,int,int,int),func_020355D8(int);
+typedef unsigned char  u8;
+struct PrintSys;
+extern void func_0204E720(int,int,int,int);
+extern void func_020355D8(u8 v);
 extern int func_02035D20(int *,int *);
-extern void func_0201C4E4(void *),func_021B9A44(void *);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_021B9A44(void *);
 int func_021B9788(void *a,unsigned *state,int b,char *p)
 {
     int x,y,flag;

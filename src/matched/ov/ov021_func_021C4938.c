@@ -20,12 +20,13 @@ typedef struct {
     u16 id;
 } S;
 
-extern void func_02050468(u32 a, u32 id, u32 v);
+struct BbActSys;
+extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
 
 void func_021C4938(void *a, S *s)
 {
     u32 x = s->p[1];
 
     if (s->id != 0xFFFF)
-        func_02050468(x, s->id, 1);
+        func_02050468((struct BbActSys *)x, s->id, 1);
 }

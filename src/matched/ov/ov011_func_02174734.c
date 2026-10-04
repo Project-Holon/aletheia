@@ -22,7 +22,8 @@ struct Entry;
 struct Entry *func_020399A8(void);
 int func_0203D578(int a, int b);
 void func_02082D44(void *d, void *s, int n);
-int func_0203D4D0(int a, int b, int c, int d, void *e, int f, int g, int h);
+typedef unsigned int   u32;
+u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 int func_02174734(char *p, int b, void *c)
 {
@@ -33,5 +34,5 @@ int func_02174734(char *p, int b, void *c)
         return 0;
     }
     func_02082D44(c, p + 0x460, 0x1E8);
-    return func_0203D4D0((int)func_020399A8(), b & 0xFF, 0x225, 0x1E8, c, 0, 0, 1);
+    return func_0203D4D0((int)func_020399A8(), b & 0xFF, 0x225, 0x1E8, (u32)c, 0, 0, 1);
 }

@@ -27,7 +27,8 @@ extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern int func_021D7CD4(char *,int,int,int);
 extern void func_021D7D30(char *);
 extern void func_021D7710(char *);
-extern void *func_02051B84(const void *,int,int,u16);
+typedef unsigned char  u8;
+extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 void func_021D7DC8(char *p,int a,int b,int c,int d,int e)
 {
     func_021D7C1C(p);
@@ -43,5 +44,5 @@ void func_021D7DC8(char *p,int a,int b,int c,int d,int e)
     *(int *)(p+0x2c)=func_021D7CD4(p,d_021D8BE0[e],16,16);
     func_021D7D30(p);
     func_021D7710(p);
-    *(void **)(p+8)=func_02051B84(d_021D8B04,a,b,*(u16 *)(p+0xc8));
+    *(void **)(p+8)=func_02051B84((u8 *)d_021D8B04,a,b,*(u16 *)(p+0xc8));
 }

@@ -47,21 +47,21 @@ struct FieldCtx {
     u32 b3 : 1;
 };
 
-extern void *func_02188CE8(u8 *p);
+extern u32 func_02188CE8(u8 *p);
 struct Ctx;
 extern int func_02013DD0(int a0);
-extern void *func_02188C98(u8 *p);
+extern u32 func_02188C98(u8 *p);
 extern void *func_0218DC70(u8 *p);
 extern int func_021AA248(struct Ctx *ctx, void *b);
 extern int func_021A9F40(struct Ctx *ctx, int mode);
 
 int func_0218B208(struct FieldCtx *p, void *unused, u8 *pos)
 {
-    void *obj = func_02188CE8(pos);
+    void *obj = (void *)func_02188CE8(pos);
 
     if (!p->b3)
         return 0;
     if (func_02013DD0(p->f10))
-        return func_021AA248(obj, func_0218DC70(func_02188C98(pos)));
+        return func_021AA248(obj, func_0218DC70((u8 *)func_02188C98(pos)));
     return func_021A9F40(obj, 0);
 }

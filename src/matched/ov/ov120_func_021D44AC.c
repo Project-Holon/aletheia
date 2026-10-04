@@ -16,10 +16,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021D4244(void *,void (*)(void *),int);
-extern void func_021D4490(void *);
+extern void func_021D4490(int p);
 void func_021D44AC(char *p) {
     if (--*(int *)(p+0x14)<=0) {
         func_0202208C(0,0,0,0,6,1,*(u16 *)(p+0xc));
-        func_021D4244(p,func_021D4490,0x21e);
+        func_021D4244(p,(void (*)(void *))func_021D4490,0x21e);
     }
 }

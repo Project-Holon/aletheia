@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 func_021BD0C0(char *p);
-extern int func_021BD20C(u32 a);
+extern unsigned int func_021BD20C(char *p);
 extern void func_021BC9C0(char *p);
 extern void func_021BD0D0(char *p);
 extern void func_021BC9CC(char *p);
@@ -44,7 +44,7 @@ void func_021BCDD8(char *p)
     case 0:
         for (i = 0; i < *(u8 *)(p + 0x20); i++) {
             u32 v = *(u32 *)(p + 0xc8 + i * 4);
-            if (v != 0 && func_021BD20C(v) != 0) {
+            if (v != 0 && func_021BD20C((char *)v) != 0) {
                 r6 = 0;
                 break;
             }

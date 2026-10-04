@@ -16,7 +16,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern int func_021FAEE8(char *p);
 extern void func_021FADF8(char *p, char *q);
-extern u32 func_02005728(void *);
+extern u32 func_02005728(u32 range);
 extern void func_021F9F74(void *, u16, void *);
 void func_021FC178(int a, char *p)
 {
@@ -28,9 +28,9 @@ void func_021FC178(int a, char *p)
         return;
     }
     if(s==1) {
-        v[0]=(*(u32 *)(p+0x14)+func_02005728(*(void **)(p+0x20)))>>4;
-        v[1]=(0xc0000-(*(u32 *)(p+0x18)+func_02005728(*(void **)(p+0x24))))>>4;
-        v[2]=*(u32 *)(p+0x1c)+func_02005728(*(void **)(p+0x28));
+        v[0]=(*(u32 *)(p+0x14)+func_02005728((u32)(*(void **)(p+0x20))))>>4;
+        v[1]=(0xc0000-(*(u32 *)(p+0x18)+func_02005728((u32)(*(void **)(p+0x24)))))>>4;
+        v[2]=*(u32 *)(p+0x1c)+func_02005728((u32)(*(void **)(p+0x28)));
         func_021F9F74(*(void **)(p+0x10),*(u16 *)(p+0x2c),v);
     }
 }

@@ -16,7 +16,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02061D0C(void *p, void *freep, u32 *buf);
+struct Node;
+struct Range;
+extern u32 func_02061D0C(struct Node **head1, struct Node **head2, struct Range *range);
 
 typedef struct Node0206207C {
     u32 f00;
@@ -32,7 +34,7 @@ int func_0206207C(void *headp, void *freep, int a2, int a3)
 
     buf[0] = a2;
     buf[1] = a2 + a3;
-    func_02061D0C(headp, freep, buf);
+    func_02061D0C(headp, freep, (struct Range *)buf);
     x = *(Node0206207C **)freep;
     if (x != 0) {
         *(Node0206207C **)freep = x->f0c;

@@ -18,10 +18,10 @@
 
 typedef short s16;
 
-extern int func_0216D7E8(int a);
-extern int func_0216D660(int a);
-extern int func_0216D7F8(int a);
-extern int func_0216D66C(int a);
+extern int func_0216D7E8(void *p);
+extern int func_0216D660(void *p);
+extern int func_0216D7F8(void *p);
+extern int func_0216D66C(void *p);
 
 int func_02163C9C(int a, int b, int c)
 {
@@ -30,16 +30,16 @@ int func_02163C9C(int a, int b, int c)
     int hi;
     int lo;
 
-    base = func_0216D7E8(a);
-    d = func_0216D660(a);
+    base = func_0216D7E8((void *)a);
+    d = func_0216D660((void *)a);
     if (d != -1) {
         hi = (s16)(base + d);
         lo = (s16)(base - d);
         if (lo > b || hi < b)
             return 1;
     }
-    base = func_0216D7F8(a);
-    d = func_0216D66C(a);
+    base = func_0216D7F8((void *)a);
+    d = func_0216D66C((void *)a);
     if (d != -1) {
         hi = (s16)(base + d);
         lo = (s16)(base - d);

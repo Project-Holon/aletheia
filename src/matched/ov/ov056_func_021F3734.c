@@ -59,19 +59,21 @@ typedef struct Work {
     void *fd0;
 } Work;
 
-extern int func_02188C84(int a);
+typedef unsigned short u16;
+struct Ctx;
+extern u16 func_02188C84(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02188C58(int a);
-extern int func_02188C98(int a);
-extern u32 func_02188D24(int a);
-extern void func_0218F0A8(int a);
-extern int func_0218F0E8(int a);
-extern int func_0218DC6C(int a);
-extern u32 func_021BB990(int a, u32 b, const void *c);
-extern void **func_021BBA6C(u32 a);
-extern void func_021BBA1C(u32 a);
-extern int func_020120F4(int a);
-extern int func_02012944(int a);
+extern void *func_02188C58(void *p);
+extern u32 func_02188C98(u8 *p);
+extern u32 func_02188D24(u8 *p);
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
+extern u32 func_0218DC6C(u8 *p);
+extern int *func_021BB990(int a, int *d, const int *c);
+extern u32 func_021BBA6C(const void *p);
+extern void func_021BBA1C(int *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021F3B10(void *o, void *a1, int a2, int a3, int idx);
@@ -100,28 +102,28 @@ int func_021F3734(void *a0, int *state, Work *p)
     int b;
     int c;
 
-    heap = func_02188C84(p->f0);
+    heap = func_02188C84((u8 *)p->f0);
     switch (*state) {
     case 0:
-        h = func_02012944(func_020120F4(p->f4));
+        h = (int)func_02012944(func_020120F4((const struct Ctx *)p->f4));
         func_021F3B10(p->obj, func_02188CB4((void *)p->f0), h, heap, p->idx);
         (*state)++;
         break;
     case 1:
-        func_0218F0A8(func_02188C58(p->f0));
+        func_0218F0A8(func_02188C58((void *)p->f0));
         (*state)++;
         break;
     case 2:
-        h = func_02188C58(p->f0);
-        if (func_0218F0E8(h) != 0) {
+        h = (int)func_02188C58((void *)p->f0);
+        if (func_0218F0E8((u8 *)h) != 0) {
             break;
         }
         func_021F392C(p->cam, h, heap, p->idx);
         func_021F3D60(p->f_c8, p->idx, heap);
-        func_021F3890(p->f_bc, func_0218DC6C(func_02188C98(p->f0)), p->idx);
+        func_021F3890(p->f_bc, func_0218DC6C((u8 *)func_02188C98((u8 *)p->f0)), p->idx);
         func_021F3BF0(p->obj);
-        p->task = func_021BB990(-1, func_02188D24(p->f0), d_021F42C0);
-        *func_021BBA6C(p->task) = p->obj;
+        p->task = (u32)func_021BB990(-1, (int *)func_02188D24((u8 *)p->f0), (const int *)d_021F42C0);
+        *((void **)func_021BBA6C((const void *)p->task)) = p->obj;
         func_021F3CC4(p->obj, 1);
         func_021F3904(p->f_bc);
         (*state)++;
@@ -137,7 +139,7 @@ int func_021F3734(void *a0, int *state, Work *p)
         break;
     case 4:
         func_021F3CC4(p->obj, 0);
-        func_021BBA1C(p->task);
+        func_021BBA1C((int *)p->task);
         func_02030EAC(p->fd0);
         func_021F3C4C(p->obj);
         func_021F3D9C(p->f_c8);

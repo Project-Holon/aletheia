@@ -16,7 +16,7 @@
  *   func_0217B6AC  0x0217B6AC  thumb  ov176
  */
 
-extern int func_021E8AA0(int, int);
+extern void func_021E8AA0(int *p, int v);
 extern void func_0217B3C0(int p, unsigned *state, int *q);
 extern void func_0217B4A0(int p, unsigned *state, int *q);
 extern void func_0217B6AC(int p, unsigned *state, int *q);
@@ -25,13 +25,13 @@ void func_0217B380(int a, int b, int *p)
 {
     switch (*(int *)((char *)p + 0x14)) {
     case 0:
-        func_021E8AA0(a, (int)func_0217B3C0);
+        func_021E8AA0((int *)a, (int)func_0217B3C0);
         break;
     case 1:
-        func_021E8AA0(a, (int)func_0217B4A0);
+        func_021E8AA0((int *)a, (int)func_0217B4A0);
         break;
     case 2:
-        func_021E8AA0(a, (int)func_0217B6AC);
+        func_021E8AA0((int *)a, (int)func_0217B6AC);
         break;
     }
 }

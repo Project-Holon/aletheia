@@ -93,7 +93,10 @@ extern u32 sub_02008FFC(void);
 extern void *sub_02008FEC(void *sys);
 extern u32 sub_02008C20(void);
 extern void *func_02012F2C(void *sys);
-extern void *func_02012FCC(void *sys);
+struct BigObj;
+struct Sub020075B0Entry;
+struct Sub02008C20Obj;
+extern int func_02012FCC(int p0);
 extern void sub_020086F0(void *src, void *out);
 extern u8 sub_020076A4(void *save);
 extern void *func_0201A920(u32 heapId);
@@ -102,7 +105,7 @@ extern u32 sub_02007A9C(void);
 extern void *sub_02007AF4(void *save, u32 box);
 extern void *func_0201AB28(void *party, int idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void func_02017E40(void *mon, u32 id, void *v);
+extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
 extern int func_02009020(void *obj, int v);
 extern void *func_02008F08(u32 heapId);
@@ -121,16 +124,16 @@ extern void *func_02009470(void *p);
 extern u32 sub_0200949C(void *obj, int row, int col);
 extern void sub_020094D8(void *obj, int row, int col, int value);
 extern void func_0201B9F0(void *mon);
-extern void func_0202F190(void *mon, u32 a1, void *a2, u32 a3, u16 a4);
-extern void sub_02008DF0(void *obj, int i);
+extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void *func_0200CA1C(void *sys);
 extern void func_0200CDE0(void *p, void *mon);
 extern void sub_02009EB0(void *obj);
-extern void func_02017988(void *mon, u32 a);
+extern u32 func_02017988(void *p, u32 a);
 extern void sub_0201AB48(void *party, u32 idx, void *mon);
 extern void *sub_020185F4(void *mon);
-extern void func_020075B0(void *save, u32 a, u32 b, void *c);
-extern void *sub_0201283C(void *sys);
+extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
+extern u32 sub_0201283C(const struct BigObj *p);
 extern void sub_02009BB8(void *obj, int i, int a, int b, int c);
 extern int sub_02009D1C(void *obj, void *p, int *out);
 extern const char d_021E8108[];
@@ -186,7 +189,7 @@ void func_021E049C(char *p)
         I(p, 0x614) = func_021E0138(I(p, 0x82C), H(p, 0x5F4));
         I(p, 0x618) = func_021E01A0(I(p, 0x82C), H(p, 0x5F4));
         I(p, 0x61C) = func_021E0200(I(p, 0x82C), H(p, 0x5F4));
-        sub_020086F0(func_02012FCC(I(p, 0x82C)), p + 0x628);
+        sub_020086F0((void *)func_02012FCC((int)I(p, 0x82C)), p + 0x628);
         if (T(p)->box == sub_020076A4(I(p, 0x828))) {
             I(p, 0x620) = func_0201A920(H(p, 0x5F4));
             func_0201AC2C(I(p, 0x838), I(p, 0x620));
@@ -214,7 +217,7 @@ void func_021E049C(char *p)
                     func_02017E1C(mon, 0xA7, (u32)buf);
                     sub_0200903C(o, 0, idx, buf);
                     func_02008EAC(buf);
-                    func_02017E40(mon, 0xA7, buf);
+                    func_02017E40(mon, 0xA7, (u32)buf);
                     func_02017E40(mon, 6, 0);
                     func_020307B0(buf);
                 }
@@ -250,9 +253,9 @@ void func_021E049C(char *p)
     obj = func_02012F2C(I(p, 0x82C));
     func_0201B9F0(mon);
     if (func_02017E1C(mon, 0x4C, 0) == 0)
-        func_02017E40(mon, 9, (void *)0x46);
+        func_02017E40(mon, 9, (u32)((void *)0x46));
     if (func_02017E1C(mon, 0x4C, 0))
-        func_0202F190(mon, 6, I(p, 0x830), 0x7533, H(p, 0x5F4));
+        func_0202F190(mon, 6, (u32)I(p, 0x830), 0x7533, H(p, 0x5F4));
     switch (W(p, 0x118C)) {
     case 2:
     case 3:
@@ -283,12 +286,12 @@ void func_021E049C(char *p)
     }
     switch (W(p, 0x118C)) {
     case 2:
-        sub_02009BB8(sub_0201283C(I(p, 0x82C)), T(p)->count - 1, 0, 0, 1);
+        sub_02009BB8((void *)sub_0201283C(I(p, 0x82C)), T(p)->count - 1, 0, 0, 1);
         break;
     case 0:
     case 1:
-        if (sub_02009D1C(sub_0201283C(I(p, 0x82C)), I(p, 0x834), &out))
-            sub_02009BB8(sub_0201283C(I(p, 0x82C)), out, 0, 0, 1);
+        if (sub_02009D1C((void *)sub_0201283C(I(p, 0x82C)), I(p, 0x834), &out))
+            sub_02009BB8((void *)sub_0201283C(I(p, 0x82C)), out, 0, 0, 1);
         break;
     }
 }

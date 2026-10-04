@@ -45,7 +45,7 @@ typedef struct GHIConnection {
     int (*f1B4)(struct GHIConnection *, int *);
 } GHIConnection;
 
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021C02C8(GHIConnection *, char *, int);
 extern void func_0217F25C();
 extern GHIBool func_021C3A38(GHIConnection *);
@@ -60,7 +60,7 @@ void func_021C3BAC(GHIConnection *connection)
 {
     int aResult;
 
-    func_0217D254(8, 3, 16, g_021CEFF8);
+    func_0217D254(8, (char *)3, 16, g_021CEFF8);
     func_021C02C8(connection, 0, 0);
     func_0217F25C();
     if (func_021C3A38(connection) == GHI_FALSE) {
@@ -76,10 +76,10 @@ void func_021C3BAC(GHIConnection *connection)
         func_0217D254(8, 0, 2, g_021CF050);
     }
     if (connection->protocol == 1 && connection->f19C == 0) {
-        func_0217D254(8, 3, 15, g_021CF090);
+        func_0217D254(8, (char *)3, 15, g_021CF090);
         aResult = connection->f1B4(connection, &connection->f194);
         if (aResult == 3) {
-            func_0217D254(8, 3, 2, g_021CF0AC);
+            func_0217D254(8, (char *)3, 2, g_021CF0AC);
             connection->f124 = 1;
             connection->f40 = 17;
             return;

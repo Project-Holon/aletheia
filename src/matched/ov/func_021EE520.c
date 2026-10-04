@@ -18,9 +18,9 @@
  */
 
 extern void *func_0202616C(void **obj, unsigned idx);
-extern void func_021EEFA4(int, int, int, int, int);
+extern void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty);
 void func_021EE520(char *p, unsigned idx)
 {
     unsigned char *q = func_0202616C(*(void ***)(*(char **)(p + 0x2c) + 0x70), idx);
-    func_021EEFA4(*(int *)(p + 0x2c), 0x54, 0x10, q[0], q[1]);
+    func_021EEFA4((char *)(*(int *)(p + 0x2c)), 0x54, 0x10, q[0], q[1]);
 }

@@ -22,19 +22,21 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void *func_0215A5E4(void *a0);
-extern u32 func_02012EBC(void *);
-extern u32 func_0200D418(u32);
+struct Big;
+struct Blk38;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200D418(void *sys);
 extern unsigned int func_02159B10(void *, void *);
-extern u32 func_0200D488(u32, u8);
+extern u8 func_0200D488(struct Blk38 *p, u32 i);
 extern void func_0215E440(void *sys, u32 which);
 
 int func_021B5154(u32 a, u32 b)
 {
     void *e = func_0215A5E4((void *)b);
-    u32 g = func_0200D418(func_02012EBC(e));
+    u32 g = (u32)func_0200D418(func_02012EBC(e));
     u8 k = func_02159B10((void *)a, (void *)b);
 
-    if (func_0200D488(g, k) == 0) {
+    if (func_0200D488((struct Blk38 *)g, k) == 0) {
         func_0215E440(e, k);
     }
     return 0;

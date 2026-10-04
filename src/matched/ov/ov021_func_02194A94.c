@@ -26,7 +26,8 @@ typedef signed char    s8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32 a, u32 b);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *a);
 
 typedef struct { u8 pad[0x10]; u32 x10; u8 x14; u8 x15; } Obj;
@@ -36,7 +37,7 @@ u32 func_02194A94(Obj *a, u32 b, u32 c, u32 d, u8 e)
     u32 w;
 
     w = func_020450F0((u8)a->x10, b, c, d, e, a->x15, 1);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)w), 15);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)w)), 15);
     func_02045334((struct Descriptor *)w);
     return w;
 }

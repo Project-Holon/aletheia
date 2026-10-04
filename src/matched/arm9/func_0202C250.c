@@ -25,7 +25,7 @@
 typedef unsigned int u32;
 
 extern u32 sub_0202C24C(u32 *p);
-extern u32 sub_0202C348(u32 f, u32 v);
+extern u32 sub_0202C348(void *a, void *b);
 
 u32 func_0202C250(u32 *p, u32 v)
 {
@@ -34,5 +34,5 @@ u32 func_0202C250(u32 *p, u32 v)
     if (f == 0) {
         return 0;
     }
-    return sub_0202C348(f, v);
+    return sub_0202C348((void *)f, (void *)v);
 }

@@ -101,10 +101,10 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern Obj *func_021CBFB0(u32 a, u32 b);
 extern void func_021CC098(void *a, u16 b, void *mon, void *d, u32 e);
-extern void func_021CC23C(void *mon);
+extern void func_021CC23C(int obj);
 extern void func_021CC38C(void *p);
 extern u8 *func_02012944(void *p);
-extern void *func_020146F8(void *sys, void *h, const void *id, const void *tbl, void *arg);
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *func_0200CA1C(void *p);
@@ -141,7 +141,7 @@ int func_021CC390(void *a, u32 *state, Work *w)
         o = func_021CBFB0(4, w->fC);
         w->obj = o;
         func_021CC098(f4, 4, o->fC, o->f8, w->fC);
-        func_021CC23C(w->obj->fC);
+        func_021CC23C((int)w->obj->fC);
         func_021CC38C(w->obj->f8);
         *state = 1;
         break;
@@ -152,7 +152,7 @@ int func_021CC390(void *a, u32 *state, Work *w)
         w->f48 = m;
         w->f54 = w->obj->f10;
         w->f4C = w->obj->fC;
-        func_02012374(a, func_020146F8(sys, t, ov119_id, d_021E75A8, w->f14));
+        func_02012374(a, func_020146F8(sys, (int)t, (int)ov119_id, (int)d_021E75A8, (int)w->f14));
         *state = 2;
         break;
     case 2:
@@ -174,7 +174,7 @@ int func_021CC390(void *a, u32 *state, Work *w)
             q->fC = 1;
             q->f10 = 0;
             w->f58 = q;
-            func_02012374(a, func_020146F8(sys, h, ov195_id, d_02208C40, q));
+            func_02012374(a, func_020146F8(sys, (int)h, (int)ov195_id, (int)d_02208C40, (int)q));
         }
         *state = 4;
         break;

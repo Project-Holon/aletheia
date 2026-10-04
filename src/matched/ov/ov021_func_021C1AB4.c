@@ -14,13 +14,13 @@
 
 typedef unsigned int u32;
 
-extern int func_02051614(u32 a);
+extern int func_02051614(int **p);
 
 int func_021C1AB4(u32 *p)
 {
     if (p[3] == 0)
         return 1;
-    if (func_02051614(p[3]) == 0)
+    if (func_02051614((int **)p[3]) == 0)
         return 1;
     return 0;
 }

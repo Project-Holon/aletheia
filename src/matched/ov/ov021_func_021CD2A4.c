@@ -52,18 +52,26 @@ typedef struct {
 } Obj;
 
 extern const u8 d_021DB44C[];
-extern u32 func_020122C0(u32 a, u32 b, void *cb, u32 n);
+struct Big;
+struct BigObj;
+struct Blk34;
+struct Ctx;
+struct Desc;
+struct Strbuf;
+struct Sub0200852CObj;
+struct U16Vec;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern Obj *func_020124E8(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_0200C0F0(u32 a);
-extern u32 func_02012944(u32 a);
-extern u32 func_02012A54(u32 a);
-extern u32 func_02008550(u32 a);
-extern u32 func_020457B0(u32 a, u32 b);
-extern u32 func_0200C1F4(u32 a);
-extern u32 func_0200C20C(u32 a);
-extern void func_02045924(u32 a, u32 b);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C0F0(void *sys);
+extern u8 *func_02012944(void *p);
+extern u32 func_02012A54(const struct BigObj *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u16 *func_0200C1F4(struct Blk34 *p);
+extern u16 *func_0200C20C(struct Blk34 *p);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern int func_021CD348(int a, int *st, u8 *c);
 
 u32 func_021CD2A4(u32 a, u32 b, u32 x, u32 c, u32 d)
@@ -71,28 +79,28 @@ u32 func_021CD2A4(u32 a, u32 b, u32 x, u32 c, u32 d)
     u32 h;
     Obj *o;
 
-    h = func_020122C0(a, x, func_021CD348, 0x50);
+    h = (u32)func_020122C0((void *)a, (void *)x, func_021CD348, 0x50);
     o = func_020124E8(h);
     o->f00 = a;
-    o->f04 = func_020120F4(a);
+    o->f04 = (u32)func_020120F4((const struct Ctx *)a);
     o->f10 = b;
     o->f18 = d;
     o->f4c = c;
     o->f48 = 4;
-    o->f08 = func_0200C0F0(func_02012EBC(o->f04));
-    o->f0c = func_02012944(o->f04);
-    o->f14 = func_02012A54(o->f04);
+    o->f08 = (u32)func_0200C0F0(func_02012EBC((struct Big *)o->f04));
+    o->f0c = (u32)func_02012944((void *)o->f04);
+    o->f14 = func_02012A54((const struct BigObj *)o->f04);
     o->f1c = c;
-    o->f20 = func_02008550(o->f0c);
+    o->f20 = func_02008550((const struct Sub0200852CObj *)o->f0c);
     o->f44 = o->f08;
     o->f34 = d_021DB44C[c - 5];
-    o->f3c = func_020457B0(o->f34 + 1, o->f48);
+    o->f3c = (u32)func_020457B0(o->f34 + 1, o->f48);
     switch (c) {
     case 5:
-        func_02045924(o->f3c, func_0200C1F4(o->f08));
+        func_02045924((struct Strbuf *)o->f3c, func_0200C1F4((struct Blk34 *)o->f08));
         break;
     case 6:
-        func_02045924(o->f3c, func_0200C20C(o->f08));
+        func_02045924((struct Strbuf *)o->f3c, func_0200C20C((struct Blk34 *)o->f08));
         break;
     case 7:
         break;

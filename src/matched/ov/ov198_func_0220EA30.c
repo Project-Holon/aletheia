@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;struct Vec2;
-extern void func_0204B404(struct Obj *,const struct Vec2 *,u32),func_0204B878(struct Obj *,u32);
+extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_0202136C(u32);
 extern void func_0220E7CC(u8 *,u32);
 void func_0220EA30(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)func_0204B404((struct Obj *)p,q,1);else {if(func_0202136C(mode)==1)func_0204B878((struct Obj *)p,1);else func_0204B878((struct Obj *)p,0);func_0220E7CC(p,(u32)q);} }

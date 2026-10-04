@@ -27,11 +27,11 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern int func_021589F4(int a0);
-extern void func_02158A90(void *, void *, int, int);
+extern int func_02158A90(void *a, int unused, int key, int d);
 
 void func_02158AE0(void *a0, void *a1)
 {
     func_021589F4(func_0201296C(func_020120F4(a0)));
-    func_02158A90(a0, a1, 2, 2);
+    func_02158A90(a0, (int)a1, 2, 2);
 }
 

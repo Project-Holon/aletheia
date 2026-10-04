@@ -75,14 +75,18 @@ void func_0217F210(u8 *p, int a, u32 b);
 int func_0217B8E4(u8 *w, int v);
 void func_0217422C(u8 *w, int b, Req *c);
 int func_02174268(u8 *w);
-void *func_0201292C(int a);
-int func_02012EBC(int a);
-int func_0200873C(int a);
+struct Big;
+struct BigObj;
+struct Link;
+struct Sub02008700Obj;
+void *func_0201292C(const struct BigObj *p);
+void *func_02012EBC(struct Big *p);
+struct Sub02008700Obj *func_0200873C(void *sys);
 int func_020084F4(u8 *a);
 u8 func_02008550(u8 *a);
 struct Entry;
 struct Entry *func_020399A8(void);
-int func_0203D1A4(int a);
+u32 func_0203D1A4(struct Link *p);
 int func_0203D1B4(void);
 struct Link;
 void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
@@ -102,7 +106,7 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
     int k;
 
     p = *(u8 **)(w + 0x355C);
-    idx = func_0203D1A4((int)func_020399A8());
+    idx = func_0203D1A4((struct Link *)((int)func_020399A8()));
     if (*state < 3 && func_0217BB20(w) == 1) {
         func_0217F074(w);
         return 1;
@@ -154,8 +158,8 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
     case 3:
         q = func_02030734(0x41, 0xc4, 1, (const char *)d_021807E8, 0x10c4);
         q->f0 = ((int *)(p + 0x148))[idx];
-        q->f4 = func_0201292C((*(Sys **)w)->f8);
-        q->fc = func_0200873C(func_02012EBC((*(Sys **)w)->f8));
+        q->f4 = func_0201292C((const struct BigObj *)((*(Sys **)w)->f8));
+        q->fc = (int)func_0200873C(func_02012EBC((struct Big *)((*(Sys **)w)->f8)));
         q->f34 = 0x1a;
         q->f14 = *(int *)(w + 0x352C);
         q->fc0 = func_02030734(0x41, 0x70, 1, (const char *)d_021807E8, 0x10ce);

@@ -38,7 +38,8 @@ typedef struct DWCHttp {
 extern unsigned long func_0209477C(const char *s);
 extern char *func_02094860(char *dst, const char *src, unsigned long n);
 extern char *func_02094B20(const char *s, const char *find);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 
 extern const char g_021A2698[];
 extern const char g_021A26A0[];
@@ -82,6 +83,6 @@ int func_0217A1FC(DWCHttp *http, char *url)
         http->filepath = 0;
     }
     if (portnum != 0)
-        http->port = func_020964E0(portnum);
+        http->port = func_020964E0((u32)portnum);
     return 1;
 }

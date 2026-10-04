@@ -22,8 +22,9 @@ typedef unsigned char  u8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(int);
-extern unsigned char func_02045730(int);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(unsigned int);
 
 typedef struct {
@@ -46,12 +47,12 @@ void func_0217D890(S *p)
     p->a = r;
     p->b = z;
     func_02045334((struct Descriptor *)r);
-    func_02045374(r);
-    func_020409B4(func_02045730(r));
+    func_02045374((struct Cfg *)r);
+    func_020409B4(func_02045730((struct Descriptor *)r));
     r2 = func_020450F0(6, 1, 0x12, 0x1e, 4, 14, 1);
     p->c = r2;
     p->d = z;
     func_02045334((struct Descriptor *)r2);
-    func_02045374(r2);
-    func_020409B4(func_02045730(r2));
+    func_02045374((struct Cfg *)r2);
+    func_020409B4(func_02045730((struct Descriptor *)r2));
 }

@@ -39,7 +39,7 @@ extern int func_0201134C(void *);
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
 extern int func_021FCA04(State *s, int id, int *out);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FFB04(void *w, Req *r);
 
 int func_021FADC0(void *a, State *s)
@@ -68,7 +68,7 @@ int func_021FADC0(void *a, State *s)
     if (n != 0) {
         for (i = 0; i < n; i++) {
             q.item = buf[i];
-            func_021FFB04(func_021F8694(), &q);
+            func_021FFB04((void *)func_021F8694(), &q);
         }
     }
     return s->f23c;

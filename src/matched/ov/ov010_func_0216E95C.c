@@ -72,7 +72,8 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 
 extern void func_0201756C(void *mon, u16 species, u16 level, u64 id);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void func_021AA304(Loc *loc, void *ctx, u32 a);
+struct Info;
+extern void func_021AA304(struct Info *out, void *a1, void *a2);
 extern void func_020135C0(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
 extern void func_020307B0(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
@@ -112,7 +113,7 @@ void *func_0216E95C(void *sys, u32 arg, u32 heap)
     func_02017E40(mon, 0x38, 0);
     func_02017E40(mon, 0x39, 0);
     func_0201A98C(party2, mon);
-    func_021AA304(&loc, ctx, arg);
+    func_021AA304((struct Info *)(&loc), ctx, (void *)arg);
     loc.f04 = 5;
     loc.f00 = 0;
     func_020135C0(bs, ctx, party1, party2, &loc, heap);

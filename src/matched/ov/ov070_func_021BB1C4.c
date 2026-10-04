@@ -48,7 +48,7 @@ extern int func_02062B30(int, Img **);
 extern void func_02041090(unsigned, void *, unsigned, unsigned, u8, u8);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 extern void func_02049238(void *);
 
 void func_021BB1C4(Work *p)
@@ -72,6 +72,6 @@ void func_021BB1C4(Work *p)
         func_02041090(3, img->d, 0x10, 0xC, (unsigned)img->w >> 3, (unsigned)img->h >> 3);
         func_02041B6C(3);
     }
-    func_020307B0(tex);
+    func_020307B0((void *)tex);
     func_02049238(arc);
 }

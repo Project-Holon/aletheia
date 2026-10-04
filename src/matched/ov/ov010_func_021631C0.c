@@ -39,12 +39,12 @@ typedef struct {
 } S;
 
 extern void func_02082C60();
-extern int func_0216D7E4();
-extern int func_0216D7DC();
+extern u32 func_0216D7E4(void *p);
+extern u32 func_0216D7DC(void *p);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
 extern void *func_0216E3C4(void *p);
-extern int func_0216D67C(int a0);
+extern void *func_0216D67C(void *a0);
 extern u32 func_0216D534(void *p);
 extern u32 func_02188CD0(u8 *p);
 extern u8 func_021ABE28(u8 *p);
@@ -55,8 +55,8 @@ void func_021631C0(int a, S *s)
     u32 h;
 
     func_02082C60(s, 0, 0x1c);
-    s->a = func_0216D7E4(a);
-    b = func_0216D7DC(a);
+    s->a = func_0216D7E4((void *)a);
+    b = func_0216D7DC((void *)a);
     s->b = b;
     if (b != -1) {
         s->d = func_021AB0F0(b);
@@ -67,7 +67,7 @@ void func_021631C0(int a, S *s)
         s->e = func_021AB0F8(s->a);
     }
     s->g = func_0216E3C4((void *)a);
-    h = func_02188CD0((u8 *)func_0216D534((void *)func_0216D67C(a)));
+    h = func_02188CD0((u8 *)func_0216D534((void *)func_0216D67C((void *)a)));
     s->h = h;
     s->i = func_021ABE28((u8 *)h);
 }

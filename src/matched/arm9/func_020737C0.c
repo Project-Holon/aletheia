@@ -48,8 +48,10 @@ typedef unsigned int  u32;
 extern u32  g_0214E8E4;
 extern u8   g_0214E8E8[];
 extern u32  func_02060468(u8 *base, u32 flag);
-extern void func_02073CA0(void);
-extern void func_02073CEC(void);
+struct A;
+struct Obj;
+extern void func_02073CA0(struct Obj *o);
+extern void func_02073CEC(struct A *a);
 
 typedef struct S {
     char pad_00[8];
@@ -72,9 +74,9 @@ void func_020737C0(S *p)
         g_0214E8E4 = 1;
     }
 
-    p->f08 = func_02073CA0;
+    p->f08 = (void (*)(void))func_02073CA0;
     p->f0c = (u32)p;
-    p->f18 = func_02073CEC;
+    p->f18 = (void (*)(void))func_02073CEC;
     p->f1c = (u32)p;
     p->f4c = 0;
     p->f50 = 0;

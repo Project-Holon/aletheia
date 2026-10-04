@@ -20,19 +20,20 @@ typedef unsigned int u32;
 struct Descriptor;
 struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02031140(u32);
+struct S02031140;
+extern void func_02031140(struct S02031140 *p);
 extern void func_020452E8(struct Descriptor *d);
-extern void func_0201D83C(u32);
+extern void func_0201D83C(void *ptr);
 extern void func_020450C8(void);
 
 void func_021C5F44(u8 *p)
 {
     u32 i;
     func_0201C4C0(*(void **)(*(u8 **)(p + 8) + 0x1C4));
-    func_02031140(*(u32 *)(*(u8 **)(p + 8) + 0x1CC));
+    func_02031140((struct S02031140 *)(*(u32 *)(*(u8 **)(p + 8) + 0x1CC)));
     for (i = 0; i < 0x20; i++) {
         func_020452E8(*(void **)(*(u8 **)(p + 8) + i * 4 + 0x44));
     }
-    func_0201D83C(*(u32 *)(p + 0x18));
+    func_0201D83C((void *)(*(u32 *)(p + 0x18)));
     func_020450C8();
 }

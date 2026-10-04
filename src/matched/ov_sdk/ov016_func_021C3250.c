@@ -20,8 +20,8 @@
  */
 
 extern int func_021D5580(int lcd);
-extern void func_021C11D4(void (*callback)(int));
-extern void func_021C0E40(void (*scene)());
+extern void func_021C11D4(unsigned int v);
+extern void func_021C0E40(unsigned int v);
 extern void func_021C3358(int state);
 extern void func_021C3280(void);
 
@@ -29,6 +29,6 @@ void func_021C3250(void)
 {
 	if (func_021D5580(0))
 		return;
-	func_021C11D4(func_021C3358);
-	func_021C0E40(func_021C3280);
+	func_021C11D4((unsigned int)func_021C3358);
+	func_021C0E40((unsigned int)func_021C3280);
 }

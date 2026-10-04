@@ -22,24 +22,26 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern void func_02043B5C(u32 a, u8 b);
-extern int func_0201D37C(u32 a, u32 b, u32 c);
-extern void func_0201C7A4(u32 a, u32 b, s16 c, u32 d, u32 e);
-extern int func_0201D42C(u32 a, u32 b);
+struct CharBuf;
+struct StrObj;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 
 int func_0219214C(u32 a, u32 b, u32 c, u32 d, u32 *cnt, u8 col)
 {
     int y;
 
-    func_02043B5C(a, col);
-    if (func_0201D37C(c, d, *cnt) == 0)
+    func_02043B5C((struct CharBuf *)a, col);
+    if (func_0201D37C((struct StrObj *)c, (struct StrObj *)d, *cnt) == 0)
         return 1;
-    func_0201C7A4(a, 1, 1, d, b);
+    func_0201C7A4((void *)a, 1, 1, (void *)d, (void *)b);
     y = 1;
-    y += func_0201D42C(d, b) + 1;
-    if (func_0201D37C(c, d, ++*cnt) == 0)
+    y += func_0201D42C((struct StrObj *)d, (void *)b) + 1;
+    if (func_0201D37C((struct StrObj *)c, (struct StrObj *)d, ++*cnt) == 0)
         return 1;
-    func_0201C7A4(a, 1, y, d, b);
+    func_0201C7A4((void *)a, 1, y, (void *)d, (void *)b);
     ++*cnt;
     return 0;
 }

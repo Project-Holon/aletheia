@@ -33,7 +33,7 @@ void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void func_020307B0(void *p);
 void func_02034714(const char *expr, u32 line, const char *file);
 void MI_CpuCopy8(const void *src, void *dst, unsigned int n);
-void func_021829F8(int x, void *p);
+void func_021829F8(void *a, void *b);
 void func_02180978(int x, void *p);
 
 void func_0218034C(int x, u8 *y)
@@ -46,7 +46,7 @@ void func_0218034C(int x, u8 *y)
     if (c == 0) {
         func_02180978(x, p);
     } else if (c == 1) {
-        func_021829F8(x, p);
+        func_021829F8((void *)x, p);
     } else if (c == 2) {
         func_02180978(x, p);
     } else if (c >= 3) {

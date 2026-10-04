@@ -26,8 +26,8 @@ typedef struct {
     u16 ly;
 } L;
 
-extern int func_0216D660();
-extern int func_0216D66C();
+extern int func_0216D660(void *p);
+extern int func_0216D66C(void *p);
 
 int func_0219E9A8(u32 o, int a, int b, L *l)
 {
@@ -36,8 +36,8 @@ int func_0219E9A8(u32 o, int a, int b, L *l)
     int lo;
     int hi;
 
-    x = func_0216D660(o);
-    y = func_0216D66C(o);
+    x = func_0216D660((void *)o);
+    y = func_0216D66C((void *)o);
     if (x != -1) {
         lo = b - x;
         hi = b + x;

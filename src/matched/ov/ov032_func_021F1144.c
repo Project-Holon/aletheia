@@ -41,7 +41,7 @@ extern void func_02165D50(struct Rec *r, struct Strbuf *buf);
 extern void func_021F10D8(u8 *p, u8 *q, void *r);
 extern void func_021F0F74(u8 *p, u8 *q, void *r);
 extern void func_021F1004(u8 *p, u8 *q, void *r);
-extern u16 func_02165E24(void *r);
+extern int func_02165E24(int a0);
 extern void func_02165D6C(void *r, void *buf);
 extern void func_02165D8C(void *r, void *buf);
 extern void func_021F1070(u8 *p, u8 *q, void *buf, int t);
@@ -62,7 +62,7 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
         return;
     switch (mode) {
     case 0:
-        switch (func_02165E24(r)) {
+        switch (func_02165E24((int)r)) {
         case 0x18:
             func_02165D6C(r, *(void **)(p + 0x118));
             func_021F1070(p, q, *(void **)(p + 0x118), t);

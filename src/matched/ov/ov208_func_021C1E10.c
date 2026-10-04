@@ -36,8 +36,10 @@ typedef struct {
     u8 rest[0x3c];
 } Entry;
 
-extern void *func_021BC3B4(int key);
-extern void func_0201C6EC(u32 a);
+struct Obj;
+struct PrintSys;
+extern int func_021BC3B4(int *p);
+extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
@@ -46,7 +48,7 @@ extern void func_021C1F50(u16 *heap, u8 *p, int key);
 extern void func_0204B878(u32 obj, u32 anim);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
-extern void func_0204B8C4(u32 obj, int v);
+extern void func_0204B8C4(struct Obj *p, u32 value);
 extern void func_021BDC48(void *s, u32 on);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_021C0CCC(u16 *heap, u8 *p, int key);
@@ -63,13 +65,13 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
     int other;
     u32 anim;
 
-    s = func_021BC3B4(key);
+    s = (void *)func_021BC3B4((int *)key);
     if (W(0x8c) == 0)
         W(0x90) = ((Entry *)W(0x94))[0].f1 == 0;
     else
         W(0x90) = ((Entry *)W(0x94))[p[0x78]].f1 == 0;
     W(0x2c) = 0;
-    func_0201C6EC(W(0x3c));
+    func_0201C6EC((struct PrintSys *)W(0x3c));
     func_02043B5C(func_02045770((struct Descriptor *)W(0x1c)), 0);
     func_021C1F50(heap, p, key);
     if (dir) {
@@ -83,7 +85,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
     }
     func_0204B878(OBJ(p[0xd8]), anim);
     func_0204B92C((struct Obj *)OBJ(other), 0);
-    func_0204B8C4(OBJ(other), 0);
+    func_0204B8C4((struct Obj *)OBJ(other), 0);
     func_021BDC48(s, 0);
     if (touch == 1) {
         func_0204B3DC((struct Obj *)W(0xcc), 0);

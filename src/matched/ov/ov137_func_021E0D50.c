@@ -12,15 +12,15 @@
  *   func_021E1090 0x021E1090 thumb ov137
  *   func_02082BCC 0x02082BCC arm
  */
-extern void func_021E0F64(char *,int *);
-extern void func_021E1090(char *,int *);
+extern void func_021E0F64(char *p, int key);
+extern void func_021E1090(char *p, int key);
 extern void func_02082BCC(void *,int,unsigned);
 void func_021E0D50(char *p,int *q)
 {
     int *r=(int *)q[7];
     switch(q[1]) {
     case 0:
-        func_021E0F64(p,r);
+        func_021E0F64(p,(int)r);
         q[4]=0x4000;
         q[5]=-1092;
         q[1]++;
@@ -33,7 +33,7 @@ void func_021E0D50(char *p,int *q)
             q[4]=0;
             if(q[3]==0) { q[3]=1; return; }
             r[23]=0;
-            func_021E1090(p,r);
+            func_021E1090(p,(int)r);
             func_02082BCC(q,0,32);
         }
         break;

@@ -23,7 +23,7 @@
 
 extern int func_021D157C(void);
 extern int func_021D55A4(int kind, int lcd, int plane, int frame);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CDA48(void);
 
 void func_021CDA14(void)
@@ -31,5 +31,5 @@ void func_021CDA14(void)
     if (func_021D157C())
         return;
     func_021D55A4(3, 0, 20, 8);
-    func_021C0E40(func_021CDA48);
+    func_021C0E40((unsigned int)func_021CDA48);
 }

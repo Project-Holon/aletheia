@@ -24,36 +24,39 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
-extern int func_0201283C(int);
-extern void func_02009CA8(int,void *);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+struct BigObj;
+struct TaskMenu;
+extern u32 func_0201283C(const struct BigObj *p);
+extern void func_02009CA8(void *account, void *out);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
-extern void func_02027858(int);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021B9C50(void);
+extern void func_02027858(struct TaskMenu *m);
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021B9C50(int a);
 void func_021B9CC4(int a)
 {
  u8 x[12];
  int k=12;
  if(func_02039CB4((struct Link *)func_020399A8(),0x7b,k)!=0) {
   if(*(int *)(a+0x24c)==7) {
-   func_02009CA8(func_0201283C(**(int **)(a+0x244)),x);
-   if(func_0203D3A8(func_020399A8(),0xc03,k,x)!=0) {
+   func_02009CA8((void *)func_0201283C((const struct BigObj *)(**(int **)(a+0x244))),x);
+   if(func_0203D3A8(func_020399A8(),0xc03,k,(u32)x)!=0) {
     func_02039C68((struct Link *)func_020399A8(),0x79,k);
-    func_021B95B8(a,func_021B9C50);
+    func_021B95B8((u8 *)a,(u32)func_021B9C50);
     if(*(int *)(a+0xcc0)!=0) {
-     func_02027858(*(int *)(a+0xcc0));
+     func_02027858((struct TaskMenu *)(*(int *)(a+0xcc0)));
      *(int *)(a+0xcc0)=0;
     }
    }
   } else {
    func_02039C68((struct Link *)func_020399A8(),0x79,k);
    if(*(int *)(a+0xcc0)!=0) {
-    func_02027858(*(int *)(a+0xcc0));
+    func_02027858((struct TaskMenu *)(*(int *)(a+0xcc0)));
     *(int *)(a+0xcc0)=0;
    }
-   func_021B95B8(a,func_021B9C50);
+   func_021B95B8((u8 *)a,(u32)func_021B9C50);
   }
  }
 }

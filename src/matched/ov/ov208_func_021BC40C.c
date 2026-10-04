@@ -16,12 +16,13 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ov208Cur { void *blk; int f4; int f8; int fc; int f10; int f14; u16 *ids; u16 wrap; u16 pad; u16 *cur; };
-extern u32 func_0200CA1C(void *a);
-extern u32 func_0200D064(u32 a, u16 id);
+struct Blk37;
+extern void *func_0200CA1C(void *a);
+extern u32 func_0200D064(struct Blk37 *p, u16 id);
 void func_021BC40C(struct Ov208Cur *p)
 {
     u16 start = *p->cur;
-    u32 h = func_0200CA1C(p->blk);
+    u32 h = (u32)func_0200CA1C(p->blk);
     do {
         if (*p->cur == 0)
             *p->cur = p->wrap - 1;
@@ -29,5 +30,5 @@ void func_021BC40C(struct Ov208Cur *p)
             *p->cur = *p->cur - 1;
         if (*p->cur == start)
             break;
-    } while (func_0200D064(h, p->ids[*p->cur]) == 0);
+    } while (func_0200D064((struct Blk37 *)h, p->ids[*p->cur]) == 0);
 }

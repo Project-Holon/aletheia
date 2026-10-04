@@ -19,20 +19,20 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0201AF80(u32 a, u32 b);
-extern u32 func_0204A39C(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
 void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
                    u16 *a4, u32 *a5, u16 *a6, u32 *a7, u16 *a8, u32 *a9)
 {
     u32 buf;
 
-    *a3 = func_0201AF80(a1, 0);
+    *a3 = (u32)func_0201AF80(a1, 0);
     *a2 = 0x28A;
-    *a5 = func_0204A39C(a0, 1, 0, a1, &buf);
+    *a5 = (u32)func_0204A39C((void *)a0, 1, 0, a1, &buf);
     *a4 = buf;
-    *a7 = func_0204A39C(a0, 2, 0, a1, &buf);
+    *a7 = (u32)func_0204A39C((void *)a0, 2, 0, a1, &buf);
     *a6 = buf;
-    *a9 = func_0204A39C(a0, 0, 0, a1, &buf);
+    *a9 = (u32)func_0204A39C((void *)a0, 0, 0, a1, &buf);
     *a8 = buf >> 1;
 }

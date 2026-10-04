@@ -32,9 +32,11 @@ static inline u8 Ctx_ReadByte(Ctx *s)
 }
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F74(void *a);
+typedef signed int     s32;
+struct WordSet;
+extern void *func_02158F74(void *p);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern void func_0201F184(u32 a, u32 b, u32 c);
+extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 
 int func_021AFBC4(Ctx *s, u32 b)
 {

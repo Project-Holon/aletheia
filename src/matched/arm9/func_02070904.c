@@ -32,11 +32,13 @@ struct Anim70904 { u32 f0; u32 f4; void *p8; };
 struct Dst70904  { volatile u32 f0; u32 pad04[3]; volatile u32 f10; };
 
 
-void func_02070730(struct Dst70904 *dst, u16 idx, int frame, struct Dst70904 *out);
+struct Node70730;
+struct Out70730;
+void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out);
 
 void func_02070904(struct Dst70904 *dst, struct Anim70904 *a, u32 idx)
 {
-    func_02070730((struct Dst70904 *)a->p8, (u16)idx, (int)a->f0 >> 12, dst);
+    func_02070730((struct Node70730 *)((struct Dst70904 *)a->p8), (u16)idx, (int)a->f0 >> 12, (struct Out70730 *)dst);
     dst->f10 = (dst->f10 & ~0xc0000000u) | 0x40000000u;
     dst->f0 |= 8;
 }

@@ -62,7 +62,7 @@ typedef struct Work {
 } Work;
 
 extern char  str_02177000[];
-extern void *func_02026478(void *p);
+extern u32 func_02026478(void *obj);
 struct BigObj;
 struct Rec44;
 struct Sub24;
@@ -70,7 +70,7 @@ struct U16Vec;
 extern u8 *func_02012944(void *p);
 extern int   func_02158590(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02167518(u32 a, u32 b, u32 c, u32 d);
+extern void *func_02167518(int a, void *b, u16 heap, int c);
 extern void  func_0217538C(Work *w, u32 a);
 extern void func_0217576C(u8 *p);
 extern void  func_02173590(void *a, void *b, u32 c);
@@ -91,7 +91,7 @@ Work *func_02172BC0(void *unused, Param *p)
     int i;
     u8 j;
 
-    sv = func_02026478(p->field04);
+    sv = (void *)func_02026478(p->field04);
     bag = func_02012944(sv);
     mode = 3;
     if (p->field0e == 1 && func_02158590(sv) == 0) {
@@ -101,7 +101,7 @@ Work *func_02172BC0(void *unused, Param *p)
     w->field000 = p->field00;
     w->field004 = p->field04;
     w->field8fd = 1;
-    w->field008 = func_02167518(3, p->field00, 5, 0);
+    w->field008 = func_02167518(3, (void *)p->field00, 5, 0);
     w->field902 = 1;
     w->field901 = 1;
     func_0217538C(w, 4);

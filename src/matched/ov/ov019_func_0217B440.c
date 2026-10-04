@@ -33,14 +33,18 @@ struct ent {
     u8 pad3[0x18];
 };
 
-extern int func_02012EBC(int);
-extern int func_0200ED48(int);
-extern int func_0201283C(int);
-extern int func_02188CE0(int);
-extern int func_0217AFB0(char *, int, int *);
-extern int func_0217F894(int, struct ent *);
-extern int func_0200EDC4(int, int);
-extern void func_0217F948(int, int, int);
+typedef unsigned int   u32;
+struct Big;
+struct BigObj;
+struct L0200EDC4;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200ED48(void *p);
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_02188CE0(u8 *p);
+extern void *func_0217AFB0(void **a, u8 *b, u8 *c);
+extern int func_0217F894(void *p, char *q);
+extern int func_0200EDC4(struct L0200EDC4 *l, u32 val);
+extern void func_0217F948(char *p, u32 a, u32 b);
 
 void func_0217B440(char *base, int x, int y)
 {
@@ -51,18 +55,18 @@ void func_0217B440(char *base, int x, int y)
     int r;
     int i;
 
-    a = func_0200ED48(func_02012EBC(x));
-    b = func_0201283C(x);
-    c = func_02188CE0(y);
+    a = (int)func_0200ED48(func_02012EBC((struct Big *)x));
+    b = func_0201283C((const struct BigObj *)x);
+    c = func_02188CE0((u8 *)y);
     q = (struct ent *)(base + 0x2910);
     for (i = 0; i < 10; i++, q++) {
         if (q->on == 1 && q->p70 != 0) {
-            r = func_0217AFB0(base, *q->p70, q->p70);
+            r = (int)func_0217AFB0((void **)base, (u8 *)(*q->p70), (u8 *)q->p70);
             if (r != 0) {
-                if (func_0217F894(b, q) == 1) {
-                    func_0217F948(c, r, 0);
-                } else if (func_0200EDC4(a, q->f5c) == 1) {
-                    func_0217F948(c, r, 1);
+                if (func_0217F894((void *)b, (char *)q) == 1) {
+                    func_0217F948((char *)c, r, 0);
+                } else if (func_0200EDC4((struct L0200EDC4 *)a, q->f5c) == 1) {
+                    func_0217F948((char *)c, r, 1);
                 }
             }
         }

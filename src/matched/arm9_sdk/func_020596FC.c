@@ -12,10 +12,10 @@
  * TwlDWC libdwcaccount dwc_account.o.
  * 0x0205A10C is labelled func_0205A10C.
  */
-extern unsigned long func_0205A10C(void);
+extern void *func_0205A10C(void);
 extern void DWCi_Acc_CreateUserData(void *userdata, unsigned long gamecode);
 
 void DWC_CreateUserData(void *userdata)
 {
-    DWCi_Acc_CreateUserData(userdata, func_0205A10C());
+    DWCi_Acc_CreateUserData(userdata, (long unsigned int)func_0205A10C());
 }

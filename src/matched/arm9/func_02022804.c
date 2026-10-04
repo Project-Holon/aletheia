@@ -53,17 +53,18 @@ struct Obj {
 };
 
 extern void func_020222A8(u32 a);
-extern void func_02023464(struct Obj *p, u32 arg);
-extern void func_020234C0(struct Obj *p);
+struct Task;
+extern void func_02023464(struct Task *t, u8 *cfg);
+extern u32 func_020234C0(struct Task *t);
 
 void func_02022804(struct Obj *p)
 {
     if (p->unk0C == 0) {
         func_020222A8(p->unk24);
-        func_02023464(p, 0x0209F61C);
+        func_02023464((struct Task *)p, (u8 *)0x0209F61C);
         p->unk28 = 1;
         p->unk2C = 0;
         return;
     }
-    func_020234C0(p);
+    func_020234C0((struct Task *)p);
 }

@@ -35,9 +35,9 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern int   func_021CF8E4(u32 a, void *src, int *out);
+extern int func_021CF8E4(void *a, void *src, int c);
 extern int   func_021CF940(u32 a, void *src, int idx, int *out);
-extern int   func_021CF9AC(u32 a, void *src, int x, int *out);
+extern int func_021CF9AC(void *a, void *heap, int x, int y);
 
 int func_021CF844(void *a, int *task, Work *w)
 {
@@ -49,7 +49,7 @@ int func_021CF844(void *a, int *task, Work *w)
     sys = func_020120F4(func_020124E4(a));
     switch (*task) {
     case 0:
-        func_021CF8E4(w->f00, sys, &w->f0c);
+        func_021CF8E4((void *)w->f00, sys, (int)(&w->f0c));
         (*task)++;
         break;
     case 1: {
@@ -66,7 +66,7 @@ int func_021CF844(void *a, int *task, Work *w)
         break;
     }
     case 2:
-        func_021CF9AC(w->f00, sys, flag, &w->f0c);
+        func_021CF9AC((void *)w->f00, sys, flag, (int)(&w->f0c));
         flag = 1;
         break;
     }

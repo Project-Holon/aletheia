@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void *func_02188CB4(u8 *p);
 extern u16 func_021A3050(u8 *p);
-extern void *func_02188C5C(void *p);
+extern u32 func_02188C5C(u8 *p);
 extern void *func_021BB480(void *p);
 extern int func_021A36C8(u8 *p, u32 k, void *buf);
 extern void func_021B7D38(void *p, int *in, V *out);
@@ -44,7 +44,7 @@ void func_021A8198(void *a, V *out)
 
     ctx = func_02188CB4(a);
     k = func_021A3050(ctx);
-    h = func_021BB480(func_02188C5C(a));
+    h = func_021BB480((void *)func_02188C5C(a));
     func_021A36C8(ctx, k, in);
     func_021B7D38(h, in, &res);
     *out = res;

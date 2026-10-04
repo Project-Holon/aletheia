@@ -39,7 +39,8 @@ struct O {
     int fec;
 };
 
-extern void func_02043B5C(int a, int b);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 typedef signed int     s32;
@@ -49,7 +50,7 @@ extern int func_021EE3E8(void *a, void *b);
 
 void func_021EE23C(struct Q *q)
 {
-    func_02043B5C(q->f04, 12);
+    func_02043B5C((struct CharBuf *)q->f04, 12);
     func_02045334((struct Descriptor *)q->f00);
     func_0204E720(1, 16, 0, -3);
 }

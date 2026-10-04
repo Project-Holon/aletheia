@@ -23,11 +23,11 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_02005D28(void);
-extern void func_02005DE4(int);
+extern void func_02005DE4(void *p);
 extern int  func_02005E50(void);
 extern void func_02005E64(void);
 extern int  func_02005F38(void);
-extern int  func_020063B4(u32, void *, int);
+extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
 extern void func_021F5FEC(void *, void *);
 
 void func_021F5ECC(u8 *p, u8 *q)
@@ -37,7 +37,7 @@ void func_021F5ECC(u8 *p, u8 *q)
         break;
     case 1:
         if (func_02005E50() == 0) {
-            func_02005DE4(1);
+            func_02005DE4((void *)1);
             func_02005E64();
             *(u32 *)(q + 0x18) = 0;
         }
@@ -47,13 +47,13 @@ void func_021F5ECC(u8 *p, u8 *q)
             *(u32 *)(q + 0x18) = 0;
         break;
     case 3:
-        if (func_020063B4(0x3F3, q + 0x24, 0) != 0)
+        if (func_020063B4((u8 *)0x3F3, (u32 *)(q + 0x24), 0) != 0)
             *(u32 *)(q + 0x18) = 4;
         break;
     case 4:
         break;
     case 5:
-        if (func_020063B4(0x519, q + 0x24, 0) != 0)
+        if (func_020063B4((u8 *)0x519, (u32 *)(q + 0x24), 0) != 0)
             *(u32 *)(q + 0x18) = 6;
         break;
     case 6:

@@ -90,17 +90,17 @@ extern u32   OS_CreateExtraHeap(u32 id);
 extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
 extern u32   OS_GetConsoleType(void);
 
-extern void  func_02030608(void *a, u32 b, u32 c, u32 d);
+extern void func_02030608(u32 a, u32 b, u32 c, u32 d);
 extern void  func_02030BA4(u32 a);
 extern void  func_0203064C(u32 a, u32 b, u32 c);
 extern void  func_02030678(void *a, u32 b, u32 c);
 extern void  func_0203EF5C(u32 a);
-extern void  func_02048CEC(void *a, u32 b);
+extern void func_02048CEC(u32 a, u32 b);
 typedef signed int     s32;
 struct Ctx;
 extern void func_02034E24(u32 heap, u8 mode);
 extern void  func_02034978(void);
-extern void  func_020346EC(u32 a, u32 b, void (*c)(void));
+extern void func_020346EC(u32 a, u32 b, u32 c);
 extern void func_0203499C(u32 heap, int n0, int n1, int n2);
 extern void  func_0203129C(u32 a);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, unsigned short tag);
@@ -108,7 +108,7 @@ extern u32   func_02030CB0(u32 n);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void  sub_020056D0(void);
 extern void  func_0204E5E8(u32 a);
-extern void  func_020316C8(u32 a, void (*b)(void), void (*c)(void));
+extern void func_020316C8(u32 a0, u32 a1, u32 a2);
 extern void  func_0204E130(u32 a);
 extern void  func_0203F3B4(void);
 extern void  sub_0200566C(void);
@@ -116,7 +116,7 @@ extern void  func_020057AC(void);
 extern void func_0204E6F4(s32 a);
 extern void  sub_02005768(void);
 extern void  func_0202F768(void);
-extern void  func_0202F774(void);
+extern void func_0202F774(u32 on);
 
 void sub_0200545C(void)
 {
@@ -128,9 +128,9 @@ void sub_0200545C(void)
     }
 
     if (OS_IsRunOnTwl() != 0) {
-        func_02030608(d_0209D8A0, 2, 0xAD, 0);
+        func_02030608((u32)d_0209D8A0, 2, 0xAD, 0);
     } else {
-        func_02030608(d_0209D8B0, 2, 0xAD, 0);
+        func_02030608((u32)d_0209D8B0, 2, 0xAD, 0);
     }
 
     func_02030BA4(0x2000);
@@ -143,13 +143,13 @@ void sub_0200545C(void)
     }
 
     func_0203EF5C(0);
-    func_02048CEC(d_020A6C58, 0xEB);
+    func_02048CEC((u32)d_020A6C58, 0xEB);
     func_02034E24(0, 0);
 
     if (OS_GetConsoleType() & 0x81000000) {
         func_02034978();
     } else {
-        func_020346EC(0, 0, sub_02005768);
+        func_020346EC(0, 0, (u32)sub_02005768);
     }
 
     func_0203499C(0, 0x10, 4, 4);
@@ -163,7 +163,7 @@ void sub_0200545C(void)
 
     sub_020056D0();
     func_0204E5E8(0);
-    func_020316C8(7, func_0202F768, func_0202F774);
+    func_020316C8(7, (u32)func_0202F768, (u32)func_0202F774);
     func_0204E130(0);
     func_0203F3B4();
     g_020AA194.unk0C = 0;

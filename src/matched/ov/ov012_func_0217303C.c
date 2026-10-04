@@ -43,8 +43,10 @@ typedef struct {
 
 extern int func_02173840(u8 *w);
 extern int func_02174268(Work *w);
-extern void func_02167590(int a, int b);
-extern int func_0216786C(int a, void *b);
+struct Report;
+struct Work;
+extern void func_02167590(void *a, struct Work *w);
+extern int func_0216786C(struct Work *w, struct Report *out);
 extern int func_02174C90(void *a);
 extern void func_0217FF78(Q *q);
 extern void func_02175110(Q *q);
@@ -55,9 +57,9 @@ void func_0217303C(Work *w)
     if (w->q != 0 && ((Sub *)((u8 *)w->q + 0xC8))->flag) {
     if (func_02173840((u8 *)w) == 1) {
         if (func_02174268(w) == 0) {
-            func_02167590(w->head->f0c, w->q->f0);
+            func_02167590((void *)w->head->f0c, (struct Work *)w->q->f0);
             if (w->q->f16F == 0) {
-                if (func_0216786C(w->q->f0, (u8 *)w->q + 4) == 1) {
+                if (func_0216786C((struct Work *)w->q->f0, (struct Report *)((u8 *)w->q + 4)) == 1) {
                     w->q->f16F = 1;
                 }
             }

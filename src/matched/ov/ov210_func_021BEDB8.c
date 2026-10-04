@@ -15,12 +15,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BED98(int p, int idx, int v);
+extern void func_021BED98(char *p, int idx, int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 
 void func_021BEDB8(int p, int i, int v)
 {
-    func_021BED98(p, i, v);
+    func_021BED98((char *)p, i, v);
     func_0204B92C((struct Obj *)((int *)(p + i * 4))[0xa], 1);
 }

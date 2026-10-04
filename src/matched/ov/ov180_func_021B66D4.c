@@ -14,11 +14,12 @@
  *   func_02046788  0x02046788  arm
  */
 
-extern void func_02047E54(int);
+struct Rec;
+extern void func_02047E54(struct Rec *p);
 extern void func_02046788(void);
 
 void func_021B66D4(int *p)
 {
-    func_02047E54(*(int *)((char *)p + 0x10));
+    func_02047E54((struct Rec *)(*(int *)((char *)p + 0x10)));
     func_02046788();
 }

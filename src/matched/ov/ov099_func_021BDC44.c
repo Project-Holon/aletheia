@@ -23,7 +23,7 @@ extern int func_021BCBD8(char *, int);
 extern int func_021BDDF4(char *);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021C18C8(char *, int, u16);
-extern void func_021C23C8(char *, int);
+extern void func_021C23C8(void *a, void *b);
 extern void func_021C23D8(char *, int);
 int func_021BDC44(char *p, int v)
 {
@@ -36,7 +36,7 @@ int func_021BDC44(char *p, int v)
     }
     t = d_021C390C;
     func_021C18C8(p, 2, t.v[*(u16 *)(p + 0x134e) + *(u16 *)(p + 0x134c) * 2]);
-    func_021C23C8(p, -1);
+    func_021C23C8(p, (void *)(-1));
     *(int *)(p + 0x1cc) = 0x9e;
     func_021C23D8(p, 1);
     return v;

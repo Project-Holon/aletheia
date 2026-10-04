@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0203FC28(u32 p);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 
 void func_02188DA0(void)
 {
-    func_0203FC28(0x021D35F4);
+    func_0203FC28((struct DispConfig *)0x021D35F4);
 }

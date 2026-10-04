@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(int);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 
 void func_021B9F70(int *p)
@@ -31,6 +32,6 @@ void func_021B9F70(int *p)
     func_0204A8D4(p[12]);
     func_0204ADA4(p[11]);
     func_0204AFD8(p[13]);
-    func_0204B1CC(p[0]);
+    func_0204B1CC((struct Bank *)p[0]);
     func_0204A5AC();
 }

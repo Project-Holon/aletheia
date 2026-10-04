@@ -14,10 +14,11 @@
  *   func_02036290   0x02036290  arm
  */
 
-extern int func_02035224(void);
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
 extern void func_02036290(int a, const void *p);
 
 void func_020362A4(const void *p)
 {
-    func_02036290(func_02035224(), p);
+    func_02036290((int)func_02035224(), p);
 }

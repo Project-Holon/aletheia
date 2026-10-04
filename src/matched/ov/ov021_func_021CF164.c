@@ -21,10 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0203A574(u32 heap, const void *res, int n, u32 a);
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern const u8 data_021DB4BC[];
 
 void func_021CF164(u32 a)
 {
-    func_0203A574(0x2700, data_021DB4BC, 8, a);
+    func_0203A574(0x2700, (u32)data_021DB4BC, 8, a);
 }

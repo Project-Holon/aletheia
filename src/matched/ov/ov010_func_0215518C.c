@@ -41,7 +41,7 @@ struct Ctx {
     void *f4c;
 };
 
-extern int func_0200BAC8(void *p);
+extern void *func_0200BAC8(void *p);
 struct BigObj;
 struct Party;
 struct PartyMon;
@@ -65,7 +65,7 @@ void func_0215518C(int mode, struct Ctx *ctx)
     int i;
     void *list;
     void *h;
-    t = func_0200BAC8(ctx->f4c);
+    t = (int)func_0200BAC8(ctx->f4c);
     if (mode == 0) {
         list = func_02012934(func_020120F4(ctx->f00));
         for (i = 0; i < (int)func_0201AA18(list); i++) {

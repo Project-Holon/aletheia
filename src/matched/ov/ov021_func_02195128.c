@@ -22,10 +22,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02045758(u32 w);
-extern int func_02045760(u32 w);
-extern int func_02045748(u32 w);
-extern int func_02045750(u32 w);
+struct Descriptor;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
 extern void func_0206E0C4(int x, int y, u32 c, int z);
 
 void func_02195128(u8 *p, u32 c0, u32 c1, u32 c2, u32 c3)
@@ -35,10 +36,10 @@ void func_02195128(u8 *p, u32 c0, u32 c1, u32 c2, u32 c3)
     int w;
     int h;
 
-    x = func_02045758(*(u32 *)(p + 0xC)) << 3;
-    y = (func_02045760(*(u32 *)(p + 0xC)) - 1) << 3;
-    w = func_02045748(*(u32 *)(p + 0xC)) << 3;
-    h = (func_02045750(*(u32 *)(p + 0xC)) + 2) << 3;
+    x = func_02045758((struct Descriptor *)(*(u32 *)(p + 0xC))) << 3;
+    y = (func_02045760((struct Descriptor *)(*(u32 *)(p + 0xC))) - 1) << 3;
+    w = func_02045748((struct Descriptor *)(*(u32 *)(p + 0xC))) << 3;
+    h = (func_02045750((struct Descriptor *)(*(u32 *)(p + 0xC))) + 2) << 3;
     func_0206E0C4(x, y, c0, 0);
     func_0206E0C4(x + w, y, c1, 0);
     func_0206E0C4(x, y + h, c2, 0);

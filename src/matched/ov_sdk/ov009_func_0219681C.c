@@ -29,7 +29,7 @@ typedef struct Conn {
 	void *holds;
 } Conn;
 
-extern void func_0218437C(void *array, int n);
+extern void func_0218437C(int a, int b);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void func_02194E80(void *buffer, int start, int shortenBy);
@@ -46,7 +46,7 @@ void func_0219681C(Conn *c, Hold *message, int index)
 	moveAfter = message->start;
 	shortenBy = message->len;
 	moveEnd = 0;
-	func_0218437C(c->holds, index);
+	func_0218437C((int)c->holds, index);
 	num = func_02184200(c->holds);
 	for (i = 0; i < num; i++) {
 		m = (Hold *)func_02184208(c->holds, i);

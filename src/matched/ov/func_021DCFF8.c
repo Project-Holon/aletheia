@@ -25,11 +25,11 @@ typedef signed int s32;
 
 struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
-extern u32 func_021D805C(u32 v, int k);
+extern u32 func_021D805C(void *p, u32 n);
 
 /* 021DCFF8  pass-through: second callee takes the first one's result */
 int func_021DCFF8(int a, int b)
 {
-    return func_021D805C(func_021D70A8((void *)a), b);
+    return func_021D805C((void *)func_021D70A8((void *)a), b);
 }
 

@@ -24,13 +24,17 @@
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *);
-extern int func_02188CCC(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Comm;
+struct IcaAnime;
+extern u32 func_02188CCC(u8 *p);
 extern unsigned int func_02012138(const struct Ctx *);
-extern int func_02026454(int);
-extern void func_02026400(int);
-extern void func_02012158(int, int);
-extern void func_020121CC(int);
-extern void func_021A0F7C(int, int, void *, int *);
+extern u32 func_02026454(void *obj);
+extern void func_02026400(struct Comm *p);
+extern void func_02012158(char *p, unsigned int v);
+extern u32 func_020121CC(struct IcaAnime *p);
+extern int func_021A0F7C(u32 a, u32 b, u32 c, u32 d);
 extern void func_02168B18(int *);
 
 typedef enum { ST_0, ST_1, ST_2, ST_3, ST_4, ST_5 } State;
@@ -38,30 +42,30 @@ typedef enum { ST_0, ST_1, ST_2, ST_3, ST_4, ST_5 } State;
 int func_02168B20(int a, int *b, int *c)
 {
     int s = c[2];
-    int x = func_02188CCC((int)func_0201210C((const struct Ctx *)s));
+    int x = func_02188CCC((u8 *)((int)func_0201210C((const struct Ctx *)s)));
     int y = func_02012138((const struct Ctx *)s);
     State t = (State)*b;
     switch (t) {
     case 0:
-        if (func_02026454(y) != 0)
-            func_02026400(y);
+        if (func_02026454((void *)y) != 0)
+            func_02026400((struct Comm *)y);
         (*b)++;
         break;
     case 1:
-        if (func_02026454(y) != 0)
+        if (func_02026454((void *)y) != 0)
             break;
-        func_02012158(s, 0);
+        func_02012158((char *)s, 0);
         (*b)++;
         break;
     case 2:
         if (c[1] != 0) {
-            func_02012158(s, 1);
-            func_020121CC(s);
+            func_02012158((char *)s, 1);
+            func_020121CC((struct IcaAnime *)s);
         }
         (*b)++;
         break;
     case 3:
-        func_021A0F7C(x, 8, func_02168B18, c);
+        func_021A0F7C(x, 8, (u32)func_02168B18, (u32)c);
         (*b)++;
         break;
     case 4:

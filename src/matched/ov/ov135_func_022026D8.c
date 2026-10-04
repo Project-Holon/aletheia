@@ -28,7 +28,7 @@ struct GfFont;
 struct Tcbl;
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C440(u32 heap);
+extern u32 func_0201C440(void *p);
 extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
 
 typedef struct {
@@ -56,7 +56,7 @@ void func_022026D8(Ctx *ctx, u32 arg)
     ctx->buf = func_0203101C(0x48, 0x48, 0x20, 0x20);
     ctx->arg = arg;
     ctx->font = func_0201D7EC(0x17, 0, 0, 0, 0x48);
-    ctx->msg = func_0201C440(0x48);
+    ctx->msg = (void *)func_0201C440((void *)0x48);
     ctx->res = func_02028590(0xF, 1, 1, 0x48);
     for (i = 0; i < 0x18; i++) {
         s = &ctx->slot[i];

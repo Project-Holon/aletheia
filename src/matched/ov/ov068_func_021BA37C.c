@@ -34,7 +34,7 @@ extern void func_02082BCC(void *p, u32 a, u32 b);
 extern u32  func_021B62E0(Req *r, u16 a);
 extern void func_021BA6B8(u8 *p, u32 arg);
 extern int func_02012BF8(int a0, int a1);
-extern void func_021B6598(u32 a, u32 b, u32 c);
+extern void func_021B6598(unsigned char *p, unsigned int id, unsigned int v);
 extern Tbl  d_021BB5D4;
 
 void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3)
@@ -60,8 +60,8 @@ void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3
     *(u32 *)(p + 8) = func_021B62E0(&r, s3);
     func_021BA6B8(p, s3);
     if (func_02012BF8(*(u32 *)(p + 0x3c), 0x18) != 0) {
-        func_021B6598(*(u32 *)(p + 8), 6, 1);
+        func_021B6598((unsigned char *)(*(u32 *)(p + 8)), 6, 1);
     } else {
-        func_021B6598(*(u32 *)(p + 8), 6, 0);
+        func_021B6598((unsigned char *)(*(u32 *)(p + 8)), 6, 0);
     }
 }

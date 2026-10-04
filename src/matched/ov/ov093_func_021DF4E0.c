@@ -15,11 +15,11 @@
  */
 typedef unsigned char u8;
 extern int func_021D775C(int);
-extern int func_021DCFF8(void *, int);
+extern int func_021DCFF8(int a, int b);
 typedef unsigned int   u32;
 extern int func_021D76BC(int key, u32 val);
 void func_021DF4E0(void *a, int b, int c, int d)
 {
     if (c == func_021D775C(3) && d == func_021D775C(0x39))
-        func_021D76BC(0x24, func_021DCFF8(a, 2));
+        func_021D76BC(0x24, func_021DCFF8((int)a, 2));
 }

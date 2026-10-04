@@ -30,14 +30,14 @@ extern unsigned int d_021CF538[];
 extern unsigned int d_021CF5B8[];
 extern unsigned int d_021D3D40[];
 
-extern void func_021C9EE4(void *, void *);
+extern void func_021C9EE4(int server, char *initdata);
 extern int func_021CA470(void *, unsigned int, void *, unsigned int, unsigned int);
 extern void func_021CA1B4(void);
 
 void func_021C87FC(unsigned int x)
 {
     d_021D3D2C[0x72] = x;
-    func_021C9EE4((void *)d_021D3D28, d_021CF538);
+    func_021C9EE4((int)((void *)d_021D3D28), (char *)d_021CF538);
     if (func_021CA470(d_021CF5B8, d_021D3D2C[2], d_021D3D40, 0x1b0, 0) == 0) {
         d_021D3D2C[0] = 6;
         return;

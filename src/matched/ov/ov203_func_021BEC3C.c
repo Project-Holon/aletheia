@@ -13,9 +13,12 @@
  *   func_021BECA8 0x021BECA8 thumb
  */
 
-extern void func_021BECA8(int, int, int, int, int, int, int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Owner;
+extern void func_021BECA8(struct Owner *owner, u8 kind, u16 target, int start, int end, int duration, int flag);
 
 void func_021BEC3C(int a0, int a1, int *src)
 {
-    func_021BECA8(a0, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
+    func_021BECA8((struct Owner *)a0, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
 }

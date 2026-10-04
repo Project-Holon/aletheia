@@ -32,7 +32,7 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D2C(void *a);
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -55,7 +55,7 @@ int func_021F39B8(void *a0, int *a1)
     u8 v;
 
     r7 = func_0201210C(func_020124E4(a0));
-    r6 = func_02188D2C(r7);
+    r6 = (void *)func_02188D2C(r7);
     s = func_021897BC(r7, 1);
     flag = 1;
     p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(r7))), 9);

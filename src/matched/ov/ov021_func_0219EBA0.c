@@ -39,9 +39,9 @@ typedef struct {
 } S;
 
 extern void *func_0219E968(u32 a, u32 size);
-extern void func_0219E2F4();
-extern void func_0216D674();
-extern void func_0216DA50();
+extern void func_0219E2F4(void *o, void *out);
+extern void func_0216D674(void *p, u16 v);
+extern void func_0216DA50(u8 *p);
 
 void func_0219EBA0(u32 o, u32 k)
 {
@@ -49,12 +49,12 @@ void func_0219EBA0(u32 o, u32 k)
     S s;
 
     e = func_0219E968(o, 0x10);
-    func_0219E2F4(o, &s);
+    func_0219E2F4((void *)o, &s);
     e->lo = 0;
     e->z = 0;
     e->hi = k;
     e->d = s.d;
     e->c = s.c;
-    func_0216D674(o, 0);
-    func_0216DA50(o);
+    func_0216D674((void *)o, 0);
+    func_0216DA50((u8 *)o);
 }

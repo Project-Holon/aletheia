@@ -16,18 +16,25 @@
  *   func_021BAFA0 0x021BAFA0 thumb ov100
  *   func_021BAB08 0x021BAB08 thumb ov100
  */
-extern int func_0204E804(void),func_0201283C(int),func_02009A34(int);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021BAFA0(void),func_021BAB08(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+struct Sub020097BCObj;
+extern int func_0204E804(void);
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_02009A34(struct Sub020097BCObj *obj);
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021BAFA0(int p);
+extern void func_021BAB08(void);
 void func_021BAA9C(int a) {
  if(func_0204E804()!=0) {
   if(*(int *)(a+0x24c)==7) {
-   if(func_02009A34(func_0201283C(**(int **)(a+0x244)))==32) {
-    func_021B95B8(a,func_021BAFA0);
+   if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(**(int **)(a+0x244))))==32) {
+    func_021B95B8((u8 *)a,(u32)func_021BAFA0);
     *(int *)(a+0xcac)=180;
     return;
    }
   }
-  func_021B95B8(a,func_021BAB08);
+  func_021B95B8((u8 *)a,(u32)func_021BAB08);
  }
 }

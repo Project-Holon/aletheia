@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern void func_021C51A0(u8 *, u32);
 extern void func_021C51C8(u32, int, u8 *);
 extern void ov208_func_021C569C(u16 *, u8 *, int, int, int, int, u16);
-extern void func_02014CEC(u32, u32);
+extern void func_02014CEC(u8 *p, u32 value);
 void func_021C7CE8(u16 *a0, u8 *p, int key)
 {
     int a;
@@ -30,11 +30,11 @@ void func_021C7CE8(u16 *a0, u8 *p, int key)
     if (*(u32 *)(p + 0x6B8) != 0) return;
     func_021C51A0(p + 0x94, *(u32 *)(p + 8));
     func_021C51A0(p + 0xD8, *(u32 *)(p + 8));
-    func_02014CEC(*(u32 *)(p + 8), 0);
+    func_02014CEC((u8 *)(*(u32 *)(p + 8)), 0);
     a = *(u32 *)(p + 0x124) != 0 ? 2 : 4;
     b = *(u32 *)(p + 0x124) != 0 ? 4 : 3;
     ov208_func_021C569C(a0, p, key, a, b, 2, *(u16 *)(p + 0x550));
     if (a != 4) func_021C51C8(*(u32 *)(p + 0x98), 2, p);
     if (b != 4) func_021C51C8(*(u32 *)(p + 0xDC), 3, p);
-    func_02014CEC(*(u32 *)(p + 8), *(u32 *)(p + 0x120));
+    func_02014CEC((u8 *)(*(u32 *)(p + 8)), *(u32 *)(p + 0x120));
 }

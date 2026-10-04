@@ -19,7 +19,10 @@ typedef struct { s16 x,y,z,w; } Position;
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(int,void *,int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021DA1A8(char *p,int animate)
 {
     Position s;
@@ -39,7 +42,7 @@ void func_021DA1A8(char *p,int animate)
         func_0204B454((struct Actor *)*(int *)(q+12),(struct PtS *)&s.z,0);
         if(animate==0) {
             s.z=y;
-            func_0204B404(*(int *)(q+12),&s.z,0);
+            func_0204B404((struct Obj *)(*(int *)(q+12)),(const struct Vec2 *)(&s.z),0);
         } else {
             *(s16 *)(q+0x14)=(y-s.z)/4;
             *(s16 *)(q+0x16)=0;
@@ -56,7 +59,7 @@ void func_021DA1A8(char *p,int animate)
             }
             if(animate==0) {
                 s.x=y;
-                func_0204B404(*(int *)(q+0x15c),&s,0);
+                func_0204B404((struct Obj *)(*(int *)(q+0x15c)),(const struct Vec2 *)(&s),0);
             } else {
                 *(s16 *)(q+0x164)=(y-s.x)/4;
                 *(s16 *)(q+0x166)=0;

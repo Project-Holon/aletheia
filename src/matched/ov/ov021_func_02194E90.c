@@ -22,10 +22,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02045758(u32 w);
-extern int func_02045760(u32 w);
-extern int func_02045748(u32 w);
-extern int func_02045750(u32 w);
+struct Descriptor;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
 extern void func_0206E0C4(int x, int y, void *c, int z);
 
 void func_02194E90(u8 *e, u8 *ent, int *b, int *c, void *d)
@@ -39,14 +40,14 @@ void func_02194E90(u8 *e, u8 *ent, int *b, int *c, void *d)
     int w2;
     int h2;
 
-    x1 = (func_02045758(*(u32 *)(e + 0xC)) - 1) << 3;
-    y1 = (func_02045760(*(u32 *)(e + 0xC)) - 1) << 3;
-    w1 = (func_02045748(*(u32 *)(e + 0xC)) + 2) << 3;
-    h1 = (func_02045750(*(u32 *)(e + 0xC)) + 2) << 3;
-    x2 = (func_02045758(*(u32 *)(ent + 0xC)) - 1) << 3;
-    y2 = (func_02045760(*(u32 *)(ent + 0xC)) - 1) << 3;
-    w2 = (func_02045748(*(u32 *)(ent + 0xC)) + 2) << 3;
-    h2 = (func_02045750(*(u32 *)(ent + 0xC)) + 2) << 3;
+    x1 = (func_02045758((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
+    y1 = (func_02045760((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
+    w1 = (func_02045748((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
+    h1 = (func_02045750((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
+    x2 = (func_02045758((struct Descriptor *)(*(u32 *)(ent + 0xC))) - 1) << 3;
+    y2 = (func_02045760((struct Descriptor *)(*(u32 *)(ent + 0xC))) - 1) << 3;
+    w2 = (func_02045748((struct Descriptor *)(*(u32 *)(ent + 0xC))) + 2) << 3;
+    h2 = (func_02045750((struct Descriptor *)(*(u32 *)(ent + 0xC))) + 2) << 3;
     if (x1 + w1 < x2) {
         *b = x2;
     } else if (x1 > x2 + w2) {

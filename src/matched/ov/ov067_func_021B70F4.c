@@ -69,13 +69,17 @@ extern void func_021B7718(int which, int idx, void *data);
 extern void func_02040588(u32 which, u32 enable);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int a, int b);
-extern u32 func_0201D304(u32 a, u32 b, u32 c);
+struct Cfg;
+struct CharBuf;
+struct PrintSys;
+struct StrObj;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C724(u32 a, u32 b, s16 x, s16 y, u32 str, u32 font, u16 color);
-extern int func_0201C6C4(u32 a, u32 b);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(int a);
-extern int func_02045730(int a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern u8 func_020355C4(void);
 struct Obj;
@@ -101,27 +105,27 @@ void func_021B70F4(struct S *s, u32 a1, u32 a2)
     func_021B7718(s->f10, s->f16, s->f22);
     func_021B7718(s->f10, s->f17, s->f22);
     func_02040588(s->f14, 1);
-    func_02043B5C((int)func_02045770((struct Descriptor *)s->f88), 0);
-    func_02043B5C((int)func_02045770((struct Descriptor *)s->f8c), 0);
-    t = func_0201D304(a1, s->f8, 0);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f88)), 0);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f8c)), 0);
+    t = func_0201D304((struct StrObj *)a1, s->f8, 0);
     func_0201C724(s->fC, (int)func_02045770((struct Descriptor *)s->f88), (u16)((0x100 - t) / 2), 0x10, a1, s->f8, 0x3c40);
-    t = func_0201D304(a2, s->f8, 0);
+    t = func_0201D304((struct StrObj *)a2, s->f8, 0);
     func_0201C724(s->fC, (int)func_02045770((struct Descriptor *)s->f8c), (u16)((0x100 - t) / 2), 0x10, a2, s->f8, 0x3c40);
     s->f90 = 0;
     s->f94 = 0;
     func_02040588(s->f18, 1);
-    if (s->f90 == 0 && func_0201C6C4(s->fC, (int)func_02045770((struct Descriptor *)s->f88)) == 0) {
+    if (s->f90 == 0 && func_0201C6C4((struct PrintSys *)s->fC, (void *)((int)func_02045770((struct Descriptor *)s->f88))) == 0) {
         p = s->f88;
         func_02045334((struct Descriptor *)p);
-        func_02045374(p);
-        func_02041B6C(func_02045730(p));
+        func_02045374((struct Cfg *)p);
+        func_02041B6C(func_02045730((struct Descriptor *)p));
         s->f90 = 1;
     }
-    if (s->f94 == 0 && func_0201C6C4(s->fC, (int)func_02045770((struct Descriptor *)s->f8c)) == 0) {
+    if (s->f94 == 0 && func_0201C6C4((struct PrintSys *)s->fC, (void *)((int)func_02045770((struct Descriptor *)s->f8c))) == 0) {
         p = s->f8c;
         func_02045334((struct Descriptor *)p);
-        func_02045374(p);
-        func_02041B6C(func_02045730(p));
+        func_02045374((struct Cfg *)p);
+        func_02041B6C(func_02045730((struct Descriptor *)p));
         s->f94 = 1;
     }
     if (func_020355C4() == 0) {

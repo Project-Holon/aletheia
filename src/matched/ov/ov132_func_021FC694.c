@@ -17,7 +17,9 @@
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u8 *func_02012944(void *p);
-extern void func_0203CBAC(void *, void *, void *);
+typedef unsigned int   u32;
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_02008494(void *, void *);
 extern void func_02087C6C(void *);
 extern void func_021FCAA0(char *p);
@@ -29,7 +31,7 @@ void *func_021FC694(int a,char *p)
     if(*(int *)(p+0xc)==1) d_021FDE4C[5]=4;
     else {
         d_021FDE4C[5]=0;
-        func_0203CBAC(d_021FDDEC,func_021FCAA0,p);
+        func_0203CBAC((struct Req *)d_021FDDEC,(u32)func_021FCAA0,(u32)p);
     }
     func_02008494(*(void **)(p+0x5c),p+0x20);
     func_02087C6C(p+0x40);

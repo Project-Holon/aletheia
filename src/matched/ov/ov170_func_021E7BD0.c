@@ -26,7 +26,7 @@ extern int func_021E9968(unsigned char *p);
 extern int func_021E9938(unsigned char *p);
 extern int func_021E99B0(unsigned char *p);
 extern int func_021E9B74(unsigned char *p);
-extern int func_021E22B8(unsigned char *p);
+extern int func_021E22B8(int p);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 typedef struct { unsigned char pad[0x1C]; unsigned char lo:4; unsigned char hi:4; } Flags;
@@ -57,5 +57,5 @@ int func_021E7BD0(unsigned char *p)
     case 3:
         break;
     }
-    return func_021E22B8(p);
+    return func_021E22B8((int)p);
 }

@@ -18,7 +18,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021CE7B0(int, int, int);
+extern void func_021CE7B0(void *src, int sColor, int dColor);
 extern unsigned char tbl_021DA61C[];
 
 void func_021CA390(void)
@@ -27,6 +27,6 @@ void func_021CA390(void)
     int i = *g - 0xb;
     int y = tbl_021DA61C[i];
 
-    func_021CE7B0(*(int *)(*(int *)(g + 8) + 0x10), y, y);
+    func_021CE7B0((void *)(*(int *)(*(int *)(g + 8) + 0x10)), y, y);
 }
 

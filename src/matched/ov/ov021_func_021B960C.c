@@ -16,13 +16,14 @@
 
 typedef unsigned int u32;
 typedef struct { u32 key[4]; u32 val[4]; } T;
-extern int func_021B87FC(u32 c, u32 k);
+typedef unsigned char  u8;
+extern u8 *func_021B87FC(u8 *p, u32 idx);
 u32 func_021B960C(T *t, int b, u32 c)
 {
     int i;
     int r;
     for (i = 0; i < 4; i++) {
-        r = func_021B87FC(c, t->key[i]);
+        r = (int)func_021B87FC((u8 *)c, t->key[i]);
         if (r == b)
             return t->val[i];
     }

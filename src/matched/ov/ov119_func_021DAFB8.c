@@ -25,17 +25,19 @@ extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int),func_021DAF68(void *),func_021D9434(void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+struct MsgBank;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned,unsigned);
-extern void func_02045CAC(int,int,int);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *),func_021E1030(void *);
 void func_021DAFB8(char *p) {
  u8 b;
  if(func_021D8A24(p)) {
   b=4;
-  if(func_0203D3A8(func_020399A8(),0xc00,1,&b)) {
-   func_02045CAC(*(int *)(p+0x720),136,*(int *)(p+0x738));func_021E1024(p);func_021E1030(p);
+  if(func_0203D3A8(func_020399A8(),0xc00,1,(u32)(&b))) {
+   func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),136,(void *)(*(int *)(p+0x738)));func_021E1024(p);func_021E1030(p);
    func_02039C68((struct Link *)func_020399A8(),26,8);func_021D8E84(p,(int)func_021DAF68);
   }
  } else {*(int *)(*(char **)(p+8)+8)=3;func_021D8E84(p,(int)func_021D9434);}

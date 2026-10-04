@@ -15,11 +15,14 @@
  */
 typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
-extern u32 func_020437DC(int);
-extern u32 func_020437E4(int);
+typedef unsigned short u16;
+struct Bmp;
+struct StrObj;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u32 func_0201D42C(void *,int);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 void func_021DAA28(char *p,int a,int *out)
 {
     int x,y;
@@ -28,16 +31,16 @@ void func_021DAA28(char *p,int a,int *out)
         *(Pair *)out=*(Pair *)(p+12);
         break;
     case 1:
-        x=func_020437DC(*(int *)p)/2;
-        y=func_020437E4(*(int *)p)/2;
+        x=func_020437DC((const struct Bmp *)(*(int *)p))/2;
+        y=func_020437E4((const struct Bmp *)(*(int *)p))/2;
         x-=func_0201D304(*(void **)(p+24),a,0)/2;
-        y-=func_0201D42C(*(void **)(p+24),a)/2;
+        y-=func_0201D42C(*(void **)(p+24),(void *)a)/2;
         out[0]=x+*(int *)(p+12);
         out[1]=y+*(int *)(p+16);
         break;
     case 2:
-        x=func_020437E4(*(int *)p)/2;
-        x-=func_0201D42C(*(void **)(p+24),a)/2;
+        x=func_020437E4((const struct Bmp *)(*(int *)p))/2;
+        x-=func_0201D42C(*(void **)(p+24),(void *)a)/2;
         out[0]=*(int *)(p+12);
         out[1]=x+*(int *)(p+16);
         break;

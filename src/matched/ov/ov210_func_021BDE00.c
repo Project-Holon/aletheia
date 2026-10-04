@@ -32,12 +32,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern int func_021B7AB0(u32 a);
+struct S;
+extern int func_021B7AB0(struct S *p);
 extern u8 func_020355C4(void);
 extern void func_020061E4(u32 id);
 extern void func_021BE290(u8 *p, int index);
 extern void func_021BF728(u8 *p, int a);
-extern void func_021BEDB8(u8 *p, u32 a, u32 b);
+extern void func_021BEDB8(int p, int i, int v);
 extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021BF81C(u8 *p);
 extern void func_021BFB24(u8 *p);
@@ -51,7 +52,7 @@ u32 func_021BDE00(u8 *p)
     u32 r5;
     u32 ret = 22;
 
-    r5 = func_021B7AB0(*(u32 *)(p + 0x1e0));
+    r5 = func_021B7AB0((struct S *)(*(u32 *)(p + 0x1e0)));
 
     switch (r5) {
     case 0:
@@ -72,24 +73,24 @@ u32 func_021BDE00(u8 *p)
         func_021BF728(p, 0);
         break;
     case (u32)-7:
-        func_021BEDB8(p, 6, 12);
+        func_021BEDB8((int)p, 6, 12);
         p[0x2c1] = 6;
         *(u32 *)(p + 0x14) = 0;
         *(u32 *)(p + 0x18) = ret;
         ret = 0x18;
         break;
     case (u32)-6:
-        func_021BEDB8(p, 5, 13);
+        func_021BEDB8((int)p, 5, 13);
         p[0x2c1] = 5;
         *(u32 *)(p + 0x14) = 0;
         *(u32 *)(p + 0x18) = ret;
         ret = 0x18;
         break;
     case (u32)-5:
-        func_021BEDB8(p, 6, 12);
+        func_021BEDB8((int)p, 6, 12);
         return func_021BE2F4(p, 1, 6, 22);
     case (u32)-4:
-        func_021BEDB8(p, 5, 13);
+        func_021BEDB8((int)p, 5, 13);
         return func_021BE2F4(p, 1, 5, 22);
     case (u32)-3:
     case (u32)-2:
@@ -106,11 +107,11 @@ u32 func_021BDE00(u8 *p)
         switch (r5) {
         case 0:
             func_020061E4(0x551);
-            func_021BEDB8(p, 2, 9);
+            func_021BEDB8((int)p, 2, 9);
             return func_021BE2F4(p, 1, 2, 0x17);
         case 8:
             func_020061E4(0x551);
-            func_021BEDB8(p, 2, 9);
+            func_021BEDB8((int)p, 2, 9);
             return func_021BE2F4(p, 1, 2, 0x17);
         case 9:
             func_020061E4(0x54c);

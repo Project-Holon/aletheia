@@ -21,7 +21,7 @@ struct Descriptor;
 struct Obj;
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *p);
-extern void func_02202644(void *p, int on);
+extern void func_02202644(u32 a, int kind);
 extern void func_0201F7A8(void *p, unsigned kind);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
@@ -38,7 +38,7 @@ int func_021F7A8C(u8 *p)
     case (unsigned)-2:
         func_0202020C(*(void **)(p + 0xDF4), (u16 *)(*(u8 **)(p + 0xE00) + 6), (u16 *)(*(u8 **)(p + 0xE00) + 4));
         func_0201F868(*(void **)(p + 0xDE8));
-        func_02202644(*(void **)(p + 0xD50), 0);
+        func_02202644((u32)(*(void **)(p + 0xD50)), 0);
         func_0201F7A8(*(void **)(p + 0xD40), 0);
         func_020452E8(*(void **)(p + 0xD50));
         func_020452E8(*(void **)(p + 0xD54));

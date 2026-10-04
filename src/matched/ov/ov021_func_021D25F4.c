@@ -32,7 +32,9 @@ typedef struct {
     u16 a, b, c, d;
 } Pos;
 
-extern u32 func_0204B100(u32 a, u32 b, u32 heap);
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern u32 func_0202D7C8(u32 heap);
 extern u32 func_0202D81C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
 extern u32 func_0202D7D8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
@@ -47,7 +49,7 @@ void func_021D25F4(u32 *p, int a, int b, int c, int s0, int s1)
     Pos loc;
     u32 t;
 
-    p[1] = func_0204B100(1, 0, 0x8015);
+    p[1] = (u32)func_0204B100(1, 0, 0x8015);
     t = func_0202D7C8(0x8015);
     p[3] = func_0202D81C(t, a, b, c, s0, 0, 0, s1, 0, 0x8015);
     p[4] = func_0202D7D8(t, a, b, c, s0, 0, 0, 0, 0, 0x8015);

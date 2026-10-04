@@ -48,7 +48,7 @@ struct Cfg;
 extern Desc d_021C37A0;
 extern const Pair d_021C3730[];
 extern u8 func_021B97F4(struct W *);
-extern struct S *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern u32 func_021BDD48(int, struct S *);
 extern int func_021C27E0(struct S *);
 extern struct Slot *func_0201F81C(u32, u32);
@@ -70,7 +70,7 @@ void func_021BAD74(char *p)
     u32 i;
     n = 2;
     desc = d_021C37A0;
-    state = func_021C23B8(func_021B97F4((struct W *)(p + 0x274)) - 1);
+    state = (struct S *)func_021C23B8(func_021B97F4((struct W *)(p + 0x274)) - 1);
     kind = (u16)func_021BDD48((int)p, state);
     func_021C27E0(state);
     func_021C27E0(*(struct S **)(p + 8));

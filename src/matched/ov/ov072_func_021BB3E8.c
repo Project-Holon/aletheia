@@ -28,7 +28,8 @@ typedef struct {
 extern void func_02082BCC(void *p, int v, int n);
 typedef unsigned int   u32;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern int func_020457B0(int a, int b);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 void func_021BB3E8(W *p, int a, int b, int c, u8 s0, u8 s1, u8 s2, u8 s3, u16 s4)
 {
@@ -36,5 +37,5 @@ void func_021BB3E8(W *p, int a, int b, int c, u8 s0, u8 s1, u8 s2, u8 s3, u16 s4
     p->f8 = b;
     p->fc = c;
     p->f0 = func_020450F0(a, s0, s1, s2, s3, 0xe, 0);
-    p->f4 = func_020457B0(0xff, s4);
+    p->f4 = (int)func_020457B0(0xff, s4);
 }

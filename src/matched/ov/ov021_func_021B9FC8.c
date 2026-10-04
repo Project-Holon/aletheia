@@ -63,7 +63,7 @@ typedef struct {
 int *func_021B8224(void *p, int k);
 int *func_021B8230(void *p, int a);
 u32 func_021B8248(u8 *p);
-void *func_021B824C(void *p);
+u32 func_021B824C(u8 *p);
 void func_021B8250(void *p, Rec *r, Rec *o);
 u32 func_021B82FC(u8 *p);
 u32 func_021B8304(u8 *p);
@@ -130,7 +130,7 @@ int func_021B9FC8(int a, void *p, const V *pos, Rec *out, int arg)
     out->f3 = 3;
     out->f4 = 0;
     out->f6 = 0;
-    obj = func_021B824C(p);
+    obj = (void *)func_021B824C(p);
     func_021B7EE4(obj, out);
     n = func_021B82FC(obj) >> 4;
     func_021B8028(obj, &P);

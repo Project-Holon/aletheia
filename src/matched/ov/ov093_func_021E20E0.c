@@ -22,19 +22,19 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B68(void *p);
 extern void *func_021C88A4(int a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 val);
-extern void func_021C88C8(int a, void *b);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021E20E0(int u, int a, int b)
 {
     u8 *r;
 
-    if (b == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021D5B68(func_021C7CF4(a, b)) == 0) {
+    if (b == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021D5B68(func_021C7CF4((int *)a, b)) == 0) {
         r = func_021C88A4(a, 0xe, b);
         *(int *)(r + 4) = 1;
         r[0xc] = 1;
@@ -44,6 +44,6 @@ void func_021E20E0(int u, int a, int b)
         r[0xd] = 1;
         func_021C8838(r + 0x18, 2, 0x214);
         func_021C8860((struct S *)(r + 0x18), b);
-        func_021C88C8(a, r);
+        func_021C88C8((void *)a, r);
     }
 }

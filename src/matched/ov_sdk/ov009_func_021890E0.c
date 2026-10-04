@@ -73,7 +73,7 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
 extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
 extern int func_02189300(void **connection, int id, int isDeleted);
@@ -94,7 +94,7 @@ int func_021890E0(void **connection, int profile, int sendServerRequest)
     int index;
 
     if (!func_0218FD9C(connection, profile, &pProfile)) {
-        func_02193734(connection, g_021A446C);
+        func_02193734((int *)connection, (int)g_021A446C);
         return 2;
     }
 

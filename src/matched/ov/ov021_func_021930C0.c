@@ -26,11 +26,13 @@ typedef unsigned int   u32;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int, int);
-extern void func_02045374(int);
+struct Cfg;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *);
 extern void func_020409B4(u32 index);
-extern void func_0201F73C(int, int, int, int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f)
 {
@@ -38,14 +40,14 @@ int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f)
     int k;
 
     r = func_020450F0(a & 0xff, b & 0xff, c & 0xff, d & 0xff, e & 0xff, f & 0xff, 1);
-    func_02043B5C((int)func_02045770((struct Descriptor *)r), 0xff);
-    func_02045374(r);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)r)), 0xff);
+    func_02045374((struct Cfg *)r);
     func_02045334((struct Descriptor *)r);
     func_020409B4((u8)a);
     k = 0xd;
     if (f != 0xe) {
         k = 0xa;
     }
-    func_0201F73C(r, 0, 1, k & 0xff);
+    func_0201F73C((void *)r, 0, 1, k & 0xff);
     return r;
 }

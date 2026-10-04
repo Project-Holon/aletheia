@@ -17,7 +17,7 @@
  */
 
 struct SBL { char pad[0x7d8]; void *dead; };
-extern void *func_0219E26C(void *s);
+extern int func_0219E26C(const int *p);
 extern void func_0219DFF8(void *elem);
 void func_0219F7D8(struct SBL *slist)
 {
@@ -27,7 +27,7 @@ void func_0219F7D8(struct SBL *slist)
 	if (next == 0)
 		return;
 	for (server = next; server != 0; server = next) {
-		next = func_0219E26C(server);
+		next = (void *)func_0219E26C(server);
 		func_0219DFF8(&server);
 	}
 	slist->dead = 0;

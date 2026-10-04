@@ -45,8 +45,10 @@ typedef struct {
 
 extern Entry *d_021DE164[];
 extern u8 d_021D9430[];
-extern u32 func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void func_02045C04(u32 a);
+struct MsgBank;
+struct Rec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045C04(struct Rec *rec);
 extern Entry *func_0201F81C(u32 a, u32 b);
 extern void func_0201F878(Entry *a, u32 b, u32 c, int d, u32 e);
 extern void func_021B385C(char *p, int idx, int mode, int val, int arg);
@@ -59,7 +61,7 @@ void func_021B39C4(Obj *p, int idx)
     int n;
 
     i = 0;
-    h = func_02045B38(0, 2, 0x36, p->heap);
+    h = (u32)func_02045B38(0, 2, 0x36, p->heap);
     tbl = d_021DE164[idx];
     n = d_021D9430[idx];
     p->buf = func_0201F81C(n + 1, p->heap);
@@ -70,5 +72,5 @@ void func_021B39C4(Obj *p, int idx)
     }
     p->count = i;
     func_0201F878(p->buf + i, p->win, 0xb, -2, p->heap);
-    func_02045C04(h);
+    func_02045C04((struct Rec *)h);
 }

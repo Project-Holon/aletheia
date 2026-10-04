@@ -24,13 +24,13 @@ extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_021DD2F4(char *);
-extern void func_021B6558(int,int,int);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_02028148(u8 *p);
 extern void func_02041B6C(u32 bit);
 void func_021E2A1C(char *p,int a,int b) {
     if (!func_0201C6B4(*(void **)(p+0x740))) func_0201C6EC(*(void **)(p+0x740));
     if(a) func_0204B3DC(*(void **)(p+0xf04),1);
-    if(b) func_021B6558(*(int *)(p+0x9c0),8,func_021DD2F4(p));
+    if(b) func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),8,func_021DD2F4(p));
     if(*(void **)(p+0x648)) {
         func_02028148(*(void **)(p+0x648));
         *(void **)(p+0x648)=0;

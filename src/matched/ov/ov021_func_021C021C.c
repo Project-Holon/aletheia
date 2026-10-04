@@ -23,14 +23,15 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u32 func_02188D38(u32 a);
+struct Evt;
+extern u32 func_02188D38(u8 *p);
 extern void func_021C029C(u8 *p);
 extern void func_021C02F8(u8 *p);
 extern u32 func_021C0374(u8 *p);
 extern void func_021C0360(u8 *p);
 extern int func_021C6E48(u32 a);
 extern void func_020061E4(u32 a);
-extern void func_02012374(u32 a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021C021C(u32 a, int *st, u8 *p)
 {
@@ -38,7 +39,7 @@ int func_021C021C(u32 a, int *st, u8 *p)
 
     u32 q;
 
-    q = func_02188D38(*(u32 *)(p + 4));
+    q = func_02188D38((u8 *)(*(u32 *)(p + 4)));
     switch (*st) {
     case 0:
         func_021C029C(p);
@@ -50,7 +51,7 @@ int func_021C021C(u32 a, int *st, u8 *p)
         n = *(int *)(p + 0x74);
         *(int *)(p + 0x74) = n + 1;
         if (n > 0x23) {
-            func_02012374(a, func_021C0374(p));
+            func_02012374((struct Evt *)a, (struct Evt **)func_021C0374(p));
             *st = *st + 1;
             break;
         }

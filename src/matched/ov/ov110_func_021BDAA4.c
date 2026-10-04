@@ -26,7 +26,8 @@ extern int func_02035C60(void);
 extern int func_02035C08(const Box *);
 extern int func_02035D20(int *,int *);
 extern int func_02035D40(const Box *,int,int);
-extern int func_02024158(unsigned);
+typedef unsigned int   u32;
+extern u32 func_02024158(const u8 *p);
 extern int func_021BABE8(void *);
 extern void func_021BAC00(void *,Box *,u8);
 int func_021BDAA4(u8 *p) {
@@ -36,7 +37,7 @@ int func_021BDAA4(u8 *p) {
  if(!func_02035C60()) return -1;
  result=func_02035C08(&d_021C395C);
  if(result!=-1) {
-  if(func_02024158(*(unsigned *)p)) { if((unsigned)(result-2)<=3) result=-1; return result; }
+  if(func_02024158((const u8 *)(*(unsigned *)p))) { if((unsigned)(result-2)<=3) result=-1; return result; }
   return result;
  }
  count=func_021BABE8(*(void **)(p+0x14));

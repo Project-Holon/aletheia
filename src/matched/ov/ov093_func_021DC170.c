@@ -27,7 +27,7 @@ extern int func_021C8010(u8 *p, unsigned int v);
 extern u8 func_021C7F68(void *, u16, u8 *);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_021D85C0(void *, int);
+extern int func_021D85C0(int a, u32 b);
 extern void *func_021C88A4(void *, int, int);
 extern void func_021C88C8(void *, void *);
 void func_021DC170(int a, void *b, int c)
@@ -42,7 +42,7 @@ void func_021DC170(int a, void *b, int c)
         n = func_021C7F68(b, (u16)((two << 9) | func_021C8010(b, c)), buf);
         for (i = 0; i < n; i++) {
             if (buf[i] != c) {
-                if (func_021D62A8(func_021C7CF4(b, buf[i])) && func_021D85C0(b, 0x1e)) {
+                if (func_021D62A8(func_021C7CF4(b, buf[i])) && func_021D85C0((int)b, 0x1e)) {
                     p = func_021C88A4(b, 0xb, c);
                     *(u32 *)p |= 2 << 22;
                     *(u32 *)p |= 2 << 24;

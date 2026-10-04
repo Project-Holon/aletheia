@@ -24,7 +24,8 @@ extern u8 func_021D5448(struct QG *p);
 extern u32 func_021D54C0(void *q, u8 i);
 extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
 extern u32 func_021D5584(void *q, u8 i);
-extern void func_021CF58C(u32 y, u32 x, void *q);
+struct Unk021D82D0;
+extern void func_021CF58C(struct Unk021D82D0 *out, u8 *p, void *q);
 
 u32 func_021CF524(u32 x, void *q, u32 y)
 {
@@ -39,7 +40,7 @@ u32 func_021CF524(u32 x, void *q, u32 y)
         }
     }
     if (c == 0) {
-        func_021CF58C(y, x, q);
+        func_021CF58C((struct Unk021D82D0 *)y, (u8 *)x, q);
         return 1;
     }
     return 0;

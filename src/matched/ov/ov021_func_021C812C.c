@@ -24,7 +24,9 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02189A00(unsigned char *p);
-extern int func_02011330(int a);
+typedef unsigned short u16;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern void *func_0215A5F4(void *p);
 extern int func_021C1CB0(int a, char *b, int c);
 extern void func_0215897C(void *vm, void *task);
@@ -38,7 +40,7 @@ int func_021C812C(int a, int b)
 
     r5 = func_0215A5DC((void *)b);
     r7 = func_02189A00(func_0201210C(r5));
-    r4 = func_02011330(a);
+    r4 = func_02011330((struct Stream *)a);
     r6 = func_0215A5F4((void *)b);
     v = func_021C1CB0((int)r5, r7, (unsigned char)r4);
     if (v) {

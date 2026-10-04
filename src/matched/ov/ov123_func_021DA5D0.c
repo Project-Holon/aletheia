@@ -24,11 +24,13 @@
  *   ov114_id       0x00000072  data
  */
 
-extern void func_02027858(int x);
-extern void func_021D941C(int x);
-extern void func_021D9A1C(int x);
-extern void func_020307B0(int x);
-extern void func_021B9838(int x);
+typedef unsigned char  u8;
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
+extern void func_021D941C(u8 *p);
+extern void func_021D9A1C(u8 *p);
+extern void func_020307B0(void *p);
+extern void func_021B9838(u8 *p);
 extern int func_0203CD98(void);
 extern void func_02156DC4(int a, int b);
 struct S020315D4;
@@ -39,15 +41,15 @@ extern unsigned char ov114_id[];
 int func_021DA5D0(int a, int b, int c, char *obj)
 {
     if (*(int *)(obj + 0x14))
-        func_02027858(*(int *)(obj + 0x14));
-    func_021D941C(*(int *)(obj + 0x10));
-    func_021D9A1C(*(int *)(obj + 0x0c));
+        func_02027858((struct TaskMenu *)(*(int *)(obj + 0x14)));
+    func_021D941C((u8 *)(*(int *)(obj + 0x10)));
+    func_021D9A1C((u8 *)(*(int *)(obj + 0x0c)));
     if (*(int *)(obj + 0x04))
-        func_020307B0(*(int *)(obj + 0x04));
+        func_020307B0((void *)(*(int *)(obj + 0x04)));
     if (*(int *)(obj + 0x24))
-        func_020307B0(*(int *)(obj + 0x24));
+        func_020307B0((void *)(*(int *)(obj + 0x24)));
     if (*(int *)(obj + 0x08)) {
-        func_021B9838(*(int *)(obj + 0x08));
+        func_021B9838((u8 *)(*(int *)(obj + 0x08)));
         *(int *)(obj + 0x08) = 0;
     }
     if (func_0203CD98())

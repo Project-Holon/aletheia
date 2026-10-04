@@ -17,7 +17,7 @@
 typedef unsigned short u16;
 
 extern int func_021945A0(int x);
-extern void *func_02194434(void *a, int c, void *d, int e, int f, void *g);
+extern void *func_02194434(unsigned char *a, int x, u16 *q, int d, int e, int f);
 
 void func_02194300(u16 *a, int b, int c, u16 *d, int e, int f)
 {
@@ -27,7 +27,7 @@ void func_02194300(u16 *a, int b, int c, u16 *d, int e, int f)
     func_021945A0(*d);
     for (i = 0; i < *a; i++) {
         if (*(int *)(q + 8) == 0) {
-            *(void **)(q + 8) = func_02194434(a, c, d, e, f, q);
+            *(void **)(q + 8) = func_02194434((unsigned char *)a, c, d, e, f, (int)q);
             *(int *)q = b;
             *(u16 *)(q + 6) = a[1];
             return;

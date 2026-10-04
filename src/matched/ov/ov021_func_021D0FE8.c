@@ -32,8 +32,8 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_021D10A8(u32 a, u32 *b, u32 *c);
-extern int func_021D1164(int a, void *b);
-extern void func_021D11B0(int p);
+extern void *func_021D1164(u32 heap, u32 v);
+extern void func_021D11B0(u32 *p);
 
 void *func_021D0FE8(void *a, int unused, int c)
 {
@@ -46,8 +46,8 @@ void *func_021D0FE8(void *a, int unused, int c)
     w->f00 = a;
     w->f04 = 0;
     w->f08 = c;
-    v = func_021D1164(0x8015, func_0201210C(a));
+    v = (int)func_021D1164(0x8015, (u32)func_0201210C(a));
     w->f0C = v;
-    func_021D11B0(v);
+    func_021D11B0((u32 *)v);
     return task;
 }

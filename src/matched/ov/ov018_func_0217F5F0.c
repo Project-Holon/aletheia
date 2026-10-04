@@ -40,7 +40,8 @@ struct Rec44;
 struct Sub24;
 u8 func_02012B58(const struct BigObj *p);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-int func_02008550(void *);
+struct Sub0200852CObj;
+u8 func_02008550(const struct Sub0200852CObj *obj);
 
 int func_0217F5F0(Ov018Obj *p, int idx)
 {
@@ -58,7 +59,7 @@ int func_0217F5F0(Ov018Obj *p, int idx)
     h = e->f18;
     switch (h) {
     case 0:
-        if (func_02008550(func_02012950(func_02026478(p->f04), idx)) == 0) {
+        if (func_02008550((const struct Sub0200852CObj *)func_02012950(func_02026478(p->f04), idx)) == 0) {
             return 3;
         }
         return 4;

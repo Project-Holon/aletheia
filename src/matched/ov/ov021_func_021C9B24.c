@@ -22,10 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020307B0(void *p);
-extern void func_020130B4(void *p);
+struct Ctx;
+extern int func_020130B4(int a0);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_020120F4(u32 a);
-extern void func_02012EE4(u32 a, int b);
+extern void *func_020120F4(const struct Ctx *p);
+extern void func_02012EE4(char *base, int v);
 
 void func_021C9B24(u32 a, u8 *p)
 {
@@ -35,11 +36,11 @@ void func_021C9B24(u32 a, u8 *p)
             *(void **)(p + 0x7C8) = 0;
         }
         if (*(void **)(p + 0x7CC) != 0) {
-            func_020130B4(*(void **)(p + 0x7CC));
+            func_020130B4((int)(*(void **)(p + 0x7CC)));
             *(void **)(p + 0x7CC) = 0;
         }
         func_02082BCC(p, 0, 0x7EC);
         func_020307B0(p);
     }
-    func_02012EE4(func_020120F4(a), 0);
+    func_02012EE4(func_020120F4((const struct Ctx *)a), 0);
 }

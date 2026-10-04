@@ -32,7 +32,9 @@ struct B794 {
 
 extern void *func_0203D798(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0203996C(u32 a);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_020399EC(u32 a);

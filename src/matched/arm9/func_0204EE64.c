@@ -23,9 +23,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02046FF8(u32 heapId);
-extern u32 func_02047388(u32 heapId);
-extern u32 func_020473B8(u32 heapId);
+struct Layer;
+extern int func_02046FF8(int *self);
+extern u32 func_02047388(struct Layer *layer);
+extern u32 func_020473B8(struct Layer *layer);
 
 struct Struct_0204EE64 {
     u32 heapId;
@@ -42,14 +43,14 @@ void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId)
     u32 res;
 
     p->heapId = heapId;
-    if (func_02046FF8(heapId) == 0) {
+    if (func_02046FF8((int *)heapId) == 0) {
         p->offC = 0;
         p->off10 = 0;
         return;
     }
 
-    p->off20 = func_02047388(heapId);
-    res = func_020473B8(heapId);
+    p->off20 = func_02047388((struct Layer *)heapId);
+    res = func_020473B8((struct Layer *)heapId);
 
     p->off24 = res;
     p->offC = (u32)(p->off20 << 16) >> 13;

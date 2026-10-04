@@ -30,12 +30,14 @@ typedef unsigned int u32;
 
 extern void func_02082BCC(int a, int b, int c);
 extern void func_0204B878(int p, int a);
-extern void func_021B88F8(int p);
-extern void func_0204B404(int p, u16 *v, int c);
+struct Obj;
+struct Vec2;
+extern void func_021B88F8(int *p);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int a);
 extern u32 func_02005728(u32 range);
-extern void func_0204B8C4(int p, int a);
+extern void func_0204B8C4(struct Obj *p, u32 value);
 
 void func_021B8810(int a0, int b, int c)
 {
@@ -44,10 +46,10 @@ void func_021B8810(int a0, int b, int c)
     func_02082BCC(a0, 0, 0x1c);
     *(int *)(a0 + 0x18) = b;
     func_0204B878(*(int *)(a0 + 0x18), c != 0 ? 0xd : 0xc);
-    func_021B88F8(a0);
+    func_021B88F8((int *)a0);
     tmp[0] = (u16)*(u32 *)(a0 + 8);
     tmp[1] = (u16)*(u32 *)(a0 + 0xc);
-    func_0204B404(*(int *)(a0 + 0x18), tmp, 1);
+    func_0204B404((struct Obj *)(*(int *)(a0 + 0x18)), (const struct Vec2 *)tmp, 1);
     func_0204B3DC((struct Obj *)*(int *)(a0 + 0x18), 1);
-    func_0204B8C4(*(int *)(a0 + 0x18), func_02005728(0x2000));
+    func_0204B8C4((struct Obj *)(*(int *)(a0 + 0x18)), func_02005728(0x2000));
 }

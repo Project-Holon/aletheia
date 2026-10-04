@@ -56,33 +56,36 @@ typedef struct S {
 } S;
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_0215A60C(u32);
-extern u32 *func_02158F58(void *);
-extern u32 func_0215A5EC(u32);
-extern u32 func_0216DE94(u32, int);
+struct MsgBank;
+struct Rec;
+struct WordSet;
+extern u32 func_0215A60C(u8 *p);
+extern int func_02158F58(int a0);
+extern void *func_0215A5EC(void *p);
+extern void *func_0216DE94(void *map, u32 id);
 extern u32 func_02158F78(u8 *p);
-extern u32 func_02158F74(void *);
+extern void *func_02158F74(void *p);
 extern u32 func_02158F7C(u8 *p);
-extern void func_02045CAC(u32, u32, u32);
-extern u32 func_0215A5CC(u32);
-extern u32 func_02045B38(u32, u32, u32, u32);
-extern void func_02045C04(u32);
-extern void func_0201F250(u32, u32, u32);
-extern S *func_0215A63C(u32);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u16 func_0215A5CC(void *a0);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u8 *func_0215A63C(u8 *p);
 extern int func_02159190(int a0);
 extern int func_0215A61C(int a0);
-extern u32 func_02191348(u32, u32);
+extern u32 func_02191348(u32 *a, u32 b);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_0215A654(u32);
+extern u32 func_0215A654(u8 *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_021B0A40(u32, V3 *);
 extern void func_021B09EC(int, int *, int *);
 extern void func_0215A660(u32, u8);
-extern void func_0215A678(u32, u8);
-extern void func_021B0B08(u32, int);
-extern void func_021B0ADC(u32, u32, int, V3 *, u32, int, int);
+extern void func_0215A678(u8 *p, u8 v);
+extern void func_021B0B08(void *a, int b);
+extern void func_021B0ADC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 
 int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
 {
@@ -97,42 +100,42 @@ int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
 
     sel = e;
     o = func_0215A5F4((void *)b);
-    s28 = func_0215A60C(b);
-    q = func_02158F58(o);
-    t = func_0215A5EC(b);
-    m20 = func_0216DE94(t, 0xff);
-    m1c = func_0216DE94(t, id);
+    s28 = func_0215A60C((u8 *)b);
+    q = (u32 *)func_02158F58((int)o);
+    t = (u32)func_0215A5EC((void *)b);
+    m20 = (u32)func_0216DE94((void *)t, 0xff);
+    m1c = (u32)func_0216DE94((void *)t, id);
     if (m1c == 0) {
         return 0;
     }
     r7 = func_02158F78(o);
-    r18 = func_02158F74(o);
+    r18 = (u32)func_02158F74(o);
     r5 = func_02158F7C(o);
     if (c == 0x400) {
-        func_02045CAC(s28, d, r5);
+        func_02045CAC((struct MsgBank *)s28, d, (void *)r5);
     } else {
-        h = func_02045B38(0, 3, c, func_0215A5CC(b));
-        func_02045CAC(h, d, r5);
-        func_02045C04(h);
+        h = (u32)func_02045B38(0, 3, c, func_0215A5CC((void *)b));
+        func_02045CAC((struct MsgBank *)h, d, (void *)r5);
+        func_02045C04((struct Rec *)h);
     }
-    func_0201F250(r18, r7, r5);
-    s = func_0215A63C(b);
+    func_0201F250((struct WordSet *)r18, (void *)r7, (void *)r5);
+    s = (S *)func_0215A63C((u8 *)b);
     if (func_02159190(2) != 0) {
-        func_02191348(func_0215A61C(b), r7);
+        func_02191348((u32 *)func_0215A61C(b), r7);
     } else {
         func_02082BCC(s, 0, 0x28);
         s->id = id;
         if (e == 0) {
-            func_0215A654(b);
+            func_0215A654((u8 *)b);
             func_0216D88C((const struct Actor *)m1c, (struct VecFx32 *)&v);
             sel = func_021B0A40(m20, &v);
         }
         func_021B09EC(sel, &oa, &ob);
         s->flag = oa;
         func_0215A660(b, sel);
-        func_0215A678(b, e);
-        func_021B0B08(b, 1);
-        func_021B0ADC(b, *q, oa, &s->sum, r7, f, ob);
+        func_0215A678((u8 *)b, e);
+        func_021B0B08((void *)b, 1);
+        func_021B0ADC(b, *q, oa, (u32)(&s->sum), r7, f, ob);
     }
     return 1;
 }

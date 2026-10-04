@@ -22,22 +22,23 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021FD714(u32 a);
-extern void func_021FD15C(u32 a, u32 b);
+struct PrintSys;
+extern void func_021FD714(void *p);
+extern void func_021FD15C(void *p, int a1);
 extern void func_021FACE0(void *p);
-extern void func_021FC0C8(u32 a, u32 b);
-extern void func_021FB63C(u32 a);
+extern void func_021FC0C8(char *p, unsigned i);
+extern void func_021FB63C(void *p);
 extern void func_020307B0(void *p);
-extern void func_02025588(u32 a);
-extern void func_0201C4C0(u32 a);
+extern void func_02025588(void *p);
+extern void func_0201C4C0(struct PrintSys *p);
 
 void func_021F9F48(u8 *p)
 {
     int i;
 
-    func_021FD714(*(u32 *)(p + 0xc));
+    func_021FD714((void *)(*(u32 *)(p + 0xc)));
     if (*(u32 *)(p + 0x50) != 0) {
-        func_021FD15C(*(u32 *)(p + 0x50), *(u32 *)(p + 4));
+        func_021FD15C((void *)(*(u32 *)(p + 0x50)), *(u32 *)(p + 4));
         *(u32 *)(p + 0x50) = 0;
     }
     for (i = 0; i < *(u8 *)(p + 0x3b); i++)
@@ -46,11 +47,11 @@ void func_021F9F48(u8 *p)
     for (i = 0; i < *(u8 *)(p + 0x39); i++)
         func_021FACE0((u8 *)(*(u32 *)(p + 0x40) + i * 0x44));
     func_020307B0((void *)*(u32 *)(p + 0x40));
-    func_021FC0C8(*(u32 *)(p + 4), *(u32 *)(p + 0x10));
-    func_021FC0C8(*(u32 *)(p + 4), *(u32 *)(p + 0x10) + 1);
-    func_021FB63C(*(u32 *)(p + 0x44));
-    func_02025588(*(u32 *)(p + 0x48));
-    func_0201C4C0(*(u32 *)(p + 0x4c));
+    func_021FC0C8((char *)(*(u32 *)(p + 4)), *(u32 *)(p + 0x10));
+    func_021FC0C8((char *)(*(u32 *)(p + 4)), *(u32 *)(p + 0x10) + 1);
+    func_021FB63C((void *)(*(u32 *)(p + 0x44)));
+    func_02025588((void *)(*(u32 *)(p + 0x48)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x4c)));
     func_020307B0(p);
 }
 

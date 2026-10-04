@@ -15,9 +15,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0205121C(u32, u32, u16);
+extern int func_0205121C(u32 a, u32 b, u32 c);
 
 void *func_021C1A98(u16 *p, u32 a, u32 b)
 {
-    return func_0205121C(a, b, p[2]);
+    return (void *)func_0205121C(a, b, p[2]);
 }

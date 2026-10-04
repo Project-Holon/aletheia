@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern u8 *g_021797A4;
 int func_02179498(void);
-void func_0217727C(u8 *p, void *fn);
+void func_0217727C(u32 *p, u32 v);
 void func_02177FF0(u8 *a);
 
 void func_02177EFC(u8 *a)
@@ -30,7 +30,7 @@ void func_02177EFC(u8 *a)
             a[0xCF2]--;
         if (a[0xCF2] == 0) {
             if (func_02179498() != 0)
-                func_0217727C(g_021797A4, func_02177FF0);
+                func_0217727C((u32 *)g_021797A4, (u32)func_02177FF0);
         }
     }
 }

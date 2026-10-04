@@ -19,11 +19,13 @@
 
 typedef unsigned long u32;
 
-extern u32 *func_021BE004(void *p);
-extern u32 func_0201283C(u32 h);
-extern void func_02009D50(u32 h, u32 a, u32 b, u32 c, u32 d);
+struct BigObj;
+struct Sub020097BCObj;
+extern u32 func_021BE004(void *p);
+extern u32 func_0201283C(const struct BigObj *p);
+extern int func_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id, u32 kind, u32 *out);
 
 void func_021BD0A4(void *ctx, u32 unused, u32 a, u32 b, u32 c)
 {
-    func_02009D50(func_0201283C(*func_021BE004(ctx)), a, b, c, 0);
+    func_02009D50((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(*((u32 *)func_021BE004(ctx)))), (const void *)a, b, c, 0);
 }

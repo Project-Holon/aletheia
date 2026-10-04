@@ -19,11 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_020456F8(u32 v);
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
 extern void func_02041B6C(u32 v);
 
 void func_0202843C(u8 *p)
 {
-    func_020456F8(*(u32 *)p);
+    func_020456F8((struct Descriptor *)(*(u32 *)p));
     func_02041B6C((u8)*(u16 *)(*(u32 *)(p + 0x18)));
 }

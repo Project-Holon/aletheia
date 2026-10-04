@@ -23,11 +23,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_0201C6C4(u32 a, u32 b);
+struct Cfg;
+struct Descriptor;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(u32 a);
-extern u8 func_02045730(u32 a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 struct TcblNode;
@@ -42,14 +45,14 @@ void func_021F20E4(void *task, char *q)
     v = *(u32 *)(*(char **)(q + 8) + 0xb4);
     s = *(u8 **)(q + 4) + 8;
     if (s[4] != 0) {
-        if (func_0201C6C4(v, (u32)func_02045770((struct Descriptor *)*(u32 *)s)) == 0) {
+        if (func_0201C6C4((struct PrintSys *)v, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)s))) == 0) {
             func_02045334((struct Descriptor *)*(u32 *)s);
             s[4] = 0;
         }
     }
     if (s[4] == 0) {
-        func_02045374(**(u32 **)(q + 4));
-        func_02041B6C(func_02045730(**(u32 **)(q + 4)));
+        func_02045374((struct Cfg *)(**(u32 **)(q + 4)));
+        func_02041B6C(func_02045730((struct Descriptor *)(**(u32 **)(q + 4))));
         r = *(int **)(q + 0xc);
         if (r != 0)
             (*r)--;

@@ -18,7 +18,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Record {u16 value;u8 a,b;} Record;
 extern void func_02082BCC(void *,int,int);
-extern int func_021D8DD0(int,int,int,char *),func_02017E88(int,int,int);
+typedef unsigned int   u32;
+extern void *func_021D8DD0(void *a, int b, int c, char *p);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 void func_021DC62C(char *p,int n)
 {
     Record *out=(Record *)(p+0x11fc);
@@ -27,13 +29,13 @@ void func_021DC62C(char *p,int n)
     if(n==0) {
         func_02082BCC(out,0,0xb58);
         for(i=0;i<6;i++) {
-            mon=func_021D8DD0(*(int *)(p+0x828),*(int *)(p+0x630),i,p);
-            if(mon && func_02017E88(mon,0xa9,0)) {
-                v=func_02017E88(mon,0xab,0);
+            mon=(int)func_021D8DD0((void *)(*(int *)(p+0x828)),*(int *)(p+0x630),i,p);
+            if(mon && func_02017E88((void *)mon,0xa9,0)) {
+                v=func_02017E88((void *)mon,0xab,0);
                 if(v) {
                     out[i].value=v;
-                    out[i].a=func_02017E88(mon,0x6f,0);
-                    out[i].b=func_02017E88(mon,0x6e,0);
+                    out[i].a=func_02017E88((void *)mon,0x6f,0);
+                    out[i].b=func_02017E88((void *)mon,0x6e,0);
                 }
             }
         }
@@ -43,13 +45,13 @@ void func_021DC62C(char *p,int n)
         base=(unsigned)n*30u+6u;
         for(;i<30;i++) {
             index=(unsigned)i+base;
-            mon=func_021D8DD0(*(int *)(p+0x828),n,i,p);
-            if(mon && func_02017E88(mon,0xa9,0)) {
-                v=func_02017E88(mon,0xab,0);
+            mon=(int)func_021D8DD0((void *)(*(int *)(p+0x828)),n,i,p);
+            if(mon && func_02017E88((void *)mon,0xa9,0)) {
+                v=func_02017E88((void *)mon,0xab,0);
                 if(v) {
                     out[index].value=v;
-                    out[index].a=func_02017E88(mon,0x6f,0);
-                    out[index].b=func_02017E88(mon,0x6e,0);
+                    out[index].a=func_02017E88((void *)mon,0x6f,0);
+                    out[index].b=func_02017E88((void *)mon,0x6e,0);
                 }
             }
         }

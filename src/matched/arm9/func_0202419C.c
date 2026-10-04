@@ -22,7 +22,8 @@ struct Obj {
     u16 f1A;    /* 0x1A */
 };
 
-extern u32 func_02024534(void *p, u32 a);
+struct Data;
+extern int func_02024534(const struct Data *p1, const struct Data *p2);
 
 u32 func_0202419C(struct Obj *p, u16 *q, u32 a)
 {
@@ -41,5 +42,5 @@ u32 func_0202419C(struct Obj *p, u16 *q, u32 a)
         break;
     }
 
-    return func_02024534((u8 *)p + 0x10, a);
+    return func_02024534((const struct Data *)((u8 *)p + 0x10), (const struct Data *)a);
 }

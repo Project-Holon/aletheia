@@ -13,10 +13,10 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 low:2; u8 flag:2; u8 high:4; } Flag;
-extern u8 *func_02158344(void *);
+extern int func_02158344(int a0);
 void func_0215874C(void *p)
 {
-    u8 *q = func_02158344(p);
+    u8 *q = (u8 *)func_02158344((int)p);
     if (q != 0)
         ((Flag *)(q + 0x904))->flag = 0;
 }

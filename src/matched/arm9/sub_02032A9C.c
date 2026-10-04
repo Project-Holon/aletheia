@@ -47,13 +47,13 @@ struct SaveBackup {
 
 extern struct { u8 pad000[0x204]; u32 unk204; } *unk_02146994;
 
-extern u8 *func_020319A4(struct SaveBackup *p, u32 id);
+extern u32 func_020319A4(u8 *p, u32 id);
 extern u32 func_02031EAC(struct SaveBackup *p, u32 mode);
-extern u32 func_020335E8(u32 off, u8 *buf, u32 len, u32 handle);
+extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern u32 func_02033B68(u32 table, u32 id);
-extern u32 func_02033BAC(u32 table, u32 id);
+extern u32 func_02033B68(u8 *p, u32 i);
+extern u32 func_02033BAC(u8 *p, u32 i);
 
 u32 sub_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *pa, u32 *pb,
                  u32 *pc, u32 *pd)
@@ -66,18 +66,18 @@ u32 sub_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *pa, u32 *pb,
     u32 acc;
 
     off = func_02031EAC(p, mode);
-    off = off + func_02033B68(p->unk2C, id);
+    off = off + func_02033B68((u8 *)p->unk2C, id);
 
     rem = *pa;
     if (rem != 0) {
         done = *pc;
         off = off + done;
     } else {
-        rem = func_02033BAC(p->unk2C, id);
+        rem = func_02033BAC((u8 *)p->unk2C, id);
         done = 0;
     }
 
-    src = func_020319A4(p, id);
+    src = (u8 *)func_020319A4((u8 *)p, id);
 
     *pa = 0;
     *pc = 0;
@@ -99,7 +99,7 @@ u32 sub_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *pa, u32 *pb,
             *pb = 0;
         }
 
-        if (func_020335E8(off, p->unk38, chunk, unk_02146994->unk204) == 0) {
+        if (func_020335E8(off, (u32)p->unk38, chunk, (void (*)(void))unk_02146994->unk204) == 0) {
             return 1;
         }
 

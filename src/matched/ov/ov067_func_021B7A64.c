@@ -29,7 +29,8 @@ typedef struct S {
 
 extern void func_021B7B7C(S *p);
 extern void func_021B7BE0(struct S *p, int a1);
-extern int func_0201C6B4(int a);
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021B9344(S *p);
 
 int func_021B7A64(S *p)
@@ -41,7 +42,7 @@ int func_021B7A64(S *p)
         p->f4e = p->f4e + 1;
         break;
     case 1:
-        if (func_0201C6B4(p->f34) == 1) {
+        if (func_0201C6B4((const struct PrintSys *)p->f34) == 1) {
             p->f4e = 0;
             return 0;
         }

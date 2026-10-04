@@ -34,38 +34,41 @@ typedef struct {
     int f90;
 } Ent;
 
-extern int func_0204384C(int, int, int, int);
+typedef unsigned int   u32;
+struct Bmp;
+struct Obj020437AC;
+extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern int func_020450F0(int, int, int, int, int, int, int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_020439A0(int, int, int, int, int, int, int, int, int);
-extern void func_020437AC(int);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void func_020437AC(struct Obj020437AC *p);
 
 void func_021BAFC4(Ent *e)
 {
     Zero z = ZERO;
-    int s = func_0204384C(0x9f, 0x19, z, e->f0);
+    int s = (int)func_0204384C(0x9f, 0x19, z, e->f0);
     int q;
 
     e->f8c = func_020450F0(e->f4d, 0xc, 4, 4, 3, z, z);
     q = (int)func_02045770((struct Descriptor *)e->f8c);
-    func_020439A0(s, q, 8, 0, z, z, 0x20, 0x18, z);
+    func_020439A0((struct Bmp *)s, (struct Bmp *)q, 8, 0, z, z, 0x20, 0x18, z);
 
     e->f90 = func_020450F0(e->f4d, 0xc, 4, 4, 3, z, z);
     q = (int)func_02045770((struct Descriptor *)e->f90);
-    func_020439A0(s, q, 0xa8, 8, z, z, 0x20, 8, z);
+    func_020439A0((struct Bmp *)s, (struct Bmp *)q, 0xa8, 8, z, z, 0x20, 8, z);
 
     q = (int)func_02045770((struct Descriptor *)e->f90);
-    func_020439A0(s, q, 0xf8, 8, z, 8, 8, 8, z);
+    func_020439A0((struct Bmp *)s, (struct Bmp *)q, 0xf8, 8, z, 8, 8, 8, z);
 
     q = (int)func_02045770((struct Descriptor *)e->f90);
-    func_020439A0(s, q, 0x28, 0x10, 8, 8, 0x18, 8, z);
+    func_020439A0((struct Bmp *)s, (struct Bmp *)q, 0x28, 0x10, 8, 8, 0x18, 8, z);
 
     q = (int)func_02045770((struct Descriptor *)e->f90);
-    func_020439A0(s, q, 0x80, z, 0, 0x10, 8, 8, 0);
+    func_020439A0((struct Bmp *)s, (struct Bmp *)q, 0x80, z, 0, 0x10, 8, 8, 0);
 
     q = (int)func_02045770((struct Descriptor *)e->f90);
-    func_020439A0(s, q, 0x58, 0x10, 8, 0x10, 0x18, 8, z);
+    func_020439A0((struct Bmp *)s, (struct Bmp *)q, 0x58, 0x10, 8, 0x10, 0x18, 8, z);
 
-    func_020437AC(s);
+    func_020437AC((struct Obj020437AC *)s);
 }

@@ -43,7 +43,7 @@ struct Cb;
 extern void func_0219649C(void *a, int b, struct Cb *c);
 extern int func_02196BF8(u32 v, u8 *p);
 extern void func_02196FF0(u8 *p);
-extern void *func_02051B84(void *a, void *b, void *c, u32 d);
+extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 extern struct Rec8 d_021D3FE0;
 extern u8 d_021D3FF4[];
 extern u8 d_021DDAF4[];
@@ -55,7 +55,7 @@ void func_02196A60(u8 *p)
     func_02197190(p);
     func_021966B0(p, 0xC);
     func_0219630C(2, &loc, p, d_021DDAF4, 0, 0);
-    *(void **)(p + 0x24) = func_02051B84(d_021D3FF4, func_0219649C, p, *(u16 *)(p + 0x10));
+    *(void **)(p + 0x24) = func_02051B84(d_021D3FF4, (int)func_0219649C, (int)p, *(u16 *)(p + 0x10));
     *(void **)(p + 4) = func_02196BF8;
     func_02196034(p, func_02196FF0, 0x432);
 }

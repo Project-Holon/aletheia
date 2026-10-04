@@ -19,7 +19,8 @@
 extern void func_02193F6C(void *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02193FE8(void *p);
-extern void func_02194078(void *p);
+typedef unsigned int   u32;
+extern void func_02194078(u32 a);
 
 void func_02193CBC(unsigned char *p)
 {
@@ -36,5 +37,5 @@ void func_02193CBC(unsigned char *p)
     if (*(void **)(p + 0x14) != 0)
         func_02082BCC(*(void **)(p + 0x14), 0, 0x600);
     func_02193FE8(p + 0x18);
-    func_02194078(p + 0x11c);
+    func_02194078((u32)(p + 0x11c));
 }

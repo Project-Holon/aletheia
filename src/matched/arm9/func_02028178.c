@@ -71,13 +71,16 @@ struct Anim {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *obj);
-extern u32  func_0201C6C4(u32 a, u32 b);
+struct Cfg;
+struct PrintSys;
+struct S;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *obj);
-extern void func_02045374(u32 obj);
-extern u8   func_02045730(u32 obj);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern void func_02027B30(u32 obj, u32 ctx, u32 flag);
-extern void func_02027BF4(void *a, void *b, u32 c, u32 d, u32 e, u32 f);
+extern void func_02027B30(u32 a0, struct S *s, int mode);
+extern void func_02027BF4(u16 *phase, u16 *out, u16 mode, u32 slot, u16 c0, u16 c1);
 
 void func_02028178(u8 *p)
 {
@@ -85,12 +88,12 @@ void func_02028178(u8 *p)
     u16 *ctx;
 
     if (*(u32 *)(p + 0xc) != 0) {
-        if (func_0201C6C4(*(u32 *)(*(u32 *)(p + 0x18) + 0x14),
-                          (u32)func_02045770((struct Descriptor *)*(u32 *)p)) == 0) {
+        if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)(p + 0x18) + 0x14)),
+                          (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)p))) == 0) {
             obj = *(u32 *)p;
             func_02045334((struct Descriptor *)obj);
-            func_02045374(obj);
-            func_02041B6C(func_02045730(obj));
+            func_02045374((struct Cfg *)obj);
+            func_02041B6C(func_02045730((struct Descriptor *)obj));
             *(u32 *)(p + 0xc) = 0;
         }
     }
@@ -99,14 +102,14 @@ void func_02028178(u8 *p)
         s32 d = 4 / (s32)*(u16 *)(p + 0x12);
 
         if ((u8)((s32)*(u16 *)(p + 0x10) / d % 2) == 0) {
-            func_02027B30(*(u32 *)p, *(u32 *)(p + 0x18), 1);
+            func_02027B30(*(u32 *)p, (struct S *)(*(u32 *)(p + 0x18)), 1);
         } else {
-            func_02027B30(*(u32 *)p, *(u32 *)(p + 0x18), 0);
+            func_02027B30(*(u32 *)p, (struct S *)(*(u32 *)(p + 0x18)), 0);
         }
         *(u16 *)(p + 0x10) = *(u16 *)(p + 0x10) + 1;
     }
 
     ctx = *(u16 **)(p + 0x18);
-    func_02027BF4(p + 0x14, p + 0x16, (u8)ctx[0], (u8)ctx[1],
+    func_02027BF4((u16 *)(p + 0x14), (u16 *)(p + 0x16), (u8)ctx[0], (u8)ctx[1],
                   *(u16 *)(p + 0x1c), *(u16 *)(p + 0x1e));
 }

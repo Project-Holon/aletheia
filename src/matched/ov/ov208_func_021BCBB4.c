@@ -32,7 +32,8 @@ struct Ov208Main {
     void *f14; void *f18; void *fsm;
     void *obj; int f24; int f28;
 };
-extern int func_021BC274(void *obj, void *fsm);
+struct State;
+extern int func_021BC274(struct State *p, int arg);
 extern void func_021BCC84(struct Ov208Args *a, struct Ov208Main *m);
 struct Ov208Fade;
 struct Ov208Icon;
@@ -40,13 +41,13 @@ struct PrintSys;
 struct State;
 extern unsigned func_021BDB08(const struct State *p);
 extern unsigned func_021BDB54(const struct State *p);
-extern void func_021BC2F0(void *obj, void *fsm, u32 v);
+extern void func_021BC2F0(char *p, int a, int b);
 extern void func_021BD974(struct Ov208Fade *m);
 extern void func_021BE7A4(struct Ov208Icon *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021BCF18(char *p);
 extern void func_021BCF2C(char *p);
-extern void func_021BC310(void *obj, void *fsm);
+extern void func_021BC310(char *p, int v);
 extern void func_021BCF3C(char *p);
 int func_021BCBB4(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main *m)
 {
@@ -54,7 +55,7 @@ int func_021BCBB4(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main 
     u32 v;
     if (*cnt <= 8)
         *cnt = *cnt + 1;
-    if (func_021BC274(m->obj, m->fsm) != 0) {
+    if (func_021BC274(m->obj, (int)m->fsm) != 0) {
         if (m->f28 != 0) {
             a->f4 = m->f28;
             func_021BCC84(a, m);
@@ -68,7 +69,7 @@ int func_021BCBB4(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main 
         v = func_021BDB08(m->f14);
         if (v == 0)
             v = func_021BDB54(m->f14);
-        func_021BC2F0(m->obj, m->fsm, v);
+        func_021BC2F0(m->obj, (int)m->fsm, v);
         switch (v) {
         case 1: a->f10 = 0; break;
         case 2: a->f10 = 1; break;
@@ -84,7 +85,7 @@ int func_021BCBB4(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main 
     func_021BCF18(m->disp);
     func_021BCF2C(m->disp);
     if (done == 0)
-        func_021BC310(m->obj, m->fsm);
+        func_021BC310(m->obj, (int)m->fsm);
     func_021BCF3C(m->disp);
     return 0;
 }

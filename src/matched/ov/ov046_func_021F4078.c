@@ -22,15 +22,16 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_02188C5C(u32);
-extern void func_021BB3DC(u32, int, int);
+typedef unsigned char  u8;
+extern u32 func_02188C5C(u8 *p);
+extern void func_021BB3DC(u32 *p, int b, int c);
 extern int d_021F4430[][4][6];
 
 void func_021F4078(u32 a, int b, int c)
 {
     int v1[6];
     int v2[6];
-    u32 h = func_02188C5C(a);
+    u32 h = func_02188C5C((u8 *)a);
     int i;
 
     for (i = 0; i < 6; i++) {
@@ -42,5 +43,5 @@ void func_021F4078(u32 a, int b, int c)
         v2[1] = 1;
     }
     for (i = 0; i < 6; i++)
-        func_021BB3DC(h, v1[i], v2[i]);
+        func_021BB3DC((u32 *)h, v1[i], v2[i]);
 }

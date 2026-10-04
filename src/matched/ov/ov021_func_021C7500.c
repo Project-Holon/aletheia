@@ -31,7 +31,7 @@ typedef struct {
 } Ctl;
 
 extern u16 func_021C73B4(float a, float b, float c);
-extern void func_0216D410(u32 a, int b);
+extern void func_0216D410(void *a0, u16 a1);
 extern void func_0216D5E0(int a0, int a1);
 
 int func_021C7500(Ctl *o)
@@ -39,7 +39,7 @@ int func_021C7500(Ctl *o)
     u32 s;
 
     s = o->w4;
-    func_0216D410(s, func_021C73B4((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
+    func_0216D410((void *)s, func_021C73B4((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
     o->h8 = o->h8 + 1;
     if (o->ha < o->h8) {
         func_0216D5E0(s, o->he);

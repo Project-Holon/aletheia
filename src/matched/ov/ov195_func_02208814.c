@@ -13,11 +13,12 @@
  *   func_02208A38 0x02208A38 thumb
  */
 
-extern void func_02208A38(int, int);
+typedef unsigned int   u32;
+extern void func_02208A38(char *p, u32 v);
 
 void func_02208814(char *a)
 {
-    func_02208A38(*(int *)(a + 0x10), 0x1e);
+    func_02208A38((char *)(*(int *)(a + 0x10)), 0x1e);
     if (*(int *)(a + 8) == 1)
         *(int *)(a + 8) = 2;
 }

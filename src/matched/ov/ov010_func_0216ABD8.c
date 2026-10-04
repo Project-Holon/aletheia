@@ -34,7 +34,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 struct Desc;
-extern struct Desc *func_0216AF74(void *a0, void *a1, int a2, int a3, unsigned short *a4, unsigned short a5);
+extern struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5);
 extern void func_0215897C(void *vm, void *task);
 
 int func_0216ABD8(int a0, int a1)
@@ -57,7 +57,7 @@ int func_0216ABD8(int a0, int a1)
         if (q != 0) {
             s = func_0215A5F4((void *)a1);
             t = func_0215A5DC((void *)a1);
-            func_0215897C(s, func_0216AF74(t, func_0201210C((void *)t), q, *pb, p, 4));
+            func_0215897C(s, func_0216AF74((int)t, (int)func_0201210C((void *)t), q, *pb, p, 4));
         }
     }
     return 1;

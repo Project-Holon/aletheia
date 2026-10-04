@@ -93,7 +93,7 @@ extern char g_021A73D4[];
 extern char g_021A73E8[];
 extern char g_021A7408[];
 
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_0217EAB0(unsigned long size);
 extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);
@@ -121,7 +121,7 @@ int func_0219AEB4(qr2_implementation_s **qrec, int s, int boundport, char *gamen
     int i;
     qr2_implementation_s *cr;
 
-    func_0217D254(3, 4, 0x40, g_021A73A0);
+    func_0217D254(3, (char *)4, 0x40, g_021A73A0);
 
     if (qrec == 0) {
         cr = &g_021A6604;
@@ -181,7 +181,7 @@ int func_0219AEB4(qr2_implementation_s **qrec, int s, int boundport, char *gamen
         ret = 1;
     }
     if (!ret) {
-        func_0217D254(3, 4, 1, g_021A7408);
+        func_0217D254(3, (char *)4, 1, g_021A7408);
         return 3;
     }
     return 0;

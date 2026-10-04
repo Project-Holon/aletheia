@@ -15,10 +15,12 @@
  */
 typedef unsigned short u16;
 extern void *func_0215A5E4(void *a0);
-extern char *func_0201296C(void *);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern void func_02014314(char *,int);
 int func_0215B068(int a,int b)
 {
-    func_02014314(func_0201296C(func_0215A5E4((void *)b)), 0x963);
+    func_02014314((char *)func_0201296C(func_0215A5E4((void *)b)), 0x963);
     return 0;
 }

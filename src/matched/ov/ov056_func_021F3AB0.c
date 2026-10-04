@@ -26,14 +26,15 @@ typedef signed int   s32;
 
 extern s32 d_021F426C[];
 
-extern void func_02011B8C(u32 a, u32 b);
+typedef unsigned char  u8;
+extern void func_02011B8C(void *dst, void *ctx);
 extern void func_02048AE8(u32, s32 *);
 extern void func_02048B0C(u32, s32 *);
 extern void func_02048B30(u32, s32 *);
 extern void func_0207C9D0(s32 *a, s32 *b, s32 *c);
 extern void func_0218ECF4(u32 a, s32 *b);
 extern void func_0218EC90(u32 a, s32 *b);
-extern void func_0218ED14(u32 a, s32 *b);
+extern void func_0218ED14(u8 *p, u32 q);
 
 void func_021F3AB0(u32 *p)
 {
@@ -41,7 +42,7 @@ void func_021F3AB0(u32 *p)
     s32 v1[3];
     s32 v3[3];
 
-    func_02011B8C(p[1], p[0]);
+    func_02011B8C((void *)p[1], (void *)p[0]);
     func_02048AE8(p[1], v1);
     func_02048B30(p[1], v2);
     func_02048B0C(p[1], v3);
@@ -49,5 +50,5 @@ void func_021F3AB0(u32 *p)
     func_0207C9D0(v2, d_021F426C, v2);
     func_0218ECF4(p[2], v1);
     func_0218EC90(p[2], v2);
-    func_0218ED14(p[2], v3);
+    func_0218ED14((u8 *)p[2], (u32)v3);
 }

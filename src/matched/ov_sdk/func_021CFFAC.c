@@ -20,9 +20,10 @@
  *       --func func_021CFFAC --addr 0x021CFFAC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02075618(char *, unsigned int, unsigned int);
+typedef unsigned int   u32;
+extern u32 func_02075618(u32 a, u32 b, u32 c);
 
 void func_021CFFAC(unsigned int v)
 {
-    func_02075618(*(char **)0x021DE648 + 0xa0, 0, v);
+    func_02075618((u32)(*(char **)0x021DE648 + 0xa0), 0, v);
 }

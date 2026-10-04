@@ -32,16 +32,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u16 *func_0216D6F0(u32);
+struct Trip;
+extern void *func_0216D6F0(void *p);
 extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u32);
-extern u32 func_0216D598(u32);
-extern u32 func_0216D678(u32);
+extern u32 func_0219C9DC(u8 *p);
+extern u16 func_0216D598(void *p);
+extern u16 func_0216D678(void *p);
 extern u32 func_0219FFD4(u32);
-extern void func_02197CCC(u32, s32 *);
+extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_0219FFBC(u32, s32 *);
-extern u32 func_02050080(u32);
-extern void func_0204F638(u32, u32, s32 *);
+extern u32 func_02050080(u32 *p);
+extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 extern void func_0205082C(u32, u32, u32);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 
@@ -57,12 +58,12 @@ void func_0219FB5C(u32 a)
     u32 m;
 
     flag = 0;
-    q = (u8 *)func_0216D6F0(a);
+    q = (u8 *)func_0216D6F0((void *)a);
     if (*(u16 *)q == 0xFFFF)
         return;
-    r = func_0219C9DC(func_0216D910(a));
-    t = func_0216D598(a);
-    x = func_0216D678(a);
+    r = func_0219C9DC((u8 *)func_0216D910(a));
+    t = func_0216D598((void *)a);
+    x = func_0216D678((void *)a);
     if (t == 0xd3 || t == 0xd5 || t == 0x79) {
         m = 0;
         if (x == q[5])
@@ -116,7 +117,7 @@ void func_0219FB5C(u32 a)
     }
 tail:
     func_021A000C(a, r, *(u16 *)q, flag, 1);
-    func_02197CCC(a, buf);
+    func_02197CCC((u8 *)a, buf);
     func_0219FFBC(a, buf);
-    func_0204F638(func_02050080(r), *(u16 *)q, buf);
+    func_0204F638((u8 *)func_02050080((u32 *)r), *(u16 *)q, (struct Trip *)buf);
 }

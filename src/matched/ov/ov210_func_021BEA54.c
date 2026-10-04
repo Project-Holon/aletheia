@@ -20,7 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02043B5C(u32, u32);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern u32 func_021BCF00(void *, u32);
@@ -32,8 +33,8 @@ void func_021BEA54(u8 *p)
 {
     u8 c;
 
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1B4)), 0);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1BC)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1B4))), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1BC))), 0);
     c = ((u8 *)*(u32 *)(*(u32 *)p + 8))[3];
     if (c != 0xFF)
         func_021BE44C(p, 0xD, func_021BCF00(p, c), 0x30, 0, 0x3C40, 2);

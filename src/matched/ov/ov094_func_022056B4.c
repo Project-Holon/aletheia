@@ -37,7 +37,8 @@ typedef struct Main {
     u8 b262[4];
 } Main;
 
-extern void func_02043B5C(int a, int b);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
 extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
@@ -58,9 +59,9 @@ void func_022056B4(Main *m)
     for (j = 0; j < 4; j++) {
         m->b262[j] = 0;
     }
-    func_02043B5C(m->o22c, 0);
+    func_02043B5C((struct CharBuf *)m->o22c, 0);
     func_02045334((struct Descriptor *)m->o228);
-    func_02043B5C(m->o234, 0);
+    func_02043B5C((struct CharBuf *)m->o234, 0);
     func_02045334((struct Descriptor *)m->o230);
     func_02205F64(m);
     func_02206128(m);

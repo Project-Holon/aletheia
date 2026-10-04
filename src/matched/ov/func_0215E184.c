@@ -27,7 +27,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern int func_02012F80(char *base);
 extern int func_02156BAC();
-extern int func_02156BCC();
+extern u32 func_02156BCC(void *p);
 extern int func_021FD910();
 
 int func_0215E184(int a0, int a1)
@@ -50,7 +50,7 @@ a0 = *(int *)((char *)t4);
     a0 = func_02156BAC(a0);
 loc_0215E1A0:
 a0 = *(int *)((char *)t4);
-    a0 = func_02156BCC(a0);
+    a0 = func_02156BCC((void *)a0);
 loc_0215E1A6:
     if (a0 != 1) goto loc_0215E1AE;
 loc_0215E1AA:

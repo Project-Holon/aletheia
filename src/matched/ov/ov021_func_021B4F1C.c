@@ -31,10 +31,13 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern void func_0215897C(void *a, void *b);
 extern unsigned int func_02159B10(void *, void *);
-extern u32 func_02012EBC(void *a);
-extern u32 func_02009210(u32 a);
-extern void func_020090D8(u32 a, u32 b);
-extern void *func_02168BBC(void *a, u32 b);
+struct Big;
+struct Sub020090B0Obj;
+struct Sub02009210Obj;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009210Obj *func_02009210(void *sys);
+extern void func_020090D8(struct Sub020090B0Obj *obj, u8 value);
+extern void *func_02168BBC(void *a, void *b);
 
 int func_021B4F1C(u32 a, u32 b)
 {
@@ -43,11 +46,11 @@ int func_021B4F1C(u32 a, u32 b)
     void *r6;
     void *r4;
 
-    r7 = func_02009210(func_02012EBC(func_0215A5E4((void *)b)));
+    r7 = (u32)func_02009210(func_02012EBC(func_0215A5E4((void *)b)));
     r5 = func_02159B10((void *)a, (void *)b);
     r6 = func_0215A5F4((void *)b);
     r4 = func_0215A5DC((void *)b);
-    func_020090D8(r7, 1);
-    func_0215897C(r6, func_02168BBC(r4, r5));
+    func_020090D8((struct Sub020090B0Obj *)r7, 1);
+    func_0215897C(r6, func_02168BBC(r4, (void *)r5));
     return 1;
 }

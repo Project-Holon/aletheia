@@ -53,7 +53,7 @@ struct Holder {
     struct Rec *unk_00;
 };
 
-extern u32 func_02046E24(u32 a, u16 index);
+extern void *func_02046E24(u32 a0, u32 a1);
 
 void func_02048258(struct Owner *owner, u32 index, struct Holder *p, u32 a4,
                    u32 a5)
@@ -65,6 +65,6 @@ void func_02048258(struct Owner *owner, u32 index, struct Holder *p, u32 a4,
 
     for (i = 0; i < count; i++) {
         ((u32 *)owner->unk_00)[base + i] =
-            func_02046E24(a5, p->unk_00[i].unk_04);
+            (u32)func_02046E24(a5, p->unk_00[i].unk_04);
     }
 }

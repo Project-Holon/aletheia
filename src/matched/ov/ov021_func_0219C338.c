@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern u32 d_021D5384[];
 extern u32 d_021D5454[][2];
 
-extern u32 func_0216D608(int a);
+extern u16 func_0216D608(void *p);
 extern int func_0219C314(int a, u32 *t, u32 k);
 extern u32 func_02197E7C(u16 a, u16 b);
 extern void func_0216D438(int a, u16 b);
@@ -41,10 +41,10 @@ int func_0219C338(int a, u32 *s, u32 c)
     int r;
 
     k = s[2];
-    t = func_0216D608(a);
+    t = func_0216D608((void *)a);
     r = func_0219C314(a, &t, k);
     if (t == 9) {
-        t = func_0216D608(a);
+        t = func_0216D608((void *)a);
         func_0216D438(a, func_02197E7C(t, 0x1c));
         return 0;
     }
@@ -55,12 +55,12 @@ int func_0219C338(int a, u32 *s, u32 c)
         return 1;
     }
     if ((1 & r) && s[1] == 2) {
-        t = func_021642A4(func_0216D608(a));
+        t = func_021642A4(func_0216D608((void *)a));
         k = d_021D5384[k];
         s[2] = k;
         r = func_0219C314(a, &t, k);
         if (t == 9) {
-            t = func_0216D608(a);
+            t = func_0216D608((void *)a);
             func_0216D438(a, func_02197E7C(t, 0x1c));
             return 0;
         }
@@ -75,7 +75,7 @@ int func_0219C338(int a, u32 *s, u32 c)
         t = d_021D5454[t][k];
         r = func_0219C314(a, &t, k);
         if (t == 9) {
-            t = func_0216D608(a);
+            t = func_0216D608((void *)a);
             func_0216D438(a, func_02197E7C(t, 0x1c));
             return 0;
         }
@@ -86,7 +86,7 @@ int func_0219C338(int a, u32 *s, u32 c)
             return 1;
         }
     }
-    t = func_0216D608(a);
+    t = func_0216D608((void *)a);
     func_0216D438(a, func_02197E7C(t, 0x1c));
     return 0;
 }

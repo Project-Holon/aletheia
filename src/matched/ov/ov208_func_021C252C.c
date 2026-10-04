@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern void func_0204B688(u32 obj, u32 on);
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void ov208_func_021BC518(u32 blend);
 
 void ov208_func_021C252C(u16 *heap, u8 *p, int key)
@@ -28,7 +29,7 @@ void ov208_func_021C252C(u16 *heap, u8 *p, int key)
 
     for (i = 0; i < 2; i++) {
         if (((u32 *)(p + 0x5c))[i] != 0)
-            func_0204B688(((u32 *)(p + 0x5c))[i], 1);
+            func_0204B688((struct Actor *)(((u32 *)(p + 0x5c))[i]), 1);
     }
     ov208_func_021BC518(*(u32 *)(p + 0x41c));
 }

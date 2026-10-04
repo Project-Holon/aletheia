@@ -27,7 +27,7 @@ extern int func_0204ABF0(int, int, int, int, int);
 extern int func_0204A6C8(int, int, int, int, int);
 extern int func_0204AF28(int, int, int, int);
 extern int func_02049F78(int, int, void *, int);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 typedef unsigned int   u32;
 extern void func_0203D88C(u32 a, u32 b);
 extern void func_0203D34C(u32 a, u32 b);
@@ -52,7 +52,7 @@ void func_021F1574(char *p, int idx)
         q = (int *)(p + i * 4);
         q[0x6e] = base[d_021F33CC[i]];
     }
-    func_020307B0(r);
+    func_020307B0((void *)r);
     func_0203D88C(0xda, 0xe);
     func_0203D34C(0, *(unsigned short *)(p + 0xc));
 }

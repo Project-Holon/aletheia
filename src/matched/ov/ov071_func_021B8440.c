@@ -34,6 +34,8 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct Rec3;
 struct U16Vec;
+typedef unsigned char  u8;
+struct CharBuf;
 void func_021B8440(W *w)
 {
     extern void *func_02045770(struct Descriptor *p);
@@ -41,7 +43,7 @@ void func_021B8440(W *w)
     extern void func_0201CE48(struct Rec3 *p);
     extern void func_02045808(struct U16Vec *vec);
     extern void func_02040588(u32 which, u32 enable);
-    extern void func_02043B5C(unsigned, unsigned);
+    extern void func_02043B5C(struct CharBuf *buf, u8 value);
     extern void func_02045334(struct Descriptor *d);
     extern void func_0201DD78(u32 r, u32 g, u32 b);
     unsigned r = (unsigned)func_02045770(w->f3c);
@@ -54,7 +56,7 @@ void func_021B8440(W *w)
     func_02045808(w->f44);
     w->f44 = 0;
     func_02040588(5, 0);
-    func_02043B5C(r, 0xff);
+    func_02043B5C((struct CharBuf *)r, 0xff);
     func_02045334(w->f3c);
     func_0201DD78(0xf, 2, 0);
 }

@@ -20,8 +20,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020470D0(u32 x);
-extern void func_02046EFC(u32 x);
+struct Tagged;
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 extern void func_02082C60(void *p, int v, int n);
 
 void func_021C6940(u8 *p)
@@ -32,17 +33,17 @@ void func_021C6940(u8 *p)
     p[0x29] = 0;
     if (f == 1) {
         if (*(u32 *)(p + 4) != 0)
-            func_020470D0(*(u32 *)(p + 4));
+            func_020470D0((u32 *)(*(u32 *)(p + 4)));
         else if (*(u32 *)p != 0)
-            func_020470D0(*(u32 *)p);
+            func_020470D0((u32 *)(*(u32 *)p));
     }
     if (*(u32 *)(p + 4) != 0)
-        func_02046EFC(*(u32 *)(p + 4));
+        func_02046EFC((struct Tagged *)(*(u32 *)(p + 4)));
     if (*(u32 *)p != 0)
-        func_02046EFC(*(u32 *)p);
+        func_02046EFC((struct Tagged *)(*(u32 *)p));
     if (p[0x28] != 0) {
         for (i = 0; i < p[0x28]; i++)
-            func_02046EFC(*(u32 *)(p + 8 + i * 4));
+            func_02046EFC((struct Tagged *)(*(u32 *)(p + 8 + i * 4)));
     }
     func_02082C60(p, 0, 0x2c);
     p[0x29] = 1;

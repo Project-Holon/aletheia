@@ -15,13 +15,14 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021C0F48(int);
+typedef unsigned char  u8;
+extern void func_021C0F48(u8 *p);
 
 void func_021BA8E0(int *p)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        func_021C0F48(p[i + 0x13]);
+        func_021C0F48((u8 *)p[i + 0x13]);
         p[i + 0x13] = 0;
     }
 }

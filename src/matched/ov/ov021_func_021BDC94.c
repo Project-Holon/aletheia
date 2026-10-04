@@ -16,15 +16,17 @@
  *   func_021BDD9C  0x021BDD9C  thumb  ov021
  */
 
-extern void *func_02188C84(void *a);
-extern void *func_021BDD58(void *a);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u16 func_02188C84(u8 *p);
+extern void *func_021BDD58(int a);
 extern void func_021BDD7C(void *r, void *a);
 extern void func_021BDD9C(void *r, void *x);
 
 void *func_021BDC94(void *a)
 {
-    void *x = func_02188C84(a);
-    void *r = func_021BDD58(x);
+    void *x = (void *)func_02188C84(a);
+    void *r = func_021BDD58((int)x);
 
     func_021BDD7C(r, a);
     func_021BDD9C(r, x);

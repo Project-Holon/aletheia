@@ -30,7 +30,7 @@ struct QQ;
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern u16 func_021D70A8(struct QQ *p);
-extern u16 func_0201C1D8(u16 v);
+extern u16 func_0201C1D8(void *p);
 extern int func_021D76BC(int key, u32 v);
 extern int d_021F2564[];
 
@@ -46,7 +46,7 @@ void func_021E2988(void *a, void *b, int c)
         m = func_021C7CF4(b, c);
         x = func_021D59B4(m, 0xD);
         y = func_021D59B4(m, 0xE);
-        t = func_0201C1D8(func_021D70A8(a));
+        t = func_0201C1D8((void *)func_021D70A8(a));
         r = t * x / y;
         if (r == 0)
             r = 1;

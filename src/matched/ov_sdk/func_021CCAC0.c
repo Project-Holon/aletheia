@@ -43,8 +43,8 @@ typedef struct {
     u8 f15;
 } T22;
 
-extern void func_021BD1D4(int, int);
-extern int func_021BD170(void *);
+extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern unsigned char *func_021BD170(unsigned char *name);
 extern int func_021D4B68(int, int, int);
 extern void func_021D603C(int lcd, int plane);
 
@@ -63,10 +63,10 @@ void func_021CCAC0(void)
     u16 *p;
 
     buf = dat_021DA800;
-    func_021BD1D4((int)dat_021DB778, (int)dat_0207F0B8);
-    func_021BD1D4((int)dat_021DB790, (int)dat_0207E3D0);
-    func_021BD1D4((int)dat_021DB7A8, (int)dat_0207EB78);
-    ((int *)dat_021DE614)[1] = func_021D4B68(func_021BD170(&buf), 0, 4);
+    func_021BD1D4((char *)((int)dat_021DB778), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
+    func_021BD1D4((char *)((int)dat_021DB790), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
+    func_021BD1D4((char *)((int)dat_021DB7A8), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
+    ((int *)dat_021DE614)[1] = func_021D4B68((int)func_021BD170((unsigned char *)(&buf)), 0, 4);
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;

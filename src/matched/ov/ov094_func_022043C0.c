@@ -43,7 +43,7 @@ extern void *func_020056A0(void *cb, void *ctx, int a);
 struct Ctx;
 extern void func_02204438(int a0, struct Ctx *c);
 extern void func_022044A0(void *h);
-extern void func_0220684C(Main *m, void *t, int b);
+extern void func_0220684C(char *p, int a, int b);
 
 void func_022043C0(Main *m, int a1, int a2, int a3, int a4)
 {
@@ -55,6 +55,6 @@ void func_022043C0(Main *m, int a1, int a2, int a3, int a4)
     o->f8 = a2;
     o->fc = a3;
     o->f10 = a4;
-    func_0220684C(m, func_020056A0((void *)func_02204438, o, 0), (int)func_022044A0);
+    func_0220684C((char *)m, (int)func_020056A0((void *)func_02204438, o, 0), (int)func_022044A0);
     m->st = m->st + 1;
 }

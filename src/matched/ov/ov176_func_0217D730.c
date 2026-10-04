@@ -62,7 +62,7 @@ extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200BAC8(void *);
 extern void func_0200BBD8(void *, int);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
-extern void func_02012DAC(void *);
+extern int func_02012DAC(int a0);
 extern int func_02012DD0(u8 *p);
 void func_0217D730(int *a, int *state, int *p)
 {
@@ -99,7 +99,7 @@ void func_0217D730(int *a, int *state, int *p)
         base = func_0200BAC8(base);
         func_0200BBD8(base, p[5] == 0 ? 1 : 2);
         func_0200B110(record, 10, 4); *state = 14; break;
-    case 14: func_02012DAC((void *)p[12]); *state = 15; break;
+    case 14: func_02012DAC((int)((void *)p[12])); *state = 15; break;
     case 15:
         result = func_02012DD0((void *)p[12]);
         if (result == 2) *state = 16;

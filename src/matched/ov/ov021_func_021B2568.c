@@ -23,18 +23,18 @@ typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_021F41B0(void *, u16);
-extern void func_0215897C(void *, u32);
+extern void *func_021F41B0(void *p, int v);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B2568(u32 a, u32 b)
 {
     void *s = func_0215A5F4((void *)b);
     void *d = func_0215A5DC((void *)b);
-    u32 r = func_021F41B0(d, *func_02159AE8((void *)a, (void *)b));
+    u32 r = (u32)func_021F41B0(d, *func_02159AE8((void *)a, (void *)b));
 
     if (r == 0) {
         return 1;
     }
-    func_0215897C(s, r);
+    func_0215897C(s, (void *)r);
     return 1;
 }

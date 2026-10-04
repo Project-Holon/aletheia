@@ -24,7 +24,8 @@
 typedef unsigned int u32;
 
 extern u32 *g_02146A88;
-extern int  func_02051414(u32 p);
+typedef unsigned char  u8;
+extern void func_02051414(u8 *a0);
 
 int func_02051534(void)
 {
@@ -33,7 +34,7 @@ int func_02051534(void)
 
     for (i = 0; i < 16; i++) {
         if (g_02146A88[i] != 0) {
-            func_02051414(g_02146A88[i]);
+            func_02051414((u8 *)g_02146A88[i]);
             n++;
         }
     }

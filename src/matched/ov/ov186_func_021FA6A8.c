@@ -13,7 +13,7 @@
  */
 extern void func_021FAD18(char *ctx, int mode, const int *target);
 extern int func_021FAD74(char *ctx);
-extern void func_021FD73C(void *, void *);
+extern void func_021FD73C(int *p, int v);
 extern void func_021FAA34(void *p, int *state, int *ctx);
 extern void func_021FA7FC(void *p, int *state, unsigned char *ctx);
 void func_021FA6A8(void *p, int *state, unsigned char *ctx)
@@ -33,9 +33,9 @@ void func_021FA6A8(void *p, int *state, unsigned char *ctx)
         break;
     case 2:
         switch (*(unsigned *)(ctx + 0x1c)) {
-        case 0: case 1: func_021FD73C(p, func_021FAA34); break;
-        case 4: func_021FD73C(p, func_021FA7FC); break;
-        default: func_021FD73C(p, func_021FAA34); break;
+        case 0: case 1: func_021FD73C(p, (int)func_021FAA34); break;
+        case 4: func_021FD73C(p, (int)func_021FA7FC); break;
+        default: func_021FD73C(p, (int)func_021FAA34); break;
         }
         break;
     }

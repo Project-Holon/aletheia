@@ -69,7 +69,7 @@ extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...)
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void func_0218437C(void *array, int n);
+extern void func_0218437C(int a, int b);
 extern int func_02180474(void *theFirstPeer, void *theSecondPeer);
 extern char g_021A38A8[];
 extern char g_021A38D0[];
@@ -114,5 +114,5 @@ void func_02180518(void *theConnection, int reason)
     index = func_021843E8(aUdp->mRemotePeers, &aRemotePeer, func_02180474, 0, 0);
     if (index == -1)
         return;
-    func_0218437C(aUdp->mRemotePeers, index);
+    func_0218437C((int)aUdp->mRemotePeers, index);
 }

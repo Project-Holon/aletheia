@@ -28,7 +28,9 @@ struct Pt { u16 x; u16 y; };
 
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_021BB3E8(void *p, u32 a, u32 b, u32 c, u8 d, u8 e, u8 f, u8 g, u16 h);
-extern void func_0204B404(void *h, struct Pt *p, u16 v);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B84C(void *h, u32 a);
 struct Actor;
 struct Node;
@@ -48,7 +50,7 @@ void func_021BB4B4(u32 *p, u32 a, u32 b, u32 c, u32 d, u16 e)
     func_021BB3E8(p, a, b, c, 0, 0, 0x18, 3, e);
     pt.x = 0x80;
     pt.y = 0x60;
-    func_0204B404((void *)p[4], &pt, 0);
+    func_0204B404((void *)p[4], (const struct Vec2 *)(&pt), 0);
     func_0204B84C((void *)p[4], 1);
     func_0204B800((void *)p[4], 1);
     func_0204B3DC((void *)p[4], 1);

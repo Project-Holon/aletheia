@@ -19,7 +19,7 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
-extern u32 func_0200CA1C(void *);
+extern void *func_0200CA1C(void *a);
 void func_021C7430(u8 *p, int a, u16 b, u16 c)
 {
     u8 *q = func_02030734(0x65, 0x98, 1, d_021C7F04, 0x529);
@@ -30,6 +30,6 @@ void func_021C7430(u8 *p, int a, u16 b, u16 c)
     *(int *)(q + 0x34) = a;
     *(u16 *)(q + 0x44) = b;
     *(u16 *)(q + 0x5C) = c;
-    *(u32 *)(q + 0x18) = func_0200CA1C(**(void ***)(p + 4));
+    *(u32 *)(q + 0x18) = (u32)func_0200CA1C(**(void ***)(p + 4));
     *(u8 **)(p + 0x10) = q;
 }

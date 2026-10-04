@@ -24,14 +24,14 @@
 
 typedef unsigned int u32;
 
-extern void func_02034714(int a, int b, int c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 g_021E2EF8[];
 
 int func_021DC610(unsigned int a)
 {
     switch (a) {
     case 0:
-        func_02034714((int)g_021E2EF8, 0, (int)g_021E2EF8);
+        func_02034714((const char *)((int)g_021E2EF8), 0, (const char *)((int)g_021E2EF8));
         return 0;
     case 1:
         return 0x34;

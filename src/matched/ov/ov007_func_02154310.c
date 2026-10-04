@@ -35,14 +35,16 @@ struct Ctx;
 struct Evt;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32   func_02012138(const struct Ctx *a0);
-extern int   func_02026454(int x);
-extern void *func_020144DC(u32 a0, void *a1);
+typedef unsigned char  u8;
+struct IcaAnime;
+extern u32 func_02026454(void *obj);
+extern int func_020144DC(int a0, int a1);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
-extern int   func_020120F0(u32 a0);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
 extern void *func_020145CC(u32 a0, void *a1);
-extern void *func_021BE8D4(u32 a0, void *a1, int a2, int a3);
-extern void *func_021BE92C(u32 a0, void *a1, int a2, int a3, int a4, int a5, int a6);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 extern char ov116_id[];
 extern char d_021D83A4[];
@@ -54,23 +56,23 @@ u32 func_02154310(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        if (func_02026454((int)func_02012138((const struct Ctx *)h)) == 0)
+        if (func_02026454((void *)((int)func_02012138((const struct Ctx *)h))) == 0)
             (*mode)++;
         break;
     case 1:
-        func_02012374(obj, func_021BE8D4(h, x, 0, 0));
+        func_02012374(obj, (struct Evt **)func_021BE8D4((void *)h, (int)x, 0, 0));
         (*mode)++;
         break;
     case 2:
-        func_02012374(obj, func_020144DC(h, x));
+        func_02012374(obj, (struct Evt **)func_020144DC(h, (int)x));
         (*mode)++;
         break;
     case 3:
-        func_020120B4(h, ov116_id, d_021D83A4, args);
+        func_020120B4((struct IcaAnime *)h, (u32)ov116_id, d_021D83A4, args);
         (*mode)++;
         break;
     case 4:
-        if (func_020120F0(h) == 0) {
+        if (func_020120F0((const struct Ctx *)h) == 0) {
             if (args[2] == 0)
                 *(u16 *)args[3] = 1;
             else
@@ -83,7 +85,7 @@ u32 func_02154310(void *obj, u32 *mode, u32 *args)
         (*mode)++;
         break;
     case 6:
-        func_02012374(obj, func_021BE92C(h, x, 0, 0, 1, 0, 0));
+        func_02012374(obj, (struct Evt **)func_021BE92C((void *)h, (int)x, 0, 0, 1, 0, 0));
         (*mode)++;
         break;
     case 7:

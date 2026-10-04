@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0204B898(u32 h);
+struct Obj;
+extern u16 func_0204B898(struct Obj *p);
 extern int func_02035D40(u8 *b, u32 x, u32 y);
 extern void func_021F0DD8(u32 v);
 extern u16 d_021F3530[];
@@ -32,7 +33,7 @@ int func_021F0A18(u8 *p, u32 *v)
 
     b[4] = 0xff;
     for (i = 0; i < 4; i++) {
-        u32 a = func_0204B898(*(u32 *)(p + 0x2bc + i * 4));
+        u32 a = func_0204B898((struct Obj *)(*(u32 *)(p + 0x2bc + i * 4)));
         if ((u8)(a - (i * 3 + 1)) % 3 < 2) {
             b[0] = 0xac;
             b[1] = b[0] + 0x18;

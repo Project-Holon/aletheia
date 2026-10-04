@@ -31,7 +31,7 @@ extern u8  g_020A7BA8[];
 extern u8  g_020A7BEC[];
 
 extern void *func_0203D798(void);
-extern void func_02034714(u32 a, u32 b, u32 c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_0203CA04(void)
 {
@@ -50,7 +50,7 @@ void func_0203CA04(void)
     }
 
     if (t == 0)
-        func_02034714((u32)g_020A7BA8, 0x8B7, (u32)g_020A7BEC);
+        func_02034714((const char *)((u32)g_020A7BA8), 0x8B7, (const char *)((u32)g_020A7BEC));
 
     *(u32 *)(g_021469DC + 0x30) = 0;
     *(u32 *)(g_021469DC + 0x34) = 0;

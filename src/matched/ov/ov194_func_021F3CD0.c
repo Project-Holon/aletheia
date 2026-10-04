@@ -24,12 +24,13 @@ extern int func_020457B0(int,unsigned short);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(int,int,int,int);
+struct Cfg;
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int,unsigned char);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(int);
+extern void func_02045374(struct Cfg *cfg);
 extern int func_02045730(int);
 extern void func_020409B4(unsigned);
 void func_021F3CD0(unsigned char *p,int a,int b,int c,int d,unsigned short e) {
@@ -39,11 +40,11 @@ void func_021F3CD0(unsigned char *p,int a,int b,int c,int d,unsigned short e) {
     *(int *)(p+4)=a; *(int *)(p+24)=d; *(int *)p=b; *(int *)(p+16)=c;
     *(int *)(p+28)=func_020457B0(255,e);
     *(int *)(p+20)=func_020450F0(4,1,19,30,4,15,1);
-    func_0201F73C(*(int *)(p+20),2,1,14);
+    func_0201F73C((void *)(*(int *)(p+20)),2,1,14);
     *(int *)(p+8)=*(int *)(p+20);
     *(unsigned char *)(p+12)=0;
     func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p+20)),*(unsigned short *)(p+32));
     window=*(int *)(p+20);
-    func_02045334((struct Descriptor *)window); func_02045374(window);
+    func_02045334((struct Descriptor *)window); func_02045374((struct Cfg *)window);
     func_020409B4(func_02045730(window));
 }

@@ -104,39 +104,43 @@ typedef struct Self {
 
 extern int   func_0200FB24(void);
 extern void  func_02183C3C(void *p, Self *self);
-extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
-extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
+struct BigObj;
+struct Ctx;
+struct IcaAnime;
+struct Rec20;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void  func_02012374(void *obj, void *out);
-extern void *func_020144DC(u32 a0, u32 a1);
+extern int func_020144DC(int a0, int a1);
 extern int   func_02034AC4(signed int id);
 extern void  func_02034A5C(int id);
-extern u32   func_02012944(u32 a);
-extern void *func_02183B60(Self *self, int a, int b, u32 c);
+extern u8 *func_02012944(void *p);
+extern u8 *func_02183B60(u8 *a, int heap, int kind, struct Rec20 *src);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
 extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
 extern int   func_02173E1C(void);
-extern int   func_02183F84(void *p);
+extern u8 func_02183F84(u8 *p);
 extern int   func_02173EC8(void);
 extern int   func_0218401C(void *p);
-extern int   func_021841A0(void *p);
+extern unsigned char func_021841A0(unsigned char *p);
 extern int   func_02173F90(u8 a, u32 b);
 extern int   func_0218402C(void *p);
 extern int   func_02174084(u8 a, u32 b);
 extern void  func_021840AC(void *p);
-extern void  func_021736E0(u8 a);
-extern void  func_0203D1E8(u32 a0, int a1);
+extern void func_021736E0(unsigned int x);
+extern void func_0203D1E8(u32 unused, void *arg);
 extern void  func_0203D7BC(int a0);
-extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
-extern int   func_020120F0(u32 a0);
-extern u32   func_02012984(u32 a);
-extern int   func_02029DF4(u32 a, int b, u32 c);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
+extern u8 func_02012984(const struct BigObj *p);
+extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
 extern void  func_02005DA4(u16 a, int b, int c, int d);
 extern int   func_02005E50(void);
 extern void  func_02183BE0(void *p);
-extern void *func_020145CC(u32 a0);
+extern void *func_020145CC(void *a0);
 
 extern char ov022_id[];
 extern char ov023_id[];
@@ -158,16 +162,16 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
 
     switch (*state) {
     case 0:
-        func_02012374(obj, func_021BE8D4(a0, a2, 0, 0));
+        func_02012374(obj, (void *)func_021BE8D4((void *)a0, a2, 0, 0));
         (*state)++;
         break;
     case 1:
-        func_02012374(obj, func_020144DC(a0, a2));
+        func_02012374(obj, (void *)func_020144DC(a0, a2));
         (*state)++;
         break;
     case 2:
         func_02034AC4((u32)ov022_id);
-        self->f3528 = func_02183B60(self, 3, 5, func_02012944(self->f0->f8));
+        self->f3528 = func_02183B60((u8 *)self, 3, 5, (struct Rec20 *)func_02012944((void *)self->f0->f8));
         if (l->flag5A == 1)
             *state = 5;
         else
@@ -199,7 +203,7 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
         break;
     case 9:
         v = func_021841A0(self->f3528);
-        if (func_02173F90(v, func_02012944(self->f0->f8)) == 1)
+        if (func_02173F90(v, (u32)func_02012944((void *)self->f0->f8)) == 1)
             (*state)++;
         break;
     case 10:
@@ -209,7 +213,7 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
     case 11:
         if (l->flag5A == 1) {
             v = func_021841A0(self->f3528);
-            if (func_02174084(v, func_02012944(self->f0->f8)) == 1) {
+            if (func_02174084(v, (u32)func_02012944((void *)self->f0->f8)) == 1) {
                 func_021840AC(self->f3528);
                 *state = 13;
             }
@@ -221,7 +225,7 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
         break;
     case 12:
         if (func_02039CB4((struct Link *)func_020399A8(), 10, 0x14) == 1) {
-            func_0203D1E8((u32)func_020399A8(), 1);
+            func_0203D1E8((u32)func_020399A8(), (void *)1);
             *state = 13;
         }
         break;
@@ -230,20 +234,20 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
         if (l->f0 == 3) {
             r = sub->f8;
             r->f0 = self->f3528;
-            func_020120B4(a0, ov023_id, d_02186B30, r);
+            func_020120B4((struct IcaAnime *)a0, (u32)ov023_id, d_02186B30, r);
         } else {
             r = sub->f8;
             r->f0 = self->f3528;
-            func_020120B4(a0, ov137_id, d_021E1A2C, r);
+            func_020120B4((struct IcaAnime *)a0, (u32)ov137_id, d_021E1A2C, r);
         }
         (*state)++;
         break;
     case 14:
-        if (func_020120F0(a0) != 0)
+        if (func_020120F0((const struct Ctx *)a0) != 0)
             break;
         if (l->f0 == 0x19) {
             if (sub->f8->f14 == 1) {
-                func_02005DA4(func_02029DF4(self->f0->f8, 0x1a6, func_02012984(self->f0->f8)), 0xffff, 6, 0x3c);
+                func_02005DA4(func_02029DF4((void *)self->f0->f8, 0x1a6, func_02012984((const struct BigObj *)self->f0->f8)), 0xffff, 6, 0x3c);
                 *state = 15;
             } else {
                 *state = 16;
@@ -265,11 +269,11 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
         *state = 17;
         break;
     case 17:
-        func_02012374(obj, func_020145CC(a0));
+        func_02012374(obj, func_020145CC((void *)a0));
         (*state)++;
         break;
     case 18:
-        func_02012374(obj, func_021BE92C(a0, a2, 0, 0, 1, 0, 0));
+        func_02012374(obj, (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 19:

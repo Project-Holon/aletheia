@@ -14,10 +14,11 @@
  *   func_02035BBC   0x02035BBC  arm
  */
 
-extern int func_02035224(void);
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
 extern void func_02035BBC(int a, const void *p);
 
 void func_02035C08(const void *p)
 {
-    func_02035BBC(func_02035224(), p);
+    func_02035BBC((int)func_02035224(), p);
 }

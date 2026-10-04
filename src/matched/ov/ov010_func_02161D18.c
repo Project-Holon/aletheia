@@ -20,16 +20,18 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_020120F4(int);
-extern int func_02012984(int);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012984(const struct BigObj *p);
 extern int func_02169100(int);
 extern int func_02169110(int);
 extern void func_02161C84(int, int, int, u8, u32, u8, u8, int);
 void func_02161D18(int a, int b, u8 c, u8 d)
 {
-    int r4 = func_020120F4(b);
+    int r4 = (int)func_020120F4((const struct Ctx *)b);
     int r6 = func_02169100(r4);
     int r7 = func_02169110(r4);
-    int r0 = func_02012984(r4);
+    int r0 = func_02012984((const struct BigObj *)r4);
     func_02161C84(a, b, c, d, 0, (u8)r6, (u8)r7, r0);
 }

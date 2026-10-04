@@ -36,7 +36,7 @@ extern void func_021C8DC4(int *p);
 extern void func_021C8DD4(int *p);
 extern void func_021C8E5C(int *p);
 extern void func_021C8D3C(int *p);
-extern void func_021C8DE4(int *p);
+extern int func_021C8DE4(u32 a);
 
 int func_021C8BFC(int a, int *st, int *p)
 {
@@ -65,7 +65,7 @@ int func_021C8BFC(int a, int *st, int *p)
         }
         break;
     case 2:
-        func_021C8DE4(p);
+        func_021C8DE4((u32)p);
         return 1;
     }
     return 0;

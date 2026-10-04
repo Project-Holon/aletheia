@@ -17,17 +17,21 @@
  *   func_020452E8  0x020452E8  arm
  */
 
-extern void func_02045808(int);
-extern void func_02045C04(int);
-extern void func_0201C4C0(int);
-extern void func_0201D83C(int);
-extern void func_020452E8(int);
+struct Descriptor;
+struct PrintSys;
+struct Rec;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201D83C(void *ptr);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021B9C08(int *p)
 {
-    func_02045808(p[9]);
-    func_02045C04(p[8]);
-    func_0201C4C0(p[6]);
-    func_0201D83C(p[5]);
-    func_020452E8(p[0]);
+    func_02045808((struct U16Vec *)p[9]);
+    func_02045C04((struct Rec *)p[8]);
+    func_0201C4C0((struct PrintSys *)p[6]);
+    func_0201D83C((void *)p[5]);
+    func_020452E8((struct Descriptor *)p[0]);
 }

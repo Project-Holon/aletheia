@@ -24,7 +24,8 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(u8 *);
-extern void func_020113B0(u8 *, u8 *);
+struct Cur;
+extern void func_020113B0(struct Cur *c, u32 v);
 extern int func_021895AC(u8 *, u8 *);
 extern int func_0218A378(u8 *, int, int);
 
@@ -50,6 +51,6 @@ int func_02189FC0(u8 *a, u8 *b)
     }
     if (flag == 1)
         return func_021895AC(a, b);
-    func_020113B0(a, (u8 *)base + (base[m] | (base[m + 1] << 16)));
+    func_020113B0((struct Cur *)a, (u32)((u8 *)base + (base[m] | (base[m + 1] << 16))));
     return *(int *)(b + 0xc4);
 }

@@ -24,9 +24,10 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void func_021E58A4(int unused, int mode, unsigned color);
-extern int func_02045B38(int,int,int,int);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern int func_0201EC74(int,int,int);
-extern int func_021E8A3C(int,int,int);
+extern int *func_021E8A3C(int a, int b, int c);
 extern void func_0217D458(int a, int unused, char *p);
 extern const char d_0217E61C[];
 Request *func_0217D398(Config *p, int heap)
@@ -37,8 +38,8 @@ Request *func_0217D398(Config *p, int heap)
     r->config = *p;
     r->heap = heap;
     func_021E58A4(r->config.v[4], 3, heap);
-    r->a = func_02045B38(0, 2, 0xD2, heap);
+    r->a = (int)func_02045B38(0, 2, 0xD2, heap);
     r->b = func_0201EC74(8, 0x40, heap);
-    r->callback = func_021E8A3C((int)r, (int)func_0217D458, heap);
+    r->callback = (int)func_021E8A3C((int)r, (int)func_0217D458, heap);
     return r;
 }

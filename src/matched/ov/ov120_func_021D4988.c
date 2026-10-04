@@ -33,7 +33,7 @@
 
 typedef unsigned int u32;
 
-extern void func_021D7C10(int);
+extern int func_021D7C10(char *p);
 extern u32 func_020362DC(void);
 extern void func_021D8638(int);
 extern int func_0203CD98(void);
@@ -45,13 +45,13 @@ extern void func_021D4244(int, int, int);
 extern int func_0203C3EC(void);
 extern void func_0203D7B0(int);
 extern void func_0203D7BC(int);
-extern void func_021D7B38(int);
+extern void func_021D7B38(char *p);
 extern void func_021D7A74(int, int);
 extern void func_021D8648(int);
 
 void func_021D4988(int a)
 {
-    func_021D7C10(*(int *)(a + 0x40));
+    func_021D7C10((char *)(*(int *)(a + 0x40)));
     if (func_020362DC() == 2) {
         func_021D8638(*(int *)(a + 0x40));
         if (func_0203CD98() != 0)
@@ -69,7 +69,7 @@ void func_021D4988(int a)
         func_0203D7B0(1);
         func_0203D7BC(1);
     }
-    func_021D7B38(*(int *)(a + 0x40));
+    func_021D7B38((char *)(*(int *)(a + 0x40)));
     func_021D7A74(*(int *)(a + 0x40), 0x10);
     *(int *)(a + 0x14) = 0xb4;
     func_021D8648(*(int *)(a + 0x40));

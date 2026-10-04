@@ -17,5 +17,6 @@
 extern void func_0216DB4C(unsigned int *,unsigned int);
 extern void func_0216DC98(unsigned int *,unsigned int);
 extern void func_0216DAE0(unsigned int *,unsigned int);
-extern void func_0216D5B4(unsigned int,unsigned int);
-void func_021F414C(unsigned char *p) { func_0216DB4C(*(unsigned int **)(p+12),1); func_0216DC98(*(unsigned int **)(p+12),1); func_0216DAE0(*(unsigned int **)(p+12),1); func_0216D5B4(*(unsigned int *)(p+12),2000); }
+typedef unsigned short u16;
+extern void func_0216D5B4(void *p, u16 v);
+void func_021F414C(unsigned char *p) { func_0216DB4C(*(unsigned int **)(p+12),1); func_0216DC98(*(unsigned int **)(p+12),1); func_0216DAE0(*(unsigned int **)(p+12),1); func_0216D5B4((void *)(*(unsigned int *)(p+12)),2000); }

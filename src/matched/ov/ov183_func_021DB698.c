@@ -25,7 +25,7 @@ extern unsigned func_021F9B9C(char *);
 extern void func_021FC1F8(int *,int);
 extern void func_021FC148(int *,int,int);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern int func_021FD760(int,int,int,int);
+extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern int func_021F9CB8(int,int,int,int,int,int,int);
 extern void func_021FE840(int,int,int);
 int func_021DB698(int *task,int b,char *p)
@@ -41,7 +41,7 @@ int func_021DB698(int *task,int b,char *p)
     func_021FC148(*(int **)(p+0x18),1,*(unsigned short *)(s+0x14));
     if(*(int *)p<5) func_021FB964(*(int **)(p+0x18),3,*(unsigned short *)(s+0x14));
     else func_021FB964(*(int **)(p+0x18),4,*(unsigned short *)(s+0x14));
-    *(int *)(s+4)=func_021FD760(*(int *)(p+0x14),*(int *)(p+0x18),1,*(unsigned short *)(s+0x14));
+    *(int *)(s+4)=(int)func_021FD760(*(int *)(p+0x14),(char *)(*(int *)(p+0x18)),1,*(unsigned short *)(s+0x14));
     *(int *)s=func_021F9CB8(*(int *)p,*(int *)(p+0x14),*(int *)(p+0x18),*(int *)(p+0x20),*(int *)(p+0x24),*(int *)(s+4),*(unsigned short *)(s+0x14));
     if(*(int *)(p+0xc)==4) func_021FE840(*(int *)(p+0x10),2,0);
     else func_021FE840(*(int *)(p+0x10),3,0);

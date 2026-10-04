@@ -31,7 +31,7 @@ typedef struct WCMWork {
     unsigned short field1310;
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern long func_02090DEC(void (*callback)(void *), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
 extern void func_02165A4C(unsigned char phase);
 extern void func_02166F24(void *arg);
@@ -41,7 +41,7 @@ long func_02166B2C(void)
     WCMWork *wcmw;
     long wmResult;
 
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     if (wcmw->phase == 3) {
         wcmw->field1310 = wcmw->field130E | 3;
     }

@@ -18,7 +18,9 @@
 typedef struct { short x, y; } Pt;
 typedef struct { char pad[0x774]; int *list; } Obj;
 
-int func_021A2C28(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u32 func_021A2C28(u8 *p);
 void func_0204B53C(int a, Pt *p);
 void func_0204B528(int a, Pt *p);
 
@@ -34,7 +36,7 @@ void func_021A2564(Obj *obj, int px, int py)
         x = (short)px;
         y = (short)py;
         do {
-            h = func_021A2C28((int)p);
+            h = func_021A2C28((u8 *)((int)p));
             func_0204B53C(h, &pt);
             pt.x = pt.x - x;
             pt.y = pt.y - y;

@@ -16,7 +16,8 @@
  */
 
 extern void func_021B97E8(char *, int);
-extern void func_020456F8(int);
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
@@ -25,7 +26,7 @@ void func_021B9AAC(char *p)
     unsigned i;
     unsigned j;
     func_021B97E8(p, 0);
-    func_020456F8(*(int *)(p + 0x734));
+    func_020456F8((struct Descriptor *)(*(int *)(p + 0x734)));
     for (i = 0; i < 3; i++) {
         func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
     }

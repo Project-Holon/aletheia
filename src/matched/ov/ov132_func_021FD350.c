@@ -24,7 +24,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020173EC(void);
 extern void func_02082D44(void *,void *,u32);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3F8(void *,int,int,u32,void *,int,int,int);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern const char d_021FDE5C[];
 void func_021FD350(char *p,char *src)
 {
@@ -43,5 +43,5 @@ void func_021FD350(char *p,char *src)
     func_02082D44(*(void **)(src+4),q,n);
     h=func_020399A8();
     n=func_020173EC();
-    func_0203D3F8(h,0xff,0x1103,n+0x7c,*(void **)(p+0x124),1,zero,1);
+    func_0203D3F8((u32)h,0xff,0x1103,n+0x7c,(u32)(*(void **)(p+0x124)),1,zero,1);
 }

@@ -56,12 +56,13 @@ extern void func_021B96CC(void *,u32);
 extern void *func_021B9964(u16);
 extern u32 func_021BA960(char *p);
 extern void *func_021B9820(int,int);
-extern u32 func_021B9C80(void *),func_021B9C84(void *);
+extern void *func_021B9C80(u8 *p);
+extern void *func_021B9C84(u8 *p);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_021BA290(char *),func_021B9D48(char *),func_021BA328(char *),func_021BA61C(char *);
 extern void func_0207D63C(u32 *,u32,u32,u32,u32);
 extern void func_021BA238(void);
-extern void *func_02005624(u32,void *,u32);
+extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void func_0203D34C(u32,u32);
 char *func_021B9E48(void *owner,char *input)
 {
@@ -91,15 +92,15 @@ char *func_021B9E48(void *owner,char *input)
     func_021B96CC(p,*(u16 *)p);
     *(void **)(p+0x28)=func_021B9964(*(u16 *)p);
     *(void **)(p+8)=func_021B9820(func_021BA960(*(void **)(p+4)),*(u16 *)p);
-    a=func_021B9C80(*(void **)(p+0x28));
-    b=func_021B9C84(*(void **)(p+0x28));
+    a=(u32)func_021B9C80(*(void **)(p+0x28));
+    b=(u32)func_021B9C84(*(void **)(p+0x28));
     *(void **)(p+0x18)=func_02027F60(1,11,a,b,*(u16 *)p);
     func_021BA290(p);
     func_021B9D48(p);
     func_021BA328(p);
     func_021BA61C(p);
     func_0207D63C((u32 *)0x04001050,4,8,6,10);
-    *(void **)(p+0x23c)=func_02005624((u32)func_021BA238,p,0);
+    *(void **)(p+0x23c)=func_02005624((u32)func_021BA238,(u32)p,0);
     func_0203D34C(1,*(u16 *)p);
     return p;
 }

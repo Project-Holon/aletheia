@@ -17,5 +17,6 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_02030EAC(u32);
-void func_021F69FC(u8 *p) { func_02030EAC(*(u32 *)(p + 4)); }
+struct Node;
+extern void func_02030EAC(struct Node *n);
+void func_021F69FC(u8 *p) { func_02030EAC((struct Node *)(*(u32 *)(p + 4))); }

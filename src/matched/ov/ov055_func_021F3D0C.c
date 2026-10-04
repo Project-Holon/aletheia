@@ -49,10 +49,10 @@ typedef struct O {
 extern V d_021F4620;
 extern void (* const d_021F45C8[])(O *);
 
-extern void func_0216DAC8(int, int);
-extern int func_0216D598(int);
+extern void func_0216DAC8(unsigned int *p, unsigned int v);
+extern u16 func_0216D598(void *p);
 extern void func_0216E618(V *, int, int, int);
-extern void func_0216E0AC(int, V *);
+extern void func_0216E0AC(void *a0, void *a1);
 extern void func_0216DCCC(int, int);
 
 void func_021F3D0C(O *o, int a1, int a2, int idx, u16 p4, u16 p5, u16 p6, u16 p7, void *p8)
@@ -60,13 +60,13 @@ void func_021F3D0C(O *o, int a1, int a2, int idx, u16 p4, u16 p5, u16 p6, u16 p7
     V v;
 
     o->f0 = 1;
-    func_0216DAC8(o->fc, 0);
+    func_0216DAC8((unsigned int *)o->fc, 0);
     v = d_021F4620;
-    v.h2 = func_0216D598(o->fc);
+    v.h2 = func_0216D598((void *)o->fc);
     v.hc = p6;
     v.h0 = o->h8;
     func_0216E618(&v, p4, p5, 0);
-    func_0216E0AC(o->fc, &v);
+    func_0216E0AC((void *)o->fc, &v);
     o->f2 = idx;
     o->f3 = p6;
     o->f1 = 0;

@@ -25,11 +25,12 @@ struct BigObj;
 struct Party;
 struct PartyMon;
 extern void *func_02012934(const struct BigObj *p);
-extern void *func_021B6EE0(int a, int b);
+struct Blk37;
+extern int func_021B6EE0(u32 a, u32 b);
 extern u32 func_0201AA18(void *p);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern int func_0200CA1C(int p);
-extern void func_0200CDE0(int a, void *m);
+extern void *func_0200CA1C(void *a);
+extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern void func_020307B0(void *p);
 
 void func_021B6F18(int a, int b, int c)
@@ -38,10 +39,10 @@ void func_021B6F18(int a, int b, int c)
     void *m;
 
     l = func_02012934((void *)b);
-    m = func_021B6EE0(a, c);
+    m = (void *)func_021B6EE0(a, c);
     if ((int)func_0201AA18(l) < 6 && m != 0) {
         func_0201A98C(l, m);
-        func_0200CDE0(func_0200CA1C(b), m);
+        func_0200CDE0(func_0200CA1C((void *)b), m);
         func_020307B0(m);
     }
 }

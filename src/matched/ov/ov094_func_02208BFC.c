@@ -25,7 +25,7 @@ typedef struct { int health; char pad4[4]; u32 active:1; char padc[0x74]; } Entr
 typedef struct { char pad[0xa8]; EntryFlags entries[8]; } Owner;
 typedef struct { Owner *owner; int state, mask, count; } State;
 extern const Masks d_0220AB4C;
-extern void *func_021F86E0(void);
+extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 extern u32 func_02021ED8(const char *);
@@ -42,20 +42,20 @@ void func_02208BFC(void *unused, State *s)
                 s->mask |= masks.bits[i];
         }
         if (s->mask) {
-            pal = func_021F86E0();
+            pal = (void *)func_021F86E0();
             func_0202173C(pal, 4, s->mask, 0, 0, 8, 16, func_021F86D4());
             s->state = 1;
         }
         break;
     case 1:
-        if (!func_02021ED8(func_021F86E0())) {
-            pal = func_021F86E0();
+        if (!func_02021ED8((const char *)func_021F86E0())) {
+            pal = (void *)func_021F86E0();
             func_0202173C(pal, 4, s->mask, 0, 8, 0, 16, func_021F86D4());
             s->state = 2;
         }
         break;
     case 2:
-        if (!func_02021ED8(func_021F86E0())) {
+        if (!func_02021ED8((const char *)func_021F86E0())) {
             s->count++;
             if (s->count == 3) {
                 s->count = 0;

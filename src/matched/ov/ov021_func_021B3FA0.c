@@ -42,15 +42,19 @@ extern WinTmpl *d_021DE18C[];
 extern WinTmpl *d_021DE170[];
 
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045EC0(u32 a, u32 b);
+struct Cfg;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7D0(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f);
-extern void func_02045808(u32 a);
-extern u32 func_0201C440(u16 heap);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void func_02045808(struct U16Vec *vec);
+extern u32 func_0201C440(void *p);
 extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(u32 a);
-extern u32 func_02045730(u32 a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 
 void func_021B3FA0(char *w)
@@ -69,25 +73,25 @@ void func_021B3FA0(char *w)
         e = tbl[i];
         ((u32 *)(w + 0x164))[i] = func_020450F0((u8)e->f0, e->f4, e->f5, e->f6, e->f7, (u8)e->f8, 1);
     }
-    t = func_02045EC0(*(u32 *)(w + 0x188), 0x14);
-    func_0201C7D0((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x164)), 0, 0, t, *(u32 *)(w + 8), 0x3C4F);
-    func_02045808(t);
+    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0x14);
+    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x164))), 0, 0, (void *)t, (void *)(*(u32 *)(w + 8)), 0x3C4F);
+    func_02045808((struct U16Vec *)t);
     *(u32 *)(w + 0x1A8) = *(u32 *)(w + 0x16C);
     *(u8 *)(w + 0x1AC) = 0;
-    *(u32 *)(w + 0x1B0) = func_0201C440(*(u16 *)(w + 4));
+    *(u32 *)(w + 0x1B0) = func_0201C440((void *)(*(u16 *)(w + 4)));
     if (*(u8 *)(w + 0x163) == 1) {
         bg = *(u32 *)(w + 0x168);
         func_02045334((struct Descriptor *)bg);
-        func_02045374(bg);
-        func_020409B4(func_02045730(bg));
+        func_02045374((struct Cfg *)bg);
+        func_020409B4(func_02045730((struct Descriptor *)bg));
     } else {
         bg = *(u32 *)(w + 0x164);
         func_02045334((struct Descriptor *)bg);
-        func_02045374(bg);
-        func_020409B4(func_02045730(bg));
+        func_02045374((struct Cfg *)bg);
+        func_020409B4(func_02045730((struct Descriptor *)bg));
         bg = *(u32 *)(w + 0x168);
         func_02045334((struct Descriptor *)bg);
-        func_02045374(bg);
-        func_020409B4(func_02045730(bg));
+        func_02045374((struct Cfg *)bg);
+        func_020409B4(func_02045730((struct Descriptor *)bg));
     }
 }

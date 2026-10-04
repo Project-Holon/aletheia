@@ -80,8 +80,9 @@ extern const ResSpec3 d_021F35D4;
 
 extern void func_021F30D4(Work *p, ResList *out, const ResSpec *spec, void *arc);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_020216B4(u32 a, void *h, u32 b, u32 heap, u32 c, u32 d, u32 e);
-extern void func_02021640(u32 a, u32 b, u32 c, u32 heap, u32 d, u32 e, u32 f);
+struct PalAnmSlot;
+extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;
@@ -106,8 +107,8 @@ void func_021F2D20(Work *p, void *h)
     func_021F30D4(p, p->l164, b.s, h);
     c = d_021F35C8;
     func_021F30D4(p, p->l14c, c.s, h2);
-    func_020216B4(p->fac, h, 0, p->heap, 3, 0x1c0, 0);
-    func_02021640(p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
+    func_020216B4((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
+    func_02021640((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
     p->r3c4.res = func_02049250(h, 4, p->heap2);
     func_02062A98(p->r3c4.res, &p->r3c4.hdr);
     p->r3c4.data = *(u32 *)(p->r3c4.hdr + 0xc);

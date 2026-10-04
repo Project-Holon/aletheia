@@ -26,10 +26,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056BC(void);
-extern u32 func_0202EE30(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 
 void func_021F4FA4(u8 *p)
 {
-    *(u32 *)(p + 0xdf8) = func_0202EE30(func_020056BC(), *(u32 *)(p + 0xd40),
+    *(u32 *)(p + 0xdf8) = (u32)func_0202EE30((void *)func_020056BC(), (void *)(*(u32 *)(p + 0xd40)),
                                         0xf, 0x10, 0x48);
 }

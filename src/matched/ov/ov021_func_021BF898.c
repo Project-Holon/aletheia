@@ -17,8 +17,8 @@
 
 typedef unsigned char u8;
 
-extern void *func_021BE92C(int, int, int, int, int, int, int);
-extern void *func_021BE9A0(int, int, int, int, void (*)(u8 *), int *);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void *func_021BE9A0(void *p, int a1, int a2, int a3, int a4, int a5);
 extern void func_021BF8DC(u8 *);
 
 void *func_021BF898(int *q)
@@ -28,7 +28,7 @@ void *func_021BF898(int *q)
     int b = q[1];
 
     if (c != 0) {
-        return func_021BE9A0(a, b, (u8)q[24], (u8)q[25], func_021BF8DC, q);
+        return func_021BE9A0((void *)a, b, (u8)q[24], (u8)q[25], (int)func_021BF8DC, (int)q);
     }
-    return func_021BE92C(a, b, 1, 1, 1, 0, 0);
+    return (void *)func_021BE92C((void *)a, b, 1, 1, 1, 0, 0);
 }

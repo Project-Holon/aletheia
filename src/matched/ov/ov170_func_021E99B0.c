@@ -45,7 +45,7 @@ extern void func_021ED588(unsigned char *p);
 extern void func_021ECB20(unsigned char *p, int f, int c);
 extern void func_021ED888(char *w, int a);
 extern void func_021EE364(unsigned char *p, int idx, int v);
-extern void func_021EA75C(unsigned char *p);
+extern void func_021EA75C(int p);
 extern void func_021EC61C(unsigned char *p);
 extern void func_021DD1E8(unsigned char *p);
 extern int func_021E01C4(unsigned char *p);
@@ -57,7 +57,7 @@ extern void func_021E072C(unsigned char *p);
 extern void func_021ED75C(unsigned char *p, int i);
 extern void func_021EE008(unsigned char *p, int a, int b);
 extern void func_021ED594(unsigned char *p, unsigned i);
-extern void func_021EA770(unsigned char *p);
+extern void func_021EA770(int p);
 extern void func_021EF68C(char *w);
 extern const unsigned char d_021EFA10[];
 
@@ -81,7 +81,7 @@ int func_021E99B0(unsigned char *p)
         func_021ECB20(p, 1, 1);
         func_021ED888(WORK(p), 0);
         func_021EE364(p, 5, 10);
-        func_021EA75C(p);
+        func_021EA75C((int)p);
         func_021ED588(p);
         return 0x1B;
     case 2:
@@ -117,13 +117,13 @@ int func_021E99B0(unsigned char *p)
         func_021ED594(p, 0x24);
         return 0x15;
     case 4:
-        func_021EA770(p);
+        func_021EA770((int)p);
         func_021EE364(p, 6, p[0x16]);
         func_021EF68C(WORK(p));
         p[0x16] = 0xFF;
         return 0x20;
     case 5:
-        func_021EA770(p);
+        func_021EA770((int)p);
         if (p[0x16] < 0x1E && p[0x14] != p[0x17])
             func_021EC48C(p, p[0x17], p[0x16], HELD_WIN(p));
         else

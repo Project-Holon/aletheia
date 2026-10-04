@@ -55,11 +55,13 @@ int func_02175214(u8 *p);
 u32 func_02174D98(u32 p);
 int func_02174DF0(u8 *p);
 void *func_02012934(const struct BigObj *p);
-void func_0201AC2C(void *h, int v);
-void func_0201A2A8(int a, int v);
+struct Link;
+struct Rec534;
+void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+void func_0201A2A8(void *a0, void *a1);
 struct Entry;
 struct Entry *func_020399A8(void);
-int func_0203D1A4(int a);
+u32 func_0203D1A4(struct Link *p);
 struct Link;
 void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
@@ -72,7 +74,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
     void *h;
 
     p = *(u8 **)(w + 0x355C);
-    idx = func_0203D1A4((int)func_020399A8());
+    idx = func_0203D1A4((struct Link *)((int)func_020399A8()));
     if (func_0217BB20(w) == 1) {
         func_0217F074(w);
         return 1;
@@ -82,15 +84,15 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
         switch (p[0x16d]) {
         case 0:
         default:
-            func_0201AC2C(func_02012934((*(Sys **)w)->f8), ((int *)(p + 0x148))[idx]);
+            func_0201AC2C(func_02012934((*(Sys **)w)->f8), (struct Rec534 *)(((int *)(p + 0x148))[idx]));
             break;
         case 1:
             h = func_0217B9CC(w);
-            func_0201AC2C(h, ((int *)(p + 0x148))[idx]);
+            func_0201AC2C(h, (struct Rec534 *)(((int *)(p + 0x148))[idx]));
             func_0217B9F4(h);
             break;
         }
-        func_0201A2A8(*(int *)(w + 0x352C), ((int *)(p + 0x148))[idx]);
+        func_0201A2A8((void *)(*(int *)(w + 0x352C)), (void *)(((int *)(p + 0x148))[idx]));
         (*state)++;
         break;
     case 1:

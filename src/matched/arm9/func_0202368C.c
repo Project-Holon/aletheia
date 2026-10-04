@@ -55,7 +55,7 @@ extern void func_02022D98(void *p, struct Container *c);
 extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9);
 extern int func_02022E88(int a0, int a1, int a2, int a3);
 extern void func_02022AD0(struct ctl *ctl);
-extern void func_02022518(u32 a0, Ctx *a1, void *a2, u32 a3, u32 s5);
+extern void func_02022518(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
 void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3,
                    u32 s5, u32 s6, u32 s7, u32 s8)
@@ -93,5 +93,5 @@ void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3,
     } else {
         func_02022E88(s6, 2, s5, ctx->h2c);
     }
-    func_02022518(ctx->h34, ctx, func_02022AD0, s5, s8);
+    func_02022518(ctx->h34, (u32)ctx, (u32)func_02022AD0, s5, s8);
 }

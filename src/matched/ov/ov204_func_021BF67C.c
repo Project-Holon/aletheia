@@ -27,7 +27,8 @@ extern void *func_020159C8(void *, unsigned int, unsigned int, unsigned int, voi
 extern void func_02015CAC(void *, void *);
 extern void func_02015E04(void *);
 extern unsigned int func_0203F0A8(void);
-extern void func_021BF7F0(void *, void *);
+typedef unsigned char  u8;
+extern void func_021BF7F0(u8 *p);
 extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
 
 void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i)
@@ -45,5 +46,5 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
     *(unsigned int *)(p + off + 12) = 0;
     *(unsigned int *)(p + off + 16) = 1;
     *(unsigned int *)(p + 104) = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;
-    func_02015F2C(*(void **)(base + off), base + off, func_021BF7F0, 0);
+    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }

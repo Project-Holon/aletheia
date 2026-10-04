@@ -16,7 +16,8 @@
 typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern unsigned func_0201D304(void *, void *, int);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7D0(void *, short, short, void *, void *, unsigned short);
 extern const unsigned short d_021BAB40[];
 void func_021BA4AC(char *p, unsigned char *q, void *s, int y)
@@ -27,10 +28,10 @@ void func_021BA4AC(char *p, unsigned char *q, void *s, int y)
     if (*(unsigned short *)(q + 0xa) == 0) {
         x = *(short *)(q + 0xc) + *(short *)(q + 0xe);
     } else if (*(unsigned short *)(q + 0xa) == 1) {
-        w = func_0201D304(*(void **)(p + 0xb4), *(void **)(p + q[9] * 4 + 0xa8), 0);
+        w = func_0201D304(*(void **)(p + 0xb4), (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
         x = *(short *)(q + 0xc) + *(short *)(q + 0xe) - w;
     } else if (*(unsigned short *)(q + 0xa) == 2) {
-        w = func_0201D304(*(void **)(p + 0xb4), *(void **)(p + q[9] * 4 + 0xa8), 0);
+        w = func_0201D304(*(void **)(p + 0xb4), (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
         x = *(short *)(q + 0xc) + *(short *)(q + 0xe) - w / 2;
     }
     func_0201C7D0(s, x, y, *(void **)(p + 0xb4), *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);

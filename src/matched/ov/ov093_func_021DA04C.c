@@ -27,13 +27,13 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int func_021D775C(int a);
-extern void *func_021C7CF4(int a, int b);
-extern void func_021C88B4(int a, int k, int b);
+extern void *func_021C7CF4(int *p, int i);
+extern void func_021C88B4(void *a, int k, int b);
 extern void *func_021C88A4(int a, int k, int b);
 typedef struct { int x; } S;
 extern int func_021E8A78(S a);
 extern void func_021D7DC0(int a, void *b, void *out);
-extern void func_021C88C8(int a, void *p);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021DA04C(int a, int b, int c)
 {
@@ -51,9 +51,9 @@ void func_021DA04C(int a, int b, int c)
     k = func_021D775C(3);
     if (k == 0x1f || k == c)
         return;
-    s = func_021C7CF4(b, c);
+    s = func_021C7CF4((int *)b, c);
     t.x = func_021D775C(0x1e);
-    func_021C88B4(b, 2, c);
+    func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 0xc, c);
     p[0xf] = k;
     *(u32 *)(p + 4) = m;
@@ -62,6 +62,6 @@ void func_021DA04C(int a, int b, int c)
     else
         func_021D7DC0(m, s, p + 8);
     p[0xc] = 1;
-    func_021C88C8(b, p);
-    func_021C88B4(b, 3, c);
+    func_021C88C8((void *)b, p);
+    func_021C88B4((void *)b, 3, c);
 }

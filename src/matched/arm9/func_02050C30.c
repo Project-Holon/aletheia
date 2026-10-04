@@ -55,8 +55,9 @@ extern Vec3 g_020A1578;
 extern const u32 g_020A15A8[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_02051648(void *this, void *src, u32 a2, void *a3, void *a4,
-                           void *a5, u32 a6);
+struct Dst648;
+struct Src648;
+extern void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 extern u32   func_02052DC8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  MI_CpuFill8(void *dst, u32 v, u32 n);
 
@@ -104,7 +105,7 @@ void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
     g_02146A88[i] = (u32)e;
 
     if (a2 == 1)
-        func_02051648(e, 0, 0x2000, 0, 0, 0, heap);
+        func_02051648((struct Dst648 *)e, 0, 0x2000, 0, 0, 0, heap);
 
     e->f00 = func_02052DC8(g_020A15A8[i], 0x18, 0xc8, (u16)a3, (u16)a4, (u16)a5);
     return e;

@@ -13,7 +13,7 @@
  *   func_0200F7B8 0x0200F7B8 thumb
  */
 extern int func_02213754(int);
-extern int func_02213800(int);
+extern int func_02213800(char *p);
 extern void func_0200F7B8(int);
 int func_022126F4(int unused,int *state,int unused2,char *p)
 {
@@ -22,7 +22,7 @@ int func_022126F4(int unused,int *state,int unused2,char *p)
         if(func_02213754(*(int *)(p+0x18))) *state=1;
         if(*(int *)(p+0x1cc)) --*(int *)(p+0x1cc);
         {
-            int x=func_02213800(*(int *)(p+0x18));
+            int x=func_02213800((char *)(*(int *)(p+0x18)));
             if(x==2 || x==0) func_0200F7B8(0);
         }
         break;

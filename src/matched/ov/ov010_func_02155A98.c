@@ -91,7 +91,8 @@ struct U16Vec;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_02012EBC(struct Big *p);
-extern void *func_02012138(void *p);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *list, u32 i);
@@ -105,7 +106,7 @@ extern u8 func_0200A7C8(struct Big *p);
 extern void func_021F68BC(void *p, void *a, void *b, u16 c, u32 d);
 extern u8 *func_02012944(void *p);
 extern void *func_020185F0(void *p);
-extern void func_021FC848(void *sess, void *a, void *b, void *c, void *d, u32 heap);
+extern void func_021FC848(u8 *p, void *a, void *b, int unused, void *d, u16 heap);
 extern u16 func_0200A81C(struct Big *p);
 extern u32 func_02005728(u32 n);
 extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
@@ -124,7 +125,7 @@ void *func_02155A98(void *a, void *b, u32 c, u32 d, struct Link *link)
     s->f04 = b;
     s->f14 = d;
     s->f1c = func_02012EBC(b);
-    s->f20 = func_02012138(a);
+    s->f20 = (void *)func_02012138(a);
     s->link = link;
     s->link->owner = s;
     s->f28 = link->sess;
@@ -145,7 +146,7 @@ void *func_02155A98(void *a, void *b, u32 c, u32 d, struct Link *link)
     if (s->f14 == 1) {
         s->state = 11;
         s->f10 = 0;
-        func_021FC848(s->f28, func_02012944(s->f04), func_020185F0(s->f18), s->f20, s->f24, 4);
+        func_021FC848(s->f28, func_02012944(s->f04), func_020185F0(s->f18), (int)s->f20, s->f24, 4);
     } else {
         u16 lim = func_0200A81C(s->f40);
         u8 i;

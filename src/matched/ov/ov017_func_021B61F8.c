@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0207D534(u32, int);
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_020808F4(void);
 extern void func_020809A0(void);
 extern void func_0207FDCC(int);
@@ -35,8 +35,8 @@ extern void func_021B6368(int);
 
 void func_021B61F8(int a)
 {
-    func_0207D534(0x0400006C, -16);
-    func_0207D534(0x0400106C, -16);
+    func_0207D534((volatile u16 *)0x0400006C, -16);
+    func_0207D534((volatile u16 *)0x0400106C, -16);
     func_020808F4();
     func_020809A0();
     func_0207FDCC(4);
@@ -49,6 +49,6 @@ void func_021B61F8(int a)
     R16(0x04000050) = 0;
     func_021B6298();
     func_021B6368(a);
-    func_0207D534(0x0400006C, 0);
-    func_0207D534(0x0400106C, 0x10);
+    func_0207D534((volatile u16 *)0x0400006C, 0);
+    func_0207D534((volatile u16 *)0x0400106C, 0x10);
 }

@@ -14,8 +14,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0201ADE4(u32 a, int b, u32 c);
-extern u32  func_0201AE1C(u32 h, u32 n);
-extern void func_0201AE14(u32 h);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern void func_0201AE14(void *p);
 
 void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
 {
@@ -29,7 +30,7 @@ void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
     v = (u32)func_0201ADE4((u16)a, (u16)b, d);
 
     if (t != 0) {
-        *out = func_0201AE1C(v, 0x14);
+        *out = func_0201AE1C((const struct Personal *)v, 0x14);
         if (t == 1)
             *out = *out + 2;
         else
@@ -41,5 +42,5 @@ void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
     else if (u == 2)
         *out |= (u32)1;
 
-    func_0201AE14(v);
+    func_0201AE14((void *)v);
 }

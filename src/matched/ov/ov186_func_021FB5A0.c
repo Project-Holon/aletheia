@@ -15,10 +15,12 @@
  */
 
 extern void func_0204B84C(int, unsigned int);
-extern void func_02025A0C(int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02025A0C(u8 *g, u32 a);
 
 void func_021FB5A0(int *p, int b)
 {
     func_0204B84C(p[0], b);
-    func_02025A0C(p[1], b);
+    func_02025A0C((u8 *)p[1], b);
 }

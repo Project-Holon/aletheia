@@ -19,8 +19,10 @@ typedef unsigned short u16;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *,void *);
 extern void *func_0215A5E4(void *a0);
-extern int func_02012F08(void *);
-extern int func_0200C234(int,int);
+typedef unsigned int   u32;
+struct Blk34;
+extern void *func_02012F08(int *p);
+extern u32 func_0200C234(struct Blk34 *p, u32 bit);
 int func_0215AC3C(int a,int b)
 {
     u16 *out = func_02159AE8((void *)a,(void *)b);

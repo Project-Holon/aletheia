@@ -119,7 +119,8 @@ typedef struct {
 extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0202223C(u32 a, u32 b);
-extern void func_02022224(u32 a);
+struct PmsDraw;
+extern u32 func_02022224(void *win);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern Work *func_0203159C(void *man, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
@@ -129,11 +130,11 @@ extern signed char func_02012FFC(void);
 extern int func_0203D1B4(void);
 extern void func_0203F8F4(u16 heap);
 extern void func_020433E0(const void *cfg);
-extern void *func_0202DB0C(void *a, u32 b, void *c, void *d, u32 e, u32 f, u32 heap);
+extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), void *ctx, int pri);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0203D34C(u32 a, u32 b);
-extern void func_0202208C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021C41C4(Work *p);
 extern void func_021C43E8(void);
 extern void func_021C453C(Work *p);
@@ -160,7 +161,7 @@ int func_021C3CC0(void *man, int *state, Args *args)
     func_0202223C(0, 0);
     func_0202223C(1, 0);
     func_02022224(0);
-    func_02022224(1);
+    func_02022224((void *)1);
     func_0203064C(1, 0x27, 0x50000);
     p = func_0203159C(man, sizeof(Work), 0x27);
     func_02082BCC(p, 0, sizeof(Work));
@@ -197,7 +198,7 @@ int func_021C3CC0(void *man, int *state, Args *args)
     func_021C6804(p, p->args->info);
     func_021C6E8C(&p->anim);
     func_021C6000(p);
-    p->f32B0 = func_0202DB0C(p->anim.f4, 1, p->f32CC, p->f31FC, 8, 1, 0x27);
+    p->f32B0 = func_0202DB0C((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);
     func_021C6D98(p, p->bg[4], 1, p->f320C);
     if (p->args->f14 == 2) {
         p->args->f14 = 0;
@@ -222,6 +223,6 @@ int func_021C3CC0(void *man, int *state, Args *args)
     p->f31F4 = func_020056A0(func_021C581C, p, 1);
     p->f31F8 = func_0203101C(p->heap, p->heap, 3, 0);
     func_0203D34C(1, p->heap);
-    func_0202208C(1, 3, 3, 0, 6, 1, p->heap);
+    func_0202208C((void *)1, 3, 3, 0, 6, 1, p->heap);
     return 1;
 }

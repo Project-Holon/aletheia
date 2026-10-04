@@ -16,14 +16,14 @@
  * func_021DF1BC accepts returns i + 0x1e, else 0xff.
  */
 
-extern int func_021DF1BC(void *, int, int *);
+extern int func_021DF1BC(int a, int b, unsigned char *r);
 
 
 int func_021DF228(void *p, int a, int *b)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        if (func_021DF1BC(p, a, b + i) == 1)
+        if (func_021DF1BC((int)p, a, (unsigned char *)(b + i)) == 1)
             return i + 0x1e;
     return 0xff;
 }

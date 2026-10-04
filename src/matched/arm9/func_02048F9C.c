@@ -39,7 +39,9 @@ extern void func_02078C18(struct ArcFile *f, const char *path);
 extern u32 func_02048E34(struct ArcFile *f, u32 a, u32 b, u32 c);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02078B70(struct ArcFile *f, void *dst, u32 size);
+typedef signed int     s32;
+struct FSFile;
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern void func_02078A80(struct ArcFile *f);
 
 void *func_02048F9C(const char *path, u32 a, u32 heap)
@@ -52,7 +54,7 @@ void *func_02048F9C(const char *path, u32 a, u32 heap)
     func_02078C18(&file, path);
     size = func_02048E34(&file, a, 0, 0);
     p = func_02030734(heap, size, 0, func_02048F9C_File, 0x182);
-    func_02078B70(&file, p, size);
+    func_02078B70((struct FSFile *)(&file), p, size);
     func_02078A80(&file);
     return p;
 }

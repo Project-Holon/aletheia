@@ -32,8 +32,9 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02158DB0(int);
 extern int func_0201EC74(int, int, int);
-extern int func_020457B0(int, int);
-extern int func_0215A514(void *, int);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_0215A514(int a, int heap);
 extern void func_02158E54(void *, int);
 extern void func_02159130(void);
 extern char d_0217289C[];
@@ -52,14 +53,14 @@ int *func_02158E7C(u16 a, int b, int c, u16 d, int e, int f)
     p[9] = func_02158DB0(f);
     if (p[9] == 0) {
         p[11] = func_0201EC74(0x1C, 0x40, a);
-        p[12] = func_020457B0(0x500, a);
-        p[13] = func_020457B0(0x500, a);
+        p[12] = (int)func_020457B0(0x500, a);
+        p[13] = (int)func_020457B0(0x500, a);
     } else {
         p[11] = 0;
         p[12] = 0;
         p[13] = 0;
     }
-    p[0x52] = func_0215A514(p, a);
+    p[0x52] = (int)func_0215A514((int)p, a);
     func_02158E54(p + 6, b);
     if (p[9] == 0)
         func_02159130();

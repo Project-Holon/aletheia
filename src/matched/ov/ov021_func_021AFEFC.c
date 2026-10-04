@@ -26,9 +26,12 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void *func_02158F54(void *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02011330();
+typedef unsigned short u16;
+struct Evt;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern u32 func_02012104(const struct Ctx *p);
-extern int func_02012374();
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void *func_021854B0();
@@ -47,16 +50,16 @@ int func_021AFEFC(int a0, int a1)
 
     h = (void *)func_02158F54(func_0215A5F4((void *)a1));
     a = func_0201210C(h);
-    b = func_02011330(a0);
-    c = func_02011330(a0);
-    d = func_02011330(a0);
-    e = func_02011330(a0);
-    f = func_02011330(a0);
+    b = func_02011330((struct Stream *)a0);
+    c = func_02011330((struct Stream *)a0);
+    d = func_02011330((struct Stream *)a0);
+    e = func_02011330((struct Stream *)a0);
+    f = func_02011330((struct Stream *)a0);
     func_021A3074(func_02188CB4((void *)a));
     arr[0] = c << 16;
     arr[1] = d << 16;
     arr[2] = e << 16;
     w = func_02012104(h);
-    func_02012374(w, func_021854B0(h, a, b, arr, f));
+    func_02012374((struct Evt *)w, func_021854B0(h, a, b, arr, f));
     return 1;
 }

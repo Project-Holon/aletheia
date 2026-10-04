@@ -48,16 +48,17 @@ extern int func_02034AC4(s32 handle);
 extern void func_02043534(u32 a);
 extern void func_020435F4(u32 a);
 extern void func_0204363C(u32 a);
-extern void func_0207D534(u32 reg, int v);
-extern int func_0200CA70(u32 a);
+struct Blk37;
+extern void func_0207D534(volatile u16 *reg, int brightness);
+extern u32 func_0200CA70(struct Blk37 *p);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_021BC3D4(void);
 extern void func_021BC3F0(void);
 extern void func_021BC5DC(void);
 extern void func_021BC940(u8 *p);
 extern void func_021BE368(u8 *p);
-extern void func_021BED2C(u8 *p);
-extern void func_021BC9D0(u8 *p);
+extern void func_021BED2C(int p);
+extern void func_021BC9D0(int p);
 extern void func_021BCA20(u8 *p);
 extern void func_021BCDA4(u8 *p);
 extern void func_021BC790(u8 *p);
@@ -83,9 +84,9 @@ u32 func_021BCF8C(u8 *p)
     *(volatile u16 *)rb = z;
     func_0204363C(0);
     m = -16;
-    func_0207D534(ra + 0x1c, m);
-    func_0207D534(rb + 0x1c, m);
-    if (func_0200CA70(*(u32 *)(*(u8 **)p + 4)) == 1) {
+    func_0207D534((volatile u16 *)(ra + 0x1c), m);
+    func_0207D534((volatile u16 *)(rb + 0x1c), m);
+    if (func_0200CA70((struct Blk37 *)(*(u32 *)(*(u8 **)p + 4))) == 1) {
         *(u8 *)(*(u8 **)(*(u8 **)p + 8)) = z;
     } else {
         *(u8 *)(*(u8 **)(*(u8 **)p + 8)) = 1;
@@ -95,8 +96,8 @@ u32 func_021BCF8C(u8 *p)
     func_021BC5DC();
     func_021BC940(p);
     func_021BE368(p);
-    func_021BED2C(p);
-    func_021BC9D0(p);
+    func_021BED2C((int)p);
+    func_021BC9D0((int)p);
     func_0203D34C(1, 0x7b);
     func_021BCA20(p);
     func_021BCDA4(p);

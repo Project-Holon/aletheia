@@ -20,14 +20,17 @@ typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *);
-extern int func_0202E940(int, int, int, int);
-extern void func_0202E9AC(int, void *, int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CodeIn;
+extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
+extern void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 
 void func_021BAC24(char *p)
 {
     void *h;
     h = func_020490F4(0x23, 0x800B);
-    *(int *)(p + 0x11c) = func_0202E940(0x20, 0x10, 2, 0xb);
-    func_0202E9AC(*(int *)(p + 0x11c), h, 4, 0x20, 0x30);
+    *(int *)(p + 0x11c) = (int)func_0202E940(0x20, 0x10, 2, 0xb);
+    func_0202E9AC((struct CodeIn *)(*(int *)(p + 0x11c)), h, 4, 0x20, 0x30);
     func_02049238(h);
 }

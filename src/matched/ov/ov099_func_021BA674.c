@@ -28,7 +28,9 @@ typedef struct {
 
 extern const u16 d_021C2878[];
 extern u16 *func_021BA764(S *s, int i);
-extern void func_02061CA4(int type, int addr, void *data, int size);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021BA674(S *s)
 {
@@ -45,7 +47,7 @@ void func_021BA674(S *s)
         }
         for (i = 0; i < 4; i++) {
             if (s->f8 & (1 << i)) {
-                func_02061CA4(0xf, (i + 1) * 2 + 0xe0, func_021BA764(s, k), 2);
+                func_02061CA4((void *)0xf, (i + 1) * 2 + 0xe0, (u32)func_021BA764(s, k), 2);
             }
         }
     }

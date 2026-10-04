@@ -79,7 +79,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern int func_0204ABF0(void * a, int b, int c, int d, u16 e);
-extern void *func_021F86E0(void);
+extern int func_021F86E0(void);
 extern u32 func_0204AEF4(int, int);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020275E4(void);
@@ -91,7 +91,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_020276B4(void);
 extern void func_02022004(unsigned, unsigned, u16, unsigned, unsigned);
 extern void func_02049238(void *);
-extern void *func_02049E74(void *, unsigned int, int, void *, unsigned short);
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u16 func_02005C44(void);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
@@ -117,18 +117,18 @@ Obj *func_02206BC8(int a, u16 heap)
     s->f00 = func_0204B100(0x28, 0, s->heap);
     for (i = 0; i < 6; i++) {
         s->f18[i] = func_0204ABF0(s->h04, 0xa2, 0, (u16)(i * 0x20), s->heap);
-        func_020216D4(func_021F86E0(), 2, (u16)(func_0204AEF4(s->f18[i], 0) >> 1), 0x20);
+        func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(s->f18[i], 0) >> 1), 0x20);
     }
     arc = func_020490F4(func_020275E4(), (s->heap & 0x7fff) | 0x8000);
     s->f30 = func_0204A6C8(arc, func_020276B8(), 0, 0, s->heap);
     s->f34 = func_0204AF28(arc, func_020276BC(1), func_020276C0(1), s->heap);
     s->f38 = func_0204ABF0(arc, func_020276B4(), 0, 0x100, s->heap);
     s->f3c = func_0204ABF0(arc, func_020276B4(), 0, 0x120, s->heap);
-    func_020216D4(func_021F86E0(), 2, (u16)(func_0204AEF4(s->f38, 0) >> 1), 0x20);
-    func_020216D4(func_021F86E0(), 2, (u16)(func_0204AEF4(s->f3c, 0) >> 1), 0x20);
+    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(s->f38, 0) >> 1), 0x20);
+    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(s->f3c, 0) >> 1), 0x20);
     func_02022004((unsigned)func_021F86E0(), 2, 0x200, 8, 0);
     func_02049238(arc);
-    s->f10 = func_02049E74((void *)s->h04, 0xa4, 0, &hdr, s->heap);
+    s->f10 = func_02049E74((void *)s->h04, 0xa4, 0, (u32)(&hdr), s->heap);
     s->f14 = *(int *)(hdr + 0x14);
     s->f08 = a;
     s->f444 = func_02005C44();

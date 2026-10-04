@@ -48,7 +48,8 @@ typedef struct S {
 } S;
 extern u32 func_021BC0E4(u32 a, u32 b);
 extern int func_021BC0B0(int v);
-extern u32 func_0204A6C8(u32 a, u32 b, u32 c, u32 d, u32 e);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pt, u16 f, u16 g);
 struct Actor;
@@ -71,9 +72,9 @@ void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
     v = func_021BC0E4(a, b);
     if (v == 0xFFFF) {
         w = p->f1d8;
-        p->a174[idx] = func_0204A6C8(w, func_021BC0B0(a), 1, flag, p->id);
+        p->a174[idx] = func_0204A6C8((void *)w, func_021BC0B0(a), 1, flag, p->id);
     } else {
-        p->a174[idx] = func_0204A6C8(p->f1dc, v, 1, flag, p->id);
+        p->a174[idx] = func_0204A6C8((void *)p->f1dc, v, 1, flag, p->id);
     }
     pt.x = 0x78;
     pt.y = p->f1b4 + 0x58;

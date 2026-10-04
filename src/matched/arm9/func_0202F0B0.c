@@ -27,9 +27,10 @@ typedef unsigned int  u32;
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32 a, u32 b);
-extern void func_020439A0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g,
-                          u32 h, u32 i);
+struct Bmp;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void func_02045334(struct Descriptor *a);
 
 void func_0202F0B0(u8 *p)
@@ -38,8 +39,8 @@ void func_0202F0B0(u8 *p)
         return;
 
     if (*(u8 *)(p + 0x13) == 0) {
-        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 8)), *(u8 *)(p + 0x12));
-        func_020439A0(*(u32 *)(p + 0xC), (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 8)), 0,
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 8))), *(u8 *)(p + 0x12));
+        func_020439A0((struct Bmp *)(*(u32 *)(p + 0xC)), (struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 8))), 0,
                       (u32)*(u8 *)(p + 0x15) << 4, 0, 0, 0x10, 0x10, 0);
         func_02045334((struct Descriptor *)*(u32 *)(p + 8));
 

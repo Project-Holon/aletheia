@@ -25,7 +25,8 @@ extern void func_021BF580(void *);
 extern int func_02028604(int);
 extern void func_02045808(struct U16Vec *);
 extern void func_0201D83C(void *);
-extern unsigned func_0201CE48(unsigned);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_020452E8(struct Descriptor *);
 extern void func_02031140(struct S02031140 *);
 struct PrintSys;
@@ -43,7 +44,7 @@ void func_021BF1A4(char *p)
     func_02045808(*(struct U16Vec **)(p + 0x40));
     func_0201D83C(*(void **)(p + 0x10));
     if (*(unsigned *)(p + 0x14) != 0)
-        func_0201CE48(*(unsigned *)(p + 0x14));
+        func_0201CE48((struct Rec3 *)(*(unsigned *)(p + 0x14)));
     func_020452E8(*(struct Descriptor **)(p + 0x1c));
     if (*(void **)(p + 0x38))
         func_020452E8(*(struct Descriptor **)(p + 0x38));

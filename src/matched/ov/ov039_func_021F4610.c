@@ -50,11 +50,12 @@ extern int func_02188D2C(int *p);
 extern Work *func_021897BC(void *p, int idx);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern u32 func_02188C80(void *p);
-extern unsigned int func_020120F4(unsigned int);
-extern unsigned int func_02012EC4(unsigned int);
+struct Big;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(unsigned int, unsigned int);
 extern int func_02158780(void *p, int b, int c, int d, u16 e);
-extern void func_021587B0(void *a, u32 id, u32 b, u32 c);
+extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
 extern int func_021F3DE4(void *p, u8 delta, u16 i);
 extern void func_021BE6B0(unsigned char *p, int v);
@@ -76,7 +77,7 @@ int func_021F4610(void *a0, int *a1)
     c = (u8)(s->sel >> 1);
     j = c;
     o = func_021BE674((char *)h, 0, j, 0);
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))), 2);
+    func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
     switch (*a1) {
     case 0:
         func_02158780(a0, 0xF, 0, 0, 0x8015);
@@ -110,7 +111,7 @@ int func_021F4610(void *a0, int *a1)
         s->timer[c] = 0;
         s->slot[c] = -1;
         s->sel = 0xff;
-        func_021587B0(a0, 8, 0, 0x8015);
+        func_021587B0((int)a0, 8, 0, 0x8015);
         *a1 = *a1 + 1;
         break;
     case 5:

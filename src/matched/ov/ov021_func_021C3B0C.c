@@ -17,11 +17,11 @@
 
 typedef unsigned int u32;
 
-extern void *func_021C3BB0(void *a);
+extern int func_021C3BB0(u32 a);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
 void func_021C3B0C(void *a, u32 *out)
 {
-    if (func_02017E1C(func_021C3BB0(a), 5, 0) == 0x1EA)
+    if (func_02017E1C((void *)func_021C3BB0((u32)a), 5, 0) == 0x1EA)
         *out = 0x1E9;
 }

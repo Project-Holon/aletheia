@@ -23,9 +23,10 @@ extern const int d_02200358[];
 extern void func_021FAD18(char *,int,const int *);
 extern int func_021FAD74(char *),func_021FAF24(char *,int);
 extern void func_021FA21C(unsigned char *,int);
-extern void *func_021FD12C(void *,int,unsigned);
-extern void func_021FD170(void *,void *,int);
-extern void func_021FD73C(void *,void *);
+typedef unsigned short u16;
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
+extern void func_021FD73C(int *p, int v);
 extern void func_021FA6A8(void *,int *,unsigned char *);
 extern void func_021FAA34(void *,int *,int *);
 void func_021FA7FC(void *p,int *state,unsigned char *ctx)
@@ -49,14 +50,14 @@ void func_021FA7FC(void *p,int *state,unsigned char *ctx)
   kind=func_021FAF24(entry,0);
   value=func_021FAF24(entry,2);
   if(kind==1){
-   if(!*(void **)(ctx+0x50))*(void **)(ctx+0x50)=func_021FD12C(*(void **)(ctx+4),*(int *)(ctx+0x4c),*(unsigned short *)ctx);
-   func_021FD170(*(void **)(ctx+0x50),*(void **)(ctx+4),value);
+   if(!*(void **)(ctx+0x50))*(void **)(ctx+0x50)=func_021FD12C((int)(*(void **)(ctx+4)),(void *)(*(int *)(ctx+0x4c)),*(unsigned short *)ctx);
+   func_021FD170(*(void **)(ctx+0x50),*(void **)(ctx+4),(void *)value);
   }
   *state=3;break;
  case 3:
   switch(*(unsigned *)(ctx+0x1c)){
-  case 0:case 1:func_021FD73C(p,func_021FA6A8);break;
-  default:func_021FD73C(p,func_021FAA34);break;
+  case 0:case 1:func_021FD73C(p,(int)func_021FA6A8);break;
+  default:func_021FD73C(p,(int)func_021FAA34);break;
   }
   break;
  }

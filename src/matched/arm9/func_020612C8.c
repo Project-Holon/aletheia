@@ -45,7 +45,8 @@ struct Obj020612C8 {
     struct Inner020612C8 *inner;
 };
 
-extern int func_0206123C(void *p);
+struct Big0206123C;
+extern void *func_0206123C(struct Big0206123C *o);
 
 int func_020612C8(struct Obj020612C8 *o, u32 i)
 {
@@ -54,5 +55,5 @@ int func_020612C8(struct Obj020612C8 *o, u32 i)
     if (i > p->unk28) {
         return 0;
     }
-    return func_0206123C(p);
+    return (int)func_0206123C((struct Big0206123C *)p);
 }

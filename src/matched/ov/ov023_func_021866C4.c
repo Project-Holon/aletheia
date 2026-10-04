@@ -20,13 +20,16 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_02012EBC(u32 a);
-extern u32 func_0200ED48(u32 a);
-extern u32 func_02184180(u32 a, u32 b);
+struct Big;
+struct L0200ED54;
+struct Sub0200852CObj;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200ED48(void *p);
+extern char *func_02184180(unsigned char *p, int i);
 typedef unsigned short u16;
 extern u16 func_02039338(void);
-extern u32 func_02008530(u32 a);
-extern void func_0200ED54(u32 a, u32 b);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 
 void func_021866C4(u32 *p)
 {
@@ -34,12 +37,12 @@ void func_021866C4(u32 *p)
     u32 h;
     u32 r;
 
-    h = func_0200ED48(func_02012EBC(*(u32 *)(p[1] + 4)));
+    h = (u32)func_0200ED48(func_02012EBC((struct Big *)(*(u32 *)(p[1] + 4))));
     for (i = 0; i < 5; i++) {
-        r = func_02184180(*(u32 *)p[1], (u8)i);
+        r = (u32)func_02184180((unsigned char *)(*(u32 *)p[1]), (u8)i);
         if (r != 0) {
             if (i != func_02039338()) {
-                func_0200ED54(h, func_02008530(r));
+                func_0200ED54((struct L0200ED54 *)h, func_02008530((const struct Sub0200852CObj *)r));
             }
         }
     }

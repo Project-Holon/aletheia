@@ -23,18 +23,19 @@ typedef unsigned int u32;
 typedef short s16;
 
 extern unsigned int func_02159B10(void *, void *);
-extern int func_02011330();
-extern int func_0215B4AC();
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern int func_0215B4AC(void *a0, u32 a1, void **a2);
 extern u32 func_02017E1C(void *, u32, u32);
-extern int func_02017E40(int, int, int);
+extern void func_02017E40(void *p, u32 id, u32 v);
 int func_0215B74C(int a0, int a1)
 {
     int a = func_02159B10((void *)a0, (void *)a1);
     int b = func_02159B10((void *)a0, (void *)a1);
-    int mode = func_02011330(a0);
+    int mode = func_02011330((struct Stream *)a0);
     int obj = 0;
     u8 v;
-    if (func_0215B4AC(a1, a, &obj) == 0) {
+    if (func_0215B4AC((void *)a1, a, (void **)(&obj)) == 0) {
         return 0;
     }
     if (func_02017E1C((void *)obj, 0x4C, 0) == 1) {
@@ -64,6 +65,6 @@ int func_0215B74C(int a0, int a1)
         }
         break;
     }
-    func_02017E40(obj, 9, v);
+    func_02017E40((void *)obj, 9, v);
     return 0;
 }

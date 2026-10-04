@@ -20,13 +20,13 @@
  */
 struct Ctx;
 extern void *func_0215A5F4(void *p);
-extern char *func_02158F58(void *p);
+extern int func_02158F58(int a0);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127F0(void *p);
 extern void func_021869BC(void *p);
 int func_02186E94(void *unused, void *p)
 {
-    func_021869BC(func_020127F0(func_020120F4(func_02188C80(*(void **)(func_02158F58(func_0215A5F4(p)) + 4)))));
+    func_021869BC(func_020127F0(func_020120F4(func_02188C80(*(void **)(func_02158F58((int)func_0215A5F4(p)) + 4)))));
     return 0;
 }

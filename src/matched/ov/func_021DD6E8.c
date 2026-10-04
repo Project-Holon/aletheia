@@ -18,19 +18,20 @@
  */
 typedef unsigned int u32;
 
-extern void func_020179B8(void *a, u32 b);
+struct Blk37;
+extern int func_020179B8(int a0, int a1);
 struct Mon;
 extern void *func_0201747C(struct Mon *p, u32 heap);
-extern u32 func_0200CA1C(u32 v);
-extern void func_0200CFA0(u32 v, void *p);
+extern void *func_0200CA1C(void *a);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_020307B0(void *p);
 
 void func_021DD6E8(void **pp, void *a, u32 b)
 {
     void *r;
 
-    func_020179B8(a, b);
+    func_020179B8((int)a, b);
     r = func_0201747C(a, 0x4c);
-    func_0200CFA0(func_0200CA1C(*(u32 *)*pp), r);
+    func_0200CFA0(func_0200CA1C((void *)(*(u32 *)*pp)), r);
     func_020307B0(r);
 }

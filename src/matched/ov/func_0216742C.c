@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021673E0();
+struct Entry32;
+extern u8 func_021673E0(struct Entry32 *list, struct Entry32 *out, u32 cap, u32 start, int count);
 
 int func_0216742C(int a0, int a1, int a2, int a3)
 {
@@ -28,7 +29,7 @@ t4 = a3 + 0;
 a3 = 0xa;
     o4 = a3;
 a3 = 0;
-    a0 = func_021673E0(a0, a1, a2, a3, o4);
+    a0 = func_021673E0((struct Entry32 *)a0, (struct Entry32 *)a1, a2, a3, o4);
 loc_0216743C:
 *(u8 *)((char *)t4) = a0;
 a0 = 0;

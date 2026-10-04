@@ -27,16 +27,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D530();
-extern u32 func_021BB480();
+typedef signed int     s32;
+struct Ctx;
+struct Rec;
+extern void *func_0216D530(void *p);
+extern void *func_021BB480(void *p);
 extern void func_021B7D38();
-extern u32 func_021B7C38();
+extern int func_021B7C38(u8 *o);
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0216DD1C();
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216D55C(int a0, int a1);
 extern void func_0219E334();
-extern int func_021B83B0();
-extern void func_0219E2F4();
+extern int func_021B83B0(const s32 *a, const s32 *b, s32 r);
+extern void func_0219E2F4(void *o, void *out);
 
 u32 func_0219E570(u32 o, u32 k, u32 flag)
 {
@@ -52,23 +55,23 @@ u32 func_0219E570(u32 o, u32 k, u32 flag)
     int z;
 
     st = 0;
-    h = func_021BB480(func_0216D530(o));
+    h = (u32)func_021BB480(func_0216D530((void *)o));
     func_021B7D38(h, k, rec);
-    m = func_0207C768(func_021B7C38(h), 0x4000);
-    while (func_0216DD1C(o, &cur, &st) == 1) {
+    m = func_0207C768(func_021B7C38((u8 *)h), 0x4000);
+    while (func_0216DD1C((struct Ctx *)o, (struct Rec **)(&cur), &st) == 1) {
         lim = 0x4000 >> 1;
         z = (func_0216D55C(cur, lim) == 0);
         if (!z) {
             if (flag) {
                 func_0219E334(cur, tB);
                 func_021B7D38(h, tB, buf);
-                if (func_021B83B0(rec, buf, m)) {
+                if (func_021B83B0((const s32 *)rec, (const s32 *)buf, m)) {
                     return cur;
                 }
             }
-            func_0219E2F4(cur, tA);
+            func_0219E2F4((void *)cur, tA);
             func_021B7D38(h, tA, buf);
-            if (func_021B83B0(rec, buf, m)) {
+            if (func_021B83B0((const s32 *)rec, (const s32 *)buf, m)) {
                 return cur;
             }
         }

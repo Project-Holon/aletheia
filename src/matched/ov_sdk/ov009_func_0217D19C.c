@@ -39,7 +39,7 @@ typedef struct {
 extern void func_0217F0FC(int *lock, int flag);
 extern void func_0217F108(void *mutex);
 extern void func_0217F114(void *mutex);
-extern void func_0217D188(int a, int b, int c, const char *fmt, va_list args);
+extern void func_0217D188(int a, int b, int c, int d, int e);
 extern GSIDebugState g_021AD000;
 extern int g_021AD008[];
 extern unsigned char g_021AD020[][5];
@@ -58,7 +58,7 @@ void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args)
         if (g_021AD000.callback != 0)
             g_021AD000.callback(cat, type, level, fmt, args);
         else
-            func_0217D188(cat, type, level, fmt, args);
+            func_0217D188(cat, type, level, (int)fmt, (int)args);
     }
     func_0217F114(g_021AD008);
 }

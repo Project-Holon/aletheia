@@ -31,14 +31,14 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188D24(u32 a);
-extern void func_021BB990(void *a, u32 b, void *c);
+extern u32 func_02188D24(u8 *p);
+extern int *func_021BB990(int a, int *d, const int *c);
 extern char abs_id_39[];
 extern char d_021F3900[];
 
 int func_021CFA58(void *a, void *b)
 {
     func_0215A5F4(b);
-    func_021BB990(abs_id_39, func_02188D24((u32)func_0201210C((void *)func_0215A5DC(b))), d_021F3900);
+    func_021BB990((int)abs_id_39, (int *)func_02188D24((u8 *)((u32)func_0201210C((void *)func_0215A5DC(b)))), (const int *)d_021F3900);
     return 0;
 }

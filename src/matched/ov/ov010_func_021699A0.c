@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern int func_02169A14(void *p);
+extern u32 func_02169A14(u32 a);
 
 int func_021699A0(void *p)
 {
@@ -42,7 +42,7 @@ int func_021699A0(void *p)
     w[1] = w[0];
     w[2] = w[0];
     func_0206DDA4(0x1b, w, 3);
-    if (func_02169A14(v) == 0)
+    if (func_02169A14((u32)v) == 0)
         r = 0;
     one = 1;
     func_0206DDA4(0x12, &one, 1);

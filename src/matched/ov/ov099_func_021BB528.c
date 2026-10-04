@@ -50,7 +50,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,short,short,void *,void *);
-extern void * func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern unsigned func_021BDD48(char *,void *);
 extern unsigned func_021BDD54(char *,void *);
 extern int func_021BB918(unsigned,unsigned,int *);
@@ -81,7 +81,7 @@ void func_021BB528(char *p,int v)
     func_02045CAC(PTR(0xe0),33,PTR(0xf0));
     func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
     func_0201C7A4(func_02045770(PTR(0x958)),25,0,PTR(0xf8),PTR(0xe8));
-    mon=func_021C23B8(index);
+    mon=(void *)func_021C23B8(index);
     kind=func_021BDD48(p,mon);
     form=func_021BDD54(p,mon);
     message=func_021BB918(kind,form,&unused);

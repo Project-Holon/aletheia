@@ -25,10 +25,10 @@ typedef signed long    s32;
 typedef int BOOL;
 
 extern void func_021BA7D8(void *a);
-extern void sub_0203C2B0(void *a);
+extern int sub_0203C2B0(int a);
 
 void func_021C23C8(void *a, void *b)
 {
     func_021BA7D8(a);
-    sub_0203C2B0(b);
+    sub_0203C2B0((int)b);
 }

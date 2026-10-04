@@ -20,26 +20,27 @@
  *   func_021BDD6C  0x021BDD6C  thumb  ov204
  */
 
-extern int func_021BEF88(int);
-extern void func_021BDD4C(int);
-extern void func_021BDD60(int);
-extern void func_021BF898(int);
-extern void func_021BF610(int);
+typedef unsigned char  u8;
+extern int func_021BEF88(char *p);
+extern void func_021BDD4C(u8 *p);
+extern void func_021BDD60(char *p);
+extern void func_021BF898(char *p);
+extern void func_021BF610(u8 *p);
 extern void func_021BFCE0(int);
-extern void func_021BF9FC(int);
-extern void func_021BDD6C(int);
+extern void func_021BF9FC(char *p);
+extern void func_021BDD6C(char *p);
 
 int func_021BDB30(int a, int b, int c, void *p)
 {
-    if (func_021BEF88(*(int *)((char *)p + 0x14)) == 0) {
+    if (func_021BEF88((char *)(*(int *)((char *)p + 0x14))) == 0) {
         return 1;
     }
-    func_021BDD4C(*(int *)((char *)p + 8));
-    func_021BDD60(*(int *)((char *)p + 8));
-    func_021BF898(*(int *)((char *)p + 0x18));
-    func_021BF610(*(int *)((char *)p + 0x18));
+    func_021BDD4C((u8 *)(*(int *)((char *)p + 8)));
+    func_021BDD60((char *)(*(int *)((char *)p + 8)));
+    func_021BF898((char *)(*(int *)((char *)p + 0x18)));
+    func_021BF610((u8 *)(*(int *)((char *)p + 0x18)));
     func_021BFCE0(*(int *)((char *)p + 0x20));
-    func_021BF9FC(*(int *)((char *)p + 0x1c));
-    func_021BDD6C(*(int *)((char *)p + 8));
+    func_021BF9FC((char *)(*(int *)((char *)p + 0x1c)));
+    func_021BDD6C((char *)(*(int *)((char *)p + 8)));
     return 0;
 }

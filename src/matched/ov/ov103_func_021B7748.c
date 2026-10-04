@@ -19,7 +19,7 @@
  *   func_020306F0 0x020306F0 arm
  */
 typedef unsigned char u8;
-extern void func_021B71C0(int);
+extern void func_021B71C0(void *p);
 extern void func_021B9174(void *p);
 extern void func_021B80E4(u8 *);
 extern void func_021B78EC(u8 *);
@@ -31,7 +31,7 @@ extern void func_020306F0(unsigned int heap);
 int func_021B7748(int a, int b, int c, u8 *p)
 {
     *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
-    func_021B71C0(*(int *)(p + 0xa38));
+    func_021B71C0((void *)(*(int *)(p + 0xa38)));
     func_021B9174(p + 0x198);
     func_021B80E4(p + 0x748);
     func_021B80E4(p + 0x184);

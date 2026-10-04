@@ -59,7 +59,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C58(void *a);
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
-extern void func_021B30C8(Work *w, void *a, void *h);
+extern void func_021B30C8(u32 *p, u32 b, void *h);
 extern int func_0218FE50(u8 *a);
 extern void func_02193060(u32 a);
 extern int func_021B35A4(void *a, u8 *p, u8 c, u8 d);
@@ -96,7 +96,7 @@ int func_021B3158(u32 a, u32 b)
         }
         break;
     case 2:
-        func_021B30C8(w, x, h);
+        func_021B30C8((u32 *)w, (u32)x, h);
         w->state++;
         break;
     case 3:

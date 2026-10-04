@@ -30,9 +30,10 @@ typedef signed int     s32;
 extern u32 func_0218932C(void *a);
 extern u32 func_02189370(void *a);
 extern void func_021893C0(u8 *p);
-extern u32 func_02012844(u32 a);
-extern u32 func_02162458(u32 a);
-extern u32 func_02012984(u32 a);
+struct BigObj;
+extern u32 func_02012844(const struct BigObj *p);
+extern u32 func_02162458(u8 *p);
+extern u8 func_02012984(const struct BigObj *p);
 extern void func_02162438(u32 a, u32 b, u32 c);
 
 u32 func_021892CC(u8 *a)
@@ -43,10 +44,10 @@ u32 func_021892CC(u8 *a)
         func_021893C0(a);
         return 1;
     }
-    h = func_02012844(*(u32 *)(a + 8));
-    if (func_02162458(h) == 0) {
+    h = func_02012844((const struct BigObj *)(*(u32 *)(a + 8)));
+    if (func_02162458((u8 *)h) == 0) {
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-        func_02162438(h, *(u16 *)(a + 0xD8), func_02012984(*(u32 *)(a + 8)));
+        func_02162438(h, *(u16 *)(a + 0xD8), func_02012984((const struct BigObj *)(*(u32 *)(a + 8))));
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     }
     return 0;

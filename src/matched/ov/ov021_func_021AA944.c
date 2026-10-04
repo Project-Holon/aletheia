@@ -57,7 +57,8 @@ typedef struct Self {
     void *f10;
 } Self;
 
-extern char *func_02012A38(void *p);
+struct BigObj;
+extern u32 func_02012A38(const struct BigObj *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_0216D828(void *p, Vec3s *out);
@@ -81,7 +82,7 @@ static inline int same_pos(Ent *e, Vec3s *v)
 int func_021AA944(Self *self)
 {
     void *arg = self->f10;
-    char *base = func_02012A38(self->obj);
+    char *base = (char *)func_02012A38(self->obj);
     Ent *e = (Ent *)(base + 0x10);
     int flag = 0;
     Vec3s v;

@@ -29,23 +29,23 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BE448();
-extern u32 func_021BE4DC();
-extern u32 func_021BE4E0();
-extern u32 func_021BEAF8();
-extern u32 func_021BF658();
-extern u32 func_021BF6A4();
+extern void func_021BE448(void *p);
+extern u32 func_021BE4DC(void *p);
+extern void func_021BE4E0(void *p);
+extern void func_021BEAF8(u8 *p);
+extern void func_021BF658(char *p);
+extern u32 func_021BF6A4(u8 *a0);
 void func_021BE0D0(u32 a0)
 {
-    switch (func_021BE4DC(a0)) {
+    switch (func_021BE4DC((void *)a0)) {
     case 0:
-    func_021BF658(a0);
-    func_021BE4E0(a0);
+    func_021BF658((char *)a0);
+    func_021BE4E0((void *)a0);
     break;
     case 1:
-    if (func_021BF6A4(a0) != 0) {
-    func_021BEAF8(a0);
-    func_021BE448(a0);
+    if (func_021BF6A4((u8 *)a0) != 0) {
+    func_021BEAF8((u8 *)a0);
+    func_021BE448((void *)a0);
     }
     break;
     }

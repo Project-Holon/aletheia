@@ -90,7 +90,7 @@ struct Bmp;
 struct Obj;
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
-extern void *func_0204A7A0(u32 a1, u32 a2, u32 heap);
+extern s32 func_0204A7A0(u32 size, u32 a2, u16 heapId);
 extern u32   func_02025A9C(struct Sys *sys, u32 engine, u32 arg);
 extern struct Obj *func_0204B294(void *a, u32 res, u32 c, u32 d, const void *pt,
                            u16 f, u16 g);
@@ -143,7 +143,7 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
             mode = func_02025A9C(sys, param->f14, engine);
             cell = row + j * 4;
             *(void **)(cell + 0x68) =
-                func_0204A7A0(gModeTable[mode].size, param->f14, sys->f4);
+                (void *)func_0204A7A0(gModeTable[mode].size, param->f14, sys->f4);
             pt.x = (s16)(param->x + (j << 5));
             pt.y = (s16)(param->y + yoff);
             f8 = param->f8;

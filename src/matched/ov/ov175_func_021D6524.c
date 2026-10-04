@@ -25,18 +25,19 @@
 
 typedef unsigned int u32;
 
-extern void func_0200E008(int, int, int);
+typedef unsigned char  u8;
+extern void func_0200E008(u8 *base, int a, int idx);
 
 void func_021D6524(int a, int b, u32 c)
 {
     switch (c) {
     case 1:
     case 4:
-        func_0200E008(a, b, 1);
+        func_0200E008((u8 *)a, b, 1);
         break;
     case 0:
     case 3:
-        func_0200E008(a, b, 2);
+        func_0200E008((u8 *)a, b, 2);
         break;
     }
 }

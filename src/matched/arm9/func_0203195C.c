@@ -30,11 +30,11 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_020307B0(void *p);
-extern void func_020339B4(u32 v);
+extern void func_020339B4(int *p);
 
 void func_0203195C(u8 *p)
 {
-    func_020339B4(*(u32 *)(p + 0x2c));
+    func_020339B4((int *)(*(u32 *)(p + 0x2c)));
     func_020307B0(*(void **)(p + 0x138));
     if (p[0x1d] == 1) {
         func_020307B0(*(void **)(p + 0x34));

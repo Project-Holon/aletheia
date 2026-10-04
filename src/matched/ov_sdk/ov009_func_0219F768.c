@@ -28,13 +28,13 @@ struct SBL {
 	void *ud;
 };
 extern void *func_02184208(void *a, int n);
-extern void func_0218437C(void *a, int n);
+extern void func_0218437C(int a, int b);
 extern void func_0219F738(struct SBL *l, struct SBS *s);
 void func_0219F768(struct SBL *slist, int index)
 {
 	struct SBS *server;
 	server = *(struct SBS **)func_02184208(slist->servers, index);
 	slist->cb(slist, 2, server, slist->ud);
-	func_0218437C(slist->servers, index);
+	func_0218437C((int)slist->servers, index);
 	func_0219F738(slist, server);
 }

@@ -30,7 +30,9 @@ struct Chan {
 };
 
 extern struct Sess g_021B60D8;
-extern void func_021B2848(void *a, void *b, unsigned int c);
+typedef unsigned char  u8;
+struct Msg;
+extern int func_021B2848(u8 *o, struct Msg *p, int n);
 extern int func_021B29A4(void *a, void *b);
 extern int func_021B2958(void *a);
 
@@ -45,7 +47,7 @@ int func_021B20D4(struct Chan *a, unsigned int b, unsigned char *buf, unsigned i
     if (b >= 6)
         return -3;
     buf[4] = z;
-    func_021B2848(a, buf, b & 0xff);
+    func_021B2848((u8 *)a, (struct Msg *)buf, b & 0xff);
     if (b == 0) {
         if (g_021B60D8.f10 == 1 && a->fc == 4) {
             if (func_021B2958(a) == 0)

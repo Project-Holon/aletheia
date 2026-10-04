@@ -27,11 +27,11 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern void func_020751F4(u8 *p, u32 b, u32 c);
+extern void func_020751F4(u32 a, u32 b, u32 c);
 extern void func_020896AC(const void *start, const void *end);
 
 void func_0207524C(u8 *p, u32 len, u32 b, u32 c)
 {
-    func_020751F4(p, b, c);
+    func_020751F4((u32)p, b, c);
     func_020896AC(p, p + len);
 }

@@ -26,13 +26,13 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int func_021D775C(int a);
-extern u8 func_021C7D54(int a, int b, u8 *out);
-extern void *func_021C7CF4(int a, int b);
+extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 /* lo/hi sums are u16 accumulators; a u8 third parameter keeps its reload
    after the +0xf store. */
 extern void *func_021C88A4(int a, int k, int b);
-extern void func_021C88C8(int a, void *p);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021DA32C(int a, int b, u8 c)
 {
@@ -47,13 +47,13 @@ void func_021DA32C(int a, int b, u8 c)
 
     if (c != func_021D775C(2))
         return;
-    n = func_021C7D54(b, c, buf);
+    n = func_021C7D54((u8 *)b, (u8 *)c, buf);
     if (n == 0)
         return;
     lo = 0;
     hi = 0;
     for (i = 0; i < n; i++) {
-        q = func_021C7CF4(b, buf[i]);
+        q = func_021C7CF4((int *)b, buf[i]);
         lo = lo + (u16)func_021D59B4(q, 9);
         hi = hi + (u16)func_021D59B4(q, 0xb);
     }
@@ -67,5 +67,5 @@ void func_021DA32C(int a, int b, u8 c)
     p[0x10] = c;
     *(u32 *)(p + 4) = k;
     p[0xc] = 1;
-    func_021C88C8(b, p);
+    func_021C88C8((void *)b, p);
 }

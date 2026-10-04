@@ -50,11 +50,13 @@ struct Cfg {
     struct { u8 pad[0x14]; u32 f14; } *f04;
 };
 
-extern u32  func_02045740(u32 bg);
-extern u32  func_02045738(u32 bg);
+struct Bmp;
+struct Descriptor;
+extern u8 func_02045740(struct Descriptor *p);
+extern u8 func_02045738(struct Descriptor *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *bg);
-extern u32  func_020437D4(u32 cell);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
 
 void func_020282D8(u32 bg, struct Cfg *cfg, u32 style)
@@ -69,7 +71,7 @@ void func_020282D8(u32 bg, struct Cfg *cfg, u32 style)
     u32 t;
 
     y = 0;
-    if (y >= func_02045740(bg)) {
+    if (y >= func_02045740((struct Descriptor *)bg)) {
         return;
     }
     t = style - 1;
@@ -77,44 +79,44 @@ void func_020282D8(u32 bg, struct Cfg *cfg, u32 style)
     tEdgeA = (t + t * 2 + 10) << 5;
     for (;;) {
         x = 0;
-        if (x >= func_02045738(bg)) {
+        if (x >= func_02045738((struct Descriptor *)bg)) {
             goto nextrow;
         }
         for (;;) {
-        dst = func_020437D4((u32)func_02045770((struct Descriptor *)bg));
-        rowbase = (x + y * func_02045738(bg)) << 5;
+        dst = (u32)func_020437D4((const struct Bmp *)((u32)func_02045770((struct Descriptor *)bg)));
+        rowbase = (x + y * func_02045738((struct Descriptor *)bg)) << 5;
         if (y == 0 && x == 0) {
             src = cfg->f04->f14;
-        } else if (y == 0 && x == func_02045738(bg) - 1) {
+        } else if (y == 0 && x == func_02045738((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + 0x40;
         } else if (y == 0) {
             src = cfg->f04->f14 + 0x20;
-        } else if (y == func_02045740(bg) - 1 && x == 0) {
+        } else if (y == func_02045740((struct Descriptor *)bg) - 1 && x == 0) {
             src = cfg->f04->f14 + 0xc0;
-        } else if (y == func_02045740(bg) - 1 && x == func_02045738(bg) - 1) {
+        } else if (y == func_02045740((struct Descriptor *)bg) - 1 && x == func_02045738((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + (1 << 8);
-        } else if (y == func_02045740(bg) - 1) {
+        } else if (y == func_02045740((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + 0xe0;
-        } else if (style != 0 && x == func_02045738(bg) - 3) {
+        } else if (style != 0 && x == func_02045738((struct Descriptor *)bg) - 3) {
             src = cfg->f04->f14 + tEdgeB;
-        } else if (style != 0 && x == func_02045738(bg) - 2) {
+        } else if (style != 0 && x == func_02045738((struct Descriptor *)bg) - 2) {
             src = cfg->f04->f14 + tEdgeA;
         } else if (x == 0) {
             src = cfg->f04->f14 + 0x60;
-        } else if (x == func_02045738(bg) - 1) {
+        } else if (x == func_02045738((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + 0xa0;
         } else {
             src = cfg->f04->f14 + 0x80;
         }
         MIi_CpuCopy32((const void *)src, (void *)(dst + rowbase), 0x20);
             x++;
-            if (x >= func_02045738(bg)) {
+            if (x >= func_02045738((struct Descriptor *)bg)) {
                 break;
             }
         }
 nextrow:
         y++;
-        if (y >= func_02045740(bg)) {
+        if (y >= func_02045740((struct Descriptor *)bg)) {
             return;
         }
     }

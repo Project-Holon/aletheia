@@ -27,14 +27,15 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BB978();
-extern u32 func_021C0E54();
+struct Ring;
+extern int func_021BB978(char *p, int a1);
+extern u32 func_021C0E54(struct Ring *r);
 extern u32 func_021C0E64();
 void func_021BB94C(u32 a0)
 {
     if (*(u32*)(((u8*)a0) + 344) != 0) {
     if (func_021C0E64(*(u32*)(((u8*)a0) + 24)) == 0) {
-    func_021BB978(a0, func_021C0E54(*(u32*)(((u8*)a0) + 24)));
+    func_021BB978((char *)a0, func_021C0E54((struct Ring *)(*(u32*)(((u8*)a0) + 24))));
     }
     }
 }

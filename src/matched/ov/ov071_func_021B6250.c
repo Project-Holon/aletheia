@@ -44,8 +44,10 @@ typedef struct {
 
 extern Pair d_021BA774[];
 
-extern void *func_02012138(void *);
-extern u8 *func_02158344(void *);
+struct Ctx;
+struct PrintSys;
+extern u32 func_02012138(const struct Ctx *p);
+extern int func_02158344(int a0);
 struct Tcbl;
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_0200FB24(void);
@@ -58,7 +60,7 @@ extern void func_02031348(int h, int id, int a, void *b);
 extern void func_0201DD78(u32, u32, u32);
 extern u32 func_02031330(void *h);
 extern void func_020310C4(struct Tcbl *p);
-extern void func_0201C4E4(int);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0204A600(void);
 
 int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
@@ -69,8 +71,8 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     int s2;
     u8 k;
 
-    h = func_02012138(*pwk);
-    r = func_02158344(h);
+    h = (void *)func_02012138(*pwk);
+    r = (u8 *)func_02158344((int)h);
     switch (*seq) {
     case 0:
         func_0202208C(0, 1, 1, 0, 6, 1, 0x8061);
@@ -141,7 +143,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
         return 1;
     }
     func_020310C4(*(void **)(mywk + 0x18));
-    func_0201C4E4(*(int *)(mywk + 8));
+    func_0201C4E4((struct PrintSys *)(*(int *)(mywk + 8)));
     func_0204A600();
     return 0;
 }

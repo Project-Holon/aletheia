@@ -29,12 +29,13 @@ struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *p);
 extern int func_0216D55C(int a, int b);
-extern int func_0216DB68(int a);
-extern void func_0216D570(int a, int b);
-extern void func_0216D568(int a, int b);
+typedef unsigned int   u32;
+extern int func_0216DB68(void *a0);
+extern void func_0216D570(char *p, u32 v);
+extern void func_0216D568(void *p, u32 v);
 extern int func_02163E58(int a, Vec3 *p, int *out);
 extern void func_0216D89C(int a, Vec3 *p);
-extern int func_0216D854(int a);
+extern int func_0216D854(void *p);
 extern void func_0216D818(int a, int b);
 extern void func_0216D85C(int a, int b);
 
@@ -49,19 +50,19 @@ int func_02164010(int a)
     next = cur;
     if (func_0216D55C(a, 0x2000) != 0)
         return 0;
-    if (func_0216DB68(a) == 1) {
-        func_0216D570(a, 0x1000);
+    if (func_0216DB68((void *)a) == 1) {
+        func_0216D570((char *)a, 0x1000);
         return 0;
     }
     r = func_02163E58(a, &next, &out);
     if (r == 1) {
         cur.v[1] = out;
         func_0216D89C(a, &cur);
-        func_0216D818(a, func_0216D854(a));
+        func_0216D818(a, func_0216D854((void *)a));
         func_0216D85C(a, (s16)((out >> 4) / 4096));
-        func_0216D570(a, 0x1000);
+        func_0216D570((char *)a, 0x1000);
     } else {
-        func_0216D568(a, 0x1000);
+        func_0216D568((void *)a, 0x1000);
     }
     return r;
 }

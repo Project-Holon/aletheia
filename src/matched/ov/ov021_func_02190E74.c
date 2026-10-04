@@ -23,14 +23,15 @@ typedef unsigned int   u32;
 
 extern int func_02190D48(u32 a);
 extern u32 func_02190D2C(u32, u32, u32, u32, u32, u32);
-extern u32 func_02193210(u32);
-extern void func_02045CAC(u32, u32, u32);
+struct MsgBank;
+extern u32 func_02193210(u8 *p);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
 void func_02190E74(u32 *p, u32 b, u32 c, u32 d)
 {
     if (p[1] != 0) {
         func_02190D48(p[1]);
     }
-    func_02045CAC(p[3], d, p[4]);
-    p[1] = func_02190D2C(p[5], p[4], p[0], b, c, func_02193210(p[5] + 0x160));
+    func_02045CAC((struct MsgBank *)p[3], d, (void *)p[4]);
+    p[1] = func_02190D2C(p[5], p[4], p[0], b, c, func_02193210((u8 *)(p[5] + 0x160)));
 }

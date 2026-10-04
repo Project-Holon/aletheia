@@ -24,26 +24,26 @@ typedef unsigned int   u32;
 
 extern void *func_02188CB4(u8 *p);
 extern u16 func_021A3050(u8 *p);
-extern void func_021BED44(void *a, void *b);
-extern void func_021BEDA4(void *a, void *b);
-extern void func_021BEC84(void *a, void *b);
-extern void func_021BECE4(void *a, void *b);
+extern void *func_021BED44(int a, int b);
+extern int func_021BEDA4(int a, int b);
+extern void *func_021BEC84(void *a, u32 b);
+extern void *func_021BECE4(int a, int b);
 
 void func_021BEE24(void *a, void *b)
 {
     switch (func_021A3050(func_02188CB4(b))) {
     case 2:
     default:
-        func_021BED44(a, b);
+        func_021BED44((int)a, (int)b);
         break;
     case 3:
-        func_021BEDA4(a, b);
+        func_021BEDA4((int)a, (int)b);
         break;
     case 0:
-        func_021BEC84(a, b);
+        func_021BEC84(a, (u32)b);
         break;
     case 1:
-        func_021BECE4(a, b);
+        func_021BECE4((int)a, (int)b);
         break;
     }
 }

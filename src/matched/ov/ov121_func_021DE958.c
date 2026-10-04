@@ -51,7 +51,7 @@ extern int func_021C5DB4(void);
 extern int func_021DEF54(char *,int,int);
 extern void func_021DEED8(int,int);
 extern void func_021DEE14(char *,int *,int);
-extern void func_021DEE38(char *,int,int *,int,int);
+extern void func_021DEE38(u32 p, int a, int *state, int b, int c);
 extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DEDC8(void *a, int *state, char *p);
 extern int func_021DEF38(const unsigned *,unsigned);
@@ -78,13 +78,13 @@ void func_021DE958(void *task,int *state,char *p)
         } else {Q(0x730)=1;func_021DEE14(q,state,1);}
         break;
     case 1:
-        if(Q(0x710)) {W(0x17a4)=2;func_021DEE38(q,3,state,7,7);}
+        if(Q(0x710)) {W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);}
         else if(!func_021C5C04(d_021DFBEC,d_021DFBF8,d_021DFBF8)) {
-            W(0x17a4)=2;func_021DEE38(q,4,state,9,9);
+            W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);
         } else *state=3;
         break;
     case 3:
-        if(!func_021C5C38(q,0,10)) {W(0x17a4)=2;func_021DEE38(q,4,state,9,9);}
+        if(!func_021C5C38(q,0,10)) {W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);}
         else func_021DEE14(q,state,2);
         break;
     case 2:
@@ -112,28 +112,28 @@ void func_021DE958(void *task,int *state,char *p)
                 }
             }
             Q(0x724)=i;
-        } else {W(0x17a4)=2;func_021DEE38(q,1,state,8,8);break;}
+        } else {W(0x17a4)=2;func_021DEE38((u32)q,1,state,8,8);break;}
         *state=5;break;
     case 5:
         if(!func_021C5CFC(q+Q(0x724)*0xb0,(char *)Q(0x728),0x1000)) {
-            W(0x17a4)=2;func_021DEE38(q,4,state,9,9);
+            W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);
         } else {
             Q(0x718)=0;d_021DFC00[1]=0;d_021DFC00[3]=0;Q(0x72c)=0;*state=6;
         }break;
     case 6:
         func_021C5AB8();
         if(Q(0x72c)++>7200) {
-            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38(q,3,state,7,7);
+            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);
         }
         if(!d_021DFC00[1]) {
-            if(Q(0x70c)) {W(0x17a4)=2;func_021DEE38(q,3,state,7,7);break;}
+            if(Q(0x70c)) {W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);break;}
             if(func_021C5E14((u32 *)(q+0x71c),(u32 *)(q+0x720))==1) {
                 ratio=Q(0x71c)*100/Q(0x720);
                 if(Q(0x718)!=ratio) Q(0x718)=ratio;
             }
-        } else if(d_021DFC00[3]) {W(0x17a4)=2;func_021DEE38(q,4,state,9,9);}
-        else if(!Q(0x710)) {W(0x17a4)=1;func_021DEE38(q,1,state,8,8);}
-        else {W(0x17a4)=2;func_021DEE38(q,3,state,8,8);}
+        } else if(d_021DFC00[3]) {W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);}
+        else if(!Q(0x710)) {W(0x17a4)=1;func_021DEE38((u32)q,1,state,8,8);}
+        else {W(0x17a4)=2;func_021DEE38((u32)q,3,state,8,8);}
         break;
     case 7:func_021C5DB4();*state=8;break;
     case 8:*state=9;break;
@@ -141,11 +141,11 @@ void func_021DE958(void *task,int *state,char *p)
     case 100:
         func_021C5AB8();
         if(Q(0x72c)++>7200) {
-            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38(q,3,state,9,9);
+            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,9,9);
         }
         if(d_021DFC00[1]) {
             d_021DFC00[1]=0;
-            if(d_021DFC00[3]) {W(0x17a4)=2;func_021DEE38(q,3,state,9,9);}
+            if(d_021DFC00[3]) {W(0x17a4)=2;func_021DEE38((u32)q,3,state,9,9);}
             else *state=Q(0x708);
         } else if(Q(0x70c)) Q(0x710)=1;
         break;

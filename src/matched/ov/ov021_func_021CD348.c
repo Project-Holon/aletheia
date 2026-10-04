@@ -28,10 +28,12 @@ typedef unsigned char u8;
 extern char d_021F5580;
 extern unsigned char abs_id_C2[];
 
-extern int func_020146F8(int a, int b, const void *id, const char *file, void *e);
-extern void func_02012374(int a, int b);
+struct Evt;
+struct U16Vec;
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_021CD3A4(u8 *a, u8 *b);
-extern void func_02045808(int a);
+extern void func_02045808(struct U16Vec *vec);
 
 int func_021CD348(int a, int *st, u8 *c)
 {
@@ -39,13 +41,13 @@ int func_021CD348(int a, int *st, u8 *c)
 
     switch (*st) {
     case 0:
-        r = func_020146F8(*(int *)c, *(int *)(c + 0x10), abs_id_C2, &d_021F5580, c + 0x1c);
-        func_02012374(a, r);
+        r = (int)func_020146F8((char *)(*(int *)c), *(int *)(c + 0x10), (int)abs_id_C2, (int)(&d_021F5580), (int)(c + 0x1c));
+        func_02012374((struct Evt *)a, (struct Evt **)r);
         (*st)++;
         break;
     case 1:
         func_021CD3A4(c, c + 0x1c);
-        func_02045808(*(int *)(c + 0x3c));
+        func_02045808((struct U16Vec *)(*(int *)(c + 0x3c)));
         return 1;
     }
     return 0;

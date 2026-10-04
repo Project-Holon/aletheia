@@ -61,7 +61,7 @@ typedef struct GPIConnection {
 
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 struct GPIInfoCache;
 extern void func_0218BBDC(struct GPIInfoCache *cache, struct GPGetInfoResponseArg *arg);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
@@ -92,7 +92,7 @@ int func_0218D4A4(void **connection, int profile, int checkCache, int blocking,
 
             arg = (GPGetInfoResponseArg *)func_0217EAB0(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4BE4);
+                func_02193734((int *)connection, (int)g_021A4BE4);
                 return 1;
             }
             func_0218BBDC(pProfile->cache, arg);

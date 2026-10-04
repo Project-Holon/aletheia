@@ -55,7 +55,7 @@ extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void func_0200BBD8(struct Obj *p, u16 v);
-extern void func_02012DAC(void *);
+extern int func_02012DAC(int a0);
 extern int func_02012DD0(u8 *p);
 extern void func_0217D1A0(u8 *, int);
 extern void func_0217CEAC(u8 *, int);
@@ -90,7 +90,7 @@ void func_0217CC78(int *a, int *state, u8 *p)
     case 3:
         func_0200B110(*(void **)(p + 0x38), 10, 3);
         func_0200BBD8(func_0200BAC8(func_02012EBC(*(void **)(p + 0x1B8))), 2);
-        func_02012DAC(*(void **)(p + 0x1B8)); *state = 4; break;
+        func_02012DAC((int)(*(void **)(p + 0x1B8))); *state = 4; break;
     case 4:
         switch (func_02012DD0(*(void **)(p + 0x1B8))) {
         case 0: case 1: break;

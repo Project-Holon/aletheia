@@ -52,7 +52,8 @@ struct Obj {
     void *f40;
 };
 
-extern void func_0206469C(void *o, u32 a);
+struct Obj0206469C;
+extern void func_0206469C(struct Obj0206469C *o, void *bank);
 extern void func_020643A4(void *p);
 
 void func_02064CBC(struct Obj *x)
@@ -60,7 +61,7 @@ void func_02064CBC(struct Obj *x)
     u16 i;
 
     x->f30 = 0;
-    func_0206469C(x, x->f1c);
+    func_0206469C((struct Obj0206469C *)x, (void *)x->f1c);
     x->f0c = 1;
 
     if (x->f3c == 1) {

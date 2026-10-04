@@ -30,7 +30,7 @@ struct Big;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012ED8(struct Big *p);
-extern int func_0200B6E0(void *t, int a, int id, int v, int z, u8 *b, u8 *c);
+extern u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
 
 int func_021CBC14(u32 unused, u32 a)
 {
@@ -62,7 +62,7 @@ int func_021CBC14(u32 unused, u32 a)
     }
     if (v > 9999)
         v = 9999;
-    r = func_0200B6E0(t, 4, id, v, 0, p + 0x7e8, p + 0x7ea);
+    r = func_0200B6E0(t, 4, id, v, 0, (u16 *)(p + 0x7e8), (u16 *)(p + 0x7ea));
     if (r == 2 || r == 3)
         return 1;
     return 0;

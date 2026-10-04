@@ -17,16 +17,18 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 a,b,c,d; } Descriptor;
 typedef struct { u32 handle; u16 value; u16 pad; u32 zero; } Item;
-extern u32 func_02045EC0(u32,int);
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02027778(Descriptor *,u32);
-extern void func_02045808(u32);
+extern void func_02045808(struct U16Vec *vec);
 u32 func_021BE11C(u8 *p)
 {
     Descriptor x={0};
     Item items[2]={0};
     u32 result;
-    items[0].handle=func_02045EC0(*(u32 *)(p+0x1cc),34);
-    items[1].handle=func_02045EC0(*(u32 *)(p+0x1cc),35);
+    items[0].handle=(u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p+0x1cc)),34);
+    items[1].handle=(u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p+0x1cc)),35);
     items[0].value=14819;
     items[1].value=14819;
     items[0].zero=0;
@@ -40,7 +42,7 @@ u32 func_021BE11C(u8 *p)
     x.d=3;
     x.zero=0;
     result=func_02027778(&x,*(u32 *)(p+0x1d4));
-    func_02045808(items[0].handle);
-    func_02045808(items[1].handle);
+    func_02045808((struct U16Vec *)items[0].handle);
+    func_02045808((struct U16Vec *)items[1].handle);
     return result;
 }

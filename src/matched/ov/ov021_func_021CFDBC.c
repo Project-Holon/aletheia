@@ -32,20 +32,25 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02012EBC(u32 a);
-extern u32 func_02009470(u32 a);
-extern u8 *func_02012F38(u32 a);
-extern u32 func_0200973C(u32 a, u32 b);
+struct Big;
+struct Sub0200852CObj;
+struct Sub02009470Ent;
+struct Sub02009470Obj;
+struct WordSet;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
+extern int func_02012F38(int base);
+extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
 struct WordSet;
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern u8 func_02025B64(u32 v);
-extern u8 func_02008570(u32 a);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
-extern u32 func_02012944(u32 a);
-extern void func_0201F02C(void *p, u32 i, u32 a);
-extern u32 func_02009634(u32 a, u32 b, u32 c);
+extern u8 *func_02012944(void *p);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern u32 func_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
-extern u8 func_02009628(u32 a);
+extern u8 func_02009628(const struct Sub02009470Obj *obj);
 extern void func_0201F198(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
@@ -54,23 +59,23 @@ void func_021CFDBC(void *ws, u32 h, u32 x)
     u32 g, e, v;
     u8 k;
 
-    g = func_02009470(func_02012EBC(h));
-    k = *func_02012F38(h);
-    e = func_0200973C(g, x);
+    g = (u32)func_02009470(func_02012EBC((struct Big *)h));
+    k = *((u8 *)func_02012F38(h));
+    e = (u32)func_0200973C((struct Sub02009470Obj *)g, x);
     func_0201F048(ws, 0, k);
     if (func_02025B64(k)) {
-        func_0201F094(ws, 1, k, func_02008570(e));
+        func_0201F094(ws, 1, k, func_02008570((const struct Sub0200852CObj *)e));
     }
-    func_0201F02C(ws, 3, func_02012944(h));
-    func_0201EE60(ws, 5, func_02009634(g, x, 0));
-    func_0201F198(ws, 6, func_02009628(g));
-    func_0201F02C(ws, 7, e);
-    v = func_02009634(g, x, 3);
+    func_0201F02C(ws, 3, func_02012944((void *)h));
+    func_0201EE60(ws, 5, func_02009634((const struct Sub02009470Obj *)g, x, 0));
+    func_0201F198(ws, 6, func_02009628((const struct Sub02009470Obj *)g));
+    func_0201F02C(ws, 7, (void *)e);
+    v = func_02009634((const struct Sub02009470Obj *)g, x, 3);
     if (v == 0) {
         v = 1;
     }
     func_0201EFA4(ws, 8, v, 3, 0, 1);
-    func_0201EE60(ws, 9, func_02009634(g, x, 1));
-    k = func_02009634(g, x, 2);
+    func_0201EE60(ws, 9, func_02009634((const struct Sub02009470Obj *)g, x, 1));
+    k = func_02009634((const struct Sub02009470Obj *)g, x, 2);
     func_0201F198(ws, 10, k);
 }

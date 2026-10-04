@@ -47,7 +47,8 @@ extern char d_021DDA50[];
 
 extern void func_02192F74(Fx *a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020457B0(u32 n, u32 heap);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_021927C0(u32 *sub, Fx *a);
 extern void func_02193144(u32 heap);
 extern void func_02193044(u32 v);
@@ -63,7 +64,7 @@ Obj2 *func_02190DCC(Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f)
     r->owner = a;
     r->b = b;
     r->id = func_021930C0(a->f04, a->f00, c, d, e, f, a->f06);
-    r->f10 = func_020457B0(0xA0, a->f00);
+    r->f10 = (u32)func_020457B0(0xA0, a->f00);
     func_021927C0(r->sub, a);
     func_02193144(a->f00);
     func_02193044(1);

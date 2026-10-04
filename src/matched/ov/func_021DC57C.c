@@ -34,13 +34,13 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-void *func_021C7CF4(int a, int b);
+void *func_021C7CF4(int *p, int i);
 int func_021D5B68(void *p);
 extern int func_021D5B48(u8 *p);
 extern int func_021D7B74(u8 *p, u32 k);
 extern int func_021D59B4(u8 *p, int k);
 void *func_021C88A4(int a, int k, int b);
-void func_021C88C8(int a, void *p);
+void func_021C88C8(void *a, void *b);
 
 void func_021DC57C(void *a, int b, int c)
 {
@@ -50,7 +50,7 @@ void func_021DC57C(void *a, int b, int c)
 
     if (c != func_021D775C(2))
         return;
-    r = func_021C7CF4(b, c);
+    r = func_021C7CF4((int *)b, c);
     if (func_021D5B68(r) != 0)
         return;
     if (func_021D5B48(r) != 0)
@@ -64,5 +64,5 @@ void func_021DC57C(void *a, int b, int c)
     *(u32 *)(p + 0x10) = n;
     *(u8 *)(p + 4) = 1;
     *(u8 *)(p + 5) = 1;
-    func_021C88C8(b, p);
+    func_021C88C8((void *)b, p);
 }

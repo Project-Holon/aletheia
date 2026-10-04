@@ -14,10 +14,10 @@
  * func_ label in ov179; the disassembly ends at the pop and the rest is data.
  */
 
-extern void func_02005DAC(unsigned int);
+extern void func_02005DAC(void *arg);
 
 int func_021B6888(void *ctx, unsigned int *rec)
 {
-    func_02005DAC(rec[1]);
+    func_02005DAC((void *)rec[1]);
     return 1;
 }

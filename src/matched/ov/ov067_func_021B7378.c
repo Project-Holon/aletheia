@@ -89,7 +89,8 @@ extern int func_02035D40(const void *rect, u32 x, u32 y);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(int a, int b);
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -209,14 +210,14 @@ void func_021B7378(S *p)
         break;
     }
     if (p->f98 != 0) {
-        if (p->f90 == 0 && func_0201C6C4(p->fc, (int)func_02045770(p->f88)) == 0) {
+        if (p->f90 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f88))) == 0) {
             o = p->f88;
             func_02045334(o);
             func_02045374(o);
             func_02041B6C(func_02045730(o));
             p->f90 = 1;
         }
-        if (p->f94 == 0 && func_0201C6C4(p->fc, (int)func_02045770(p->f8c)) == 0) {
+        if (p->f94 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f8c))) == 0) {
             o = p->f8c;
             func_02045334(o);
             func_02045374(o);

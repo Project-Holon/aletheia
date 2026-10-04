@@ -29,13 +29,16 @@ typedef unsigned long  u32;
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern int func_0201C6C4(int a, int b);
+typedef signed int     s32;
+struct Obj;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
-extern int func_020200CC(int);
+extern s32 func_020200CC(struct Obj *o);
 extern void func_021BA8EC(char *p);
-extern void *func_021BA8BC(void *p);
-extern void func_0202020C(int a, int b, void *c);
-extern void func_0201F868(int);
+extern int func_021BA8BC(void *p);
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
+extern void func_0201F868(void *p);
 
 int func_021BC958(char *p, int v)
 {
@@ -44,12 +47,12 @@ int func_021BC958(char *p, int v)
 
     q = *(int *)(p + 0x1B8);
     if (*(u8 *)(p + 0x1B0) != 0) {
-        if (func_0201C6C4(q, (int)func_02045770((struct Descriptor *)*(int *)(p + 0x1AC))) == 0) {
+        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)*(int *)(p + 0x1AC)))) == 0) {
             func_02045334((struct Descriptor *)*(int *)(p + 0x1AC));
             *(u8 *)(p + 0x1B0) = 0;
         }
     }
-    r = func_020200CC(*(int *)(p + 0xbc));
+    r = func_020200CC((struct Obj *)(*(int *)(p + 0xbc)));
     if (r != -2) {
         if (r == -1) {
             return v;
@@ -59,8 +62,8 @@ int func_021BC958(char *p, int v)
     }
     *(u32 *)(p + 0x1CC) = 0x4e;
     func_021BA8EC(p);
-    *(void **)(p + 0x1A4) = func_021BA8BC(*(void **)(p + 0x1A4));
-    func_0202020C(*(int *)(p + 0xbc), 0, p + 0x236);
-    func_0201F868(*(int *)(p + 0xb8));
+    *(void **)(p + 0x1A4) = (void *)func_021BA8BC(*(void **)(p + 0x1A4));
+    func_0202020C((struct Obj *)(*(int *)(p + 0xbc)), 0, (u16 *)(p + 0x236));
+    func_0201F868((void *)(*(int *)(p + 0xb8)));
     return v;
 }

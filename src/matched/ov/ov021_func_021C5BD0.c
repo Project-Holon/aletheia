@@ -33,7 +33,7 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_020120F4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 void func_021C5C08(void);
 
 void *func_021C5BD0(void *a, u16 b, u32 c)
@@ -44,7 +44,7 @@ void *func_021C5BD0(void *a, u16 b, u32 c)
     w->owner = a;
     w->f4 = func_0201210C(a);
     w->f10 = c;
-    w->f8 = func_020120F4(a);
+    w->f8 = (u32)func_020120F4(a);
     w->hC = b;
     return t;
 }

@@ -29,7 +29,7 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021F4EC4(u32 unused, u32 p, s16 *a, s16 *b);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4E6C(int,int,int);
+extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
 extern void func_020061F8(int);
 void func_021F7ECC(char *p,char *q)
 {
@@ -48,7 +48,7 @@ void func_021F7ECC(char *p,char *q)
     func_021F4EB4(*(int *)(p+0x10),*(int *)(q+0x84+t->index*4),s.x,s.y);
     t->count++;
     if(t->count>=180) {
-        func_021F4E6C(*(int *)(p+0x10),*(int *)(q+0x84+t->index*4),0);
+        func_021F4E6C((u8 *)(*(int *)(p+0x10)),(u8 *)(*(int *)(q+0x84+t->index*4)),0);
         *(int *)(q+0x104)=0;
         *(u8 *)(p+0x43c)-=1;
         if(*(u8 *)(p+0x43c)==0) func_020061F8(2);

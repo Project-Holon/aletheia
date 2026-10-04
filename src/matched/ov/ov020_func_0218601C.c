@@ -15,9 +15,12 @@
  *   func_02008B14 0x02008B14 thumb
  *   func_0216A358 0x0216A358 thumb ov010
  */
-extern int func_02012EBC(int);
-extern int func_0201AD0C(int);
-extern int func_02012984(int);
+typedef unsigned char  u8;
+struct Big;
+struct BigObj;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0201AD0C(void *sys);
+extern u8 func_02012984(const struct BigObj *p);
 extern char *func_02008B14(int);
 extern int func_0216A358(int,int,void *,int);
-void func_0218601C(int p) { int a; int b; int c; a=func_02012EBC(p); b=func_0201AD0C(a); c=func_02012984(p); func_0216A358(p,b,func_02008B14(a)+0x14,c); }
+void func_0218601C(int p) { int a; int b; int c; a=(int)func_02012EBC((struct Big *)p); b=(int)func_0201AD0C((void *)a); c=func_02012984((const struct BigObj *)p); func_0216A358(p,b,func_02008B14(a)+0x14,c); }

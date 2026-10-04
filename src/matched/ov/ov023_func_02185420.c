@@ -20,13 +20,13 @@ extern void func_02185354(char *p);
 typedef unsigned int   u32;
 extern void func_02186444(char *p, u32 v);
 extern int  func_021862B0(char *p);
-extern void *func_021865B4(char *p);
+extern int func_021865B4(char *p);
 
 int func_02185420(char *p, int a1)
 {
     if (func_021862B0(p)) {
         if (*(void **)(p + 0x178) == 0)
-            *(void **)(p + 0x178) = func_021865B4(p);
+            *(void **)(p + 0x178) = (void *)func_021865B4(p);
         func_02186444(p, 6);
     }
     func_02185354(p);

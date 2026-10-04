@@ -62,11 +62,13 @@ extern void func_02192F74(u16 *a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02190B2C(Tmpl *d, const u8 *s);
 extern int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f);
-extern u32 func_021904EC(u16 *p, u32 a, u32 b);
-extern u32 func_0219067C(u32 p);
-extern u32 func_02190678(u32 p);
+struct Obj;
+struct Slot;
+extern struct Slot *func_021904EC(u32 *p, u32 a, u32 b);
+extern u8 *func_0219067C(u8 *p);
+extern u32 func_02190678(u8 *p);
 extern u32 func_0201FF30(Tmpl *t, u16 a, u16 b, u32 heap);
-extern void func_02020CF8(u32 obj, u32 heap);
+extern void func_02020CF8(struct Obj *p, int heap);
 extern void func_02193144(u32 heap);
 extern void func_02193044(u32 v);
 extern void func_02193170(u32 heap);
@@ -88,10 +90,10 @@ Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u3
     r->c = c;
     r->id = func_021930C0(k, a[0], *(const u16 *)(b + 0x14), *(const u16 *)(b + 0x16),
                           *(const u16 *)(b + 0x18), *(const u16 *)(b + 0x1a), f);
-    r->slot = func_021904EC(a, 0, r->id);
+    r->slot = (u32)func_021904EC((u32 *)a, 0, r->id);
     t.w24 = 0;
-    t.w28 = func_0219067C(r->slot);
-    t.w2c = func_02190678(r->slot);
+    t.w28 = (u32)func_0219067C((u8 *)r->slot);
+    t.w2c = func_02190678((u8 *)r->slot);
     t.w30 = *(u32 *)(a + 4);
     t.w0c = r->id;
     t.w00 = c;
@@ -99,7 +101,7 @@ Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u3
     t.w04 = g;
     t.w1c = i;
     r->obj = func_0201FF30(&t, d, e, a[0]);
-    func_02020CF8(r->obj, a[0]);
+    func_02020CF8((struct Obj *)r->obj, a[0]);
     if (f == 0xe) {
         func_02193144(a[0]);
         func_02193044(1);

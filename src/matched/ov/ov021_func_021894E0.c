@@ -16,17 +16,21 @@
  *   func_0216CEAC  0x0216CEAC  thumb  ov010
  */
 
-int func_02162744(int c);
-int func_0201296C(int a);
-int func_02162740(int c);
-void func_0216CEAC(int b, int x, int d, int r, int y);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+u16 func_02162744(u8 *p);
+u32 func_0201296C(const struct BigObj *p);
+u32 func_02162740(u8 *p);
+void func_0216CEAC(u32 a, u8 *p, u32 b, u32 n, u32 c);
 
 void func_021894E0(int a, int b, int c, int d)
 {
-    int r = func_02162744(c);
+    int r = func_02162744((u8 *)c);
     int y;
     if (r != 0) {
-        y = func_0201296C(a);
-        func_0216CEAC(b, func_02162740(c), d, r, y);
+        y = func_0201296C((const struct BigObj *)a);
+        func_0216CEAC(b, (u8 *)func_02162740((u8 *)c), d, r, y);
     }
 }

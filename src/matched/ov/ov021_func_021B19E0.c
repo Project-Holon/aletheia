@@ -21,9 +21,10 @@ typedef unsigned short u16;
 
 unsigned int func_02159B10(void *a, void *b);
 u16 *func_02159AE8(void *a0, void *a1);
-int func_0215A5EC(int b);
-int func_0216DE94(int a, int b);
-u16 func_0216D63C(int a, int b);
+typedef unsigned int   u32;
+void *func_0215A5EC(void *p);
+void *func_0216DE94(void *map, u32 id);
+int func_0216D63C(char *a0, int a1);
 
 int func_021B19E0(int a, int b)
 {
@@ -35,9 +36,9 @@ int func_021B19E0(int a, int b)
     r7 = func_02159B10((void *)a, (void *)b);
     r4 = func_02159B10((void *)a, (void *)b);
     r6 = func_02159AE8((void *)a, (void *)b);
-    r0 = func_0216DE94(func_0215A5EC(b), r7);
+    r0 = (int)func_0216DE94(func_0215A5EC((void *)b), r7);
     if (r4 <= 2 && r0 != 0) {
-        *r6 = func_0216D63C(r0, r4);
+        *r6 = func_0216D63C((char *)r0, r4);
     }
     return 0;
 }

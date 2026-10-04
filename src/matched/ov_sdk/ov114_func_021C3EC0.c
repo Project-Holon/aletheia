@@ -70,7 +70,7 @@ struct GHIConnection {
     GHIEncryptor encryptor;     /* 0x194 */
 };
 
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217ED54(int socket);
 extern int func_0217EE50(int sock, int isblocking);
@@ -91,7 +91,7 @@ void func_021C3EC0(GHIConnection *connection)
     int writeFlag;
     int exceptFlag;
 
-    func_0217D254(8, 3, 0x10, g_021CF12C);
+    func_0217D254(8, (char *)3, 0x10, g_021CF12C);
 
     if (connection->socket == -1)
     {

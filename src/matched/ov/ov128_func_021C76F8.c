@@ -69,13 +69,13 @@ extern void func_021C81FC(u8 *,void *,u8 *,u16);
 extern int func_021C8240(u8 *,u8 *,u8 *,u16),func_021C8354(u8 *,u8 *);
 extern int func_021CA320(char *),func_021C87A0(s16 *);
 extern void func_021C651C(char *,int),func_021C6514(char *,int);
-extern void func_021C83B0(u8 *,u8 *,u8 *,u32);
+extern void func_021C83B0(s16 *p, u8 *q, u8 *r, u16 heap);
 extern int func_021C873C(u8 *,u8 *,u8 *);
 extern void func_021C83DC(u8 *,u8 *,void *,int);
 extern int func_021C8470(u8 *,int *,void *);
 extern void func_021C7E48(u8 *,u8 *,u8 *),func_021C6438(u8 *,u8,u8);
 extern void func_021C7AC4(u8 *,u8 *,u8 *),func_021C7D48(u8 *,void *,u8 *);
-extern void func_021C8548(u8 *,u8 *,u8 *,u32);
+extern void func_021C8548(s16 *p, u8 *q, u8 *r, u16 heap);
 extern int func_021C8574(u8 *,u8 *,u8 *,u32),func_021C6E74(void *);
 extern void func_021C875C(u8 *,void *),func_021C87B0(u8 *,u8 *);
 extern int func_021C8850(u8 *,u8 *);
@@ -132,7 +132,7 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
     case 6:
         if(func_021CA320((char *)p)!=1) {
             func_021C651C((char *)q,func_021C87A0((s16 *)p));
-            func_021C83B0(p,q,ctx,heap); q[8]=7;
+            func_021C83B0((s16 *)p,q,ctx,heap); q[8]=7;
         }
         break;
     case 7:
@@ -172,7 +172,7 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
         func_0202208C(0,1,1,0,6,1,heap);q[8]=16;
         break;
     case 16: if(func_020221A4()!=0) q[8]=2; break;
-    case 17: func_021C8548(p,q,ctx,heap);q[8]=18;break;
+    case 17: func_021C8548((s16 *)p,q,ctx,heap);q[8]=18;break;
     case 18: if(func_021C8574(p,q,ctx,heap)==1) q[8]=19;break;
     case 19:
         switch(func_021C6E74(*(void **)(p+0x194))) {

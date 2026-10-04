@@ -15,14 +15,16 @@
  *   d_021DEBA4 0x021DEBA4 data a4
  */
 typedef unsigned char u8;
-extern int func_0204B100(int, int, int);
+typedef unsigned int   u32;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern int func_021DE290(char *, const char *);
 extern void func_021DE064(int *, int, int);
 extern const char d_021DEBA4[];
 void func_021DE2D4(char *p)
 {
     unsigned i;
-    *(int *)(p + 0xb70) = func_0204B100(31, 0, 0x8c);
+    *(int *)(p + 0xb70) = (int)func_0204B100(31, 0, 0x8c);
     for (i = 0; i < 16; ++i)
         *(int *)(p + 0xb74 + i * 4) = 0;
     for (i = 12; i <= 15; ++i)

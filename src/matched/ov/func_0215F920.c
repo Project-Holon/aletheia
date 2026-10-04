@@ -25,7 +25,7 @@ struct Sub02008700Obj;
 
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int func_020083E4();
+extern int func_020083E4(unsigned short *p);
 
 int func_0215F920(int a0)
 {
@@ -48,7 +48,7 @@ a0 = *(int *)((char *)t4 + 4);
 loc_0215F938:
     obj = func_0200873C(big);
 loc_0215F93C:
-    a0 = func_020083E4(obj);
+    a0 = func_020083E4((short unsigned int *)obj);
 loc_0215F940:
 *(int *)((char *)t4 + 0x2c) = a0;
 *(int *)((char *)t4 + 0x30) = a0;

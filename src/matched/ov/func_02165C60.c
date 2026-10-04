@@ -17,14 +17,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0200E3A4();
+extern u32 func_0200E3A4(const u8 *bits, int id);
 
 int func_02165C60(int a0, int a1)
 {
 
 a0 = a0 + 0x50;
 a1 = 0x1a;
-    a0 = func_0200E3A4(a0, a1);
+    a0 = func_0200E3A4((const u8 *)a0, a1);
 loc_02165C6A:
     if (a0 != 0) goto loc_02165C72;
 loc_02165C6E:

@@ -49,11 +49,13 @@ typedef struct {
     u8 rest : 6;
 } Bits;
 
-extern int func_02026478(int);
+struct Big;
+struct BigObj;
+extern u32 func_02026478(void *obj);
 extern u32 func_0203D378(void);
 extern int func_0203D1B4(void);
-extern void func_02012B4C(int, int);
-extern int func_02173758(u8 *, int);
+extern void func_02012B4C(struct BigObj *p, u8 v);
+extern int func_02173758(int a, int b, ...);
 extern void func_02174AE0(u8 *);
 extern void func_0217546C(u8 *);
 extern void func_02174E3C(u8 *);
@@ -69,8 +71,8 @@ extern void func_02174CCC(u8 *);
 extern void func_02174DF4(u8 *);
 extern int func_021752DC(u8 *);
 extern int func_02173984(u8 *, u8 *);
-extern int func_02012E40(int);
-extern void *func_02012EBC(int);
+extern u8 func_02012E40(const u8 *o);
+extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 extern int func_021756D0(u32 x);
 extern void func_0200BE84(void *, u8 *);
@@ -81,16 +83,16 @@ void func_02174978(u8 *s)
     int n;
     void *w;
 
-    h = func_02026478(*(int *)(s + 4));
+    h = func_02026478((void *)(*(int *)(s + 4)));
     if (func_0203D378() == 1) {
         n = func_0203D1B4();
         if (n > s[0x902]) {
             s[0x902] = n;
             s[0x903] = 1;
-            func_02012B4C(h, s[0x902]);
+            func_02012B4C((struct BigObj *)h, s[0x902]);
         }
     }
-    if (s[0x903] == 1 && func_02173758(s, s[0x902]) == 1) {
+    if (s[0x903] == 1 && func_02173758((int)s, s[0x902]) == 1) {
         s[0x903] = 0;
     }
     func_02174AE0(s);
@@ -118,8 +120,8 @@ void func_02174978(u8 *s)
     if (s[0x900] == 1 && ((Bits *)(s + 0x904))->b1 == 0 && func_02173984(s, s + 0x70) == 1) {
         s[0x900] = 0;
     }
-    if (func_02012E40(h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
-        w = func_0200BE48(func_02012EBC(h));
+    if (func_02012E40((const u8 *)h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
+        w = func_0200BE48(func_02012EBC((struct Big *)h));
         if (func_021756D0(*(u16 *)(s + 0x8f4)) == 0) {
             *(u16 *)(s + 0x8f4) = 0x11;
         }

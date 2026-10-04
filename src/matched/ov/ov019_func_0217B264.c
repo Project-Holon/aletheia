@@ -44,7 +44,7 @@ typedef struct Entry {
 struct Big;
 struct BigObj;
 extern void *func_02012EBC(struct Big *p);
-extern u32   func_0200ED48(void *p);
+extern void *func_0200ED48(void *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02012964(const struct BigObj *p);
 extern u32 func_02188CE0(u8 *p);
@@ -67,7 +67,7 @@ void func_0217B264(u8 *w, void *sys, void *q)
     u8 buf[6] = {0, 0, 0, 0, 0, 0};
 
     flag = 0;
-    a = func_0200ED48(func_02012EBC(sys));
+    a = (u32)func_0200ED48(func_02012EBC(sys));
     b = func_0201283C(sys);
     c = func_02188CE0(q);
     func_02012964(sys);

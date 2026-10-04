@@ -17,16 +17,19 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02011398(int);
-extern int func_02011330(int);
-extern void func_0201137C(int, int);
+typedef unsigned short u16;
+struct Ring;
+struct Stream;
+extern u32 func_02011398(struct Ring *r);
+extern u16 func_02011330(struct Stream *s);
+extern void func_0201137C(struct Ring *r, u32 v);
 
 int func_021594E0(int p)
 {
-    u32 a = func_02011398(p);
-    u32 b = func_02011398(p);
+    u32 a = func_02011398((struct Ring *)p);
+    u32 b = func_02011398((struct Ring *)p);
     int r;
-    switch (func_02011330(p)) {
+    switch (func_02011330((struct Stream *)p)) {
     case 0: r = (b < a) ? 1 : 0; break;
     case 1: r = (b == a) ? 1 : 0; break;
     case 2: r = (b > a) ? 1 : 0; break;
@@ -37,6 +40,6 @@ int func_021594E0(int p)
     case 7: r = (b == 1 && a == 1) ? 1 : 0; break;
     default: r = 0; break;
     }
-    func_0201137C(p, r);
+    func_0201137C((struct Ring *)p, r);
     return 0;
 }

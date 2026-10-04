@@ -20,10 +20,11 @@ typedef unsigned int   u32;
 extern u8 func_021B8C50(char **p, u32 v, int k);
 extern void func_021B8E28(u8 *, u8, u8 *, u8 *);
 extern u8 *func_021BB85C(u8 *, unsigned int);
-extern void *func_021B9BF0(void *, u8);
+struct S2;
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 void *func_021CB174(u8 *p, unsigned int n, int k)
 {
     u8 out[2];
     func_021B8E28(*(u8 **)(p + 4), func_021B8C50(*(void **)(p + 4), n, k), out + 1, out);
-    return func_021B9BF0(*(void **)(func_021BB85C(*(u8 **)p, out[1]) + 4), out[0]);
+    return (void *)func_021B9BF0(*(void **)(func_021BB85C(*(u8 **)p, out[1]) + 4), out[0]);
 }

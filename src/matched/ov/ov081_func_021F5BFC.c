@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_021F5BCC(int a, u8 *t);
+typedef unsigned int   u32;
+extern int func_021F5BCC(int a, u32 p);
 
 void func_021F5BFC(u8 *w, int x, int y)
 {
@@ -25,7 +26,7 @@ void func_021F5BFC(u8 *w, int x, int y)
     int k = x + y * *(u16 *)(w + 0x3008);
 
     if (*(int *)(w + k * 64 + 0x34) == 0) {
-        if (func_021F5BCC(k, t) == 0) {
+        if (func_021F5BCC(k, (u32)t) == 0) {
             *(u16 *)(t + 0xC0 + *(u16 *)(t + 0x182) * 2) = k;
             (*(u16 *)(t + 0x182))++;
         }

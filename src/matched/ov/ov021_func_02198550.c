@@ -31,30 +31,30 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 
-extern u8 *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern void func_02163FC0(int a, int dir, int amt);
 extern int func_02164010(int a);
 extern void func_02163E7C(int a, int b);
-extern void func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 extern int *d_021DDBD4[];
 extern void func_0216D8C0(u32, Vec *);
 extern void func_02163F10(u32);
-extern void func_0216D674(u32, u32);
-extern void func_0216D7CC(u32);
+extern void func_0216D674(void *p, u16 v);
+extern void func_0216D7CC(u8 *p);
 extern void func_020061E4(u32);
 
 int func_02198550(u32 a)
 {
     u8 *h;
 
-    h = func_0216D6D4(a);
+    h = func_0216D6D4((void *)a);
     if (*(int *)h != 0) {
         func_02163FC0(a, *(s8 *)(h + 12), *(int *)h);
         func_02164010(a);
         if (*(int *)(h + 4) >= 0x10000) {
             *(int *)(h + 4) = 0;
             func_02163E7C(a, *(s8 *)(h + 12));
-            func_0216D568(a, 0x20);
+            func_0216D568((void *)a, 0x20);
         }
         *(int *)(h + 4) += (*(int *)h < 0) ? -*(int *)h : *(int *)h;
     }
@@ -81,10 +81,10 @@ int func_02198550(u32 a)
         Vec v = { 0, 0, 0 };
         func_0216D8C0(a, &v);
     }
-    func_0216D568(a, 0x540);
+    func_0216D568((void *)a, 0x540);
     func_02163F10(a);
-    func_0216D674(a, 0);
-    func_0216D7CC(a);
+    func_0216D674((void *)a, 0);
+    func_0216D7CC((u8 *)a);
     func_020061E4(0x67B);
     return 1;
 }

@@ -36,7 +36,8 @@ typedef struct {int x,y,z;} Vec;
 typedef struct {int x,y;} Pair;
 typedef struct {s16 y,x;u16 limit;} Scale;
 extern const Vec d_021BA5A0;
-extern u8 *func_021BA218(u8 *),*func_021F5450(u8 *,int);
+extern u32 func_021BA218(u8 *p);
+extern u8 *func_021F5450(u8 *,int);
 extern int func_021B8BB4(u8 *,void *,const int *,u16 *),func_021B8B78(u8 *,int),func_021F4B24(u8 *);
 extern void func_021BA21C(u8 *,Pair *),func_021BA254(u8 *,int),func_020061E4(u32);
 extern void func_021F4EE8(int,int,int),func_021F4E8C(int,int,Vec *),func_021F4ED4(int,int,u16),func_021F4EC4(int,int,s16 *,s16 *),func_021F4EB4(int,int,s16,s16);
@@ -49,7 +50,7 @@ void func_021B7F54(u8 *p,int sound)
     u8 *sprite,*q;
     u16 rotation=0;
     scale.limit=12;v=d_021BA5A0;
-    old=*(int *)(p+0x34);sprite=func_021BA218(*(u8 **)(p+0x38));
+    old=*(int *)(p+0x34);sprite=(u8 *)func_021BA218(*(u8 **)(p+0x38));
     relative.x=*(int *)(p+0x1c)-128;relative.y=*(int *)(p+0x20)-112;
     index=func_021B8BB4(p,sprite,(const int *)&relative,&scale.limit);*(int *)(p+0x34)=index;
     if(index!=10){
@@ -69,7 +70,7 @@ void func_021B7F54(u8 *p,int sound)
     if(pos.y>0)v.y=(int)(0.5f+(float)(int)((u32)pos.y<<12));else v.y=(int)((float)(int)((u32)pos.y<<12)-0.5f);
     func_021F4E8C(*(int *)(p+0x1884),(int)sprite,&v);
     func_021BA21C(*(u8 **)(p+0x38),&pos);
-    q=func_021BA218(*(u8 **)(p+0x38));func_021F4ED4(*(int *)(p+0x1884),(int)q,rotation);
+    q=(u8 *)func_021BA218(*(u8 **)(p+0x38));func_021F4ED4(*(int *)(p+0x1884),(int)q,rotation);
     func_021F4EC4(*(int *)(p+0x1884),(int)sprite,&scale.x,&scale.y);
     if(scale.x<4096 || scale.y<4096){
         scale.x+=410;scale.y+=410;

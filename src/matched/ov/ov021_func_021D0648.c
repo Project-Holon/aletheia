@@ -32,12 +32,17 @@ typedef struct S {
     int f1c;
 } S;
 
-extern int func_021ABE24(int a);
-extern int func_02046E24(int a, int b);
-extern int func_02046F50(int a, int b);
-extern void func_02046FF8(int a);
-extern int func_02047400(int a, int b, int c);
-extern int func_02047564(int a, int b, int c);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct G3dOwner;
+struct G3dRec;
+struct Tagged;
+extern u32 func_021ABE24(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern u32 func_02046F50(struct Tagged *p, u32 sel);
+extern int func_02046FF8(int *self);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern int func_0204767C(int a, int *b, int c);
 extern void func_020477A4(int a, u16 b);
 
@@ -52,18 +57,18 @@ void func_021D0648(S *p)
     int j;
     int k;
 
-    h = func_021ABE24(p->f0);
+    h = func_021ABE24((u8 *)p->f0);
     for (i = 0; i < 3; i++) {
-        p->a[i] = func_02046E24(h, d_021DB95C[i]);
-        if (func_02046F50(p->a[i], 2)) {
-            func_02046FF8(p->a[i]);
+        p->a[i] = (int)func_02046E24(h, d_021DB95C[i]);
+        if (func_02046F50((struct Tagged *)p->a[i], 2)) {
+            func_02046FF8((int *)p->a[i]);
         }
     }
     j = 0;
-    p->f10 = func_02047400(p->a[d_021DB950], 0, p->a[d_021DB950]);
+    p->f10 = (int)func_02047400((void *)p->a[d_021DB950], 0, (void *)p->a[d_021DB950]);
     k = j;
     for (i = 0; i < 2; i++) {
-        p->b[i] = func_02047564(p->f10, p->a[d_021DB954[i]], k);
+        p->b[i] = (int)func_02047564((struct G3dOwner *)p->f10, (const struct G3dOwner *)p->a[d_021DB954[i]], k);
     }
     p->f1c = func_0204767C(p->f10, p->b, 2);
     for (k = 0; k < 2; k++) {

@@ -13,9 +13,12 @@
  *   func_020215BC 0x020215BC thumb
  */
 
-extern void func_020215BC(int, void *, int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 void func_0220BB94(unsigned char *p)
 {
-    func_020215BC(*(int *)(p + 0x1d8), p + 0x1e78, 1, 0xc0, 0x20);
+    func_020215BC((struct PalAnmSlot *)(*(int *)(p + 0x1d8)), p + 0x1e78, 1, 0xc0, 0x20);
 }

@@ -32,7 +32,8 @@ typedef struct {
 } State;
 
 extern void func_020307B0(void *p);
-extern void func_020113C4(int a);
+struct Ring;
+extern void func_020113C4(struct Ring *r);
 
 int func_021FC2DC(int a, State *s)
 {
@@ -45,6 +46,6 @@ int func_021FC2DC(int a, State *s)
     s->fe0 = s->a1[n];
     s->f1e8 = (void *)s->a2[n];
     s->f4 = s->a3[n];
-    func_020113C4(a);
+    func_020113C4((struct Ring *)a);
     return s->f23c;
 }

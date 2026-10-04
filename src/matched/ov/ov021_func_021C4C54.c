@@ -24,13 +24,14 @@
 
 typedef unsigned short u16;
 
-extern int func_0216E1C4(int a, int *b);
+typedef unsigned int   u32;
+extern int func_0216E1C4(int a0, int a1);
 extern void func_021AC154(int a);
-extern int func_0216DBE8(int a);
+extern int func_0216DBE8(void *a0);
 extern int func_021ABE18(int a);
 extern void func_021C6658(int a, int b);
 extern int func_021C6844(int a, int b);
-extern void func_021C66EC(int a, int b, int c);
+extern int func_021C66EC(u32 *a, int idx, int v);
 extern void func_021C6828(int a, int b, int c);
 struct Actor;
 struct VecFx32;
@@ -43,11 +44,11 @@ void func_021C4C54(int a, int *b)
     int h;
     int r;
 
-    if (func_0216E1C4(b[1], b + 2) == 0) {
+    if (func_0216E1C4(b[1], (int)(b + 2)) == 0) {
         func_021AC154(a);
         return;
     }
-    if (func_0216DBE8(b[1]) == 0) {
+    if (func_0216DBE8((void *)b[1]) == 0) {
         func_021AC154(a);
         return;
     }
@@ -55,7 +56,7 @@ void func_021C4C54(int a, int *b)
     r = func_021ABE18(*(int *)b[0]);
     func_021C6658(r, h);
     if (func_021C6844(r, h) == 0) {
-        func_021C66EC(r, h, 0x1000);
+        func_021C66EC((u32 *)r, h, 0x1000);
         func_021C6828(r, h, 1);
     }
     func_0216D88C((const struct Actor *)b[1], (struct VecFx32 *)v);

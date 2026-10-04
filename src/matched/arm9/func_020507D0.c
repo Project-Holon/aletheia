@@ -15,9 +15,11 @@
 typedef struct { int f0; char pad[0x24]; } E28_020507D0;
 typedef struct { int pad0; int f4; char pad[0x10]; E28_020507D0 *f18; } Mgr_020507D0;
 
-extern int func_0204F704(int a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_0204F704(u8 *a0, int i);
 
 int func_020507D0(Mgr_020507D0 *p, int i)
 {
-    return func_0204F704(p->f4, p->f18[i].f0);
+    return func_0204F704((u8 *)p->f4, p->f18[i].f0);
 }

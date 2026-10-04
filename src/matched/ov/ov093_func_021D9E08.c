@@ -31,7 +31,7 @@ extern int func_021D775C(int a);
 extern int func_021D85C0(int a, u32 b);
 extern u32 func_0201BEB8(u16 id, u32 bit);
 extern void *func_021C88A4(int a, int k, int b);
-extern void func_021C88C8(int a, void *p);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021D9E08(int a, int b, int c, Slot d, Byte e)
 {
@@ -52,5 +52,5 @@ void func_021D9E08(int a, int b, int c, Slot d, Byte e)
     *(u32 *)(p + 8) = d.raw;
     *(u8 *)(p + 0xc) = 0;
     *(u8 *)(p + 0xf) = func_021D775C(3);
-    func_021C88C8(a, p);
+    func_021C88C8((void *)a, p);
 }

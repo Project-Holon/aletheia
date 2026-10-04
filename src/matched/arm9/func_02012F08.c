@@ -10,8 +10,8 @@
  * status:   EXACT
  */
 
-extern void *func_0200C0F0(int v);
+extern void *func_0200C0F0(void *sys);
 void *func_02012F08(int *p)
 {
-    return func_0200C0F0(*p);
+    return func_0200C0F0((void *)(*p));
 }

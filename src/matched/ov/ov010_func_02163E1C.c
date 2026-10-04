@@ -16,6 +16,7 @@
 typedef unsigned short u16;
 typedef struct { u16 a,b,c,d; int p,q; } E;
 extern void *func_0216D67C(void *);
-extern void *func_0216D52C(void *);
+typedef unsigned int   u32;
+extern u32 func_0216D52C(void *p);
 extern int func_0218DAEC(char *, char *, E *);
-int func_02163E1C(void *a, char *b, E *c) { return func_0218DAEC(func_0216D52C(func_0216D67C(a)),b,c); }
+int func_02163E1C(void *a, char *b, E *c) { return func_0218DAEC((char *)func_0216D52C(func_0216D67C(a)),b,c); }

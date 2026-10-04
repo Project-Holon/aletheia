@@ -41,8 +41,9 @@ typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void *func_02049E74(void *set, u32 entry, u32 flag, void **out, u16 which);
-extern void  func_0204A9D0(void *dst, void *src);
+struct Sub0204A9D0;
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 extern void  func_0204ADEC(void *dst, void *src, u32 flag);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
@@ -57,7 +58,7 @@ void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which
     func_0204ADEC(dstB, b, 1);
     func_020307B0(res);
 
-    res = func_02049E74(set, func_0202D5D8(id, 0), 1, &a, which);
-    func_0204A9D0(dstA, a);
+    res = func_02049E74(set, func_0202D5D8(id, 0), 1, (u32)(&a), which);
+    func_0204A9D0((int)dstA, a);
     func_020307B0(res);
 }

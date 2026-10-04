@@ -57,7 +57,7 @@ extern void func_0217F210(u8 *p, int a, u32 b);
 extern int func_02173BB0(u8 *a);
 extern u32 func_0217F1EC(u8 *p);
 extern void *func_0216F7F4(int a, void *b, int c);
-extern void func_0217422C(u8 *a, int b, void *c);
+extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern void func_020307B0(void *p);
 extern u32 func_0203D378(void);
@@ -107,7 +107,7 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
             (*d)++;
         break;
     case 6:
-        func_0217422C(a, 1, *(void **)(a + 0x353C));
+        func_0217422C(a, 1, (int)(*(void **)(a + 0x353C)));
         (*d)++;
         break;
     case 7:

@@ -17,11 +17,11 @@
  */
 
 extern void func_021D45E0(void);
-extern void func_021D38C8(void *);
+extern void func_021D38C8(unsigned int v);
 
 void func_021D439C(void)
 {
     func_021D45E0();
-    func_021D38C8((void *)0x021D45A4);
+    func_021D38C8((unsigned int)((void *)0x021D45A4));
     *(unsigned char *)(*(char **)0x021DE668 + 0xa90) = 8;
 }

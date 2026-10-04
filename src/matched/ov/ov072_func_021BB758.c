@@ -22,9 +22,9 @@
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 
-void func_021BBAFC(char *);
+void func_021BBAFC(int x);
 
 void func_021BB758(char *p)
 {
-    func_021BBAFC(p + 4);
+    func_021BBAFC((int)(p + 4));
 }

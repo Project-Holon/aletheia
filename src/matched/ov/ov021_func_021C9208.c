@@ -27,7 +27,8 @@ extern T d_021DAC08;
 
 extern void func_0207ADC4(int *m);
 extern void func_021AC1B8(u32 a, T *t);
-extern void func_02047AC8(u32 a, T *t);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 
 void func_021C9208(u32 a, u32 *b)
 {
@@ -35,7 +36,7 @@ void func_021C9208(u32 a, u32 *b)
 
     func_0207ADC4(&t.w[6]);
     func_021AC1B8(a, &t);
-    func_02047AC8(b[6], &t);
+    func_02047AC8((void *)b[6], (struct Arg *)(&t));
     *(V3 *)&t = *(V3 *)(b + 10);
-    func_02047AC8(b[13], &t);
+    func_02047AC8((void *)b[13], (struct Arg *)(&t));
 }

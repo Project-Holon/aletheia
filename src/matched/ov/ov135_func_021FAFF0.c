@@ -77,7 +77,8 @@ extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u1
 extern int func_021FBF6C(Menu *m, u32 idx);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0204B878(u32 v, int k);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
@@ -106,7 +107,7 @@ int func_021FAFF0(Menu *m)
     }
     func_021FBEB8(m->mgr, m->bank, m->wins[14], 0x4A, m->g);
     func_0202CB4C(m->mgr, 0, 0x10, 0);
-    func_0204B878(m->cursor, 4);
+    func_0204B878((struct Obj *)m->cursor, 4);
     if (m->sel < 0) {
         m->pos = 0;
     } else {

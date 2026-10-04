@@ -17,14 +17,14 @@
 
 
 extern int func_02005E50(int);
-extern void func_02005DE4(int);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 
 void func_021C2C1C(int unused, char *p)
 {
     if (*(int *)(p + 0xb8) == 1) {
         if (func_02005E50(*(int *)(p + 0xb8)) == 0) {
-            func_02005DE4(1);
+            func_02005DE4((void *)1);
             func_02005E64();
             *(int *)(p + 0xb8) = 2;
         }

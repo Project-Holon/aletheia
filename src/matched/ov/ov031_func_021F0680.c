@@ -50,10 +50,12 @@ typedef struct {
     int m;
 } B;
 
-extern u32 func_0202DC98(u32 o);
+struct Obj0202DC98;
+struct PrintSys;
+extern u32 func_0202DC98(struct Obj0202DC98 *o);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern int func_0201C6C4(u32 a, u32 b);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *a);
 extern void *func_021BBC2C(void *r, int i);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -73,7 +75,7 @@ static inline int slot_free(struct Obj *p, int i)
 {
     u32 q = p->w40;
     if (p->s[i].f != 0) {
-        if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)p->s[i].h)) == 0) {
+        if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)p->s[i].h))) == 0) {
             func_02045334((struct Descriptor *)p->s[i].h);
             p->s[i].f = 0;
         }
@@ -91,7 +93,7 @@ void func_021F0680(struct Obj *p, B *b)
     flag = 0;
     if (b->m == b->n)
         return;
-    if (func_0202DC98(p->w7c) == 0)
+    if (func_0202DC98((struct Obj0202DC98 *)p->w7c) == 0)
         return;
     for (i = 0; i < 3; i++) {
         if (p->b[i] == 1) {

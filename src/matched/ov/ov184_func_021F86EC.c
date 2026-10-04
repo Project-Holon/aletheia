@@ -31,11 +31,14 @@ typedef struct Pair {int x,y;} Pair;
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
 extern void func_021F89D0(char *,char *),func_021F88E0(char *,char *);
-extern void *func_021FD12C(int,int,u16);
-extern void func_021FD170(void *,int,int),func_021FD860(int,int,Pair *);
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
+extern void func_021FD860(int,int,Pair *);
 extern void func_02082BCC(void *,int,unsigned),func_021FF54C(char *,int,Cfg *);
 extern int func_021FF648(char *),func_021FF72C(char *,int *),func_02035C60(void),func_02035D20(int *,int *);
-extern void func_020061E4(int),func_021FD744(int),func_021F9BA0(int);
+extern void func_020061E4(int);
+extern int func_021FD744(int a);
+extern void func_021F9BA0(int);
 void func_021F86EC(int task,unsigned *state,char *p)
 {
     Pair initial;
@@ -48,8 +51,8 @@ void func_021F86EC(int task,unsigned *state,char *p)
     case 2:
         func_021F89D0(p,*(char **)(p+0x30));
         func_021F88E0(p,*(char **)(p+0x30));
-        *(void **)(p+0x10)=func_021FD12C(*(int *)(*(char **)(p+0x30)+12),*(int *)(p+0x20),*(u16 *)(p+0x24));
-        func_021FD170(*(void **)(p+0x10),*(int *)(*(char **)(p+0x30)+12),0x145);
+        *(void **)(p+0x10)=func_021FD12C(*(int *)(*(char **)(p+0x30)+12),(void *)(*(int *)(p+0x20)),*(u16 *)(p+0x24));
+        func_021FD170(*(void **)(p+0x10),(char *)(*(int *)(*(char **)(p+0x30)+12)),(void *)0x145);
         initial.x=0x80;initial.y=0x60;
         func_021FD860(*(int *)(p+0x14),4,&initial);
         *state=3;break;
@@ -68,7 +71,7 @@ void func_021F86EC(int task,unsigned *state,char *p)
         }break;
     case 7:
         if(!func_021FF72C(*(char **)(*(char **)(p+0x30)+0x14),&out)) *state=9;
-        else {func_021FD170(*(void **)(p+0x10),*(int *)(*(char **)(p+0x30)+12),out);*state=8;}
+        else {func_021FD170(*(void **)(p+0x10),(char *)(*(int *)(*(char **)(p+0x30)+12)),(void *)out);*state=8;}
         break;
     case 8:
         if(func_02035C60()) {

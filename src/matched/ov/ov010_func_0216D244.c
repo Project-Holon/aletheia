@@ -16,12 +16,12 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0216D230(u8 *p);
+extern int func_0216D230(int a0);
 extern void func_0216DF64(u8 *p, u32 v);
 extern void func_0216D568(void *p, u32 v);
 void func_0216D244(u32 v, u8 *p)
 {
-    func_0216D230(p);
+    func_0216D230((int)p);
     func_0216DF64(p, v);
     func_0216D568(p, 0x1820);
 }

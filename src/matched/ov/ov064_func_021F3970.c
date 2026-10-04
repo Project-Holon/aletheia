@@ -48,13 +48,14 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int *func_021897BC(char *p, int idx);
 extern int func_02188D2C(int *p);
 extern void func_020061E4(u32 a);
-extern int func_021BE480(int a, unsigned b, int c);
-extern void func_021BE4B4(int a, int b, int c, int d);
+struct Desc;
+extern int func_021BE480(char *p, unsigned i, int j);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern u8 *func_021BE674(int a, int b, int c, u16 d);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(int a, int b, int c, u16 d, int e);
 extern void func_021BE6CC(int a, int b, int c, u16 d, int e);
-extern int func_020122C0(int a, int b, void *cb, int c);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F3AF8(void *task);
 
 void func_021F3970(int a, const V3 *p0, const V3 *p1, int f30, int n)
@@ -68,8 +69,8 @@ void func_021F3970(int a, const V3 *p0, const V3 *p1, int f30, int n)
     w = (W *)func_021897BC((char *)sys, 1);
     s = func_02188D2C(sys);
     func_020061E4(0x566);
-    *(V3 *)func_021BE480(s, 0, 1) = *p0;
-    func_021BE4B4(s, 0, 1, 0);
+    *(V3 *)func_021BE480((char *)s, 0, 1) = *p0;
+    func_021BE4B4((char *)s, 0, 1, 0);
     for (i = 0; i < 3; i++) {
         func_021BE6B0(func_021BE674(s, 0, 1, i), 1);
         func_021BE700(s, 0, 1, i, 0);
@@ -80,5 +81,5 @@ void func_021F3970(int a, const V3 *p0, const V3 *p1, int f30, int n)
     w->h34 = n;
     w->h36 = 0;
     w->f30 = f30;
-    func_020122C0(a, 0, (void *)func_021F3AF8, 0);
+    func_020122C0((void *)a, 0, (void *)func_021F3AF8, 0);
 }

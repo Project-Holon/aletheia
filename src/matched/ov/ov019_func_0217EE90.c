@@ -73,7 +73,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void  func_0201EE0C(void *win, int a, void *s, int b, int c, int d);
 extern void func_02045808(struct U16Vec *vec);
-extern void  func_0201F02C(void *win, int a, u32 b);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
@@ -113,7 +113,7 @@ void func_0217EE90(Self *self)
     func_02045924(s, buf);
     func_0201EE0C(self->win2804, 0, s, flag, 1, kind);
     func_02045808(s);
-    func_0201F02C(self->win2804, 1, x);
+    func_0201F02C(self->win2804, 1, (void *)x);
 
     switch (kind) {
     case 1: id = 0xe7; break;

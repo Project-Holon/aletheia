@@ -14,9 +14,9 @@
  */
 typedef unsigned int u32;
 
-extern void func_02048F4C(void *a, u32 b, void *c);
+extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
 void func_0202A3BC(void *a0, void *a1)
 {
-    func_02048F4C(a1, 0x5d, a0);
+    func_02048F4C(a1, 0x5d, (u32)a0);
 }

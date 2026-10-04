@@ -27,10 +27,10 @@ typedef unsigned int   u32;
 extern void *func_021A3960(unsigned char *p);
 extern int func_021A4768(u8 *, void *, u32);
 extern int func_021A47B4(u8 *, void *, u32);
-extern int func_021A4664(u8 *, void *, u32);
+extern int func_021A4664(int a, int b, u8 *c);
 extern int func_021A4698(u8 *, void *, u32);
 extern int func_021A482C(u8 *, void *, u32);
-extern int func_021A4890(u8 *, void *, u32);
+extern int func_021A4890(u8 *a, u32 b, u32 c);
 extern int func_021A48A4(u8 *, void *, u32);
 
 int ov021_func_021A46F0(u8 *a, u32 b)
@@ -45,7 +45,7 @@ int ov021_func_021A46F0(u8 *a, u32 b)
         ret = func_021A47B4(a, r, b);
         break;
     case 2:
-        ret = func_021A4664(a, r, b);
+        ret = func_021A4664((int)a, (int)r, (u8 *)b);
         break;
     case 3:
         ret = func_021A4698(a, r, b);
@@ -55,7 +55,7 @@ int ov021_func_021A46F0(u8 *a, u32 b)
         break;
     case 5:
     case 6:
-        ret = func_021A4890(a, r, b);
+        ret = func_021A4890(a, (u32)r, b);
         break;
     case 7:
         ret = func_021A48A4(a, r, b);

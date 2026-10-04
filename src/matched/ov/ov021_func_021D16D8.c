@@ -37,11 +37,13 @@ extern void *func_0215A5E4(void *a0);
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02012F8C(u32 *p);
-extern u16 *func_02009390(u32 a, u32 b);
-extern u32 func_020093D8(u32 a);
-extern u32 func_02009418(u32 a);
-extern void func_02009428(u32 a, u32 b);
-extern void func_020093F0(u32 a, u32 b);
+struct Sub02009210Ent;
+struct Sub02009210Obj;
+extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
+extern u32 func_020093D8(const struct Sub02009210Obj *obj);
+extern u32 func_02009418(const struct Sub02009210Obj *obj);
+extern void func_02009428(struct Sub02009210Obj *obj, int value);
+extern void func_020093F0(struct Sub02009210Obj *obj, int value);
 
 int func_021D16D8(u32 a, u32 b)
 {
@@ -65,7 +67,7 @@ int func_021D16D8(u32 a, u32 b)
     case 0:
         *r4 = 1;
         for (i = 0; i < 5; i++) {
-            e = func_02009390(id, i);
+            e = (u16 *)func_02009390((struct Sub02009210Obj *)id, i);
             if (e == 0) {
                 *r4 = 0;
             } else if (e[0] == 0x7E || e[0] == 0) {
@@ -74,24 +76,24 @@ int func_021D16D8(u32 a, u32 b)
         }
         break;
     case 1:
-        if (func_020093D8(id) == 0x7F) {
+        if (func_020093D8((const struct Sub02009210Obj *)id) == 0x7F) {
             *r4 = 0;
         } else {
             *r4 = 1;
         }
         break;
     case 2:
-        if (func_02009418(id) == 1) {
+        if (func_02009418((const struct Sub02009210Obj *)id) == 1) {
             *r4 = 1;
         } else {
             *r4 = 0;
         }
         break;
     case 3:
-        func_02009428(id, 0);
+        func_02009428((struct Sub02009210Obj *)id, 0);
         break;
     case 4:
-        func_020093F0(id, k1);
+        func_020093F0((struct Sub02009210Obj *)id, k1);
         break;
     }
     return 0;

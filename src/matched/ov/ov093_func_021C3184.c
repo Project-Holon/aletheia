@@ -38,7 +38,7 @@ extern void func_021D7C70(W w, u32 b, O *out);
 extern void func_021C3244(u32 c);
 extern u32 func_021C3254(u32 c);
 extern u32 func_021C3264(u32 c);
-extern int func_021C2E64(u8 *p, u32 a, u32 b, u32 t, u32 k);
+extern int func_021C2E64(u8 *p, const u16 *q, u8 *a, u8 *b, int k);
 extern int func_021C25A4(u8 *p, u32 a, u32 b, u32 unused, u32 s0, O s1, u32 s2);
 
 void func_021C3184(u8 *p, const u16 *q, u32 r, u32 c)
@@ -51,7 +51,7 @@ void func_021C3184(u8 *p, const u16 *q, u32 r, u32 c)
     func_021D7C70(v, r, &out);
     func_021C3244(c);
     for (t = func_021C3254(c); t != 0; t = func_021C3264(c)) {
-        if (func_021C2E64(p, (u32)q, r, t, 1) != 0) {
+        if (func_021C2E64(p, (const u16 *)((u32)q), (u8 *)r, (u8 *)t, 1) != 0) {
             BF *f = *(BF **)(p + 0x4A8);
             if (!f->f)
                 f->f = 1;

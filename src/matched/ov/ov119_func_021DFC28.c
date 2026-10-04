@@ -23,8 +23,9 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02015C48(u32, void *);
-extern void func_021DFAD0(u32, u32);
+typedef unsigned char  u8;
+extern void func_02015C48(void *p, u32 *src);
+extern void func_021DFAD0(int a0, u8 *a1);
 
 typedef struct {
     u32 f00;
@@ -52,6 +53,6 @@ void func_021DFC28(P *p, int a1)
     vec[0] = e[0] + p->f1c;
     vec[1] = e[1] + p->f20;
     vec[2] = e[2] + p->f24;
-    func_02015C48(p->f00, vec);
-    func_021DFAD0(p->f08, a1);
+    func_02015C48((void *)p->f00, vec);
+    func_021DFAD0(p->f08, (u8 *)a1);
 }

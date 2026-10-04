@@ -33,8 +33,8 @@ extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
 extern void func_021BC8EC(void);
 extern void func_021D5CA8(int lcd);
 extern void func_021D6090(int lcd, int plane);
-extern void func_021C0E50(void *param0, void *param1);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E50(unsigned int a, unsigned int b);
+extern void func_021C0E40(unsigned int v);
 extern unsigned char g_021DE61C;
 extern void func_021C7CE4(void);
 extern void func_021CD580(void);
@@ -50,10 +50,10 @@ void func_021CD458(void)
     func_021D5CA8(0);
     func_021D6090(0, 21);
     if (g_021DE61C == 0) {
-        func_021C0E50(0, (void *)1);
-        func_021C0E40(func_021C7CE4);
+        func_021C0E50(0, (unsigned int)((void *)1));
+        func_021C0E40((unsigned int)func_021C7CE4);
     } else {
-        func_021C0E50(0, (void *)1);
-        func_021C0E40(func_021CD580);
+        func_021C0E50(0, (unsigned int)((void *)1));
+        func_021C0E40((unsigned int)func_021CD580);
     }
 }

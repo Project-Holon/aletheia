@@ -20,19 +20,21 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0200C29C(u32 p, u32 v);
+struct Blk34;
+struct Sub02008C20Obj;
+extern u32 func_0200C29C(struct Blk34 *p, u32 v);
 extern void func_0200DA98(u32, u16);
-extern void func_02008DAC(u32, u32, u32);
-extern void func_02008DF0(u32, u32);
+extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
 void func_021B3568(u8 *w, u32 b)
 {
     if (w[0x163] == 0) {
-        func_0200C29C(*(u32 *)(w + 0xC), b);
-        func_02008DAC(*(u32 *)(w + 0x14), 0x16, b);
+        func_0200C29C((struct Blk34 *)(*(u32 *)(w + 0xC)), b);
+        func_02008DAC((struct Sub02008C20Obj *)(*(u32 *)(w + 0x14)), 0x16, b);
     } else {
         func_0200DA98(*(u32 *)(w + 0x18), b);
-        func_02008DAC(*(u32 *)(w + 0x14), 0x22, b);
+        func_02008DAC((struct Sub02008C20Obj *)(*(u32 *)(w + 0x14)), 0x22, b);
     }
-    func_02008DF0(*(u32 *)(w + 0x14), 0x15);
+    func_02008DF0((struct Sub02008C20Obj *)(*(u32 *)(w + 0x14)), 0x15);
 }

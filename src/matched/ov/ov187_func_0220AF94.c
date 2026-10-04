@@ -21,7 +21,8 @@
  */
 
 
-extern void func_02045808(int);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
@@ -35,7 +36,7 @@ int func_0220AF94(int a, int b, int c, char *p)
         for (i = 0; i < 4; i++) {
             int v = *(int *)(p + 0x1780 + i * 4);
             if (v != 0)
-                func_02045808(v);
+                func_02045808((struct U16Vec *)v);
         }
     }
     func_0220B0CC((int *)p);

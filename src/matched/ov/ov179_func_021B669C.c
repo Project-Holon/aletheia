@@ -17,15 +17,17 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern int func_0204A380(int, int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 extern void func_020862F0(int, int);
 extern void func_0207EB78(int, int, int);
 extern void func_0207ECF0(int, int, int);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 void func_021B669C(int a, int b, int c, int d, int e)
 {
-    int t = func_0204A380(a, b, 1, 0x807f);
+    int t = (int)func_0204A380((void *)a, b, 1, 0x807f);
 
     func_020862F0(t, d);
     if (e == 0) {
@@ -33,5 +35,5 @@ void func_021B669C(int a, int b, int c, int d, int e)
     } else {
         func_0207ECF0(t, c, d);
     }
-    func_020307B0(t);
+    func_020307B0((void *)t);
 }

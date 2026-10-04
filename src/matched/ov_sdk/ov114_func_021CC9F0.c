@@ -17,14 +17,14 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021CACD0(u8 *);
+extern void func_021CACD0(int a);
 
 void func_021CC9F0(u8 *p)
 {
     *(u32 *)p = 0;
     *(u32 *)(p + 8) = 0;
-    func_021CACD0(p + 0xc);
-    func_021CACD0(p + 0x20);
-    func_021CACD0(p + 0x34);
+    func_021CACD0((int)(p + 0xc));
+    func_021CACD0((int)(p + 0x20));
+    func_021CACD0((int)(p + 0x34));
     *(u32 *)(p + 0x4c) = 0;
 }

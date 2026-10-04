@@ -48,8 +48,9 @@ void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
-void *func_02158768(void *, int, int, int);
-int func_021589D0(void *);
+struct Desc;
+struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+int func_021589D0(int a0);
 void func_02159058(int a, int b, int c, int d, u16 e);
 void func_02012374(struct Evt *evt, struct Evt **out);
 void func_020307B0(void *);
@@ -73,8 +74,8 @@ int func_02181DD4(void *a, int *state, Ov018Obj *c)
         break;
     case 2:
         func_0217F318(c);
-        w = func_02158768(sub, 0xAFD, 0, 4);
-        func_02159058(func_021589D0(w), 0x1C, 1, 0, 0);
+        w = func_02158768((int)sub, 0xAFD, 0, 4);
+        func_02159058(func_021589D0((int)w), 0x1C, 1, 0, 0);
         func_02012374(a, w);
         (*state)++;
         break;

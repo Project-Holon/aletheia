@@ -38,8 +38,9 @@ typedef signed int     s32;
 extern u8 abs_id_13[];
 extern u8 abs_id_12[];
 extern void func_02030DA4(u32 a);
-extern void func_020307B0(u32 a);
-extern void func_02030EAC(u32 a);
+struct Node;
+extern void func_020307B0(void *p);
+extern void func_02030EAC(struct Node *n);
 extern void func_0204A5AC(void);
 extern void func_020450C8(void);
 extern void func_02034A5C(s32 handle);
@@ -54,11 +55,11 @@ extern u32 func_02013CE0(u32 a);
 u32 func_02188AD4(void *a, u8 *b)
 {
     func_02030DA4(*(u32 *)(b + 0x110));
-    func_020307B0(*(u32 *)(b + 0x114));
+    func_020307B0((void *)(*(u32 *)(b + 0x114)));
     func_021D31A4(*(u32 *)(b + 0x14C));
     *(u32 *)(b + 0x14C) = 0;
     func_021C6D5C(*(u32 *)(b + 0x134));
-    func_02030EAC(*(u32 *)(b + 0xAC));
+    func_02030EAC((struct Node *)(*(u32 *)(b + 0xAC)));
     func_0218CA4C(*(u32 *)(b + 0x48));
     func_021890C8(b);
     func_0204A5AC();

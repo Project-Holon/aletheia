@@ -39,7 +39,7 @@ typedef struct Node {
 } Node;
 
 int func_021BA590(const char *, const char *);
-Node *func_021BA820(int, int);
+int func_021BA820(int a, int b);
 void func_021BA874(Node *, int);
 
 int func_021BAA1C(Node **head, int b, int c, int d)
@@ -68,7 +68,7 @@ int func_021BAA1C(Node **head, int b, int c, int d)
     if (found != 0) {
         q->val = d;
     } else {
-        p = func_021BA820(0x18, 4);
+        p = (Node *)func_021BA820(0x18, 4);
         if (p == 0) {
             func_021BA874((Node *)b, 1);
             return 0;

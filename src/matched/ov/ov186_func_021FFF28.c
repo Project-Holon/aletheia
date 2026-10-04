@@ -15,7 +15,7 @@
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
  */
-extern void func_021FB964(int, int, unsigned short);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void *func_021FC6A4(unsigned short, unsigned char, unsigned char, unsigned, unsigned char, unsigned char, void *, unsigned short);
@@ -28,7 +28,7 @@ void func_021FFF28(Work *p)
     unsigned color;
     unsigned char x, y;
     p->state = 0;
-    func_021FB964((int)p->owner, 20, p->heap);
+    func_021FB964((void *)((int)p->owner), 20, p->heap);
     a = func_021FC20C(p->owner);
     b = func_021FC214(p->owner);
     for (i = 0; i < 9; i++) {

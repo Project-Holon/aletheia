@@ -26,18 +26,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02046EFC(u32);
-extern u32 func_020470D0(u32);
-extern u32 func_02047504(u32);
-extern u32 func_0204762C(u32);
+struct Rec;
+extern int func_020470D0(u32 *p);
+extern void func_02047504(struct Rec *p);
+extern void func_0204762C(struct Rec *p);
 extern u32 func_02047738(u32, u32, u32, u32);
 
 int func_021ADF68(u32 a, u32 b, u32 c, u32 d)
 {
 func_02047738(*(u32 *)((u8 *)(a) + 12), b, c, d);
-func_0204762C(*(u32 *)((u8 *)(a) + 16));
-func_02047504(*(u32 *)((u8 *)(a) + 20));
+func_0204762C((struct Rec *)(*(u32 *)((u8 *)(a) + 16)));
+func_02047504((struct Rec *)(*(u32 *)((u8 *)(a) + 20)));
 func_02046EFC(*(u32 *)((u8 *)(a) + 8));
-func_020470D0(*(u32 *)((u8 *)(a) + 4));
+func_020470D0((u32 *)(*(u32 *)((u8 *)(a) + 4)));
 return func_02046EFC(*(u32 *)((u8 *)(a) + 4));
 }
 

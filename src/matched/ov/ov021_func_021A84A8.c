@@ -24,11 +24,12 @@ typedef struct {
     int f28;
 } S;
 
-extern void func_021A0FB4(int a, u16 b);
+typedef unsigned int   u32;
+extern void func_021A0FB4(u32 *p, u32 a);
 
 void func_021A84A8(S *s)
 {
     if (s->f28 == 1) {
-        func_021A0FB4(s->f8, s->h0);
+        func_021A0FB4((u32 *)s->f8, s->h0);
     }
 }

@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int (*Handler)(u8 *,void *);
-extern int func_021B9C74(u8 *);
+extern int func_021B9C74(unsigned int a);
 extern void func_020061E4(u32);
 extern void func_021B9BEC(u8 *,int);
 extern void func_021BF4F8(u8 *,u32);
@@ -32,7 +32,7 @@ extern int func_021BD894(u8 *,void *);
 int func_021BE3B8(u8 *p,u32 *q) {
     switch(*q) {
     case 0:
-        if(func_021B9C74(*(u8 **)(p+0x14))) {
+        if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) {
             if(*(u16 *)(p+0x34)&64) {
                 func_020061E4(1352);
                 if(*(u16 *)(p+0x48)) { *(u16 *)(p+0x48)^=1; func_021B9BEC(*(u8 **)(p+0x14),17); }
@@ -53,7 +53,7 @@ int func_021BE3B8(u8 *p,u32 *q) {
     case 2: *q=4; func_021BF4F8(p,(u32)func_021BF608); break;
     case 3:
     case 4: *q=0; break;
-    case 5: if(func_021B9C74(*(u8 **)(p+0x14))) func_021BD7A0(p,func_021BD894); break;
+    case 5: if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) func_021BD7A0(p,func_021BD894); break;
     }
     return 0;
 }

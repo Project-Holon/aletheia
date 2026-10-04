@@ -19,25 +19,28 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *func_021BA184(void *),*func_021BA208(u8 *);
+typedef unsigned int   u32;
+extern u8 * func_021BA184(void *);
+extern u32 func_021BA208(u8 *p);
 extern void func_021BA1D8(u8 *,void *),func_021BA0F8(void *);
 extern void func_0204F5A8(void *,unsigned int),func_0204F150(u8 *,int);
-extern void func_021F4D40(int,int),func_021F4948(u8 *);
+extern void func_021F4D40(u8 *p, u8 *e);
+extern void func_021F4948(u8 *);
 void func_021B7498(u8 *p)
 {
     u8 *e,*next;
     int i;
     e=func_021BA184(*(void **)(p+0x181c));
-    while(e){next=func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
     e=func_021BA184(*(void **)(p+0x1820));
-    while(e){next=func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
     e=func_021BA184(*(void **)(p+0x1824));
-    while(e){next=func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
     e=func_021BA184(*(void **)(p+0x1828));
-    while(e){next=func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
     for(i=0;i<14;i++)func_0204F5A8(*(void **)(p+0x188c),*(unsigned int *)(p+i*4+0x5c));
     func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+0x58));
-    func_021F4D40(*(int *)(p+0x1884),*(int *)(p+0x4c));
+    func_021F4D40((u8 *)(*(int *)(p+0x1884)),(u8 *)(*(int *)(p+0x4c)));
     func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+0x54));
     for(i=0;i<*(u16 *)(p+0xa8);i++){
         func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb0));

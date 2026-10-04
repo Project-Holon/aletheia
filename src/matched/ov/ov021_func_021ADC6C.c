@@ -24,7 +24,8 @@ extern T d_021D9254;
 
 extern void func_0207ADC4(int *m);
 extern void func_021AC1B8(int a, T *t);
-extern void func_02047AC8(int a, T *t);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 
 void func_021ADC6C(int a, u8 *b)
 {
@@ -34,6 +35,6 @@ void func_021ADC6C(int a, u8 *b)
     if (b[3] == 0) {
         func_0207ADC4(&t.w[6]);
         func_021AC1B8(a, &t);
-        func_02047AC8(*(int *)(c + b[0x1c] * 0x18 + 0x28), &t);
+        func_02047AC8((void *)(*(int *)(c + b[0x1c] * 0x18 + 0x28)), (struct Arg *)(&t));
     }
 }

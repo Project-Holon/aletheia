@@ -70,13 +70,13 @@ extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201235C(struct S0201235C *o, u32 *out);
 extern u32   func_020362DC(void);
-extern u8   *func_02158344(void *);
+extern int func_02158344(int a0);
 extern int   func_0217405C(u8 *, u8 *);
 extern int   func_02173B9C(u8, u8);
 extern void  func_021753B8(u8 *);
 extern int   func_02175514(u8 *);
 extern int   func_02175CF4(u8 *, u8 *);
-extern void *func_0217CA84(void *, int);
+extern int func_0217CA84(void *a, int b);
 extern void  func_0217F3C4(u8 *, int);
 extern int   func_0217F40C(u8 *);
 extern int   func_0217F420();
@@ -90,7 +90,7 @@ int func_021823A8(void *a, int *state, Outer *c)
     u16 *h;
 
     sub = func_020124E4(a);
-    v = func_02158344((void *)func_02012138(sub));
+    v = (u8 *)func_02158344((int)((void *)func_02012138(sub)));
     if (v == 0 && *state <= 4) {
         if (func_0217F40C((u8 *)c + 0x10) == 0) {
             return 0;
@@ -185,10 +185,10 @@ int func_021823A8(void *a, int *state, Outer *c)
             return 0;
         }
         if (c->fA0 == 0) {
-            func_0201235C(a, func_0217CA84(sub, 2));
+            func_0201235C(a, (u32 *)func_0217CA84(sub, 2));
             return 0;
         }
-        func_0201235C(a, func_0217CA84(sub, 0));
+        func_0201235C(a, (u32 *)func_0217CA84(sub, 0));
         return 0;
     }
     return 0;

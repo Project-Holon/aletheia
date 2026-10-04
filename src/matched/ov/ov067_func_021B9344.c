@@ -33,8 +33,9 @@ struct S {
     u8 count;
 };
 
-extern int func_0201C4E4(int a);
-extern int func_0201C6C4(int a, int b);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
@@ -43,13 +44,13 @@ void func_021B9344(struct S *s)
 {
     u32 i;
 
-    func_0201C4E4(s->f34);
+    func_0201C4E4((struct PrintSys *)s->f34);
     for (i = 0; i < s->count; i++) {
         struct Elem *e = &s->arr[i];
         int a = s->f34;
 
         if (e->flag != 0) {
-            if (func_0201C6C4(a, (int)func_02045770((struct Descriptor *)e->p)) == 0) {
+            if (func_0201C6C4((struct PrintSys *)a, (void *)((int)func_02045770((struct Descriptor *)e->p))) == 0) {
                 func_02045334((struct Descriptor *)e->p);
                 e->flag = 0;
             }

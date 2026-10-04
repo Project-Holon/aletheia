@@ -18,9 +18,9 @@
  *   func_020061E4  0x020061E4  thumb
  */
 
-extern int func_02188D2C(int a);
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
-extern void func_021BE4B4(int a, int b, int c, int d);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern int *func_021BE674(int a, int b, int c, unsigned short d);
 extern void func_021BE6B0(int *p, int v);
 typedef unsigned int   u32;
@@ -32,10 +32,10 @@ void func_021F385C(int a)
     int s;
     int *w;
 
-    s = func_02188D2C(a);
+    s = func_02188D2C((int *)a);
     w = func_021897BC((char *)a, 1);
     w[0] = 1;
-    func_021BE4B4(s, 0, 0, 0);
+    func_021BE4B4((char *)s, 0, 0, 0);
     for (i = 0; i < 2; i++)
         func_021BE6B0(func_021BE674(s, 0, 0, i), 0);
     if (w[1] != 0)

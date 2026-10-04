@@ -22,8 +22,9 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void *func_0201ADE4(u32,int,u32);
-extern u32 func_0201AE1C(u32,u32);
-extern void func_0201AE14(u32);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern void func_0201AE14(void *p);
 extern int func_021F7B9C(u8 *p, int event);
 extern void func_021FF318(void *,int,int,int,int);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
@@ -36,8 +37,8 @@ void func_021FE264(u8 *p,u32 mode)
     case 1:
         if(*(s16 *)(p+0xB56)!=0) {
             h=(u32)func_0201ADE4((u16)*(s16 *)(p+0xB56),0,0x48);
-            v=func_0201AE1C(h,0x14);
-            func_0201AE14(h);
+            v=func_0201AE1C((const struct Personal *)h,0x14);
+            func_0201AE14((void *)h);
             *(u32 *)(*(u8 **)(p+0xE00)+0x20)=v;
             if(func_021F7B9C(p+0xB56,*(u32 *)(*(u8 **)(p+0xE00)+0x20))) break;
         }

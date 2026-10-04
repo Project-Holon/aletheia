@@ -46,14 +46,17 @@ typedef struct Obj {
     u32  f0a0[8];
 } Obj;
 
-extern void func_0201C4E4(u32 a);
-extern void func_021919C8(u32 a);
+struct PrintSys;
+struct Q;
+struct Tcbl;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern int func_021919C8(struct Q *q);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern int func_0201C6C4(u32 a, u32 b);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *a);
-extern void func_020310C4(u32 a);
-extern void func_0219470C(u32 a);
+extern void func_020310C4(struct Tcbl *p);
+extern void func_0219470C(unsigned char *a);
 extern void func_02194760(u32 a);
 
 void func_021903E0(Obj *o)
@@ -64,12 +67,12 @@ void func_021903E0(Obj *o)
     int j;
     u32 t;
 
-    func_0201C4E4(o->f0c);
+    func_0201C4E4((struct PrintSys *)o->f0c);
     i = 0;
     w = o->f0a0;
     for (; i < 8; i++, w++) {
         if (*w != 0) {
-            func_021919C8(*w);
+            func_021919C8((struct Q *)(*w));
         }
     }
     s = o->slot;
@@ -77,7 +80,7 @@ void func_021903E0(Obj *o)
         t = s->f0c;
         if (t != 0) {
             if (s->f20 != 0) {
-                if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)s->f1c)) == 0) {
+                if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)s->f1c))) == 0) {
                     func_02045334((struct Descriptor *)s->f1c);
                     s->f20 = 0;
                 }
@@ -85,9 +88,9 @@ void func_021903E0(Obj *o)
             s->f04 = (s->f20 == 0) ? 1 : 0;
         }
     }
-    func_020310C4(((u32 *)o)[0x59]);
+    func_020310C4((struct Tcbl *)(((u32 *)o)[0x59]));
     if (((u32 *)o)[0x57] != 0) {
-        func_0219470C(((u32 *)o)[0x57]);
+        func_0219470C((unsigned char *)(((u32 *)o)[0x57]));
         func_02194760(((u32 *)o)[0x57]);
     }
 }

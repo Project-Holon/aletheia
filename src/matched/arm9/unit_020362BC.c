@@ -44,12 +44,12 @@ struct Ctx {
     u8 unk_3d;
 };
 
-extern struct Rec *func_0203521C(struct Ctx *ctx);
+extern u32 func_0203521C(u32 *p);
 extern struct Ctx *func_02035224(void);
 
 u32 sub_020362BC(struct Ctx *ctx)
 {
-    struct Rec *rec = func_0203521C(ctx);
+    struct Rec *rec = (struct Rec *)func_0203521C((u32 *)ctx);
 
     if (ctx->unk_3d == 30) {
         return rec->unk_28;

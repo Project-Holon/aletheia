@@ -30,20 +30,20 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_0204E804();
-extern u32 func_021BA150();
-extern u32 func_021BA190();
-extern u32 func_021BA194();
+extern void func_021BA150(void *p);
+extern u32 func_021BA190(void *p);
+extern void func_021BA194(void *p);
 extern void func_021BA364(void);
 void func_021BA094(u32 a0)
 {
-    switch (func_021BA190(a0)) {
+    switch (func_021BA190((void *)a0)) {
     case 0:
     func_021BA364();
-    func_021BA194(a0);
+    func_021BA194((void *)a0);
     break;
     case 1:
     if (func_0204E804() == 0) {
-    func_021BA150(a0);
+    func_021BA150((void *)a0);
     }
     break;
     }

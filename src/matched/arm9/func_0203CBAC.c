@@ -91,7 +91,7 @@ extern int func_0200F17C(u32 sel);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
 extern struct Req *func_0203D8F0(struct Req *req, u32 a);
 extern void  func_02082D44(void *dst, void *src, u32 n);
-extern void  func_0203AFCC(u32 heap, u32 a);
+extern void func_0203AFCC(void *a, u32 b);
 extern void  func_02039834(struct Sess *s);
 extern void  func_0203A494(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void  func_02037010(u32 a, u32 b, u32 c, u32 d);
@@ -139,7 +139,7 @@ void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
         return;
     }
     s->f34c = a3;
-    func_0203AFCC(req->f56, a2);
+    func_0203AFCC((void *)req->f56, a2);
     func_02039834(s);
     func_0203A494(req->f67 << 8, req->f00, req->f04, s->f34c, req->f56);
     m = req->f65;

@@ -17,18 +17,21 @@
  */
 typedef unsigned char u8;
 typedef struct { int pad[7]; int single; int a[3]; int b; int c[3]; int d; } Cleanup;
-extern void func_02047738(int);
-extern void func_0204762C(int);
-extern void func_02047504(int);
-extern void func_02046EFC(int);
-extern void func_020470D0(int);
+typedef unsigned int   u32;
+struct Rec;
+struct Tagged;
+extern void func_02047738(struct Rec *p);
+extern void func_0204762C(struct Rec *p);
+extern void func_02047504(struct Rec *p);
+extern void func_02046EFC(struct Tagged *p);
+extern int func_020470D0(u32 *p);
 void func_021F7048(Cleanup *p) {
     u8 i;
-    func_02047738(p->d);
-    for (i = 0; i < 3; i++) func_0204762C(p->c[i]);
-    func_02047504(p->b);
-    for (i = 0; i < 3; i++) func_02046EFC(p->a[i]);
-    func_020470D0(p->single);
-    func_02046EFC(p->single);
+    func_02047738((struct Rec *)p->d);
+    for (i = 0; i < 3; i++) func_0204762C((struct Rec *)p->c[i]);
+    func_02047504((struct Rec *)p->b);
+    for (i = 0; i < 3; i++) func_02046EFC((struct Tagged *)p->a[i]);
+    func_020470D0((u32 *)p->single);
+    func_02046EFC((struct Tagged *)p->single);
     p->single = 0;
 }

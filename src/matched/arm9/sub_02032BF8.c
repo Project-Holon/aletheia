@@ -45,9 +45,9 @@ extern u32 func_020319A4(struct SaveBackup *p, u32 id);
 extern u32 func_02031EAC(struct SaveBackup *p, u32 x);
 extern u16 *func_02031ECC(struct SaveBackup *p);
 extern u16 func_020332A4(struct SaveBackup *p, u32 id);
-extern u32 func_02033B68(u32 table, u32 id);
-extern u32 func_02033BAC(u32 table, u32 id);
-extern void func_020336B8(u32 dst, u32 src, u32 len, u32 handle);
+extern u32 func_02033B68(u8 *p, u32 i);
+extern u32 func_02033BAC(u8 *p, u32 i);
+extern int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
 
 void sub_02032BF8(struct SaveBackup *p, u32 id, u32 x)
 {
@@ -60,8 +60,8 @@ void sub_02032BF8(struct SaveBackup *p, u32 id, u32 x)
     tbl = func_02031ECC(p);
     tbl[id] = func_020332A4(p, id);
     base = func_02031EAC(p, x);
-    off = func_02033B68(p->unk2C, id);
-    len = func_02033BAC(p->unk2C, id);
+    off = func_02033B68((u8 *)p->unk2C, id);
+    len = func_02033BAC((u8 *)p->unk2C, id);
     src = func_020319A4(p, id);
-    func_020336B8(base + off, src, len + 4, unk_02146994->unk208);
+    func_020336B8(base + off, src, len + 4, (void *)unk_02146994->unk208);
 }

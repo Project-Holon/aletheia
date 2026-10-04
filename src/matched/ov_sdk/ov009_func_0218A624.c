@@ -67,8 +67,8 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern int func_021867E8(void **connection);
-extern void func_02193734(void **connection, char *errorString);
-extern void func_0219327C(char *dest, char *src, unsigned long len);
+extern void func_02193734(int *p, int b);
+extern void func_0219327C(char *p, int b, int n);
 extern char *func_0217F21C(char *string);
 extern void *func_0217EAB0(unsigned long size);
 extern void *func_020923B0(void *dst, int val, unsigned long len);
@@ -95,30 +95,30 @@ int func_0218A624(void **connection, char *nick, char *uniquenick, char *email,
         if (__result__ != 0) return __result__;
     }
     if (iconnection->connectState != 0) {
-        func_02193734(connection, g_021A4818);
+        func_02193734((int *)connection, (int)g_021A4818);
         return 2;
     }
 
     iconnection->firewall = 1;
-    func_0219327C(iconnection->nick, nick, 31);
-    func_0219327C(iconnection->uniquenick, uniquenick, 21);
-    func_0219327C(iconnection->email, email, 51);
-    func_0219327C(iconnection->password, password, 31);
+    func_0219327C(iconnection->nick, (int)nick, 31);
+    func_0219327C(iconnection->uniquenick, (int)uniquenick, 21);
+    func_0219327C(iconnection->email, (int)email, 51);
+    func_0219327C(iconnection->password, (int)password, 31);
     func_0217F21C(iconnection->email);
 
     data = (GPIConnectData *)func_0217EAB0(sizeof(GPIConnectData));
     if (data == 0) {
-        func_02193734(connection, g_021A482C);
+        func_02193734((int *)connection, (int)g_021A482C);
         return 1;
     }
     func_020923B0(data, 0, sizeof(GPIConnectData));
     data->newuser = newuser;
     if (authtoken[0] && partnerchallenge[0]) {
-        func_0219327C(data->authtoken, authtoken, 256);
-        func_0219327C(data->partnerchallenge, partnerchallenge, 256);
+        func_0219327C(data->authtoken, (int)authtoken, 256);
+        func_0219327C(data->partnerchallenge, (int)partnerchallenge, 256);
     }
     if (cdkey)
-        func_0219327C(data->cdkey, cdkey, 65);
+        func_0219327C(data->cdkey, (int)cdkey, 65);
 
     {
         int __result__ = func_0218E114(connection, 0, data, &operation, blocking, callback, param);

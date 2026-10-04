@@ -13,9 +13,12 @@
  *   func_0200B078  0x0200B078  thumb
  */
 
-extern int func_0200B078(int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Reg2;
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 
 void func_0217D388(int *p, int *q)
 {
-    *(int *)((char *)p + 0x40) = func_0200B078(*(int *)((char *)q + 0x38), 2);
+    *(int *)((char *)p + 0x40) = func_0200B078((struct Reg2 *)(*(int *)((char *)q + 0x38)), 2);
 }

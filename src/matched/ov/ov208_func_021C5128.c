@@ -37,8 +37,8 @@ extern u32  ov208_func_021C5000(void *sys, u32 species, u32 a2, u32 a3, u32 a4, 
                                 u32 a7);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02015EE8(u32 obj);
-extern void func_02063000(void *anm, u32 one, void *work, void (*cb)(void *));
+extern void *func_02015EE8(void *p);
+extern void func_02063000(int p0, int p1, int p2, int p3);
 extern void ov208_func_021C5248(void *work);
 extern void ov208_func_021C7F6C(VecF *pos, u32 species, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                                 u32 a7);
@@ -49,6 +49,6 @@ void ov208_func_021C5128(struct Ov208Mdl *m, u32 heap, void *sys, u32 species, u
 {
     m->obj = ov208_func_021C5000(sys, species, a4, a5, a6, a7, a8, a9);
     m->turn = func_02030734(heap, 0x10, 1, data_021C8E64, 0xab1);
-    func_02063000(func_02015EE8(m->obj), 1, m->turn, ov208_func_021C5248);
+    func_02063000((int)func_02015EE8((void *)m->obj), 1, (int)m->turn, (int)ov208_func_021C5248);
     ov208_func_021C7F6C(m->pos, species, a4, a5, a6, a7, a8, a9);
 }

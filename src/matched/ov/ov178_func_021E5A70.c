@@ -19,11 +19,11 @@ typedef unsigned int u32;
 
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
-extern u32 func_0217E00C(u32 v, u32 n);
+extern void *func_0217E00C(int unused, int heap);
 extern u8 ov176_id[];
 
 void func_021E5A70(u32 *out, u32 **pp, u32 v)
 {
     func_02034AC4((u32)ov176_id);
-    *out = func_0217E00C(*(u32 *)*pp, v);
+    *out = (u32)func_0217E00C(*(u32 *)*pp, v);
 }

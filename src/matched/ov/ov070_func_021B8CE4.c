@@ -24,15 +24,18 @@
 
 extern void func_021B6288();
 extern void func_021B80BC(void *p);
-extern void func_021B81F4();
-extern void func_021B6138();
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_021B81F4(u8 *p);
+extern void func_021B6138(char *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void func_0204B8C4();
-extern void func_0204B878();
+extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_021B6100();
+extern void func_021B6100(char *p, int k);
 extern void func_021B8D88(char *p);
 
 void func_021B8CE4(int p, int u, int a, int b)
@@ -40,9 +43,9 @@ void func_021B8CE4(int p, int u, int a, int b)
     int x;
     func_021B6288(p, u, *(int *)((char *)p + 0x80C), b);
     func_021B80BC((void *)p);
-    func_021B81F4(p);
+    func_021B81F4((u8 *)p);
     *(int *)((char *)p + 0x818) = 0xFFFF;
-    func_021B6138(p);
+    func_021B6138((char *)p);
     if (a == 1) {
         func_020061E4(0x7D9);
         x = 0xD;
@@ -53,8 +56,8 @@ void func_021B8CE4(int p, int u, int a, int b)
     *(unsigned short *)((char *)p + 0x864) = a;
     *(unsigned short *)((char *)p + 0x866) = 6;
     func_0204B8C4(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), 0);
-    func_0204B878(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), (unsigned short)x);
+    func_0204B878((struct Obj *)(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710)), (unsigned short)x);
     func_0204B92C((struct Obj *)*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), 1);
     *(int *)((char *)p + 0x868) = b;
-    func_021B6100(p, func_021B8D88);
+    func_021B6100((char *)p, (int)func_021B8D88);
 }

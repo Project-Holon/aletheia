@@ -21,7 +21,8 @@
  */
 typedef unsigned char u8;
 struct Big;
-extern struct Big *func_021BF740(u8 *);
+typedef unsigned int   u32;
+extern u32 func_021BF740(u8 *a0);
 extern void *func_02012EBC(struct Big *);
 extern void *func_0200E394(void *a0);
 extern int func_0200E44C(int,int);
@@ -34,7 +35,7 @@ u8 func_021BF8B0(u8 *p)
     u8 a,b,c,j;
     void *base;
     int i;
-    base=func_0200E394(func_02012EBC(func_021BF740(p)));
+    base=func_0200E394(func_02012EBC((struct Big *)func_021BF740(p)));
     for (i=0;i<3;i++) bytes[i]=func_0200E44C((int)base,i);
     b=bytes[1];
     c=bytes[2];

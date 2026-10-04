@@ -22,9 +22,11 @@ typedef unsigned int   u32;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern int func_021DA158(int x, int flag);
-extern void func_0204B878(int,unsigned short);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
-extern void func_02045AA8(int,void *);
+extern void func_02045AA8(struct U16Vec *dst, struct U16Vec *src);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021D8AF4(char *,int);
 void func_021D9348(char *p)  {
@@ -37,10 +39,10 @@ void func_021D9348(char *p)  {
         q=p+i*28;
         if(*(int *)q==0)  {
             *(int *)q=1;
-            func_0204B878(*(int *)(q+12),func_021DA158(1,*(int *)(q+8)));
+            func_0204B878((struct Obj *)(*(int *)(q+12)),func_021DA158(1,*(int *)(q+8)));
         }
         func_0201F35C(v,*(int *)q-1,1,1,1);
-        func_02045AA8(*(int *)(p+0x348),v);
+        func_02045AA8((struct U16Vec *)(*(int *)(p+0x348)),v);
     }
     func_02045808(v);
     func_021D8AF4(p,3);

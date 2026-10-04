@@ -47,9 +47,13 @@ extern char d_021BD5E4[];
 extern char d_021BD5D4[];
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_0204A48C(void *, void *, int);
-extern u32 func_02008550(int);
-extern int func_0204B100(int, int, int);
+typedef unsigned char  u8;
+struct Bank;
+struct Cfg;
+struct Sub0200852CObj;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
 struct Obj;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -69,9 +73,9 @@ void func_021BB184(int *p)
     u32 i;
 
     t = d_021BD688;
-    func_0204A48C(&t, d_021BD60C, 0xb);
+    func_0204A48C((const struct Cfg *)(&t), (u32)d_021BD60C, 0xb);
     h = func_020490F4(0x1f, 0x800b);
-    if (func_02008550(p[1]) == 0) {
+    if (func_02008550((const struct Sub0200852CObj *)p[1]) == 0) {
         p[13] = func_0204A6C8(h, 5, 0, 0, 0xb);
         p[16] = func_0204ABF0(h, 4, 0, 0, 0xb);
         p[19] = func_0204AF28(h, 0, 1, 0xb);
@@ -89,7 +93,7 @@ void func_021BB184(int *p)
     p[18] = func_0204ABF0(h, 0xd, 0, 0x40, 0xb);
     p[21] = func_0204AF28(h, 0xe, 0xf, 0xb);
     func_02049238(h);
-    p[6] = func_0204B100(6, 0, 0xb);
+    p[6] = (int)func_0204B100(6, 0, 0xb);
     p[7] = (int)func_0204B294((void *)p[6], p[13], p[16], p[19], d_021BD5DC, 0, 0xb);
     func_0204B3DC((void *)p[7], 0);
     for (i = 1; i <= 4; i++) {

@@ -19,12 +19,15 @@
  *   func_021A2564  0x021A2564  thumb  ov021
  */
 
-extern int *func_021A21B8(int);
-extern int func_021A223C(int, int);
-extern void func_021A2390(int, int, int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int *func_021A21B8(int *p);
+extern int func_021A223C(unsigned char *o, int arg);
+extern void func_021A2390(u32 *p, int a, int b, int c);
 extern int func_021A23B0(int);
-extern int func_021A21BC(int);
-extern void func_021A244C(int, int *, int *);
+extern int func_021A21BC(unsigned char *o);
+extern void func_021A244C(u8 *o, s32 *outX, s32 *outY);
 extern void func_021A2564(int, int, int);
 
 int func_021EE8EC(int a, int b, int c)
@@ -35,12 +38,12 @@ int func_021EE8EC(int a, int b, int c)
     int x;
     int y;
 
-    p = func_021A21B8(a);
-    t = func_021A223C(a, c);
+    p = func_021A21B8((int *)a);
+    t = func_021A223C((unsigned char *)a, c);
     if (*p > 0) {
         *p = *p - 1;
         if (*p == 0) {
-            func_021A2390(a, 0x7FDF, 0x5A, b);
+            func_021A2390((u32 *)a, 0x7FDF, 0x5A, b);
         }
     } else {
         if (b != 0) {
@@ -50,12 +53,12 @@ int func_021EE8EC(int a, int b, int c)
         }
         if (ok != 0 && t != 0) {
             p[2] = 1;
-            if (func_021A21BC(a) == 0) {
+            if (func_021A21BC((unsigned char *)a) == 0) {
                 return 1;
             }
         }
     }
-    func_021A244C(a, &x, &y);
+    func_021A244C((u8 *)a, &x, &y);
     func_021A2564(a, x, y);
     return 0;
 }

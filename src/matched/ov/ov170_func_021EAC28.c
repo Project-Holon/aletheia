@@ -27,7 +27,8 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(void *a, u32 b, void *c);
+struct WordSet;
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 print, void *bmp, short x, short y, u32 str, u32 font, u16 color);
 extern void func_02045808(struct U16Vec *vec);
@@ -37,7 +38,7 @@ void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, 
     u32 print;
     void *s;
     s = func_02045EC0(bank, idx);
-    func_0201F250(*(void **)(w + 0x84), *(u32 *)(w + 0x88), s);
+    func_0201F250(*(void **)(w + 0x84), (void *)(*(u32 *)(w + 0x88)), s);
     print = *(u32 *)(w + 0x8C);
     func_0201C724(print, func_02045770(*(void **)(w + i * 8 + 0x94)), x, y, *(u32 *)(w + 0x88), font, color);
     *(unsigned char *)(w + i * 8 + 0x98) = 1;

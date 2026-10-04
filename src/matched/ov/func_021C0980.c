@@ -19,7 +19,9 @@
 extern int func_02040804(int);
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_0204B404(int, void *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
@@ -68,7 +70,7 @@ void func_021C0980(int a, unsigned char *p)
             } else {
                 v[1] -= 8;
             }
-            func_0204B404(*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), v, 1);
+            func_0204B404((struct Obj *)(*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64))), (const struct Vec2 *)v, 1);
             break;
         case 3:
             func_0204B454((struct Actor *)*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), (struct PtS *)v, 1);
@@ -78,7 +80,7 @@ void func_021C0980(int a, unsigned char *p)
             } else {
                 v[1] += 8;
             }
-            func_0204B404(*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), v, 1);
+            func_0204B404((struct Obj *)(*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64))), (const struct Vec2 *)v, 1);
             break;
         }
     }

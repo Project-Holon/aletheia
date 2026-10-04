@@ -16,8 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8[8]; u8 f28; u8 f29; } S;
-extern void func_02046FF8(u32 h);
+extern int func_02046FF8(int *self);
 void func_021C6854(S *s)
 {
-    s->f29 = 0; if (s->f4 != 0) func_02046FF8(s->f4); else func_02046FF8(s->f0); s->f29 = 1;
+    s->f29 = 0; if (s->f4 != 0) func_02046FF8((int *)s->f4); else func_02046FF8((int *)s->f0); s->f29 = 1;
 }

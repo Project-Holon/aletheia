@@ -25,7 +25,7 @@
  */
 
 extern void  func_02175F1C(int a0);
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void  func_02175F4C(int a0);
 extern void  func_02082BCC(void *p, int v, int n);
 extern void  func_0217601C(void);
@@ -52,7 +52,7 @@ int func_0216CC28(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7
     *(int *)(func_02175F3C() + 0x688) = a5;
     *(int *)(func_02175F3C() + 0x68c) = a6;
     *(int *)(func_02175F3C() + 0x690) = a7;
-    func_02082BCC(func_02175F3C() + 0x694, 0, 0x40);
+    func_02082BCC((void *)(func_02175F3C() + 0x694), 0, 0x40);
     *(int *)(func_02175F3C() + 0x6d4) = 0;
     *(int *)(func_02175F3C() + 0x770) = 0;
     *(int *)(func_02175F3C() + 0x774) = 0;
@@ -65,7 +65,7 @@ int func_0216CC28(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7
     *(int *)(func_02175F3C() + 0x798) = 0;
     *(char *)(func_02175F3C() + 0x15) = 0;
     *(char *)(func_02175F3C() + 0x16) = 0;
-    q = func_02175F3C();
+    q = (char *)func_02175F3C();
     *(int *)(q + 0x5f0) = 0;
     *(int *)(q + 0x5f4) = 0;
     *(int *)(func_02175F3C() + 0x7c8) = 0;

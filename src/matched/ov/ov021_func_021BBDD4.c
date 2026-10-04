@@ -39,14 +39,14 @@ extern int d_021D9AF8;
 
 typedef unsigned int   u32;
 int func_021ABEA0(u32 a, u32 b);
-u16 func_0216D5F8(int a);
-u16 func_0216D5FC(int a);
+u16 func_0216D5F8(void *p);
+u16 func_0216D5FC(void *p);
 int func_021BBD84(int a, int n, int x, int y);
 struct Actor;
 struct VecFx32;
 void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-int func_0216D804(int a);
-int func_0216D81C(int a);
+int func_0216D804(void *p);
+int func_0216D81C(void *p);
 void func_02164280(int a, int b, Vec *c);
 void func_021ABFA8(int a, void *b, Vec *c, int d, Arg *e, int f);
 
@@ -61,12 +61,12 @@ void func_021BBDD4(int a, int b, int c)
 
     x = func_021ABEA0(b, 5);
     s.a = x;
-    t = func_0216D5F8(a);
-    u = func_0216D5FC(a);
+    t = func_0216D5F8((void *)a);
+    u = func_0216D5FC((void *)a);
     w = (u16)func_021BBD84(x, c, t, u);
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
-    t = func_0216D804(a);
-    func_02164280(t, func_0216D81C(a), &v);
+    t = func_0216D804((void *)a);
+    func_02164280(t, func_0216D81C((void *)a), &v);
     if (c == 0 && (u16)(w + 0xFFFE) <= 1) {
         v.z -= 0x2000;
     } else if (c == 4 && (u16)(w + 0xFFFE) <= 1) {

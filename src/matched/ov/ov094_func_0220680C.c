@@ -16,15 +16,15 @@
  *   func_022005C4  0x022005C4  thumb  ov094
  */
 
-extern void *func_021F86B4(void);
-extern void *func_021F8694(void);
+extern int func_021F86B4(void);
+extern int func_021F8694(void);
 extern int func_02207D78(char *p, int i);
 extern int func_022005C4(void *w, int key);
 
 void func_0220680C(char *p)
 {
-    int a = func_02207D78(func_021F86B4(), *(int *)(p + 0x278));
-    int b = func_022005C4(func_021F8694(), *(int *)(p + 0x278));
+    int a = func_02207D78((char *)func_021F86B4(), *(int *)(p + 0x278));
+    int b = func_022005C4((void *)func_021F8694(), *(int *)(p + 0x278));
     int i;
 
     if ((b | a) == 1) {

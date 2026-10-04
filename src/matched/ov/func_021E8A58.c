@@ -17,10 +17,12 @@
  */
 
 
-extern int func_020260E0(int);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_021EE008(char *, int, int);
 int func_021E8A58(char *p)
 {
-    func_021EE008(p, func_020260E0(*(int *)(*(int *)(p + 0x2c) + 0x70)) - 1, 1);
+    func_021EE008(p, func_020260E0((struct Sound *)(*(int *)(*(int *)(p + 0x2c) + 0x70))) - 1, 1);
     return 0x61;
 }

@@ -10,11 +10,12 @@
  * symbols:
  *   func_021BE7A8 0x021BE7A8 thumb ov203
  */
-extern unsigned char *func_021BE7A8(void *);
+typedef unsigned int   u32;
+extern u32 func_021BE7A8(u32 id);
 typedef struct Flags { unsigned short doubled:1; unsigned short rest:15; } Flags;
 void func_021BE948(void *ctx, int mode, unsigned char *width, unsigned char *height)
 {
-    unsigned char *record = func_021BE7A8(ctx);
+    unsigned char *record = (unsigned char *)func_021BE7A8((u32)ctx);
     if (mode == 0) {
         *width = record[0x4e];
         *height = record[0x4f] * (((Flags *)(record + 6))->doubled + 1);

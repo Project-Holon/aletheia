@@ -78,7 +78,7 @@ typedef struct GHIConnection {
     void *f1cc;
 } GHIConnection;
 
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0217F1C0(void *);
 extern int func_0217EB9C(int, int);
 extern int func_0217EB40(int, int *);
@@ -91,9 +91,9 @@ extern char g_021CE660[];
 
 void func_021C0E58(GHIConnection *connection)
 {
-    func_0217D254(8, 3, 0x10, g_021CE648);
+    func_0217D254(8, (char *)3, 0x10, g_021CE648);
     if (connection->f1cc != 0) {
-        func_0217D254(8, 3, 0x10, g_021CE620);
+        func_0217D254(8, (char *)3, 0x10, g_021CE620);
         func_0217F1C0(connection->f1cc);
         connection->f1cc = 0;
     }

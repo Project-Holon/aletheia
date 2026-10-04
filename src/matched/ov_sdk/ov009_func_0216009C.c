@@ -23,7 +23,7 @@ typedef struct {
 	void *current;
 } ThreadInfo;
 
-extern unsigned long func_02085A30(void *thread);
+extern void *func_02085A30(char *p);
 extern int func_02085988(void *thread, unsigned long prio);
 extern unsigned long g_021A1D40[2];
 extern ThreadInfo g_02150FEC;
@@ -37,7 +37,7 @@ unsigned long func_0216009C(void)
 		return -1;
 	}
 	thread = g_02150FEC.current;
-	old_priority = func_02085A30(thread);
+	old_priority = (long unsigned int)func_02085A30(thread);
 	func_02085988(thread, g_021A1D40[1]);
 	return old_priority;
 }

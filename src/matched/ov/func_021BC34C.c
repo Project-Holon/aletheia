@@ -15,10 +15,10 @@
  * Calls the ARM9 function at 0x020307B0 on the word at +0x10, then clears the field.
  */
 
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 void func_021BC34C(char *p)
 {
-    func_020307B0(*(int *)(p + 0x10));
+    func_020307B0((void *)(*(int *)(p + 0x10)));
     *(int *)(p + 0x10) = 0;
 }

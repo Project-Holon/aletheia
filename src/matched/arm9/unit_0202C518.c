@@ -40,7 +40,8 @@
 typedef signed int   s32;
 typedef unsigned int u32;
 
-extern void *sub_0202C510(void *p, s32 idx);
+struct Arr0202C510;
+extern u32 sub_0202C510(struct Arr0202C510 *p, u32 idx);
 extern u32 sub_0202C588(void *p, u32 v);
 
 void sub_0202C518(void *p)
@@ -48,6 +49,6 @@ void sub_0202C518(void *p)
     s32 i;
 
     for (i = 0; i < 9; i++) {
-        sub_0202C588(sub_0202C510(p, i), 0x7F);
+        sub_0202C588((void *)sub_0202C510(p, i), 0x7F);
     }
 }

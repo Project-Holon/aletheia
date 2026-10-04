@@ -32,7 +32,7 @@ extern int func_02050C04(int,int,int,int);
 extern int func_020056BC(void);
 extern void func_02051230(u8 *,u32,u32,u32);
 extern void func_021BB3D4(u8 *,int,Pair *);
-extern void func_020515B4(u32,u32,int *);
+extern int func_020515B4(void *p, int b, int c);
 extern u8 d_021BED58[];
 #define W(o) (*(u32 *)(p+(o)))
 void func_021BDABC(u8 *p)
@@ -65,5 +65,5 @@ void func_021BDABC(u8 *p)
     if (xy.y > 0) vec[1] = (int)(0.5f+(float)(xy.y<<12))/0x26;
     else vec[1] = (int)((float)(xy.y<<12)-0.5f)/0x26;
     vec[2] = 0x40000;
-    for (i=0;i<count;i++) func_020515B4(W(0x260),i,vec);
+    for (i=0;i<count;i++) func_020515B4((void *)W(0x260),i,(int)vec);
 }

@@ -15,11 +15,13 @@
  */
 
 int func_020091FC(int a0);
-void func_0204932C(int a0, int a1, int a2);
+typedef unsigned int   u32;
+struct ArcFile;
+void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 
 void func_021F3190(int a0, int a1, int a2)
 {
     int x = func_020091FC(a0);
 
-    func_0204932C(a1, a2 + 0x19, x);
+    func_0204932C((struct ArcFile *)a1, a2 + 0x19, (void *)x);
 }

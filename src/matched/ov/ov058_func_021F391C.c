@@ -39,7 +39,7 @@ extern s16 d_020A1B38[];
 
 typedef unsigned char  u8;
 extern u16 func_02188C84(u8 *p);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern char *func_021BE480(void *p, int i, u16 j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
@@ -53,7 +53,7 @@ void func_021F391C(void *unused, void *a, int i, int j)
     int y2;
 
     func_02188C84(a);
-    s = func_02188D2C(a);
+    s = (void *)func_02188D2C(a);
 
     e = (V *)func_021BE480(s, 0, i);
     e->a = 0x1770000;

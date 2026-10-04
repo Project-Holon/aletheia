@@ -24,12 +24,13 @@ typedef unsigned short u16;
 
 extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a);
-extern void func_0200616C(u32 a, int b);
+struct Obj;
+extern void func_0200616C(void *arg, int i);
 extern char *func_02006138(int i);
 extern void func_02006268(int i, u32 a, u32 b, u32 c);
 extern void func_02072F34(char *p, unsigned int v);
-extern void func_02073058(char *p, u16 a, unsigned int v);
-extern void func_02073078(char *p, u16 a, unsigned int v);
+extern void func_02073058(struct Obj *o, u32 v, u32 w);
+extern void func_02073078(struct Obj *o, u32 v, u32 w);
 
 void func_021FDB40(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f, unsigned int g)
 {
@@ -37,13 +38,13 @@ void func_021FDB40(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f
         func_020061E4(a0);
         m = func_02006148(a0);
     } else {
-        func_0200616C(a0, m);
+        func_0200616C((void *)a0, m);
     }
     func_02072F34(func_02006138(m), e);
     func_02006268(m, -1, -1, a2);
     func_02006268(m, -1, a3, -1);
     if (f) {
-        func_02073058(func_02006138(m), 0xffff, f);
-        func_02073078(func_02006138(m), 0xffff, g);
+        func_02073058((struct Obj *)func_02006138(m), 0xffff, f);
+        func_02073078((struct Obj *)func_02006138(m), 0xffff, g);
     }
 }

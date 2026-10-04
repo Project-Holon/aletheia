@@ -24,7 +24,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int func_021B8B9C(unsigned char *p, unsigned char k);
 extern u8 func_021B8BC4(void *p, u8 k);
 extern char *func_021B9AEC(char *p, int i);
-extern u32 func_021B9B94(void *p);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(void *p, u32 i);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 _u32_div_f(u32, u32);
@@ -45,7 +46,7 @@ void func_021CC800(u8 *a, u32 *out1, u32 *out2, u8 want)
         if (func_021B8B9C(*(void **)(a + 4), j) != 0 &&
             want == func_021B8BC4(*(void **)(a + 4), j)) {
             p = func_021B9AEC(*(void **)(a + 8), j);
-            n = func_021B9B94(p);
+            n = func_021B9B94((struct Q1 *)p);
             for (i = 0; i < n; i++) {
                 t = func_021B9C00(p, (u8)i);
                 sum += func_021D59B4(t, 14);

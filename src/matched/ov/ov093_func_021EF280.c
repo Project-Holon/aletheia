@@ -28,9 +28,11 @@ extern H d_021F63D8;
 extern u8 func_021B8DDC(u32 x);
 extern int func_021B8CE8(int, u8, int);
 extern void *func_021B86B8(void ***);
-extern void func_02045CAC(u32, u16, u32);
-extern void func_021EEFE0(u32, u32 *, u32);
-extern void func_0201F250(u32, u32, u32);
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021EEFE0(void *s, const u32 *values, void *w);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 static inline int classify(u8 k)
 {
     int x;
@@ -58,7 +60,7 @@ second:
         if (x == classify(k)) b++;
         break;
     }
-    func_02045CAC(d_021F6398.f14, b, d_021F6398.f0c);
-    func_021EEFE0(d_021F6398.f0c, p, d_021F6398.f08);
-    func_0201F250(d_021F6398.f08, a, d_021F6398.f0c);
+    func_02045CAC((struct MsgBank *)d_021F6398.f14, b, (void *)d_021F6398.f0c);
+    func_021EEFE0((void *)d_021F6398.f0c, p, (void *)d_021F6398.f08);
+    func_0201F250((struct WordSet *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }

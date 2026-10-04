@@ -31,8 +31,8 @@
  */
 
 extern void func_0216F5FC(int a0);
-extern char *func_02175F3C(void);
-extern void func_02175560(int a0, int a1, int a2);
+extern int func_02175F3C(void);
+extern void func_02175560(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern void func_02175F4C(int a0);
 extern void func_0216F20C(int a0);
 extern int  func_02173D28(void);
@@ -52,7 +52,7 @@ void func_0216D138(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p
     *(int *)(func_02175F3C() + 0x778) = p4;
     *(int *)(func_02175F3C() + 0x77c) = p5;
     *(int *)(func_02175F3C() + 0x7b0) = p0;
-    func_02175560(p6, p7, p8);
+    func_02175560((void *)p6, (unsigned char *)p7, (void *)p8);
     func_02175F4C(0x16);
     func_0216F20C(6);
     if (func_02173D28() != 0)
@@ -63,13 +63,13 @@ void func_0216D138(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p
         if (func_0216CD8C(*(int *)(func_02175F3C() + 0x678)) != 0)
             return;
     }
-    a = func_02175F3C();
+    a = (char *)func_02175F3C();
     *(int *)(a + 0x790) = func_02175530();
     if (*(int *)(func_02175F3C() + 0x5e0) == 0) {
-        a = func_02175F3C();
-        b = func_02175F3C();
-        c = func_02175F3C();
-        d = func_02175F3C();
+        a = (char *)func_02175F3C();
+        b = (char *)func_02175F3C();
+        c = (char *)func_02175F3C();
+        d = (char *)func_02175F3C();
         *(int *)(a + 0x5e0) = func_0219EC74(*(int *)(b + 0x684),
                                              *(int *)(c + 0x684),
                                              *(int *)(d + 0x688), 0, 0x14, 1, 0,

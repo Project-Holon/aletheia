@@ -38,8 +38,9 @@ typedef struct {
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188C58();
-extern u16 func_02011330();
+struct Stream;
+extern void *func_02188C58(void *p);
+extern u16 func_02011330(struct Stream *s);
 extern u32 func_0201134C();
 extern void func_0218F900();
 
@@ -48,9 +49,9 @@ int func_021B53BC(int a0, int a1)
     Out o;
     int r4;
 
-    r4 = func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
-    o.h24 = func_02011330(a0);
-    o.h26 = func_02011330(a0);
+    r4 = (int)func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
+    o.h24 = func_02011330((struct Stream *)a0);
+    o.h26 = func_02011330((struct Stream *)a0);
     o.f28 = func_0201134C(a0);
     o.f0c = func_0201134C(a0);
     o.f10 = func_0201134C(a0);
@@ -61,6 +62,6 @@ int func_021B53BC(int a0, int a1)
     o.w30[3] = 1;
     o.w30[4] = 0;
     o.w30[5] = 1;
-    func_0218F900(r4, &o, func_02011330(a0));
+    func_0218F900(r4, &o, func_02011330((struct Stream *)a0));
     return 0;
 }

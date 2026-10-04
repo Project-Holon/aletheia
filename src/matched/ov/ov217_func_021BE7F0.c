@@ -26,13 +26,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021BEA54(u32);
+extern void func_021BEA54(char *p);
 extern u32 func_021BEEA4();
-extern u32 func_021BF15C();
+extern void func_021BF15C(char *p);
 u32 func_021BE7F0(u32 a0)
 {
-    func_021BEA54(a0);
-    func_021BF15C(a0);
+    func_021BEA54((char *)a0);
+    func_021BF15C((char *)a0);
     return func_021BEEA4(a0);
 }
 

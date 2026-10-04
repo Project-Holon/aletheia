@@ -22,7 +22,10 @@
  */
 
 
-extern void func_0204B404(int, unsigned short *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B5AC(int, unsigned int *);
 
 void func_021C31CC(int unused, char *q)
@@ -36,7 +39,7 @@ void func_021C31CC(int unused, char *q)
     buf.h[1] = 0x80;
     buf.w[0] = 0x1000;
     buf.w[1] = 0x1000;
-    func_0204B404(*(int *)(q + *(int *)(q + 0x5c) * 4 + 0x54), buf.h, 1);
+    func_0204B404((struct Obj *)(*(int *)(q + *(int *)(q + 0x5c) * 4 + 0x54)), (const struct Vec2 *)buf.h, 1);
     func_0204B5AC(*(int *)(q + *(int *)(q + 0x5c) * 4 + 0x54), buf.w);
     *(int *)(q + 0x60) = 1;
 }

@@ -41,7 +41,8 @@ typedef struct {
     Elem *fC;
 } Mgr;
 
-extern void func_02047AC8(void *a, void *b);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 extern void func_02047A60(void *a, void *b);
 
 void func_021C64E0(Mgr *m)
@@ -54,7 +55,7 @@ void func_021C64E0(Mgr *m)
         if (e->kind == 1) {
             if (e->b4 == 0 && e->b3 == 0) {
                 if (e->b2 == 1)
-                    func_02047AC8(e->f44, e->f8);
+                    func_02047AC8(e->f44, (struct Arg *)e->f8);
                 else
                     func_02047A60(e->f44, e->f8);
             }

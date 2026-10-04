@@ -27,13 +27,13 @@
 typedef unsigned long u32;
 
 extern u32 func_020362DC(void);
-extern void func_021E8738(u32 win, u32 msg, int id, int mode);
-extern int func_021E8844(u32 win);
+extern void func_021E8738(int *p, int a, int b, int c);
+extern int func_021E8844(const int *p);
 extern void func_021D6550(u32 *obj, int kind);
 extern int func_021D65DC(char *obj);
 extern void func_021D65C8(char *obj);
 extern int func_021DA434(u32 h);
-extern void func_021E7E0C(u32 h, int a);
+extern void func_021E7E0C(void **p, int on);
 extern void func_021DA36C(u32 h);
 extern u32 func_0200FB24(void);
 extern int func_0203CD98(void);
@@ -50,11 +50,11 @@ int func_021D6854(char *obj, int trigger, int go)
         else return 0;
         break;
     case 1:
-        func_021E8738(*(u32 *)(obj + 0x24), *(u32 *)(obj + 0x10), 0x23, 1);
+        func_021E8738((int *)(*(u32 *)(obj + 0x24)), *(u32 *)(obj + 0x10), 0x23, 1);
         *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
         break;
     case 2:
-        if (!func_021E8844(*(u32 *)(obj + 0x24)))
+        if (!func_021E8844((const int *)(*(u32 *)(obj + 0x24))))
             break;
         *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
         break;
@@ -72,13 +72,13 @@ int func_021D6854(char *obj, int trigger, int go)
             *(u32 *)(obj + 0xe4) = 5;
             break;
         case 1:
-            func_021E8738(*(u32 *)(obj + 0x24), *(u32 *)(obj + 0x10), 0x21, 0);
+            func_021E8738((int *)(*(u32 *)(obj + 0x24)), *(u32 *)(obj + 0x10), 0x21, 0);
             *(u32 *)(obj + 0xe4) = 0;
             return 2;
         }
         break;
     case 5:
-        func_021E8738(*(u32 *)(obj + 0x24), *(u32 *)(obj + 0x10), 0x2b, 2);
+        func_021E8738((int *)(*(u32 *)(obj + 0x24)), *(u32 *)(obj + 0x10), 0x2b, 2);
         *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
         break;
     case 6:
@@ -86,7 +86,7 @@ int func_021D6854(char *obj, int trigger, int go)
             break;
         func_021DA434(*(u32 *)(obj + 0x30));
         *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
-        func_021E7E0C(*(u32 *)(obj + 0x20), 0);
+        func_021E7E0C((void **)(*(u32 *)(obj + 0x20)), 0);
         func_021DA36C(*(u32 *)(obj + 0x30));
         if (!func_0200FB24() && func_0203CD98())
             DWC_CloseAllConnectionsHard();

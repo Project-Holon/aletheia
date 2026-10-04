@@ -29,12 +29,14 @@ typedef struct {
     u8  state;
 } Sub;
 
-extern int func_02190EF0(u32 h);
+typedef unsigned short u16;
+struct Handle;
+extern u32 func_02190EF0(u32 *p);
 extern void func_021CE9E4(u32 *p, int n);
-extern u32 func_02188C54(u32 a);
-extern u32 func_02190BE4(u32 a, u32 b);
+extern u32 func_02188C54(u8 *p);
+extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_021CEA50(u32 *p);
-extern u32 func_02190C78(u32 a);
+extern int func_02190C78(struct Handle *h);
 extern int func_021909BC(u32 a);
 
 int func_021CE52C(u32 *p)
@@ -43,7 +45,7 @@ int func_021CE52C(u32 *p)
     u32 r;
 
     q = (Sub *)((u8 *)p + 0x130);
-    if (!func_02190EF0(p[5])) {
+    if (!func_02190EF0((u32 *)p[5])) {
         return 0;
     }
     switch (q->state) {
@@ -52,14 +54,14 @@ int func_021CE52C(u32 *p)
         q->state++;
         break;
     case 1:
-        q->h = func_02190BE4(func_02188C54(p[0]), 0);
+        q->h = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)p[0]), 0);
         q->state++;
         break;
     case 2:
         if (!func_021CEA50(p)) {
             r = 1;
         } else {
-            r = func_02190C78(q->h);
+            r = func_02190C78((struct Handle *)q->h);
             if (r == 2) {
                 break;
             }

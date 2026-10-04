@@ -27,11 +27,13 @@ typedef struct {
     int f28;
 } S;
 
-extern int func_02188C98(int a);
-extern int func_0218DC6C(int a);
-extern int func_0218C7D8(int a, int b, int *c);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02188C98(u8 *p);
+extern u32 func_0218DC6C(u8 *p);
+extern int func_0218C7D8(void *p, int b, int c);
 
 void func_021A8214(S *s)
 {
-    s->f28 = func_0218C7D8(func_0218DC6C(func_02188C98(s->f0->fc)), 1, s->f1c);
+    s->f28 = func_0218C7D8((void *)func_0218DC6C((u8 *)func_02188C98((u8 *)s->f0->fc)), 1, (int)s->f1c);
 }

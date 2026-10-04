@@ -20,12 +20,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
-extern u8 *func_0216D69C(u32);
+extern void *func_0216D69C(void *p);
 extern Step d_021D4DB8[];
 
 void func_0219A75C(u32 a)
 {
-    u8 *p = func_0216D69C(a);
+    u8 *p = func_0216D69C((void *)a);
     while (d_021D4DB8[(s8)p[2]](a, p) == 1) {
     }
 }

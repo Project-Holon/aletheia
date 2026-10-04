@@ -47,7 +47,9 @@ typedef unsigned char u8;
 extern void func_020307B0(void *obj);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void *func_02030EE8(void *id);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 extern void func_02016C0C(void *id);
 
 void sub_02016BA0(void *obj)
@@ -83,7 +85,7 @@ void sub_02016BA0(void *obj)
 
 void sub_02016C0C(void *id)
 {
-    void *obj = func_02030EE8(id);
+    void *obj = (void *)func_02030EE8(id);
 
     if (*(void **)((u8 *)obj + 0x10) != 0) {
         func_020307B0(*(void **)((u8 *)obj + 0x10));

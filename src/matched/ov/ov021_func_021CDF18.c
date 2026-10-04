@@ -50,10 +50,11 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
-extern int func_02190EF0(u32 h);
+struct WordSet;
+extern u32 func_02190EF0(u32 *p);
 extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
-extern void func_0201F02C(int a, int b, int c);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u32 func_0200FB24(void);
 extern u8 data_021DB498[];
 
@@ -129,7 +130,7 @@ int func_021CDF18(u8 *p)
         func_02039C68((struct Link *)func_020399A8(), 1, 0x27);
         break;
     case 6:
-        if (p[0x520] != 0 || func_02190EF0(U32(0x14)) == 1) {
+        if (p[0x520] != 0 || func_02190EF0((u32 *)U32(0x14)) == 1) {
             if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x27) == 1) {
                 U32(0x2c) = 1;
                 p[0x51E] = 0xc;
@@ -143,19 +144,19 @@ int func_021CDF18(u8 *p)
         p[0x51E] = 8;
         break;
     case 8:
-        if (func_02190EF0(U32(0x14)) == 1) {
+        if (func_02190EF0((u32 *)U32(0x14)) == 1) {
             U32(0x2c) = 2;
             p[0x51E] = 0xc;
         }
         break;
     case 9:
         func_0203CEAC(0);
-        func_0201F02C(U32(4), 0, (int)(p + 0x530));
+        func_0201F02C((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));
         func_021CE9E4(p, 0x1f);
         p[0x51E] = 10;
         break;
     case 10:
-        if (func_0203CDBC() == 1 && func_02190EF0(U32(0x14)) == 1) {
+        if (func_0203CDBC() == 1 && func_02190EF0((u32 *)U32(0x14)) == 1) {
             U32(0x2c) = 3;
             p[0x51E] = 0xc;
         }

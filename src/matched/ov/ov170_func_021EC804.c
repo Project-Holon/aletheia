@@ -18,7 +18,7 @@
  */
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC428(char *p, void *a, int i, int b);
+extern void func_021EC428(char *p, int a, int i, int b);
 extern void func_021EC000(char *p, int i, int v);
 extern void func_021ECB74(char **a, int b);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
@@ -43,7 +43,7 @@ void func_021EC804(char **p, short dx)
         t[1] += dx;
         if (t[1] == lim) {
             t[1] = reset;
-            func_021EC428(p[11], p[11] + 0x1B4 + i * 0x200, k, *(unsigned char *)(p[11] + i + 0x3DB4));
+            func_021EC428(p[11], (int)(p[11] + 0x1B4 + i * 0x200), k, *(unsigned char *)(p[11] + i + 0x3DB4));
             func_021EC000(p[11], k, *(int *)(p[11] + i * 4 + 0x3DF8));
             if (*(unsigned char *)(p[11] + 0xA17A) == 0 && (*(int *)(p[0] + 0x24) == 3 || *(int *)(p[0] + 0x24) == 5))
                 func_021ECB74(p, i);

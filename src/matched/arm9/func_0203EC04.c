@@ -14,7 +14,9 @@
 
 typedef unsigned char u8;
 extern int *g_021469F4;
-extern int func_0203996C(int v);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
@@ -27,7 +29,7 @@ void func_0203EC04(int a0)
     int v = b + c;
     int t;
     if (a == 1)
-        t = func_0203996C(0xff);
+        t = (int)func_0203996C(0xff);
     else
         t = (int)func_020399A8();
     func_0203D4D0(t, *(u8 *)((char *)g_021469F4 + 0x28), 0xe, a0, v, 0, 1, 1);

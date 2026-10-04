@@ -32,16 +32,21 @@ extern void *func_0215A5F4(void *p);
 struct P;
 extern u32 func_02158F78(u8 *p);
 extern unsigned int func_02159B10(void *, void *);
-extern u32 func_02011330(u32);
+typedef unsigned short u16;
+struct MsgBank;
+struct Q;
+struct Stream;
+struct WordSet;
+extern u16 func_02011330(struct Stream *s);
 extern void func_021B03E4(u32, u32);
-extern u32 func_0215A60C(u32);
-extern u32 func_02158F74(void *);
+extern u32 func_0215A60C(u8 *p);
+extern void *func_02158F74(void *p);
 extern u32 func_02158F7C(u8 *p);
-extern void func_02045CAC(u32, u32, u32);
-extern void func_0201F250(u32, u32, u32);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int func_0215A61C(int a0);
 extern void func_02191164(struct P *p);
-extern void func_02191184(u32, u32, u32, u32);
+extern void func_02191184(struct Q *q, u32 b, int c, u32 d);
 
 int func_021B0530(u32 a, u32 b)
 {
@@ -51,14 +56,14 @@ int func_021B0530(u32 a, u32 b)
     t = func_0215A5F4((void *)b);
     s = func_02158F78(t);
     x = func_02159B10((void *)a, (void *)b);
-    func_021B03E4(b, (u8)func_02011330(a));
-    y = func_0215A60C(b);
-    z = func_02158F74(t);
+    func_021B03E4(b, (u8)func_02011330((struct Stream *)a));
+    y = func_0215A60C((u8 *)b);
+    z = (u32)func_02158F74(t);
     w = func_02158F7C(t);
-    func_02045CAC(y, x, w);
-    func_0201F250(z, s, w);
+    func_02045CAC((struct MsgBank *)y, x, (void *)w);
+    func_0201F250((struct WordSet *)z, (void *)s, (void *)w);
     y = func_0215A61C(b);
     func_02191164((void *)y);
-    func_02191184(y, 0, 0, s);
+    func_02191184((struct Q *)y, 0, 0, s);
     return 0;
 }

@@ -30,11 +30,12 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *p);
 extern u32 func_0200D564(struct Blk38 *p);
 extern u16 func_02188C84(u8 *p);
-extern int func_02158768(int a0, int a1, int a2, int a3);
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 
 int func_0218AC4C(u8 *pos, void *msg, void *sys)
 {
     if ((u8)func_0200D564(func_0200D418(func_02012EBC(sys))))
-        return func_02158768((int)msg, 0x2792, 0, func_02188C84(pos));
+        return (int)func_02158768((int)msg, 0x2792, 0, func_02188C84(pos));
     return 0;
 }

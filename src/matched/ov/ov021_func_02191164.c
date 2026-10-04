@@ -39,11 +39,12 @@ typedef struct P {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(u32 a, u32 b);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020409B4(u32 a);
 
 void func_02191164(P *p)
 {
-    func_02043B5C((u32)func_02045770((struct Descriptor *)p->f00), 0xFF);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->f00)), 0xFF);
     func_020409B4((u8)p->f14->f02);
 }

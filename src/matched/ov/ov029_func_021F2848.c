@@ -46,9 +46,10 @@ struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158630(int a);
 extern void func_021F06B8(u8 *p, int a, int b);
-extern int func_020120F4(int a);
-extern int func_0201283C(int a);
-extern u32 func_0201058C(int a);
+struct BigObj;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_0201058C(void *key);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 struct SoundSys;
@@ -60,9 +61,9 @@ extern void func_021F13FC(void *p);
 extern void func_021F0EB0(u8 *p, int flag);
 extern void func_021F0298(u8 *p);
 extern void func_021EFEF8(u8 *p, void (*f)(void), int a);
-extern void func_021F2370(void);
-extern void func_021F2180(void);
-extern void func_02030D28(int a);
+extern void func_021F2370(char *p);
+extern void func_021F2180(char *p);
+extern void func_02030D28(struct Ctx *c);
 
 void func_021F2848(u8 *p, u8 v)
 {
@@ -88,8 +89,8 @@ void func_021F2848(u8 *p, u8 v)
             }
         }
         if (st == 0) {
-            keys = func_0201058C(func_0201283C(func_020120F4(*(int *)(p + 0x1c))));
-            snd = (void *)func_02012A30((const struct BigObj *)func_020120F4(*(int *)(p + 0x1c)));
+            keys = func_0201058C((void *)func_0201283C(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
+            snd = (void *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c))));
             if (keys & 8) {
                 if (p[0x462] == 0) {
                     p[0x462] = 1;
@@ -107,19 +108,19 @@ void func_021F2848(u8 *p, u8 v)
     if (p[0x451] == 2) {
         p[0x451] = 0;
         if (func_021F2DA8(p) == 0) {
-            func_021EFEF8(p, func_021F2370, 0x11C5);
+            func_021EFEF8(p, (void (*)(void))func_021F2370, 0x11C5);
         } else {
             func_021F1BBC(p);
             func_021F1A64(p, 1);
             func_021F13FC(p);
             func_021F0EB0(p, func_021F2DA8(p));
             func_021F0298(p);
-            func_021EFEF8(p, func_021F2180, 0x11D4);
+            func_021EFEF8(p, (void (*)(void))func_021F2180, 0x11D4);
         }
     }
 
     if (*(void (**)(u8 *))p != 0)
         (*(void (**)(u8 *))p)(p);
     if (*(int *)(p + 0x204) != 0)
-        func_02030D28(*(int *)(p + 0x204));
+        func_02030D28((struct Ctx *)(*(int *)(p + 0x204)));
 }

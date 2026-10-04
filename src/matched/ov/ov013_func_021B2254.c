@@ -25,7 +25,8 @@ typedef struct Ctx {
 
 extern Ctx d_021B60D8;
 extern int d_021B4BD0;
-extern int func_021B2A20(int);
+struct N;
+extern struct N *func_021B2A20(int id);
 
 int func_021B2254(int a)
 {
@@ -33,7 +34,7 @@ int func_021B2254(int a)
 
     if (d_021B60D8.state != 3)
         return -2;
-    r = func_021B2A20(a);
+    r = (int)func_021B2A20(a);
     if (r == 0)
         return -1;
     d_021B60D8.cb(a, 9, r, d_021B60D8.arg);

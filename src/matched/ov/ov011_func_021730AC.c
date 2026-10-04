@@ -45,7 +45,7 @@ typedef struct Work {
     u8  bit1 : 1;
 } Work;
 
-extern void *func_02026478(void *p);
+extern u32 func_02026478(void *obj);
 extern u8 func_02012E40(const u8 *o);
 extern u32 func_0200FB24(void);
 extern void  func_0203CEAC(void (*cb)(Work *));
@@ -62,7 +62,7 @@ extern void  func_02173580(Work *w);
 
 int func_021730AC(int *state, Param *p, Work *w)
 {
-    if (func_02012E40(func_02026478(p->field04)) == 1) {
+    if (func_02012E40((const u8 *)func_02026478(p->field04)) == 1) {
         return 0;
     }
     if (w->bit1 == 1 || func_0200FB24() != 0) {

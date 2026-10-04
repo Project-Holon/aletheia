@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern const s16 d_020A1B38[];
-extern int func_02061CA4(int,u32,void *,int);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 static inline u16 blend(int angle,u16 c1,u16 c2) {
  u8 g1,r1,b1; int db,dr,dg; s16 factor;
  g1=(c1&0x3e0)>>5;
@@ -33,5 +34,5 @@ static inline u16 blend(int angle,u16 c1,u16 c2) {
 }
 void func_021B89DC(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
  *p=blend(angle,c1,c2);
- func_02061CA4(a,bank*32+index*2,p,2);
+ func_02061CA4((void *)a,bank*32+index*2,(u32)p,2);
 }

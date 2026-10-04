@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct SaveBlock;
 struct Rec44;
-struct SaveBlock *func_02026478(void *a);
+u32 func_02026478(void *obj);
 void *func_020127A4(struct SaveBlock *a);
 unsigned short func_02012AC8(const struct Rec44 *a);
 typedef struct Rec {
@@ -33,6 +33,6 @@ int func_02175954(void *unused, u8 *o, Rec *src);
 
 void func_02173EB8(int a, int b, void *c, u8 *d)
 {
-    func_02012AC8(func_020127A4(func_02026478(*(void **)(d + 4))));
+    func_02012AC8(func_020127A4((struct SaveBlock *)func_02026478(*(void **)(d + 4))));
     if (func_02175954(d, d + 0x1ac, c) == 1) d[0x90d] = 1;
 }

@@ -52,14 +52,15 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern u8 *func_021897BC(void *p, int idx);
 extern void *func_02188CB4(u8 *p);
-extern u32 func_02188C80(void *p);
-extern unsigned int func_020120F4(unsigned int);
-extern unsigned int func_02012EC4(unsigned int);
+struct Big;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(unsigned int, unsigned int);
-extern void *func_021BE674(int base, int i, int j, int k);
-extern void func_021BE4B4(int p, int i, int j, int v);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern V3 *func_021BE480(int p, int i, int j);
-extern void func_021BE700(int p, int i, int j, int k, int flag);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_021BE6CC(int p, int i, int j, int k, int flag);
 extern int func_021BE6BC(int *p);
@@ -81,7 +82,7 @@ int func_021F3F40(int a0, int *a1)
     h = func_02188D2C(sys);
     s = func_021897BC(sys, 1);
     func_02188CB4(sys);
-    p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))), 6);
+    p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80(sys))), 6);
     if (*(int *)((char *)p + s[3] * 4 + 0x48) == 0) {
         c = s[3] + 0x12;
         j = 0x21;
@@ -92,14 +93,14 @@ int func_021F3F40(int a0, int *a1)
     k = 2;
     if (s[6] == 1)
         k = (u8)(k + 1);
-    e = func_021BE674(h, 0, j, k);
+    e = func_021BE674((char *)h, 0, j, k);
     switch (*a1) {
     case 0:
-        func_021BE4B4(h, 0, c, 1);
-        func_021BE4B4(h, 0, j, 0);
+        func_021BE4B4((char *)h, 0, c, 1);
+        func_021BE4B4((char *)h, 0, j, 0);
         src = func_021BE480(h, 0, c);
         *func_021BE480(h, 0, j) = *src;
-        func_021BE700(h, 0, j, k, 1);
+        func_021BE700((void *)h, 0, j, k, 1);
         func_021BE6B0(e, 0);
         func_021BE6CC(h, 0, j, k, 0);
         func_020061E4(0x6C5);
@@ -107,9 +108,9 @@ int func_021F3F40(int a0, int *a1)
         break;
     case 1:
         if (func_021BE6BC(e)) {
-            func_021BE700(h, 0, j, k, 0);
-            func_021BE4B4(h, 0, j, 1);
-            func_021BE4B4(h, 0, c, 0);
+            func_021BE700((void *)h, 0, j, k, 0);
+            func_021BE4B4((char *)h, 0, j, 1);
+            func_021BE4B4((char *)h, 0, c, 0);
             return 1;
         }
         break;

@@ -65,7 +65,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void func_02027a24(struct TaskMenu *m, void *arg1);
 extern u8 func_020355c4(void);
-extern void func_02027b30(void *a0, void *arg1, u32 flag);
+struct S;
+extern void func_02027b30(u32 a0, struct S *s, int mode);
 extern char sFile_020A74E0[];
 struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1)
 {
@@ -100,7 +101,7 @@ struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1)
   func_02027a24(m, arg1);
   if (func_020355c4() == 0)
   {
-    func_02027b30(((void **) m->buf1)[m->unk00], m->arg1, 1);
+    func_02027b30((u32)(((void **) m->buf1)[m->unk00]), m->arg1, 1);
   }
   m->unk08 = 1;
   return m;

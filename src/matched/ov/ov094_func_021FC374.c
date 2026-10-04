@@ -22,7 +22,9 @@ typedef unsigned short u16;
 extern int func_0201134C(void *);
 extern void func_020307B0(void *);
 extern char *func_02048F60(int, int, u16);
-extern void func_020113B0(void *, char *);
+typedef unsigned int   u32;
+struct Cur;
+extern void func_020113B0(struct Cur *c, u32 v);
 
 int func_021FC374(void *a, char *s)
 {
@@ -36,6 +38,6 @@ int func_021FC374(void *a, char *s)
         *(char **)(s + 0x1e8) = func_02048F60(0x43, id - 0x231, (*(u16 *)(s + 0x238) & 0x7fff) | 0x8000);
     p = *(char **)(s + 0x1e8);
     *(int *)(s + 4) = 0;
-    func_020113B0(a, p + *(int *)(p + 4));
+    func_020113B0(a, (u32)(p + *(int *)(p + 4)));
     return *(int *)(s + 0x23c);
 }

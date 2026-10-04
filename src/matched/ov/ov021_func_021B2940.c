@@ -22,7 +22,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_021B2EBC(void *, void *, u32, u32, u32);
+extern void func_021B2EBC(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 int func_021B2940(u32 a, u32 b)
 {
@@ -30,6 +30,6 @@ int func_021B2940(u32 a, u32 b)
 
     func_0215A5F4((void *)b);
     d = func_0215A5DC((void *)b);
-    func_021B2EBC(d, func_0201210C((void *)d), 1, 0, 0);
+    func_021B2EBC((u32)d, (u32)func_0201210C((void *)d), 1, 0, 0);
     return 0;
 }

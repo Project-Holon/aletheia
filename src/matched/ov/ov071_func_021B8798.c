@@ -66,6 +66,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
+struct PrintSys;
 void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
 {
     extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -76,7 +77,7 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     extern void *func_02045EC0(struct MsgBank *bank, u32 index);
     extern void func_021762D8(Obj *, void *, void *, int);
     extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-    extern void func_0201C6FC(void *, void *, u32, u32, void *, void *);
+    extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
     extern void func_02045808(struct U16Vec *vec);
     void *s;
     u8 *src;
@@ -105,10 +106,10 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     func_021762D8(e, src, q->f10, 0x61);
     func_0201F250(q->f10, s, t1);
     w = q->f8;
-    func_0201C6FC(w, func_02045770(d->e[0].h), 0, 4, t0, q->fc);
+    func_0201C6FC(w, (u32)func_02045770(d->e[0].h), 0, 4, t0, (u32)q->fc);
     d->e[0].on = 1;
     w = q->f8;
-    func_0201C6FC(w, func_02045770(d->e[1].h), 0, 0, s, q->fc);
+    func_0201C6FC(w, (u32)func_02045770(d->e[1].h), 0, 0, s, (u32)q->fc);
     d->e[1].on = 1;
     func_02045808(t0);
     func_02045808(t1);

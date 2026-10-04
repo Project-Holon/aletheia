@@ -93,28 +93,36 @@ typedef struct Obj {
 } Obj;
 
 extern int func_020221A4(void);
-extern int func_0201C6B4(u32 a);
-extern void func_02030EAC(u32 a);
+struct Descriptor;
+struct Node;
+struct PrintSys;
+struct Rec;
+struct S02031140;
+struct TaskMenuState;
+struct U16Vec;
+struct WordSet;
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern void func_02030EAC(struct Node *n);
 extern void func_02008298(void *g, u16 v);
 extern void func_02008288(void *g, u16 i, s16 a, s16 b);
-extern void func_02027FD8(u32 a);
+extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_021B9AF8(Obj *o);
 extern void func_021B9758(Obj *o);
-extern void func_02031140(u32 a);
-extern void func_02045C04(u32 a);
-extern void func_02045808(u32 a);
-extern void func_0201ED04(u32 a);
+extern void func_02031140(struct S02031140 *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_021BAF10(Obj *o);
 extern void func_0203FB44(int, unsigned short, unsigned short);
-extern void func_020452E8(u32 a);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
-extern void func_0201D83C(u32 a);
-extern void func_02028604(u32 a);
-extern void func_0201C6EC(u32 p);
-extern void func_0201C4C0(u32 p);
+extern void func_0201D83C(void *ptr);
+extern int func_02028604(int a0);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021B8E84(Obj *o);
 extern void func_021B8B6C(Obj *o);
-extern void func_02051C6C(u32 a);
+extern void func_02051C6C(void *p);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void func_02036270(u32 a, u32 b);
@@ -126,33 +134,33 @@ int func_021B8990(void *proc, int b, Parent *par, Obj *o)
 {
     if (func_020221A4() != 1)
         return 0;
-    if (func_0201C6B4(o->f50C) == 0)
+    if (func_0201C6B4((const struct PrintSys *)o->f50C) == 0)
         return 0;
-    func_02030EAC(o->f698);
+    func_02030EAC((struct Node *)o->f698);
     func_02008298(o->gfx, o->f80C);
     func_02008288(o->gfx, o->f80C, o->f810, o->f814 + 1);
-    func_02027FD8(o->f7E0);
+    func_02027FD8((struct TaskMenuState *)o->f7E0);
     func_021B9AF8(o);
     func_021B9758(o);
-    func_02031140(o->f730);
-    func_02045C04(o->f51C);
-    func_02045808(o->f524);
-    func_02045808(o->f528);
-    func_02045808(o->f52C);
-    func_0201ED04(o->f520);
+    func_02031140((struct S02031140 *)o->f730);
+    func_02045C04((struct Rec *)o->f51C);
+    func_02045808((struct U16Vec *)o->f524);
+    func_02045808((struct U16Vec *)o->f528);
+    func_02045808((struct U16Vec *)o->f52C);
+    func_0201ED04((struct WordSet *)o->f520);
     func_021BAF10(o);
     if (o->f4FC != 0) {
         func_0203FB44(3, o->f838, o->f838 >> 16);
-        func_020452E8(o->f4FC);
+        func_020452E8((struct Descriptor *)o->f4FC);
     }
     func_02040DA8(3, 1, 0);
-    func_0201D83C(o->f530);
+    func_0201D83C((void *)o->f530);
     func_02028604(o->f518);
-    func_0201C6EC(o->f50C);
-    func_0201C4C0(o->f50C);
+    func_0201C6EC((struct PrintSys *)o->f50C);
+    func_0201C4C0((struct PrintSys *)o->f50C);
     func_021B8E84(o);
     func_021B8B6C(o);
-    func_02051C6C(o->f694);
+    func_02051C6C((void *)o->f694);
     func_020450C8();
     func_0203F9B4();
     par->f34 = o->f844;

@@ -30,20 +30,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_0216D520(u32);
-extern u32 func_020508D8();
-extern void func_02050278();
-extern void func_02050468();
+struct BbActSys;
+extern u32 func_0216D520(void *p);
+extern u32 func_020508D8(u8 *o, u32 i);
+extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
+extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
 
 void func_0219C98C(u32 a, u16 *b)
 {
-    u8 *c = func_0216D520(a);
+    u8 *c = (u8 *)func_0216D520((void *)a);
     if (b[1] != 0xFFFF) {
         if (b[0] & 2) {
-            u32 t = func_020508D8(*(u32 *)(c + 4), b[1]);
-            func_02050278(*(u32 *)(c + 4), t, 1);
+            u32 t = func_020508D8((u8 *)(*(u32 *)(c + 4)), b[1]);
+            func_02050278((struct BbActSys *)(*(u32 *)(c + 4)), t, 1);
         }
-        func_02050468(*(u32 *)(c + 4), b[1], 1);
+        func_02050468((struct BbActSys *)(*(u32 *)(c + 4)), b[1], 1);
     }
     b[0] = 0;
     b[1] = 0xFFFF;

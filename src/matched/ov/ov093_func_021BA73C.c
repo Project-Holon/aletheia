@@ -40,11 +40,13 @@ extern void func_021B9424(char *p);
 extern int func_021B8B9C(void *, u8);
 extern void func_021B9460(void *, void *, u8);
 extern void func_021CD984(void *, int);
-extern void func_021E9034(int);
-extern void func_021E8E28(int);
-extern int func_021E8F20(void *, void *, void *, int, int);
+typedef unsigned short u16;
+struct Scene;
+extern void func_021E9034(char *p);
+extern void func_021E8E28(void *p);
+extern struct Scene *func_021E8F20(void *a, void *b, u32 c, int d, u16 heap);
 extern void func_021CD95C(struct QA *p, u32 v);
-extern void func_021BAB40(int);
+extern void func_021BAB40(char *p);
 
 void func_021BA73C(char *p, int x)
 {
@@ -63,9 +65,9 @@ void func_021BA73C(char *p, int x)
             func_021CD984(*(void **)(p + i * 4 + 0x10), x);
         }
     }
-    func_021E9034(*(int *)(p + 4));
-    func_021E8E28(0x13);
-    *(int *)(p + 4) = func_021E8F20(p, *(void **)(p + (*(u8 *)(*(char **)p + 0x21)) * 4 + 0x10), p + 0xc8, t, 0x13);
+    func_021E9034((char *)(*(int *)(p + 4)));
+    func_021E8E28((void *)0x13);
+    *(int *)(p + 4) = (int)func_021E8F20(p, *(void **)(p + (*(u8 *)(*(char **)p + 0x21)) * 4 + 0x10), (u32)(p + 0xc8), t, 0x13);
     func_021CD95C(*(void **)(p + (*(u8 *)(*(char **)p + 0x21)) * 4 + 0x10), *(int *)(p + 4));
-    func_021BAB40(*(int *)(p + 8));
+    func_021BAB40((char *)(*(int *)(p + 8)));
 }

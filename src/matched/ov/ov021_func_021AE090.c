@@ -27,7 +27,8 @@ typedef struct Q { u32 f0; u32 f4; u32 f8; u32 fc; } Q;
 
 extern void func_0207ADC4(M33 *m);
 extern void func_021AC1B8(u32 a, V3 *out);
-extern void func_02047AC8(u32 a, Xf *x);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 extern Xf d_021D92FC;
 
 void func_021AE090(u32 a, Q **pq)
@@ -37,5 +38,5 @@ void func_021AE090(u32 a, Q **pq)
 
     func_0207ADC4(&x.rot);
     func_021AC1B8(a, &x.pos);
-    func_02047AC8(q->fc, &x);
+    func_02047AC8((void *)q->fc, (struct Arg *)(&x));
 }

@@ -55,10 +55,10 @@ typedef struct {
     int f8;
 } O;
 
-extern int func_02188C7C();
-extern u16 func_02188C9C(int);
-extern void func_0216CE60();
-extern u32 func_0202A188(int, u16, u16, u16);
+extern void *func_02188C7C(u8 *p);
+extern u16 func_02188C9C(u8 *p);
+extern void func_0216CE60(int a, int b, int c);
+extern u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3);
 extern const E d_0218360C[];
 extern const S d_0218362C;
 
@@ -71,11 +71,11 @@ void func_0217C1D0(const O *o, const B *p, u16 a2, u16 a3, T x)
     T *t;
 
     e = &d_0218360C[p->e];
-    v = func_02188C7C(o->f4);
-    c = func_02188C9C(o->f4);
+    v = (int)func_02188C7C((u8 *)o->f4);
+    c = func_02188C9C((u8 *)o->f4);
     s = d_0218362C;
     s.h[0] = a2;
-    s.h[1] = func_0202A188(o->f0, (u16)p->x, (u16)p->y, (u16)p->z);
+    s.h[1] = func_0202A188((u8 *)o->f0, (u16)p->x, (u16)p->y, (u16)p->z);
     s.h[2] = e->h0;
     s.h[10] = e->b2;
     s.h[11] = e->b3;
@@ -86,5 +86,5 @@ void func_0217C1D0(const O *o, const B *p, u16 a2, u16 a3, T x)
     t->h0 = a3;
     t->h2 = x.h0;
     t->w4 = x.w4;
-    func_0216CE60(v, &s, c);
+    func_0216CE60(v, (int)(&s), c);
 }

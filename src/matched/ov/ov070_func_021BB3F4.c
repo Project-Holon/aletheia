@@ -28,15 +28,17 @@ typedef short s16;
 typedef unsigned int u32;
 
 extern int func_021BB368(int);
-extern void func_021BB5A4(int);
-extern void func_021BB580(int, int);
+struct Obj;
+struct PalAnmSlot;
+extern void func_021BB5A4(char *p);
+extern void func_021BB580(char *p, int v);
 extern int func_02012BF8(int, int);
 extern u32 func_020056BC(void);
 extern int func_0202173C(int p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, u32 ctx);
-extern void func_020216D4(int slots, u32 bank, u32 off, u32 size);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_0204B878(int, int);
-extern int func_0204B3F4(int);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern u32 func_0204B3F4(struct Obj *p);
 
 void func_021BB3F4(int p, int mode)
 {
@@ -51,33 +53,33 @@ void func_021BB3F4(int p, int mode)
         func_0202173C(*(int *)(p + 0x854), 4, 0x23CF, 0, 0, 0, 0, func_020056BC());
         func_0202173C(*(int *)(p + 0x854), 1, 1, 0, 0, 0, 0, func_020056BC());
         func_0207D658(0x04000050, 6, 0);
-        func_021BB5A4(p);
-        func_0204B878(*(int *)(p + 0x710), 4);
-        func_0204B878(*(int *)(p + 0x714), 5);
-        func_0204B878(*(int *)(p + 0x71C), 0);
+        func_021BB5A4((char *)p);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 4);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 5);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0);
         if (r == 1) {
-            func_0204B878(*(int *)(p + 0x718), 7);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 7);
         } else {
-            func_0204B878(*(int *)(p + 0x718), 6);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 6);
         }
-        func_021BB580(p, 1);
+        func_021BB580((char *)p, 1);
     } else {
-        func_020216D4(*(int *)(p + 0x854), 2, 0, 0x200);
+        func_020216D4((struct PalAnmSlot *)(*(int *)(p + 0x854)), 2, 0, 0x200);
         func_0202173C(*(int *)(p + 0x854), 4, 0x23CF, 0, 8, 8, 0, func_020056BC());
         func_0202173C(*(int *)(p + 0x854), 1, 1, 0, 8, 8, 0, func_020056BC());
-        if (*(int *)(p + 0x10) == 4 && func_0204B3F4(*(int *)(p + 0x710)) == 0) {
+        if (*(int *)(p + 0x10) == 4 && func_0204B3F4((struct Obj *)(*(int *)(p + 0x710))) == 0) {
             func_0207D658(0x04000050, 2, -8);
         } else {
             func_0207D658(0x04000050, 6, -8);
         }
-        func_0204B878(*(int *)(p + 0x72C), 4);
-        func_0204B878(*(int *)(p + 0x710), 0x12);
-        func_0204B878(*(int *)(p + 0x714), 0x13);
-        func_0204B878(*(int *)(p + 0x71C), 0xE);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x72C)), 4);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 0x12);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 0x13);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0xE);
         if (r == 1) {
-            func_0204B878(*(int *)(p + 0x718), 0x16);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x16);
         } else {
-            func_0204B878(*(int *)(p + 0x718), 0x15);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x15);
         }
     }
 }

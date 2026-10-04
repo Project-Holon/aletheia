@@ -40,7 +40,7 @@ extern char d_021A1C7C[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02156F14(void);
-extern void func_02060C94(u32 a);
+extern void func_02060C94(void *heap);
 extern void func_020307B0(void *p);
 
 void func_021570B8(void)
@@ -51,7 +51,7 @@ void func_021570B8(void)
     if (d_021A8268->f1C == 1 || d_021A8268->fC != 0) {
         func_02156F14();
     }
-    func_02060C94(d_021A8268->f0);
+    func_02060C94((void *)d_021A8268->f0);
     func_020307B0((void *)d_021A8268->f4);
     func_020307B0(d_021A8268);
     d_021A8268 = 0;

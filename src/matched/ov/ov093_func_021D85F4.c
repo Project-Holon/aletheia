@@ -30,10 +30,10 @@ typedef signed int s32;
 int func_021D775C(int a);
 void *func_021C7D00(int a, int b);
 int func_021C8120(int a, int b);
-int func_021C7F68(int a, int b, int c);
-void func_021C88B4(int a, int k, int b);
+int func_021C7F68(int *p, int b, u8 *out);
+void func_021C88B4(void *a, int k, int b);
 void *func_021C88A4(int a, int k, int b);
-void func_021C88C8(int a, void *p);
+void func_021C88C8(void *a, void *b);
 
 void func_021D85F4(void *a, int b, int c)
 {
@@ -47,10 +47,10 @@ void func_021D85F4(void *a, int b, int c)
         return;
     r = func_021C7D00(b, c);
     v = (void *)func_021C8120(b, 6);
-    w = func_021C7F68(b, (u16)((u32)r | 0x100), (int)v);
+    w = func_021C7F68((int *)b, (u16)((u32)r | 0x100), (u8 *)((int)v));
     if (w == 0)
         return;
-    func_021C88B4(b, 2, c);
+    func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 0xe, c);
     *(u32 *)(p + 4) = 1;
     *(s8 *)(p + 0xc) = -1;
@@ -58,6 +58,6 @@ void func_021D85F4(void *a, int b, int c)
     *(u8 *)(p + 0xf) = w;
     for (i = 0; i < (u32)w; i++)
         *(u8 *)(p + 0x10 + i) = ((u8 *)v)[i];
-    func_021C88C8(b, p);
-    func_021C88B4(b, 3, c);
+    func_021C88C8((void *)b, p);
+    func_021C88B4((void *)b, 3, c);
 }

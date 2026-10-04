@@ -30,7 +30,7 @@ struct GSIResolveHostnameInfo {
     unsigned long ip;
 };
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern struct SOCHostEnt *func_0215F650(char *name);
 extern void *func_0217EAB0(unsigned long size);
 extern char g_021A383C[];
@@ -40,7 +40,7 @@ int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle)
     struct GSIResolveHostnameInfo *info;
     struct SOCHostEnt *SOCHostEnt;
 
-    func_0217D254(8, 3, 16, g_021A383C);
+    func_0217D254(8, (char *)3, 16, g_021A383C);
     SOCHostEnt = func_0215F650(hostname);
     if (SOCHostEnt == 0)
         return -1;

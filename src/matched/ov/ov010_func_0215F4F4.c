@@ -23,7 +23,8 @@ extern void *func_0215A5F4(void *p);
 extern void *func_02158F54(void *);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201296C(void *);
-extern Entry *func_0215911C(void *);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_0215911C(void *p);
 extern void func_0215A500(char *a, unsigned b);
-int func_0215F4F4(void *a,void *b) { void *p; void *s; int i; Entry *t; p=func_0215A5F4(b); s=func_0201296C(func_020120F4(func_02158F54(p))); t=func_0215911C(p); for(i=0;i<0x6b;i++) func_0215A500(s,t[i].c); return 0; }
+int func_0215F4F4(void *a,void *b) { void *p; void *s; int i; Entry *t; p=func_0215A5F4(b); s=(void *)func_0201296C(func_020120F4(func_02158F54(p))); t=(Entry *)func_0215911C(p); for(i=0;i<0x6b;i++) func_0215A500(s,t[i].c); return 0; }

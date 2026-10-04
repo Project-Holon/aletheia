@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_02011330();
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 
 int func_02159894(int a0, int a1)
 {
@@ -30,7 +31,7 @@ t5 = a0 + 0;
     q = func_02159AE8((void *)a0, (void *)a1);
 loc_0215989C:
 a0 = t5 + 0;
-    a0 = func_02011330(a0);
+    a0 = func_02011330((struct Stream *)a0);
 loc_021598A4:
 *q = a0;
 a0 = 0;

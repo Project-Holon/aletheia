@@ -23,7 +23,8 @@ struct S { char *w; u32 k; void *v; u32 c; u8 pad10; u8 f; u8 pad12[2]; u8 *cnt;
 extern void func_021F7D80(void *a, int b);
 extern void func_021F7E38(void *a, int b);
 extern int func_021F7EB4(void);
-extern void func_02031194(u32 a);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 void func_021ED724(u32 x, struct S *t)
 {
@@ -38,7 +39,7 @@ void func_021ED724(u32 x, struct S *t)
     case 1:
         if (func_021F7EB4() == 0) {
             (*t->cnt)--;
-            func_02031194(x);
+            func_02031194((struct TcblNode *)x);
         }
         break;
     }

@@ -72,7 +72,8 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_021904AC(u8 *p);
-extern void func_0201C6FC(void *a0, void *a1, u32 a2, u32 a3, void *a4, u32 a5);
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
@@ -93,7 +94,7 @@ void func_02169FFC(Work *w, u32 msg)
     a = func_021904AC(w->f0C);
     s = (Slot *)&w->f18->f08;
     t = w->f18->f14;
-    func_0201C6FC(t, func_02045770(s->f00), 0, 0, str, a);
+    func_0201C6FC(t, (u32)func_02045770(s->f00), 0, 0, str, a);
     s->f04 = 1;
     func_02045808(str);
     p = w->f18->f08;

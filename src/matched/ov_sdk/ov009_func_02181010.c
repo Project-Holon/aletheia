@@ -43,7 +43,7 @@ typedef struct GSUdpEngineObject {
     void *userData;
 } GSUdpEngineObject;
 extern void *func_02180404(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 
@@ -61,7 +61,7 @@ int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState)
 
     aUdp = func_02180404();
     if (aUdp->initialized == 0) {
-        func_0217D254(12, 3, 15, g_021A3B9C);
+        func_0217D254(12, (char *)3, 15, g_021A3B9C);
         *thePeerState = 3;
         return 11;
     }

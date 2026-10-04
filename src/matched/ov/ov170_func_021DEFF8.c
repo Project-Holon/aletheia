@@ -18,7 +18,7 @@
  *   func_021DEF58 0x021DEF58 thumb ov170
  *   func_02017DE4 0x02017DE4 thumb
  */
-extern void *func_021DD2D0(void *p, int a, unsigned b);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 typedef unsigned int   u32;
 struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
@@ -33,7 +33,7 @@ void func_021DEFF8(char *p, unsigned b)
     void *mon;
     void *s;
     int state;
-    mon = func_021DD2D0(p, *(unsigned char *)(p + 0x14), b);
+    mon = (void *)func_021DD2D0((void ***)p, *(unsigned char *)(p + 0x14), b);
     state = func_02017DBC(mon);
     s = func_021DEDD8(mon);
     func_021ECCCC(p, s, 11);

@@ -19,7 +19,8 @@ typedef signed char s8;
 typedef unsigned int u32;
 struct BigObj;
 extern u32 func_0201283C(const struct BigObj *p);
-extern int func_02009864(u32,u32,u32);
+struct Sub020097BCObj;
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 int func_021C9D88(u8 *p,int direction)
 {
     int index;
@@ -32,13 +33,13 @@ int func_021C9D88(u8 *p,int direction)
             index--;
             if(index<0) index+=*(u32 *)(p+16);
             if(*(s8 *)(p+11)==index) goto fail;
-            if(func_02009864(data,p[index+24],9)!=2) return 1;
+            if(func_02009864((const struct Sub020097BCObj *)data,p[index+24],9)!=2) return 1;
         }
     } else {
         for(count=0;count<*(u32 *)(p+16)-1;count++) {
             index=(u32)(index+1)%*(u32 *)(p+16);
             if(*(s8 *)(p+11)==index) goto fail;
-            if(func_02009864(data,p[index+24],9)!=2) return 1;
+            if(func_02009864((const struct Sub020097BCObj *)data,p[index+24],9)!=2) return 1;
         }
     }
 fail:

@@ -17,7 +17,7 @@
  */
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 typedef unsigned int   u32;
 struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
@@ -30,6 +30,6 @@ void func_021E101C(int a, int b, int c)
     if (c != func_021D775C(3))
         return;
     n = (unsigned char)func_021D775C(4);
-    if (func_021D62C4(func_021C7CF4(b, n), 2) == 0)
+    if (func_021D62C4(func_021C7CF4((int *)b, n), 2) == 0)
         func_021D76BC(64, 1);
 }

@@ -37,7 +37,7 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *a, void *b, void *c, unsigned int d);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0215897C(void *a, u32 b);
+extern void func_0215897C(void *vm, void *task);
 extern int func_021AF4E8(u32 a, u32 b, Rec *c);
 
 int func_021AF380(u32 a, u32 b)
@@ -57,6 +57,6 @@ int func_021AF380(u32 a, u32 b)
     r->b = v;
     r->f4 = 0;
     r->f8 = b;
-    func_0215897C(p, h);
+    func_0215897C(p, (void *)h);
     return 1;
 }

@@ -30,18 +30,19 @@ typedef short s16;
 
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *p);
-extern int func_02161824(int a, int b);
-extern void func_02012374(int a, int b);
+struct Evt;
+extern void *func_02161824(void *a, void *b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
 extern void func_02029D44(u32 a, u32 b, u32 c, u32 d);
 extern void func_02029D7C(int a, int b);
 extern void func_0218403C(u8 *p);
-extern int func_02184360(u8 *p, int a);
-extern void func_02185F48(int a);
+extern void *func_02184360(u8 *p, int value);
+extern void func_02185F48(void *p);
 extern int func_02188D20(int a);
-extern void func_021BC550(int a, int b);
-extern int func_021BF5B4(int ctx, int a, int b, int c, int d, int e);
-extern int func_021BFD70(int ctx, int a, int b, int c);
+extern void func_021BC550(void *p, int v);
+extern void *func_021BF5B4(int a, int b, int c, int d, int e, int f);
+extern void *func_021BFD70(int a0, void *p, int a2, int a3);
 
 int func_021847CC(int ctx, int *state, u8 *p)
 {
@@ -58,30 +59,30 @@ int func_021847CC(int ctx, int *state, u8 *p)
     switch (*state) {
     case 0:
         func_0218403C(p);
-        func_02012374(ctx, func_02161824(x, z));
+        func_02012374((struct Evt *)ctx, func_02161824((void *)x, (void *)z));
         (*state)++;
         break;
     case 1:
-        func_02012374(ctx, func_021BFD70(ctx, x, z, *(int *)(p + 0x44)));
+        func_02012374((struct Evt *)ctx, func_021BFD70(ctx, (void *)x, z, *(int *)(p + 0x44)));
         (*state)++;
         break;
     case 2:
-        func_02185F48(y);
+        func_02185F48((void *)y);
         func_02029D44(v, y, *(u16 *)(p + 0x14), (u8)*(u16 *)(p + 0x4a));
         func_02029D7C(v, y);
         (*state)++;
         break;
     case 3:
-        func_02012374(ctx, func_02184360(p, 2));
+        func_02012374((struct Evt *)ctx, func_02184360(p, 2));
         (*state)++;
         break;
     case 4:
-        func_02012374(ctx, func_021BF5B4(ctx, x, z, *(int *)(p + 0x44),
+        func_02012374((struct Evt *)ctx, func_021BF5B4(ctx, x, z, *(int *)(p + 0x44),
                                          *(u16 *)(p + 0x48), *(u16 *)(p + 0x4a)));
         (*state)++;
         break;
     case 5:
-        func_021BC550(func_02188D20(z), *(s16 *)(p + 0x14));
+        func_021BC550((void *)func_02188D20(z), *(s16 *)(p + 0x14));
         return 1;
     }
     return 0;

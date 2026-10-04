@@ -13,7 +13,7 @@
  *   func_021DEAFC 0x021DEAFC thumb ov170
  */
 extern int func_021EBFEC(char *, int);
-extern void func_021DEA3C(unsigned char *, unsigned, unsigned, int);
+extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DEAFC(unsigned char *);
 int func_021E1988(unsigned char *p)
 {
@@ -24,7 +24,7 @@ int func_021E1988(unsigned char *p)
         if (!func_021EBFEC(w, 10)) {
             unsigned old = p[0x16];
             p[0x16] = **(unsigned short **)(b + 8);
-            func_021DEA3C(p, old, old, 1);
+            func_021DEA3C((int)p, old, old, 1);
             *(unsigned short *)(b + 0xC) = 1;
         }
         break;

@@ -34,13 +34,13 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u8 d_021DE3AC;
 extern u32 func_021A3068(u32 a);
 extern void *func_021A3074(unsigned char *p);
-extern u32 func_021A36E0(u32 a);
+extern u32 func_021A36E0(u8 *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_02164208(u32 a, Vec3 *v, u32 c);
 extern void func_02163E58(void *a, Vec3 *v, int *out);
-extern u32 func_02188D30(u32 a);
+extern u32 func_02188D30(u8 *p);
 extern void func_02030DA8(u32, void (*)(), u8 *, u32);
 extern void func_021C1988(void *a, u16 *s);
 
@@ -63,6 +63,6 @@ void func_021C1228(u32 a, u16 b, u32 c, u32 d)
     func_02163E58(r7, &vb, &out);
     if (out > va.y)
         *(u16 *)r = 1;
-    *(u32 *)(r + 0x44) = func_021A36E0(*(u32 *)(r + 0x3c));
-    func_02030DA8(func_02188D30(*(u32 *)(r + 0x40)), func_021C1988, r, 0);
+    *(u32 *)(r + 0x44) = func_021A36E0((u8 *)(*(u32 *)(r + 0x3c)));
+    func_02030DA8(func_02188D30((u8 *)(*(u32 *)(r + 0x40))), func_021C1988, r, 0);
 }

@@ -17,8 +17,10 @@
  *   _s32_div_f    0x0209C2B0 arm
  */
 
-extern int func_020120F4(int);
-extern int func_02012EBC(int);
+struct Big;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void func_0200723C(int, void *, void *);
 
 void func_021F0058(char *p)
@@ -26,7 +28,7 @@ void func_021F0058(char *p)
     int v;
     int r;
 
-    r = func_02012EBC(func_020120F4(*(int *)p));
+    r = (int)func_02012EBC(func_020120F4((const struct Ctx *)(*(int *)p)));
     *(int *)(p + 4) = r;
     func_0200723C(r, p + 0x114, p + 0x118);
     v = (*(int *)(p + 0x114) << 9) / 10;

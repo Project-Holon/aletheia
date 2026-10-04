@@ -45,8 +45,8 @@ struct WordSet;
 extern void *func_020124E4(struct Obj *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern u8 *func_02158344(void *);
-extern void func_0201232C(void *, void (*)(), int);
+extern int func_02158344(int a0);
+extern void func_0201232C(char *p, int a1, int a2);
 extern void func_02182920();
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(void *, void *, int);
@@ -59,8 +59,8 @@ void func_021828B8(void *a, Src *b, u16 *c)
     u8 *v;
     Dst *p;
 
-    v = func_02158344((void *)func_02012138(func_020124E4(a)));
-    func_0201232C(a, func_02182920, 0xAC);
+    v = (u8 *)func_02158344((int)((void *)func_02012138(func_020124E4(a))));
+    func_0201232C(a, (int)func_02182920, 0xAC);
     p = func_020124E8(a);
     func_02082D44(b, p, 0x98);
     if (v != 0) {

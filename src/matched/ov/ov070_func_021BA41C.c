@@ -24,14 +24,16 @@ typedef struct {
     unsigned short a, b;
 } Pt;
 
-extern void func_021BB398(char *, int);
+typedef unsigned int   u32;
+struct CodeIn;
+extern void func_021BB398(int p, u32 val);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(int, Pt *, int);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern void func_0202EB04(int);
+extern void func_0202EB04(struct CodeIn *p);
 extern int func_021B61C8(char *);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -40,14 +42,14 @@ extern void func_0204B908(int, int);
 void func_021BA41C(char *p)
 {
     Pt pt;
-    func_021BB398(p, 0);
+    func_021BB398((int)p, 0);
     func_0204B454((struct Actor *)*(int *)(p + 0x6A4), (struct PtS *)&pt, 0xFFFF);
     pt.b = (*(int *)(p + 0x810) + 1) * 0x18;
     func_0204B404(*(int *)(p + 0x6A4), &pt, 0xFFFF);
     if (func_020355C4() == 0) {
-        func_021BB398(p, 1);
+        func_021BB398((int)p, 1);
     }
-    func_0202EB04(*(int *)(p + 0x850));
+    func_0202EB04((struct CodeIn *)(*(int *)(p + 0x850)));
     func_0204B3DC((struct Obj *)*(int *)(p + 0x6A8), func_021B61C8(p) >= 7);
     func_0204B908(*(int *)(p + 0x6A4), 0);
     func_0204B908(*(int *)(p + 0x6A8), 0);

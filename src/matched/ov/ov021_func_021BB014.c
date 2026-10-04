@@ -28,16 +28,17 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern u32 func_021B833C(u32);
-extern u32 func_021B82FC(u32);
+typedef unsigned char  u8;
+extern u32 func_021B82FC(u8 *p);
 extern void func_021B8328(u32, u32, u32 *);
 extern u32 *func_021B836C(u32, u32);
-extern u32 func_021B821C(u32);
-extern void func_0218E124(u32, int);
-extern void func_0218EC54(u32);
+extern u32 func_021B821C(u8 *p);
+extern void func_0218E124(u8 *a, u32 s);
+extern void func_0218EC54(u8 *p);
 extern void func_0218EC90(u32, u32 *);
-extern void func_0218ED34(u32, u16);
-extern void func_0218ED48(u32, u16);
-extern void func_0218ED58(u32, u32);
+extern void func_0218ED34(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u16 v);
+extern void func_0218ED58(u8 *p, u32 v);
 
 void func_021BB014(u32 a, u32 b, u32 c)
 {
@@ -51,14 +52,14 @@ void func_021BB014(u32 a, u32 b, u32 c)
     if (k == c)
         x = 0;
     else
-        x = func_021B82FC(b);
+        x = func_021B82FC((u8 *)b);
     func_021B8328(b, x, loc);
     r = func_021B836C(b, c);
-    h = func_021B821C(a);
-    func_0218E124(h, 0);
-    func_0218EC54(h);
+    h = func_021B821C((u8 *)a);
+    func_0218E124((u8 *)h, 0);
+    func_0218EC54((u8 *)h);
     func_0218EC90(h, loc);
-    func_0218ED34(h, r[1]);
-    func_0218ED48(h, r[2]);
-    func_0218ED58(h, r[3]);
+    func_0218ED34((u8 *)h, r[1]);
+    func_0218ED48((u8 *)h, r[2]);
+    func_0218ED58((u8 *)h, r[3]);
 }

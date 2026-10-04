@@ -9,10 +9,11 @@
  * status:   EXACT*
  */
 typedef unsigned int u32;
-extern char **func_02030EE8(void *h);
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 
 void func_02201700(void *h)
 {
-    char *p = *func_02030EE8(h);
+    char *p = *((char **)func_02030EE8(h));
     *(u32 *)(p + 0x510) &= ~4;
 }

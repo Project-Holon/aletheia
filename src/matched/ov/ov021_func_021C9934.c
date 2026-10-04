@@ -74,10 +74,11 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02008550(void *p);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void func_0200D868(struct Blk3C *p, u32 v);
-extern void func_02012EE4(void *base, void *v);
+extern void func_02012EE4(char *base, int v);
 extern int func_021CA270(int kind);
 extern void func_0200D85C(struct Blk3C *p);
 extern void func_0200DA14(struct Blk3C *p);
@@ -117,7 +118,7 @@ Obj *func_021C9934(void *arg, int mode, u8 kind)
     p->f74 = func_020071CC(res, 0x3a);
     p->f78 = func_020071CC(res, 0x3b);
     func_0200D868(p->f70, 0);
-    func_02012EE4(sys, p);
+    func_02012EE4(sys, (int)p);
     if (mode == 0) {
         p->kind = kind;
         p->f8 = func_021CA270(p->kind);
@@ -142,7 +143,7 @@ Obj *func_021C9934(void *arg, int mode, u8 kind)
             p->sel = (u8)func_0200D884(p->f70, 9, 0);
             func_0200D884(p->f70, 6, p->small[p->sel]);
             base = 0x12f;
-            if (func_02008550(func_020127A4(sys) + 0x20) != 0)
+            if (func_02008550((const struct Sub0200852CObj *)(func_020127A4(sys) + 0x20)) != 0)
                 base -= 3;
             i = p->sel;
             func_021CBF38(p, p->big[i], base + i, func_0200D884(p->f70, 7, 0), p->small[i], p->heap);

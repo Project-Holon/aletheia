@@ -112,11 +112,11 @@ extern char g_021A4EC8[];
 extern char g_021A4EEC[];
 extern char g_021A4EF4[];
 
-extern void func_0217D254(int category, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0218F248(void **connection, GPIPeer *peer);
 extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
 extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
 extern void func_0217EAE0(void *ptr);
@@ -148,7 +148,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
         break;
 
     case 0x66:
-        func_0217D254(1, 3, 0x1F, g_021A4E50, peer->profile);
+        func_0217D254(1, (char *)3, 0x1F, g_021A4E50, peer->profile);
         {
             int __result__ = func_0218F248(connection, peer);
             if (__result__ != 0)
@@ -163,7 +163,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
             int freePeerSig = 1;
 
             if (!func_0218FD9C(connection, peer->profile, &pProfile)) {
-                func_02193734(connection, g_021A4E7C);
+                func_02193734((int *)connection, (int)g_021A4E7C);
                 return 3;
             }
 
@@ -201,7 +201,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
             if (!func_020949F4(str, g_021A4EC0, 7)) {
                 peer->nackCount++;
                 if (peer->nackCount > 1) {
-                    func_02193734(connection, g_021A4EC8);
+                    func_02193734((int *)connection, (int)g_021A4EC8);
                     return 3;
                 }
                 {
@@ -210,7 +210,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
                         return __result__;
                 }
             } else if (func_020949F4(str, g_021A4EEC, 6)) {
-                func_02193734(connection, g_021A4EF4);
+                func_02193734((int *)connection, (int)g_021A4EF4);
                 return 3;
             }
             peer->state = 0x69;

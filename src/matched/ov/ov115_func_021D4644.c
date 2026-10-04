@@ -30,17 +30,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0200FB24(void);
 extern u32 func_0203CA98(void);
-extern void func_021D5F7C(int);
-extern void func_021D5D3C(int);
-extern void func_021D5C94(int);
+extern void func_021D5F7C(u8 *p);
+extern void func_021D5D3C(u8 *p);
+extern void func_021D5C94(u8 *p);
 extern void func_0200F83C(void);
-extern void func_021D5938(int);
+extern void func_021D5938(u8 *p);
 extern int func_0203CD98(void);
 extern u32 func_0200FBB0(void);
 extern void func_0203CA04(void);
 extern void func_0200FBA0(void);
 extern void func_0203C968(void);
-extern void func_021D5ED8(int,int);
+extern void func_021D5ED8(u8 *p, u32 n);
 extern void func_021D426C(u8 *,u32);
 extern void func_021D460C(u8 *);
 extern void func_0200FA84(void);
@@ -48,5 +48,5 @@ extern void func_0200FA84(void);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
 int func_021D4644(u8 *p) {
- if(func_0200FB24()) { switch(*(u32 *)(func_0203CA98()+4)) { case 1: case 2: case 3: case 4: case 5: case 6: func_021D5F7C(W(0x38)); func_021D5D3C(W(0x38)); func_021D5C94(W(0x38)); func_0200F83C(); func_021D5938(W(0x34)); if(func_0203CD98()) func_0200FBB0(); func_0203CA04(); func_0200FBA0(); func_0203C968(); func_021D5ED8(W(0x38),37); func_021D426C(p,(u32)func_021D460C); return 1; case 7: func_0200FA84(); break; case 0: default: break; } } return 0;
+ if(func_0200FB24()) { switch(*(u32 *)(func_0203CA98()+4)) { case 1: case 2: case 3: case 4: case 5: case 6: func_021D5F7C((u8 *)W(0x38)); func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); func_0200F83C(); func_021D5938((u8 *)W(0x34)); if(func_0203CD98()) func_0200FBB0(); func_0203CA04(); func_0200FBA0(); func_0203C968(); func_021D5ED8((u8 *)W(0x38),37); func_021D426C(p,(u32)func_021D460C); return 1; case 7: func_0200FA84(); break; case 0: default: break; } } return 0;
 }

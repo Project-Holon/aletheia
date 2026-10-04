@@ -23,7 +23,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 extern u32 func_020173EC(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern void func_021D8E84(void *,int);
 extern void func_021DE66C(char *p);
 void func_021DE6AC(char *p)
@@ -32,7 +32,7 @@ void func_021DE6AC(char *p)
     if(((Flags *)p)->state==1) return;
     if(func_021D8A24(p)!=0) {
         id=(unsigned)func_020399A8();
-        if(!func_0203D3A8((void *)id,0xc01,func_020173EC(),*(void **)(p+0x106c))) return;
+        if(!func_0203D3A8((void *)id,0xc01,func_020173EC(),(u32)(*(void **)(p+0x106c)))) return;
     }
     p[0x11fb]=((u8)p[0x11fb]&~15)|1;
     func_021D8E84(p,(int)func_021DE66C);

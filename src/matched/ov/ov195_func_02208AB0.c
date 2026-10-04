@@ -57,7 +57,7 @@ extern Node *func_022086C8(u16 heap, u16 n);
 extern u16 func_02047E88(void *res, void *name);
 struct G3dSys;
 extern u32 func_020489F4(u8 *a0, int i);
-extern void *func_02048A18(void *res, u16 id);
+extern u32 func_02048A18(u8 *a0, int i);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern u32 func_0204784C(void *obj, u32 idx, u32 *out);
 
@@ -81,9 +81,9 @@ void func_02208AB0(Anim *p)
     n->tz = 0;
     n->f40 = 1;
     for (i = 0; i < p->count; i++)
-        func_020477A4(func_02048A18(p->res, p->nodes[i].id), 0);
+        func_020477A4((struct G3dSys *)func_02048A18(p->res, p->nodes[i].id), 0);
     p->f24 = 0;
-    q = func_02048A18(p->res, p->nodes[p->f1a].id);
+    q = (void *)func_02048A18(p->res, p->nodes[p->f1a].id);
     x = 0;
     p->f28 = 0;
     func_020477A4(q, 1);

@@ -36,8 +36,8 @@ typedef struct {
     u32 x20;
 } Out;
 extern int func_02161ECC(Item *);
-extern void func_02186818(u32, u8);
-extern u8 *func_0218682C(u32);
+extern void func_02186818(u32 *p, u32 member);
+extern char *func_0218682C(char *p);
 extern u32 func_02186278(In *, int);
 
 void func_02194084(Out *o, In *in, u32 c)
@@ -50,8 +50,8 @@ void func_02194084(Out *o, In *in, u32 c)
     cnt = 0;
     for (i = 0; i < 10; i++) {
         if (func_02161ECC(&in->items[i]) != 0) {
-            func_02186818(c, in->items[i].x1);
-            sum += *(u16 *)(func_0218682C(c) + 0x2E);
+            func_02186818((u32 *)c, in->items[i].x1);
+            sum += *(u16 *)(func_0218682C((char *)c) + 0x2E);
             cnt += in->items[i].x1;
         }
     }

@@ -18,25 +18,30 @@
  */
 typedef unsigned short u16;
 typedef struct { unsigned data; u16 tag,pad; unsigned flag; } Desc;
-extern void func_02028148(unsigned);
-extern unsigned func_02045B38(unsigned,unsigned,unsigned,unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern void func_02028148(u8 *p);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02082BCC(void *,int,unsigned);
-extern unsigned func_02045EC0(unsigned,unsigned);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern unsigned func_02027FEC(unsigned,Desc *,unsigned,unsigned,unsigned,unsigned);
-extern void func_02045808(unsigned);
-extern void func_02045C04(unsigned);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 void func_021B72A8(unsigned *p,unsigned b) {
  unsigned q;
  Desc t;
  if(b==p[21]) return;
- func_02028148(p[0]);
- q=func_02045B38(0,2,0x31,*(u16 *)((char *)p+0x58));
+ func_02028148((u8 *)p[0]);
+ q=(unsigned int)func_02045B38(0,2,0x31,*(u16 *)((char *)p+0x58));
  func_02082BCC(&t,0,12);
  t.tag=0x39e3;
- t.data=func_02045EC0(q,b+8);
+ t.data=(unsigned int)func_02045EC0((struct MsgBank *)q,b+8);
  t.flag=1;
  p[0]=func_02027FEC(p[1],&t,0x13,0x15,0xd,*(u16 *)((char *)p+0x58));
- func_02045808(t.data);
- func_02045C04(q);
+ func_02045808((struct U16Vec *)t.data);
+ func_02045C04((struct Rec *)q);
  p[21]=b; p[20]=0; p[17]=-1;
 }

@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021B9788(void *a, void *b);
+extern int func_021B9788(int a, int *b);
 
 void func_021B97CC(char *p)
 {
@@ -31,7 +31,7 @@ void func_021B97CC(char *p)
 
     for (i = 0; i < 0x30; i++) {
         if (*(u32 *)(p + i * 0x1C + 0x30) != 0) {
-            func_021B9788(p, p + 0x30 + i * 0x1C);
+            func_021B9788((int)p, (int *)(p + 0x30 + i * 0x1C));
         }
     }
 }

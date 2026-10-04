@@ -28,13 +28,14 @@ typedef struct Slot {
     u8  f20;
 } Slot;
 
-extern void func_02045808(u32 a);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 
 void func_02190538(Slot *s)
 {
     s->f08 = 0;
     s->f0c = 0;
-    func_02045808(s->f18);
+    func_02045808((struct U16Vec *)s->f18);
     s->f18 = 0;
     s->f10 = 0;
 }

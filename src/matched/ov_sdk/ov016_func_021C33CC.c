@@ -20,12 +20,12 @@
 
 extern void func_021C33EC(void);
 extern void func_021BD29C(int msg);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021C3454(void);
 
 void func_021C33CC(void)
 {
 	func_021C33EC();
 	func_021BD29C(0x1f);
-	func_021C0E40(func_021C3454);
+	func_021C0E40((unsigned int)func_021C3454);
 }

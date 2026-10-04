@@ -17,12 +17,13 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct Blk1AC;
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
-extern void *func_0201296C(void *);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern unsigned func_020142E8(void *, int);
 int func_021DE058(void *p, void *q)
 {
     int a = func_0200DBA0(p, 6, 0);
-    unsigned b = func_020142E8(func_0201296C(q), 0x960);
+    unsigned b = func_020142E8((void *)func_0201296C(q), 0x960);
     if (a && b) return 1;
     return 0;
 }

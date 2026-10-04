@@ -38,7 +38,7 @@
  */
 struct WinMgr;
 extern void func_021EF670(char *);
-extern void func_021EA75C(unsigned char *);
+extern void func_021EA75C(int p);
 extern void func_021ECB20(unsigned char *,int,int);
 extern void func_021ED888(char *,int);
 extern void func_021EE364(unsigned char *,int,int);
@@ -52,8 +52,8 @@ extern void func_021EB988(unsigned char *,const void *,unsigned);
 extern void func_021EF4E4(struct WinMgr *mgr);
 extern void func_021EBC58(unsigned char *,int,int,int);
 extern unsigned func_0202136C(unsigned short);
-extern void *func_021DD2D0(unsigned char *,int,unsigned);
-extern void func_021DD2B4(unsigned char *,int,int,int,int);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
+extern void func_021DD2B4(int a, int b, int c, int d, int e);
 extern int func_021DD718(unsigned char *,void *);
 extern void func_021DD8A8(unsigned char *,unsigned);
 extern void func_021EC48C(unsigned char *,int,int,int);
@@ -75,7 +75,7 @@ int func_021E96E8(unsigned char *p)
     switch(p[0x13]) {
     case 0: func_021ED164(WORK,p[0x16],0); next=0x39; break;
     case 1:
-        func_021EA75C(p); func_021ED888(WORK,0);
+        func_021EA75C((int)p); func_021ED888(WORK,0);
         func_021ED164(WORK,p[0x16],1); func_021EE364(p,8,0xa); next=0x46; break;
     }
     func_021EA878(p,*(short *)(p+0x10));
@@ -87,8 +87,8 @@ int func_021E96E8(unsigned char *p)
         return next;
     }
     if(func_0202136C(ITEM)==0) {
-        mon=func_021DD2D0(p,p[0x14],p[0x16]);
-        func_021DD2B4(p,p[0x16],p[0x14],6,ITEM);
+        mon=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);
+        func_021DD2B4((int)p,p[0x16],p[0x14],6,ITEM);
         if(func_021DD718(p,mon)==1) {
             func_021DD8A8(p,p[0x16]);
             func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK+p[0x16]+0x3dd2));

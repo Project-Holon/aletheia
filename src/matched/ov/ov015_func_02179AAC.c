@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021798DC(u32 a, u8 b, u8 c, u8 d);
+extern void func_021798DC(void *dst, int n, u8 a, u8 b);
 extern u8 g_0217AB80[];
 extern u8 d_0217AAC0[];
 extern u8 d_0217ABA0[];
@@ -30,7 +30,7 @@ void func_02179AAC(void)
     p = d_0217AAC0;
     if (g_0217AB80[0xE] == 1) {
         if (p[0xE4] == 1) {
-            func_021798DC(*(u32 *)(p + 0xC4), p[0xDE], p[0xDF], p[0xE0] | (d_0217ABA0[3] << 4));
+            func_021798DC((void *)(*(u32 *)(p + 0xC4)), p[0xDE], p[0xDF], p[0xE0] | (d_0217ABA0[3] << 4));
             p[0xE4] = 0;
         } else {
             func_021798DC(0, 0, 0xEE, p[0xE0] | (d_0217ABA0[3] << 4));

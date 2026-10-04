@@ -14,14 +14,14 @@
  */
 extern int func_021E18CC(void *);
 extern int func_021E1768(char *, int);
-extern void *func_021DCE00(char *, int);
+extern int func_021DCE00(char *p, int i);
 int func_021E1910(char *p)
 {
     int i;
     if (func_021E18CC(*(void **)(p + 0x24)) == 1)
         return 1;
     for (i = 0; i < 5; i++) {
-        if (func_021E1768(p, i) != 0 && func_021E18CC(func_021DCE00(*(char **)(p + 0xdc), i)) == 1)
+        if (func_021E1768(p, i) != 0 && func_021E18CC((void *)func_021DCE00(*(char **)(p + 0xdc), i)) == 1)
             return 1;
     }
     return 0;

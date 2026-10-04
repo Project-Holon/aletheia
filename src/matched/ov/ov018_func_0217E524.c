@@ -45,14 +45,15 @@ typedef struct {
     u8 f10F;
 } Obj;
 
-extern int func_020120F4(int a0);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_0217F1E8(Obj *p);
 extern int func_0204B3F4(int a0);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
 extern void func_0217F214(void);
 extern void func_0217F240(Obj *p, int a1);
-extern void func_020127B8(int a0);
+extern void func_020127B8(void *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
@@ -65,7 +66,7 @@ void func_0217E524(Obj *p)
     int rem;
     u8 *base;
 
-    h = func_020120F4(p->f00);
+    h = (int)func_020120F4((const struct Ctx *)p->f00);
     if (func_0217F1E8(p) == 0) {
         if (func_0204B3F4(p->fAC) == 1) {
             func_0204B3DC((struct Obj *)p->fAC, 0);
@@ -77,7 +78,7 @@ void func_0217E524(Obj *p)
         func_0204B3DC((struct Obj *)p->fAC, 1);
         func_0217F240(p, 1);
     }
-    func_020127B8(h);
+    func_020127B8((void *)h);
     v = p->fE0;
     if (p->f10A != -1 && p->f10A != v && v <= 5 && p->fDC == 3) {
         func_020061E4(0x550);

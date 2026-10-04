@@ -49,7 +49,7 @@ typedef unsigned int  u32;
 typedef unsigned char u8;
 
 extern void func_02016BA0(void *obj);
-extern void func_02016C0C(u32 value);
+extern void func_02016C0C(void *id);
 extern int func_02016C38(int a0);
 extern void func_020307B0(void *obj);
 
@@ -62,7 +62,7 @@ void sub_02015BA4(void *sys, void *obj)
     func_02016BA0(obj);
 
     if (p[0] != 0) {
-        func_02016C0C(p[0]);
+        func_02016C0C((void *)p[0]);
         p[0] = 0;
     }
     if (p[1] != 0) {

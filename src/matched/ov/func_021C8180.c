@@ -13,9 +13,9 @@
  *   func_021B8670  0x021B8670  thumb  ov093
  */
 
-void func_021B8670(int);
+unsigned int func_021B8670(unsigned int **p);
 
 void func_021C8180(int *p)
 {
-    func_021B8670(*(int *)((char *)p + 4));
+    func_021B8670((unsigned int **)(*(int *)((char *)p + 4)));
 }

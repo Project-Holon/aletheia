@@ -21,11 +21,11 @@ struct ServerBrowser {
     char list[1];
 };
 
-extern unsigned long func_0217ED38(char *name);
+extern int func_0217ED38(int a);
 extern int func_021A1620(void *slist, unsigned int ip, unsigned short port, char *data, int len);
 
 int func_0219EF08(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len)
 {
-    return func_021A1620(&sb->list, func_0217ED38(ip),
+    return func_021A1620(&sb->list, func_0217ED38((int)ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), data, len);
 }

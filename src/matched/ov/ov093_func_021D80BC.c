@@ -28,10 +28,10 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 struct Unk021B8CB0;
 extern u32 func_021B8588(void **p);
 extern u8 func_021D5440(u8 *p);
-extern int func_021B8D8C(void *p, int a, u32 b);
+extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u32 sub_0201BD28(u16 id, u32 field);
 extern u32 sub_0201BEB8(u16 id, u32 bit);
-extern int func_021D80A8(int m);
+extern int func_021D80A8(void *p);
 extern u8 func_021B8C50(char **p, u32 v, int k);
 extern u8 func_021B8D38(void *p, int a, int k, u8 *out);
 extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
@@ -47,9 +47,9 @@ int func_021D80BC(void *p, int a, int m, u16 move)
     u8 n;
 
     mode = func_021B8588(p);
-    t = func_021B8D8C(p, a, func_021D5440((u8 *)m));
+    t = func_021B8D8C(p, (void *)a, func_021D5440((u8 *)m));
     kind = sub_0201BD28(move, 0x1B);
-    if (move == 0xAE) kind = func_021D80A8(m);
+    if (move == 0xAE) kind = func_021D80A8((void *)m);
 
     if (mode == 0) {
         switch (kind) {
@@ -94,7 +94,7 @@ int func_021D80BC(void *p, int a, int m, u16 move)
     n = func_021B8D38(p, a, t, buf);
     if (n) {
         n = func_021D78AC(n);
-        return func_021B8D8C(p, a, buf[n]);
+        return func_021B8D8C(p, (void *)a, buf[n]);
     }
     n = func_021B8778(p, t, buf);
     if (n) return buf[(u8)func_021D78AC(n)];

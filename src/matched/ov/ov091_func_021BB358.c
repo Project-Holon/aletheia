@@ -24,14 +24,14 @@ typedef struct S {
     u16 b;
 } S;
 
-extern void func_021BB050(u8 *p, S *s, int k);
+extern void func_021BB050(int unused, u8 *s, int k);
 extern void func_021BB2E0(u8 *p, S *s);
 
 int func_021BB358(u8 *p, S *s)
 {
     if (s->a < s->b) {
         if (s->a == 0) {
-            func_021BB050(p, s, 6);
+            func_021BB050((int)p, (u8 *)s, 6);
         }
         {
             u16 cur = s->a;

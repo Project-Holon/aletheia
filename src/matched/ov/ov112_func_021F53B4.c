@@ -19,11 +19,11 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021F6290(int);
+extern void func_021F6290(u8 *p);
 
 void func_021F53B4(int a) {
-    func_021F6290(*(int *)(a + 0xc));
+    func_021F6290((u8 *)(*(int *)(a + 0xc)));
     if (*(int *)(a + 0x10) != 0) {
-        func_021F6290(*(int *)(a + 0x10));
+        func_021F6290((u8 *)(*(int *)(a + 0x10)));
     }
 }

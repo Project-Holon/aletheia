@@ -54,9 +54,12 @@ typedef struct {
 
 extern int d_021DE674;
 
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EBC(u32 a);
-extern u8 *func_0200E8F8(u32 h);
+struct Big;
+struct Ctx;
+struct Sub02008C20Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E8F8(void *sys);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
@@ -67,7 +70,7 @@ extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_020307B0(void *p);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
-extern void *func_02008C58(u32 h);
+extern struct Sub02008C20Obj *func_02008C58(void *sys);
 struct Sub02008C20Obj;
 extern void func_02008E88(struct Sub02008C20Obj *obj, u32 value);
 extern void func_02008E68(void *x, u8 v);
@@ -127,8 +130,8 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
     *outRank = rank;
     *outScore = s;
 
-    h = func_02012EBC(func_020120F4(a));
-    rec = func_0200E8F8(h);
+    h = (u32)func_02012EBC(func_020120F4((const struct Ctx *)a));
+    rec = func_0200E8F8((void *)h);
     e = (Rec *)(rec + (u8)(U32(0x150) != 0) * 20);
     e->valid = 1;
     if (U32(0x124) == 3) {
@@ -149,7 +152,7 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
     }
 
     if (U32(0x150) != 0) {
-        h2 = func_02012EBC(func_020120F4(a));
+        h2 = (u32)func_02012EBC(func_020120F4((const struct Ctx *)a));
         buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x277);
         if (func_020072CC(h2, 5, 0x8004, buf, 0x8004 >> 3) == 1) {
             func_02082D44(func_020073D8(h2, 5, 0) + 0x5a0, rec += 0x38, 0x22);
@@ -158,7 +161,7 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
         func_0200734C((struct Sub02007324Ctrl *)h2, 5);
     }
 
-    x = func_02008C58(h);
+    x = func_02008C58((void *)h);
     func_02008E88(x, s);
     func_02008E68(x, rank);
 }

@@ -37,7 +37,7 @@ extern MEMBTN *g_021DE508;
 
 extern void func_021D5250(void *cell, int idx, int *x, int *y);
 extern void func_021BCBB4(int y);
-extern void func_021D771C();
+extern void func_021D771C(char *p, unsigned int v);
 extern void func_021BCEE0(void *task);
 
 void func_021BCE7C(void *task)
@@ -48,5 +48,5 @@ void func_021BCE7C(void *task)
     y += 4;
     func_021BCBB4(y);
     if (y >= 192)
-        func_021D771C(task, func_021BCEE0);
+        func_021D771C(task, (unsigned int)func_021BCEE0);
 }

@@ -21,12 +21,13 @@
  *   func_02174954  0x02174954  thumb ov011
  */
 
-int func_02026478(int a);
+typedef unsigned int   u32;
+u32 func_02026478(void *obj);
 int func_020127C4(int h);
 int func_02174734(void *p, int b, int c);
 void func_02174D5C(void *p, void *e);
 int func_021748CC(void *p, int i);
-int func_02174954(void *p);
+u32 func_02174954(u32 p);
 
 void func_02174CCC(unsigned char *p)
 {
@@ -35,7 +36,7 @@ void func_02174CCC(unsigned char *p)
     unsigned char *q;
     int h;
 
-    h = func_02026478(*(int *)(p + 4));
+    h = func_02026478((void *)(*(int *)(p + 4)));
     if (p[0x908] != 0) {
         if (func_02174734(p, p[0x908], func_020127C4(h)) == 1) {
             p[0x908] = 0;
@@ -52,7 +53,7 @@ void func_02174CCC(unsigned char *p)
         }
     }
     if (p[0x8E1] == 1) {
-        if (func_02174954(p + 0x8E0) == 1) {
+        if (func_02174954((u32)(p + 0x8E0)) == 1) {
             p[0x8E1] = 0;
         }
     }

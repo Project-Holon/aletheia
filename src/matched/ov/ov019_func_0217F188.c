@@ -23,9 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02034714(const char *a, u32 b, const char *c);
-extern void func_02045CAC(u32 a, u32 b, u32 c);
-extern void func_0201F250(u32 a, u32 b, u32 c);
-extern void func_021916A8(u32 a, u32 b, u32 c, u32 d);
+struct MsgBank;
+struct R;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_021916A8(struct R *r, u32 b, u16 c, u32 d);
 extern u32 d_021807F8[];
 
 void func_0217F188(char *p, u32 arg)
@@ -33,8 +36,8 @@ void func_0217F188(char *p, u32 arg)
     if (*(u32 *)(p + 0x280c) == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    func_02045CAC(*(u32 *)(p + 0x2808), arg, *(u32 *)(p + 0x2820));
-    func_0201F250(*(u32 *)(p + 0x2804), *(u32 *)(p + 0x2824), *(u32 *)(p + 0x2820));
-    func_021916A8(*(u32 *)(p + 0x280c), 0, 0, *(u32 *)(p + 0x2824));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x2808)), arg, (void *)(*(u32 *)(p + 0x2820)));
+    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x2804)), (void *)(*(u32 *)(p + 0x2824)), (void *)(*(u32 *)(p + 0x2820)));
+    func_021916A8((struct R *)(*(u32 *)(p + 0x280c)), 0, 0, *(u32 *)(p + 0x2824));
     *(u8 *)(p + 0x2828) = 1;
 }

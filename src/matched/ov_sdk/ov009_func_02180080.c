@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 void func_02181DA0(int x);
-void func_0217EAE0(int x);
+void func_0217EAE0(void *p);
 void func_021C2324(int x, int y);
 
 int func_02180080(int *p)
@@ -31,9 +31,9 @@ int func_02180080(int *p)
     if (p[5])
         func_02181DA0(p[5]);
     if (p[6])
-        func_0217EAE0(p[6]);
+        func_0217EAE0((void *)p[6]);
     if (p[7])
         func_021C2324(p[10], p[7]);
-    func_0217EAE0((int)p);
+    func_0217EAE0((void *)((int)p));
     return 1;
 }

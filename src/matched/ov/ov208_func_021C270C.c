@@ -64,10 +64,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor; struct Ov208Win; struct Ov208PalFade; struct Ov208Scene; struct Ov208Fade; struct Ov208Icon; struct Ov208Blend; struct Key;
-extern void *func_021BC3B4(int);
-extern void *func_021BC3B8(int);
+extern int func_021BC3B4(int *p);
+extern int func_021BC3B8(char *p);
 extern u16 func_021BC3BC(char *);
-extern int func_021BC3A4(int);
+extern int func_021BC3A4(int *p);
 extern void func_02040618(u32,u32,u32);
 extern void func_020414AC(u8);
 extern void func_0204047C(int,u16);
@@ -84,10 +84,10 @@ extern struct Ov208Win *func_021BC844(u16,u32,u8,u8,u8);
 extern void func_021C2DE0(void *,u8 *,void *,int,u16);
 extern void func_021C35DC(u16 *,u8 *,int);
 extern void func_021BC758(struct Ov208PalFade *);
-extern void func_021BC718(u32);
-extern void func_021BC4F4(int,u32);
+extern void func_021BC718(char *p);
+extern void func_021BC4F4(int flag, int *p);
 extern void func_021C3AA8(void *,u8 *,int);
-extern void func_021BC6D8(u32);
+extern void func_021BC6D8(char *p);
 extern int func_021BDAD0(struct Ov208Fade *);
 extern void func_021BDAAC(struct Ov208Scene *,u32,u32,u32);
 extern void func_021BDAD4(struct Ov208Fade *,int);
@@ -97,9 +97,9 @@ extern void func_021BDC14(char *p, int b);
 extern int func_021BE840(struct Ov208Icon *);
 extern void func_021BE82C(struct Ov208Icon *,int);
 extern void func_021BE844(struct Ov208Icon *);
-extern int func_021BC6C8(u32);
+extern int func_021BC6C8(char *p);
 extern void func_021BDBA0(struct Ov208Scene *);
-extern void func_021BC6F8(u32);
+extern void func_021BC6F8(char *p);
 extern void func_021BE854(struct Ov208Icon *);
 extern void func_021BDAE8(char *p, int v);
 extern void func_021C2BF4(void *,u8 *,void *);
@@ -110,9 +110,9 @@ extern void func_021C3380(u16 *,u8 *,int);
 extern void func_021C3650(u16 *,u8 *,int);
 extern void func_021C301C(u16 *,u8 *,int);
 extern void func_021C3318(u16 *,u8 *,int);
-extern void func_021BC99C(u32);
+extern void func_021BC99C(char *p);
 extern void func_021BC46C(struct Ov208Blend *,struct Ov208Blend *);
-extern void func_021BC678(u32);
+extern void func_021BC678(char *p);
 extern void func_021C2C1C(u16 *,u8 *,int);
 #define W(o) (*(u32 *)(p+(o)))
 /* Explicit caller r2 loads preserve trailing arguments on setup/update helpers. */
@@ -122,8 +122,8 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
     struct Ov208Icon *icon;
     u8 i;
     int ready;
-    scene=func_021BC3B4(key);
-    icon=func_021BC3B8(key);
+    scene=(void *)func_021BC3B4((int *)key);
+    icon=(struct Ov208Icon *)func_021BC3B8((char *)key);
     switch(*seq){
     case 0:
         *seq=1;
@@ -152,30 +152,30 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
         func_021C2DE0(heap,p,(void *)key,0,0);
         func_021C35DC(heap,p,key);
         func_021BC758((struct Ov208PalFade *)W(0xc8));
-        func_021BC718(W(0xc8));
+        func_021BC718((char *)W(0xc8));
         break;
     case 1:
         *seq=2;
-        func_021BC4F4(0,W(0xc0));
-        func_021BC4F4(1,W(0xc4));
+        func_021BC4F4(0,(int *)W(0xc0));
+        func_021BC4F4(1,(int *)W(0xc4));
         func_021C3AA8(heap,p,key);
         break;
     case 2:
         *seq=3;
-        func_021BC6D8(W(0xc8));
+        func_021BC6D8((char *)W(0xc8));
         if(func_021BDAD0(scene)!=2){
             func_021BDAAC(scene,0,2,func_021BC3BC((char *)key)>1);
             func_021BDAD4(scene,0);
         }else func_021BDBB8(scene,2);
         func_021BDC48(scene,0);
-        func_021BDC14(scene,func_02012BF8(func_021BC3A4(key),0x13));
+        func_021BDC14(scene,func_02012BF8(func_021BC3A4((int *)key),0x13));
         if(func_021BE840(icon)!=2){
             func_021BE82C(icon,2);
             func_021BE844(icon);
         }
         break;
     case 3:
-        if(func_021BC6C8(W(0xc8))==0 && func_021BDAD0(scene)==2 && func_021BE840(icon)==2){
+        if(func_021BC6C8((char *)W(0xc8))==0 && func_021BDAD0(scene)==2 && func_021BE840(icon)==2){
             func_021BDBA0(scene);
             func_021BDC48(scene,1);
             *seq=4;
@@ -184,7 +184,7 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
     case 4:
         if(W(0xcc)!=0){
             *seq=5;
-            func_021BC6F8(W(0xc8));
+            func_021BC6F8((char *)W(0xc8));
             func_021BE854(icon);
             if(W(0xcc)==2)func_021BDAE8(scene,0);
             func_021C2BF4(heap,p,(void *)key);
@@ -192,7 +192,7 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
         break;
     case 5:
         ready=0;
-        if(func_021BC6C8(W(0xc8))==0 && func_021BE840(icon)==0){
+        if(func_021BC6C8((char *)W(0xc8))==0 && func_021BE840(icon)==0){
             if(W(0xcc)==2){
                 if(func_021BDAD0(scene)==0)ready=1;
             }else ready=1;
@@ -215,11 +215,11 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
     }
     if(*seq>=2){
         func_021C3318(heap,p,key);
-        func_021BC99C(W(0x7c));
-        func_021BC99C(W(0x80));
+        func_021BC99C((char *)W(0x7c));
+        func_021BC99C((char *)W(0x80));
     }
     func_021BC46C((struct Ov208Blend *)W(0xc0),(struct Ov208Blend *)W(0xc4));
-    func_021BC678(W(0xc8));
+    func_021BC678((char *)W(0xc8));
     func_021C2C1C(heap,p,key);
     return 0;
 }

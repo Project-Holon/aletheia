@@ -72,7 +72,7 @@ typedef unsigned int   u32;
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern void func_0200B040(void *a, u8 *dst);
-extern void func_0201A2A8(void *a, u32 b);
+extern void func_0201A2A8(void *a0, void *a1);
 extern void func_0201A30C(void *a, u32 b, u32 c);
 
 void func_02013160(u8 *o, void *a1, u32 a2)
@@ -102,7 +102,7 @@ void func_02013160(u8 *o, void *a1, u32 a2)
         u8 *e = o + i * 4;
         if (*(u32 *)(e + 0x24) != 0) {
             func_0201A30C(a1, *(u32 *)(e + 0x24), a2);
-            func_0201A2A8(a1, *(u32 *)(e + 0x24));
+            func_0201A2A8(a1, (void *)(*(u32 *)(e + 0x24)));
         }
     }
 }

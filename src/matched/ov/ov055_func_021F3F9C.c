@@ -27,7 +27,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020056EC(u32);
-extern int func_021F3B48(const char *, int, int, int, int, int *);
+struct Entry;
+struct Table;
+extern struct Entry *func_021F3B48(struct Table *t, int x, int y, unsigned int dir, int unused, int *out);
 extern void func_021F3D0C(u8 *, int, int, int, u16, u16, u16, u16, const u16 *);
 
 void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e)
@@ -55,7 +57,7 @@ void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e)
             x = c[2] + e;
         y = c[0] + rnd % (c[1] - c[0] + 1);
     }
-    if (func_021F3B48(a, x, y, m, 1, &out) == 0) {
+    if (func_021F3B48((struct Table *)a, x, y, m, 1, &out) == 0) {
         if (rnd % 10 == 0)
             t0 = 1;
     }

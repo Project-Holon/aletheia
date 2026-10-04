@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A3AD0(u32 a, u32 b);
+extern void func_021A3AD0(u8 *p, u32 v);
 
 void func_021A2F8C(u8 *p, u32 b)
 {
-    func_021A3AD0(*(u32 *)(p + 0x4), b);
+    func_021A3AD0((u8 *)(*(u32 *)(p + 0x4)), b);
 }

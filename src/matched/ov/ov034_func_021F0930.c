@@ -22,16 +22,19 @@
  *   func_02043598 0x02043598 arm
  */
 
-extern void *func_020120F4(int);
+struct Bank;
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned int   u32;
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_0201AA18(void *);
-extern void func_0204B3B4(int);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(int);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_02043598(u32 mask, u32 enable);
 
 void func_021F0930(int *p)
@@ -39,18 +42,18 @@ void func_021F0930(int *p)
     unsigned int i;
     void *n;
 
-    n = func_02012934(func_020120F4(p[0]));
+    n = func_02012934(func_020120F4((const struct Ctx *)p[0]));
     for (i = 0; i < func_0201AA18(n); i++) {
-        func_0204B3B4(p[0x15 + i]);
+        func_0204B3B4((struct Obj *)p[0x15 + i]);
         func_0204A8D4(p[0x25 + i]);
     }
     for (i = 6; i <= 15; i++)
-        func_0204B3B4(p[0x15 + i]);
+        func_0204B3B4((struct Obj *)p[0x15 + i]);
     func_0204A8D4(p[0x2B]);
     func_0204ADA4(p[0x34]);
     func_0204ADA4(p[0x35]);
     func_0204AFD8(p[0x41]);
     func_0204AFD8(p[0x42]);
-    func_0204B1CC(p[0x14]);
+    func_0204B1CC((struct Bank *)p[0x14]);
     func_02043598(0x10, 0);
 }

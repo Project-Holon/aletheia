@@ -34,7 +34,7 @@ struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021D5C44(struct Rat *p);
 extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
-extern int func_021D05C4(void *g, int a, int b, u8 *out);
+extern int func_021D05C4(u8 *g, u8 a, int b, u8 *out);
 
 int func_021D0248(struct G *g, void *m, u8 *out)
 {
@@ -45,7 +45,7 @@ int func_021D0248(struct G *g, void *m, u8 *out)
         if (func_021D62C4(m, 2) || func_021D62C4(m, 3)) {
             if (func_021D5C44(m) >= 0x32000) {
                 if (func_021D6940(m, 1, 0, t)) {
-                    if (func_021D05C4(g, ((u8 *)t)[4], 2, &idx)) {
+                    if (func_021D05C4((u8 *)g, ((u8 *)t)[4], 2, &idx)) {
                         *out = idx;
                         return 1;
                     }

@@ -19,7 +19,8 @@ typedef unsigned short u16;
 struct Entry;
 extern int func_021DD3D4(const char *p, int n, int a, int b);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern void func_021D8E84(void *,int);
 extern void func_021DA1B4(char *p);
 void func_021DA1DC(char *p) {
@@ -28,7 +29,7 @@ void func_021DA1DC(char *p) {
     if(*(int *)(p+0xF88)==*(int *)(p+0x630)) v=1;
     n=func_021DD3D4(p,0,*(int *)(p+0xF84),*(int *)(p+0xF88));
     if(n!=-1) {
-        if(func_0203D3A8(func_020399A8(),n+0xC13,1,&v)) {
+        if(func_0203D3A8(func_020399A8(),n+0xC13,1,(u32)(&v))) {
             func_021D8E84(p,(int)func_021DA1B4);
             return;
         }

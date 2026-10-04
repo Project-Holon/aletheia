@@ -46,7 +46,9 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 extern void *func_0203159C(int a, int b, int c);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_021B6C54(void *a);
-extern int func_02045B38(int a, int b, int c, int d);
+struct MsgBank;
+struct PrintSys;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_021B9560(void);
 extern void func_021B95FC(void *a, void *b);
 extern void func_021B96A4(void *a, void *b);
@@ -58,7 +60,7 @@ extern void func_021B9BE8(void *a, void *b);
 extern void func_021B9750(void *a, void *b);
 extern int func_021B7174(void *a, int b, int c);
 extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
-extern void func_021BA1B0(void);
+extern void func_021BA1B0(void *unused, char *p);
 extern void func_021B9970(void *a, void *b, void *c);
 extern void func_021B992C(void *a);
 extern int func_021B9A40(void *a, void *b);
@@ -67,7 +69,7 @@ extern u8 func_020355C4(void);
 extern int func_021B9F2C(u8 *p, int i, int v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(u32 a, u32 b);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *a);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
@@ -87,7 +89,7 @@ int func_021B8EE8(int a, int *b, u8 *c, u8 *o)
         *(int *)(o + 0x2f8) = 0xffff;
         *(int *)(o + 0x2fc) = 0xffff;
         func_021B6C54(c);
-        *(int *)(o + 0x20) = func_02045B38(0, 2, 0xa0, 0x61);
+        *(int *)(o + 0x20) = (int)func_02045B38(0, 2, 0xa0, 0x61);
         func_021B9560();
         func_021B95FC(o, *(void **)(c + 4));
         func_021B96A4(o, *(void **)(c + 4));
@@ -99,7 +101,7 @@ int func_021B8EE8(int a, int *b, u8 *c, u8 *o)
         func_021B9750(c, o);
         *(int *)(o + 0x30c) = func_021B7174(*(void **)(c + 4), 4, 0x61);
         (*(u8 **)(c + 8))[1] = 0x30;
-        *(u32 *)o = func_020056A0(func_021BA1B0, o, 3);
+        *(u32 *)o = func_020056A0((void (*)(void))func_021BA1B0, o, 3);
         func_021B9970(c, o, *(void **)(c + 4));
         func_021B992C(o);
         *b = *b + 1;
@@ -120,7 +122,7 @@ int func_021B8EE8(int a, int *b, u8 *c, u8 *o)
         busy = 0;
         t = (*(u32 **)(c + 4))[2];
         if (o[0x28c] != 0) {
-            if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(o + 0x288))) == 0) {
+            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(o + 0x288)))) == 0) {
                 func_02045334((struct Descriptor *)*(u32 *)(o + 0x288));
                 o[0x28c] = 0;
             }

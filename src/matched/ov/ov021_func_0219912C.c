@@ -37,17 +37,17 @@ typedef struct { int x, y, z; } Vec;
 extern u32 *func_0216D6BC(u32, u32);
 extern void func_0216D5E0(int a0, int a1);
 extern u32 func_0216D600(u32, u32);
-extern u32 func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern u32 func_0216DA70(u32);
-extern u32 func_0216D83C(u32);
+extern int func_0216D83C(void *p);
 extern u32 func_0216D80C(u32, u32);
-extern u32 func_0216D854(u32);
+extern int func_0216D854(void *p);
 extern u32 func_0216D818(u32, u32);
-extern u32 func_0216D86C(u32);
+extern int func_0216D86C(void *p);
 extern u32 func_0216D824(u32, u32);
-extern u32 func_0216D848(u32, int);
-extern u32 func_0216D860(u32, int);
-extern u32 func_0216D87C(u32, int);
+extern void func_0216D848(char *p, short v);
+extern void func_0216D860(char *p, short v);
+extern void func_0216D87C(char *p, short v);
 extern u32 func_0216D7CC(u32);
 
 void func_0219912C(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f)
@@ -59,25 +59,25 @@ void func_0219912C(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f)
     *(Vec *)(q + 1) = *b;
     func_0216D5E0(a, (u16)c);
     func_0216D600(a, (u16)d);
-    func_0216D674(a, f);
+    func_0216D674((void *)a, f);
     func_0216DA70(a);
-    func_0216D80C(a, func_0216D83C(a));
-    func_0216D818(a, func_0216D854(a));
-    func_0216D824(a, func_0216D86C(a));
+    func_0216D80C(a, func_0216D83C((void *)a));
+    func_0216D818(a, func_0216D854((void *)a));
+    func_0216D824(a, func_0216D86C((void *)a));
     if (b->x < 0) {
-        func_0216D848(a, -1);
+        func_0216D848((char *)a, -1);
     } else if (b->x > 0) {
-        func_0216D848(a, 1);
+        func_0216D848((char *)a, 1);
     }
     if (b->y < 0) {
-        func_0216D860(a, -1);
+        func_0216D860((char *)a, -1);
     } else if (b->y > 0) {
-        func_0216D860(a, 1);
+        func_0216D860((char *)a, 1);
     }
     if (b->z < 0) {
-        func_0216D87C(a, -1);
+        func_0216D87C((char *)a, -1);
     } else if (b->z > 0) {
-        func_0216D87C(a, 1);
+        func_0216D87C((char *)a, 1);
     }
     func_0216D7CC(a);
 }

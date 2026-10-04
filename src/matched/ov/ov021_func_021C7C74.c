@@ -41,9 +41,9 @@ typedef struct {
     int f30;
 } Obj;
 
-extern int func_02188C58(int);
-extern int func_0218E138(int);
-extern void func_0218E13C(int, int);
+extern void *func_02188C58(void *p);
+extern u32 func_0218E138(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
 extern void func_0218EC90(int, Vec *);
 extern void func_0207CEE4(int, Vec *, Vec *, Vec *);
 
@@ -54,11 +54,11 @@ int func_021C7C74(Obj *p)
     float t;
     Vec v;
 
-    h = func_02188C58(p->f4);
+    h = (int)func_02188C58((void *)p->f4);
     switch (p->f0) {
     case 0:
-        p->f30 = func_0218E138(h);
-        func_0218E13C(h, 0);
+        p->f30 = func_0218E138((u8 *)h);
+        func_0218E13C((u8 *)h, 0);
         p->f0 = p->f0 + 1;
         break;
     case 1:
@@ -72,7 +72,7 @@ int func_021C7C74(Obj *p)
         func_0207CEE4(n, &p->f24, &p->fC, &v);
         func_0218EC90(h, &v);
         if (p->fA <= p->f8) {
-            func_0218E13C(h, p->f30);
+            func_0218E13C((u8 *)h, p->f30);
             return 1;
         }
         break;

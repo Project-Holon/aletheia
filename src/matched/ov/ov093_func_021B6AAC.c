@@ -30,14 +30,16 @@ struct T;
 extern void func_021B6848(u8 *, struct T *);
 extern void func_021B93E0(char *, u32, u32);
 extern void func_021B9460(void *, void *, u8);
-extern int func_021BA9C8(void *, void *, void *, int, u16);
+struct Copy24;
+struct QB;
+extern u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap);
 extern void func_021B69FC(int, char *);
 extern int func_021CD6F0(void *, void *, int, int, u16, u8, u8, int, u8, void *, u16);
 extern void func_021B6A3C(unsigned char *p, unsigned char *q);
 extern void func_021B6A70(unsigned char *p, unsigned char *q, int r);
-extern int func_021CD978(int);
-extern void func_021BAA94(int, int, u8, u8);
-extern void func_021BAB40(int);
+extern u32 func_021CD978(struct QB *p);
+extern void func_021BAA94(char *p, int b, int c, u8 d);
+extern void func_021BAB40(char *p);
 extern int func_021B83F4(int a);
 int func_021B6AAC(int unused, u8 *p)
 {
@@ -55,16 +57,16 @@ int func_021B6AAC(int unused, u8 *p)
     func_021B93E0((char *)p + 0x1b0, (u32)p, 1);
     func_021B9460(p + 0x1b0, p, 0);
     func_021B9460(p + 0x1b0, p, 1);
-    *(int *)(p + 8) = func_021BA9C8(p, p + 0x3f0, p + 0x1b0, t, *(u16 *)(p + 0x468));
+    *(int *)(p + 8) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
     p[0x46e] = 1;
     func_021B69FC((int)p, (char *)q);
     *(int *)(p + 0x10) = func_021CD6F0(p, p + 0xc8, 0, *(int *)(q + 0x1c), 0, 1, 0, t, q[0x23], p + 0x3f0, *(u16 *)(p + 0x468));
     *(int *)(p + 0x14) = func_021CD6F0(p, p + 0xc8, 0, *(int *)(q + 0x1c), 1, 1, 1, t, q[0x23], p + 0x3f0, *(u16 *)(p + 0x468));
     func_021B6A3C(p, q);
     func_021B6A70(p, q, t);
-    func_021BAA94(*(int *)(p + 8), func_021CD978(*(int *)(p + 0x10)), 0, 1);
-    func_021BAA94(*(int *)(p + 8), func_021CD978(*(int *)(p + 0x14)), 1, 1);
-    func_021BAB40(*(int *)(p + 8));
+    func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(*(int *)(p + 0x10))), 0, 1);
+    func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(*(int *)(p + 0x14))), 1, 1);
+    func_021BAB40((char *)(*(int *)(p + 8)));
     *(u32 *)(p + 0x464) = (u32)func_021B83F4;
     return 1;
 }

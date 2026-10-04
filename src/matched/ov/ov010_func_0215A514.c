@@ -18,9 +18,12 @@
  */
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
-extern int func_02158F54(int);
-extern int func_020120F4(int);
-extern int func_02012964(int);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+extern void *func_02158F54(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012964(const struct BigObj *p);
 extern int d_021728E0;
 
 void *func_0215A514(int a, int heap)
@@ -28,9 +31,9 @@ void *func_0215A514(int a, int heap)
     int *p = (int *)func_02030734(heap, 0x110, 1, (const char *)&d_021728E0, 0x78);
 
     p[0] = a;
-    p[1] = func_02158F54(a);
-    p[2] = func_020120F4(p[1]);
-    p[3] = func_02012964(p[2]);
+    p[1] = (int)func_02158F54((void *)a);
+    p[2] = (int)func_020120F4((const struct Ctx *)p[1]);
+    p[3] = func_02012964((const struct BigObj *)p[2]);
     *((char *)p + 0x104) = 7;
     return p;
 }

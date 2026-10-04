@@ -48,7 +48,7 @@ struct DWCstNodeInfo {
 };
 
 extern int func_0216BA08(void);
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern u64 func_020870D0(void);
 extern int func_0216B908(void);
 extern int func_0217603C(void);
@@ -67,16 +67,16 @@ int func_0217576C(int immediate)
 
     if (!func_0216BA08())
         return 1;
-    if (func_02175F3C()->f61c == 0x13 || func_02175F3C()->f61c == 0x14)
+    if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 0x13 || ((struct DWCstMatchControl *)func_02175F3C())->f61c == 0x14)
         return 1;
     if (immediate == 0) {
         tick = func_020870D0();
-        if (((tick - func_02175F3C()->f7a0) * 64) / 33514 <= 15000)
+        if (((tick - ((struct DWCstMatchControl *)func_02175F3C())->f7a0) * 64) / 33514 <= 15000)
             goto done;
     }
-    sendData[0] = func_02175F3C()->f678;
+    sendData[0] = ((struct DWCstMatchControl *)func_02175F3C())->f678;
     sendData[1] = func_0216B908();
-    sendData[2] = func_02175F3C()->f7c8;
+    sendData[2] = ((struct DWCstMatchControl *)func_02175F3C())->f7c8;
     for (i = 0; i < func_0217603C(); i++) {
         pNodeInfo = func_0217637C(i);
         if (pNodeInfo != func_02176344()) {
@@ -86,7 +86,7 @@ int func_0217576C(int immediate)
         }
     }
     tick = func_020870D0();
-    func_02175F3C()->f7a0 = tick;
+    ((struct DWCstMatchControl *)func_02175F3C())->f7a0 = tick;
 done:
     return 1;
 }

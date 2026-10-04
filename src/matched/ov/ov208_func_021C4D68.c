@@ -38,12 +38,15 @@ struct Ov208Menu {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern u16  func_020437DC(u32 bmp);
+struct Bmp;
+struct StrObj;
+struct U16Vec;
+extern u16 func_020437DC(const struct Bmp *bmp);
 extern void ov208_func_021C47C4(u16 *heap, struct Ov208Menu *p, int key, u32 *outStr, u32 *outB,
                                 int *outC, int *outD, u16 idx);
-extern u32  func_0201D304(u32 str, u32 font, u32 b);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
-extern void func_02045808(u32 str);
+extern void func_02045808(struct U16Vec *vec);
 extern void ov208_func_021C4B60(u16 *heap, struct Ov208Menu *p, int key, int i);
 
 void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
@@ -60,22 +63,22 @@ void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 pri
     u16 w;
 
     bmp = (u32)func_02045770((struct Descriptor *)win);
-    width = func_020437DC(bmp);
+    width = func_020437DC((const struct Bmp *)bmp);
     ov208_func_021C47C4(heap, p, key, &strA, &strB, &freeA, &freeB, idx);
     y = 1;
     y2 = 0x11;
     if (strB == 0)
         y = 9;
-    w = func_0201D304(strA, p->font, 0);
+    w = func_0201D304((struct StrObj *)strA, p->font, 0);
     func_0201C724(print, bmp, (u16)((width - w) / 2), y, strA, p->font, 0x3c40);
     if (strB != 0) {
-        w = func_0201D304(strB, p->font, 0);
+        w = func_0201D304((struct StrObj *)strB, p->font, 0);
         func_0201C724(print, bmp, (u16)((width - w) / 2), y2, strB, p->font, 0x3c40);
     }
     if (strA != 0 && freeA != 0)
-        func_02045808(strA);
+        func_02045808((struct U16Vec *)strA);
     if (strB != 0 && freeB != 0)
-        func_02045808(strB);
+        func_02045808((struct U16Vec *)strB);
     *active = 1;
     ov208_func_021C4B60(heap, p, key, i);
 }

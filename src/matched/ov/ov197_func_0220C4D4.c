@@ -16,10 +16,12 @@
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B404(int, int, int);
+typedef unsigned int   u32;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_0220C4D4(int a, int b)
 {
     func_0204B3DC((struct Obj *)a, 1);
-    func_0204B404(a, b, 1);
+    func_0204B404((struct Obj *)a, (const struct Vec2 *)b, 1);
 }

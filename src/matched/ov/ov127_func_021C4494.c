@@ -19,8 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021C447C(void *, int);
 extern u32 func_0204AF28(u32, u32, u32, u16);
-extern u32 func_0204A6C8(u32, u32, u32, u32, u16);
-extern u32 func_0204AC18(u32, u32, u32, u32, u16, u16, u16);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 void func_021C4494(u8 *p, u32 a, u32 heap)
 {
     int i;
@@ -33,6 +34,6 @@ void func_021C4494(u8 *p, u32 a, u32 heap)
         *(u32 *)(p + 816) = i;
     }
     *(u32 *)(p + 744) = func_0204AF28(*(u32 *)(p + 760), 9, 8, heap);
-    *(u32 *)(p + 736) = func_0204A6C8(*(u32 *)(p + 760), 11, 0, a, heap);
-    *(u32 *)(p + 740) = func_0204AC18(*(u32 *)(p + 760), 10, a, 320, 0, 1, heap);
+    *(u32 *)(p + 736) = func_0204A6C8((void *)(*(u32 *)(p + 760)), 11, 0, a, heap);
+    *(u32 *)(p + 740) = func_0204AC18((void *)(*(u32 *)(p + 760)), 10, a, 320, 0, 1, heap);
 }

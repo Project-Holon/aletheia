@@ -21,16 +21,16 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_020456F8(int);
-extern void func_020452E8(int);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern void func_021E0E4C(char *p);
 void func_021E2438(char *p,int i)
 {
     if (*(int *)(p+0x5bc+4*i)) {
         func_02043B5C(func_02045770((struct Descriptor *)*(int *)(p+0x5bc+4*i)),0);
-        func_020456F8(*(int *)(p+0x5bc+4*i));
-        func_020452E8(*(int *)(p+0x5bc+4*i));
+        func_020456F8((struct Descriptor *)(*(int *)(p+0x5bc+4*i)));
+        func_020452E8((struct Descriptor *)(*(int *)(p+0x5bc+4*i)));
         func_02041B6C(3);
         *(int *)(p+0x5bc+4*i)=0;
         func_021E0E4C(p+0x8c4+20*(i+1));

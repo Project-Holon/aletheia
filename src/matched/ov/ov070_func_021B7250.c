@@ -78,35 +78,39 @@ struct Obj {
 
 extern int func_0201C6B4(void *p);
 extern int func_02035C38(void);
-extern void func_02051C88(void *p);
+typedef signed int     s32;
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Ctx;
+extern s32 func_02051C88(struct Ctx *c);
 extern void func_0202EA40(void *p);
 extern unsigned int func_021B63F8(Obj *o);
 extern void func_021B6138(Obj *o);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
 extern int func_021B61C8(Obj *o);
 extern void func_020061E4(unsigned int se);
 extern void func_021B9850(Obj *o);
 extern void func_021B80C4(Obj *o, int v);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_021B8C1C(Obj *o, int a, void *fn);
 extern int func_021B811C(Obj *o);
 extern int func_021B8134(Obj *o, int k);
 extern void func_021B81B8(Obj *o);
 extern void func_021B8080(Obj *o);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_021B8EA8();
-extern void func_021B8B7C();
+extern void func_021B8EA8(int p);
+extern void func_021B8B7C(int p);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02007CC8(void *a, void *buf, int idx, int dir);
-extern void func_0204B878(void *p, int v);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021BB5DC(Obj *o, int mode);
 extern void func_021B8B0C(Obj *o);
 extern int func_021B6554(Obj *o);
 extern void func_021BA6A4(Obj *o);
 extern unsigned int func_0203633C(void);
 extern void func_021B8CE4(Obj *o, int u, int a, void *fn);
-extern void func_021B8F90();
+extern void func_021B8F90(void *o);
 
 void func_021B7250(Obj *o)
 {

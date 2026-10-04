@@ -49,8 +49,11 @@ extern Vec12 d_021D35CC;
 extern u8 d_021D35AC[];
 
 extern void func_02189140(int x, int b, void *c, int d);
-extern u32 func_0204FE94(int a, int b, void *f, u16 heap);
-extern u8 *func_02050080(u32 a);
+struct Light;
+struct LightSet;
+struct LightSlot;
+extern void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap);
+extern u32 func_02050080(u32 *p);
 extern void func_0204EDBC(u8 *dst, u8 val);
 extern void func_0204EDC4(u8 *dst, int a, int b);
 extern void func_0204ED70(u8 *dst, Vec12 *src);
@@ -58,9 +61,9 @@ extern void func_0204EDB0(u8 *dst, u8 *src);
 extern void func_021891C0(u8 *p);
 extern u32 func_021C63AC(u16 heap, int a, int b);
 extern u32 func_02048A24(int, int, int, int, int, int, int, int, void *, void *, void *, int);
-extern u32 func_02048BC4(void *p, int heap);
-extern void func_02048AD0(u32 a);
-extern void func_02048C58(u32 a);
+extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
+extern void func_02048AD0(struct Light *l);
+extern void func_02048C58(struct LightSlot *slots);
 
 void func_02188EE4(u8 *p)
 {
@@ -70,13 +73,13 @@ void func_02188EE4(u8 *p)
     u8 *h;
     u16 heap;
 
-    *(u32 *)(p + 0xB0) = func_0204FE94(0x40, 0x80, func_02189140, *(u16 *)p);
-    h = func_02050080(*(u32 *)(p + 0xB0));
+    *(u32 *)(p + 0xB0) = (u32)func_0204FE94(0x40, 0x80, (u32)func_02189140, *(u16 *)p);
+    h = (u8 *)func_02050080((u32 *)(*(u32 *)(p + 0xB0)));
     func_0204EDBC(h, 2);
     func_0204EDC4(h, 0, -0xA00);
-    *(u32 *)(p + 0xB4) = func_0204FE94(0x3A, 0x50, func_02189140, *(u16 *)p);
-    *(u32 *)(p + 0xB8) = func_0204FE94(0x1E, 0x28, func_02189140, *(u16 *)p);
-    h = func_02050080(*(u32 *)(p + 0xB8));
+    *(u32 *)(p + 0xB4) = (u32)func_0204FE94(0x3A, 0x50, (u32)func_02189140, *(u16 *)p);
+    *(u32 *)(p + 0xB8) = (u32)func_0204FE94(0x1E, 0x28, (u32)func_02189140, *(u16 *)p);
+    h = (u8 *)func_02050080((u32 *)(*(u32 *)(p + 0xB8)));
     v30 = d_021D36F4;
     func_0204ED70(h, &v30);
     v20 = 0;
@@ -87,7 +90,7 @@ void func_02188EE4(u8 *p)
     v24 = d_021D36E8;
     *(u32 *)(p + 0xA4) = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
                                        &d_021D35C0, &v24, &d_021D35CC, heap);
-    *(u32 *)(p + 0xA8) = func_02048BC4(d_021D35AC, *(u16 *)p);
-    func_02048AD0(*(u32 *)(p + 0xA4));
-    func_02048C58(*(u32 *)(p + 0xA8));
+    *(u32 *)(p + 0xA8) = (u32)func_02048BC4((const struct LightSet *)d_021D35AC, *(u16 *)p);
+    func_02048AD0((struct Light *)(*(u32 *)(p + 0xA4)));
+    func_02048C58((struct LightSlot *)(*(u32 *)(p + 0xA8)));
 }

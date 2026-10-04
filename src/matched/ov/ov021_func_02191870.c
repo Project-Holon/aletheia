@@ -38,9 +38,11 @@ typedef struct O {
 extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_0219319C(Fx *a, O *o);
-extern u32 func_020457B0(u32 n, u32 heap);
-extern void func_02045CAC(u32 a, u32 b, u32 c);
+struct MsgBank;
+struct U16Vec;
+extern int func_0219319C(u8 *p, u32 v);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021917C4(Fx *a, O *o, u32 buf, u16 k, u8 e, u8 f, u8 g, u8 h, u32 d);
 
 void func_02191870(Fx *a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h)
@@ -49,8 +51,8 @@ void func_02191870(Fx *a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h)
     int k;
 
     o = func_02030734(a->f00, 0x18, 1, d_021DDA50, 0xE2A);
-    k = func_0219319C(a, o);
-    o->f00 = func_020457B0(0x40, a->f00);
-    func_02045CAC(b, c, o->f00);
+    k = func_0219319C((u8 *)a, (u32)o);
+    o->f00 = (u32)func_020457B0(0x40, a->f00);
+    func_02045CAC((struct MsgBank *)b, c, (void *)o->f00);
     func_021917C4(a, o, o->f00, k + 3, e, f, g, h, d);
 }

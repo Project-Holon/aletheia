@@ -43,7 +43,7 @@ extern int func_02005E50(void);
 extern void func_02005D90(u16, u16);
 extern int func_021F7EB4(void);
 extern int func_021EA710(u32 *p);
-extern void func_021CE150(u8 *, u32);
+extern void func_021CE150(u8 *p, void *q);
 extern u32 func_021CE4D0(u8 *);
 
 u32 func_021CE7D4(u8 *p, int *st)
@@ -84,7 +84,7 @@ u32 func_021CE7D4(u8 *p, int *st)
         }
         break;
     case 3:
-        if (!func_021F7EB4()) func_021CE150(p, (u32)func_021CE4D0);
+        if (!func_021F7EB4()) func_021CE150(p, (void *)((u32)func_021CE4D0));
         break;
     }
     return 0;

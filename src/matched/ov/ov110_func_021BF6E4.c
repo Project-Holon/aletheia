@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0202452C(void *);
-void func_021BF6E4(u8 *p) { func_0202452C(p + 8); }
+extern u16 func_0202452C(const u16 *p);
+void func_021BF6E4(u8 *p) { func_0202452C((const u16 *)(p + 8)); }

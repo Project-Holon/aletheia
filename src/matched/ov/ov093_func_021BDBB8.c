@@ -20,12 +20,12 @@ typedef unsigned int u32;
 extern void func_021D74F8(int);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int, u32);
-extern void func_021D70FC(u8 *, int, int);
+extern void func_021D70FC(int a, int b, int c);
 extern void func_021D7540(int);
 void func_021BDBB8(u8 *p, u8 *a)
 {
     func_021D74F8(0xc55);
     func_021D75EC(2, func_021D5440(a));
-    func_021D70FC(p, 0x55, 4);
+    func_021D70FC((int)p, 0x55, 4);
     func_021D7540(0xc58);
 }

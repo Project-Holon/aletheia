@@ -16,9 +16,10 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_0204A6C8(u32, u32, u32, u32, u16);
-extern int func_0204AC18(u32, u32, u32, u32, u16, u16, u16);
-extern int func_0204AF28(u32, u32, u32, u32);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 void func_021BCE7C(char *p)
 {
@@ -27,12 +28,12 @@ void func_021BCE7C(char *p)
     int a, b, c, d;
     heap = *(u16 *)(p + 8);
     arc = func_020490F4(192, (heap & 0x7FFF) | 0x8000);
-    a = func_0204A6C8((u32)arc, 15, 0, 0, heap);
-    b = func_0204AC18((u32)arc, 16, 0, 192, 0, 4, heap);
-    c = func_0204AF28((u32)arc, 14, 17, heap);
+    a = func_0204A6C8((void *)((u32)arc), 15, 0, 0, heap);
+    b = func_0204AC18((void *)((u32)arc), 16, 0, 192, 0, 4, heap);
+    c = func_0204AF28((void *)((u32)arc), 14, 17, heap);
     func_02049238(arc);
     arc = func_020490F4(83, heap);
-    d = func_0204AC18((u32)arc, 31, 0, 128, 0, 2, heap);
+    d = func_0204AC18((void *)((u32)arc), 31, 0, 128, 0, 2, heap);
     func_02049238(arc);
     *(int *)(p + 0xF8) = a;
     *(int *)(p + 0xFC) = b;

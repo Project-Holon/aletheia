@@ -47,8 +47,8 @@ extern void func_021D6660(char *,Config *);
 extern void *func_02012EBC(struct Big *p);
 extern struct GdsProfile *func_0200D59C(u32 heap);
 extern void func_0200D5D0(struct GdsProfile *p, void *sys);
-extern void *func_021FFB14(char *,void *,u32);
-extern void func_02156DE0(void *,void *);
+extern char *func_021FFB14(void *p, int f, unsigned heap);
+extern void func_02156DE0(int a, int b);
 extern void func_021FFACC(char *),func_021FFAD8(char *),func_021FFAE4(char *),func_021FFAF0(char *),func_021FFAFC(char *),func_021FFB08(char *);
 extern void func_021FF8E0(void);
 extern int func_021FFB80(char *,int,int,int);
@@ -74,7 +74,7 @@ char *func_021FF408(void *owner,void *arg,u32 heap)
     func_02012EBC(owner);
     *(void **)(p+0x5A8)=func_0200D59C(heap);
     func_0200D5D0(*(void **)(p+0x5A8),owner);
-    *(void **)(p+0x5AC)=func_021FFB14(p,(void *)func_021FF8E0,heap);
-    func_02156DE0((void *)func_021FFB80,p);
+    *(void **)(p+0x5AC)=func_021FFB14(p,(int)((void *)func_021FF8E0),heap);
+    func_02156DE0((int)((void *)func_021FFB80),(int)p);
     return p;
 }

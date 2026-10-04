@@ -27,7 +27,7 @@ typedef struct GPConnectResponseArg {
     int a[8];
 } GPConnectResponseArg;
 
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_0218A624(void **connection, char *nick, char *uniquenick, char *email, char *password, char *authtoken, char *partnerchallenge, char *cdkey, int firewall, int newuser, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern char g_021A4010[];
 extern char g_021A4020[];
@@ -44,7 +44,7 @@ int func_021859C0(void **connection, char *authtoken, char *partnerchallenge, in
     if (!partnerchallenge || !partnerchallenge[0])
         return 2;
     if (!callback) {
-        func_02193734(connection, g_021A4010);
+        func_02193734((int *)connection, (int)g_021A4010);
         return 2;
     }
     if (iconnection->f108 != 0) {

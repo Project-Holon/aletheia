@@ -80,7 +80,9 @@ struct Part { u8 pad_00[0x20]; u32 f20; };
 
 extern struct Rig *g_02148B48;
 extern struct Part *func_02066878(s32 a);
-extern void func_02067998(struct Inner *a, u32 b);
+struct Hooks;
+struct List;
+extern void func_02067998(struct Hooks *h, struct List *lst);
 extern void func_02067340(struct Inner *a, u32 b);
 
 void func_02067DC8(u32 a0, s32 a1)
@@ -103,7 +105,7 @@ void func_02067DC8(u32 a0, s32 a1)
             p->f20 = (p->f20 & ~(1 << idx)) | (1 << idx);
         }
         switch (o->mode) {
-        case 0: func_02067998(o, a0); break;
+        case 0: func_02067998((struct Hooks *)o, (struct List *)a0); break;
         case 1:
         case 2: func_02067340(o, a0); break;
         case 3: break;

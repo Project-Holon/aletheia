@@ -29,11 +29,13 @@ typedef struct {
     struct { int f10; char pad[0x18]; } e[7];
 } W;
 
-extern void func_0204B3B4(int h);
+struct Bank;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(int h);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *p);
 
 void func_02209068(W *w)
@@ -41,11 +43,11 @@ void func_02209068(W *w)
     int i;
 
     for (i = 0; i < 7; i++)
-        func_0204B3B4(w->e[i].f10);
+        func_0204B3B4((struct Obj *)w->e[i].f10);
     func_0204A8D4(w->h4);
     func_0204ADA4(w->hc);
     func_0204AFD8(w->h8);
-    func_0204B1CC(w->h0);
+    func_0204B1CC((struct Bank *)w->h0);
     func_020307B0(w);
 }
 

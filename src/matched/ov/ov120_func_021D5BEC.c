@@ -28,7 +28,7 @@ extern void func_021D846C(u8 *);
 extern void func_021D63F4(u8 *p, int flag, int mode);
 extern void func_02040588(u32, u32);
 extern void func_021D761C(u8 *p);
-extern void func_021D7B38(int);
+extern void func_021D7B38(char *p);
 extern void func_021D883C(char *);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_021D4244(int, int, int);
@@ -43,7 +43,7 @@ void func_021D5BEC(u8 *p)
         func_021D63F4(*(void **)(p + 0x3c), 0, 0);
         func_02040588(4, 0);
         func_021D761C(*(void **)(p + 0x3c));
-        func_021D7B38(*(int *)(p + 0x40));
+        func_021D7B38((char *)(*(int *)(p + 0x40)));
         func_021D883C(*(char **)(p + 0x40));
         func_021D69F4(*(void **)(p + 0x3c), 0, 9);
         *(int *)(p + 0x1b0) = 1;

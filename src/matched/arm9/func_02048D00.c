@@ -39,9 +39,10 @@ struct ArcHandle {
 };
 
 extern void func_02048DDC(struct ArcHandle *h, u32 archive_id);
-extern u32  func_02048E34(struct ArcHandle *h, u32 member, u32 mode,
-                          u32 *size_out);
-extern void func_02078B70(struct ArcHandle *h, void *dst, u32 size);
+typedef signed int     s32;
+struct FSFile;
+extern u32 func_02048E34(struct ArcHandle *arc, u32 member, u32 base, u32 size);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern void func_02078A80(struct ArcHandle *h);
 
 void func_02048D00(void *dst, u32 archive_id, u32 member, u32 mode,
@@ -50,6 +51,6 @@ void func_02048D00(void *dst, u32 archive_id, u32 member, u32 mode,
     struct ArcHandle h;
 
     func_02048DDC(&h, archive_id);
-    func_02078B70(&h, dst, func_02048E34(&h, member, mode, size_out));
+    func_02078B70((struct FSFile *)(&h), dst, func_02048E34(&h, member, mode, (u32)size_out));
     func_02078A80(&h);
 }

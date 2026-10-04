@@ -29,8 +29,8 @@ extern u8 *g_021797A4;
 extern u16 d_02179680[2];
 void *func_0203D798(void);
 int func_02178E4C(void);
-void func_02178524(u32 a, void *p, u32 c);
-void func_021795C0(void *fn);
+int func_02178524(u32 a, const u16 *b, u32 c);
+void func_021795C0(unsigned v);
 void func_0217933C(void *fn);
 void func_0217727C(u8 *p, u32 v);
 int func_0217771C(u8 *obj);
@@ -43,8 +43,8 @@ void func_02177DB0(void)
     tab[0] = d_02179680[0];
     tab[1] = d_02179680[1];
     if (func_02178E4C() == 1 || func_02178E4C() == 2) {
-        func_02178524(tab[st[0x64]], g_021797A4 + 0xCDE, 0);
-        func_021795C0(func_0217771C);
+        func_02178524(tab[st[0x64]], (const u16 *)(g_021797A4 + 0xCDE), 0);
+        func_021795C0((unsigned int)func_0217771C);
         func_0217933C(func_021775AC);
         g_021797A4[0xCE8] = 1;
         func_0217727C(g_021797A4, 0);

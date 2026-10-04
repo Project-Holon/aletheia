@@ -30,32 +30,34 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_020504D8(u32 a);
+struct Obj;
+struct Owner;
+extern void func_020504D8(struct Owner *o);
 extern void func_021BB36C(u32 a);
-extern void func_021AB660(u32 a, void *b);
-extern void func_021A030C(u32 a, u32 b);
-extern void func_021A1AF4(u32 a, u32 b);
-extern void func_021A0140(u32 a);
+extern int func_021AB660(struct Obj *o, void *arg);
+extern void func_021A030C(u8 *p, u32 a);
+extern void func_021A1AF4(u8 *p, int x);
+extern void func_021A0140(u8 *p);
 extern u32 func_0203F4FC(void);
-extern void func_021A0458(u32 a, u32 b);
-extern u32 func_0218CB34(u32 a);
+extern void func_021A0458(u8 *a, s32 b);
+extern int func_0218CB34(char *p);
 extern void func_0203D12C(int a);
 
 void func_02189004(u8 *a)
 {
     u32 t;
 
-    func_020504D8(*(u32 *)(a + 0xB0));
-    func_020504D8(*(u32 *)(a + 0xB4));
-    func_020504D8(*(u32 *)(a + 0xB8));
+    func_020504D8((struct Owner *)(*(u32 *)(a + 0xB0)));
+    func_020504D8((struct Owner *)(*(u32 *)(a + 0xB4)));
+    func_020504D8((struct Owner *)(*(u32 *)(a + 0xB8)));
     func_021BB36C(*(u32 *)(a + 0x3C));
-    func_021AB660(*(u32 *)(a + 0x40), a + 0xF4);
-    func_021A030C(*(u32 *)(a + 0x1C), *(u16 *)a);
-    func_021A1AF4(*(u32 *)(a + 0x20), 0x92);
-    func_021A0140(*(u32 *)(a + 0x18));
-    func_021A0458(*(u32 *)(a + 0x14), func_0203F4FC());
+    func_021AB660((struct Obj *)(*(u32 *)(a + 0x40)), a + 0xF4);
+    func_021A030C((u8 *)(*(u32 *)(a + 0x1C)), *(u16 *)a);
+    func_021A1AF4((u8 *)(*(u32 *)(a + 0x20)), 0x92);
+    func_021A0140((u8 *)(*(u32 *)(a + 0x18)));
+    func_021A0458((u8 *)(*(u32 *)(a + 0x14)), func_0203F4FC());
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    t = func_0218CB34(*(u32 *)(a + 0x48));
+    t = func_0218CB34((char *)(*(u32 *)(a + 0x48)));
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     if (t != 0)
         func_0203D12C(2);

@@ -26,12 +26,14 @@ void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 struct ArcFile;
 void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-void func_02062A98(void *v, int **o);
+typedef signed int     s32;
+struct NitroFileHeader;
+s32 func_02062A98(struct NitroFileHeader *file, void **out);
 void func_02040E78(int a, int b, int c, int d);
 void func_020307B0(void *v);
-void func_02062A4C(void *v, int **o);
+s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 void func_02040B1C(int a, int b, int c, int d);
-void func_02062B30(void *v, int **o);
+int func_02062B30(void *file, void **out);
 void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 void func_02049238(void *x);
 
@@ -61,15 +63,15 @@ void func_0218794C(int sel, int b)
     }
     x = func_020490F4(0x97, b);
     v = func_02049250(x, i0, b);
-    func_02062A98(v, &l_c);
+    func_02062A98(v, (void **)(&l_c));
     func_02040E78(3, l_c[3], 0x20, 0);
     func_020307B0(v);
     v = func_02049250(x, i1, b);
-    func_02062A4C(v, &l_8);
+    func_02062A4C(v, (void **)(&l_8));
     func_02040B1C(3, l_8[5], l_8[4], 0);
     func_020307B0(v);
     v = func_02049250(x, i2, b);
-    func_02062B30(v, &l_4);
+    func_02062B30(v, (void **)(&l_4));
     func_020409E0(3, l_4 + 3, l_4[2], 0);
     func_020307B0(v);
     func_02049238(x);

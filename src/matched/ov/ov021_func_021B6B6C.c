@@ -39,7 +39,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_02158F54(void *);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_021854B0(void *, void *, int, Vec3 *, int);
-extern void func_0215897C(void *, int);
+extern void func_0215897C(void *vm, void *task);
 
 u32 func_021B6B6C(void *a, void *b)
 {
@@ -61,7 +61,7 @@ u32 func_021B6B6C(void *a, void *b)
         v.x = f2 << 16;
         v.y = f3 << 16;
         v.z = f4 << 16;
-        func_0215897C(r5, func_021854B0(r6, cur, f1, &v, 1));
+        func_0215897C(r5, (void *)func_021854B0(r6, cur, f1, &v, 1));
     }
     return 1;
 }

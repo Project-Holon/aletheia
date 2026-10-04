@@ -40,9 +40,10 @@ typedef struct {
 
 extern u32 func_02026478(void *obj);
 extern Half8 *func_021583CC(int sv, int i);
-extern int    func_021583EC(int a, int i);
-extern u8     func_0200855C(int obj);
-extern int    func_02008530(int a);
+struct Sub0200852CObj;
+extern int func_021583EC(void *a0, int a1);
+extern u8 func_0200855C(const struct Sub0200852CObj *obj);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int    func_021584F4(int a, int b);
 extern void   func_02175EFC(void *w, void *p, u8 i);
 
@@ -59,9 +60,9 @@ void func_02175F34(void *w, Ent *tbl, u32 arg, int idx)
     e = (Ent *)((u8 *)tbl + idx * 0x28);
     if (e->f10 != 1) {
         src = func_021583CC(sv, idx);
-        t = func_021583EC(sv, idx);
-        u = func_0200855C(t);
-        flag = func_021584F4(u, func_02008530(t)) == 0x15;
+        t = func_021583EC((void *)sv, idx);
+        u = func_0200855C((const struct Sub0200852CObj *)t);
+        flag = func_021584F4(u, func_02008530((const struct Sub0200852CObj *)t)) == 0x15;
         *(Half8 *)e = *src;
         e->f11 = flag;
         e->f12 = arg;

@@ -21,7 +21,8 @@
  */
 extern void func_0203CBAC(const void *, int, int);
 extern int func_0203CD98(void);
-extern void func_0203A574(int, const void *, int, void *);
+typedef unsigned int   u32;
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_021799C0(int);
 extern void func_0203D0DC(int);
 extern int func_0203D1B4(void);
@@ -42,7 +43,7 @@ int func_0217E0B0(unsigned *p)
             *p = 2;
         break;
     case 2:
-        func_0203A574(0x1F00, d_0217E544, 4, p);
+        func_0203A574(0x1F00, (u32)d_0217E544, 4, (u32)p);
         func_021799C0((int)func_0217E524);
         *p = 3;
         break;

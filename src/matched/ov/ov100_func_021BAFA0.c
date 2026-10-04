@@ -16,11 +16,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BA5F4(int),func_021B95C0(int),func_021B95B8(u8 *,u32),func_021B96B8(int);
+extern void func_021BA5F4(int);
+extern void func_021B95C0(u8 *p);
+extern void func_021B95B8(u8 *,u32);
+extern void func_021B96B8(u8 *a);
 void func_021BAFA0(int p) {
     if(--*(int *)(p+0xcac)==0) {
         func_021BA5F4(p);
-        func_021B95C0(p);
+        func_021B95C0((u8 *)p);
         func_021B95B8((u8 *)p,(u32)func_021B96B8);
     }
 }

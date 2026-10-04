@@ -18,7 +18,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_0201D7EC(int a, int b, int c, int d, int e);
+struct GfFont;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern const char d_021F523C[];
 
 void *func_021F4698(unsigned char *p)
@@ -42,6 +43,6 @@ void *func_021F4698(unsigned char *p)
         (*(int **)(r5 + 0xc))[i] = 0;
     }
     (*(int **)(r5 + 0xc))[0] = 1;
-    *(int *)(r5 + 0x14) = func_0201D7EC(0x17, 0, 0, 0, *(unsigned short *)r5);
+    *(int *)(r5 + 0x14) = (int)func_0201D7EC(0x17, 0, 0, 0, *(unsigned short *)r5);
     return r5;
 }

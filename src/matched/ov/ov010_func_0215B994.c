@@ -27,7 +27,7 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 struct BigObj;
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern void *func_0201293C(void *);
+extern u32 func_0201293C(const struct BigObj *p);
 extern void *func_02012934(const struct BigObj *p);
 extern int func_02007984(void *);
 extern int func_020079A0(void *);
@@ -37,7 +37,7 @@ int func_0215B994(void *a0, void *a1)
     u16 *out = func_02159AE8(a0, a1);
     int sel = func_02159B10(a0, a1);
     void *h = func_0215A5E4(a1);
-    void *d = func_0201293C(h);
+    void *d = (void *)func_0201293C(h);
     int r;
 
     func_02012934(h);

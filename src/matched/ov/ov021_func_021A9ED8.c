@@ -29,30 +29,32 @@ typedef unsigned int   u32;
 
 extern int d_021DDFA4;
 
-extern u32 func_02188C84(u32 a);
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012844(u32 a);
+struct BigObj;
+struct Ctx;
+extern u16 func_02188C84(u8 *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern u32 func_0216255C(u32 a);
-extern u32 func_021AA77C(u32 heap);
+extern void *func_021AA77C(int heap);
 extern void func_021AA7AC(u32 *p, u32 q);
 extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 
 u32 *func_021A9ED8(u32 a)
 {
-    u32 heap = func_02188C84(a);
+    u32 heap = func_02188C84((u8 *)a);
     u32 *p = (u32 *)func_02030734(heap, 0x14, 1, (const char *)&d_021DDFA4, 0x62);
     u32 x;
     u32 t;
     u32 q;
 
     p[0] = a;
-    x = func_02188C80(a);
+    x = (u32)func_02188C80((void *)a);
     p[1] = x;
-    t = func_020120F4(x);
+    t = (u32)func_020120F4((const struct Ctx *)x);
     p[2] = t;
-    p[3] = func_0216255C(func_02012844(t));
-    q = func_021AA77C(heap);
+    p[3] = func_0216255C(func_02012844((const struct BigObj *)t));
+    q = (u32)func_021AA77C(heap);
     p[4] = q;
     func_021AA7AC(p, q);
     return p;

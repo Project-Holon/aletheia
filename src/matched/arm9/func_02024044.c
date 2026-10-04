@@ -78,9 +78,9 @@ struct Obj {
 extern void *func_02030734(u32 heap, u32 sz, int c, const char *file, u16 line);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02024988(void *sys);
+extern void *func_02024988(int a0);
 extern u32   func_02012FE4(void *sys);
-extern u32   func_020142E8(u32 a, u32 b);
+extern u32 func_020142E8(void *bitmap, s32 id);
 extern void  func_020242A4(void *obj, u32 id);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
@@ -95,8 +95,8 @@ struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag,
     o = (struct Obj *)func_02030734((u16)hh, 0x20, 1, (const char *)file_020A745C, 0x56);
     o->kind = (u8)kind;
     o->f08 = func_020071CC(sys, 0x37);
-    o->f0c = func_02024988(sys);
-    o->b0 = (u8)func_020142E8(func_02012FE4(sys), 0x960);
+    o->f0c = func_02024988((int)sys);
+    o->b0 = (u8)func_020142E8((void *)func_02012FE4(sys), 0x960);
     o->b1 = 0;
     o->f01 = 1;
     o->f02 = 0;

@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern void *func_0215A5F4(void *p);
-extern void func_02158F58(void *a);
+extern int func_02158F58(int a0);
 extern u16 func_02158F8C(u8 *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_0215A460(u32 a);
@@ -34,7 +34,7 @@ int func_021AEA8C(u32 a, u32 b)
     void *x = func_0215A5F4((void *)b);
     u32 y;
 
-    func_02158F58(x);
+    func_02158F58((int)x);
     y = func_02158F8C(x);
     *func_02159AE8((void *)a, (void *)b) = func_0215A460(y);
     return 0;

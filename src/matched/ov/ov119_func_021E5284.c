@@ -34,7 +34,8 @@ extern void func_021E57E8(int),func_0203FCA0(u32,const BgTemplate *,u32);
 extern void func_02040C14(u32,u32,u32,u32),func_02041300(u32,int,int,int,u8,u8,u8),func_020409B4(u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040618(u32,u32,u32),func_02049238(void *);
 void func_021E5284(char *p,int mode)
 {
@@ -46,14 +47,14 @@ void func_021E5284(char *p,int mode)
  if(mode==0) {
   v=func_020490F4(0x67,*(u16 *)(p+0x5f4));
   func_02049B68(v,5,6,0x6000,0,*(u16 *)(p+0x5f4));
-  func_02049658((u32)v,4,7,0,0,0,*(u16 *)(p+0x5f4));
-  func_020498F4((u32)v,6,7,0,0,0,*(u16 *)(p+0x5f4));
+  func_02049658((void *)((u32)v),4,7,0,0,0,*(u16 *)(p+0x5f4));
+  func_020498F4((void *)((u32)v),6,7,0,0,0,*(u16 *)(p+0x5f4));
   func_02040618(7,0,0);func_02049238(v);
  } else {
   v=func_020490F4(0x68,*(u16 *)(p+0x5f4));
   func_02049B68(v,1,6,0x6000,0,*(u16 *)(p+0x5f4));
-  func_02049658((u32)v,0,7,0,0,0,*(u16 *)(p+0x5f4));
-  func_020498F4((u32)v,2,7,0,0,0,*(u16 *)(p+0x5f4));
+  func_02049658((void *)((u32)v),0,7,0,0,0,*(u16 *)(p+0x5f4));
+  func_020498F4((void *)((u32)v),2,7,0,0,0,*(u16 *)(p+0x5f4));
   func_02040618(7,0,0);func_02049238(v);
  }
 }

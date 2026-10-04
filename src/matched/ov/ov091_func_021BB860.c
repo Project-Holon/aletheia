@@ -26,16 +26,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern u32 func_02045EC0(u32 a, u32 b);
-extern u32 func_020457B0(u32 a, u32 b);
-extern void func_0201F250(u32 a, u32 b, u32 c);
-extern void func_02045808(u32 a);
-extern void func_021BBA28(u8 *a, u32 *s);
-extern void func_0201CE48(u32 a);
+typedef signed int     s32;
+struct MsgBank;
+struct Rec;
+struct Rec3;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_021BBA28(int a, int b);
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_02028470(void *a, u32 b);
 extern signed char func_02012FFC(void);
-extern u32 func_0201CD10(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f, u32 g, u32 h,
-                         u32 i, u32 j, u32 k);
+extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern int func_021BB910(int k);
 
 void func_021BB860(u8 *a, u32 *s, u32 x, u32 y)
@@ -43,21 +48,21 @@ void func_021BB860(u8 *a, u32 *s, u32 x, u32 y)
     u32 t;
     u32 n;
 
-    t = func_02045EC0(*(u32 *)(a + 0x134), x);
+    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(a + 0x134)), x);
     if (s[11] != 0) {
-        n = func_020457B0(0x100, *(u16 *)a);
-        func_0201F250(s[11], n, t);
-        func_02045808(t);
+        n = (u32)func_020457B0(0x100, *(u16 *)a);
+        func_0201F250((struct WordSet *)s[11], (void *)n, (void *)t);
+        func_02045808((struct U16Vec *)t);
         t = n;
     }
-    func_021BBA28(a, s);
+    func_021BBA28((int)a, (int)s);
     if (s[3] != 0) {
-        func_0201CE48(s[3]);
-        func_02045808(s[4]);
+        func_0201CE48((struct Rec3 *)s[3]);
+        func_02045808((struct U16Vec *)s[4]);
     }
     s[8] = y;
     s[4] = t;
     func_02028470(s + 6, 6);
-    s[3] = func_0201CD10(s[1], 0, 0, s[4], *(u32 *)(a + 0x138), func_02012FFC(), s[2], 0,
+    s[3] = (u32)func_0201CD10(s[1], 0, 0, s[4], *(u32 *)(a + 0x138), func_02012FFC(), s[2], 0,
                          *(u16 *)a, 0xf, (u32)func_021BB910);
 }

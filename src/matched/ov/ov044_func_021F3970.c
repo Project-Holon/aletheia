@@ -26,12 +26,13 @@ typedef unsigned int u32;
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D2C(void *a);
+typedef unsigned char  u8;
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
-extern u32 func_02188C58(void *a);
-extern int func_0218EC5C(u32 a);
-extern void func_0218EC54(u32 a);
-extern int *func_021BE480(void *p, int i, int j);
+extern void *func_02188C58(void *p);
+extern u32 func_0218EC5C(u8 *p);
+extern void func_0218EC54(u8 *p);
+extern int func_021BE480(char *p, unsigned i, int j);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
@@ -47,12 +48,12 @@ void func_021F3970(void *a)
     int v[3];
 
     s = func_0201210C((void *)a);
-    r = func_02188D2C(s);
+    r = (void *)func_02188D2C(s);
     p = func_021897BC(s, 1);
-    h = func_02188C58(s);
-    p[3] = func_0218EC5C(h);
-    func_0218EC54(h);
-    func_021BE480(r, 0, 0)[1] = -0x50000;
+    h = (u32)func_02188C58(s);
+    p[3] = func_0218EC5C((u8 *)h);
+    func_0218EC54((u8 *)h);
+    ((int *)func_021BE480(r, 0, 0))[1] = -0x50000;
     c = func_02188CB4((void *)s);
     func_021A3038(c, (struct VecFx32 *)v);
     v[1] = -0x50000;

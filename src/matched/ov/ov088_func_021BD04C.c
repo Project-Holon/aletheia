@@ -18,7 +18,7 @@
  *   func_020461D4  0x020461D4  arm
  */
 
-extern void func_02028604(void *);
+extern int func_02028604(int a0);
 struct Rec;
 struct S02031140;
 struct U16Vec;
@@ -30,7 +30,7 @@ extern void func_020461D4(unsigned char);
 
 void func_021BD04C(unsigned char *p)
 {
-    func_02028604(*(void **)(p + 0x24));
+    func_02028604((int)(*(void **)(p + 0x24)));
     func_02031140(*(void **)(p + 0x18));
     func_02045808(*(void **)(p + 0x10));
     func_0201D83C(*(void **)(p + 0x04));

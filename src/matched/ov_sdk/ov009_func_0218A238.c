@@ -93,13 +93,13 @@ extern char *func_02094860(char *dst, const char *src, unsigned long n);
 extern int func_02180E48(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
 extern unsigned short func_0218158C(void);
 extern int func_021815C8(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EE50(int sock, int isblocking);
-extern unsigned long func_0217ED38(char *name);
+extern int func_0217ED38(int a);
 extern SOCHostEnt *func_0215F650(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217ED54(int sock);
@@ -144,8 +144,8 @@ int func_0218A238(void **connection, GPIOperation *operation)
             }
             if (anError != 0) {
                 func_0217D254(1, 0, 1, g_021A46A0);
-                func_02193710(connection, 8, g_021A46D4);
-                func_02189D78(connection, 3, 1);
+                func_02193710((int *)connection, 8, (int)g_021A46D4);
+                func_02189D78((int *)connection, 3, 1);
                 return 3;
             }
         }
@@ -160,8 +160,8 @@ int func_0218A238(void **connection, GPIOperation *operation)
                             (void *)func_0218F7B8, (void *)func_0218F5F4,
                             (void *)func_0218F880, (void *)func_0218F65C, connection);
     if (anError != 0) {
-        func_02193710(connection, 8, g_021A4734);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 8, (int)g_021A4734);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
 
@@ -170,15 +170,15 @@ int func_0218A238(void **connection, GPIOperation *operation)
 
     iconnection->cmSocket = func_0217EB18(2, 1, 0);
     if (iconnection->cmSocket == -1) {
-        func_02193710(connection, 5, g_021A4760);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 5, (int)g_021A4760);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
 
     rcode = func_0217EE50(iconnection->cmSocket, 0);
     if (!rcode) {
-        func_02193710(connection, 5, g_021A4788);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 5, (int)g_021A4788);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
 
@@ -188,16 +188,16 @@ int func_0218A238(void **connection, GPIOperation *operation)
         p[1] = 0;
     }
     address.family = 2;
-    if (func_0217ED38(g_021A45D8) == 0xFFFFFFFF) {
+    if (func_0217ED38((int)g_021A45D8) == 0xFFFFFFFF) {
         host = func_0215F650(g_021A45D8);
         if (host == 0) {
-            func_02193710(connection, 5, g_021A47BC);
-            func_02189D78(connection, 3, 1);
+            func_02193710((int *)connection, 5, (int)g_021A47BC);
+            func_02189D78((int *)connection, 3, 1);
             return 3;
         }
         address.addr = *(unsigned int *)host->addrList[0];
     } else {
-        address.addr = func_0217ED38(g_021A45D8);
+        address.addr = func_0217ED38((int)g_021A45D8);
     }
     address.port = 0xcc74;
 
@@ -205,8 +205,8 @@ int func_0218A238(void **connection, GPIOperation *operation)
     if (rcode == -1) {
         error = func_0217ED54(iconnection->cmSocket);
         if (error != -6 && error != -26 && error != -76) {
-            func_02193710(connection, 5, g_021A47F0);
-            func_02189D78(connection, 3, 1);
+            func_02193710((int *)connection, 5, (int)g_021A47F0);
+            func_02189D78((int *)connection, 3, 1);
             return 3;
         }
     }

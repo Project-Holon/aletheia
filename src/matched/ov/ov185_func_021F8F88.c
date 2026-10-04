@@ -16,6 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
-extern void *func_021FD12C(void *,int,unsigned);
-extern void func_021FD170(void *,void *,int);
-void func_021F8F88(char *p,char *q) { if(!*(void **)(p+4))*(void **)(p+4)=func_021FD12C(*(void **)(q+12),*(int *)(p+0x2c),*(u16 *)(p+0x30));func_021FD170(*(void **)(p+4),*(void **)(q+12),0x146); }
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
+void func_021F8F88(char *p,char *q) { if(!*(void **)(p+4))*(void **)(p+4)=func_021FD12C((int)(*(void **)(q+12)),(void *)(*(int *)(p+0x2c)),*(u16 *)(p+0x30));func_021FD170(*(void **)(p+4),*(void **)(q+12),(void *)0x146); }

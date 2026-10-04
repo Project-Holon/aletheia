@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021D76BC(int key, u32 val);
 extern const u8 d_021F2404[7];
@@ -47,7 +47,7 @@ void func_021E7080(int x, int a, int c)
     int t;
 
     if (c == func_021D775C(3)) {
-        m = func_021C7CF4(a, c);
+        m = func_021C7CF4((int *)a, c);
         sum = 0;
         for (i = 0; i < 7; i++) {
             v = func_021D59B4(m, d_021F2404[i]) - 6;

@@ -23,7 +23,7 @@
 extern void func_021D0014();
 extern void func_021CFFAC(unsigned int v);
 extern void func_021C11D4(unsigned int v);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C46DC();
 extern unsigned char g_021DE5C8;
 
@@ -38,5 +38,5 @@ void func_021C4890(int state)
         func_021CFFAC(0x12);
     }
     func_021C11D4(0);
-    func_021C0E40(func_021C46DC);
+    func_021C0E40((unsigned int)func_021C46DC);
 }

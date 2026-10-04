@@ -37,7 +37,8 @@ typedef struct GHIConnection {
 extern int func_020949F4(const char *, const char *, unsigned int);
 extern int func_02094A60(const char *, const char *);
 extern char *func_02094A28(const char *, int);
-extern int func_020964E0(const char *);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern char *func_0217F1E0(char *);
 extern char g_021CEFDC[];
 extern char g_021CEFE4[];
@@ -78,7 +79,7 @@ GHIBool func_021C3A38(GHIConnection *connection)
     URL += nIndex;
     if (*URL == ':') {
         URL++;
-        connection->port = (unsigned short)func_020964E0(URL);
+        connection->port = (unsigned short)func_020964E0((u32)URL);
         if (connection->port == 0)
             return GHI_FALSE;
         while (*++URL != 0 && *URL != '/')

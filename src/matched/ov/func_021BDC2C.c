@@ -16,12 +16,12 @@
  */
 
 
-extern int func_021BD3B4(int, int);
+extern int func_021BD3B4(void *mgr, int key);
 
 int func_021BDC2C(char *p)
 {
     if (*(int *)(p + 0x10) == 0)
-        return func_021BD3B4(*(int *)(p + 0x30),
+        return func_021BD3B4((void *)(*(int *)(p + 0x30)),
                              *(int *)*(int **)(p + 0x7c));
     return 0;
 }

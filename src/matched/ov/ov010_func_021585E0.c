@@ -14,11 +14,11 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 low:2; u8 flag:1; u8 high:5; } Flag;
-extern u8 *func_02158344(void *);
+extern int func_02158344(int a0);
 extern int func_02158630(int);
 int func_021585E0(int p)
 {
-    u8 *q = func_02158344((void *)p);
+    u8 *q = (u8 *)func_02158344((int)((void *)p));
     if (q == 0)
         return 0;
     if (((Flag *)(q + 0x93F))->flag == 0) {

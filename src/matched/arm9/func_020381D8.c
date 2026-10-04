@@ -47,7 +47,7 @@ typedef unsigned int u32;
 
 extern void *func_0203D798(void);
 extern void *func_0203D788(void);
-extern u32 func_020380E4(u32 a, u32 b, u32 c);
+extern u32 func_020380E4(u32 a0, u8 *rec, u32 len);
 extern void func_02034714(void *a, u32 b, void *c);
 extern void func_02037224(u32 a, u32 b);
 extern u8 d_020A7A20[];
@@ -73,6 +73,6 @@ void func_020381D8(u32 a0, u32 a1)
     ((void (*)(u32, u32, u32, u32))
          * (u32 *)(*(u32 *)(p + 0x340) + 0x64))(a0, a1, 0, 0);
     v = ((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0x80))();
-    func_020380E4((u16)v, a0, (u16)a1);
+    func_020380E4((u16)v, (u8 *)a0, (u16)a1);
     func_02037224(4, 0x40C);
 }

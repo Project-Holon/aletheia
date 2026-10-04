@@ -15,7 +15,9 @@
  */
 typedef unsigned char u8;
 extern int func_0203CD98(void);
-extern void func_0203CBAC(void *, void (*)(void), void *);
+typedef unsigned int   u32;
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern u8 d_02172868[];
 extern u8 d_02172808[];
 int func_02157E08(void *p)
@@ -23,6 +25,6 @@ int func_02157E08(void *p)
     if (func_0203CD98() != 0)
         return 0;
     d_02172868[7] = *(int *)p;
-    func_0203CBAC(d_02172808, 0, p);
+    func_0203CBAC((struct Req *)d_02172808, 0, (u32)p);
     return 1;
 }

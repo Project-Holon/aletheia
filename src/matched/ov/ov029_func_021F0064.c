@@ -11,13 +11,15 @@
  * symbols:
  *   func_0204B98C 0x0204B98C arm
  */
-extern int func_0204B98C(int a);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 int func_021F0064(unsigned char *p, int a, int b)
 {
     int i;
     for (i = 0; i < 20; i++) {
         if (*(int *)(p + i * 12 + 0x3c) != 0 && *(int *)(p + i * 12 + 0x40) == a && *(int *)(p + i * 12 + 0x44) == b) {
-            if (func_0204B98C(*(int *)(p + i * 12 + 0x3c)) != 0) return 0;
+            if (func_0204B98C((struct Actor *)(*(int *)(p + i * 12 + 0x3c))) != 0) return 0;
         }
     }
     return 1;

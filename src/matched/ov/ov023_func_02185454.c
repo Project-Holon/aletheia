@@ -40,13 +40,14 @@ typedef unsigned short u16;
 extern u16 func_02039338(void);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(u32 a);
-extern u32  func_02045730(u32 a);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 extern void func_020278F4(u8 *p);
 extern void func_020061E4(u32 a);
-extern void func_0201F7A8(u32 a, int b);
-extern void func_021852F4(u32 a, int b);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_021852F4(void *p, int flag);
 extern void func_02185354(char *p);
 extern void func_021861C4(char *p, int a, int b);
 extern void func_02186444(char *p, u32 v);
@@ -78,21 +79,21 @@ int func_02185454(char *p, int x)
             func_021861C4(p, 4, 1);
         } else {
             func_02186444(p, 8);
-            func_0201F7A8(*(u32 *)(p + 0x11c), 2);
+            func_0201F7A8((void *)(*(u32 *)(p + 0x11c)), 2);
         }
         w = *(u32 *)(p + 0x118);
         func_02045334((struct Descriptor *)w);
-        func_02045374(w);
-        func_020409B4(func_02045730(w));
+        func_02045374((struct Cfg *)w);
+        func_020409B4(func_02045730((struct Descriptor *)w));
         break;
     case 1:
         func_02186444(p, 4);
-        func_021852F4(*(u32 *)(p + 0x100), 0);
-        func_0201F7A8(*(u32 *)(p + 0x11c), 2);
+        func_021852F4((void *)(*(u32 *)(p + 0x100)), 0);
+        func_0201F7A8((void *)(*(u32 *)(p + 0x11c)), 2);
         w = *(u32 *)(p + 0x118);
         func_02045334((struct Descriptor *)w);
-        func_02045374(w);
-        func_020409B4(func_02045730(w));
+        func_02045374((struct Cfg *)w);
+        func_020409B4(func_02045730((struct Descriptor *)w));
         if (func_02039338() == 0) {
             func_02184560(p, 1);
             *(int *)(p + 0x9e6c) = 1;

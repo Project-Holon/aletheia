@@ -14,7 +14,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204B3B4(int h);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_021BF358(int p, int i)
 {
@@ -22,7 +23,7 @@ void func_021BF358(int p, int i)
     int *q = (int *)(p + 0x28);
 
     if (*(int *)((int)q + o) != 0) {
-        func_0204B3B4(*(int *)((int)q + o));
+        func_0204B3B4((struct Obj *)(*(int *)((int)q + o)));
         *(int *)((int)q + o) = 0;
     }
 }

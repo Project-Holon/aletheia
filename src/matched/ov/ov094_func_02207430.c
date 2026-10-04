@@ -42,13 +42,14 @@ typedef struct {
 } Work;
 extern const Cfg d_0220AAC8;
 extern void func_0204ADA4(u32);
-extern u32 func_0204AC18(u32, int, int, u32, int, int, u16);
-extern void *func_021F86E0(void);
+typedef signed int     s32;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern int func_021F86E0(void);
 extern u32 func_0204AEF4(u32, int);
 struct PalAnmSlot;
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern u32 func_0204A6C8(u32, int, int, int, u16);
-extern u32 func_0204AF28(u32, int, int, u16);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern int func_021F8710(void);
@@ -82,21 +83,21 @@ void func_02207430(Work *p, int mode, int i)
             j = i - 2;
         cpal = (i < 4) ? 0xa2 : 0xa3;
         func_0204ADA4(p->pal[j]);
-        p->pal[j] = func_0204AC18(p->f4, cpal, 0, (u16)(j << 5), 0, 1, p->heap);
-        func_020216D4(func_021F86E0(), 2, (u16)(func_0204AEF4(p->pal[j], 0) >> 1), 0x20);
+        p->pal[j] = func_0204AC18((void *)p->f4, cpal, 0, (u16)(j << 5), 0, 1, p->heap);
+        func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(p->pal[j], 0) >> 1), 0x20);
     }
-    p->entries[i].f58 = func_0204A6C8(p->f4, chr, 0, 0, p->heap);
-    p->entries[i].f5c = func_0204AF28(p->f4, pal, cell, p->heap);
-    p->entries[i].f60 = func_0204A6C8(p->f4, 0xba, 0, 0, p->heap);
-    p->entries[i].f64 = func_0204AF28(p->f4, 0xbb, 0xbc, p->heap);
-    p->entries[i].f68 = func_0204A6C8(p->f4, 0xb1, 0, 0, p->heap);
-    p->entries[i].f6c = func_0204AF28(p->f4, 0xb2, 0xb3, p->heap);
-    p->entries[i].f70 = func_0204A6C8(p->f4, 0xb4, 0, 0, p->heap);
-    p->entries[i].f74 = func_0204AF28(p->f4, 0xb5, 0xb3, p->heap);
+    p->entries[i].f58 = func_0204A6C8((void *)p->f4, chr, 0, 0, p->heap);
+    p->entries[i].f5c = func_0204AF28((void *)p->f4, pal, cell, p->heap);
+    p->entries[i].f60 = func_0204A6C8((void *)p->f4, 0xba, 0, 0, p->heap);
+    p->entries[i].f64 = func_0204AF28((void *)p->f4, 0xbb, 0xbc, p->heap);
+    p->entries[i].f68 = func_0204A6C8((void *)p->f4, 0xb1, 0, 0, p->heap);
+    p->entries[i].f6c = func_0204AF28((void *)p->f4, 0xb2, 0xb3, p->heap);
+    p->entries[i].f70 = func_0204A6C8((void *)p->f4, 0xb4, 0, 0, p->heap);
+    p->entries[i].f74 = func_0204AF28((void *)p->f4, 0xb5, 0xb3, p->heap);
     side = i & 1;
     if (side == 0) {
-        p->entries[i].f78 = func_0204A6C8(p->f4, 0xb7, 0, 0, p->heap);
-        p->entries[i].f7c = func_0204AF28(p->f4, 0xb8, 0xb9, p->heap);
+        p->entries[i].f78 = func_0204A6C8((void *)p->f4, 0xb7, 0, 0, p->heap);
+        p->entries[i].f7c = func_0204AF28((void *)p->f4, 0xb8, 0xb9, p->heap);
     }
     cfg = d_0220AAC8;
     j = i;

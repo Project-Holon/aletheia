@@ -118,7 +118,7 @@ extern int func_0218E91C(void **connection, GPIPeer *peer);
 extern long func_02184098(long *timer);
 extern int func_02189BE4(void **connection, GPIBuffer *inputBuffer, char **message, int *type, int *plen);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern char *func_0217F1E0(char *src);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, void *operation, int type);
 extern int func_021889A0(void **connection, int profileid, int type, char *message, int sendOption, void *op);
@@ -178,7 +178,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
                     GPRecvBuddyMessageArg *arg;
                     arg = (GPRecvBuddyMessageArg *)func_0217EAB0(sizeof(GPRecvBuddyMessageArg));
                     if (arg == 0) {
-                        func_02193734(connection, g_021A4F1C);
+                        func_02193734((int *)connection, (int)g_021A4F1C);
                         return 1;
                     }
                     arg->profile = peer->profile;
@@ -198,7 +198,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
                     GPRecvBuddyUTMArg *arg;
                     arg = (GPRecvBuddyUTMArg *)func_0217EAB0(sizeof(GPRecvBuddyUTMArg));
                     if (arg == 0) {
-                        func_02193734(connection, g_021A4F1C);
+                        func_02193734((int *)connection, (int)g_021A4F1C);
                         return 1;
                     }
                     arg->profile = peer->profile;

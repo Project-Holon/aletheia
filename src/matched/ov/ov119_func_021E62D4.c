@@ -17,14 +17,15 @@ typedef struct {
     int w[2][3];
 } Work;
 
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 
 void func_021E62D4(Work *p, int a, int b)
 {
     if (p->h[a][b]) {
-        func_0204B3B4(p->h[a][b]);
+        func_0204B3B4((struct Obj *)p->h[a][b]);
         p->h[a][b] = 0;
         func_0204A8D4(p->w[a][b]);
     }

@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern void func_020414EC(u32 a);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
 void func_021954CC(u32 p, u8 *e)
 {
@@ -44,5 +44,5 @@ void func_021954CC(u32 p, u8 *e)
         break;
     }
     func_02049B40(5, 0, k, e[0x14] << 5, 0x20, *(u16 *)e);
-    func_02049624(5, 5, *(u32 *)(e + 0x10), *(u16 *)(e + 0xC), 0, 0, *(u16 *)e);
+    func_02049624((void *)5, (void *)5, (void *)(*(u32 *)(e + 0x10)), (void *)(*(u16 *)(e + 0xC)), 0, 0, *(u16 *)e);
 }

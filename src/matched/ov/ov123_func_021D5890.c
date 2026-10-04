@@ -22,7 +22,9 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02045808(struct U16Vec *vec);
-extern int func_02027778(Config *,void *);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 int func_021D5890(char *p,int mode)
 {
@@ -43,7 +45,7 @@ int func_021D5890(char *p,int mode)
     *(void **)(p+0x98)=func_020457B0(100,*(u16 *)(p+0xb0));
     func_02045CAC(*(void **)(p+0x20),5,*(void **)(p+0x98));
     *(u16 *)(p+0x9c)=0x39e0;
-    result=func_02027778(&c,*(void **)(p+0xa4));
+    result=(int)func_02027778((struct TaskMenuTmpl *)(&c),*(void **)(p+0xa4));
     func_02045808(*(void **)(p+0x8c));
     func_02045808(*(void **)(p+0x98));
     func_0207D658(0x04001050,9,-8);

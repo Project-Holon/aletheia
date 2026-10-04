@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 
 extern void func_021F029C(char *this, int a);
-extern void func_021F0DF4(int a, int b);
+extern void func_021F0DF4(void *p, unsigned short v);
 extern void func_021F05E8(char *this, int a, int b);
 extern void func_021F12B8(char *this, int dir);
 
@@ -33,9 +33,9 @@ void func_021F1340(char *this, int a, u8 b)
     *(int *)(this + 0x88) = 0;
     func_021F029C(this, 1);
     if (*(int *)(this + 0x84) == 0)
-        func_021F0DF4(*(int *)(this + 0x2d0), 0x13);
+        func_021F0DF4((void *)(*(int *)(this + 0x2d0)), 0x13);
     else
-        func_021F0DF4(*(int *)(this + 0x2cc), 0xf);
+        func_021F0DF4((void *)(*(int *)(this + 0x2cc)), 0xf);
     func_021F05E8(this, 4, 2);
     func_021F12B8(this, a);
 }

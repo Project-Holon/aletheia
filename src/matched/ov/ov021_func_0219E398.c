@@ -25,11 +25,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 **func_0216D69C();
-extern u32 func_0216D67C();
-extern u32 func_0216D530();
+extern void *func_0216D69C(void *p);
+extern void *func_0216D67C(void *a0);
+extern void *func_0216D530(void *p);
 extern int func_021B7DE0();
-extern int func_0216DCB4();
+extern int func_0216DCB4(void *a0);
 extern u32 func_021BB3C4();
 extern u16 func_021AB0F8(u32 attr);
 extern int func_0219E498(u32 o, u32 k);
@@ -41,15 +41,15 @@ u32 func_0219E398(u32 o, u32 a, u32 b, u32 *out)
     u32 v;
 
     r = 0;
-    p = func_0216D69C(o);
-    v = func_0216D530(func_0216D67C(o));
+    p = func_0216D69C((void *)o);
+    v = (u32)func_0216D530(func_0216D67C((void *)o));
     if (!func_021B7DE0(*p, a)) {
         r |= 1;
     }
     if (!func_021B7DE0(*p, b)) {
         r |= 1;
     }
-    if (!func_0216DCB4(o)) {
+    if (!func_0216DCB4((void *)o)) {
         p = (u32 **)func_021BB3C4(v, b);
         if (func_021AB0F8((u32)p) & 1) {
             r |= 2;

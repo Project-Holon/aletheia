@@ -46,8 +46,8 @@ typedef struct {
 
 extern Glb g_02148BCC;
 
-extern void func_0219047C(u32 a);
-extern void func_0218CC64(u32 a, u32 b, int c);
+extern void func_0219047C(u8 *p);
+extern void func_0218CC64(char *p, int a, int m);
 extern void func_021C7FB4(u32 a);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern void func_0206A854(void);
@@ -55,12 +55,12 @@ extern void func_0206DB80(void);
 extern void func_021ABE0C(u32 a);
 extern void func_021C64E0(u32 a);
 extern void func_02050790(u32 a, u32 b, u32 c);
-extern void func_0217F928(u32 a);
-extern void func_021BB954(u32 a);
-extern void func_021A1B38(u32 a);
-extern void func_021BE4F8(u32 a);
+extern void func_0217F928(char *p);
+extern void func_021BB954(u8 *p);
+extern void func_021A1B38(u32 *p);
+extern void func_021BE4F8(char *p);
 extern void func_021C1AEC(void);
-extern void func_021C1C4C(u32 a);
+extern void func_021C1C4C(char *p);
 
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 
@@ -70,8 +70,8 @@ void func_02189810(u8 *p)
     MtxFx44 m;
 
     if (*(u32 *)(p + 0x28) != 0)
-        func_0219047C(*(u32 *)(p + 0x28));
-    func_0218CC64(*(u32 *)(p + 0x48), *(u32 *)(p + 0xA4), 1);
+        func_0219047C((u8 *)(*(u32 *)(p + 0x28)));
+    func_0218CC64((char *)(*(u32 *)(p + 0x48)), *(u32 *)(p + 0xA4), 1);
     func_021C7FB4(*(u32 *)(p + 0xA0));
     saved = g_02148B54;
 
@@ -86,7 +86,7 @@ void func_02189810(u8 *p)
     func_02050790(*(u32 *)(p + 0xB0), *(u32 *)(p + 0xA4), *(u32 *)(p + 0xA8));
     func_02050790(*(u32 *)(p + 0xB8), *(u32 *)(p + 0xA4), *(u32 *)(p + 0xA8));
     if (*(u32 *)(p + 0x98) != 0)
-        func_0217F928(*(u32 *)(p + 0x98));
+        func_0217F928((char *)(*(u32 *)(p + 0x98)));
 
     m = saved;
     m.m[3][2] += FX_MUL(m.m[2][2], *(fx32 *)(p + 0x104) / 2);
@@ -100,9 +100,9 @@ void func_02189810(u8 *p)
     g_02148BCC.flag &= ~0x50;
     func_0206A854();
 
-    func_021BB954(*(u32 *)(p + 0xBC));
-    func_021A1B38(*(u32 *)(p + 0x20));
-    func_021BE4F8(*(u32 *)(p + 0x34));
+    func_021BB954((u8 *)(*(u32 *)(p + 0xBC)));
+    func_021A1B38((u32 *)(*(u32 *)(p + 0x20)));
+    func_021BE4F8((char *)(*(u32 *)(p + 0x34)));
     func_021C1AEC();
-    func_021C1C4C(*(u32 *)(p + 0x124));
+    func_021C1C4C((char *)(*(u32 *)(p + 0x124)));
 }

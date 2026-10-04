@@ -18,11 +18,12 @@
 
 
 extern void func_021EBF34(char *, int);
-extern void func_0204B1CC(int);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 void func_021EBF50(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x60; i++)
         func_021EBF34(p, i);
-    func_0204B1CC(*(int *)(p + 0x9E70));
+    func_0204B1CC((struct Bank *)(*(int *)(p + 0x9E70)));
 }

@@ -52,7 +52,8 @@ extern void ov208_func_021BDCA4(void *s, u8 v);
 extern void ov208_func_021BC61C(u32 a);
 extern void ov208_func_021BC464(u32 a);
 extern void ov208_func_021C4AF4(u16 *heap, u8 *p, int key);
-extern void func_02030EAC(u32 a);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void ov208_func_021BC34C(void *proc);
 
 int ov208_func_021C3C70(void *proc, int *seq, u16 *heap, u8 *p, int key)
@@ -76,7 +77,7 @@ int ov208_func_021C3C70(void *proc, int *seq, u16 *heap, u8 *p, int key)
     ov208_func_021BC464(*(u32 *)(p + 0x6a8));
     ov208_func_021BC464(*(u32 *)(p + 0x6a4));
     ov208_func_021C4AF4(heap, p, key);
-    func_02030EAC(*(u32 *)(p + 0x6a0));
+    func_02030EAC((struct Node *)(*(u32 *)(p + 0x6a0)));
     ov208_func_021BC34C(proc);
     return 1;
 }

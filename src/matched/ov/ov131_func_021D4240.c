@@ -59,7 +59,7 @@ extern void func_021D5C4C(u8 *);
 extern void func_021D697C(u8 *,int *);
 extern void func_021DA6A4(void *,void *);
 extern void func_021D911C(void *,void *);
-extern int func_02012BF8(void *,int);
+extern int func_02012BF8(int a0, int a1);
 extern void func_021D9C3C(void *,u8 *);
 extern void func_021D8F50(void *,u8 *);
 extern void func_021D7C38(void *,u8 *);
@@ -113,7 +113,7 @@ int func_021D4240(char *p)
     } else {
         *(int *)(p+0x58)=(*(u8 **)(p+8))[16];
         if (*(int *)(p+0x58)<3) {
-            for(i=0;i<3;i++) *(int *)(p+0x60+i*4)=func_02012BF8(*(void **)(*(char **)(p+8)+8),i+7);
+            for(i=0;i<3;i++) *(int *)(p+0x60+i*4)=func_02012BF8((int)(*(void **)(*(char **)(p+8)+8)),i+7);
         }
         func_021D697C((u8 *)p,*(int **)(p+0x88));
         func_021D911C(p,*(void **)(p+0x94));

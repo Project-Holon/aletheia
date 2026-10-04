@@ -16,16 +16,18 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02011330(u32);
+typedef unsigned short u16;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 
 int func_021B2830(u32 a)
 {
-    u32 w = func_02011330(a);
-    u32 x = func_02011330(a);
-    u32 y = func_02011330(a);
-    u32 z = func_02011330(a);
+    u32 w = func_02011330((struct Stream *)a);
+    u32 x = func_02011330((struct Stream *)a);
+    u32 y = func_02011330((struct Stream *)a);
+    u32 z = func_02011330((struct Stream *)a);
 
     func_0204E720(w, x, y, z);
     return 0;

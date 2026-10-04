@@ -21,27 +21,28 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern int func_021B61B8();
-extern unsigned short *func_021B616C();
+typedef unsigned char  u8;
+extern int func_021B61B8(u8 *p);
+extern void *func_021B616C(u8 *p, int i);
 extern void *func_02020F34(unsigned int item, unsigned int which, unsigned int heap);
 extern void func_021B822C();
-extern int func_021B8F68();
+extern int func_021B8F68(char *p, int value);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_020213E0(u16 v);
-extern int func_021B83A0();
+extern int func_021B83A0(char *p, int value);
 extern void func_020307B0(void *p);
 
 void func_021B8280(int p, unsigned char *q)
 {
-    unsigned short *e = func_021B616C(p, func_021B61B8(p));
+    unsigned short *e = func_021B616C((u8 *)p, func_021B61B8((u8 *)p));
     if (e != 0 && *e != 0) {
         void *h = func_02020F34(*e, 0, *(unsigned short *)((char *)p + 0x544));
         unsigned char v = *(int *)((char *)p + 0x80C);
         func_021B822C(p, h, e, q);
-        if (func_021B8F68(p, v) == 0 && q[0] != 2) {
+        if (func_021B8F68((char *)p, v) == 0 && q[0] != 2) {
             q[0] = 0xFF;
         }
         if (func_02021014(h, 3) == 0) {
@@ -53,7 +54,7 @@ void func_021B8280(int p, unsigned char *q)
             }
         }
         if (func_02021014(h, 4) != 0) {
-            if (func_021B83A0(p, *e) == 1) {
+            if (func_021B83A0((char *)p, *e) == 1) {
                 q[2] = 5;
             } else {
                 q[2] = 4;

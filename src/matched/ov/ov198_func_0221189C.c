@@ -13,12 +13,12 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 lo:7; u8 high:1; } Bits;
-extern unsigned func_02210EFC(unsigned);
+extern int func_02210EFC(char **p);
 extern int func_022110D4(u8 *,int);
 int func_0221189C(u8 *p)
 {
     u8 i;
-    if(func_02210EFC((unsigned)p)==1) return 0;
+    if(func_02210EFC((char **)((unsigned)p))==1) return 0;
     i=(*(u8 **)p)[0x22];
     if(i==1) return 0;
     for(;i<6;i++) {

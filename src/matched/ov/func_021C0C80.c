@@ -21,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0218C8D8(u32);
+extern int func_0218C8D8(void *p);
 
 int func_021C0C80(u32 a)
 {
 if (*(u32 *)((u8 *)(a) + 52) != 0) {
-    return func_0218C8D8(*(u32 *)((u8 *)(a) + 56));
+    return func_0218C8D8((void *)(*(u32 *)((u8 *)(a) + 56)));
 }
 return 1;
 }

@@ -21,7 +21,7 @@ struct StrObj;
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u32 func_0201D42C(void *, int);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 void func_021D9BE8(u32 mode, const Pair *in, const void *bitmap, void *obj, int a, Pair *out)
 {
     int x;
@@ -34,13 +34,13 @@ void func_021D9BE8(u32 mode, const Pair *in, const void *bitmap, void *obj, int 
         x = (u32)func_020437DC(bitmap) / 2;
         y = (u32)func_020437E4(bitmap) / 2;
         x -= func_0201D304(obj, a, 0) / 2;
-        y -= func_0201D42C(obj, a) / 2;
+        y -= func_0201D42C(obj, (void *)a) / 2;
         out->x = x + in->x;
         out->y = y + in->y;
         return;
     case 2:
         y = (u32)func_020437E4(bitmap) / 2;
-        y -= func_0201D42C(obj, a) / 2;
+        y -= func_0201D42C(obj, (void *)a) / 2;
         out->x = in->x;
         out->y = y + in->y;
         return;

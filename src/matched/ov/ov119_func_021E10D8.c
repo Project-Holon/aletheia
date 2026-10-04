@@ -31,7 +31,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_0201C440(u16);
+extern u32 func_0201C440(void *p);
 extern void func_0201DD78(u32,u32,u32);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02028590(u32,u32,u32,u32);
@@ -45,7 +45,7 @@ void func_021E10D8(char *p)
     *(void **)(p+0x734)=func_020457B0(128,*(u16 *)(p+0x5f4));
     *(void **)(p+0x738)=func_020457B0(128,*(u16 *)(p+0x5f4));
     *(void **)(p+0x73c)=func_020457B0(128,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x740)=func_0201C440(*(u16 *)(p+0x5f4));
+    *(void **)(p+0x740)=(void *)func_0201C440((void *)(*(u16 *)(p+0x5f4)));
     func_0201DD78(1,2,15);
     *(void **)(p+0x744)=func_0203101C(*(u16 *)(p+0x5f4),*(u16 *)(p+0x5f4),2,0);
     *(void **)(p+0x74c)=func_02028590(15,1,0,*(u16 *)(p+0x5f4));

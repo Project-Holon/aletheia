@@ -15,7 +15,9 @@
  */
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1A4(int);
+typedef unsigned int   u32;
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern int func_0201A918(void);
 extern void func_0203D3F8(int, unsigned char, int, unsigned, int, int, int, int);
 void func_0217E258(int unused, int arg)
@@ -24,7 +26,7 @@ void func_0217E258(int unused, int arg)
     int obj;
     unsigned n;
     int r;
-    r = func_0203D1A4((int)func_020399A8());
+    r = func_0203D1A4((struct Link *)((int)func_020399A8()));
     flag = 1;
     if (r != 0)
         flag = 0;

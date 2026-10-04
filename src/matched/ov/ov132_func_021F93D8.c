@@ -33,7 +33,8 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_0201CCE4(void *, u32, u32, void *, void *, u32, void *, u32, u16, u32);
-extern void func_0201C6FC(void *, void *, int, int, void *, u32);
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 void func_021F93D8(u8 *p, u32 index, u32 speed)
 {
     Zero zero;
@@ -53,7 +54,7 @@ void func_021F93D8(u8 *p, u32 index, u32 speed)
             *(void **)(p + 0xE0), *(void **)(p + 0xD4), speed,
             *(void **)(p + 0xCC), 2, *(u16 *)p, zero);
     } else {
-        func_0201C6FC(*(void **)(p + 0xE8), func_02045770(*(void **)(p + 0xD0)),
+        func_0201C6FC(*(void **)(p + 0xE8), (u32)func_02045770(*(void **)(p + 0xD0)),
             zero, zero, *(void **)(p + 0xE0), *(u32 *)(p + 0xD4));
         *(int *)(p + 0xE4) = 1;
         func_02045808(*(void **)(p + 0xE0));

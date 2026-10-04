@@ -13,8 +13,10 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201D83C 0x0201D83C thumb
  */
-extern void func_0201C6EC(unsigned);
-extern void func_0201C4C0(unsigned);
-extern void func_02045C04(int);
+struct PrintSys;
+struct Rec;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
-void func_021B7268(unsigned p) { func_0201C6EC(*(unsigned *)(p+320)); func_0201C4C0(*(unsigned *)(p+320)); func_02045C04(*(int *)(p+308)); func_0201D83C(*(void **)(p+316)); func_0201D83C(*(void **)(p+312)); }
+void func_021B7268(unsigned p) { func_0201C6EC((struct PrintSys *)(*(unsigned *)(p+320))); func_0201C4C0((struct PrintSys *)(*(unsigned *)(p+320))); func_02045C04((struct Rec *)(*(int *)(p+308))); func_0201D83C(*(void **)(p+316)); func_0201D83C(*(void **)(p+312)); }

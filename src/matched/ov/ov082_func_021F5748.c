@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern int  func_02159190(int a);
 extern int  func_0215A61C(int a);
-extern int  func_021917C0(int a);
+extern int func_021917C0(int *p);
 extern u32 func_020056EC(u32 range);
 extern void func_021F5840(void *tbl, u32 a, u32 b, u32 c, u32 d, void *e);
 extern char d_021F58D0[];
@@ -38,7 +38,7 @@ void func_021F5748(int a0, char *p)
     if (*(int *)(p + 0x1C) == 0 && func_02159190(3) != 0) {
         t = func_0215A61C(*(int *)(p + 0x10));
         if (t != 0) {
-            r = func_021917C0(t);
+            r = func_021917C0((int *)t);
             if (r == 0) {
                 *(int *)(p + 0x4C) = 0;
                 *(int *)(p + 0x74) = 0;

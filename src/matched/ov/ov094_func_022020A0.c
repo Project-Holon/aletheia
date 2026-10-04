@@ -54,11 +54,12 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 struct Ctx;
 extern u32 func_02030CB0(u32 idx);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern int func_02045B38(int, int, int, int);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02030DA8(void *, void (*)(void *, Res *), void *, u32);
-extern void func_0220684C(Obj *, void *, void (*)(void *));
+extern void func_0220684C(char *p, int a, int b);
 extern void func_02202248(Obj *);
-extern void func_02204BAC(void *, Res *);
+extern void func_02204BAC(int a, int *b);
 extern const char d_0220AEB0[];
 
 Obj *func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 heap)
@@ -94,12 +95,12 @@ Obj *func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 h
     for (i = 0; i < 4; i++) {
         p->b1e0[i] = -1;
     }
-    p->a5c = func_02045B38(0, 2, 12, p->heap);
+    p->a5c = (int)func_02045B38(0, 2, 12, p->heap);
     p->a70 = -1;
     func_02202248(p);
     r = func_02030734((u16)((p->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x3cc);
     r->owner = p;
     r->v = g;
-    func_0220684C(p, func_02030DA8(p->h0, func_02204BAC, r, 0), 0);
+    func_0220684C((char *)p, (int)func_02030DA8(p->h0, (void (*)(void *, Res *))func_02204BAC, r, 0), 0);
     return p;
 }

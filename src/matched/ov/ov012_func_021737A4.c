@@ -29,14 +29,15 @@ extern int func_02026454(int a);
 extern u8 *func_02026474(int a);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern int func_02188C80(int b);
-extern int func_0201212C(int p);
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern u8 func_0201212C(const struct Ctx *p);
 extern int func_020123C4(void *v);
 extern int func_02173840(u8 *p);
 extern int func_02174268(u8 *p);
 extern void func_0217B840(u8 *p, int b);
 extern void func_0217B75C(u8 *p);
-extern void func_0217B264(u8 *p, int v, int b);
+extern void func_0217B264(u8 *w, void *sys, void *q);
 
 void func_021737A4(int a, int b)
 {
@@ -50,7 +51,7 @@ void func_021737A4(int a, int b)
     if (r4 == 0) {
         func_02034714((void *)0x02175610, 0, (void *)0x02175610);
     }
-    if (func_0201212C(func_02188C80(b)) == 1) {
+    if (func_0201212C(func_02188C80((void *)b)) == 1) {
         return;
     }
     if (func_020123C4((void *)*(int *)(*(u8 **)r4 + 0xc)) == 1) {
@@ -75,5 +76,5 @@ void func_021737A4(int a, int b)
     }
     func_0217B75C(r4);
     func_0217B840(r4, b);
-    func_0217B264(r4, *(int *)(*(u8 **)r4 + 8), b);
+    func_0217B264(r4, (void *)(*(int *)(*(u8 **)r4 + 8)), (void *)b);
 }

@@ -25,7 +25,7 @@ typedef struct {
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, void *e, u32 f, u32 g, u32 h);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 u32 func_021B6184(u8 *p, u8 b, u16 a)
 {
@@ -37,5 +37,5 @@ u32 func_021B6184(u8 *p, u8 b, u16 a)
     m.a = a;
     if (p[0x62] != 2)
         return 0;
-    return func_0203D3F8(h, 0xff, 0x2d00, 4, &m, 1, 0, 0);
+    return func_0203D3F8(h, 0xff, 0x2d00, 4, (u32)(&m), 1, 0, 0);
 }

@@ -30,12 +30,12 @@ extern void func_021F05E8(u8 *p, int a, u32 b);
 extern void func_021F0B10(u8 *p, int a, void *b);
 extern int func_021F0668(u8 *p, int i);
 extern int func_021F055C(u8 *p);
-extern int func_021659F0(int, int);
+extern int func_021659F0(u8 *q, int delta);
 extern u8 *func_021F0F44(u8 *p, int a);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
 extern void func_021F029C(u8 *p, int a);
 extern void func_021F18C4(u8 *p, int a);
-extern void func_021657E8(int a, int b);
+extern void func_021657E8(void *a, u16 b);
 
 int func_021F0438(u8 *p)
 {
@@ -64,12 +64,12 @@ int func_021F0438(u8 *p)
             return 3;
         break;
     case 4:
-        s = func_021659F0(*(int *)(p + 0x3C), p[0x7E] + p[0x7C]);
+        s = func_021659F0((u8 *)(*(int *)(p + 0x3C)), p[0x7E] + p[0x7C]);
         e = func_021F0F44(p, s);
         func_0201EE0C(*(void **)(p + 0x110), 0, *(void **)(e + 0x24), e[4], 1, 2);
         func_021F029C(p, 1);
         func_021F18C4(p, 3);
-        func_021657E8(*(int *)(p + 4), *(u16 *)(e + 6));
+        func_021657E8((void *)(*(int *)(p + 4)), *(u16 *)(e + 6));
         *(int *)(p + 0x6C) = 5;
         break;
     case 5:

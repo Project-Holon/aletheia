@@ -24,11 +24,12 @@
  * The first call keeps the incoming r0.
  */
 
-extern void *func_020606A8(void *p);
+typedef unsigned int   u32;
+extern void *func_020606A8(u32 a);
 struct DList;
 extern void func_020605B4(volatile struct DList *list, void *elem);
 
 void NHTTP_CleanupAsync(void *p)
 {
-    func_020605B4(func_020606A8(p), p);
+    func_020605B4(func_020606A8((u32)p), p);
 }

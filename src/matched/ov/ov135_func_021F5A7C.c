@@ -50,12 +50,13 @@ typedef struct {
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B9A0(u32 v);
+struct Actor;
+extern void func_0204B9A0(struct Actor *a);
 extern void func_020061E4(u32 se);
 extern int func_021F6C48(void *party, void *save, int box, int slot);
 extern int func_021F6BA4(void *party, void *save, int box, int slot);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
-extern void func_022025E4(void *msg, u32 idx, void *mon);
+extern void func_022025E4(u32 a, u32 b, u32 c);
 extern void func_021F663C(Work *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
 extern void func_021F4E98(Work *p, u32 a, u32 b);
 
@@ -63,7 +64,7 @@ void func_021F5A7C(Work *p)
 {
     if (p->slot == 0x1E) {
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B9A0(p->cursor);
+        func_0204B9A0((struct Actor *)p->cursor);
         p->state = 0x11;
         func_020061E4(0x551);
         return;
@@ -75,7 +76,7 @@ void func_021F5A7C(Work *p)
     case 1:
         func_020061E4(0x54C);
         if (func_021F6BA4(p->ctx->party, p->ctx->save, p->box, p->slot) != 0) {
-            func_022025E4(p->msg, 0, func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot));
+            func_022025E4((u32)p->msg, 0, (u32)func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot));
             func_021F663C(p, 0x16, 1, 0, 0xF0F, 0);
             func_021F4E98(p, 3, 7);
         } else {

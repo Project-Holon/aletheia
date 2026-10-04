@@ -60,7 +60,8 @@ typedef struct {
     int wFC;
 } Work;
 
-extern int func_020120F4(u32 a);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *a);
 extern u32 func_02031330(void *a);
@@ -75,7 +76,7 @@ extern void func_0203A424(int a, int b, int c, u16 d);
 struct Link;
 extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern int func_02034AC4(int id);
-extern void func_0203A574(int a, void *b, int c, int d);
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_02031348(u32 a, int b, void *c, Work *w);
 extern int func_0203CD98(void);
 extern void func_0203A5E4(u32 key);
@@ -90,7 +91,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
     int h;
     int busy;
 
-    h = func_020120F4(obj->w0);
+    h = (int)func_020120F4((const struct Ctx *)obj->w0);
     func_02012138((const struct Ctx *)obj->w0);
     busy = func_02031330((void *)work->wF4);
     if (func_0200FB24() != 0 || func_0203CDBC() == 1) {
@@ -121,7 +122,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         if (func_02039CB4((struct Link *)func_020399A8(), 0x15, 2) == 1) {
             func_02034AC4((int)ov093_id);
             work->wFC = 1;
-            func_0203A574(0x100, d_021F03C4, 9, 0);
+            func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
             (*state)++;
         }
         break;

@@ -25,7 +25,8 @@ typedef unsigned int u32;
 
 typedef struct { u32 x, y; } Pair;
 
-extern int func_02012204(u32 a);
+struct Ctx;
+extern u32 func_02012204(const struct Ctx *p);
 extern void func_021F253C(u8 *p, int v);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021F0A18(u8 *p, Pair *v);
@@ -40,7 +41,7 @@ int func_021F055C(u8 *p)
     int r;
     int s;
 
-    if (func_02012204(*(u32 *)p) != 0) {
+    if (func_02012204((const struct Ctx *)(*(u32 *)p)) != 0) {
         func_021F253C(p, 1);
         return 6;
     }

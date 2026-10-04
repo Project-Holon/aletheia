@@ -16,7 +16,8 @@ typedef unsigned int u32;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020263D8(void *, u32, void *);
+struct Comm;
+extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
 extern const char d_021FDE5C[];
 void func_021FC644(int a, void *b, void *c, int d)
 {
@@ -28,5 +29,5 @@ void func_021FC644(int a, void *b, void *c, int d)
     *(void **)(p + 0x50) = c;
     *(int *)(p + 4) = 0;
     *(int *)(p + 8) = 0;
-    func_020263D8(c, 4, p);
+    func_020263D8(c, 4, (u32)p);
 }

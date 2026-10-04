@@ -13,12 +13,13 @@
  *   func_0204B3B4  0x0204B3B4  arm
  */
 
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_021B75E8(char *p, int i)
 {
     if (*(int *)(p + 0x9048 + i * 4) != 0) {
-        func_0204B3B4(*(int *)(p + 0x9048 + i * 4));
+        func_0204B3B4((struct Obj *)(*(int *)(p + 0x9048 + i * 4)));
         *(int *)(p + 0x9048 + i * 4) = 0;
     }
 }

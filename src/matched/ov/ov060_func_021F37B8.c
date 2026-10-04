@@ -15,7 +15,7 @@
  */
 
 extern int *func_021897BC(char *p, int idx);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 typedef struct { int a, b, c; } V;
 extern void func_021F399C(unsigned char *o, void *p, V *v);
 
@@ -24,6 +24,6 @@ void func_021F37B8(char *p, V *v)
     unsigned char *o;
     void *s;
     o = (unsigned char *)func_021897BC(p, 0);
-    s = func_02188D2C(p);
+    s = (void *)func_02188D2C((int *)p);
     func_021F399C(o, s, v);
 }

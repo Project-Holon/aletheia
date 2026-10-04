@@ -27,14 +27,15 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BA180();
-extern u32 func_021C0E54();
+struct Ring;
+extern void func_021BA180(void *p, u32 v);
+extern u32 func_021C0E54(struct Ring *r);
 extern u32 func_021C0E64();
 void func_021BA158(u32 a0)
 {
     if (*(u32*)(((u8*)a0 + 128)) != 0) {
     if (func_021C0E64(*(u32*)(((u8*)a0) + 20)) == 0) {
-    func_021BA180(a0, func_021C0E54(*(u32*)(((u8*)a0) + 20)));
+    func_021BA180((void *)a0, func_021C0E54((struct Ring *)(*(u32*)(((u8*)a0) + 20))));
     }
     }
 }

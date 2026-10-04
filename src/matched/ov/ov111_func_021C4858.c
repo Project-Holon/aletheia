@@ -58,7 +58,7 @@ typedef struct {
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
 extern void func_021C51B4(Work *p, int flag, int v);
-extern int func_02012BF8(void *a, u32 b);
+extern int func_02012BF8(int a0, int a1);
 
 void func_021C4858(Work *p, int flag)
 {
@@ -67,7 +67,7 @@ void func_021C4858(Work *p, int flag)
         func_021C6FA0(&p->anim, 4, 0x12, 0);
         func_021C6FA0(&p->anim, 5, 6, 0);
         func_021C6FA0(&p->anim, 2, 0x10, 1);
-        func_021C6FA0(&p->anim, 7, func_02012BF8(p->f24->f4, 0x15) + 6, 1);
+        func_021C6FA0(&p->anim, 7, func_02012BF8((int)p->f24->f4, 0x15) + 6, 1);
     } else if (p->h305E == 0) {
         func_021C6FA0(&p->anim, 0, 1, 1);
         func_021C6FA0(&p->anim, 1, 0, 1);
@@ -75,7 +75,7 @@ void func_021C4858(Work *p, int flag)
         func_021C6FA0(&p->anim, 4, 0x12, p->info->f4_4 ^ 1);
         func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, p->info->f4_4 ^ 1);
         func_021C51B4(p, p->info->f4_4, 1);
-        func_021C6FA0(&p->anim, 7, func_02012BF8(p->f24->f4, 0x16) + 6, 1);
+        func_021C6FA0(&p->anim, 7, func_02012BF8((int)p->f24->f4, 0x16) + 6, 1);
     } else {
         func_021C6FA0(&p->anim, 0, 0xF, 1);
         func_021C6FA0(&p->anim, 1, 0xE, 1);

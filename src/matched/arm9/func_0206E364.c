@@ -26,10 +26,13 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02069C14(u32 a, u32 b);
-extern void func_02061330(u32 a, u32 b);
+typedef unsigned char  u8;
+struct Node;
+struct Obj02061330;
+extern u32 func_02069C14(const u8 *tag, const struct Node *n);
+extern void func_02061330(struct Obj02061330 *o, u32 x);
 
 void func_0206E364(u32 a, u32 b, u32 c)
 {
-    func_02061330(a, func_02069C14(b, c));
+    func_02061330((struct Obj02061330 *)a, func_02069C14((const u8 *)b, (const struct Node *)c));
 }

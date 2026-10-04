@@ -17,11 +17,12 @@
  * lane O10 candidate
  */
 
-extern void func_02209540(int x, int on);
+struct Timer;
+extern void func_02209540(struct Timer *p, int idx);
 
 void func_02209744(int unused, int x)
 {
-    func_02209540(x, 0);
-    func_02209540(x, 1);
+    func_02209540((struct Timer *)x, 0);
+    func_02209540((struct Timer *)x, 1);
 }
 

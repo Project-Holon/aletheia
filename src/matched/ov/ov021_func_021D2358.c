@@ -30,16 +30,18 @@ typedef unsigned int u32;
 extern u32 func_02188D38(u32 a);
 extern void func_020061E4(u32 a);
 extern u32 func_02188C64(u32 a);
-extern u32 func_021C7260(u32 a, u32 b, u32 c);
-extern u32 func_021C71D4(u32 a, u32 b, u32 c);
+typedef unsigned short u16;
+struct Evt;
+extern void *func_021C7260(u32 a, u16 b, int c);
+extern void *func_021C71D4(u32 a, u32 b, u32 c);
 extern void func_021C6DE0(u32 a, u32 b, u32 c);
 extern u32 func_021A01D4(u32 a);
 extern void func_021A01FC(u32 a, u32 b, u32 c, u32 d);
 extern void *func_02188CB4(unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021A30A4(u8 *p, u32 b);
-extern u32 func_02184F88(u32 a);
-extern void func_02012374(u32 a, u32 b);
+extern void *func_02184F88(void *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021D2358(u32 a, int *seq, int *w)
 {
@@ -52,8 +54,8 @@ int func_021D2358(u32 a, int *seq, int *w)
         w[3] = 0x18;
         if (w[2]) {
             r6 = func_02188C64(w[1]);
-            r7 = func_021C7260(w[1], 0x14, 3);
-            r4 = func_021C71D4(w[1], 0xc, 3);
+            r7 = (u32)func_021C7260(w[1], 0x14, 3);
+            r4 = (u32)func_021C71D4(w[1], 0xc, 3);
             func_021C6DE0(s, r7, 0);
             func_021C6DE0(s, r4, r7);
             func_021A01FC(r6, 0x7F0F, func_021A01D4(r6), 0x1A);
@@ -69,7 +71,7 @@ int func_021D2358(u32 a, int *seq, int *w)
         if (w[3] > 0) {
             break;
         }
-        func_02012374(a, func_02184F88(w[0]));
+        func_02012374((struct Evt *)a, func_02184F88((void *)w[0]));
         (*seq)++;
         break;
     case 3:

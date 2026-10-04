@@ -31,7 +31,7 @@ typedef struct GHIConnection {
     int f124;
 } GHIConnection;
 
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0217ED64(int, int *, int *, int *);
 extern int func_0217ED54();
 extern void func_021C02C8(GHIConnection *, char *, int);
@@ -43,7 +43,7 @@ void func_021C4764(GHIConnection *connection)
     int readFlag;
     int exceptFlag;
 
-    func_0217D254(8, 3, 16, g_021CF204);
+    func_0217D254(8, (char *)3, 16, g_021CF204);
     rcode = func_0217ED64(connection->f50, &readFlag, 0, &exceptFlag);
     if (rcode == -1 || (rcode == 1 && exceptFlag)) {
         connection->f124 = 1;

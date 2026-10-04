@@ -33,7 +33,8 @@ extern char g_020A7CA0[];
 extern char g_020A7CEC[];
 
 extern void *func_0203D798(void);
-extern u32   func_0203D394(u32 entry);
+struct NetEntry;
+extern u32 func_0203D394(struct NetEntry *e);
 struct Entry;
 extern int func_020395EC(struct Entry *a);
 extern u32   func_02039468(u32 a, u32 b);
@@ -46,7 +47,7 @@ u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 
 
     func_0203D798();
     mask = 0xff;
-    if (func_0203D394(entry) == 0 && c >= 0x11) {
+    if (func_0203D394((struct NetEntry *)entry) == 0 && c >= 0x11) {
         return 0;
     }
     if (g != 0 && func_02039468(c, func_020395EC((void *)entry)) != 0) {

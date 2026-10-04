@@ -26,11 +26,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 func_02045758(u32 w);
-extern u8 func_02045760(u32 w);
-extern u8 func_02045738(u32 w);
-extern u8 func_02045740(u32 w);
-extern u32 func_02045730(u32 w);
+struct Descriptor;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045740(struct Descriptor *p);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041300(u32 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 
@@ -42,11 +43,11 @@ void func_02192A04(u32 win)
     u8 h;
     u32 bg;
 
-    x = func_02045758(win);
-    y = func_02045760(win);
-    w = func_02045738(win);
-    h = func_02045740(win);
-    bg = func_02045730(win);
+    x = func_02045758((struct Descriptor *)win);
+    y = func_02045760((struct Descriptor *)win);
+    w = func_02045738((struct Descriptor *)win);
+    h = func_02045740((struct Descriptor *)win);
+    bg = func_02045730((struct Descriptor *)win);
     func_02041300(bg, 0x1f, x - 1, y - 1, 1, 1, 13);
     func_02041300(bg, 0x20, x, y - 1, w, 1, 13);
     func_02041300(bg, 0x24, x + w, y - 1, 1, 1, 13);

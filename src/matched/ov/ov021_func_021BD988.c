@@ -32,7 +32,8 @@ typedef struct {
 } Obj;
 
 extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern void func_02012374(int a, int b);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_021BD988(Obj *o, int b)
 {
@@ -42,8 +43,8 @@ void func_021BD988(Obj *o, int b)
     int c = s->fC;
 
     if (sel != 0) {
-        func_02012374(b, func_021BE8D4(p, c, 0, 0));
+        func_02012374((struct Evt *)b, (struct Evt **)func_021BE8D4(p, c, 0, 0));
     } else {
-        func_02012374(b, func_021BE8D4(p, c, s->f38, 0));
+        func_02012374((struct Evt *)b, (struct Evt **)func_021BE8D4(p, c, s->f38, 0));
     }
 }

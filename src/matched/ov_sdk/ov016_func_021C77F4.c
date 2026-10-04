@@ -41,7 +41,7 @@ extern void func_021D6090(int lcd, int plane);
 extern void func_021C0EA0();
 extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E8C(unsigned int a, unsigned int b);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021D6438(void **mem);
 extern void func_0207E51C();
 extern void func_021C82FC();
@@ -63,6 +63,6 @@ void func_021C77F4(void)
         prm++;
     func_021C0E50(2, 1);
     func_021C0E8C(0, prm + 3);
-    func_021C0E40(func_021C82FC);
+    func_021C0E40((unsigned int)func_021C82FC);
     func_021D6438((void *)0x021DE5E4);
 }

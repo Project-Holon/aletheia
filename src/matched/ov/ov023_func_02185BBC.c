@@ -18,11 +18,15 @@
  * entry (t in r1, the bound in r2); clearing it last keeps a1 in r1.
  */
 
-extern int  func_020436FC(int a, int b, int c, int d, int e);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Bmp;
+struct Obj020437AC;
+extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_020439A0(int, int, int, int, int, int, int, int, int);
-extern void func_020437AC(int);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void func_020437AC(struct Obj020437AC *p);
 
 void func_02185BBC(int a0, int a1, int x, int y, int w, int h, int dx, int dy,
                    int mx, int my)
@@ -46,7 +50,7 @@ void func_02185BBC(int a0, int a1, int x, int y, int w, int h, int dx, int dy,
         dy = 0;
         h -= t;
     }
-    s = func_020436FC(a1, 8, 8, 0x20, 0x28);
-    func_020439A0(s, (int)func_02045770((struct Descriptor *)a0), x, y, dx, dy, w, h, 0);
-    func_020437AC(s);
+    s = (int)func_020436FC((void *)a1, 8, 8, 0x20, 0x28);
+    func_020439A0((struct Bmp *)s, (struct Bmp *)((int)func_02045770((struct Descriptor *)a0)), x, y, dx, dy, w, h, 0);
+    func_020437AC((struct Obj020437AC *)s);
 }

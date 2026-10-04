@@ -75,7 +75,8 @@ struct Sub020071E4Ctrl {
 };
 
 extern void *func_020319C0(void *p);
-extern void *func_020319F0(void *p, u32 a);
+struct Job;
+extern int func_020319F0(struct Job *job, u32 heap);
 extern void *veneer_020319E4(void *p);
 
 u8 sub_020071E4(const struct Sub020071E4Ctrl *ctrl)
@@ -130,7 +131,7 @@ void *sub_02007220(struct Sub020071E4Ctrl *ctrl)
 
 void *sub_02007230(struct Sub020071E4Ctrl *ctrl)
 {
-    return func_020319F0(ctrl->unk10, 1);
+    return (void *)func_020319F0(ctrl->unk10, 1);
 }
 
 void *sub_0200723C(struct Sub020071E4Ctrl *ctrl)

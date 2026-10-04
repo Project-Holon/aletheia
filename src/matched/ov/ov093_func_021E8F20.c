@@ -43,7 +43,7 @@ extern u8 func_021D3D70(u8 *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_021EAF7C(struct Scene *, void *, u32, void *, void *, void *, u8, u16);
+extern u8 *func_021EAF7C(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap);
 extern void *func_021E9024(struct Scene *, void *, u32, void *, void *, void *, int, u16);
 extern void func_021EEC78(u32, u32, u32, u32);
 struct Scene *func_021E8F20(void *a, void *b, u32 c, int d, u16 heap)
@@ -60,7 +60,7 @@ struct Scene *func_021E8F20(void *a, void *b, u32 c, int d, u16 heap)
     p->font0 = func_0201D7EC(0x17, 0, 0, 0, heap);
     p->font2 = func_0201D7EC(0x17, 2, 0, 0, heap);
     p->ctx = func_0203101C(heap, heap, 0x40, 0x80);
-    p->view = func_021EAF7C(p, p->a, c, p->ctx, p->font0, p->font2, p->index, heap);
+    p->view = func_021EAF7C((u32)p, (u32)p->a, c, (u32)p->ctx, (u32)p->font0, (u32)p->font2, p->index, heap);
     p->other = func_021E9024(p, p->a, c, p->ctx, p->font0, p->b, d, heap);
     p->f14 = 0;
     p->f18 = 0;

@@ -31,7 +31,7 @@ typedef struct {
 extern u8 *func_021E9100(void *p, u32 k);
 extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
 extern u8 func_021B8E70(u8 *p, u32 k);
-extern int func_021EAB18(void *st, u32 b);
+extern int func_021EAB18(int *st, u8 *b);
 
 void func_021EAA6C(CbSlot *s, u32 k, u32 n)
 {
@@ -48,7 +48,7 @@ void func_021EAA6C(CbSlot *s, u32 k, u32 n)
         t[3] = func_021B8E70(s->battle, t[6]);
         t[4] = func_021B8E70(s->battle, t[7]);
         s->cb1 = 0;
-        s->cb2 = func_021EAB18;
+        s->cb2 = (int (*)(void *, u32))func_021EAB18;
         s->arg = (u32)s;
         s->obj = 0;
     }

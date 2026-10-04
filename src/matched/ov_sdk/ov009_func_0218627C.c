@@ -47,8 +47,8 @@ typedef struct GPIConnection {
 
 typedef void *GPConnection;
 
-extern void func_02193734(GPConnection *connection, const char *errorString);
-extern void func_0219327C(char *dest, const char *src, unsigned long len);
+extern void func_02193734(int *p, int b);
+extern void func_0219327C(char *p, int b, int n);
 extern int func_020948E0(const char *a, const char *b);
 extern int func_0218946C(GPConnection *connection, void *outputBuffer, const char *buffer);
 extern int func_0218949C(GPConnection *connection, void *outputBuffer, int num);
@@ -74,25 +74,25 @@ int func_0218627C(GPConnection *connection, int status, const char *statusString
         return 0;
     if (iconnection->connectState == 4)
     {
-        func_02193734(connection, g_021A4024);
+        func_02193734((int *)connection, (int)g_021A4024);
         return 2;
     }
     if (statusString == 0)
     {
-        func_02193734(connection, g_021A40C0);
+        func_02193734((int *)connection, (int)g_021A40C0);
         return 2;
     }
     if (locationString == 0)
     {
-        func_02193734(connection, g_021A40D8);
+        func_02193734((int *)connection, (int)g_021A40D8);
         return 2;
     }
 
-    func_0219327C(statusStringFixed, statusString, sizeof(statusStringFixed));
+    func_0219327C(statusStringFixed, (int)statusString, sizeof(statusStringFixed));
     for (i = 0; statusStringFixed[i]; i++)
         if (statusStringFixed[i] == '\\')
             statusStringFixed[i] = '/';
-    func_0219327C(locationStringFixed, locationString, sizeof(locationStringFixed));
+    func_0219327C(locationStringFixed, (int)locationString, sizeof(locationStringFixed));
     for (i = 0; locationStringFixed[i]; i++)
         if (locationStringFixed[i] == '\\')
             locationStringFixed[i] = '/';
@@ -103,8 +103,8 @@ int func_0218627C(GPConnection *connection, int status, const char *statusString
         return 0;
 
     iconnection->lastStatus = status;
-    func_0219327C(iconnection->lastStatusString, statusStringFixed, sizeof(iconnection->lastStatusString));
-    func_0219327C(iconnection->lastLocationString, locationStringFixed, sizeof(iconnection->lastLocationString));
+    func_0219327C(iconnection->lastStatusString, (int)statusStringFixed, sizeof(iconnection->lastStatusString));
+    func_0219327C(iconnection->lastLocationString, (int)locationStringFixed, sizeof(iconnection->lastLocationString));
 
     func_0218946C(connection, iconnection->outputBuffer, g_021A40F0);
     func_0218949C(connection, iconnection->outputBuffer, status);

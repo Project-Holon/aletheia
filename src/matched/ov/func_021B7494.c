@@ -27,11 +27,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201ED04(u32);
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
 extern u32 func_020307B0(u32);
 extern void func_020409B4(u32 index);
-extern u32 func_02045808(u32);
-extern u32 func_02045C04(u32);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern int func_02190728(u32 a);
 extern u32 func_02190788(u32, u32, u32, u32);
 
@@ -40,10 +43,10 @@ int func_021B7494(u32 a, u32 b, u32 c, u32 d)
 func_02190788(*(u32 *)((u8 *)(a) + 12), b, c, d);
 func_02190728(*(u32 *)((u8 *)(a) + 12));
 func_020409B4(1);
-func_02045808(*(u32 *)((u8 *)(a) + 24));
-func_02045808(*(u32 *)((u8 *)(a) + 28));
-func_0201ED04(*(u32 *)((u8 *)(a) + 20));
-func_02045C04(*(u32 *)((u8 *)(a) + 8));
+func_02045808((struct U16Vec *)(*(u32 *)((u8 *)(a) + 24)));
+func_02045808((struct U16Vec *)(*(u32 *)((u8 *)(a) + 28)));
+func_0201ED04((struct WordSet *)(*(u32 *)((u8 *)(a) + 20)));
+func_02045C04((struct Rec *)(*(u32 *)((u8 *)(a) + 8)));
 return func_020307B0(a);
 }
 

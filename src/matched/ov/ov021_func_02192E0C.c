@@ -32,7 +32,7 @@ extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
 extern void func_02192FA4(int, int);
-extern int func_02194670(void *);
+extern void *func_02194670(u16 *a);
 extern void func_02040588(u32 which, u32 enable);
 
 void func_02192E0C(char *p)
@@ -55,7 +55,7 @@ void func_02192E0C(char *p)
         r.e = 1;
         r.f = 0xc;
         r.g = 0xb;
-        *(int *)(p + 0x15c) = func_02194670(&r);
+        *(int *)(p + 0x15c) = (int)func_02194670((u16 *)(&r));
     }
     func_02040588(*(u16 *)(p + 2) & 0xff, 1);
     *(u16 *)(p + 6) = 0xe;

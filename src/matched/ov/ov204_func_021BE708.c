@@ -16,7 +16,7 @@
  */
 typedef unsigned char  u8;
 extern int func_021BD3A0(unsigned char *p);
-extern void func_021BF23C(void *, unsigned, unsigned);
+extern void func_021BF23C(char *p, void *a, int flag);
 extern int func_021BF2F4(char *a);
 extern void func_021BF560(u8 *p);
 extern void func_021BF580(u8 *p);
@@ -26,7 +26,7 @@ int func_021BE708(char *p, int *state)
     case 0:
         if (func_021BD3A0(*(void **)(p + 0xa4)) == 1)
             return 1;
-        func_021BF23C(*(void **)(p + 0x18), 5, 0);
+        func_021BF23C(*(void **)(p + 0x18), (void *)5, 0);
         ++*state;
         break;
     case 1:

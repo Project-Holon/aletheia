@@ -36,12 +36,14 @@ typedef struct {
     u8  state;
 } Sub;
 
-extern int func_02190EF0(u32 h);
-extern void func_0201F02C(int a, int b, int c);
+struct Handle;
+struct WordSet;
+extern u32 func_02190EF0(u32 *p);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_021CE9E4(u32 *p, int n);
-extern u32 func_02188C54(u32 a);
-extern u32 func_02190BE4(u32 a, u32 b);
-extern u32 func_02190C78(u32 a);
+extern u32 func_02188C54(u8 *p);
+extern u32 *func_02190BE4(u16 *a, u32 b);
+extern int func_02190C78(struct Handle *h);
 extern int func_021909BC(u32 a);
 extern void func_021CE36C(u32 *p);
 extern int func_021CE73C(u32 *p);
@@ -59,21 +61,21 @@ void func_021CE41C(u32 *p)
     if (p[0x40] == 0) {
         return;
     }
-    if (!func_02190EF0(p[5])) {
+    if (!func_02190EF0((u32 *)p[5])) {
         return;
     }
     switch (q->state) {
     case 0:
-        func_0201F02C(p[1], 0, (int)w);
+        func_0201F02C((struct WordSet *)p[1], 0, (void *)((int)w));
         func_021CE9E4(p, 10);
         q->state++;
         break;
     case 1:
-        q->h = func_02190BE4(func_02188C54(p[0]), 0);
+        q->h = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)p[0]), 0);
         q->state++;
         break;
     case 2:
-        r = func_02190C78(q->h);
+        r = func_02190C78((struct Handle *)q->h);
         if (r == 2) {
             break;
         }

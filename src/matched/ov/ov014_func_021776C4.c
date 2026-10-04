@@ -19,7 +19,8 @@ typedef unsigned char u8;
 
 extern u8 *g_021797A4;
 extern int func_02179498(void);
-extern void func_0217727C(u8 *w, void (*fn)(u8 *));
+typedef unsigned int   u32;
+extern void func_0217727C(u32 *p, u32 v);
 extern void func_02177660(u8 *p);
 
 int func_021776C4(void)
@@ -30,7 +31,7 @@ int func_021776C4(void)
         return 1;
     if (w[0xCE7] == 0 && func_02179498() != 0) {
         w[0xCF5] = 0xFF;
-        func_0217727C(g_021797A4, func_02177660);
+        func_0217727C((u32 *)g_021797A4, (u32)func_02177660);
         return 1;
     }
     return 0;

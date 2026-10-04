@@ -33,11 +33,13 @@ extern void *func_020185F0(void *);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021E62D4(void *,int,int);
 extern u32 func_0201BA68(void *);
-extern int func_0204A6C8(u32,u32,u32,u32,u16);
+typedef signed int     s32;
+struct Obj;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern int func_0201BBE8(void *);
-extern void func_0204B6F4(int,u32,u32);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -55,9 +57,9 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
         c.x=d_021E7DA0[i*3+j][0]; c.y=d_021E7DA0[i*3+j][1]; n=1;
     }
     c.z=1; c.a=16; c.b=1;
-    *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((u32)h,func_0201BA68(q),0,n,*(u16 *)(p+0x5f4));
+    *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((void *)((u32)h),func_0201BA68(q),0,n,*(u16 *)(p+0x5f4));
     *(int *)(p+0x1008+i*12+j*4) = (int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x1020+i*12+j*4),*(int *)(p+0x890),*(int *)(p+0x8c0),&c,n,*(u16 *)(p+0x5f4));
-    func_0204B6F4(*(int *)(p+0x1008+i*12+j*4),func_0201BBE8(q),1);
+    func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),func_0201BBE8(q),1);
     func_0204B92C((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
     func_0204B3DC((struct Obj *)*(int *)(p+0x1008+i*12+j*4),visible);
     func_02049238((int)h);

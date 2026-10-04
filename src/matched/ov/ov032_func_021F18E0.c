@@ -28,7 +28,8 @@ extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *func_02031290(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_02045838(u32 a, u32 b);
+struct U16Vec;
+extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 
 void func_021F18E0(char *p, u32 a, int *c)
 {
@@ -36,7 +37,7 @@ void func_021F18E0(char *p, u32 a, int *c)
 
     r = func_02031290(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1930, 0x10, 0));
     func_02082BCC(r, 0, 0x10);
-    func_02045838(*(u32 *)(p + 0x120), a);
+    func_02045838((struct U16Vec *)(*(u32 *)(p + 0x120)), (struct U16Vec *)a);
     *(char **)(r + 8) = p;
     r[1] = 0x5a;
     func_021F05E8(p, 4, 2);

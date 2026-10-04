@@ -43,10 +43,11 @@ typedef struct {
 
 typedef unsigned char  u8;
 extern int func_0216D3CC(int a0);
-extern int func_0216D5F8();
-extern void func_0216D410();
+struct Rec;
+extern u16 func_0216D5F8(void *p);
+extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D454();
-extern void func_0216D480();
+extern int func_0216D480(char *p);
 extern void func_0216D9A0(void *map);
 extern void func_0216D9E4(void *c);
 extern void *func_02188C7C(unsigned char *p);
@@ -54,11 +55,11 @@ extern u32 func_02188C54(u8 *p);
 extern int func_021904B0(u32 a, u32 b);
 extern int func_021907A8();
 extern int func_0219077C();
-extern void func_02190788();
+extern void func_02190788(u8 *p);
 extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
 extern int func_02190728(u32 a);
 extern u32 func_020362DC(void);
-extern void func_02045C04();
+extern void func_02045C04(struct Rec *rec);
 
 int func_0217B084(int a0, int *state, Obj *o)
 {
@@ -74,8 +75,8 @@ int func_0217B084(int a0, int *state, Obj *o)
             else
                 t = 2;
             m = t;
-            if (o->f14 != func_0216D5F8(o->f4)) {
-                func_0216D410(o->f4, m);
+            if (o->f14 != func_0216D5F8((void *)o->f4)) {
+                func_0216D410((void *)o->f4, m);
                 *state += 1;
             } else {
                 *state = 2;
@@ -84,7 +85,7 @@ int func_0217B084(int a0, int *state, Obj *o)
         break;
     case 1:
         if (func_0216D454(o->f4) == 1) {
-            func_0216D480(o->f4);
+            func_0216D480((char *)o->f4);
             *state += 1;
         }
         break;
@@ -110,7 +111,7 @@ int func_0217B084(int a0, int *state, Obj *o)
         }
         break;
     case 5:
-        func_02190788(o->fc);
+        func_02190788((u8 *)o->fc);
         func_02190740(o->fc, 0, 0, 0x53);
         *state += 1;
         break;
@@ -124,18 +125,18 @@ int func_0217B084(int a0, int *state, Obj *o)
         break;
     case 8:
         func_02190728(o->fc);
-        func_02045C04(o->f8);
+        func_02045C04((struct Rec *)o->f8);
         *state += 1;
         break;
     case 9:
         if (func_0216D3CC(o->f4) == 1) {
-            func_0216D410(o->f4, (u16)(o->f14 == 3 ? 10 : 11));
+            func_0216D410((void *)o->f4, (u16)(o->f14 == 3 ? 10 : 11));
             *state += 1;
         }
         break;
     case 10:
         if (func_0216D454(o->f4) == 1) {
-            func_0216D480(o->f4);
+            func_0216D480((char *)o->f4);
             func_0216D9E4(func_02188C7C(o->f0));
             return 1;
         }

@@ -23,24 +23,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216E1C4(u32 a, u32 *b);
-extern u32 func_0216D67C(u32 a);
+extern int func_0216E1C4(int a0, int a1);
+extern void *func_0216D67C(void *a0);
 extern int func_0216D98C(int a0);
-extern int func_0216DAB4(u32 a);
-extern u32 func_0216D57C(u32 a, u32 b);
+extern int func_0216DAB4(void *a0);
+extern u32 func_0216D57C(void *p, u32 v);
 extern void func_021AC154(u32 a);
 
 void func_021AC3A4(u32 a, u32 *b)
 {
-    if (func_0216E1C4(b[2], b + 3) == 0) {
+    if (func_0216E1C4(b[2], (int)(b + 3)) == 0) {
         func_021AC154(a);
         return;
     }
-    if (func_0216D98C(func_0216D67C(b[2])) == 0) {
+    if (func_0216D98C((int)func_0216D67C((void *)b[2])) == 0) {
         func_021AC154(a);
         return;
     }
-    if (func_0216DAB4(b[2]) == 1 || func_0216D57C(b[2], 0x8000) != 0)
+    if (func_0216DAB4((void *)b[2]) == 1 || func_0216D57C((void *)b[2], 0x8000) != 0)
         b[0] = 1;
     else
         b[0] = 0;

@@ -38,23 +38,25 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021B7E34(char *ctx, u32 a);
+struct PrintSys;
+struct Tcbl;
+extern void func_021B7E34(void *p, char *q);
 extern u32  func_021B9044(char *ctx, u32 a);
 extern u32  func_021BBF2C(char *ctx, u32 a);
-extern u32  func_021BA9EC(char *ctx, u32 a);
-extern int  func_021B80CC(char *ctx, u32 a);
+extern int func_021BA9EC(void *a0, char *p);
+extern u32 func_021B80CC(int unused, char *p);
 extern void func_021BDD6C(char *ctx);
 extern void func_021B6C48(u32 a);
-extern void func_021B712C(char *ctx, char *q);
-extern int  func_021B7590(char *ctx, char *p);
+extern void func_021B712C(int unused, char *q);
+extern int func_021B7590(int x, char *p);
 extern void func_021BDCB8(char *ctx);
 extern u32  func_020221A4(void);
 extern void func_0204A600(void);
-extern u32  func_0201C4E4(u32 ps);
-extern void func_020310C4(u32 a);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_020310C4(struct Tcbl *p);
 extern u32  func_02005728(u32 v);
 extern void sub_02040618(u32 layer, u32 a, u32 b);
-extern s32 sub_02061CA4(u32 a, u32 b, void *c, s32 d);
+extern s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern s16 g_020A1B38[];
 
 #define F(o) (*(u32 *)(ctx + (o)))
@@ -66,7 +68,7 @@ int func_021BD43C(char *ctx)
     s32 v;
     u8 pal;
 
-    func_021B7E34(ctx, F(0x1e4));
+    func_021B7E34(ctx, (char *)F(0x1e4));
     switch (F(8)) {
     case 1:
         F(0xc) = func_021B9044(ctx, F(0x1e8));
@@ -75,15 +77,15 @@ int func_021BD43C(char *ctx)
         F(0xc) = func_021BBF2C(ctx, F(0x1f0));
         break;
     case 3:
-        F(0xc) = func_021BA9EC(ctx, F(0x1ec));
+        F(0xc) = func_021BA9EC(ctx, (char *)F(0x1ec));
         break;
     case 4:
-        if (func_021B80CC(ctx, F(0x1e4)) == 1 && func_021B7590(ctx, (char *)F(0x1e0)) == 1) {
+        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && func_021B7590((int)ctx, (char *)F(0x1e0)) == 1) {
             return 1;
         }
         return 0;
     case 5:
-        if (func_021B80CC(ctx, F(0x1e4)) == 1 && func_021B7590(ctx, (char *)F(0x1e0)) == 1
+        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && func_021B7590((int)ctx, (char *)F(0x1e0)) == 1
             && func_020221A4() == 1) {
             return 1;
         }
@@ -95,10 +97,10 @@ int func_021BD43C(char *ctx)
     if (F(8) != F(0xc)) {
         func_021BDCB8(ctx);
     }
-    func_021B712C(ctx, (char *)F(0x1e0));
+    func_021B712C((int)ctx, (char *)F(0x1e0));
     func_021B6C48(F(0x1f4));
     func_0204A600();
-    func_0201C4E4(F(0x1d0));
+    func_0201C4E4((struct PrintSys *)F(0x1d0));
     func_021BDD6C(ctx);
     H(0x38) += 0x200;
     idx = H(0x38) >> 4;
@@ -109,9 +111,9 @@ int func_021BD43C(char *ctx)
     }
     if (pal != H(0x3a)) {
         H(0x3a) = pal;
-        sub_02061CA4(0x1f, 0x40, ctx + 0x3c + pal * 32, 0x20);
+        sub_02061CA4((void *)0x1f, 0x40, (u32)(ctx + 0x3c + pal * 32), 0x20);
     }
-    func_020310C4(F(0x1d8));
+    func_020310C4((struct Tcbl *)F(0x1d8));
     sub_02040618(1, 0, func_02005728(0x100));
     sub_02040618(1, 3, func_02005728(0x100));
     return 0;

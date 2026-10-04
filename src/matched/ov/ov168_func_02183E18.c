@@ -21,26 +21,30 @@
  */
 
 
-extern int func_02183D3C(int);
-extern void func_02183D34(int, void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern unsigned int func_02183D3C(unsigned int *p);
+extern void func_02183D34(unsigned int *p, unsigned int v);
 extern void func_02183E60(int a, int *state);
-extern void func_0204B878(int, int);
-extern int func_0204B98C(int);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern u32 func_0204B98C(struct Actor *a);
 
 void func_02183E18(int a, int *state)
 {
-    int x = func_02183D3C(a);
+    int x = func_02183D3C((unsigned int *)a);
     switch (*state) {
     case 0:
-        func_0204B878(*(int *)(x + 0xC), 1);
+        func_0204B878((struct Obj *)(*(int *)(x + 0xC)), 1);
         *state = 1;
         break;
     case 1:
-        if (func_0204B98C(*(int *)(x + 0xC)) == 0)
+        if (func_0204B98C((struct Actor *)(*(int *)(x + 0xC))) == 0)
             *state = 2;
         break;
     case 2:
-        func_02183D34(a, func_02183E60);
+        func_02183D34((unsigned int *)a, (unsigned int)func_02183E60);
         break;
     }
 }

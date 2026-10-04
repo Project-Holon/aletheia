@@ -16,7 +16,8 @@
  */
 
 
-extern void func_021BD208(int);
+struct Ov208Mgr;
+extern void func_021BD208(struct Ov208Mgr *m);
 typedef unsigned int   u32;
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
@@ -25,7 +26,7 @@ extern void func_0204AFD8(u32 i);
 void func_021BE680(char *p)
 {
     if (*(int *)(p + 0x30) != 0) {
-        func_021BD208(*(int *)(p + 0x30));
+        func_021BD208((struct Ov208Mgr *)(*(int *)(p + 0x30)));
         func_0204ADA4(*(int *)(p + 0x5c));
         func_0204A8D4(*(int *)(p + 0x60));
         func_0204AFD8(*(int *)(p + 0x64));

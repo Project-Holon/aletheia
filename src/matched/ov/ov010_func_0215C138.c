@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 *func_02159AE8(void *c, void *vm);
 extern u32 func_02159B10(void *c, void *vm);
-extern int func_0215B4DC(void *vm, u32 v, u32 selector);
+extern int func_0215B4DC(void *a0, void *a1, void *a2);
 extern const u8 d_02171182[];
 int func_0215C138(void *c, void *vm)
 {
@@ -33,7 +33,7 @@ int func_0215C138(void *c, void *vm)
     sel = func_02159B10(c, vm);
     for (i = 0; i < 12; i++) {
         if (sel == d_02171182[i]) {
-            *dst = func_0215B4DC(vm, arg, sel);
+            *dst = func_0215B4DC(vm, (void *)arg, (void *)sel);
             return 0;
         }
     }

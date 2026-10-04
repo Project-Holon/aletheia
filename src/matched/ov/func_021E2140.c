@@ -17,10 +17,10 @@
 
 
 
-extern int func_021DCFC0(int);
+extern int func_021DCFC0(char *p);
 int func_021E2140(int p)
 {
-    if (func_021DCFC0(p) == 0)
+    if (func_021DCFC0((char *)p) == 0)
         return *(int *)(p + 0x28);
     return 8;
 }

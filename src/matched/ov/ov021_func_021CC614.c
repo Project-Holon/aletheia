@@ -40,14 +40,14 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5F4(void *p);
-extern void func_0216530C(u32 a);
-extern void func_02165534(u32 a);
+extern void func_0216530C(void *a0);
+extern void func_02165534(void *a0);
 extern void func_021653C4(void);
 extern void func_021656A0(void);
 extern void func_021656D0(u8 a);
 extern void func_0216573C(void);
 extern void func_02165604(void);
-extern void func_02165634(u32 a);
+extern void func_02165634(void *a0);
 extern void func_0216566C(void);
 
 int func_021CC614(u32 a, u32 b)
@@ -64,10 +64,10 @@ int func_021CC614(u32 a, u32 b)
     func_0215A5F4((void *)b);
     switch (sel) {
     case 0:
-        func_0216530C(v);
+        func_0216530C((void *)v);
         break;
     case 1:
-        func_02165534(v);
+        func_02165534((void *)v);
         break;
     case 2:
         func_021653C4();
@@ -85,7 +85,7 @@ int func_021CC614(u32 a, u32 b)
         func_02165604();
         break;
     case 7:
-        func_02165634(v);
+        func_02165634((void *)v);
         break;
     case 8:
         func_0216566C();

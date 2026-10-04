@@ -30,11 +30,12 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02158F74(void *a);
+struct Stream;
+extern void *func_02158F74(void *p);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012F38(void *a);
-extern u32 func_02011330(u32 a);
+extern int func_02012F38(int base);
+extern u16 func_02011330(struct Stream *s);
 extern int func_021CFD08(u32 a, u32 b, u8 *c, int d, u32 e);
 
 int func_021D00B8(u32 a, u32 b)
@@ -47,10 +48,10 @@ int func_021D00B8(u32 a, u32 b)
 
     p = func_0215A5F4((void *)b);
     x = func_0215A5DC((void *)b);
-    f = func_02012F38(func_020120F4(x));
-    s = func_02158F74(p);
+    f = (u8 *)func_02012F38((int)func_020120F4(x));
+    s = (u32)func_02158F74(p);
     k = func_02159B10((void *)a, (void *)b);
-    g = func_02011330(a);
+    g = func_02011330((struct Stream *)a);
     out = func_02159AE8((void *)a, (void *)b);
     *out = func_021CFD08(s, (u32)x, f, k, g);
     return 0;

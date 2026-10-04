@@ -45,7 +45,7 @@ struct DWCstNodeInfo {
     int profileID;
 };
 
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern unsigned char func_02175FB8(void);
 extern int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
 extern void DWCi_ClearMeshMakingTempInfo(void);
@@ -59,16 +59,16 @@ u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int conne
     u8 sendCommand;
     u64 tick;
 
-    func_02175F3C()->f7b4 = 1;
+    ((struct DWCstMatchControl *)func_02175F3C())->f7b4 = 1;
     switch (func_02175FB8()) {
     case 1:
         if (DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(profileID)) {
-            if (func_02175F3C()->f5a4 == 0) {
-                if (func_02175F3C()->f61c == 1) {
-                    if (func_02175F3C()->f57c != 0) {
+            if (((struct DWCstMatchControl *)func_02175F3C())->f5a4 == 0) {
+                if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 1) {
+                    if (((struct DWCstMatchControl *)func_02175F3C())->f57c != 0) {
                         sendCommand = 4;
                     } else {
-                        func_02175F3C()->f5a4 = 1;
+                        ((struct DWCstMatchControl *)func_02175F3C())->f5a4 = 1;
                         DWCi_ClearMeshMakingTempInfo();
                         goto send;
                     }
@@ -76,16 +76,16 @@ u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int conne
                     sendCommand = 4;
                 }
             } else {
-                if (func_02175F3C()->f61c == 3) {
+                if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 3) {
                     pMyNodeInfo = func_02176344();
-                    if (profileID == func_02175F3C()->f554) {
+                    if (profileID == ((struct DWCstMatchControl *)func_02175F3C())->f554) {
                         if (pMyNodeInfo->profileID >= profileID) {
                             sendCommand = 0xff;
                         } else {
                         send:
                             sendCommand = 2;
                             tick = func_020870D0();
-                            func_02175F3C()->f768 = tick;
+                            ((struct DWCstMatchControl *)func_02175F3C())->f768 = tick;
                         }
                     } else {
                         sendCommand = 4;
@@ -96,7 +96,7 @@ u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int conne
             }
         } else {
             sendCommand = 3;
-            func_02175F3C()->f7b4 = 0x14;
+            ((struct DWCstMatchControl *)func_02175F3C())->f7b4 = 0x14;
         }
         break;
     case 0:

@@ -21,11 +21,12 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020202FC(int a, int b, u16 *out);
-extern u32 func_02020324(int a, int b);
+struct Obj;
+extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
+extern u16 func_02020324(struct Obj *obj, u32 n);
 extern void func_021C59F8(int *a, int b);
 extern void func_021C59A8(int *a, int b, int c);
-extern void func_021C58CC(int *a, int b, int c, int d);
+extern void func_021C58CC(char *p, u16 a, u16 b, u32 heap);
 extern void func_020061E4(u32 a);
 
 void func_021C54C8(int *a, int b, int c, int *d)
@@ -35,14 +36,14 @@ void func_021C54C8(int *a, int b, int c, int *d)
 
     if (b == c - 1) {
         if (a[9] == 1) {
-            func_020202FC(a[1], 0, &v);
-            w = func_02020324(a[1], (u16)(v + 1)) >> 3;
+            func_020202FC((struct Obj *)a[1], 0, &v);
+            w = func_02020324((struct Obj *)a[1], (u16)(v + 1)) >> 3;
             func_021C59F8(a, (w + 0xc) << 3);
             a[16] ^= 1;
         }
         if (a[16] == 0) {
             func_021C59A8(a, 0, 0);
-            func_021C58CC(a, 0, 0, *(u16 *)((char *)a + 0x34));
+            func_021C58CC((char *)a, 0, 0, *(u16 *)((char *)a + 0x34));
         }
         func_020061E4(0x548);
         *d = 1;

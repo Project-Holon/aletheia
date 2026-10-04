@@ -14,11 +14,11 @@
  *   func_0215886C 0x0215886C thumb ov010
  */
 typedef unsigned short u16;
-extern u16 *func_021589DC(int);
+extern int func_021589DC(int a0);
 extern int func_02158BFC(int, int, int, int, int);
 extern int func_0215886C(u16 *, int);
 int func_021589A0(int a, int b, int c) {
-    u16 *p = func_021589DC(a);
+    u16 *p = (u16 *)func_021589DC(a);
     if (p) return func_0215886C(p, func_02158BFC(*p, a, b, c, 0));
     return 3;
 }

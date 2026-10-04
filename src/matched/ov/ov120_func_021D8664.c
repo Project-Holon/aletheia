@@ -17,11 +17,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02028230(u8 *p);
-extern void func_021D8648(int);
+extern void func_021D8648(u8 *p);
 int func_021D8664(u8 *p)
 {
     if(func_02028230(*(void **)(p+0xc4))){
-        func_021D8648((int)p);
+        func_021D8648((u8 *)((int)p));
         return 1;
     }
     return 0;

@@ -20,12 +20,13 @@
 int func_021736D8(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-int func_0203D3F8(int a, int b, int c, int d, void *e, int f, int g, int h);
+typedef unsigned int   u32;
+u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 int func_0217456C(int a, int b, int c, ...)
 {
     if (func_021736D8() == 0) {
         return 0;
     }
-    return func_0203D3F8((int)func_020399A8(), b, 0x221, 4, &c, 0, 0, 0);
+    return func_0203D3F8((int)func_020399A8(), b, 0x221, 4, (u32)(&c), 0, 0, 0);
 }

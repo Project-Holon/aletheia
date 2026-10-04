@@ -31,7 +31,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_021F05B4(char *p);
 extern void func_020061E4(unsigned int id);
 extern void func_021F3098(char *p);
-extern void func_021F3118(void);
+extern void func_021F3118(void *p);
 extern void func_021EFEF8(char *p, void (*f)(void), int a);
 extern int func_021F2EEC(char *p, int k);
 extern void func_021F2CD4(void);
@@ -55,7 +55,7 @@ int func_021F29D8(char *p, int a)
         } else {
             func_020061E4(0x7E3);
             func_021F3098(p);
-            func_021EFEF8(p, func_021F3118, 0x1238);
+            func_021EFEF8(p, (void (*)(void))func_021F3118, 0x1238);
         }
         break;
     case 5:

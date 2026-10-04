@@ -19,17 +19,21 @@
  *   func_02047E54  0x02047E54  arm
  */
 
-extern void func_02011558(int);
-extern void func_02048AC4(int);
+typedef unsigned int   u32;
+struct Ctx;
+struct IcaAnime;
+struct Rec;
+extern void func_02011558(struct IcaAnime *p);
+extern void func_02048AC4(void *ptr);
 extern void func_02048C4C(int);
-extern void func_020480E4(int, unsigned short);
-extern void func_02047E54(int);
+extern void func_020480E4(struct Ctx *c, u32 i);
+extern void func_02047E54(struct Rec *p);
 
 void func_021B9E54(int *p)
 {
-    func_02011558(p[3]);
-    func_02048AC4(p[4]);
+    func_02011558((struct IcaAnime *)p[3]);
+    func_02048AC4((void *)p[4]);
     func_02048C4C(p[2]);
-    func_020480E4(p[0], ((unsigned short *)p)[2]);
-    func_02047E54(p[0]);
+    func_020480E4((struct Ctx *)p[0], ((unsigned short *)p)[2]);
+    func_02047E54((struct Rec *)p[0]);
 }

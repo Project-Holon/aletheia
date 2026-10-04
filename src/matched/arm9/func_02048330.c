@@ -118,13 +118,13 @@ extern void *func_02046E90(u32 a0, u32 a1);
 extern int func_02046C94(void);
 extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern void *func_02048F9C(u32 path, u16 dat, u16 heapID);
+extern void *func_02048F9C(const char *path, u32 a, u32 heap);
 extern u32 func_02046F50(struct Tagged *p, u32 sel);
 extern int func_02046FF8(int *self);
 extern int func_02047348(struct Layer *layer);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(void *rnd, void **anm, u16 anmCount);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 
 static inline void createRes(Util *util, const ResSetup *rs, void **out)
 {
@@ -141,7 +141,7 @@ static inline void createRes(Util *util, const ResSetup *rs, void **out)
         break;
     case 3:
         *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 355);
-        func_02046CE0(*out, func_02048F9C(rs->arc, rs->dat, util->heapID));
+        func_02046CE0(*out, func_02048F9C((const char *)rs->arc, rs->dat, util->heapID));
         break;
     }
 }
@@ -201,7 +201,7 @@ void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
                                   os->anmTbl[j].anmDatIdx);
             anm[j] = a;
         }
-        util->obj[objIdx + i] = func_0204767C(rnd, anm, os->anmCount);
+        util->obj[objIdx + i] = func_0204767C((u32)rnd, (u32 *)anm, os->anmCount);
         func_020307B0(anm);
     }
 }

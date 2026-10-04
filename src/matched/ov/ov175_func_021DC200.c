@@ -15,12 +15,14 @@
  */
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern unsigned long func_0203D1A4(unsigned long);
+typedef unsigned int   u32;
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern unsigned long func_0203D3F8(unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long);
 extern int func_0201A918(void);
 void func_021DC200(char *p,unsigned long data)
 {
-    unsigned long busy=func_0203D1A4((unsigned long)func_020399A8());
+    unsigned long busy=func_0203D1A4((struct Link *)((unsigned long)func_020399A8()));
     int flag=1;
     if(busy!=0) flag=0;
     func_0203D3F8((unsigned long)func_020399A8(),(unsigned char)flag,0x2403,func_0201A918(),data,1,1,1);

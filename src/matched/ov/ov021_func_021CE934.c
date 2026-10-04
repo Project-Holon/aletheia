@@ -26,10 +26,12 @@ typedef struct {
     u32 f0, f4, f8, fc, f10, f14, f18, f1c, f20;
 } S;
 
-extern void func_0201F02C(int a, int b, int c);
-extern u32 func_02008534(u32 a);
-extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
-extern void func_0201F250(u32, u32, u32);
+struct Sub0200852CObj;
+struct WordSet;
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern u16 func_02008534(const struct Sub0200852CObj *obj);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int func_02190758(u32 a, u32 b, u32 c, u32 d);
 
 void func_021CE934(S *p, u32 b, u32 c)
@@ -37,10 +39,10 @@ void func_021CE934(S *p, u32 b, u32 c)
     u32 n;
 
     if (p->fc != 0) {
-        func_0201F02C(p->f4, 0, b);
-        n = func_02008534(b);
-        func_0201EFA4(p->f4, 1, n, 5, 2, 1);
-        func_0201F250(p->f4, p->f20, p->f1c);
+        func_0201F02C((struct WordSet *)p->f4, 0, (void *)b);
+        n = func_02008534((const struct Sub0200852CObj *)b);
+        func_0201EFA4((struct WordSet *)p->f4, 1, n, 5, 2, 1);
+        func_0201F250((struct WordSet *)p->f4, (void *)p->f20, (void *)p->f1c);
         func_02190758(p->fc, 0, (c & 0xfff) << 4, p->f20);
     }
 }

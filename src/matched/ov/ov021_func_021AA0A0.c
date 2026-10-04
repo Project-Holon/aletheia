@@ -48,13 +48,13 @@ typedef struct {
 } S;
 
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02188C6C(int a);
-extern int func_021A1BF4(int a);
+extern u32 func_02188C6C(u8 *p);
+extern u16 func_021A1BF4(u8 *p);
 extern void func_021A9350(Buf *buf, int a, int b, int c, int d);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_02013090(int a);
+extern void *func_02013090(u32 heap);
 extern void func_021AA490(S *s, Buf *buf, int h, int n, Opts *o);
-extern void func_02013144(int h, int v);
+extern void func_02013144(char *p, int v);
 extern void func_0216E7C8(int a, int b, int h, int c, int d);
 
 void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
@@ -65,7 +65,7 @@ void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
     Opts *o;
 
     func_02188CB4((unsigned char *)s->f0);
-    func_021A9350(&buf, s->f8, 0xff, 0, func_021A1BF4(func_02188C6C(s->f0)));
+    func_021A9350(&buf, s->f8, 0xff, 0, func_021A1BF4((u8 *)func_02188C6C((u8 *)s->f0)));
     o = &opts;
     func_02082BCC(o, 0, 0x28);
     opts.h0 = a;
@@ -88,15 +88,15 @@ void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
     } else if (flags & 0x40) {
         o->b10 = 2;
     }
-    h = func_02013090(4);
+    h = (int)func_02013090(4);
     func_021AA490(s, &buf, h, 4, &opts);
     if (flags & 1) {
-        func_02013144(h, 4);
+        func_02013144((char *)h, 4);
     } else if (flags & 0x80) {
-        func_02013144(h, 0x80);
+        func_02013144((char *)h, 0x80);
     }
     if (flags & 0x100) {
-        func_02013144(h, 0x200);
+        func_02013144((char *)h, 0x200);
     }
     func_0216E7C8(s->f4, s->f0, h, 1, 0);
 }

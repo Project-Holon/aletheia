@@ -29,8 +29,8 @@ extern void func_021CF41C(u8 *p);
 extern void func_021CF360(u8 *p);
 extern void func_021D8434(u8 *o);
 extern u32 func_021B990C(u32 a, u32 b, u8 i);
-extern u32 func_021CF470(u8 *p, u32 q, u32 o);
-extern void func_021CE150(u8 *p, u32 fn);
+extern u32 func_021CF470(u8 *p, void *q, u8 *o);
+extern void func_021CE150(u8 *p, void *q);
 extern u32 func_021CE4D0(u8 *p);
 
 u32 func_021CE308(u8 *p)
@@ -49,11 +49,11 @@ u32 func_021CE308(u8 *p)
     }
     for (i = 0; i < p[0x11c]; i++) {
         w = func_021B990C(*(u32 *)(p + 4), p[0x1a6], i);
-        if (func_021CF470(p, w, 0) == 0) {
+        if (func_021CF470(p, (void *)w, 0) == 0) {
             p[0x11f] = i;
             break;
         }
     }
-    func_021CE150(p, (u32)func_021CE4D0);
+    func_021CE150(p, (void *)((u32)func_021CE4D0));
     return 0;
 }

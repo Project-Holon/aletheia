@@ -20,8 +20,8 @@
 
 typedef unsigned char u8;
 
-extern void func_0216DA50(int a);
-extern void func_0216DA7C(int a);
+extern void func_0216DA50(u8 *p);
+extern void func_0216DA7C(u8 *p);
 typedef unsigned int   u32;
 extern int func_0219B9D8(u32 a, u8 *s);
 extern void func_0219BA0C(u32 a, u8 *s);
@@ -30,8 +30,8 @@ extern void func_0216DA44(u32 a);
 
 int func_0219B924(int a, u8 *b)
 {
-    func_0216DA50(a);
-    func_0216DA7C(a);
+    func_0216DA50((u8 *)a);
+    func_0216DA7C((u8 *)a);
     if (func_0219B9D8(a, b) == 1) {
         func_0219BA0C(a, b);
         if (func_0219BA6C(a) == 1) {

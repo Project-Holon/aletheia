@@ -25,8 +25,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_021B3350(char *w);
-extern u16 func_02007FB8(u32 a, u32 b, u32 c);
-extern int func_02007E3C(u32 a, u32 b, u32 c, u32 d);
+extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
+extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_021B4714(char *w, u32 a, u32 b, u32 c);
 extern void func_021B4804(char *w, u32 a);
 extern u32 func_0200823C(u32 a);
@@ -38,8 +38,8 @@ void func_021B3370(char *w)
     u32 lim;
 
     n = func_021B3350(w);
-    k = func_02007FB8(*(u32 *)(w + 0x10), *(u16 *)(w + 0x1FC), *(u16 *)(w + 4));
-    if (func_02007E3C(*(u32 *)(w + 0x10), *(u16 *)(w + 0x1FC), 1, *(u16 *)(w + 4)) == 0) {
+    k = func_02007FB8((u8 *)(*(u32 *)(w + 0x10)), *(u16 *)(w + 0x1FC), *(u16 *)(w + 4));
+    if (func_02007E3C((u8 *)(*(u32 *)(w + 0x10)), *(u16 *)(w + 0x1FC), 1, *(u16 *)(w + 4)) == 0) {
         func_021B4714(w, 10, *(u16 *)(w + 0x1FC), 0);
         w[0] = 10;
         w[1] = 4;

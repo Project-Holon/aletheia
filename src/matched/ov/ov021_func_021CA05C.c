@@ -29,13 +29,14 @@ typedef struct {
     u8  pad4[0x38];
 } Slot;
 
-extern u32 func_0200DA54(u32 h);
+struct Blk3C;
+extern u16 func_0200DA54(struct Blk3C *p);
 extern void func_0200DEA8(u32 h, u8 *list, u8 n, u16 id);
-extern u8 func_021CBED8(u8 *p, u8 *list, u16 v, u8 n, u16 *tags, u16 *vals, u32 z, u16 id);
+extern u8 func_021CBED8(u32 unused, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 void func_021CA05C(u8 *p)
 {
-    u32 n = func_0200DA54(*(u32 *)(p + 0x70));
+    u32 n = func_0200DA54((struct Blk3C *)(*(u32 *)(p + 0x70)));
     int i;
     u32 j;
     u16 tags[2];
@@ -51,13 +52,13 @@ void func_021CA05C(u8 *p)
     case 8:
         i = 0;
         j = n * 2;
-        func_021CBED8(p, p + 0x88, ((u16 *)(p + 0x32))[j], p[8], 0, 0, 0, *(u32 *)(p + 4));
+        func_021CBED8((u32)p, (u32)(p + 0x88), ((u16 *)(p + 0x32))[j], p[8], 0, 0, 0, *(u32 *)(p + 4));
         for (; i < p[8]; i++) {
             tags[i] = ((Slot *)(p + 0xb8))[i].tag;
             vals[i] = ((Slot *)(p + 0xb8))[i].val;
         }
-        func_021CBED8(p, p + 0x1a8, ((u16 *)(p + 0x32))[j + 1], p[8], tags, vals, 0, *(u32 *)(p + 4));
+        func_021CBED8((u32)p, (u32)(p + 0x1a8), ((u16 *)(p + 0x32))[j + 1], p[8], (u32)tags, (u32)vals, 0, *(u32 *)(p + 4));
         return;
     }
-    func_021CBED8(p, p + 0x88, ((u16 *)(p + 0x32))[n], p[8], 0, 0, 0, *(u32 *)(p + 4));
+    func_021CBED8((u32)p, (u32)(p + 0x88), ((u16 *)(p + 0x32))[n], p[8], 0, 0, 0, *(u32 *)(p + 4));
 }

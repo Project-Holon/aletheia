@@ -42,7 +42,7 @@ extern u32 func_021BDB08(struct Ov208Menu *m);
 extern u32 func_021BDB54(struct Ov208Menu *m);
 extern u32 func_021BE32C(u32 v);
 extern u32 func_021BE378(u32 v);
-extern void func_021BD368(void *a, int b, int c);
+extern void func_021BD368(int a, int b, int c);
 extern void func_021BE170(struct Ov208Menu *m);
 extern void func_021BE1BC(struct Ov208Menu *m);
 void func_021BDFDC(struct Ov208Menu *m)
@@ -107,7 +107,7 @@ void func_021BDFDC(struct Ov208Menu *m)
         d = func_021BE378(a);
         if (c != 9 && d != 4) {
             for (i = 3; i <= 6; i++)
-                func_021BD368(m->f30, *m->tab[i].p, i != c);
+                func_021BD368((int)m->f30, *m->tab[i].p, i != c);
             m->f1c = d;
             func_021BE170(m);
         }

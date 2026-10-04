@@ -28,9 +28,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021B9F98(void *p, u32 v);
+extern int func_021B9F98(int unused, int *p);
 
 void func_021BDFEC(void *p)
 {
-    func_021B9F98(p, *(u32 *)((char *)p + 0x1e8));
+    func_021B9F98((int)p, (int *)(*(u32 *)((char *)p + 0x1e8)));
 }

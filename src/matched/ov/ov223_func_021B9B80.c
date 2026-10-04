@@ -22,8 +22,8 @@ typedef unsigned int   u32;
 struct IcaAnime;
 extern u32 func_02011590(struct IcaAnime *p, s32 v);
 extern void func_02011B8C(void *,void *);
-extern void *func_021BC52C(void *);
-extern int func_021B95A0(void *,int);
+extern unsigned func_021BC52C(unsigned char *p);
+extern int func_021B95A0(int a0, int a1);
 void func_021B9B80(char *p)
 {
     unsigned i=0;
@@ -33,11 +33,11 @@ void func_021B9B80(char *p)
         int step;
         if(*(unsigned *)(p+72)!=0) step=-2048; else step=2048;
         func_02011590(*(void **)(p+64),step);
-        func_02011B8C(func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
+        func_02011B8C((void *)func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
         if(*(unsigned *)(p+72)!=0) --*(unsigned *)(p+76); else ++*(unsigned *)(p+76);
     if(*(unsigned *)(p+76)==i && *(unsigned *)(p+72)!=0) {
-        func_021B95A0(*(void **)(p+64),0x4E000);
-        func_02011B8C(func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
+        func_021B95A0((int)(*(void **)(p+64)),0x4E000);
+        func_02011B8C((void *)func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
     }
     }
 }

@@ -27,10 +27,11 @@ extern int func_021F99F0(void *);
 extern void func_0201F7A8(void *,u32);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void *func_0201ADE4(u32,int,u32);
-extern u32 func_0201AE1C(u32,u32);
-extern void func_0201AE14(u32);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern void func_0201AE14(void *p);
 extern int func_021F7B9C(u8 *p, int event);
-extern void func_021F81C8(void *,void *,void *,void *,int,int,int,void *);
+extern void func_021F81C8(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
 extern void func_021F89A8(u8 *p, int i, u16 a, u16 b);
 int func_021F7BC8(u8 *p)
 {
@@ -51,8 +52,8 @@ int func_021F7BC8(u8 *p)
     default:
         *(short *)(p+0xB50)=result;
         h=(u32)func_0201ADE4((u16)result,0,0x48);
-        v=func_0201AE1C(h,20);
-        func_0201AE14(h);
+        v=func_0201AE1C((const struct Personal *)h,20);
+        func_0201AE14((void *)h);
         *(u32 *)(*(u8 **)(p+0xE00)+0x20)=v;
         if(func_021F7B9C(p+0xB50,*(u32 *)(*(u8 **)(p+0xE00)+0x20))) {
             *(u32 *)(p+0x28)=10;
@@ -61,7 +62,7 @@ int func_021F7BC8(u8 *p)
             *(u32 *)(p+0x28)=7;
             mode=3;
         }
-        func_021F81C8(*(void **)(p+0xB6C),*(void **)(p+0xB70),*(void **)(p+0xB68),p+0xD90,*(short *)(p+0xB50),mode,-1,p+0xFA0);
+        func_021F81C8(*(void **)(p+0xB6C),*(void **)(p+0xB70),(int)(*(void **)(p+0xB68)),p+0xD90,*(short *)(p+0xB50),mode,-1,p+0xFA0);
         target=*(u8 **)(p+0xE00);
         func_021F89A8(p+0xEEC,*(u16 *)(target+6)+*(u16 *)(target+4),*(u16 *)(target+10),*(u16 *)(target+8));
         break;

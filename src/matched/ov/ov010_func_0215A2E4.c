@@ -21,19 +21,21 @@
  */
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern int func_020120F4(int);
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned int   u32;
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern int func_020122C0(int, int, void (*)(void), int);
-extern int *func_020124E8(int);
+extern void *func_020124E8(struct Obj *p);
 extern void func_0215A370(void);
 extern int d_021728CC;
 
 int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
 {
-    int t8 = func_020120F4(a);
+    int t8 = (int)func_020120F4((const struct Ctx *)a);
     void *t12 = func_02012934((void *)t8);
     char *p = (char *)func_02030734(4, 0x98, 1, (const char *)&d_021728CC, 0x11d);
     int r;
@@ -49,7 +51,7 @@ int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
     *(int *)(p + 0x20) = 0;
     *(int *)(p + 8) = t8;
     r = func_020122C0(a, 0, func_0215A370, 0x14);
-    q = func_020124E8(r);
+    q = func_020124E8((struct Obj *)r);
     q[0] = a;
     q[1] = b;
     q[2] = (int)p;

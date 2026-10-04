@@ -34,7 +34,8 @@
 typedef unsigned int u32;
 
 extern int   sub_0202FE68(void *a, u32 b, u32 c);
-extern void *sub_02030524(void);
+typedef unsigned short u16;
+extern u16 sub_02030524(void);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
 
 void sub_02030678(void *a, u32 b, u32 c)
@@ -42,5 +43,5 @@ void sub_02030678(void *a, u32 b, u32 c)
     if (sub_0202FE68(a, b, c) != 0) {
         return;
     }
-    sub_020306A0(sub_02030524(), 0, c);
+    sub_020306A0((void *)sub_02030524(), 0, c);
 }

@@ -28,24 +28,27 @@ typedef struct {
     int fc;
 } S3F30;
 
-extern int func_02188C80(int a);
-extern int func_020120F4(int a);
-extern int func_0201296C(int a);
+struct BigObj;
+struct Ctx;
+struct SoundSys2;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *a);
-extern u16 *func_020143CC(u32 a, int b);
-extern void func_02028A7C(int a, int b);
+extern u32 func_020143CC(u32 a, u32 b);
+extern void func_02028A7C(struct SoundSys2 *s, u32 id);
 
 void func_021F3FB8(int a, int b, S3F30 *c)
 {
     int r5;
 
-    r5 = func_020120F4(func_02188C80(b));
-    c->f8 = func_0201296C(r5);
+    r5 = (int)func_020120F4(func_02188C80((void *)b));
+    c->f8 = func_0201296C((const struct BigObj *)r5);
     c->fc = func_02012A30((const struct BigObj *)r5);
-    c->f0 = func_020143CC(c->f8, 0x4001);
+    c->f0 = (u16 *)func_020143CC(c->f8, 0x4001);
     if (*c->f0 == 0) {
-        func_02028A7C(c->fc, 0x7ef);
+        func_02028A7C((struct SoundSys2 *)c->fc, 0x7ef);
         c->f4 = 0;
         return;
     }

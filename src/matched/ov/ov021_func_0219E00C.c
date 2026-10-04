@@ -40,10 +40,10 @@ extern u8 *func_0216D6BC();
 extern void func_02163F10();
 extern void func_0219E370(u32, u16, u32);
 extern void func_0219E6C8(u32, u16);
-extern void func_0216D568();
+extern void func_0216D568(void *p, u32 v);
 extern void func_0216D60C(u32, u16);
-extern void func_0216D674();
-extern void func_0216D7CC();
+extern void func_0216D674(void *p, u16 v);
+extern void func_0216D7CC(u8 *p);
 extern void func_020061E4(u32 a);
 
 void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
@@ -63,10 +63,10 @@ void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
         func_0219E370(o, id, 8);
         func_0219E6C8(o, id);
     }
-    func_0216D568(o, 0xa0);
+    func_0216D568((void *)o, 0xa0);
     func_0216D60C(o, id);
-    func_0216D674(o, s.a);
-    func_0216D7CC(o);
+    func_0216D674((void *)o, s.a);
+    func_0216D7CC((u8 *)o);
     if (fn) {
         func_020061E4(fn);
     }

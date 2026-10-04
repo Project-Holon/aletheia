@@ -16,8 +16,10 @@
  */
 typedef unsigned int u32;
 
-extern void *func_02049DB4(u32 a, u32 b, u32 c, void **out, u32 d);
-extern void func_02040B1C(u32 a, u32 b, u32 c, void *d);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
 extern void func_020307B0(void *p);
 
 void func_021DEB40(u32 a, u32 b, void *c)
@@ -25,7 +27,7 @@ void func_021DEB40(u32 a, u32 b, void *c)
     void *out;
     void *r;
 
-    r = func_02049DB4(0x74, b + 0xe, 1, &out, 0x4c);
-    func_02040B1C(3, *(u32 *)((char *)out + 0x14), *(u32 *)((char *)out + 0x10), c);
+    r = func_02049DB4(0x74, b + 0xe, 1, (u32)(&out), 0x4c);
+    func_02040B1C(3, (const void *)(*(u32 *)((char *)out + 0x14)), *(u32 *)((char *)out + 0x10), (u32)c);
     func_020307B0(r);
 }

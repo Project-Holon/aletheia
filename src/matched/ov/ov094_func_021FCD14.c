@@ -33,7 +33,7 @@ extern const Targets d_02209E28;
 extern const int d_0220AD18[], d_0220AD38[];
 extern int func_021F8710(void);
 extern int func_021F7F1C(int);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern int func_021FF348(void *, int);
 
 int func_021FCD14(State *s, int unused, int *out)
@@ -76,14 +76,14 @@ int func_021FCD14(State *s, int unused, int *out)
                 i = 0;
                 p = t.v[(s->dc & 1) + group];
                 for (; i < 3; i++) {
-                    if (func_021F7F1C(p[i]) && !func_021FF348(func_021F8694(), p[i])) {
+                    if (func_021F7F1C(p[i]) && !func_021FF348((void *)func_021F8694(), p[i])) {
                         out[n] = p[i];
                         n++;
                     }
                 }
             } else {
                 for (k = KEY_TWO; k <= KEY_MAX; k++) {
-                    if (s->dc != k && func_021F7F1C(k) && !func_021FF348(func_021F8694(), k)) {
+                    if (s->dc != k && func_021F7F1C(k) && !func_021FF348((void *)func_021F8694(), k)) {
                         out[n] = k;
                         n++;
                     }
@@ -121,7 +121,7 @@ int func_021FCD14(State *s, int unused, int *out)
         case 6: case 12:
             k = (s->dc & k) ? KEY_THREE : KEY_TWO;
             for (; k <= KEY_MAX; k += 2) {
-                if (func_021F7F1C(k) && !func_021FF348(func_021F8694(), k)) {
+                if (func_021F7F1C(k) && !func_021FF348((void *)func_021F8694(), k)) {
                     out[n] = k;
                     n++;
                 }
@@ -129,7 +129,7 @@ int func_021FCD14(State *s, int unused, int *out)
             break;
         case 8: case 10:
             for (k = KEY_TWO; k <= KEY_MAX; k++) {
-                if (func_021F7F1C(k) && !func_021FF348(func_021F8694(), k)) {
+                if (func_021F7F1C(k) && !func_021FF348((void *)func_021F8694(), k)) {
                     out[n] = k;
                     n++;
                 }

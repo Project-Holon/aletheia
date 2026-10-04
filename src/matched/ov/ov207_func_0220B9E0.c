@@ -33,10 +33,14 @@ typedef struct {
 } S3;
 
 extern u8 func_020355C4(void);
-extern int  func_02045B38(int a, int b, int c, int d);
-extern int  func_02045EC0(int a, int b);
-extern void func_02045808(int a);
-extern void func_02045C04(int a);
+typedef unsigned int   u32;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0220270C(int *p, int n, S3 *s);
 extern int  func_02202DC4(int *p, void *a, void *b);
 extern void func_020355D8(int a);
@@ -56,14 +60,14 @@ void func_0220B9E0(int *a)
     case 1:
         ((u8 *)a)[0x50] = (func_020355C4() == 0) ? 1 : 0;
         {
-            int r5 = func_02045B38(0, 2, 0xe9, *(u16 *)a);
-            s.v0 = func_02045EC0(r5, 0);
-            s.v1 = func_02045EC0(r5, 1);
+            int r5 = (int)func_02045B38(0, 2, 0xe9, *(u16 *)a);
+            s.v0 = (int)func_02045EC0((struct MsgBank *)r5, 0);
+            s.v1 = (int)func_02045EC0((struct MsgBank *)r5, 1);
             s.v2 = 1;
             func_0220270C((int *)a[21], 4, &s);
-            func_02045808(s.v0);
-            func_02045808(s.v1);
-            func_02045C04(r5);
+            func_02045808((struct U16Vec *)s.v0);
+            func_02045808((struct U16Vec *)s.v1);
+            func_02045C04((struct Rec *)r5);
             a[19] = 2;
         }
         break;

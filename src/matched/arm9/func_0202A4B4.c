@@ -79,7 +79,7 @@ extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32   func_020173EC(void);
 extern void  func_0202A3AC(u32 id, TrData *td);
-extern void  func_0202A3BC(u32 id, void *tp);
+extern void func_0202A3BC(void *a0, void *a1);
 extern u8    func_0202A3CC(u32 cls);
 extern void  func_0202A994(u32 species, u32 form, int abil, u32 *gender, u16 heap);
 extern void  func_0202A9F4(u32 id, void *mon, u32 form, u32 abil);
@@ -106,7 +106,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
     tp = func_02030734(h, 0x6C, 0, g_020A76DC, 388);
     mon = func_02030734(h, func_020173EC(), 0, g_020A76DC, 389);
     func_0202A3AC(trid, td);
-    func_0202A3BC(trid, tp);
+    func_0202A3BC((void *)trid, tp);
     if (func_0202A3CC(td->cls) == 1) {
         gender = 0x78;
     } else {

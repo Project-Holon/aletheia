@@ -50,18 +50,18 @@ typedef struct {
 } E;
 
 extern E *func_0216D6D4(u32);
-extern u32 func_0219E348(u32);
+extern void *func_0219E348(void *a);
 extern void func_0219E354(u32);
 extern void func_021B8028(u32, void *);
 extern void func_0216D89C(u32, void *);
 extern void func_0219E370(u32 a, u32 b, u32 c);
 extern void func_0219E6C8(u32 o, u32 id);
-extern void func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 extern void func_0216D8C0(u32, V3 *);
-extern int func_021B8040(u32);
+extern u8 func_021B8040(u8 *p);
 extern void func_02163F10(u32);
-extern void func_0216D674(u32, u32);
-extern void func_0216D7CC(u32);
+extern void func_0216D674(void *p, u16 v);
+extern void func_0216D7CC(u8 *p);
 extern void func_020061E4(u32);
 
 extern s32 *d_021DDD94[];
@@ -79,7 +79,7 @@ int func_0219E0A8(u32 o)
     e = func_0216D6D4(o);
     e->count--;
     if (e->speed != 0) {
-        a = func_0219E348(o);
+        a = (u32)func_0219E348((void *)o);
         func_0219E354(o);
         func_021B8028(a, buf);
         func_0216D89C(o, buf);
@@ -87,7 +87,7 @@ int func_0219E0A8(u32 o)
             e->acc = 0;
             func_0219E370(o, e->id, 8);
             func_0219E6C8(o, e->id);
-            func_0216D568(o, 0x20);
+            func_0216D568((void *)o, 0x20);
         }
         t = e->speed;
         if (t < 0) {
@@ -105,7 +105,7 @@ int func_0219E0A8(u32 o)
     v.y = d_021DDD94[k][t];
     v.z = 0;
     func_0216D8C0(o, &v);
-    if (e->count > 0 || func_021B8040(a)) {
+    if (e->count > 0 || func_021B8040((u8 *)a)) {
         return 0;
     }
     {
@@ -115,10 +115,10 @@ int func_0219E0A8(u32 o)
         pv->z = 0;
         func_0216D8C0(o, pv);
     }
-    func_0216D568(o, 0x540);
+    func_0216D568((void *)o, 0x540);
     func_02163F10(o);
-    func_0216D674(o, 0);
-    func_0216D7CC(o);
+    func_0216D674((void *)o, 0);
+    func_0216D7CC((u8 *)o);
     func_020061E4(0x67B);
     return 1;
 }

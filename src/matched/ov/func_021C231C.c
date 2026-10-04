@@ -15,9 +15,9 @@
  * Loads the word at +0x418 and tail-calls func_021BC518 with it.
  */
 
-extern void func_021BC518(int);
+extern void func_021BC518(int *p);
 
 void func_021C231C(char *p)
 {
-    func_021BC518(*(int *)(p + 0x418));
+    func_021BC518((int *)(*(int *)(p + 0x418)));
 }

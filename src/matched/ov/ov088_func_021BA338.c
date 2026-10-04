@@ -28,7 +28,8 @@ extern void func_0202EA40(struct Row *p);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 extern int func_021BC0AC(char *p, int v);
-extern void func_0200C2F0(int, int, int);
+struct Blk34;
+extern void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
 extern int func_021BC080(char *p, int v);
 extern unsigned int func_0203633C(void);
 extern int func_021BB890(char *p, int d);
@@ -48,15 +49,15 @@ int func_021BA338(char *p)
             *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
             return func_021BC0AC(p, 11);
         case 3:
-            func_0200C2F0(*(int *)(p + 8), 1, 2);
+            func_0200C2F0((struct Blk34 *)(*(int *)(p + 8)), 1, 2);
             *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
             return func_021BC0AC(p, 11);
         case 4:
-            func_0200C2F0(*(int *)(p + 8), 2, 2);
+            func_0200C2F0((struct Blk34 *)(*(int *)(p + 8)), 2, 2);
             *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
             return func_021BC0AC(p, 11);
         case 7:
-            func_0200C2F0(*(int *)(p + 8), 3, 2);
+            func_0200C2F0((struct Blk34 *)(*(int *)(p + 8)), 3, 2);
             *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
             return func_021BC0AC(p, 11);
         case 5:

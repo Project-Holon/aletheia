@@ -23,10 +23,10 @@ extern char d_0220AE68[];
 extern u32 func_0201134C(void *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_020307B0(void *);
-extern int func_020515CC(int *, int, void (*)(void), int *);
+extern int func_020515CC(int *p, int a, int b, int c);
 extern unsigned int func_021FE38C(char *, unsigned int);
 extern int func_021FD1A8(char *p, int v);
-extern void func_021FD1CC(void);
+extern void func_021FD1CC(void *p);
 
 int func_021FA358(void *a, char *s)
 {
@@ -57,7 +57,7 @@ int func_021FA358(void *a, char *s)
     p[19] = func_0201134C(a);
     p[20] = func_0201134C(a);
     if (slot != 16) {
-        result = func_020515CC(*(int **)(s + 12 + slot * 4), arg, func_021FD1CC, p);
+        result = func_020515CC(*(int **)(s + 12 + slot * 4), arg, (int)func_021FD1CC, (int)p);
         if (result == -1)
             func_020307B0(p);
     } else {

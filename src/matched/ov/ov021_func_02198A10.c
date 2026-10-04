@@ -18,7 +18,7 @@
 
 typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec;
-extern int *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern void func_0216D8C0(u32, Vec *);
 extern u32 func_0216D7CC(u32);
 
@@ -26,7 +26,7 @@ int func_02198A10(u32 a)
 {
     int *p;
 
-    p = func_0216D6D4(a);
+    p = func_0216D6D4((void *)a);
     p[0] = p[0] + p[1];
     {
         Vec v = { 0, 0, 0 };

@@ -31,7 +31,7 @@ typedef struct GPGetInfoResponseArg {
 
 typedef void (*GPCallback)(void **, void *, void *);
 
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_0218D4A4(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern char g_021A4010[];
 extern char g_021A4024[];
@@ -44,7 +44,7 @@ int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
     if (connection == 0 || (iconnection = (GPIConnection *)*connection) == 0 || profile == 0)
         return 2;
     if (callback == 0) {
-        func_02193734(connection, g_021A4010);
+        func_02193734((int *)connection, (int)g_021A4010);
         return 2;
     }
     if (iconnection->f108 != 0) {
@@ -53,7 +53,7 @@ int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
         return 0;
     }
     if (iconnection->f1F4 == 4) {
-        func_02193734(connection, g_021A4024);
+        func_02193734((int *)connection, (int)g_021A4024);
         return 2;
     }
     return func_0218D4A4(connection, profile, checkCache, blocking, callback, param);

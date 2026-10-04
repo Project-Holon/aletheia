@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_021AC1E0(void *obj);
+extern int func_021AC1E0(u32 a);
 extern void func_02047804(u32 h, u16 i);
 extern void func_020477A4(u32 h, u16 i);
 extern void func_020477D4(u32 h, u16 i);
@@ -35,7 +35,7 @@ void func_021D024C(void *obj, int sel)
 
     if (obj == 0)
         return;
-    q = func_021AC1E0(obj);
+    q = (u8 *)func_021AC1E0((u32)obj);
     for (i = 0; i < 4; i++) {
         func_02047804(*(u32 *)(q + 0xc), i);
         if (i == sel)

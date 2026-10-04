@@ -20,7 +20,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_0204A380(unsigned,unsigned,unsigned,u16);
+typedef unsigned int   u32;
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 extern int func_02062B30(void *,u8 **);
 extern u8 func_0204169C(u8);
 extern unsigned func_0204162C(u8);
@@ -34,7 +35,7 @@ void func_021B8FA0(int a,int b,int c,int d,u8 e,u8 f,u8 g,u8 h,u8 i,u8 j,u8 k,u8
  u8 *data;
  u16 *p;
  int count;
- handle=func_0204A380(a,b,n,(u16)((o&0x7fff)|0x8000));
+ handle=func_0204A380((void *)a,b,n,(u16)((o&0x7fff)|0x8000));
  func_02062B30(handle,&data);
  if(d && !func_0204169C(c)) {
   count=h*g;

@@ -17,18 +17,18 @@
 
 typedef unsigned int u32;
 
-extern void func_021DA610(int,int,int,int);
+extern void func_021DA610(void *p, int sel, void *b, unsigned int c);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_021DA578(int,int,int,int);
+extern void func_021DA578(void *p, int a, void *b, u32 c);
 extern void func_021D8AF4(char *,int);
 int func_021D8BE4(char *p)  {
     switch(*(int *)(p+0x234))  {
-        case 0: func_021DA610(*(int *)(p+0x310),*(int *)(p+0x328),*(int *)(p+0x314),*(int *)(p+0x344));
+        case 0: func_021DA610((void *)(*(int *)(p+0x310)),*(int *)(p+0x328),(void *)(*(int *)(p+0x314)),*(int *)(p+0x344));
         *(int *)(p+0x234)+=1;
         break;
         case 1: if((func_020362DC() & 2) || (func_020362DC() & 1) || func_02035C60())  {
-            func_021DA578(*(int *)(p+0x310),*(int *)(p+0x328),*(int *)(p+0x314),*(int *)(p+0x344));
+            func_021DA578((void *)(*(int *)(p+0x310)),*(int *)(p+0x328),(void *)(*(int *)(p+0x314)),*(int *)(p+0x344));
             func_021D8AF4(p,1);
         }
         break;

@@ -14,18 +14,20 @@
  *   func_021B6DB4  0x021B6DB4  thumb  ov071
  */
 
+typedef unsigned int   u32;
+struct Obj;
 void func_021B6B98(void *p, int *tbl, int n, int sel, int c)
 {
-    void func_0204B6F4(int, int, int);
+    void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
     void func_021B6DB4(int *p, int a, int idx);
     int i;
 
     for (i = 0; i < n; i++) {
         if (i == sel) {
-            func_0204B6F4(tbl[i * 4], 1, 1);
+            func_0204B6F4((struct Obj *)tbl[i * 4], 1, 1);
             func_021B6DB4(p, 1, c);
         } else {
-            func_0204B6F4(tbl[i * 4], 0, 1);
+            func_0204B6F4((struct Obj *)tbl[i * 4], 0, 1);
         }
     }
     if (sel == 0xff) {

@@ -36,13 +36,14 @@ typedef unsigned char  u8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int, int);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern signed char func_02012FFC(void);
 extern int func_0201CCE4(int, int, int, int, int, int, int, int, int, int);
-extern void func_021BB6E0(int p, int obj, int str, u16 x, s16 y, u16 color);
-extern void func_0201F73C(int, int, u16, int);
-extern void func_021BB724(int);
+extern void func_021BB6E0(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void func_021BB724(void **p);
 
 void func_021BACF0(int p, int mode)
 {
@@ -51,7 +52,7 @@ void func_021BACF0(int p, int mode)
     if (*(int *)(p + 0x4FC) == 0) {
         *(int *)(p + 0x4FC) = func_020450F0(3, 1, 1, 0x1E, 4, 0xC, 1);
     }
-    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p + 0x4FC)), 0xF);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(p + 0x4FC))), 0xF);
     func_02045334((struct Descriptor *)*(int *)(p + 0x4FC));
     win = p + 0x4FC;
     if (mode == 1) {
@@ -59,8 +60,8 @@ void func_021BACF0(int p, int mode)
                                             *(int *)(p + 0x530), func_02012FFC(),
                                             *(int *)(p + 0x730), 2, *(u16 *)(p + 0x544), 0xF);
     } else {
-        func_021BB6E0(p, win, *(int *)(p + 0x528), 0, 0, 0x44F);
+        func_021BB6E0(p, (u32 *)win, *(int *)(p + 0x528), 0, 0, 0x44F);
     }
-    func_0201F73C(*(int *)win, 1, (u16)*(int *)(p + 0x838), 0xD);
-    func_021BB724(win);
+    func_0201F73C((void *)(*(int *)win), 1, (u16)*(int *)(p + 0x838), 0xD);
+    func_021BB724((void **)win);
 }

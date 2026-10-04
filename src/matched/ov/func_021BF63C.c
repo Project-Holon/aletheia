@@ -16,7 +16,9 @@
  */
 
 
-extern void func_0204B6F4(int, int, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void func_021BF63C(int unused, char *p)
 {
@@ -24,7 +26,7 @@ void func_021BF63C(int unused, char *p)
 
     if (i == 6)
         return;
-    func_0204B6F4(*(int *)(p + i * 0x14 + 0x1c), 0, 0);
+    func_0204B6F4((struct Obj *)(*(int *)(p + i * 0x14 + 0x1c)), 0, 0);
     *(int *)(p + 0x10c) = 0;
 }
 

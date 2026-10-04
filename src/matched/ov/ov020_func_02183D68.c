@@ -28,15 +28,20 @@
 
 typedef unsigned int u32;
 
-extern int func_020122C0(int a, int b, void *fn, int c);
-extern int *func_020124E8(int a);
-extern int func_020120F4(int a);
+struct Big;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sub02008AECObj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
 struct Arg;
 extern void func_02014264(void *p);
 extern void func_02183C58(int a);
-extern int func_02012EBC(int a);
-extern int func_02008B08(int a);
-extern void func_02008B20(int a);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008AECObj *func_02008B08(void *sys);
+extern void func_02008B20(struct Sub02008AECObj *obj);
 extern void func_02021444(void);
 extern void func_02185F6C(int a);
 extern void func_0208068C(int a);
@@ -46,14 +51,14 @@ extern int func_02183C9C(void *obj, int *state, struct Arg *arg);
 
 int func_02183D68(int a)
 {
-    int r6 = func_020122C0(a, 0, func_02183C9C, 0x24);
-    int *r4 = func_020124E8(r6);
+    int r6 = (int)func_020122C0((void *)a, 0, func_02183C9C, 0x24);
+    int *r4 = func_020124E8((struct Obj *)r6);
 
     r4[0] = a;
-    r4[1] = func_020120F4(a);
+    r4[1] = (int)func_020120F4((const struct Ctx *)a);
     func_02014264(r4 + 2);
     func_02183C58(a);
-    func_02008B20(func_02008B08(func_02012EBC(r4[1])));
+    func_02008B20(func_02008B08(func_02012EBC((struct Big *)r4[1])));
     func_02021444();
     func_02185F6C(r4[1]);
     func_0208068C(0x1ff);

@@ -41,9 +41,9 @@ extern int func_0216E51C(void *a);
 extern void func_0216D548(u8 *o, u32 v);
 extern int func_0216D4D4(int a0, int a1);
 extern void func_0216D244(u32 a, u8 *o);
-extern void func_0216D268(u32 a, u8 *o);
+extern int func_0216D268(int a0, int a1);
 extern void func_0216E114(u8 *o);
-extern u32 func_0216D67C(u8 *o);
+extern void *func_0216D67C(void *a0);
 extern int func_0216D4FC(int a0);
 extern void func_0216D0E8(u8 *o, Rec *r, u32 z);
 
@@ -60,11 +60,11 @@ u8 *func_0216CDC4(u32 a, Rec *p, u32 b, u32 c)
         func_0216D548(o, 640);
     if (func_0216D4D4(a, 0x10)) {
         func_0216D244(a, o);
-        func_0216D268(a, o);
+        func_0216D268(a, (int)o);
     }
     if (func_0216D4D4(a, 1))
         func_0216E114(o);
-    func_0216D4FC(func_0216D67C(o));
+    func_0216D4FC((int)func_0216D67C(o));
     func_0216D0E8(o, &r, 0);
     return o;
 }

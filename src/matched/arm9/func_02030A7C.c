@@ -85,7 +85,7 @@ extern char g_0214697C[0x13];
 extern const char str_system_name[];
 
 extern void *func_020304C0(void *p);
-extern void *func_02060F90(void *p);
+extern int func_02060F90(char *p);
 extern int func_020308B8(u8 *dst, const char *src);
 extern u32 func_0203F004(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
@@ -100,7 +100,7 @@ void func_02030A7C(void *heap)
     s32 k;
     s32 i;
 
-    g_02146970.unk_08 = func_02060F90(heap);
+    g_02146970.unk_08 = (void *)func_02060F90(heap);
     g_02146970.unk_04 = p;
     if (func_020308B8(buf, h) != 0) {
         v = *(u16 *)((u8 *)h + 0x12);

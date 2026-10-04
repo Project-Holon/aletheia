@@ -50,7 +50,11 @@ typedef struct {
     u32 c;
 } Blk;
 
-extern int  func_0201C6B4(int a);
+struct Big;
+struct Ctx;
+struct PrintSys;
+struct Sub020071E4Ctrl;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021BA03C(int *p);
 extern int  func_021BA65C(u8 *p, int *out);
 extern void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3, void *a4);
@@ -65,9 +69,9 @@ extern void func_021BA694(u8 *p);
 extern void func_021BB4D4(void *a, u32 b, u8 *p);
 extern void func_021BB4A4(void *a, u32 b, u8 *p);
 extern void func_021BB418(void *a0, u32 *st, u8 *base);
-extern u32  func_020120F4(u32 a);
-extern u32  func_02012EBC(u32 a);
-extern int  func_020071F0(u32 a);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern u32  func_021BB0D0(Blk *b);
 extern void func_021BAF0C(void *p, u32 id, u32 value);
 extern void func_021BAEC4(void *a, u32 b, u32 c);
@@ -87,7 +91,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
     int k;
     int r;
 
-    if (func_0201C6B4(*(int *)(w + 0x258)) == 0)
+    if (func_0201C6B4((const struct PrintSys *)(*(int *)(w + 0x258))) == 0)
         return;
     switch (*st) {
     case 0:
@@ -126,7 +130,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
                 break;
             }
         }
-        r = func_020071F0(func_02012EBC(func_020120F4(*(u32 *)(*(u8 **)(w + 0x26C) + 4))));
+        r = func_020071F0(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)(*(u8 **)(w + 0x26C) + 4)))));
         func_021BA9E0(w + 0x148, &b38);
         if (b38.b == 0 && r != 0)
             *st = 1;

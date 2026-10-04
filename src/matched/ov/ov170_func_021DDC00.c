@@ -20,7 +20,8 @@
  */
 
 extern int func_021DD684(unsigned char *p, unsigned i);
-extern unsigned func_020078C4(unsigned a, unsigned b);
+typedef unsigned int   u32;
+extern int func_020078C4(void *save, u32 box);
 extern int func_021DD694(unsigned char *p, unsigned skip);
 extern void *func_0201AB28(void *party, unsigned i);
 extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
@@ -35,7 +36,7 @@ int func_021DDC00(unsigned char *p, unsigned a, unsigned b)
     unsigned m;
     if (b >= 0x24) {
         int n = func_021DD684(p, b - 0x24);
-        if (n == p[0x14] || func_020078C4(SYS(p)[1], n) == 0x1E) {
+        if (n == p[0x14] || func_020078C4((void *)SYS(p)[1], n) == 0x1E) {
             RESULT(p) = 1;
             return 0;
         }

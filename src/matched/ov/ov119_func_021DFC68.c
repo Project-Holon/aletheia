@@ -31,8 +31,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef int s32;
 
-extern u32 func_02015C30(u32, void *);
-extern u32 func_02015C48(u32, void *);
+extern void func_02015C30(void *p, u32 *out);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_021DFC28(void *, int);
 extern u32 func_021DFBF0(u32, u32, void *, int);
 extern float _s32_to_float(s32);
@@ -58,7 +58,7 @@ void func_021DFC68(void *p, int a1)
             func_021DFC28(p, a1);
             return;
         }
-        func_02015C30(*(u32 *)p, &vec[0]);
+        func_02015C30((void *)(*(u32 *)p), &vec[0]);
         vec[3] = func_021DFBF0(*(u32 *)((char *)p + 0x1c), *(u32 *)((char *)p + 0x28), p, 0);
         if (*(u16 *)((char *)p + 0x16) != 0) {
             float q = 374.0f * __fdiv(_s32_to_float((s32)(vec[0] - vec[3])), 4096.0f);
@@ -66,8 +66,8 @@ void func_021DFC68(void *p, int a1)
         }
         vec[4] = func_021DFBF0(*(u32 *)((char *)p + 0x20), *(u32 *)((char *)p + 0x2c), p, 1);
         vec[5] = func_021DFBF0(*(u32 *)((char *)p + 0x24), *(u32 *)((char *)p + 0x30), p, 0);
-        func_02015C48(*(u32 *)p, &vec[3]);
+        func_02015C48((void *)(*(u32 *)p), &vec[3]);
         return;
     }
-    func_02015C48(*(u32 *)p, (char *)p + 0x28);
+    func_02015C48((void *)(*(u32 *)p), (u32 *)((char *)p + 0x28));
 }

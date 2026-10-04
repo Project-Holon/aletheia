@@ -28,16 +28,17 @@ typedef short s16;
 
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *a);
-extern int func_02161824(int a, int b);
-extern void func_02012374(int a, int b);
+struct Evt;
+extern void *func_02161824(void *a, void *b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
 extern void func_02029D44(u32 a, u32 b, u32 c, u32 d);
 extern void func_02029D7C(int a, int b);
-extern int func_02184360(u8 *p, int a);
+extern void *func_02184360(u8 *p, int value);
 extern int func_02188D20(int a);
-extern void func_021BC550(int a, int b);
-extern int func_021BE8D4(int a, int b, int c, int d);
-extern int func_021BE92C(int a, int b, int c, int d, int e, int f, int g);
+extern void func_021BC550(void *p, int v);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 int func_0218466C(int ctx, int *state, u8 *p)
 {
@@ -53,11 +54,11 @@ int func_0218466C(int ctx, int *state, u8 *p)
 
     switch (*state) {
     case 0:
-        func_02012374(ctx, func_02161824(x, z));
+        func_02012374((struct Evt *)ctx, func_02161824((void *)x, (void *)z));
         (*state)++;
         break;
     case 8:
-        func_02012374(ctx, func_021BE8D4(x, z, 2, 0));
+        func_02012374((struct Evt *)ctx, (struct Evt **)func_021BE8D4((void *)x, z, 2, 0));
         (*state)++;
         break;
     case 9:
@@ -66,15 +67,15 @@ int func_0218466C(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 10:
-        func_02012374(ctx, func_02184360(p, *(u8 *)(p + 0x30)));
+        func_02012374((struct Evt *)ctx, func_02184360(p, *(u8 *)(p + 0x30)));
         (*state)++;
         break;
     case 11:
-        func_02012374(ctx, func_021BE92C(x, z, 2, 0, 0, 0, 0));
+        func_02012374((struct Evt *)ctx, (struct Evt **)func_021BE92C((void *)x, z, 2, 0, 0, 0, 0));
         (*state)++;
         break;
     case 12:
-        func_021BC550(func_02188D20(z), *(s16 *)(p + 0x14));
+        func_021BC550((void *)func_02188D20(z), *(s16 *)(p + 0x14));
         return 1;
     default:
         (*state)++;

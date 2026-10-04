@@ -55,20 +55,21 @@ struct WordSet;
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern int func_021FC21C(char *);
-extern void func_021FB964(int, int, int);
+struct MsgBank;
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
-extern int func_021DE058(int, int);
+extern int func_021DE058(void *p, void *q);
 extern void *func_021FC6A4(u16, unsigned, u16, u16, u8, u8, void *, u16);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAD8(struct Blk1AC *p, u32 i);
-extern void *func_02045EC0(int, int);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021FC7C4(char *, void *, void *, u16);
-extern int func_0200DABC(int);
+extern u16 func_0200DABC(struct Blk1AC *p);
 extern int func_021FC124(int, int, struct Triple *);
 extern void func_021DE084(char *, void *, const char *, unsigned, short, short, u16);
 void func_021DDA2C(char *p, char *q)
@@ -94,8 +95,8 @@ void func_021DDA2C(char *p, char *q)
   second = func_021FC214(*((char **) (q + 8)));
   third = func_021FC21C(*((char **) (q + 8)));
   tmp = *((u16 *) (p + 0x7c));
-  func_021FB964(*((int *) (q + 8)), 12, tmp);
-  if (func_021DE058(*((int *) (q + 0x10)), *((int *) (q + 0x14))))
+  func_021FB964((void *)(*((int *) (q + 8))), 12, tmp);
+  if (func_021DE058((void *)(*((int *) (q + 0x10))), (void *)(*((int *) (q + 0x14)))))
   {
     select = 7;
     select2 = 8;
@@ -118,11 +119,11 @@ void func_021DDA2C(char *p, char *q)
       {
       }
       case 1:
-        obj = func_02045EC0(second, (func_021DE058(*((int *) (q + 0x10)), *((int *) (q + 0x14)))) ? (0x85) : (0x80));
+        obj = func_02045EC0((struct MsgBank *)second, (func_021DE058((void *)(*((int *) (q + 0x10))), (void *)(*((int *) (q + 0x14))))) ? (0x85) : (0x80));
         break;
 
       case 3:
-        obj = func_02045EC0(second, (func_0200DB44(*((void **) (q + 0x10)), select)) ? (0x91) : (0x87));
+        obj = func_02045EC0((struct MsgBank *)second, (func_0200DB44(*((void **) (q + 0x10)), select)) ? (0x91) : (0x87));
         break;
 
       case 4:
@@ -131,7 +132,7 @@ void func_021DDA2C(char *p, char *q)
         number1 = func_0200DAC4(*((void **) (q + 0x10)), select);
         if (number1 > 9999)
           number1 = 9999;
-        base = func_02045EC0(second, rec->value);
+        base = func_02045EC0((struct MsgBank *)second, rec->value);
         obj = func_020457B0(0x80, *((u16 *) (p + 0x7c)));
         func_0201EFA4((void *) third, 0, number1, 4, 1, 1);
         func_0201F250((void *) third, obj, base);
@@ -145,7 +146,7 @@ void func_021DDA2C(char *p, char *q)
         number2 = func_0200DAD8(*((void **) (q + 0x10)), select);
         if (number2 > 9999)
           number2 = 9999;
-        base = func_02045EC0(second, rec->value);
+        base = func_02045EC0((struct MsgBank *)second, rec->value);
         obj = func_020457B0(0x80, *((u16 *) (p + 0x7c)));
         func_0201EFA4((void *) third, 0, number2, 4, 1, 1);
         func_0201F250((void *) third, obj, base);
@@ -154,7 +155,7 @@ void func_021DDA2C(char *p, char *q)
       }
 
       case 10:
-        obj = func_02045EC0(second, (func_0200DB44(*((void **) (q + 0x10)), select2)) ? (0x91) : (0x87));
+        obj = func_02045EC0((struct MsgBank *)second, (func_0200DB44(*((void **) (q + 0x10)), select2)) ? (0x91) : (0x87));
         break;
 
       case 11:
@@ -163,7 +164,7 @@ void func_021DDA2C(char *p, char *q)
         number3 = func_0200DAC4(*((void **) (q + 0x10)), select2);
         if (number3 > 9999)
           number3 = 9999;
-        base = func_02045EC0(second, rec->value);
+        base = func_02045EC0((struct MsgBank *)second, rec->value);
         obj = func_020457B0(0x80, *((u16 *) (p + 0x7c)));
         func_0201EFA4((void *) third, 0, number3, 4, 1, 1);
         func_0201F250((void *) third, obj, base);
@@ -177,7 +178,7 @@ void func_021DDA2C(char *p, char *q)
         number4 = func_0200DAD8(*((void **) (q + 0x10)), select2);
         if (number4 > 9999)
           number4 = 9999;
-        base = func_02045EC0(second, rec->value);
+        base = func_02045EC0((struct MsgBank *)second, rec->value);
         obj = func_020457B0(0x80, *((u16 *) (p + 0x7c)));
         func_0201EFA4((void *) third, 0, number4, 4, 1, 1);
         func_0201F250((void *) third, obj, base);
@@ -186,7 +187,7 @@ void func_021DDA2C(char *p, char *q)
       }
 
       default:
-        obj = func_02045EC0(second, rec->value);
+        obj = func_02045EC0((struct MsgBank *)second, rec->value);
         break;
 
     }
@@ -196,7 +197,7 @@ void func_021DDA2C(char *p, char *q)
     func_02045808(obj);
   }
 
-  v = func_0200DABC(*((int *) (q + 0x10)));
+  v = func_0200DABC((struct Blk1AC *)(*((int *) (q + 0x10))));
   func_021FC124(*((int *) (q + 8)), 13, &triple);
   func_021DE084(p + 8, *((void **) (q + 4)), (const char *) (&triple), v, 0xa0, 0x20, *((u16 *) (p + 0x7c)));
 }

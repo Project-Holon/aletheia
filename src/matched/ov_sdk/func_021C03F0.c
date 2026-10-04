@@ -30,10 +30,10 @@ struct G {
     s8  f63;
 };
 
-extern int   func_021D4FE0(int a, int b);
+extern char *func_021D4FE0(char *p, unsigned int i);
 extern void  func_021D52D4(int a, int b, int c);
-extern void  func_021D51F0(int a, int b, int c);
-extern void  func_021D5118(int a, int b, int c, int d);
+extern void func_021D51F0(void *cell, int idx, int priority);
+extern void func_021D5118(void *cell, int idx, int x, int y);
 extern struct G *g_021DE560;
 extern u16   d_021DA3D8[][2];
 extern u16   d_021DA3DA[][2];
@@ -47,10 +47,10 @@ void func_021C03F0(void)
     g = g_021DE560;
     if (g->f63 > 0xb)
         sel = 0x45;
-    v = func_021D4FE0(g->f58, 0);
+    v = (int)func_021D4FE0((char *)g->f58, 0);
     func_021D52D4(0, sel, v);
     g = g_021DE560;
-    func_021D51F0(g->f58, -1, 2);
+    func_021D51F0((void *)g->f58, -1, 2);
     g = g_021DE560;
-    func_021D5118(g->f58, -1, d_021DA3D8[g->f63][0], d_021DA3DA[g->f63][0]);
+    func_021D5118((void *)g->f58, -1, d_021DA3D8[g->f63][0], d_021DA3DA[g->f63][0]);
 }

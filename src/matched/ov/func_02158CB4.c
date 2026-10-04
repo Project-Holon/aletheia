@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
-extern int func_0215A5A4();
+extern int func_0215A5A4(int a0);
 extern int func_020307B0();
 extern int func_02011264();
 
@@ -34,7 +34,7 @@ int func_02158CB4(int a0)
 t4 = a0 + 0;
     p = func_02011324((struct ScriptVm *)a0);
 loc_02158CBC:
-    a0 = func_0215A5A4(p);
+    a0 = func_0215A5A4((int)p);
 loc_02158CC0:
 a0 = *(int *)((char *)t4 + 0x2c);
     a0 = func_020307B0(a0);

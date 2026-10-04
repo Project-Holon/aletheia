@@ -15,11 +15,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0202570C(int);
+struct Grid;
+extern void func_0202570C(struct Grid *g);
 
 void func_021C0794(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        func_0202570C(p[i + 0xEA]);
+        func_0202570C((struct Grid *)p[i + 0xEA]);
 }

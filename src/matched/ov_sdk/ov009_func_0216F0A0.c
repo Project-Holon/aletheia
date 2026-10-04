@@ -45,7 +45,7 @@ struct DWCstMatchControl {
 };
 
 extern int func_0216B994(void);
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_0216EB68(int error, int errorCode);
 extern void NNCancel(int cookie);
 extern int func_0217603C(void);
@@ -60,29 +60,29 @@ int func_0216F0A0(int error, int errorCode)
 
     if (func_0216B994() != 4)
         return 0;
-    if (func_02175F3C()->f14 == 2)
+    if (((struct DWCstMatchControl *)func_02175F3C())->f14 == 2)
         return 1;
     if (error != 0) {
         func_0216EB68(error, errorCode - 80000);
         return 1;
     }
-    if (func_02175F3C()->f62a == 1 || func_02175F3C()->f629 == 1)
+    if (((struct DWCstMatchControl *)func_02175F3C())->f62a == 1 || ((struct DWCstMatchControl *)func_02175F3C())->f629 == 1)
         return 1;
-    if (func_02175F3C()->f618 != 0) {
-        NNCancel(func_02175F3C()->f618);
-        func_02175F3C()->f618 = 0;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f618 != 0) {
+        NNCancel(((struct DWCstMatchControl *)func_02175F3C())->f618);
+        ((struct DWCstMatchControl *)func_02175F3C())->f618 = 0;
     }
     if (func_0217603C() > 1) {
-        if (func_02175F3C()->f629 == 0) {
-            func_02175F3C()->f629 = 2;
-            func_02195DE4(*func_02175F3C()->gt2Socket);
+        if (((struct DWCstMatchControl *)func_02175F3C())->f629 == 0) {
+            ((struct DWCstMatchControl *)func_02175F3C())->f629 = 2;
+            func_02195DE4(*((struct DWCstMatchControl *)func_02175F3C())->gt2Socket);
         }
-    } else if (func_02175F3C()->f15 == 3) {
+    } else if (((struct DWCstMatchControl *)func_02175F3C())->f15 == 3) {
         func_0216EB68(0x16, -80430);
-    } else if (func_02175F3C()->f61c == 1) {
+    } else if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 1) {
         func_02175F4C(0x15);
         tick = func_020870D0();
-        func_02175F3C()->f668 = tick;
+        ((struct DWCstMatchControl *)func_02175F3C())->f668 = tick;
     } else {
         func_02172BB8(1);
     }

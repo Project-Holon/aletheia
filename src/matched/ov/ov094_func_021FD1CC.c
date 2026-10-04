@@ -110,17 +110,18 @@ extern Rec *func_02051774(void *p);
 extern int func_021FD070(int a, int b);
 extern int func_021FCF2C(int a, int idx);
 extern int func_021FD088(int a, int *out);
-extern void *func_021F8694(void);
+struct ScriptVm;
+extern int func_021F8694(void);
 extern int func_021F8710(void);
 extern void func_021FF3FC(const Vec *def, Vec *out, int idx, int kind);
 extern void func_021FF3F4(void *obj, Vec *out, int idx);
 extern void func_021FE1B8(Vec *v, const Vec *ofs);
-extern void func_021FD8CC(void);
-extern char *func_02011324(int vm);
+extern void func_021FD8CC(void *p, int active);
+extern void *func_02011324(struct ScriptVm *vm);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern void func_02051A2C(void *p, Obj *o);
-extern void func_02051A24(void *p, void (*fn)(void));
+extern void func_02051A24(void *p, int v);
 extern int func_0207C768(int a, int b);
 extern int func_0207CF3C(const Vec *a, const Vec *b);
 extern void func_0207CCA4(const Vec *a, Vec *b);
@@ -135,8 +136,8 @@ extern void func_020517B4(void *p, Vec16 *v);
 extern void func_020519E4(void *p, Dir *d);
 extern void func_02051880(void *p, const Vec16 *v);
 extern int func_020517D0(void *p);
-extern int func_02051830(void *p);
-extern int func_02051820(void *p);
+extern unsigned short func_02051830(char *p);
+extern short func_02051820(char *p);
 extern int func_020517E0(void *p);
 extern void func_020517D8(void *p, int v);
 extern void func_020517E8(void *p, int v);
@@ -144,9 +145,9 @@ extern void func_020518A4(void *p, u16 v);
 extern void func_0205189C(void *p, int v);
 extern void func_02051790(void *p, Vec *v);
 extern void func_020517A4(void *p, const Vec *v);
-extern int func_020517F0(void *p);
+extern short func_020517F0(char *p);
 extern void func_02051800(void *p, int v);
-extern int func_02051808(void *p);
+extern short func_02051808(char *p);
 extern void func_02051818(void *p, int v);
 extern void func_02051838(void *p, const Vec *v);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
@@ -190,11 +191,11 @@ void func_021FD1CC(void *p)
         a.z = r->pa.z;
         break;
     case 14: case 15: case 16: case 17:
-        func_021FF3FC(func_021F8694(), &a, r->k1 - 12, 1);
+        func_021FF3FC((const Vec *)func_021F8694(), &a, r->k1 - 12, 1);
         r->k1 = -1;
         break;
     case 18: case 19: case 20: case 21:
-        func_021FF3FC(func_021F8694(), &a, r->k1 - 16, 1);
+        func_021FF3FC((const Vec *)func_021F8694(), &a, r->k1 - 16, 1);
         switch (r->k1) {
         case 18: a.z += 0x1a00; break;
         case 19: a.z += 0x2600; break;
@@ -205,7 +206,7 @@ void func_021FD1CC(void *p)
         break;
     }
     if (r->k1 != -1 && r->k1 != 8)
-        func_021FF3F4(func_021F8694(), &a, r->k1);
+        func_021FF3F4((void *)func_021F8694(), &a, r->k1);
     switch (r->k2) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
         r->k2 = func_021FD070(r->vm, r->k2);
@@ -221,7 +222,7 @@ void func_021FD1CC(void *p)
         flip = 1;
     case 11:
         n = func_021FD088(r->vm, &r->k2);
-        func_021FF3FC(func_021F8694(), &b, r->k2, n);
+        func_021FF3FC((const Vec *)func_021F8694(), &b, r->k2, n);
         r->k2 = -1;
         break;
     case 8:
@@ -230,11 +231,11 @@ void func_021FD1CC(void *p)
         b.z = r->pb.z;
         break;
     case 14: case 15: case 16: case 17:
-        func_021FF3FC(func_021F8694(), &b, r->k2 - 12, 1);
+        func_021FF3FC((const Vec *)func_021F8694(), &b, r->k2 - 12, 1);
         r->k2 = -1;
         break;
     case 18: case 19: case 20: case 21:
-        func_021FF3FC(func_021F8694(), &b, r->k2 - 16, 1);
+        func_021FF3FC((const Vec *)func_021F8694(), &b, r->k2 - 16, 1);
         switch (r->k1) {
         case 18: b.z += 0x1a00; break;
         case 19: b.z += 0x2600; break;
@@ -245,7 +246,7 @@ void func_021FD1CC(void *p)
         break;
     }
     if (r->k2 != -1 && r->k2 != 8)
-        func_021FF3F4(func_021F8694(), &b, r->k2);
+        func_021FF3F4((void *)func_021F8694(), &b, r->k2);
     func_021F8710();
     a.z += 0x500;
     b.z += 0x500;
@@ -263,11 +264,11 @@ void func_021FD1CC(void *p)
     }
     b.y += r->ofs.y;
     if (r->kind != 0) {
-        s = func_02011324(r->vm);
+        s = func_02011324((struct ScriptVm *)r->vm);
         *(Obj **)(s + 0x1f4 + *(int *)(s + 0x234) * 4) = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         o = *(Obj **)(s + 0x1f4 + *(int *)(s + 0x234) * 4);
         func_02051A2C(p, o);
-        func_02051A24(p, func_021FD8CC);
+        func_02051A24(p, (int)func_021FD8CC);
         *(int *)(s + 0x234) += 1;
         o->f38 = 0;
         o->f50 = 0;

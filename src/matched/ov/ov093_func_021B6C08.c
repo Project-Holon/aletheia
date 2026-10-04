@@ -30,8 +30,8 @@ struct S {
     u8 fc8[0xe8];
 };
 
-extern void func_021E9034(u32 a);
-extern void func_021CD8E0(u32 a);
+extern void func_021E9034(char *p);
+extern void func_021CD8E0(u8 *p);
 extern void func_021B9674(void *a);
 extern void func_021BAB5C(int a);
 
@@ -40,12 +40,12 @@ int func_021B6C08(int a0, struct S *s)
     u32 i;
 
     if (s->f04 != 0) {
-        func_021E9034(s->f04);
+        func_021E9034((char *)s->f04);
         s->f04 = 0;
     }
     for (i = 0; i < 4; i++) {
         if (s->f10[i] != 0) {
-            func_021CD8E0(s->f10[i]);
+            func_021CD8E0((u8 *)s->f10[i]);
         }
     }
     func_021B9674((u8 *)s + 0xc8);

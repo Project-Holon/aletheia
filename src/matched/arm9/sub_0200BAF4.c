@@ -45,7 +45,7 @@ extern void sub_0201A954(struct Party *p, s32 capacity);
 extern u32 sub_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
 extern void *sub_0201747C(struct Mon *p, u32 heap);
-extern void *sub_0200BBEC(int a, int b, int c);
+extern void *sub_0200BBEC(void *base, u32 i, u32 j);
 extern void  func_020307B0(void *p);
 
 void *sub_0200BAF4(int a0, int a1)
@@ -56,7 +56,7 @@ void *sub_0200BAF4(int a0, int a1)
     h = sub_0201A920(a1);
     sub_0201A954(h, 6);
     for (i = 0; i < 6; i++) {
-        void *p = sub_0200BBEC(a0, 0, i);
+        void *p = sub_0200BBEC((void *)a0, 0, i);
         int ok = sub_02017E88(p, 0xa9, 0);
         int v  = (a1 & 0x7fff) | 0x8000;
 

@@ -25,7 +25,8 @@ typedef struct { u8 *q; u8 f[4]; } Ent;
 struct S2;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D5B68(void *q);
-extern u32 func_021D5448(void *q);
+struct QG;
+extern u8 func_021D5448(struct QG *p);
 extern u8 func_021D5584(void *q, u8 i);
 extern u32 func_021D54C0(void *q, u8 i);
 extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
@@ -46,7 +47,7 @@ void func_021CECB4(u8 *p, Ent *out)
             e->f[j] = 0;
         }
         if (func_021D5B68(q) == 0) {
-            n = func_021D5448(q);
+            n = func_021D5448((struct QG *)q);
             for (k = 0; k < n; k++) {
                 if (func_021D5584(q, k) == 0 || func_021CF5B0(p, q, func_021D54C0(q, k), 0) != 0) {
                     e->f[k] = 0;

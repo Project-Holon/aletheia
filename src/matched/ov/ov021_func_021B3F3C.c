@@ -17,23 +17,24 @@
  *   func_0204B1CC 0x0204B1CC arm
  */
 
-extern void func_0204AFD8(void *a);
-extern void func_0204A8D4(void *a);
-extern void func_0204ADA4(void *a);
+typedef unsigned int   u32;
+extern void func_0204AFD8(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
 extern void func_02049238(void *a);
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
 
 void func_021B3F3C(char *w)
 {
-    func_0204AFD8(*(void **)(w + 0x1F4));
-    func_0204AFD8(*(void **)(w + 0x1E8));
-    func_0204AFD8(*(void **)(w + 0x1DC));
-    func_0204A8D4(*(void **)(w + 0x1F0));
-    func_0204A8D4(*(void **)(w + 0x1E4));
-    func_0204A8D4(*(void **)(w + 0x1D8));
-    func_0204ADA4(*(void **)(w + 0x1EC));
-    func_0204ADA4(*(void **)(w + 0x1D4));
+    func_0204AFD8((u32)(*(void **)(w + 0x1F4)));
+    func_0204AFD8((u32)(*(void **)(w + 0x1E8)));
+    func_0204AFD8((u32)(*(void **)(w + 0x1DC)));
+    func_0204A8D4((u32)(*(void **)(w + 0x1F0)));
+    func_0204A8D4((u32)(*(void **)(w + 0x1E4)));
+    func_0204A8D4((u32)(*(void **)(w + 0x1D8)));
+    func_0204ADA4((u32)(*(void **)(w + 0x1EC)));
+    func_0204ADA4((u32)(*(void **)(w + 0x1D4)));
     func_02049238(*(void **)(w + 0x1F8));
     func_0204B1CC(*(void **)(w + 0x1BC));
 }

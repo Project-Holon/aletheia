@@ -30,11 +30,14 @@ typedef struct {
 } Ov018Obj;
 
 void func_0217F36C(Ov018Obj *p);
-void func_02190EB8(void *, int, int, void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct P;
+void func_02190EB8(struct P *p, u32 b, u16 c, u32 d);
 
 void func_0217F3A4(Ov018Obj *p, void *a)
 {
     func_0217F36C(p);
-    func_02190EB8(p->f18, 0, 0, a);
+    func_02190EB8(p->f18, 0, 0, (u32)a);
     p->f28 = 1;
 }

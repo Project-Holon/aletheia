@@ -31,8 +31,8 @@ int func_021B9944(void *p, int i)
 
 void func_021B9950(void *p)
 {
-    void func_021BA020(void *);
-    func_021BA020((char *)p + 0x7c);
+    int func_021BA020(int *p);
+    func_021BA020((int *)((char *)p + 0x7c));
 }
 
 int func_021B995C(int *p, int i)

@@ -33,7 +33,7 @@ extern void func_021BC8EC(void);
 extern void func_021D5CA8(int x);
 extern void func_021D6090(int a, int b);
 extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern u8   g_021DE5B4[];
 extern void func_021C3D8C(void);
 extern void func_021C3B8C(void);
@@ -51,12 +51,12 @@ void func_021C32C0(void)
     func_021D6090(0, 0x15);
     func_021C0E50(0, 1);
     if (g_021DE5B4[0] == 0) {
-        func_021C0E40(func_021C3D8C);
+        func_021C0E40((unsigned int)func_021C3D8C);
         return;
     }
     if (g_021DE5B4[0] == 2) {
-        func_021C0E40(func_021C3B8C);
+        func_021C0E40((unsigned int)func_021C3B8C);
         return;
     }
-    func_021C0E40(func_021C33CC);
+    func_021C0E40((unsigned int)func_021C33CC);
 }

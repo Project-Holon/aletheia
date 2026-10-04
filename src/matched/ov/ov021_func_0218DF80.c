@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_02169538(int a, int *out);
+extern void func_02169538(unsigned char *a, int *out);
 
 void func_0218DF80(u8 *a)
 {
@@ -35,7 +35,7 @@ void func_0218DF80(u8 *a)
             u8 *cnt = a + 0x4C;
             int idx = (*(u8 **)(a + 0x44))[i];
             if (idx == 0xFF) break;
-            func_02169538(*(int *)(*(u8 **)(a + 0x24) + idx * 0x28), &w);
+            func_02169538((unsigned char *)(*(int *)(*(u8 **)(a + 0x24) + idx * 0x28)), &w);
             sum += w;
             if (*(int *)(a + 0x48) < sum) break;
             *cnt = *cnt + 1;

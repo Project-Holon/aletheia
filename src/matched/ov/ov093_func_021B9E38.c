@@ -21,10 +21,10 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern void *func_0200846C(int a);
-extern void func_02008494(int a, void *b);
+extern void func_02008494(void *src, void *dst);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern int func_02008510(void *a, int b);
+extern void *func_02008510(void *a, int tag);
 extern void func_0202428C(void *a);
 
 void func_021B9E38(char *p, int a, int b)
@@ -34,13 +34,13 @@ void func_021B9E38(char *p, int a, int b)
     void *h = func_0200846C(a);
 
     *(void **)p = h;
-    func_02008494(b, h);
+    func_02008494((void *)b, h);
     f = 0;
     *(u16 *)(p + 0xa) = 0;
     if (func_02008550(*(void **)p))
         f = 1;
     *(u16 *)(p + 8) = f;
-    *(int *)(p + 4) = func_02008510(*(void **)p, 0x12);
+    *(int *)(p + 4) = (int)func_02008510(*(void **)p, 0x12);
     func_0202428C(p + 0x18);
     func_0202428C(p + 0x20);
 }

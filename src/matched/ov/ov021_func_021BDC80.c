@@ -30,11 +30,11 @@ typedef struct {
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02188D20(u8 *p);
-extern void func_021BC550(int a, int b);
+extern void func_021BC550(void *p, int v);
 
 void func_021BDC80(Obj *p)
 {
     Inner *q = p->f0;
 
-    func_021BC550(func_02188D20(q->fC), q->s20);
+    func_021BC550((void *)func_02188D20(q->fC), q->s20);
 }

@@ -39,7 +39,7 @@ struct MsgBank;
 struct U16Vec;
 extern u16 func_0200CA8C(struct Blk37 *p);
 extern void *func_021B7754(struct Template *,u32);
-extern void func_021B7A10(void *,void *,u32,u32,u32);
+extern void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index);
 extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
 extern void func_02049238(void *);
@@ -69,9 +69,9 @@ void func_021BC9A8(struct Context *p)
     }
     p->list=func_021B7754(&tmpl,107);
     if(p->in->count<7)p->visible=p->in->count;else p->visible=7;
-    func_021B7A10(p->list,arc,66,0,0);
-    func_021B7A10(p->list,arc,67,0,1);
-    func_021B7A10(p->list,arc,68,0,2);
+    func_021B7A10(p->list,(u32)arc,66,0,0);
+    func_021B7A10(p->list,(u32)arc,67,0,1);
+    func_021B7A10(p->list,(u32)arc,68,0,2);
     func_021B7A4C(p->list,arc,48,2,3);
     func_02049238(arc);
     for(i=0;i<(*(struct Inputs **)p)->count;i++){

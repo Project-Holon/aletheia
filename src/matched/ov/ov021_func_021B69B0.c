@@ -26,14 +26,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *);
-extern int *func_02188D24(u32);
+extern int func_02158F58(int a0);
+extern u32 func_02188D24(u8 *p);
 extern int *func_021BB990(int, int *, const int *);
 extern u8 ov055_id[];
 extern const int d_021F45F0[];
 
 int func_021B69B0(void *a, void *b)
 {
-    func_021BB990((int)ov055_id, func_02188D24(func_02158F58(func_0215A5F4(b))[1]), d_021F45F0);
+    func_021BB990((int)ov055_id, (int *)func_02188D24((u8 *)(((u32 *)func_02158F58((int)func_0215A5F4(b)))[1])), d_021F45F0);
     return 0;
 }

@@ -47,12 +47,14 @@ struct B88020659D4 {
 };
 
 extern void  func_0206615C(int a);
-extern int   func_02067B50(int a);
-extern int   func_02067B64(int a);
+struct G2dOamState;
+struct Obj02065878;
+extern u32 func_02067B50(const struct G2dOamState *p);
+extern u32 func_02067B64(const struct G2dOamState *p);
 extern void  func_020663D0(fx32 x, fx32 y, fx32 z);
 extern void  func_02066620(fx32 sn, fx32 cs);
 extern void  func_020664CC(fx32 sx, fx32 sy, fx32 sz);
-extern void  func_02065878(int a);
+extern void func_02065878(struct Obj02065878 *c);
 extern void  func_02066380(int a);
 extern struct B88020659D4 g_02147B88;
 extern s16 g_020A1B38[];
@@ -73,9 +75,9 @@ void func_020659D4(struct Cmd020659D4 *c)
         y = c->unk_1a;
         x = c->unk_18;
 
-        if (func_02067B50(g_02147B88.unk_08) != 0)
+        if (func_02067B50((const struct G2dOamState *)g_02147B88.unk_08) != 0)
             x = -x;
-        if (func_02067B64(g_02147B88.unk_08) != 0)
+        if (func_02067B64((const struct G2dOamState *)g_02147B88.unk_08) != 0)
             y = -y;
 
         func_020663D0(x << 12, y << 12, 0);
@@ -90,6 +92,6 @@ void func_020659D4(struct Cmd020659D4 *c)
     if ((c->unk_1e & 2) != 0)
         func_020664CC(c->unk_10, c->unk_14, 0x1000);
 
-    func_02065878(a);
+    func_02065878((struct Obj02065878 *)a);
     func_02066380(1);
 }

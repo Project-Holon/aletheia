@@ -20,12 +20,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u32 *func_021AC1AC(u32 a);
+extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32 a, u32 *b);
 
 void func_021AE030(u32 a, u32 *out)
 {
-    u32 *p = func_021AC1AC(a);
+    u32 *p = (u32 *)func_021AC1AC(a);
 
     *out = p[0];
     func_021AC1CC(a, p + 1);

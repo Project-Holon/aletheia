@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 
 extern unsigned char abs_id_1f[];
 extern int func_02034AC4(int);
-extern u32 func_02188C80(u32);
-extern u32 func_021EFEC0(u32);
+extern void *func_02188C80(void *p);
+extern u32 *func_021EFEC0(void *a);
 
 void func_021A136C(u32 *p)
 {
     func_02034AC4((int)abs_id_1f);
-    p[8] = func_021EFEC0(func_02188C80(p[5]));
+    p[8] = (u32)func_021EFEC0(func_02188C80((void *)p[5]));
 }

@@ -32,21 +32,23 @@ typedef struct Obj {
 } Obj;
 
 extern void func_021B7D9C(Obj *o, int v);
-extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021B6204(Obj *o, int a, unsigned int b, int c, int d);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BADAC(void *p);
-extern void func_021B6100(Obj *o, void *fn);
+extern void func_021B6100(char *p, int k);
 extern void func_021B7868(struct Obj *o);
 
 void func_021B7804(Obj *o)
 {
     o->f7F4 = 1;
     func_021B7D9C(o, 1);
-    func_02045CAC(o->f51C, 0x35, o->f524);
+    func_02045CAC(o->f51C, 0x35, (void *)o->f524);
     func_021B6204(o, 0, o->f84C, 1, 0);
     func_0201F250(o->f520, o->f528, (void *)o->f524);
     func_021BADAC(o);
-    func_021B6100(o, (void *)func_021B7868);
+    func_021B6100((char *)o, (int)((void *)func_021B7868));
 }

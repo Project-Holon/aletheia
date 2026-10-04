@@ -24,13 +24,15 @@ typedef struct {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(int, int);
+typedef unsigned char  u8;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *);
 
 void func_021E8870(S *p)
 {
     int r = (int)func_02045770((struct Descriptor *)p->f14);
 
-    func_02043B5C(r, (unsigned char)p->f1c);
+    func_02043B5C((struct CharBuf *)r, (unsigned char)p->f1c);
     func_02045334((struct Descriptor *)p->f14);
 }

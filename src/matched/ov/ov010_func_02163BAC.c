@@ -15,7 +15,7 @@
  *   func_02163AF0  0x02163AF0  thumb
  */
 
-extern int func_0216D67C(int a);
+extern void *func_0216D67C(void *a0);
 extern int func_0216DD1C(int it, int *cur, int *v);
 extern int func_02163AF0(int a, int b, int c, int d, int e, int f);
 
@@ -26,7 +26,7 @@ int func_02163BAC(int a, int b, int c, int d)
     int it;
 
     v = 0;
-    it = func_0216D67C(a);
+    it = (int)func_0216D67C((void *)a);
     while (func_0216DD1C(it, &cur, &v) == 1) {
         if (a != cur) {
             if (func_02163AF0(a, cur, b, c, d, 1) == 1)

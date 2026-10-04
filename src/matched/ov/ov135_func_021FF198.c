@@ -20,7 +20,8 @@ typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern int func_021FFB00(int);
-extern void func_0204B878(unsigned, u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4EC0(void *, unsigned, unsigned);
 extern void func_020061E4(u32 a);
 int func_021FF198(char *p)
@@ -31,7 +32,7 @@ int func_021FF198(char *p)
     } else {
         r = func_021FFB00(*(int *)(p + 0xd0));
         if (*(u16 *)(p + 0xe1a) && r >= 0) {
-            func_0204B878(*(unsigned *)(p + 0xd0c + (r + 1) * 4), (u16)(16 + r * 4));
+            func_0204B878((struct Obj *)(*(unsigned *)(p + 0xd0c + (r + 1) * 4)), (u16)(16 + r * 4));
             *(int *)(p + 0x28) = 2;
             func_021F4EC0(p, 3, 0);
             *(int *)(p + 0xd4) = r;

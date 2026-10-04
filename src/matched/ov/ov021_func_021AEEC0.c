@@ -19,13 +19,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u32 func_02011330(u32 a);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02005F38(void);
 
 int func_021AEEC0(u32 a, u32 b)
 {
-    func_02011330(a);
+    func_02011330((struct Stream *)a);
     *func_02159AE8((void *)a, (void *)b) = func_02005F38();
     return 0;
 }

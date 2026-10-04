@@ -30,12 +30,14 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(int a);
+struct Desc;
+struct Evt;
+extern int func_02189A08(unsigned char *p);
 extern u32 func_021CF560(u32 *p);
 extern void *func_02189A00(u8 *p);
 extern int func_021C1DCC(int a, char *b, int c, int d);
-extern int func_020122C0(void *a, void *b, void *cb, int n);
-extern void func_02012374(void *a, int b);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern int func_021F5488(void *task, int *st);
@@ -49,7 +51,7 @@ int func_021F53C8(void *task, int *st)
 
     t = func_020124E4(task);
     v = func_0201210C(t);
-    w = (int *)func_021CF560((u32 *)func_02189A08((int)v));
+    w = (int *)func_021CF560((u32 *)func_02189A08((unsigned char *)((int)v)));
     switch (*st) {
     case 0:
         func_0204E720(4, 0, 0x10, 0);
@@ -69,10 +71,10 @@ int func_021F53C8(void *task, int *st)
             } else {
                 r = func_021C1DCC((int)t, func_02189A00((u8 *)v), w[1], w[2]);
                 if (r != 0) {
-                    func_02012374(task, r);
+                    func_02012374(task, (struct Evt **)r);
                 } else {
-                    r = func_020122C0(t, task, (void *)func_021F5488, 0);
-                    func_02012374(task, r);
+                    r = (int)func_020122C0(t, task, (void *)func_021F5488, 0);
+                    func_02012374(task, (struct Evt **)r);
                 }
                 *st = *st + 1;
             }

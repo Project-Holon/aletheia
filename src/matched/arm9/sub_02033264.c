@@ -36,8 +36,8 @@ struct SaveBackup {
     u32 unk140;
 };
 
-extern u32 func_02033B68(u32 table, u32 i);
-extern u32 func_02033BAC(u32 table, u32 id);
+extern u32 func_02033B68(u8 *p, u32 i);
+extern u32 func_02033BAC(u8 *p, u32 i);
 
 u16 sub_02033264(struct SaveBackup *p, u32 id)
 {
@@ -45,8 +45,8 @@ u16 sub_02033264(struct SaveBackup *p, u32 id)
     u32 off;
     u16 *q;
 
-    base = func_02033B68(p->unk2C, id);
-    off = func_02033BAC(p->unk2C, id);
+    base = func_02033B68((u8 *)p->unk2C, id);
+    off = func_02033BAC((u8 *)p->unk2C, id);
     q = (u16 *)(p->unk34 + (base + off));
     *q = *q + 1;
     return *q;

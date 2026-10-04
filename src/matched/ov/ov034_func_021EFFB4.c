@@ -27,7 +27,8 @@
 extern int func_0201C6B4(int);
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
-extern void func_02045374(int);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 extern void func_0201C4E4(int);
 struct Descriptor;
@@ -46,7 +47,7 @@ void func_021EFFB4(int *p)
         func_02040588(5, 1);
         func_02040588(6, 1);
         for (i = 0; i < 8; i++)
-            func_02045374(p[3 + i * 2]);
+            func_02045374((struct Cfg *)p[3 + i * 2]);
         func_02041B6C(5);
         p[0x4A] |= 2;
     }

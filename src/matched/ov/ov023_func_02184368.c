@@ -46,11 +46,11 @@ typedef struct W {
 } W;
 
 extern u16 func_02039338(void);
-extern u32 func_021841A4(u32 x);
-extern u32 func_021841A0(u32 x);
+extern int func_021841A4(unsigned char *p);
+extern unsigned char func_021841A0(unsigned char *p);
 extern u32 func_02080D24(u32 x);
-extern void func_02184134(u32 x);
-extern void func_02186860(W *p, int x, int y);
+extern void func_02184134(u8 *p);
+extern void func_02186860(char *p, int x, unsigned char y);
 extern void func_02185AB0(W *p, int a, int b);
 
 void func_02184368(int a, int b, const Msg *m, W *p)
@@ -69,18 +69,18 @@ void func_02184368(int a, int b, const Msg *m, W *p)
         p->msg.b1 = p->f1ac;
         switch (m->b2) {
         case 0:
-            if (p->f1ac != func_021841A4(*p->h4)
-                || p->f1ac != func_02080D24(func_021841A0(*p->h4))) {
+            if (p->f1ac != func_021841A4((unsigned char *)(*p->h4))
+                || p->f1ac != func_02080D24(func_021841A0((unsigned char *)(*p->h4)))) {
                 p->msg.b3 = 0;
             } else {
                 p->msg.b3 = 1;
-                func_02184134(*p->h4);
+                func_02184134((u8 *)(*p->h4));
             }
             break;
         case 1:
             break;
         }
-        func_02186860(p, 0x2905, 0);
+        func_02186860((char *)p, 0x2905, 0);
         return;
     }
     switch (m->b2) {

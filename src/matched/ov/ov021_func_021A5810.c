@@ -44,8 +44,8 @@ struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_02164208(int dir, Vec3 *p, int amt);
 extern int func_02162564(int a, Vec3 *p);
-extern int func_021625CC(int a, int b);
-extern int func_021626B8(int a, int b);
+extern void *func_021625CC(char *p, unsigned i);
+extern int func_021626B8(char *a0, int a1);
 
 int func_021A5810(u8 *p, int dir)
 {
@@ -62,7 +62,7 @@ int func_021A5810(u8 *p, int dir)
     if (i == 0xffff) {
         return 0;
     }
-    if (func_021626B8(func_021625CC(h, (u16)i), dir)) {
+    if (func_021626B8(func_021625CC((char *)h, (u16)i), dir)) {
         return 1;
     }
     return 0;

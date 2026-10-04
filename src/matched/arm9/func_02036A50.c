@@ -34,8 +34,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int   func_020369C8(u32 list);
-extern void  func_020369F8(u32 list);
+typedef unsigned char  u8;
+extern u32 func_020369C8(u32 *p);
+extern void func_020369F8(u8 *p);
 extern int   func_020367C4(int slot, u16 *info, u32 arg, int flag);
 extern void *func_02082BCC(void *dst, int val, u32 size);
 
@@ -46,11 +47,11 @@ int func_02036A50(u32 list, u16 *info)
     if (info[2] == 0)
         goto done;
     while (1) {
-        int slot = func_020369C8(list);
+        int slot = func_020369C8((u32 *)list);
 
         if (slot == 0)
             goto done;
-        func_020369F8(list);
+        func_020369F8((u8 *)list);
         if (func_020367C4(slot, info, *(u32 *)(list + 0x14), flag) == 0) {
             *(u32 *)(list + 0x10) = slot;
             goto done;

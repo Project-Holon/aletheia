@@ -49,7 +49,7 @@ extern u8 *func_02012944(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_02182214();
 extern void *func_020124E8(struct Obj *p);
-extern void func_020084F8(void *, void *, int);
+extern u32 func_020084F8(void *dst, u32 value, u32 size);
 extern void func_0217F2B4(Task *, void *);
 
 void *func_021821B0(void *a, Src *b)
@@ -65,7 +65,7 @@ void *func_021821B0(void *a, Src *b)
     s = func_02012944(t0);
     t = func_020122C0(a, 0, func_02182214, 0x54);
     p = func_020124E8(t);
-    func_020084F8(s, p->f30, 8);
+    func_020084F8(s, (u32)p->f30, 8);
     p->f40 = q[1];
     p->f42 = q[0];
     p->f44 = b->f28;

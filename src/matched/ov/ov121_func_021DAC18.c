@@ -53,7 +53,7 @@ extern void func_021DB018(char *,u16);
 extern void func_021DB478(char *,int,int,int,u16);
 extern void *func_021DA1BC(void *,const char *,u32,u16,u16,u32,u32,int,u16);
 extern void *func_021DCFC8(const Desc *,u16);
-extern int func_021DBDBC(void *);
+extern u32 func_021DBDBC(u32 p);
 extern int func_021DBF04(void *);
 extern char *func_021DC02C(void *);
 extern void *func_021DD24C(void *,void *,void *,u16);
@@ -99,7 +99,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     d.w[6]=*(u32 *)(out+8);d.w[7]=*(u32 *)(out+12);d.w[8]=*(u32 *)(out+28);
     d.w[9]=*(u32 *)(out+16);d.w[10]=*(u32 *)(out+20);d.w[11]=*(u32 *)(out+24);
     *(void **)(out+0xab0)=func_021DCFC8(&d,heap);
-    if(func_021DBDBC(out)) {
+    if(func_021DBDBC((u32)out)) {
         for(j=0;j<12;j++) {
             if(func_021DBF04(out+40+j*0xdc))
                 *(void **)(out+0xa7c+j*4)=func_021DD24C(func_021DC02C(out+40+j*0xdc),*(void **)(out+0xab0),(void *)src->w[8],heap);

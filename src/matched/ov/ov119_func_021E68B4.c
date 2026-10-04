@@ -11,10 +11,11 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 static inline void clear(int p, int i) {
     if (*(int *)(p+i*4+0x10ac)) {
-        func_0204B3B4(*(int *)(p+i*4+0x10ac));
+        func_0204B3B4((struct Obj *)(*(int *)(p+i*4+0x10ac)));
         *(int *)(p+(unsigned int)i*4+0x10ac)=0;
     }
 }

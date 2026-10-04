@@ -31,11 +31,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef struct { u16 x; s16 n; u32 v; } St;
 extern St *func_0216D69C(u32);
-extern int func_0216D5A8(u32);
+extern u32 func_0216D5A8(u8 *p);
 extern int func_02164168(int a);
 extern int func_0219B0C4(void);
-extern u32 func_0216D5F8(u32);
-extern u32 func_0216D5A0(u32);
+extern u16 func_0216D5F8(void *p);
+extern u16 func_0216D5A0(void *p);
 extern u16 func_0219A1E8(u32, u32);
 extern int func_0219B200(int a, int id, int end);
 extern u16 func_0219B0F0(void *, int);
@@ -51,10 +51,10 @@ void func_0219A150(u32 a)
     u32 t;
     u16 q;
     p = func_0216D69C(a);
-    if (func_0216D5A8(a) == 11) {
+    if (func_0216D5A8((u8 *)a) == 11) {
         if (func_02164168(a) == 1 && func_0219B0C4() == 1) {
-            t = func_0216D5F8(a);
-            q = func_0219A1E8(func_0216D5A0(a), t);
+            t = func_0216D5F8((void *)a);
+            q = func_0219A1E8(func_0216D5A0((void *)a), t);
             if (q != 9)
                 func_0216D5E0(a, q);
         }

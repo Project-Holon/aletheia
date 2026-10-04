@@ -18,10 +18,17 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Template { int heap; u8 count,pad[3]; int ptr,flag; u8 x,y,z,w; };
-extern int func_020457B0(unsigned int,unsigned int);
-extern void func_02045CAC(int,int,int);
-extern int func_02027778(struct Template *,int);
-extern void func_02027CD8(int,int),func_02045808(int),func_021B967C(int,int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct TaskMenu;
+struct TaskMenuTmpl;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern void func_02027CD8(int,int);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_021B967C(int,int);
 void func_021BA1D0(int a) {
  struct Template t;
  int v;
@@ -30,20 +37,20 @@ void func_021BA1D0(int a) {
  t.ptr=a+0xcc8;
  t.flag=1;
  t.x=32; t.y=13; t.z=13; t.w=3;
- v=func_020457B0(100,t.heap);
+ v=(int)func_020457B0(100,t.heap);
  *(int *)(a+0xcc8)=v;
- func_02045CAC(*(int *)(a+0x288),26,v);
+ func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),26,(void *)v);
  *(u16 *)(a+0xccc)=0x39e3;
- v=func_020457B0(100,*(u16 *)(a+0x278));
+ v=(int)func_020457B0(100,*(u16 *)(a+0x278));
  *(int *)(a+0xcd4)=v;
- func_02045CAC(*(int *)(a+0x288),27,v);
+ func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),27,(void *)v);
  *(u16 *)(a+0xcd8)=0x39e3;
  *(int *)(a+0xcd0)=0;
  *(int *)(a+0xcdc)=0;
- v=func_02027778(&t,*(int *)(a+0xcc4));
+ v=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(*(int *)(a+0xcc4)));
  *(int *)(a+0xcc0)=v;
  switch(*(int *)(a+0x24c)) {case 9: case 10: case 11: break; default: func_02027CD8(v,1); break;}
- func_02045808(*(int *)(a+0xcc8));
- func_02045808(*(int *)(a+0xcd4));
+ func_02045808((struct U16Vec *)(*(int *)(a+0xcc8)));
+ func_02045808((struct U16Vec *)(*(int *)(a+0xcd4)));
  func_021B967C(a,1);
 }

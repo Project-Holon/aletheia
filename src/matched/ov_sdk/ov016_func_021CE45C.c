@@ -28,7 +28,7 @@ extern void func_021D0014(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021BCB9C(void);
-extern void func_021C0E40(void (*proc)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021D0DC8(unsigned int v);
 extern void func_021CE564(void);
 extern void func_021CE2D4(void);
@@ -46,25 +46,25 @@ void func_021CE45C(int state)
         func_021CFFAC(0x12);
         func_021D1208(0x10, 1, 1, -1, 0);
         func_021BCB9C();
-        func_021C0E40(func_021CE564);
+        func_021C0E40((unsigned int)func_021CE564);
         break;
     case 1:
         g_021DE62C = 1;
         func_021D0014();
-        func_021C0E40(func_021CE2D4);
+        func_021C0E40((unsigned int)func_021CE2D4);
         break;
     case 2:
         func_021D0014();
         func_021D0DC8(0);
         func_021D1208(0x11, 0, 1, -1, 0);
         func_021BCB9C();
-        func_021C0E40(func_021CE5B0);
+        func_021C0E40((unsigned int)func_021CE5B0);
         break;
     case 3:
         g_021DE62C = 2;
         func_021D0014();
         func_021CFFAC(9);
-        func_021C0E40(func_021CE2D4);
+        func_021C0E40((unsigned int)func_021CE2D4);
         break;
     }
 }

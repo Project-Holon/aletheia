@@ -27,9 +27,9 @@ typedef struct {
     u32 a;
 } Rec;
 
-extern void func_021C0E3C(u32);
+extern void func_021C0E3C(void *p);
 
 void func_021BA68C(Rec *p)
 {
-    func_021C0E3C(p->a);
+    func_021C0E3C((void *)p->a);
 }

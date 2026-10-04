@@ -134,7 +134,8 @@ struct U16Vec;
 extern u8 *func_02012944(void *p);
 extern u32 func_02008530(void *p);
 extern u16 *func_020084F4(void *p);
-extern u32 func_02008550(void *p);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_020173F0(u16 species, u16 level, u64 id, int heap);
 extern u32 func_020186C8(u32 a0, u16 a1, u8 a2, int a3, int a4, int a5);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
@@ -327,7 +328,7 @@ void *func_02157E9C(const GiftMon *g, int heap, void *save)
     if (g->otGender <= 2)
         func_02017E40(pp, 0x9A, g->otGender);
     else
-        func_02017E40(pp, 0x9A, func_02008550(func_02012944(save)));
+        func_02017E40(pp, 0x9A, func_02008550((const struct Sub0200852CObj *)func_02012944(save)));
     if (g->isEgg) {
         func_02017E40(pp, 0x4C, 1);
         name = func_02045EC0(d_020A7370, 0x28A);

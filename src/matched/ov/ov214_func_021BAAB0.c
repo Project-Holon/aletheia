@@ -13,7 +13,7 @@
  *   func_021BABA4 0x021BABA4 thumb
  */
 
-extern void func_021BABA4(void *, int);
+extern void func_021BABA4(void *p, void *actor);
 
 void func_021BAAB0(int unused, int base)
 {
@@ -24,7 +24,7 @@ void func_021BAAB0(int unused, int base)
         char *q = (char *)base + 0xd4 + j * 0xf0;
         for (i = 0; i < 6; i++) {
             if (*(int *)(p + 0xc4 + i * 0x28) != 0) {
-                func_021BABA4(q + i * 0x28, *(int *)(p + 0xe4 + i * 0x28));
+                func_021BABA4(q + i * 0x28, (void *)(*(int *)(p + 0xe4 + i * 0x28)));
             }
         }
     }

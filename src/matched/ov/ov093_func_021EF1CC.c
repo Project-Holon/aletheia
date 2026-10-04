@@ -30,16 +30,17 @@ typedef struct {
 } D;
 
 extern D d_021F6398;
-extern void func_02045CAC(u32, u32, u32);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u8 func_021EEF98(void *s);
 extern void func_021EF280(u32 a, u32 b, u32 c);
-extern void func_021EF204(u32 a, u32 b, u32 c);
+extern void func_021EF204(u32 a, u32 b, u32 *p);
 
 void func_021EF1CC(u32 a, u32 b, u32 c)
 {
-    func_02045CAC(d_021F6398.t[1], b, d_021F6398.fc);
+    func_02045CAC((struct MsgBank *)d_021F6398.t[1], b, (void *)d_021F6398.fc);
     if (func_021EEF98((void *)d_021F6398.fc) == 2)
         func_021EF280(a, b, c);
     else
-        func_021EF204(a, b, c);
+        func_021EF204(a, b, (u32 *)c);
 }

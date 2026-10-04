@@ -16,10 +16,11 @@
  */
 
 extern void func_021BFBF8(int p, signed char v);
-extern void func_021BF728(int p, int a);
+typedef unsigned char  u8;
+extern void func_021BF728(u8 *p, int a);
 
 void func_021C06AC(int p, int v)
 {
     func_021BFBF8(p, -v);
-    func_021BF728(p, 1);
+    func_021BF728((u8 *)p, 1);
 }

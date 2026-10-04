@@ -11,13 +11,14 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_021B6284 0x021B6284 thumb ov067
  */
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_021B6284(unsigned int *p);
 
 void func_021E5EF8(void *p)
 {
     if (*(int *)((char *)p + 0x10)) {
-        func_0204B3B4(*(int *)((char *)p + 0x10));
+        func_0204B3B4((struct Obj *)(*(int *)((char *)p + 0x10)));
         func_021B6284(p);
         *(int *)((char *)p + 0x10) = 0;
     }

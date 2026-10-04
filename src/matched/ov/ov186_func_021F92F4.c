@@ -23,11 +23,11 @@ extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 typedef struct {int x[3];} S;
 extern void func_021FE768(S *);
-extern void func_021FEE00(int);
-extern void func_021F9A80(int);
+extern void func_021FEE00(char *p);
+extern void func_021F9A80(char *p);
 extern void func_021FC4C8(char *);
-extern void func_021FF52C(int);
-extern int func_021F9B98(int);
+extern void func_021FF52C(char *p);
+extern int func_021F9B98(int *p);
 int func_021F92F4(int sys,int *state,int unused,int *p)
 {
     switch(*state) {
@@ -36,11 +36,11 @@ int func_021F92F4(int sys,int *state,int unused,int *p)
     case 2: if(!func_0204E804()) *state=3; break;
     case 3:
         func_021FE768((S *)p[3]);
-        func_021FEE00(p[4]);
-        func_021F9A80(p[2]);
+        func_021FEE00((char *)p[4]);
+        func_021F9A80((char *)p[2]);
         func_021FC4C8((char *)p[0]);
-        if(p[5]) func_021FF52C(p[5]);
-        if(func_021F9B98(p[2])) *state=4;
+        if(p[5]) func_021FF52C((char *)p[5]);
+        if(func_021F9B98((int *)p[2])) *state=4;
         break;
     case 4: func_0204E720(3,0,16,0); *state=5; break;
     case 5: if(!func_0204E804()) *state=6; break;

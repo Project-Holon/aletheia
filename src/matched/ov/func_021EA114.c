@@ -20,7 +20,7 @@
  */
 
 
-extern void func_021EC768(int, int, int);
+extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021ED594(char *p, unsigned i);
 extern void func_021EE038(char *, int, int, int);
 extern int func_021E8FC0(char *p, int a, int b);
@@ -28,7 +28,7 @@ void func_021EA114(char *p, int a)
 {
     *(unsigned char *)(p + 0x18) = 1;
     *(unsigned char *)(p + 0x16) = a;
-    func_021EC768(*(int *)(p + 0x2c), 0x24, 0);
+    func_021EC768((char *)(*(int *)(p + 0x2c)), 0x24, 0);
     func_021ED594(p, 0x24);
     func_021EE038(p, 2, 1, 0);
     func_021E8FC0(p, 0x021E0779, 0x15);

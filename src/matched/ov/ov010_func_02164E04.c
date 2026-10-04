@@ -35,7 +35,7 @@ typedef struct Ent {
 } Ent;
 
 extern int   func_02178098(u8 a);
-extern Ent  *func_0203CF10(int a);
+extern u32 func_0203CF10(u32 a);
 extern Ent  *func_02164F9C(Ent *a, Ent *b);
 extern void func_02177BF4(unsigned int idx);
 
@@ -54,14 +54,14 @@ Ent *func_02164E04(u8 *obj, int *out)
         if (r == 2 && *(u32 *)(obj + 0xc) != 0) {
             continue;
         }
-        p = func_0203CF10(i);
+        p = (Ent *)func_0203CF10(i);
         if (p == 0) {
             continue;
         }
         if (p->lo < p->hi) {
             if (best == none) {
                 best = i;
-            } else if (func_02164F9C(p, func_0203CF10(best)) == p) {
+            } else if (func_02164F9C(p, (Ent *)func_0203CF10(best)) == p) {
                 best = i;
             }
         } else {
@@ -70,7 +70,7 @@ Ent *func_02164E04(u8 *obj, int *out)
     }
     if (best != -1) {
         *out = best;
-        return func_0203CF10(best);
+        return (Ent *)func_0203CF10(best);
     }
     return 0;
 }

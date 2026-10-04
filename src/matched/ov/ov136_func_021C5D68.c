@@ -20,19 +20,20 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u8 *func_02008FA4(void *);
-extern void func_02049658(void *,void *,u32,u32,u32,u32,u32);
-extern void func_02049B68(void *,void *,u32,u32,u32,u32);
-extern void func_020498F4(void *,void *,u32,u32,u32,u32,u32);
+struct Sub02008F80Obj;
+extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *);
 void func_021C5D68(u8 *p)
 {
     void *h;
     u8 *q;
     h = func_020490F4(155,102);
-    q = func_02008FA4(*(void **)(*(u8 **)(p+8) + 0x298 + p[31]*4));
-    func_02049658(h,q+12,5,0,0,1,102);
-    func_02049B68(h,q,4,0,64,102);
-    func_020498F4(h,q+24,5,0,0,1,102);
+    q = (u8 *)func_02008FA4(*(void **)(*(u8 **)(p+8) + 0x298 + p[31]*4));
+    func_02049658(h,(u32)(q+12),5,0,0,1,102);
+    func_02049B68(h,(u32)q,4,0,64,102);
+    func_020498F4(h,(u32)(q+24),5,0,0,1,102);
     func_02049238(h);
 }

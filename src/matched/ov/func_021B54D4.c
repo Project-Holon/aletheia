@@ -25,16 +25,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02011330(u32);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5DC();
-extern u32 func_02188C58(void *);
-extern u32 func_0218FA40(u32, u32);
+extern void *func_02188C58(void *p);
+extern void func_0218FA40(u8 *p, u16 v);
 
 int func_021B54D4(u32 a, u32 b, u32 c, u32 d)
 {
-func_0218FA40(func_02188C58(func_0201210C(func_0215A5DC(b, b, c, d))), func_02011330(a));
+func_0218FA40(func_02188C58(func_0201210C(func_0215A5DC(b, b, c, d))), func_02011330((struct Stream *)a));
 return 0;
 }
 

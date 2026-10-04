@@ -27,19 +27,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_021BD2C4(u32, u32, u32, u32);
-extern u32 func_021BD2D0(u32, u32);
-extern u32 func_021BD30C(u32);
+extern void func_021BD2D0(u8 *p, u16 v);
+extern void func_021BD30C(char *p);
 extern u32 func_021BD554(u32, u32);
-extern u32 func_021BD57C(u32);
-extern u32 func_021BD588(u32);
+extern void func_021BD57C(u8 *p);
+extern void func_021BD588(u32 *p);
 
 int func_021BD19C(u32 a, u32 b, u32 c, u32 d)
 {
 func_021BD2C4(a, *(u32 *)((u8 *)(b) + 32), c, d);
-func_021BD2D0(a, *(u16 *)((u8 *)(b) + 36));
-func_021BD30C(a);
-func_021BD57C(a);
-func_021BD588(a);
+func_021BD2D0((u8 *)a, *(u16 *)((u8 *)(b) + 36));
+func_021BD30C((char *)a);
+func_021BD57C((u8 *)a);
+func_021BD588((u32 *)a);
 return func_021BD554(a, b);
 }
 

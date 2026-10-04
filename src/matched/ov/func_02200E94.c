@@ -20,10 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 extern void func_02202940(u8 *p);
-extern void func_020452E8(u32 v);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 
 void func_02200E94(u8 *p)
 {
     func_02202940(p + 0xfa0);
-    func_020452E8(*(u32 *)(p + 0xd40));
+    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0xd40)));
 }

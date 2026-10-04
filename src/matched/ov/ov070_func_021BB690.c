@@ -17,7 +17,10 @@
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(int, void *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern short d_021BBBCC[];
 int func_021BB690(const char *p)
 {
@@ -33,7 +36,7 @@ int func_021BB690(const char *p)
             return 0;
         }
         v[0] = v[0] + 4;
-        func_0204B404(*((int *)(q + 0x6AC)), v, 0xFFFF);
+        func_0204B404((struct Obj *)(*((int *)(q + 0x6AC))), (const struct Vec2 *)v, 0xFFFF);
     }
     return 1;
 }

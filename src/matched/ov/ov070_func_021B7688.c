@@ -38,7 +38,7 @@ extern void func_020414EC(u32 i);
 extern void func_021B6138(Obj *o);
 extern void func_021BA6A4(Obj *o);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_021BB3F4(Obj *o, int v);
+extern void func_021BB3F4(int p, int mode);
 extern void func_021B8AF4(void *p);
 
 void func_021B7688(Obj *o)
@@ -50,7 +50,7 @@ void func_021B7688(Obj *o)
         o->f83E = 1;
         func_021BA6A4(o);
         func_0204B92C(o->f6A8, 1);
-        func_021BB3F4(o, 1);
+        func_021BB3F4((int)o, 1);
         func_021B8AF4(o);
     }
 }

@@ -16,6 +16,8 @@
  *   func_021DB1A8 0x021DB1A8 thumb ov093
  */
 extern int func_021D775C(int);
-extern void func_021D7320(char *,int (*)(int,int,int,int,unsigned short));
+typedef unsigned int   u32;
+struct QS;
+extern void func_021D7320(struct QS *p, u32 v);
 extern int func_021DB1A8(int,int,int,int,unsigned short);
-void func_021DB1D4(char *a, int b, int c, int *d) { if (c == func_021D775C(3) && *d == 0) { func_021D7320(a,func_021DB1A8); *d = 1; } }
+void func_021DB1D4(char *a, int b, int c, int *d) { if (c == func_021D775C(3) && *d == 0) { func_021D7320((struct QS *)a,(u32)func_021DB1A8); *d = 1; } }

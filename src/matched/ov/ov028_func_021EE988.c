@@ -18,8 +18,9 @@
  *   func_02014A10  0x02014A10  thumb
  */
 
-extern int *func_021A21B8(int);
-extern void func_021A232C(int, int, int, int, int);
+typedef unsigned char  u8;
+extern int *func_021A21B8(int *p);
+extern void func_021A232C(u8 *p, int a, int b, int c, int d);
 extern void func_021A2108(int, int, int);
 extern int func_021A23B0(int);
 typedef unsigned short u16;
@@ -28,10 +29,10 @@ extern u16 func_02014A10(u32 i);
 
 int func_021EE988(int a, int b)
 {
-    int *p = func_021A21B8(a);
+    int *p = func_021A21B8((int *)a);
 
     if (p[1] == 0) {
-        func_021A232C(a, p[11], p[12], 0x5A, b);
+        func_021A232C((u8 *)a, p[11], p[12], 0x5A, b);
         func_021A2108(a, 0x3E, func_02014A10(p[0]));
         p[1] = p[1] - 1;
     } else if (func_021A23B0(a) != 0) {

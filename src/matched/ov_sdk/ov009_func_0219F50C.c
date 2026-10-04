@@ -41,7 +41,7 @@ typedef struct {
 
 extern unsigned long strlen(const char *s);
 extern int strcmp(const char *a, const char *b);
-extern void func_021843C8(void *array, int (*comparator)(void *, void *));
+extern void func_021843C8(int *p, int b);
 extern int func_0219F288(void *entry1, void *entry2);
 extern int func_0219F2F8(void *entry1, void *entry2);
 extern int func_0219F40C(void *entry1, void *entry2);
@@ -77,5 +77,5 @@ void func_0219F50C(SBServerList *slist, int ascending, SBSortInfo sortinfo)
     slist->currsortinfo = sortinfo;
     slist->sortascending = ascending;
     g_021AEB04.slist = slist;
-    func_021843C8(slist->servers, comparator);
+    func_021843C8(slist->servers, (int)comparator);
 }

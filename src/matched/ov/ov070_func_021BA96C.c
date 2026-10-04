@@ -14,7 +14,9 @@
  *   d_021BBA81     0x021BBA81  data  ov070  a1
  */
 
-extern void func_0204B878(unsigned a, unsigned b);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern unsigned char d_021BBA81[];
 
 void func_021BA96C(int p, unsigned sel)
@@ -22,9 +24,9 @@ void func_021BA96C(int p, unsigned sel)
     unsigned i;
     for (i = 0; i < 5; i++) {
         if (i == sel) {
-            func_0204B878(*(unsigned *)(p + i * 4 + 0x6AC), d_021BBA81[i * 2]);
+            func_0204B878((struct Obj *)(*(unsigned *)(p + i * 4 + 0x6AC)), d_021BBA81[i * 2]);
         } else {
-            func_0204B878(*(unsigned *)(p + i * 4 + 0x6AC), d_021BBA81[i * 2 + 1]);
+            func_0204B878((struct Obj *)(*(unsigned *)(p + i * 4 + 0x6AC)), d_021BBA81[i * 2 + 1]);
         }
     }
 }

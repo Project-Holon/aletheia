@@ -39,18 +39,19 @@ struct IcaAnime {
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_0203CD98(u32 h);
-extern u32 func_02026454(u32 h);
+struct Comm;
+extern u32 func_02026454(void *obj);
 extern u32 func_02012164(struct IcaAnime *p);
-extern void func_020263D8(u32 h, u32 a, struct IcaAnime *p);
+extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
 
 u32 func_020121CC(struct IcaAnime *p)
 {
     u32 h = func_02012138((const struct Ctx *)p);
 
     if (func_0203CD98(h) == 0) {
-        if (func_02026454(h) == 0) {
+        if (func_02026454((void *)h) == 0) {
             if (func_02012164(p) == 1) {
-                func_020263D8(h, 1, p);
+                func_020263D8((struct Comm *)h, 1, (u32)p);
                 return 1;
             }
         }

@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021B90F8(u8 *a);
-extern int func_0201A59C(u8 *rules, int party, u8 *z);
+extern int func_0201A59C(void *a0, void *a1, void *a2);
 
 void func_021BA4F8(u8 *a)
 {
@@ -53,7 +53,7 @@ void func_021BA4F8(u8 *a)
     for (i = 0; i < 6; i++)
         (*(u8 **)(a + 0x280))[0x49 + i] = 0;
     rules = *(u8 **)(*(u8 **)(a + 0x280) + 0x14);
-    if (func_0201A59C(rules, **(int **)(a + 0x280), *(u8 **)(a + 0x280) + 0x49) != 0)
+    if (func_0201A59C(rules, (void *)(**(int **)(a + 0x280)), *(u8 **)(a + 0x280) + 0x49) != 0)
         return;
     for (i = 0; i < 6; i++)
         (*(u8 **)(a + 0x280))[0x49 + i] = 0;

@@ -49,7 +49,8 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C6FC(void *, void *, u32, u32, void *, u32);
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
 extern Counts *func_021B6F40(u8 *);
@@ -57,7 +58,7 @@ extern Counts *func_021B6F40(u8 *);
 static inline void Draw(Q *q, void *h, u32 x, u32 y, void *s)
 {
     void *w = q->f8;
-    func_0201C6FC(w, func_02045770(h), x, y, s, q->fc);
+    func_0201C6FC(w, (u32)func_02045770(h), x, y, s, q->fc);
 }
 
 void func_021BA5D4(u8 *a, Q *q, u8 *p)

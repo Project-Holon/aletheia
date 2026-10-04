@@ -93,7 +93,8 @@ typedef struct {
 
 typedef short s16;
 
-extern void func_02045CAC(void *p, int x, int col);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *p, void *q, int a, s16 x, int col, void *r, int b);
@@ -103,7 +104,7 @@ void func_021C7AD4(Work *p, int x, int k, int col)
 {
     void *v;
 
-    func_02045CAC(p->f20, x + d_021C8894[k], col);
+    func_02045CAC(p->f20, x + d_021C8894[k], (void *)col);
     v = p->f14;
     func_0201C724(v, func_02045770(p->fC), 0, x << 5, col, p->f4, 0x44F);
     p->f10 = 1;

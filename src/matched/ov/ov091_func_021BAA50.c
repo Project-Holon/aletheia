@@ -37,14 +37,15 @@ typedef struct {
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_020185F4(void *p);
-extern int func_0201BA68(int x);
+struct Obj;
+extern u32 func_0201BA68(void *mon);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *a);
 extern int func_0201BBE8(int x);
 struct Obj;
 extern struct Obj *func_0204B294(void *a, u32 b, u32 c, u32 d, const void *r, u16 f, u16 g);
-extern void func_0204B6F4(int a, int b, int c);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Obj;
 extern void func_0204B92C(struct Obj *a, u32 b);
 
@@ -57,7 +58,7 @@ void func_021BAA50(u8 *a, u8 *s)
 
     h = func_020490F4(7, *(u16 *)a);
     t = (int)func_020185F4(func_0201AB28(**(void ***)(a + 0x280), s[4]));
-    *(int *)(s + 0x2c) = func_0204A6C8(h, func_0201BA68(t), 0, 0, *(u16 *)a);
+    *(int *)(s + 0x2c) = func_0204A6C8(h, func_0201BA68((void *)t), 0, 0, *(u16 *)a);
     func_02049238(h);
     r = func_0201BBE8(t);
     rc.a = 0x18;
@@ -69,7 +70,7 @@ void func_021BAA50(u8 *a, u8 *s)
         int x = (int)func_0204B294((void *)*(int *)(s + 0x28), *(int *)(s + 0x2c), *(int *)(a + 0x190),
                               *(int *)(a + 0x1d0), &rc, 0, *(u16 *)a);
         *(int *)(s + 0x30) = x;
-        func_0204B6F4(x, r, 1);
+        func_0204B6F4((struct Obj *)x, r, 1);
     }
     func_0204B92C((struct Obj *)*(int *)(s + 0x30), 1);
 }

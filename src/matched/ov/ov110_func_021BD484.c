@@ -28,7 +28,7 @@ extern int func_02034AC4(s32 handle);
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern u8 *func_021BD5C4(void *,int);
 extern void func_021B9BEC(u8 *p, int id);
-extern int func_021B9C74(void *);
+extern int func_021B9C74(unsigned int a);
 extern int func_021BABE8(void *);
 extern void func_021BD7A0(u8 *,int (*)(u8 *,void *));
 extern int func_021BD894(u8 *,void *);
@@ -48,7 +48,7 @@ int func_021BD484(void *a,int *state,int c,void *p) {
         break;
     case 1:
         obj=p;
-        if(func_021B9C74(*(void **)(obj+0x14))) {
+        if(func_021B9C74((unsigned int)(*(void **)(obj+0x14)))) {
             if(*(int *)(obj+4)==2) obj[0x68]=func_021BABE8(*(void **)(obj+0x14));
             else obj[0x68]=0;
             func_021B9BEC(*(void **)(obj+0x14),4);
@@ -57,7 +57,7 @@ int func_021BD484(void *a,int *state,int c,void *p) {
         break;
     case 2:
         obj=p;
-        if(func_021B9C74(*(void **)(obj+0x14))) {
+        if(func_021B9C74((unsigned int)(*(void **)(obj+0x14)))) {
             func_021BD7A0(obj,func_021BD894);
             func_0203D34C(1,42);
             return 1;

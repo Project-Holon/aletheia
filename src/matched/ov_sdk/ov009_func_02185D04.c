@@ -28,8 +28,8 @@
 
 typedef struct GPIConnection GPIConnection;
 
-extern void func_02193734(void **connection, char *errorString);
-extern void func_0219327C(char *dest, char *src, unsigned long len);
+extern void func_02193734(int *p, int b);
+extern void func_0219327C(char *p, int b, int n);
 extern int func_02189300(void **connection, int id, int isDeleted);
 extern int func_0218946C(void **connection, void *outputBuffer, char *buffer);
 extern int func_0218949C(void **connection, void *outputBuffer, int num);
@@ -51,14 +51,14 @@ int func_02185D04(void **connection, int profile, char *reason)
     iconnection = (GPIConnection *)*connection;
     if (*(int *)((char *)iconnection + 0x108) != 0) return 0;
     if (*(int *)((char *)iconnection + 0x1f4) == 4) {
-        func_02193734(connection, g_021A4024);
+        func_02193734((int *)connection, (int)g_021A4024);
         return 2;
     }
     if (reason == 0) {
-        func_02193734(connection, g_021A4054);
+        func_02193734((int *)connection, (int)g_021A4054);
         return 2;
     }
-    func_0219327C(reasonFixed, reason, 1025);
+    func_0219327C(reasonFixed, (int)reason, 1025);
     for (i = 0; reasonFixed[i] != 0; i++) {
         if (reasonFixed[i] == '\\') reasonFixed[i] = '/';
     }

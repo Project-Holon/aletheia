@@ -63,7 +63,8 @@ extern u32  func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
-extern void func_02027B30(u32 cell, u32 ctx, u32 sel);
+struct S;
+extern void func_02027B30(u32 a0, struct S *s, int mode);
 extern void func_020061E4(u32 id);
 
 void func_02027D44(struct Menu *m)
@@ -82,7 +83,7 @@ void func_02027D44(struct Menu *m)
             if ((held & 0xC3) == 0) {
                 return;
             }
-            func_02027B30(m->f18[m->cursor], m->f34, 1);
+            func_02027B30(m->f18[m->cursor], (struct S *)m->f34, 1);
             func_020355D8(0);
             func_020061E4(0x548);
             return;
@@ -123,6 +124,6 @@ void func_02027D44(struct Menu *m)
     if (prev == m->cursor) {
         return;
     }
-    func_02027B30(m->f18[prev], m->f34, 0);
-    func_02027B30(m->f18[m->cursor], m->f34, 1);
+    func_02027B30(m->f18[prev], (struct S *)m->f34, 0);
+    func_02027B30(m->f18[m->cursor], (struct S *)m->f34, 1);
 }

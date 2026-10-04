@@ -22,9 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021F0FE8(int a);
-extern void func_02165CC0(u16 *a, int b);
+struct PalAnmSlot;
+extern void func_02165CC0(int a0, int a1);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
-extern void func_020215BC(int slots, u16 *src, u32 idx, u32 off, u16 size);
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 void func_021F1004(char *p, u8 *q, int r)
 {
@@ -39,7 +40,7 @@ void func_021F1004(char *p, u8 *q, int r)
     a[0] = t[b];
     a[1] = t[b + 1];
     a[2] = t[b + 2];
-    func_02165CC0(&a[3], r);
+    func_02165CC0((int)(&a[3]), r);
     func_02021F64(&a[3], &a[4], 1, 3, 0);
-    func_020215BC(*(int *)(p + 0xac), a, 3, (u16)((q[0] + 4) * 16 + 1), 10);
+    func_020215BC((struct PalAnmSlot *)(*(int *)(p + 0xac)), a, 3, (u16)((q[0] + 4) * 16 + 1), 10);
 }

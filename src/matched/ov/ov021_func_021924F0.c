@@ -23,12 +23,15 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern int func_0201DC80(u32 a);
-extern u32 func_020458F8(u32 a);
-extern u32 func_020457B0(u32 n, u32 heap);
-extern int func_0201D37C(u32 a, u32 b, u32 c);
-extern void func_0201C7A4(u32 a, s16 b, s16 c, u32 d, u32 e);
-extern void func_02045808(u32 a);
+struct Font;
+struct StrObj;
+struct U16Vec;
+extern u32 func_0201DC80(struct Font *p);
+extern u16 func_020458F8(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021924F0(u16 a, u16 b, u32 c, u32 d, u32 e, u16 f)
 {
@@ -36,11 +39,11 @@ void func_021924F0(u16 a, u16 b, u32 c, u32 d, u32 e, u16 f)
     u32 h;
     int t;
 
-    t = func_0201DC80(d) + 2;
-    h = func_020457B0(func_020458F8(e) + 1, f);
-    for (i = 0; func_0201D37C(e, h, i) == 1; i++) {
-        func_0201C7A4(c, (s16)a, (s16)b, h, d);
+    t = func_0201DC80((struct Font *)d) + 2;
+    h = (u32)func_020457B0(func_020458F8((struct U16Vec *)e) + 1, f);
+    for (i = 0; func_0201D37C((struct StrObj *)e, (struct StrObj *)h, i) == 1; i++) {
+        func_0201C7A4((void *)c, (s16)a, (s16)b, (void *)h, (void *)d);
         b += (u16)t;
     }
-    func_02045808(h);
+    func_02045808((struct U16Vec *)h);
 }

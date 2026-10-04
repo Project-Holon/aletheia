@@ -10,10 +10,10 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 void func_021DC5D0(char *p)
 {
     unsigned i;
     for (i = 0; i < 3; i++)
-        func_020307B0(*(int *)(p + i * 4 + 0x1064));
+        func_020307B0((void *)(*(int *)(p + i * 4 + 0x1064)));
 }

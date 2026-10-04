@@ -17,14 +17,17 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0200C274(u32);
-extern void func_0200DABC(u32);
+typedef unsigned short u16;
+struct Blk1AC;
+struct Blk34;
+extern u32 func_0200C274(struct Blk34 *p);
+extern u16 func_0200DABC(struct Blk1AC *p);
 
 void func_021B3350(u8 *w)
 {
     if (w[0x163] == 0) {
-        func_0200C274(*(u32 *)(w + 0xC));
+        func_0200C274((struct Blk34 *)(*(u32 *)(w + 0xC)));
     } else {
-        func_0200DABC(*(u32 *)(w + 0x18));
+        func_0200DABC((struct Blk1AC *)(*(u32 *)(w + 0x18)));
     }
 }

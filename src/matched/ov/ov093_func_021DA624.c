@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int);
-extern u8 func_021C7D54(void *, int, u8 *);
+extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
 struct QI;
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D5B40(struct QI *p);
@@ -48,7 +48,7 @@ void func_021DA624(int a, void *b, int c)
     u8 *p;
     void *q;
     if (c != func_021D775C(2)) return;
-    n = func_021C7D54(b, c, buf);
+    n = func_021C7D54(b, (u8 *)c, buf);
     count = 0;
     for (i = 0; i < n; i++) {
         q = func_021C7CF4(b, buf[i]);

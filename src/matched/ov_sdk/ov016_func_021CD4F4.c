@@ -33,7 +33,7 @@ extern void func_021D0014(void);
 extern int func_0205BD64(void);
 extern void func_021C82EC(unsigned int v);
 extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021D7724(int kind, void *task);
 extern unsigned char g_021DE61C;
 extern void func_021CD40C(void);
@@ -52,6 +52,6 @@ void func_021CD4F4(void *task)
         func_021C82EC(func_0205BD64());
         func_021CFFAC(18);
     }
-    func_021C0E40(func_021CD40C);
+    func_021C0E40((unsigned int)func_021CD40C);
     func_021D7724(0, task);
 }

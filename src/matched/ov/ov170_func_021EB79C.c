@@ -11,5 +11,5 @@
  *   func_021EB6F0 0x021EB6F0 thumb ov170
  *   func_021EB708 0x021EB708 thumb ov170
  */
-extern void func_021EB6F0(unsigned char *,int,int);extern void func_021EB708(void *,unsigned,void *);
-void func_021EB79C(unsigned char *p){if(*(int *)(*(unsigned char **)p+36)==4)func_021EB6F0(p,22,71);else func_021EB6F0(p,22,69);func_021EB708(*(void **)(*(unsigned char **)(p+44)+116),10,*(void **)(*(unsigned char **)(p+44)+324));}
+extern void func_021EB6F0(int a, int b, int c);extern void func_021EB708(void *,unsigned,void *);
+void func_021EB79C(unsigned char *p){if(*(int *)(*(unsigned char **)p+36)==4)func_021EB6F0((int)p,22,71);else func_021EB6F0((int)p,22,69);func_021EB708(*(void **)(*(unsigned char **)(p+44)+116),10,*(void **)(*(unsigned char **)(p+44)+324));}

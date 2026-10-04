@@ -19,10 +19,12 @@
 
 typedef unsigned char u8;
 
-extern void func_0203CBAC(void *a, void *b, void *c);
+typedef unsigned int   u32;
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern u8 d_02172014[];
 
 void func_02167AB0(void *p)
 {
-    func_0203CBAC(d_02172014, 0, p);
+    func_0203CBAC((struct Req *)d_02172014, 0, (u32)p);
 }

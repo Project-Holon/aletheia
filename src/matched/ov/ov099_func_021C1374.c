@@ -23,7 +23,8 @@ extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern unsigned func_02008468(int);
 typedef unsigned char  u8;
 extern u8 *func_02012944(void *p);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern void func_021BA8EC(char *);
 int func_021C1374(char *p, int ret)
 {
@@ -35,7 +36,7 @@ int func_021C1374(char *p, int ret)
             h = (int)func_020399A8();
             count = func_02008468(h);
             q = func_02012944(*(void **)(p + 0xc4));
-            if (func_0203D3A8((void *)h, 0xa04, count, q) != 0) {
+            if (func_0203D3A8((void *)h, 0xa04, count, (u32)q) != 0) {
                 func_021BA8EC(p);
                 *(int *)(p + 0x1cc) = 135;
             }

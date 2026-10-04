@@ -27,7 +27,7 @@ extern int func_021FB1F4(char *, int);
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_021FADA0(void *, void (*)(int, TaskData *), TaskData *, int);
+extern void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key);
 extern void func_021FB8CC(int, TaskData *);
 extern const char d_021FDD00[];
 int func_021FB808(int unused, char *p)
@@ -53,7 +53,7 @@ int func_021FB808(int unused, char *p)
             data->tick = 0;
             data->duration = duration;
             data->count = count;
-            data->task = func_021FADA0(obj, func_021FB8CC, data, 10);
+            data->task = func_021FADA0(obj, (u32)func_021FB8CC, (u32)data, 10);
         }
     }
     if (wait == 1) {

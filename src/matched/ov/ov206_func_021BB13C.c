@@ -15,13 +15,13 @@
  *   func_021BB2D4 0x021BB2D4 thumb
  */
 
-extern void func_021BB184(void *, void *);
-extern void func_021BB23C(void *, void *, void *, void *);
+extern void func_021BB184(char *p, int index);
+extern void func_021BB23C(char *p, int x, int y, int index);
 extern void func_021BB2D4(char *p);
 
 void func_021BB13C(void *a0, void *a1, void *a2, void *a3)
 {
-    func_021BB184(a0, a3);
-    func_021BB23C(a0, a1, a2, a3);
+    func_021BB184(a0, (int)a3);
+    func_021BB23C(a0, (int)a1, (int)a2, (int)a3);
     func_021BB2D4(a0);
 }

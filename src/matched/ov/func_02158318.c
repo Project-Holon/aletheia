@@ -25,7 +25,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u8 func_02012B70(const struct BigObj *p);
-extern int func_0202648C();
+extern u32 func_0202648C(void *obj);
 
 int func_02158318(int a0)
 {
@@ -45,7 +45,7 @@ loc_0215832C:
     if (a0 != 1) goto loc_0215833E;
 loc_02158330:
 a0 = t4 + 0;
-    a0 = func_0202648C(a0);
+    a0 = func_0202648C((void *)a0);
 loc_02158336:
     if (a0 == 0) goto loc_0215833E;
 loc_0215833A:

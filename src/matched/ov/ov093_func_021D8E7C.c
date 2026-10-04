@@ -20,7 +20,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
@@ -34,7 +34,7 @@ void func_021D8E7C(int u, void *a, u32 b, u32 c, u8 d)
 {
     u8 *r;
 
-    if (c != func_021D59B4(func_021C7CF4((int)a, b), 0x13)) {
+    if (c != func_021D59B4(func_021C7CF4((int *)((int)a), b), 0x13)) {
         r = func_021C88A4(a, 0x39, b);
         r[4] = b;
         r[5] = c;

@@ -38,17 +38,20 @@ typedef struct {
     int c;
 } V3;
 
-extern int func_02188C80(int a);
-extern int func_020120F4(int a);
-extern int func_02012844(int a);
-extern u16 func_02162560(int h);
-extern u16 func_02188C84(int a);
-extern int func_02188D2C(int a);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012844(const struct BigObj *p);
+extern u16 func_02162560(u8 *p);
+extern u16 func_02188C84(u8 *p);
+extern int func_02188D2C(int *p);
 extern void func_021BE4B4(int a, int b, u16 c, int d);
 extern void *func_021625CC(int h, u16 id);
 extern u8 func_021626E8(u8 *p);
 extern void func_02162A64(const void *p, V3 *out);
-extern int func_02188C9C(int a);
+extern u16 func_02188C9C(u8 *p);
 extern void *func_021BE480(int a, int b, u16 c);
 extern u8 *func_021BE674(int a, int b, u16 c, u16 d);
 extern void func_021BE700(int a, int b, u16 c, u16 d, int e);
@@ -62,10 +65,10 @@ void func_021F388C(int *o, int a)
     void *e;
     V3 v;
 
-    h = func_02012844(func_020120F4(func_02188C80(a)));
-    n = func_02162560(h);
-    func_02188C84(a);
-    s = func_02188D2C(a);
+    h = func_02012844(func_020120F4(func_02188C80((void *)a)));
+    n = func_02162560((u8 *)h);
+    func_02188C84((u8 *)a);
+    s = func_02188D2C((int *)a);
     for (i = 0; i < 8; i++) {
         func_021BE4B4(s, 0, i + 1, 1);
     }
@@ -73,7 +76,7 @@ void func_021F388C(int *o, int a)
         e = func_021625CC(h, i);
         if (e != 0 && func_021626E8(e) == 6) {
             func_02162A64(e, &v);
-            if (func_02188C9C(a) == 0x12E) {
+            if (func_02188C9C((u8 *)a) == 0x12E) {
                 v.b -= 0x2000;
             }
             func_021BE4B4(s, 0, i + 1, 0);

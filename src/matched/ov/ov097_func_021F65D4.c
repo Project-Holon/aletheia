@@ -36,17 +36,19 @@ extern void func_020435F4(u32 planes);
 extern void func_0204363C(u32 swap);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_021F6A28(int);
+typedef unsigned char  u8;
+struct P;
+extern void func_021F6A28(int *p);
 extern void func_021F682C(void);
 extern void func_021F683C(void);
 extern void func_021F68FC(int);
-extern void func_021F6970(int);
+extern void func_021F6970(u8 *p);
 extern void func_021F6A98(int);
-extern void func_021F6F24(int);
-extern void func_021F734C(int);
-extern void func_021F69E4(int);
-extern int func_021F681C(int, int, int);
-extern void func_021F67C8(int, int);
+extern void func_021F6F24(struct P *p);
+extern void func_021F734C(struct P *p);
+extern void func_021F69E4(u8 *p);
+extern int func_021F681C(u8 *p, int count, int result);
+extern int func_021F67C8(u8 *p, int value);
 
 void func_021F65D4(int a)
 {
@@ -55,16 +57,16 @@ void func_021F65D4(int a)
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     func_0204363C(1);
-    func_021F6A28(a);
+    func_021F6A28((int *)a);
     func_021F682C();
     func_021F683C();
     func_021F68FC(a);
-    func_021F6970(a);
+    func_021F6970((u8 *)a);
     func_021F6A98(a);
-    func_021F6F24(a);
-    func_021F734C(a);
+    func_021F6F24((struct P *)a);
+    func_021F734C((struct P *)a);
     func_0203D34C(1, 0x71);
     func_020434DC(0x17, 1);
-    func_021F69E4(a);
-    func_021F67C8(a, func_021F681C(a, 0x80, 4));
+    func_021F69E4((u8 *)a);
+    func_021F67C8((u8 *)a, func_021F681C((u8 *)a, 0x80, 4));
 }

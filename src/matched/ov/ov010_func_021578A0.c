@@ -25,9 +25,10 @@ typedef unsigned int u32;
 
 extern int func_0203CD98(void);
 extern void func_02157700(void *);
-extern void func_0203CBAC(void *, void (*)(void), void *);
-extern void func_021576C4(void *, void (*)(void), int);
-extern void func_0215788C(void);
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+extern void func_021576C4(char *p, int v, int line);
+extern void func_0215788C(void *p);
 extern void func_021576CC(void);
 extern u8 d_021727E0[];
 extern u8 d_02172780[];
@@ -39,7 +40,7 @@ int func_021578A0(u32 *p)
     d_021727E0[7] = *p;
     *((u8 *)p + 0x31B8) = 0xFF;
     func_02157700(p);
-    func_0203CBAC(d_02172780, func_0215788C, p);
-    func_021576C4(p, func_021576CC, 0x1F2);
+    func_0203CBAC((struct Req *)d_02172780, (u32)func_0215788C, (u32)p);
+    func_021576C4((char *)p, (int)func_021576CC, 0x1F2);
     return 1;
 }

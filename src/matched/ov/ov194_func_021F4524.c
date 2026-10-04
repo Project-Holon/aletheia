@@ -16,28 +16,33 @@
  *   func_02045808 0x02045808 arm
  *   func_020458F8 0x020458F8 arm
  */
-extern int func_02045874(unsigned,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Buf;
+struct U16Vec;
+extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 struct Strbuf;
 extern void func_021F2328(char *,struct Strbuf *);
-extern int func_0204589C(int,int);
-extern int func_021F253C(int);
-extern void func_02045838(int,int);
-extern void func_02045808(int);
-extern int func_020458F8(unsigned);
+extern int func_0204589C(struct Buf *a, struct Buf *b);
+extern int func_021F253C(u8 *p);
+extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+extern void func_02045808(struct U16Vec *vec);
+extern u16 func_020458F8(struct U16Vec *vec);
 void func_021F4524(char *p) {
     int text;
     char *obj;
     *(int *)(*(char **)(p+0x2c4)+28)=0;
-    text=func_02045874(*(unsigned *)(*(char **)(p+0x2c4)+32),30);
+    text=(int)func_02045874((struct U16Vec *)(*(unsigned *)(*(char **)(p+0x2c4)+32)),30);
     func_021F2328(p+0x68,(struct Strbuf *)*(int *)(*(char **)(p+0x2c4)+32));
-    if (func_0204589C(text,*(int *)(*(char **)(p+0x2c4)+32)))
+    if (func_0204589C((struct Buf *)text,(struct Buf *)(*(int *)(*(char **)(p+0x2c4)+32))))
         *(int *)(*(char **)(p+0x2c4)+28)=1;
-    if (!func_021F253C((int)(p+0x68))) {
-        func_02045838(*(int *)(*(char **)(p+0x2c4)+32),text);
+    if (!func_021F253C((u8 *)((int)(p+0x68)))) {
+        func_02045838((struct U16Vec *)(*(int *)(*(char **)(p+0x2c4)+32)),(struct U16Vec *)text);
         *(int *)(*(char **)(p+0x2c4)+28)=1;
     }
-    func_02045808(text);
-    if (!func_020458F8(*(unsigned *)(*(char **)(p+0x2c4)+32))) {
+    func_02045808((struct U16Vec *)text);
+    if (!func_020458F8((struct U16Vec *)(*(unsigned *)(*(char **)(p+0x2c4)+32)))) {
         obj=*(char **)(p+0x2c4);
         if (*(int *)obj!=0 && *(int *)obj!=3) *(int *)(obj+28)=1;
     }

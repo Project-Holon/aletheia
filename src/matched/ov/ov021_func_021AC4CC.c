@@ -25,21 +25,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_021ABE18(u32 a);
-extern u32 func_021ABE24(u32 a);
-extern void func_021C6AE0(u32 *a);
-extern u32 func_021C6AF0(u32 *a, u32 b, u32 c);
+extern u32 func_021ABE24(u8 *p);
+extern void func_021C6AE0(u32 a);
+extern int func_021C6AF0(u32 a, u32 b, u32 c);
 extern void func_021C6AF8(u32 *a, u32 b);
 extern void func_021C6AFC(u32 *a, u32 b);
-extern u32 func_021C6574(u32 a, u32 *b, u32 c);
+extern int func_021C6574(u32 a, u32 b, u32 c);
 
 void func_021AC4CC(u32 *a)
 {
     u32 buf[9];
     u32 r6 = func_021ABE18(a[0]);
-    u32 r4 = func_021ABE24(a[0]);
-    func_021C6AE0(buf);
-    func_021C6AF0(buf, r4, 0x30);
+    u32 r4 = func_021ABE24((u8 *)a[0]);
+    func_021C6AE0((u32)buf);
+    func_021C6AF0((u32)buf, r4, 0x30);
     func_021C6AF8(buf, r4);
     func_021C6AFC(buf, 0x60);
-    *(u16 *)(a + 1) = func_021C6574(r6, buf, 0);
+    *(u16 *)(a + 1) = func_021C6574(r6, (u32)buf, 0);
 }

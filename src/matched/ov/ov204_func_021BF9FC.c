@@ -19,7 +19,9 @@
 struct Light;
 extern void func_02048AD0(struct Light *l);
 extern void func_0207ADC4(void *);
-extern void *func_02048A18(void *, unsigned short);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 extern void func_02047A60(void *, void *);
 
 void func_021BF9FC(char *p)
@@ -35,6 +37,6 @@ void func_021BF9FC(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         func_0207ADC4(t.matrix);
-        func_02047A60(func_02048A18(*(void **)(p + 8), *(unsigned short *)(p + 16)), &t);
+        func_02047A60((void *)func_02048A18(*(void **)(p + 8), *(unsigned short *)(p + 16)), &t);
     }
 }

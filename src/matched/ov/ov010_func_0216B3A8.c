@@ -27,7 +27,7 @@ struct Desc;
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_020120F4();
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void *func_0216D888(void *p);
@@ -40,7 +40,7 @@ struct Desc *func_0216B3A8(int a0, int a1, int a2)
     void *t;
 
     t = func_0201210C((void *)a0);
-    func_020120F4(a0);
+    func_020120F4((const struct Ctx *)a0);
     func_0216B2E4(func_0216D888(func_021A3074(func_02188CB4(t))), a1, buf);
     return func_0216B340(a0, a1 != 9, buf, a1, a2);
 }

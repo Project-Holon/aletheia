@@ -33,7 +33,8 @@ typedef unsigned int u32;
 
 void func_0207D658(u32 addr, int plane, int brightness);
 void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
-void func_0207D534(u32 addr, int brightness);
+typedef unsigned short u16;
+void func_0207D534(volatile u16 *reg, int brightness);
 
 void func_02187A38(const char *o, int st)
 {
@@ -46,7 +47,7 @@ void func_02187A38(const char *o, int st)
         if (*(const u8 *)(o + 0x15) == *(const u8 *)(o + 0x14)) {
             v = (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)));
             func_0207D63C(0x04000050, 8, 0x11, 16 - v, v);
-            func_0207D534(0x0400106C,
+            func_0207D534((volatile u16 *)0x0400106C,
                 (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)) + -16.0f));
         } else {
             func_0207D658(0x04000050, 8,

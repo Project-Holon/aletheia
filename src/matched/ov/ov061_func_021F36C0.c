@@ -31,7 +31,7 @@ typedef unsigned char u8;
 extern char d_021F3974[];
 
 extern u16 func_02188C84(u8 *p);
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void func_021BE760(void *a, void *b, int c);
 extern void func_021BE4B4(void *p, int i, u16 j, int v);
@@ -40,7 +40,7 @@ extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6B8(u8 *p, int v);
-extern void func_021F388C(int *o, void *a);
+extern void func_021F388C(int *o, int a);
 extern u16 func_02188C9C(u8 *p);
 
 void func_021F36C0(void *a)
@@ -52,7 +52,7 @@ void func_021F36C0(void *a)
     u8 *e;
 
     w = func_02188C84(a);
-    s = func_02188D2C(a);
+    s = (void *)func_02188D2C(a);
     o = func_02189764(a, 0, w, 0xc);
     func_021BE760(s, d_021F3974, 0);
     for (i = 0; i < 9; i++) {
@@ -63,6 +63,6 @@ void func_021F36C0(void *a)
     func_021BE700(s, 0, 0, 0, 1);
     func_021BE6B0(e, 1);
     func_021BE6B8(e, 0);
-    func_021F388C(o, a);
+    func_021F388C(o, (int)a);
     o[2] = func_02188C9C(a);
 }

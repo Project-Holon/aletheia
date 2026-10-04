@@ -25,15 +25,15 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_020307B0(void *p);
 typedef struct { u32 f0; u32 f4; u32 f8[3]; } Q;
 extern u32 d_021DE56C[3];
-extern u32 func_021ABE24(u32 a);
-extern u32 func_02046E24(u32 h, u32 id);
-extern void func_02046FF8(u32 h);
+extern u32 func_021ABE24(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern int func_02046FF8(int *self);
 void func_021C94F4(Q *q)
 {
-    u32 h = func_021ABE24(q->f0);
+    u32 h = func_021ABE24((u8 *)q->f0);
     int i;
-    q->f4 = func_02046E24(h, 0x52);
-    func_02046FF8(q->f4);
+    q->f4 = (u32)func_02046E24(h, 0x52);
+    func_02046FF8((int *)q->f4);
     for (i = 0; i < 3; i++)
-        q->f8[i] = func_02046E24(h, d_021DE56C[i]);
+        q->f8[i] = (u32)func_02046E24(h, d_021DE56C[i]);
 }

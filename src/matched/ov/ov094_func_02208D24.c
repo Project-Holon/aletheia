@@ -11,10 +11,10 @@
  */
 
 extern int func_0200F300(void);
-extern void func_02005DE4(int a);
+extern void func_02005DE4(void *p);
 
 void func_02208D24(int a)
 {
     if (func_0200F300() != 1)
-        func_02005DE4(a);
+        func_02005DE4((void *)a);
 }

@@ -56,14 +56,15 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern u8 *func_021897BC(void *p, int idx);
 extern u32 func_02188C80(u8 *p);
-extern unsigned int func_020120F4(unsigned int);
-extern unsigned int func_02012EC4(unsigned int);
+struct Big;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern Work *func_0200B3A4(unsigned int, unsigned int);
 extern void func_021BE700(void *p, int i, int j, u16 k, int flag);
 extern void *func_021BE674(char *base, int i, int j, u16 k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021BE6BC(int *p);
-extern void func_021BE6CC(void *p, int i, int j, u16 k, int flag);
+extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern void func_021BE4B4(char *p, int i, u16 j, int v);
 extern Vec *func_021BE480(char *p, int i, int j);
 extern void func_020061E4(u32 a);
@@ -86,7 +87,7 @@ int func_021F42BC(int a0, int *a1)
     sys = func_0201210C(func_020124E4((void *)a0));
     h = func_02188D2C(sys);
     s = func_021897BC(sys, 1);
-    p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))), 6);
+    p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 6);
     switch (*a1) {
     case 0:
         c = s[1] + 8;
@@ -121,7 +122,7 @@ int func_021F42BC(int a0, int *a1)
                         c = i + 4;
                         func_021BE700((void *)h, 0, 0x21, c, 1);
                         func_021BE6B0(func_021BE674((char *)h, 0, 0x21, c), 0);
-                        func_021BE6CC((void *)h, 0, 0x21, c, 0);
+                        func_021BE6CC((int)((void *)h), 0, 0x21, c, 0);
                     }
                     func_020061E4(0x6C8);
                     *a1 = *a1 + 1;

@@ -110,7 +110,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u32  func_021BD148(struct Ov208ActList *list, u32 heap);
-extern u32  func_021BD3C0(u32 mgr, int key);
+extern int func_021BD3C0(void *mgr, int key);
 extern void func_021BD394(int a, int b, int c);
 extern void func_021BD378(int a, int b, int c);
 extern struct Ov208ActSrc data_021C83C8[];
@@ -156,7 +156,7 @@ void ov208_func_021BE504(struct Ov208Scene *p)
     list.f18 = 2;
     p->mgr = func_021BD148(&list, p->heap);
     for (i = 0; i < p->count; i++)
-        p->slots[i].obj = func_021BD3C0(p->mgr, p->slots[i].src->id);
+        p->slots[i].obj = func_021BD3C0((void *)p->mgr, p->slots[i].src->id);
     func_021BD394(p->mgr, p->slots[1].src->id, 0x110);
     func_021BD394(p->mgr, p->slots[2].src->id, 0x220);
     if (p->f40 == 0) {

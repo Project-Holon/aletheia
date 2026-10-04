@@ -24,7 +24,7 @@ struct Rec {
 };
 
 extern void func_0204AB84(u32 idx, struct Rec *dst);
-extern void func_020637B4(struct Rec *src, u32 mode);
+extern int func_020637B4(int *p, int i);
 
 void func_0204ABBC(u32 idx, u32 flag)
 {
@@ -35,5 +35,5 @@ void func_0204ABBC(u32 idx, u32 flag)
         mode = 2;
     }
     func_0204AB84(idx, &buf);
-    func_020637B4(&buf, mode);
+    func_020637B4((int *)(&buf), mode);
 }

@@ -21,9 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
+struct Big;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern u8 *func_0200B3A4(u32 a, u32 i);
 extern void func_021F4184(u8 *p, u8 i);
-void func_021F4134(void *p, u32 i) { func_021F4184(func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80((u32)func_0201210C(p)))), 2), i); }
+void func_021F4134(void *p, u32 i) { func_021F4184(func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80((void *)((u32)func_0201210C(p))))), 2), i); }

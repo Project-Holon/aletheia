@@ -35,10 +35,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0219B2E8(int a, u8 *b);
-extern int func_0216D7E8(int a);
-extern int func_0216D83C(int a);
-extern int func_0216D7F8(int a);
-extern int func_0216D86C(int a);
+extern int func_0216D7E8(void *p);
+extern int func_0216D83C(void *p);
+extern int func_0216D7F8(void *p);
+extern int func_0216D86C(void *p);
 extern u32 *func_0219B120(u32 id);
 extern void func_0216D600(int a, u16 b);
 extern int func_0219B358(u32 a);
@@ -68,22 +68,22 @@ int func_0219AB8C(int a, u8 *b)
     }
     if (b[1] == b[2]) {
         if (b[3] == 0) {
-            x0 = func_0216D7E8(a);
-            if (x0 == func_0216D83C(a)) {
+            x0 = func_0216D7E8((void *)a);
+            if (x0 == func_0216D83C((void *)a)) {
                 b[1]++;
             }
         } else {
-            x0 = func_0216D7F8(a);
-            if (x0 == func_0216D86C(a)) {
+            x0 = func_0216D7F8((void *)a);
+            if (x0 == func_0216D86C((void *)a)) {
                 b[1]++;
             }
         }
     }
     if (b[1] == 3) {
-        x0 = func_0216D7E8(a);
-        y0 = func_0216D7F8(a);
-        x1 = func_0216D83C(a);
-        y1 = func_0216D86C(a);
+        x0 = func_0216D7E8((void *)a);
+        y0 = func_0216D7F8((void *)a);
+        x1 = func_0216D83C((void *)a);
+        y1 = func_0216D86C((void *)a);
         if (x0 == x1 && y0 == y1) {
             b[1] = 0;
         }

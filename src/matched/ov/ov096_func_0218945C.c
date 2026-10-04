@@ -25,7 +25,8 @@ typedef int s32;
 extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_021D5BDC(int, int);
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 
 int func_0218945C(int a, int b) {
     int t;
@@ -35,7 +36,7 @@ int func_0218945C(int a, int b) {
     s = func_0218A160((u8 *)b, t);
     t = (int)func_0218A2FC((u8 *)b, s);
     r = 0;
-    if (func_021D5BDC(t, 0) == 0) {
+    if (func_021D5BDC((struct UtilWork *)t, 0) == 0) {
         r = 1;
     }
     *(int *)(b + 0x38) = r;

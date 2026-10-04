@@ -47,8 +47,8 @@ extern void func_021BD5A8(void);
 extern int func_021BD138(void);
 extern void func_021D4C68(void *file);
 extern void func_021D6090(int lcd, int plane);
-extern void func_021C0E50(void *param0, void *param1);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E50(unsigned int a, unsigned int b);
+extern void func_021C0E40(unsigned int v);
 extern void func_021C1984();
 extern void func_021C255C();
 extern void func_021C1F1C();
@@ -70,21 +70,21 @@ void func_021C2FA0(void)
     func_021D6090(0, 0x14);
     if (g_021DE5A8.flag == 0) {
         func_021C0E50(0, 0);
-        func_021C0E40(func_021C1984);
+        func_021C0E40((unsigned int)func_021C1984);
         return;
     }
     switch (g_021DE5A8.pos) {
     case 0:
-        func_021C0E50(0, (void *)1);
-        func_021C0E40(func_021C255C);
+        func_021C0E50(0, (unsigned int)((void *)1));
+        func_021C0E40((unsigned int)func_021C255C);
         return;
     case 1:
-        func_021C0E50(0, (void *)1);
-        func_021C0E40(func_021C1F1C);
+        func_021C0E50(0, (unsigned int)((void *)1));
+        func_021C0E40((unsigned int)func_021C1F1C);
         return;
     case 2:
-        func_021C0E50(0, (void *)1);
-        func_021C0E40(func_021C3824);
+        func_021C0E50(0, (unsigned int)((void *)1));
+        func_021C0E40((unsigned int)func_021C3824);
         return;
     }
 }

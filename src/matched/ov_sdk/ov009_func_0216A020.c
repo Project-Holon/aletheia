@@ -59,7 +59,7 @@ extern int func_02168D7C(void);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern void func_02169568(void);
 extern int func_020591CC();
-extern void *func_0216A39C(void);
+extern int func_0216A39C(void);
 struct DWCstAccUserData;
 extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02059194(FriendData *frienddata);
@@ -88,7 +88,7 @@ void func_0216A020(void *connection, GPGetReverseBuddiesListResponseArg *arg)
     for (i = 0; i < CNT->friendListLen; i++) {
         if (func_020591CC(&CNT->friendList[i]) == 3) {
             for (j = 0; j < arg->numOfUniqueMatchs; j++) {
-                if (arg->matches[j].profile == func_020598EC(func_0216A39C(), &CNT->friendList[i])) {
+                if (arg->matches[j].profile == func_020598EC((struct DWCstAccUserData *)func_0216A39C(), &CNT->friendList[i])) {
                     if (!func_02059194(&CNT->friendList[i])) {
                         CNT->reverseChanged = 1;
                         func_02059240(&CNT->friendList[i], 1);

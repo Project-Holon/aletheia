@@ -14,7 +14,8 @@
  *   func_021BB798  0x021BB798  thumb  ov093
  */
 
-extern void func_021BB724(int, int, int, int);
+typedef unsigned char  u8;
+extern void func_021BB724(u8 *p, int a, int b, int c);
 extern int func_021BB798(unsigned char *p);
 
 int func_021BAB9C(int a)
@@ -23,7 +24,7 @@ int func_021BAB9C(int a)
     if (*(unsigned char *)(p + 0xed) != 2) {
         int (*fp)(int, int) = *(int (**)(int, int))p;
         if (fp(a, a + 4) != 0) {
-            func_021BB724(a, 9, *(int *)(p + 0xb0), 8);
+            func_021BB724((u8 *)a, 9, *(int *)(p + 0xb0), 8);
             *(unsigned char *)(p + 0xed) = 2;
         }
     } else {

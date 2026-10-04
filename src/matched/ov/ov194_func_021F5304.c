@@ -19,7 +19,7 @@ typedef struct { unsigned data[7], size[7]; } Resources;
 extern const char d_021F57B8[];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern int func_0204A298(int, int, int, int, unsigned *);
-extern void func_0203F37C(unsigned, unsigned, unsigned);
+extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 Resources *func_021F5304(unsigned short heap)
 {
     int i;
@@ -31,7 +31,7 @@ Resources *func_021F5304(unsigned short heap)
     sizes = p->size;
     for (; i < 7; i++) {
         p->data[i] = func_0204A298(0xDD, i, 0, heap, &sizes[i]);
-        func_0203F37C(p->data[i], p->size[i], 0x72012891);
+        func_0203F37C((void *)p->data[i], p->size[i], 0x72012891);
     }
     return p;
 }

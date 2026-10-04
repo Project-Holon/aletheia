@@ -35,9 +35,9 @@ extern void func_02008298(struct MyItemSave *p, u16 v);
 extern void func_02008288(void *g, u16 i, s16 a, s16 b);
 extern void func_02008270(void *g, u16 i, s16 *a, s16 *b);
 extern void func_021BA6A4(Obj *o);
-extern void func_021BAF38(Obj *o, int v);
-extern void func_021BA96C(Obj *o, int v);
-extern void func_021BAAA4(Obj *o, int v);
+extern void func_021BAF38(int p, int val);
+extern void func_021BA96C(int p, unsigned sel);
+extern void func_021BAAA4(int p, int mode);
 
 void func_021B6288(Obj *o, int a, int b)
 {
@@ -49,7 +49,7 @@ void func_021B6288(Obj *o, int a, int b)
     o->f810 = s[1];
     o->f814 = s[0] - 1;
     func_021BA6A4(o);
-    func_021BAF38(o, b);
-    func_021BA96C(o, b);
-    func_021BAAA4(o, b);
+    func_021BAF38((int)o, b);
+    func_021BA96C((int)o, b);
+    func_021BAAA4((int)o, b);
 }

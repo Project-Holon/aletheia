@@ -27,31 +27,34 @@
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
-extern int func_02011330(int);
-extern int func_0215A5D4(int);
-extern int func_0215A5D8(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern u32 func_0215A5D4(void *p);
+extern u32 func_0215A5D8(void *p);
 extern int func_02159B38(int);
-extern int func_021589A0(void *, int, int);
+extern int func_021589A0(int a, int b, int c);
 extern void func_0215AA48(int, int);
 extern void *func_0215AA24(int a0);
 extern void func_0215AA34(int);
 extern void func_02158A34(void *, void *, int, int);
-extern void func_020113D0(int, int (*)(int));
-extern int func_021595A0(int);
+extern void func_020113D0(char *p, int val);
+extern int func_021595A0(int a0, int a1);
 
 int func_021595CC(int a, int b)
 {
     void *x = func_0215A5DC((void *)b);
     void *y = func_0215A5F4((void *)b);
-    int z = func_02011330(a);
-    if (func_0215A5D4(b) == 0) {
-        func_0215AA48(b, func_021589A0(y, func_02159B38(b), z));
+    int z = func_02011330((struct Stream *)a);
+    if (func_0215A5D4((void *)b) == 0) {
+        func_0215AA48(b, func_021589A0((int)y, func_02159B38(b), z));
         func_0215AA24(b);
-        func_020113D0(a, func_021595A0);
+        func_020113D0((char *)a, (int)func_021595A0);
         return 1;
     }
     func_0215AA24(b);
-    func_02158A34(x, y, z, func_0215A5D8(b));
+    func_02158A34(x, y, z, func_0215A5D8((void *)b));
     func_0215AA34(b);
     return 0;
 }

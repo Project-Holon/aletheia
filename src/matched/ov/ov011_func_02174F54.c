@@ -37,7 +37,7 @@ typedef struct Cp {
 } Cp;
 
 void func_02082D44(const Ent *a, Ent *b, int c);
-void func_020264B4(int a, int b, int c, int d, int e, int f);
+void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
 u16 func_02039338(void);
 void func_021751D4(u8 *p, u16 a, int b, struct Ent *c);
 
@@ -54,7 +54,7 @@ void func_02174F54(u8 *p, int idx, const Ent *src, int arg)
     if (src->f0 == 1) {
         e->f0 = 1;
     }
-    func_020264B4(*(int *)(p + 4), idx, e->f14, (u8)e->a, e->lo, arg);
+    func_020264B4((void *)(*(int *)(p + 4)), idx, e->f14, (u8)e->a, e->lo, arg);
     if (idx != func_02039338()) {
         *((Cp *)(p + 0xE0) + idx) = *(Cp *)e;
         func_021751D4(p, *(u16 *)(p + 0x84), *(int *)(p + 0x74), e);

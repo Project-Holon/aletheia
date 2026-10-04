@@ -17,12 +17,12 @@
  */
 
 
-extern void func_021C1FC4(int, int, int);
+extern void func_021C1FC4(void *a, char *b, int c);
 extern void func_021C2238(int, int, int);
 
 void func_021C1D0C(int a, int b, int c)
 {
-    func_021C1FC4(a, b, c);
+    func_021C1FC4((void *)a, (char *)b, c);
     func_021C2238(a, b, c);
 }
 

@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed char    s8;
 
-extern u16 func_0216D5F8(int a);
+extern u16 func_0216D5F8(void *p);
 extern int func_0216D55C(int a, int b);
 extern void func_0216D5E0(int a0, int a1);
-extern void func_0216D548(int a, int b);
+extern void func_0216D548(u32 *p, u32 v);
 extern u32 d_021D4FCC[][4];
 
 void func_0219B390(int a, s8 *b)
@@ -34,7 +34,7 @@ void func_0219B390(int a, s8 *b)
     u32 v;
     u32 n;
 
-    v = func_0216D5F8(a);
+    v = func_0216D5F8((void *)a);
     for (i = 0; i < 4 && v != d_021D4FCC[b[1]][i]; i++) {
     }
     i++;
@@ -47,5 +47,5 @@ void func_0219B390(int a, s8 *b)
         b[2] = 0;
     }
     func_0216D5E0(a, (u16)n);
-    func_0216D548(a, 8);
+    func_0216D548((u32 *)a, 8);
 }

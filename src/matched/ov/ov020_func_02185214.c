@@ -52,7 +52,7 @@ int func_02013DD0(int v);
 void func_02014204(Rec *r, int v);
 void *func_02012EBC(struct Big *p);
 u16 *func_0200BE48(void *p);
-void *func_02012FCC(void *p);
+int func_02012FCC(int p0);
 u64 func_0200BFA4(u8 *p, void *x, u32 n);
 u32 func_02012138(const struct Ctx *p);
 u32 func_0202648C(void *p);
@@ -76,7 +76,7 @@ static inline void *finish(void *a, void *r4, void *r6, void *ret)
     u16 *t;
     void *h;
     t = func_0200BE48(func_02012EBC(r4));
-    func_0200BFA4((u8 *)t, func_02012FCC(r4), 1);
+    func_0200BFA4((u8 *)t, (void *)func_02012FCC((int)r4), 1);
     h = (void *)func_02012138(a);
     func_0202648C(h);
     if (func_02026454(h) == 0)

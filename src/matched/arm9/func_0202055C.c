@@ -79,11 +79,12 @@ struct Obj {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *win);
-extern u8   func_02045738(u32 win);
-extern void func_02043AF4(u32 bmp, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u16  func_020437DC(u32 bmp);
+struct Bmp;
+extern u8 func_02045738(struct Descriptor *p);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_02020408(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel);
-extern void func_02020CA0(u32 win, u32 a, u32 b, u32 c, u16 tile);
+extern void func_02020CA0(void *win, u32 a, u32 b, u32 c, u16 tile);
 
 void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
 {
@@ -100,16 +101,16 @@ void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
         u8 k;
         x = (obj->arr[row - 1].value != (u32)-3) ? obj->f15 : obj->f14;
         bmp = (u32)func_02045770((struct Descriptor *)obj->unk0C);
-        w = func_02045738(obj->unk0C);
-        func_02043AF4(bmp, 0, 0, (u16)(w * 8),
+        w = func_02045738((struct Descriptor *)obj->unk0C);
+        func_02043AF4((struct Bmp *)bmp, 0, 0, (u16)(w * 8),
                       (u16)(obj->f17lo + (col + 1) * step * 2), obj->f18lo);
         y = (u8)(obj->f17lo + col * step);
         if (obj->hook != 0)
             obj->hook(obj, obj->arr[row - 1].value, y);
         func_02020408(obj, obj->arr[row - 1].text, x, y, 0);
         k = obj->f18lo;
-        func_02020CA0(obj->unk0C, 0, step, (u8)((k << 4) | k),
-                      (u16)((step * 2 / 8) * (func_020437DC((u32)func_02045770((struct Descriptor *)obj->unk0C)) / 8)));
+        func_02020CA0((void *)obj->unk0C, 0, step, (u8)((k << 4) | k),
+                      (u16)((step * 2 / 8) * (func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C))) / 8)));
     }
     lim = (u16)(n + 1);
     for (i = 0; i < lim; i++) {

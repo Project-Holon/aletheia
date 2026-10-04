@@ -20,7 +20,7 @@
 
 typedef unsigned char u8;
 
-extern void func_021BB724(u8 *, int, u8 *, int);
+extern void func_021BB724(u8 *p, int a, int b, int c);
 extern int func_021BB798(u8 *);
 extern void func_021BB7D0(const u8 *p);
 extern void func_021BABEC(u8 *, void *);
@@ -31,7 +31,7 @@ int func_021BB484(u8 *p, int *s)
 {
     switch (*s) {
     case 0:
-        func_021BB724(p, 0xc, p + 0xa8, 4);
+        func_021BB724(p, 0xc, (int)(p + 0xa8), 4);
         (*s)++;
         break;
     case 1:

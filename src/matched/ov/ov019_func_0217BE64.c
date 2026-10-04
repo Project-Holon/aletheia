@@ -54,7 +54,7 @@ extern u32 func_0217F1EC(u8 *p);
 extern void func_0217F210(u8 *p, int a, u32 b);
 extern void func_02172D20(u8 *p);
 extern int func_02172D68(u8 *p);
-extern void func_021734A8(void *w, int a, void *b);
+extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern int  func_02173AFC(int v);
 extern void func_0203D14C(int a, int b, void *c);
 extern int  func_0203D1B4(void);
@@ -127,7 +127,7 @@ int func_0217BE64(void *w, Obj *obj, int a2, u8 *state)
                 if (func_02173AFC(1) == 1) {
                     func_020061E4(0x806);
                     func_0217B8E4(w, 7);
-                    func_021734A8(w, 3, obj->p18);
+                    func_021734A8(w, 3, (u32)obj->p18);
                     func_021734A8(w, 1, 0);
                     *state = 3;
                 }

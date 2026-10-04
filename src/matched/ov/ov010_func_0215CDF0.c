@@ -25,7 +25,7 @@ extern unsigned short *func_02159AE8(void *a0, void *a1);
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void func_021F3768(void *, void *);
+extern void func_021F3768(unsigned int a0, unsigned short **a1);
 extern char ov037_id[];
 
 int func_0215CDF0(void *a, void *b)
@@ -41,7 +41,7 @@ int func_0215CDF0(void *a, void *b)
     v[6] = func_02159AE8(a, b);
     v[7] = func_02159AE8(a, b);
     func_02034AC4((u32)ov037_id);
-    func_021F3768(h, v);
+    func_021F3768((unsigned int)h, v);
     func_02034A5C((u32)ov037_id);
     return 0;
 }

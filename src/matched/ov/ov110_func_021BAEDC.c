@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_021BAFE4(u8 *);
+extern void func_021BAFE4(u32 p);
 struct MsgBank;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -36,7 +36,7 @@ u8 *func_021BAEDC(void *p,void *q,u16 heap) {
     *(void **)result=p;
     *(void **)(result+4)=q;
     *(u16 *)(result+8)=heap;
-    func_021BAFE4(result);
+    func_021BAFE4((u32)result);
     for(i=0;i<27;i++) *(void **)(result+12+i*4)=func_02045B38(1,2,d_021C3770[i],heap);
     *(void **)(result+0x78)=func_021B6C74((void **)(result+12),27,*(u16 *)(result+8));
     *(void **)(result+0xad0)=func_020457B0(27,heap);

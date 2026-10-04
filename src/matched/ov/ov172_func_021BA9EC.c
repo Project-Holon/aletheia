@@ -64,35 +64,37 @@ extern u32  func_021BE0B4(void *c);
 extern u8   func_021BE0A4(void *c);
 extern void func_021BE08C(void *c);
 extern u32  func_021BE044(void *c);
-extern int  func_021B7590(void *c, u32 v);
-extern void func_021B7578(void *c, u32 v);
-extern void func_021B7B80(void *c, u32 v);
-extern void func_021B7B3C(void *c, u32 v, u32 k);
-extern void func_021B8084(void *c, u32 v);
-extern u32  func_021B8740(void *c, u32 v, u8 k, u32 z);
+struct Cfg;
+struct PrintSys;
+extern int func_021B7590(int x, char *p);
+extern void func_021B7578(int x, char *p);
+extern void func_021B7B80(int x, char *p);
+extern void func_021B7B3C(int x, int y, int z);
+extern void func_021B8084(void *a, char *q);
+extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern void func_021B8B34(void *c, u32 v, u32 k);
 extern int  func_021B8B48(void *c, u32 v, u32 k);
-extern u32  func_021B77B4(void *c, u32 v);
+extern u32 func_021B77B4(int unused, void *p);
 extern void func_021BB938(void *c, char *q, int id);
 extern int  func_021BB8F4(void *c, char *q);
 extern void func_021BAE58(void *c, char *q);
 extern void func_021BAEE0(void *c, char *q);
 extern void func_021BB4D0(void *c, char *q);
 extern void func_021BB288(void *c, char *q);
-extern void func_0202208C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32  func_020221A4(void);
 extern u32  func_02035C60(void);
 extern u32  func_020362DC(void);
-extern u32  func_0201C6C4(u32 a, u32 b);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
-extern void func_0201F73C(u32 w, u32 a, u32 b, u32 c);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(u32 w);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
 extern void func_020409B4(u32 a);
 extern void func_020061E4(u32 id);
-extern void func_02061CA4(u32 a, u32 b, void *c, u32 d);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a, unsigned int b);
 
@@ -114,9 +116,9 @@ int func_021BA9EC(void *a0, char *p)
     switch (*(u32 *)p) {
     case 0:
         if (func_021BE02C(a0) == 1) {
-            func_0202208C(z, 1, 1, z, 6, 1, v);
+            func_0202208C((void *)z, 1, 1, z, 6, 1, v);
         } else {
-            func_0202208C(4, 1, 1, z, 6, 1, v);
+            func_0202208C((void *)4, 1, 1, z, 6, 1, v);
         }
         *(u32 *)p = 1;
         break;
@@ -129,7 +131,7 @@ int func_021BA9EC(void *a0, char *p)
     case 2:
         t = func_021BDFDC(a0);
         if (*(u32 *)(p + 0x20) != 0) {
-            if (func_021B7590(a0, t) != 1) {
+            if (func_021B7590((int)a0, (char *)t) != 1) {
                 break;
             }
         }
@@ -156,12 +158,12 @@ int func_021BA9EC(void *a0, char *p)
         }
         break;
     case 6:
-        func_021B8084(a0, func_021BDFE4(a0));
+        func_021B8084(a0, (char *)func_021BDFE4(a0));
         func_021BB938(a0, p, 0x24);
         flag = 1;
         func_021BE0B0(a0, 1);
         *(u32 *)p = 7;
-        func_021B7B80(a0, func_021BDFDC(a0));
+        func_021B7B80((int)a0, (char *)func_021BDFDC(a0));
         *(u32 *)(p + 0x20) = flag;
         break;
     case 7:
@@ -169,23 +171,23 @@ int func_021BA9EC(void *a0, char *p)
             *(u32 *)(p + 0x1c) = flag = 1;
             *(u32 *)p = 2;
             func_021BE0B0(a0, 1);
-            func_021B7578(a0, func_021BDFDC(a0));
+            func_021B7578((int)a0, (char *)func_021BDFDC(a0));
             *(u32 *)(p + 0x20) = flag;
         }
         break;
     case 8:
-        if (func_021B8740(a0, func_021BDFE4(a0), 10, z) == 1) {
+        if (func_021B8740((int)a0, func_021BDFE4(a0), 10, z) == 1) {
             *(u32 *)p = 9;
         }
         break;
     case 9:
-        func_021B8084(a0, func_021BDFE4(a0));
+        func_021B8084(a0, (char *)func_021BDFE4(a0));
         func_021BB938(a0, p, 0x25);
         flag = 1;
         func_021BE0B0(a0, 1);
         *(u32 *)p = 10;
         *(u16 *)(p + 0x54) = z;
-        func_021B7B80(a0, func_021BDFDC(a0));
+        func_021B7B80((int)a0, (char *)func_021BDFDC(a0));
         *(u32 *)(p + 0x20) = flag;
         break;
     case 10:
@@ -204,17 +206,17 @@ int func_021BA9EC(void *a0, char *p)
             *(u32 *)(p + 0x1c) = flag = 1;
             *(u32 *)p = 2;
             func_021BE0B0(a0, 1);
-            func_021B7578(a0, func_021BDFDC(a0));
+            func_021B7578((int)a0, (char *)func_021BDFDC(a0));
             *(u32 *)(p + 0x20) = flag;
         }
         break;
     case 13:
-        func_021B8084(a0, func_021BDFE4(a0));
+        func_021B8084(a0, (char *)func_021BDFE4(a0));
         func_021BB938(a0, p, 0x26);
         flag = 1;
         func_021BE0B0(a0, 1);
         *(u32 *)p = 14;
-        func_021B7B80(a0, func_021BDFDC(a0));
+        func_021B7B80((int)a0, (char *)func_021BDFDC(a0));
         *(u32 *)(p + 0x20) = flag;
         break;
     case 14:
@@ -222,7 +224,7 @@ int func_021BA9EC(void *a0, char *p)
             *(u32 *)(p + 0x1c) = flag = 1;
             *(u32 *)p = 2;
             func_021BE0B0(a0, 1);
-            func_021B7578(a0, func_021BDFDC(a0));
+            func_021B7578((int)a0, (char *)func_021BDFDC(a0));
             *(u32 *)(p + 0x20) = flag;
         }
         break;
@@ -233,10 +235,10 @@ int func_021BA9EC(void *a0, char *p)
     }
     if (*(u32 *)(p + 0x38) == 1) {
         t = func_021BE044(a0);
-        if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x48))) == 0) {
-            func_0201F73C(*(u32 *)(p + 0x48), 2, 0x140, 9);
+        if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x48)))) == 0) {
+            func_0201F73C((void *)(*(u32 *)(p + 0x48)), 2, 0x140, 9);
             func_02045334((struct Descriptor *)*(u32 *)(p + 0x48));
-            func_02045374(*(u32 *)(p + 0x48));
+            func_02045374((struct Cfg *)(*(u32 *)(p + 0x48)));
             func_02041B6C(4);
             i = 0;
             *(u32 *)(p + 0x38) = 0;
@@ -255,18 +257,18 @@ int func_021BA9EC(void *a0, char *p)
     }
     if (*(u32 *)(p + 0x40) == 1) {
         t = func_021BE044(a0);
-        if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x4c))) == 0) {
+        if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x4c)))) == 0) {
             func_02045334((struct Descriptor *)*(u32 *)(p + 0x4c));
-            func_02045374(*(u32 *)(p + 0x4c));
+            func_02045374((struct Cfg *)(*(u32 *)(p + 0x4c)));
             func_020409B4(4);
             *(u32 *)(p + 0x40) = 0;
         }
     }
     if (*(u32 *)(p + 0x44) == 1 && *(u32 *)(p + 0x50) != 0) {
         t = func_021BE044(a0);
-        if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x50))) == 0) {
+        if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x50)))) == 0) {
             func_02045334((struct Descriptor *)*(u32 *)(p + 0x50));
-            func_02045374(*(u32 *)(p + 0x50));
+            func_02045374((struct Cfg *)(*(u32 *)(p + 0x50)));
             func_020409B4(0);
             *(u32 *)(p + 0x44) = 0;
         }
@@ -274,20 +276,20 @@ int func_021BA9EC(void *a0, char *p)
     if (*(s32 *)p <= 5 && func_021BE0B4(a0) == 0) {
         v = func_021BDFDC(a0);
         if (func_020362DC() & 0x40) {
-            func_021B7B3C(a0, v, 0);
+            func_021B7B3C((int)a0, v, 0);
         }
         if (func_020362DC() & 0x10) {
-            func_021B7B3C(a0, v, 5);
+            func_021B7B3C((int)a0, v, 5);
         }
         if (func_020362DC() & 0x80) {
-            func_021B7B3C(a0, v, 1);
+            func_021B7B3C((int)a0, v, 1);
         }
         if (func_020362DC() & 0x20) {
-            func_021B7B3C(a0, v, 3);
+            func_021B7B3C((int)a0, v, 3);
         }
     }
     if (func_021BE0A4(a0) == 0 && (func_020362DC() & 0x200)) {
-        if (func_021B77B4(a0, func_021BDFDC(a0)) == 0) {
+        if (func_021B77B4((int)a0, (void *)func_021BDFDC(a0)) == 0) {
             func_021BE08C(a0);
             func_020061E4(0x66C);
         }
@@ -298,6 +300,6 @@ int func_021BA9EC(void *a0, char *p)
     s = (s16)((s32)(s + 0x1000) / 2);
     s = (u8)(((s32)s * -9 >> 12) + 0x1c);
     *(u16 *)(p + 0x94) = s | (s << 5) | (s << 10);
-    func_02061CA4(0xe, 0xde, p + 0x94, 2);
+    func_02061CA4((void *)0xe, 0xde, (u32)(p + 0x94), 2);
     return 3;
 }

@@ -41,7 +41,7 @@
 
 typedef unsigned int u32;
 
-extern void *sub_020304CC(u32 heapId);
+extern u32 sub_020304CC(u32 heapId);
 typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
@@ -51,7 +51,7 @@ void *sub_0203084C(u32 heapId)
     void *p;
     u32 state;
 
-    p = sub_020304CC(heapId);
+    p = (void *)sub_020304CC(heapId);
     if (p == 0) {
         state = sub_02030524();
         if (state != 1 && state != 2 && state == 3) {

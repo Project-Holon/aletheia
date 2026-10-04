@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0215D6C8(int a0, int a1, int a2, u16 *ph, u32 *pw, int a3);
+extern int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip, int flags);
 
 int func_0215F500(int a0, int a1, int a2, int a3, u8 *out)
 {
@@ -26,7 +26,7 @@ int func_0215F500(int a0, int a1, int a2, int a3, u8 *out)
     u32 w;
     int r;
 
-    r = func_0215D6C8(a0, a1, a2, &h, &w, a3);
+    r = func_0215D6C8(a0, (void *)a1, a2, &h, (long unsigned int *)(&w), a3);
     if (r < 0)
         return r;
     if (out == 0)

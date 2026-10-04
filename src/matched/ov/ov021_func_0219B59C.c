@@ -46,12 +46,12 @@ typedef struct St {
 extern Tbl4 d_021D5238;
 extern Tbl22 d_021D5248;
 
-extern St *func_0216D6B8(int a);
-extern u16 func_0216D5F8(int a);
+extern void *func_0216D6B8(void *p);
+extern u16 func_0216D5F8(void *p);
 extern u32 func_02197E7C(u16 a, u16 b);
 extern void func_0216D438(int a, u16 b);
-extern u32 func_02197EDC(int a);
-extern u16 func_0216D5A8(int a);
+extern u32 func_02197EDC(u8 *p);
+extern u32 func_0216D5A8(u8 *p);
 extern int func_0219B8A8(void);
 extern int func_02164168(int a);
 extern void func_0216D5E0(int a0, int a1);
@@ -61,11 +61,11 @@ int func_0219B59C(int a)
     St *p;
     int lim;
 
-    p = func_0216D6B8(a);
+    p = func_0216D6B8((void *)a);
     switch (p->state) {
     case 0: {
         Tbl4 t = d_021D5238;
-        u16 v = func_0216D5F8(a);
+        u16 v = func_0216D5F8((void *)a);
         p->f4 = v;
         p->f5 = t.w[v];
         p->state++;
@@ -76,13 +76,13 @@ int func_0219B59C(int a)
         p->state++;
     }
     case 2:
-        if (func_02197EDC(a) == 0) {
+        if (func_02197EDC((u8 *)a) == 0) {
             return 1;
         }
         p->state++;
     case 3:
         lim = 8;
-        if (func_0216D5A8(a) == 14 && func_0219B8A8() == 1 && func_02164168(a) == 1) {
+        if (func_0216D5A8((u8 *)a) == 14 && func_0219B8A8() == 1 && func_02164168(a) == 1) {
             lim = 4;
         }
         if (++p->f8 < lim) {

@@ -16,7 +16,9 @@
 
 struct Rec;
 extern void func_02045C04(struct Rec *rec);
-extern void *func_02045B38(void *, int, void *, int);
+typedef unsigned int   u32;
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 void func_021BF204(char *p, void *a, void *b)
 {
@@ -24,5 +26,5 @@ void func_021BF204(char *p, void *a, void *b)
     {
         func_02045C04(*(void **)(p + 0xc));
     }
-    *(void **)(p + 0xc) = func_02045B38(a, 2, b, *(unsigned short *)p);
+    *(void **)(p + 0xc) = func_02045B38((u32)a, 2, (u32)b, *(unsigned short *)p);
 }

@@ -56,12 +56,12 @@ extern char g_021A5214[];
 
 extern int func_0219329C(void **connection, char *input, int callErrorCallback);
 extern int func_02193378(char *command, char *key, int *index, char *value, int len);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_020964E0(const char *s);
 extern char *func_02094B20(const char *s1, const char *s2);
 extern GPIProfile *func_0218FCD8(void **connection, int id);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_02189300(void **connection, int id, int isDeleted);
 
 int func_02190188(void **connection, char *input)
@@ -84,16 +84,16 @@ int func_02190188(void **connection, char *input)
         return 4;
 
     if (!func_02193378(input, g_021A522C, &index, buffer, sizeof(buffer))) {
-        func_02193710(connection, 1, g_021A51D8);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 1, (int)g_021A51D8);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
     num = func_020964E0(buffer);
 
     str = func_02094B20(input, g_021A5234);
     if (!str) {
-        func_02193710(connection, 1, g_021A51D8);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 1, (int)g_021A51D8);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
     index += 6;
@@ -106,8 +106,8 @@ int func_02190188(void **connection, char *input)
             index += j;
         } else {
             if (!func_02193378(input, g_021A523C, &index, buffer, sizeof(buffer))) {
-                func_02193710(connection, 1, g_021A51D8);
-                func_02189D78(connection, 3, 1);
+                func_02193710((int *)connection, 1, (int)g_021A51D8);
+                func_02189D78((int *)connection, 3, 1);
                 return 3;
             }
         }
@@ -115,7 +115,7 @@ int func_02190188(void **connection, char *input)
         profileid = func_020964E0(buffer);
         profile = func_0218FCD8(connection, profileid);
         if (!profile) {
-            func_02193734(connection, g_021A5214);
+            func_02193734((int *)connection, (int)g_021A5214);
             return 1;
         }
         profile->blocked = 1;

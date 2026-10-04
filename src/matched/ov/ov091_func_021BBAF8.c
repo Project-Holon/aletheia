@@ -28,7 +28,9 @@ typedef struct Req {
 
 extern void func_021BBC04(u8 *a, u8 *b, int *items);
 extern void func_020355D8(u32 a);
-extern int func_02027778(Req *r, u32 b);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 
 void func_021BBAF8(u8 *a, u8 *b, int *items)
 {
@@ -44,5 +46,5 @@ void func_021BBAF8(u8 *a, u8 *b, int *items)
     r.c[2] = 0xd;
     r.c[3] = 3;
     func_020355D8(*(u32 *)(a + 8));
-    *(int *)(b + 0x74) = func_02027778(&r, *(u32 *)(a + 0x254));
+    *(int *)(b + 0x74) = (int)func_02027778((struct TaskMenuTmpl *)(&r), (void *)(*(u32 *)(a + 0x254)));
 }

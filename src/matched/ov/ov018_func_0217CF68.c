@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02012138(const struct Ctx *p);
-extern void func_0217BF84(void *);
+extern void func_0217BF84(int a);
 int func_0217CF68(void *unused, void *p)
 {
     void *sys;
@@ -27,6 +27,6 @@ int func_0217CF68(void *unused, void *p)
     sys = func_0215A5DC(p);
     obj = func_0201210C(sys);
     func_02012138(sys);
-    func_0217BF84(obj);
+    func_0217BF84((int)obj);
     return 0;
 }

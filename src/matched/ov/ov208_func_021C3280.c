@@ -30,7 +30,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern u16 func_020437DC(const struct Bmp *p);
 extern void func_0201C724(void *owner,u32 bitmap,s16 x,s16 y,u32 text,u32 font,u16 color);
 extern void func_02045808(struct U16Vec *s);
-extern void func_021C3318(u16 *heap,u8 *p,struct Key *key);
+extern void func_021C3318(u16 *heap, u8 *p, int key);
 extern struct MsgBank *data_020A7370;
 void func_021C3280(u16 *heap,u8 *p,struct Key *key)
 {
@@ -43,5 +43,5 @@ void func_021C3280(u16 *heap,u8 *p,struct Key *key)
     func_0201C724(*(void **)(p+8),(u32)func_02045770(*(struct Descriptor **)(p+0xc)),(u16)((available-width)/2),1,(u32)text,*(u32 *)(p+4),0x3c40);
     func_02045808((struct U16Vec *)text);
     *(u32 *)(p+0x10)=1;
-    func_021C3318(heap,p,key);
+    func_021C3318(heap,p,(int)key);
 }

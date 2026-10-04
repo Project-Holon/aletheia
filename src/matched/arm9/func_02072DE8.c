@@ -51,8 +51,8 @@ struct A;
 extern void func_02073710(struct A *a);
 extern struct Slot g_0214E464[];
 
-extern struct Node *func_0207482C(u32 a, void *b, void *fn, u32 c, u32 d);
-extern u32  func_020746E8(void *dst, void *src);
+extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_020746E8(u32 off, u32 size);
 extern void func_020604AC(void *list, void *node);
 
 u32 func_02072DE8(u32 idx, u32 a, void *src)
@@ -60,14 +60,14 @@ u32 func_02072DE8(u32 idx, u32 a, void *src)
     struct Node *n;
     u32 r;
 
-    n = func_0207482C(a, (char *)src + 0x14, func_02073710, 0, 0);
+    n = (struct Node *)func_0207482C((u32 *)a, (u32)((char *)src + 0x14), (u32)func_02073710, 0, 0);
     if (n == 0) {
         return 0;
     }
     n->f0c = 0;
     n->f10 = idx;
     n->f08 = 0;
-    r = func_020746E8(&n->f14, src);
+    r = func_020746E8((u32)(&n->f14), (u32)src);
     if (r == 0) {
         return 0;
     }

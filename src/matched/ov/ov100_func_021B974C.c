@@ -22,7 +22,9 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B570(int,int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B570(struct Actor *actor, u32 value);
 void func_021B974C(int a,int b,int c,int d,int e)
 {
  struct Point p;
@@ -31,6 +33,6 @@ void func_021B974C(int a,int b,int c,int d,int e)
   *(int *)(a+0x2c8+d*4)=(int)func_0204B294((void *)*(int *)(a+0x2b4),*(int *)(a+0x2bc),*(int *)(a+0x2b8),*(int *)(a+0x2c0),&p,0,*(u16 *)(a+0x278));
   func_0204B92C((struct Obj *)*(int *)(a+0x2c8+d*4),1);
   func_0204B3DC((struct Obj *)*(int *)(a+0x2c8+d*4),1);
-  func_0204B570(*(int *)(a+0x2c8+d*4),2);
+  func_0204B570((struct Actor *)(*(int *)(a+0x2c8+d*4)),2);
  }
 }

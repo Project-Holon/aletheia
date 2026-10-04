@@ -56,7 +56,7 @@ typedef struct {
 } GPGetInfoResponseArg;
 
 extern int func_020591CC(DWCFriendData *frienddata);
-extern void *func_0216A39C(void);
+extern int func_0216A39C(void);
 extern void func_02059A44(void *userdata, DWCFriendData *frienddata, char *username);
 extern int func_020948E0(const char *a, const char *b);
 struct DWCstAccUserData;
@@ -83,7 +83,7 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
         return;
     for (i = 0; i < g_021AA860.friendcnt->friendListLen; i++) {
         if (func_020591CC(&g_021AA860.friendcnt->friendList[i]) == 1) {
-            func_02059A44(func_0216A39C(), &g_021AA860.friendcnt->friendList[i], userName);
+            func_02059A44((void *)func_0216A39C(), &g_021AA860.friendcnt->friendList[i], userName);
             if (func_020948E0(userName, arg->lastname) == 0) {
                 func_02059A10(&g_021AA860.friendcnt->friendList[i], arg->profile);
                 func_02059214(&g_021AA860.friendcnt->friendList[i]);
@@ -91,7 +91,7 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
             }
         } else if (func_020591CC(&g_021AA860.friendcnt->friendList[i]) == 3
                    || func_020591CC(&g_021AA860.friendcnt->friendList[i]) == 2) {
-            if (func_020598EC(func_0216A39C(), &g_021AA860.friendcnt->friendList[i]) == arg->profile) {
+            if (func_020598EC((struct DWCstAccUserData *)func_0216A39C(), &g_021AA860.friendcnt->friendList[i]) == arg->profile) {
                 if (func_0205915C(&g_021AA860.friendcnt->friendList[i]) == 1)
                     alreadyBuddy = 1;
                 else {

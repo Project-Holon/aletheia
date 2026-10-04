@@ -13,9 +13,9 @@
  *   func_021E8738  0x021E8738  thumb  ov177
  */
 
-extern void func_021E8738(int, int, int, int);
+extern void func_021E8738(int *p, int a, int b, int c);
 
 void func_0217DFD0(int *p, int a, int b)
 {
-    func_021E8738(*(int *)((char *)p + 0x18), *(int *)p, a, b);
+    func_021E8738((int *)(*(int *)((char *)p + 0x18)), *(int *)p, a, b);
 }

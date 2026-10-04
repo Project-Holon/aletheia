@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02157E78(u8 *p);
-extern void func_02157E8C(void *);
+extern int func_02157E8C(int a0);
 extern u32 func_0203D210(void);
 int func_0217E414(char *p)
 {
@@ -24,7 +24,7 @@ int func_0217E414(char *p)
     switch (*(int *)p) {
     case 0:
         if (*(void **)(p + 0x1018)) {
-            func_02157E8C(*(void **)(p + 0x1018));
+            func_02157E8C((int)(*(void **)(p + 0x1018)));
             *(void **)(p + 0x1018) = 0;
         }
         (*(int *)p)++;

@@ -30,7 +30,7 @@ extern void func_021BE700(u32 a, int b, u16 c, u16 d, int e);
 extern u8 *func_021BE674(u32 a, int b, u16 c, u16 d);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6CC(u32 a, int b, u16 c, u16 d, int e);
-extern int func_021BE748(u8 *p);
+extern int func_021BE748(u32 a);
 
 void func_021F38D4(u8 *base, u32 t, int idx)
 {
@@ -67,7 +67,7 @@ void func_021F38D4(u8 *base, u32 t, int idx)
     p = func_021BE674(t, 0, n, k);
     func_021BE6B0(p, 0);
     func_021BE700(t, 0, n, k, 1);
-    func_021BE6CC(t, 0, n, k, func_021BE748(p));
+    func_021BE6CC(t, 0, n, k, func_021BE748((u32)p));
     m = 1;
     n1 = n + 1;
     if (e[1] == 0)
@@ -75,7 +75,7 @@ void func_021F38D4(u8 *base, u32 t, int idx)
     q = func_021BE674(t, 0, n1, m);
     func_021BE6B0(q, 0);
     func_021BE700(t, 0, n1, m, 1);
-    func_021BE6CC(t, 0, n1, m, func_021BE748(q));
+    func_021BE6CC(t, 0, n1, m, func_021BE748((u32)q));
     k3 = 1;
     n2 = n + 2;
     if (e[2] == 0)
@@ -83,5 +83,5 @@ void func_021F38D4(u8 *base, u32 t, int idx)
     r = func_021BE674(t, 0, n2, k3);
     func_021BE6B0(r, 0);
     func_021BE700(t, 0, n2, k3, 1);
-    func_021BE6CC(t, 0, n2, k3, func_021BE748(r));
+    func_021BE6CC(t, 0, n2, k3, func_021BE748((u32)r));
 }

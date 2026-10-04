@@ -25,9 +25,10 @@ typedef unsigned int u32;
 
 struct Obj;
 
-extern void func_0202AB5C(u32 v, u32 a1);
+typedef unsigned char  u8;
+extern void func_0202AB5C(u8 *p, u32 a1);
 
 void func_0202B7BC(struct Obj *o, u32 a1)
 {
-    func_0202AB5C(*(u32 *)((char *)o + 0x10), a1);
+    func_0202AB5C((u8 *)(*(u32 *)((char *)o + 0x10)), a1);
 }

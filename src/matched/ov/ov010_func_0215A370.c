@@ -44,9 +44,10 @@ extern void *func_021BE8D4(void *, void *, int, int);
 extern void *func_021BE92C(void *, void *, int, int, int, int, int);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020144DC(void *, void *);
+struct IcaAnime;
+extern int func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *);
-extern void func_020120B4(void *, void *, void *, void *);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void func_020307B0(void *);
 
 int func_0215A370(void *a, u32 *st, Ctx *c)
@@ -59,11 +60,11 @@ int func_0215A370(void *a, u32 *st, Ctx *c)
         *st = 1;
         break;
     case 1:
-        func_02012374(a, func_020144DC(p0, c->f4));
+        func_02012374(a, (struct Evt **)func_020144DC((int)p0, (int)c->f4));
         *st = 2;
         break;
     case 2:
-        func_020120B4(p0, ov131_id, d_021DC800, c->f8);
+        func_020120B4(p0, (u32)ov131_id, d_021DC800, c->f8);
         *st = 3;
         break;
     case 3:

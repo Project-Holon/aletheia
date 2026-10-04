@@ -19,10 +19,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u8 *func_021AC1E0(u32 a);
+extern int func_021AC1E0(u32 a);
 
 void func_021ADB5C(u32 a, u8 v)
 {
     if (a != 0)
-        func_021AC1E0(a)[3] = v;
+        ((u8 *)func_021AC1E0(a))[3] = v;
 }

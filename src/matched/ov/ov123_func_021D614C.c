@@ -27,34 +27,35 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(void *,u32);
+typedef signed int     s32;
+extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049990(void *,u32,u32,u32,u16,u32,u32,u16);
-extern void *func_02049F78(void *,int,void **,u16);
-extern void *func_0204A6C8(void *,u32,u32,u32,u16);
-extern void *func_0204AC18(void *,u32,u32,u32,u32,u32,u16);
-extern void *func_0204AF28(void *,u32,u32,u16);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 extern void func_021D6404(u8 *);
 void func_021D614C(u8 *p)
 {
     void *h;
-    h=func_020490F4((void *)143,*(u16 *)(p+0x43c4));
+    h=func_020490F4((u32)((void *)143),*(u16 *)(p+0x43c4));
     func_02049B68(h,2,4,0,0,*(u16 *)(p+0x43c4));
     *(u32 *)p=func_02049740(h,8,4,0,0,*(u16 *)(p+0x43c4));
     func_02049990(h,21,4,0,*(u32 *)p,0,0,*(u16 *)(p+0x43c4));
     func_02049990(h,24,7,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x1c)=func_02049F78(h,2,(void **)(p+0x18),*(u16 *)(p+0x43c4));
+    *(void **)(p+0x1c)=func_02049F78(h,2,(u32)((void **)(p+0x18)),*(u16 *)(p+0x43c4));
     func_02049B68(h,2,0,0,0,*(u16 *)(p+0x43c4));
     *(u32 *)(p+4)=func_02049740(h,8,0,0,0,*(u16 *)(p+0x43c4));
     func_02049990(h,23,0,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0x43c4));
     func_02049990(h,24,1,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x38)=func_0204A6C8(h,9,0,2,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x20)=func_0204AC18(h,3,2,96,0,4,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x54)=func_0204AF28(h,12,25,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x3c)=func_0204A6C8(h,10,0,2,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x24)=func_0204AC18(h,4,2,224,0,0,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x58)=func_0204AF28(h,13,26,*(u16 *)(p+0x43c4));
+    *(void **)(p+0x38)=(void *)func_0204A6C8(h,9,0,2,*(u16 *)(p+0x43c4));
+    *(void **)(p+0x20)=(void *)func_0204AC18(h,3,2,96,0,4,*(u16 *)(p+0x43c4));
+    *(void **)(p+0x54)=(void *)func_0204AF28(h,12,25,*(u16 *)(p+0x43c4));
+    *(void **)(p+0x3c)=(void *)func_0204A6C8(h,10,0,2,*(u16 *)(p+0x43c4));
+    *(void **)(p+0x24)=(void *)func_0204AC18(h,4,2,224,0,0,*(u16 *)(p+0x43c4));
+    *(void **)(p+0x58)=(void *)func_0204AF28(h,13,26,*(u16 *)(p+0x43c4));
     func_021D6404(p); func_02049238(h);
 }

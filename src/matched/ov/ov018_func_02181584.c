@@ -99,7 +99,7 @@ struct Obj;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
 u32 func_02012138(const struct Ctx *p);
-u8 *func_02158344(void *);
+int func_02158344(int a0);
 int func_0215839C(void *, int, int);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -114,7 +114,7 @@ int func_0217F508(Ov018Obj *p);
 int func_02175514(u8 *p);
 u32 func_020362DC(void);
 int func_02173B9C(int, int);
-int func_02173AE0(void *, int, int, int);
+int func_02173AE0(int a, int b, int c, int d);
 void func_021753B8(void *);
 void func_021756F0(void *, int);
 int func_021744D0(void *, int, int);
@@ -126,7 +126,7 @@ void func_02026400(struct Comm *p);
 void func_02012374(struct Evt *evt, struct Evt **out);
 void func_0217FE38(void *v, Ov018Outer *c);
 u32 func_02026454(void *obj);
-void *func_02026474(void *);
+u32 func_02026474(void *obj);
 
 int func_02181584(void *a, int *state, Ov018Outer *c)
 {
@@ -136,7 +136,7 @@ int func_02181584(void *a, int *state, Ov018Outer *c)
 
     sub = func_020124E4(a);
     t = (void *)func_02012138(sub);
-    v = func_02158344(t);
+    v = (u8 *)func_02158344((int)t);
     if (v == 0) {
         if (func_0217F40C(&c->obj) == 0) {
             return 0;
@@ -175,7 +175,7 @@ int func_02181584(void *a, int *state, Ov018Outer *c)
         }
         break;
     case 3:
-        if (func_02173AE0(v, v[0x154], 4, v[0x158]) == 1) {
+        if (func_02173AE0((int)v, v[0x154], 4, v[0x158]) == 1) {
             func_021756F0(v, 1);
             *state = 4;
         }
@@ -227,7 +227,7 @@ int func_02181584(void *a, int *state, Ov018Outer *c)
         *state = 14;
         break;
     case 11:
-        if (func_02173AE0(v, v[0x154], 2, v[0x158]) == 1) {
+        if (func_02173AE0((int)v, v[0x154], 2, v[0x158]) == 1) {
             func_021763D8(func_020127B8(func_020120F4(sub)), 0);
             *state = 12;
         }
@@ -252,7 +252,7 @@ int func_02181584(void *a, int *state, Ov018Outer *c)
     case 16:
         func_0217FE38(v, c);
         if (func_02026454(t) == 2 && func_02026474(t) != 0) {
-            func_021756F0(func_02026474(t), 0);
+            func_021756F0((void *)func_02026474(t), 0);
         }
         return 1;
     }

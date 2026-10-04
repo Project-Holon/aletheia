@@ -22,11 +22,13 @@
  *   d_021DDD70     0x021DDD70  data ov021 a4
  */
 
-extern int func_0216D4F8(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_0216D4F8(u8 *p);
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern unsigned char d_021DDD70[];
 void func_0219D2CC(int *obj)
 {
     *(int *)((char *)obj + 0x20) =
-        (int)func_02030734(func_0216D4F8(obj[4]), 0x30, 1, (const char *)d_021DDD70, 0x979);
+        (int)func_02030734(func_0216D4F8((u8 *)obj[4]), 0x30, 1, (const char *)d_021DDD70, 0x979);
 }

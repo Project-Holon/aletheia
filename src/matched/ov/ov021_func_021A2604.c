@@ -19,14 +19,15 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 int func_02005C64(void);
-void func_02028ACC(u32 x, int a, int b);
+struct SoundSys2;
+void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who);
 void func_020061F0(u32 a, u32 b);
 
 void func_021A2604(u8 *p, int a, int b)
 {
     if (func_02005C64() == 0) {
         if (*(u32 *)(p + 0x48) != 0)
-            func_02028ACC(*(u32 *)(p + 0xC), a, b);
+            func_02028ACC((struct SoundSys2 *)(*(u32 *)(p + 0xC)), a, b);
         else
             func_020061F0(a, b);
     }

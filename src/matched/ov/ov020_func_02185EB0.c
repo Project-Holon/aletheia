@@ -21,30 +21,32 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-int func_02012870(int a);
-short *func_0201284C(int a);
+struct BigObj;
+struct Rec1C;
+struct Rec1C *func_02012870(const struct BigObj *p);
+struct Rec1C *func_0201284C(const struct BigObj *p);
 typedef unsigned int   u32;
 u32 func_02014068(u32 id);
-void func_020128C0(int a, void *b);
+void func_020128C0(struct BigObj *p, const struct Rec1C *src);
 void func_02014204(void *buf, int n);
 u32 func_02013C50(u32 id);
 
 void func_02185EB0(int a, u16 *p)
 {
-    int r7 = func_02012870(a);
-    short *r6 = func_0201284C(a);
+    int r7 = (int)func_02012870((const struct BigObj *)a);
+    short *r6 = (short int *)func_0201284C((const struct BigObj *)a);
     u8 buf[0x1c];
 
     if (func_02014068(p[2])) {
         if (r6[2] == 0x88) {
-            func_020128C0(a, (void *)r7);
+            func_020128C0((struct BigObj *)a, (void *)r7);
         } else if (!func_02014068((u16)r6[2])) {
             func_02014204(buf, 0xd6);
-            func_020128C0(a, buf);
+            func_020128C0((struct BigObj *)a, (const struct Rec1C *)buf);
         }
     }
     if (r6[2] == 0x9e) {
         if (func_02013C50(p[2]))
-            func_020128C0(a, (void *)r7);
+            func_020128C0((struct BigObj *)a, (void *)r7);
     }
 }

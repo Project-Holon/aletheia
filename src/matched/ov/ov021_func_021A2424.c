@@ -23,7 +23,7 @@ typedef struct {
     int z;
 } Vec021A2424;
 
-u32 func_0218EC2C(u32 x);
+u32 func_0218EC2C(u8 *p);
 void func_02048B30(u32 x, Vec021A2424 *out);
 
 void func_021A2424(u8 *p)
@@ -31,7 +31,7 @@ void func_021A2424(u8 *p)
     Vec021A2424 v;
 
     if (*(u32 *)(p + 0x14) != 0) {
-        func_02048B30(func_0218EC2C(*(u32 *)(p + 0x14)), &v);
+        func_02048B30(func_0218EC2C((u8 *)(*(u32 *)(p + 0x14))), &v);
         *(Vec021A2424 *)(p + 0x68) = v;
     }
 }

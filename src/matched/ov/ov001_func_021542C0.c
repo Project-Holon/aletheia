@@ -53,18 +53,20 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32   func_020120F4(u32 a0);
+struct Ctx;
+struct IcaAnime;
+extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 struct Evt;
 extern void *func_0201210C(const struct Ctx *p);
 extern u16 func_02005C44(void);
 extern void func_02005E30(u32 a);
-extern int   func_02012138(u32 a0);
-extern int   func_02026454(int x);
-extern void *func_020144DC(u32 a0, void *a1);
+extern u32 func_02012138(const struct Ctx *p);
+extern u32 func_02026454(void *obj);
+extern int func_020144DC(int a0, int a1);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
-extern int   func_020120F0(u32 a0);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
 extern int   func_0203CD98(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -78,7 +80,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  func_020307B0(void *p);
 extern void  func_02005D90(u32 a0, u32 a1);
 extern void func_02005DF8(u32 a);
-extern void *func_020145CC(u32 a0);
+extern void *func_020145CC(void *a0);
 
 extern char ov115_id[];
 extern char ov120_id[];
@@ -106,7 +108,7 @@ typedef struct Req {
 u32 func_021542C0(void *obj, u32 *mode, char *args)
 {
     u32 h = F(0x17c);
-    u32 v08 = func_020120F4(h);
+    u32 v08 = (u32)func_020120F4((const struct Ctx *)h);
     void *v0c = func_0201210C((void *)h);
     Req *p;
 
@@ -117,19 +119,19 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         (*mode)++;
         break;
     case 1:
-        if (func_02026454(func_02012138(h)) == 0) {
-            func_02012374(obj, func_020144DC(h, v0c));
+        if (func_02026454((void *)func_02012138((const struct Ctx *)h)) == 0) {
+            func_02012374(obj, (struct Evt **)func_020144DC(h, (int)v0c));
             (*mode)++;
         }
         break;
     case 2:
         F(0x378) = (u32)(args + 8);
         F(0x374) = 0x33;
-        func_020120B4(h, ov115_id, d_021D6338, args + 0x368);
+        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D6338, args + 0x368);
         (*mode)++;
         break;
     case 3:
-        if (func_020120F0(h) == 0) {
+        if (func_020120F0((const struct Ctx *)h) == 0) {
             if (F(0x384) == 0)
                 (*mode)++;
             else
@@ -138,11 +140,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         break;
     case 4:
         F(0x334) = 0;
-        func_020120B4(h, ov120_id, d_021D890C, args + 0x184);
+        func_020120B4((struct IcaAnime *)h, (u32)ov120_id, d_021D890C, args + 0x184);
         (*mode)++;
         break;
     case 5:
-        if (func_020120F0(h) == 0) {
+        if (func_020120F0((const struct Ctx *)h) == 0) {
             if (F(0x334) == 1) {
                 *mode = 12;
             } else if (F(0x334) == 0) {
@@ -158,11 +160,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         F(0x34c) = v08;
         F(0x350) = (u32)(args + 0x184);
         F(0x35c) = (u32)(args + 8);
-        func_020120B4(h, ov119_id, d_021E759C, args + 0x338);
+        func_020120B4((struct IcaAnime *)h, (u32)ov119_id, d_021E759C, args + 0x338);
         (*mode)++;
         break;
     case 7:
-        if (func_020120F0(h) == 0) {
+        if (func_020120F0((const struct Ctx *)h) == 0) {
             if (func_0203CD98() == 0) {
                 F(0x37c) = 1;
                 *mode = 2;
@@ -200,11 +202,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         p->f0c = 1;
         p->f10 = 0;
         F(0x358) = (u32)p;
-        func_020120B4(h, ov195_id, d_02208C40, p);
+        func_020120B4((struct IcaAnime *)h, (u32)ov195_id, d_02208C40, p);
         (*mode)++;
         break;
     case 11:
-        if (func_020120F0(h) == 0) {
+        if (func_020120F0((const struct Ctx *)h) == 0) {
             func_020307B0((void *)F(0x358));
             if (func_0203CD98() == 0) {
                 F(0x37c) = 1;
@@ -216,11 +218,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         }
         break;
     case 12:
-        func_020120B4(h, ov115_id, d_021D654C, args + 0x390);
+        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D654C, args + 0x390);
         (*mode)++;
         break;
     case 13:
-        if (func_020120F0(h) == 0)
+        if (func_020120F0((const struct Ctx *)h) == 0)
             (*mode)++;
         break;
     case 14:
@@ -229,7 +231,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         func_020307B0((void *)F(0x3ac));
         func_02005D90(F(0x0), 0xFFFF);
         func_02005DF8(0x3C);
-        func_02012374(obj, func_020145CC(h));
+        func_02012374(obj, func_020145CC((void *)h));
         (*mode)++;
         break;
     case 15:

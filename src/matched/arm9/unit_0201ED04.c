@@ -75,7 +75,7 @@ extern void *unk_020A7370;
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  func_020307B0(void *p);
 extern u32   func_02017E1C(void *p, u32 id, u32 v);
-extern u32   func_02017E88(void *p, u32 id, void *v);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 typedef signed int     s32;
 struct MsgBank;
 struct Rec;
@@ -223,7 +223,7 @@ void func_0201EEF4(struct WordSet *p, u32 i, void *mon)
 
 void func_0201EF14(struct WordSet *p, u32 i, void *mon)
 {
-    func_02017E88(mon, 0x73, p->buf);
+    func_02017E88(mon, 0x73, (u32)p->buf);
     func_0201ED84(p, i, p->buf, 0);
 }
 

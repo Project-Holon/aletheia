@@ -34,7 +34,7 @@ extern void *func_02188C7C(u8 *p);
 extern void *func_02161938(void *a, u32 b);
 extern void *func_02197D3C(void *a, void *b);
 extern void func_02161964(Obj *o, void *v);
-extern int func_02161984(Obj *o);
+extern int func_02161984(int a0);
 
 int func_02161850(void *a0, int *state, Obj *o)
 {
@@ -50,7 +50,7 @@ int func_02161850(void *a0, int *state, Obj *o)
         *state = *state + 1;
         break;
     case 1:
-        if (func_02161984(o) == 0)
+        if (func_02161984((int)o) == 0)
             return 1;
         break;
     }

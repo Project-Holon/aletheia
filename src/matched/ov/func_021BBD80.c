@@ -38,9 +38,9 @@ typedef int BOOL;
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(void *p);
-extern void func_0204ADA4(void *p);
-extern void func_0204AFD8(void *p);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 
 void func_021BBD80(char *s)
 {
@@ -50,11 +50,11 @@ void func_021BBD80(char *s)
         for (i = 0; i < 12; i++) {
             if (*(void **)(s + i * 4 + 0x150) != 0) {
                 func_0204B3B4(*(void **)(s + i * 4 + 0x150));
-                func_0204A8D4(*(void **)(s + i * 4 + 0x118));
+                func_0204A8D4((u32)(*(void **)(s + i * 4 + 0x118)));
             }
             *(u32 *)(s + i * 4 + 0x150) = 0;
         }
-        func_0204ADA4(*(void **)(s + 0x148));
-        func_0204AFD8(*(void **)(s + 0x14C));
+        func_0204ADA4((u32)(*(void **)(s + 0x148)));
+        func_0204AFD8((u32)(*(void **)(s + 0x14C)));
     }
 }

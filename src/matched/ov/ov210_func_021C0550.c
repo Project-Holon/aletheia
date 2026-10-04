@@ -15,20 +15,22 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021B796C(int h);
-extern void func_02045808(int h);
+struct S;
+struct U16Vec;
+extern void func_021B796C(struct S *s);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021C0550(int p)
 {
     unsigned i;
 
-    func_021B796C(*(int *)(p + 0x1e0));
+    func_021B796C((struct S *)(*(int *)(p + 0x1e0)));
     *(int *)(p + 0x1e0) = 0;
     for (i = 0; i < 0x32; i++) {
         int *q = (int *)(p + i * 4);
 
         if (q[0x79] != 0) {
-            func_02045808(q[0x79]);
+            func_02045808((struct U16Vec *)q[0x79]);
             q[0x79] = 0;
         }
     }

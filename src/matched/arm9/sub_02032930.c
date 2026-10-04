@@ -53,12 +53,12 @@ struct SaveMain {
 extern struct SaveMain *unk_02146994;
 
 extern u32 func_02031EAC(struct SaveBackup *p, u32 sel);
-extern int func_020336B8(u32 dst, u32 src, u32 len, u32 handle);
+extern int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
 
 int sub_02032930(struct SaveBackup *p, u32 sel)
 {
     u32 area = p->unk30;
     u32 end = area + func_02031EAC(p, sel);
 
-    return func_020336B8(end - 1, p->unk34 + (area - 1), 1, unk_02146994->unk208);
+    return func_020336B8(end - 1, p->unk34 + (area - 1), 1, (void *)unk_02146994->unk208);
 }

@@ -51,11 +51,11 @@ struct Obj {
     struct Xform unk_40;
 };
 
-extern void sub_0206380C(const struct Xform *m, u32 axis);
+extern int sub_0206380C(char *p, int i);
 
 void sub_0204B728(struct Obj *o, const struct Xform *m)
 {
-    sub_0206380C(m, 1);
-    sub_0206380C(m, 2);
+    sub_0206380C((char *)m, 1);
+    sub_0206380C((char *)m, 2);
     o->unk_40 = *m;
 }

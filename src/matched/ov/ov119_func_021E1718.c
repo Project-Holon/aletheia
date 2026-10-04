@@ -12,7 +12,9 @@
  *   func_02045770 0x02045770 arm
  */
 typedef signed short s16;
-extern void func_02045CAC(int,int,int);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
@@ -20,7 +22,7 @@ void func_021E1718(int a,int b,int x,int y,char *p)
 {
     int i;
     for(i=0;i<6;i++) {
-        func_02045CAC(*(int *)(p+0x720),30+i,*(int *)(p+0x730));
+        func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),30+i,(void *)(*(int *)(p+0x730)));
         func_0201C7A4(func_02045770((struct Descriptor *)b),x,y+16*i,*(void **)(p+0x730),*(void **)(p+0x728));
     }
 }

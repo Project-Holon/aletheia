@@ -19,7 +19,7 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u16 heap);
-extern void *func_02049F78(unsigned char *,unsigned,void **,int);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_0204ADEC(int,void *,int);
 extern void func_020307B0(void *);
 extern void func_02049238(unsigned char *);
@@ -29,7 +29,7 @@ void func_021B7750(char *p) {
     unsigned char *bank;
     void *buffer;
     bank=func_020490F4(216,0x808d);
-    buffer=func_02049F78(bank,d_021B82D4[*(unsigned short *)(p+0x915a)],&out,141);
+    buffer=func_02049F78(bank,d_021B82D4[*(unsigned short *)(p+0x915a)],(u32)(&out),141);
     func_0204ADEC(*(int *)(p+0x90ec),out,1);
     func_020307B0(buffer);
     func_02049238(bank);

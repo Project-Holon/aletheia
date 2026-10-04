@@ -31,8 +31,8 @@ typedef struct {
 
 extern void *func_0219E968(u32 a, u32 size);
 extern void func_0219E2F4(u32, Pos *);
-extern void func_0216D674(u32, u32);
-extern void func_0216DA50(u32);
+extern void func_0216D674(void *p, u16 v);
+extern void func_0216DA50(u8 *p);
 
 void func_0219ED8C(u32 a)
 {
@@ -43,6 +43,6 @@ void func_0219ED8C(u32 a)
     q[0xd] = 0;
     q[0xf] = pos.f6;
     q[0xe] = pos.f4;
-    func_0216D674(a, 0);
-    func_0216DA50(a);
+    func_0216D674((void *)a, 0);
+    func_0216DA50((u8 *)a);
 }

@@ -17,11 +17,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021C80AC(int a, int b);
+extern int func_021C80AC(u8 *p, int key);
 
 int func_021E8624(int a, int b)
 {
-    if (func_021C80AC(a, b) != 0)
+    if (func_021C80AC((u8 *)a, b) != 0)
         return 1;
     return 0;
 }

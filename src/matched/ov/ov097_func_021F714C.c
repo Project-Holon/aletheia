@@ -49,7 +49,7 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_0202136C(u16);
 extern void func_0204B8C4(struct Obj *, u32);
 extern void func_0204B878(struct Obj *, u16);
-extern void func_021F72DC(struct P *, u32, int);
+extern void func_021F72DC(unsigned p, unsigned i, int dx);
 void func_021F714C(struct P *p)
 {
     u32 i;
@@ -83,17 +83,17 @@ void func_021F714C(struct P *p)
     }
     if (*(int *)(p->parent + 8) == 0) {
         for (i = 0; i < 3; i++) {
-            func_021F72DC(p, i + 3, 128);
-            func_021F72DC(p, i + 9, 128);
-            func_021F72DC(p, i + 15, 128);
-            func_021F72DC(p, i + 21, 128);
+            func_021F72DC((unsigned int)p, i + 3, 128);
+            func_021F72DC((unsigned int)p, i + 9, 128);
+            func_021F72DC((unsigned int)p, i + 15, 128);
+            func_021F72DC((unsigned int)p, i + 21, 128);
         }
     } else {
         for (i = 0; i < 3; i++) {
-            func_021F72DC(p, i, -128);
-            func_021F72DC(p, i + 6, -128);
-            func_021F72DC(p, i + 12, -128);
-            func_021F72DC(p, i + 18, -128);
+            func_021F72DC((unsigned int)p, i, -128);
+            func_021F72DC((unsigned int)p, i + 6, -128);
+            func_021F72DC((unsigned int)p, i + 12, -128);
+            func_021F72DC((unsigned int)p, i + 18, -128);
         }
     }
 }

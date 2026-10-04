@@ -17,8 +17,8 @@
 
 
 
-extern void func_021DE8B4(int, int, int, int, int);
+extern void func_021DE8B4(unsigned char *p, int slot, unsigned idx, int mode, int flag);
 void func_021DEA3C(int a, int b, int c, int d)
 {
-    func_021DE8B4(a, b, c, d, 1);
+    func_021DE8B4((unsigned char *)a, b, c, d, 1);
 }

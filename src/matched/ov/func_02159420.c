@@ -17,12 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02011398();
+struct Ring;
+extern u32 func_02011398(struct Ring *r);
 
 int func_02159420(int a0)
 {
 
-    a0 = func_02011398(a0);
+    a0 = func_02011398((struct Ring *)a0);
 loc_02159426:
 a0 = 0;
     return a0;}

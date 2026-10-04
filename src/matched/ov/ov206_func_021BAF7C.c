@@ -20,8 +20,10 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(int, int);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(int);
-extern int func_02045730(int);
+typedef unsigned char  u8;
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 void func_021BAF7C(char *p)
@@ -32,8 +34,8 @@ void func_021BAF7C(char *p)
         if (*(int *)(slot + 0x7c) == 0 && func_0201C6C4(*(int *)(p + 0x2c), (int)func_02045770((struct Descriptor *)*(int *)(slot + 0x6c))) == 0) {
             int window = *(int *)(slot + 0x6c);
             func_02045334((struct Descriptor *)window);
-            func_02045374(window);
-            func_02041B6C(func_02045730(window));
+            func_02045374((struct Cfg *)window);
+            func_02041B6C(func_02045730((struct Descriptor *)window));
             *(int *)(slot + 0x7c) = 1;
         }
     }

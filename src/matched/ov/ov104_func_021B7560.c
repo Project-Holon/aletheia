@@ -61,7 +61,7 @@ extern void func_021B7E58(u8 *,u32,u32,u8,u8,u8,u8,u16,u8,u16);
 extern void func_021B7F80(u8 *,void *,int);
 extern void func_02041F6C(u32,u32,u16);
 extern void func_02041FB0(u32,u32,u16);
-extern void func_021B8724(u8 *,void *);
+extern void func_021B8724(u8 *p, int a);
 extern void func_021B85D8(void *p);
 extern void func_021B8A88(u8 *,void *,int,int,int);
 extern u32 func_021B7974(u8 *);
@@ -97,7 +97,7 @@ int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
  func_02041FB0(7,9,0x80);
  func_02041FB0(7,12,0x28);
  func_021B7E58(p+0x7f0,2,8,10,16,2,13,0,0,0x38);
- func_021B8724(p+0xe0,*(void **)(CTX(p)+4));
+ func_021B8724(p+0xe0,(int)(*(void **)(CTX(p)+4)));
  func_021B85D8(p+0x814);
  func_021B8A88(p+0x278,p,1,0,0);
  bank=func_021B7974(p);

@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0201213C();
-extern int func_020121CC();
+struct IcaAnime;
+extern u32 func_020121CC(struct IcaAnime *p);
 
 int func_0215F2A0(int a0, int a1)
 {
@@ -31,7 +32,7 @@ a0 = t4 + 0;
     a0 = func_0201213C(a0, a1);
 loc_0215F2AC:
 a0 = t4 + 0;
-    a0 = func_020121CC(a0);
+    a0 = func_020121CC((struct IcaAnime *)a0);
 loc_0215F2B2:
 a0 = 1;
     return a0;}

@@ -105,7 +105,7 @@ typedef struct { fx32 x, y, z; } VecFx32;
 
 extern void *func_02047CFC(int a, int b, int heap);
 extern u16 func_02047E88(void *p, const void *q);
-extern void *func_02048A18(void *p, u16 id);
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
 extern void func_020477A4(void *mdl, u16 i);
 extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
@@ -126,7 +126,7 @@ void func_021C7744(Work *p)
 
     p->fF8 = func_02047CFC(10, 10, 0x27);
     p->fFC = func_02047E88(p->fF8, d_021C8834);
-    mdl = func_02048A18(p->fF8, p->fFC);
+    mdl = (void *)func_02048A18(p->fF8, p->fFC);
     n = func_0204779C(mdl);
     for (i = 0; i < n; i++) {
         func_020477A4(mdl, i);

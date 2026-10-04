@@ -42,9 +42,9 @@ extern void func_021BB9E4(void *ctx, u8 *p);
 extern u8 func_021BE054(void *p);
 extern u32 func_021BDFE4(void *p);
 extern u32 func_021BDFFC(void *p);
-extern u8 *func_021B8BB8(void *ctx, u32 base, int *out);
-extern void func_021B6E88(u32 a, u8 *e);
-extern void func_021B8BFC(void *ctx, u32 base);
+extern int func_021B8BB8(int a, unsigned char *p, int *out);
+extern void func_021B6E88(char *p, void *q);
+extern void func_021B8BFC(int unused, u8 *p);
 extern void *func_0207E008(void);
 extern u32 func_0207E100(void);
 extern u32 func_021BE078(void *p);
@@ -91,7 +91,7 @@ void func_021BB288(void *ctx, u8 *p)
         mode = func_021BE054(ctx);
         cur = func_021BDFE4(ctx);
         s1 = func_021BDFFC(ctx);
-        e = func_021B8BB8(ctx, cur, &out1);
+        e = (u8 *)func_021B8BB8((int)ctx, (unsigned char *)cur, &out1);
         if (out1 == 0) {
             e[0] = x;
             e[1] = y;
@@ -100,9 +100,9 @@ void func_021BB288(void *ctx, u8 *p)
             e[6] = p[0x37];
             *(u16 *)(e + 4) = *(u16 *)(p + 0x34);
             if (mode == 1) {
-                func_021B6E88(s1, e);
+                func_021B6E88((char *)s1, e);
             } else {
-                func_021B8BFC(ctx, cur);
+                func_021B8BFC((int)ctx, (u8 *)cur);
             }
         }
     }
@@ -146,7 +146,7 @@ void func_021BB288(void *ctx, u8 *p)
                 mode = func_021BE054(ctx);
                 cur = func_021BDFE4(ctx);
                 s2 = func_021BDFFC(ctx);
-                e = func_021B8BB8(ctx, cur, &out2);
+                e = (u8 *)func_021B8BB8((int)ctx, (unsigned char *)cur, &out2);
                 if (out2 == 0) {
                     e[0] = *(u32 *)(p + 0x2c);
                     e[1] = *(u32 *)(p + 0x30);
@@ -160,9 +160,9 @@ void func_021BB288(void *ctx, u8 *p)
                         *(u16 *)(e + 4) = *(u16 *)(p + 0x34);
                     }
                     if (mode == 1) {
-                        func_021B6E88(s2, e);
+                        func_021B6E88((char *)s2, e);
                     } else {
-                        func_021B8BFC(ctx, cur);
+                        func_021B8BFC((int)ctx, (u8 *)cur);
                     }
                 } else {
                     *(int *)(p + 0xc) = 0;

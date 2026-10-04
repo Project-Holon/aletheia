@@ -33,10 +33,11 @@ extern void func_021C0A10(u8 *p);
 extern void func_021C0A48(u8 *p);
 extern int func_021C0A70(u8 *p);
 extern void func_021C0988(u8 *p);
-extern u32 func_02188C80(u32 a);
-extern u32 func_02029830(u32 a, u32 b);
-extern u32 func_02029620(u32 a, u32 b, u32 c);
-extern void func_02012374(u32 a, u32 b);
+struct Evt;
+extern void *func_02188C80(void *p);
+extern void *func_02029830(void *a, u32 b);
+extern void *func_02029620(void *a, u16 b, u16 c);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021C0844(u32 a, int *st, u8 *p)
 {
@@ -52,7 +53,7 @@ int func_021C0844(u32 a, int *st, u8 *p)
     case 1:
         if (*(u16 *)(p + 0x16) > 10) {
             func_021C0A10(p);
-            func_02012374(a, func_02029830(func_02188C80(*(u32 *)(p + 4)), 0x514));
+            func_02012374((struct Evt *)a, func_02029830(func_02188C80((void *)(*(u32 *)(p + 4))), 0x514));
             func_021C09A8(p, st, 2);
         }
         break;
@@ -63,7 +64,7 @@ int func_021C0844(u32 a, int *st, u8 *p)
         }
         break;
     case 3:
-        func_02012374(a, func_02029620(func_02188C80(*(u32 *)(p + 4)), 0, 6));
+        func_02012374((struct Evt *)a, func_02029620(func_02188C80((void *)(*(u32 *)(p + 4))), 0, 6));
         func_021C09A8(p, st, 4);
         break;
     case 4:

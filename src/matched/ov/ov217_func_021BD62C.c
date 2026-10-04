@@ -40,18 +40,19 @@
 
 typedef unsigned char  u8;
 extern void func_021BD718(unsigned char *p);
-extern void func_021BD868(void *p);
+typedef unsigned int   u32;
+extern void func_021BD868(u32 a0);
 extern void func_021BD89C(u8 *p);
 extern void func_021BDC18(u8 *p);
 extern void func_021BDF58(u8 *p);
 extern void func_021BE040(u8 *p);
-extern void func_021BE094(void *p);
-extern void func_021BE0D0(void *p);
+extern void func_021BE094(u32 a0);
+extern void func_021BE0D0(u32 a0);
 extern void func_021BE108(void *p);
 extern void func_021BE21C(void *p);
-extern void func_021BE33C(void *p);
-extern void func_021BE36C(void *p);
-extern void func_021BE384(void *p);
+extern void func_021BE33C(u32 a0);
+extern void func_021BE36C(u32 a0);
+extern void func_021BE384(u32 a0);
 extern void func_021BF6D4(void *p);
 extern void func_021BF710(void *p);
 extern void func_0204A600(void *h);
@@ -62,24 +63,24 @@ extern void func_021BF5E4(void *p);
 extern void func_021BEDC4(void *p);
 extern void func_021BEDEC(void *p);
 extern void func_021BE490(void *p);
-extern void func_021BE4A4(void *p);
+extern void func_021BE4A4(u32 a0);
 
 void func_021BD62C(unsigned char *p)
 {
     switch (*(unsigned int *)(p + 0x20)) {
     case 0: func_021BD718(p); break;
-    case 1: func_021BD868(p); break;
+    case 1: func_021BD868((u32)p); break;
     case 2: func_021BD89C(p); break;
     case 3: func_021BDC18(p); break;
     case 4: func_021BDF58(p); break;
     case 5: func_021BE040(p); break;
-    case 6: func_021BE094(p); break;
-    case 7: func_021BE0D0(p); break;
+    case 6: func_021BE094((u32)p); break;
+    case 7: func_021BE0D0((u32)p); break;
     case 8: func_021BE108(p); break;
     case 9: func_021BE21C(p); break;
-    case 10: func_021BE33C(p); break;
-    case 11: func_021BE36C(p); break;
-    case 12: func_021BE384(p); break;
+    case 10: func_021BE33C((u32)p); break;
+    case 11: func_021BE36C((u32)p); break;
+    case 12: func_021BE384((u32)p); break;
     case 13: return;
     }
     func_021BF6D4(p);
@@ -95,5 +96,5 @@ void func_021BD62C(unsigned char *p)
         *(volatile unsigned int *)0x04000540 = 0;
     }
     func_021BE490(p);
-    func_021BE4A4(p);
+    func_021BE4A4((u32)p);
 }

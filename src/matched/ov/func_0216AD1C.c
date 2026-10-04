@@ -26,10 +26,10 @@ typedef unsigned int u32;
 
 extern unsigned int func_02159B10(void *, void *);
 extern void *func_0216AED0(void *p, u32 id);
-extern int func_0215A5CC();
+extern u16 func_0215A5CC(void *a0);
 extern int func_0216AF1C();
 extern void *func_0215A5F4(void *p);
-extern int func_02158F74();
+extern void *func_02158F74(void *p);
 struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern int func_020307B0();
@@ -60,7 +60,7 @@ loc_0216AD3A:
     if (obj == 0) goto loc_0216AD6C;
 loc_0216AD3E:
 a0 = t4 + 0;
-    a0 = func_0215A5CC(a0);
+    a0 = func_0215A5CC((void *)a0);
 loc_0216AD44:
 a2 = a0 + 0;
 a0 = t4 + 0;
@@ -73,7 +73,7 @@ loc_0216AD54:
 a0 = t4 + 0;
     v1 = func_0215A5F4((void *)a0);
 loc_0216AD5A:
-    a0 = func_02158F74(v1);
+    a0 = (int)func_02158F74(v1);
 loc_0216AD5E:
 a1 = t7 + 0;
 a2 = t5 + 0;

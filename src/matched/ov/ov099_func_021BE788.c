@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C23C0(int index);
-extern void *func_021C23B8(int index);
+extern int func_021C23B8(int i);
 extern u8 func_021BDD48(int unused, void *s);
 extern u8 func_021C2050(char *p, int i);
 extern void func_021C203C(char *p, int i);
@@ -29,7 +29,7 @@ int func_021BE788(char *p)
     for (i = 0; i < 32; i++) {
         *(u8 *)(p + i + 0x10) = 0;
         if (*(u16 *)(p + 0x132a) > i && func_021C23C0(i)) {
-            value = func_021BDD48((int)p, func_021C23B8(i));
+            value = func_021BDD48((int)p, (void *)func_021C23B8(i));
             if (value != 0 && value < 6) {
                 *(u8 *)(p + count + 0x10) = i + 1;
                 count++;

@@ -13,10 +13,11 @@
  *   func_0201F7A8 0x0201F7A8 thumb
  */
 
-extern void func_0201F7A8(int, int);
+typedef unsigned int   u32;
+extern void func_0201F7A8(void *desc, u32 kind);
 
 int func_0220D29C(char *a)
 {
-    func_0201F7A8(*(int *)(a + 0x24), 0);
+    func_0201F7A8((void *)(*(int *)(a + 0x24)), 0);
     return 6;
 }

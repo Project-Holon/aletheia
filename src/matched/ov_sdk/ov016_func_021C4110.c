@@ -41,10 +41,10 @@ extern void func_02082A60();
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_021D5E5C(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
-extern void func_021D5FC4();
-extern void func_021C11D4();
+extern void func_021D5FC4(int x);
+extern void func_021C11D4(unsigned int v);
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C44D8();
 extern void func_021C4260();
 extern unsigned char g_021DE5C4[];
@@ -63,8 +63,8 @@ void func_021C4110(void)
     func_02082A48(0, buf, sizeof(buf));
     func_02082A60(info->name, buf, info->nameLength * 2);
     func_021D5E5C(bg, 8, 0x35, 0xF0, 0x1C, 2, 0x480, buf);
-    func_021D5FC4(bg);
-    func_021C11D4(func_021C44D8);
+    func_021D5FC4((int)bg);
+    func_021C11D4((unsigned int)func_021C44D8);
     func_021D1208(0x1D, 4, 0, -1, 0);
-    func_021C0E40(func_021C4260);
+    func_021C0E40((unsigned int)func_021C4260);
 }

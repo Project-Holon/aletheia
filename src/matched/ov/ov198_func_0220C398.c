@@ -30,19 +30,19 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_020457B0(u32,u32);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(void *,u32,void *);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 void func_0220C398(u8 *p,int slot,int index)
 {
     char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
-    u32 buf=func_020457B0(16,*(u16 *)(*(char **)p+0x10));
+    u32 buf=(u32)func_020457B0(16,*(u16 *)(*(char **)p+0x10));
     void *text=func_02045EC0(*(void **)(p+0x1EA0),14);
     u32 context;
     u32 surface;
     func_0201EF8C(*(void **)(p+0x1EA4),0,*(u16 *)(elem+0x18));
-    func_0201F250(*(void **)(p+0x1EA4),buf,text);
+    func_0201F250(*(void **)(p+0x1EA4),(void *)buf,text);
     context=*(u32 *)(p+0x1EAC);
     surface=(u32)func_02045770(*(void **)(p+slot*8+0x1F70));
     func_0201C724(context,surface,0,0,buf,*(u32 *)(*(char **)p+0xC),0x3DC0);

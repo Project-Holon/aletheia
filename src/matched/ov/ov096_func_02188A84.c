@@ -11,9 +11,10 @@
  * symbols:
  *   func_02188AB4 0x02188AB4 thumb ov096
  */
-extern void func_02188AB4(int, int, int);
+struct Cursor;
+extern int func_02188AB4(struct Cursor *a, unsigned char *b, int c);
 int func_02188A84(int a, int b)
 {
-    func_02188AB4(a, b, 3);
+    func_02188AB4((struct Cursor *)a, (unsigned char *)b, 3);
     return *(int *)(b + 0xc4);
 }

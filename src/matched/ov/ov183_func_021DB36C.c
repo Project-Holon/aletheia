@@ -18,6 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 struct S020315D4;
-extern void func_021FD820(char *),func_021FD714(int),func_0201C4C0(void *);
+extern void func_021FD820(char *);
+extern void func_021FD714(void *p);
+extern void func_0201C4C0(void *);
 extern void func_020315D4(struct S020315D4 *);
-int func_021DB36C(struct S020315D4 *task,int b,int c,char *p) { func_021FD820(*(char **)(p+20)); func_021FD820(*(char **)(p+24)); func_0201C4C0(*(void **)(p+12)); func_021FD714(*(int *)p); func_020315D4(task); return 1; }
+int func_021DB36C(struct S020315D4 *task,int b,int c,char *p) { func_021FD820(*(char **)(p+20)); func_021FD820(*(char **)(p+24)); func_0201C4C0(*(void **)(p+12)); func_021FD714((void *)(*(int *)p)); func_020315D4(task); return 1; }

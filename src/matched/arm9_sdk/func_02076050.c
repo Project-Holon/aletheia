@@ -15,5 +15,6 @@
  */
 typedef unsigned int u32;
 extern u32 g_02150200;
-extern void func_02076230(u32, u32, u32, u32);
-void func_02076050(void) { func_02076230((u32)&g_02150200, 0, 0, 0); }
+struct CARDiCommon;
+extern int func_02076230(struct CARDiCommon *p, int restart, void (*callback)(void *), void *callback_arg);
+void func_02076050(void) { func_02076230((struct CARDiCommon *)((u32)&g_02150200), 0, 0, 0); }

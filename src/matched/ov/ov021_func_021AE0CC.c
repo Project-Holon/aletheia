@@ -32,10 +32,10 @@ typedef struct Rec {
     u32 f14;
 } Rec;
 
-extern int func_021AE1FC(int a, int b, Rec *c);
+extern int func_021AE1FC(int a, void *b, int c);
 extern u32 func_0215A4C8(u16 a);
-extern int func_02188C80(int a);
-extern u32 func_0218B6AC(int a);
+extern void *func_02188C80(void *p);
+extern int func_0218B6AC(void *ctx);
 extern int func_021AE930(int a, u32 b);
 extern void func_0215A438(int a, int b, Rec *src);
 extern u32 func_021AE8D4(u32 a, u16 b);
@@ -50,11 +50,11 @@ int func_021AE0CC(int a)
     int z = 0;
     int ret = 0;
 
-    if (func_021AE1FC(a, 0, &b) == 1) {
+    if (func_021AE1FC(a, 0, (int)(&b)) == 1) {
         kind = func_0215A4C8(b.f10);
-        n = func_0218B6AC(func_02188C80(a));
+        n = func_0218B6AC(func_02188C80((void *)a));
         if (kind == 0) {
-            if (n < 2 || func_021AE1FC(a, b.f0, &c) == 0) {
+            if (n < 2 || func_021AE1FC(a, (void *)b.f0, (int)(&c)) == 0) {
                 ret = func_021AE930(a, b.f0);
                 b.f14 = 0;
                 func_0215A438(ret, 0, &b);

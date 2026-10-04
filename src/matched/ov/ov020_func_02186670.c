@@ -21,10 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int func_02186278(char *, int);
-extern int func_021867C4(int, int);
-extern char *func_0218682C(int);
-extern void func_02186818(int, int);
-extern void func_02186804(int);
+typedef unsigned int   u32;
+extern int *func_021867C4(int a, int id);
+extern char *func_0218682C(char *p);
+extern void func_02186818(u32 *p, u32 member);
+extern void func_02186804(void **p);
 
 void func_02186670(char *base, char *out, u16 *cnt, int n, u16 id)
 {
@@ -44,18 +45,18 @@ void func_02186670(char *base, char *out, u16 *cnt, int n, u16 id)
         lim = t;
     num = lim - k;
     i = 0;
-    h = func_021867C4(0, id);
-    r = func_0218682C(h);
+    h = (int)func_021867C4(0, id);
+    r = func_0218682C((char *)h);
     *cnt = 0;
     if (num > 0) {
         q = base + k * 0x18;
         do {
-            func_02186818(h, (u8)q[i * 0x18 + 9]);
+            func_02186818((u32 *)h, (u8)q[i * 0x18 + 9]);
             *(u16 *)(out + *cnt * 8) = *(u16 *)(r + 0x28);
             *(int *)(out + *cnt * 8 + 4) = *(u16 *)(r + 0x2a);
             *cnt = *cnt + 1;
             i++;
         } while (i < num);
     }
-    func_02186804(h);
+    func_02186804((void **)h);
 }

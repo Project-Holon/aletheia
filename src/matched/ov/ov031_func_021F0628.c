@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 d_021F1038[];
-extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void func_021F0628(char *p, int sel)
 {
@@ -37,8 +38,8 @@ void func_021F0628(char *p, int sel)
         *(u8 *)(p + 0x30) = v;
     for (i = 0; (i <= 4) ? 1 : 0; i++) {
         if (i == sel && *(u8 *)(p + 0x30) != 0)
-            func_0204B6F4(*(u32 *)(p + 0x18 + i * 4), 1, 1);
+            func_0204B6F4((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 1, 1);
         else
-            func_0204B6F4(*(u32 *)(p + 0x18 + i * 4), 0, 1);
+            func_0204B6F4((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 0, 1);
     }
 }

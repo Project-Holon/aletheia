@@ -12,9 +12,9 @@
  *   func_021808C4  0x021808C4  thumb ov018
  */
 
-void func_021808C4(int id, void *dst);
+void func_021808C4(void *task, const void *src);
 
 void func_02180978(int id, void *dst)
 {
-    func_021808C4(id, dst);
+    func_021808C4((void *)id, dst);
 }

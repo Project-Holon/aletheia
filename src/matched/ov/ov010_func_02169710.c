@@ -71,8 +71,8 @@ typedef struct Obj {
 extern s16 tbl_020A1B38[];
 extern char g_02148B98[];
 
-extern void *func_02047788(void *p);
-extern void *func_0204755C(void *p);
+extern int func_02047788(int *p);
+extern int func_0204755C(int *p);
 struct P02047C8C;
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void  VEC_Add(const Vec *a, const Vec *b, Vec *dst);
@@ -101,7 +101,7 @@ void func_02169710(Obj *obj)
         if (idx == (u32)-1 || idx >= count) {
             continue;
         }
-        r = func_0204755C(func_02047788(tbl[idx].f00));
+        r = (void *)func_0204755C((int *)func_02047788(tbl[idx].f00));
         mdl = ((void **)r)[1];
         if (mdl == 0) {
             continue;

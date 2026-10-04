@@ -17,7 +17,7 @@
  */
 
 
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 int func_021DF324(char *p)
 {
     int q = *(int *)(p + 0xc);
@@ -27,6 +27,6 @@ int func_021DF324(char *p)
         else
             *(unsigned char *)(p + 0x16) = *(unsigned char *)(q + 0xf) + 0x1e;
     }
-    func_020307B0(*(int *)(p + 0xc));
+    func_020307B0((void *)(*(int *)(p + 0xc)));
     return 0;
 }

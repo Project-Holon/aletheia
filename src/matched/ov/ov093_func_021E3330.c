@@ -24,7 +24,7 @@ extern int func_021D775C(int key);
 extern int func_021C824C(u8 *p, int v);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B40(void *p);
-extern u32 func_021D805C(u32 v, u32 n);
+extern u32 func_021D805C(void *p, u32 n);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E3330(int u, void *p, int key)
@@ -38,8 +38,8 @@ void func_021E3330(int u, void *p, int key)
         }
         x = (u16)func_021D5B40(func_021C7CF4(p, key));
         k = 11;
-        func_021D805C(x, k);
-        if (x == 0 || func_021D805C(x, k) == 0)
+        func_021D805C((void *)x, k);
+        if (x == 0 || func_021D805C((void *)x, k) == 0)
             func_021D76BC(0x22, 0x1a);
     }
 }

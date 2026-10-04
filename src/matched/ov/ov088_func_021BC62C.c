@@ -38,7 +38,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0207D534(u32 a, int b);
+struct GfFont;
+extern void func_0207D534(volatile u16 *reg, int brightness);
 typedef signed int     s32;
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
@@ -48,7 +49,7 @@ extern void func_0203FC28(void *);
 extern void func_021BC734(const void *p, int bg);
 extern void func_02045088(u16 heapId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern char d_021BD8B8[];
@@ -59,8 +60,8 @@ extern char d_021BD898[];
 
 void func_021BC62C(char *p)
 {
-    func_0207D534(0x0400006C, -16);
-    func_0207D534(0x0400106C, -16);
+    func_0207D534((volatile u16 *)0x0400006C, -16);
+    func_0207D534((volatile u16 *)0x0400106C, -16);
     func_02043534(0);
     func_020435F4(0);
     func_020433E0(d_021BD8B8);
@@ -73,7 +74,7 @@ void func_021BC62C(char *p)
     func_02045088(0x39);
     func_02049B40(0x17, 5, 0, 0, 0x20, 0x39);
     func_02049B40(0x17, 5, 4, 0, 0x20, 0x39);
-    *(u32 *)(p + 8) = func_0201D7EC(0x17, 0, 0, 0, 0x39);
+    *(u32 *)(p + 8) = (u32)func_0201D7EC(0x17, 0, 0, 0, 0x39);
     func_0201F5BC(1, 1, 3, 0, 0x39);
     func_0201F5BC(1, 0x1f, 4, 0, 0x39);
     func_0201F5BC(5, 1, 1, 0, 0x39);

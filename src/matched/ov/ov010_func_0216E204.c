@@ -26,11 +26,11 @@ typedef signed char s8;
 typedef unsigned short u16;
 
 extern void *func_0216D67C(void *a);
-extern int func_0216D948(void *c);
+extern int func_0216D948(int a0);
 extern int func_0216DAA0(void *a);
 extern void func_0216D76C(void *a);
 extern void func_0216D594(void *a, u16 v);
-extern void func_0216E39C(void *c, u16 v, void *a);
+extern void func_0216E39C(int a0, int a1, int a2);
 extern void func_0216DA94(void *a);
 extern void func_0216E190(void *a);
 extern void func_0216E114(void *a);
@@ -41,10 +41,10 @@ void func_0216E204(char *a, u16 v)
     char *p;
 
     ctx = func_0216D67C(a);
-    if (func_0216D948(ctx) == 1 && func_0216DAA0(a) == 1)
+    if (func_0216D948((int)ctx) == 1 && func_0216DAA0(a) == 1)
         func_0216D76C(a);
     func_0216D594(a, v);
-    func_0216E39C(ctx, v, a);
+    func_0216E39C((int)ctx, v, (int)a);
     p = a + 0xe4;
     *(u8 *)(a + 0x7c) = *(u8 *)(p + 0xb);
     *(u8 *)(a + 0x7d) = *(u8 *)(p + 0xc);

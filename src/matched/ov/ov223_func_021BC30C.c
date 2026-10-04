@@ -27,13 +27,14 @@ extern void func_021B9848(int *);
 extern void func_021BC498(unsigned *);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_0201C6EC(int);
-extern void func_0201C4C0(int);
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 int func_021BC30C(int *p)
 {
     func_021BB3AC(p); func_021BAEE0(p); func_021BAB74(p); func_021B9848(p);
-    func_02030EAC((void *)p[8]); func_0201C6EC(p[7]); func_0201C4C0(p[7]);
+    func_02030EAC((void *)p[8]); func_0201C6EC((struct PrintSys *)p[7]); func_0201C4C0((struct PrintSys *)p[7]);
     func_0201D83C((void *)p[6]); func_021BC498((unsigned *)p[5]);
     return 13;
 }

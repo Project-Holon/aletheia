@@ -49,10 +49,10 @@ typedef struct {
 
 extern int func_0219329C(void **connection, char *input, int callErrorCallback);
 extern int func_020949F4(const char *, const char *, unsigned int);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern void func_0218E240(void **connection, GPIOperation *operation);
 extern char g_021A5224[];
@@ -69,15 +69,15 @@ int func_0218FDD8(void **connection, GPIOperation *operation, char *input)
     if (func_0219329C(connection, input, 1))
         return 4;
     if (func_020949F4(input, g_021A5224, 5) != 0) {
-        func_02193710(connection, 1, g_021A51D8);
-        func_02189D78(connection, 3, 1);
+        func_02193710((int *)connection, 1, (int)g_021A51D8);
+        func_02189D78((int *)connection, 3, 1);
         return 3;
     }
     callback = operation->callback;
     if (operation->callback.callback != 0) {
         arg = (GPDeleteProfileResponseArg *)func_0217EAB0(sizeof(GPDeleteProfileResponseArg));
         if (arg == 0) {
-            func_02193734(connection, g_021A5214);
+            func_02193734((int *)connection, (int)g_021A5214);
             return 1;
         }
         arg->profile = iconnection->profileid;

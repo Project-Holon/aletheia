@@ -23,10 +23,10 @@ extern char d_0220AE68[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern u32 func_0201134C(void *);
-extern int func_020515CC(int *, int, void (*)(void), void *);
+extern int func_020515CC(int *p, int a, int b, int c);
 extern u32 func_021FE38C(char *, u32);
 extern int func_021FD1A8(char *, int);
-extern void func_021FD1CC(void);
+extern void func_021FD1CC(void *p);
 int func_021FA884(void *a, char *s)
 {
     int *p;
@@ -54,7 +54,7 @@ int func_021FA884(void *a, char *s)
     p[21] = func_0201134C(a);
     if (p[21] == 0) p[21] = 1;
     if (idx != 16) {
-        if (func_020515CC(*(int **)(s + 0xc + idx * 4), x, func_021FD1CC, p) == -1) {
+        if (func_020515CC(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD1CC, (int)p) == -1) {
             func_020307B0(p);
         }
     } else {

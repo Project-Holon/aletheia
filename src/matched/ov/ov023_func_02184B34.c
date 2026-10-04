@@ -15,15 +15,16 @@
  *   func_0203F9B4  0x0203F9B4  arm
  */
 
-void func_0207D534(int a, int b);
+typedef unsigned short u16;
+void func_0207D534(volatile u16 *reg, int brightness);
 typedef unsigned int   u32;
 void func_020403F4(u32 i);
 void func_0203F9B4(void);
 
 void func_02184B34(void)
 {
-    func_0207D534(0x0400006C, -16);
-    func_0207D534(0x0400106C, -16);
+    func_0207D534((volatile u16 *)0x0400006C, -16);
+    func_0207D534((volatile u16 *)0x0400106C, -16);
     func_020403F4(5);
     func_020403F4(4);
     func_020403F4(2);

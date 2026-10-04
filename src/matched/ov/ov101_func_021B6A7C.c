@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B6C20(u8 *,int,int,u8 *);
+extern int func_021B6C20(int *p, int index, int heap, int arg);
 extern void func_021B6A3C(u8 *,u32);
 extern void func_021B6AD8(u8 *p, u16 *state);
 extern void func_021B6BA8(u8 *p, u16 *state);
@@ -26,7 +26,7 @@ void func_021B6A7C(u8 *p,u16 *state)
 {
     switch(*state) {
     case 0:
-        if(func_021B6C20(p+4,0,58,p)) *state=1;
+        if(func_021B6C20((int *)(p+4),0,58,(int)p)) *state=1;
         break;
     case 1:
         switch(*(int *)(p+0x20)) {

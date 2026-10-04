@@ -29,15 +29,19 @@
 
 typedef unsigned short u16;
 
-extern int func_02021518(int);
-extern void func_0202155C(int, int, int, int);
-extern void func_020216D4(int, int, int, int);
-extern void func_02021FD8(int, int, int, int, int, int);
-extern int func_02021730(int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Chan02021FD8;
+struct PalAnmSlot;
+extern void *func_02021518(u32 heap);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern int func_02021730(char *p, int i);
 extern void func_020862F0(int, int);
 extern void func_0207E5D0(int, int, int);
 extern void func_0207E468(int, int, int);
-extern void func_020215A0(int, int);
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern int func_02021540(int);
 
 int func_021B95F0(int a, int b, int c)
@@ -46,12 +50,12 @@ int func_021B95F0(int a, int b, int c)
     int t;
     int r7;
 
-    r4 = func_02021518(*(u16 *)(a + 0x278));
-    func_0202155C(r4, b, 0x200, *(u16 *)(a + 0x278));
+    r4 = (int)func_02021518(*(u16 *)(a + 0x278));
+    func_0202155C((struct PalAnmSlot *)r4, b, 0x200, *(u16 *)(a + 0x278));
     t = c << 5;
-    func_020216D4(r4, b, 0, t);
-    func_02021FD8(r4, b, 0, (u16)(c << 4), 6, 0);
-    r7 = func_02021730(r4, b);
+    func_020216D4((struct PalAnmSlot *)r4, b, 0, t);
+    func_02021FD8((struct Chan02021FD8 *)r4, b, 0, (u16)(c << 4), 6, 0);
+    r7 = func_02021730((char *)r4, b);
     func_020862F0(r7, t);
     if (b != 1) {
         if (b == 3)
@@ -59,6 +63,6 @@ int func_021B95F0(int a, int b, int c)
     } else {
         func_0207E468(r7, 0, t);
     }
-    func_020215A0(r4, b);
+    func_020215A0((struct PalAnmSlot *)r4, b);
     return func_02021540(r4);
 }

@@ -24,12 +24,14 @@ typedef struct {
     char f28[1];
 } Obj;
 
-extern void func_0219C98C(void *a, void *b);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_0219C98C(u32 a, u16 *b);
 
 void func_021BC030(int a0, Obj *p)
 {
     if (p->b10) {
         p->b10 = 0;
-        func_0219C98C(p->f20, p->f28);
+        func_0219C98C((u32)p->f20, (u16 *)p->f28);
     }
 }

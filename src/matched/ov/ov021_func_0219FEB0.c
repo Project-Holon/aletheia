@@ -31,11 +31,11 @@ typedef struct { u8 b[4]; } U8x4;
 
 extern const U8x4 data_021D8548;
 
-extern u32 func_0216D678(u32);
+extern u16 func_0216D678(void *p);
 extern u32 func_0219FFD4(u32);
-extern void func_0205082C(u32, u32, u32);
-extern void func_0205085C(u32, u32, u32);
-extern u8 func_02050880(u32, u32);
+extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_0205085C(void *p, int idx, u16 v);
+extern u16 func_02050880(u8 *p, int i);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 
 void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id)
@@ -48,7 +48,7 @@ void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id)
 
     flag = 0;
     y = func_0219FFD4(a);
-    x = func_0216D678(a);
+    x = func_0216D678((void *)a);
     k = y + x * 4;
     if (s[3] != 0 && x == s[1])
         s[3] = flag;
@@ -57,12 +57,12 @@ void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id)
         s[1] = x;
         s[0] = y;
         s[2] = 0;
-        func_0205082C(r, id, k);
+        func_0205082C((void *)r, id, k);
     } else if (x != s[1]) {
         flag = 1;
         if (x == 0) {
             if (s[1] == 0) {
-                func_0205082C(r, id, k);
+                func_0205082C((void *)r, id, k);
                 s[1] = x;
                 s[3] = 0;
             } else {
@@ -72,21 +72,21 @@ void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id)
                     goto tail;
                 }
                 tbl = data_021D8548;
-                s[2] = func_02050880(r, id);
+                s[2] = func_02050880((u8 *)r, id);
                 if (s[2] >= 4)
                     s[2] = 0;
                 s[2] = tbl.b[s[2]];
-                func_0205082C(r, id, k);
+                func_0205082C((void *)r, id, k);
                 s[1] = x;
                 s[3] = 0;
             }
         } else {
             if (s[1] != 0) {
-                s[2] = func_02050880(r, id);
+                s[2] = func_02050880((u8 *)r, id);
                 s[2] = (s[2] >= 2) ? 0 : 2;
             }
-            func_0205082C(r, id, k);
-            func_0205085C(r, id, s[2]);
+            func_0205082C((void *)r, id, k);
+            func_0205085C((void *)r, id, s[2]);
             s[1] = x;
             s[3] = 0;
         }

@@ -21,12 +21,12 @@ typedef unsigned char u8;
 
 extern int func_021688BC(u8 *, int, u16);
 extern int func_02168924(int, int, u8 *, u8, int, int, int, u16);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 int func_02168878(u8 *a, int b, int c, int d, int e, int f, u16 g)
 {
     int t = func_021688BC(a, b, g);
     int r = func_02168924(t, b, a + 0x30, (u8)c, d, e, f, g);
-    func_020307B0(t);
+    func_020307B0((void *)t);
     return r;
 }

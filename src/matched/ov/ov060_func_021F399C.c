@@ -25,7 +25,7 @@ typedef struct {
 } V;
 
 extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void func_021BE6CC(void *p, int i, int j, u16 k, int flag);
+extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern V *func_021BE480(void *p, int i, int j);
 
 void func_021F399C(u8 *o, void *p, V *v)
@@ -34,7 +34,7 @@ void func_021F399C(u8 *o, void *p, V *v)
 
     func_021BE4B4(p, 0, 0x14, 0);
     for (i = 0; i < 3; i++) {
-        func_021BE6CC(p, 0, 0x14, (u16)i, 0);
+        func_021BE6CC((int)p, 0, 0x14, (u16)i, 0);
     }
     *func_021BE480(p, 0, 0x14) = *v;
     o[1] = 1;

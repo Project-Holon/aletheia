@@ -17,15 +17,16 @@
  *   func_021B86B8  0x021B86B8  thumb  ov093
  */
 
-extern void func_021B8588(int);
-extern void func_021B86B8(int);
+typedef unsigned int   u32;
+extern u32 func_021B8588(void **p);
+extern void *func_021B86B8(void ***p);
 
 void func_021C815C(int *p)
 {
-    func_021B8588(*(int *)((char *)p + 4));
+    func_021B8588((void **)(*(int *)((char *)p + 4)));
 }
 
 void func_021C8168(int *p)
 {
-    func_021B86B8(*(int *)((char *)p + 4));
+    func_021B86B8((void ***)(*(int *)((char *)p + 4)));
 }

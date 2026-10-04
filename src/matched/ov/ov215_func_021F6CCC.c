@@ -24,7 +24,7 @@ extern void *func_02015EE8(void *);
 struct Obj;
 extern void func_02064CBC(struct Obj *x);
 extern void func_02015E4C(void *);
-extern void func_02063000(void *,unsigned,void *,int (*)(char *));
+extern void func_02063000(int p0, int p1, int p2, int p3);
 extern int func_020173B4(void *);
 extern int func_021F6D0C(char *);
 void func_021F6CCC(char *p,unsigned flag,int enable)
@@ -35,7 +35,7 @@ void func_021F6CCC(char *p,unsigned flag,int enable)
     func_02064CBC(obj);
     func_02015E4C(*(void **)(p+52));
     if(enable) {
-        func_02063000(obj,1,p,func_021F6D0C);
+        func_02063000((int)obj,1,(int)p,(int)func_021F6D0C);
         *(int *)(p+56)=0;
     } else func_020173B4(*(void **)(p+52));
 }

@@ -12,5 +12,5 @@
  * symbols:
  *   func_0216F088 0x0216F088 thumb ov010
  */
-extern int func_0216F088(void *);
-int func_0216F3B0(char *p) { if (!func_0216F088(p+8)) return 6; if (*(int *)(*(char **)(p+24)+12)==3) return 1; return 7; }
+extern int func_0216F088(int a0);
+int func_0216F3B0(char *p) { if (!func_0216F088((int)(p+8))) return 6; if (*(int *)(*(char **)(p+24)+12)==3) return 1; return 7; }

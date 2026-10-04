@@ -12,15 +12,20 @@
  * blocker:  02028E80; 02028EAC
  */
 
-extern int *func_02028D7C(int v);
-extern int func_02028FD0(int a, int b);
-extern void func_02028EAC(int a, int b);
-extern void func_02028E80(int v);
+typedef unsigned int   u32;
+struct Cmd;
+struct SoundParam;
+struct SoundParam2;
+struct Sys;
+extern void *func_02028D7C(void *obj);
+extern u32 func_02028FD0(struct SoundParam *obj, u32 kind);
+extern void func_02028EAC(struct SoundParam2 *obj, struct Cmd *cmd);
+extern void func_02028E80(struct Sys *s);
 void func_02028D54(int a0)
 {
-    int *p = func_02028D7C(a0);
-    if (func_02028FD0(a0, *p)) {
-        func_02028EAC(a0, (int)p);
-        func_02028E80(a0);
+    int *p = func_02028D7C((void *)a0);
+    if (func_02028FD0((struct SoundParam *)a0, *p)) {
+        func_02028EAC((struct SoundParam2 *)a0, (struct Cmd *)((int)p));
+        func_02028E80((struct Sys *)a0);
     }
 }

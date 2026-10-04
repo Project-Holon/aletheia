@@ -22,23 +22,24 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32 func_021ABE24(u32);
-extern u32 func_02046E24(u32, u32);
+typedef unsigned char  u8;
+extern u32 func_021ABE24(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
 extern int func_02046FF8(int *self);
-extern u32 func_02047400(u32, u32, u32);
-extern u32 func_0204767C(u32, u32, u32);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern u32 d_021D9A6C[];
 
 void func_021BB4BC(u32 *p)
 {
-    u32 h = func_021ABE24(p[0]);
+    u32 h = func_021ABE24((u8 *)p[0]);
     int i;
 
     for (i = 0; i < 4; i++) {
-        p[1 + i] = func_02046E24(h, d_021D9A6C[i]);
+        p[1 + i] = (u32)func_02046E24(h, d_021D9A6C[i]);
         func_02046FF8((int *)p[1 + i]);
-        p[5 + i] = func_02047400(p[1 + i], 0, p[1 + i]);
-        p[9 + i] = func_0204767C(p[5 + i], 0, 0);
+        p[5 + i] = (u32)func_02047400((void *)p[1 + i], 0, (void *)p[1 + i]);
+        p[9 + i] = (u32)func_0204767C(p[5 + i], 0, 0);
     }
     *(u16 *)((char *)p + 0x34) = 4;
 }

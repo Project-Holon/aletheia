@@ -25,9 +25,9 @@ typedef unsigned char  u8;
 extern u32 func_021BF734(u8 *a0);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *);
-extern void func_02026498(int, int);
+extern void func_02026498(void *obj, u32 flag);
 
 void func_021C0968(unsigned char *a0)
 {
-    func_02026498(func_02012138((const struct Ctx *)func_021BF734(a0)), 0);
+    func_02026498((void *)func_02012138((const struct Ctx *)func_021BF734(a0)), 0);
 }

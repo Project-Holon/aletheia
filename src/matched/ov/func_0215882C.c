@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02011298();
+struct ScriptVm;
+extern int func_02011298(struct ScriptVm *vm);
 extern int func_02158CB4(int a0);
 
 int func_0215882C(int a0)
@@ -37,7 +38,7 @@ t6 = *(int *)((char *)t7 + 4);
     if (t6 == 0) goto loc_02158856;
 loc_0215883C:
 a0 = t6 + 0;
-    a0 = func_02011298(a0);
+    a0 = func_02011298((struct ScriptVm *)a0);
 loc_02158842:
     if (a0 != 0) goto loc_02158856;
 loc_02158846:

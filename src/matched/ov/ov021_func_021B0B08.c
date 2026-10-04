@@ -50,7 +50,7 @@ struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188C58(void *);
+extern void *func_02188C58(void *p);
 extern u32 func_0218EC2C(u8 *p);
 extern u8 func_0215A66C(u8 *p);
 extern void func_021B0960(V3 *, V3 *, int, int, int);
@@ -67,7 +67,7 @@ void func_021B0B08(void *a, int b)
         if (b == 1 || v.x != s->a.x || v.y != s->a.y || v.z != s->a.z) {
             int p, q;
             s->a = v;
-            p = func_02188C58(func_0201210C(func_0215A5DC(a)));
+            p = (int)func_02188C58(func_0201210C(func_0215A5DC(a)));
             q = func_0218EC2C((void *)p);
             func_021B0960(&s->a, &s->b, q, p, func_0215A66C(a));
         }

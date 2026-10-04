@@ -13,7 +13,7 @@
  *   func_021BF7CC 0x021BF7CC thumb ov204
  *   func_021BF2E0 0x021BF2E0 thumb ov204
  */
-extern void func_021BF23C(void *, unsigned, unsigned);
+extern void func_021BF23C(char *p, void *a, int flag);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021BF2F4(char *a);
@@ -25,7 +25,7 @@ int func_021BE61C(char *p, int *state, unsigned *q)
     unsigned other = q[1];
     switch (*state) {
     case 0:
-        func_021BF23C(*(void **)(p + 0x18), index, q[2]);
+        func_021BF23C(*(void **)(p + 0x18), (void *)index, q[2]);
         ++*state;
         break;
     case 1:

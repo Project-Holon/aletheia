@@ -39,7 +39,7 @@ struct Mgr { u32 count; u32 f4; Obj *objs; u32 heap; };
 
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02030DA8(u32 heap, void (*cb)(void), void *arg, u32 pri);
-extern void func_021AC134(void);
+extern void func_021AC134(u32 a, u32 b);
 extern void func_021AC140(Obj *o);
 
 Obj *func_021AC0A0(Mgr *m, const ObjFuncs *funcs, const V3 *pos, u32 f4, u32 f8, u32 pri)
@@ -57,7 +57,7 @@ Obj *func_021AC0A0(Mgr *m, const ObjFuncs *funcs, const V3 *pos, u32 f4, u32 f8,
             if (pos != 0)
                 o->pos = *pos;
             o->mgr = m;
-            o->fd0 = func_02030DA8(m->heap, func_021AC134, o, pri);
+            o->fd0 = func_02030DA8(m->heap, (void (*)(void))func_021AC134, o, pri);
             break;
         }
         i++;

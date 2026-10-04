@@ -22,7 +22,8 @@ extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B7C(void *m);
 extern int func_021D55D8(u8 *p, int i, int s);
 extern void func_021C6080(u8 *p, u8 *a, int b, int c, int d);
-extern void func_021C99A0(int a, void *b);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 
 typedef struct {
     u32 pad : 8; u32 idx : 5; u32 rest : 19;
@@ -40,7 +41,7 @@ int func_021C8FA4(int p, const Ent *e)
         r = !e->f7a;
         if (func_021D55D8(a, e->b6, r) == 0) {
             func_021C6080((u8 *)p, a, e->b6, e->b4, r);
-            func_021C99A0(p, (void *)((u8 *)e + 8));
+            func_021C99A0((void *)p, (void *)((u8 *)e + 8));
             return 1;
         }
     }

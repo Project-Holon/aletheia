@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 extern char d_021DDF7C;
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern u32 func_0206E9A4(u32 a, u32 b);
+extern u8 *func_0206E9A4(u8 *p, u32 idx);
 extern void *func_02030734(u32 heap, u32 size, int one, const char *file, u16 line);
 extern void func_021A7508(u32 a, u32 b, u32 c);
 
@@ -35,7 +35,7 @@ void func_021A7420(u32 *s, u32 a, u32 b, u32 n, u32 heap)
     u32 h;
     i = 0;
     s[2] = func_0204A1BC(a, b, 0, heap);
-    h = func_0206E9A4(s[2], 0);
+    h = (u32)func_0206E9A4((u8 *)s[2], 0);
     s[0] = (u32)func_02030734(heap, n * 12, 1, &d_021DDF7C, 0x196);
     s[1] = n;
     for (i = 0; i < s[1]; i++)

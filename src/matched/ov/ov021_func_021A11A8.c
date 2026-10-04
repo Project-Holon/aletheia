@@ -31,31 +31,35 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern unsigned char d_021D8708[];
-extern u32 func_02188C80(u32);
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+struct Obj;
+extern void *func_02188C80(void *p);
 struct Ctx;
 extern unsigned char *func_020120F8(const struct Ctx *);
 struct Rec44;
 extern u16 func_02012AC8(const struct Rec44 *);
-extern u32 func_020120F4(u32);
-extern u32 func_0201296C(u32);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 extern void func_0203FCA0(u32, const void *, u32);
 extern void func_02040588(u32, u32);
 extern void func_020414AC(u32);
 extern void func_0204152C(int channel, u16 val);
 extern void func_02043598(u32, u32);
-extern u32 func_021A836C(u32, u32, u32 *, u32, u32);
-extern u32 func_021A8B18(u32, u32, u32);
-extern void func_02024A20(u32, u32, u32, u32);
+extern struct Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4);
+extern u32 func_021A8B18(void *a, void *b, u32 c);
+extern void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap);
 extern void func_021A8AFC(int a, int b);
 
 void ov021_func_021A11A8(u32 *p, u32 x)
 {
     u32 a, b, c, d;
     u32 f;
-    a = func_02188C80(p[5]);
+    a = (u32)func_02188C80((void *)p[5]);
     b = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
-    c = func_020120F4(a);
-    d = func_0201296C(c);
+    c = (u32)func_020120F4((const struct Ctx *)a);
+    d = func_0201296C((const struct BigObj *)c);
     f = 0;
     if (x == 0 || x - 2 <= 4)
         f = 1;
@@ -64,8 +68,8 @@ void ov021_func_021A11A8(u32 *p, u32 x)
     func_020414AC(4);
     func_0204152C(4, 0);
     func_02043598(0x10, 1);
-    p[8] = func_021A836C(0x70, ((u16 *)p)[6], p, p[5], f);
-    if (func_021A8B18(c, d, b) != 1)
-        func_02024A20(4, 0xe, c, ((u16 *)p)[6]);
+    p[8] = (u32)func_021A836C(0x70, ((u16 *)p)[6], (int)p, (void *)p[5], f);
+    if (func_021A8B18((void *)c, (void *)d, b) != 1)
+        func_02024A20(4, 0xe, (void *)c, ((u16 *)p)[6]);
     func_021A8AFC(((u16 *)p)[6], f);
 }

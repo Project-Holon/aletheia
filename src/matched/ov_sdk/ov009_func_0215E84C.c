@@ -46,11 +46,11 @@ extern struct SOCLResource g_021AA4AC;
 
 extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long state);
-extern int func_0215F404(struct SOCLSocket *socket);
+extern int func_0215F404(int b);
 extern int func_0215F3D0(struct SOCLSocket *socket);
-extern int func_0215CEB0(void *pipe, struct SOCLCommand *command);
+extern int func_0215CEB0(int a0, char *a1);
 extern struct SOCLCommand *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
-extern int func_0215CEFC(struct SOCLSocket *socket, struct SOCLCommand *command);
+extern void func_0215CEFC(int a, int b);
 extern int func_0215E980(void *arg);
 
 int func_0215E84C(int s)
@@ -63,7 +63,7 @@ int func_0215E84C(int s)
 	if (s <= 0)
 		return -0x1c;
 	enable = func_02087988();
-	if (func_0215F404(socket) != 0) {
+	if (func_0215F404((int)socket) != 0) {
 		func_0208799C(enable);
 		return -0x1a;
 	}
@@ -95,12 +95,12 @@ int func_0215E84C(int s)
 		if (mode == 0) {
 			g_021AA4AC.b--;
 		} else {
-			func_0215CEB0(socket->send_pipe, 0);
+			func_0215CEB0((int)socket->send_pipe, 0);
 			g_021AA4AC.a--;
 		}
 	}
 	command = func_0215CE3C(func_0215E980, socket, 1);
 	command->field8 = result;
-	func_0215CEFC(socket, command);
+	func_0215CEFC((int)socket, (int)command);
 	return result;
 }

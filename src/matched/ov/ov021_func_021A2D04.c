@@ -27,9 +27,10 @@ typedef struct {
     u32 value;
 } Obj021A2D04;
 
-void func_021A0224(u32 h, int color, u32 value, int a, int b, int c);
+typedef unsigned short u16;
+void func_021A0224(u8 *p, u32 a, u32 b, u32 c, u32 d, u16 e);
 
 void func_021A2D04(Obj021A2D04 *p)
 {
-    func_021A0224(p->handle, 0x7FDF, p->value, p->mode, p->mode, p->half);
+    func_021A0224((u8 *)p->handle, 0x7FDF, p->value, p->mode, p->mode, p->half);
 }

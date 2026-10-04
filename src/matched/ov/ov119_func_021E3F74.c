@@ -21,9 +21,9 @@ extern void *func_020490F4(unsigned int id, unsigned short heap);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049740(void *, int, int, int, int, unsigned int);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_02049238(void *);
-extern void func_021E4324(char *p, void *v);
+extern void func_021E4324(char *p, int d);
 
 void func_021E3F74(char *p)
 {
@@ -31,8 +31,8 @@ void func_021E3F74(char *p)
 
     v = func_020490F4(0x66, *(unsigned short *)(p + 0x5F4));
     func_02049B68(v, 0x11, 4, 0, 0xC0, *(unsigned short *)(p + 0x5F4));
-    *(void **)(p + 0x874) = func_02049740(v, 0xD, 7, 0, 0, *(unsigned short *)(p + 0x5F4));
-    *(void **)(p + 0x870) = func_02049740(v, 0xD, 5, 0, 0, *(unsigned short *)(p + 0x5F4));
+    *(void **)(p + 0x874) = (void *)func_02049740(v, 0xD, 7, 0, 0, *(unsigned short *)(p + 0x5F4));
+    *(void **)(p + 0x870) = (void *)func_02049740(v, 0xD, 5, 0, 0, *(unsigned short *)(p + 0x5F4));
     func_02049238(v);
-    func_021E4324(p, *(void **)(p + 0x874));
+    func_021E4324(p, (int)(*(void **)(p + 0x874)));
 }

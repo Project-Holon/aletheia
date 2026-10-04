@@ -53,11 +53,11 @@ struct Tail { u32 s0; u32 s1; u32 s2; u32 s3; u32 s4; u16 key; u16 pad; };
 typedef signed int     s32;
 extern int func_0202D060(void);
 extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern u32  func_0204A6C8(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0);
-extern u32  func_0202D760(void *out, u32 a1, u32 a2, u32 a3,
-                          u32 s0, u32 s1, u32 s2, u32 s3, u32 s4);
-extern void func_0204A9D0(u32 a0, u32 a1);
-extern void func_020307B0(u32 a0);
+struct Sub0204A9D0;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern void *func_0202D760(u32 *out, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u32 s3, volatile u16 s4);
+extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
+extern void func_020307B0(void *p);
 
 u32 func_0202D81C(u32 a0, u32 a1, u32 a2, u32 a3, volatile struct Tail t)
 {
@@ -71,11 +71,11 @@ u32 func_0202D81C(u32 a0, u32 a1, u32 a2, u32 a3, volatile struct Tail t)
     x = func_0202D064(func_0202D060(), a1, a2, a3, t.s0, t.s1, t.s2);
     k = t.key;
     v = t.s4;
-    h = func_0204A6C8(a0, x, 1, v, k);
+    h = func_0204A6C8((void *)a0, x, 1, v, k);
     if (a1 == 0x147) {
-        r = func_0202D760(&slot, a1, a2, a3, t.s0, t.s1, t.s2, t.s3, t.key);
-        func_0204A9D0(h, (u32)slot);
-        func_020307B0(r);
+        r = (u32)func_0202D760((u32 *)(&slot), a1, a2, a3, t.s0, t.s1, t.s2, t.s3, t.key);
+        func_0204A9D0(h, (struct Sub0204A9D0 *)((u32)slot));
+        func_020307B0((void *)r);
     }
     return h;
 }

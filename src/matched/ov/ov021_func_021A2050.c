@@ -26,14 +26,14 @@ typedef struct O {
     u8  f26;
 } O;
 
-extern u32 func_021A273C(O *p);
+extern u8 func_021A273C(u8 *p);
 
 void func_021A2050(O *p, u32 a, u32 b)
 {
     u32 r;
     u32 s;
 
-    r = func_021A273C(p);
+    r = func_021A273C((u8 *)p);
     s = p->f26;
     if (s == 0) {
         return;

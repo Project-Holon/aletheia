@@ -20,7 +20,8 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_020113B0(u8 *, u8 *);
+struct Cur;
+extern void func_020113B0(struct Cur *c, u32 v);
 
 int func_0218A0F4(u8 *a, int op, int x, int y, int z)
 {
@@ -60,6 +61,6 @@ int func_0218A0F4(u8 *a, int op, int x, int y, int z)
         break;
     }
     if (r == 1)
-        func_020113B0(a, *(u8 **)(a + 0x14) + z);
+        func_020113B0((struct Cur *)a, (u32)(*(u8 **)(a + 0x14) + z));
     return r;
 }

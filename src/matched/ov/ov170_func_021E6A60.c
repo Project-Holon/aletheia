@@ -58,8 +58,8 @@ extern unsigned func_0202136C(unsigned short v);
 extern void func_020061E4(unsigned se);
 extern void func_021EBB28(unsigned char *p, int b);
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_021DD2B4(unsigned char *p, int a, int b, int c, int d);
-extern void *func_021DD2D0(unsigned char *p, int a, unsigned b);
+extern void func_021DD2B4(int a, int b, int c, int d, int e);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern int func_021DD718(unsigned char *p, void *mon);
 extern void func_021DD8A8(unsigned char *p, unsigned idx);
 extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
@@ -105,16 +105,16 @@ int func_021E6A60(unsigned char *p)
             func_021ECB60(WORK(p), p[0x16], 1);
         func_021ECB60(WORK(p), o->idx, 0);
         item = func_021DD25C(p, o->idx, p[0x14], 6, 0);
-        func_021DD2B4(p, o->idx, p[0x14], 6, ITEM(p));
-        if (func_021DD718(p, func_021DD2D0(p, p[0x14], o->idx)) == 1) {
+        func_021DD2B4((int)p, o->idx, p[0x14], 6, ITEM(p));
+        if (func_021DD718(p, (void *)func_021DD2D0((void ***)p, p[0x14], o->idx)) == 1) {
             func_021DD8A8(p, o->idx);
             func_021EC48C(p, p[0x14], o->idx, WIN(p, o->idx));
         }
         func_021DEFEC(p, o->idx);
         func_020260E4(OBJ(p), o->idx);
         ITEM(p) = item;
-        func_021DD2B4(p, p[0x16], p[0x17], 6, ITEM(p));
-        if (func_021DD718(p, func_021DD2D0(p, p[0x17], p[0x16])) == 1) {
+        func_021DD2B4((int)p, p[0x16], p[0x17], 6, ITEM(p));
+        if (func_021DD718(p, (void *)func_021DD2D0((void ***)p, p[0x17], p[0x16])) == 1) {
             func_021DD8A8(p, p[0x16]);
             if (p[0x17] == 0xFF || p[0x17] == p[0x14])
                 func_021EC48C(p, p[0x14], p[0x16], WIN(p, p[0x16]));

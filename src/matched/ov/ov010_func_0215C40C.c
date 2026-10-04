@@ -44,7 +44,7 @@ struct Rec44;
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013E4C(u32 id);
-extern void func_0202F190(void *, u32, void *, u32, u16);
+extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_020185C4(void *);
 void *func_0215C40C(void *a, Spec *s)
 {
@@ -59,7 +59,7 @@ void *func_0215C40C(void *a, Spec *s)
     func_02017E40(r4, 6, s->f10);
     if (func_02020FE4(s->f20, 0xF, s->f00) == 4)
         func_02017E40(r4, 0x98, func_0202142C(s->f20));
-    func_0202F190(r4, 0, r7, func_02013E4C(func_02012AC8(func_020127A4(a))), s->f00);
+    func_0202F190(r4, 0, (u32)r7, func_02013E4C(func_02012AC8(func_020127A4(a))), s->f00);
     func_020185C4(r4);
     return r4;
 }

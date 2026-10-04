@@ -55,7 +55,7 @@ struct Table;
 struct U16Vec;
 struct WordSet;
 extern u8 func_02157384(struct Table *t, int i);
-extern void *func_021FCE28(void *sess, u32 i);
+extern int func_021FCE28(char *p, u32 index);
 extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
@@ -74,7 +74,7 @@ void func_02156A3C(Work *w, u8 j, void *ws, u32 slot)
         func_0201F02C(ws, slot, func_02012944(w->f04));
         done = 1;
     } else if (w->f14 == 1) {
-        p = func_021FCE28(w->f28, k);
+        p = (void *)func_021FCE28(w->f28, k);
         if (p != 0) {
             func_0201F02C(ws, slot, p);
             done = 1;

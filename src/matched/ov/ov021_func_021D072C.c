@@ -35,12 +35,12 @@ typedef struct Src021D072C {
     int f4;
 } Src021D072C;
 
-extern Src021D072C *func_021AC1AC(void *a);
+extern int func_021AC1AC(u32 a);
 extern int func_0216D3CC(int p);
 
 void func_021D072C(void *a, S *s)
 {
-    Src021D072C *r = func_021AC1AC(a);
+    Src021D072C *r = (Src021D072C *)func_021AC1AC((u32)a);
 
     *(Src021D072C *)s = *r;
     s->fA = 0x78;

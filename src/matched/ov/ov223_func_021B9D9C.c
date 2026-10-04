@@ -57,9 +57,10 @@ struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern u32 func_0204B324(u32,u32,u32,u32,void *,u16,u16);
 extern void func_0204B3DC(struct Obj *,unsigned int);
-extern u32 func_020490F4(u32,u16);
-extern int func_0204A6C8(u32,u32,u32,u32,u16);
-extern int func_0204AF28(u32,u32,u32,u32);
+typedef signed int     s32;
+extern void *func_020490F4(u32 id, u16 heap);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
 void func_021B9D9C(char *p)
 {
@@ -84,12 +85,12 @@ void func_021B9D9C(char *p)
         *(u32 *)(r+108)=(u32)func_0204B294((void *)func_021BC520(*(void **)(p+20)),*(u32 *)(r+84),*(u32 *)(r+88),*(u32 *)(r+92),&request,1,*(u16 *)p);
         func_0204B3DC((struct Obj *)*(u32 *)(r+108),0);
     }
-    other=func_020490F4(205,*(u16 *)p);
+    other=(u32)func_020490F4(205,*(u16 *)p);
     for(i=0;i<3;i++) {
         f=files+i;
         r=p+i*148;
-        *(u32 *)(r+96)=func_0204A6C8(other,f->b[0],0,1,*(u16 *)p);
-        *(u32 *)(r+104)=func_0204AF28(other,f->b[2],f->b[3],*(u16 *)p);
+        *(u32 *)(r+96)=func_0204A6C8((void *)other,f->b[0],0,1,*(u16 *)p);
+        *(u32 *)(r+104)=func_0204AF28((void *)other,f->b[2],f->b[3],*(u16 *)p);
     }
     func_02049238(other);
     for(j=0;j<3;j++) {

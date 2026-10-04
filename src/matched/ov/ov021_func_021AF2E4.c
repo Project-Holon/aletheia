@@ -19,11 +19,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void func_020113D0(u32 a, void (*cb)(void));
-extern void func_021AF2CC(void);
+extern void func_020113D0(char *p, int val);
+extern int func_021AF2CC(u32 a, u32 b, u32 c, u32 d);
 
 int func_021AF2E4(u32 a)
 {
-    func_020113D0(a, func_021AF2CC);
+    func_020113D0((char *)a, (int)func_021AF2CC);
     return 1;
 }

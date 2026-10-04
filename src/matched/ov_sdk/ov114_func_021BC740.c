@@ -69,7 +69,7 @@ extern u8 *func_021BEF08(void);
 extern NHTTPReqInfo *func_021BEF48();
 extern NHTTPThreadInfo *func_021BEF50(void *sysInfo_p);
 extern NHTTPBgnEndInfo *func_021BEF3C(void *sysInfo_p);
-extern void *func_021BEF58(void *sysInfo_p);
+extern void *func_021BEF58(int p);
 extern int func_021B9F94(void *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
 extern int func_021BA448(char *p_p, int len);
 extern int func_021BA150(const char *p1_p, const char *p2_p, int size);
@@ -81,7 +81,7 @@ static int func_021BC740(void)
     NHTTPReqInfo *reqInfo_p = func_021BEF48(sysInfo_p);
     NHTTPThreadInfo *threadInfo_p = func_021BEF50(sysInfo_p);
     NHTTPBgnEndInfo *bgnEndInfo_p = func_021BEF3C(sysInfo_p);
-    void *mutexInfo_p = func_021BEF58(sysInfo_p);
+    void *mutexInfo_p = func_021BEF58((int)sysInfo_p);
     char *commBuf_p;
     NHTTPReq *req_p;
     NHTTPRes *res_p;

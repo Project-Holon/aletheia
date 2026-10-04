@@ -63,9 +63,9 @@ extern const BgTemplate d_021F58F4;
 extern void func_021F56C0(u8 *w);
 extern void func_021F56D8(u8 *w);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
-extern int func_02188C54(int a);
-extern int func_02190378(int a);
-extern void func_021904D0(int a);
+extern u32 func_02188C54(u8 *p);
+extern int func_02190378(u8 *a);
+extern void func_021904D0(u8 *p);
 extern void func_020403F4(u32 i);
 extern void func_0203FCA0(int, void *, int);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
@@ -113,9 +113,9 @@ void func_021F53B4(u8 *w, int p)
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256,
                          GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x04000);
     func_0207D63C(0x04000050, 8, 4, 0, 16);
-    obj = func_02188C54(p);
-    if (func_02190378(obj) != 0)
-        func_021904D0(obj);
+    obj = func_02188C54((u8 *)p);
+    if (func_02190378((u8 *)obj) != 0)
+        func_021904D0((u8 *)obj);
     else
         func_020403F4(2);
     tbl = d_021F58F4;

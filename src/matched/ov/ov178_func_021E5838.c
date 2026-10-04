@@ -24,7 +24,8 @@ extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern int func_0203159C(int, int, int);
 extern void func_02082BCC(int, int, int);
 extern void func_021E58F0(int, int *, int);
-extern void func_021E5A70(int, int *, int);
+typedef unsigned int   u32;
+extern void func_021E5A70(u32 *out, u32 **pp, u32 v);
 
 int func_021E5838(int a, int b, int *p)
 {
@@ -38,7 +39,7 @@ int func_021E5838(int a, int b, int *p)
         func_021E58F0(h, p, 0x58);
         break;
     case 1:
-        func_021E5A70(h, p, 0x58);
+        func_021E5A70((u32 *)h, (u32 **)p, 0x58);
         break;
     }
     return 1;

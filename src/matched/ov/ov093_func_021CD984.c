@@ -23,6 +23,7 @@ typedef unsigned int u32;
 extern void func_021EE674(void *);
 extern void func_021EEBDC(void *);
 extern void func_021D3F64(u8 *,u16);
-extern void func_021CDA0C(u8 *,int (*)(u8 *));
+struct QE;
+extern void func_021CDA0C(struct QE *p, u32 v);
 extern int func_021CDC0C(u8 *);
-void func_021CD984(u8 *p,u16 n) { func_021EE674(*(void **)(p+0x14)); func_021EEBDC(*(void **)(p+0x50)); func_021D3F64(p+0x18,n); func_021CDA0C(p,func_021CDC0C); }
+void func_021CD984(u8 *p,u16 n) { func_021EE674(*(void **)(p+0x14)); func_021EEBDC(*(void **)(p+0x50)); func_021D3F64(p+0x18,n); func_021CDA0C((struct QE *)p,(u32)func_021CDC0C); }

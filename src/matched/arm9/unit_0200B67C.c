@@ -94,7 +94,7 @@ extern struct BattleRec *gObj_0214616C;
 struct Big;
 struct Sub02007324Ctrl;
 extern void *func_02012EBC(struct Big *p);
-extern void  func_02007324(void *h, u32 c, u16 e, void *p, u32 size);
+extern void func_02007324(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a, u32 b);
 extern void  func_02012E4C(u8 *a, u32 c);
 extern int func_02012E7C(char *p, int a1);
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
@@ -110,7 +110,7 @@ u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
 
     switch (*state) {
     case 0:
-        func_02007324(h, c, e, gObj_0214616C, 0x2000);
+        func_02007324(h, c, e, (u32)gObj_0214616C, 0x2000);
         func_02012E4C(a, c);
         (*state)++;
         break;

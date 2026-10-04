@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A2BC4(u8 *o);
+extern int func_021A2BC4(u32 a);
 
 void func_021A2254(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w)
 {
@@ -45,7 +45,7 @@ void func_021A2254(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w
         if (cnt > 0) {
             do {
                 ((void (*)(u8 *))(*(u32 *)(*(u32 *)(p + 0x20) + 0x48)))(cur);
-                if (func_021A2BC4(cur) == 0) {
+                if (func_021A2BC4((u32)cur) == 0) {
                     break;
                 }
                 j++;

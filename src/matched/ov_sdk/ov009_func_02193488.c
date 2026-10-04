@@ -26,7 +26,7 @@
  */
 
 extern int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
-extern int func_0217D254(int a, int b, int c, int d);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern char g_021A573C[];
@@ -43,7 +43,7 @@ int func_02193488(int *connection, int sock, int *state)
     e[0] = 0;
     r = func_0217ED64(sock, 0, &e[1], &e[0]);
     if (r == -1) {
-        func_0217D254(1, 0, 1, (int)g_021A573C);
+        func_0217D254(1, 0, 1, (const char *)((int)g_021A573C));
         func_02193710(connection, 5, (int)g_021A5750);
         func_02189D78(connection, 3, 1);
         return 3;
@@ -51,12 +51,12 @@ int func_02193488(int *connection, int sock, int *state)
     if (r <= 0)
         goto zero;
     if (e[0] != 0) {
-        func_0217D254(1, 0, 1, (int)g_021A5788);
+        func_0217D254(1, 0, 1, (const char *)((int)g_021A5788));
         *state = 4;
         return 0;
     }
     if (e[1] != 0) {
-        func_0217D254(1, 0, 8, (int)g_021A57A0);
+        func_0217D254(1, 0, 8, (const char *)((int)g_021A57A0));
         *state = 3;
         return 0;
     }

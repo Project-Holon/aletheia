@@ -19,7 +19,8 @@
 
 extern void func_02016028(void *, unsigned int);
 extern void func_02015E4C(void *);
-extern void func_021BF7F0(void *, void *);
+typedef unsigned char  u8;
+extern void func_021BF7F0(u8 *p);
 extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
 
 void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
@@ -32,7 +33,7 @@ void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = v;
-    func_02015F2C(*(void **)(base + off), base + off, func_021BF7F0, 0);
+    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }
 
 unsigned int func_021BF77C(char *p, unsigned int i)

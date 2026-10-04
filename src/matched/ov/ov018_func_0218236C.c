@@ -19,7 +19,7 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0201232C(void *, void *, int);
+extern void func_0201232C(char *p, int a1, int a2);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(void *, void *, int);
@@ -27,4 +27,4 @@ typedef unsigned int   u32;
 struct Outer;
 extern int func_021823A8(void *a, int *state, struct Outer *c);
 extern int func_021756D0(u32 x);
-void func_0218236C(void *a, void *b) { u16 *h; func_0201232C(a,(void *)func_021823A8,0xa4); a = func_020124E8(a); func_02082D44(b,a,0x98); h = (u16 *)((u8 *)a+0x58); if (func_021756D0(*h) == 0) *h = 17; }
+void func_0218236C(void *a, void *b) { u16 *h; func_0201232C(a,(int)((void *)func_021823A8),0xa4); a = func_020124E8(a); func_02082D44(b,a,0x98); h = (u16 *)((u8 *)a+0x58); if (func_021756D0(*h) == 0) *h = 17; }

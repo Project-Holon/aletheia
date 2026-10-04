@@ -66,7 +66,8 @@ struct Task {
 };
 
 extern u32  func_02022A88(struct Obj *obj);
-extern void func_02030EAC(u32 handle);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *p);
 
 u32 func_02022A44(struct Task *t)
@@ -84,7 +85,7 @@ u32 func_02022A44(struct Task *t)
         }
         break;
     case 2:
-        func_02030EAC(obj->f20);
+        func_02030EAC((struct Node *)obj->f20);
         func_020307B0(t->obj);
         t->phase = t->phase + 1;
         t->obj = 0;

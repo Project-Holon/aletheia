@@ -44,7 +44,7 @@ typedef struct DWCstMatchControl {
     int w680;                   /* +0x680 */
 } DWCstMatchControl;
 
-extern DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_02172A58(void);
 extern int func_0216BB6C(void);
 extern void func_02199FB4(int cookie);
@@ -58,24 +58,24 @@ static void func_021728B8(void)
     int anyGT2ConnectionExist;
     int result;
 
-    func_02175F3C()->w680 = 0;
+    ((DWCstMatchControl *)func_02175F3C())->w680 = 0;
     anyGT2ConnectionExist = 0;
-    if (func_02175F3C()->state == 22) {
+    if (((DWCstMatchControl *)func_02175F3C())->state == 22) {
         func_02172A58();
         return;
     }
     if (func_0216BB6C())
         anyGT2ConnectionExist = 1;
-    func_02175F3C()->cancelState = 1;
+    ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
 
-    if (func_02175F3C()->qr2MatchType == 3) {
-        if (func_02175F3C()->nnCookie) {
-            func_02199FB4(func_02175F3C()->nnCookie);
-            func_02175F3C()->nnCookie = 0;
+    if (((DWCstMatchControl *)func_02175F3C())->qr2MatchType == 3) {
+        if (((DWCstMatchControl *)func_02175F3C())->nnCookie) {
+            func_02199FB4(((DWCstMatchControl *)func_02175F3C())->nnCookie);
+            ((DWCstMatchControl *)func_02175F3C())->nnCookie = 0;
         }
-        func_02175F3C()->cancelState = 1;
+        ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
         if (anyGT2ConnectionExist) {
-            func_02195DE4(*func_02175F3C()->pGt2Socket);
+            func_02195DE4(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket);
         } else {
             result = func_021719A4(func_02171F68(0));
             if (result)
@@ -85,10 +85,10 @@ static void func_021728B8(void)
         return;
     }
 
-    if (func_02175F3C()->state == 3 || func_02175F3C()->state == 4 ||
-        func_02175F3C()->state == 5 || func_02175F3C()->state == 6 ||
-        func_02175F3C()->state == 14 || func_02175F3C()->state == 15) {
-        if (func_02175F3C()->reservation) {
+    if (((DWCstMatchControl *)func_02175F3C())->state == 3 || ((DWCstMatchControl *)func_02175F3C())->state == 4 ||
+        ((DWCstMatchControl *)func_02175F3C())->state == 5 || ((DWCstMatchControl *)func_02175F3C())->state == 6 ||
+        ((DWCstMatchControl *)func_02175F3C())->state == 14 || ((DWCstMatchControl *)func_02175F3C())->state == 15) {
+        if (((DWCstMatchControl *)func_02175F3C())->reservation) {
             result = func_021719A4(func_02171F68(0));
             if (result)
                 return;
@@ -97,13 +97,13 @@ static void func_021728B8(void)
         if (result)
             return;
     }
-    if (func_02175F3C()->nnCookie) {
-        func_02199FB4(func_02175F3C()->nnCookie);
-        func_02175F3C()->nnCookie = 0;
+    if (((DWCstMatchControl *)func_02175F3C())->nnCookie) {
+        func_02199FB4(((DWCstMatchControl *)func_02175F3C())->nnCookie);
+        ((DWCstMatchControl *)func_02175F3C())->nnCookie = 0;
     }
     if (anyGT2ConnectionExist) {
-        func_02175F3C()->cancelState = 1;
-        func_02195DE4(*func_02175F3C()->pGt2Socket);
+        ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
+        func_02195DE4(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket);
     }
     func_02172A58();
 }

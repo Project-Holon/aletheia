@@ -28,14 +28,16 @@ struct Ctl {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(u32 a, u32 b);
-extern void func_0202055C(void *p, u32 a, u32 b, u32 c, u32 d);
+struct CharBuf;
+struct Obj;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
 extern void func_020206C0(void *p);
 
 void func_02020234(u8 *p)
 {
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xc)),
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xc))),
                   ((struct Ctl *)p)->lo4);
-    func_0202055C(p, *(u16 *)(p + 0x40), 0, *(u16 *)(p + 0x12), 1);
+    func_0202055C((struct Obj *)p, *(u16 *)(p + 0x40), 0, *(u16 *)(p + 0x12), 1);
     func_020206C0(p);
 }

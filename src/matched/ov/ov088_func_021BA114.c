@@ -31,7 +31,8 @@
  *   func_021BA9B0  0x021BA9B0  thumb  ov088
  */
 
-extern void *func_02009448(int);
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sub02009210Obj;
@@ -57,7 +58,7 @@ extern void func_021BA9B0(int *p);
 int func_021BA114(int *p)
 {
     unsigned short z;
-    if (func_020092EC(func_02009448(p[0])) == 1)
+    if (func_020092EC((const struct Sub02009210Obj *)func_02009448((void *)p[0])) == 1)
         func_0200C2F0(p[2], 2, 2);
     z = 0;
     func_02043534(0);

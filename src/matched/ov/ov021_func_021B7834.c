@@ -17,14 +17,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021B77E4(void *, int, void *);
+struct Ent;
+extern struct Ent *func_021B77E4(void *a, void *b, struct Ent *c);
 
 void *func_021B7834(void *a, int *out, void *buf)
 {
     int i;
 
     for (i = 0; i < 12; i++) {
-        if (func_021B77E4(a, i, buf)) {
+        if (func_021B77E4(a, (void *)i, buf)) {
             *out = i;
             return buf;
         }

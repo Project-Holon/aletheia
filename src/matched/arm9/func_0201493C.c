@@ -45,7 +45,7 @@ extern u32 func_02013F2C(u32 id);
 extern u32 func_02013B38(u32 id);
 extern void *func_0201407C(u16 heap, u32 a, u32 b);
 extern u8 func_020140DC(struct Sub020140BCObj *p);
-extern void  func_020140B4(void *q);
+extern u32 func_020140B4(u32 a);
 extern void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out);
 extern void  sub_020307B0(void *p);
 void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
@@ -70,7 +70,7 @@ void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
     if (p == 0) {
         void *q = func_0201407C((heap & 0x7fff) | 0x8000, func_02013B38((u16)id), b0);
         p = func_02014A20(0x3d, func_020140DC(q), &count, (heap & 0x7fff) | 0x8000);
-        func_020140B4(q);
+        func_020140B4((u32)q);
     }
     func_02014A80(p, count, o1 + o2, b0, b1);
     sub_020307B0(p);

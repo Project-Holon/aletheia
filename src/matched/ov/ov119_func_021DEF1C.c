@@ -47,7 +47,7 @@ extern int func_021B99DC(u8 *);
 extern int func_021B9790(u8 *);
 extern u8 *func_021B97F4(u8 *);
 extern u8 func_021B99F0(u8 *);
-extern u32 func_021B99F4(u8 *,u32);
+extern u32 func_021B99F4(u32 p, u32 i);
 extern void func_021B9774(u8 *);
 extern void func_021B99B8(u8 *);
 extern void func_021B9838(u8 *);
@@ -98,7 +98,7 @@ void func_021DEF1C(u8 *p)
                 do {
                     if(func_021D89EC(*(void **)(p+i*4+off1))) {
                         mon=*(void **)(p+i*4+off2);
-                        if(func_021B99F4(data,n)) {
+                        if(func_021B99F4((u32)data,n)) {
                             value=func_02017E1C(mon,6,0);
                             bank=func_02045B38(0,2,81,*(u16 *)(p+0x5f4));
                             text=func_02045EC0(bank,15);

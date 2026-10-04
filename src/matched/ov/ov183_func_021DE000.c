@@ -19,6 +19,7 @@ typedef unsigned long long u64;
 typedef signed int     s32;
 struct Blk1AC;
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
-extern void *func_0201296C(char *);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *,int);
-int func_021DE000(void *p,char *q) { u32 a,b; a=func_0200DBA0(p,4,0); b=func_020142E8(func_0201296C(q),0x960); if(a && b) return 1; return 0; }
+int func_021DE000(void *p,char *q) { u32 a,b; a=func_0200DBA0(p,4,0); b=func_020142E8((void *)func_0201296C((const struct BigObj *)q),0x960); if(a && b) return 1; return 0; }

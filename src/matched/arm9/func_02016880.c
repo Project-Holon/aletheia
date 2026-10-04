@@ -38,7 +38,9 @@ struct Obj20_02016880 {
     void *f0c;                    /* +0x0c */
 };
 
-extern void func_02063A54(void *a, u32 b, int c, u32 d);
+struct Out;
+struct Res;
+extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
 extern void func_02063E54(void *a, u32 b, int c, u32 d);
 extern void sub_020307B0(void *p);
 struct Node;
@@ -53,7 +55,7 @@ void func_02016880(void *a0, struct Obj_02016880 *a1)
             return;
     }
     if (a1->f10 != 0) {
-        func_02063A54(a1->f00, a1->f18, 0, a1->f08);
+        func_02063A54(a1->f00, a1->f18, 0, (struct Out *)a1->f08);
         sub_020307B0(a1->f10);
         if (((a1->f24[0x140 / 4] << 4) >> 0x1c) == 0) {
             a1->f10 = 0;

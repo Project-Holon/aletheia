@@ -26,13 +26,15 @@ typedef unsigned int   u32;
 struct V;
 extern void func_02193EB4(struct V *v);
 extern char *func_02193F34(void *, int);
-extern int func_0200846C(int);
+struct Sub0200852CObj;
+struct WordSet;
+extern void *func_0200846C(int a0);
 struct Sub0200852CObj;
 extern void func_020084A0(struct Sub0200852CObj *);
 extern u32 func_020084D4(u32 value, void *dst);
-extern void func_0200852C(int, int);
-extern void func_0201F02C(int, int, int);
-extern void func_020307B0(int);
+extern void func_0200852C(struct Sub0200852CObj *obj, u32 value);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_020307B0(void *p);
 
 void func_02193B68(void *a, int b, int c, int d, u16 e)
 {
@@ -41,10 +43,10 @@ void func_02193B68(void *a, int b, int c, int d, u16 e)
 
     func_02193EB4(a);
     q = func_02193F34(a, c);
-    h = func_0200846C((u16)((e & 0x7fff) | 0x8000));
+    h = (int)func_0200846C((u16)((e & 0x7fff) | 0x8000));
     func_020084A0((struct Sub0200852CObj *)h);
     func_020084D4(h, q + 0x38);
-    func_0200852C(h, *(int *)(q + 0x48));
-    func_0201F02C(b, d, h);
-    func_020307B0(h);
+    func_0200852C((struct Sub0200852CObj *)h, *(int *)(q + 0x48));
+    func_0201F02C((struct WordSet *)b, d, (void *)h);
+    func_020307B0((void *)h);
 }

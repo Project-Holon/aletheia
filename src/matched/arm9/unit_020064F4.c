@@ -40,11 +40,11 @@ extern void func_02072E7C(u32 *a, u32 b);
 extern u32 *func_02074324(u32 a);
 extern u32 *func_020743EC(u32 a);
 extern void func_02074694(u32 a, u32 b);
-extern void func_02075560(u32 *a, u32 b);
+extern u32 func_02075560(u32 a, u32 b);
 
 void sub_020064F4(u32 a)
 {
-    func_02075560(sub_0200590C(), a);
+    func_02075560((u32)sub_0200590C(), a);
 }
 
 void sub_02006504(void)

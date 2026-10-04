@@ -20,11 +20,12 @@
 
 typedef unsigned int u32;
 
-extern int func_021B8740(void *a0, void *a1, int a2, u32 a3);
+typedef unsigned char  u8;
+extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 
 void func_021B8720(void *a0, u32 *a1, u32 a2)
 {
-    if (func_021B8740(a0, a1, 2, a2) == 0) {
+    if (func_021B8740((int)a0, (int)a1, 2, a2) == 0) {
         a1[0xee] = 1;
         a1[0xef] = a2;
     }

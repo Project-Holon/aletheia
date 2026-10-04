@@ -36,13 +36,14 @@ extern int d_021D3F58[];
 extern void func_0218625C(Src *s);
 extern void func_02193CBC(u8 *o);
 extern int func_02161ECC(E18 *p);
-extern void func_02186818(int h, int v);
+struct ArcFile;
+extern void func_02186818(u32 *p, u32 member);
 extern u8 *func_02186844(u8 *t, int i);
-extern u16 *func_0218682C(int h);
+extern char *func_0218682C(char *p);
 extern void func_02193F80(void *dst, E18 *src, u8 *pair, u16 *r);
 extern void func_02194084(u8 *p, Src *s, int h);
-extern unsigned func_020493D4(int h, int a);
-extern void func_0204932C(int h, int a, int b);
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern void func_02194128(u8 *p, int a, u8 *b);
 
 void func_02193D30(u8 *o, Src *s, int which)
@@ -59,19 +60,19 @@ void func_02193D30(u8 *o, Src *s, int which)
         if (which == 0) {
             off = i * 0x18;
             if (func_02161ECC((E18 *)((u8 *)s->A + off))) {
-                func_02186818(*(int *)(o + 0xc), s->A[i].b);
+                func_02186818((u32 *)(*(int *)(o + 0xc)), s->A[i].b);
                 func_02193F80(*(u8 **)(o + 4) + i * 0x50, (E18 *)((u8 *)s->A + off),
                               func_02186844(*(u8 **)(o + 0x118), i),
-                              func_0218682C(*(int *)(o + 0xc)));
+                              (u16 *)func_0218682C((char *)(*(int *)(o + 0xc))));
             }
         } else {
             off = i * 0x18;
             if (func_02161ECC((E18 *)((u8 *)s->B + off))) {
-                func_02186818(*(int *)(o + 0xc), s->B[i].b);
+                func_02186818((u32 *)(*(int *)(o + 0xc)), s->B[i].b);
                 pair = func_02186844(*(u8 **)(o + 0x118), i);
-                func_0218682C(*(int *)(o + 0xc));
+                func_0218682C((char *)(*(int *)(o + 0xc)));
                 func_02193F80(*(u8 **)(o + 4) + i * 0x50, (E18 *)((u8 *)s->B + off),
-                              pair, func_0218682C(*(int *)(o + 0xc)));
+                              pair, (u16 *)func_0218682C((char *)(*(int *)(o + 0xc))));
             }
         }
     }
@@ -80,7 +81,7 @@ void func_02193D30(u8 *o, Src *s, int which)
         *(Src **)(o + 8) = s;
     else
         *(Src **)(o + 8) = 0;
-    func_020493D4(*(int *)(o + 0x10), d_021D3F58[o[0]]);
-    func_0204932C(*(int *)(o + 0x10), d_021D3F58[o[0]], *(int *)(o + 0x14));
+    func_020493D4((struct ArcFile *)(*(int *)(o + 0x10)), d_021D3F58[o[0]]);
+    func_0204932C((struct ArcFile *)(*(int *)(o + 0x10)), d_021D3F58[o[0]], (void *)(*(int *)(o + 0x14)));
     func_02194128(o + 0x11c, *(int *)(o + 0x14), o + 0x18);
 }

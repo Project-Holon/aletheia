@@ -17,13 +17,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Item { u8 a,b,c,d,e,f; } Item;
 extern Item d_02211B14[];
-extern void *func_020450F0(int,int,int,int,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0220BC70(u8 *, unsigned int);
 void func_0220BC24(u8 *p)
 {
     Item *s = d_02211B14;
     u32 i;
     for (i=0;i<2;i++,s++)
-        *(void **)(p+i*8+0x1F60)=func_020450F0(s->a,s->b,s->c,s->d,s->e,s->f,1);
+        *(void **)(p+i*8+0x1F60)=(void *)func_020450F0(s->a,s->b,s->c,s->d,s->e,s->f,1);
     func_0220BC70(p,p[0x2180]);
 }

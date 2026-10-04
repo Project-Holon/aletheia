@@ -38,7 +38,7 @@ extern int func_0216D86C(void *x);
 typedef unsigned short u16;
 extern u16 func_021642B4(int x0, int y0, int x1, int y1);
 extern u16 func_0216D5F8(void *p);
-extern int func_0216D3CC(void *x);
+extern int func_0216D3CC(int a0);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(void *a, int b);
 
@@ -51,7 +51,7 @@ int func_021AE66C(Task *p)
 
     r6 = func_021642B4(r6, r7, t, func_0216D86C(p->f08));
     if (r6 != func_0216D5F8(r4) && (p->f24 == 0 || p->f1C == 2)) {
-        if (func_0216D3CC(r4) == 1) {
+        if (func_0216D3CC((int)r4) == 1) {
             func_0216D410(r4, func_02197E7C(r6, 0));
             p->state = 0xf;
         }

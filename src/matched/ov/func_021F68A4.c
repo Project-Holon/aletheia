@@ -118,7 +118,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02049238(void *h);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern int func_021F91A0(void *a, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
+extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 extern void func_021F6DB4(Info *recs, u32 *unused, void *key, IconRec *ent);
 extern void func_021F6754(Work *p);
 
@@ -170,7 +170,7 @@ void func_021F68A4(Work *p, int box)
     }
     func_02049238(arc);
     func_02043B5C(func_02045770(p->fD4C), 0);
-    func_021F91A0(p->fD4C, p->fB80, 0, 5, 1, 0x440, p->fFA0);
+    func_021F91A0(p->fD4C, (u32)p->fB80, 0, 5, 1, 0x440, (u32)p->fFA0);
     if (p->kind == 6) {
         func_021F6DB4(p->info, p->icon, p->arr[p->cur].key, icons);
     }

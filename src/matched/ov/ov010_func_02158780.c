@@ -17,13 +17,14 @@ typedef unsigned short u16;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_02012374(void *, void **);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 struct Desc;
 extern struct Desc *func_02158920(int a, int b, int c, int d, int e);
 int func_02158780(void *p, int b, int c, int d, u16 e)
 {
     struct Desc *h = func_02158920((int)func_020124E4(p), e, b, c, d);
     int *q = func_020124E8((void *)h);
-    func_02012374(p, (void **)h);
+    func_02012374(p, (struct Evt **)((void **)h));
     return *q;
 }

@@ -65,7 +65,7 @@ typedef struct SBServerList {
 extern void func_0219F888(SBServerList *slist);
 extern void *func_0219DF64(SBServerList *slist);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
-extern void func_021A0A1C(SBServerList *slist, char *theError);
+extern void func_021A0A1C(int *p, int v);
 extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);
 extern void func_0217F25C(void);
@@ -99,7 +99,7 @@ void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromG
     slist->fromgamever = queryFromVersion;
     slist->currsortinfo.sortkey[0] = g_021A8230[0];
     slist->prevsortinfo.sortkey[0] = g_021A8230[0];
-    func_021A0A1C(slist, (char *)(unsigned char *)g_021A8230);
+    func_021A0A1C((int *)slist, (int)((char *)(unsigned char *)g_021A8230));
     slist->mLanAdapterOverride = 0;
     slist->backendgameflags = 0x80;
     func_020946C8(func_0217F264());

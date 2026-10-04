@@ -21,14 +21,14 @@ struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021C3C84[];
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u8 *func_021BF6D4(u8 *);
 u8 *func_021BF844(void *a,void *b,void *c) {
     u8 *p=func_02030734(42,160,0,d_021C3C84,154);
     *(void **)p=a; *(void **)(p+4)=b; *(void **)(p+8)=c;
     *(void **)(p+72)=func_020457B0(32,42);
-    *(void **)(p+12)=func_020450F0(2,3,0,26,32,13,1);
-    *(void **)(p+16)=func_020450F0(2,0,0,12,4,13,1);
+    *(void **)(p+12)=(void *)func_020450F0(2,3,0,26,32,13,1);
+    *(void **)(p+16)=(void *)func_020450F0(2,0,0,12,4,13,1);
     *(void **)(p+20)=0; *(void **)(p+24)=0;
     *(void **)(p+156)=func_021BF6D4(*(u8 **)(p+4));
     return p;

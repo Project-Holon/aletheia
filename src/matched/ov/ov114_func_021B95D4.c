@@ -34,18 +34,18 @@ extern Pair d_021CE284[];
 extern unsigned int func_021B95A0(unsigned int,unsigned int);
 extern void func_021B95B0(int);
 extern int func_021B95C0(int,int,u32 *);
-extern int func_021BE648(void *,void *,int);
+extern int func_021BE648(int a, int b, int c);
 extern int func_021BF04C(u32,u32,void *,int,void *,int);
 extern int func_021BE9C8(int,void *,int);
 extern int func_021BE6BC(int,const char *,const char *);
-extern int func_021BE8E8(int,const char *,const char *);
+extern int func_021BE8E8(void *handle, char *username_p, char *password_p);
 extern void func_02034714(const char *,u32,const char *);
 extern void func_02082BCC(void *,int,unsigned);
 extern int func_0208D80C(char *,int,const char *,...);
 int func_021B95D4(int index,u8 *p)
 {
     int h;
-    if(func_021BE648(func_021B95A0,func_021B95B0,12)!=0) {
+    if(func_021BE648((int)func_021B95A0,(int)func_021B95B0,12)!=0) {
         func_02034714(d_021CE2D4,0,d_021CE2D4);
         return 0;
     }
@@ -69,7 +69,7 @@ int func_021B95D4(int index,u8 *p)
         func_02034714(d_021CE2D4,0,d_021CE2D4);
         return 0;
     }
-    if(func_021BE8E8(h,d_021CE2D4+40,d_021CE2D4+48)!=0) {
+    if(func_021BE8E8((void *)h,d_021CE2D4+40,d_021CE2D4+48)!=0) {
         func_02034714(d_021CE2D4,0,d_021CE2D4);
         return 0;
     }

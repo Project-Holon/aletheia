@@ -29,11 +29,11 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188CE8(void *p);
+extern u32 func_02188CE8(u8 *p);
 extern void func_021AA8F8(void);
-extern int func_02189BD0(void *a, int b, int *c, int *d);
+extern int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB);
 extern void func_021AA8EC(u8 *p);
-extern void *func_02188D20(void *p);
+extern u32 func_02188D20(u8 *p);
 extern int func_021BC5BC(void *p);
 extern void *func_02188CB4(u8 *p);
 extern void func_021A3550(u32 *p, int a);
@@ -51,13 +51,13 @@ int func_0218A074(void *a, int b)
     void *q;
 
     p = func_0201210C(a);
-    q = func_02188CE8(p);
+    q = (void *)func_02188CE8(p);
     func_021AA8F8();
-    r = func_02189BD0(a, b, &u, &v);
+    r = func_02189BD0(a, (u8 *)b, &u, &v);
     if (r != 0) {
         if (u != 0)
             func_021AA8EC(q);
-        func_021BC5BC(func_02188D20(p));
+        func_021BC5BC((void *)func_02188D20(p));
         func_021A3550(func_02188CB4(p), v);
         func_021A356C(func_02188CB4(p));
         if (func_02189A70(p) != 0)

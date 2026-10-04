@@ -79,7 +79,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  func_02034F84(u32 a);
 extern void  func_02033200(struct Job *job, u32 mode);
 extern void  func_02082A7C(u32 v, void *p, u32 n);
-extern void  func_020335AC(u32 dst, void *src, u32 n, u32 dev);
+extern u32 func_020335AC(u32 a, u32 b, u32 c, u32 d);
 extern void  func_020307B0(void *p);
 extern void  func_020319C0(struct Job *job);
 extern void  func_02034FB8(u32 a, u32 b);
@@ -101,7 +101,7 @@ int func_020319F0(struct Job *job, u32 heap)
     func_02082A7C(0xFFFFFFFF, page, 0x1000);
 
     for (off = 0; off < job->f08; off += 0x1000)
-        func_020335AC(off + job->f00, page, 0x1000, g_02146994->f208);
+        func_020335AC(off + job->f00, (u32)page, 0x1000, g_02146994->f208);
 
     func_020307B0(page);
     func_020319C0(job);

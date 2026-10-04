@@ -81,7 +81,7 @@ extern void func_021C61EC(Work *p, int k, int flush);
 extern void func_021C628C(Work *p, int k, int flush);
 extern void func_021C6954(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx);
 extern void func_0202DE5C(struct PmsDraw *p, u8 v);
-extern void func_0202DC48(void *p, void *a, void *b, u32 c);
+extern void func_0202DC48(u32 a, u32 b, u32 c, u32 d);
 extern void func_0202DCB0(struct Obj0202DC98 *o, int i, u32 a1);
 
 void func_021C60CC(Work *p, void **bg, const Info *info)
@@ -105,7 +105,7 @@ void func_021C60CC(Work *p, void **bg, const Info *info)
     func_021C628C(p, info->f48, 0);
     func_021C6954(p, bg[4], 0xD8, 8, 0, s, info->f20, 7, 1, 1, 0);
     func_0202DE5C(p->f32B0, 0);
-    func_0202DC48(p->f32B0, bg[5], p->info->f6C, 0);
+    func_0202DC48((u32)p->f32B0, (u32)bg[5], (u32)p->info->f6C, 0);
     if (p->f3034 != 0) {
         func_0202DCB0(p->f32B0, 0, 0);
     }

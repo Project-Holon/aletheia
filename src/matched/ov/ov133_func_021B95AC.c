@@ -26,10 +26,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 extern int func_021BA258(u8 *);
-extern u8 *func_021BA218(u8 *);
+extern u32 func_021BA218(u8 *p);
 extern u32 *func_021BA228(u8 *);
 extern u8 *func_021F5450(u8 *,int);
-extern void func_021F4ED4(void *,void *,u16);
+extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern u16 func_0207CFB8(long,long);
 extern void func_020061E4(u32);
 static inline int fx(int x)
@@ -65,7 +65,7 @@ void func_021B95AC(u8 *p)
             *(s16 *)(p+0x18c4)=0;
             func_020061E4(1577);
         }
-        func_021F4ED4(*(void **)(p+0x1884),func_021BA218(*(u8 **)(p+0x38)),*(u16 *)(rec+0x36)+adjust);
+        func_021F4ED4((u32)(*(void **)(p+0x1884)),func_021BA218(*(u8 **)(p+0x38)),*(u16 *)(rec+0x36)+adjust);
         *(s16 *)(*(u8 **)(*(u8 **)(p+4)+4)+stride+0x16)=adjust;
     }
     *(u16 *)(p+44)=angle;

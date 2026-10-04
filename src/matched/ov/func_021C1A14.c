@@ -25,11 +25,11 @@ typedef signed long    s32;
 typedef int BOOL;
 
 extern u8 func_021C1C64(char *p);
-extern void func_021C19DC(void *a, void *b);
+extern void func_021C19DC(char *p, int v);
 
 void func_021C1A14(char *p, int b, void *c)
 {
     if (b == func_021C1C64(p)) {
-        func_021C19DC(p, c);
+        func_021C19DC(p, (int)c);
     }
 }

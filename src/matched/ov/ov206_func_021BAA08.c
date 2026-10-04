@@ -12,12 +12,15 @@
  *   func_021BA960 0x021BA960 thumb ov206
  *   func_02045808 0x02045808 arm
  */
-extern int func_02045EC0(int,int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_021BA960(int,int,int,int,int,unsigned short,unsigned short,unsigned short,int,int);
-extern void func_02045808(int);
+extern void func_02045808(struct U16Vec *vec);
 void func_021BAA08(int heap,int window,int bank,int printer,int font,int message,unsigned short x,unsigned short y,unsigned short color,int alignment,int expansion)
 {
-    int text=func_02045EC0(bank,message);
+    int text=(int)func_02045EC0((struct MsgBank *)bank,message);
     func_021BA960(heap,window,printer,font,text,x,y,color,alignment,expansion);
-    func_02045808(text);
+    func_02045808((struct U16Vec *)text);
 }

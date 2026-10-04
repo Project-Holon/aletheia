@@ -33,9 +33,9 @@ struct Ctl {
 };
 
 extern void *func_0204D410(struct Ctl *c);
-extern void  func_02063000(void *h, u32 a, u32 b, u32 c);
+extern void func_02063000(int p0, int p1, int p2, int p3);
 
 void func_0204D7C4(struct Ctl *c)
 {
-    func_02063000(func_0204D410(c), 0, 0, 0);
+    func_02063000((int)func_0204D410(c), 0, 0, 0);
 }

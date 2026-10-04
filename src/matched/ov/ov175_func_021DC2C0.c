@@ -23,10 +23,10 @@ typedef unsigned long u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *p);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 
 void func_021DC2C0(u32 ignored, void *p)
 {
-    func_0203D3A8(func_020399A8(), 0x2405, 4, p);
+    func_0203D3A8(func_020399A8(), 0x2405, 4, (u32)p);
 }
 

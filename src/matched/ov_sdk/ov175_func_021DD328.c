@@ -20,14 +20,15 @@
 
 typedef unsigned long u32;
 
-extern void func_0217CECC(u32 v);
+struct GSTask;
+extern void func_0217CECC(struct GSTask *theTask);
 
 int func_021DD328(char *a, char *b)
 {
     u32 v;
     if (a && b && *(char **)(b + 0x20)
         && (v = *(u32 *)(*(u32 *)(b + 0x20) + 0x24)) != 0) {
-        func_0217CECC(v);
+        func_0217CECC((struct GSTask *)v);
         return 0;
     }
     return 3;

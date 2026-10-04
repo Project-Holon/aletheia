@@ -37,17 +37,17 @@ typedef signed char    s8;
 extern u8 *func_0216D6BC(u32, u32);
 extern void func_0216D5E0(int a0, int a1);
 extern u32 func_0216D600(u32, u32);
-extern u32 func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern u32 func_0216DA70(u32);
-extern u32 func_0216D83C(u32);
+extern int func_0216D83C(void *p);
 extern u32 func_0216D80C(u32, u32);
-extern u32 func_0216D854(u32);
+extern int func_0216D854(void *p);
 extern u32 func_0216D818(u32, u32);
-extern u32 func_0216D86C(u32);
+extern int func_0216D86C(void *p);
 extern u32 func_0216D824(u32, u32);
-extern u32 func_0216D848(u32, s16);
-extern u32 func_0216D860(u32, s16);
-extern u32 func_0216D87C(u32, s16);
+extern void func_0216D848(char *p, short v);
+extern void func_0216D860(char *p, short v);
+extern void func_0216D87C(char *p, short v);
 extern u32 func_0216D7CC(u32);
 
 void func_02199888(u32 a, int b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u8 i)
@@ -65,27 +65,27 @@ void func_02199888(u32 a, int b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u8 i)
     *(u16 *)(q + 14) = 0x1000 / q[0];
     func_0216D5E0(a, (u16)c);
     func_0216D600(a, (u16)d);
-    func_0216D674(a, f);
+    func_0216D674((void *)a, f);
     func_0216DA70(a);
-    func_0216D80C(a, func_0216D83C(a));
-    func_0216D818(a, func_0216D854(a));
-    func_0216D824(a, func_0216D86C(a));
+    func_0216D80C(a, func_0216D83C((void *)a));
+    func_0216D818(a, func_0216D854((void *)a));
+    func_0216D824(a, func_0216D86C((void *)a));
     if (b != 0) {
         switch (g) {
         case 0:
             if (b < 0)
                 dir = -1;
-            func_0216D848(a, dir);
+            func_0216D848((char *)a, dir);
             break;
         case 1:
             if (b < 0)
                 dir = -1;
-            func_0216D860(a, dir * 2);
+            func_0216D860((char *)a, dir * 2);
             break;
         case 2:
             if (b < 0)
                 dir = -1;
-            func_0216D87C(a, dir);
+            func_0216D87C((char *)a, dir);
             break;
         }
     }

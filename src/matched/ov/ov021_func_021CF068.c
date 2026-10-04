@@ -25,10 +25,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_020362DC(void);
-extern u32 func_02188C54(u32);
-extern u32 func_02190BE4(u32, u32);
+struct Handle;
+extern u32 func_02188C54(u8 *p);
+extern u32 *func_02190BE4(u16 *a, u32 b);
 extern void func_021CE9E4(u8 *p, u32 m);
-extern u32 func_02190C78(u32);
+extern int func_02190C78(struct Handle *h);
 extern int func_0219049C(u32);
 extern int func_021909BC(u32 a);
 
@@ -40,14 +41,14 @@ int func_021CF068(u8 *p)
     switch (q[8]) {
     case 0:
         if (func_020362DC() & 2) {
-            *(u32 *)q = func_02190BE4(func_02188C54(*(u32 *)p), 0);
+            *(u32 *)q = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)(*(u32 *)p)), 0);
             func_021CE9E4(p, 0x23);
             q[8] = 1;
         }
         break;
     case 1:
-        r = func_02190C78(*(u32 *)q);
-        if (func_0219049C(func_02188C54(*(u32 *)p)) == 1 && p[0x576] == 1)
+        r = func_02190C78((struct Handle *)(*(u32 *)q));
+        if (func_0219049C(func_02188C54((u8 *)(*(u32 *)p))) == 1 && p[0x576] == 1)
             r = 1;
         if (r != 2) {
             func_021909BC(*(u32 *)q);

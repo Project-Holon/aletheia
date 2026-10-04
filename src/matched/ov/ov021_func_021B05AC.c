@@ -34,11 +34,11 @@ extern void *func_0201210C(const struct Ctx *p);
 extern u16 func_02188C84(u8 *p);
 extern unsigned int func_02159B10(void *, void *);
 extern int func_02159190(int a0);
-extern u32 func_0215A630(u32);
+extern u32 func_0215A630(u8 *p);
 extern void func_0202F038(u8 *p);
-extern void func_0215A624(u32, u32);
+extern void func_0215A624(u8 *p, u32 v);
 extern int func_0215A61C(int a0);
-extern u32 func_021911B4(u32);
+extern u32 func_021911B4(u8 *p);
 extern u32 func_020056BC(void);
 extern u32 func_0202EE30(u32, u32, u32, u32, u32);
 
@@ -51,14 +51,14 @@ int func_021B05AC(u32 a, u32 b)
     if (!func_02159190(1)) {
         return 0;
     }
-    t0 = func_0215A630(b);
+    t0 = func_0215A630((u8 *)b);
     if (t0) {
         func_0202F038((void *)t0);
-        func_0215A624(b, 0);
+        func_0215A624((u8 *)b, 0);
     }
     if (r4 == 0) {
-        u32 t = func_021911B4(func_0215A61C(b));
-        func_0215A624(b, func_0202EE30(func_020056BC(), t, 0xf, 0x10, r6));
+        u32 t = func_021911B4((u8 *)func_0215A61C(b));
+        func_0215A624((u8 *)b, func_0202EE30(func_020056BC(), t, 0xf, 0x10, r6));
     }
     return 0;
 }

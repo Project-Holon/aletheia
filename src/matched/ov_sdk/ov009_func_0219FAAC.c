@@ -33,7 +33,7 @@ extern char *g_021A821C;
 extern void *g_021AEB00;
 extern unsigned int func_0209477C(char *s);
 extern int func_020949F4(char *a, char *b, unsigned int n);
-extern void func_021A0A1C(struct SBL *slist, char *err);
+extern void func_021A0A1C(int *p, int v);
 extern void func_021A02E0(struct SBL *slist);
 void func_0219FAAC(struct SBL *slist)
 {
@@ -43,7 +43,7 @@ void func_0219FAAC(struct SBL *slist)
 		char *e = g_021A821C;
 		char *s = slist->errstr;
 		if (func_020949F4(s, e, func_0209477C(e)) == 0) {
-			func_021A0A1C(slist, s + func_0209477C(q));
+			func_021A0A1C((int *)slist, (int)(s + func_0209477C(q)));
 			slist->cb(slist, 5, g_021AEB00, slist->ud);
 		}
 	}

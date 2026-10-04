@@ -35,10 +35,13 @@ typedef struct {
 
 extern void func_021EDBE8(Obj *p);
 extern void func_021ED988(Obj *p);
-extern void func_020452E8(u32 h);
+struct Descriptor;
+struct PrintSys;
+struct U16Vec;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020403F4(u32 i);
-extern void func_0201C4C0(u32 h);
-extern void func_02045808(u32 h);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_020307B0(void *p);
 
 void func_021EB234(Obj *p)
@@ -46,28 +49,28 @@ void func_021EB234(Obj *p)
     func_021EDBE8(p);
     func_021ED988(p);
     if (p->f08 != 0) {
-        func_020452E8(p->f08);
+        func_020452E8((struct Descriptor *)p->f08);
         p->f08 = 0;
     }
     if (p->f00 != 0) {
-        func_020452E8(p->f00);
+        func_020452E8((struct Descriptor *)p->f00);
         p->f00 = 0;
     }
     func_020403F4(1);
     func_020403F4(2);
     func_020403F4(3);
     if (p->f18 != 0) {
-        func_0201C4C0(p->f18);
+        func_0201C4C0((struct PrintSys *)p->f18);
         p->f18 = 0;
     }
     if (p->f3c != 0) {
-        func_02045808(p->f3c);
+        func_02045808((struct U16Vec *)p->f3c);
         p->f3c = 0;
     }
     if (p->f38 != 0) {
-        func_02045808(p->f38);
+        func_02045808((struct U16Vec *)p->f38);
         p->f38 = 0;
     }
-    func_02045808(p->f34);
+    func_02045808((struct U16Vec *)p->f34);
     func_020307B0(p);
 }

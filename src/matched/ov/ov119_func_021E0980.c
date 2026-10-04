@@ -41,7 +41,12 @@ extern u8 func_020076A4(void *);
 extern void *func_0201AB28(void *p, u32 idx);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 extern u32 func_0202136C(u16 v);
-extern void func_02045CAC(int,int,int),func_021E1024(void *),func_021D8E84(void *,int),func_021E0958(void *),func_021E0A64(void *);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021E1024(void *);
+extern void func_021D8E84(void *,int);
+extern void func_021E0958(void *);
+extern void func_021E0A64(void *);
 void func_021E0980(char *p)
 {
     int i;
@@ -65,7 +70,7 @@ void func_021E0980(char *p)
     if(*(u16 *)(t+0x28)!=func_020076A4(*(void **)(p+0x828))) {
         z=0;
         if(func_0202136C(func_02017E1C(func_0201AB28(*(void **)(t+0x1c),0),6,0))) {
-            func_02045CAC(*(int *)(p+0x720),106,*(int *)(p+0x738));
+            func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),106,(void *)(*(int *)(p+0x738)));
             func_021E1024(p);
             func_021D8E84(p,(int)func_021E0958);
             *(int *)(p+0xf2c)=z;

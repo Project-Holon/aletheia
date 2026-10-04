@@ -28,9 +28,9 @@ struct Link;
 extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
 extern u32 func_0203D378(void);
 extern void func_0217998C(int);
-extern void func_02157960(void *, void (*)(void), int);
-extern void func_02157A30(void);
-extern void func_02157A58(void);
+extern void func_02157960(int a, int b, int c);
+extern void func_02157A30(int p);
+extern void func_02157A58(int p);
 
 void func_02157A78(u32 *p)
 {
@@ -42,10 +42,10 @@ void func_02157A78(u32 *p)
             k = 0x12C;
             func_0217998C(k);
             k -= 0x19;
-            func_02157960(p, func_02157A30, k);
+            func_02157960((int)p, (int)func_02157A30, k);
             return;
         }
         k += 0xF3;
-        func_02157960(p, func_02157A58, k);
+        func_02157960((int)p, (int)func_02157A58, k);
     }
 }

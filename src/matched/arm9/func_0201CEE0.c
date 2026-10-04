@@ -102,12 +102,13 @@ struct Rec {
     struct PrintCtx ctx; /* 0x34 */
 };
 
-extern u32   func_020437DC(u32 win);
-extern u32   func_020437E4(u32 win);
-extern void  func_020439A0(u32 src, u32 dst, u32 a2, u32 a3, u32 a4, u32 a5,
-                           u32 a6, u32 a7, u32 a8);
+struct Bmp;
+struct CharBuf;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void  func_02043AF4(u32 win, u32 x, s16 y, u32 w, u32 h, u32 c);
-extern void  func_02043B5C(u32 win, u32 c);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void  func_02045334(struct Descriptor *a);
 extern u16  *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
@@ -148,9 +149,9 @@ void func_0201CEE0(void *task, struct Rec *p)
                 if (p->scroll + 4 > 0x10)
                     k = 0x10 - p->scroll;
                 p->scroll += (u8)k;
-                w = func_020437DC(p->win);
-                h = func_020437E4(p->win) - k;
-                func_020439A0(p->win, p->win, 0, k, 0, 0, w, h, 0xFFFF);
+                w = func_020437DC((const struct Bmp *)p->win);
+                h = func_020437E4((const struct Bmp *)p->win) - k;
+                func_020439A0((struct Bmp *)p->win, (struct Bmp *)p->win, 0, k, 0, 0, w, h, 0xFFFF);
                 func_02043AF4(p->win, 0, h, w, k, p->color);
                 func_02045334((struct Descriptor *)p->f08);
                 return;
@@ -230,7 +231,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                 return;
             case 1:
             default:
-                func_02043B5C(p->win, p->color);
+                func_02043B5C((struct CharBuf *)p->win, p->color);
                 p->state = 0;
                 return;
             }

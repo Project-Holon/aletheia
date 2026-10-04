@@ -18,12 +18,12 @@
  */
 
 extern void func_021EEF74(char *q, int a, int b);
-extern void func_021DC9B4(void *, void *);
+extern void func_021DC9B4(char *p, int v);
 extern int func_021E066C(char *p);
 
 void func_021EEBDC(char *p, int a, int b)
 {
     func_021EEF74(*(char **)(p + 0x2c), a, b);
-    func_021DC9B4(*(void **)(p + 0x2c), (void *)&func_021E066C);
+    func_021DC9B4(*(void **)(p + 0x2c), (int)((void *)&func_021E066C));
 }
 

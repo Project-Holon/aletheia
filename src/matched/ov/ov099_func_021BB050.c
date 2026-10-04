@@ -38,9 +38,10 @@ typedef struct {
 struct Cfg;
 struct Descriptor;
 extern int func_021BA8BC(void *p);
-extern void *func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
+struct MsgBank;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045374(struct Cfg *cfg);
-extern void  func_02045CAC(u32 a0, u32 a1, u32 a2);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045770(struct Descriptor *p);
 extern void  func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045334(struct Descriptor *d);
@@ -48,9 +49,9 @@ extern void func_02045334(struct Descriptor *d);
 void func_021BB050(W *w)
 {
     func_021BA8BC(w->f198);
-    w->f198 = func_020450F0(3, 5, 1, 0x16, 2, 0xf, 1);
+    w->f198 = (void *)func_020450F0(3, 5, 1, 0x16, 2, 0xf, 1);
     func_02045374(w->f198);
-    func_02045CAC(w->fe0, 0x12, w->ff8);
+    func_02045CAC((struct MsgBank *)w->fe0, 0x12, (void *)w->ff8);
     func_0201C7A4(func_02045770(w->f198), 0, 0, (void *)w->ff8, (void *)w->fe8);
     func_02045334(w->f198);
 }

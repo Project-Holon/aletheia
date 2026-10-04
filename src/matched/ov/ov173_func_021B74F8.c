@@ -18,7 +18,7 @@
  */
 extern int func_02006238(void);
 extern void func_020061E4(unsigned int);
-extern void func_02005DE4(unsigned int);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 extern void func_02005D90(unsigned int, unsigned int);
 extern int func_02005F38(void);
@@ -30,7 +30,7 @@ int func_021B74F8(unsigned int state)
     case 2: return func_02006238();
     case 3: func_020061E4(0x56b); break;
     case 4:
-        func_02005DE4(1);
+        func_02005DE4((void *)1);
         func_02005E64();
         func_02005D90(0x515, 0xffff);
         break;

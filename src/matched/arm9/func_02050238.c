@@ -36,11 +36,13 @@ struct S8 {
     u32 w;
 };
 
-extern int func_02033CA8(u32 a, int b);
+typedef signed int     s32;
+struct AreaMan;
+extern s32 func_02033CA8(struct AreaMan *p, u32 len);
 
 int func_02050238(void *p, u16 b, int c)
 {
-    int idx = func_02033CA8(*(u32 *)((char *)p + 20), 1);
+    int idx = func_02033CA8((struct AreaMan *)(*(u32 *)((char *)p + 20)), 1);
 
     ((struct S8 *)*(u32 *)((char *)p + 12))[idx].h = b;
     ((struct S8 *)*(u32 *)((char *)p + 12))[idx].w = c;

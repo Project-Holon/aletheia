@@ -22,7 +22,9 @@ typedef struct Rec {
 } Rec;
 
 extern Rec d_021DE094[];
-extern int func_021ABE24(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021ABE24(u8 *p);
 extern void func_021AD8DC(int *a, Rec *b, int c);
 extern void func_021AD96C(int *a, Rec *b, int c);
 
@@ -33,7 +35,7 @@ void func_021AD7E4(int *a, int b)
     int t;
 
     *R(a) = d_021DE094[b];
-    t = func_021ABE24(*a);
+    t = func_021ABE24((u8 *)(*a));
     if (b == 0) {
         func_021AD8DC(a, R(a), t);
     } else {

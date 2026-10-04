@@ -23,9 +23,10 @@ extern void func_021D8904(void *a, struct S *s);
 extern void func_021D9A04(void *,void *);
 extern void func_021D7BF0(void *a, unsigned char *p);
 extern void func_021D6808(void *,void *);
-extern void func_0204ADA4(void *);
-extern void func_0204A8D4(void *);
-extern void func_0204AFD8(void *);
+typedef unsigned int   u32;
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 void func_021D4F24(char *p)
 {
     u8 i;
@@ -33,8 +34,8 @@ void func_021D4F24(char *p)
     func_021D9A04(p,*(void **)(p+0x90));
     func_021D7BF0(p,*(void **)(p+0x8c));
     func_021D6808(p,*(void **)(p+0x88));
-    for(i=0;i<=11;i++) func_0204ADA4(*(void **)(p+i*4+0x98));
-    for(i=12;i<=24;i++) func_0204A8D4(*(void **)(p+i*4+0x98));
-    for(i=25;i<=37;i++) func_0204AFD8(*(void **)(p+i*4+0x98));
-    for(i=0;i<17;i++) func_0204A8D4(*(void **)(p+i*4+0x130));
+    for(i=0;i<=11;i++) func_0204ADA4((u32)(*(void **)(p+i*4+0x98)));
+    for(i=12;i<=24;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x98)));
+    for(i=25;i<=37;i++) func_0204AFD8((u32)(*(void **)(p+i*4+0x98)));
+    for(i=0;i<17;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x130)));
 }

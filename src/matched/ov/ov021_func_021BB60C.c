@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V3;
 typedef struct { u32 f0, f4, f8, fC; u16 f10[10]; u32 f24; } X;
-extern int func_0216E1C4(u32 a, u16 *b);
+extern int func_0216E1C4(int a0, int a1);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
@@ -30,7 +30,7 @@ extern void func_021AC1CC(u32 a, V3 *v);
 void func_021BB60C(u32 a, X *x)
 {
     V3 v;
-    if (func_0216E1C4(x->fC, x->f10) == 0) {
+    if (func_0216E1C4(x->fC, (int)x->f10) == 0) {
         x->f24 = 1;
         return;
     }

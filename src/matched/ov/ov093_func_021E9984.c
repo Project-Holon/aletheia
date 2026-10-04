@@ -33,8 +33,8 @@ extern u32 func_021B8588(void **p);
 extern int func_021B99B8(void *pp, unsigned int b);
 extern int func_021E9A68(void *);
 extern void *func_021F86D4(void);
-extern void *func_021F86E0(void);
-extern void *func_021B8748(void *);
+extern int func_021F86E0(void);
+extern u32 func_021B8748(void **p);
 extern void *func_021B86B8(void ***);
 
 void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
@@ -71,8 +71,8 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
     *(u32 *)(q + 0x14) = func_021B8588(*(void **)p);
     *(int *)(q + 0x44) = func_021E9A68(*(void **)(p + 0x180));
     *(void **)(q + 0x28) = func_021F86D4();
-    *(void **)(q + 0x2c) = func_021F86E0();
-    *(void **)q = func_021B8748(*(void **)p);
+    *(void **)(q + 0x2c) = (void *)func_021F86E0();
+    *(void **)q = (void *)func_021B8748(*(void **)p);
     *(int *)(q + 0x30) = 0;
     zero = 0;
     if ((int)func_021B86B8(*(void ****)p) != 3) zero = 1;

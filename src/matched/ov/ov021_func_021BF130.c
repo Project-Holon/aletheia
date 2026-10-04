@@ -22,8 +22,8 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern u16 func_02188C84(u32 p);
-extern void func_0202208C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u16 func_02188C84(u8 *p);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
 
 int func_021BF130(u32 p0, int *st, u8 *q)
@@ -36,7 +36,7 @@ int func_021BF130(u32 p0, int *st, u8 *q)
         *st = *st + 1;
         break;
     case 1:
-        func_0202208C(3, 8, 8, 0, 6, 1, func_02188C84(x));
+        func_0202208C((void *)3, 8, 8, 0, 6, 1, func_02188C84((u8 *)x));
         *st = *st + 1;
         break;
     case 2:

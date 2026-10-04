@@ -33,7 +33,7 @@ typedef struct MatchCnt {
 } MatchCnt;
 
 extern void MIi_CpuClear32(int v, void *p, int size);
-extern MatchCnt *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_0219C7C0(void *qr2, unsigned char *message, int len, SockAddrIn *saddr);
 extern int func_020923F0(void *a, void *b, int n);
 extern void func_0219AB8C(unsigned char *message, int len, SockAddrIn *saddr);
@@ -51,8 +51,8 @@ int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned cha
     saddr.addr = ip;
     ip = message[0];
     if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
-        if (func_02175F3C()->f10 != 0)
-            func_0219C7C0(func_02175F3C()->f10, message, len, &saddr);
+        if (((MatchCnt *)func_02175F3C())->f10 != 0)
+            func_0219C7C0(((MatchCnt *)func_02175F3C())->f10, message, len, &saddr);
     } else if (func_020923F0(message, g_021A5A7C, 6) == 0) {
         func_0219AB8C(message, len, &saddr);
     } else {

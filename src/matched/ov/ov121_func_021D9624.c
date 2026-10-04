@@ -40,7 +40,7 @@ extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0201DD60(void);
 extern void func_021D97C8(void *p, u32 a);
-extern void func_021D986C(void *,const void *,u16);
+extern void func_021D986C(void **p, u32 a, u32 heap);
 extern void func_021D97B4(void *,u8 *);
 extern void *func_020056A0(void (*)(void *,u8 *),void *,int);
 u8 *func_021D9624(int arg,u16 heap)
@@ -61,7 +61,7 @@ u8 *func_021D9624(int arg,u16 heap)
     func_02043588();
     func_0201DD60();
     func_021D97C8(p,heap);
-    func_021D986C(p+4,d_021DF604,heap);
+    func_021D986C((void **)(p+4),(u32)d_021DF604,heap);
     *(void **)(p+20)=func_020056A0(func_021D97B4,p,0);
     return p;
 }

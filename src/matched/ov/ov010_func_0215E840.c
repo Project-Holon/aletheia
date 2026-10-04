@@ -80,7 +80,8 @@ struct Actor;
 struct BigObj;
 struct Sub02014444Obj;
 extern u16 func_02188C9C(u8 *p);
-extern u32 func_02188C80(void *field);
+struct Ctx;
+extern void *func_02188C80(void *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_02188C7C(u8 *p);
 extern u32 func_021A3098(void *q);
@@ -88,8 +89,8 @@ extern void *func_021A3250(void *q);
 extern u16 func_021A3050(u8 *p);
 extern u32 func_021A30C8(void **ctx);
 extern u32 func_021A3128(u32 *a, u32 b);
-extern int func_021A3504(void *q, u32 b, u32 c);
-extern int func_021A3524(void *q, u32 b, u32 c);
+extern int func_021A3504(int a, int b, int c);
+extern int func_021A3524(int a, int b, int c);
 extern void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c);
 extern u16 func_0216D598(void *obj);
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
@@ -98,7 +99,7 @@ extern int func_0216E5B0(void *map, const VecFx32 *pos);
 extern int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field);
 extern u32 func_02013C40(u32 id);
 extern u32 func_02013C50(u32 id);
-extern void *func_020120F4(u32 v);
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012B38(const struct BigObj *p);
 extern u16 func_02014470(struct Sub02014444Obj *o);
 extern int func_021CD440(void *field, u16 *out);
@@ -128,7 +129,7 @@ void func_0215E840(void *field, Info *out)
 
     MI_CpuFill8(out, 0, sizeof(Info));
     out->id = func_02188C9C(field);
-    out->f08 = func_02188C80(field);
+    out->f08 = (u32)func_02188C80(field);
     out->field = field;
     q = func_02188CB4(field);
     out->f04 = func_021A3098(q);
@@ -146,9 +147,9 @@ void func_0215E840(void *field, Info *out)
     a = func_021A3050(q);
     b = func_021A30C8(q);
     c = func_021A3128(q, a);
-    if (func_021A3504(q, b, c) == 1)
+    if (func_021A3504((int)q, b, c) == 1)
         out->flags |= 2;
-    if (func_021A3524(q, b, c) == 1)
+    if (func_021A3524((int)q, b, c) == 1)
         out->flags |= 4;
     if (func_02013C40(out->id) == 1) {
         out->flags |= 0x10;
@@ -156,7 +157,7 @@ void func_0215E840(void *field, Info *out)
     }
     if (func_02013C50(out->id) == 1)
         out->flags |= 0x80;
-    if (func_02014470(func_02012B38(func_020120F4(out->f08))) & 1)
+    if (func_02014470(func_02012B38(func_020120F4((const struct Ctx *)out->f08))) & 1)
         out->flags |= 0x20;
     if (func_021CD440(field, &v) == 1)
         out->flags |= 0x400;
@@ -173,6 +174,6 @@ void func_0215E840(void *field, Info *out)
         out->flags |= 0x100;
         out->flags |= 0x200;
     }
-    if (func_02012B70(func_020120F4(out->f08)) == 1)
+    if (func_02012B70(func_020120F4((const struct Ctx *)out->f08)) == 1)
         out->flags = 0;
 }

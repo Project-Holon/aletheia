@@ -23,8 +23,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int func_021D775C(int key);
 extern int func_021B9A24(unsigned int a, unsigned int b);
 extern int func_021C804C(int a, int b, u32 *out);
-extern int func_021C8010(int a, int x);
-extern int func_021C8290(int a, int k, int c, int t);
+extern int func_021C8010(u8 *p, unsigned int v);
+extern int func_021C8290(u8 *p, int a, int b, void *item);
 extern int func_021C831C(int a, int b);
 
 void func_021E1D20(int u, int a, int b)
@@ -35,9 +35,9 @@ void func_021E1D20(int u, int a, int b)
     if (func_021C804C(a, b, &x) != 0) {
         k = func_021D775C(6);
         if (func_021B9A24(k, b) == 0) {
-            func_021C8010(a, k);
-            func_021C8010(a, b);
-            if (func_021C8290(a, b, k, 0) == 0)
+            func_021C8010((u8 *)a, k);
+            func_021C8010((u8 *)a, b);
+            if (func_021C8290((u8 *)a, b, k, 0) == 0)
                 func_021C831C(a, b);
         }
     }

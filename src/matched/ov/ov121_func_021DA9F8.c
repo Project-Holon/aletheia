@@ -15,7 +15,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201C6C4(u32,u32);
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Obj;
 extern void func_020257D0(struct Obj *o);
-int func_021DA9F8(u8 *p) { if(*(u32 *)(p+8)) { if(func_0201C6C4(*(u32 *)(p+32),*(u32 *)p)==0) { func_020257D0(*(void **)(p+28)); *(u32 *)(p+8)=0; } } if(*(u32 *)(p+8)==0) return 1; return 0; }
+int func_021DA9F8(u8 *p) { if(*(u32 *)(p+8)) { if(func_0201C6C4((struct PrintSys *)(*(u32 *)(p+32)),(void *)(*(u32 *)p))==0) { func_020257D0(*(void **)(p+28)); *(u32 *)(p+8)=0; } } if(*(u32 *)(p+8)==0) return 1; return 0; }

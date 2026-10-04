@@ -15,11 +15,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021C2A08(int);
+extern int func_021C2A08(char *p);
 
 void func_021C08A8(int *p)
 {
     int i;
     for (i = 0; i < 8; i++)
-        func_021C2A08(p[i + 0xC9]);
+        func_021C2A08((char *)p[i + 0xC9]);
 }

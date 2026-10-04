@@ -48,7 +48,7 @@ struct U16Vec;
 struct WordSet;
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern void func_021FB964(int,int,u16);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern Slot *func_0201F81C(u32,u32);
 extern void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -76,7 +76,7 @@ int func_021E00D8(char *p,char *q)
     Params params;
     first=func_021FC20C(*(char **)(q+8));
     second=func_021FC214(*(char **)(q+8));
-    func_021FB964(*(int *)(q+8),28,*(u16 *)(p+0x54));
+    func_021FB964((void *)(*(int *)(q+8)),28,*(u16 *)(p+0x54));
     text=func_020457B0(128,*(u16 *)(p+0x54));
     v=func_02012944(*(void **)(q+0x10));
     a=func_0200856C(v);b=func_02008570(v);

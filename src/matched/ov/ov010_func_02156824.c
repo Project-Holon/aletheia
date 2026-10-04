@@ -47,7 +47,8 @@ typedef struct Pos {
     u32 z;
 } Pos;
 
-extern void *func_021854B0(void *p, void *q, u32 id, Pos *pos, u32 flag);
+typedef signed short   s16;
+extern void *func_021854B0(void *p, int u, s16 a, const int *s, u16 x);
 extern const Pos d_0216FEF0;
 extern const Pos d_0216FF08;
 
@@ -62,8 +63,8 @@ void func_02156824(void *evt, Seq *s)
     a = d_0216FEF0;
     b = d_0216FF08;
     if (s->f14 == 1)
-        r = func_021854B0(s->f00, x, 0x4D, &b, 1);
+        r = func_021854B0(s->f00, (int)x, 0x4D, (const int *)(&b), 1);
     else
-        r = func_021854B0(s->f00, x, 0x4D, &a, 1);
+        r = func_021854B0(s->f00, (int)x, 0x4D, (const int *)(&a), 1);
     func_02012374(evt, r);
 }

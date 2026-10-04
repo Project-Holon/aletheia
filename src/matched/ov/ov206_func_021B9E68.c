@@ -50,7 +50,7 @@ struct NitroFileHeader;
 struct Personal;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_0201C440(u16 heap);
+extern u32 func_0201C440(void *p);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_021BBE5C(char *p);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
@@ -73,8 +73,8 @@ extern void func_021BB304(char *p);
 extern void func_021BB9E0(char *p);
 extern void func_021BA890(char *p);
 extern void func_021BBC38(char *p);
-extern void func_021BB13C(char *p, int a, u16 b, int c);
-extern void func_0207D658(volatile u16 *reg, int plane, int brightness);
+extern void func_021BB13C(void *a0, void *a1, void *a2, void *a3);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020409B4(u32 layer);
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2)
@@ -125,7 +125,7 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
     *(u8 *)(p+0x20) = a10;
     *(u32 *)(p+0x24) = a11;
     *(u32 *)(p+0x28) = a12;
-    *(void **)(p+0x2c) = func_0201C440(*(u16 *)p);
+    *(void **)(p+0x2c) = (void *)func_0201C440((void *)(*(u16 *)p));
     *(u32 *)(p+0x1b8) = a14;
     *(u32 *)(p+0x1bc) = a15;
     *(u32 *)(p+0x1c0) = a16;
@@ -221,14 +221,14 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
         y = 0x48;
         break;
     }
-    func_021BB13C(p, x, (u16)(y + *(int *)(p+0x1b4)), *(int *)(p+0xb4));
+    func_021BB13C(p, (void *)x, (void *)((u16)(y + *(int *)(p+0x1b4))), (void *)(*(int *)(p+0xb4)));
     if (*(u32 *)(p+0x18) == 0) {
         *(int *)(p+0x68) = 0x88;
         *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | 0x2000;
         G2_SetWnd0Position(0, 8, 100, *(int *)(p+0x68));
         G2_SetWnd0InsidePlane(0x1f, 1);
         G2_SetWndOutsidePlane(0x1f, 0);
-        func_0207D658((volatile u16 *)0x04000050, 0x10, -0x10);
+        func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, -0x10);
     }
     func_02040618(*(u8 *)(p+0x4d), 3, -*(int *)(p+0x1b4));
     func_02040618(*(u8 *)(p+0x4e), 3, -*(int *)(p+0x1b4));

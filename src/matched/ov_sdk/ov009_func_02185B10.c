@@ -31,7 +31,7 @@ typedef struct GPProfileSearchResponseArg {
 
 typedef void (*GPCallback)(void **, void *, void *);
 
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_021906E0(void **connection, char *nick, char *uniquenick, char *email,
                          char *firstname, char *lastname, int icquin, int skip, int blocking,
                          GPCallback callback, void *param);
@@ -46,7 +46,7 @@ int func_02185B10(void **connection, char *nick, char *uniquenick, char *email,
     if (connection == 0 || (iconnection = (GPIConnection *)*connection) == 0)
         return 2;
     if (callback == 0) {
-        func_02193734(connection, g_021A4010);
+        func_02193734((int *)connection, (int)g_021A4010);
         return 2;
     }
     if (iconnection->f108 != 0) {

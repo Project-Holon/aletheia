@@ -24,9 +24,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_0204B100(u32, u32, u32);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 void func_021C25B0(u8 *p)
 {
-    *(u32*)(p + 4) = func_0204B100(0x1a, 0, *(u16*)p);
+    *(u32*)(p + 4) = (u32)func_0204B100(0x1a, 0, *(u16*)p);
 }
 

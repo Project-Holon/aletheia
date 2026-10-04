@@ -72,7 +72,8 @@ typedef struct {
     signed char dy;
 } Step;
 
-extern s32 func_020680DC(void *a, void *b, u32 c);
+struct NNSG2dFont;
+extern int func_020680DC(const struct NNSG2dFont *pFont, int vSpace, const void *txt);
 extern void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
                           u32 a4, u32 a5, u32 a6, Step st);
 
@@ -83,12 +84,12 @@ void func_02069818(Ctx *ctx, s32 x, s32 y, s32 w,
     s32 d;
 
     if (flags & 0x100) {
-        n = func_020680DC(ctx->f04, ctx->f0C, s);
+        n = func_020680DC(ctx->f04, (int)ctx->f0C, (const void *)s);
         d = (s32)a4 - n;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     } else if (flags & 0x80) {
-        n = func_020680DC(ctx->f04, ctx->f0C, s);
+        n = func_020680DC(ctx->f04, (int)ctx->f0C, (const void *)s);
         d = ((s32)a4 + 1) / 2 - (n + 1) / 2;
         x = x + d * -st.dy;
         y = y + d * st.dx;

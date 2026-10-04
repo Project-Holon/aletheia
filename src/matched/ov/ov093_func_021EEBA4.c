@@ -33,13 +33,13 @@ typedef struct {
 } W;
 
 extern int func_021D4B98(void);
-extern u32 func_021D4BD4(u32 a, void *q);
+extern u16 func_021D4BD4(int a, u8 **q);
 
 u32 func_021EEBA4(W *p)
 {
     if (p->hi != 0) {
         if (func_021D4B98() != 0) {
-            p->w8 = func_021D4BD4(p->f0d, &p->w4);
+            p->w8 = func_021D4BD4(p->f0d, (u8 **)(&p->w4));
             p->st = 1;
             return 1;
         }

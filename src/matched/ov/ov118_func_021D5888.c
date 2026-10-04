@@ -27,9 +27,9 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_02015EB0(u32);
+extern void func_02015EB0(void *p);
 extern void func_02015C48(u32, Vec *);
-extern void func_02015E04(u32);
+extern void func_02015E04(void *p);
 extern void func_02015C94(u32, Vec *);
 extern void func_02015CAC(u32, Vec *);
 
@@ -38,12 +38,12 @@ void func_021D5888(u8 *p, int idx)
     u32 *obj = (u32 *)(p + 0x844);
     Vec v;
 
-    func_02015EB0(obj[idx]);
+    func_02015EB0((void *)obj[idx]);
     v.x = 0;
     v.y = -0x17000;
     v.z = 0xA000;
     func_02015C48(obj[idx], &v);
-    func_02015E04(obj[idx]);
+    func_02015E04((void *)obj[idx]);
     func_02015C94(obj[idx], &v);
     if (v.x < 0) {
         v.x = -0x10000;

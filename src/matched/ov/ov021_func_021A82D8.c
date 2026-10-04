@@ -28,7 +28,7 @@ typedef struct Src {
     u8 f45;
 } Src;
 
-extern void *func_021BE92C(void *a, void *b, int c, int d, int e, int f, int g);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
@@ -39,9 +39,9 @@ void func_021A82D8(void *a, Src **pp)
 
     s = *pp;
     if (s->f40 != 0) {
-        r = func_021BE92C(s->f04, s->f0C, 3, 0, 0, s->f44, s->f45);
+        r = (void *)func_021BE92C(s->f04, (int)s->f0C, 3, 0, 0, s->f44, s->f45);
     } else {
-        r = func_021BE92C(s->f04, s->f0C, s->f3C, 0, 1, 0, 0);
+        r = (void *)func_021BE92C(s->f04, (int)s->f0C, s->f3C, 0, 1, 0, 0);
     }
     func_02012374(a, r);
 }

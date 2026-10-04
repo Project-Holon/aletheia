@@ -34,7 +34,7 @@ struct o4 {
 };
 
 extern char d_02186C34[];
-extern void func_02185C38(char *p, char *t, int a, int b, int *x, int *y, int c, int d);
+extern void func_02185C38(int a0, int a1, int x1, int y1, int *px, int *py, int c, int d);
 extern void func_02185DA8(struct e6 *e, struct o4 *o);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *p);
@@ -54,7 +54,7 @@ void func_02185DE8(char *p, struct e6 *e, struct o4 *o, int flag)
         if (e[i].n == 2) {
             x = e[i].b[0] - 9;
             y = e[i].b[2] - 0x11;
-            func_02185C38(p, d_02186C34 + e[i].d * 0xc0 + e[i].c * 0x18,
+            func_02185C38((int)p, (int)(d_02186C34 + e[i].d * 0xc0 + e[i].c * 0x18),
                           e[i].b[1] - 9, e[i].b[3] - 0x11, &x, &y, 1, o[i].n);
             hit = 1;
         }

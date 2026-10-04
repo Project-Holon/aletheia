@@ -22,32 +22,35 @@
  *   func_021D905C 0x021D905C thumb ov175
  */
 typedef unsigned long u32;
-extern void func_021E8738(u32,u32,u32,u32);
-extern void func_021E8AB4(u32,u32),func_02012DAC(void *);
+extern void func_021E8738(int *p, int a, int b, int c);
+extern void func_021E8AB4(u32,u32);
+extern int func_02012DAC(int a0);
 typedef unsigned char  u8;
 struct Record;
 extern int func_02012DD0(u8 *p);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *p);
 extern int func_021D9F04(char *,void *,void *);
-extern void func_021E8AA0(u32,void *),func_021E8AB8(u32),func_021D905C(void);
-extern int func_021E8844(u32);
+extern void func_021E8AA0(int *p, int v);
+extern void func_021E8AB8(u32);
+extern void func_021D905C(u32 sys);
+extern int func_021E8844(const int *p);
 void func_021D8EC8(u32 sys,int *state,char *p)
 {
     char *q=*(char **)(p+260);
     switch(*state) {
-    case 0:func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),40,2);
+    case 0:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),40,2);
         func_021E8AB4(sys,1);*state=7;break;
-    case 1:func_02012DAC(**(void ***)(q+8));*state=2;break;
+    case 1:func_02012DAC((int)(**(void ***)(q+8)));*state=2;break;
     case 2:if(func_02012DD0(**(void ***)(q+8))==2) *state=3;break;
-    case 3:func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),37,2);
+    case 3:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),37,2);
         func_021E8AB4(sys,4);*state=7;break;
     case 4:if(**(u32 **)(q+32)==0) {func_021DBC04(*(void **)(p+52),2,0);*state=5;}break;
     case 5:if(func_021DBDAC(*(void **)(p+52))) {
         **(u32 **)(*(char **)(p+260)+32)=1800;*state=6;
         func_021D9F04(*(char **)(p+52),(void *)1,0);
     }break;
-    case 6:func_021E8AA0(sys,func_021D905C);break;
-    case 7:if(func_021E8844(*(u32 *)(p+44))) func_021E8AB8(sys);break;
+    case 6:func_021E8AA0((int *)sys,(int)func_021D905C);break;
+    case 7:if(func_021E8844((const int *)(*(u32 *)(p+44)))) func_021E8AB8(sys);break;
     }
 }

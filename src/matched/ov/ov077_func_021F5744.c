@@ -28,7 +28,7 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(int a);
+extern int func_02189A08(unsigned char *p);
 extern u32 func_021CF560(u32 *p);
 extern int func_021F5798(u8 *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -38,7 +38,7 @@ int func_021F5744(void *task, int *st)
 {
     u8 *w;
 
-    w = (u8 *)func_021CF560((u32 *)func_02189A08((int)func_0201210C(func_020124E4(task))));
+    w = (u8 *)func_021CF560((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(func_020124E4(task)))));
     switch (*st) {
     case 0:
         if (func_021F5798(w) == 0)

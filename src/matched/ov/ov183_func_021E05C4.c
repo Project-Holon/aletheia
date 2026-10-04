@@ -18,7 +18,7 @@
  *   func_021FC0C8 0x021FC0C8 thumb ov186
  *   func_020315D4 0x020315D4 arm
  */
-extern void func_021FD15C(int, int);
+extern void func_021FD15C(void *p, int a1);
 struct PrintSys;
 struct S020315D4;
 extern void func_021E0774(char *p);
@@ -26,19 +26,19 @@ extern void func_021E0808(char *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021FD820(char *r5);
 extern void func_021FBDA4(int a, unsigned mode);
-extern void func_021FC0C8(int, int);
+extern void func_021FC0C8(char *p, unsigned i);
 extern void func_020315D4(struct S020315D4 *p);
 int func_021E05C4(void *a, int unused, int *q, void **p)
 {
-    func_021FD15C((int)p[2], q[2]);
+    func_021FD15C((void *)((int)p[2]), q[2]);
     func_021E0774(p[1]);
     func_021E0808(p[0]);
     func_0201C4C0(p[3]);
     func_021FD820(p[5]);
     func_021FBDA4(q[2], 29);
-    func_021FC0C8(q[2], 6);
-    func_021FC0C8(q[2], 12);
-    func_021FC0C8(q[2], 11);
+    func_021FC0C8((char *)q[2], 6);
+    func_021FC0C8((char *)q[2], 12);
+    func_021FC0C8((char *)q[2], 11);
     func_020315D4(a);
     return 1;
 }

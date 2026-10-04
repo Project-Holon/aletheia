@@ -19,33 +19,36 @@
  * Extent ends with two bytes of zero alignment padding.
  */
 
-extern void func_0204B3B4(int);
+struct Bank;
+struct Descriptor;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_021DA3D0(char *);
-extern void func_020452E8(int);
+extern void func_020452E8(struct Descriptor *d);
 typedef unsigned int   u32;
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(int);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 void func_021D99F0(char *p)  {
     int i;
     char *q;
-    for(i=0;i<*(int *)(p+0x23c);i++) func_0204B3B4(*(int *)(p+i*28+12));
+    for(i=0;i<*(int *)(p+0x23c);i++) func_0204B3B4((struct Obj *)(*(int *)(p+i*28+12)));
     for(i=0;i<2;i++)  {
         q=p+i*28;
-        func_0204B3B4(*(int *)(q+0x15c));
-        func_0204B3B4(*(int *)(q+0x1e8));
+        func_0204B3B4((struct Obj *)(*(int *)(q+0x15c)));
+        func_0204B3B4((struct Obj *)(*(int *)(q+0x1e8)));
     }
-    for(i=0;i<3;i++) func_0204B3B4(*(int *)(p+i*28+0x194));
+    for(i=0;i<3;i++) func_0204B3B4((struct Obj *)(*(int *)(p+i*28+0x194)));
     func_021DA3D0(p);
-    func_020452E8(*(int *)(p+0x310));
+    func_020452E8((struct Descriptor *)(*(int *)(p+0x310)));
     for(i=0;i<3;i++)  {
         q=p+i*4;
         func_0204ADA4(*(int *)(q+0x260));
         func_0204A8D4(*(int *)(q+0x26c));
         func_0204AFD8(*(int *)(q+0x284));
     }
-    func_0204B1CC(*(int *)(p+0x25c));
+    func_0204B1CC((struct Bank *)(*(int *)(p+0x25c)));
     func_0204A5AC();
 }

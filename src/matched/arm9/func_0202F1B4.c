@@ -31,54 +31,55 @@
  *   func_0202F47C  0x0202F47C  thumb
  */
 typedef unsigned int u32;
-extern u32  func_02017DBC(u32 a);
-extern void func_02017DE4(u32 a, u32 h);
-extern u32  func_02018488(u32 a, u32 c);
-extern void func_0202F2F4(u32 a, u32 x);
-extern void func_0202F30C(u32 a, u32 x, u32 y);
-extern void func_0202F3AC(u32 a, u32 x);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 func_02018488(void *p, void *mail);
+extern void func_0202F2F4(void *a0, u32 a1);
+extern void func_0202F30C(void *a0, u32 a1, u32 a2);
+extern void func_0202F3AC(void *a0, u32 a1);
 extern void func_0202F41C(u32 a, u32 c, u32 e);
 extern void func_0202F464(u32 a);
-extern void func_0202F47C(u32 a);
+extern void func_0202F47C(void *p);
 void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    u32 h = func_02017DBC(a);
+    u32 h = func_02017DBC((struct Sav *)a);
 
     switch (b) {
     case 0:
-        func_0202F2F4(a, 0);
-        func_0202F30C(a, d, 1);
+        func_0202F2F4((void *)a, 0);
+        func_0202F30C((void *)a, d, 1);
         func_0202F41C(a, c, e);
         func_0202F464(a);
-        func_0202F47C(a);
+        func_0202F47C((void *)a);
         break;
     case 1:
-        func_0202F30C(a, 0x7532, 1);
+        func_0202F30C((void *)a, 0x7532, 1);
         func_0202F464(a);
-        func_0202F47C(a);
+        func_0202F47C((void *)a);
         break;
     case 2:
-        if (func_02018488(a, c) == 1) {
-            func_0202F30C(a, d, 1);
+        if (func_02018488((void *)a, (void *)c) == 1) {
+            func_0202F30C((void *)a, d, 1);
             func_0202F41C(a, c, e);
         } else {
-            func_0202F3AC(a, 1);
-            func_0202F30C(a, d, 1);
+            func_0202F3AC((void *)a, 1);
+            func_0202F30C((void *)a, d, 1);
             func_0202F41C(a, c, e);
         }
-        func_0202F47C(a);
+        func_0202F47C((void *)a);
         break;
     case 3:
     case 4:
         break;
     case 5:
-        func_0202F30C(a, d, 0);
+        func_0202F30C((void *)a, d, 0);
         func_0202F41C(a, c, e);
-        func_0202F47C(a);
+        func_0202F47C((void *)a);
         break;
     case 6:
-        func_0202F30C(a, d, 1);
+        func_0202F30C((void *)a, d, 1);
         break;
     }
-    func_02017DE4(a, h);
+    func_02017DE4((struct Sav *)a, h);
 }

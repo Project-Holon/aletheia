@@ -26,14 +26,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_0217F3C4(u8 *, int);
-extern int func_02173A2C(u8 *, u8, u8 *, u8);
+struct T;
+extern int func_02173A2C(unsigned char *p, int b, struct T *c, int d);
 extern int func_02175514(u8 *);
 extern int func_0217F40C(u8 *);
 extern u32 func_020362DC(void);
 extern int func_02173B9C(u8, u8);
 extern void func_021753B8(u8 *);
 extern int func_0217F420(u8 *);
-extern int func_02173AE0(u8 *, u8, int, u8);
+extern int func_02173AE0(int a, int b, int c, int d);
 
 int func_0217C914(u8 *v, u8 *w, u8 *state)
 {
@@ -43,7 +44,7 @@ int func_0217C914(u8 *v, u8 *w, u8 *state)
         (*state)++;
         break;
     case 1:
-        if (func_02173A2C(v, v[0x154], w + 0x44, w[0x41]) == 1)
+        if (func_02173A2C(v, v[0x154], (struct T *)(w + 0x44), w[0x41]) == 1)
             (*state)++;
         break;
     case 2:
@@ -80,7 +81,7 @@ int func_0217C914(u8 *v, u8 *w, u8 *state)
             *state = 8;
         break;
     case 6:
-        if (func_02173AE0(v, v[0x154], 1, v[0x158]) == 1)
+        if (func_02173AE0((int)v, v[0x154], 1, v[0x158]) == 1)
             *state = 7;
         break;
     case 7:

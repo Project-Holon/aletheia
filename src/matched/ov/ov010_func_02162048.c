@@ -25,7 +25,7 @@ typedef struct {
     u16 t;
 } S;
 
-extern int func_0216210C(u16 *);
+extern int func_0216210C(int a0);
 extern void func_02162298(u16 *, int, int);
 extern void func_0216220C(u16 *, S *);
 extern int d_0217144C[];
@@ -35,7 +35,7 @@ void func_02162048(u16 *a, int b, int c)
     S s;
     int t;
 
-    if (func_0216210C(a) == 0) {
+    if (func_0216210C((int)a) == 0) {
         func_02162298(a, b, c);
         return;
     }

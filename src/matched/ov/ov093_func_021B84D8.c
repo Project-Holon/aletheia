@@ -30,8 +30,8 @@ typedef struct {
 extern int func_021D4270(void);
 extern void func_021B8548(u8 *);
 extern int func_021CD97C(int);
-extern void func_021CDD94(int, u8 *);
-extern void func_021E908C(int);
+extern void func_021CDD94(char *p, int *o);
+extern void func_021E908C(char *p);
 
 int func_021B84D8(u8 *p)
 {
@@ -48,10 +48,10 @@ int func_021B84D8(u8 *p)
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 &&
             func_021CD97C(*(int *)(p + i * 4 + 0x10)) != 0) {
-            func_021CDD94(*(int *)(p + i * 4 + 0x10), p + 0x448);
+            func_021CDD94((char *)(*(int *)(p + i * 4 + 0x10)), (int *)(p + 0x448));
             r = 1;
         }
     }
-    func_021E908C(*(int *)(p + 4));
+    func_021E908C((char *)(*(int *)(p + 4)));
     return r;
 }

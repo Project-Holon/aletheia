@@ -21,14 +21,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u8 *func_0216D520(u32);
+extern u32 func_0216D520(void *p);
 extern void func_0219D0F4(u8 *);
 extern void func_0219CDAC(u8 *);
 extern void func_0219D390(u8 *);
 
 void func_0219C5FC(u32 a)
 {
-    u8 *s = func_0216D520(a);
+    u8 *s = (u8 *)func_0216D520((void *)a);
     if (s != 0) {
         if (*(u32 *)(s + 0x1c) != 0) {
             func_0219D0F4(s);

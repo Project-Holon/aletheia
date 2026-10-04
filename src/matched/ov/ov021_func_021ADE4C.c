@@ -18,16 +18,17 @@ typedef signed char    s8;
 
 typedef struct Q { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q;
 
-extern void func_0204762C(u32 a);
-extern void func_02047738(u32 a);
-extern void func_02047504(u32 a);
+struct Rec;
+extern void func_0204762C(struct Rec *p);
+extern void func_02047738(struct Rec *p);
+extern void func_02047504(struct Rec *p);
 
 void func_021ADE4C(u32 a, Q *q)
 {
     int i;
 
     for (i = 0; i < 4; i++)
-        func_0204762C(q->arr[i]);
-    func_02047738(q->f4);
-    func_02047504(q->f18);
+        func_0204762C((struct Rec *)q->arr[i]);
+    func_02047738((struct Rec *)q->f4);
+    func_02047504((struct Rec *)q->f18);
 }

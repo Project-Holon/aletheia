@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(void *);
-extern void func_0204A8D4(void *);
-extern void func_0204AFD8(void *);
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 void func_021D6C28(u8 *p)
 {
     int i;
@@ -31,7 +31,7 @@ void func_021D6C28(u8 *p)
         q=*(void **)(p+i*4+12);
         if(q) func_0204B3B4(q);
     }
-    func_0204ADA4(*(void **)p);
-    func_0204A8D4(*(void **)(p+4));
-    func_0204AFD8(*(void **)(p+8));
+    func_0204ADA4((u32)(*(void **)p));
+    func_0204A8D4((u32)(*(void **)(p+4)));
+    func_0204AFD8((u32)(*(void **)(p+8)));
 }

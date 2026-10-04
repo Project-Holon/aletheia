@@ -30,7 +30,7 @@ extern void func_0204AFD8(unsigned int h);
 extern void func_0204ADA4(unsigned int h);
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 extern void *func_020056A0(void *cb, void *ctx, int a);
-extern void func_0220684C(void *, void *, void *);
+extern void func_0220684C(char *p, int a, int b);
 extern void func_02204C48(void *, int *);
 extern const char d_0220AEB0[];
 void func_02205AB8(char *p)
@@ -58,6 +58,6 @@ void func_02205AB8(char *p)
     if (!empty) {
         ctx = func_02030734((u16)((*(u16 *)(p + 0x240) & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x11b2);
         ctx[0] = (int)p;
-        func_0220684C(p, func_020056A0((void *)func_02204C48, ctx, 0), 0);
+        func_0220684C(p, (int)func_020056A0((void *)func_02204C48, ctx, 0), 0);
     }
 }

@@ -21,13 +21,17 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern int func_021BE8D4(int a, int b, int c, int d);
-extern void func_02012374(void *a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Evt;
+struct IcaAnime;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_020144DC(int a0, int a1);
-extern void func_020120B4(int a, void *b, void *c, int d);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void *func_020145CC(void *a0);
-extern int func_021BE92C(int a, int b, int c, int d, int e, int f, int g);
-extern void func_020307B0(int a);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void func_020307B0(void *p);
 extern char ov_id_D9[];
 extern char d_021C3FE0[];
 
@@ -37,27 +41,27 @@ int func_02166F9C(void *a, int *st, int *p)
     int p1 = p[1];
     switch (*st) {
     case 0:
-        func_02012374(a, func_021BE8D4(p0, p1, 0, 0));
+        func_02012374(a, (struct Evt **)func_021BE8D4((void *)p0, p1, 0, 0));
         *st = 1;
         break;
     case 1:
-        func_02012374(a, func_020144DC(p0, p1));
+        func_02012374(a, (struct Evt **)func_020144DC(p0, p1));
         *st = 2;
         break;
     case 2:
-        func_020120B4(p0, ov_id_D9, d_021C3FE0, p[2]);
+        func_020120B4((struct IcaAnime *)p0, (u32)ov_id_D9, d_021C3FE0, (void *)p[2]);
         *st = 3;
         break;
     case 3:
-        func_02012374(a, (int)func_020145CC((void *)p0));
+        func_02012374(a, (struct Evt **)((int)func_020145CC((void *)p0)));
         *st = 4;
         break;
     case 4:
-        func_02012374(a, func_021BE92C(p0, p1, 0, 0, 1, 0, 0));
+        func_02012374(a, (struct Evt **)func_021BE92C((void *)p0, p1, 0, 0, 1, 0, 0));
         *st = 5;
         break;
     case 5:
-        func_020307B0(p[2]);
+        func_020307B0((void *)p[2]);
         return 1;
     }
     return 0;

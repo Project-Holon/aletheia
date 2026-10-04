@@ -46,7 +46,8 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heap, u32 size, int align, const char *file,
                          u16 line);
 extern void func_02082A7C(u32 a, void *p, u32 n);
-extern void func_020819B8(void *p, u32 n);
+struct MATHCRC16Table;
+extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
 extern int func_02033534(u32 a);
 extern const u8 str_020A7848[];
 extern u8 *g_02146994;
@@ -57,7 +58,7 @@ void func_020316C8(u32 a0, u32 a1, u32 a2)
 
     g_02146994 = p;
     func_02082A7C(0, p, 0x210);
-    func_020819B8(g_02146994 + 4, 0x1100 - 0xdf);
+    func_020819B8((struct MATHCRC16Table *)(g_02146994 + 4), 0x1100 - 0xdf);
     *(u32 *)(g_02146994 + 0x204) = a1;
     p = g_02146994;
     *(u32 *)(p + 0x208) = a2;

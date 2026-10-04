@@ -56,24 +56,24 @@ extern const Vec d_021D854C;
 
 extern E *func_0216D6F0(u32);
 extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u32);
+extern u32 func_0219C9DC(u8 *p);
 extern u32 func_0219FFD4(u32);
-extern u32 func_0216D678(u32);
-extern void func_0205082C(u32, u32, u32);
-extern void func_0205085C(u32, u32, u32);
+extern u16 func_0216D678(void *p);
+extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_0205085C(void *p, int idx, u16 v);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 extern void func_02197CCC(u32, Vec *);
 extern void func_0219FFBC(u32, Vec *);
-extern u32 func_02050848(u32, u32);
-extern u32 func_02050880(u32, u32);
+extern u16 func_02050848(u8 *p, int i);
+extern u16 func_02050880(u8 *p, int i);
 extern void func_0219F628(u32, u32, u32, Vec *);
-extern u32 func_0216D67C(u32);
-extern u32 func_0216D534(u32);
-extern u32 func_02188C58(u32);
-extern u32 func_0218EC2C(u32);
+extern void *func_0216D67C(void *a0);
+extern u32 func_0216D534(void *p);
+extern void *func_02188C58(void *p);
+extern u32 func_0218EC2C(u8 *p);
 extern void func_0219F5D4(u32, Vec *, Vec *);
 extern void func_0207C9D0(Vec *, Vec *, Vec *);
-extern u32 func_02050080(u32);
+extern u32 func_02050080(u32 *p);
 extern void func_0204F638(u32, u32, Vec *);
 
 void func_0219F634(u32 o)
@@ -94,32 +94,32 @@ void func_0219F634(u32 o)
     if (e->id == 0xFFFF) {
         return;
     }
-    h = func_0219C9DC(func_0216D910(o));
+    h = func_0219C9DC((u8 *)func_0216D910(o));
     a = func_0219FFD4(o);
-    b = func_0216D678(o);
+    b = func_0216D678((void *)o);
     c = a + b * 4;
     if (a != e->b4 || e->b5 != b) {
         e->b4 = a;
         flag = 1;
         e->b5 = b;
-        func_0205082C(h, e->id, c);
-        func_0205085C(h, e->id, 0);
+        func_0205082C((void *)h, e->id, c);
+        func_0205085C((void *)h, e->id, 0);
     }
     func_021A000C(o, h, e->id, flag, 1);
     func_02197CCC(o, &pos);
     func_0219FFBC(o, &pos);
-    x = func_02050848(h, e->id);
-    func_0219F628(o, x, func_02050880(h, e->id), &d);
+    x = func_02050848((u8 *)h, e->id);
+    func_0219F628(o, x, func_02050880((u8 *)h, e->id), &d);
     pos.x += d.x;
     pos.y += d.y;
     pos.z += d.z;
     if (e->b2 == 0) {
         tmp = d_021D854C;
-        func_0219F5D4(func_0218EC2C(func_02188C58(func_0216D534(func_0216D67C(o)))), &tmp, &tmp);
+        func_0219F5D4(func_0218EC2C(func_02188C58((void *)func_0216D534(func_0216D67C((void *)o)))), &tmp, &tmp);
         func_0207C9D0(&pos, &tmp, &pos);
     } else {
         pos.y -= 0xC000;
         pos.z += 0x8000;
     }
-    func_0204F638(func_02050080(h), e->id, &pos);
+    func_0204F638(func_02050080((u32 *)h), e->id, &pos);
 }

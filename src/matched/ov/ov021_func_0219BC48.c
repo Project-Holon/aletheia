@@ -20,10 +20,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_0216D67C(int a);
-extern int func_0216D590(int a);
+typedef unsigned short u16;
+struct Ctx;
+struct Rec;
+extern void *func_0216D67C(void *a0);
+extern u16 func_0216D590(void *p);
 extern int func_021AE884(int a);
-extern int func_0216DD1C(int a, int *out, u32 *iter);
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0219BCC0(int a, u8 *b, int c);
 
 int func_0219BC48(int a, u8 *b)
@@ -34,12 +37,12 @@ int func_0219BC48(int a, u8 *b)
     int r6;
     int t;
 
-    t = func_0216D67C(a);
+    t = (int)func_0216D67C((void *)a);
     iter = 0;
-    r7 = func_0216D590(a);
+    r7 = func_0216D590((void *)a);
     r6 = func_021AE884(a);
-    while (func_0216DD1C(t, &out, &iter) == 1) {
-        if (a != out && r7 == func_0216D590(out) && r6 == func_021AE884(out)) {
+    while (func_0216DD1C((struct Ctx *)t, (struct Rec **)(&out), &iter) == 1) {
+        if (a != out && r7 == func_0216D590((void *)out) && r6 == func_021AE884(out)) {
             if (b[1] == 0) {
                 func_0219BCC0(a, b, out);
             }

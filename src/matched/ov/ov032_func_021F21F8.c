@@ -15,15 +15,17 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_0201C6C4(u32 a, u32 b);
-extern void func_020257D0(u32 a);
+struct Obj;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_020257D0(struct Obj *o);
 struct TcblNode;
 extern void func_02031194(struct TcblNode *n);
 void func_021F21F8(void *task, char *q)
 {
     int *r;
-    if (func_0201C6C4(*(u32 *)(*(char **)(q + 8) + 0xb4), (*(u32 **)(q + 4))[1]) == 0) {
-        func_020257D0(**(u32 **)(q + 4));
+    if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(char **)(q + 8) + 0xb4)), (void *)((*(u32 **)(q + 4))[1])) == 0) {
+        func_020257D0((struct Obj *)(**(u32 **)(q + 4)));
         r = *(int **)(q + 0xc);
         if (r != 0)
             (*r)--;

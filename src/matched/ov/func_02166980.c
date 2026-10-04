@@ -29,8 +29,9 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012F38();
-extern int func_02011330();
+struct Stream;
+extern int func_02012F38(int base);
+extern u16 func_02011330(struct Stream *s);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern int func_02166824(int a0, int a1);
 
@@ -52,11 +53,11 @@ a0 = t6 + 0;
 loc_02166992:
     p = func_020120F4((const struct Ctx *)p);
 loc_02166996:
-    a0 = func_02012F38(p);
+    a0 = func_02012F38((int)p);
 loc_0216699A:
 t7 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_02011330(a0);
+    a0 = func_02011330((struct Stream *)a0);
 loc_021669A2:
 a0 = a0 << 0x18;
 t4 = (unsigned)a0 >> 0x18;

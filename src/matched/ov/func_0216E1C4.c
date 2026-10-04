@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0216D55C(int a0, int a1);
-extern int func_0216D588();
-extern int func_0216D598();
-extern int func_0216D590();
+extern u16 func_0216D588(void *p);
+extern u16 func_0216D598(void *p);
+extern u16 func_0216D590(void *p);
 
 int func_0216E1C4(int a0, int a1)
 {
@@ -40,19 +40,19 @@ loc_0216E1D2:
     if (a0 == 0) goto loc_0216E1FE;
 loc_0216E1D6:
 a0 = t5 + 0;
-    a0 = func_0216D588(a0);
+    a0 = func_0216D588((void *)a0);
 loc_0216E1DC:
 a1 = *(u16 *)((char *)t4);
     if (a1 != a0) goto loc_0216E1FE;
 loc_0216E1E2:
 a0 = t5 + 0;
-    a0 = func_0216D598(a0);
+    a0 = func_0216D598((void *)a0);
 loc_0216E1E8:
 a1 = *(u16 *)((char *)t4 + 2);
     if (a1 != a0) goto loc_0216E1FE;
 loc_0216E1EE:
 a0 = t5 + 0;
-    a0 = func_0216D590(a0);
+    a0 = func_0216D590((void *)a0);
 loc_0216E1F4:
 a1 = *(u16 *)((char *)t4 + 4);
     if (a1 != a0) goto loc_0216E1FE;

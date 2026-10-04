@@ -38,7 +38,8 @@ extern u32 func_02012204(const struct Ctx *p);
 extern int func_02035390(void);
 extern int func_020353B0(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020263D8(int, int, void *);
+struct Comm;
+extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
 extern const char d_02183AE0[];
 
 void func_0217BA54(void *a)
@@ -57,5 +58,5 @@ void func_0217BA54(void *a)
     r->f0e = 1;
     r->f00 = (int)a;
     r->f04 = h;
-    func_020263D8(h, 2, r);
+    func_020263D8((struct Comm *)h, 2, (u32)r);
 }

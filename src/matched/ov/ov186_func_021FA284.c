@@ -26,10 +26,11 @@
 typedef struct {int x,y;} Pair;
 extern int func_02035D20(int *,int *);
 extern int func_021FAD04(int *,int,int),func_021FAF24(char *,int);
-extern void func_021FD15C(unsigned,unsigned),func_020061E4(int);
+extern void func_021FD15C(void *p, int a1);
+extern void func_020061E4(int);
 extern void func_021FD860(char *,unsigned,const Pair *);
 extern void func_021FAFCC(char *,Pair *);
-extern void func_021FD73C(void *,void *);
+extern void func_021FD73C(int *p, int v);
 extern int func_021FAFA0(void *,int);
 extern void func_021FAA74(void *,int *,unsigned *);
 extern void func_021FA758(void *,int *,unsigned char *);
@@ -45,7 +46,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
    if(func_021FAD04((int *)(*(char **)(ctx+0x40)+i*0x44),x,y)){
     if(func_021FAF24(*(char **)(ctx+0x40)+i*0x44,3)){
      if(*(unsigned *)(ctx+0x50)){
-      func_021FD15C(*(unsigned *)(ctx+0x50),*(unsigned *)(ctx+4));
+      func_021FD15C((void *)(*(unsigned *)(ctx+0x50)),*(unsigned *)(ctx+4));
       *(unsigned *)(ctx+0x50)=0;
      }
      func_020061E4(0x703);
@@ -59,7 +60,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
      kind=func_021FAF24(*(char **)(ctx+0x40)+i*0x44,5);
      func_021FAF24(*(char **)(ctx+0x40)+i*0x44,6);
      func_020061E4(0x704);
-     if(kind==1){*(int *)(ctx+0x2c)=i;func_021FD73C(p,func_021FAA74);}
+     if(kind==1){*(int *)(ctx+0x2c)=i;func_021FD73C(p,(int)func_021FAA74);}
     }
     break;
    }
@@ -76,10 +77,10 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
    else func_021FAFA0(*(char **)(ctx+0x40)+i*0x44,3);
   }
   switch(*(unsigned *)(ctx+0x1c)){
-  case 2:func_021FD73C(p,func_021FA758);break;
-  case 0:case 1:case 4:func_021FD73C(p,func_021FA444);break;
-  case 3:func_021FD73C(p,func_021FAB7C);break;
-  default:func_021FD73C(p,func_021FAA34);break;
+  case 2:func_021FD73C(p,(int)func_021FA758);break;
+  case 0:case 1:case 4:func_021FD73C(p,(int)func_021FA444);break;
+  case 3:func_021FD73C(p,(int)func_021FAB7C);break;
+  default:func_021FD73C(p,(int)func_021FAA34);break;
   }
  }
 }

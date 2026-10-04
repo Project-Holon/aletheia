@@ -74,7 +74,7 @@ extern u32 func_020621FC(u32 h);
 extern void func_02061824(void *p);
 extern int func_02062594(u32 id);
 extern void func_020307B0(void *p);
-extern void func_02048AC4(u32 v);
+extern void func_02048AC4(void *ptr);
 extern u32 *g_02146A88;
 
 void func_02050DB8(u8 *p)
@@ -133,7 +133,7 @@ void func_02050DB8(u8 *p)
     }
 
     if (*(u32 *)(p + 0x20) != 0)
-        func_02048AC4(*(u32 *)(p + 0x20));
+        func_02048AC4((void *)(*(u32 *)(p + 0x20)));
 
     func_020307B0(p);
 }

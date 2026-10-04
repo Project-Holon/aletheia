@@ -17,7 +17,7 @@
  */
 
 extern int func_021D8AA8(void *p);
-extern void func_021E68B4(void *p, int i);
+extern void func_021E68B4(int p, int n);
 
 void func_021DF868(void *p)
 {
@@ -30,7 +30,7 @@ void func_021DF868(void *p)
             continue;
         ((unsigned char *)p)[0x11e4 + i]--;
         if (((unsigned char *)p)[0x11e4 + i] == 0)
-            func_021E68B4(p, i);
+            func_021E68B4((int)p, i);
     }
 }
 

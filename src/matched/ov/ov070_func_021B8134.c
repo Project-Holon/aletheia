@@ -33,7 +33,7 @@ extern int func_021B61C8(Obj *o);
 extern u16 *func_021B616C(Obj *o, int k);
 typedef unsigned int   u32;
 extern u32 func_0202E448(u32 id);
-extern int func_021B83A0(Obj *o, u16 v);
+extern int func_021B83A0(char *p, int value);
 extern void func_02012BE0(void *p, u32 a, u32 b);
 extern void func_020061E4(unsigned int id);
 
@@ -50,7 +50,7 @@ int func_021B8134(Obj *o, int k)
         v = func_0202E448(*p);
         if (v == 0x19)
             return 0;
-        if (func_021B83A0(o, *p) == 1)
+        if (func_021B83A0((char *)o, *p) == 1)
             func_02012BE0(o->f000, v, 0);
         else
             func_02012BE0(o->f000, v, 1);

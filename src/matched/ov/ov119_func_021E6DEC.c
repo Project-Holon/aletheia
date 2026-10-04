@@ -14,7 +14,8 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 struct Obj020437AC;
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_0204A8D4(unsigned int);
@@ -24,7 +25,7 @@ void func_021E6DEC(int p) {
     int i;
     for (i=0;i<8;i++) {
         if (*(int *)(p+i*4+0x10cc)) {
-            func_0204B3B4(*(int *)(p+i*4+0x10cc));
+            func_0204B3B4((struct Obj *)(*(int *)(p+i*4+0x10cc)));
             *(int *)(p+i*4+0x10cc)=0;
             func_020437AC(*(void **)(p+i*4+0x10f4));
             *(int *)(p+i*4+0x10f4)=0;

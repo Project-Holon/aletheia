@@ -13,8 +13,10 @@
  */
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1A4(int);
+typedef unsigned int   u32;
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 void func_021B61C4(int a, int b, unsigned char *c, unsigned char *d) {
-    func_0203D1A4((int)func_020399A8());
+    func_0203D1A4((struct Link *)((int)func_020399A8()));
     if(c[2]==0) d[148]++;
 }

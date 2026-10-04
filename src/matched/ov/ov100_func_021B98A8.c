@@ -20,21 +20,27 @@
  */
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_02012950(int,int);
-extern void func_02008494(int,int);
-extern int func_02012EBC(int);
-extern int func_0200ED48(int);
-extern unsigned func_02008530(int);
-extern void func_0200ED54(int,unsigned);
+typedef unsigned int   u32;
+struct Big;
+struct L0200ED54;
+struct Rec44;
+struct Sub0200852CObj;
+struct Sub24;
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern void func_02008494(void *src, void *dst);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200ED48(void *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 void func_021B98A8(int a,int b,int c,int d,int e)
 {
  int p;
  int q;
  if(e==(int)func_020399A8()) {
-  p=func_02012950(**(int **)(d+0x244),a);
-  func_02008494(c,p);
-  q=func_0200ED48(func_02012EBC(**(int **)(d+0x244)));
- func_0200ED54(q,func_02008530(p));
+  p=(int)func_02012950((struct Sub24 *)(**(int **)(d+0x244)),a);
+  func_02008494((void *)c,(void *)p);
+  q=(int)func_0200ED48(func_02012EBC((struct Big *)(**(int **)(d+0x244))));
+ func_0200ED54((struct L0200ED54 *)q,func_02008530((const struct Sub0200852CObj *)p));
  }
 }
 void func_021B98F0(void) {}

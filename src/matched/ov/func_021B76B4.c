@@ -26,10 +26,11 @@ typedef unsigned int   u32;
 
 struct BigObj;
 void *func_0201292C(const struct BigObj *p);
-int func_02009310(int a2, int i);
-int func_02009330(int a2, int i);
+struct Sub02009210Obj;
+u16 func_02009310(const struct Sub02009210Obj *obj, int i);
+u8 func_02009330(const struct Sub02009210Obj *obj, int i);
 int func_02007E50(void *saved, int a, int b, int c);
-void func_02009364(int a2, int i);
+void func_02009364(struct Sub02009210Obj *obj, int i);
 
 void func_021B76B4(void *a0, int a1, int a2)
 {
@@ -37,11 +38,11 @@ void func_021B76B4(void *a0, int a1, int a2)
     u32 i;
 
     for (i = 0; i < 0x14; i++) {
-        int r6 = func_02009310(a2, i);
-        int r2 = func_02009330(a2, i);
+        int r6 = func_02009310((const struct Sub02009210Obj *)a2, i);
+        int r2 = func_02009330((const struct Sub02009210Obj *)a2, i);
         if (r6 != 0) {
             if (func_02007E50(saved, r6, r2, a1) == 1)
-                func_02009364(a2, i);
+                func_02009364((struct Sub02009210Obj *)a2, i);
         }
     }
 }

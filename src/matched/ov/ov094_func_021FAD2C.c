@@ -36,7 +36,7 @@ typedef struct {
 
 extern int func_0201134C(void *);
 extern int func_021FCA04(State *s, int id, int *out);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FFA18(void *w, Req *r);
 
 int func_021FAD2C(void *a, State *s)
@@ -58,7 +58,7 @@ int func_021FAD2C(void *a, State *s)
     if (n != 0 && q.f20 != 0) {
         for (i = 0; i < n; i++) {
             q.item = buf[i];
-            func_021FFA18(func_021F8694(), &q);
+            func_021FFA18((void *)func_021F8694(), &q);
         }
     }
     return s->f23c;

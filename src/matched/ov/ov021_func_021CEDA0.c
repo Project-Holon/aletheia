@@ -42,9 +42,11 @@ typedef struct {
     u16  f2d4;
 } N;
 
-extern int func_021909E4(u32);
+struct Handle;
+struct WordSet;
+extern int func_021909E4(struct Handle *h);
 extern void func_0203D000(void *p);
-extern void func_0201F02C(int a, int b, int c);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_021CE9E4(u8 *p, u32 m);
 
 int func_021CEDA0(u8 *p)
@@ -52,7 +54,7 @@ int func_021CEDA0(u8 *p)
     N *n = (N *)(p + 0x13c);
     int r;
 
-    r = func_021909E4(n->f4);
+    r = func_021909E4((struct Handle *)n->f4);
     switch (r) {
     case -2:
         return 0;
@@ -62,7 +64,7 @@ int func_021CEDA0(u8 *p)
         if (n->e[r].used == 1) {
             n->cur = &n->e[r];
             func_0203D000(n->cur->name + 0x20);
-            func_0201F02C(*(u32 *)(p + 4), 0, (int)n->cur);
+            func_0201F02C((struct WordSet *)(*(u32 *)(p + 4)), 0, (void *)((int)n->cur));
             func_021CE9E4(p, 0x20);
             n->f2d4 = 0;
         }

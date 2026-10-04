@@ -45,9 +45,11 @@ typedef struct {
     u32 f44;
     u32 f48[8];
 } Elem;
-extern u32 func_02047400(u32 a, u32 b, u32 c);
-extern u32 func_02047564(u32 m, u32 a, u32 b);
-extern u32 func_0204767C(u32 m, u32 *list, u32 n);
+struct G3dOwner;
+struct G3dRec;
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern void func_020477A4(u32 h, u16 i);
 extern void func_0207ADC4(void *p);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
@@ -64,13 +66,13 @@ void func_021C69B4(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *pos, int flag)
         if (s->f4 != 0)
             i = s->f4;
     }
-    m = func_02047400(s->f0, id, i);
+    m = (u32)func_02047400((void *)s->f0, id, (void *)i);
     if (s->f28 != 0) {
         MIi_CpuClear32(0, e->f48, sizeof(e->f48));
         for (i = 0; i < s->f28; i++)
-            e->f48[i] = func_02047564(m, s->f8[i], 0);
+            e->f48[i] = (u32)func_02047564((struct G3dOwner *)m, (const struct G3dOwner *)s->f8[i], 0);
     }
-    e->f44 = func_0204767C(m, e->f48, s->f28);
+    e->f44 = (u32)func_0204767C(m, e->f48, s->f28);
     if (s->f28 != 0) {
         for (i = 0; i < s->f28; i++)
             func_020477A4(e->f44, i);

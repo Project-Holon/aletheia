@@ -168,12 +168,15 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void DWC_CloseAllConnectionsHard(void);
 
 extern void func_020061E4(u32 id);
-extern void func_02009EC8(int a);
+typedef signed int     s32;
+struct Big;
+struct Reg2;
+extern void *func_02009EC8(void *sys);
 extern int func_0200AE14(u32 a);
-extern u32 func_0200B078(u32 id, u32 kind);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern int func_0200FB24(void);
-extern int func_02012EBC(u32 a);
-extern int func_0201A090(int rules, void *party, u32 *mask);
+extern void *func_02012EBC(struct Big *p);
+extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern int func_0201A918(void);
 extern unsigned int func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, int i);
@@ -195,19 +198,19 @@ extern void func_02156E30(int a, int b, int c, int d);
 extern void func_02156ED0(void);
 extern void func_02156F50(int a);
 
-extern void func_021D7BE4(void);
-extern void func_021D9064(void);
-extern void func_021D9090(void);
-extern void func_021D8EC8(void);
-extern void func_021D8CF0(void);
-extern void func_021D8904(void);
-extern void func_021D8FA8(void);
+extern void func_021D7BE4(u32 sys, int *state, char *p);
+extern void func_021D9064(void *obj, int unused, u8 *p);
+extern void func_021D9090(u32 sys, int *state, char *p);
+extern void func_021D8EC8(u32 sys, int *state, char *p);
+extern void func_021D8CF0(u32 sys, int *state, char *p);
+extern void func_021D8904(u32 sys, int *state, char *p);
+extern void func_021D8FA8(u32 sys, int *state, char *ctx);
 
 extern void func_021D965C(struct Obj *obj);
 extern void func_021D97A4(struct Obj *obj);
 extern int func_021D97B8(struct Obj *obj);
 extern int func_021D97C4(struct Obj *obj);
-extern void func_021D9804(struct Obj *obj, u8 *rec);
+extern void func_021D9804(u32 *obj, u32 arg);
 extern int func_021D9868(struct Obj *obj);
 extern void func_021D98E4(struct Obj *obj, u32 kind);
 extern void func_021D99F4(struct Obj *obj);
@@ -216,13 +219,13 @@ extern void func_021D9A1C(struct Obj *obj, void *fn);
 extern int func_021D9A30(struct Obj *obj);
 extern void func_021D9A9C(u8 *dst, struct Obj *obj);
 extern int func_021D9B2C(u8 *rec, u8 *list, u32 heapId);
-extern int func_021D9BC4(u32 a, u8 *b);
+extern int func_021D9BC4(u32 a, u32 b);
 extern int func_021D9C34(struct Obj *obj, int trigger, int go);
 extern void func_021D9D40(struct Obj *obj);
 extern int func_021D9D50(struct Obj *obj, struct Sub *rec);
 extern void func_021D9ED4(void *ctx, u32 v);
 extern int func_021D9EEC(void *ctx);
-extern int func_021D9F04(void *ctx, int a, int b);
+extern int func_021D9F04(char *ctx, void *a, void *b);
 extern void func_021DA0D4(void *ctx, int mode, int extra, int group, struct Buf16 *rec);
 extern int func_021DA1E4(void *ctx);
 extern void func_021DA36C(void *ctx);
@@ -230,24 +233,24 @@ extern void func_021DA384(void *ctx);
 extern int func_021DA390(void *ctx);
 extern int func_021DA434(void *ctx);
 extern int func_021DA45C(void *ctx);
-extern void func_021DA5B0(void *ctx, int mode, int kind, u32 a3, u32 rec, u32 slot);
+extern void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot);
 extern int func_021DA6B8(void *ctx, u32 *out);
 extern void func_021DB3A4(void *ctx, u32 target, int kind, u32 arg);
 extern int func_021DB478(void *ctx);
 extern int func_021DC1A0(void *ctx, u8 *data);
 extern int func_021DC1E4(void *ctx, char **out);
 extern int func_021DC268(void *ctx, u32 *data);
-extern int func_021DC2A0(void *ctx, u32 *arg);
-extern void func_021DCA28(void *ctx, u8 *win, u16 tag);
+extern u32 func_021DC2A0(char *obj, u32 arg);
+extern void func_021DCA28(char *obj, u32 win, u16 tag);
 extern int func_021DCAEC(void *ctx, u32 *out);
 
-extern void func_021E7E0C(u32 a, u32 b);
-extern void func_021E8738(u32 p, u32 a, u32 b, u32 c);
-extern void func_021E8AA0(u32 sys, void *fn);
+extern void func_021E7E0C(void **p, int on);
+extern void func_021E8738(int *p, int a, int b, int c);
+extern void func_021E8AA0(int *p, int v);
 extern void func_021E8AA8(u32 sys);
 extern void func_021E8AB4(u32 sys, u32 v);
 extern void func_021E8AB8(u32 sys);
-extern int func_021E8844(u32 a);
+extern int func_021E8844(const int *p);
 
 static inline void TouchParty(u8 *rec, u8 *buf)
 {
@@ -296,18 +299,18 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
 
     switch (*state) {
     case 0:
-        func_021E8738(obj->f2c, obj->f14, 0x18, 2);
+        func_021E8738((int *)obj->f2c, obj->f14, 0x18, 2);
         func_021E8AB4(sys, 1);
         *state = 0x35;
         break;
     case 1:
         switch (func_021D9F04(obj->f34, 0, 0)) {
         case 1:
-            func_021E8AA0(sys, func_021D7BE4);
+            func_021E8AA0((int *)sys, (int)func_021D7BE4);
             func_021D9D40(obj);
             break;
         case 2:
-            func_021E8AA0(sys, func_021D9064);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         case 0:
             func_021D9A1C(obj, func_021D9090);
@@ -322,19 +325,19 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         else if (i == 1 || i == 2)
             *state = 3;
         else if (i == 3)
-            func_021E8AA0(sys, func_021D9064);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
         switch (func_021D9F04(obj->f34, 0, 0)) {
         case 1:
-            func_021E8AA0(sys, func_021D7BE4);
+            func_021E8AA0((int *)sys, (int)func_021D7BE4);
             func_021D9D40(obj);
             break;
         case 2:
-            func_021E8AA0(sys, func_021D9064);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         }
         break;
     case 3:
-        func_021E8AA0(sys, func_021D8EC8);
+        func_021E8AA0((int *)sys, (int)func_021D8EC8);
         break;
     case 4:
         if (*obj->f104->f20 == 0) {
@@ -357,11 +360,11 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         if (i != 0) {
             switch (func_021D9F04(obj->f34, 0, 0)) {
             case 1:
-                func_021E8AA0(sys, func_021D7BE4);
+                func_021E8AA0((int *)sys, (int)func_021D7BE4);
                 func_021D9D40(obj);
                 break;
             case 2:
-                func_021E8AA0(sys, func_021D9064);
+                func_021E8AA0((int *)sys, (int)func_021D9064);
                 break;
             }
         }
@@ -385,8 +388,8 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0xa:
         obj->fec = 0;
-        func_021E7E0C(obj->f28, 1);
-        func_021E8738(obj->f2c, obj->f14, 0x55, 0);
+        func_021E7E0C((void **)obj->f28, 1);
+        func_021E8738((int *)obj->f2c, obj->f14, 0x55, 0);
         *state = 0x35;
         func_021E8AB4(sys, 0xb);
         break;
@@ -395,7 +398,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         MI_CpuFill8(&buf, 0, sizeof(buf));
         buf.a = obj->f104->f34->f10;
         buf.b = obj->f104->f34->f04;
-        buf.c = func_0200B078(i, 2);
+        buf.c = func_0200B078((struct Reg2 *)i, 2);
         buf.d = obj->f104->f34->f08 + obj->f104->f34->f0c;
         func_021DA0D4(obj->f34, 0, 0, w18->f08[1], &buf);
         obj->fe4 = 0;
@@ -405,13 +408,13 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
     case 0xc:
         switch (func_021D9F04(obj->f34, 0, 0)) {
         case 1:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D8CF0);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D8CF0);
             func_021D9D40(obj);
             break;
         case 2:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D9064);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         }
         i = func_021DA1E4(obj->f34);
@@ -427,19 +430,19 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 obj->ff0 = 0;
             }
         } else {
-            switch (func_021D9F04(obj->f34, 0, 1)) {
+            switch (func_021D9F04(obj->f34, 0, (void *)1)) {
             case 1:
             case 4:
                 obj->fec = 0;
                 func_021D99F4(obj);
-                func_021E7E0C(obj->f28, 0);
-                func_021E8AA0(sys, func_021D8CF0);
+                func_021E7E0C((void **)obj->f28, 0);
+                func_021E8AA0((int *)sys, (int)func_021D8CF0);
                 func_021D9D40(obj);
                 break;
             case 2:
                 func_021D99F4(obj);
-                func_021E7E0C(obj->f28, 0);
-                func_021E8AA0(sys, func_021D9064);
+                func_021E7E0C((void **)obj->f28, 0);
+                func_021E8AA0((int *)sys, (int)func_021D9064);
                 break;
             }
         }
@@ -480,7 +483,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 bad++;
             }
             if (bad == 0)
-                func_02009EC8(func_02012EBC(*w18->f08));
+                func_02009EC8(func_02012EBC((struct Big *)(*w18->f08)));
             *state = 0xf;
         }
         flag = 1;
@@ -496,7 +499,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x10:
         mask = 0;
-        if (func_0201A090(func_0200AE14(obj->f108), w18->f18 + 0xd4, &mask) == 0) {
+        if (func_0201A090((void *)func_0200AE14(obj->f108), w18->f18 + 0xd4, &mask) == 0) {
             *state = 0x11;
         } else {
             obj->fe4++;
@@ -516,16 +519,16 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
             *state = 0x13;
         }
         if (i != 0) {
-            switch (func_021D9F04(obj->f34, 0, 1)) {
+            switch (func_021D9F04(obj->f34, 0, (void *)1)) {
             case 1:
             case 4:
-                func_021E7E0C(obj->f28, 0);
-                func_021E8AA0(sys, func_021D8CF0);
+                func_021E7E0C((void **)obj->f28, 0);
+                func_021E8AA0((int *)sys, (int)func_021D8CF0);
                 func_021D9D40(obj);
                 break;
             case 2:
-                func_021E7E0C(obj->f28, 0);
-                func_021E8AA0(sys, func_021D9064);
+                func_021E7E0C((void **)obj->f28, 0);
+                func_021E8AA0((int *)sys, (int)func_021D9064);
                 break;
             }
         }
@@ -537,21 +540,21 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
     case 0x14:
         if (func_021D9EEC(obj->f34) != 0)
             *state = 0x15;
-        switch (func_021D9F04(obj->f34, 0, 1)) {
+        switch (func_021D9F04(obj->f34, 0, (void *)1)) {
         case 1:
         case 4:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D8CF0);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D8CF0);
             func_021D9D40(obj);
             break;
         case 2:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D9064);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         }
         break;
     case 0x15:
-        if (func_021D9BC4(obj->ffc, obj->f104->f18 + 0xd4) == 0)
+        if (func_021D9BC4(obj->ffc, (u32)(obj->f104->f18 + 0xd4)) == 0)
             obj->fe4++;
         if (func_021D9B2C(obj->f104->f18, obj->f104->f18 + 0xd4, 0x57) == 0)
             obj->fe4++;
@@ -564,25 +567,25 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 obj->ff0 = 0;
             }
         } else {
-            switch (func_021D9F04(obj->f34, 0, 1)) {
+            switch (func_021D9F04(obj->f34, 0, (void *)1)) {
             case 1:
             case 4:
                 obj->fec = 0;
                 func_021D99F4(obj);
-                func_021E7E0C(obj->f28, 0);
-                func_021E8AA0(sys, func_021D8CF0);
+                func_021E7E0C((void **)obj->f28, 0);
+                func_021E8AA0((int *)sys, (int)func_021D8CF0);
                 func_021D9D40(obj);
                 break;
             case 2:
                 func_021D99F4(obj);
-                func_021E7E0C(obj->f28, 0);
-                func_021E8AA0(sys, func_021D9064);
+                func_021E7E0C((void **)obj->f28, 0);
+                func_021E8AA0((int *)sys, (int)func_021D9064);
                 break;
             }
         }
         break;
     case 0x17:
-        if (func_021DC2A0(obj->f34, &obj->fe8) != 0)
+        if (func_021DC2A0(obj->f34, (u32)(&obj->fe8)) != 0)
             *state = 0x18;
         else
             flag = 1;
@@ -594,7 +597,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
             *state = 0x33;
         break;
     case 0x19:
-        func_021DCA28(obj->f34, w18->f18, 0x57);
+        func_021DCA28(obj->f34, (u32)w18->f18, 0x57);
         *state = 0x1a;
         break;
     case 0x1a:
@@ -602,16 +605,16 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
             *obj->f104->f40 = out;
             *state = 0x1b;
         }
-        switch (func_021D9F04(obj->f34, 0, 1)) {
+        switch (func_021D9F04(obj->f34, 0, (void *)1)) {
         case 1:
         case 4:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D8CF0);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D8CF0);
             func_021D9D40(obj);
             break;
         case 2:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D9064);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         }
         break;
@@ -638,9 +641,9 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         flag = 1;
         break;
     case 0x1f:
-        func_021E7E0C(obj->f28, 0);
+        func_021E7E0C((void **)obj->f28, 0);
         func_020061E4(0x63a);
-        func_021E8738(obj->f2c, obj->f14, 0x57, 1);
+        func_021E8738((int *)obj->f2c, obj->f14, 0x57, 1);
         *state = 0x35;
         func_021E8AB4(sys, 0x20);
         obj->fe0 = 0;
@@ -649,7 +652,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         if (obj->fe0++ > 0x78) {
             obj->fe0 = 0;
             func_02040588(0, 0);
-            func_021D9804(obj, w18->f18);
+            func_021D9804((u32 *)obj, (u32)w18->f18);
             *state = 0x21;
         }
         break;
@@ -678,14 +681,14 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         if (obj->ff8 == 1)
             *state = 0x25;
         if (obj->ff8 != 0) {
-            switch (func_021D9F04(obj->f34, 0, 1)) {
+            switch (func_021D9F04(obj->f34, 0, (void *)1)) {
             case 1:
                 func_021DA36C(obj->f34);
             case 2:
             case 4:
                 func_02156ED0();
-                func_021E7E0C(obj->f28, 0);
-                func_021E8AA0(sys, func_021D9064);
+                func_021E7E0C((void **)obj->f28, 0);
+                func_021E8AA0((int *)sys, (int)func_021D9064);
                 break;
             }
         }
@@ -693,7 +696,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
     case 0x25:
         func_02156ED0();
         func_02040588(0, 1);
-        func_021E8738(obj->f2c, obj->f14, 0x24, 2);
+        func_021E8738((int *)obj->f2c, obj->f14, 0x24, 2);
         *state = 0x35;
         func_021E8AB4(sys, 0x26);
         break;
@@ -706,16 +709,16 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x27:
         func_021DA36C(obj->f34);
-        func_021E7E0C(obj->f28, 0);
+        func_021E7E0C((void **)obj->f28, 0);
         w18->f0c = 2;
         obj->f100 = 1;
         if (obj->ff4 != 0)
-            func_021E8AA0(sys, func_021D8904);
+            func_021E8AA0((int *)sys, (int)func_021D8904);
         else
-            func_021E8AA0(sys, func_021D8CF0);
+            func_021E8AA0((int *)sys, (int)func_021D8CF0);
         break;
     case 0x28:
-        func_021E8738(obj->f2c, obj->f14, 0x4e, 1);
+        func_021E8738((int *)obj->f2c, obj->f14, 0x4e, 1);
         *state = 0x35;
         func_021E8AB4(sys, 0x29);
         break;
@@ -729,7 +732,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
             func_021D99F4(obj);
             switch (i) {
             case 0:
-                func_021E8AA0(sys, func_021D8FA8);
+                func_021E8AA0((int *)sys, (int)func_021D8FA8);
                 break;
             case 1:
                 *state = 0x2b;
@@ -738,7 +741,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         }
         break;
     case 0x2b:
-        func_021E8738(obj->f2c, obj->f14, 0x26, 1);
+        func_021E8738((int *)obj->f2c, obj->f14, 0x26, 1);
         *state = 0x35;
         func_021E8AB4(sys, 0x2c);
         break;
@@ -766,10 +769,10 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
     case 0x2f:
         switch (func_021D9F04(obj->f34, 0, 0)) {
         case 1:
-            func_021E8AA0(sys, func_021D7BE4);
+            func_021E8AA0((int *)sys, (int)func_021D7BE4);
             break;
         case 2:
-            func_021E8AA0(sys, func_021D9064);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         case 0:
             func_021D9A1C(obj, func_021D9090);
@@ -784,14 +787,14 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         else if (i == 1 || i == 2)
             *state = 3;
         else if (i == 3)
-            func_021E8AA0(sys, func_021D9064);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
         switch (func_021D9F04(obj->f34, 0, 0)) {
         case 1:
-            func_021E8AA0(sys, func_021D7BE4);
+            func_021E8AA0((int *)sys, (int)func_021D7BE4);
             func_021D9D40(obj);
             break;
         case 2:
-            func_021E8AA0(sys, func_021D9064);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         }
         break;
@@ -814,7 +817,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
             *state = 0xb;
         break;
     case 0x35:
-        if (func_021E8844(obj->f2c) != 0)
+        if (func_021E8844((const int *)obj->f2c) != 0)
             func_021E8AB8(sys);
         break;
     }
@@ -833,16 +836,16 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 DWC_CloseAllConnectionsHard();
             *state = 0xa;
         }
-        switch (func_021D9F04(obj->f34, 0, 1)) {
+        switch (func_021D9F04(obj->f34, 0, (void *)1)) {
         case 1:
         case 4:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D8CF0);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D8CF0);
             func_021D9D40(obj);
             break;
         case 2:
-            func_021E7E0C(obj->f28, 0);
-            func_021E8AA0(sys, func_021D9064);
+            func_021E7E0C((void **)obj->f28, 0);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         }
     }

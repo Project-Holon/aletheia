@@ -53,9 +53,9 @@ struct Owner {
 };
 struct Sys { u8 pad_00[0x104]; struct Owner owner; };
 extern struct Sys *unk_02146A74;
-extern u32  func_0204D9D4(void *a, u32 b, u32 c, u16 flags);
+extern void *func_0204D9D4(void *owner, u32 which, u32 compressed, u32 heapId);
 extern void func_0204E0D0(struct Owner *owner, s32 idx, u32 handle, u32 a3, u32 a4);
-extern void func_020307B0(u32 handle);
+extern void func_020307B0(void *p);
 
 s32 sub_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags)
 {
@@ -78,10 +78,10 @@ s32 sub_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags)
 found:
     if (i != (u32)-1) {
         slot   = &sys->owner.slots[i];
-        handle = func_0204D9D4(a, b, c, (u16)((flags & 0x7fff) | 0x8000));
+        handle = (u32)func_0204D9D4(a, b, c, (u16)((flags & 0x7fff) | 0x8000));
 
         func_0204E0D0(&unk_02146A74->owner, i, handle, a3, 0);
-        func_020307B0(handle);
+        func_020307B0((void *)handle);
 
         slot->unk_24 = 0;
         slot->unk_3c &= ~1;

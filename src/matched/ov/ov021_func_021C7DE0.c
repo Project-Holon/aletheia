@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
 extern void func_020307B0(void *p);
-extern void func_021C7E64(void *p);
+extern void func_021C7E64(u32 a);
 extern void func_021C8054(u32 h);
 void func_021C7DE0(M *m)
 {
     if (m != 0) {
-        func_021C7E64(m->sub);
+        func_021C7E64((u32)m->sub);
         func_021C8054(m->f0);
         func_020307B0(m);
     }

@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
 extern void func_021FB494(char *p);
-extern void func_021FC0C8(int, int);
+extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FBDA4(int a, unsigned mode);
 void func_021DE8FC(char *p, char *q)
 {
@@ -33,6 +33,6 @@ void func_021DE8FC(char *p, char *q)
         func_021FB494(*(void **)(p + 0xc));
         *(void **)(p + 0xc) = 0;
     }
-    func_021FC0C8(*(int *)(q + 8), 6);
+    func_021FC0C8((char *)(*(int *)(q + 8)), 6);
     func_021FBDA4(*(int *)(q + 8), 15);
 }

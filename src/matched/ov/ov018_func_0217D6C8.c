@@ -22,30 +22,36 @@
  *   func_0204B1CC  0x0204B1CC  arm
  */
 
-extern void func_02045808(int);
-extern void func_02045C04(int);
-extern void func_0201C6EC(int);
-extern void func_0201C4C0(int);
-extern void func_0201ED04(int);
-extern void func_0201D83C(int);
-extern void func_02031140(int);
-extern void func_02025588(int);
+struct Bank;
+struct PrintSys;
+struct Rec;
+struct S02031140;
+struct U16Vec;
+struct WordSet;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_0201D83C(void *ptr);
+extern void func_02031140(struct S02031140 *p);
+extern void func_02025588(void *p);
 extern void func_0204B084(int);
-extern void func_0204B1CC(int);
+extern void func_0204B1CC(struct Bank *bank);
 
 void func_0217D6C8(int *p)
 {
-    func_02045808(p[0x38 / 4]);
-    func_02045808(p[0x3c / 4]);
-    func_02045808(p[0x40 / 4]);
-    func_02045C04(p[0x2c / 4]);
-    func_02045C04(p[0x30 / 4]);
-    func_0201C6EC(p[0x28 / 4]);
-    func_0201C4C0(p[0x28 / 4]);
-    func_0201ED04(p[0x24 / 4]);
-    func_0201D83C(p[0x1c / 4]);
-    func_02031140(p[0x20 / 4]);
-    func_02025588(p[0xb0 / 4]);
+    func_02045808((struct U16Vec *)p[0x38 / 4]);
+    func_02045808((struct U16Vec *)p[0x3c / 4]);
+    func_02045808((struct U16Vec *)p[0x40 / 4]);
+    func_02045C04((struct Rec *)p[0x2c / 4]);
+    func_02045C04((struct Rec *)p[0x30 / 4]);
+    func_0201C6EC((struct PrintSys *)p[0x28 / 4]);
+    func_0201C4C0((struct PrintSys *)p[0x28 / 4]);
+    func_0201ED04((struct WordSet *)p[0x24 / 4]);
+    func_0201D83C((void *)p[0x1c / 4]);
+    func_02031140((struct S02031140 *)p[0x20 / 4]);
+    func_02025588((void *)p[0xb0 / 4]);
     func_0204B084(p[0x58 / 4]);
-    func_0204B1CC(p[0x54 / 4]);
+    func_0204B1CC((struct Bank *)p[0x54 / 4]);
 }

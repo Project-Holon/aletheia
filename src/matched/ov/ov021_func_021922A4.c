@@ -32,16 +32,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020437DC(u32 a);
-extern u32 func_020437E4(u32 a);
-extern u32 func_02043678(u32 a, u32 b, u32 c, u32 d);
-extern void func_020439A0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i);
-extern void func_020437AC(u32 p);
+struct Bmp;
+struct Obj020437AC;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void func_020437AC(struct Obj020437AC *p);
 extern void func_02192264(u32 a, u32 b, u32 c, u32 d);
 
 static inline void blit(u32 tmp, u32 bmp, u16 x, u16 y)
 {
-    func_020439A0(tmp, bmp, 0, 0, x * 8, y * 8, 8, 8, 0xFFFF);
+    func_020439A0((struct Bmp *)tmp, (struct Bmp *)bmp, 0, 0, x * 8, y * 8, 8, 8, 0xFFFF);
 }
 
 void func_021922A4(u32 bmp, u32 b, u32 heap)
@@ -54,9 +56,9 @@ void func_021922A4(u32 bmp, u32 b, u32 heap)
     u16 hm1;
     u16 wm1;
 
-    w = func_020437DC(bmp) >> 3;
-    h = func_020437E4(bmp) >> 3;
-    tmp = func_02043678(1, 1, 0x20, heap);
+    w = func_020437DC((const struct Bmp *)bmp) >> 3;
+    h = func_020437E4((const struct Bmp *)bmp) >> 3;
+    tmp = (u32)func_02043678(1, 1, 0x20, heap);
 
     func_02192264(tmp, b, heap, 9);
     for (j = 0; j < h; j++)
@@ -94,5 +96,5 @@ void func_021922A4(u32 bmp, u32 b, u32 heap)
     func_02192264(tmp, b, heap, 0x12);
     blit(tmp, bmp, i, j);
 
-    func_020437AC(tmp);
+    func_020437AC((struct Obj020437AC *)tmp);
 }

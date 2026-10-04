@@ -27,14 +27,15 @@ typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern u32 func_0215A5EC(u32);
+struct Tri;
+extern void *func_0215A5EC(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_0216DE94(u32, int);
+extern void *func_0216DE94(void *map, u32 id);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern u32 func_02161AC0(void *, u32, void *, void *);
-extern void func_0215897C(void *, u32);
+extern void *func_02161AC0(void *p, void *a1, struct Tri *t, void *a3);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B1FB8(u32 a, u32 b)
 {
@@ -54,13 +55,13 @@ int func_021B1FB8(u32 a, u32 b)
     x = func_02159B10((void *)a, (void *)b);
     y = func_02159B10((void *)a, (void *)b);
     z = func_02159B10((void *)a, (void *)b);
-    m = func_0215A5EC(b);
+    m = (u32)func_0215A5EC((void *)b);
     w = func_0215A5DC((void *)b);
-    o = func_0216DE94(m, i);
+    o = (u32)func_0216DE94((void *)m, i);
     func_0216D88C((const struct Actor *)o, (struct VecFx32 *)buf);
     vec[0] = (x << 16) + 0x8000;
     vec[1] = y << 16;
     vec[2] = (z << 16) + 0x8000;
-    func_0215897C(t, func_02161AC0(w, o, buf, vec));
+    func_0215897C(t, func_02161AC0(w, (void *)o, (struct Tri *)buf, vec));
     return 1;
 }

@@ -51,7 +51,7 @@ typedef struct {
     u32 eb4;
 } Work;
 
-extern int func_021F6DE8(void *e);
+extern int func_021F6DE8(u32 handle);
 extern u32 func_0201AA18(void *p);
 extern void func_021F663C(Work *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
 extern void func_021F4E98(Work *p, u32 a, u32 b);
@@ -61,7 +61,7 @@ extern void func_021F6D14(void *dst, Work *p);
 
 int func_021F6474(Work *p)
 {
-    if (func_021F6DE8(p->list[p->sel]) != 0 && p->box != 0xFF
+    if (func_021F6DE8((u32)p->list[p->sel]) != 0 && p->box != 0xFF
         && func_0201AA18(p->ctx->party) == 6) {
         func_021F663C(p, 0x29, 1, 0, 0xF0F, 1);
         func_021F4E98(p, 4, 1);

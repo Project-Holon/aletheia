@@ -14,10 +14,11 @@
  *   func_021D7704 0x021D7704 thumb ov093
  */
 extern int func_021D775C(int);
-extern int func_021C8288(int);
+typedef unsigned char  u8;
+extern int func_021C8288(u8 *p);
 extern void func_021D7704(int,int);
 
 void func_021D8AA8(int a, int b, int c)
 {
-    if(c==func_021D775C(4) && func_021C8288(b)==3) func_021D7704(0x35,0xCCD);
+    if(c==func_021D775C(4) && func_021C8288((u8 *)b)==3) func_021D7704(0x35,0xCCD);
 }

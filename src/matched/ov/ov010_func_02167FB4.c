@@ -52,15 +52,15 @@ typedef struct SeqWork {
     void *party194;     /* 0x194 */
 } SeqWork;
 
-extern void *func_021BE8D4(u32 heap, void *arg, u32 a, u32 b);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
 struct Evt;
 struct Party;
 struct PartyMon;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020144DC(u32 heap, void *arg);
-extern void *func_02014910(u32 heap, void *arg, void *a, void *b);
-extern void *func_020145CC(u32 heap);
-extern void *func_021BE92C(u32 heap, void *arg, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern int func_020144DC(int a0, int a1);
+extern void *func_02014910(char *a0, int a1, int a2, int a3);
+extern void *func_020145CC(void *a0);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_0201AA14(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
@@ -76,23 +76,23 @@ int func_02167FB4(void *evt, u32 *seq, SeqWork *w)
     heap = w->heap;
     switch (*seq) {
     case 0:
-        func_02012374(evt, func_021BE8D4(heap, w->arg, 0, 0));
+        func_02012374(evt, (struct Evt **)func_021BE8D4((void *)heap, (int)w->arg, 0, 0));
         (*seq)++;
         break;
     case 1:
-        func_02012374(evt, func_020144DC(heap, w->arg));
+        func_02012374(evt, (struct Evt **)func_020144DC(heap, (int)w->arg));
         (*seq)++;
         break;
     case 2:
-        func_02012374(evt, func_02014910(heap, w->arg, w->f30, w->f08));
+        func_02012374(evt, func_02014910((char *)heap, (int)w->arg, (int)w->f30, (int)w->f08));
         (*seq)++;
         break;
     case 3:
-        func_02012374(evt, func_020145CC(heap));
+        func_02012374(evt, func_020145CC((void *)heap));
         (*seq)++;
         break;
     case 4:
-        func_02012374(evt, func_021BE92C(heap, w->arg, 0, 0, 1, 0, 0));
+        func_02012374(evt, (struct Evt **)func_021BE92C((void *)heap, (int)w->arg, 0, 0, 1, 0, 0));
         MI_CpuCopy8(w->order, w->order18c, 6);
         *w->out188 = w->f6c;
         *w->out184 = w->f70;

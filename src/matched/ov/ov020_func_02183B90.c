@@ -27,23 +27,28 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020120F4(int a);
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+struct Evt;
+struct S0201235C;
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_0208068C(int a);
 extern void func_02082AC0(int v, u32 a, u32 b);
 extern void func_02080B98(void);
 extern int func_0202E888(void);
 extern void sub_0202E8CC(int a, u16 b);
-extern int func_02012984(int a);
+extern u8 func_02012984(const struct BigObj *p);
 extern int func_02187808(int a, int b, int c);
-extern void func_02012374(int a, int b);
-extern int func_02161B90(int a, int b, int c, int d, int e);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *func_02161B90(void *p, void *a1, int kind, int sub, int flag);
 extern int func_02183D68(int a, int b);
-extern void func_0201235C(int a, int b);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_02183B90(int a, int *state, int *p)
 {
     int w = p[0];
-    int s = func_020120F4(w);
+    int s = (int)func_020120F4((const struct Ctx *)w);
     int r;
     int t;
 
@@ -56,18 +61,18 @@ int func_02183B90(int a, int *state, int *p)
         break;
     case 1:
         sub_0202E8CC(s, func_0202E888());
-        t = func_02012984(s);
+        t = func_02012984((const struct BigObj *)s);
         r = func_02187808(w, t, t);
-        func_02012374(a, r);
+        func_02012374((struct Evt *)a, (struct Evt **)r);
         (*state)++;
         break;
     case 2:
-        r = func_02161B90(w, a, 5, 0, 1);
-        func_02012374(a, r);
+        r = (int)func_02161B90((void *)w, (void *)a, 5, 0, 1);
+        func_02012374((struct Evt *)a, (struct Evt **)r);
         (*state)++;
         break;
     case 3:
-        func_0201235C(a, func_02183D68(w, p[1]));
+        func_0201235C((struct S0201235C *)a, (u32 *)func_02183D68(w, p[1]));
         break;
     }
     return 0;

@@ -24,8 +24,8 @@ typedef unsigned int u32;
 extern void *func_0200E394(void *a0);
 extern void *func_0200C0E8(void *sys);
 extern int func_0216BB70(int index);
-extern int func_0216B994();
-extern int func_0216BA40();
+extern int func_0216B994(int c, int vm);
+extern int func_0216BA40(int c, int vm);
 
 int func_0216B91C(int a0, int a1, u16 *a2)
 {
@@ -50,7 +50,7 @@ a0 = (unsigned)a0 >> 0x18;
     if (a0 != 0) goto loc_0216B954;
 loc_0216B93C:
 a1 = t5 + 0;
-    a0 = func_0216B994(t6, a1);
+    a0 = func_0216B994((int)t6, a1);
 loc_0216B944:
     if (a0 == 0) goto loc_0216B94E;
 loc_0216B948:
@@ -65,7 +65,7 @@ loc_0216B954:
     if (a0 != 1) goto loc_0216B96E;
 loc_0216B958:
 a1 = t5 + 0;
-    a0 = func_0216BA40(t6, a1);
+    a0 = func_0216BA40((int)t6, a1);
 loc_0216B960:
     if (a0 == 0) goto loc_0216B96A;
 loc_0216B964:

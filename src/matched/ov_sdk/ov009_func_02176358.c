@@ -24,8 +24,8 @@ typedef signed char    s8;
 
 void *func_02176358(void)
 {
-    void *func_02175F3C(void);
-    void *p = func_02175F3C();
+    int func_02175F3C(void);
+    void *p = (void *)func_02175F3C();
     if (*(int *)((char *)p + 0x50) < 1) return 0;
     return (char *)func_02175F3C() + 0x54;
 }

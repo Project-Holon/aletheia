@@ -18,6 +18,6 @@
 extern char d_021DAA58[],d_021DAA60[];
 extern void func_021D5AC0(void);
 extern int func_021D5BA8(char *);
-extern int func_021C5928(void *,char *,char *);
-extern void func_02156DE0(void *,void *);
-int func_021D5BD4(char *p){*(int *)(p+0xb0)=0;if(!func_021C5928(func_021D5AC0,d_021DAA58,d_021DAA60))return 0;func_02156DE0(func_021D5BA8,p);return 1;}
+extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
+extern void func_02156DE0(int a, int b);
+int func_021D5BD4(char *p){*(int *)(p+0xb0)=0;if(!func_021C5928((void (*)(int,  int,  int))func_021D5AC0,d_021DAA58,d_021DAA60))return 0;func_02156DE0((int)func_021D5BA8,(int)p);return 1;}

@@ -21,12 +21,12 @@ typedef unsigned int u32;
 
 extern u16 d_021EE720;
 extern unsigned int func_02159B10(void *, void *);
-extern void func_020113D0(u32, u32);
+extern void func_020113D0(char *p, int val);
 extern int func_021B2E80(u32, u32);
 
 int func_021B2E60(u32 a, u32 b)
 {
     d_021EE720 = func_02159B10((void *)a, (void *)b);
-    func_020113D0(a, (u32)func_021B2E80);
+    func_020113D0((char *)a, (u32)func_021B2E80);
     return 1;
 }

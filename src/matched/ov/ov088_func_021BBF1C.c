@@ -28,7 +28,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 win, u32 c);
@@ -47,7 +48,7 @@ extern void func_02041B6C(u32 bit);
 void func_021BBF1C(char *p, u32 a1)
 {
     void *h;
-    func_02045CAC(*(u32 *)(p + 0x5c), a1, *(u32 *)(p + 0x64));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x5c)), a1, (void *)(*(u32 *)(p + 0x64)));
     func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xe8)), 0xf);
     func_0201F73C(*(void **)(p + 0xe8), 2, 1, 0xe);
     *(u32 *)(p + 0x6c) = func_0201CCE4(*(u32 *)(p + 0xe8), 0, 0, *(u32 *)(p + 0x64),

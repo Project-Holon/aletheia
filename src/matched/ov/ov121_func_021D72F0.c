@@ -25,7 +25,7 @@ extern void func_021D81B0(void *, int, int);
 extern int func_021D83B0(char *p);
 extern void func_021D8380(char *p);
 extern void func_021DA8C0(u32 *p, u32 a);
-extern void func_021DA8B0(void *, void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021DA8C4(u32 *p);
 extern void func_021D6E3C(void *task, u32 *state, u8 *p);
@@ -55,7 +55,7 @@ void func_021D72F0(void *a, int *state, char *p)
             func_021DA8C0(a, 0);
             *state = 3;
         } else if (result == 3) {
-            func_021DA8B0(a, func_021D6E3C);
+            func_021DA8B0(a, (u32)func_021D6E3C);
         }
         break;
     case 3:

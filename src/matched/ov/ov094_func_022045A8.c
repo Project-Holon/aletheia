@@ -42,7 +42,7 @@ extern void *func_020056A0(void *cb, void *ctx, int a);
 struct Ctx;
 extern void func_0220461C(int a0, struct Ctx *c);
 extern void func_02204678(void *h);
-extern void func_0220684C(Main *m, void *t, int b);
+extern void func_0220684C(char *p, int a, int b);
 
 void func_022045A8(Main *m, int a1, int a2)
 {
@@ -53,6 +53,6 @@ void func_022045A8(Main *m, int a1, int a2)
     o->idx = 0;
     o->set = a2;
     o->cnt = 2;
-    func_0220684C(m, func_020056A0((void *)func_0220461C, o, 0), (int)func_02204678);
+    func_0220684C((char *)m, (int)func_020056A0((void *)func_0220461C, o, 0), (int)func_02204678);
     m->st = m->st + 1;
 }

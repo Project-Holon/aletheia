@@ -29,7 +29,7 @@ extern void func_0215897C(void *a, void *b);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_021CD2A4(void *a, void *b, u32 c, u32 d, void *e);
+extern u32 func_021CD2A4(u32 a, u32 b, u32 x, u32 c, u32 d);
 
 int func_021B4E58(u32 a, u32 b)
 {
@@ -40,6 +40,6 @@ int func_021B4E58(u32 a, u32 b)
     r6 = func_0215A5F4((void *)b);
     r7 = func_0215A5DC((void *)b);
     z = func_0201210C((void *)r7);
-    func_0215897C(r6, func_021CD2A4(r7, z, 0, 5, func_02159AE8((void *)a, (void *)b)));
+    func_0215897C(r6, (void *)func_021CD2A4((u32)r7, (u32)z, 0, 5, (u32)func_02159AE8((void *)a, (void *)b)));
     return 1;
 }

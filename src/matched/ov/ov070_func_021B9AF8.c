@@ -20,36 +20,40 @@
  *   func_0204A5AC  0x0204A5AC  arm
  */
 
-extern void func_020452E8(int);
-extern void func_0204B3B4(int);
+struct Bank;
+struct Descriptor;
+struct Obj;
+struct Obj020437AC;
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_020437AC(int);
-extern void func_0204B1CC(int);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 
 void func_021B9AF8(char *p)
 {
     int i;
-    func_020452E8(*(int *)(p + 0x73C));
-    func_020452E8(*(int *)(p + 0x74C));
-    func_020452E8(*(int *)(p + 0x744));
-    func_020452E8(*(int *)(p + 0x734));
-    func_020452E8(*(int *)(p + 0x754));
-    func_020452E8(*(int *)(p + 0x76C));
-    func_020452E8(*(int *)(p + 0x774));
-    func_0204B3B4(*(int *)(p + 0x6A8));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x73C)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x74C)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x744)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x734)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x754)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x76C)));
+    func_020452E8((struct Descriptor *)(*(int *)(p + 0x774)));
+    func_0204B3B4((struct Obj *)(*(int *)(p + 0x6A8)));
     if (*(int *)(p + 0x6A0) != 0) {
-        func_0204B3B4(*(int *)(p + 0x6A0));
+        func_0204B3B4((struct Obj *)(*(int *)(p + 0x6A0)));
         func_0204A8D4(*(int *)(p + 0x54C));
         func_0204ADA4(*(int *)(p + 0x548));
     }
     func_0204AFD8(*(int *)(p + 0x550));
     for (i = 0; i < 8; i++) {
-        func_020437AC(*(int *)(p + i * 4 + 0x614));
+        func_020437AC((struct Obj020437AC *)(*(int *)(p + i * 4 + 0x614)));
     }
-    func_0204B1CC(*(int *)(p + 0x69C));
+    func_0204B1CC((struct Bank *)(*(int *)(p + 0x69C)));
     func_0204A5AC();
 }

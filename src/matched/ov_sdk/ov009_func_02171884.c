@@ -53,7 +53,7 @@ struct DWCstNodeInfo {
     u16 port;
 };
 
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void qr2_send_statechanged(void *qrec);
 extern u8 func_02176474(void);
 extern struct DWCstNodeInfo *func_02176344(void);
@@ -70,19 +70,19 @@ int func_02171884(int profileID)
     struct DWCstNodeInfo *pMyNodeInfo;
     struct DWCstNodeInfo *pNodeInfo;
 
-    if (func_02175F3C()->f18 != 0 && profileID == func_02175F3C()->f5dc)
+    if (((struct DWCstMatchControl *)func_02175F3C())->f18 != 0 && profileID == ((struct DWCstMatchControl *)func_02175F3C())->f5dc)
         return 0;
-    func_02175F3C()->f18 = 1;
-    func_02175F3C()->f5dc = profileID;
-    func_02175F3C()->f638 = 0;
-    func_02175F3C()->f644 = 0;
-    qr2_send_statechanged(func_02175F3C()->qr2Obj);
-    func_02175F3C()->f67c = 0;
+    ((struct DWCstMatchControl *)func_02175F3C())->f18 = 1;
+    ((struct DWCstMatchControl *)func_02175F3C())->f5dc = profileID;
+    ((struct DWCstMatchControl *)func_02175F3C())->f638 = 0;
+    ((struct DWCstMatchControl *)func_02175F3C())->f644 = 0;
+    qr2_send_statechanged(((struct DWCstMatchControl *)func_02175F3C())->qr2Obj);
+    ((struct DWCstMatchControl *)func_02175F3C())->f67c = 0;
     aid = func_02176474();
-    func_02175F3C()->aid = aid;
-    if (func_02175F3C()->f5a4 == 0) {
-        senddata[0] = func_02175F3C()->f554;
-        senddata[1] = func_02175F3C()->aid;
+    ((struct DWCstMatchControl *)func_02175F3C())->aid = aid;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f5a4 == 0) {
+        senddata[0] = ((struct DWCstMatchControl *)func_02175F3C())->f554;
+        senddata[1] = ((struct DWCstMatchControl *)func_02175F3C())->aid;
         pMyNodeInfo = func_02176344();
         for (i = 0; i < func_0217603C(); i++) {
             pNodeInfo = func_0217637C(i);

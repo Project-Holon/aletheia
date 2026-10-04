@@ -19,9 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 int func_020489F4(int a, u16 b);
-int func_02048A18(int a, int b);
+typedef unsigned int   u32;
+u32 func_02048A18(u8 *a0, int i);
 int func_0204779C(int *p);
-int func_020478B8(int a, int b, int c);
+int func_020478B8(void *a, int idx, int amount);
 
 int func_021C223C(char *p)
 {
@@ -35,10 +36,10 @@ int func_021C223C(char *p)
     if (*(u16 *)(p + 0x60) != 0) {
         (*(u16 *)(p + 0x60))--;
     } else {
-        a = func_02048A18(*(int *)(p + 0x14), func_020489F4(*(int *)(p + 0x14), *(int *)(p + 0x18)));
+        a = func_02048A18((u8 *)(*(int *)(p + 0x14)), func_020489F4(*(int *)(p + 0x14), *(int *)(p + 0x18)));
         n = func_0204779C((int *)a);
         for (k = 0; k < n; k++)
-            r = func_020478B8(a, k, 0x1000);
+            r = func_020478B8((void *)a, k, 0x1000);
         if (r == 0)
             return 1;
     }

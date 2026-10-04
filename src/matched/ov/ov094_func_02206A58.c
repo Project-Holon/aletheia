@@ -15,10 +15,12 @@
 
 typedef unsigned short u16;
 extern int func_021F86E0(void);
-extern void func_020215BC(int a, u16 *b, int c, int d, u16 e);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 void func_02206A58(char *p)
 {
     if (*(int *)(p + 0x23c) == 1)
-        func_020215BC(func_021F86E0(), (u16 *)(p + 0x284), 1, 0x20, 0x20);
+        func_020215BC((struct PalAnmSlot *)func_021F86E0(), (u16 *)(p + 0x284), 1, 0x20, 0x20);
 }

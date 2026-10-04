@@ -25,13 +25,15 @@
 extern void *func_02043658(void);
 extern void func_02188DA0(void);
 extern void func_02043534(void *);
-extern void func_02188DB0(int);
+typedef unsigned char  u8;
+struct Node;
+extern void func_02188DB0(u8 *a);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_02189A1C(int, int);
-extern void func_02030EAC(int);
+extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
 
 void func_021B2F18(int p, int *q)
@@ -56,7 +58,7 @@ void func_021B2F18(int p, int *q)
             t = func_02043658();
             func_02188DA0();
             func_02043534(t);
-            func_02188DB0(q[1]);
+            func_02188DB0((u8 *)q[1]);
         } else {
             y = 0;
             z = 16;
@@ -79,7 +81,7 @@ void func_021B2F18(int p, int *q)
         }
         if (c) {
             func_02189A1C(q[1], 0);
-            func_02030EAC(p);
+            func_02030EAC((struct Node *)p);
             func_020307B0(q);
         }
         break;

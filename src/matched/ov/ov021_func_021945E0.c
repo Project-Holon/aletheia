@@ -32,9 +32,10 @@ extern void *func_02188C7C(u8 *p);
 extern void *func_020124E4(struct Obj *p);
 extern u32 func_020120F4(void);
 extern void func_0216D9A0(void *a);
-extern void func_020129D0(u32 a, int b);
+struct BigObj;
+extern void func_020129D0(struct BigObj *p, u8 v);
 extern int func_021A0F30(u32 a, u32 b);
-extern void func_020129B8(u32 a, int b);
+extern void func_020129B8(struct BigObj *p, u8 v);
 extern void func_0216D9E4(void *a);
 
 int func_021945E0(void *a, int b, u8 *c)
@@ -49,7 +50,7 @@ int func_021945E0(void *a, int b, u8 *c)
             func_020124E4(a);
             r4 = func_020120F4();
             func_0216D9A0(r6);
-            func_020129D0(r4, 1);
+            func_020129D0((struct BigObj *)r4, 1);
             func_021A0F30(func_02188CCC(*(void **)(c + 8)), *(u32 *)(c + 0xc));
             c[0x10]++;
         }
@@ -57,7 +58,7 @@ int func_021945E0(void *a, int b, u8 *c)
     case 1:
         if (func_021A0ED4(func_02188CCC(*(void **)(c + 8))) == 1) {
             func_020124E4(a);
-            func_020129B8(func_020120F4(), *(u32 *)(c + 0xc) & 0xff);
+            func_020129B8((struct BigObj *)func_020120F4(), *(u32 *)(c + 0xc) & 0xff);
             c[0x10]++;
         }
         break;

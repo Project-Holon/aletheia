@@ -39,7 +39,7 @@ struct Sub020064B8Head {
 };
 
 extern void *func_02074450(int index);
-extern u32 *func_0207466C(u32 a);
+extern u32 func_0207466C(u32 idx);
 extern void func_0208A640(u32 *a, u32 b, u32 c);
 extern u32  func_0208A674(u32 a, u32 b);
 
@@ -52,7 +52,7 @@ int sub_020064B8(u32 a, u32 b, u32 c, u32 d)
     if (p == 0) {
         return 0;
     }
-    q = func_0207466C(p->unk00);
+    q = (u32 *)func_0207466C(p->unk00);
     if (q == 0) {
         return 0;
     }

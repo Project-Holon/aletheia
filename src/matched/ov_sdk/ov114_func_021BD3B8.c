@@ -40,12 +40,12 @@ typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern void *func_021BEF58();
 extern void func_021BEFCC();
-extern void *func_021BEF40(void *sysInfo_p);
+extern void *func_021BEF40(int p);
 extern ReqList *func_021BAEC8();
 extern ReqInfo *func_021BEF48(void *sysInfo_p);
 extern void func_021BEFD8(void *mutexInfo_p);
 extern void *func_021BEF50(void *sysInfo_p);
-extern void func_021B9BF4(void *threadInfo_p);
+extern void func_021B9BF4(int a);
 
 int func_021BD3B8(ThreadData *threadData_p)
 {
@@ -59,7 +59,7 @@ int func_021BD3B8(ThreadData *threadData_p)
     sysInfo_p = func_021BEF08();
     mutexInfo_p = func_021BEF58();
     func_021BEFCC();
-    listInfo_p = func_021BEF40(sysInfo_p);
+    listInfo_p = func_021BEF40((int)sysInfo_p);
     list_p = func_021BAEC8(listInfo_p);
     if (list_p == 0) {
         threadData_p->result = -1;
@@ -73,6 +73,6 @@ int func_021BD3B8(ThreadData *threadData_p)
         return 1;
     }
     threadInfo_p = func_021BEF50(sysInfo_p);
-    func_021B9BF4(threadInfo_p);
+    func_021B9BF4((int)threadInfo_p);
     return 0;
 }

@@ -27,7 +27,7 @@ extern u8 func_021D5440(u8 *p);
 struct Node;
 struct Node *func_021D732C(int id, int sub);
 void func_021D7040(struct Node *n);
-int func_021D8484(int m);
+void *func_021D8484(void *a);
 
 void func_021D8564(int a, int b)
 {
@@ -40,6 +40,6 @@ void func_021D8564(int a, int b)
         func_021D7040(x);
     if (y != 0)
         func_021D7040(y);
-    func_021D8484(a);
-    func_021D8484(b);
+    func_021D8484((void *)a);
+    func_021D8484((void *)b);
 }

@@ -70,7 +70,7 @@ struct Sys {
 
 extern struct Sys g_0214BAC0;
 
-extern void func_020728E8(void *p);
+extern void func_020728E8(void);
 extern void func_02072920(void *p);
 extern void SND_Init(void);
 extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
@@ -86,7 +86,7 @@ void func_020726D0(void)
     }
     g_0214BAC0.f0c = 1;
     SND_Init();
-    g_0214BAC0.cb10.fn = func_020728E8;
+    g_0214BAC0.cb10.fn = (void (*)(void *))func_020728E8;
     g_0214BAC0.cb10.arg = 0;
     g_0214BAC0.cb20.fn = func_02072920;
     g_0214BAC0.cb20.arg = 0;

@@ -21,8 +21,9 @@ struct Cfg;
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
-extern void *func_02045730(void *);
-extern void func_020409B4(void *);
+typedef unsigned int   u32;
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 void func_021F6164(void *unused, char *p)
 {
     void *obj;

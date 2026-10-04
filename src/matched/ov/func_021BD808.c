@@ -18,9 +18,11 @@
  * undeclared here and resolved through the label class.
  */
 
-extern void func_0204B3F4(int);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 
 void func_021BD808(int *p)
 {
-    func_0204B3F4(*p);
+    func_0204B3F4((struct Obj *)(*p));
 }

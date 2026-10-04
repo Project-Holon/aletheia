@@ -21,9 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021BC3B4(int key);
-extern int  func_0204B98C(u32 obj);
-extern void func_0204B878(u32 obj, u32 v);
+struct Actor;
+struct Obj;
+extern int func_021BC3B4(int *p);
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, unsigned int on);
 extern void ov208_func_021BDC48(void *scene, u32 on);
@@ -40,7 +42,7 @@ void ov208_func_021C692C(u16 *heap, u8 *p, int key)
     void *scene;
     u32 other;
 
-    scene = func_021BC3B4(key);
+    scene = (void *)func_021BC3B4((int *)key);
     if (W(0x694) == 5)
         return;
     switch (STB(W(0x694))) {
@@ -50,12 +52,12 @@ void ov208_func_021C692C(u16 *heap, u8 *p, int key)
         STB(W(0x694)) = 2;
         return;
     case 2:
-        if (func_0204B98C(OBJ(W(0x694))) != 0)
+        if (func_0204B98C((struct Actor *)OBJ(W(0x694))) != 0)
             break;
         ST(W(0x694)) = 3;
         return;
     case 3:
-        func_0204B878(OBJ(W(0x694)), B8(W(0x694)));
+        func_0204B878((struct Obj *)OBJ(W(0x694)), B8(W(0x694)));
         ST(W(0x694)) = 0;
         other = 5;
         if (W(0x694) == 2)
@@ -64,7 +66,7 @@ void ov208_func_021C692C(u16 *heap, u8 *p, int key)
             other = 2;
         if (other != 5 && ST(other) == 0) {
             func_0204B92C((struct Obj *)OBJB(other), 1);
-            func_0204B878(OBJB(other), B8(other));
+            func_0204B878((struct Obj *)OBJB(other), B8(other));
         }
         W(0x694) = 5;
         if (W(0x6b8) == 0 || W(0x6b8) == 4)

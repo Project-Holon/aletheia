@@ -18,7 +18,7 @@
 
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 void func_021BC97C(char *p)
 {
@@ -26,6 +26,6 @@ void func_021BC97C(char *p)
 
     w = *(unsigned int *)p;
     func_0203FB44(*(unsigned char *)(p + 4), (unsigned short)w, (unsigned short)(w >> 16));
-    func_020307B0((int)p);
+    func_020307B0((void *)((int)p));
 }
 

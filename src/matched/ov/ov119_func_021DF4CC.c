@@ -19,18 +19,21 @@
  */
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern unsigned func_0203D1A4(unsigned);
+typedef unsigned int   u32;
+struct Link;
+struct MsgBank;
+extern u32 func_0203D1A4(struct Link *p);
 extern int func_021E12AC(char *p);
 extern int func_021DD140(char *p);
-extern void func_02045CAC(int,int,int);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021DF490(void *);
 void func_021DF4CC(char *p)
 {
-    func_0203D1A4((unsigned)func_020399A8());
+    func_0203D1A4((struct Link *)((unsigned)func_020399A8()));
     if (func_021E12AC(p) && func_021DD140(p)) {
-        func_02045CAC(*(int *)(p+0x720),0x89,*(int *)(p+0x738));
+        func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),0x89,(void *)(*(int *)(p+0x738)));
         func_021E1024(p);
         func_021D8E84(p,(int)func_021DF490);
     }

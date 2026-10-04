@@ -42,12 +42,12 @@ typedef struct {
 
 struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C440(int heap);
+extern u32 func_0201C440(void *p);
 
 void func_021C7934(Work *p)
 {
     p->f4 = func_0201D7EC(0x17, 0, 0, 0, 0x27);
-    p->f14 = func_0201C440(0x27);
+    p->f14 = (void *)func_0201C440((void *)0x27);
     p->fC = p->f8;
     p->f10 = 0;
 }

@@ -15,7 +15,7 @@
  */
 
 extern void func_021BACF0(int p, int mode);
-extern void func_021B6100(void *p, void *fn);
+extern void func_021B6100(char *p, int k);
 typedef unsigned char  u8;
 extern void func_021B6A14(u8 *p);
-void func_021B6AD8(int p) { func_021BACF0(p, 1); func_021B6100((void *)p, (void *)func_021B6A14); }
+void func_021B6AD8(int p) { func_021BACF0(p, 1); func_021B6100((void *)p, (int)((void *)func_021B6A14)); }

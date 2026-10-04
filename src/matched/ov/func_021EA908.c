@@ -16,10 +16,10 @@
  */
 
 
-extern void func_021DF110(int, int);
+extern void func_021DF110(char *p, int b);
 void func_021EA908(int p, int bit)
 {
     *(int *)(*(int *)(p + 0x2c) + 0xA174) ^= 1 << bit;
-    func_021DF110(p, *(int *)(*(int *)(p + 0x2c) + 0xA174));
+    func_021DF110((char *)p, *(int *)(*(int *)(p + 0x2c) + 0xA174));
 }
 

@@ -79,7 +79,7 @@ typedef struct _NATNegotiator {
     SOCSockAddrIn remoteaddr;                        /* 0x4C */
 } NATNegotiator;
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021991C8(NATNegotiator *neg);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
@@ -115,12 +115,12 @@ void func_0219A054(NATNegotiator *neg)
     int error;
 
     if (neg == 0) {
-        func_0217D254(7, 4, 4, g_021A5E88);
+        func_0217D254(7, (char *)4, 4, g_021A5E88);
         return;
     }
 
     if (neg->state == ns_canceled) {
-        func_0217D254(7, 2, 8, g_021A5EAC, neg->cookie);
+        func_0217D254(7, (char *)2, 8, g_021A5EAC, neg->cookie);
         func_021991C8(neg);
         return;
     }
@@ -179,7 +179,7 @@ void func_0219A054(NATNegotiator *neg)
 
     if (neg->state == ns_reportsent && func_0217F264() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, 3, 8, g_021A606C, neg->cookie);
+            func_0217D254(7, (char *)3, 8, g_021A606C, neg->cookie);
             neg->state = ns_finished;
         } else {
             func_02199394(neg);
@@ -191,14 +191,14 @@ void func_0219A054(NATNegotiator *neg)
 
     if (neg->state == ns_finished || neg->state == ns_reportack) {
         if (neg->sendGotRemoteData)
-            func_0217D254(7, 3, 8, g_021A60FC, neg->cookie);
+            func_0217D254(7, (char *)3, 8, g_021A60FC, neg->cookie);
         else if (func_0217F264() > neg->retryTime)
-            func_0217D254(7, 3, 8, g_021A6150, neg->cookie);
+            func_0217D254(7, (char *)3, 8, g_021A6150, neg->cookie);
         func_0219A034(neg);
     }
 
     if (neg->state == ns_canceled) {
-        func_0217D254(7, 2, 8, g_021A61A0, neg->cookie);
+        func_0217D254(7, (char *)2, 8, g_021A61A0, neg->cookie);
         func_021991C8(neg);
     }
 }

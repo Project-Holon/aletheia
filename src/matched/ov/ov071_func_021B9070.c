@@ -78,7 +78,13 @@ extern void func_021B9BD8(u8 *);
 extern void func_021B9BAC(void *,u32);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0201C6C4(u32,u32);
+typedef signed int     s32;
+typedef unsigned short u16;
+struct Big;
+struct BigObj;
+struct PrintSys;
+struct WordSet;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
 extern void func_021B9798(void *,void *,u32);
 extern int func_021B98B4(void *,void *);
@@ -91,7 +97,7 @@ extern void func_020061E4(u32);
 extern int func_021B9F2C(void *,int,int);
 extern int func_02035C08(const void *);
 extern void func_021B7108(void *);
-extern void func_020355D8(Bool);
+extern void func_020355D8(u8 v);
 extern void func_021B9C7C(void *,void *);
 extern void func_021BA004(void *);
 extern int func_021BA0CC(void *,int);
@@ -101,27 +107,27 @@ extern void func_021BA01C(void *,void *);
 extern void func_021B6B58(void *,int);
 extern u8 func_021B6C74(void *,int);
 extern void func_02034714(const void *,int,const void *);
-extern u32 func_021B7194(void *,u32,u32);
-extern int func_021B7204(u32,int,u32,int *);
-extern void func_021B71FC(u32);
+extern void *func_021B7194(int *p, void *arg1, u32 heap);
+extern int func_021B7204(int a, int b, void *p, int *q);
+extern void func_021B71FC(void *p);
 extern void func_021B6C30(void *,int,int);
 extern void func_021B6B98(void *,void *,int,int,int);
-extern void func_0201F184(u32,int,u32);
+extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern int func_02174660(int,...);
 extern void func_021B9818(void *,void *,u32);
 extern void func_02005E30(int);
 extern int func_02005E50(void);
-extern void func_02005DE4(int);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 extern void func_02005D90(int,int);
 extern int func_02005F38(void);
 extern void func_02005E9C(void);
 extern void func_02005DF8(int);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EBC(u32);
-extern u32 func_0200BE48(u32);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern u16 *func_0200BE48(void *sys);
 extern void func_0200BF08(u32,u32);
-extern u32 func_02012B58(u32);
+extern u8 func_02012B58(const struct BigObj *p);
 extern void func_020266AC(u32,u32,u32);
 extern int func_021B7114(void *);
 extern void func_021B9C30(u8 *);
@@ -139,7 +145,7 @@ int func_021B9070(int unused,int *state,u8 *c,u8 *o)
     func_021B6C7C(c,1); func_021B6C7C(c,3);
     func_021B9BD8(o); func_021B9BAC(CP(4),(u32)o);
     handle=*(u32 *)(CP(4)+8);
-    if (o[0x28c]!=0 && func_0201C6C4(handle,(u32)func_02045770((struct Descriptor *)W(0x288)))==0) {
+    if (o[0x28c]!=0 && func_0201C6C4((struct PrintSys *)handle,(void *)((u32)func_02045770((struct Descriptor *)W(0x288))))==0) {
         func_02045334((struct Descriptor *)W(0x288)); o[0x28c]=0;
     }
     if (c[0x2e]==1 && *state==4) return 1;
@@ -189,17 +195,17 @@ selected:
     case 6:
         if (func_021B98B4(CP(4),o)==1) {
             if (W(0x310)!=0) func_02034714(d_021BABFC,0,d_021BABFC);
-            W(0x310)=func_021B7194(CP(4),W(0x30c),0x61); ++*state;
+            W(0x310)=(u32)func_021B7194((int *)CP(4),(void *)W(0x30c),0x61); ++*state;
         } break;
     case 7:
-        if (func_021B7204(C(4),4,W(0x310),&result)==1) {
-            func_021B71FC(W(0x310)); W(0x310)=0; func_021B98C4(o);
+        if (func_021B7204(C(4),4,(void *)W(0x310),&result)==1) {
+            func_021B71FC((void *)W(0x310)); W(0x310)=0; func_021B98C4(o);
             if (result==1) *state=8;
             else { W(0x300)=0xffff; func_021B6C30(c,1,1); func_021B6B98(c,o+8,1,0xff,3); *state=4; }
         } break;
     case 8:
         if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
-            func_0201F184(*(u32 *)(CP(4)+0x10),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
+            func_0201F184((struct WordSet *)(*(u32 *)(CP(4)+0x10)),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
             func_021B9818(o,CP(4),0x23); *state=9;
         } break;
     case 9:
@@ -213,7 +219,7 @@ write10:
         if (func_021B98B4(CP(4),o)==1) { func_02005E30(6); ++*state; }
         break;
     case 11:
-        if (func_02005E50()==0) { func_02005DE4(1); func_02005E64(); ++*state; }
+        if (func_02005E50()==0) { func_02005DE4((void *)1); func_02005E64(); ++*state; }
         break;
     case 12: func_02005D90(0x531,0xffff); ++*state; break;
     case 13:
@@ -223,10 +229,10 @@ write10:
     case 15:
         if (func_02035C60()!=0 || (func_020362DC()&3)) {
             func_021B98C4(o);
-            func_0200BF08(func_0200BE48(func_02012EBC(func_020120F4(*(u32 *)CP(0)))),*(u32 *)(o+(W(0x300)<<2)+0xec));
+            func_0200BF08((u32)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
-            func_020266AC(save,func_02012B58(func_020120F4(*(u32 *)handle)),*(u8 *)(handle+0x3c));
+            func_020266AC(save,func_02012B58(func_020120F4((const struct Ctx *)(*(u32 *)handle))),*(u8 *)(handle+0x3c));
             W(0x300)=0xffff; func_021B6C30(c,1,1); func_021B6B98(c,o+8,1,0xff,3);
             if (func_02035C60()!=0) *state=16;
             else *state=17;

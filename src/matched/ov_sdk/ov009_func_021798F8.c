@@ -35,7 +35,8 @@ extern char *func_02094B20(const char *s, const char *sub);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern int func_0209477C(const char *s);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 
 int func_021798F8(char *http)
 {
@@ -64,7 +65,7 @@ int func_021798F8(char *http)
     content_temp = *content_end;
     *content_end = 0;
     OS_LockMutex(http + 0x1a54);
-    *(int *)(http + 0x1a6c) = func_020964E0(content_length);
+    *(int *)(http + 0x1a6c) = func_020964E0((u32)content_length);
     OS_UnlockMutex(http + 0x1a54);
     *content_end = content_temp;
     return 1;

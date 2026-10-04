@@ -128,7 +128,7 @@ extern int  func_02072AA0(u32 channel, u32 a, void *data, u32 b, u32 c,
 extern void *func_02074450(int index);
 extern u32  func_0207457C(u32 group);
 extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
-extern void func_0208A638(void *block);
+extern void *func_0208A638(char *p);
 
 int sub_020067E0(struct Sub02006544Entry *e, u32 id)
 {
@@ -156,7 +156,7 @@ int sub_020067E0(struct Sub02006544Entry *e, u32 id)
     }
     block = e->unk04;
     wave = (struct Sub020067E0Wave *)((u8 *)block + block->unk3C);
-    func_0208A638(block);
+    func_0208A638((char *)block);
     size = block->unk08 - block->unk3C;
     e->unk10 = (u8 *)wave + 0xC;
     e->unk08 = size - 0xC;

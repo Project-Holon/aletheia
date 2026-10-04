@@ -71,9 +71,9 @@ extern void func_021C58E0(Work *p);
 extern void func_021C5958(const u8 *src, u8 *dst);
 extern int func_021C4524(int x);
 extern int func_021C4530(int x);
-extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, void **a3, u16 a4);
-extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, void **a3, u16 a4);
-extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_020275E4(void);
@@ -87,27 +87,27 @@ void func_021C453C(Work *p)
 {
     func_021C436C(p, p->info->b3, p->info->f4_2);
     if (p->info->f4_7 == 0) {
-        p->f302C = func_02049DB4(0x28, 0x1F, 0, &p->f3030, p->heap);
+        p->f302C = func_02049DB4(0x28, 0x1F, 0, (u32)(&p->f3030), p->heap);
         if (p->info->f4_1 == 0) {
-            p->f31D8 = func_02049EB4(0x28, 0x2B, 0, &p->f31DC, p->heap);
+            p->f31D8 = func_02049EB4(0x28, 0x2B, 0, (u32)(&p->f31DC), p->heap);
         } else {
-            p->f31D8 = func_02049EB4(0x28, 0x2C, 0, &p->f31DC, p->heap);
+            p->f31D8 = func_02049EB4(0x28, 0x2C, 0, (u32)(&p->f31DC), p->heap);
         }
     } else {
-        p->f302C = func_02049DB4(0x29, d_021C86E8[p->info->b6][0], 0, &p->f3030, p->heap);
-        p->f31D8 = func_02049EB4(0x29, 0x20, 0, &p->f31DC, p->heap);
+        p->f302C = func_02049DB4(0x29, d_021C86E8[p->info->b6][0], 0, (u32)(&p->f3030), p->heap);
+        p->f31D8 = func_02049EB4(0x29, 0x20, 0, (u32)(&p->f31DC), p->heap);
         func_021C43C4(p, p->info->b6);
     }
     func_021C58E0(p);
-    func_02049624(0x28, func_021C4524(p->info->kind), 6, 0, 0, 0, p->heap);
+    func_02049624((void *)0x28, (void *)func_021C4524(p->info->kind), (void *)6, 0, 0, 0, p->heap);
     func_0204989C(0x28, func_021C4530(p->info->kind), 6, 0, 0, 0, p->heap);
-    func_02049624(0x28, 0x1E, 5, 0, 0, 0, p->heap);
+    func_02049624((void *)0x28, (void *)0x1E, (void *)5, 0, 0, 0, p->heap);
     func_0204989C(0x28, 0x28, 5, 0, 0, 0, p->heap);
-    func_02049624(0x28, 0x1E, 3, 0, 0, 0, p->heap);
+    func_02049624((void *)0x28, (void *)0x1E, (void *)3, 0, 0, 0, p->heap);
     func_0204989C(0x28, 0x28, 3, 0, 0, 0, p->heap);
     func_02049B40(0x28, 0xF, 0, 0, 0x20, p->heap);
     func_021C5958(p->info->bitmap, p->pix);
-    func_02049624(func_020275E4(), func_02027628(), 4, 0, 0, 0, p->heap);
+    func_02049624((void *)func_020275E4(), (void *)func_02027628(), (void *)4, 0, 0, 0, p->heap);
     func_0204989C(func_020275E4(), func_0202762C(), 4, 0, 0, 0, p->heap);
     func_020413B0(4, 0, 0x15, 0x20, 3, 0xC);
     func_020409B4(4);

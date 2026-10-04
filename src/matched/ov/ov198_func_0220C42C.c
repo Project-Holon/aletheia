@@ -32,7 +32,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern int func_022110D4(u8 *, int);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(void *, u32, void *);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_0220C42C(char *p, int i, int index)
 {
     char *elem;
@@ -46,7 +46,7 @@ void func_0220C42C(char *p, int i, int index)
         t = (void *)func_020457B0(0x12, *(u16 *)(*(char **)p + 16));
         format = func_02045EC0(*(void **)(p + 0x1EA0), 15);
         func_0201EF40(*(void **)(p + 0x1EA4), 0, *(u16 *)(elem + 0x1A));
-        func_0201F250(*(void **)(p + 0x1EA4), (u32)t, format);
+        func_0201F250(*(void **)(p + 0x1EA4), (void *)((u32)t), format);
         func_02045808(format);
     }
     f = *(void **)(p + 0x1EAC);

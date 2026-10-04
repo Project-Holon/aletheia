@@ -27,7 +27,7 @@ extern void func_021BD8D8(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021BDC68(unsigned char v);
 extern void func_021BDC7C(unsigned char v);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern u8  *g_021DE5E0;
 extern void func_021C684C(void);
 
@@ -47,5 +47,5 @@ void func_021C67CC(void)
     p = g_021DE5E0;
     if (p[0x29] == 0x20)
         func_021BDC7C(0);
-    func_021C0E40(func_021C684C);
+    func_021C0E40((unsigned int)func_021C684C);
 }

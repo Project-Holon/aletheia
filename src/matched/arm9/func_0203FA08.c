@@ -31,7 +31,9 @@ typedef unsigned int  u32;
 
 extern u8 *g_02146A44;
 extern u8 func_020416B8(int channel);
-extern u32 func_02033CC0(u32 arena, u32 a, u32 b, u32 c);
+typedef signed int     s32;
+struct AreaMan;
+extern s32 func_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
 extern u32 func_02033F64(u32 arena, u32 a, u32 b, u32 c);
 
 u32 func_0203FA08(u32 layer, u32 size, u32 top)
@@ -47,7 +49,7 @@ u32 func_0203FA08(u32 layer, u32 size, u32 top)
     n = size / t;
     base = (layer < 4) ? *(u32 *)(g + 0x168) : *(u32 *)(g + 0x16c);
     if (top == 0)
-        r = func_02033CC0(base, d1, d2, n + f);
+        r = func_02033CC0((struct AreaMan *)base, d1, d2, n + f);
     else
         r = func_02033F64(base, d1 + d2 - 1, d2, n + f);
     if (r == 0xFFFFFFFF)

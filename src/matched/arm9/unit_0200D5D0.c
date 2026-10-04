@@ -72,7 +72,7 @@ extern void *func_02012EBC(struct Big *p);
 extern u8 *func_02012944(void *p);
 extern void *func_02012F08(int *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
-extern void *func_0200E6E8(void *a);
+extern void *func_0200E6E8(u32 a);
 extern void  func_0200E6FC(void *a, u32 b, void *dest);
 extern void *func_020084F4(void *a);
 extern void  func_0201F41C(const void *src, void *dest, u32 size);
@@ -131,7 +131,7 @@ void func_0200D5D0(struct GdsProfile *p, void *sys)
 
     func_02009470(save);
     blk = func_02012F08(sys);
-    env = func_0200E6E8(save);
+    env = func_0200E6E8((u32)save);
     OS_GetOwnerInfo(&info);
     func_0200C164(blk, &a, &b, &c, &d);
 

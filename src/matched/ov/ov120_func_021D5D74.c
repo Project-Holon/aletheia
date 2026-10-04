@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0200FB24(void);
-extern void *func_021D6988(void *);
+extern u32 func_021D6988(u8 *p);
 extern int func_021B6498(u8 *p);
 extern void func_02028178(u8 *p);
 extern void func_02027974(void *);
@@ -46,7 +46,7 @@ int func_021D5D74(int a, int b, int c, u8 *p)
         result = 0;
     }
     if (*(void **)(p + 0x34)) {
-        void *q = func_021D6988(*(void **)(p + 0x3c));
+        void *q = (void *)func_021D6988(*(void **)(p + 0x3c));
         if (q == 0 || func_021B6498(q) == 0)
             func_02028178(*(void **)(p + 0x34));
     }

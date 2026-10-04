@@ -50,20 +50,23 @@ extern u16 *func_021B616C(char *o, int k);
 extern void func_021B97E8(char *, int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32, u32);
+struct CharBuf;
+struct MsgBank;
+struct WordSet;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u16 func_020212B0(u16 id);
-extern void func_02045CAC(u32, u32, u32);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021B61F4(void *o, int a, u32 b);
-extern void func_0201F250(u32 a0, u32 a1, u32 a2);
-extern void func_021BB6E0(char *p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
-extern void func_0201EFA4(u32 obj, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_021BB6E0(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_02045334(struct Descriptor *d);
-extern void func_020456F8(u32);
+extern void func_020456F8(struct Descriptor *d);
 extern u8 func_02021350(u16 id);
 extern u8 func_0202130C(u16 id);
-extern void func_0201EF34(u32 a, int b, u32 c);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_021BAB04(char *p, int x);
-extern void func_02020FB4(u32 a, u16 id, u16 heap);
+extern void func_02020FB4(void *dst, u32 entry, u32 heap);
 extern void func_021BB724(char *);
 extern void func_021B9E14(char *p, int id);
 
@@ -86,41 +89,41 @@ void func_021B9850(char *p)
         return;
     }
     func_021B97E8(p, 1);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x73C)), 0);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x744)), 0);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x74C)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x73C))), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x744))), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x74C))), 0);
     kind = func_020212B0(*e);
     if (kind == 0) {
-        func_02045CAC(*(u32 *)(p + 0x51C), 0x86, *(u32 *)(p + 0x524));
+        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x86, (void *)(*(u32 *)(p + 0x524)));
         func_021B61F4(p, 0, *e);
-        func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
-        func_021BB6E0(p, (u32 *)(p + 0x73C), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
+        func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+        func_021BB6E0((int)p, (u32 *)(p + 0x73C), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
         if (*(int *)(p + 0x80C) != 4) {
-            func_02045CAC(*(u32 *)(p + 0x51C), 0x83, *(u32 *)(p + 0x524));
-            func_0201EFA4(*(u32 *)(p + 0x520), 0, e[1], 3, 0, 1);
-            func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
-            func_021BB6E0(p, (u32 *)(p + 0x744), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
+            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x83, (void *)(*(u32 *)(p + 0x524)));
+            func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x520)), 0, e[1], 3, 0, 1);
+            func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+            func_021BB6E0((int)p, (u32 *)(p + 0x744), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
         } else {
             func_02045334((struct Descriptor *)*(u32 *)(p + 0x744));
         }
-        func_020456F8(*(u32 *)(p + 0x734));
+        func_020456F8((struct Descriptor *)(*(u32 *)(p + 0x734)));
     } else {
         n = func_02021350(*e);
         if (n == 0xFF) {
-            func_02045CAC(*(u32 *)(p + 0x51C), 0x45, *(u32 *)(p + 0x524));
-            func_0201EFA4(*(u32 *)(p + 0x520), 0, func_0202130C(*e) + 1, 2, 2, 1);
+            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x45, (void *)(*(u32 *)(p + 0x524)));
+            func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x520)), 0, func_0202130C(*e) + 1, 2, 2, 1);
         } else {
-            func_02045CAC(*(u32 *)(p + 0x51C), 0x47, *(u32 *)(p + 0x524));
-            func_0201EFA4(*(u32 *)(p + 0x520), 0, n + 1, 2, 2, 1);
+            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x47, (void *)(*(u32 *)(p + 0x524)));
+            func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x520)), 0, n + 1, 2, 2, 1);
         }
-        func_0201EF34(*(u32 *)(p + 0x520), 1, kind);
-        func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
-        func_021BB6E0(p, (u32 *)(p + 0x73C), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
+        func_0201EF34((struct WordSet *)(*(u32 *)(p + 0x520)), 1, kind);
+        func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+        func_021BB6E0((int)p, (u32 *)(p + 0x73C), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
         func_021BAB04(p, kind);
         func_02045334((struct Descriptor *)*(u32 *)(p + 0x744));
     }
-    func_02020FB4(*(u32 *)(p + 0x524), *e, *(u16 *)(p + 0x544));
-    func_021BB6E0(p, (u32 *)(p + 0x74C), *(u32 *)(p + 0x524), 0, 4, 0x3DC0);
+    func_02020FB4((void *)(*(u32 *)(p + 0x524)), *e, *(u16 *)(p + 0x544));
+    func_021BB6E0((int)p, (u32 *)(p + 0x74C), *(u32 *)(p + 0x524), 0, 4, 0x3DC0);
     func_021BB724(p + 0x73C);
     func_021BB724(p + 0x744);
     func_021BB724(p + 0x74C);

@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u16 a; u16 b; } E4;
-extern void func_021C6580(u32, u16);
+extern void func_021C6580(u8 *p, int i);
 
 void func_0219D604(u8 *s, u16 k)
 {
@@ -28,7 +28,7 @@ void func_0219D604(u8 *s, u16 k)
     E4 *e = *(E4 **)(s + 0xc);
     for (i = 0; i < n; i++, e++) {
         if (e->b == k) {
-            func_021C6580(*(u32 *)(s + 4), e->a);
+            func_021C6580((u8 *)(*(u32 *)(s + 4)), e->a);
             e->b = 0xFFFF;
             return;
         }

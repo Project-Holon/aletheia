@@ -26,7 +26,8 @@ struct BigObj;
 extern u32 func_0201296C(const struct BigObj *p);
 extern unsigned int func_02159B10(void *, void *);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_020142E8();
+typedef signed int     s32;
+extern u32 func_020142E8(void *bitmap, s32 id);
 
 int func_02159778(int a0, int a1)
 {
@@ -56,7 +57,7 @@ a1 = t4 + 0;
 loc_0215979C:
 a0 = t6 + 0;
 a1 = t7 + 0;
-    a0 = func_020142E8(a0, a1);
+    a0 = func_020142E8((void *)a0, a1);
 loc_021597A6:
 *q = a0;
 a0 = 0;

@@ -27,9 +27,10 @@ typedef int BOOL;
 
 struct BigObj;
 extern u32 func_0201283C(const struct BigObj *p);
-extern void func_02009C24(int a, int b, int c);
+struct Sub020097BCObj;
+extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
 
 void func_021BDCF4(int a, int b, char *p)
 {
-    func_02009C24(func_0201283C(*(void **)(p + 0xC4)), a, b);
+    func_02009C24((struct Sub020097BCObj *)func_0201283C(*(void **)(p + 0xC4)), a, b);
 }

@@ -27,7 +27,7 @@ struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_020061E4(u32 a);
 extern int func_02006254(u32 a);
-extern void *func_021F86E0(void);
+extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 extern u32 func_02021ED8(const char *ptr);
@@ -85,7 +85,7 @@ int func_021EDCA8(u8 *p)
         }
         break;
     case 4:
-        pal = func_021F86E0();
+        pal = (void *)func_021F86E0();
         ctx = func_021F86D4();
         mask = 1 << (p[0xa] + 1);
         func_020061E4(0x54d);
@@ -93,7 +93,7 @@ int func_021EDCA8(u8 *p)
         p[0xd]++;
         break;
     case 5:
-        if (func_02021ED8(func_021F86E0()) == 0) p[0xd]++;
+        if (func_02021ED8((const char *)func_021F86E0()) == 0) p[0xd]++;
         break;
     case 6:
         if (func_02006254(0x54d) == 0 && func_02006254(0x573) == 0) return 1;

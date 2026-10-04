@@ -27,7 +27,7 @@ typedef unsigned long u32;
 
 extern u8 g_021A826C[];
 extern u32 func_0215793C(u32 ip);
-extern u16 func_0215781C(u8 *s, u32 len);
+extern int func_0215781C(int a, int b);
 extern void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry);
 extern u8 *func_0215A450(u8 *buf, u32 *fragmented);
 extern void func_0215A23C(u8 *iphdr, u8 *udphdr, u32 len);
@@ -55,7 +55,7 @@ void func_0215A71C(u8 *buf, u32 len)
             return;
         if (func_0215793C(NTOHL(buf + 0x10)) == 0)
             return;
-        if (func_0215781C(buf, (buf[0] & 0xf) << 2) != 0xffff)
+        if (func_0215781C((int)buf, (buf[0] & 0xf) << 2) != 0xffff)
             return;
         if (*(u32 *)(g_021A826C + 0x50) == NTOHL(buf + 0x10))
             func_02157FF8((u8 (*)[6])(buf - 8), NTOHL(buf + 0xc), 1);

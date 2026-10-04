@@ -38,9 +38,9 @@ extern void func_021A3098(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void *func_0216D67C(void *o);
 extern void func_0216D9A0(void *o);
-extern void func_0216D5E0(void *o, int a);
+extern void func_0216D5E0(int a0, int a1);
 extern void *func_021A2F98(void *a);
-extern void func_021ACBB8(void *a, int b);
+extern void func_021ACBB8(u32 a, u8 v);
 extern void func_021A2F48(void *a, int b);
 extern void func_021A2F60(int *p);
 extern int func_02197E7C(int a, int b);
@@ -61,11 +61,11 @@ int func_0218B32C(void *unused, int *st, char *ctx)
     switch (*st) {
     case 0:
         func_0216D9A0(func_0216D67C(o));
-        func_0216D5E0(o, *(u16 *)(ctx + 4));
+        func_0216D5E0((int)o, *(u16 *)(ctx + 4));
         *st = *st + 1;
         break;
     case 1:
-        func_021ACBB8(func_021A2F98(a), 0);
+        func_021ACBB8((u32)func_021A2F98(a), 0);
         func_021A2F48(a, 1);
         func_021A2F60(a);
         r1 = func_02197E7C(*(u16 *)(ctx + 4), 0x34);

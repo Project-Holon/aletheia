@@ -23,10 +23,12 @@
 
 typedef unsigned int u32;
 extern void *func_0215A5E4(void *a0);
-extern int func_02012944(void *p);
-extern void *func_021B6EE0(int a, int b);
-extern void func_0201F02C(int a, int b, int c);
-extern void func_0201EEC4(int a, int b, int c);
+typedef unsigned char  u8;
+struct WordSet;
+extern u8 *func_02012944(void *p);
+extern int func_021B6EE0(u32 a, u32 b);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_0201EEC4(struct WordSet *p, u32 i, u32 v);
 struct WordSet;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0201EED4(struct WordSet *p, u32 i, void *mon);
@@ -38,12 +40,12 @@ int func_021B6F88(int a, int b, int c)
     int h;
     int r;
 
-    h = func_02012944(func_0215A5E4((void *)c));
-    m = func_021B6EE0(c, b);
+    h = (int)func_02012944(func_0215A5E4((void *)c));
+    m = (void *)func_021B6EE0(c, b);
     r = 5;
-    func_0201F02C(a, 0, h);
+    func_0201F02C((struct WordSet *)a, 0, (void *)h);
     if (m == 0) {
-        func_0201EEC4(a, 1, 0);
+        func_0201EEC4((struct WordSet *)a, 1, 0);
     } else {
         if (func_02017E1C(m, 0x4c, 0) == 1)
             r = 0xb;

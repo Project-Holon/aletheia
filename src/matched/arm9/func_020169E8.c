@@ -42,7 +42,7 @@ typedef signed int     s32;
 struct Obj_0201691C;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02021F64(void *a, void *b, u16 c, u8 d, u16 e);
-extern void func_02016C38(void *p);
+extern int func_02016C38(int a0);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_0201691C(void *a0, struct Obj_0201691C *a1);
@@ -110,7 +110,7 @@ void func_020169E8(u8 *a0, u8 *a1)
     }
 
     if (*(void **)(a1 + 4) != 0) {
-        func_02016C38(*(void **)(a1 + 4));
+        func_02016C38((int)(*(void **)(a1 + 4)));
         *(void **)(a1 + 4) = 0;
     }
 

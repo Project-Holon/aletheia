@@ -18,5 +18,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
-extern void func_02047738(int); extern void func_0204762C(int); extern void func_02047504(int); extern void func_02046EFC(int); extern void func_02082BCC(void *,int,int);
-void func_021B7EB8(u8 *p) { int i; func_02047738(*(int *)(p+16)); for(i=0;i<2;i++) {if(*(int *)(p+20+i*4))func_0204762C(*(int *)(p+20+i*4));} func_02047504(*(int *)(p+12)); for(i=0;i<2;i++)func_02046EFC(*(int *)(p+4+i*4)); func_02046EFC(*(int *)p); func_02082BCC(p,0,0x60); }
+struct Rec;
+extern void func_02047738(struct Rec *p); extern void func_0204762C(int); extern void func_02047504(int); extern void func_02046EFC(int); extern void func_02082BCC(void *,int,int);
+void func_021B7EB8(u8 *p) { int i; func_02047738((struct Rec *)(*(int *)(p+16))); for(i=0;i<2;i++) {if(*(int *)(p+20+i*4))func_0204762C(*(int *)(p+20+i*4));} func_02047504(*(int *)(p+12)); for(i=0;i<2;i++)func_02046EFC(*(int *)(p+4+i*4)); func_02046EFC(*(int *)p); func_02082BCC(p,0,0x60); }

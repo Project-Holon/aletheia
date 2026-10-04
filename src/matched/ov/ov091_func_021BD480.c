@@ -22,8 +22,10 @@ extern int func_0201C6C4(int a, int b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(int);
-extern int func_02045730(int);
+typedef unsigned char  u8;
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 
@@ -36,11 +38,11 @@ void func_021BD480(char *a, int *b)
         q = b[1];
         b[0] = 0;
         func_02045334((struct Descriptor *)q);
-        func_02045374(q);
-        func_02041B6C(func_02045730(q));
+        func_02045374((struct Cfg *)q);
+        func_02041B6C(func_02045730((struct Descriptor *)q));
         q = b[2];
         func_02045334((struct Descriptor *)q);
-        func_02045374(q);
-        func_02041B6C(func_02045730(q));
+        func_02045374((struct Cfg *)q);
+        func_02041B6C(func_02045730((struct Descriptor *)q));
     }
 }

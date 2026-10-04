@@ -22,13 +22,15 @@ typedef unsigned int   u32;
 typedef short          s16;
 
 extern signed char func_02013080(u32 idx);
-extern void func_0201CE8C(u32 a, u32 b);
-extern void func_0201CEB8(u32 a);
+typedef signed int     s32;
+struct Rec;
+extern void func_0201CE8C(struct Rec *p, s32 v);
+extern void func_0201CEB8(struct Rec *p);
 
 void func_021932A0(u32 a, int f)
 {
     if (f == 1)
-        func_0201CE8C(a, func_02013080(2));
+        func_0201CE8C((struct Rec *)a, func_02013080(2));
     else
-        func_0201CEB8(a);
+        func_0201CEB8((struct Rec *)a);
 }

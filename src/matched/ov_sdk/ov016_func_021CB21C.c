@@ -26,7 +26,7 @@ extern void func_021BD138(void);
 extern void func_021D6090(int a, int b);
 extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E8C(unsigned int a, unsigned int b);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern void func_021CD80C(void);
 
 void func_021CB21C(void)
@@ -41,5 +41,5 @@ void func_021CB21C(void)
     func_021D6090(0, 0x15);
     func_021C0E50(0, 0);
     func_021C0E8C(0, 1);
-    func_021C0E40(func_021CD80C);
+    func_021C0E40((unsigned int)func_021CD80C);
 }

@@ -27,12 +27,12 @@ typedef signed char    s8;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5DC();
-extern u32 func_02188C58(void *);
+extern void *func_02188C58(void *p);
 extern u32 func_0218EC60(u32);
 
 int func_021B53A4(u32 a, u32 b, u32 c, u32 d)
 {
-func_0218EC60(func_02188C58(func_0201210C(func_0215A5DC(b, b, c, d))));
+func_0218EC60((u32)func_02188C58(func_0201210C(func_0215A5DC(b, b, c, d))));
 return 0;
 }
 

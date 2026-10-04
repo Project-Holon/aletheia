@@ -15,5 +15,5 @@
  */
 extern void func_021F39A8(void **p);
 extern void func_021F3C14(char *p);
-extern void func_021897A0(int a,int b);
-void func_021F38EC(int *p) { if(p) {func_021F39A8((void **)p);func_021F3C14((char *)p);func_021897A0(p[1],0);} }
+extern void func_021897A0(unsigned char *p, int id);
+void func_021F38EC(int *p) { if(p) {func_021F39A8((void **)p);func_021F3C14((char *)p);func_021897A0((unsigned char *)p[1],0);} }

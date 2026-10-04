@@ -88,13 +88,15 @@ extern u32   func_0201D4BC(void *s, u8 idx);
 extern void  func_0202E040(void *h, u32 cell, u32 b, u32 c, u32 n, const BLINKPOS *pos);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *msg);
-extern void  func_02043B5C(u32 a, u8 b);
+struct Cfg;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void  func_0201C724(void *owner, u32 a, s16 x, s16 y, void *buf, u32 e, u16 f);
 extern void  func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void  func_02045374(u32 msg);
-extern u8    func_02045730(u32 msg);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void  func_02041B6C(u32 bg);
 
 void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
@@ -125,7 +127,7 @@ void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
         }
     }
     buf = func_02024368(param, heapID, n);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)wk->msg), pal);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)wk->msg)), pal);
     func_0201C724(owner, (u32)func_02045770((struct Descriptor *)wk->msg), pos->x, pos->y, buf, a2, pri);
     wk->active = 1;
     for (i = 0; i < n; i++) {
@@ -141,8 +143,8 @@ void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
     }
     func_02045808(buf);
     func_02045808(str);
-    func_02045374(wk->msg);
-    func_02041B6C(func_02045730(wk->msg));
+    func_02045374((struct Cfg *)wk->msg);
+    func_02041B6C(func_02045730((struct Descriptor *)wk->msg));
     wk->drawn = 1;
     wk->ready = 1;
 }

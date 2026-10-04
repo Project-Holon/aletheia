@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern u16 func_0216D5F8(void *o);
 extern void func_0216D4B4(char *p);
-extern int func_0216D3CC(void *o);
+extern int func_0216D3CC(int a0);
 extern u32 func_021A652C(void *a, void *b, u32 c, u32 d, u32 e, u32 f);
 extern u32 func_021A658C(void *a, void *b, u32 c, u32 d, u32 e, u32 f);
 
@@ -36,7 +36,7 @@ u32 func_021A666C(void *a, void *b, u32 c, u32 d, u32 e, u32 f)
         func_0216D4B4(b);
         return func_021A658C(a, b, c, d, e, f);
     }
-    if (!func_0216D3CC(b))
+    if (!func_0216D3CC((int)b))
         return 0;
     if (e == 9)
         return func_021A652C(a, b, c, d, e, f);

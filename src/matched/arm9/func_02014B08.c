@@ -47,9 +47,9 @@ typedef struct {
     Obj *f20;
 } Sub;
 
-extern void *func_02030734(void *heap, u32 size, u32 flag, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020637D4(void *p);
-extern u32   func_02049F34(u32 a, u32 b, void *c, u32 d);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020056A0(void *fn, Sub *s, u32 a);
 struct Obj_02016880;
 extern void func_02016880(void *a0, struct Obj_02016880 *a1);
@@ -61,20 +61,20 @@ void *func_02014B08(u32 id, void *heap)
     Sub *s;
     u32 m;
 
-    o = func_02030734(heap, 0x4c, 1, sFile_020A72CC, 0x78);
+    o = func_02030734((u32)heap, 0x4c, 1, sFile_020A72CC, 0x78);
     o->f10 = id;
     o->f40 = heap;
     o->f44 = 0x1000;
-    o->f14 = (u32)func_02030734(heap, id * 4, 1, sFile_020A72CC, 0x7f);
+    o->f14 = (u32)func_02030734((u32)heap, id * 4, 1, sFile_020A72CC, 0x7f);
     o->f30 = 9 << 14;
     o->f34 = 0x1000;
     func_020637D4(o->f18);
     m = ((u32)heap & 0x7fff) | 0x8000;
-    s = func_02030734((void *)(u16)m, 0x2c, 1, sFile_020A72CC, 0x8e);
+    s = func_02030734((u32)((void *)(u16)m), 0x2c, 1, sFile_020A72CC, 0x8e);
     s->f20 = o;
     s->f0c = (u32)o->f18;
     s->f1c = 0x1100;
-    s->f14 = func_02049F34(0xb, 0x58, s->f04, (u16)m);
+    s->f14 = (u32)func_02049F34(0xb, 0x58, (u32)s->f04, (u16)m);
     o->f0c = func_020056A0((void *)func_02016880, s, 0);
     return o;
 }

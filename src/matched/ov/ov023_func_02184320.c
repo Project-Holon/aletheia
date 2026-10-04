@@ -20,14 +20,14 @@ typedef unsigned int u32;
 
 extern void func_02185AB0(char *p, int a, int b);
 extern void func_02082AC0(int v, char *dst, u32 n);
-extern u32 func_021841A4(u32 x);
-extern u32 func_021841A0(u32 x);
+extern int func_021841A4(unsigned char *p);
+extern unsigned char func_021841A0(unsigned char *p);
 
 void func_02184320(int a0, int a1, int a2, char *p)
 {
     func_02185AB0(p, 3, 0);
     func_02082AC0(0, p + 0x4290, 0x3840);
-    *(u32 *)(p + 0x1ac) = func_021841A4(*(u32 *)*(u32 **)(p + 4));
-    *(u32 *)(p + 0x1b0) = func_021841A0(*(u32 *)*(u32 **)(p + 4));
+    *(u32 *)(p + 0x1ac) = func_021841A4((unsigned char *)(*(u32 *)*(u32 **)(p + 4)));
+    *(u32 *)(p + 0x1b0) = func_021841A0((unsigned char *)(*(u32 *)*(u32 **)(p + 4)));
     *(u32 *)(p + 0x9e6c) = 1;
 }

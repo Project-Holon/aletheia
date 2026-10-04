@@ -21,7 +21,9 @@
  */
 
 
-extern void func_0204B878(int, unsigned short);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
@@ -31,7 +33,7 @@ void func_021BD880(char *p)
     int v = *(int *)p;
 
     *(int *)(p + 8) = h;
-    func_0204B878(v, h);
+    func_0204B878((struct Obj *)v, h);
     if (*(int *)(p + 0x30) != 0)
         func_020061E4(*(int *)(p + 0x30));
 }

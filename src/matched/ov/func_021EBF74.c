@@ -18,19 +18,21 @@
  *   swaps r4/r5).
  */
 
-extern int func_0204B944(int);
-extern void func_0204B8D4(int, int);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B944(struct Obj *p);
+extern void func_0204B8D4(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
-extern int func_0204B944(int);
-extern void func_0204B8D4(int, int);
+extern u32 func_0204B944(struct Obj *p);
+extern void func_0204B8D4(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
 void func_021EBF74(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x2d; i++) {
         int *row = (int *)(p + i * 4);
-        if (row[0x279d] != 0 && func_0204B944(row[0x279d]) != 1)
-            func_0204B8D4(row[0x279d], 0x1000);
+        if (row[0x279d] != 0 && func_0204B944((struct Obj *)row[0x279d]) != 1)
+            func_0204B8D4((struct Obj *)row[0x279d], 0x1000);
     }
     func_0204A600();
 }

@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 extern u32 func_02159B10(void *, void *);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u16 func_021B6048(void *, void *, u32, u32 *, int);
+extern int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag);
 
 int func_021B60F4(void *a, void *b)
 {
@@ -31,6 +31,6 @@ int func_021B60F4(void *a, void *b)
 
     v = func_02159B10(a, b);
     p = func_02159AE8(a, b);
-    *p = func_021B6048(a, b, v, &tmp, 1);
+    *p = func_021B6048((u32)a, (u32)b, v, (u8 *)(&tmp), 1);
     return 0;
 }

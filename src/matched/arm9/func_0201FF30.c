@@ -66,13 +66,14 @@ struct Src {
 
 extern char g_020A7390[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32  func_02020D18(u32 heap);
+struct CharBuf;
+extern void *func_02020D18(u32 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32 a, u32 b);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
 extern void func_020206C0(struct Obj *o);
-extern void func_02020A34(struct Obj *o, u32 a);
+extern void func_02020A34(struct Obj *obj, void *arg1);
 
 struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
 {
@@ -83,7 +84,7 @@ struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
 
     obj = (struct Obj *)func_02030734(heap, 0x50, 1, g_020A7390, 0x69);
     *(struct Src *)obj = *src;
-    obj->f3C = func_02020D18(heap);
+    obj->f3C = (u32)func_02020D18(heap);
     obj->f40 = a;
     obj->f42 = b;
     obj->f44 = 0;
@@ -108,9 +109,9 @@ struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
         *(u32 *)q = (u32)obj->unk0C;
         q[4] = 0;
     }
-    func_02043B5C((u32)func_02045770((struct Descriptor *)obj->unk0C), obj->f18lo);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
     func_0202055C(obj, obj->f40, 0, obj->rows, 1);
     func_020206C0(obj);
-    func_02020A34(obj, 1);
+    func_02020A34(obj, (void *)1);
     return obj;
 }

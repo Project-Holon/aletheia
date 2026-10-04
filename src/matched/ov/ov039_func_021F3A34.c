@@ -80,26 +80,30 @@ typedef struct {
 extern int func_02188D2C(int *p);
 extern Work *func_021897BC(void *p, int idx);
 extern u32 func_02188C80(void *p);
-extern unsigned int func_020120F4(unsigned int);
-extern unsigned int func_02012EC4(unsigned int);
+struct Big;
+struct Ctx;
+struct IcaAnime;
+struct SoundSys2;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern Save *func_0200B3A4(unsigned int, unsigned int);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *a);
 extern int func_021F3DE4(int a, u8 b, u8 c);
-extern void func_021F47D8(int a, int f, int i);
-extern void func_02011558(u32 a);
+extern void func_021F47D8(void *a, int f, int i);
+extern void func_02011558(struct IcaAnime *p);
 extern u32 func_02011428(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
-extern void *func_021BE674(int base, int i, u8 j, u8 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
-extern void func_02028A7C(int a, int b);
+extern void func_02028A7C(struct SoundSys2 *s, u32 id);
 extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a);
-extern void func_02028B18(int a, u32 id, u32 who);
+extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
 extern u32 *func_02006138(int i);
 extern void func_02072F34(void *o, u8 v);
 extern int func_021BE6E8(int p, int i, u8 j, u8 k);
 extern int func_021F4864(u32 a, u32 b, u8 *out);
-extern void func_02028B50(int a, int b);
+extern void func_02028B50(u8 *p, int a0);
 extern void func_02006210(void);
 extern u32 func_02011688(u32 p, Vec *dst, u32 idx);
 extern void *func_02188CB4(u8 *p);
@@ -136,8 +140,8 @@ void func_021F3A34(int a0, void *a1)
 
     h = func_02188D2C(a1);
     s = func_021897BC(a1, 1);
-    t = func_020120F4(func_02188C80(a1));
-    q = func_0200B3A4(func_02012EC4(t), 2);
+    t = (u32)func_020120F4((const struct Ctx *)func_02188C80(a1));
+    q = func_0200B3A4((unsigned int)func_02012EC4((struct Big *)t), 2);
     w = func_02012A30((const struct BigObj *)t);
     for (i = 0; i < 4; i++) {
         j = i;
@@ -146,12 +150,12 @@ void func_021F3A34(int a0, void *a1)
             d = (u8)((qr[0x10] + 1) % 2);
             j2 = j * 2;
             if (func_021F3DE4(h, j, d + (j2 + 1)) == 0) {
-                func_021F47D8(h, d, j);
+                func_021F47D8((void *)h, d, j);
                 tmp2 = qr[0x10];
                 s->cur[j] = j2 + tmp2;
                 if (s->sel != 0xff && ((u32)s->sel >> 1) == j && s->sel != s->cur[j]) {
                     s->sel = s->cur[j];
-                    func_02011558(s->anim);
+                    func_02011558((struct IcaAnime *)s->anim);
                     s->anim = func_02011428(0x8015, 0x6b, d_021F4C38[s->sel], s->f1c, 0x21C0);
                 }
                 s->req[j] = 0;
@@ -164,15 +168,15 @@ void func_021F3A34(int a0, void *a1)
         v = s->cur[j];
         b = v + 1;
         a = j;
-        o = func_021BE674(h, 0, a, b);
+        o = func_021BE674((char *)h, 0, a, b);
         if (s->timer[j] != 0) {
             if (s->hold != j && --s->timer[j] == 0) {
                 func_021BE6B0(o, 0);
                 if (s->sel != 0xff && j == ((u32)s->sel >> 1)) {
-                    func_02028A7C(w, 0x68A);
+                    func_02028A7C((struct SoundSys2 *)w, 0x68A);
                     func_020061E4(0x6DB);
                     snd = func_02006148(0x6DB);
-                    func_02028B18(w, 0x68A, 0x7f);
+                    func_02028B18((struct SoundSys2 *)w, 0x68A, 0x7f);
                     func_02072F34(func_02006138(snd), 0);
                 }
                 sr[0x21F0] = -1;
@@ -180,7 +184,7 @@ void func_021F3A34(int a0, void *a1)
         } else if (func_021F4864(v, func_021BE6E8(h, 0, a, b), buf)) {
             func_021BE6B0(o, 1);
             if (s->sel != 0xff && j == ((u32)s->sel >> 1)) {
-                func_02028B50(w, 0x68A);
+                func_02028B50((u8 *)w, 0x68A);
                 func_02006210();
             }
             s->timer[j] = 0x5a;

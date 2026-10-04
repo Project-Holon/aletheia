@@ -19,10 +19,10 @@
 typedef struct { int mode; int a,b,c,d,e,f,g; } Config;
 extern void func_02082BCC(void *,int,int);
 extern int func_0217D398(Config *,int);
-extern void func_0217D434(int);
-extern int func_0217D44C(int);
-extern void func_0217D410(int);
-extern void func_021E8AA0(int,int);
+extern void func_0217D434(int *p);
+extern int func_0217D44C(int *p);
+extern void func_0217D410(int *p);
+extern void func_021E8AA0(int *p, int v);
 extern void func_0217B4A0(int p, unsigned *state, int *q);
 void func_0217B594(int p, int *state, char *q)
 {
@@ -42,12 +42,12 @@ void func_0217B594(int p, int *state, char *q)
         (*state)++;
         break;
     case 1:
-        func_0217D434(*(int *)(q + 56));
-        if (func_0217D44C(*(int *)(q + 56))) (*state)++;
+        func_0217D434((int *)(*(int *)(q + 56)));
+        if (func_0217D44C((int *)(*(int *)(q + 56)))) (*state)++;
         break;
     case 2:
-        func_0217D410(*(int *)(q + 56));
-        func_021E8AA0(p, (int)func_0217B4A0);
+        func_0217D410((int *)(*(int *)(q + 56)));
+        func_021E8AA0((int *)p, (int)func_0217B4A0);
         break;
     }
 }

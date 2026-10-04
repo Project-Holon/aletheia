@@ -108,7 +108,7 @@ struct Anim {
     u32 f1c;
 };
 
-extern void func_0207D658(void *reg, u32 a, s16 b);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 
 void func_02023E0C(struct Anim *p)
 {
@@ -143,9 +143,9 @@ void func_02023E0C(struct Anim *p)
         flag = 1;
     }
     if (p->f04 & 1) {
-        func_0207D658((void *)0x04000050, p->f00, p->f1a);
+        func_0207D658((u32)((void *)0x04000050), p->f00, p->f1a);
     } else if (p->f04 & 2) {
-        func_0207D658((void *)0x04001050, p->f00, p->f1a);
+        func_0207D658((u32)((void *)0x04001050), p->f00, p->f1a);
     }
     if (flag == 1)
         p->f1c = 0;

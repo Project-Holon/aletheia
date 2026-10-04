@@ -20,18 +20,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 
-extern void func_02043B5C(int, int);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 typedef unsigned int   u32;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201C7A4(int, s16, s16, int, int);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 
 void func_021ECE60(u8 *a, int b)
 {
-    func_02043B5C(*(int *)(a + 4), 0xc);
+    func_02043B5C((struct CharBuf *)(*(int *)(a + 4)), 0xc);
     func_0201DD78(1, 9, 0xc);
-    func_0201C7A4(*(int *)(a + 4), 0, 0, b, *(int *)(a + 0x24));
+    func_0201C7A4((void *)(*(int *)(a + 4)), 0, 0, (void *)b, (void *)(*(int *)(a + 0x24)));
     func_02045334((struct Descriptor *)*(int *)a);
     a[0x13f] = 0;
     *(u16 *)(a + 0x148) = 0;

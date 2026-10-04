@@ -44,7 +44,7 @@ extern void func_021BC014(struct S *p);
 extern void func_021BC274(void *p);
 extern void func_021BC250(void *p);
 extern int func_021BC264(void *p);
-extern void func_021BC06C(struct S *p);
+extern int func_021BC06C(char *p);
 extern void func_021BB91C(void *p);
 extern void func_021BBA30(struct S *p);
 
@@ -80,7 +80,7 @@ void func_021BB200(struct S *p)
         func_021BC014(p);
         func_021BC250(p);
         if (func_021BC264(p) == 0) {
-            func_021BC06C(p);
+            func_021BC06C((char *)p);
             func_021BB91C(p);
         }
         break;

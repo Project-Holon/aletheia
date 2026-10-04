@@ -21,11 +21,13 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204A48C(const void *, const void *, unsigned int);
+typedef unsigned int   u32;
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern const char d_021E7CE4[];
 extern const char d_021E7D40[];
 
 void func_021E3E40(char *p)
 {
-    func_0204A48C(d_021E7CE4, d_021E7D40, *(unsigned short *)(p + 0x5F4));
+    func_0204A48C((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, *(unsigned short *)(p + 0x5F4));
 }

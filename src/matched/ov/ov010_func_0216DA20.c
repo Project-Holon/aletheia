@@ -14,8 +14,8 @@
  */
 
 extern void *func_0216D67C(void *p);
-extern int func_0216D4D4(void *p, unsigned int v);
+extern int func_0216D4D4(int a0, int a1);
 int func_0216DA20(void *p, unsigned int v)
 {
-    return func_0216D4D4(func_0216D67C(p), v);
+    return func_0216D4D4((int)func_0216D67C(p), v);
 }

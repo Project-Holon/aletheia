@@ -44,9 +44,9 @@ extern struct Sub02007084Ctrl *func_020070A4(void);
 extern char *func_0203159C(int, int, int);
 extern void *func_021BD25C(int a, int b);
 extern void *func_02007220(struct Sub020071E4Ctrl *ctrl);
-extern u32 func_0200846C(int);
-extern u32 func_020082EC(int);
-extern int func_0216BFD4(int a, int b, int c, int d, int e, int f, int g);
+extern void *func_0200846C(int a0);
+extern void *func_020082EC(int a0);
+extern int *func_0216BFD4(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
 extern u32 func_02031324(int heap);
 extern int func_02034AC4(signed int id);
 extern void func_02034A5C(int handle);
@@ -72,12 +72,12 @@ int func_021BC12C(int a0)
     w = func_0203159C(a0, 0x5c, 1);
     *(u32 *)(w + 0x2c) = (u32)func_021BD25C(1, (int)sys);
     func_02007220(sys);
-    *(u32 *)(w + 0x54) = func_0200846C(1);
-    *(u32 *)(w + 0x58) = func_020082EC(1);
+    *(u32 *)(w + 0x54) = (u32)func_0200846C(1);
+    *(u32 *)(w + 0x58) = (u32)func_020082EC(1);
     *(u32 *)(w + 0x0) = 0;
     *(u32 *)(w + 0x4) = *(u32 *)(w + 0x58);
     *(u32 *)(w + 0x8) = *(u32 *)(w + 0x54);
-    *(u32 *)(w + 0x28) = func_0216BFD4(1, 0, 0, 0, 7, 0, 0);
+    *(u32 *)(w + 0x28) = (u32)func_0216BFD4(1, 0, 0, 0, 7, 0, 0);
     *(u32 *)(w + 0x30) = func_02031324(1);
 
     id = ov194_id;

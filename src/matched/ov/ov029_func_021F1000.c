@@ -13,9 +13,10 @@
  *   func_02021ED8  0x02021ED8  thumb
  */
 
-extern int func_02021ED8(int);
+typedef unsigned int   u32;
+extern u32 func_02021ED8(const char *ptr);
 
 int func_021F1000(char *p)
 {
-    return func_02021ED8(*(int *)(p + 0x210));
+    return func_02021ED8((const char *)(*(int *)(p + 0x210)));
 }

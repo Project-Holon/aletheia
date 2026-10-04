@@ -31,7 +31,7 @@ typedef u16 Row[3];
 struct MsgBank; struct U16Vec; struct WordSet;
 extern const Record d_021E35D4[];
 extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
-extern void func_021FB964(int,int,int);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void *func_021FC6A4(u16,u32,u16,u16,u8,u8,void *,u16);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern u16 func_0200DFD8(Row *,int,int);
@@ -51,7 +51,7 @@ void func_021DE66C(char *p,char *q)
     font=func_021FC20C(*(char **)(q+8));
     bank=func_021FC214(*(char **)(q+8));
     words=func_021FC21C(*(char **)(q+8));
-    func_021FB964(*(int *)(q+8),17,*(u16 *)(p+0x6c));
+    func_021FB964((void *)(*(int *)(q+8)),17,*(u16 *)(p+0x6c));
     for(i=0;i<18;i++) {
         rec=&d_021E35D4[i];
         slot=p+i*4;

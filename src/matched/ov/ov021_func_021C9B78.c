@@ -24,9 +24,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0200D914(u32 h, int id, void *val);
-extern int func_0200DB44(u32 h, u8 kind);
-extern u16 func_0200DAC4(u32 h, u8 kind);
+struct Blk1AC;
+struct Blk3C;
+extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
+extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
+extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern void func_021CA238(u8 *p, u16 v);
 extern void func_021CA250(u8 *p);
 
@@ -39,9 +41,9 @@ void func_021C9B78(u8 *p)
     else if (p[9] == 7)
         v = 8;
     p[9] = v;
-    func_0200D914(*(u32 *)(p + 0x70), 0, &v);
-    if (func_0200DB44(*(u32 *)(p + 0x74), p[9]) == 1)
-        func_021CA238(p, func_0200DAC4(*(u32 *)(p + 0x74), p[9]));
+    func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 0, &v);
+    if (func_0200DB44((struct Blk1AC *)(*(u32 *)(p + 0x74)), p[9]) == 1)
+        func_021CA238(p, func_0200DAC4((struct Blk1AC *)(*(u32 *)(p + 0x74)), p[9]));
     else
         func_021CA250(p);
 }

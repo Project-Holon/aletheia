@@ -25,7 +25,7 @@ typedef struct S { char p0[9]; unsigned char k; char p1[0x7CC - 10]; int f; } S;
 typedef unsigned int   u32;
 extern void func_0200B400(u32 heap);
 extern int func_021CBD08(void *, int);
-extern void func_0216CAD4(void *, int, int);
+extern void func_0216CAD4(void *a0, void *a1, void *a2);
 extern int func_0216E8CC(int, int, int);
 
 void func_0216C640(S *a, int b, int c)
@@ -35,7 +35,7 @@ void func_0216C640(S *a, int b, int c)
     t = func_021CBD08(a, b);
     a->f = t;
     if (a->k == 3 || a->k == 8) {
-        func_0216CAD4(a, b, c);
+        func_0216CAD4(a, (void *)b, (void *)c);
         return;
     }
     func_0216E8CC(b, c, t);

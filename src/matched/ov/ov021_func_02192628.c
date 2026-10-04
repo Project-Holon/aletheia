@@ -28,18 +28,20 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020456F8(u32 w);
-extern u32 func_02045758(u32 w);
-extern u32 func_02045760(u32 w);
-extern u32 func_02045738(u32 w);
-extern u32 func_02045740(u32 w);
+struct Descriptor;
+struct Obj020437AC;
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045740(struct Descriptor *p);
 extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *w);
 extern void func_020409B4(u32 layer);
 extern void func_021927E8(u32 *p);
-extern void func_020437AC(u32 p);
-extern void func_020452E8(u32 w);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *p);
 
 void func_02192628(u32 *a)
@@ -49,16 +51,16 @@ void func_02192628(u32 *a)
     u32 w;
     u32 h;
 
-    func_020456F8(a[0]);
-    x = func_02045758(a[0]);
-    y = func_02045760(a[0]);
-    w = func_02045738(a[0]);
-    h = func_02045740(a[0]);
+    func_020456F8((struct Descriptor *)a[0]);
+    x = func_02045758((struct Descriptor *)a[0]);
+    y = func_02045760((struct Descriptor *)a[0]);
+    w = func_02045738((struct Descriptor *)a[0]);
+    h = func_02045740((struct Descriptor *)a[0]);
     func_02041300((u8)((u16 *)a[2])[1], 0, x, y, w, h, 0x11);
     func_02045334((struct Descriptor *)a[0]);
     func_020409B4((u8)((u16 *)a[2])[1]);
     func_021927E8(a + 4);
-    func_020437AC(a[3]);
-    func_020452E8(a[0]);
+    func_020437AC((struct Obj020437AC *)a[3]);
+    func_020452E8((struct Descriptor *)a[0]);
     func_020307B0(a);
 }

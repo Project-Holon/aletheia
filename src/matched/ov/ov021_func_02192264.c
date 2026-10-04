@@ -28,8 +28,9 @@ typedef struct CharData {
     u8 *raw;
 } CharData;
 
-extern u8 *func_020437D4(u32 a);
-extern void *func_0204A1BC(u32 a, u32 b, u32 c, u32 d);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern int func_02062A4C(void *buf, CharData **out);
 extern void func_02082EA4(void *dst, void *src, u32 n);
 extern void func_020307B0(void *p);
@@ -41,8 +42,8 @@ void func_02192264(u32 a, u32 unused, u32 heap, u32 idx)
     void *buf;
     CharData *cd;
 
-    src = func_020437D4(a);
-    buf = func_0204A1BC(5, 8, 0, heap);
+    src = func_020437D4((const struct Bmp *)a);
+    buf = (void *)func_0204A1BC(5, 8, 0, heap);
     func_02062A4C(buf, &cd);
     func_02082EA4(cd->raw + i * 32 + idx * 32, src, 0x20);
     func_020307B0(buf);

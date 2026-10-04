@@ -24,7 +24,8 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02051E74(void *buf, u32 a, u32 b, u32 c, u32 d);
+struct Mtx22;
+extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(u32 a, void *buf, u32 b, u32 c, u32 d, u32 e);
 extern void func_0204044C(u32 a);
 extern void func_02190270(u32 a);
@@ -33,7 +34,7 @@ void func_02188DB0(u8 *a)
 {
     u32 buf[4];
 
-    func_02051E74(buf, 0, 0x1000, 0x1000, 0);
+    func_02051E74((struct Mtx22 *)buf, 0, (const void *)0x1000, (const void *)0x1000, 0);
     func_0207D59C(0x04000020, buf, 0, 0, 0, 0);
     func_0204044C(3);
     func_02190270(*(u32 *)(a + 0x28));

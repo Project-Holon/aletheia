@@ -51,7 +51,8 @@ extern u32 func_021C866C(u8 *p);
 extern s32 func_021C86A8(void);
 extern void func_021F513C(u8 *p);
 extern void func_022021F8(u8 *p, int flag);
-extern void func_02008DF0(u32 a, u32 b);
+struct Sub02008C20Obj;
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
 extern void func_0203CA04(void);
@@ -67,7 +68,7 @@ int func_02201414(u8 *p)
         switch (n + 15) {
         case 15:
             func_022021F8(p, 1);
-            func_02008DF0(*(u32 *)(*(u32 *)p + 0x24), 0x1c);
+            func_02008DF0((struct Sub02008C20Obj *)(*(u32 *)(*(u32 *)p + 0x24)), 0x1c);
             *(u32 *)(p + 0x28) = 0x22;
             break;
         case 14:

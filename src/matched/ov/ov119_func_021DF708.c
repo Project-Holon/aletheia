@@ -29,7 +29,8 @@ extern int func_021DD34C(char *p, int a, int b);
 extern void func_021DD4F4(struct S119DD4F4 *p, int i, int j);
 extern void func_021E62D4(void *p, int a, int b);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 
 void func_021DF708(void *p)
 {
@@ -37,7 +38,7 @@ void func_021DF708(void *p)
                           *(int *)((char *)p + 0xf94));
 
     if (func_021D8A24(p) == 0 ||
-        func_0203D3A8(func_020399A8(), 0xc0b, 4, &v) != 0) {
+        func_0203D3A8(func_020399A8(), 0xc0b, 4, (u32)(&v)) != 0) {
         *(int *)((char *)p + 0xf84) = -1;
         *(int *)((char *)p + 0xf88) = -1;
         *(int *)((char *)p + 0xf7c) = -1;

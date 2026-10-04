@@ -25,7 +25,7 @@ extern void func_021C386C();
 extern void func_021BD674();
 extern int func_021BD060();
 extern void func_021BD29C();
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C38EC();
 extern unsigned char g_021DE5B8;
 
@@ -36,5 +36,5 @@ void func_021C3824(void)
     func_021BD674(0x13);
     func_021BD060(0x3C, -1, 0);
     func_021BD29C(0x1B);
-    func_021C0E40(func_021C38EC);
+    func_021C0E40((unsigned int)func_021C38EC);
 }

@@ -22,7 +22,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct {u32 f0; u8 padding[36];} Entry;
 extern Entry d_021B9524[];
-extern void func_020452E8(u32);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_0203FB44(int,u16,u16);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u8);
@@ -31,7 +32,7 @@ extern void func_0203F9B4(void);
 extern void func_02082BCC(void *,int,int);
 void func_021B7F00(u32 *p) {
     int i;
-    func_020452E8(p[3]);
+    func_020452E8((struct Descriptor *)p[3]);
     func_0203FB44(1,p[1],p[1]>>16);
     func_0203FB44(5,p[2],p[2]>>16);
     func_02040DA8(5,1,0);

@@ -30,7 +30,7 @@ typedef struct {
 } Ent;
 
 extern int func_0216E418(void *a);
-extern int func_0216E42C(u32 a, u32 b);
+extern unsigned int func_0216E42C(void *bitmap, int id);
 extern int func_0216CDC4(u32 a, Ent *e, u32 b, u32 c);
 
 int func_0216CEE4(u32 a, Ent *e, u32 b, int n, u32 c, u32 id)
@@ -38,7 +38,7 @@ int func_0216CEE4(u32 a, Ent *e, u32 b, int n, u32 c, u32 id)
     int r;
 
     do {
-        if (func_0216E418(e) == 0 && e->id == id && func_0216E42C(c, e->key) == 0) {
+        if (func_0216E418(e) == 0 && e->id == id && func_0216E42C((void *)c, e->key) == 0) {
             r = func_0216CDC4(a, e, b, c);
             break;
         }

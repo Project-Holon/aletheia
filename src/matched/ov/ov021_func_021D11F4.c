@@ -27,11 +27,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012944(u32 a);
-extern u32 func_02008550(u32 a);
-extern u32 func_0204384C(u32 a, u32 b, u32 c, u32 d);
+struct Bmp;
+struct Ctx;
+struct Sub0200852CObj;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void func_02049BDC(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
 extern void func_02049238(void *h);
 extern const u32 d_021DB97C[];
@@ -41,8 +44,8 @@ void func_021D11F4(u32 *p, u32 b)
     void *h = func_020490F4(200, b);
     u32 idx;
 
-    idx = func_02008550(func_02012944(func_020120F4(func_02188C80(p[0]))));
-    p[4] = func_0204384C(200, 0, 0, b);
+    idx = func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4(func_02188C80((void *)p[0]))));
+    p[4] = (u32)func_0204384C(200, 0, 0, b);
     func_02049BDC(h, 1, 0, d_021DB97C[idx] << 5, 0x120, 0x20, b);
     func_02049238(h);
 }

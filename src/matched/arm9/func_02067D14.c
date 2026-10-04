@@ -39,7 +39,9 @@ struct Struct02067D14 {
 };
 
 extern struct Struct02067D14 *g_02148B48;
-extern void func_02067998(struct Inner02067D14 *a1, u32 a2);
+struct Hooks;
+struct List;
+extern void func_02067998(struct Hooks *h, struct List *lst);
 extern void func_02067340(struct Inner02067D14 *a1, u32 a2);
 
 void func_02067D14(u32 arg0)
@@ -60,7 +62,7 @@ void func_02067D14(u32 arg0)
     if (g_02148B48->flag_30 != 0) {
         switch (in->mode) {
         case 0:
-            func_02067998(in, arg0);
+            func_02067998((struct Hooks *)in, (struct List *)arg0);
             break;
         case 1:
         case 2:

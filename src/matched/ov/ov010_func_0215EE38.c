@@ -24,11 +24,11 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_0215F0E8(u32 *out, const struct Pair *in, u32 *ctx);
 extern int func_0215EE68(void *a, int *st, struct C *c);
-extern void func_02165534(int);
+extern void func_02165534(void *a0);
 void *func_0215EE38(void *p, void *ctx)
 {
     void *task;
-    func_02165534(100);
+    func_02165534((void *)100);
     task = func_020122C0(*(void **)((u8 *)ctx + 8), 0, (void *)func_0215EE68, 20);
     func_0215F0E8(func_020124E8(task), p, ctx);
     return task;

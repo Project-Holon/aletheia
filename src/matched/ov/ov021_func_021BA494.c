@@ -19,19 +19,20 @@
 
 typedef unsigned int   u32;
 
-extern u32 func_021B821C(u32);
+typedef unsigned char  u8;
+extern u32 func_021B821C(u8 *p);
 extern void func_021BA348(u32);
-extern void func_0218EC54(u32);
-extern void func_021B79D4(u32, u32 *);
+extern void func_0218EC54(u8 *p);
+extern void func_021B79D4(void **o, void *out);
 extern void func_0218EC90(u32, u32 *);
 
 void func_021BA494(u32 a)
 {
-    u32 h = func_021B821C(a);
+    u32 h = func_021B821C((u8 *)a);
     u32 v[3];
 
     func_021BA348(a);
-    func_0218EC54(h);
-    func_021B79D4(a, v);
+    func_0218EC54((u8 *)h);
+    func_021B79D4((void **)a, v);
     func_0218EC90(h, v);
 }

@@ -13,9 +13,10 @@
  *   func_021DD19C  0x021DD19C  thumb  ov093
  */
 
-void func_021DD19C(int, int, int, int);
+typedef unsigned char  u8;
+void func_021DD19C(void *a, u8 *b, int c, int d);
 
 void func_021DE34C(int a, int b, int c)
 {
-    func_021DD19C(a, b, c, 0x26);
+    func_021DD19C((void *)a, (u8 *)b, c, 0x26);
 }

@@ -49,22 +49,24 @@ typedef struct {
 } V;
 
 extern int func_02188D2C(int *p);
-extern u32 func_02188C80(void *a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern u8 *func_0200B3A4(u32 a, u32 b);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void func_021BE760(u32 p, void *a, int b);
 extern void func_021F3838(u32 a0, int a1, V *a2, u16 *a3, int a4, int a5);
 extern void func_021F38D4(u8 *base, u32 t, int idx);
-extern void func_021BE700(u32 a, int b, u16 c, u16 d, int e);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_02188CB4(u8 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_021F40D8(int *p);
-extern void func_021F3FA8(u32 a, void *b, u32 c);
-extern void func_021F4078(void *a, int b, int c);
+extern void func_021F3FA8(u32 a, u32 b, u32 c);
+extern void func_021F4078(u32 a, int b, int c);
 
 extern int d_021F4120;
 extern u16 d_021F4108[];
@@ -86,7 +88,7 @@ void func_021F36C0(void *a0)
     int f;
 
     t = func_02188D2C(a0);
-    w = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a0))), 10);
+    w = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(a0))), 10);
     x = func_02189764(a0, 1, func_02188C84(a0), 0x28);
     func_021BE760(t, &d_021F4120, 0);
     for (i = 0; i < 3; i++) {
@@ -102,11 +104,11 @@ void func_021F36C0(void *a0)
     }
     tmp = d_021F41B8;
     func_021F3838(t, 0xf, &tmp, 0, 0, 0);
-    func_021BE700(t, 0, 0xf, 0, 1);
+    func_021BE700((void *)t, 0, 0xf, 0, 1);
     func_021A3038(func_02188CB4((void *)a0), (struct VecFx32 *)vec);
     f = func_021F40D8(vec) != 0 ? 1 : 0;
-    func_021F3FA8(t, a0, f);
+    func_021F3FA8(t, (u32)a0, f);
     *(int *)(x + 0x24) = f;
     for (i = 0; i < 3; i++)
-        func_021F4078(a0, i, *(int *)(w + i * 12));
+        func_021F4078((u32)a0, i, *(int *)(w + i * 12));
 }

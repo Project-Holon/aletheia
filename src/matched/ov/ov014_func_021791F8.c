@@ -33,7 +33,7 @@ extern u8 *g_021797A8;
 
 extern void func_02178138(int state);
 extern void func_0217814C(int err);
-extern void func_02179188(void);
+extern void func_02179188(u8 *p);
 extern void func_021791EC(void);
 extern int func_0208EAC8(void (*f)(void));
 extern void func_02090DEC(void (*f)(void), int a, int b, int c, int d);
@@ -52,7 +52,7 @@ void func_021791F8(u16 *arg)
             cb(0);
         return;
     }
-    r = func_0208EAC8(func_02179188);
+    r = func_0208EAC8((void (*)(void))func_02179188);
     if (r != 0) {
         func_0217814C(r);
         func_02178138(10);

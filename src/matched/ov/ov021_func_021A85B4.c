@@ -94,11 +94,12 @@ extern u32 func_020221A4(void);
 extern void func_021A8EEC(Obj *p);
 extern void func_021A8FFC(Obj *p);
 extern void func_021A90E0(Obj *p);
-extern u32 func_0204B98C(u32 v);
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_021A9080(Obj *p, u8 a, u8 b);
-extern void func_0204B878(u32, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021A0FA0(int *p, int v);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 
@@ -148,7 +149,7 @@ void func_021A85B4(Obj *p)
         func_021A90E0(p);
         break;
     case 4:
-        if (func_0204B98C(p->f128) != 0) {
+        if (func_0204B98C((struct Actor *)p->f128) != 0) {
             break;
         }
         p->f0C = 5;
@@ -171,7 +172,7 @@ void func_021A85B4(Obj *p)
             if (s->f18 != 0) {
                 p->f20 = 0;
                 func_021A9080(p, s->f14, s->f15);
-                func_0204B878(p->f124, 1);
+                func_0204B878((struct Obj *)p->f124, 1);
                 func_0204B3DC((struct Obj *)p->f124, 1);
                 p->f0C = 6;
                 func_020061E4(0x54C);
@@ -182,7 +183,7 @@ void func_021A85B4(Obj *p)
         break;
     case 6:
         p->f20++;
-        if (func_0204B98C(p->f124) == 0) {
+        if (func_0204B98C((struct Actor *)p->f124) == 0) {
             p->f0C = 8;
         }
         break;

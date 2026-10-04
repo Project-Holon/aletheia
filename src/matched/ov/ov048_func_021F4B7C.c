@@ -16,8 +16,8 @@
  *   func_021F4B54  0x021F4B54  thumb  ov048
  */
 
-extern void func_0218768C(int a);
-extern void func_020478B8(int a, int b, int c);
+extern void func_0218768C(char *p);
+extern int func_020478B8(void *a, int idx, int amount);
 extern void func_021F4BF0(int *a);
 extern void func_021F4B54(int *a);
 
@@ -26,8 +26,8 @@ void func_021F4B7C(int *a, int *b, int c)
     int t;
 
     if (b[1] == 1) {
-        func_0218768C(b[3]);
-        func_020478B8(b[4], *(unsigned short *)&b[5], c);
+        func_0218768C((char *)b[3]);
+        func_020478B8((void *)b[4], *(unsigned short *)&b[5], c);
         t = b[6] + c;
         b[6] = t;
         if (b[7] < t) {

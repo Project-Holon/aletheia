@@ -36,8 +36,8 @@ extern u32 func_0201296C(const struct BigObj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
-extern void func_02159058(void *p, u32 a, u32 b, u32 c, u32 d);
-extern void func_021587B0(void *a, u32 id, u32 b, u32 c);
+extern void func_02159058(int a, int b, int c, int d, u16 e);
+extern int func_021587B0(int a0, int a1, int a2, int a3);
 
 int func_0215EFF4(void *a, int *st, struct C *c)
 {
@@ -51,11 +51,11 @@ int func_0215EFF4(void *a, int *st, struct C *c)
     case 0:
         h = c->fc;
         t = func_02158780(a, 0x271d, 0, 0, x);
-        func_02159058(t, h, 0, 0, 0);
+        func_02159058((int)t, h, 0, 0, 0);
         *st = *st + 1;
         break;
     case 1:
-        func_021587B0(a, 0x28e2, 0, 0);
+        func_021587B0((int)a, 0x28e2, 0, 0);
         break;
     }
     return 0;

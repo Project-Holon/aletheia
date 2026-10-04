@@ -26,14 +26,16 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern int func_021C14EC(char *);
-extern void *func_0201283C(void *);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_0201283C(const struct BigObj *p);
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern int func_0200F4E4(void *o);
 extern void func_021BA8EC(char *);
 extern int func_02156A3C(void);
-extern void *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern void func_021C18C8(char *p, int kind, int value);
@@ -44,9 +46,9 @@ int func_021C1510(char *p, int ret)
     if (func_021C1154(p, ret) == 0) {
         if (func_02039CB4((struct Link *)func_020399A8(), 18, 10) != 0) {
             if (func_021C14EC(p) == 1) {
-                func_0200F4E4(func_020099C8(func_0201283C(*(void **)(p + 0xc4)), 0));
+                func_0200F4E4(func_020099C8((struct Sub020097BCObj *)func_0201283C(*(void **)(p + 0xc4)), 0));
                 func_021BA8EC(p);
-                s = func_021C23B8(func_02156A3C());
+                s = (void *)func_021C23B8(func_02156A3C());
                 func_021BDD48(p, s);
                 count = func_021BDD54(p, s);
                 if (count == 3) {

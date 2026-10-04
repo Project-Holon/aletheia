@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0216D5D4(u32);
+extern u16 func_0216D5D4(void *p);
 extern u16 func_021642A4(u16);
 extern void func_0216D600(u32, u16);
 extern int func_0219B358(u32);
@@ -28,7 +28,7 @@ extern void func_0216D5E0(u32, u16);
 
 int func_0219A8C0(u32 a, u8 *b)
 {
-    u32 cur = func_0216D5D4(a);
+    u32 cur = func_0216D5D4((void *)a);
     if (b[1] == 1)
         cur = func_021642A4(cur);
     func_0216D600(a, cur);

@@ -32,16 +32,17 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020470D0(u32 v);
-extern void func_02046EFC(u32 v);
+struct Tagged;
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_0204F150(u8 *a0, int i)
 {
     u32 off = i * 0x28;
 
     if (*(u32 *)(*(u32 *)(a0 + 4) + off) != 0) {
-        func_020470D0(*(u32 *)(*(u32 *)(a0 + 4) + off));
-        func_02046EFC(*(u32 *)(*(u32 *)(a0 + 4) + off));
+        func_020470D0((u32 *)(*(u32 *)(*(u32 *)(a0 + 4) + off)));
+        func_02046EFC((struct Tagged *)(*(u32 *)(*(u32 *)(a0 + 4) + off)));
         *(u32 *)(*(u32 *)(a0 + 4) + off) = 0;
     }
     *(u32 *)(*(u32 *)(a0 + 4) + off + 0x14) = 5;

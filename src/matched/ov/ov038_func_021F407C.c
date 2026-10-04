@@ -48,7 +48,7 @@ extern void func_021BE4B4(char *p, int i, int j, int v);
 extern Vec *func_021BE480(char *p, int i, int j);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6B0(unsigned char *p, int v);
-extern void func_021BE6CC(void *p, int i, int j, u16 k, int flag);
+extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern int func_021BE6BC(int *p);
 extern void func_020061E4(u32 a);
 
@@ -80,7 +80,7 @@ int func_021F407C(int a0, int *a1)
         *func_021BE480(h, 0, 0x21) = *v;
         func_021BE700(h, 0, 0x21, k, 1);
         func_021BE6B0(o, 0);
-        func_021BE6CC(h, 0, 0x21, k, 0);
+        func_021BE6CC((int)h, 0, 0x21, k, 0);
         func_020061E4(0x6C5);
         *a1 = *a1 + 1;
         break;

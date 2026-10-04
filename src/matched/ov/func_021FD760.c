@@ -29,12 +29,12 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
+extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
 void func_021FD760(void *bank, Pane *pane, u32 index, void *g, u16 color)
 {
     void *str = func_02045EC0(bank, index);
 
-    func_021F91A0(pane->win, str, 0, 2, 0, color, g);
+    func_021F91A0(pane->win, (u32)str, 0, 2, 0, color, (u32)g);
     func_02045808(str);
 }

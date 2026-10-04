@@ -20,26 +20,30 @@
 
 typedef unsigned int u32;
 
-extern void func_0203115C(u32 a);
-extern void func_02031140(u32 a);
-extern void func_0201C6EC(u32 a);
-extern void func_0201C4C0(u32 a);
-extern void func_020452E8(u32 a);
+struct Descriptor;
+struct PrintSys;
+struct S02031140;
+struct Tcbl;
+extern void func_0203115C(struct Tcbl *p);
+extern void func_02031140(struct S02031140 *p);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 
 void func_02185004(char *p)
 {
     int i;
 
-    func_0203115C(*(u32 *)(p + 0x170));
-    func_02031140(*(u32 *)(p + 0x170));
-    func_0201C6EC(*(u32 *)(p + 0x168));
-    func_0201C4C0(*(u32 *)(p + 0x168));
-    func_0201C6EC(*(u32 *)(p + 0x164));
-    func_0201C4C0(*(u32 *)(p + 0x164));
+    func_0203115C((struct Tcbl *)(*(u32 *)(p + 0x170)));
+    func_02031140((struct S02031140 *)(*(u32 *)(p + 0x170)));
+    func_0201C6EC((struct PrintSys *)(*(u32 *)(p + 0x168)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x168)));
+    func_0201C6EC((struct PrintSys *)(*(u32 *)(p + 0x164)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x164)));
     for (i = 0; i < 5; i++)
-        func_020452E8(*(u32 *)(p + 0x104 + i * 4));
-    func_020452E8(*(u32 *)(p + 0x118));
-    func_020452E8(*(u32 *)(p + 0x11c));
+        func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x104 + i * 4)));
+    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x118)));
+    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x11c)));
     func_020450C8();
 }

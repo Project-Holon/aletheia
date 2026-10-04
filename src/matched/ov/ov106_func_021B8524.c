@@ -20,14 +20,15 @@ typedef unsigned int u32;
 extern void func_02041300(u32,int,int,int,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(u32,u8);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021B8A28(u32 *,u32,u32,u16);
 void func_021B8524(u8 *p) {
     int i, y;
     func_02041300(p[0x548],0,0,0,32,24,0);
     func_02041300(p[0x54a],0,0,0,32,24,0);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x568)),0);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x56c)),0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x568))),0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x56c))),0);
     for (i=*(s16 *)(p+0x55c)-1; i<*(s16 *)(p+0x55c)+10; i++) {
         if (i>=0 && i<*(u16 *)(p+0x554)) {
             y=(i-*(s16 *)(p+0x55c))*3+4;

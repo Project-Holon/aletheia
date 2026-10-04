@@ -22,11 +22,11 @@ typedef unsigned int  u32;
 
 struct Obj;
 
-extern void func_020307B0(u32 p);
+extern void func_020307B0(void *p);
 extern void func_0202B944(void *obj);
 
 void func_0202B9C8(struct Obj *o)
 {
-    func_020307B0(*(u32 *)((u8 *)o + 0x264));
+    func_020307B0((void *)(*(u32 *)((u8 *)o + 0x264)));
     func_0202B944(o);
 }

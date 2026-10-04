@@ -49,10 +49,10 @@ void *func_02012B38(const struct BigObj *p);
 u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
 int func_021625E8(int a0);
 int func_02162694(int a0, int a1, int a2);
-int func_021626E8(int a0);
+u8 func_021626E8(u8 *p);
 int func_02184388(int a, int *state, u8 *p);
 void func_02184CEC(void *obj, void *p);
-void func_02185EB0(void *a, void *b);
+void func_02185EB0(int a, u16 *p);
 
 void *func_02185360(void *p, int u, int a, int b)
 {
@@ -69,12 +69,12 @@ void *func_02185360(void *p, int u, int a, int b)
     } else {
         func_02162694(a, (int)(r4 + 0x10), b);
     }
-    *(int *)(r4 + 0x2c) = func_021626E8(a);
+    *(int *)(r4 + 0x2c) = func_021626E8((u8 *)a);
     r6 = func_02012870(r5);
     if (func_02013E7C(r6[2]) == 1 && func_02013E7C(*(u16 *)(r4 + 0x14)) == 0) {
         func_020128C0(r5, r6);
     }
-    func_02185EB0(r5, r4 + 0x10);
+    func_02185EB0((int)r5, (u16 *)(r4 + 0x10));
     func_0201447C(func_02012B38(r5), 2);
     return r0v;
 }

@@ -33,7 +33,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct { u32 x,y,z; } Vec;
 extern const Vec d_021DC1F8,d_021DC240,d_021DC180,d_021DC1C8;
-extern void *func_021D60A4(void *);
+extern int func_021D60A4(char *p);
 extern void func_021D7A44(void *,int,int *,int *);
 extern void func_021D79A8(void *p, unsigned char *q, int radius);
 extern void func_021D7A1C(void *,void *,Vec *);
@@ -51,7 +51,7 @@ void func_021D785C(u8 *p,u8 *q,void *mon)
     Vec b=d_021DC240;
     Vec c=d_021DC180;
     Vec d=d_021DC1C8;
-    void *m=func_021D60A4((void *)p);
+    void *m=(void *)func_021D60A4((void *)p);
     func_021D7A44((void *)p,(int)q,(int *)&a,(int *)&b);
     *(void **)q=func_02017270(*(void **)(p+0x78),m,0,0xd8000,0x48000,0);
     func_02015FD4(*(char **)q,2);

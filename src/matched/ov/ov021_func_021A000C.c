@@ -32,9 +32,9 @@ typedef signed int     s32;
 extern int func_0219C648(u32 a);
 extern int func_0216D55C(int a0, int a1);
 extern u32 func_02197C9C(u32);
-extern u32 func_0216DAB4(u32);
-extern void func_020507F0(u32, u32, u32);
-extern void func_020507A0(u32, u32, u32);
+extern int func_0216DAB4(void *a0);
+extern void func_020507F0(void *p, int idx, u32 v);
+extern int func_020507A0(void *p, int idx, u32 x);
 
 void func_021A000C(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
@@ -50,8 +50,8 @@ void func_021A000C(u32 a, u32 b, u32 c, u32 d, u32 e)
             if (k == 1 && func_02197C9C(a) == 1) f = 0;
         }
     }
-    func_020507F0(b, c, f);
+    func_020507F0((void *)b, c, f);
     f = 1;
-    if (func_0216DAB4(a) == 1) f = 0;
-    func_020507A0(b, c, f);
+    if (func_0216DAB4((void *)a) == 1) f = 0;
+    func_020507A0((void *)b, c, f);
 }

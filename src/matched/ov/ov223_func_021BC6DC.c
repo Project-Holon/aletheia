@@ -15,12 +15,13 @@
  */
 
 extern void veneer_02047964(void *p);
-extern void func_02048AD0(int x);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 
 void func_021BC6DC(int *p)
 {
     veneer_02047964(p);
-    func_02048AD0(*p);
+    func_02048AD0((struct Light *)(*p));
     func_020479D8();
 }

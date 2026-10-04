@@ -26,13 +26,13 @@ typedef struct {
 } G;
 
 extern G *d_021A8264;
-int func_0205984C(int h);
+int func_0205984C(void *userdata);
 void func_02059870(int h);
 void func_02155374(int n);
 
 void func_02155B98(int a)
 {
-    if (func_0205984C(d_021A8264->h) != 0) {
+    if (func_0205984C((void *)d_021A8264->h) != 0) {
         func_02059870(d_021A8264->h);
         d_021A8264->flag = 1;
     }

@@ -23,22 +23,23 @@ extern void *func_02188CB4(unsigned char *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_021A3050(u8 *p);
-extern int func_021BED14(void *a, int b);
-extern int func_021BED74(void *a, int b);
-extern int func_021BEC54(void *a, int b);
-extern int func_021BECB4(void *a, int b);
+typedef unsigned int   u32;
+extern u32 func_021BED14(u32 a, u32 b);
+extern int func_021BED74(int a, int b);
+extern int func_021BEC54(int a, int b);
+extern void *func_021BECB4(void *p, u32 b);
 
 int func_021BEDD4(void *a, int b)
 {
     switch (func_021A3050(func_02188CB4((unsigned char *)b))) {
     case 2:
     default:
-        return func_021BED14(a, b);
+        return func_021BED14((u32)a, b);
     case 3:
-        return func_021BED74(a, b);
+        return func_021BED74((int)a, b);
     case 0:
-        return func_021BEC54(a, b);
+        return func_021BEC54((int)a, b);
     case 1:
-        return func_021BECB4(a, b);
+        return (int)func_021BECB4(a, b);
     }
 }

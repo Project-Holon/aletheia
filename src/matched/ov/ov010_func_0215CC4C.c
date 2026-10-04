@@ -41,7 +41,8 @@ extern u32 func_02159B10(void *c, void *vm);
 typedef signed int     s32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_020124AC(void *sys, u32 n, void *fn, void *arg);
+struct Desc;
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void func_02154438(s32 a, s32 *b);
 extern u8 ov002_id[];
 extern void func_0215897C(void *p, void *v);
@@ -89,6 +90,6 @@ int func_0215CC4C(void *c, void *vm)
     r.one = 1;
     r.flag = f;
     r.kind = k;
-    func_0215897C(slot, func_020124AC(sys, (u32)ov002_id, (void *)func_02154438, &r));
+    func_0215897C(slot, func_020124AC(sys, (u32)ov002_id, (void *)func_02154438, (u32)(&r)));
     return 1;
 }

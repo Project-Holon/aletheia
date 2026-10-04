@@ -61,7 +61,8 @@ extern int func_021D5B68(void *);
 extern void func_021D8434(u8 *);
 extern u32 func_021CF470(u8 *, void *, u8 *);
 extern u32 func_021D3DC4(u8 *, void *, void *);
-extern void func_021D8358(void *, u32, u8, u8);
+struct Unk021D82D0;
+extern void func_021D8358(u32 *p, u32 id, u32 sub, u32 val);
 extern void *func_021B86B8(void ***);
 extern int func_021CFBF0(u8 *, void *, u32, u8 *);
 extern void func_021D8394(void *, u8, u32);
@@ -80,7 +81,7 @@ extern u32 func_021CF81C(u8 *, void *, u8 *);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern void func_021880BC(int, u8 *, int);
-extern void func_021CF58C(u32, u32, void *);
+extern void func_021CF58C(struct Unk021D82D0 *out, u8 *p, void *q);
 extern int func_02187FB0(u8 *);
 extern u8 func_02188134(u8 *);
 extern u8 func_02188140(u8 *);
@@ -115,7 +116,7 @@ int func_021D0770(u8 *p, u32 *state)
         if (func_021CF470(p,M,R)) goto complete;
         move = func_021D3DC4(p,M,*(void **)(p+0x118));
         if (move) {
-            func_021D8358(R,move,p[0x11d],0);
+            func_021D8358((u32 *)R,move,p[0x11d],0);
             goto complete;
         }
         if (func_021B86B8(*(void ****)p) && func_021CFBF0(p,M,p[0x11d],&choice)) {
@@ -146,7 +147,7 @@ int func_021D0770(u8 *p, u32 *state)
             func_021880BC(*(int *)(p+0xf0),available,result);
             *state = 2;
         } else {
-            func_021CF58C((u32)R,(u32)p,M);
+            func_021CF58C((struct Unk021D82D0 *)((u32)R),(u8 *)((u32)p),M);
             goto complete;
         }
         break;

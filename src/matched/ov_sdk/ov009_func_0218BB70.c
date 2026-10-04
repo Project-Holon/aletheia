@@ -18,7 +18,7 @@
  */
 
 extern int func_0218BA10(int day, int month, int year);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern char g_021A4A98[];
 
 int func_0218BB70(void **connection, int date, int *day, int *month, int *year)
@@ -31,7 +31,7 @@ int func_0218BB70(void **connection, int date, int *day, int *month, int *year)
     m = (date >> 16) & 0xFF;
     y = date & 0xFFFF;
     if (!func_0218BA10(d, m, y)) {
-        func_02193734(connection, g_021A4A98);
+        func_02193734((int *)connection, (int)g_021A4A98);
         return 2;
     }
     *day = d;

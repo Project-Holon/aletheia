@@ -20,13 +20,15 @@
 typedef unsigned char u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1A4(int);
+typedef unsigned int   u32;
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern void func_02034714(void *, int, void *);
 extern void func_021840A4(int, u8);
 extern u8 d_02175624[];
 void func_021740D4(int a, int x, u8 *b, u8 *p)
 {
-    if (a != func_0203D1A4((int)func_020399A8())) {
+    if (a != func_0203D1A4((struct Link *)((int)func_020399A8()))) {
         if (*(int *)(p + 0x3528) == 0) {
             func_02034714(d_02175624, 0, d_02175624);
             return;

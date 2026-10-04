@@ -25,7 +25,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_020144DC();
+extern int func_020144DC(int a0, int a1);
 extern int func_0215897C();
 
 int func_0215C610(int a0, int a1)
@@ -44,7 +44,7 @@ a0 = t4 + 0;
 loc_0215C622:
     v2 = func_0201210C(v1);
 loc_0215C628:
-    a0 = func_020144DC(v1, v2);
+    a0 = func_020144DC((int)v1, (int)v2);
 loc_0215C630:
 a1 = a0 + 0;
     a0 = func_0215897C(v0, a1);

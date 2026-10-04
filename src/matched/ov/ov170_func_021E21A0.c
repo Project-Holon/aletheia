@@ -23,7 +23,7 @@
  */
 typedef unsigned char u8;
 extern void func_020061E4(unsigned);
-extern void func_021EA784(u8 *);
+extern void func_021EA784(int p);
 extern void func_021ED888(char *,int);
 extern void func_021ECB20(u8 *,int,int);
 extern void func_021DEFEC(u8 *,int);
@@ -33,7 +33,7 @@ extern u32 func_0201AA18(void *p);
 extern void func_021EE364(char **,int,int);
 extern void func_021EF68C(char *);
 extern void func_021EE038(u8 *,int,int,int);
-extern int func_021E22B8(u8 *);
+extern int func_021E22B8(int p);
 #define W(p) (*(char **)((p)+0x2C))
 #define NEXT(p) (*(int *)(W(p)+0xA198))
 int func_021E21A0(u8 *p)
@@ -41,7 +41,7 @@ int func_021E21A0(u8 *p)
     func_020061E4(0x55C);
     switch(*(unsigned *)(*(char **)p+0x24)) {
     case 0:
-        func_021EA784(p);
+        func_021EA784((int)p);
         func_021ED888(W(p),0);
         func_021ECB20(p,1,1);
         func_021DEFEC(p,30);
@@ -69,7 +69,7 @@ int func_021E21A0(u8 *p)
             func_021EE364((char **)p,13,0);
             NEXT(p)=0x23;
         } else {
-            func_021EA784(p);
+            func_021EA784((int)p);
             func_021ED888(W(p),0);
             func_021ECB20(p,1,1);
             func_021EF68C(W(p));
@@ -85,5 +85,5 @@ int func_021E21A0(u8 *p)
         NEXT(p)=0x4B;
         break;
     }
-    return func_021E22B8(p);
+    return func_021E22B8((int)p);
 }

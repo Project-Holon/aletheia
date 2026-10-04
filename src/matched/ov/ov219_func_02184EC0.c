@@ -25,7 +25,8 @@ typedef unsigned int u32;
 struct Src {u32 w[13];};
 struct Descriptor;struct Font;struct Obj;struct Slot;
 typedef struct {u32 bank,id;} Entry;
-extern struct Descriptor *func_02184968(const unsigned char *,int);
+typedef unsigned char  u8;
+extern u32 func_02184968(const u8 *p, int flag);
 extern void *func_0201F81C(u32,u32);
 extern void func_0201F878(struct Slot *,u32,u32,u32,u16);
 extern u32 func_0201DC80(struct Font *);
@@ -38,7 +39,7 @@ void func_02184EC0(char *p,const unsigned char *descriptor,const struct Src *sou
 {
     int i;
     struct Src cfg;
-    *(struct Descriptor **)(p+0xC018)=func_02184968(descriptor,1);
+    *(struct Descriptor **)(p+0xC018)=(struct Descriptor *)func_02184968(descriptor,1);
     *(void **)(p+0xC050)=func_0201F81C(*(u16 *)((const char *)source+16),*(u32 *)p);
     for(i=0;i<*(u16 *)((const char *)source+16);i++)
         func_0201F878(*(struct Slot **)(p+0xC050),*(u32 *)(p+0xC070),entries[i].bank,entries[i].id,*(u32 *)p);

@@ -30,7 +30,7 @@ extern char d_021E3F04[];
 extern char d_021E3F1C[];
 extern void func_02182AC0(void *, void *, void *, void *);
 extern void func_02182CF0(void *, void *, void *, int);
-extern void func_021DE184(u32, u32, u32);
+extern void func_021DE184(u32 ctx, u32 *arr, int n);
 
 int func_021DED3C(u32 ctx)
 {
@@ -42,6 +42,6 @@ int func_021DED3C(u32 ctx)
         func_02182AC0(*(void **)((char *)ctx + 0x18), d_021E3DF8, d_021E3F04,
                       (void *)p[3]);
     func_02182CF0(*(void **)((char *)ctx + 0x18), d_021E3DF8, d_021E3F1C, 1);
-    func_021DE184(ctx, p[1], p[2]);
+    func_021DE184(ctx, (u32 *)p[1], p[2]);
     return 0;
 }

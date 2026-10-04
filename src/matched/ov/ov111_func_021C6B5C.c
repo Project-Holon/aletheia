@@ -30,8 +30,9 @@ struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(void *a, u32 b, void *c);
-extern u32 func_0201D304(void *a, void *b, u32 c);
+struct StrObj;
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern const u16 d_021C8768[];
 
 typedef struct {
@@ -49,7 +50,7 @@ void func_021C6B5C(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u32 m
     u32 w;
 
     func_0201EFA4(p->f3204, 0, n, 3, mode, 1);
-    func_0201F250(p->f3204, (u32)s, p->f32A4);
-    w = func_0201D304(s, p->f31FC, 0);
+    func_0201F250(p->f3204, (void *)((u32)s), p->f32A4);
+    w = func_0201D304(s, (u32)p->f31FC, 0);
     func_0201C7D0(func_02045770(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }

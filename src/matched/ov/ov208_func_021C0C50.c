@@ -21,8 +21,10 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 extern u8   ov208_func_021C0C14(u16 *heap, u8 *p, int key);
-extern u16  func_021BBB3C(u32 tbl, int idx, int field);
-extern void func_0204B404(u32 obj, u16 *pos, int n);
+struct Obj;
+struct Vec2;
+extern unsigned short func_021BBB3C(char *p, int a, int b);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void ov208_func_021C0C50(u16 *heap, u8 *p, int key)
 {
@@ -31,8 +33,8 @@ void ov208_func_021C0C50(u16 *heap, u8 *p, int key)
 
     idx = ov208_func_021C0C14(heap, p, key);
     if (idx != 0xff) {
-        pos[0] = func_021BBB3C(*(u32 *)(p + 0x3c8), idx, 2);
-        pos[1] = func_021BBB3C(*(u32 *)(p + 0x3c8), idx, 3);
-        func_0204B404(*(u32 *)(p + 0xd4), pos, 0);
+        pos[0] = func_021BBB3C((char *)(*(u32 *)(p + 0x3c8)), idx, 2);
+        pos[1] = func_021BBB3C((char *)(*(u32 *)(p + 0x3c8)), idx, 3);
+        func_0204B404((struct Obj *)(*(u32 *)(p + 0xd4)), (const struct Vec2 *)pos, 0);
     }
 }

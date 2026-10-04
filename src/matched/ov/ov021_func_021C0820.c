@@ -19,15 +19,16 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+struct Desc;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 void *func_020124E8(struct Obj *p);
-void func_021C0844(void);
+int func_021C0844(u32 a, int *st, u8 *p);
 void func_021C0904(u8 *p, u32 a, u32 n);
 
 void *func_021C0820(void *p, int a1, u32 n)
 {
-    void *t = func_020122C0(p, a1, func_021C0844, 0x38);
+    void *t = func_020122C0(p, (void *)a1, func_021C0844, 0x38);
     u8 *w = func_020124E8(t);
 
     func_021C0904(w, (u32)p, n);

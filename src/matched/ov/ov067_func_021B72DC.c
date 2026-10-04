@@ -41,10 +41,12 @@ struct S {
 extern void func_02040588(u32 which, u32 enable);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int a, int b);
+struct Cfg;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(int a);
-extern int func_02045730(int a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -58,16 +60,16 @@ void func_021B72DC(struct S *s)
 
     func_02040588(s->f14, 0);
     func_02040588(s->f18, 0);
-    func_02043B5C((int)func_02045770((struct Descriptor *)s->f88), 0);
-    func_02043B5C((int)func_02045770((struct Descriptor *)s->f8c), 0);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f88)), 0);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f8c)), 0);
     p = (int)s->f88;
     func_02045334((struct Descriptor *)p);
-    func_02045374(p);
-    func_02041B6C(func_02045730(p));
+    func_02045374((struct Cfg *)p);
+    func_02041B6C(func_02045730((struct Descriptor *)p));
     p = (int)s->f8c;
     func_02045334((struct Descriptor *)p);
-    func_02045374(p);
-    func_02041B6C(func_02045730(p));
+    func_02045374((struct Cfg *)p);
+    func_02041B6C(func_02045730((struct Descriptor *)p));
     for (i = 0; i < 4; i++) {
         func_0204B3DC((struct Obj *)s->arrA0[i], 0);
         func_0204B92C(s->arrA0[i], 0);

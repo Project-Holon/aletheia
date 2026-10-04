@@ -22,21 +22,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed char s8;
 
-extern int func_0216CFC4(u8 *o, u16 *r);
+extern int func_0216CFC4(int a0, int a1);
 extern u32 func_0216E3D8(u32 a, u32 b);
 extern void func_0216D594(u8 *o, u32 v);
-extern void func_0216E39C(u32 a, u32 v, u8 *o);
-extern void func_0216D02C(u8 *o, u16 *r);
+extern void func_0216E39C(int a0, int a1, int a2);
+extern void func_0216D02C(int a, u8 *p);
 
 void func_0216D040(u8 *o, u16 *r, u32 b, u32 c)
 {
     u32 id;
     s8 *p;
 
-    func_0216CFC4(o, r);
+    func_0216CFC4((int)o, (int)r);
     id = func_0216E3D8(b, r[1]);
     func_0216D594(o, id);
-    func_0216E39C(c, id, o);
+    func_0216E39C(c, id, (int)o);
     p = (s8 *)(o + 0xe4);
     if (id == 0xb9) {
         o[0x7c] = r[7];
@@ -52,5 +52,5 @@ void func_0216D040(u8 *o, u16 *r, u32 b, u32 c)
     o[0x7e] = p[0xd];
     o[0x7f] = p[0xe];
     o[0x80] = p[0xf];
-    func_0216D02C(o, r);
+    func_0216D02C((int)o, (u8 *)r);
 }

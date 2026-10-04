@@ -26,13 +26,14 @@ typedef unsigned int u32;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern int func_020127A4(void *);
-extern int func_02008550(int);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 int func_0215AC1C(void *a0, void *a1)
 {
     u16 *p = func_02159AE8(a0, a1);
 
-    *p = (u16)func_02008550(func_020127A4(func_0215A5E4(a1)) + 0x20);
+    *p = (u16)func_02008550((const struct Sub0200852CObj *)(func_020127A4(func_0215A5E4(a1)) + 0x20));
 
     return 0;
 }

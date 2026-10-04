@@ -14,11 +14,14 @@
  *   func_020259C4  0x020259C4  thumb
  */
 
-extern void func_0204B800(int, unsigned int);
-extern void func_020259C4(int, unsigned char);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Node;
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_020259C4(u8 *g, u32 a);
 
 void func_021FB578(int *p, unsigned char b)
 {
-    func_0204B800(p[0], b);
-    func_020259C4(p[1], (unsigned char)(b - 1));
+    func_0204B800((struct Node *)p[0], b);
+    func_020259C4((u8 *)p[1], (unsigned char)(b - 1));
 }

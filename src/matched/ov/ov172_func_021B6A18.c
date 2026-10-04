@@ -13,10 +13,11 @@
  *   func_021B6A88  0x021B6A88  thumb  ov172
  */
 
-extern int func_021B6A88(int, int, int, void *);
+typedef signed short   s16;
+extern void func_021B6A88(char *input, s16 *output, int size, char *state);
 
 int func_021B6A18(int a, int b, int c)
 {
-    func_021B6A88(a, c, b * 2, (void *)0x021C88E4);
+    func_021B6A88((char *)a, (s16 *)c, b * 2, (void *)0x021C88E4);
     return b * 4;
 }

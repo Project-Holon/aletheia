@@ -52,7 +52,9 @@ extern u8 abs_id_18[];
 
 extern void func_020433E0(void *a);
 extern void func_02188D5C(u16 *p);
-extern void func_0204A48C(void *a, void *b, u32 heap);
+struct BigObj;
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 struct Ctx;
@@ -62,7 +64,7 @@ extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u32 fifoSize, u32 heap, void (*setup)(void));
 extern void func_02188E50(void);
 extern void func_02188EE4(u8 *p);
-extern int func_02012984(int a);
+extern u8 func_02012984(const struct BigObj *p);
 extern char *func_0218C9E8(int heap, int b);
 extern void *func_020056A0(void (*cb)(int, u8 *), void *arg, int pri);
 extern void func_02189108(int unused, u8 *p);
@@ -82,14 +84,14 @@ int func_021880C8(int unused, u8 *p)
 
     func_020433E0(d_021D3688);
     func_02188D5C((u16 *)p);
-    func_0204A48C(d_021D3604, d_021D3688, 0x89);
+    func_0204A48C((const struct Cfg *)d_021D3604, (u32)d_021D3688, 0x89);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
     func_02045088(heap);
     func_0201DD60();
     func_02046440(0, 3, 0, 1, 0x1000, *(u16 *)p, func_02188E50);
     func_02188EE4(p);
-    *(char **)(p + 0x48) = func_0218C9E8(*(u16 *)p, func_02012984(*(int *)(p + 8)));
+    *(char **)(p + 0x48) = func_0218C9E8(*(u16 *)p, func_02012984((const struct BigObj *)(*(int *)(p + 8))));
     *(void **)(p + 0xAC) = func_020056A0(func_02189108, p, 0);
     *(void **)(p + 0x114) = func_02030734(heap, func_02030CB0(0x20), 0, d_021DD9C0, 0x26B);
     *(void **)(p + 0x110) = func_02030CBC(0x20, *(void **)(p + 0x114));

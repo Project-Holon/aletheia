@@ -31,16 +31,18 @@ typedef struct {
     u16 lo : 3;
 } Bf;
 
-extern u32 func_02188C80(void *p);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
-extern void *func_02188D2C(void *p);
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
+extern int func_02188D2C(int *p);
 extern u8 *func_021897BC(void *p, int i);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *a);
-extern void *func_021F3938(u32 a);
-extern void func_021F3850(void *p);
-extern u8 func_021F3880(u32 a, void *b, void *c);
+extern void *func_021F3938(void *p);
+extern void func_021F3850(u32 p);
+extern u8 func_021F3880(void *a, void *b, void *unused);
 extern void func_021BE580(void *p);
 extern void func_021F39F4(u8 *a, void *b);
 
@@ -52,16 +54,16 @@ void func_021F374C(void *o)
     u8 *q;
     void *v;
 
-    c = func_02188C80(o);
-    h = func_020120F4(c);
-    func_02012EC4(h);
-    s = func_02188D2C(o);
+    c = (u32)func_02188C80(o);
+    h = (u32)func_020120F4((const struct Ctx *)c);
+    func_02012EC4((struct Big *)h);
+    s = (void *)func_02188D2C(o);
     q = func_021897BC(o, 0);
-    v = func_021F3938(func_02012138((const struct Ctx *)c));
+    v = func_021F3938((void *)func_02012138((const struct Ctx *)c));
     if (v != 0) {
         if (((Bf *)((u8 *)v + 0x86))->lo != *q) {
-            func_021F3850(s);
-            *q = func_021F3880(h, s, v);
+            func_021F3850((u32)s);
+            *q = func_021F3880((void *)h, s, v);
         }
     }
     func_021BE580(s);

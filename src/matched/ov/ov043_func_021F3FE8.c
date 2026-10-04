@@ -42,12 +42,13 @@ typedef unsigned int u32;
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D2C(void *a);
+struct Big;
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
-extern u32 func_02188C58(void *a);
-extern u32 func_02188C80(void *a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
+extern void *func_02188C58(void *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(u32 a, u32 b);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
@@ -58,10 +59,10 @@ extern void func_020061F8(int i);
 extern void func_021F41B8(u8 a0, int a1, int a2, u32 a3, void *s);
 extern int func_021F4210(void *s);
 extern u32 func_02188C68(u8 *p);
-extern int func_021A03A4(u32 a);
-extern int func_021A03B8(u32 a);
+extern int func_021A03A4(int *p);
+extern int func_021A03B8(int *p);
 extern u32 func_02188C64(u8 *p);
-extern void func_021A01FC(u32 a, int b, int c, int d);
+extern void func_021A01FC(u8 *p, u32 a, u32 b, u32 c);
 
 void func_021F3FE8(void *a)
 {
@@ -76,10 +77,10 @@ void func_021F3FE8(void *a)
     int y;
 
     s = func_0201210C((void *)a);
-    r = func_02188D2C(s);
+    r = (void *)func_02188D2C(s);
     w = func_021897BC(s, 1);
-    h = func_02188C58(s);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(s))), 7);
+    h = (u32)func_02188C58(s);
+    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 7);
     if (w[0] != 5) {
         return;
     }
@@ -118,8 +119,8 @@ void func_021F3FE8(void *a)
             if (w[1] >= -0x2a0000) {
                 t = func_02188C68(s);
                 flag = 1;
-                x = func_021A03A4(t);
-                y = func_021A03B8(t);
+                x = func_021A03A4((int *)t);
+                y = func_021A03B8((int *)t);
             }
         } else {
             if (w[1] <= -0x310000) {
@@ -130,7 +131,7 @@ void func_021F3FE8(void *a)
         }
         if (flag) {
             t = func_02188C64(s);
-            func_021A01FC(t, x, y, w[3] == -0x2000 ? 0x20 : 0x10);
+            func_021A01FC((u8 *)t, x, y, w[3] == -0x2000 ? 0x20 : 0x10);
             w[15] = 0;
         }
     }

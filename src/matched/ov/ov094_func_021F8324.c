@@ -18,9 +18,9 @@
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
-extern int func_021F6A18(u32 obj);
-extern int func_021F6E1C(u32 obj);
-extern int func_02021ED8(int);
+extern int func_021F6A18(char *p);
+extern int func_021F6E1C(char *p);
+extern u32 func_02021ED8(const char *ptr);
 
 int func_021F8324(u32 a)
 {
@@ -29,11 +29,11 @@ int func_021F8324(u32 a)
     int z = 0;
 
     if (a == 0 || a == 2 || a == 4)
-        x = func_021F6A18(*(u32 *)(d_0220AF20 + 0x194));
+        x = func_021F6A18((char *)(*(u32 *)(d_0220AF20 + 0x194)));
     if (a == 1 || a == 2 || a == 4)
-        y = func_021F6E1C(*(u32 *)(d_0220AF20 + 0x198));
+        y = func_021F6E1C((char *)(*(u32 *)(d_0220AF20 + 0x198)));
     if (a - 3 <= 1) {
-        z = func_02021ED8(*(int *)(d_0220AF20 + 0x18C)) != 0;
+        z = func_02021ED8((const char *)(*(int *)(d_0220AF20 + 0x18C))) != 0;
     }
     if (x == 1 || y == 1 || z == 1)
         return 1;

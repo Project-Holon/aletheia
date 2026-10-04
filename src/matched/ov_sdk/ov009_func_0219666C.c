@@ -74,7 +74,7 @@ struct GTI2IncomingBufferMessage {
     unsigned short serialNumber;
 };
 
-extern int func_02184200();
+extern int func_02184200(const int *p);
 extern void *func_02184208(struct DArrayImplementation *array, int n);
 extern int func_02195EB4(unsigned short SN1, unsigned short SN2);
 extern int func_02194DD4(struct GTI2Buffer *buffer);
@@ -94,7 +94,7 @@ int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN
     struct GTI2IncomingBufferMessage *prev;
     unsigned short diff;
 
-    num = func_02184200(connection->incomingBufferMessages);
+    num = func_02184200((const int *)connection->incomingBufferMessages);
     for (i = 0; i < num; i++) {
         bufferedMessage = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, i);
         if (bufferedMessage->serialNumber == SN) {
@@ -116,7 +116,7 @@ int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN
     messageInfo.serialNumber = SN;
     func_021842D0(connection->incomingBufferMessages, &messageInfo, func_02196658);
 
-    if (func_02184200(connection->incomingBufferMessages) != num + 1) {
+    if (func_02184200((const int *)connection->incomingBufferMessages) != num + 1) {
         *overflow = 1;
         return 1;
     }

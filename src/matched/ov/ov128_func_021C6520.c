@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 extern void func_02082BCC(void *,int,int);
-extern void *func_0201283C(void *);
+struct BigObj;
+extern u32 func_0201283C(const struct BigObj *p);
 struct Sub020097BCObj;
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
@@ -29,7 +30,7 @@ void func_021C6520(char *p)
     int i;
     void *v;
     func_02082BCC(p+16,0,72);
-    v=func_0201283C(*(void **)(p+4));
+    v=(void *)func_0201283C(*(void **)(p+4));
     *(int *)(p+16)=0;
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==1) {

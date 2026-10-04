@@ -26,10 +26,11 @@ struct Blk38;
 struct GdsEnt;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *p);
-extern void *func_02012984(void *p);
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
 extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
 extern u8 func_0200D488(struct Blk38 *p, u32 i);
-extern void func_0215E358(void *a, void *b, int i);
+extern void func_0215E358(int a, int b, int c);
 
 void func_0215E3A0(void *a)
 {
@@ -38,11 +39,11 @@ void func_0215E3A0(void *a)
     void *p;
 
     p = func_0200D418(func_02012EBC(a));
-    q = func_02012984(a);
+    q = (void *)func_02012984(a);
     for (i = 0; i < 2; i++) {
         func_0200D4AC(p, i);
         if (func_0200D488(p, i) != 0) {
-            func_0215E358(p, q, i);
+            func_0215E358((int)p, (int)q, i);
         }
     }
 }

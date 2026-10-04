@@ -31,14 +31,14 @@ typedef unsigned int u32;
 void *func_0215A5F4(void *p);
 void *func_0215A5EC(void *b);
 void *func_02158F90(void *a);
-void *func_021B1E74(void *b);
+int func_021B1E74(u32 a);
 void *func_0216DE54(void *map, u32 kind);
-void *func_0219BBA4(void *a);
+int func_0219BBA4(int a);
 void func_0216D9A0(void *map);
 int func_0216D454(void *a);
 void func_0216DB04(void *a);
 int func_0216DA5C(void *a);
-void func_020113D0(int a, int (*f)(int, int));
+void func_020113D0(char *p, int val);
 int func_021B1A44(int a, int b);
 extern u8 d_021EE71C;
 
@@ -51,9 +51,9 @@ int func_021B1B08(int a, void *b)
     r4 = func_0215A5F4(b);
     r6 = func_0215A5EC(b);
     r4 = func_02158F90(r4);
-    r7 = func_021B1E74(b);
+    r7 = (void *)func_021B1E74((u32)b);
     func_0216DE54(r6, 0x30);
-    b = func_0219BBA4(r4);
+    b = (void *)func_0219BBA4((int)r4);
     d_021EE71C = 0;
     func_0216D9A0(r6);
     if (func_0216D454(r7) == 0) {
@@ -72,6 +72,6 @@ int func_021B1B08(int a, void *b)
             func_0216DB04(b);
         }
     }
-    func_020113D0(a, func_021B1A44);
+    func_020113D0((char *)a, (int)func_021B1A44);
     return 1;
 }

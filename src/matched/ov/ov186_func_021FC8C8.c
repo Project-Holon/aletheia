@@ -55,18 +55,30 @@ extern const Pair d_02200B0C[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32),func_02034714(const char *,u32,const char *);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void func_02045374(u32),func_02041B6C(u32);
-extern u8 func_02045730(u32);
+struct Actor;
+struct Cfg;
+struct Descriptor;
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(u32);
+extern u8 func_02045730(struct Descriptor *p);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B92C(struct Obj *,u32),func_0204B688(u32,u32),func_0204B3DC(struct Obj *,unsigned int);
+extern void func_0204B92C(struct Obj *,u32);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B3DC(struct Obj *,unsigned int);
 struct Bmp;
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_02043B5C(void *,u8),func_0201C7D0(void *,short,short,void *,void *,u16);
 extern void func_021FD860(char *,u32,const Pair *),func_021FBE54(char *,u32,u32);
 extern int func_021FC124(char *,int,Triple *),func_021FC20C(char *),func_021FCDA0(char *);
-extern void func_021FCE60(char *,int),func_021FCF90(void),func_021FD094(void),func_021FD0B8(void),func_021FCFE0(void),func_021FD0A8(void),func_021FD110(void);
+extern void func_021FCE60(char *,int);
+extern int func_021FCF90(char *p, int change);
+extern int func_021FD094(char *p);
+extern void func_021FD0B8(char *p);
+extern int func_021FCFE0(char *p, int step);
+extern int func_021FD0A8(char *p);
+extern void func_021FD110(char *p);
 View *func_021FC8C8(const Config *cfg,u16 heap)
 {
     Triple arrows,marks;
@@ -98,14 +110,14 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         }
         if(i>=10) func_02034714(d_02200D68,0,d_02200D68);
         p->areas[i].left=255;p->areas[i].top=255;p->areas[i].right=255;p->areas[i].bottom=255;
-        p->methods[0]=func_021FCF90;p->methods[1]=func_021FD094;p->methods[2]=func_021FD0B8;
+        p->methods[0]=(void (*)(void))func_021FCF90;p->methods[1]=(void (*)(void))func_021FD094;p->methods[2]=(void (*)(void))func_021FD0B8;
     } else if(p->cfg.mode==1) {
-        p->methods[0]=func_021FCFE0;p->methods[1]=func_021FD0A8;p->methods[2]=func_021FD110;
+        p->methods[0]=(void (*)(void))func_021FCFE0;p->methods[1]=(void (*)(void))func_021FD0A8;p->methods[2]=(void (*)(void))func_021FD110;
         if(p->cfg.cursor) func_021FD860((char *)p->cfg.cursor,5,&d_02200B0C[p->index]);
     }
     p->descriptor=func_020450F0(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
-    func_02045374(p->descriptor);
-    func_02041B6C(func_02045730(p->descriptor));
+    func_02045374((struct Cfg *)p->descriptor);
+    func_02041B6C(func_02045730((struct Descriptor *)p->descriptor));
     i=0;
     func_02082BCC(&arrow,0,8);
     if(cfg->bg<4) {
@@ -125,7 +137,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         else arrow.y=i==0?64:184;
         arrow.id=i;
         p->handles[i]=(u32)func_0204B294((void *)cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
-        func_0204B92C((struct Obj *)p->handles[i],1);func_0204B688(p->handles[i],1);
+        func_0204B92C((struct Obj *)p->handles[i],1);func_0204B688((struct Actor *)p->handles[i],1);
     }
     i=0;
     func_0204B3DC((struct Obj *)p->handles[0],0);
@@ -135,7 +147,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
         p->handles[i]=(u32)func_0204B294((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
-        func_0204B688(p->handles[i],1);
+        func_0204B688((struct Actor *)p->handles[i],1);
     }
     font=func_021FC20C(p->cfg.resources);
     for(i=0;(u32)i<p->cfg.count;i++) {

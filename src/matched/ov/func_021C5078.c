@@ -16,12 +16,12 @@
  */
 
 
-extern void func_02015EA0(int);
-extern void func_02015BA4(int, int);
+extern void func_02015EA0(void *p);
+extern void func_02015BA4(void *sys, void *obj);
 
 void func_021C5078(int a, int b)
 {
-    func_02015EA0(b);
-    func_02015BA4(a, b);
+    func_02015EA0((void *)b);
+    func_02015BA4((void *)a, (void *)b);
 }
 

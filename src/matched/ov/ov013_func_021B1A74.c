@@ -15,12 +15,14 @@
  */
 
 extern void func_021B2FE4(void *p);
-extern void func_021B1944(void *p);
+typedef unsigned int   u32;
+struct Node;
+extern struct Node *func_021B1944(u32 t);
 
 void func_021B1A74(char *p, int a1)
 {
     if (*(void **)(p + 0x3c))
         func_021B2FE4(*(void **)(p + 0x3c));
     *(int *)(p + 0x3c) = a1;
-    func_021B1944(*(void **)(p + 0x34));
+    func_021B1944((u32)(*(void **)(p + 0x34)));
 }

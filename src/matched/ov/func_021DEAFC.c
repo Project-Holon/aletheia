@@ -15,10 +15,10 @@
  * Set the flag on the object.
  */
 
-extern void func_021DEA6C(int, int);
+extern int func_021DEA6C(char *p, int a);
 
 void func_021DEAFC(int a)
 {
-    func_021DEA6C(a, 1);
+    func_021DEA6C((char *)a, 1);
 }
 

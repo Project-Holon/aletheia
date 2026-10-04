@@ -22,14 +22,16 @@ extern int func_02035C60(void);
 extern void func_021D5A60(char *);
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern void func_020092E0(void *, int);
+typedef unsigned char  u8;
+struct Sub02009210Obj;
+extern void func_020092E0(struct Sub02009210Obj *obj, u8 value);
 extern void func_021D6EE0(char *, int, int);
 extern void func_021D8958(char *p);
 void func_021D83C8(char *p)
 {
     if (func_020362DC() != 0 || func_02035C60() != 0) {
         func_021D5A60(*(char **)(p + 0x18));
-        func_020092E0(func_02009448(*(void **)(p + 0x28)), 1);
+        func_020092E0((struct Sub02009210Obj *)func_02009448(*(void **)(p + 0x28)), 1);
         p[0xaf] = 1;
         func_021D6EE0(p, (int)func_021D8958, 0x6a2);
     }

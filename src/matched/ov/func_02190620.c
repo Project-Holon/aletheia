@@ -25,14 +25,16 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020409B4(u32);
-extern u32 func_02043B5C(u32, u32);
-extern u32 func_02045730(u32);
+struct CharBuf;
+struct Descriptor;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern u8 func_02045730(struct Descriptor *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 
 int func_02190620(u32 a, u32 b, u32 c, u32 d)
 {
-func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)((u8 *)(a) + 20)), 255);
-return func_020409B4(func_02045730(*(u32 *)((u8 *)(a) + 20)));
+func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)((u8 *)(a) + 20))), 255);
+return func_020409B4(func_02045730((struct Descriptor *)(*(u32 *)((u8 *)(a) + 20))));
 }
 

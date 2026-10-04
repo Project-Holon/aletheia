@@ -39,7 +39,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int func_021D775C(int a);
-extern int func_021C8174(int a);
+extern int func_021C8174(int *p);
 extern int func_021C8030(int a, int b, int c);
 extern int func_021D76BC(int key, u32 val);
 
@@ -50,7 +50,7 @@ void func_021E6B20(int x, int a, int b)
 
     if (func_021D775C(2) != b)
         return;
-    switch (func_021C8174(a)) {
+    switch (func_021C8174((int *)a)) {
     case 1: case 2: case 3: case 8: case 15:
         v = 0x59;
         break;

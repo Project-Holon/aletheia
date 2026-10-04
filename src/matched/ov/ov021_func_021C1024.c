@@ -29,10 +29,10 @@ typedef unsigned int   u32;
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern u8 d_021DE3AC;
 extern u32 func_021A3068(u32 a);
-extern u32 func_021A36E0(u32 a);
+extern u32 func_021A36E0(u8 *p);
 extern u16 func_021AB0F0(u32 a);
 extern int func_021AB2E8(u16 id);
-extern u32 func_02188D30(u32 a);
+extern u32 func_02188D30(u8 *p);
 extern void func_02030DA8(u32, void (*)(), u32 *, u32);
 extern void func_021C10B4();
 
@@ -44,8 +44,8 @@ void func_021C1024(u32 a, u16 b, u32 c, u32 d)
     r[3] = func_021A3068(a);
     *(u16 *)((u8 *)r + 6) = b;
     r[4] = a;
-    r[5] = func_021A36E0(a);
+    r[5] = func_021A36E0((u8 *)a);
     if (func_021AB2E8(func_021AB0F0(c)) == 1)
         *(u16 *)((u8 *)r + 8) = 1;
-    func_02030DA8(func_02188D30(r[3]), func_021C10B4, r, 0);
+    func_02030DA8(func_02188D30((u8 *)r[3]), func_021C10B4, r, 0);
 }

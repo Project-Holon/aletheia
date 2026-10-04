@@ -13,7 +13,9 @@
  *   func_0219CB24  0x0219CB24  thumb  ov021
  */
 
-extern void func_0219CB24(int *, int, unsigned int, unsigned int, unsigned int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_0219CB24(u8 *o, u32 a, u32 b, u32 c, u8 s0, u32 s1);
 
 void func_0219CEAC(int *obj)
 {
@@ -31,7 +33,7 @@ void func_0219CEAC(int *obj)
         for (; i < *(unsigned short *)((char *)t + 6); i++, p += 5) {
             if (p[4] != 0 && *(unsigned char *)p == 1) {
                 *(unsigned char *)p = 0;
-                func_0219CB24(obj, p[4], *(unsigned short *)(p + 2), *((unsigned char *)p + 0xa),
+                func_0219CB24((u8 *)obj, p[4], *(unsigned short *)(p + 2), *((unsigned char *)p + 0xa),
                               *((unsigned char *)p + 0xb), p[1]);
                 p[4] = 0;
             }

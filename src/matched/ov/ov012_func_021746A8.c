@@ -26,7 +26,8 @@ typedef struct {
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 v);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern int func_02184D38(int a, int b, int c, P *p, int d, int e);
 
 int func_021746A8(int a, int b, int c, int d, int e, int *out, u8 *cnt)
@@ -35,7 +36,7 @@ int func_021746A8(int a, int b, int c, int d, int e, int *out, u8 *cnt)
     int z;
 
     if (*cnt == 0) {
-        s.a = (int)((func_0203D1A4((u32)func_020399A8()) * 16 + 0x58) << 12);
+        s.a = (int)((func_0203D1A4((struct Link *)((u32)func_020399A8())) * 16 + 0x58) << 12);
         z = 0;
         s.b = z;
         s.c = 0x26 << 14;

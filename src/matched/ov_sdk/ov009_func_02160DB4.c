@@ -23,14 +23,14 @@ typedef unsigned int   u32;
 
 extern u16 d_021A1D40[];
 
-int func_02160D68(int a0, int a1, int a2, int a3);
+int func_02160D68(unsigned char *s, int num, int size, unsigned short method);
 
 int func_02160DB4(int a0, int a1, int a2)
 {
     u32 i;
 
     for (i = 0; i < 2; i++) {
-        if (func_02160D68(a0, a1, a2, d_021A1D40[i]))
+        if (func_02160D68((unsigned char *)a0, a1, a2, d_021A1D40[i]))
             return d_021A1D40[i];
     }
     return 0;

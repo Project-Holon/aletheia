@@ -29,7 +29,7 @@ int func_02177AA8(void);
 u32 func_020056EC(u32 n);
 void func_0217778C(void);
 int func_02179288(int mode, u16 a, u16 b, u16 c);
-void func_0217727C(u8 *p, void *fn);
+void func_0217727C(u32 *p, u32 v);
 void func_02177EFC(u8 *a);
 
 void func_02177F48(u8 *a)
@@ -45,7 +45,7 @@ void func_02177F48(u8 *a)
         func_0217778C();
         if (func_02179288(0, *(u16 *)(a + 0xC68), tab[a[0xCF1]], 1) != 0) {
             a[0xCF2] = func_020056EC(0x98) + 0x3C;
-            func_0217727C(g_021797A4, func_02177EFC);
+            func_0217727C((u32 *)g_021797A4, (u32)func_02177EFC);
         }
     }
 }

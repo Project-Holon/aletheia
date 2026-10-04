@@ -20,7 +20,7 @@ extern void func_021C239C(char *);
 extern void func_021C2304(char *);
 extern void func_021C231C(char *);
 extern void func_021C232C(char *);
-extern void func_021BC4F4(int, unsigned);
+extern void func_021BC4F4(int flag, int *p);
 extern void func_021BC6BC(char *p);
 void func_021BFFEC(void *unused, char *p)
 {
@@ -30,7 +30,7 @@ void func_021BFFEC(void *unused, char *p)
     case 3:
         func_021C239C(p);
         func_021C231C(p);
-        func_021BC4F4(0, *(unsigned *)(p + 0x418));
+        func_021BC4F4(0, (int *)(*(unsigned *)(p + 0x418)));
         break;
     }
     *(u8 *)(p + 0x414) = 0;

@@ -29,18 +29,20 @@
 
 typedef unsigned int u32;
 
-extern u32  func_020124E4(void *o);
-extern void func_020120B4(u32 a, u32 b, u32 c, u32 d);
+struct IcaAnime;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 struct Ctx;
 extern u32 func_020120F0(const struct Ctx *p);
 
 int func_0201240C(void *o, u32 *state, u32 *item)
 {
-    u32 v = func_020124E4(o);
+    u32 v = (u32)func_020124E4(o);
 
     switch (*state) {
     case 0:
-        func_020120B4(v, item[0], item[1], item[2]);
+        func_020120B4((struct IcaAnime *)v, item[0], (void *)item[1], (void *)item[2]);
         *state = *state + 1;
         break;
     case 1:

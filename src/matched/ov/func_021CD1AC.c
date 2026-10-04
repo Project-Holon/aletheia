@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021CCBE0(u32, u32);
+extern void func_021CCBE0(u8 *s, int flag);
 extern u32 func_021CCE48(u32, u32);
 extern u32 func_021CD038(u32, u32, u32, u32);
 
 int func_021CD1AC(u32 a, u32 b, u32 c, u32 d)
 {
 func_021CD038(a, b, c, d);
-func_021CCBE0(a, 2);
+func_021CCBE0((u8 *)a, 2);
 return func_021CCE48(a, 2);
 }
 

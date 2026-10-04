@@ -18,13 +18,15 @@
  *   func_021C8E14  0x021C8E14  thumb  ov021
  */
 
-extern int func_02188CD0(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02188CD0(u8 *p);
 struct T;
 extern int func_021ABE8C(struct T *a, int id);
 extern void func_021ABE30(int a, int *b, int c);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021AD598(int a, int b, int *c);
+extern void func_021AD598(u32 a, u32 b, u32 c);
 extern void func_021C8E14(int *p);
 
 void func_021C8D74(int *p)
@@ -34,13 +36,13 @@ void func_021C8D74(int *p)
     int r5;
 
     if (p[5] != 0) {
-        r5 = func_02188CD0(p[1]);
+        r5 = func_02188CD0((u8 *)p[1]);
         v = 9;
         if (func_021ABE8C((struct T *)r5, v) == 0) {
             func_021ABE30(r5, &v, 1);
         }
         func_021A3038((unsigned char *)p[2], (struct VecFx32 *)buf);
-        func_021AD598(r5, 0, buf);
+        func_021AD598(r5, 0, (u32)buf);
         func_021C8E14(p);
         p[5] = 0;
         p[6] = 0;

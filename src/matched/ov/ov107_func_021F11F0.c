@@ -26,7 +26,7 @@ struct Entry;
 u32 func_0203D378(void);
 struct Entry *func_0203996C(s32 idx);
 struct Entry *func_020399A8(void);
-int func_0203D3F8(void *obj, int a, int b, int c, void *msg, int d, int e, int f);
+u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 int func_021F11F0(void *p, unsigned char kind, unsigned int val)
 {
@@ -40,5 +40,5 @@ int func_021F11F0(void *p, unsigned char kind, unsigned int val)
     }
     msg.f04 = kind;
     msg.f00 = val;
-    return func_0203D3F8(obj, 0xFF, 0x400, 8, &msg, 1, 0, 0);
+    return func_0203D3F8((u32)obj, 0xFF, 0x400, 8, (u32)(&msg), 1, 0, 0);
 }

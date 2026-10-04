@@ -70,12 +70,13 @@ extern struct SaveMain *g_02146994;
 
 extern void func_020333F8(Save *self);
 extern u32  func_02031EAC(Save *self, int a);
-extern int  func_020335E8(u32 a, void *b, u32 c, u32 d);
+struct MATHCRC16Table;
+extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 extern void func_02033410(Save *self, int a);
 extern void func_02082A7C(int a, void *b, u32 c);
 extern void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
 extern void func_0203331C(Save *self, u32 idx, int flag);
-extern int  func_02081B8C(u8 *p, u8 *a, u32 b);
+extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
 extern u32  func_02033BF0(u8 *p);
 extern u32  func_02033B68(u8 *p, u32 idx);
 extern u32  func_02033BAC(u8 *p, u32 idx);
@@ -94,8 +95,8 @@ int func_02032688(Save *self, int mode, int arg3)
 
     func_020333F8(self);
     h = self->f34;
-    if (func_020335E8(func_02031EAC(self, 1), h, self->f30,
-                      g_02146994->unk204) == 0) {
+    if (func_020335E8(func_02031EAC(self, 1), (u32)h, self->f30,
+                      (void (*)(void))g_02146994->unk204) == 0) {
         func_02033410(self, 1);
         func_02082A7C(0, h, self->f30);
         return 0;
@@ -124,7 +125,7 @@ int func_02032688(Save *self, int mode, int arg3)
         if (*(u16 *)(gp + 2) != *(u16 *)(base + i * 2))
             goto done;
         if (*(u16 *)(gp + 2) == *(u16 *)(base + i * 2)) {
-            if (*(u16 *)(gp + 2) != func_02081B8C((u8 *)g_02146994 + 4, h + A, B)) {
+            if (*(u16 *)(gp + 2) != func_02081B8C((struct MATHCRC16Table *)((u8 *)g_02146994 + 4), h + A, B)) {
                 func_0203331C(self, i, 1);
                 goto done;
             }

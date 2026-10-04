@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02005728(u32 range);
 extern u8 *func_02012944(void *p);
-extern int func_02008550(void *);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_021B7004(char *,char *);
 extern void func_021B6F3C(char *,char *);
 extern void func_021B71B8(char *,char *);
@@ -41,7 +42,7 @@ char *func_021B6C70(char *p,int index)
     *(int *)(q+0x14)=0;
     *(int *)(q+0x34)=0;
     *(u16 *)(q+0x30)=func_02005728(0x4b);
-    if(*(u8 *)(q+2)==0 && func_02008550(func_02012944(*(void **)(*(char **)(p+0x30)+4)))==1) *(u8 *)(q+2)=5;
+    if(*(u8 *)(q+2)==0 && func_02008550((const struct Sub0200852CObj *)func_02012944(*(void **)(*(char **)(p+0x30)+4)))==1) *(u8 *)(q+2)=5;
     func_021B7004(p,q);
     func_021B6F3C(p,q);
     func_021B71B8(p,q);

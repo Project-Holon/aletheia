@@ -11,5 +11,7 @@
  * symbols:
  *   func_0201EFA4 0x0201EFA4 thumb
  */
-extern void func_0201EFA4(int,int,int,unsigned char,int,int);
-void func_021BB9EC(int a,int b,int c,int d,unsigned char e) {func_0201EFA4(*(int *)(b+44),c,d,e,0,1);}
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+void func_021BB9EC(int a,int b,int c,int d,unsigned char e) {func_0201EFA4((struct WordSet *)(*(int *)(b+44)),c,d,e,0,1);}

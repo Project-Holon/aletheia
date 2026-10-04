@@ -17,16 +17,16 @@
  */
 typedef unsigned int u32;
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 typedef signed char    s8;
 extern int func_021D5D14(s8 *p, int i, int sign);
-extern void func_021DD044(int a, int b, int c);
+extern void func_021DD044(void *a, void *b, int c);
 
 void func_021DFDA4(int a, int b, int c)
 {
     if (c == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021D775C(0x16) == 0xc) {
-        if (func_021D5D14(func_021C7CF4(b, c), 1, 1) != 0) {
-            func_021DD044(a, b, c);
+        if (func_021D5D14(func_021C7CF4((int *)b, c), 1, 1) != 0) {
+            func_021DD044((void *)a, (void *)b, c);
         }
     }
 }

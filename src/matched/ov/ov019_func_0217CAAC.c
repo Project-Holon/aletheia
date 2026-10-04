@@ -70,7 +70,7 @@ void func_0217F640(u8 *, int, int, int, int);
 void func_0217F22C(u8 *, u32); int func_0217F268(u8 *, u32 *);
 void func_0217F24C(u8 *); int func_0217B8E4(u8 *, char);
 void func_0217BA10(u8 *, int); int func_0217B974(int);
-int func_0217BAA8(u8 *, int, int *, int *);
+int func_0217BAA8(int a, int b, int *p, int *q);
 u32 func_020362DC(void); void *func_02012934(void *);
 int func_0201AAD4(void *); int func_0201AA88(void *);
 int func_0217CAAC(u8 *ctx, Obj *obj, int a, u8 *state)
@@ -138,7 +138,7 @@ int func_0217CAAC(u8 *ctx, Obj *obj, int a, u8 *state)
             if (selected == 0) {
                 func_0217F210(ctx,a,func_0217EDA4(obj->f14->flag));
                 func_0217B8E4(ctx,0); *state = 2;
-            } else if (func_0217BAA8(ctx,obj->f2d,&obj->f64,&obj->f68) == 0) {
+            } else if (func_0217BAA8((int)ctx,obj->f2d,&obj->f64,&obj->f68) == 0) {
                 func_0217F210(ctx,a,0x13e); func_0217B8E4(ctx,0); *state = 6;
             } else {
                 obj->f2e = selected; func_0217B8E4(ctx,0x26);

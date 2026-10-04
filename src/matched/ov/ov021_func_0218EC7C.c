@@ -17,9 +17,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02048B6C(u32 a, u32 *args);
+struct Light;
+extern void func_02048B6C(struct Light *l, const u32 *in);
 
 void func_0218EC7C(u8 *a, u32 first, ...)
 {
-    func_02048B6C(*(u32 *)(a + 0xc), &first);
+    func_02048B6C((struct Light *)(*(u32 *)(a + 0xc)), &first);
 }

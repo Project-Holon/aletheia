@@ -41,7 +41,7 @@ extern u32 func_02012A30(const struct BigObj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020295A4(void *p, u32 a);
-extern void *func_020144DC(void *p, void *q);
+extern int func_020144DC(int a0, int a1);
 extern void *func_02029C64(void *p, void *q);
 
 int func_02156770(void *evt, Seq *s)
@@ -59,7 +59,7 @@ int func_02156770(void *evt, Seq *s)
         s->state++;
         break;
     case 2:
-        func_02012374(evt, func_020144DC(s->f00, x));
+        func_02012374(evt, (struct Evt **)func_020144DC((int)s->f00, (int)x));
         s->state++;
         break;
     case 3:

@@ -15,8 +15,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0201C6EC(u32);
-extern void func_0201C4C0(u32);
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0202F038(u8 *);
 struct Descriptor;
 struct Rec;
@@ -31,8 +32,8 @@ extern void func_0201D83C(void *);
 extern void func_02031140(struct S02031140 *p);
 void func_021F4748(u8 *p)
 {
-    func_0201C6EC(*(u32 *)(p+0x38));
-    func_0201C4C0(*(u32 *)(p+0x38));
+    func_0201C6EC((struct PrintSys *)(*(u32 *)(p+0x38)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p+0x38)));
     if (*(u8 **)(p+0x34)) {
         func_0202F038(*(u8 **)(p+0x34));
         *(u32 *)(p+0x34)=0;

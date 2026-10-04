@@ -20,12 +20,12 @@
 
 extern void func_021D55A4();
 extern void func_021D603C(int lcd, int plane);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C80F4();
 
 void func_021C80B8(void)
 {
     func_021D55A4(2, 0, 0x15, 8);
     func_021D603C(0, 0x15);
-    func_021C0E40(func_021C80F4);
+    func_021C0E40((unsigned int)func_021C80F4);
 }

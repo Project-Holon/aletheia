@@ -40,7 +40,9 @@ struct Board {
 };
 
 extern int  func_0204EE0C(struct Board *b, u32 *outIdx);
-extern void func_0204EEC8(struct Slot *s, int a1, u32 a2, u8 a3, u8 a4);
+typedef signed int     s32;
+struct Cell;
+extern void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
 
 int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6)
 {
@@ -52,7 +54,7 @@ int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6)
         b->ptr0[idx].f24 = h;
         b->ptr0[idx].f0c = (u32)(b->ptr0[idx].f20 << 16) >> 13;
         b->ptr0[idx].f10 = (u32)(b->ptr0[idx].f24 << 16) >> 13;
-        func_0204EEC8(&b->ptr0[idx], a3, a4, a5, a6);
+        func_0204EEC8((struct Cell *)(&b->ptr0[idx]), a3, a4, a5, a6);
     }
     return idx;
 }

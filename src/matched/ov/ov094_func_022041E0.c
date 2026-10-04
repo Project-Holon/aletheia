@@ -39,7 +39,7 @@ typedef struct Main {
 typedef struct { Main *main; int state, f8, fc, f10, f14, timer; } Ctx;
 typedef struct { int a, b; } Pair;
 extern const Pair d_0220A4EC[];
-extern void func_020498F4(u32, u32, u32, u32, u32, u32, u16);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 struct Bank;
 struct Cfg;
 struct Descriptor;
@@ -58,7 +58,7 @@ void func_022041E0(void *h, Ctx *c)
 {
     switch (c->state) {
     case 0:
-        func_020498F4(c->main->f48, 0x64, 4, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x64, 4, 0, 0, 0, c->main->h240);
         func_02045374(c->main->obj228);
         func_02206A58(c->main);
         func_020409B4(6);

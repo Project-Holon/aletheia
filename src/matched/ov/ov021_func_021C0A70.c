@@ -17,14 +17,14 @@
 
 typedef unsigned char u8;
 
-extern int func_0218C8FC(int, int);
+extern int func_0218C8FC(unsigned char *p, int i);
 
 int func_021C0A70(u8 *p)
 {
     int i;
 
     for (i = 0; i < p[0x15]; i++) {
-        if (func_0218C8FC(((int *)(p + 0x1C))[i], 0) != 1)
+        if (func_0218C8FC((unsigned char *)(((int *)(p + 0x1C))[i]), 0) != 1)
             return 0;
     }
     return 1;

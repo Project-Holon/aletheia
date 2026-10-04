@@ -42,11 +42,13 @@ typedef struct Ctx {
 
 extern Ent d_021DB4FC[];
 
-extern u32  func_02188C80(void *p);
+struct Evt;
+struct Obj;
+extern void *func_02188C80(void *p);
 extern u32  func_0203038C(u32 a);
 extern void func_021CF564(Ctx *c);
-extern void func_02012374(u32 a, u32 b);
-extern u32  func_020124E8(u32 a);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *func_020124E8(struct Obj *p);
 
 void func_021CF498(Ctx *c, u32 x, int idx)
 {
@@ -54,7 +56,7 @@ void func_021CF498(Ctx *c, u32 x, int idx)
     u32 y;
     void *p = c->f08;
 
-    y = func_02188C80(p);
+    y = (u32)func_02188C80(p);
 
     if (idx >= 0x25) {
         idx = 0;
@@ -66,7 +68,7 @@ void func_021CF498(Ctx *c, u32 x, int idx)
         func_021CF564(c);
     }
     r = d_021DB4FC[idx].fn(y, p, d_021DB4FC[idx].f0c);
-    func_02012374(x, r);
-    c->f00 = func_020124E8(r);
+    func_02012374((struct Evt *)x, (struct Evt **)r);
+    c->f00 = (u32)func_020124E8((struct Obj *)r);
     c->f04 = d_021DB4FC[idx].f04;
 }

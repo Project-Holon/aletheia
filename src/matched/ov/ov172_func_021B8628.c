@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern char *func_021BDFDC(void *p);
+extern u32 func_021BDFDC(void *p);
 extern int func_021BE0D8(void *p);
 extern void func_021BE2F0(u32 *p, void *q);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
@@ -44,7 +44,7 @@ void func_021B8628(void *a, int b, int *t, int c)
     char *r;
     int x, data;
     short dims[2];
-    r = func_021BDFDC(a);
+    r = (char *)func_021BDFDC(a);
     if (t[0] != 0 && t[3] != 1) {
         if (t[2] == 0 && t[1] == 1) {
             if (func_021BE0D8(a) == 0)

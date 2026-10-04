@@ -30,11 +30,12 @@ extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026474(void *obj);
 extern void func_02037174(void);
 extern void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
-extern void func_0201C4E4(u32 a);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0202DBC4(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern int func_0201C6C4(u32 a, u32 b);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *a);
 
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
@@ -65,13 +66,13 @@ void func_021F0054(struct Obj *p, int mode)
         REG_DB_BLDCNT_SUB = 0;
     else
         G2x_SetBlendBrightness_(&REG_DB_BLDCNT_SUB, 0x3F, -8);
-    func_0201C4E4(p->w40);
+    func_0201C4E4((struct PrintSys *)p->w40);
     func_0202DBC4((void *)p->w7c);
     for (i = 0; i < 3; i++) {
         if (p->b[i] == 1) {
             u32 q = p->w40;
             if (p->s[i].f != 0) {
-                if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)p->s[i].h)) == 0) {
+                if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)p->s[i].h))) == 0) {
                     func_02045334((struct Descriptor *)p->s[i].h);
                     p->s[i].f = 0;
                 }

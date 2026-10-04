@@ -50,7 +50,9 @@ struct EnvModule {
 
 extern struct EnvModule g_EnvModule;
 extern void *sub_0202FBAC(u32 idx);
-extern void *sub_02060E94(void *arena, u32 mode);
+typedef signed int     s32;
+struct Heap;
+extern s32 sub_02060E94(struct Heap *heap, s32 x);
 
 void *sub_0203038C(u32 heapId)
 {
@@ -60,7 +62,7 @@ void *sub_0203038C(u32 heapId)
         goto fail;
     }
     g_EnvModule.error = 0;
-    return sub_02060E94(sub_0202FBAC(heapId), 4);
+    return (void *)sub_02060E94(sub_0202FBAC(heapId), 4);
 
 fail:
     return 0;

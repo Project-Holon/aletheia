@@ -23,13 +23,14 @@ typedef short          s16;
 
 extern int func_02005C8C(void);
 extern void func_02194704(u32 a);
-extern void func_02030EAC(u32 a);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_02192EB8(u32 a, u8 *b)
 {
     if (func_02005C8C() == 0) {
         func_02194704(*(u32 *)(b + 0x15C));
         *(u32 *)(b + 0x16C) = 0;
-        func_02030EAC(a);
+        func_02030EAC((struct Node *)a);
     }
 }

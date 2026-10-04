@@ -46,8 +46,11 @@ struct B {
     int f68;
 };
 
-extern int func_020457B0(int, int);
-extern void func_02045A00(int, const void *, int);
+typedef unsigned int   u32;
+struct Buf;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045A00(struct Buf *buf, const void *src, u32 n);
 extern void func_02082D44(const void *, void *, int);
 extern void func_02024570(struct H *, const struct H *);
 extern void func_0202428C(void *obj);
@@ -61,10 +64,10 @@ void func_021B9EF0(struct A *p, const struct B *src)
     if (src) {
         p->ha = src->f0;
         p->h8 = src->f4;
-        t = func_020457B0(0x20, 0x12);
+        t = (int)func_020457B0(0x20, 0x12);
         u = src->f68 + 1;
         p->q = t;
-        func_02045A00(t, (char *)src + 0x28, u);
+        func_02045A00((struct Buf *)t, (char *)src + 0x28, u);
         p->c = src->f8;
         func_02082D44(src->b, p->h, 8);
         func_02024570(&p->s18, &src->s18);

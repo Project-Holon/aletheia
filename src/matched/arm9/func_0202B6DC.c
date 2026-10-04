@@ -19,11 +19,11 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202AB38(u32 v);
+extern void func_0202AB38(u8 *p);
 
 void func_0202B6DC(u8 *o)
 {
     if ((*(u32 *)(o + 0xc) & 1) == 0) {
-        func_0202AB38(*(u32 *)(o + 0x10));
+        func_0202AB38((u8 *)(*(u32 *)(o + 0x10)));
     }
 }

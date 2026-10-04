@@ -68,10 +68,11 @@ extern const char d_021DDEB8[];
 extern Tmpl021A36E4 d_021D89A0;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02188C80(u32 a);
+struct Rec44;
+extern void *func_02188C80(void *p);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *a, u32 b);
-extern int func_02012B34(u32 a);
+extern u16 func_02012B34(const struct Rec44 *p);
 extern int func_021A3974(Obj021A36E4 *o);
 extern int func_021A31A4(u32 x, int a);
 extern void *func_0216CE60(void *a, Tmpl021A36E4 *b, int c);
@@ -92,13 +93,13 @@ Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap
     o = func_02030734(heap, 0x34, 1, d_021DDEB8, 0x97);
     o->fc = a;
     o->f8 = b;
-    o->f4 = func_02188C80(b);
+    o->f4 = (u32)func_02188C80((void *)b);
     o->f20 = 9;
     o->f22 = 9;
     m = func_02188C7C((void *)b);
     o->f1c = func_0216DE94(m, 0xff);
     o->f18 = d;
-    k = func_02012B34(o->fc);
+    k = func_02012B34((const struct Rec44 *)o->fc);
     h = o->f1c;
     if (h == 0) {
         Tmpl021A36E4 t = d_021D89A0;

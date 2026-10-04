@@ -21,8 +21,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct S { u32 a; u16 b; u8 pad[14]; } S;
 extern S d_021C3A34[];
-extern void func_021C29F8(u32 a, u32 b, u32 c);
+extern void func_021C29F8(u8 *p, u32 b, u16 c);
 void func_021BF594(char *p, int i)
 {
-    func_021C29F8(*(u32 *)(p + i * 4 + 0x324), d_021C3A34[i].a, d_021C3A34[i].b);
+    func_021C29F8((u8 *)(*(u32 *)(p + i * 4 + 0x324)), d_021C3A34[i].a, d_021C3A34[i].b);
 }

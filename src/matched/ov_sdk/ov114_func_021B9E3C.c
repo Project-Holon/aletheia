@@ -43,7 +43,7 @@ typedef struct {
 } Req;
 
 extern int func_021BA820(int a, int b);
-extern void func_021BA13C(void *p_p, int size);
+extern void func_021BA13C(int a, int b);
 extern int func_0215FC80(int s, SslCon *con);
 extern void func_021B9C80(void);
 extern int func_021B9C78(void);
@@ -57,7 +57,7 @@ int func_021B9E3C(int unused0, int unused1, Req *req_p, int socket)
     if (pSslCon == 0) {
         pSslCon = (SslCon *)func_021BA820(0x830, 4);
         req_p->pSslCon = pSslCon;
-        func_021BA13C(pSslCon, 0x830);
+        func_021BA13C((int)pSslCon, 0x830);
     }
     pSslCon->a814 = req_p->aC0;
     pSslCon->a818 = req_p->aC4;

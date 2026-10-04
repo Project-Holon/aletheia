@@ -17,17 +17,19 @@
  */
 typedef unsigned int u32;
 
-extern void func_0201F7A8(u32 a, u32 b);
-extern void func_020456F8(u32 a);
-extern u32 func_02045730(u32 a);
+typedef unsigned char  u8;
+struct Descriptor;
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 void func_021B74D8(char *p)
 {
     u32 x;
 
-    func_0201F7A8(*(u32 *)(p + 0x20), 2);
+    func_0201F7A8((void *)(*(u32 *)(p + 0x20)), 2);
     x = *(u32 *)(p + 0x20);
-    func_020456F8(x);
-    func_02041B6C(func_02045730(x));
+    func_020456F8((struct Descriptor *)x);
+    func_02041B6C(func_02045730((struct Descriptor *)x));
 }

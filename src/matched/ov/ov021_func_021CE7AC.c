@@ -21,8 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02188C54(u32 a);
-extern u32 func_02190708(u32, u32, u16, u16, u16, u16);
+struct Fx;
+extern u32 func_02188C54(u8 *p);
+extern void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
 extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
 extern u8 data_021DB498[];
 
@@ -31,12 +32,12 @@ void func_021CE7AC(u32 *p)
     u32 h;
     int k;
 
-    h = func_02188C54(p[0]);
+    h = func_02188C54((u8 *)p[0]);
     k = 0x10;
     if (*(u8 *)((u8 *)p + 0x51f)) {
         k = 0xe;
     }
-    p[3] = func_02190708(h, p[2], 2, 6, 0x12, k - 6);
-    p[4] = func_02190708(h, p[2], 2, 1, 0x1c, 2);
+    p[3] = (u32)func_02190708((struct Fx *)h, p[2], 2, 6, 0x12, k - 6);
+    p[4] = (u32)func_02190708((struct Fx *)h, p[2], 2, 1, 0x1c, 2);
     func_02190740(p[4], 0, 0, *(u16 *)(data_021DB498 + *(u8 *)((u8 *)p + 0x520) * 12));
 }

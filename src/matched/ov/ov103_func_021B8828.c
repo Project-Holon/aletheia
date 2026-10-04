@@ -44,7 +44,7 @@ extern void func_021B8138(u8 *,void *,int,int,s16);
 extern int func_021B8B38(u8 *,const Block *);
 extern u8 func_021B8DE4(u8 *);
 extern void func_021B8BC0(u8 *,Block *);
-extern void func_021B8338(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B8338(u32 p, u32 a);
 extern void func_021B8A44(u8 *,u16 *);
 struct Big;
 struct Ctx;
@@ -97,6 +97,6 @@ void func_021B8828(u8 *p,u16 *state) {
   *(u32 *)(CTX+12)=0;*state=7;return;
  case 7:func_021B8358(p);return;
  }
- if(*state<3 && func_021B6480(*(int **)(CTX+4))) func_021B8338(p,func_021B8A44);
+ if(*state<3 && func_021B6480(*(int **)(CTX+4))) func_021B8338((u32)p,(u32)func_021B8A44);
  if(*state>=1 && *state<=5) { if(*(u16 *)(p+0x72e)<=60) ++*(u16 *)(p+0x72e); }
 }

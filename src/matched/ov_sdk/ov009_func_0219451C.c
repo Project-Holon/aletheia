@@ -30,7 +30,7 @@ typedef struct {
 
 extern int func_02184200(const int *p);
 extern serverreq_t *func_02184208(void *array, int n);
-extern void func_0218437C(void *array, int n);
+extern void func_0218437C(int a, int b);
 extern int g_021ADFE0[];
 
 void func_0219451C(int reqindex, int success, long modified, char *data, int length)
@@ -56,5 +56,5 @@ void func_0219451C(int reqindex, int success, long modified, char *data, int len
             break;
         }
     }
-    func_0218437C((void *)g_021ADFE0[5], reqindex);
+    func_0218437C((int)((void *)g_021ADFE0[5]), reqindex);
 }

@@ -32,13 +32,13 @@ typedef struct {
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02029D44(int a, void *b, int c, int d);
+extern void func_02029D44(u32 a, u32 b, u32 c, u32 d);
 
 void func_021BD94C(Obj *p)
 {
     Inner *q = p->f8;
     void *r = q->f8;
 
-    func_02029D44(func_02012A30(r), r, q->h20, q->b45);
+    func_02029D44(func_02012A30(r), (u32)r, q->h20, q->b45);
     q->f48 = 1;
 }

@@ -44,10 +44,11 @@ struct W6844 {
 
 typedef unsigned int   u32;
 struct Bank;
+struct Cfg;
 void func_021B6844(struct W6844 *p)
 {
     struct S6844 s;
-    void func_0204A48C(void *, void *, int);
+    void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
     struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
     void func_0204B270(struct Bank *bank);
     u8 *func_02025318(u32 a0, u8 a1, u8 a2);
@@ -60,7 +61,7 @@ void func_021B6844(struct W6844 *p)
     s.bb = 0x7c;
     s.h10 = 0x60;
     s.h14 = 0x40;
-    func_0204A48C(&s, &d_021BA7D4, 0x61);
+    func_0204A48C((const struct Cfg *)(&s), (u32)(&d_021BA7D4), 0x61);
     p->unk_14 = func_0204B100(0x60, 0, 0x61);
     func_0204B270(p->unk_14);
     p->unk_04 = func_02025318(0x61, 0x10, 0x10);

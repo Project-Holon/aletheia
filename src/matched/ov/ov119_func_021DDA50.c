@@ -29,23 +29,26 @@ extern void func_021DD09C(char *p);
 extern void func_021DEBD4(void *p);
 extern void func_021E1098(char *p);
 extern void func_021E12F8(char *p);
-extern int func_020279E8(int a);
-extern int func_02027A04(int a);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, int g);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 void func_021DDA50(void *p)
 {
     int v;
 
-    if (func_020279E8(*(int *)((char *)p + 0x64c)) == 0)
+    if (func_020279E8((struct TaskMenu *)(*(int *)((char *)p + 0x64c))) == 0)
         return;
-    v = func_02027A04(*(int *)((char *)p + 0x64c));
+    v = func_02027A04((const u8 *)(*(int *)((char *)p + 0x64c)));
     func_021E12F8(p);
     func_021E1098(p);
     *(int *)((char *)p + 0x64c) = 0;
     switch (v) {
     case 0:
-        func_0202208C(3, 0, 0, 0, 6, 1, *(u16 *)((char *)p + 0x5f4));
+        func_0202208C((void *)3, 0, 0, 0, 6, 1, *(u16 *)((char *)p + 0x5f4));
         func_021D8E84(p, 0x021DE519);
         return;
     case 1:

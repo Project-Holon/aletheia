@@ -27,7 +27,7 @@ extern void *func_0215A5F4(void *p);
 struct Ctx;
 extern u32 func_02158FB8(void *p);
 extern u32 func_020120F0(const struct Ctx *p);
-extern void func_020307B0(int a0);
+extern void func_020307B0(void *p);
 extern int func_02158FBC();
 
 int func_0215C69C(int a0, int a1)
@@ -65,12 +65,12 @@ loc_0215C6D0:
 a0 = *(int *)((char *)t5);
     if (a0 == 0) goto loc_0215C6DA;
 loc_0215C6D6:
-    func_020307B0(a0);
+    func_020307B0((void *)a0);
 loc_0215C6DA:
 a0 = *(int *)((char *)t5 + 4);
     if (a0 == 0) goto loc_0215C6E4;
 loc_0215C6E0:
-    func_020307B0(a0);
+    func_020307B0((void *)a0);
 loc_0215C6E4:
 a0 = t4 + 0;
     a0 = func_02158FBC(a0);

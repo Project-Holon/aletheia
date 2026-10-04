@@ -30,13 +30,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32   func_02017E1C(void *obj, u32 key, u32 off);
-extern void *func_020144DC(u32 a0, u32 a1);
+typedef unsigned char  u8;
+struct IcaAnime;
+extern int func_020144DC(int a0, int a1);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
-extern void *func_020145CC(u32 a0);
-extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
-extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern void *func_020145CC(void *a0);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void  func_0216559C(u16 x);
 
 extern char ov215_id[];
@@ -62,23 +64,23 @@ u32 func_02166B58(void *obj, u32 *mode, u32 *args)
         *mode = 2;
         break;
     case 2:
-        func_02012374(obj, func_021BE8D4(a0, a2, 0, 0));
+        func_02012374(obj, (struct Evt **)func_021BE8D4((void *)a0, a2, 0, 0));
         *mode = 3;
         break;
     case 3:
-        func_02012374(obj, func_020144DC(a0, a2));
+        func_02012374(obj, (struct Evt **)func_020144DC(a0, a2));
         *mode = 4;
         break;
     case 4:
-        func_020120B4(a0, ov215_id, d_021F7118, &args[4]);
+        func_020120B4((struct IcaAnime *)a0, (u32)ov215_id, d_021F7118, &args[4]);
         *mode = 5;
         break;
     case 5:
-        func_02012374(obj, func_020145CC(a0));
+        func_02012374(obj, func_020145CC((void *)a0));
         *mode = 6;
         break;
     case 6:
-        func_02012374(obj, func_021BE92C(a0, a2, 0, 0, 1, 0, 0));
+        func_02012374(obj, (struct Evt **)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0));
         func_0216559C(func_02017E1C((void *)args[3], 5, 0));
         *mode = 7;
         break;

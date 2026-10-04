@@ -15,13 +15,13 @@
  *   func_0215FAD0  0x0215FAD0  arm  ov009
  */
 
-extern int func_0215FAD0(int a, int *out);
+extern int func_0215FAD0(char *cp, unsigned long *inp);
 
 int func_0217ED38(int a)
 {
     int v;
 
-    if (func_0215FAD0(a, &v) == 0) {
+    if (func_0215FAD0((char *)a, (long unsigned int *)(&v)) == 0) {
         return -1;
     }
 

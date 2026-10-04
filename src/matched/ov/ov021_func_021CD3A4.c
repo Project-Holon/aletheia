@@ -23,12 +23,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_0200C1F8(int a, int b);
+struct Blk34;
+struct U16Vec;
+extern void func_0200C1F8(struct Blk34 *p, const u16 *src);
 extern void func_02027198(void);
-extern void func_0200C210(int a, int b);
-extern int func_020275C4(int a);
-extern void func_02045838(int a, int b);
-extern void func_02165844(int a);
+extern void func_0200C210(struct Blk34 *p, const u16 *src);
+extern int func_020275C4(void *p);
+extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+extern void func_02165844(void *v);
 
 void func_021CD3A4(u8 *a, u8 *b)
 {
@@ -44,15 +46,15 @@ void func_021CD3A4(u8 *a, u8 *b)
         return;
     switch (*(int *)(a + 0x4c)) {
     case 5:
-        func_0200C1F8(*(int *)(a + 8), *(int *)(b + 0x20));
+        func_0200C1F8((struct Blk34 *)(*(int *)(a + 8)), (const u16 *)(*(int *)(b + 0x20)));
         func_02027198();
         return;
     case 6:
-        func_0200C210(*(int *)(a + 8), *(int *)(b + 0x20));
+        func_0200C210((struct Blk34 *)(*(int *)(a + 8)), (const u16 *)(*(int *)(b + 0x20)));
         return;
     case 7:
-        func_02045838(func_020275C4(*(int *)(a + 0x14)), *(int *)(a + 0x3c));
-        func_02165844(*(int *)(b + 0x20));
+        func_02045838((struct U16Vec *)func_020275C4((void *)(*(int *)(a + 0x14))), (struct U16Vec *)(*(int *)(a + 0x3c)));
+        func_02165844((void *)(*(int *)(b + 0x20)));
         return;
     }
 }

@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct BigObj;
 extern u32 func_0201296C(const struct BigObj *p);
-extern u16 *func_020143CC(u32, u32);
+extern u32 func_020143CC(u32 a, u32 b);
 inline static u16 RD16(const u8 *p)
 {
   return (u16) (p[0] + (p[1] << 8));
@@ -64,7 +64,7 @@ u16 func_02158B6C(const void *a, const u8 *list, u32 key)
       return 0xFFFF;
     tmp1 = RD16(p + 2);
     val = tmp1;
-    if (val == (*func_020143CC(h, id)))
+    if (val == (*((u16 *)func_020143CC(h, id))))
       return RD16(p + 4);
   }
 

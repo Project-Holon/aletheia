@@ -32,7 +32,8 @@ struct Record { u8 a,b,c,d; int value; };
 struct Triple { int a,b,c; };
 extern const struct Record d_021E338C[];
 extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
-extern void func_021FB964(int,int,int);
+struct U16Vec;
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 typedef unsigned int   u32;
 struct U16Vec;
 struct WordSet;
@@ -41,7 +42,8 @@ extern void func_021FC7C4(char *,void *,void *,u16);
 extern int func_0200DC08(int),func_02045EC0(int,int),func_0200DABC(int);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(void *,void *,void *),func_02045808(int);
+extern void func_0201F250(void *,void *,void *);
+extern void func_02045808(struct U16Vec *vec);
 extern int func_021FC124(int,int,struct Triple *);
 extern void func_021DE084(char *,void *,const char *,unsigned,short,short,u16);
 void func_021DDCCC(char *p,char *q)
@@ -55,7 +57,7 @@ void func_021DDCCC(char *p,char *q)
  first=func_021FC20C(*(char **)(q+8));
  second=func_021FC214(*(char **)(q+8));
  third=func_021FC21C(*(char **)(q+8));
- func_021FB964(*(int *)(q+8),13,*(u16 *)(p+0x7c));
+ func_021FB964((void *)(*(int *)(q+8)),13,*(u16 *)(p+0x7c));
  for(i=0;i<5;i++){
   rec=&d_021E338C[i]; slot=p+i*4;
   *(void **)(slot+0x34)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
@@ -65,10 +67,10 @@ void func_021DDCCC(char *p,char *q)
    obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
    func_0201EFA4((void *)third,0,v,2,1,1);
    func_0201F250((void *)third,obj,(void *)text);
-   func_02045808(text);
+   func_02045808((struct U16Vec *)text);
   }else obj=(void *)func_02045EC0(second,rec->value);
   func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
-  func_02045808((int)obj);
+  func_02045808((struct U16Vec *)((int)obj));
  }
  v=func_0200DABC(*(int *)(q+0x10));
  func_021FC124(*(int *)(q+8),13,&triple);

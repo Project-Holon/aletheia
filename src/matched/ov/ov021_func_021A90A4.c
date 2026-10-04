@@ -39,7 +39,9 @@ typedef struct {
     int f128;
 } S;
 
-extern void func_0204B878(int a, int b);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 typedef unsigned int   u32;
 extern int func_021A8E78(u32 a, u32 b);
 
@@ -48,7 +50,7 @@ void func_021A90A4(S *s, int m)
     if (m == 1) {
         s->f28 = 1;
         s->fc = 4;
-        func_0204B878(s->f128, 8);
+        func_0204B878((struct Obj *)s->f128, 8);
     } else {
         s->f28 = 0;
         s->fc = 5;

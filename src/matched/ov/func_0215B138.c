@@ -25,14 +25,15 @@ typedef unsigned int u32;
 
 extern unsigned int func_02159B10(void *, void *);
 extern void *func_0215A5E4(void *a0);
-extern int func_02012F08(void *);
-extern void func_0200C2F0(int, void *, int);
+struct Blk34;
+extern void *func_02012F08(int *p);
+extern void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
 
 int func_0215B138(void *a0, void *a1)
 {
     void *v = (void *)func_02159B10(a0, a1);
 
-    func_0200C2F0(func_02012F08(func_0215A5E4(a1)), v, 1);
+    func_0200C2F0(func_02012F08(func_0215A5E4(a1)), (u32)v, 1);
 
     return 0;
 }

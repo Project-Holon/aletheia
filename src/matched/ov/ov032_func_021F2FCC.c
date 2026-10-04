@@ -22,9 +22,10 @@
 extern void func_02043598(unsigned, unsigned);
 extern void func_021F34C8(char *, int);
 extern void func_021F32D4(char *);
-extern void func_02025588(int);
+struct Bank;
+extern void func_02025588(void *p);
 extern void func_0204B084(int);
-extern void func_0204B1CC(int);
+extern void func_0204B1CC(struct Bank *bank);
 
 void func_021F2FCC(char *p)
 {
@@ -35,7 +36,7 @@ void func_021F2FCC(char *p)
         func_021F34C8(p, (unsigned char)i);
     }
     func_021F32D4(p);
-    func_02025588(*(int *)(p + 0x124));
+    func_02025588((void *)(*(int *)(p + 0x124)));
     func_0204B084(*(int *)(p + 0x12c));
-    func_0204B1CC(*(int *)(p + 0x128));
+    func_0204B1CC((struct Bank *)(*(int *)(p + 0x128)));
 }

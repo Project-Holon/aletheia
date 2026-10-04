@@ -42,9 +42,10 @@ extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021A30A4(u8 *p, u32 b);
-extern int func_021CD440(u32 field, u16 *out);
+struct Evt;
+extern int func_021CD440(void *a, u16 *out);
 extern u32 func_02184FD4(u32 a, u16 b);
-extern void func_02012374(u32 a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D454(void *o);
 
@@ -80,8 +81,8 @@ int func_021D2278(u32 a, int *seq, int *w)
         o = func_02188CB4((unsigned char *)w[1]);
         func_021A3074((void *)o);
         func_021A30A4(o, 3);
-        func_021CD440(w[1], &id);
-        func_02012374(a, func_02184FD4(w[0], id));
+        func_021CD440((void *)w[1], &id);
+        func_02012374((struct Evt *)a, (struct Evt **)func_02184FD4(w[0], id));
         (*seq)++;
         break;
     case 3:

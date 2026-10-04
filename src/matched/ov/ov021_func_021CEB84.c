@@ -39,7 +39,8 @@ extern void func_021CEE00(u8 *p);
 extern void func_021CEE48(u8 *p);
 extern int func_021CEDA0(u8 *p);
 extern void func_021CEF1C(u8 *p);
-extern void func_02190A14(u32 h);
+struct Handle;
+extern void func_02190A14(u8 *p);
 extern int func_020392B8(void);
 extern int func_02039ACC(void);
 extern u32 func_020362DC(void);
@@ -48,13 +49,13 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
 extern int func_021CF1AC(u8 *p, int a, u8 b);
-extern u32 func_02188C54(u32 a);
-extern u32 func_02190BE4(u32 a, u32 b);
-extern u32 func_02190C78(u32 a);
+extern u32 func_02188C54(u8 *p);
+extern u32 *func_02190BE4(u16 *a, u32 b);
+extern int func_02190C78(struct Handle *h);
 extern int func_0219049C(u32 a);
 extern int func_021909BC(u32 a);
 extern void func_02190B1C(u32 h);
-extern int func_02190EF0(u32 h);
+extern u32 func_02190EF0(u32 *p);
 
 typedef struct {
     u8 pad0[0x2c8];
@@ -82,7 +83,7 @@ u32 func_021CEB84(u8 *p)
                 s->state = 3;
             } else if (p[0x40d] == 1) {
                 func_021CEF1C(p);
-                func_02190A14(*(u32 *)(p + 0x140));
+                func_02190A14((u8 *)(*(u32 *)(p + 0x140)));
                 p[0x40d] = 0;
             }
         } else if (func_020392B8() > 1) {
@@ -136,15 +137,15 @@ u32 func_021CEB84(u8 *p)
         return s->result;
     case 4:
         func_021CE9E4(p, 0x23);
-        *w = func_02190BE4(func_02188C54(*(u32 *)p), 0);
+        *w = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)(*(u32 *)p)), 0);
         s->state = 5;
         break;
     case 5:
-        r = func_02190C78(*w);
-        if (func_0219049C(func_02188C54(*(u32 *)p)) == 1 && p[0x576] == 1) {
+        r = func_02190C78((struct Handle *)(*w));
+        if (func_0219049C(func_02188C54((u8 *)(*(u32 *)p))) == 1 && p[0x576] == 1) {
             r = 1;
         }
-        if (r == 2 && func_0219049C(func_02188C54(*(u32 *)p)) == 1) {
+        if (r == 2 && func_0219049C(func_02188C54((u8 *)(*(u32 *)p))) == 1) {
             if (p[0x519] == 1 || p[0x51a] == 1) {
                 func_021909BC(*w);
                 *w = 0;
@@ -167,7 +168,7 @@ u32 func_021CEB84(u8 *p)
         }
         break;
     case 6:
-        if (func_02190EF0(*(u32 *)(p + 0x14)) == 1) {
+        if (func_02190EF0((u32 *)(*(u32 *)(p + 0x14))) == 1) {
             s->result = 3;
             s->state = 3;
         }

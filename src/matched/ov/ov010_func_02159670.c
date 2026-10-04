@@ -22,7 +22,9 @@ struct P { int _0[3]; u8 _p[2]; u8 e; u8 _f[5]; u8 *cur; };
 
 extern int func_0201134C(struct P *);
 extern int func_02011398(struct P *);
-extern void func_020113B0(struct P *, u8 *);
+typedef unsigned int   u32;
+struct Cur;
+extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 d_021705DC[][3];
 
 int func_02159670(struct P *p)
@@ -39,7 +41,7 @@ int func_02159670(struct P *p)
         if (d_021705DC[c][p->e] != 1)
             goto end;
     }
-    func_020113B0(p, p->cur + n);
+    func_020113B0((struct Cur *)p, (u32)(p->cur + n));
 end:
     return 0;
 }

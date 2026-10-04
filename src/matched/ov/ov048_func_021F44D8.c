@@ -27,7 +27,7 @@ typedef struct {
 extern void func_021F44B8(Slots *);
 extern void func_021F4590(int *, Slots *);
 extern void func_021F45F0(int *a, void *b);
-extern u8 func_02188C70(int, int);
+extern int func_02188C70(int *p, int b);
 
 void func_021F44D8(int *p, Slots *q)
 {
@@ -70,5 +70,5 @@ void func_021F44D8(int *p, Slots *q)
         q->h[3] = r[0x70 / 4];
     }
     for (k = 0; k < 4; k++)
-        q->b[k] = func_02188C70(p[1], q->h[k]);
+        q->b[k] = func_02188C70((int *)p[1], q->h[k]);
 }

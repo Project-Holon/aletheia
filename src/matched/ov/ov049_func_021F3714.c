@@ -37,15 +37,17 @@ typedef struct {
 extern const V3 d_021F38A4[];
 extern char d_021F3894[];
 
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern void *func_0201296C(u32 a);
+struct BigObj;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 typedef signed int     s32;
 extern u32 func_020142E8(void *bitmap, s32 id);
-extern u32 func_02188D2C(u32 a);
+extern int func_02188D2C(int *p);
 extern void func_021BE760(u32 a, void *b, int c);
 extern V3 *func_021BE480(u32 a, int b, u16 c);
-extern void func_021BE700(u32 a, int b, int c, int d, int e);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 
 void func_021F3714(u32 a0, u32 a)
 {
@@ -58,12 +60,12 @@ void func_021F3714(u32 a0, u32 a)
     int i;
     V3 *p;
 
-    sv = func_0201296C(func_020120F4(func_02188C80(a)));
+    sv = (void *)func_0201296C(func_020120F4(func_02188C80((void *)a)));
     f0 = func_020142E8(sv, 0x96B);
     f1 = func_020142E8(sv, 0x96A);
     f2 = func_020142E8(sv, 0x969);
     f3 = func_020142E8(sv, 0x96C);
-    s = func_02188D2C(a);
+    s = func_02188D2C((int *)a);
     func_021BE760(s, d_021F3894, 0);
     for (i = 0; i < 6; i++) {
         p = func_021BE480(s, 0, i);
@@ -72,23 +74,23 @@ void func_021F3714(u32 a0, u32 a)
         p->c = d_021F38A4[i].c;
     }
     if (f0 && f1 && f2 && f3) {
-        func_021BE700(s, 0, 0, 0, 1);
-        func_021BE700(s, 0, 1, 0, 1);
+        func_021BE700((void *)s, 0, 0, 0, 1);
+        func_021BE700((void *)s, 0, 1, 0, 1);
     }
     if (f0)
-        func_021BE700(s, 0, 2, 1, 1);
+        func_021BE700((void *)s, 0, 2, 1, 1);
     else
-        func_021BE700(s, 0, 2, 0, 1);
+        func_021BE700((void *)s, 0, 2, 0, 1);
     if (f1)
-        func_021BE700(s, 0, 3, 1, 1);
+        func_021BE700((void *)s, 0, 3, 1, 1);
     else
-        func_021BE700(s, 0, 3, 0, 1);
+        func_021BE700((void *)s, 0, 3, 0, 1);
     if (f2)
-        func_021BE700(s, 0, 4, 1, 1);
+        func_021BE700((void *)s, 0, 4, 1, 1);
     else
-        func_021BE700(s, 0, 4, 0, 1);
+        func_021BE700((void *)s, 0, 4, 0, 1);
     if (f3)
-        func_021BE700(s, 0, 5, 1, 1);
+        func_021BE700((void *)s, 0, 5, 1, 1);
     else
-        func_021BE700(s, 0, 5, 0, 1);
+        func_021BE700((void *)s, 0, 5, 0, 1);
 }

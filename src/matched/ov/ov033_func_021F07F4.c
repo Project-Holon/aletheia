@@ -75,7 +75,8 @@ struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B688(u32, int);
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_02049238(void *);
 extern void func_0204B404(u32, Pos *, u16);
 
@@ -98,7 +99,7 @@ void func_021F07F4(Obj *p)
         s.d = i;
         p->rec[i].obj = (u32)func_0204B294((void *)p->fC, p->rec[i].chr, p->f2C, p->rec[i].cell, &s, 1, p->heap);
         func_0204B92C((struct Obj *)p->rec[i].obj, 1);
-        func_0204B688(p->rec[i].obj, 1);
+        func_0204B688((struct Actor *)p->rec[i].obj, 1);
     }
     func_02049238(arc);
     {

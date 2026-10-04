@@ -26,12 +26,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *);
-extern u32 func_02011330(u32);
+struct Stream;
+extern int func_02158F58(int a0);
+extern u16 func_02011330(struct Stream *s);
 extern void *func_02188CB4(unsigned char *p);
 extern void func_021A2F48(void *, u32);
 extern int func_021A2F54(u8 *p);
-extern void func_020113D0(u32, int (*)());
+extern void func_020113D0(char *p, int val);
 extern int func_021B1CFC(u32 a, u32 b, u32 c, u32 d);
 
 int func_021B1D20(u32 a, u32 b)
@@ -40,12 +41,12 @@ int func_021B1D20(u32 a, u32 b)
     u32 v;
     void *o;
 
-    e = func_02158F58(func_0215A5F4((void *)b));
-    v = func_02011330(a);
+    e = (u32 *)func_02158F58((int)func_0215A5F4((void *)b));
+    v = func_02011330((struct Stream *)a);
     o = func_02188CB4((unsigned char *)e[1]);
     func_021A2F48(o, v);
     if (func_021A2F54(o) == 1)
         return 0;
-    func_020113D0(a, func_021B1CFC);
+    func_020113D0((char *)a, (int)func_021B1CFC);
     return 1;
 }

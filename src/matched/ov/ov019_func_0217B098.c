@@ -47,8 +47,10 @@ extern int func_0217B158(int, Obj *, Ent8 *);
 extern u8 *func_0217AFE4(int, Obj *, Ent8 *, int, int, int *);
 extern void func_0217AE38(u8 *, int);
 extern int func_0217F894(int, Obj *);
-extern int func_0200EDC4(int, int);
-extern void func_0217F948(int, int, int);
+typedef unsigned int   u32;
+struct L0200EDC4;
+extern int func_0200EDC4(struct L0200EDC4 *l, u32 val);
+extern void func_0217F948(char *p, u32 a, u32 b);
 
 void func_0217B098(int a, int b, int c, int d, Obj *e)
 {
@@ -68,9 +70,9 @@ void func_0217B098(int a, int b, int c, int d, Obj *e)
             func_0217AE38(e->slot[i], 0);
             if (i == 0) {
                 if (func_0217F894(c, e) == 1)
-                    func_0217F948(d, out, 0);
-                else if (func_0200EDC4(b, e->f5c) == 1)
-                    func_0217F948(d, out, 1);
+                    func_0217F948((char *)d, out, 0);
+                else if (func_0200EDC4((struct L0200EDC4 *)b, e->f5c) == 1)
+                    func_0217F948((char *)d, out, 1);
             }
         }
     }

@@ -19,21 +19,25 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_02045CAC(int, u16, int);
-extern void func_0201F250(int, int, int);
-extern int func_0219129C(int, int, char *, int, int, int);
+typedef unsigned int   u32;
+struct Ent;
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern struct Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g);
 extern u16 d_02187E04[];
 
 void func_0218741C(char *p, int a1, int *out, int a3)
 {
     int i;
 
-    func_02045CAC(*(int *)(p + 0x18),
+    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x18)),
                   (u16)(a1 + (d_02187E04[(*(u16 **)(p + 0x48))[1]] + *(u16 *)(p + 0x4c) * 8)),
-                  *(int *)(p + 0x24));
-    func_0201F250(*(int *)(p + 0x1c), *(int *)(p + 0x20), *(int *)(p + 0x24));
+                  (void *)(*(int *)(p + 0x24)));
+    func_0201F250((struct WordSet *)(*(int *)(p + 0x1c)), (void *)(*(int *)(p + 0x20)), (void *)(*(int *)(p + 0x24)));
     i = 0;
-    *(int *)(p + 0x10) = func_0219129C(*(int *)(p + 0xc), 2, p + 0x34, *(int *)(p + 0x20), i, i);
+    *(int *)(p + 0x10) = (int)func_0219129C((u8 *)(*(int *)(p + 0xc)), 2, (u32)(p + 0x34), *(int *)(p + 0x20), i, i);
     *out = 0x10;
     *(u16 *)(p + 0x4e) = a3;
     *(u16 *)(p + 0x52) = 0;

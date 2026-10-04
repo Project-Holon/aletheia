@@ -28,7 +28,7 @@ struct CharBuf;
 struct Descriptor;
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
-extern void func_02040AF0(int a, void *b, void *c, int d);
+extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_020414AC(int a);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -43,7 +43,7 @@ void func_021BB2F0(char *p, int v)
 
     func_02009864(*(void **)(p + 4), *(u8 *)(p + 0x8ED) - 1, 9);
     q = *(char **)(p + 0x8C0);
-    func_02040AF0(6, q + 0xC, *(void **)(q + 8), 0);
+    func_02040AF0(6, q + 0xC, (u32)(*(void **)(q + 8)), 0);
     func_020414AC(7);
     func_02043B5C(func_02045770(*(void **)(p + 0x95C)), 0);
     func_02043B5C(func_02045770(*(void **)(p + 0x958)), 0);

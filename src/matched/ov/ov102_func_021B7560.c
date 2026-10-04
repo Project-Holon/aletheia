@@ -74,7 +74,7 @@ extern u32 func_021B78F4(void *);
 extern int func_021B7CBC(void *);
 extern int func_021B7CC0(void *);
 extern void *func_021B70DC(u32,u32,u16,u16,u8,u32,u32,u32,u16);
-extern void func_021B7F08(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B7F08(unsigned p, unsigned x);
 extern void func_021B8320(u8 *,u16 *),func_021B81B0(u8 *,u16 *);
 extern void func_02005D28(void);
 extern void func_021B63CC(int *,int);
@@ -113,9 +113,9 @@ int func_021B7560(void *owner,int unused,void *arg)
     second=func_021B7CC0(p+0x9c);
     *(void **)(p+0x468)=func_021B70DC(2,handle,0,14,0,2,first,second,59);
     switch(*(u32 *)(*(u8 **)(p+0x48c)+8)) {
-    case 0: func_021B7F08(p,func_021B81B0); break;
-    case 1: func_021B7F08(p,func_021B8320); break;
-    case 2: func_021B7F08(p,func_021B81B0); break;
+    case 0: func_021B7F08((unsigned int)p,(unsigned int)func_021B81B0); break;
+    case 1: func_021B7F08((unsigned int)p,(unsigned int)func_021B8320); break;
+    case 2: func_021B7F08((unsigned int)p,(unsigned int)func_021B81B0); break;
     }
     func_02005D28();
     func_021B63CC(*(int **)(*(u8 **)(p+0x48c)+4),0);

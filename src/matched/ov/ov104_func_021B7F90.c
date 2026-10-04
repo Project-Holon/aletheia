@@ -36,11 +36,12 @@ struct PrintSys;
 struct StrObj;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045CAC(int,int,void *);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern u8 func_02045738(struct Descriptor *p);
 extern u8 func_02045740(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u32 func_0201D42C(void *,int);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void func_0201C724(int,void *,s16,s16,void *,int,u16);
-void func_021B7F90(u8 *p,void *a,int b,u16 c) { int bank; int font; int tag; u16 x; u16 y; bank=func_021B7DE8(a); font=func_021B7DE4(a); tag=func_021B7DE0(a); func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10)); func_02045CAC(bank,b,*(void **)(p+0xc)); x=func_02045738(*(void **)p)*4; y=func_02045740(*(void **)p)*4; x-=(u16)(func_0201D304(*(void **)(p+0xc),tag,0)/2); y-=(u16)(func_0201D42C(*(void **)(p+0xc),tag)/2); func_0201C724(font,func_02045770(*(void **)(p+4)),(s16)x,(s16)y,*(void **)(p+0xc),tag,c); p[8]=1; }
+void func_021B7F90(u8 *p,void *a,int b,u16 c) { int bank; int font; int tag; u16 x; u16 y; bank=func_021B7DE8(a); font=func_021B7DE4(a); tag=func_021B7DE0(a); func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10)); func_02045CAC((struct MsgBank *)bank,b,*(void **)(p+0xc)); x=func_02045738(*(void **)p)*4; y=func_02045740(*(void **)p)*4; x-=(u16)(func_0201D304(*(void **)(p+0xc),tag,0)/2); y-=(u16)(func_0201D42C(*(void **)(p+0xc),(void *)tag)/2); func_0201C724(font,func_02045770(*(void **)(p+4)),(s16)x,(s16)y,*(void **)(p+0xc),tag,c); p[8]=1; }

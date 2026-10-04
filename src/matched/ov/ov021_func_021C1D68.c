@@ -19,13 +19,14 @@
 
 typedef unsigned int u32;
 
-void *func_020120F4(int a);
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
 u32 func_02017E1C(void *p, u32 id, u32 v);
-int func_02017EAC(int a);
-int func_021C1D18(int a, int b, int c, int d, int e, int f, int g);
+u32 func_02017EAC(void *p);
+int func_021C1D18(int a, char *b, int c, int d, int e, int f, int g);
 
 int func_021C1D68(int a, int b, int c)
 {
@@ -36,11 +37,11 @@ int func_021C1D68(int a, int b, int c)
     int xe;
     int x4c;
 
-    p = (int)func_0201AB28(func_02012934(func_020120F4(a)), c);
+    p = (int)func_0201AB28(func_02012934(func_020120F4((const struct Ctx *)a)), c);
     x5 = func_02017E1C((void *)p, 5, 0);
     x6f = func_02017E1C((void *)p, 0x6f, 0);
     x6e = func_02017E1C((void *)p, 0x6e, 0);
-    xe = func_02017EAC(p);
+    xe = func_02017EAC((void *)p);
     x4c = func_02017E1C((void *)p, 0x4c, 0);
-    return func_021C1D18(a, b, x5, x6f, x6e, xe, x4c);
+    return func_021C1D18(a, (char *)b, x5, x6f, x6e, xe, x4c);
 }

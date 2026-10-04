@@ -21,17 +21,18 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void func_021955EC(u32 a, u32 b, u32 c);
-extern void func_02195938(u32 a, u32 b, u32 c);
+struct FrameStyle;
+extern void func_021955EC(struct FrameStyle *style, void *win, int deco);
+extern void func_02195938(struct FrameStyle *style, void *win, int deco);
 
 void func_02195E54(u32 a, u32 b, u8 c, u32 d)
 {
     switch (c) {
     case 0:
-        func_021955EC(a, b, d);
+        func_021955EC((struct FrameStyle *)a, (void *)b, d);
         break;
     case 1:
-        func_02195938(a, b, d);
+        func_02195938((struct FrameStyle *)a, (void *)b, d);
         break;
     }
 }

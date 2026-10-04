@@ -21,8 +21,10 @@
 
 extern void func_021EB85C(char *, int);
 extern void func_021EDFC4(char *, int);
-extern void func_021EC000(int, int, int);
-extern void func_02025774(int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021EC000(char *p, int i, int v);
+extern void func_02025774(u8 *g, u32 a);
 void func_021EE008(char *p, int a, int b)
 {
     if (b == 1) {
@@ -30,6 +32,6 @@ void func_021EE008(char *p, int a, int b)
         func_021EDFC4(p, a);
         return;
     }
-    func_021EC000(*(int *)(p + 0x2c), 3, 0);
-    func_02025774(*(int *)(*(int *)(p + 0x2c) + 4), 0);
+    func_021EC000((char *)(*(int *)(p + 0x2c)), 3, 0);
+    func_02025774((u8 *)(*(int *)(*(int *)(p + 0x2c) + 4)), 0);
 }

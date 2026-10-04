@@ -30,7 +30,7 @@ extern u32 func_02188CFC(u8 *p);
 extern int func_021641E8(int a);
 extern int func_021641F8(int a);
 extern void func_0207CCA4();
-extern void func_0219E784();
+extern void func_0219E784(u32 o, u32 idx, s16 *v);
 
 void func_021A3484(unsigned char **a, u32 b, s32 *c)
 {
@@ -51,7 +51,7 @@ void func_021A3484(unsigned char **a, u32 b, s32 *c)
         func_0207CCA4(c, c);
         return;
     }
-    func_0219E784(h, b, v);
+    func_0219E784((u32)h, b, v);
     t3 = v[2];
     t2 = v[1];
     t1 = v[0];

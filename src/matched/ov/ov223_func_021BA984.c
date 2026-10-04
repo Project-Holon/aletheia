@@ -28,7 +28,7 @@ extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
 extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,unsigned);
-extern void *func_021BC520(void *);
+extern unsigned func_021BC520(unsigned char *p);
 struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 typedef unsigned int   u32;
@@ -45,7 +45,7 @@ void func_021BA984(char *p)
     func_02049238(object);
     func_02082BCC(&request,0,8);
     request.x=66;request.y=39;request.z=0;request.a=0;request.b=2;
-    *(void **)(p+548)=func_0204B294(func_021BC520(*(void **)(p+20)),*(int *)(p+536),*(int *)(p+540),*(int *)(p+544),&request,0,*(u16 *)p);
+    *(void **)(p+548)=func_0204B294((void *)func_021BC520(*(void **)(p+20)),*(int *)(p+536),*(int *)(p+540),*(int *)(p+544),&request,0,*(u16 *)p);
     func_0204B92C(*(void **)(p+548),1);
     func_021BAA5C(p,0);
 }

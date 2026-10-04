@@ -20,15 +20,17 @@ typedef struct {
     int f1c;
 } S;
 
-extern int func_021AB760(int a);
-extern void func_0218F05C(int h);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021AB760(u8 *p);
+extern void func_0218F05C(unsigned char *a);
 extern void func_021ABABC(int a, S *s, int c);
 
 void func_021ABB78(int a, S *s, int c)
 {
-    int h = func_021AB760(a);
+    int h = func_021AB760((u8 *)a);
     func_021ABABC(a, s, c);
     if (s->f1c != 0) {
-        func_0218F05C(h);
+        func_0218F05C((unsigned char *)h);
     }
 }

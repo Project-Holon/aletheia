@@ -29,8 +29,8 @@ typedef unsigned char  u8;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C98(u8 *p);
-extern int func_0218DC6C(int a);
-extern int func_0218C7D8(int a, int b, int *c);
+extern u32 func_0218DC6C(u8 *p);
+extern int func_0218C7D8(void *p, int b, int c);
 extern int func_0218BACC(int a, int b);
 
 int func_021B2D34(int a, int b)
@@ -42,10 +42,10 @@ int func_021B2D34(int a, int b)
     int h;
     int buf[3];
 
-    h = func_0218DC6C(func_02188C98(func_0201210C(func_0215A5DC((void *)b))));
+    h = func_0218DC6C((u8 *)func_02188C98(func_0201210C(func_0215A5DC((void *)b))));
     buf[0] = x << 16;
     buf[1] = 0;
     buf[2] = y << 16;
-    *out = func_0218BACC(h, func_0218C7D8(h, f, buf));
+    *out = func_0218BACC(h, func_0218C7D8((void *)h, f, (int)buf));
     return 0;
 }

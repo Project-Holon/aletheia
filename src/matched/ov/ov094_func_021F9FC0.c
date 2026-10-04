@@ -28,7 +28,7 @@ extern u32 func_0201134C(void *p);
 extern void func_021FDB20(Ctx *c);
 extern int func_021F8684(void);
 extern void func_021F6F20(int cam, int a, int b);
-extern void func_021F7108(int cam, int a, int b, int *c, int *d);
+extern void func_021F7108(int *p, int a, int b, int *out, int *base);
 extern void func_021F6F48(int cam, int *a, int *b, int n, int s, int t);
 
 int func_021F9FC0(void *r, Ctx *c)
@@ -54,7 +54,7 @@ int func_021F9FC0(void *r, Ctx *c)
         func_021F6F20(func_021F8684(), v1, v2);
         break;
     case 1:
-        func_021F7108(func_021F8684(), v1, v2, E, F);
+        func_021F7108((int *)func_021F8684(), v1, v2, E, F);
         func_021F6F48(func_021F8684(), E, F, v3, v4, v5);
         break;
     }

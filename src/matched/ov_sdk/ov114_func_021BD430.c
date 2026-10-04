@@ -74,7 +74,7 @@ extern ReqInfo *func_021BEF48(void *sysInfo);
 extern int func_021BA118(char *s);
 extern int func_021BA130(char *a, char *b);
 extern u32 func_021BA098(Req *req, char *hostname);
-extern void func_021BA13C(void *p, u32 size);
+extern void func_021BA13C(int a, int b);
 extern int func_021BA124(char *s, int max);
 extern void func_021BA100(void *dst, void *src, int n);
 
@@ -106,7 +106,7 @@ static int func_021BD430(ThreadData *threadData_p)
     } else {
         threadData_p->hostaddr = threadData_p->preHostaddr;
     }
-    func_021BA13C(threadData_p->preHostname, 256);
+    func_021BA13C((int)threadData_p->preHostname, 256);
     func_021BA100(threadData_p->preHostname, hostname_p, func_021BA124(hostname_p, 255));
     threadData_p->port = req_p->port;
     if (req_p->isProxy) {

@@ -25,11 +25,12 @@ extern void func_021E1CA8(char *p);
 extern void func_021E1CC8(char *p);
 extern void func_021E36D8(void *p, int a);
 extern void func_021E3F70(void *p);
-extern void func_021E5BE4(void *p);
+struct Descriptor;
+extern void func_021E5BE4(int a);
 extern void func_021E5EF8(void *p);
 extern void func_021E625C(void *p);
-extern void func_020456F8(int a);
-extern void func_020452E8(int a);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021E1CE8(void *p, int a1)
 {
@@ -46,11 +47,11 @@ void func_021E1CE8(void *p, int a1)
     func_021E1CA8(p);
     func_021E1CC8(p);
     func_021E5EF8((char *)p + 0x950);
-    func_021E5BE4(p);
+    func_021E5BE4((int)p);
     func_021E36D8(p, 0);
     func_021E36D8(p, 1);
-    func_020456F8(*(int *)((char *)p + 0x6b4));
-    func_020452E8(*(int *)((char *)p + 0x6b4));
+    func_020456F8((struct Descriptor *)(*(int *)((char *)p + 0x6b4)));
+    func_020452E8((struct Descriptor *)(*(int *)((char *)p + 0x6b4)));
     *(int *)((char *)p + 0x6b4) = 0;
     func_021E3F70(p);
 }

@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void func_02087A3C(int clear, u32 flags);
 extern u32 func_020056BC(void);
-extern void func_02051360(void *, void *, int, int);
+extern void func_02051360(void *p, unsigned int a1, unsigned int a2, unsigned int a3);
 
 void func_021E3004(char *p)
 {
@@ -27,6 +27,6 @@ void func_021E3004(char *p)
 
     for (i = 4; i < 9; i++) {
         func_02087A3C(1, 1);
-        func_02051360(((void **)p)[i], *(void **)(p + 0xB4), 1, func_020056BC());
+        func_02051360(((void **)p)[i], (unsigned int)(*(void **)(p + 0xB4)), 1, func_020056BC());
     }
 }

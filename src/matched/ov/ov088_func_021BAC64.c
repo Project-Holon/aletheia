@@ -13,9 +13,10 @@
  *   func_0202EA20  0x0202EA20  thumb
  */
 
-extern void func_0202EA20(int);
+struct Obj0202EA20;
+extern void func_0202EA20(struct Obj0202EA20 *p);
 
 void func_021BAC64(char *p)
 {
-    func_0202EA20(*(int *)(p + 0x11c));
+    func_0202EA20((struct Obj0202EA20 *)(*(int *)(p + 0x11c)));
 }

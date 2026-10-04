@@ -36,7 +36,7 @@ struct S;
 void func_021C8860(struct S *p, unsigned int a);
 struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
-void func_021C88C8(int a, void *p);
+void func_021C88C8(void *a, void *b);
 
 void func_021DF0C4(void *a, int b, int c)
 {
@@ -58,5 +58,5 @@ void func_021DF0C4(void *a, int b, int c)
     func_021C8838(p + 0x14, 2, 0x14a);
     func_021C8860((struct S *)(p + 0x14), k);
     func_021C8860((struct S *)(p + 0x14), func_021D70A8(a));
-    func_021C88C8(b, p);
+    func_021C88C8((void *)b, p);
 }

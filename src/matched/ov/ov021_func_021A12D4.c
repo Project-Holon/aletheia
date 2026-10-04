@@ -28,9 +28,11 @@ extern void func_02049BDC(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size,
 extern void func_02049658(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heap);
 extern void func_02049990(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 heap);
 extern void func_02049238(void *h);
-extern u32 func_02188E30(u32 a);
+typedef unsigned char  u8;
+struct St021D3244;
+extern u32 func_02188E30(u8 *p);
 extern void func_021D3270(u32 a, int b, int c, int d, int e, int f);
-extern void func_021D3244(u32 a, int b, int c);
+extern void func_021D3244(struct St021D3244 *p, int i, u8 v);
 
 void func_021A12D4(u32 *p, u32 x)
 {
@@ -39,6 +41,6 @@ void func_021A12D4(u32 *p, u32 x)
     func_02049658(h, 3, 1, 0x64, 0, 0, x);
     func_02049990(h, 0xf, 1, 0, 0x64, 0, 0, x);
     func_02049238(h);
-    func_021D3270(func_02188E30(p[5]), 1, 0, 0, 0, -6);
-    func_021D3244(func_02188E30(p[5]), 1, 1);
+    func_021D3270(func_02188E30((u8 *)p[5]), 1, 0, 0, 0, -6);
+    func_021D3244((struct St021D3244 *)func_02188E30((u8 *)p[5]), 1, 1);
 }

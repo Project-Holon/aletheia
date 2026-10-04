@@ -17,13 +17,16 @@
  *   func_0200B3A4  0x0200B3A4  thumb
  */
 
-extern unsigned int func_020120F4(unsigned int);
-extern unsigned int func_02012EC4(unsigned int);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(unsigned int, unsigned int);
 
 void func_021F36C0(unsigned int a0, int a1, int a2)
 {
-    char *p = func_0200B3A4(func_02012EC4(func_020120F4(a0)), 2);
+    char *p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)a0)), 2);
 
     if (a1)
         *(unsigned short *)(p + 0x14) = 1;

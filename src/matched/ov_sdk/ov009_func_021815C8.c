@@ -59,7 +59,7 @@ typedef struct GSUdpEngineObject {
 typedef struct { char c[16]; } GSChar16;
 
 extern void *func_02180404(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_02184234(void *array, void *newElem);
 extern char g_021A3B9C[];
@@ -102,7 +102,7 @@ int func_021815C8(char *theInitMsg, char *theHeader,
 
     aMsgHandler.mPendingConnections = func_02184144(4, 1, 0);
     if (aMsgHandler.mPendingConnections == 0) {
-        func_0217D254(12, 2, 1, g_021A3B7C);
+        func_0217D254(12, (char *)2, 1, g_021A3B7C);
         return 1;
     }
     aMsgHandler.mUserData = theUserData;

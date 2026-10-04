@@ -19,12 +19,13 @@ typedef signed char    s8;
 typedef struct Blk { u32 w[9]; } Blk;
 typedef struct B { u32 f0; Blk blk; u16 f28[4]; u16 f30; } B;
 
-extern void func_02050468(u32 a, u32 b, u32 c);
+struct BbActSys;
+extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
 
 void func_021AC8E4(u32 a, B *b)
 {
     u32 h = *(u32 *)(b->blk.w[0] + 4);
 
     if (b->f30 != 0xFFFF)
-        func_02050468(h, b->f30, 1);
+        func_02050468((struct BbActSys *)h, b->f30, 1);
 }

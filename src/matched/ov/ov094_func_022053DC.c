@@ -27,7 +27,8 @@ typedef unsigned int u32;
 typedef struct { u16 value[4]; u8 a[4], b[4]; u8 pad10[8]; } Buffer;
 typedef struct { u8 first, second; } Palette;
 typedef struct { char pad[0x68]; u32 lo : 19; u32 index : 2; } Flags;
-extern int func_021D5448(void *);
+struct QG;
+extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D5528(u8 *, u8, u8 *, u8 *);
 extern int func_021D5B68(void *);
 extern void func_02204CC0(void *, Buffer *);
@@ -45,7 +46,7 @@ void func_022053DC(char *m)
         buf.a[i] = 0;
         buf.b[i] = 0;
     }
-    for (i = 0; i < func_021D5448(OBJECT); i++)
+    for (i = 0; i < func_021D5448((struct QG *)OBJECT); i++)
         buf.value[i] = func_021D5528(OBJECT, i, &buf.a[i], &buf.b[i]);
     func_02204CC0(m, &buf);
     *(u8 *)(m + 0x25f) = d_0220A386[INDEX].first;

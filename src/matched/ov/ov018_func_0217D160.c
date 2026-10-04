@@ -25,28 +25,29 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02030EAC();
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_02082A48();
-extern void func_020307B0();
+extern void func_020307B0(void *p);
 extern void func_02037190();
-extern void func_0217DE44();
-extern void func_0217DA90();
-extern void func_0217DA18();
-extern void func_0217D904();
+extern void func_0217DE44(void **p);
+extern void func_0217DA90(void **p);
+extern void func_0217DA18(u32 *p);
+extern void func_0217D904(char *p);
 extern void func_0217D870();
-extern void func_0217D6C8();
+extern void func_0217D6C8(int *p);
 
 void func_0217D160(int a0)
 {
-    func_02030EAC(*(int *)(a0 + 0x34));
+    func_02030EAC((struct Node *)(*(int *)(a0 + 0x34)));
     func_02082A48(0, 0x05000400, 2);
-    func_0217DE44(a0);
-    func_0217DA90(a0);
-    func_0217DA18(a0);
-    func_0217D904(a0);
+    func_0217DE44((void **)a0);
+    func_0217DA90((void **)a0);
+    func_0217DA18((u32 *)a0);
+    func_0217D904((char *)a0);
     func_0217D870(a0);
-    func_0217D6C8(a0);
-    func_020307B0(a0);
+    func_0217D6C8((int *)a0);
+    func_020307B0((void *)a0);
     func_02037190();
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     *(volatile u16 *)0x04001050 = 0;

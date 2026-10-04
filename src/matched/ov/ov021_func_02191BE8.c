@@ -31,8 +31,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020458F8(u32 a);
-extern u32 func_020457B0(u32 a, u32 heap);
+struct Bmp;
+struct U16Vec;
+extern u16 func_020458F8(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
 extern int func_0219214C(u32 a, u32 b, u32 c, u32 d, u32 *cnt, u8 col);
@@ -43,7 +45,7 @@ extern int func_02192138(u32 a, u32 b, u32 c);
 extern u32 func_020362DC(void);
 extern void func_021928C0(u32 *p, u32 a, u32 b);
 extern void func_021927FC(u32 *p, u32 a, u32 b);
-extern void func_02043814(u32 a, u32 b);
+extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 extern void func_020061E4(u32 a);
 extern int func_021921C8(u32 a, u32 b, u32 c, int n, u16 col);
 
@@ -52,7 +54,7 @@ u32 func_02191BE8(u32 *p, u32 b)
     switch (p[6]) {
     case 0:
         p[4] = b;
-        p[5] = func_020457B0(func_020458F8(b) + 2, *(u16 *)p[0]);
+        p[5] = (u32)func_020457B0(func_020458F8((struct U16Vec *)b) + 2, *(u16 *)p[0]);
         func_0219214C((u32)func_02045770((struct Descriptor *)p[1]), p[12], p[4], p[5], p + 9, 15);
         func_02045334((struct Descriptor *)p[1]);
         func_020409B4((u8)((u16 *)p[0])[1]);
@@ -79,7 +81,7 @@ u32 func_02191BE8(u32 *p, u32 b)
             break;
         }
         func_021927FC(p + 10, (u32)func_02045770((struct Descriptor *)p[1]), 15);
-        func_02043814((u32)func_02045770((struct Descriptor *)p[1]), p[3]);
+        func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)p[1])), (const struct Bmp *)p[3]);
         func_0219214C(p[2], p[12], p[4], p[5], p + 9, 15);
         p[8] = 0;
         func_020061E4(0x547);

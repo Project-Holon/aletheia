@@ -24,14 +24,14 @@ typedef signed char    s8;
 
 extern void *func_0215A5DC(void *a0);
 extern u32 func_02012134(void *a);
-extern u32 func_0202B578(u32 a);
+extern u32 func_0202B578(u32 *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern void func_0202C0D0(u32 a, u32 b);
+extern void func_0202C0D0(u8 *p, u32 a);
 
 int func_021AF458(u32 a, u32 b)
 {
-    u32 x = func_0202B578(func_02012134(func_0215A5DC((void *)b)));
+    u32 x = func_0202B578((u32 *)func_02012134(func_0215A5DC((void *)b)));
 
-    func_0202C0D0(x, func_02159B10((void *)a, (void *)b));
+    func_0202C0D0((u8 *)x, func_02159B10((void *)a, (void *)b));
     return 0;
 }

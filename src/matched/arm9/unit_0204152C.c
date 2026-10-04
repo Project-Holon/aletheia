@@ -69,26 +69,26 @@ void func_02041570(int channel, u16 val)
     func_02041B6C(channel);
 }
 
-extern u32 func_0207E1F8(void);
-extern u32 func_0207E24C(void);
-extern u32 func_0207E2A0(void);
-extern u32 func_0207E330(void);
+extern void *func_0207E1F8(void);
+extern void *func_0207E24C(void);
+extern void *func_0207E2A0(void);
+extern void *func_0207E330(void);
 extern u32 func_0207E22C(void);
 extern u32 func_0207E280(void);
-extern u32 func_0207E2F0(void);
-extern u32 func_0207E388(void);
+extern void *func_0207E2F0(void);
+extern void *func_0207E388(void);
 
 u32 func_020415B4(u32 channel)
 {
     switch (channel) {
-    case 0: return func_0207E1F8();
-    case 1: return func_0207E24C();
-    case 2: return func_0207E2A0();
-    case 3: return func_0207E330();
+    case 0: return (u32)func_0207E1F8();
+    case 1: return (u32)func_0207E24C();
+    case 2: return (u32)func_0207E2A0();
+    case 3: return (u32)func_0207E330();
     case 4: return func_0207E22C();
     case 5: return func_0207E280();
-    case 6: return func_0207E2F0();
-    case 7: return func_0207E388();
+    case 6: return (u32)func_0207E2F0();
+    case 7: return (u32)func_0207E388();
     default: return 0;
     }
 }

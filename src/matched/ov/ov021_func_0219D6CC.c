@@ -24,27 +24,27 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_0216DA20(u32, u32);
+extern int func_0216DA20(void *p, unsigned int v);
 extern void func_0219D7AC(u32);
 extern void func_0219D7D0(u32);
-extern u32 func_0216D57C(u32, u32);
+extern u32 func_0216D57C(void *p, u32 v);
 extern void func_02197EB4(u32);
-extern u32 func_0216DB10(u32);
+extern int func_0216DB10(void *a0);
 extern int func_0219D780(u32 a);
-extern void func_0216D708(u32);
+extern void func_0216D708(void *a0);
 extern void func_0219D7F0(u32);
 extern void func_0219D824(u32);
 
 void func_0219D6CC(u32 a)
 {
     u32 k = 2;
-    if (func_0216DA20(a, 2) == 0) {
+    if (func_0216DA20((void *)a, 2) == 0) {
         func_0219D7AC(a);
         func_0219D7D0(a);
-        if (func_0216D57C(a, k << 8) != 0) {
+        if (func_0216D57C((void *)a, k << 8) != 0) {
             func_02197EB4(a);
-        } else if (func_0216DB10(a) == 0 && func_0219D780(a) == 1) {
-            func_0216D708(a);
+        } else if (func_0216DB10((void *)a) == 0 && func_0219D780(a) == 1) {
+            func_0216D708((void *)a);
         }
         func_0219D7F0(a);
         func_0219D824(a);

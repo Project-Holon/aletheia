@@ -33,8 +33,10 @@ typedef struct {
     u8 h, i, j;
 } O;
 
-extern int func_020120F4(int);
-extern int func_02012B58(int);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02082BCC(void *, int, int);
 extern int func_02080D24(unsigned int x);
 extern int func_0217F5A0(char *);
@@ -50,13 +52,13 @@ void func_0217F008(char *p, char *q)
     int i;
 
     o = (O *)(p + 0xd8);
-    h = func_020120F4(*(int *)p);
+    h = (int)func_020120F4((const struct Ctx *)(*(int *)p));
     if (q == 0) {
         func_02082BCC(p + 0xd8, 0, 0x14);
         *(p + 0x11e) = 1;
         return;
     }
-    n = func_02012B58(h);
+    n = func_02012B58((const struct BigObj *)h);
     o->a = ((Bf *)(q + 0x86))->lo;
     o->b = *(u8 *)(q + 0x8fb);
     o->c = func_02080D24(o->b);

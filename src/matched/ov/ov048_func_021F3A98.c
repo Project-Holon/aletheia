@@ -13,6 +13,8 @@
  *   func_020142E8 0x020142E8 thumb
  */
 typedef unsigned int u32;
-extern u32 func_0201296C(u32 a);
-extern int func_020142E8(u32 a,u32 b);
-int func_021F3A98(void *p) {return func_020142E8(func_0201296C(*(u32 *)((char *)p+8)),0x960)==1;}
+typedef signed int     s32;
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_020142E8(void *bitmap, s32 id);
+int func_021F3A98(void *p) {return func_020142E8((void *)func_0201296C((const struct BigObj *)(*(u32 *)((char *)p+8))),0x960)==1;}

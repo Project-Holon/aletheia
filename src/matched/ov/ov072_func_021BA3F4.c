@@ -23,11 +23,12 @@ typedef struct {
     s16 y;
 } Pos;
 
-extern int func_021BA774(int a, int i);
+struct Actor;
+extern int func_021BA774(char *p, int i);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_0204B404(int obj, Pos *pos, int c);
-extern void func_0204B9A0(int obj);
+extern void func_0204B9A0(struct Actor *a);
 
 void func_021BA3F4(int *p, int a, int *b)
 {
@@ -39,11 +40,11 @@ void func_021BA3F4(int *p, int a, int *b)
         return;
     }
     if (p[5] != a) {
-        pos.x = b[0] + func_021BA774(a, 4);
-        pos.y = b[1] + func_021BA774(a, 5);
+        pos.x = b[0] + func_021BA774((char *)a, 4);
+        pos.y = b[1] + func_021BA774((char *)a, 5);
         func_0204B404(p[1], &pos, 0);
         func_0204B3DC((struct Obj *)p[1], 1);
-        func_0204B9A0(p[1]);
+        func_0204B9A0((struct Actor *)p[1]);
         p[5] = a;
     }
 }

@@ -17,8 +17,10 @@
  *   func_0204B98C  0x0204B98C  arm
  *   func_02205100  0x02205100  thumb
  */
-extern int func_0204B98C(int);
-extern void func_02205100(int, int *);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_02205100(void *unused, char *p);
 
 int func_02205168(int a, int *p)
 {
@@ -28,13 +30,13 @@ int func_02205168(int a, int *p)
         int ok = 1;
 
         for (i = 0; i < 6; i++) {
-            if (func_0204B98C(p[0x12 + i]) != 0) {
+            if (func_0204B98C((struct Actor *)p[0x12 + i]) != 0) {
                 ok = 0;
                 break;
             }
         }
         if (ok)
-            func_02205100(a, p);
+            func_02205100((void *)a, (char *)p);
         return ok;
     }
     return 1;

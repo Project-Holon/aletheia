@@ -26,7 +26,8 @@
 
 typedef unsigned int u32;
 
-extern void *func_020122C0(void *a0, int a1, int a2, int a3);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Ctx;
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
@@ -35,7 +36,7 @@ extern void func_0215FA34(void);
 
 void *func_020145CC(void *a0)
 {
-    void *r6 = func_020122C0(a0, 0, 0x02014585, 0x10);
+    void *r6 = func_020122C0(a0, 0, (void *)0x02014585, 0x10);
     u32 *r4 = func_020124E8(r6);
 
     r4[0] = (u32)a0;

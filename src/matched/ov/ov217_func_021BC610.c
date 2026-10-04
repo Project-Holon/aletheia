@@ -24,13 +24,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02021D50();
+struct S02021D50;
+extern void func_02021D50(struct S02021D50 *p);
 extern void func_020419E4();
 extern void func_0204A648();
 void func_021BC610(u32 a0, u32 a1)
 {
     func_020419E4();
     func_0204A648();
-    func_02021D50(*(u32*)(((u8*)a1 + 0 + 152)));
+    func_02021D50((struct S02021D50 *)(*(u32*)(((u8*)a1 + 0 + 152))));
 }
 

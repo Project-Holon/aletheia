@@ -10,13 +10,14 @@
  */
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(void *);
-extern void func_0204AFD8(void *);
-extern void func_0204ADA4(void *);
+typedef unsigned int   u32;
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
 void func_021E73B8(char *p)
 {
     func_0204B3B4(*(void **)(p + 0x188));
-    func_0204A8D4(*(void **)(p + 0x1ec));
-    func_0204AFD8(*(void **)(p + 0x1f0));
-    func_0204ADA4(*(void **)(p + 0x1e8));
+    func_0204A8D4((u32)(*(void **)(p + 0x1ec)));
+    func_0204AFD8((u32)(*(void **)(p + 0x1f0)));
+    func_0204ADA4((u32)(*(void **)(p + 0x1e8)));
 }

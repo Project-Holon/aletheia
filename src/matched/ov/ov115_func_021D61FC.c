@@ -27,7 +27,7 @@ extern void func_0203D0D0(void);
 extern void func_0203C968(void);
 extern void func_0203CA04(void);
 extern int func_0203CDBC(void);
-extern int func_0203CEAC(void *);
+extern int func_0203CEAC(int a0);
 extern void func_021D6134(void *,void (*)(void),int);
 extern void func_021D6274(void);
 extern void func_021D625C(void);
@@ -41,5 +41,5 @@ void func_021D61FC(void *p) {
         func_021D6134(p,func_021D6274,0x1bf);
         return;
     }
-    if (func_0203CEAC(func_021D6328)) func_021D6134(p,func_021D625C,0x1c7);
+    if (func_0203CEAC((int)func_021D6328)) func_021D6134(p,func_021D625C,0x1c7);
 }

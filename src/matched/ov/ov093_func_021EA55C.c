@@ -33,10 +33,10 @@ struct H {
 };
 
 extern void func_021EEE80(int a, u16 b, int *c);
-extern void func_021EEEF4(int a, u16 b, int *c);
+extern void func_021EEEF4(u32 a, u32 b, u32 c);
 extern void func_021EF694(u32 a, u32 b);
-extern void func_021EF6A8(int a, u16 b, int *c);
-extern void func_021EF6E8(int a, u16 b, int *c);
+extern void func_021EF6A8(u32 a, u32 b, u32 c);
+extern void func_021EF6E8(u32 a, u32 b, u32 c);
 extern void func_021EF5E8(u32 a, u8 b, u16 c);
 extern void func_021EF664(int a, u16 b, int c);
 
@@ -47,16 +47,16 @@ void func_021EA55C(struct H *p, int a)
         func_021EEE80(a, p->h0, &p->f4);
         break;
     case 2:
-        func_021EEEF4(a, p->h0, &p->f4);
+        func_021EEEF4(a, p->h0, (u32)(&p->f4));
         break;
     case 3:
         func_021EF694(a, p->h0);
         break;
     case 5:
-        func_021EF6A8(a, p->h0, &p->f4);
+        func_021EF6A8(a, p->h0, (u32)(&p->f4));
         break;
     case 6:
-        func_021EF6E8(a, p->h0, &p->f4);
+        func_021EF6E8(a, p->h0, (u32)(&p->f4));
         break;
     case 4:
         func_021EF5E8(a, p->f4, p->f8);

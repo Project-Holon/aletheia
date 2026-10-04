@@ -30,8 +30,8 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F50(void *base);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern int func_02168E5C();
-extern int func_0215897C();
+extern int func_02168E5C(int a, int b, int c);
+extern void func_0215897C(void *vm, void *task);
 
 int func_0216A72C(int a0, int a1)
 {
@@ -43,6 +43,6 @@ int func_0216A72C(int a0, int a1)
     r7 = func_0215A5DC((void *)a1);
     func_02012F50(func_020120F4((const struct Ctx *)r7));
     l0 = func_02159B10((void *)a0, (void *)a1);
-    func_0215897C(r6, func_02168E5C(r7, l0, func_02159B10((void *)a0, (void *)a1)));
+    func_0215897C(r6, (void *)func_02168E5C((int)r7, l0, func_02159B10((void *)a0, (void *)a1)));
     return 1;
 }

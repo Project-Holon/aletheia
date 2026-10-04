@@ -32,7 +32,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_0201F73C(void *, int, int, int);
-extern void func_02202878(void *, int, void *, int, int, void *);
+extern void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p);
 extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 void func_021F90B8(u8 *p, void *bank, u32 index, int unused1, int unused2, int slow)
 {
@@ -44,7 +44,7 @@ void func_021F90B8(u8 *p, void *bank, u32 index, int unused1, int unused2, int s
     func_02045334(*(void **)(p + 0xd40));
     func_0201F73C(*(void **)(p + 0xd40), 0, 1, 14);
     if (slow)
-        func_02202878(*(void **)(p + 0xd40), 0, *(void **)(p + 0xb88), 0, 0, p + 0xfa0);
+        func_02202878(*(void **)(p + 0xd40), 0, (unsigned int)(*(void **)(p + 0xb88)), 0, 0, p + 0xfa0);
     else
         func_02202858(*(void **)(p + 0xd40), 0, *(void **)(p + 0xb88), 0, 0, p + 0xfa0);
     *(int *)(p + 0xdfc) = 0;

@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 u16 func_0216D5F8(void *p);
 int func_02197E7C(int k, int a);
 void func_0216D410(int b, int v);
-void func_021A3964(u32 h, int s);
+void func_021A3964(u8 *p, u32 v);
 
 void func_020061E4(u32 a);
 
@@ -32,6 +32,6 @@ void func_021A511C(u32 *p, int b, u8 *c)
 {
     func_0216D410(b, func_02197E7C(*(u16 *)(c + 8), 0x38));
     p[0] = 1;
-    func_021A3964(p[3], 1);
+    func_021A3964((u8 *)p[3], 1);
     func_020061E4(0x55E);
 }

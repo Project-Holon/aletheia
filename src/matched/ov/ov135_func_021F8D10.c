@@ -29,7 +29,7 @@ typedef struct {
 } State;
 extern const char str_02203C34[], ov115_id[];
 extern const u32 d_021D6338[];
-extern void func_021F8E88(void *, void *);
+extern int func_021F8E88(void *dialog, u8 *p);
 typedef unsigned short u16;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -48,7 +48,7 @@ int func_021F8D10(u8 *p)
     s->f8 = 1;
     s->f10 = p + 0x116C;
     s->fc = 30;
-    s->callback = func_021F8E88;
+    s->callback = (void (*)(void *, void *))func_021F8E88;
     s->user = p;
     *(u32 *)(p + 0x12EC) = 0;
     if (*(u32 *)(p + 0x20) == 21) s->f14 = 1;

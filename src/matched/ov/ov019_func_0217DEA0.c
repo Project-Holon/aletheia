@@ -43,10 +43,10 @@ extern void func_021750B0(void *w, int v);
 extern int func_0217B8E4(char *p, char v);
 extern void func_0217BAF0(char *p, int x, unsigned int v);
 extern int func_0217FEF4(u8 *p);
-extern int func_0217FF14(int a);
+extern int func_0217FF14(void *a);
 extern u32 func_020362DC(void);
-extern void func_021A3460(void *a, s16 *x, s16 *y, s16 *z);
-extern int func_021679A4(int a0, int a1, int a2, int a3, int *a4, int *a5);
+extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
+extern int func_021679A4(void *a0, int a1, int a2, int a3, int a4, int a5);
 
 int func_0217DEA0(void *ctx, Obj *obj, int a2, u8 *state)
 {
@@ -75,15 +75,15 @@ int func_0217DEA0(void *ctx, Obj *obj, int a2, u8 *state)
             func_0217BAF0(ctx, a2, 1);
             return 1;
         }
-        if (func_0217FF14(a2) == 1) {
+        if (func_0217FF14((void *)a2) == 1) {
             func_0217B8E4(ctx, 0x31);
             func_0217BAF0(ctx, a2, 1);
             return 1;
         }
         if (func_020362DC() & 1) {
             k = 0;
-            func_021A3460(a, &v[2], &v[1], &v[0]);
-            if (func_021679A4(*(int *)w, v[2], v[1], v[0], &m, &k) == 1) {
+            func_021A3460((u32)a, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
+            if (func_021679A4((void *)(*(int *)w), v[2], v[1], v[0], (int)(&m), (int)(&k)) == 1) {
                 w[0x16c] = m;
                 func_0217B8E4(ctx, 0x33);
                 func_0217BAF0(ctx, a2, 1);

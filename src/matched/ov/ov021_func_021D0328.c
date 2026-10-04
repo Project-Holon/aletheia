@@ -27,13 +27,13 @@ typedef struct St021D0328 {
     u32 fC;
 } St021D0328;
 
-extern int func_020478B8(u32 a, int b, int c);
+extern int func_020478B8(void *a, int idx, int amount);
 
 void func_021D0328(void *unused, St021D0328 *p)
 {
     if (p->f2 != 4) {
         p->f3 = 0;
-        if (func_020478B8(p->fC, p->f2, 0x1000) == 0) {
+        if (func_020478B8((void *)p->fC, p->f2, 0x1000) == 0) {
             p->f3 = 1;
         }
     }

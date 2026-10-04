@@ -26,16 +26,18 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern void func_0201C4E4(int);
+typedef unsigned char  u8;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021E8A80(unsigned);
-extern int func_021E8A90(unsigned);
+extern int func_021E8A90(int **p);
 extern void func_021D9ED0(int);
-extern void func_021E5534(int);
-extern void func_021E867C(int);
+extern void func_021E5534(u8 *p);
+extern void func_021E867C(char *p);
 extern void func_021E7E08(int);
 extern void func_021E5980(int);
 extern int func_021E64C0(unsigned char *,void *);
-extern void func_021E7774(int,int);
+extern int func_021E7774(void *p, void *mgr);
 int func_021D44D4(unsigned sys,int *state,int unused,int *p)
 {
     switch(*state) {
@@ -43,18 +45,18 @@ int func_021D44D4(unsigned sys,int *state,int unused,int *p)
     case 1: if(func_0204E804()==0) *state=2; break;
     case 2:
         func_021E8A80(p[13]);
-        if(func_021E8A90(p[13])) *state=3;
+        if(func_021E8A90((int **)p[13])) *state=3;
         if(p[12]) func_021D9ED0(p[12]);
         break;
     case 3: func_0204E720(3,0,16,0); *state=4; break;
     case 4: if(func_0204E804()==0) return 1; break;
     }
-    func_021E5534(p[0]);
-    func_0201C4E4(p[3]);
-    func_021E867C(p[9]);
+    func_021E5534((u8 *)p[0]);
+    func_0201C4E4((struct PrintSys *)p[3]);
+    func_021E867C((char *)p[9]);
     func_021E7E08(p[8]);
     func_021E5980(p[1]);
     if(p[6]) func_021E64C0((unsigned char *)p[6],(void *)p[3]);
-    if(p[7]) func_021E7774(p[7],p[3]);
+    if(p[7]) func_021E7774((void *)p[7],(void *)p[3]);
     return 0;
 }

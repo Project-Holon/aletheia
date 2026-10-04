@@ -19,7 +19,7 @@
 
 extern unsigned int func_02159B10(void *, void *);
 extern int func_021B0BAC(int, int, int, int, int, int);
-extern void func_020113D0(int, int (*)(int, int));
+extern void func_020113D0(char *p, int val);
 extern int func_021B0CEC(int, int);
 
 int func_021B0D14(int a, int b)
@@ -31,7 +31,7 @@ int func_021B0D14(int a, int b)
     v3 = func_02159B10((void *)a, (void *)b);
     v4 = func_02159B10((void *)a, (void *)b);
     if (func_021B0BAC(b, v2, v0, v1, v3, v4) == 1) {
-        func_020113D0(a, func_021B0CEC);
+        func_020113D0((char *)a, (int)func_021B0CEC);
         return 1;
     }
     return 0;

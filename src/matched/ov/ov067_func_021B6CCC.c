@@ -14,11 +14,12 @@
  *   ENV_SetResourceSet  0x020307B0  arm
  */
 
-extern void func_02045808(int v);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void ENV_SetResourceSet(void *p);
 
 void func_021B6CCC(int *p)
 {
-    func_02045808(p[0]);
+    func_02045808((struct U16Vec *)p[0]);
     ENV_SetResourceSet(p);
 }

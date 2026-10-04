@@ -39,7 +39,7 @@ extern u16 func_02039338(void);
 extern int func_020395EC(u8 *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(u8 *p, u16 b, u16 c, void *d);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern void *func_0203D788(void);
 extern void *func_0203D798(void);
 extern void func_02087C6C(void *p);
@@ -63,7 +63,7 @@ int func_02039ACC(void)
             buf[6] = v;
             buf[7] = *(u8 *)(q + 0x67);
             buf[8] = *(u16 *)(q + 0x6e);
-            return func_0203D3A8(p, 3, 9, buf);
+            return func_0203D3A8((struct Entry *)p, 3, 9, (u32)buf);
         }
         if (f < 2)
             *(u8 *)(p + 0x4a) = f + 1;

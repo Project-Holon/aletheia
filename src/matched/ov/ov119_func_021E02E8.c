@@ -29,7 +29,12 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void *func_02012EBC(void *),*func_02008FEC(void *),*func_02012F2C(void *),*func_02012FCC(void *),*func_02007AF4(void *,u32),*func_02012F98(void *);
+extern void * func_02012EBC(void *);
+extern void *func_02008FEC(void *);
+extern void *func_02012F2C(void *);
+extern int func_02012FCC(int p0);
+extern void *func_02007AF4(void *,u32);
+extern void *func_02012F98(void *);
 extern u32 func_02008FFC(void),func_02008C20(void),func_02007AEC(void *);
 extern void func_02082D44(const void *,void *,u32),func_020307B0(void *),func_021E017C(void *,void *),func_021E01E0(void *,void *),func_021E0240(void *,void *),func_0201AC2C(void *,void *),func_020086F8(void *,void *),func_02007B5C(void *),func_02082BCC(void *,int,u32);
 void func_021E02E8(char *p)
@@ -57,7 +62,7 @@ void func_021E02E8(char *p)
     if(*(void **)(p+0x61c)) func_021E0240(*(void **)(p+0x82c),*(void **)(p+0x61c));
     if(*(void **)(p+0x620)) {
         func_0201AC2C(*(void **)(p+0x620),*(void **)(p+0x838));
-        func_020086F8(func_02012FCC(*(void **)(p+0x82c)),p+0x628);
+        func_020086F8((void *)func_02012FCC((int)(*(void **)(p+0x82c))),p+0x628);
         func_020307B0(*(void **)(p+0x620));
         *(int *)(p+0x620)=0;
     }

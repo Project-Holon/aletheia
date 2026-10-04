@@ -17,9 +17,12 @@
  *   func_02028604 0x02028604 thumb
  */
 
-extern void func_02028148(int);
-extern void func_02045808(int);
-extern void func_02027FD8(int);
+typedef unsigned char  u8;
+struct TaskMenuState;
+struct U16Vec;
+extern void func_02028148(u8 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02027FD8(struct TaskMenuState *s);
 extern int func_02028604(int a0);
 
 void func_021F2CC4(char *p)
@@ -28,16 +31,16 @@ void func_021F2CC4(char *p)
 
     for (i = 0; i < 2; i++) {
         if (*(int *)(p + i * 16 + 0xf0) != 0) {
-            func_02028148(*(int *)(p + i * 16 + 0xf0));
+            func_02028148((u8 *)(*(int *)(p + i * 16 + 0xf0)));
         }
-        func_02045808(*(int *)(p + i * 16 + 0xf4));
+        func_02045808((struct U16Vec *)(*(int *)(p + i * 16 + 0xf4)));
     }
     for (i = 0; i < 3; i++) {
         if (*(int *)(p + i * 16 + 0xc0) != 0) {
-            func_02028148(*(int *)(p + i * 16 + 0xc0));
+            func_02028148((u8 *)(*(int *)(p + i * 16 + 0xc0)));
         }
-        func_02045808(*(int *)(p + i * 16 + 0xc4));
+        func_02045808((struct U16Vec *)(*(int *)(p + i * 16 + 0xc4)));
     }
-    func_02027FD8(*(int *)(p + 0xb8));
+    func_02027FD8((struct TaskMenuState *)(*(int *)(p + 0xb8)));
     func_02028604(*(unsigned *)(p + 0xbc));
 }

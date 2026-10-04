@@ -24,7 +24,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern void *func_0201283C(void *);
+struct BigObj;
+struct Sub020097BCObj;
+extern u32 func_0201283C(const struct BigObj *p);
 extern void *func_02009860(void *);
 struct DWCstAccUserData;
 struct Sub020097BCFriend;
@@ -36,7 +38,7 @@ extern int func_02059354(void *,u32,u32);
 extern int func_0200F43C(void *,u32,u32,int *);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern void func_02059980(void *,u32,u32);
-extern void func_02009A00(void *,int,u32);
+extern void func_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
 int func_021C6460(char *p,void *q,u32 arg)
 {
@@ -44,7 +46,7 @@ int func_021C6460(char *p,void *q,u32 arg)
     void *v;
     u64 old,id;
     int valid,result;
-    v=func_0201283C(*(void **)(p+4));
+    v=(void *)func_0201283C(*(void **)(p+4));
     old=func_0205994C(func_02009860(v));
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==0) {
@@ -53,7 +55,7 @@ int func_021C6460(char *p,void *q,u32 arg)
             if(func_02059354(func_02009860(v),(u32)id,(u32)(id>>32))==0) return 1;
             if(func_0200F43C(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
             func_02059980(func_020099C8(v,i),(u32)id,(u32)(id>>32));
-            func_02009A00(v,i,arg);
+            func_02009A00(v,i,(void *)arg);
             func_02009918(v,i,9,2);
             return 0;
             }

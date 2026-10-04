@@ -44,9 +44,11 @@ struct RtcTime {
 extern struct RtcDate g_02146A0C;
 extern struct RtcTime g_02146A1C;
 
-extern void func_02089004(struct RtcDate *date, struct RtcTime *time);
+struct RTCDate;
+struct RTCTime;
+extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
 
 void func_0203F524(void)
 {
-    func_02089004(&g_02146A0C, &g_02146A1C);
+    func_02089004((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
 }

@@ -92,7 +92,8 @@ struct Rec {
 extern signed char func_02013020(void);
 extern signed char func_02013050(void);
 extern void sub_0201CDF4(s32 v, u8 *out);
-extern void func_02043B5C(u32 win, u32 c);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 
 static inline u32 KB(const u16 *p)
 {
@@ -199,7 +200,7 @@ void sub_0201D110(struct Rec *p)
         p->cbarg = p->f28;
         break;
     case 8:
-        func_02043B5C(p->win, p->color);
+        func_02043B5C((struct CharBuf *)p->win, p->color);
         break;
     }
 

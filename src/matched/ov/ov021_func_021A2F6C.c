@@ -17,14 +17,15 @@
 
 typedef unsigned int u32;
 
-int func_02188CFC(u32 x);
-void func_021A53D0(u32 x);
-void func_021A5A34(u32 x);
+typedef unsigned char  u8;
+u32 func_02188CFC(u8 *p);
+void func_021A53D0(u32 *p);
+void func_021A5A34(u32 *p);
 
 void func_021A2F6C(u32 *p)
 {
-    if (func_02188CFC(p[0]) == 0)
-        func_021A53D0(p[2]);
+    if (func_02188CFC((u8 *)p[0]) == 0)
+        func_021A53D0((u32 *)p[2]);
     else
-        func_021A5A34(p[3]);
+        func_021A5A34((u32 *)p[3]);
 }

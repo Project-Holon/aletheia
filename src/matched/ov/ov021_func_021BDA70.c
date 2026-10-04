@@ -17,15 +17,17 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_021A7B20(u32);
-extern void func_02012374(u32 a, u32 b);
+struct Args;
+struct Evt;
+extern void *func_021A7B20(struct Args *a);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_021BDC80(u32 *);
 u32 func_021BDA70(u32 a, u32 *st, u32 *p)
 {
     u32 v = p[0];
     switch (st[0]) {
     case 0:
-        func_02012374(a, func_021A7B20(v));
+        func_02012374((struct Evt *)a, func_021A7B20((struct Args *)v));
         st[0]++;
         break;
     case 1:

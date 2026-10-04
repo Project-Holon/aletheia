@@ -15,7 +15,7 @@
  *   func_021DE720 0x021DE720 thumb ov170
  */
 typedef struct {void *p;unsigned short index;unsigned char flags;unsigned char pad[5];} State;
-extern void *func_021DD2D0(void ***,int,unsigned);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern unsigned func_02017E88(void *,unsigned,unsigned);
 extern int func_021DE720(unsigned short);
 int func_021DE7C8(unsigned char *p)
@@ -31,11 +31,11 @@ int func_021DE7C8(unsigned char *p)
             box=n/30;
             slot=n%30;
             if(box==p[0x14]&&slot==p[0x16]) m=0;
-            else m=func_021DD2D0((void ***)p,box,slot);
+            else m=(void *)func_021DD2D0((void ***)p,box,slot);
         }else{
             slot=n-720;
             if(slot==p[0x16]-30)m=0;
-            else m=func_021DD2D0((void ***)p,255,slot);
+            else m=(void *)func_021DD2D0((void ***)p,255,slot);
         }
         if(m&&func_02017E88(m,0xa9,0)!=0){
             for(i=0;i<4;i++){

@@ -43,7 +43,8 @@ struct Obj {
     u16 f14;
 };
 
-extern u32 func_0202BFC4(const u8 *p, u16 key);
+struct Container;
+extern u8 func_0202BFC4(const struct Container *c, u16 key);
 
 void func_0202BF54(struct Obj *o, u16 key)
 {
@@ -52,7 +53,7 @@ void func_0202BF54(struct Obj *o, u16 key)
     if (o->state != 0) {
         return;
     }
-    idx = func_0202BFC4((const u8 *)o, key);
+    idx = func_0202BFC4((const struct Container *)((const u8 *)o), key);
     if (idx == 0xff) {
         return;
     }

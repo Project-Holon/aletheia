@@ -39,11 +39,11 @@ typedef struct P {
 
 extern int func_02190D48(u32 a);
 extern u32 func_02193210(u8 *p);
-extern u32 func_02190D2C(Fx *a, u32 b, u32 c, u32 d, u16 e, u32 f);
+extern u32 *func_02190D2C(u32 *a, u32 b, u32 c, u32 d, u16 e, u32 f);
 
 void func_02191084(P *p, u32 b, u16 c, u32 d)
 {
     if (p->f04 != 0)
         func_02190D48(p->f04);
-    p->f04 = func_02190D2C(p->f14, d, p->f00, (u16)(b + 8), c, func_02193210((u8 *)p->f14 + 0x160));
+    p->f04 = (u32)func_02190D2C((u32 *)p->f14, d, p->f00, (u16)(b + 8), c, func_02193210((u8 *)p->f14 + 0x160));
 }

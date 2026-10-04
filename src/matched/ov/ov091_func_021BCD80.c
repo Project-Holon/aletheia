@@ -17,9 +17,9 @@
  */
 
 extern void func_021BD61C(char *a);
-extern void func_021BD18C(char *a, int x);
+extern void func_021BD18C(char *a, char *p);
 extern void func_021BD058(char *a);
-extern void func_021BCE9C(char *a);
+extern void func_021BCE9C(unsigned int p);
 
 void func_021BCD80(char *a)
 {
@@ -28,15 +28,15 @@ void func_021BCD80(char *a)
     if (*(int *)(*(char **)(a + 0x280) + 0x8C) == 1) {
         switch (*(int *)(*(char **)(a + 0x280) + 0x64)) {
         case 1:
-            func_021BD18C(a, *(int *)(a + 0x1F4));
+            func_021BD18C(a, (char *)(*(int *)(a + 0x1F4)));
             break;
         case 2:
-            func_021BD18C(a, *(int *)(a + 0x1F0));
-            func_021BD18C(a, *(int *)(a + 0x1F4));
-            func_021BD18C(a, *(int *)(a + 0x1F8));
+            func_021BD18C(a, (char *)(*(int *)(a + 0x1F0)));
+            func_021BD18C(a, (char *)(*(int *)(a + 0x1F4)));
+            func_021BD18C(a, (char *)(*(int *)(a + 0x1F8)));
             break;
         }
     }
     func_021BD058(a);
-    func_021BCE9C(a);
+    func_021BCE9C((unsigned int)a);
 }

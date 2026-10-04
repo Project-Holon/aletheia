@@ -51,7 +51,7 @@ struct Ctx;
 u32 func_02012138(const struct Ctx *p);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u32 func_02026454(void *obj);
-u8 *func_02026474(void *);
+u32 func_02026474(void *obj);
 void func_0217EFCC(u8 *w, u8 *p);
 void *func_020490F4(unsigned int id, u16 heap);
 void func_0217D624(u8 *w);
@@ -63,15 +63,15 @@ void func_02049238(void *bg);
 void func_0203D34C(u32 a, u32 b);
 void func_02037174(void);
 void *func_020056A0(void (*cb)(void), void *arg, int pri);
-void func_0217D5AC(void);
+void func_0217D5AC(int a0, u8 *p);
 u8 *func_020120F8(const struct Ctx *p);
 struct Rec44;
 u16 func_02012AC8(const struct Rec44 *p);
-int func_0217EBD8(u8 *w);
+void *func_0217EBD8(u8 *p);
 void func_0217E638(u8 *w, int);
 void func_0217DE68(u8 *w, int);
 void func_0217E014(u8 *w, int);
-u8 *func_02158344(void *);
+int func_02158344(int a0);
 void func_0217E0F4(u8 *w, u8 *, int);
 void func_0217E3D0(u8 *w, int, int);
 void func_0217E4D0(u8 *w, int);
@@ -104,7 +104,7 @@ u8 *func_0217CFE4(void *a)
     }
     p = 0;
     if (func_02026454(s) == 2) {
-        p = func_02026474(s);
+        p = (u8 *)func_02026474(s);
     }
     if (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 1) {
         p = 0;
@@ -125,13 +125,13 @@ u8 *func_0217CFE4(void *a)
     tmp |= 0x20;
     REG_WINOUT_SUB = (u16)tmp;
     REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
-    *(void **)(w + 0x34) = func_020056A0(func_0217D5AC, w, 10);
+    *(void **)(w + 0x34) = func_020056A0((void (*)(void))func_0217D5AC, w, 10);
     q = func_02012AC8((const struct Rec44 *)func_020120F8(*(void **)w));
-    k = func_0217EBD8(w);
+    k = (int)func_0217EBD8(w);
     func_0217E638(w, q);
     func_0217DE68(w, k);
     func_0217E014(w, k);
-    func_0217E0F4(w, func_02158344(s), k);
+    func_0217E0F4(w, (u8 *)func_02158344((int)s), k);
     func_0217E3D0(w, k, q);
     func_0217E4D0(w, k);
     func_0217E524(w, k);

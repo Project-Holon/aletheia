@@ -19,7 +19,9 @@ typedef struct { int v[4]; } T4;
 typedef struct { int x, y, z; } V3;
 
 extern T4 d_021F39CC;
-extern int func_02188C98(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02188C98(u8 *p);
 extern void func_0218DC4C(int, V3 *);
 
 void func_021F38F0(char *a, int b)
@@ -27,7 +29,7 @@ void func_021F38F0(char *a, int b)
     V3 v = {0, 0, 0};
     T4 t = d_021F39CC;
     unsigned char *p = *(unsigned char **)(a + 0x24);
-    int r = func_02188C98(b);
+    int r = func_02188C98((u8 *)b);
 
     switch (p[1]) {
     case 0:

@@ -27,8 +27,9 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204B270(struct Bank *bank);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0204ABF0(u32,u32,u32,u32,u16);
-extern int func_0204A6C8(u32,u32,u32,u32,u16);
-extern int func_0204AF28(u32,u32,u32,u32);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 extern const char d_021F8408[];
 typedef struct { u16 heap,pad; void *a; u32 entries[4][8]; u32 other[8]; void *bank; u32 x,y,z; } Object;
@@ -46,8 +47,8 @@ Object *func_021F6BD8(u16 heap,void *a)
     func_0204B270(p->bank);
     q=func_020490F4((unsigned int)47,p->heap);
     p->x=func_0204ABF0((u32)q,4,0,0,p->heap);
-    p->y=func_0204A6C8((u32)q,10,0,0,p->heap);
-    p->z=func_0204AF28((u32)q,20,23,p->heap);
+    p->y=func_0204A6C8((void *)((u32)q),10,0,0,p->heap);
+    p->z=func_0204AF28((void *)((u32)q),20,23,p->heap);
     func_02049238(q);
     return p;
 }

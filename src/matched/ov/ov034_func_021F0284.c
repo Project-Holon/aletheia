@@ -59,7 +59,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201C440(u32);
+extern u32 func_0201C440(void *p);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
@@ -117,7 +117,7 @@ void func_021F0284(u8 *p)
     u32 i,one=1;
     void *bank,*ws,*dst,*ctx,*ctrl,*s0,*s1,*s2,*s3,*s4,*s5,*s6,*s7,*time,*t;
     u32 date[4],clock[3];
-    *(u32 *)(p+8)=func_0201C440(*(u16 *)(p+0x12C));
+    *(u32 *)(p+8)=func_0201C440((void *)(*(u16 *)(p+0x12C)));
     for(i=0;i<8;i++) {
         const u8 *r=d_021F0A70+i*6;
         u8 *entry=p+i*8;

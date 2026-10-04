@@ -38,9 +38,9 @@ struct Sub02005C18State {
 
 extern struct Sub02005C18State sub_02005C18_State;
 
-extern void func_02074758(u32 a);
+extern void func_02074758(void **a0);
 
 void sub_02005C18(void)
 {
-    func_02074758(sub_02005C18_State.unk10);
+    func_02074758((void **)sub_02005C18_State.unk10);
 }

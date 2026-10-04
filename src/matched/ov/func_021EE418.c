@@ -18,9 +18,9 @@
 
 
 extern void func_021EE408(char *p, int v);
-extern void func_021EC000(int, int, int);
+extern void func_021EC000(char *p, int i, int v);
 void func_021EE418(char *p, int v)
 {
     func_021EE408(p, v);
-    func_021EC000(*(int *)(p + 0x2c), 4, 1);
+    func_021EC000((char *)(*(int *)(p + 0x2c)), 4, 1);
 }

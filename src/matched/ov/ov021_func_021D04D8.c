@@ -31,12 +31,12 @@ typedef struct St021D04D8 {
     u16 f18;
 } St021D04D8;
 
-extern Blk021D04D8 *func_021AC1AC(void *a);
-extern void func_0216E1A4(u32 a, void *b);
+extern int func_021AC1AC(u32 a);
+extern int func_0216E1A4(int a0, int a1);
 
 void func_021D04D8(void *a, St021D04D8 *s)
 {
-    *(Blk021D04D8 *)s = *func_021AC1AC(a);
-    func_0216E1A4(s->f8, s->f10);
+    *(Blk021D04D8 *)s = *((Blk021D04D8 *)func_021AC1AC((u32)a));
+    func_0216E1A4(s->f8, (int)s->f10);
     s->f18 = ((u16 *)(s->f0 + 8))[s->fC];
 }

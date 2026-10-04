@@ -43,8 +43,8 @@ extern u32   func_02017EAC(void *m);
 extern u32 func_0200C720(u32 v);
 extern u32   func_0200D064(struct Blk37 *p, u16 id);
 extern void  func_0200CA98(struct Blk37 *p, u16 id, u32 c, u32 d, u32 e);
-extern void  func_0200C818(struct Blk37 *p, u16 id, u32 c, u32 d);
-extern void  func_0200C914(struct Blk37 *p, u16 id, u32 c, u32 d, u32 e);
+extern void func_0200C818(u8 *p, u32 idx, int sel, int half);
+extern void func_0200C914(u8 *p, u32 id, u32 a2, u32 a3, u32 start);
 
 void func_0200CFA0(struct Blk37 *p, void *m)
 {
@@ -75,6 +75,6 @@ void func_0200CFA0(struct Blk37 *p, void *m)
     if (id == 0x147 && p->unk4D0 == 0) {
         p->unk4D0 = v0;
     }
-    func_0200C818(p, id, f, g);
-    func_0200C914(p, id, f, g, v6F);
+    func_0200C818((u8 *)p, id, f, g);
+    func_0200C914((u8 *)p, id, f, g, v6F);
 }

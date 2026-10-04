@@ -28,9 +28,9 @@ typedef unsigned int u32;
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(void *);
-extern void func_0204ADA4(void *);
-extern void func_0204AFD8(void *);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 
 void func_021D66E8(void *p)
 {
@@ -39,9 +39,9 @@ void func_021D66E8(void *p)
     if (*(void **)((u8 *)*(void **)(b + 0xc) + 0xb0) != 0)
         func_0204B3B4(*(void **)((u8 *)*(void **)(b + 0xc) + 0xb0));
     if (*(void **)(b + 0x8a8) != 0) {
-        func_0204A8D4(*(void **)(b + 0x8a8));
-        func_0204ADA4(*(void **)(b + 0x88c));
-        func_0204AFD8(*(void **)(b + 0x8bc));
+        func_0204A8D4((u32)(*(void **)(b + 0x8a8)));
+        func_0204ADA4((u32)(*(void **)(b + 0x88c)));
+        func_0204AFD8((u32)(*(void **)(b + 0x8bc)));
     }
     *(void **)(b + 0x8a8) = 0;
     *(void **)(b + 0x88c) = 0;

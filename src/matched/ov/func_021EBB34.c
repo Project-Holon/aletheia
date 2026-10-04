@@ -17,10 +17,12 @@
  */
 
 
-extern void func_0201EF40(int, int, int);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_021EBA84(char *, int, int);
 void func_021EBB34(char *p, int a, int b)
 {
-    func_0201EF40(*(int *)(*(int *)(p + 0x2c) + 0x84), 0, a);
+    func_0201EF40((struct WordSet *)(*(int *)(*(int *)(p + 0x2c) + 0x84)), 0, a);
     func_021EBA84(p, 0xe, b);
 }

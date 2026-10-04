@@ -27,7 +27,8 @@ typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
-extern void func_0204B1CC(int h);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *p);
 
 void func_022092E8(W *w)
@@ -36,7 +37,7 @@ void func_022092E8(W *w)
     func_0204A8D4(w->h40);
     func_0204AFD8(w->h44);
     func_0204ADA4(w->h48);
-    func_0204B1CC(w->h0);
-    func_0204B1CC(w->h4);
+    func_0204B1CC((struct Bank *)w->h0);
+    func_0204B1CC((struct Bank *)w->h4);
     func_020307B0(w);
 }

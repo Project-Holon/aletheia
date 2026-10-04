@@ -50,8 +50,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_020120B4(u32 a0, u32 a1, void *a2, u32 a3);
-extern u32  func_020120F0(u32 ctx);
+struct Ctx;
+struct IcaAnime;
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
 extern u8   ov091_id[];
 extern u8   ov131_id[];
 
@@ -61,11 +63,11 @@ u32 func_02014878(u32 a0, u32 *mode, u32 *p)
 
     switch (*mode) {
     case 0:
-        func_020120B4(v, (u32)ov091_id, (void *)0x021BED00, p[2]);
+        func_020120B4((struct IcaAnime *)v, (u32)ov091_id, (void *)0x021BED00, (void *)p[2]);
         *mode = 1;
         break;
     case 1:
-        if (func_020120F0(v) != 0)
+        if (func_020120F0((const struct Ctx *)v) != 0)
             break;
         *mode = 2;
         break;
@@ -82,11 +84,11 @@ u32 func_02014878(u32 a0, u32 *mode, u32 *p)
         *mode = 5;
         break;
     case 3:
-        func_020120B4(v, (u32)ov131_id, (void *)0x021DC800, p[3]);
+        func_020120B4((struct IcaAnime *)v, (u32)ov131_id, (void *)0x021DC800, (void *)p[3]);
         *mode = 4;
         break;
     case 4:
-        if (func_020120F0(v) != 0)
+        if (func_020120F0((const struct Ctx *)v) != 0)
             break;
         *(u32 *)(p[2] + 0x3c) = *(u8 *)(p[3] + 0xf);
         *mode = 0;

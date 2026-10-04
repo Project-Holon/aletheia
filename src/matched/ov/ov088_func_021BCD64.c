@@ -20,7 +20,8 @@
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-extern void func_020312F8(void *a, void *b, int c);
+typedef unsigned int   u32;
+extern void func_020312F8(u32 a1, u32 a2, u32 a3);
 extern char d_021BD574[];
 extern char ov088_id[];
 
@@ -28,6 +29,6 @@ int func_021BCD64(int a0)
 {
     func_020315D4((struct S020315D4 *)a0);
     func_020306F0(0x81);
-    func_020312F8(ov088_id, d_021BD574, 0);
+    func_020312F8((u32)ov088_id, (u32)d_021BD574, 0);
     return 1;
 }

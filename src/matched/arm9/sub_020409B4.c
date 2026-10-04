@@ -33,11 +33,11 @@ struct Entry02146A44 {
 };
 
 extern struct Entry02146A44 *gUnk_02146A44;
-extern void func_020409E0(u32 index, u32 a, u32 b, u32 c);
+extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 
 void sub_020409B4(u32 index)
 {
     struct Entry02146A44 *e = &gUnk_02146A44[index];
 
-    func_020409E0(index, e->unk_08, e->unk_0c, e->unk_10);
+    func_020409E0(index, (const void *)e->unk_08, e->unk_0c, e->unk_10);
 }

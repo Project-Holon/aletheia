@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 typedef struct { u32 a; u32 b; u32 c; } Blk;
 
 extern void func_02082BCC(void *p, u32 a, u32 b);
-extern u32  func_021B9944(u32 a, u32 b);
+extern int func_021B9944(void *p, int i);
 extern void func_021BABE0(u8 *p, int a, int b, int c);
 extern u8 func_020355C4(void);
 extern void func_021BAA0C(u8 *p, int flag);
@@ -42,7 +42,7 @@ void func_021BA734(u8 *p, u16 a1, u16 a2, u32 a3, Blk *src)
     *(u32 *)(p + 0x34) = 0x10;
     *(Blk *)(p + 0x44) = *src;
     for (i = 0; i < 11; i++) {
-        *(u32 *)(p + i * 4 + 8) = func_021B9944(a3, i + 2);
+        *(u32 *)(p + i * 4 + 8) = func_021B9944((void *)a3, i + 2);
     }
     func_021BABE0(p, -8, -192, 192);
     if (func_020355C4() == 1) {

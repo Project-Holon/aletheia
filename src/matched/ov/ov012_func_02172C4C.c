@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Work { u8 b[0x3570]; } Work;
 extern Work *func_02172BC0(u32 a);
-extern void func_0203CBAC(void *a, void *cb, void *p);
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_02172C98(u8 *p);
 extern char d_02175380[];
-Work *func_02172C4C(void *unused, u32 a) { Work *p; p = func_02172BC0(a); p->b[0x3560] = 1; func_0203CBAC(d_02175380, func_02172C98, p); return p; }
+Work *func_02172C4C(void *unused, u32 a) { Work *p; p = func_02172BC0(a); p->b[0x3560] = 1; func_0203CBAC((struct Req *)d_02175380, (u32)func_02172C98, (u32)p); return p; }

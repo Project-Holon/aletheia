@@ -38,13 +38,14 @@ typedef struct Obj {
 extern int func_02006238(void);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_020212B0(u16 id);
 struct WordSet;
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021BACF0(Obj *o, int v);
-extern void func_021B6100(Obj *o, void *fn);
+extern void func_021BACF0(int p, int mode);
+extern void func_021B6100(char *p, int k);
 extern void func_021B7584(int p);
 
 void func_021B75A4(Obj *o)
@@ -53,9 +54,9 @@ void func_021B75A4(Obj *o)
         return;
     if ((func_020362DC() & 3) == 0 && func_02035C60() == 0)
         return;
-    func_02045CAC(o->f51C, 0x3E, o->f524);
+    func_02045CAC(o->f51C, 0x3E, (void *)o->f524);
     func_0201EF34(o->f520, 0, func_020212B0(o->f84C));
     func_0201F250(o->f520, o->f528, (void *)o->f524);
-    func_021BACF0(o, 1);
-    func_021B6100(o, (void *)func_021B7584);
+    func_021BACF0((int)o, 1);
+    func_021B6100((char *)o, (int)((void *)func_021B7584));
 }

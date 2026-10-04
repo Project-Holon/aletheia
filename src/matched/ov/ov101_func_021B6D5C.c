@@ -19,7 +19,7 @@ typedef unsigned short u16;
 extern char d_021B753C[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02082BCC(int,int,unsigned);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 int func_021B6D5C(unsigned a,int p) {
  int q;
  q=(int)func_02030734(a,0x18,0,d_021B753C,0x3e4);
@@ -33,5 +33,5 @@ void func_021B6D90(int p,int q) {
  *(int *)(q+0x28)=*(int *)(p+0xc);
  *(u8 *)(q+0x2c)=*(u8 *)(p+0x10);
  *(u8 *)(q+0x2d)=*(int *)(p+0x14);
- func_020307B0(p);
+ func_020307B0((void *)p);
 }

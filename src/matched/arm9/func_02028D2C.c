@@ -40,7 +40,7 @@ struct Sys {
 
 extern void func_020293D8(struct Sys *s);
 extern void func_02005D28(void);
-extern void func_02028CD4(struct Sys *s, void *desc);
+extern void func_02028CD4(u8 *p, u32 v);
 
 void func_02028D2C(struct Sys *s, void *desc)
 {
@@ -48,5 +48,5 @@ void func_02028D2C(struct Sys *s, void *desc)
         func_020293D8(s);
     }
     func_02005D28();
-    func_02028CD4(s, desc);
+    func_02028CD4((u8 *)s, (u32)desc);
 }

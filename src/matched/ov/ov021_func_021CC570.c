@@ -46,7 +46,7 @@ extern void *func_0215A5E4(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02014840(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
+extern void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void func_0215897C(void *a, void *b);
 extern const char d_021DE5A8[];
 extern const u8 d_021F6D78[];
@@ -67,6 +67,6 @@ int func_021CC570(u32 unused, u32 a)
     r = func_02030734(4, 8, 0, d_021DE5A8, 0x44);
     r->f0 = 0;
     r->f4 = v;
-    func_0215897C(s, func_02014840(sys, x, (u32)ov107_id, d_021F6D78, r, 0, r));
+    func_0215897C(s, func_02014840(sys, (int)x, (u32)ov107_id, (int)d_021F6D78, (int)r, 0, (int)r));
     return 1;
 }

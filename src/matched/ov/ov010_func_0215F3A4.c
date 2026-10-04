@@ -34,7 +34,7 @@ extern u32 func_0215911C(void *p);
 extern int func_0215F608();
 extern u16 func_0215A480(unsigned a);
 extern u16 func_0215A490(unsigned a);
-extern int func_02162788();
+extern void func_02162788(char *p, unsigned i, u16 v);
 
 int func_0215F3A4(int a, int b)
 {
@@ -51,7 +51,7 @@ int func_0215F3A4(int a, int b)
     base = (u8 *)func_0215911C(x);
     e = base + 6;
     h = func_0215F608(base, y0, y3);
-    func_02162788(r, y1, func_0215A480(*(u16 *)(e + h * 8)));
-    func_02162788(r, y2, func_0215A490(*(u16 *)(e + h * 8)));
+    func_02162788((char *)r, y1, func_0215A480(*(u16 *)(e + h * 8)));
+    func_02162788((char *)r, y2, func_0215A490(*(u16 *)(e + h * 8)));
     return 0;
 }

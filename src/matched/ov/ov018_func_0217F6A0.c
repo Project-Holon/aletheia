@@ -62,36 +62,40 @@ struct Ctx;
 u32 func_02012138(const struct Ctx *p);
 struct Ctx;
 void *func_0201210C(const struct Ctx *p);
-u8 *func_02158344(int a0);
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+int func_02158344(int a0);
 int func_0200FB24(void);
 u8 func_02012B80(void *a0);
 u8 func_02012B58(void *a0);
 void func_021757A8(void *p);
 void func_0217BF1C(void *p);
-void *func_02188C54(u8 *a0);
+u32 func_02188C54(u8 *p);
 int func_021904B0(int a0, int a1);
 int func_021907A8(void *a0, int a1);
-int func_0201EC64(int a0);
+struct WordSet *func_0201EC64(u32 heap);
 void func_020061E4(int a0);
 int func_0215841C(void *p);
-void func_02190740(int a0, int a1, int a2, int a3);
-int func_020457B0(int a0, int a1);
-int func_02045EC0(int a0, int a1);
+int func_02190740(u32 a, u32 b, u32 c, u32 d);
+struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+void *func_02045EC0(struct MsgBank *bank, u32 index);
 int func_021583EC(void *a0, int a1);
-void func_0201F02C(int a0, int a1, int a2);
-void func_0201F250(int a0, int a1, int a2);
-void func_02190758(int a0, int a1, int a2, int a3);
-void func_02045808(int a0);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void func_0201F250(struct WordSet *ws, void *dst, void *src);
+int func_02190758(u32 a, u32 b, u32 c, u32 d);
+void func_02045808(struct U16Vec *vec);
 int func_0203D1B4(void);
-int func_02173D2C(u8 *w, int a1);
-int func_02175FB4(void *p);
-int func_02173C6C(u8 *w, int a1);
-int func_0217BF28(void *p);
+int func_02173D2C(int a0, int a1);
+u8 func_02175FB4(u8 *p);
+int func_02173C6C(int a, int b);
+u8 func_0217BF28(u8 *p);
 int func_0219077C(int a0);
 u32 func_020362DC(void);
-void func_0201ED04(int a0);
-void func_02190728(int a0);
-void func_02045C04(int a0);
+void func_0201ED04(struct WordSet *p);
+int func_02190728(u32 a);
+void func_02045C04(struct Rec *rec);
 
 int func_0217F6A0(void *a0, int *state, Ctx *c)
 {
@@ -107,7 +111,7 @@ int func_0217F6A0(void *a0, int *state, Ctx *c)
     k = func_02012138(h);
     t = func_0201210C(h);
     flag = 0;
-    w = func_02158344(k);
+    w = (u8 *)func_02158344(k);
     if (w == 0 && *state > 0 && *state < 5) {
         *state = 5;
     }
@@ -125,22 +129,22 @@ int func_0217F6A0(void *a0, int *state, Ctx *c)
             func_021757A8(w + 0x1AC);
             func_0217BF1C(w + 0x914);
         }
-        g = func_02188C54(t);
+        g = (void *)func_02188C54(t);
         c->f0 = func_021904B0((int)g, 0x2D);
         c->f4 = func_021907A8(g, c->f0);
-        c->f8 = func_0201EC64(4);
+        c->f8 = (int)func_0201EC64(4);
         func_020061E4(0x547);
         if (w == 0 || func_0215841C(s) == func_02012B58(s)) {
             func_02190740(c->f4, 0, 0, 0x49);
             flag = 1;
         } else {
-            a = func_020457B0(0x100, 0x15);
-            b = func_02045EC0(c->f0, 0x4A);
-            func_0201F02C(c->f8, 0, func_021583EC(s, func_0215841C(s)));
-            func_0201F250(c->f8, a, b);
+            a = (int)func_020457B0(0x100, 0x15);
+            b = (int)func_02045EC0((struct MsgBank *)c->f0, 0x4A);
+            func_0201F02C((struct WordSet *)c->f8, 0, (void *)func_021583EC(s, func_0215841C(s)));
+            func_0201F250((struct WordSet *)c->f8, (void *)a, (void *)b);
             func_02190758(c->f4, 0, 0, a);
-            func_02045808(b);
-            func_02045808(a);
+            func_02045808((struct U16Vec *)b);
+            func_02045808((struct U16Vec *)a);
         }
         if (func_0203D1B4() <= 1) {
             if (flag == 0) {
@@ -154,7 +158,7 @@ int func_0217F6A0(void *a0, int *state, Ctx *c)
         (*state)++;
     }
     case 1:
-        if (func_02173D2C(w, func_0215841C(s)) == 1) {
+        if (func_02173D2C((int)w, func_0215841C(s)) == 1) {
             (*state)++;
         }
         break;
@@ -164,7 +168,7 @@ int func_0217F6A0(void *a0, int *state, Ctx *c)
         }
         break;
     case 3:
-        if (func_02173C6C(w, func_0215841C(s)) == 1) {
+        if (func_02173C6C((int)w, func_0215841C(s)) == 1) {
             (*state)++;
         }
         break;
@@ -181,9 +185,9 @@ int func_0217F6A0(void *a0, int *state, Ctx *c)
         break;
     case 6:
         if (func_020362DC() & 0xF3) {
-            func_0201ED04(c->f8);
+            func_0201ED04((struct WordSet *)c->f8);
             func_02190728(c->f4);
-            func_02045C04(c->f0);
+            func_02045C04((struct Rec *)c->f0);
             (*state)++;
         }
         break;

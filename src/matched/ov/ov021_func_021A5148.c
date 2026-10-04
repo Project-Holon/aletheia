@@ -24,20 +24,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_021A3960(unsigned char *p);
-extern void func_021A51A4(u32, void *, u32);
-extern void func_021A51A8(u32, void *, u32);
-extern void func_021A51D8(u32, void *, u32);
-extern void func_021A5204(u32, void *, u32);
-extern void func_021A5228(u32, void *, u32);
+extern void func_021A51A4(u32 a, u32 b, u32 c);
+extern void func_021A51A8(u32 *p, int b, u8 *c);
+extern void func_021A51D8(u32 *p, int b, u8 *c);
+extern void func_021A5204(u32 *p, int b, u8 *c);
+extern void func_021A5228(u32 *p, int b, u8 *c);
 
 void func_021A5148(u32 a, u32 b, u32 c)
 {
     void *x = func_021A3960(*(void **)(a + 12));
     switch (b) {
-    case 0: func_021A51A4(a, x, c); return;
-    case 1: func_021A51A8(a, x, c); return;
-    case 2: func_021A51D8(a, x, c); return;
-    case 3: func_021A5204(a, x, c); return;
-    case 4: func_021A5228(a, x, c); break;
+    case 0: func_021A51A4(a, (u32)x, c); return;
+    case 1: func_021A51A8((u32 *)a, (int)x, (u8 *)c); return;
+    case 2: func_021A51D8((u32 *)a, (int)x, (u8 *)c); return;
+    case 3: func_021A5204((u32 *)a, (int)x, (u8 *)c); return;
+    case 4: func_021A5228((u32 *)a, (int)x, (u8 *)c); break;
     }
 }

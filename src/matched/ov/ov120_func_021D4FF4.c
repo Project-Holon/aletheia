@@ -32,7 +32,7 @@ extern void func_02041B6C(u32 bit);
 extern void func_02040588(u32, u32);
 extern void func_021D6D94(u8 *p);
 extern void func_021D4244(int, void (*)(int), int);
-extern void func_021D4FD0(int);
+extern void func_021D4FD0(u8 *p);
 void func_021D4FF4(u8 *p)
 {
     if (func_021D8664(*(void **)(p + 0x40))) {
@@ -46,6 +46,6 @@ void func_021D4FF4(u8 *p)
             func_02040588(4, 0);
             func_021D6D94(*(void **)(p + 0x3c));
         }
-        func_021D4244((int)p, func_021D4FD0, 0x5dd);
+        func_021D4244((int)p, (void (*)(int))func_021D4FD0, 0x5dd);
     }
 }

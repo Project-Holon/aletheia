@@ -27,7 +27,7 @@ extern u8 g_02203C00[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(u32 value, void *dst, u32 size);
-extern void *func_0204A298(u32 archive_id, u32 member, u32 kind, u32 heap, u32 *size);
+extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 extern void func_020307B0(void *p);
 
 u8 *func_021F84EC(u32 id)
@@ -40,7 +40,7 @@ u8 *func_021F84EC(u32 id)
 
     buf = func_02030734(0x48, 0x28A, 0, (const char *)g_02203C00, 0x796);
     func_02082AC0(0, buf, 0x28A);
-    tbl = func_0204A298(0x62, 4, 0, (u16)id, &size);
+    tbl = (u16 *)func_0204A298(0x62, 4, 0, (u16)id, &size);
     n = size / 2;
     for (i = 0; i < n; i++) {
         if (tbl[i] < 0x28A) {

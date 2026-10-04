@@ -24,7 +24,7 @@ extern int func_021D775C(int key);
 extern u8 *func_021C7CF4(u8 *s, int k);
 extern int func_021D62C4(u8 *p, int i);
 extern u8 *func_021C88A4(u8 *p, int a, int b);
-extern int func_021E89C0(u8 *e);
+extern int func_021E89C0(u32 a);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E47CC(int a0, u8 *s, int k)
@@ -39,7 +39,7 @@ void func_021E47CC(int a0, u8 *s, int k)
         if (func_021D62C4(q, 12) == 0) {
             e = func_021C88A4(s, 12, k);
             *(int *)(e + 4) = 12;
-            *(int *)(e + 8) = func_021E89C0(e);
+            *(int *)(e + 8) = func_021E89C0((u32)e);
             e[0xf] = v;
             func_021C88C8(s, e);
         }

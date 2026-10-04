@@ -32,13 +32,14 @@ struct Obj0202DFD4 {
     void *unk10;
 };
 
-extern void func_0204ADA4(void *p);
-extern void func_0204A8D4(void *p);
-extern void func_0204AFD8(void *p);
+typedef unsigned int   u32;
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 
 void sub_0202DFD4(struct Obj0202DFD4 *p)
 {
-    func_0204ADA4(p->unk08);
-    func_0204A8D4(p->unk0C);
-    func_0204AFD8(p->unk10);
+    func_0204ADA4((u32)p->unk08);
+    func_0204A8D4((u32)p->unk0C);
+    func_0204AFD8((u32)p->unk10);
 }

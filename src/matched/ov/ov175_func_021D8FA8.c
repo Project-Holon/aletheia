@@ -22,23 +22,26 @@
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  */
 typedef unsigned long u32;
-extern int func_021D9F04(void *, int, int);
+typedef unsigned char  u8;
+extern int func_021D9F04(char *ctx, void *a, void *b);
 extern void func_021D9A1C(char *, void *);
 extern u32 func_021D9A30(char *);
-extern void func_021E8AA0(u32, void *);
-extern int func_021E8844(u32);
+extern void func_021E8AA0(int *p, int v);
+extern int func_021E8844(const int *p);
 extern void func_021E8AB8(u32);
 extern void func_021E8AA8(int a);
-extern void func_021D9064(void), func_021D9090(void), func_021D8EC8(void);
+extern void func_021D9064(void *obj, int unused, u8 *p);
+extern void func_021D9090(u32 sys, int *state, char *p);
+extern void func_021D8EC8(u32 sys, int *state, char *p);
 void func_021D8FA8(u32 sys, int *state, char *ctx)
 {
     int result;
     switch (*state) {
     case 0:
-        result = func_021D9F04(*(void **)(ctx + 0x34), 1, 0);
+        result = func_021D9F04(*(void **)(ctx + 0x34), (void *)1, 0);
         switch (result) {
         case 1: case 2:
-            func_021E8AA0(sys, func_021D9064);
+            func_021E8AA0((int *)sys, (int)func_021D9064);
             break;
         case 0:
             func_021D9A1C(ctx, func_021D9090);
@@ -49,15 +52,15 @@ void func_021D8FA8(u32 sys, int *state, char *ctx)
     case 1:
         result = func_021D9A30(ctx);
         if (result != 0xffff) *state = 2;
-        if (result == 3) func_021E8AA0(sys, func_021D9064);
-        result = func_021D9F04(*(void **)(ctx + 0x34), 1, 0);
+        if (result == 3) func_021E8AA0((int *)sys, (int)func_021D9064);
+        result = func_021D9F04(*(void **)(ctx + 0x34), (void *)1, 0);
         switch (result) {
-        case 1: case 2: func_021E8AA0(sys, func_021D9064); break;
+        case 1: case 2: func_021E8AA0((int *)sys, (int)func_021D9064); break;
         }
         break;
-    case 2: func_021E8AA0(sys, func_021D8EC8); break;
+    case 2: func_021E8AA0((int *)sys, (int)func_021D8EC8); break;
     case 3:
-        if (func_021E8844(*(u32 *)(ctx + 0x2c))) func_021E8AB8(sys);
+        if (func_021E8844((const int *)(*(u32 *)(ctx + 0x2c)))) func_021E8AB8(sys);
         break;
     }
 }

@@ -39,7 +39,10 @@ extern u8 *g_021469D0;
 extern void *func_0203D798(void);
 extern void *func_0203D788(void);
 extern u32 func_0203D6BC(void);
-extern u32 func_02038AE0(u32 a, u8 *b, u32 c, u32 d);
+typedef signed int     s32;
+struct Conn;
+struct Hdr;
+extern s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3);
 
 void func_02038298(void)
 {
@@ -53,7 +56,7 @@ void func_02038298(void)
     if (*(u8 *)(g_021469D0 + 0x1E7) == 0)
         return;
     if (*(u8 *)(g_021469D0 + 0x1ED) == 0) {
-        if (func_02038AE0(*(u32 *)g_021469D0, g_021469D0 + 0xCC,
+        if (func_02038AE0((struct Hdr *)(*(u32 *)g_021469D0), (struct Conn *)(g_021469D0 + 0xCC),
                           func_0203D6BC(),
                           *(u8 *)(g_021469D0 + 0x1D5)) != 0)
             *(u8 *)(g_021469D0 + 0x1ED) = 1;

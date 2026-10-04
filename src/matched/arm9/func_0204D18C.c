@@ -56,8 +56,10 @@ struct R {
 };
 
 extern int func_02066AE0(void);
-extern u32  func_020627D8(u32 a, u32 b);
-extern u32  func_020637B4(u32 a, u32 b);
+struct AnimBank;
+struct AnimSequence;
+extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
+extern int func_020637B4(int *p, int i);
 extern void func_020642C8(void *p, u32 a, u32 b, u32 c,
                           u32 d, u32 e, u32 f, u32 g, u32 h, u32 i);
 
@@ -76,10 +78,10 @@ void func_0204D18C(struct P *p, const struct A *a)
     }
     p->f64 = func_02066AE0();
     r = (struct R *)a->f1c;
-    h0 = func_020627D8(p->f08, zero);
-    h1 = func_020637B4(a->f04, 1);
+    h0 = (u32)func_020627D8((struct AnimBank *)p->f08, zero);
+    h1 = func_020637B4((int *)a->f04, 1);
     two = 2;
-    h2 = func_020637B4(a->f04, two);
+    h2 = func_020637B4((int *)a->f04, two);
     func_020642C8((u8 *)p + 0xc, h0, p->f04, p->f64,
                   two - 3, h1, h2, r->f14, zero, r->f10);
 }

@@ -18,7 +18,10 @@ typedef unsigned short u16;
 struct Desc {u8 a,b,c,d,e,f,g,h,i,j,k;unsigned data;};
 struct Entry {struct Desc desc;unsigned mode,data;};
 extern const struct Entry d_021C2F98[];
-extern unsigned func_021C0EF4(const struct Desc *,unsigned,unsigned,u16);
+typedef unsigned int   u32;
+struct Config;
+struct Record;
+extern struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
 extern unsigned func_021C0F5C(unsigned,unsigned);
 void func_021BA86C(char *p)
 {
@@ -29,7 +32,7 @@ void func_021BA86C(char *p)
         desc.a=s->desc.a;desc.b=s->desc.b;desc.c=s->desc.c;desc.d=s->desc.d;
         desc.e=s->desc.e;desc.f=s->desc.f;desc.g=s->desc.g;desc.h=s->desc.h;
         desc.i=s->desc.i;desc.j=s->desc.j;desc.k=s->desc.k;desc.data=s->data;
-        *(unsigned *)(p+i*4+0x4c)=func_021C0EF4(&desc,*(unsigned *)(p+8),*(unsigned *)(p+s->desc.data*4+0xc),*(u16 *)(p+4));
+        *(unsigned *)(p+i*4+0x4c)=(unsigned int)func_021C0EF4((const struct Config *)(&desc),*(unsigned *)(p+8),*(unsigned *)(p+s->desc.data*4+0xc),*(u16 *)(p+4));
         func_021C0F5C(*(unsigned *)(p+i*4+0x4c),s->mode);
     }
 }

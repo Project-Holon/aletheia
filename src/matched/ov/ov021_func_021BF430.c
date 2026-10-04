@@ -23,8 +23,10 @@ extern void func_021BF584(int);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_02188C84(int);
-extern void func_0202208C(int, int, int, int, int, int, int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u16 func_02188C84(u8 *p);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
 
 int func_021BF430(int a, int *s, int *q)
@@ -40,7 +42,7 @@ int func_021BF430(int a, int *s, int *q)
         s[0] = s[0] + 1;
         break;
     case 1:
-        func_0202208C(3, 7, 7, 0, 6, 1, func_02188C84(v));
+        func_0202208C((void *)3, 7, 7, 0, 6, 1, func_02188C84((u8 *)v));
         s[0] = s[0] + 1;
         break;
     case 2:

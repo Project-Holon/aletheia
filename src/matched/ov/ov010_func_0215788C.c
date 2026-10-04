@@ -17,10 +17,10 @@
  *   func_02157870  0x02157870  thumb  ov010
  */
 
-extern void func_021576C4(void *, void (*)(void), int);
-extern void func_02157870(void);
+extern void func_021576C4(char *p, int v, int line);
+extern void func_02157870(void *p);
 
 void func_0215788C(void *p)
 {
-    func_021576C4(p, func_02157870, 0x1DD);
+    func_021576C4(p, (int)func_02157870, 0x1DD);
 }

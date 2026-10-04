@@ -19,7 +19,7 @@
  */
 
 extern int func_02159190(int);
-extern int func_0215A61C(void *);
+extern int func_0215A61C(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021915B4(u32 a);
@@ -30,7 +30,7 @@ void func_021B10A4(void *p)
 {
     int n = 3;
     if (func_02159190(3) != 0) {
-        func_021915B4(func_0215A61C(p));
+        func_021915B4(func_0215A61C((int)p));
         func_0215A614(p, 0);
         func_02159168(n);
     }

@@ -40,11 +40,13 @@ struct Descriptor;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_020454E0(struct Cfg *cfg, u16 base, u32 pal);
-extern void func_02043B5C(int, int);
+typedef signed short   s16;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_021EF71C(u32, u32, u32, u32, u32, u32, u32);
-extern void func_0201C7A4(int, int, int, int, int);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020061E4(u32 a);
@@ -55,13 +57,13 @@ int func_021EE3E8(int *st, struct C *c)
         func_0201DD78(1, 9, 12);
         func_02045374(c->f08);
         func_020454E0(c->f08, c->f10, 3);
-        func_02043B5C(c->f0c, 12);
+        func_02043B5C((struct CharBuf *)c->f0c, 12);
         func_020409B4(func_02045730(c->f08));
         (*st)++;
         break;
     case 1:
         func_021EF71C(c->f34, c->f172, c->f174, c->f176, c->f178, c->f17a, c->f17c);
-        func_0201C7A4(c->f0c, 0, 0, c->f34, c->f24);
+        func_0201C7A4((void *)c->f0c, 0, 0, (void *)c->f34, (void *)c->f24);
         (*st)++;
         break;
     case 2:

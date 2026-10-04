@@ -13,9 +13,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021754E8(int a, int b, int c, int d);
+void func_021754E8(u8 *p, int a, int b, int c);
 
 void func_02173B20(int a, int b, u8 *c, u8 *d)
 {
-    if (d[0x154] == a && d[0x158] == c[0]) func_021754E8((int)d, a, 3, c[0]);
+    if (d[0x154] == a && d[0x158] == c[0]) func_021754E8((u8 *)((int)d), a, 3, c[0]);
 }

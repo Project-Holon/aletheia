@@ -80,17 +80,21 @@ typedef struct Ctx {
 extern void func_02034714(const char *expr, u32 line, const char *file);
 int func_021BBC58(Ring *r, const void *b, u16 c);
 Entry *func_021BBBD8(Ring *r);
-void func_020084F8(int a, void *dst, int n);
-int func_02008550(int a);
+struct Big;
+struct BigObj;
+struct L0200EDC4;
+struct Sub0200852CObj;
+u32 func_020084F8(void *dst, u32 value, u32 size);
+u8 func_02008550(const struct Sub0200852CObj *obj);
 void func_0201F41C(const void *src, void *dst, int n);
 void func_02087C6C(void *p);
 void func_02082D44(const void *src, void *dst, int n);
-int func_020120F4(int a);
-int func_0201283C(int a);
-int func_02012EBC(int a);
-int func_0200ED48(int a);
-int func_0217F894(int a, Src *s);
-int func_0200EDC4(int a, int b);
+void *func_020120F4(const struct Ctx *p);
+u32 func_0201283C(const struct BigObj *p);
+void *func_02012EBC(struct Big *p);
+void *func_0200ED48(void *p);
+int func_0217F894(void *p, char *q);
+int func_0200EDC4(struct L0200EDC4 *l, u32 val);
 
 void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
 {
@@ -110,7 +114,7 @@ void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
     e = func_021BBBD8(ring);
     if (src == 0) {
         a = ctx->sys->a;
-        func_020084F8(a, e->id, 8);
+        func_020084F8((void *)a, (u32)e->id, 8);
         /* the re-test of v inside the v == 0 arm is the dead second bne */
         if (v == 0) {
             if (v != 0 || kind == 0) {
@@ -124,7 +128,7 @@ void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
         e->kind = kind;
         e->h = 0;
         func_02087C6C(e->key);
-        e->flag = func_02008550(a);
+        e->flag = func_02008550((const struct Sub0200852CObj *)a);
         e->rel = 0;
     } else {
         func_0201F41C(src->id, e->id, 8);
@@ -136,12 +140,12 @@ void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
         e->h = src->h;
         func_02082D44(src->key, e->key, 6);
         e->flag = src->flag;
-        t = func_020120F4(ctx->sys->c);
-        s = func_0201283C(t);
-        t = func_0200ED48(func_02012EBC(t));
-        if (func_0217F894(s, src) == 1) {
+        t = (int)func_020120F4((const struct Ctx *)ctx->sys->c);
+        s = func_0201283C((const struct BigObj *)t);
+        t = (int)func_0200ED48(func_02012EBC((struct Big *)t));
+        if (func_0217F894((void *)s, (char *)src) == 1) {
             r = 1;
-        } else if (func_0200EDC4(t, src->x5c) == 1) {
+        } else if (func_0200EDC4((struct L0200EDC4 *)t, src->x5c) == 1) {
             r = 2;
         } else {
             r = 0;

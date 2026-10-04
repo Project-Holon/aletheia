@@ -48,12 +48,12 @@ typedef struct Obj {
     fx32 f04;           /* 0x04 */
 } Obj;
 
-extern int func_02163C9C(void *m, int x, int z);
+extern int func_02163C9C(int a, int b, int c);
 extern int func_02163D04(void *m, u32 kind, VecFx32 pos);
 extern int func_02163E58(void *m, VecFx32 *pos, fx32 *y);
-extern int func_02163BAC(void *m, int x, int y, int z);
+extern int func_02163BAC(int a, int b, int c, int d);
 extern void *func_0216D67C(void *m);
-extern void *func_0216D52C(void *p);
+extern u32 func_0216D52C(void *p);
 struct Grid;
 extern int func_0218DC04(struct Grid *g, struct VecFx32 *pos);
 
@@ -66,7 +66,7 @@ u32 func_021638CC(void *m, Obj *o, s16 x, s16 y, int z, u16 kind)
     pos.x = (x << 16) + 0x8000;
     pos.y = o->f04;
     pos.z = (*(s16 *)&z << 16) + 0x8000;
-    if (func_02163C9C(m, x, *(s16 *)&z) == 1)
+    if (func_02163C9C((int)m, x, *(s16 *)&z) == 1)
         flags |= 1;
     if (func_02163D04(m, kind, pos) == 1)
         flags |= 2;
@@ -80,9 +80,9 @@ u32 func_021638CC(void *m, Obj *o, s16 x, s16 y, int z, u16 kind)
     } else {
         flags |= 8;
     }
-    if (func_02163BAC(m, x, y, *(s16 *)&z) == 1)
+    if (func_02163BAC((int)m, x, y, *(s16 *)&z) == 1)
         flags |= 4;
-    if (func_0218DC04(func_0216D52C(func_0216D67C(m)), &pos) == 1)
+    if (func_0218DC04((struct Grid *)func_0216D52C(func_0216D67C(m)), &pos) == 1)
         flags |= 0x10;
     return flags;
 }

@@ -16,9 +16,9 @@
  *   func_02162ECC  0x02162ECC  thumb  ov010
  */
 
-extern void func_02162ECC(int a, int b);
+extern void func_02162ECC(const char *p, int *out);
 
 void func_02162A6C(int a, int b)
 {
-    func_02162ECC(a, b);
+    func_02162ECC((const char *)a, (int *)b);
 }

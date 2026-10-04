@@ -53,9 +53,9 @@ extern u32 d_02209FF0[];
 extern u32 d_0220A068[];
 
 extern int func_022019F4(Work *w, int key);
-extern void *func_021F8754(void);
+extern int func_021F8754(void);
 extern int func_021B994C(void *p, int key, u32 *out);
-extern u32 func_02006984(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 *h);
+extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void func_02006A8C(u32 idx, int delta);
 extern void func_02006AEC(u32 idx, u32 delta);
 
@@ -97,7 +97,7 @@ u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
             id = d_0220A068[key - 2];
         break;
     }
-    p = func_021F8754();
+    p = (void *)func_021F8754();
     out = &buf;
     flag = 0;
     if (p != 0) {
@@ -114,7 +114,7 @@ u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
         else
             pitch = 0;
     }
-    r = func_02006984(w->e[idx].k2c, w->e[idx].k30, (u8)id, flag, a4, a5, a6, out);
+    r = func_02006984(w->e[idx].k2c, w->e[idx].k30, (u8)id, flag, a4, a5, a6, (u32)out);
     func_02006A8C(r, (signed char)pan);
     func_02006AEC(r, pitch);
     return r;

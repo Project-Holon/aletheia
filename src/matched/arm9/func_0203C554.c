@@ -27,7 +27,7 @@ typedef unsigned int  u32;
 extern u8 *g_021469DC;
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 extern u16 func_02039338(void);
-extern void func_0203C494(u32 a);
+extern void func_0203C494(u8 *p);
 
 void func_0203C554(u32 a)
 {
@@ -46,5 +46,5 @@ void func_0203C554(u32 a)
     }
 
     func_0203AD80((u32)g_021469DC, 0x0203C494, 0, 0x671);
-    func_0203C494((u32)g_021469DC);
+    func_0203C494((u8 *)((u32)g_021469DC));
 }

@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0216DD1C(u32 x, u8 **o, int *n);
-extern int func_0216D55C(u8 *o, u32 v);
+extern int func_0216D55C(int a0, int a1);
 extern u16 func_0216D588(void *p);
 extern void func_0216CF2C(u8 *o);
 
@@ -33,7 +33,7 @@ void func_0216DF1C(u32 x)
 
     n = 0;
     while (func_0216DD1C(x, &o, &n)) {
-        if (func_0216D55C(o, k) == 0) {
+        if (func_0216D55C((int)o, k) == 0) {
             func_0216D588(o);
             func_0216CF2C(o);
         }

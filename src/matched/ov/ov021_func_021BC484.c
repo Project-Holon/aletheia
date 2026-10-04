@@ -23,25 +23,27 @@
  */
 
 extern void func_021BD0B0(int a);
-extern int func_021BD0A4(int a);
-extern void func_021BCC3C(int a);
-extern void func_021BCC80(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BD0A4(u8 *p);
+extern void func_021BCC3C(void *p);
+extern void func_021BCC80(char *p);
 extern void func_021BCD34(int a);
 extern void func_021BCD70(int a);
-extern void func_021BCD84(int a);
-extern void func_021BCDD8(int a);
-extern void func_021BCE88(int a);
+extern void func_021BCD84(char *p);
+extern void func_021BCDD8(char *p);
+extern void func_021BCE88(char *p);
 extern void func_021BC970(int a);
 
 void func_021BC484(int a)
 {
     func_021BD0B0(a);
-    switch (func_021BD0A4(a)) {
+    switch (func_021BD0A4((u8 *)a)) {
     case 0:
-        func_021BCC3C(a);
+        func_021BCC3C((void *)a);
         break;
     case 1:
-        func_021BCC80(a);
+        func_021BCC80((char *)a);
         break;
     case 2:
         func_021BCD34(a);
@@ -50,13 +52,13 @@ void func_021BC484(int a)
         func_021BCD70(a);
         break;
     case 4:
-        func_021BCD84(a);
+        func_021BCD84((char *)a);
         break;
     case 5:
-        func_021BCDD8(a);
+        func_021BCDD8((char *)a);
         break;
     case 6:
-        func_021BCE88(a);
+        func_021BCE88((char *)a);
         break;
     }
     func_021BC970(a);

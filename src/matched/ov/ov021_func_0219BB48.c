@@ -22,17 +22,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0216DA50(u32);
-extern void func_0216DA7C(u32);
-extern int func_0219BCE4(u32, u8 *);
-extern int func_0219BD30(u32, u8 *);
+extern void func_0216DA50(u8 *p);
+extern void func_0216DA7C(u8 *p);
+extern int func_0219BCE4(u32 a, u32 b);
+extern int func_0219BD30(u32 a, u32 b);
 extern void func_0216DA44(u32);
 
 int func_0219BB48(u32 a, u8 *s)
 {
-    func_0216DA50(a);
-    func_0216DA7C(a);
-    if (func_0219BCE4(a, s) == 1 && func_0219BD30(a, s) == 1) {
+    func_0216DA50((u8 *)a);
+    func_0216DA7C((u8 *)a);
+    if (func_0219BCE4(a, (u32)s) == 1 && func_0219BD30(a, (u32)s) == 1) {
         func_0216DA44(a);
         s[0]++;
         return 1;

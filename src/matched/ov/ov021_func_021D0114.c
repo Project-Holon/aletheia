@@ -25,13 +25,14 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
-extern int func_0200856C(void *p);
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u16 *func_02159AE8(void *a0, void *a1);
 
 int func_021D0114(u32 a, u32 b)
 {
     u16 *q = func_02159AE8((void *)a, (void *)b);
 
-    *q = func_0200856C(func_02012944(func_020120F4((void *)func_0215A5DC((void *)b)))) != 0 ? 1 : 0;
+    *q = func_0200856C((const struct Sub0200852CObj *)func_02012944(func_020120F4((void *)func_0215A5DC((void *)b)))) != 0 ? 1 : 0;
     return 0;
 }

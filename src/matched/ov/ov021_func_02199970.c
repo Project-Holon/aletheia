@@ -54,18 +54,18 @@ extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void func_0216D89C(u32, Vec *);
 extern int *d_021DDBD4[2];
 extern void func_0216D8C0(u32, Vec *);
-extern u32 func_0216D83C(u32);
+extern int func_0216D83C(void *p);
 extern u32 func_0216D80C(u32, u32);
-extern u32 func_0216D854(u32);
+extern int func_0216D854(void *p);
 extern u32 func_0216D818(u32, u32);
-extern u32 func_0216D86C(u32);
+extern int func_0216D86C(void *p);
 extern u32 func_0216D824(u32, u32);
-extern u32 func_0216D848(u32, s16);
-extern u32 func_0216D860(u32, s16);
-extern u32 func_0216D87C(u32, s16);
-extern u32 func_0216D568(u32, u32);
+extern void func_0216D848(char *p, short v);
+extern void func_0216D860(char *p, short v);
+extern void func_0216D87C(char *p, short v);
+extern void func_0216D568(void *p, u32 v);
 extern u32 func_02163F10(u32);
-extern u32 func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern u32 func_0216D7CC(u32);
 
 int func_02199970(u32 a)
@@ -122,24 +122,24 @@ int func_02199970(u32 a)
         p->accum -= 0x10000;
         dir = 1;
         b = p->speed;
-        func_0216D80C(a, func_0216D83C(a));
-        func_0216D818(a, func_0216D854(a));
-        func_0216D824(a, func_0216D86C(a));
+        func_0216D80C(a, func_0216D83C((void *)a));
+        func_0216D818(a, func_0216D854((void *)a));
+        func_0216D824(a, func_0216D86C((void *)a));
         switch (p->moveAxis) {
         case 0:
             if (b < 0)
                 dir = -1;
-            func_0216D848(a, dir);
+            func_0216D848((char *)a, dir);
             break;
         case 1:
             if (b < 0)
                 dir = -1;
-            func_0216D860(a, dir * 2);
+            func_0216D860((char *)a, dir * 2);
             break;
         case 2:
             if (b < 0)
                 dir = -1;
-            func_0216D87C(a, dir);
+            func_0216D87C((char *)a, dir);
             break;
         }
     }
@@ -149,9 +149,9 @@ int func_02199970(u32 a)
         Vec z = { 0, 0, 0 };
         func_0216D8C0(a, &z);
     }
-    func_0216D568(a, 0x540);
+    func_0216D568((void *)a, 0x540);
     func_02163F10(a);
-    func_0216D674(a, 0);
+    func_0216D674((void *)a, 0);
     func_0216D7CC(a);
     return 1;
 }

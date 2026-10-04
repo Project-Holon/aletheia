@@ -20,12 +20,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021CAE94(void);
-extern void func_021CABDC(int);
+extern void func_021CABDC(u8 *p);
 
 void func_021CABC0(int a)
 {
     if (a == 0)
         return;
     func_021CAE94();
-    func_021CABDC(a);
+    func_021CABDC((u8 *)a);
 }

@@ -18,9 +18,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_0204B3F4(int);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 
 int func_020257C4(const int *p)
 {
-    return func_0204B3F4(p[1]);
+    return func_0204B3F4((struct Obj *)p[1]);
 }

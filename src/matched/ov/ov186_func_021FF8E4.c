@@ -18,12 +18,12 @@
  *   func_021FF8E0  0x021FF8E0  thumb  ov186
  */
 
-extern int  func_021D730C(int);
-extern void func_021FFB68(void *, void *);
+extern int func_021D730C(char *p);
+extern void func_021FFB68(char *p, int v);
 extern void func_021FF8E0(void);
 
 void func_021FF8E4(void *p, int a1, int a2)
 {
-    if (func_021D730C(a2) != 0)
-        func_021FFB68(p, (void *)func_021FF8E0);
+    if (func_021D730C((char *)a2) != 0)
+        func_021FFB68(p, (int)((void *)func_021FF8E0));
 }

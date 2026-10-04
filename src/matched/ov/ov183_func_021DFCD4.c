@@ -33,7 +33,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_021FD860(int,int,int *);
 extern void func_020061E4(u32 a);
 extern void func_021E03B0(char *,char *,int);
-extern void func_021FD170(void *,int,int);
+extern void func_021FD170(char *p, char *q, void *text);
 extern u8 *func_02012944(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
@@ -54,7 +54,7 @@ int func_021DFCD4(char *p,char *q)
         func_020061E4(0x703);
         *(int *)(q+0x18)=19;
         func_021E03B0(p,q,0);
-        func_021FD170(*(void **)(p+0x38),*(int *)(q+8),105);
+        func_021FD170(*(void **)(p+0x38),(char *)(*(int *)(q+8)),(void *)105);
         *(int *)(p+0x50)=1;
         return 1;
     }
@@ -66,7 +66,7 @@ int func_021DFCD4(char *p,char *q)
         func_020061E4(0x703);
         *(u16 *)(q+0x14)=0xffff;
         func_021E03B0(p,q,1);
-        func_021FD170(*(void **)(p+0x38),*(int *)(q+8),106);
+        func_021FD170(*(void **)(p+0x38),(char *)(*(int *)(q+8)),(void *)106);
         *(int *)(p+0x50)=2;
         return 1;
     }
@@ -78,7 +78,7 @@ int func_021DFCD4(char *p,char *q)
         v=func_02012944(*(void **)(q+0x10));
         a=func_0200856C(v);b=func_02008570(v);
         if(!a && !b) {
-            func_021FD170(*(void **)(p+0x38),*(int *)(q+8),120);
+            func_021FD170(*(void **)(p+0x38),(char *)(*(int *)(q+8)),(void *)120);
             func_020061E4(0x704);
             break;
         }
@@ -114,7 +114,7 @@ int func_021DFCD4(char *p,char *q)
                     return 1;
                 }
                 func_020061E4(0x704);
-                func_021FD170(*(void **)(p+0x38),*(int *)(q+8),108);
+                func_021FD170(*(void **)(p+0x38),(char *)(*(int *)(q+8)),(void *)108);
             }
         }
     }

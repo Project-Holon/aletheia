@@ -27,12 +27,12 @@ struct WinMgr;
 extern void func_02202744(u8 *p);
 extern void func_022029D4(u8 *p);
 extern void func_0202CA0C(struct WinMgr *mgr);
-extern void func_020307B0(u32 v);
+extern void func_020307B0(void *p);
 
 void func_021F99D0(u8 *p)
 {
     func_02202744(p + 0x7c);
     func_022029D4(*(u8 **)(p + 0x34));
     func_0202CA0C(*(struct WinMgr **)(p + 0x18));
-    func_020307B0((u32)p);
+    func_020307B0((void *)((u32)p));
 }

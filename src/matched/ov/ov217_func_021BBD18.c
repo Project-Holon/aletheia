@@ -16,10 +16,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021BC740(int, int);
-extern void func_02025A54(int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021BC740(char *p, int i);
+extern void func_02025A54(u8 *g, u32 a);
 
 void func_021BBD18(int a, int b)
 {
-    func_02025A54(func_021BC740(a, b), 0);
+    func_02025A54((u8 *)func_021BC740((char *)a, b), 0);
 }

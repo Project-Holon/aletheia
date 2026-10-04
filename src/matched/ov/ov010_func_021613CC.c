@@ -56,8 +56,8 @@ extern void *func_02012934(const struct BigObj *p);
 extern u8 func_0202138C(u16 v);
 extern void *func_0201AB28(void *a, u32 b);
 extern int func_021C3CC0(void *sv, u32 a, u8 b, u32 c, u32 d);
-extern int func_021C3D44(void *sv, void *a, u32 b);
-extern int func_021C3DA4(void *sv, u32 a, u32 b);
+extern void *func_021C3D44(void *a, void *b, unsigned heap);
+extern void *func_021C3DA4(void *a, void *b, unsigned heap);
 
 int func_021613CC(Ctx *c, int a1, int mode, const Src *src)
 {
@@ -78,7 +78,7 @@ int func_021613CC(Ctx *c, int a1, int mode, const Src *src)
         if (src->f40 == 6)
             return func_021C3CC0(sv, 2, src->f3c, func_0202138C(h), 4);
         c->f68 = 1;
-        return func_021C3D44(sv, func_0201AB28(t, v), 4);
+        return (int)func_021C3D44(sv, func_0201AB28(t, v), 4);
     }
     if (src->f2c == 2) {
         r = func_021C3CC0(sv, 2, src->f38, func_0202138C((u16)src->f38), 4);
@@ -86,5 +86,5 @@ int func_021613CC(Ctx *c, int a1, int mode, const Src *src)
         return r;
     }
     c->f68 = 1;
-    return func_021C3DA4(sv, func_0202138C((u16)src->f38), 4);
+    return (int)func_021C3DA4(sv, (void *)func_0202138C((u16)src->f38), 4);
 }

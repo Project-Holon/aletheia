@@ -23,8 +23,8 @@ typedef unsigned int u32;
 extern u16 d_021EE720;
 extern int func_021B2BD8(u32 a);
 extern u32 func_0218BA98(u32, u32);
-extern u32 func_0218C8D8(u32);
-extern u32 func_0218C9A4(u32);
+extern int func_0218C8D8(void *p);
+extern int func_0218C9A4(void *p);
 
 int func_021B2E80(u32 a, u32 b)
 {
@@ -33,10 +33,10 @@ int func_021B2E80(u32 a, u32 b)
     if (o == 0) {
         return 1;
     }
-    if (func_0218C8D8(o) == 0) {
+    if (func_0218C8D8((void *)o) == 0) {
         return 0;
     }
-    if (func_0218C9A4(o) == 0) {
+    if (func_0218C9A4((void *)o) == 0) {
         return 1;
     }
     return 0;

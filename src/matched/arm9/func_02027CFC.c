@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int  func_020355C4(void *p);
-extern void func_02027B30(u32 item, u32 sub, int self);
+struct S;
+extern void func_02027B30(u32 a0, struct S *s, int mode);
 
 void func_02027CFC(u8 *p, int sel)
 {
@@ -32,9 +33,9 @@ void func_02027CFC(u8 *p, int sel)
     i = 0;
     while (i < *(u8 *)(p + 0x24)) {
         if (i == sel) {
-            func_02027B30((*(u32 **)(p + 0x18))[i], *(u32 *)(p + 0x34), 1);
+            func_02027B30((*(u32 **)(p + 0x18))[i], (struct S *)(*(u32 *)(p + 0x34)), 1);
         } else {
-            func_02027B30((*(u32 **)(p + 0x18))[i], *(u32 *)(p + 0x34), 0);
+            func_02027B30((*(u32 **)(p + 0x18))[i], (struct S *)(*(u32 *)(p + 0x34)), 0);
         }
         i++;
     }

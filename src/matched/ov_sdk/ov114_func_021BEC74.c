@@ -33,8 +33,8 @@ typedef struct Conn {
 } Conn;
 
 extern Conn *func_021BEC00(void *mutexInfo_p, Conn *connection_p);
-extern void *func_021BEBC8(void *mutexInfo_p, Conn *connection_p);
-extern int func_021BEE4C(void *mutexInfo_p, Conn *handle, void *value_p, unsigned long length);
+extern int func_021BEBC8(int a, int b);
+extern int func_021BEE4C(int a, int b, int c, int d);
 
 int func_021BEC74(void *mutexInfo_p, Conn *connection_p, char *label_p, int offset)
 {
@@ -43,14 +43,14 @@ int func_021BEC74(void *mutexInfo_p, Conn *connection_p, char *label_p, int offs
     int ret = -1;
 
     if (func_021BEC00(mutexInfo_p, connection_p) != 0) {
-        res_p = func_021BEBC8(mutexInfo_p, connection_p);
+        res_p = (void *)func_021BEBC8((int)mutexInfo_p, (int)connection_p);
         if (res_p != 0 && connection_p->callback != 0) {
             arg.label = label_p;
             arg.value = connection_p->f24;
             arg.length = connection_p->f28;
             arg.offset = offset;
             ret = connection_p->callback(connection_p, 1, &arg);
-            func_021BEE4C(mutexInfo_p, connection_p, arg.value, arg.length);
+            func_021BEE4C((int)mutexInfo_p, (int)connection_p, (int)arg.value, arg.length);
         }
     }
     return ret;

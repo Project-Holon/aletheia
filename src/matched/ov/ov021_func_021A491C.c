@@ -19,19 +19,19 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_0216D5F8(u32);
+extern u16 func_0216D5F8(void *p);
 extern int func_0216D3CC(int a0);
-extern int func_021A4994(u32, u32, u32);
+extern int func_021A4994(u8 *a, void *b, u8 *c);
 
 int ov021_func_021A491C(u32 a, u32 b, u8 *c)
 {
     if (func_0216D3CC(b) == 1) {
         if (*(u16 *)(c + 8) != 9) {
-            u32 r = func_0216D5F8(b);
+            u32 r = func_0216D5F8((void *)b);
             if (*(u16 *)(c + 8) != r && *(u32 *)(c + 16) == 0) {
                 return 3;
             }
-            return func_021A4994(a, b, (u32)c);
+            return func_021A4994((u8 *)a, (void *)b, (u8 *)((u32)c));
         }
         return 1;
     }

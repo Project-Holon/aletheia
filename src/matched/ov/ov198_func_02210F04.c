@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02210EFC(u32);
+extern int func_02210EFC(char **p);
 
 u32 func_02210F04(u32 a, u32 b)
 {
-    if (func_02210EFC(a) == 1 && b >= 3) {
+    if (func_02210EFC((char **)a) == 1 && b >= 3) {
         return 1;
     }
     return 0;

@@ -13,12 +13,12 @@
  *   func_022110D4 0x022110D4 thumb ov198
  */
 typedef unsigned char u8;
-extern unsigned func_02210EFC(unsigned);
+extern int func_02210EFC(char **p);
 extern int func_022110D4(u8 *,int);
 int func_02211844(u8 *p)
 {
     u8 count,i,bound;
-    if(func_02210EFC((unsigned)p)==1) return 0;
+    if(func_02210EFC((char **)((unsigned)p))==1) return 0;
     bound=(*(u8 **)p)[0x22];
     if(bound==1) return 0;
     count=0;

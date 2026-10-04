@@ -24,10 +24,12 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef signed char s8;
 
-extern s8 *func_021897BC(u32 a, int b);
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
+struct Big;
+struct Ctx;
+extern int *func_021897BC(char *p, int idx);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern u8 *func_0200B3A4(u32 a, u32 b);
 extern int func_021F4894(void *a, u8 b, u8 c);
 extern void func_021F47D8(void *a, int f, int i);
@@ -40,8 +42,8 @@ void func_021F4740(u32 a, void *b)
     u8 v;
     s8 i;
 
-    p = func_021897BC(a, 1);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 2);
+    p = (s8 *)func_021897BC((char *)a, 1);
+    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 2);
     i = p[5];
     if (i == -1) {
         return;

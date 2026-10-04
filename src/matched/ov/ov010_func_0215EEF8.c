@@ -23,7 +23,7 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
-extern int func_021587B0(void *, unsigned int, unsigned int, unsigned int);
+extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern void func_02159058(int, int, int, int, u16);
 int func_0215EEF8(void *p, void *unused, struct C *ctx)
 {
@@ -31,7 +31,7 @@ int func_0215EEF8(void *p, void *unused, struct C *ctx)
     int t;
     func_0201296C(func_020120F4(ctx->f8));
     h = ctx->fc;
-    t = func_021587B0(p, 0x271c, 0, 0);
+    t = func_021587B0((int)p, 0x271c, 0, 0);
     func_02159058(t, h, 0, 0, 0);
     return 0;
 }

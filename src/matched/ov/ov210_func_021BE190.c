@@ -18,13 +18,14 @@
  */
 typedef unsigned char u8;
 extern int func_021B93B8(char *p);
-extern int func_021BCEEC(u8 *, int);
+typedef unsigned int   u32;
+extern u32 func_021BCEEC(u32 a, u32 b);
 extern void func_021B93D4(void *, int);
 extern void func_021BEA54(u8 *p);
 extern void func_021BF89C(u8 *, int, int);
 void func_021BE190(u8 *p, int n)
 {
-    int value = func_021BCEEC(p, n + func_021B93B8(*(void **)(p + 0x1E0)));
+    int value = func_021BCEEC((u32)p, n + func_021B93B8(*(void **)(p + 0x1E0)));
     u8 *data = *(u8 **)(*(u8 **)p + 8);
     if (data[3] == 255) {
         data[3] = value;

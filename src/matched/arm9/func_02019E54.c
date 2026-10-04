@@ -27,7 +27,8 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-extern void func_0201A5FC(void *a0, u32 a1, u32 a2, u64 *out1, u32 *out2);
+typedef unsigned char  u8;
+extern int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4);
 
 int func_02019E54(u32 a0, u32 a1, u32 a2)
 {
@@ -37,7 +38,7 @@ int func_02019E54(u32 a0, u32 a1, u32 a2)
     if (a0 == 0)
         return 0;
 
-    func_0201A5FC((void *)a0, a1, a2, &q, &r);
+    func_0201A5FC((void *)a0, (void *)a1, (u8 *)a2, (char *)(&q), &r);
     if (r == 0)
         return 0;
 

@@ -13,8 +13,9 @@
  */
 
 typedef unsigned char u8;
-extern void func_0204A9D0(int a, int b);
+struct Sub0204A9D0;
+extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 void func_021F0FC8(char *p, u8 *q, int r)
 {
-    func_0204A9D0((*(int **)(p + 0x170))[q[0]], *(int *)(p + r * 8 + 0x2d8));
+    func_0204A9D0((*(int **)(p + 0x170))[q[0]], (struct Sub0204A9D0 *)(*(int *)(p + r * 8 + 0x2d8)));
 }

@@ -29,8 +29,8 @@ typedef struct Vec3 { s32 x, y, z; } Vec3;
 typedef struct Arg { u32 a; u32 b; u16 c, d, e; } Arg;
 
 extern int func_021ABEA0(u32 a, u32 b);
-extern u16 func_0216D588(u32 a);
-extern u16 func_0216D590(u32 a);
+extern u16 func_0216D588(void *p);
+extern u16 func_0216D590(void *p);
 extern int func_0216D55C(int a0, int a1);
 extern void func_021ABFA8(u32 a, u8 *b, Vec3 *c, u32 d, Arg *e, u32 f);
 extern u8 d_021D915C[];
@@ -42,8 +42,8 @@ void func_021ACB38(u32 a, u32 b, Vec3 *c, u32 d, u32 e)
     Arg s;
     s.a = func_021ABEA0(a, 3);
     s.b = d;
-    s.c = func_0216D588(d);
-    s.d = func_0216D590(d);
+    s.c = func_0216D588((void *)d);
+    s.d = func_0216D590((void *)d);
     s.e = b;
     v = *c;
     if (func_0216D55C(d, 0x2000) != 0)

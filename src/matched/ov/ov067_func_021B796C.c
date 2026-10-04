@@ -42,10 +42,13 @@ struct S {
 
 struct WinMgr;
 extern void ENV_SetResourceSet(void *p);
-extern void func_020452E8(int p);
+struct Descriptor;
+struct Obj0202EA20;
+struct PrintSys;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_0202CA0C(struct WinMgr *mgr);
-extern void func_0202EA20(int p);
-extern void func_0201C4C0(int p);
+extern void func_0202EA20(struct Obj0202EA20 *p);
+extern void func_0201C4C0(struct PrintSys *p);
 
 void func_021B796C(struct S *s)
 {
@@ -53,7 +56,7 @@ void func_021B796C(struct S *s)
 
     ENV_SetResourceSet(s->f2c);
     for (i = 0; i < s->count44; i++)
-        func_020452E8((int)s->arr38[i].p);
+        func_020452E8((struct Descriptor *)((int)s->arr38[i].p));
     ENV_SetResourceSet(s->arr38);
     func_0202CA0C(s->f3c);
     if (s->cnt16 != 0) {
@@ -62,7 +65,7 @@ void func_021B796C(struct S *s)
         ENV_SetResourceSet(s->arr40);
     }
     ENV_SetResourceSet(s->f28);
-    func_0202EA20((int)s->f30);
-    func_0201C4C0((int)s->f34);
+    func_0202EA20((struct Obj0202EA20 *)((int)s->f30));
+    func_0201C4C0((struct PrintSys *)((int)s->f34));
     ENV_SetResourceSet(s);
 }

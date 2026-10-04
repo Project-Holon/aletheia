@@ -18,10 +18,10 @@
 
 typedef short s16;
 
-extern int func_0216D67C(int a);
-extern int func_0216DEE0(int a);
-extern int func_0216D83C(int a);
-extern int func_0216D86C(int a);
+extern void *func_0216D67C(void *a0);
+extern void *func_0216DEE0(void *a0);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
 
 int func_02164168(int a)
 {
@@ -35,12 +35,12 @@ int func_02164168(int a)
     s16 x1;
     s16 y1;
 
-    t = func_0216DEE0(func_0216D67C(a));
+    t = (int)func_0216DEE0(func_0216D67C((void *)a));
     if (t != 0) {
-        tx = func_0216D83C(t);
-        ty = func_0216D86C(t);
-        x = func_0216D83C(a);
-        y = func_0216D86C(a);
+        tx = func_0216D83C((void *)t);
+        ty = func_0216D86C((void *)t);
+        x = func_0216D83C((void *)a);
+        y = func_0216D86C((void *)a);
         x0 = x - 18;
         y0 = y - 18;
         x1 = x + 17;

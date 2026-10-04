@@ -16,8 +16,9 @@
 
 typedef unsigned int u32;
 
-extern void func_020437AC(int a);
-extern void func_020307B0(int a);
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_020307B0(void *p);
 
 void func_021EDBE8(char *s)
 {
@@ -25,12 +26,12 @@ void func_021EDBE8(char *s)
 
     for (i = 0; i < 2; i++) {
         if (*(int *)(s + i * 0x24 + 0x94) != 0) {
-            func_020437AC(*(int *)(s + i * 0x24 + 0x94));
+            func_020437AC((struct Obj020437AC *)(*(int *)(s + i * 0x24 + 0x94)));
             *(int *)(s + i * 0x24 + 0x94) = 0;
         }
     }
     if (*(int *)(s + 0xd8) != 0) {
-        func_020307B0(*(int *)(s + 0xd8));
+        func_020307B0((void *)(*(int *)(s + 0xd8)));
         *(int *)(s + 0xd8) = 0;
     }
 }

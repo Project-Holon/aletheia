@@ -22,20 +22,22 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020122C0(u32 a, u32 b, void (*fn)(void), u32 size);
-extern u32 *func_020124E8(u32 t);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_02034AC4(int a);
 extern unsigned char abs_id_3f[];
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void func_021A305C(char *p, u32 b);
 extern u32 func_021F36C0(u32 a, u32 b, void *c, u32 d);
-extern void func_021C4788(void);
+extern int func_021C4788(void *t);
 
 u32 func_021C46F8(u32 a, u32 b, u32 c)
 {
-    u32 t = func_020122C0(a, 0, func_021C4788, 4);
-    u32 *w = func_020124E8(t);
+    u32 t = (u32)func_020122C0((void *)a, 0, func_021C4788, 4);
+    u32 *w = func_020124E8((struct Obj *)t);
     void *x;
     void *y;
 

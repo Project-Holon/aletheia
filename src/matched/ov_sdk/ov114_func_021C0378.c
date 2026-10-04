@@ -47,7 +47,7 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int func_021BFB90(GHIBuffer *, int);
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021C00FC(GHIBuffer *);
 extern void *func_02092364(void *, const void *, unsigned int);
 extern char g_021CE5B4[];
@@ -77,7 +77,7 @@ int func_021C0378(GHIConnection *connection)
         if (aResult == 2 && aWriteLen == 0)
             continue;
         if (aReadLen > connection->recvBuffer.len) {
-            func_0217D254(8, 4, 1, g_021CE5B4, aReadLen, connection->recvBuffer.len);
+            func_0217D254(8, (char *)4, 1, g_021CE5B4, aReadLen, connection->recvBuffer.len);
             return 0;
         }
         connection->recvBuffer.pos += aReadLen;

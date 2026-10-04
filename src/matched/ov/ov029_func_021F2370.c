@@ -27,7 +27,7 @@ extern void func_021F1BBC(char *p);
 extern void func_021F1010(void *p);
 extern void func_021F0370(void *p);
 extern void func_021EFEF8(char *p, void (*f)(void), int a);
-extern void func_021F21B4(void);
+extern void func_021F21B4(char *p);
 
 void func_021F2370(char *p)
 {
@@ -42,6 +42,6 @@ void func_021F2370(char *p)
     *(unsigned char *)(p + 0x456) += 1;
     if (*(unsigned char *)(p + 0x456) >= 0x10) {
         *(unsigned char *)(p + 0x456) = 0;
-        func_021EFEF8(p, func_021F21B4, 0x1041);
+        func_021EFEF8(p, (void (*)(void))func_021F21B4, 0x1041);
     }
 }

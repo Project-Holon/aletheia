@@ -65,39 +65,46 @@ typedef unsigned int   u32;
 extern u8 ov230_id[];
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_02012B38(int a);
-extern void func_0201447C(int a, int b);
+typedef signed int     s32;
+struct Big;
+struct BigObj;
+struct Comm;
+struct Evt;
+struct Sub02008AECSession;
+struct Sub02014444Obj;
+extern void *func_02012B38(const struct BigObj *p);
+extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
 extern int func_02014554(int a, int b);
-extern void func_02012374(int a, int b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int handle);
 extern int func_02013D34(int a);
-extern int func_02026454(int a);
-extern void func_02026400(int a);
-extern void func_02183B60(void);
-extern void func_0218604C(void);
-extern void func_0218606C(void);
+extern u32 func_02026454(void *obj);
+extern void func_02026400(struct Comm *p);
+extern int func_02183B60(int f);
+extern void *func_0218604C(void);
+extern void *func_0218606C(void);
 extern void func_0218608C(void);
 extern u32 func_021882A0(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188318(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_021883CC(void (*a)(void), void (*b)(void), u32 c);
-extern void func_02185B70(int a);
-extern void func_0202E8CC(int a, int b);
-extern int func_02012EBC(int a);
-extern int func_02008B14(int a);
-extern int func_02012984(int a);
+extern void func_02185B70(void *p);
+extern u8 func_0202E8CC(s32 a, s32 b);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008AECSession *func_02008B14(void *sys);
+extern u8 func_02012984(const struct BigObj *p);
 extern void *func_02012934(void *p);
-extern void func_0216AAE4(int a, void *b, int c);
-extern void func_0216A358(int a, void *b, int c, int d);
-extern void func_02185A68(int a, int b);
-extern void func_021857C0(int a, u8 *b);
+extern void func_0216AAE4(void *sys, void *party, int season);
+extern int func_0216A358(int a, int b, u32 *p, int c);
+extern void func_02185A68(void *a, int b);
+extern void func_021857C0(void *a, int b);
 extern void func_0202735C(int a, int b);
 extern int func_02164454(int a, int b);
 extern int func_0216445C(int a, int b);
 extern int func_02164464(int a, int b);
-extern void func_0215874C(int a);
+extern void func_0215874C(void *p);
 extern int func_020145FC(int a);
-extern int func_02029C64(int a);
+extern void *func_02029C64(void *a);
 
 int func_021841C0(int ctx, int *state, u8 **pp)
 {
@@ -118,43 +125,43 @@ int func_021841C0(int ctx, int *state, u8 **pp)
 
     switch (*state) {
     case 0:
-        func_0201447C(func_02012B38(y), 2);
-        func_02012374(ctx, func_02014554(x, z));
+        func_0201447C(func_02012B38((const struct BigObj *)y), 2);
+        func_02012374((struct Evt *)ctx, (struct Evt **)func_02014554(x, z));
         (*state)++;
         break;
     case 1:
         func_02034AC4((int)ov230_id);
-        if (func_02013D34(*(u16 *)(p + 0x14)) == 1 && (u8)(func_02026454(w) + 0xff) <= 1) {
-            func_02026400(w);
+        if (func_02013D34(*(u16 *)(p + 0x14)) == 1 && (u8)(func_02026454((void *)w) + 0xff) <= 1) {
+            func_02026400((struct Comm *)w);
             *state = 2;
         } else {
             *state = 3;
         }
         break;
     case 2:
-        if (func_02026454(w) == 0) {
+        if (func_02026454((void *)w) == 0) {
             *state = 3;
         }
         break;
     case 3:
-        func_021882A0(func_02183B60, func_0218604C, 0);
-        func_02185B70(x);
+        func_021882A0((void (*)(void))func_02183B60, (void (*)(void))func_0218604C, 0);
+        func_02185B70((void *)x);
         if (*(int *)(p + 0x40) != 0 && *(int *)(p + 0x44) != 0) {
             func_0202E8CC(y, *(u16 *)(p + 0x4a));
-            a = func_02008B14(func_02012EBC(y));
-            b = func_02012984(y);
+            a = (int)func_02008B14(func_02012EBC((struct Big *)y));
+            b = func_02012984((const struct BigObj *)y);
             c = func_02012934((void *)y);
-            func_0216AAE4(y, c, b);
+            func_0216AAE4((void *)y, c, b);
             a += 0x14;
-            func_0216A358(y, c, a, b);
+            func_0216A358(y, (int)c, (u32 *)a, b);
         }
-        func_02188318(func_02183B60, func_0218606C, 0);
-        func_02185A68(x, *(u16 *)(p + 0x14));
-        func_021857C0(x, p + 0x10);
+        func_02188318((void (*)(void))func_02183B60, (void (*)(void))func_0218606C, 0);
+        func_02185A68((void *)x, *(u16 *)(p + 0x14));
+        func_021857C0((void *)x, (int)(p + 0x10));
         if (*(u8 *)(p + 0x30) != 4) {
             func_0202735C(*(u16 *)(p + 0x14), y);
         }
-        func_021883CC(func_02183B60, func_0218608C, 0);
+        func_021883CC((void (*)(void))func_02183B60, func_0218608C, 0);
         switch (*(u8 *)(p + 0x30)) {
         case 1:
             func_02164454(y, *(u16 *)(p + 0x14));
@@ -167,15 +174,15 @@ int func_021841C0(int ctx, int *state, u8 **pp)
             break;
         }
         func_02034A5C((int)ov230_id);
-        func_0215874C(w);
+        func_0215874C((void *)w);
         (*state)++;
         break;
     case 4:
-        func_02012374(ctx, func_020145FC(x));
+        func_02012374((struct Evt *)ctx, (struct Evt **)func_020145FC(x));
         (*state)++;
         break;
     case 5:
-        func_02012374(ctx, func_02029C64(x));
+        func_02012374((struct Evt *)ctx, func_02029C64((void *)x));
         (*state)++;
         break;
     case 6:

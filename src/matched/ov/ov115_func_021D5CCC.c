@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -36,7 +36,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 void func_021D5CCC(u8 *p, u32 n) {
     void *w;
-    if (*(void **)(p+0x34)==0) *(void **)(p+0x34)=func_020450F0(1,4,7,24,2,11,1);
+    if (*(void **)(p+0x34)==0) *(void **)(p+0x34)=(void *)func_020450F0(1,4,7,24,2,11,1);
     w=*(void **)(p+0x34);
     func_02043B5C(func_02045770(w),0);
     func_02045CAC(*(void **)(p+0x1c),n,*(void **)(p+0x28));

@@ -18,16 +18,17 @@
 
 typedef unsigned short u16;
 
-extern u16 *func_0204A380(int, int, int, int);
+typedef unsigned int   u32;
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 extern int func_021938F4(void *);
-extern void func_0218E17C(int, int);
+extern void func_0218E17C(u32 *p, u32 v);
 extern void func_020307B0(void *);
 
 void func_02193ABC(char *p, int a, int b)
 {
     u16 *h;
 
-    h = func_0204A380(*(int *)(p + 0x10), 0x24, 0, (u16)((b & 0x7fff) | 0x8000));
-    func_0218E17C(a, h[func_021938F4(p)]);
+    h = func_0204A380((void *)(*(int *)(p + 0x10)), 0x24, 0, (u16)((b & 0x7fff) | 0x8000));
+    func_0218E17C((u32 *)a, h[func_021938F4(p)]);
     func_020307B0(h);
 }

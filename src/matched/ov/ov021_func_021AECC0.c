@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_0202A230(u32 a, u32 b);
+extern u32 func_0202A230(void *a, u32 idx);
 
 int func_021AECC0(u32 a, u32 b)
 {
@@ -31,9 +31,9 @@ int func_021AECC0(u32 a, u32 b)
 
     x = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
-    if (func_0202A230(x, 9)) {
+    if (func_0202A230((void *)x, 9)) {
         v = 1;
-    } else if (func_0202A230(x, 11)) {
+    } else if (func_0202A230((void *)x, 11)) {
         v = 2;
     } else {
         v = 0;

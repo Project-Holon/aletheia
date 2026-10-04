@@ -38,33 +38,38 @@
 struct BigObj;
 struct Tally;
 extern int func_02169138(int a0);
-extern int func_02012EBC(int);
-extern int func_0201296C(int);
-extern void func_020143F0(int);
-extern void func_0200D440(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Big;
+struct Rec0200AB04;
+struct Sub02009470Obj;
+extern void *func_02012EBC(struct Big *p);
+extern u32 func_0201296C(const struct BigObj *p);
+extern void func_020143F0(u8 *a);
+extern void func_0200D440(void *sys);
 extern void *func_02012934(const struct BigObj *p);
 extern void func_0201B100(void *, int);
-extern int func_02012F2C(int);
-extern void func_02008E30(int);
-extern int func_02009470(int);
-extern void func_0200952C(int);
+extern void *func_02012F2C(int *p);
+extern void func_02008E30(void *a0);
+extern struct Sub02009470Obj *func_02009470(void *sys);
+extern void func_0200952C(struct Sub02009470Obj *obj);
 extern void func_021862A8(int, int, int);
 extern void *func_0200E394(void *a0);
 extern void func_0200E518(struct Tally *t);
-extern int func_0200A8A0(int);
-extern void func_0200AB04(int);
+extern void *func_0200A8A0(void *sys);
+extern void func_0200AB04(struct Rec0200AB04 *o);
 
 void func_02169004(int a, int b)
 {
     int x;
     func_02169138(a);
-    x = func_02012EBC(a);
-    func_020143F0(func_0201296C(a));
-    func_0200D440(x);
+    x = (int)func_02012EBC((struct Big *)a);
+    func_020143F0((u8 *)func_0201296C((const struct BigObj *)a));
+    func_0200D440((void *)x);
     func_0201B100(func_02012934((void *)a), b);
-    func_02008E30(func_02012F2C(a));
-    func_0200952C(func_02009470(x));
+    func_02008E30(func_02012F2C((int *)a));
+    func_0200952C(func_02009470((void *)x));
     func_021862A8(a, b, 4);
     func_0200E518(func_0200E394((void *)x));
-    func_0200AB04(func_0200A8A0(x));
+    func_0200AB04(func_0200A8A0((void *)x));
 }

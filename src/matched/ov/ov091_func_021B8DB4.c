@@ -42,16 +42,16 @@ typedef struct Rect4 {
 #define W(o) (*(int *)(p + (o)))
 
 extern int func_021BB3C4(void *unused, u32 p);
-extern void func_021BB3FC(u8 *p, int v, Rect *out);
+extern void func_021BB3FC(int unused, u8 *s, u8 *out);
 extern int  func_02035C08(void *rects);
-extern int  func_021BB468(u8 *p, int v);
+extern int func_021BB468(int unused, int *p);
 extern void func_020061E4(u32 id);
-extern void func_021BAFA0(u8 *p, int v, int z);
+extern void func_021BAFA0(u8 *a, u8 *s, int k);
 extern void func_021BBE5C(int h, int f);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern int  func_021B9A84(u8 *p);
-extern int  func_021B9AA0(u8 *p);
+extern int func_021B9A84(u32 p);
+extern int func_021B9AA0(u32 p);
 extern int  func_021B9AB4(u8 *p);
 
 extern Rect4 d_021BEC2C;
@@ -71,26 +71,26 @@ void func_021B8DB4(u8 *p)
     for (i = 0; i < 6; i++) {
         if (func_021BB3C4(p, *(int *)(p + i * 4 + 0x160)) == 1) {
             map[n] = i;
-            func_021BB3FC(p, *(int *)(p + i * 4 + 0x160), &list[n]);
+            func_021BB3FC((int)p, (u8 *)(*(int *)(p + i * 4 + 0x160)), (u8 *)(&list[n]));
             n++;
         }
     }
     list[n].top = 0xff;
     hit = func_02035C08(list);
     if (hit != -1) {
-        if (W(0x28) == 0 && hit <= 5 && func_021BB468(p, *(int *)(p + hit * 4 + 0x160)) == 1) {
+        if (W(0x28) == 0 && hit <= 5 && func_021BB468((int)p, (int *)(*(int *)(p + hit * 4 + 0x160))) == 1) {
             func_020061E4(0x557);
         } else {
             p[0xf] = 3;
             old = W(0x2c);
             W(0x2c) = map[hit];
             if (old <= 5) {
-                func_021BAFA0(p, *(int *)(p + old * 4 + 0x160), 0);
+                func_021BAFA0(p, (u8 *)(*(int *)(p + old * 4 + 0x160)), 0);
             } else {
                 func_021BBE5C(*(int *)(p + (u8)(old - 6) * 4 + 0x108), 0);
             }
             if (W(0x2c) <= 5) {
-                func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 1);
+                func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
             } else {
                 func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
                 func_0204B3DC((struct Obj *)W(0x1d8), 0);
@@ -101,8 +101,8 @@ void func_021B8DB4(u8 *p)
     }
     if (hit == -1) {
         fixed = d_021BEC2C;
-        if (func_021B9A84(p) == 1) {
-            if (func_021B9AA0(p) == 1) {
+        if (func_021B9A84((u32)p) == 1) {
+            if (func_021B9AA0((u32)p) == 1) {
                 fixed.r[1].top = 0xa8;
                 fixed.r[1].bottom = 0xc0;
                 fixed.r[1].left = 0xb0;

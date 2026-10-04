@@ -43,7 +43,7 @@ struct BeaconGfx {
     u16 pal[0x60];
 };
 
-extern struct BeaconGfx *func_0204162C(int id);
+extern u32 func_0204162C(int channel);
 extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u32 heap);
 extern void  func_02082D44(void *dst, const void *src, u32 size);
 extern void  func_020307B0(void *p);
@@ -55,7 +55,7 @@ void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
     void *h;
     int i;
 
-    g = func_0204162C(id);
+    g = (struct BeaconGfx *)func_0204162C(id);
     h = func_02049EF4(arc, 0x1d, 0, &data, heap);
     func_02082D44(((struct BeaconGfx *)((u8 *)data + 0xc))->pal, g->pal, 0xc0);
     func_020307B0(h);

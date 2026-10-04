@@ -35,16 +35,17 @@ extern const Vec d_021D9424;
 
 extern void *func_0215A5F4(void *p);
 extern unsigned int func_02159B10(void *, void *);
-extern u32 func_0215A5EC(u32);
-extern u32 func_0216DE94(u32, u32);
-extern u32 *func_02158F58(void *);
-extern u32 func_02188D38(u32);
+typedef unsigned char  u8;
+extern void *func_0215A5EC(void *p);
+extern void *func_0216DE94(void *map, u32 id);
+extern int func_02158F58(int a0);
+extern u32 func_02188D38(u8 *p);
 extern int func_02163E58(u32 m, Vec *pos, int *h);
 extern void func_0216E084(u32 m, s16 x, s16 y, s16 z, u32 e);
 extern void func_0216D89C(u32, Vec *);
 extern void func_0216D8C0(u32, Vec *);
-extern u32 func_021C7684(u32 a, u32 b, int c, int d);
-extern void func_021C6DE0(u32, u32, u32);
+extern void *func_021C7684(u32 a, u32 b, int c, int d);
+extern void func_021C6DE0(u8 *p, u32 a, u32 b);
 
 int func_021B229C(u32 a, u32 b)
 {
@@ -59,9 +60,9 @@ int func_021B229C(u32 a, u32 b)
     k1 = func_02159B10((void *)a, (void *)b);
     k2 = func_02159B10((void *)a, (void *)b);
     k3 = func_02159B10((void *)a, (void *)b);
-    o = func_0216DE94(func_0215A5EC(b), k0);
-    e = func_02158F58(t)[1];
-    g = func_02188D38(e);
+    o = (u32)func_0216DE94(func_0215A5EC((void *)b), k0);
+    e = ((u32 *)func_02158F58((int)t))[1];
+    g = func_02188D38((u8 *)e);
     if (o == 0) {
         return 0;
     }
@@ -75,6 +76,6 @@ int func_021B229C(u32 a, u32 b)
     func_0216D89C(o, &pos);
     rot = d_021D9424;
     func_0216D8C0(o, &rot);
-    func_021C6DE0(g, func_021C7684(e, o, 0x28, 0xfa), 0);
+    func_021C6DE0((u8 *)g, (u32)func_021C7684(e, o, 0x28, 0xfa), 0);
     return 0;
 }

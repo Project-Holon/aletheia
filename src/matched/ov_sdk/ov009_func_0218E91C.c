@@ -39,7 +39,7 @@ struct GPIPeer {
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, struct GPIMessage *outputBuffer, int *closed, int clipSentData);
-extern void func_0218437C(void *array, int n);
+extern void func_0218437C(int a, int b);
 
 int func_0218E91C(void **connection, struct GPIPeer *peer)
 {
@@ -60,7 +60,7 @@ int func_0218E91C(void **connection, struct GPIPeer *peer)
         }
         if (message->pos != message->length)
             break;
-        func_0218437C(peer->messages, 0);
+        func_0218437C((int)peer->messages, 0);
     }
     return 0;
 }

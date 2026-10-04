@@ -22,22 +22,26 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern int func_020120F4(void *);
+typedef signed int     s32;
+typedef unsigned short u16;
+struct Ctx;
+struct Sys;
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_021B1BE8(int);
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *p);
-extern int func_020288C4(int);
-extern int func_0202972C(void *, int);
-extern void func_0215897C(void *, int);
+extern s32 func_020288C4(struct Sys *s);
+extern void *func_0202972C(void *a, u16 b);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021598EC(int a, int b)
 {
     void *x = func_0215A5F4((void *)b);
     void *y = func_0215A5DC((void *)b);
-    int h = func_020120F4(y);
+    int h = (int)func_020120F4(y);
     int r = 0;
     func_021B1BE8(b);
-    if (func_020288C4((int)func_02012A30((const struct BigObj *)h))) {
+    if (func_020288C4((struct Sys *)((int)func_02012A30((const struct BigObj *)h)))) {
         func_0215897C(x, func_0202972C(y, r));
         r = 1;
     }

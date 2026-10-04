@@ -22,28 +22,36 @@
  *   func_02045808 0x02045808 arm
  */
 
-extern int func_02045EC0(int, int);
-extern void func_02045790(int, unsigned char);
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045790(struct Descriptor *p, u8 v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(int, int);
-extern void func_0201F7A8(int, int);
-extern void func_02045374(int);
-extern void func_0201C7A4(int, int, int, int, int);
-extern void func_0201F79C(int, int, int, int);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void func_0201F79C(void *desc, u32 kind, u32 base, u32 pal);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045808(int);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021F0298(char *p, int a1, int a2, int a3)
 {
-    int r7 = func_02045EC0(*(int *)(p + 0x38), a2);
+    int r7 = (int)func_02045EC0((struct MsgBank *)(*(int *)(p + 0x38)), a2);
 
-    func_02045790(a1, a3);
-    func_02043B5C((int)func_02045770((struct Descriptor *)a1), 15);
-    func_0201F7A8(a1, 2);
-    func_02045374(a1);
-    func_0201C7A4((int)func_02045770((struct Descriptor *)a1), 0, 0, r7, *(int *)(p + 0x34));
-    func_0201F79C(a1, 0, *(int *)(p + 0x14), 2);
+    func_02045790((struct Descriptor *)a1, a3);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)a1)), 15);
+    func_0201F7A8((void *)a1, 2);
+    func_02045374((struct Cfg *)a1);
+    func_0201C7A4((void *)((int)func_02045770((struct Descriptor *)a1)), 0, 0, (void *)r7, (void *)(*(int *)(p + 0x34)));
+    func_0201F79C((void *)a1, 0, *(int *)(p + 0x14), 2);
     func_02045334((struct Descriptor *)a1);
-    func_02045808(r7);
+    func_02045808((struct U16Vec *)r7);
 }

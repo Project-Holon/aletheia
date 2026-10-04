@@ -26,7 +26,7 @@
 
 typedef unsigned short u16;
 
-extern void func_021BD1D4(int, int);
+extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned short dat_021DB3E0[];
 extern unsigned short dat_021DB3F8[];
 extern unsigned short dat_021DB410[];
@@ -38,9 +38,9 @@ void func_021C4964(void)
 {
     u16 *p;
 
-    func_021BD1D4((int)dat_021DB3E0, (int)dat_0207F0B8);
-    func_021BD1D4((int)dat_021DB3F8, (int)dat_0207E3D0);
-    func_021BD1D4((int)dat_021DB410, (int)dat_0207EB78);
+    func_021BD1D4((char *)((int)dat_021DB3E0), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
+    func_021BD1D4((char *)((int)dat_021DB3F8), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
+    func_021BD1D4((char *)((int)dat_021DB410), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;

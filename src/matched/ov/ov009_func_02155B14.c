@@ -26,14 +26,14 @@ typedef struct {
 } G;
 
 extern G *d_021A8264;
-int func_02155A80(int a, int b, int c);
+int func_02155A80(void *src, int len, int c);
 unsigned char func_0216B838(void);
 
 int func_02155B14(int a, int b)
 {
     if (d_021A8264->flag == 0)
         return 0;
-    if (func_02155A80(a, b, 1) == 0)
+    if (func_02155A80((void *)a, b, 1) == 0)
         return 0;
     d_021A8264->flag = 0;
     if (d_021A8264->cb != 0) {

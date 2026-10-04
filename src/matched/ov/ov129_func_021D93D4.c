@@ -14,7 +14,9 @@
  */
 
 extern int func_021DA158(int x, int flag);
-extern void func_0204B878(int,unsigned short);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 typedef struct  {
     int state, value, flag, handle;
     char tail[12];
@@ -38,10 +40,10 @@ void func_021D93D4(const Record *p)  {
         return;
     }
     i=*(int *)((char *)p+0x188);
-    func_0204B878(p[i].handle,clear_record(&((Record *)p)[i]));
+    func_0204B878((struct Obj *)p[i].handle,clear_record(&((Record *)p)[i]));
     v=p[i].value;
     if(i>0)  {
-        func_0204B878(p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
+        func_0204B878((struct Obj *)p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
         next=p[i-1].value;
         if(v!=next)  {
             *(int *)((char *)p+0x31c)=1;

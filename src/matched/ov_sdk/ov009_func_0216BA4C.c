@@ -54,8 +54,8 @@ extern unsigned long func_021685CC(unsigned long max);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_02195AB4(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void *callback);
 extern int func_0216BE00(int result);
-extern void func_02195B20();
-extern void func_02195E68();
+extern void func_02195B20(int *p, int v);
+extern void func_02195E68(int *p, int v);
 extern void func_0216C7A8(void *socket);
 extern void func_0216E5B0();
 extern int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len);
@@ -71,7 +71,7 @@ int func_0216BA4C(void)
 	gt2Result = func_02195AB4(&g_021AA878.st->gt2Socket, func_02198620(0, baseport, 0), g_021AA878.st->outSize, g_021AA878.st->inSize, func_0216C7A8);
 	if (func_0216BE00(gt2Result))
 		return gt2Result;
-	func_02195B20(g_021AA878.st->gt2Socket, func_0216E5B0);
-	func_02195E68(g_021AA878.st->gt2Socket, func_0216E4C0);
+	func_02195B20(g_021AA878.st->gt2Socket, (int)func_0216E5B0);
+	func_02195E68(g_021AA878.st->gt2Socket, (int)func_0216E4C0);
 	return gt2Result;
 }

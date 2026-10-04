@@ -20,12 +20,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021CACD0(u8 *);
+extern void func_021CACD0(int a);
 
 void func_021CCA5C(u8 *p)
 {
-    func_021CACD0(p);
-    func_021CACD0(p + 0x14);
+    func_021CACD0((int)p);
+    func_021CACD0((int)(p + 0x14));
     *(u32 *)(p + 0x28) = 0;
     *(u32 *)(p + 0x30) = 0;
 }

@@ -53,13 +53,14 @@ typedef struct Ctx {
     Req *f20;
 } Ctx;
 
-extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
-extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
-extern void *func_020144DC(u32 a0, u32 a1);
-extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
-extern int   func_020120F0(u32 a0);
+struct IcaAnime;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern int func_020144DC(int a0, int a1);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
 extern u32 func_0200FB24(void);
-extern void *func_020145CC(u32 a0);
+extern void *func_020145CC(void *a0);
 
 extern char ov119_id[];
 extern char ov195_id[];
@@ -72,19 +73,19 @@ int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *stat
 
     switch (*state) {
     case 0:
-        *out = func_021BE8D4(a0, a2, 0, 0);
+        *out = (void *)func_021BE8D4((void *)a0, a2, 0, 0);
         (*state)++;
         break;
     case 1:
-        *out = func_020144DC(a0, a2);
+        *out = (void *)func_020144DC(a0, a2);
         (*state)++;
         break;
     case 2:
-        func_020120B4(a0, ov119_id, d_021E7608, ctx);
+        func_020120B4((struct IcaAnime *)a0, (u32)ov119_id, d_021E7608, ctx);
         (*state)++;
         break;
     case 3:
-        if (func_020120F0(a0) != 0)
+        if (func_020120F0((const struct Ctx *)a0) != 0)
             break;
         if (ctx->f8 == 1)
             *state = 4;
@@ -101,11 +102,11 @@ int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *stat
         r->fC = 1;
         r->f10 = 0;
         ctx->f20 = r;
-        func_020120B4(a0, ov195_id, d_02208C40, r);
+        func_020120B4((struct IcaAnime *)a0, (u32)ov195_id, d_02208C40, r);
         (*state)++;
         break;
     case 5:
-        if (func_020120F0(a0) != 0)
+        if (func_020120F0((const struct Ctx *)a0) != 0)
             break;
         if (func_0200FB24() != 0) {
             *state = 6;
@@ -115,11 +116,11 @@ int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *stat
         }
         break;
     case 6:
-        *out = func_020145CC(a0);
+        *out = func_020145CC((void *)a0);
         *state = 7;
         break;
     case 7:
-        *out = func_021BE92C(a0, a2, 0, 0, 1, 0, 0);
+        *out = (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0);
         *state = 8;
         break;
     default:

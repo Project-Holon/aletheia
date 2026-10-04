@@ -39,16 +39,16 @@ struct BigObj;
 struct Sub02008828Obj;
 struct Sub02014444Obj;
 extern void *func_02012B38(const struct BigObj *p);
-extern u32   func_02013F6C(void *a);
+extern u32 func_02013F6C(u32 id);
 extern void func_02014464(struct Sub02014444Obj *o, u8 v);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *a);
-extern void  func_0215E428(void *a, void *b);
+extern void func_0215E428(int a0, int a1);
 extern void  func_0215E364(void *a);
-extern void *func_0201296C(void *a);
+extern u32 func_0201296C(const struct BigObj *p);
 extern void func_0201433C(char *a0, int a1);
 extern void  func_02164728(void *a);
-extern int   func_02013FFC(void *a);
+extern u32 func_02013FFC(u32 id);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern void func_02008988(struct Sub02008828Obj *obj, u16 value);
 
@@ -56,15 +56,15 @@ void func_021643E8(void *a, void *b)
 {
     void *w = func_02012B38(a);
     void *c;
-    if ((func_02013F6C(b) & 3) == 0) {
+    if ((func_02013F6C((u32)b) & 3) == 0) {
         func_02014464(w, 0);
     }
-    func_0215E428(func_0200D418(func_02012EBC(a)), b);
+    func_0215E428((int)func_0200D418(func_02012EBC(a)), (int)b);
     func_0215E364(a);
-    c = func_0201296C(a);
+    c = (void *)func_0201296C(a);
     func_0201433C(c, 0x964);
     func_02164728(c);
-    if (func_02013FFC(b) == 0) {
+    if (func_02013FFC((u32)b) == 0) {
         func_02008988(func_02008854(func_02012EBC(a)), 0);
     }
 }

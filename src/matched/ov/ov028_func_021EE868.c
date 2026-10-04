@@ -17,21 +17,22 @@
  *   d_021EEAA4     0x021EEAA4  data  ov028  a4
  */
 
-int func_021A2148(int a);
-int *func_021A21B8(int a);
-void func_021A22E0(int a, int b, int c, int d);
+typedef unsigned int   u32;
+int func_021A2148(unsigned char *o);
+int *func_021A21B8(int *p);
+void func_021A22E0(u32 *p, int a, int b, int c);
 extern unsigned char d_021EEA80[];
 extern int d_021EEAA4[];
 
 int func_021EE868(int a, int b)
 {
-    int i = func_021A2148(a);
-    int *p = func_021A21B8(a);
+    int i = func_021A2148((unsigned char *)a);
+    int *p = func_021A21B8((int *)a);
 
     p[1] = 0;
     p[0] = 10;
     p[11] = d_021EEA80[i];
     p[12] = d_021EEAA4[i];
-    func_021A22E0(a, p[11], 0x7fdf, b);
+    func_021A22E0((u32 *)a, p[11], 0x7fdf, b);
     return 1;
 }

@@ -20,11 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_0200AD8C(u32 v);
+struct Rec0200AD8C;
+extern u16 func_0200AD8C(const struct Rec0200AD8C *p);
 
 u32 func_0220252C(u8 *p)
 {
-    if (func_0200AD8C(*(u32 *)(*(u32 *)p)) == 0) {
+    if (func_0200AD8C((const struct Rec0200AD8C *)(*(u32 *)(*(u32 *)p))) == 0) {
         if (*(u16 *)(p + 0x32) != 0) {
             return 1;
         }

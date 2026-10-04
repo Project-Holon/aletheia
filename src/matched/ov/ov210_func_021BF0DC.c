@@ -50,10 +50,10 @@ struct Actor;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern int func_02012BF8(void *p, u32 v);
+extern int func_02012BF8(int a0, int a1);
 extern void *func_021C940C(void *set, struct Tpl021BF0DC *t, u32 heap);
-extern void func_021BEDB8(struct Obj021BF0DC *p, int a, int b);
-extern void func_021BEDF0(struct Obj021BF0DC *p, int i, int v);
+extern void func_021BEDB8(int p, int i, int v);
+extern void func_021BEDF0(int p, int i, int v);
 extern void func_021BEE14(struct Obj021BF0DC *p, int i, int v);
 extern const struct Tpl021BF0DC data_021C09AC[15];
 extern const struct Tpl021BF0DC data_021C0978;
@@ -79,20 +79,20 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         p->objs[i] = func_021C940C(p->set, &t0, 0x7B);
     }
 
-    if (func_02012BF8(*p->sys, 0x10) == 1)
-        func_021BEDB8(p, 4, 7);
-    func_021BEDF0(p, 5, 0);
-    func_021BEDF0(p, 6, 0);
-    func_021BEDF0(p, 0, 0);
-    func_021BEDF0(p, 1, 0);
-    func_021BEDF0(p, 7, 0);
-    func_021BEDF0(p, 8, 0);
-    func_021BEDF0(p, 9, 0);
-    func_021BEDF0(p, 10, 0);
-    func_021BEDF0(p, 11, 0);
-    func_021BEDF0(p, 12, 0);
-    func_021BEDF0(p, 13, 0);
-    func_021BEDF0(p, 14, 0);
+    if (func_02012BF8((int)(*p->sys), 0x10) == 1)
+        func_021BEDB8((int)p, 4, 7);
+    func_021BEDF0((int)p, 5, 0);
+    func_021BEDF0((int)p, 6, 0);
+    func_021BEDF0((int)p, 0, 0);
+    func_021BEDF0((int)p, 1, 0);
+    func_021BEDF0((int)p, 7, 0);
+    func_021BEDF0((int)p, 8, 0);
+    func_021BEDF0((int)p, 9, 0);
+    func_021BEDF0((int)p, 10, 0);
+    func_021BEDF0((int)p, 11, 0);
+    func_021BEDF0((int)p, 12, 0);
+    func_021BEDF0((int)p, 13, 0);
+    func_021BEDF0((int)p, 14, 0);
     func_0204B688(p->objs[13], 2);
     func_0204B688(p->objs[14], 2);
     func_021BEE14(p, 11, 1);
@@ -107,7 +107,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.c = p->c[t.c];
         t.id = i;
         p->objs[15 + i] = func_021C940C(p->set, &t, 0x7B);
-        func_021BEDF0(p, i + 15, 0);
+        func_021BEDF0((int)p, i + 15, 0);
 
         t = tb;
         t.a = p->a[t.a];
@@ -115,10 +115,10 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.c = p->c[t.c];
         t.id = i;
         p->objs[29 + i] = func_021C940C(p->set, &t, 0x7B);
-        func_021BEDF0(p, i + 29, 0);
+        func_021BEDF0((int)p, i + 29, 0);
         func_021BEE14(p, (int)i + 29, 1);
         p->objs[43 + i] = func_021C940C(p->set, &t, 0x7B);
-        func_021BEDF0(p, i + 43, 0);
+        func_021BEDF0((int)p, i + 43, 0);
         func_0204B688(p->objs[43 + i], 2);
     }
 }

@@ -45,7 +45,7 @@
 typedef unsigned int u32;
 
 extern void *sub_02030428(u32 heapId);
-extern void sub_02030B50(u32 heapId);
+extern void sub_02030B50(void *p);
 typedef signed int     s32;
 struct Heap;
 extern int sub_02060E6C(int *p);
@@ -58,5 +58,5 @@ void sub_02030958(u32 heapId)
     arena = sub_02030428(heapId);
     sub_02060E6C(arena);
     sub_02060E94(arena, 4);
-    sub_02030B50(heapId);
+    sub_02030B50((void *)heapId);
 }

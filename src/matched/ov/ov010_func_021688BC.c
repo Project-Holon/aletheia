@@ -23,14 +23,17 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern int func_02045B38(int, int, int, int);
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02082BCC(void *, int, int);
 extern void *func_0216880C(u32 group, u32 heap);
-extern int func_02045EC0(int, int);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *, u16 *, u32);
-extern void func_02045808(int);
-extern void func_02045C04(int);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 
 typedef struct {
     int f0;
@@ -43,7 +46,7 @@ typedef struct {
 
 u16 *func_021688BC(Blk *a, int b, int c)
 {
-    int h = func_02045B38(0, 2, 11, c);
+    int h = (int)func_02045B38(0, 2, 11, c);
     u16 *r;
     int t;
     func_02082BCC(a, 0, 0x120);
@@ -52,9 +55,9 @@ u16 *func_021688BC(Blk *a, int b, int c)
     a->f18 = 0xFFFF;
     a->f1a = b * 3;
     a->f4 = *r;
-    t = func_02045EC0(h, b);
+    t = (int)func_02045EC0((struct MsgBank *)h, b);
     func_02045A38((struct U16Vec *)t, (u16 *)a->f8, 16);
-    func_02045808(t);
-    func_02045C04(h);
+    func_02045808((struct U16Vec *)t);
+    func_02045C04((struct Rec *)h);
     return r;
 }

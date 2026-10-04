@@ -21,10 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02030EE8(u32);
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 
 int func_02197DA0(u32 a)
 {
-return *(u32 *)((u8 *)(func_02030EE8(a)) + 4);
+return *(u32 *)((u8 *)(func_02030EE8((struct S02030EE8 *)a)) + 4);
 }
 

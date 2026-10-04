@@ -19,12 +19,12 @@
 
 extern void func_0219A4A4(void *p);
 extern void func_0219DE88(void *p);
-extern void func_021A1928(void *p);
+extern int func_021A1928(int *p);
 
 void func_0219EFD0(char *p)
 {
     func_0219A4A4(p);
     func_0219DE88(p);
-    func_021A1928(p + 0x60);
+    func_021A1928((int *)(p + 0x60));
 }
 

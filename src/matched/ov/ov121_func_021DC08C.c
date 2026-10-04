@@ -47,7 +47,7 @@ extern void func_021DDF5C(u8 *p);
 extern void func_020061E4(u32 a);
 extern int func_021DBDB8(char *);
 extern int func_021DBF04(void *);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021DC9CC(void);
 extern void func_021DC4F0(void *task, u32 *state, u8 *p);
 extern void func_021DCCE4(void *arg, u32 *state, char *p);
@@ -154,14 +154,14 @@ void func_021DC08C(void *task,u32 *state,char *p)
                     func_0204B3DC(*(void **)(p+0xaf4),0);
                     func_0204B3DC(*(void **)(p+0xaf8),0);
                     func_020061E4(0x54c);
-                    func_021DA8B0(task,func_021DCCE4);
+                    func_021DA8B0(task,(u32)func_021DCCE4);
                 }
             } else if(func_021DBF04(p+40+220*((u32)*(int *)(p+0xacc)+*(u32 *)(p+0xac8)*4))) {
                 func_0204B3DC(*(void **)(p+0xaf4),0);
                 func_0204B3DC(*(void **)(p+0xaf8),0);
                 func_020061E4(0x54c);
-                if(*(int *)(p+0xae0)) func_021DA8B0(task,func_021DC9CC);
-                else func_021DA8B0(task,func_021DC4F0);
+                if(*(int *)(p+0xae0)) func_021DA8B0(task,(u32)func_021DC9CC);
+                else func_021DA8B0(task,(u32)func_021DC4F0);
             }
         } else if(func_020362DC()&2) {
             func_020061E4(0x551);
@@ -172,7 +172,7 @@ void func_021DC08C(void *task,u32 *state,char *p)
             } else {
                 func_0204B3DC(*(void **)(p+0xaf4),0);
                 func_0204B3DC(*(void **)(p+0xaf8),0);
-                func_021DA8B0(task,func_021DCCE4);
+                func_021DA8B0(task,(u32)func_021DCCE4);
             }
         }
         if(delta) {

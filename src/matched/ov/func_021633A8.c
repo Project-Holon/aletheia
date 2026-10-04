@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021640B0(int a);
-extern int func_0216D57C();
+extern u32 func_0216D57C(void *p, u32 v);
 extern int func_0216DB24(int a0);
 extern int func_021631C0();
 extern int func_02163418();
@@ -52,7 +52,7 @@ loc_021633B2:
 a1 = 2;
 a0 = t5 + 0;
 a1 = a1 << 0xa;
-    a0 = func_0216D57C(a0, a1);
+    a0 = func_0216D57C((void *)a0, a1);
 loc_021633BC:
     if (a0 != 0) goto loc_02163414;
 loc_021633C0:

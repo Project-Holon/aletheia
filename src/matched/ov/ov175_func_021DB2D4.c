@@ -18,13 +18,14 @@
 typedef unsigned long u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1A4(int);
-extern void func_02034714(int, int, int);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 g_021E2EF8[];
 int func_021DB2D4(int a, char *b)
 {
-    if (func_0203D1A4((int)func_020399A8()) == a) {
-        func_02034714((int)g_021E2EF8, 0, (int)g_021E2EF8);
+    if (func_0203D1A4((struct Link *)((int)func_020399A8())) == a) {
+        func_02034714((const char *)((int)g_021E2EF8), 0, (const char *)((int)g_021E2EF8));
         return 0;
     }
     return (int)(b + 0x218);

@@ -24,26 +24,26 @@
 typedef unsigned char u8;
 
 extern void func_021EADB4(void *q, int a, int i);
-extern void func_021EAE20(void *q, int a, int i);
+extern void func_021EAE20(char *p, void **q, int i);
 extern void func_021EAE74(void *q, int a, int i);
 extern void func_021EAF20(void *q, int a, int i);
 extern void func_021EAFBC(void *p, int a, int i);
-extern void func_021EB098(void *q, int a, int i);
-extern void func_021EB114(void *q, int a, int i);
-extern void func_021EB190(void *q, int a, int i);
+extern void func_021EB098(char *p, unsigned char *e, int i);
+extern void func_021EB114(char *p, unsigned char *e, int i);
+extern void func_021EB190(char *p, unsigned char *e, int i);
 extern void func_021EB208(void *q, int a, int i);
 extern void func_021EABA0(void *q);
 
 void func_021EB2A4(u8 *p, int a)
 {
     func_021EADB4(*(void **)(p + 0x2c), a, 1);
-    func_021EAE20(*(void **)(p + 0x2c), a, 2);
+    func_021EAE20(*(void **)(p + 0x2c), (void **)a, 2);
     func_021EAE74(*(void **)(p + 0x2c), a, 3);
     func_021EAF20(*(void **)(p + 0x2c), a, 4);
     func_021EAFBC(p, a, 5);
-    func_021EB098(*(void **)(p + 0x2c), a, 6);
-    func_021EB114(*(void **)(p + 0x2c), a, 7);
-    func_021EB190(*(void **)(p + 0x2c), a, 8);
+    func_021EB098(*(void **)(p + 0x2c), (unsigned char *)a, 6);
+    func_021EB114(*(void **)(p + 0x2c), (unsigned char *)a, 7);
+    func_021EB190(*(void **)(p + 0x2c), (unsigned char *)a, 8);
     func_021EB208(*(void **)(p + 0x2c), a, 9);
     func_021EABA0((u8 *)*(void **)(p + 0x2c) + 0xe4);
     func_021EABA0((u8 *)*(void **)(p + 0x2c) + 0xec);

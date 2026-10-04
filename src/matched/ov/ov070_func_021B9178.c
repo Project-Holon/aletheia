@@ -16,15 +16,19 @@
  *   func_02049990  0x02049990  arm
  */
 
-extern int func_02008550(int);
-extern void func_02049B68(int, int, int, int, int, unsigned short);
-extern int func_02049740(int, int, int, int, int, unsigned short);
-extern void func_02049990(int, int, int, int, unsigned short, int, int, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
 void func_021B9178(char *p, int bg)
 {
     int a, b, c, t;
-    int r = func_02008550(*(int *)(p + 8));
+    int r = func_02008550((const struct Sub0200852CObj *)(*(int *)(p + 8)));
     if (r == 0) {
         a = 4;
         b = 3;
@@ -34,8 +38,8 @@ void func_021B9178(char *p, int bg)
         b = 0;
         c = 2;
     }
-    func_02049B68(bg, a, 0, 0, 0x20, *(unsigned short *)(p + 0x544));
-    t = func_02049740(bg, b, 0, 0, 0, *(unsigned short *)(p + 0x544));
+    func_02049B68((void *)bg, a, 0, 0, 0x20, *(unsigned short *)(p + 0x544));
+    t = func_02049740((void *)bg, b, 0, 0, 0, *(unsigned short *)(p + 0x544));
     *(int *)(p + 0x7F8) = t;
-    func_02049990(bg, c, 0, 0, (unsigned short)t, 0, 0, *(unsigned short *)(p + 0x544));
+    func_02049990((void *)bg, c, 0, 0, (unsigned short)t, 0, 0, *(unsigned short *)(p + 0x544));
 }

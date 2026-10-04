@@ -30,14 +30,16 @@ struct Obj02061BD0 {
 };
 
 extern int func_02061878(struct Obj02061BD0 *);
-extern u16 func_02061840(struct Obj02061BD0 *, u16);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02061840(u8 *p, u32 v);
 
 int func_02061BD0(struct Obj02061BD0 *p)
 {
     if (func_02061878(p) != 0) {
         return 0;
     }
-    p->f8 = func_02061840(p, p->f8);
+    p->f8 = func_02061840((u8 *)p, p->f8);
     p->fC -= 1;
     return 1;
 }

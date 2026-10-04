@@ -18,17 +18,19 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0201C6EC(u32);
-extern void func_0201C4C0(u32);
-extern void func_020452E8(u32);
+struct Descriptor;
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021B40A8(u8 *w)
 {
     int i;
 
-    func_0201C6EC(*(u32 *)(w + 0x1B0));
-    func_0201C4C0(*(u32 *)(w + 0x1B0));
+    func_0201C6EC((struct PrintSys *)(*(u32 *)(w + 0x1B0)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(w + 0x1B0)));
     for (i = 0; i < 7; i++) {
-        func_020452E8(*(u32 *)(w + 0x164 + i * 4));
+        func_020452E8((struct Descriptor *)(*(u32 *)(w + 0x164 + i * 4)));
     }
 }

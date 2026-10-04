@@ -64,7 +64,7 @@ extern unsigned func_021BA2FC(unsigned);
 extern unsigned func_021BA19C(unsigned char *);
 extern void func_021BA144(unsigned char *,unsigned);
 extern void func_021BA284(int sel);
-extern unsigned func_021BA3E8(unsigned,unsigned);
+extern void func_021BA3E8(char *self, int i);
 extern void func_021BA354(void);
 extern void func_021BA150(void *);
 void func_021B9B98(char *p)
@@ -80,6 +80,6 @@ void func_021B9B98(char *p)
     if (func_021BA3B4((unsigned)p,0)==0)func_021BA2FC((unsigned)p);
     kind=func_021BA19C((unsigned char *)p);
     func_021BA144((unsigned char *)p,func_021BA19C((unsigned char *)p));
-    if (kind==2) {func_021BA284(*(unsigned *)(p+0x28));func_021BA3E8((unsigned)p,0);}
+    if (kind==2) {func_021BA284(*(unsigned *)(p+0x28));func_021BA3E8((char *)((unsigned)p),0);}
     func_021BA354();func_021BA150(p);
 }

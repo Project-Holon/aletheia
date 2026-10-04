@@ -35,7 +35,8 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void sub_020643C4(void *p, void *arg);
+struct MultiCellAnim;
+extern void sub_020643C4(struct MultiCellAnim *mca, u32 value);
 struct MCD { u16 numNodes; u16 numCellAnims; void *nodes; };
 struct Root { struct MCD *data; void *set; u32 kind; char *cells; };
 struct Obj { u8 pad_00[0x14]; void *unk_14; u8 pad_18[0x1c]; struct Root root; };
@@ -45,11 +46,11 @@ void sub_02064B68(struct Obj *o, void *arg)
         u16 i;
         char *cells = o->root.cells;
         o->unk_14 = arg;
-        for (i = 0; i < o->root.data->numCellAnims; i++) sub_020643C4(cells + i * 0x5c, arg);
+        for (i = 0; i < o->root.data->numCellAnims; i++) sub_020643C4((struct MultiCellAnim *)(cells + i * 0x5c), (u32)arg);
     } else {
         u16 i;
         char *cells = o->root.cells;
         o->unk_14 = arg;
-        for (i = 0; i < o->root.data->numNodes; i++) sub_020643C4(*(void **)(cells + i * 0x28), arg);
+        for (i = 0; i < o->root.data->numNodes; i++) sub_020643C4(*(void **)(cells + i * 0x28), (u32)arg);
     }
 }

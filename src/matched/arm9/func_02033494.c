@@ -19,5 +19,6 @@
  * exists; it is the witness that unblocks the thumb caller func_021DFE00.
  */
 
-extern void func_020336B8(int, int, int, int);
-void func_02033494(int a0, int a1, int a2, int a3){ func_020336B8((int)a0, (int)a1, (int)a2, (int)*(int *)(((char *)(*(int *)((char *)(0x2146994))) + 520))); }
+typedef unsigned int   u32;
+extern int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
+void func_02033494(int a0, int a1, int a2, int a3){ func_020336B8((int)a0, (int)a1, (int)a2, (void *)((int)*(int *)(((char *)(*(int *)((char *)(0x2146994))) + 520)))); }

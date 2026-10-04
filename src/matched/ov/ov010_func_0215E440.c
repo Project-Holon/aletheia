@@ -60,7 +60,8 @@ extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_0200CA10(void *save);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_020307B0(void *p);
-extern void *func_02012984(void *sys);
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
 extern void func_0215E740(void *a, void *b, u32 which, u32 n);
 extern void func_0200D470(struct Blk38 *p, u32 i, u8 v);
 extern const char d_0217293C[];
@@ -107,6 +108,6 @@ void func_0215E440(void *sys, u32 which)
     func_0200D50C(rec, 5, func_02017E1C(mon, 0xA1, 0));
     func_0200CFA0(func_0200CA10(save), mon);
     func_020307B0(mon);
-    func_0215E740(a, func_02012984(sys), which, 5);
+    func_0215E740(a, (void *)func_02012984(sys), which, 5);
     func_0200D470(a, which, 1);
 }

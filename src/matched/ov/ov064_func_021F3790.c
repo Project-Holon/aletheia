@@ -14,14 +14,14 @@
  *   func_021BE418  0x021BE418  thumb  ov021
  */
 
-extern void *func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern void func_021897A0(unsigned char *p, int id);
 extern void func_021BE418(unsigned char *p, unsigned short i);
 
 void func_021F3790(unsigned char *p)
 {
     void *s;
-    s = func_02188D2C(p);
+    s = (void *)func_02188D2C((int *)p);
     func_021897A0(p, 1);
     func_021BE418(s, 0);
 }

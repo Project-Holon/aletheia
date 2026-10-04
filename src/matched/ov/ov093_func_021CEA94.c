@@ -58,15 +58,15 @@ struct Unk021D82D0;
 struct UtilWork;
 extern u32 func_021B8588(void **p);
 extern u32 func_021CF524(u32, void *, u32);
-extern void func_021CE150(u8 *, u32);
+extern void func_021CE150(u8 *p, void *q);
 extern u32 func_021CF220(u8 *, int *);
 extern int func_021CE3C8(u8 *, int *);
 extern int func_021CE4D0(u8 *, u32 *);
 extern u32 func_021CED4C(u8 *, int *);
 extern void func_021CECB4(u8 *, void *);
-extern void func_021E97BC(void *, u32, u32);
+extern void func_021E97BC(char *p, u8 *a, int b);
 extern void func_021E9808(char *p, u32 *q, int c);
-extern u32 func_021CE0BC(u8 *, u32);
+extern int func_021CE0BC(u8 *p, void *q);
 extern void func_021E98AC(void *);
 extern u32 func_021E98B4(void *);
 extern u32 func_021D8454(u32 *);
@@ -81,7 +81,7 @@ extern u32 func_021D8340(u32 *);
 extern void func_021D83FC(u32 *p, u32 sub);
 extern void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u32 func_021D7EF0(u32);
-extern void func_021E98BC(void *, u32, u32);
+extern void func_021E98BC(char *p, u8 *a, int b);
 extern void func_021E9920(void *);
 extern int func_021E98E8(char *p);
 extern int func_021EA710(u32 *p);
@@ -97,7 +97,7 @@ int func_021CEA94(u8 *p, u32 *state)
     case 0:
         if (func_021B8588(*(void **)p) != 3) {
             if (func_021CF524((u32)p, *(void **)(p + 8), *(u32 *)(p + 12)))
-                func_021CE150(p, (u32)func_021CF220);
+                func_021CE150(p, (void *)((u32)func_021CF220));
             else *state = 1;
         } else {
             func_021CECB4(p, p + 0xa4);
@@ -105,7 +105,7 @@ int func_021CEA94(u8 *p, u32 *state)
         }
         break;
     case 1:
-        func_021E97BC(*(void **)(p + 0x54), *(u32 *)(p + 8), *(u32 *)(p + 12));
+        func_021E97BC(*(void **)(p + 0x54), (u8 *)(*(u32 *)(p + 8)), *(u32 *)(p + 12));
         *state = 3;
         break;
     case 2:
@@ -113,14 +113,14 @@ int func_021CEA94(u8 *p, u32 *state)
         *state = 3;
         break;
     case 3:
-        if (func_021CE0BC(p, (u32)func_021CE3C8)) {
+        if (func_021CE0BC(p, (void *)((u32)func_021CE3C8))) {
             func_021E98AC(*(void **)(p + 0x54));
             return 0;
         }
         if (func_021E98B4(*(void **)(p + 0x54))) {
             k = func_021D8454(*(u32 **)(p + 12));
-            if (k == 0) func_021CE150(p, (u32)func_021CE4D0);
-            else if (k == 5) func_021CE150(p, (u32)func_021CF220);
+            if (k == 0) func_021CE150(p, (void *)((u32)func_021CE4D0));
+            else if (k == 5) func_021CE150(p, (void *)((u32)func_021CF220));
             else {
                 m = *(void **)(p + 8);
                 record = *(u32 **)(p + 12);
@@ -135,7 +135,7 @@ int func_021CEA94(u8 *p, u32 *state)
                     p[0x1b0] = slot;
                     p[0x1b1] = func_021D5778(m, (u16)((Record *)record)->id);
                     if (p[0x1b1] != 4) {
-                        func_021CE150(p, (u32)func_021CED4C);
+                        func_021CE150(p, (void *)((u32)func_021CED4C));
                         return 0;
                     }
                 }
@@ -159,19 +159,19 @@ int func_021CEA94(u8 *p, u32 *state)
         break;
     case 4:
         if (func_021D7EF0(func_021B8588(*(void **)p))) *state = 5;
-        else func_021CE150(p, (u32)func_021CF220);
+        else func_021CE150(p, (void *)((u32)func_021CF220));
         break;
     case 5:
-        func_021E98BC(*(void **)(p + 0x54), *(u32 *)(p + 8), *(u32 *)(p + 12));
+        func_021E98BC(*(void **)(p + 0x54), (u8 *)(*(u32 *)(p + 8)), *(u32 *)(p + 12));
         *state = 6;
         break;
     case 6:
-        if (func_021CE0BC(p, (u32)func_021CE3C8)) {
+        if (func_021CE0BC(p, (void *)((u32)func_021CE3C8))) {
             func_021E9920(*(void **)(p + 0x54));
             return 0;
         }
         k = func_021E98E8(*(void **)(p + 0x54));
-        if (k == 1) func_021CE150(p, (u32)func_021CF220);
+        if (k == 1) func_021CE150(p, (void *)((u32)func_021CF220));
         else if (k == 2) *state = 1;
         break;
     case 7:

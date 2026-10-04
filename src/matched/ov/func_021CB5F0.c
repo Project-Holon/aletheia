@@ -46,7 +46,7 @@ extern u16 func_021D5444(void *p);
 extern int func_021D59B4(u8 *p, int k);
 extern u16 func_021D5B40(void *p);
 extern void *func_021D5844(void *m);
-extern u32 func_021D805C(u32 v, u32 n);
+extern u32 func_021D805C(void *p, u32 n);
 
 extern u32 func_02019C90(void *p, u32 a, u32 b);
 struct Sav;
@@ -78,7 +78,7 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
     for (i = 0; i < 6; i++) {
         t = g_021EFDC0[i].f4;
         if (t == func_021D5B40(a0)) {
-            buf[i] = (u8)(buf[i] + (u8)func_021D805C(t, 2));
+            buf[i] = (u8)(buf[i] + (u8)func_021D805C((void *)t, 2));
         }
     }
     rec = func_021D5844(a0);

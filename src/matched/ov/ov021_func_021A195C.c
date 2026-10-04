@@ -36,8 +36,9 @@ typedef struct {
     u32 key;
 } Obj021A195C;
 
-u32 func_02047388(u32 key);
-u32 func_020473B8(u32 key);
+struct Layer;
+u32 func_02047388(struct Layer *layer);
+u32 func_020473B8(struct Layer *layer);
 
 typedef enum { GX_TEXFMT_NONE = 0, GX_TEXFMT_PLTT4 = 2 } GXTexFmt;
 typedef enum { GX_TEXGEN_NONE = 0, GX_TEXGEN_TEXCOORD = 1 } GXTexGen;
@@ -63,9 +64,9 @@ static inline u32 NNS_GfdGetPlttKeyAddr(u32 key) { return (u32)((0x0000FFFF & ke
 
 void func_021A195C(Obj021A195C *p)
 {
-    u32 texKey = func_02047388(p->key);
+    u32 texKey = func_02047388((struct Layer *)p->key);
     int fmt = p->fmt;
 
     G3_TexImageParam(fmt, GX_TEXGEN_TEXCOORD, p->sizeS, p->sizeT, p->repeat, p->flip, p->pltt0, NNS_GfdGetTexKeyAddr(texKey));
-    G3_TexPlttBase(NNS_GfdGetPlttKeyAddr(func_020473B8(p->key)), fmt);
+    G3_TexPlttBase(NNS_GfdGetPlttKeyAddr(func_020473B8((struct Layer *)p->key)), fmt);
 }

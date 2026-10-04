@@ -22,7 +22,7 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 typedef unsigned char  u8;
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 heap);
-extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heap);
+extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *h);
@@ -34,7 +34,7 @@ void func_021F76D8(void *p)
     func_02049B40(0x17, 5, 0, 0x1A0, 0x20, 0x48);
     func_0201F5BC(0, 1, 14, 0, 0x48);
     func_0201F5BC(0, 31, 11, 0, 0x48);
-    func_02049624(0x60, 9, 1, 0, 0, 1, 0x48);
+    func_02049624((void *)0x60, (void *)9, (void *)1, 0, 0, 1, 0x48);
     func_0204989C(0x60, 20, 1, 0, 0x600, 1, 0x48);
     func_02049658(h, 12, 2, 0, 0, 1, 0x48);
     func_02200B34(p);

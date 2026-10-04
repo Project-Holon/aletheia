@@ -32,7 +32,7 @@ extern void func_0204361C(void);
 extern void func_020434CC(void);
 extern void func_021B7B2C(void *,const void *,int);
 extern void func_021B7994(void *,int);
-extern void func_021B7980(void *);
+extern void func_021B7980(u32 unused, u8 *p);
 extern void *func_020056A0(void (*)(void *),void *,int);
 extern const u8 d_021B8F78[];
-void func_021B78EC(u8 *p,int a) { func_02082BCC(p,0,0xbc); func_0204335C(0); func_020433E0(d_021B8F78); func_0204363C(0); func_0204361C(); func_020434CC(); func_021B7B2C(p+4,d_021B8F78,a); func_021B7994(p,a); *(void **)(p+0xb8)=func_020056A0(func_021B7980,p,0); }
+void func_021B78EC(u8 *p,int a) { func_02082BCC(p,0,0xbc); func_0204335C(0); func_020433E0(d_021B8F78); func_0204363C(0); func_0204361C(); func_020434CC(); func_021B7B2C(p+4,d_021B8F78,a); func_021B7994(p,a); *(void **)(p+0xb8)=func_020056A0((void (*)(void *))func_021B7980,p,0); }

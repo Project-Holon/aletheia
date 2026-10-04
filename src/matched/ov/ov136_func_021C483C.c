@@ -35,8 +35,8 @@ extern int func_02035C60(void);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_020456F8(struct Descriptor *d);
-extern void *func_02045730(void *);
-extern void func_020409B4(void *);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 extern void func_021C44FC(u8 *);
 int func_021C483C(u8 *p)
 {

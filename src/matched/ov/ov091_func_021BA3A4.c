@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 
 #define W(o) (*(u32 *)(p + (o)))
 
-extern void  func_021BB7A4(u8 *p, u32 obj);
+extern void func_021BB7A4(void *p, u32 *s);
 extern int   func_02009020(void *obj, int v);
 struct Sub02008F80Obj;
 extern void *func_02008F08(int a0);
@@ -40,10 +40,10 @@ extern u32   func_02017E1C(void *obj, u32 key, u32 off);
 extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern void  func_020307B0(void *p);
 extern void  func_02017E40(void *obj, u32 key, u32 v);
-extern void  func_021BB2C0(u8 *p, u32 obj);
-extern void  func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
+extern void func_021BB2C0(u8 *a, u8 *s);
+extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021B9E20(u8 *p);
-extern void  func_021B9804(u8 *p, void (*cb)());
+extern void func_021B9804(u8 *p, int a1);
 extern void func_021BA454(u8 *a, int k);
 extern void  func_021BA444();
 
@@ -52,7 +52,7 @@ void func_021BA3A4(u8 *p, u32 state)
     int r;
     void *buf;
 
-    func_021BB7A4(p, W(0x150));
+    func_021BB7A4(p, (u32 *)W(0x150));
     if (state == 14) {
         r = func_02009020((void *)((u32 *)W(0x280))[2], 0);
         if (r >= 0) {
@@ -61,17 +61,17 @@ void func_021BA3A4(u8 *p, u32 state)
             func_0200903C((void *)((u32 *)W(0x280))[2], 0, r, buf);
             func_020307B0(buf);
             func_02017E40((void *)W(0x38), 6, 0);
-            func_021BB2C0(p, ((u32 *)(p + 0x160))[W(0x2c)]);
-            func_021B9788(p, 0x1a, 1, func_021B9E20);
+            func_021BB2C0(p, (u8 *)(((u32 *)(p + 0x160))[W(0x2c)]));
+            func_021B9788(p, 0x1a, 1, (int)func_021B9E20);
         } else {
-            func_021B9788(p, 0x1e, 1, func_021B9E20);
+            func_021B9788(p, 0x1e, 1, (int)func_021B9E20);
         }
         return;
     }
-    func_021B9788(p, 0x1b, 0, func_021BA444);
+    func_021B9788(p, 0x1b, 0, (int)func_021BA444);
 }
 
 void func_021BA444(u8 *p)
 {
-    func_021B9804(p, func_021BA454);
+    func_021B9804(p, (int)func_021BA454);
 }

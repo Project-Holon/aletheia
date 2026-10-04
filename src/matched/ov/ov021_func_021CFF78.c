@@ -31,12 +31,16 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_020120F4(void *a);
+struct Big;
+struct Ctx;
+struct Sub02009470Obj;
+struct Tbl021CFCF4;
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012F38(int base);
-extern u32 func_021CFCF4(u32 a, u32 b);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_02009470(u32 a);
-extern u32 func_02009634(u32 a, u32 b, u32 c);
+extern u8 func_021CFCF4(struct Tbl021CFCF4 *p, u32 i);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
+extern u32 func_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field);
 
 int func_021CFF78(u32 a, u32 b)
 {
@@ -44,14 +48,14 @@ int func_021CFF78(u32 a, u32 b)
     u16 *out;
 
     func_0215A5F4((void *)b);
-    h = func_020120F4(func_0215A5DC((void *)b));
+    h = (u32)func_020120F4(func_0215A5DC((void *)b));
     p = func_02012F38(h);
     k = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
     *out = 0;
-    r = func_021CFCF4(p, k);
+    r = func_021CFCF4((struct Tbl021CFCF4 *)p, k);
     if (r != 0xff) {
-        if ((u8)func_02009634(func_02009470(func_02012EBC(h)), r, 5)) {
+        if ((u8)func_02009634(func_02009470(func_02012EBC((struct Big *)h)), r, 5)) {
             *out = 1;
         }
     }

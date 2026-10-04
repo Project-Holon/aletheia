@@ -18,7 +18,7 @@
 
 extern int func_021D9648(int, int, int);
 extern void func_021D96DC(int, int, int);
-extern void func_021D96FC(int, int, int);
+extern void func_021D96FC(void *a, int b, int c);
 
 void func_021D9418(int a, int b, int c, int *out)
 {
@@ -37,5 +37,5 @@ void func_021D9440(int a, int b, int c)
 
 void func_021D9450(int a, int b, int c)
 {
-    func_021D96FC(b, c, 2);
+    func_021D96FC((void *)b, c, 2);
 }

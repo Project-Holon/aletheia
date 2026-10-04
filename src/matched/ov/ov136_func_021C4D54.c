@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0201C440(u16);
+extern u32 func_0201C440(void *p);
 struct Bank;
 struct PmsDraw;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -23,7 +23,7 @@ extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u
 extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 void func_021C4D54(u8 *p)
 {
-    *(void **)(p + 0x158) = func_0201C440((u16)*(u32 *)p);
+    *(void **)(p + 0x158) = (void *)func_0201C440((void *)((u16)*(u32 *)p));
     *(void **)(p + 0x154) = func_0204B100(8, 1, (u16)*(u32 *)p);
     *(void **)(p + 0x148) = func_0202DB0C(*(u32 *)(p + 0x154), 0, *(u32 *)(p + 0x158), *(u32 *)(p + 0x24), 0, 4, (u16)*(u32 *)p);
     func_0202DE5C(*(void **)(p + 0x148), 0);

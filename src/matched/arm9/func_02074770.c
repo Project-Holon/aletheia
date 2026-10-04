@@ -64,9 +64,10 @@ struct Obj { u32 f00; u8 list[4]; };
 
 extern void *func_0206062C(void *list, void *cur);
 extern void  func_020605B4(void *list, void *node);
-extern void  func_02061158(u32 heap, u32 k);
+struct Table;
+extern void func_02061158(void *p, int flags);
 extern void  func_02074A34(void);
-extern void  func_020749F8(struct Obj *o);
+extern int func_020749F8(struct Table *t);
 
 void func_02074770(struct Obj *o)
 {
@@ -89,7 +90,7 @@ void func_02074770(struct Obj *o)
         a = func_0206062C(o->list, 0);
     }
 
-    func_02061158(o->f00, 3);
+    func_02061158((void *)o->f00, 3);
     if (any != 0) func_02074A34();
-    func_020749F8(o);
+    func_020749F8((struct Table *)o);
 }

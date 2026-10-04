@@ -25,8 +25,9 @@ typedef struct Arg021D0218 {
     u32 v;
 } Arg021D0218;
 
-extern u32 func_021ABEA0(void *a, u32 b);
-extern void func_021D0174(u32 h, u32 v);
+struct B;
+extern int func_021ABEA0(u32 a, u32 b);
+extern void func_021D0174(struct B *p, int i);
 extern void func_021ABFA8(void *a, void *b, u32 c, u32 d, void *e, u32 f);
 extern char d_021DB8DC[];
 
@@ -34,8 +35,8 @@ void func_021D0218(void *a, u32 v, u32 c)
 {
     Arg021D0218 arg;
 
-    arg.h = func_021ABEA0(a, 0xe);
+    arg.h = func_021ABEA0((u32)a, 0xe);
     arg.v = v;
-    func_021D0174(arg.h, v);
+    func_021D0174((struct B *)arg.h, v);
     func_021ABFA8(a, d_021DB8DC, c, 0, &arg, 0);
 }

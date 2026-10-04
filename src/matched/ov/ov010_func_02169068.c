@@ -21,10 +21,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02012EBC(int);
-extern int func_0201AD0C(int);
-extern int func_02012984(int);
+struct Big;
+struct BigObj;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0201AD0C(void *sys);
+extern u8 func_02012984(const struct BigObj *p);
 extern int func_0216A2EC(int,int,int,int *,int);
-extern int func_0200C0F0(int);
+extern void *func_0200C0F0(void *sys);
 extern void func_0200C3C0(int,u16);
-void func_02169068(int a,int b,int *c) { int t=func_0201AD0C(func_02012EBC(a)); func_0216A2EC(a,t,b,c,func_02012984(a)); func_0200C3C0(func_0200C0F0(func_02012EBC(a)),b); }
+void func_02169068(int a,int b,int *c) { int t=(int)func_0201AD0C(func_02012EBC((struct Big *)a)); func_0216A2EC(a,t,b,c,func_02012984((const struct BigObj *)a)); func_0200C3C0((int)func_0200C0F0(func_02012EBC((struct Big *)a)),b); }

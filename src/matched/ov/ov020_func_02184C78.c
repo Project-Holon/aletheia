@@ -24,13 +24,15 @@
 extern char ov011_id[];
 extern char ov012_id[];
 
-void func_02012374(void *ctx, int v);
+typedef unsigned char  u8;
+struct Evt;
+void func_02012374(struct Evt *evt, struct Evt **out);
 void func_02034A5C(int id);
 int func_02034AC4(signed int id);
-int func_02161824(int a, int b);
+void *func_02161824(void *a, void *b);
 void func_02173744(int a);
-int func_02184360(int *p, int n);
-int func_021BF66C(void *ctx, int a, int b);
+void *func_02184360(u8 *p, int value);
+void *func_021BF66C(int a0, void *p, int a2);
 
 int func_02184C78(void *ctx, int *st, int *p)
 {
@@ -39,13 +41,13 @@ int func_02184C78(void *ctx, int *st, int *p)
 
     switch (*st) {
     case 0:
-        func_02012374(ctx, func_02161824(a, b));
+        func_02012374(ctx, func_02161824((void *)a, (void *)b));
         (*st)++;
         break;
     case 1:
         func_02034A5C((int)ov011_id);
         func_02034AC4((int)ov012_id);
-        func_02012374(ctx, func_02184360(p, 4));
+        func_02012374(ctx, func_02184360((u8 *)p, 4));
         (*st)++;
         break;
     case 2:
@@ -53,7 +55,7 @@ int func_02184C78(void *ctx, int *st, int *p)
         (*st)++;
         break;
     case 3:
-        func_02012374(ctx, func_021BF66C(ctx, a, b));
+        func_02012374(ctx, func_021BF66C((int)ctx, (void *)a, b));
         (*st)++;
         break;
     case 4:

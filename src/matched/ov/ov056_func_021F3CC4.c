@@ -29,7 +29,7 @@ typedef struct VecFx32 { s32 x; s32 y; s32 z; } VecFx32;
 struct Actor;
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
 extern void func_0216E084(void *m, s16 x, s16 y, s16 z, u16 e);
-extern void func_02164010(void *m);
+extern int func_02164010(int a);
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_021A3044(void *p, const VecFx32 *v);
 extern void func_0216DC18(void *m, u32 v);
@@ -47,7 +47,7 @@ void func_021F3CC4(u8 *p, int flag)
     func_0216DAC8(*(void **)(p + 0x68), 0);
     func_0216E084(*(void **)(p + 0x68), *(int *)(p + 0x6c), *(int *)(p + 0x70),
                   *(int *)(p + 0x74), *(u16 *)(p + 0x78));
-    func_02164010(*(void **)(p + 0x68));
+    func_02164010((int)(*(void **)(p + 0x68)));
     func_0216D88C(*(void **)(p + 0x68), &v);
     func_021A3044(*(void **)(p + 0x64), &v);
     func_0216DC18(*(void **)(p + 0x68), 0);

@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern int func_0200D064(u32 item, u16 v);
+struct Blk37;
+extern u32 func_0200D064(struct Blk37 *p, u16 id);
 
 int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end)
 {
@@ -28,7 +29,7 @@ int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end)
     int n = 0;
 
     for (i = start; i < end; i++) {
-        if (func_0200D064(item, list[i]) != 0) {
+        if (func_0200D064((struct Blk37 *)item, list[i]) != 0) {
             n++;
         }
     }

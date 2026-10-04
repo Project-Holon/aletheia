@@ -19,8 +19,10 @@
 
 typedef unsigned char u8;
 
-extern int func_0203CEAC(void *cb);
-extern void func_0203CBAC(void *a, void *cb, void *p);
+typedef unsigned int   u32;
+struct Req;
+extern int func_0203CEAC(int a0);
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_0203D0FC(int a);
 extern void func_02172D14(u8 *p);
 extern void func_02172C98(u8 *p);
@@ -50,7 +52,7 @@ int func_02172D7C(u8 *p)
         break;
     case 2:
         p[0x3560] = 4;
-        if (func_0203CEAC(func_02172D14) == 0) {
+        if (func_0203CEAC((int)func_02172D14) == 0) {
             func_02172D14(p);
         }
         p[0x3561]++;
@@ -66,7 +68,7 @@ int func_02172D7C(u8 *p)
         break;
     case 4:
         p[0x3560] = 1;
-        func_0203CBAC(d_02175380, func_02172C98, p);
+        func_0203CBAC((struct Req *)d_02175380, (u32)func_02172C98, (u32)p);
         p[0x3561]++;
         break;
     case 5:

@@ -18,8 +18,9 @@
 
 typedef unsigned short u16;
 
-void func_020307B0(int a);
-void func_02030EAC(int a);
+struct Node;
+void func_020307B0(void *p);
+void func_02030EAC(struct Node *n);
 void func_02034A5C(int a);
 void func_02082BCC(void *p, int v, int n);
 
@@ -35,10 +36,10 @@ void func_021BBA1C(int *p)
         ((void (*)(int *, int, int))c[3])(p, *(int *)p[0], p[4]);
     }
     if (*(u16 *)((char *)p[3] + 4) != 0) {
-        func_020307B0(p[4]);
+        func_020307B0((void *)p[4]);
     }
-    func_02030EAC(p[1]);
-    func_02030EAC(p[2]);
+    func_02030EAC((struct Node *)p[1]);
+    func_02030EAC((struct Node *)p[2]);
     if (p[5] != -1) {
         func_02034A5C(p[5]);
     }

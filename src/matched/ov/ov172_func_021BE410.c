@@ -12,7 +12,7 @@
  */
 typedef unsigned int u32;
 extern void func_021BD3B8(u32 *p);
-extern void func_020307B0(u32 p);
+extern void func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int h);
@@ -20,7 +20,7 @@ int func_021BE410(void *a, void *b, int c, u32 *p)
 {
     func_021BD3B8(p);
     if (c == 0) {
-        func_020307B0(p[0x7e]);
+        func_020307B0((void *)p[0x7e]);
     }
     func_020315D4(a);
     func_020306F0(0x6d);

@@ -39,9 +39,10 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_020490F4(void *, u32);
+typedef signed int     s32;
+extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
-extern void *func_02049F78(void *, int, void **, u16);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, u32);
 extern void func_021D43B8(char *, const char *, int);
 extern void func_020307B0(void *);
@@ -50,9 +51,9 @@ extern u32 func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
 extern void func_02049238(void *);
 extern void *func_0201F5DC(void *, u32, u32, u32);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
-extern void *func_0204A6C8(void *, u32, u32, u32, u16);
-extern void *func_0204AC18(void *, u32, u32, u32, u32, u32, u16);
-extern void *func_0204AF28(void *, u32, u32, u16);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_021D478C(char *);
 void func_021D4884(char *p)
 {
@@ -63,10 +64,10 @@ void func_021D4884(char *p)
     *(void **)(p + 0x30) = func_0201D7EC(23, 0, 0, 0, *(u16 *)(p + 12));
     *(void **)(p + 0x24) = func_02045B38(0, 2, 39, *(u16 *)(p + 12));
     *(void **)(p + 0x28) = func_02045B38(0, 2, 232, *(u16 *)(p + 12));
-    h = func_020490F4((void *)29, *(u16 *)(p + 12));
+    h = func_020490F4((u32)((void *)29), *(u16 *)(p + 12));
     func_02049B68(h, 1, 4, 0, 0, *(u16 *)(p + 12));
     func_02049B68(h, 0, 0, 0, 0, *(u16 *)(p + 12));
-    allocated = func_02049F78(h, 1, &record, *(u16 *)(p + 12));
+    allocated = func_02049F78(h, 1, (u32)(&record), *(u16 *)(p + 12));
     func_02082D44(*(void **)((char *)record + 12), p + 0x44, 0xe0);
     func_02082D44(*(void **)((char *)record + 12), p + 0x124, 0xe0);
     func_021D43B8(p + 0x124, d_021DA9D0, 7);
@@ -77,10 +78,10 @@ void func_021D4884(char *p)
     func_02049238(h);
     *(void **)(p + 0x3c) = func_0201F5DC((void *)5, 12, 0, *(u16 *)(p + 12));
     func_02049B40(23, 5, 4, 0x1a0, 32, *(u16 *)(p + 12));
-    h = func_020490F4((void *)29, *(u16 *)(p + 12));
-    *(void **)(p + 0x294) = func_0204A6C8(h, 5, 0, 1, *(u16 *)(p + 12));
-    *(void **)(p + 0x290) = func_0204AC18(h, 3, 1, 0, 0, 10, *(u16 *)(p + 12));
-    *(void **)(p + 0x298) = func_0204AF28(h, 7, 16, *(u16 *)(p + 12));
+    h = func_020490F4((u32)((void *)29), *(u16 *)(p + 12));
+    *(void **)(p + 0x294) = (void *)func_0204A6C8(h, 5, 0, 1, *(u16 *)(p + 12));
+    *(void **)(p + 0x290) = (void *)func_0204AC18(h, 3, 1, 0, 0, 10, *(u16 *)(p + 12));
+    *(void **)(p + 0x298) = (void *)func_0204AF28(h, 7, 16, *(u16 *)(p + 12));
     func_02049238(h);
     func_021D478C(p);
 }

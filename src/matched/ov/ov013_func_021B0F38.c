@@ -97,7 +97,8 @@ extern void func_021B133C(u32 x);
 extern void func_021B1790(void);
 extern void func_021B1398(void);
 extern int func_021B1B94(Chan *ch, Voice *v);
-extern void func_021B1404(Voice *v);
+struct Node;
+extern int func_021B1404(struct Node *n);
 extern void func_021B2FE4(Voice *v);
 extern void func_02082D44(void *src, void *dst, u32 n);
 
@@ -167,6 +168,6 @@ int func_021B0F38(u32 id, Frame *hdr, u32 size, u64 tick)
         func_021B2FE4(v);
         return 0;
     }
-    func_021B1404(v);
+    func_021B1404((struct Node *)v);
     return 1;
 }

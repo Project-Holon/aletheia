@@ -64,7 +64,7 @@ extern void func_0217CA40(void);
 extern int func_021DD1EC(void **sakePtr);
 extern void func_021E191C(void);
 extern int func_021E1EC4(int result);
-extern void func_021DD25C(void *sake, char *gameName, int gameId, char *secretKey);
+extern void func_021DD25C(char *p, int b, int c, int d);
 extern void func_021DD290(struct SAKEInternal *sake, int profileId, const char *loginTicket);
 extern void func_021E216C(int ssl_type);
 extern int func_021BF558();
@@ -93,7 +93,7 @@ int func_021E10CC(int game_id, DWCstAccUserData *userdata, int ssl_type)
         func_021E191C();
         return func_021E1EC4(result);
     }
-    func_021DD25C(g_021E5334.sake, g_021AE01C, game_id, g_021AE11C);
+    func_021DD25C(g_021E5334.sake, (int)g_021AE01C, game_id, (int)g_021AE11C);
     func_021DD290(g_021E5334.sake, userdata->gs_profile_id, loginTicket);
     func_021E216C(ssl_type);
     func_021BF558(0);

@@ -22,8 +22,10 @@
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02158344(int a);
-extern int func_02012B38(int a);
-extern int func_02012B58(int a);
+typedef unsigned char  u8;
+struct BigObj;
+extern void *func_02012B38(const struct BigObj *p);
+extern u8 func_02012B58(const struct BigObj *p);
 extern int func_0215841C(int a);
 extern int func_0201444C(int a);
 typedef unsigned int   u32;
@@ -34,8 +36,8 @@ int func_021BCB48(int *p, int b)
     int r4, r6, t;
 
     r4 = func_02158344((int)func_02012138((const struct Ctx *)p[0]));
-    t = func_02012B38(p[1]);
-    r6 = func_02012B58(p[1]);
+    t = (int)func_02012B38((const struct BigObj *)p[1]);
+    r6 = func_02012B58((const struct BigObj *)p[1]);
     if (r4 != 0) {
         r4 = func_0215841C(p[1]);
         if (func_0201444C(t) == 1) {

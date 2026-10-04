@@ -17,7 +17,7 @@
  */
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D80A8(void *p);
 typedef unsigned int   u32;
 extern int func_021D76BC(int key, u32 val);
@@ -25,5 +25,5 @@ extern int func_021D76BC(int key, u32 val);
 void func_021E0E00(int a, int b, int c)
 {
     if (c == func_021D775C(2))
-        func_021D76BC(27, func_021D80A8(func_021C7CF4(b, c)));
+        func_021D76BC(27, func_021D80A8(func_021C7CF4((int *)b, c)));
 }

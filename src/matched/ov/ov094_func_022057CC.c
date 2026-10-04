@@ -75,7 +75,7 @@ extern u32 func_0204AEF4(int, int);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020056A0(void *cb, void *ctx, int a);
-extern void func_0220684C(void *, void *, void *);
+extern void func_0220684C(char *p, int a, int b);
 extern void func_02204BCC(void *a0, int *c);
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
@@ -113,7 +113,7 @@ void func_022057CC(Main *m, Info *q)
         r = func_02030734((u16)((m->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x1145);
         r[0] = m;
         r[1] = (void *)n;
-        func_0220684C(m, func_020056A0((void *)func_02204BCC, r, 0), 0);
+        func_0220684C((char *)m, (int)func_020056A0((void *)func_02204BCC, r, 0), 0);
     }
     for (i = 0; i < n; i++) {
         if (q->species[i] != 0) {

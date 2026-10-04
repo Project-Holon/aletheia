@@ -31,12 +31,14 @@ typedef struct Blk16 { u32 w[4]; } Blk16;
 extern Blk32 d_021D3F38;
 extern Blk16 d_021D3E68;
 
-extern u32 func_021904B0(u16 *a, u32 b);
-extern u32 func_02190A28(void *a, u32 b, u32 c, u32 d);
-extern void func_02045C04(u32 a);
+struct Pair;
+struct Rec;
+extern int func_021904B0(u32 a, u32 b);
+extern u32 func_02190A28(const struct Pair *arr, int n, u32 c, u16 d);
+extern void func_02045C04(struct Rec *rec);
 extern void func_02190B08(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern u32 *func_02190860(u16 *a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i);
-extern void func_02020D10(u32 a, u32 b);
+extern void func_02020D10(u8 *p, u8 v);
 
 u32 *func_02190BE4(u16 *a, u32 b)
 {
@@ -46,11 +48,11 @@ u32 *func_02190BE4(u16 *a, u32 b)
     u32 r18;
     u32 *res;
 
-    r7 = func_021904B0(a, 0xe9);
-    r18 = func_02190A28(&B, 2, r7, a[0]);
-    func_02045C04(r7);
+    r7 = func_021904B0((u32)a, 0xe9);
+    r18 = func_02190A28((const struct Pair *)(&B), 2, r7, a[0]);
+    func_02045C04((struct Rec *)r7);
     func_02190B08(&A, 2, 0x18, 0xa, 7, 4);
     res = func_02190860(a, &A, r18, 0, (u16)b, a[3], 0, 0, 0);
-    func_02020D10(res[4], 0);
+    func_02020D10((u8 *)res[4], 0);
     return res;
 }

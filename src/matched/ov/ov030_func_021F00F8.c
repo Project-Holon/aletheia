@@ -20,13 +20,13 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_0201058C(u32);
+extern u32 func_0201058C(void *key);
 void func_021F00F8(char *p)
 {
     if (*(void (**)(char *))p != 0) {
         (*(void (**)(char *))p)(p);
     }
-    func_0201058C(func_0201283C(func_020120F4(*(void **)(p + 24))));
+    func_0201058C((void *)func_0201283C(func_020120F4(*(void **)(p + 24))));
 }
 void func_021F0114(void)
 {

@@ -97,14 +97,16 @@ extern u32 func_0203D378(void);
 extern void func_02087C6C(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
 extern int  func_0203D1B4(void);
-extern void func_020084F8(void *s, void *dst, u32 size);
+struct BigObj;
+struct Ctx;
+extern u32 func_020084F8(void *dst, u32 value, u32 size);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32  func_02008550(void *s);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern u32  func_020120F4(u32 a);
-extern u32  func_0201283C(u32 a);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201283C(const struct BigObj *p);
 extern void func_02009CB0(u32 a, void *dst);
 extern int func_021840C8(u8 *p);
 
@@ -127,7 +129,7 @@ void func_0217325C(u8 *self, Rec *out)
     out->fA = l->f1;
     out->b7hi = l->f2;
     out->fB = l->f0;
-    func_020084F8((*(Save **)self)->f0, out->fC, 8);
+    func_020084F8((*(Save **)self)->f0, (u32)out->fC, 8);
     out->b6hi = func_02008554((*(Save **)self)->f0);
     out->b7bit = func_02008550((*(Save **)self)->f0);
     out->f5C = func_02008530((*(Save **)self)->f0);
@@ -140,7 +142,7 @@ void func_0217325C(u8 *self, Rec *out)
     out->f26 = func_0200856C((*(Save **)self)->f0);
     out->f27 = func_02008570((*(Save **)self)->f0);
     out->f28 = l->f30;
-    func_02009CB0(func_0201283C(func_020120F4((*(Save **)self)->fC)), out->f50);
+    func_02009CB0(func_0201283C(func_020120F4((const struct Ctx *)((*(Save **)self)->fC))), out->f50);
     if (*(void **)(self + 0x3528) != 0)
         out->b6bit = func_021840C8(*(void **)(self + 0x3528));
     else

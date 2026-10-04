@@ -26,7 +26,8 @@ typedef unsigned char u8;typedef unsigned short u16;
 struct U16Vec;struct Descriptor;struct WordSet;struct MsgBank;
 struct Record {struct Descriptor *descriptor;u8 active;};
 extern struct U16Vec *func_020457B0(unsigned,u16);
-extern struct Descriptor *func_02184968(const unsigned char *,int);
+typedef unsigned int   u32;
+extern u32 func_02184968(const u8 *p, int flag);
 extern void func_0201F048(struct WordSet *,unsigned,unsigned),func_0201F094(struct WordSet *,unsigned,unsigned,unsigned);
 extern void func_02045CAC(struct MsgBank *,unsigned,void *),func_0201F250(struct WordSet *,void *,void *);
 extern void func_02184D30(char *,struct Record *,struct Descriptor *,void *,u8,u8);
@@ -36,7 +37,7 @@ void func_0218519C(char *p)
 {
     struct U16Vec *dst,*src;
     dst=func_020457B0(1024,*(unsigned *)p);src=func_020457B0(1024,*(unsigned *)p);
-    *(struct Descriptor **)(p+0xc040)=func_02184968(d_02185DCB,1);
+    *(struct Descriptor **)(p+0xc040)=(struct Descriptor *)func_02184968(d_02185DCB,1);
     func_0201F048(*(struct WordSet **)(p+0xc0a8),0,*(unsigned *)(p+0xc33c));
     func_0201F094(*(struct WordSet **)(p+0xc0a8),1,*(unsigned *)(p+0xc33c),*(unsigned *)(p+0xc340));
     func_02045CAC(*(struct MsgBank **)(p+0xc070),14,src);

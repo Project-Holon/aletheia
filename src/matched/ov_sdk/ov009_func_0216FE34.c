@@ -36,9 +36,10 @@ struct nninfo_s {
 
 extern int func_02175F3C(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_0219EF60(int sb, char *addr, int port, int cookie);
+struct ServerBrowser;
+extern int func_0219EF60(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
 extern int func_02173D9C(int sbError);
-extern int func_02195E60(int gt2sock);
+extern int func_02195E60(const int *p);
 extern int func_02199DFC(int sock, int cookie, int clientindex, void *progress, void *completed, void *userdata);
 extern void func_02174FE4(void);
 extern void func_02174FE8(void);
@@ -50,12 +51,12 @@ int func_0216FE34(struct nninfo_s *nnInfo)
     int sbError;
 
     if (nnInfo->clientindex == 0) {
-        sbError = func_0219EF60(*(int *)(func_02175F3C() + 0x5e0), func_02198620(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
+        sbError = func_0219EF60((struct ServerBrowser *)(*(int *)(func_02175F3C() + 0x5e0)), func_02198620(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
         if (func_02173D9C(sbError))
             return 2;
     }
     for (i = 0; i < 1; i++) {
-        nnError = func_02199DFC(func_02195E60(**(int **)(func_02175F3C() + 4)), nnInfo->cookie, nnInfo->clientindex, func_02174FE4, func_02174FE8, nnInfo);
+        nnError = func_02199DFC(func_02195E60((const int *)(**(int **)(func_02175F3C() + 4))), nnInfo->cookie, nnInfo->clientindex, func_02174FE4, func_02174FE8, nnInfo);
         if (nnError == 0)
             return nnError;
         if (nnError != 3)

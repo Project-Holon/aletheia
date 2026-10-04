@@ -16,14 +16,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void func_021A1680(int x);
+void func_021A1680(u8 *p);
 
 void func_021A2A68(u8 *p, int i, int x)
 {
     u32 *s = (u32 *)(p + 8);
 
     if (s[i] != 0) {
-        func_021A1680(x);
+        func_021A1680((u8 *)x);
         s[i] = 0;
     }
 }

@@ -20,7 +20,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u32 p; u16 id; u16 pad; u32 x; } Slot;
-extern void func_02050468(u32, u16, u32);
+struct BbActSys;
+extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
 extern void func_020307B0(void *p);
 
 void func_0219D2F4(u8 *s)
@@ -30,7 +31,7 @@ void func_0219D2F4(u8 *s)
     if (e != 0) {
         for (i = 0; i < 4; i++, e++) {
             if (e->p != 0) {
-                func_02050468(*(u32 *)(s + 4), e->id, 1);
+                func_02050468((struct BbActSys *)(*(u32 *)(s + 4)), e->id, 1);
                 e->p = 0;
             }
         }

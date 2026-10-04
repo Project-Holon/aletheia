@@ -22,9 +22,14 @@
  */
 typedef unsigned short u16;
 typedef struct {int a,b;u16 values[5];u16 flag;} Msg;
-extern int func_021E161C(char *),func_021E1210(char *),func_021E1400(char *),func_021E04C4(char *),func_021E1204(char *);
+extern int func_021E161C(char *);
+extern int func_021E1210(char *);
+extern u16 func_021E1400(char *p);
+extern int func_021E04C4(char *);
+extern int func_021E1204(char *);
 extern void func_021E11F4(char *),func_021E140C(char *),func_021E0634(char *,int),func_021E1604(char *,int);
-extern int func_021DCBC4(void *,int,void *,int),func_02039338(void);
+extern int func_021DCBC4(void *,int,void *,int);
+extern u16 func_02039338(void);
 int func_021DF060(char *p)
 {
     char *s;

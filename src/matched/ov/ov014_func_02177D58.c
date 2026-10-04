@@ -28,7 +28,7 @@ u16 func_0203F1FC(const u8 *src, u32 len);
 void func_020862F0(void *p, u32 n);
 int func_02178E4C(void);
 void func_02178E28(void *p, u32 n);
-void func_021795D4(void *p, u32 n, u32 a, u32 b);
+void func_021795D4(int a, int b, int c, int d);
 
 void func_02177D58(u8 *buf, u32 len)
 {
@@ -41,6 +41,6 @@ void func_02177D58(u8 *buf, u32 len)
             func_02178E28(buf, (u16)len);
             return;
         }
-        func_021795D4(buf, len, *(u32 *)(st + 0x50), *(u16 *)(p + 0xC68));
+        func_021795D4((int)buf, len, *(u32 *)(st + 0x50), *(u16 *)(p + 0xC68));
     }
 }

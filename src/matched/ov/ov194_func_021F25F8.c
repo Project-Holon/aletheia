@@ -13,9 +13,11 @@
  *   func_021F4D94 0x021F4D94 thumb
  */
 
-extern int func_021F4D94(int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021F4D94(const u8 *p, u32 i);
 
 void func_021F25F8(int *a, int b, int c)
 {
-    *a = func_021F4D94(c, b);
+    *a = func_021F4D94((const u8 *)c, b);
 }

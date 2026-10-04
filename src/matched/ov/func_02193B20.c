@@ -26,13 +26,15 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02193EB4(u32, u32, u32, u32);
 extern u32 func_02193EE8(u32);
-extern u32 func_02193EFC(u32, u32);
-extern u32 func_02193F6C(u32);
+struct E50;
+struct V;
+extern struct E50 *func_02193EFC(struct V *v, u32 key);
+extern void func_02193F6C(struct E50 *e);
 
 int func_02193B20(u32 a, u32 b, u32 c, u32 d)
 {
 func_02193EB4(a, b, c, d);
-func_02193F6C(func_02193EFC(a, b));
+func_02193F6C(func_02193EFC((struct V *)a, b));
 return func_02193EE8(a);
 }
 

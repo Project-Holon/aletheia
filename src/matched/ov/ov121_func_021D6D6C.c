@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_020515CC(void *, int, int, void *);
+extern int func_020515CC(int *p, int a, int b, int c);
 
 int func_021D6D6C(void **p, int x)
 {
-    return func_020515CC(*p, x, 0, p);
+    return func_020515CC(*p, x, 0, (int)p);
 }

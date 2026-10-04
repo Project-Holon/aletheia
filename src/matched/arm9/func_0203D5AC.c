@@ -27,8 +27,10 @@ typedef unsigned int  u32;
 
 extern void *func_0203D788(void);
 extern void *func_0203D798(void);
-extern u32  func_0203996C(u32 v);
-extern void func_0203A458(u32 a, u32 b);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
+extern void func_0203A458(u8 *a0, u32 a1);
 
 void func_0203D5AC(u32 a)
 {
@@ -37,5 +39,5 @@ void func_0203D5AC(u32 a)
     func_0203D788();
     p = func_0203D798();
     p[0x67] = (u8)a;
-    func_0203A458(func_0203996C(0xff), a);
+    func_0203A458((u8 *)func_0203996C(0xff), a);
 }

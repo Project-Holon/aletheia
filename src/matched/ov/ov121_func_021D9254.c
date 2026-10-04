@@ -12,7 +12,9 @@
  *   func_021D928C 0x021D928C thumb ov121
  *   func_021D933C 0x021D933C thumb ov121
  */
-extern void func_021D928C(void),func_021D933C(void);
+typedef unsigned char  u8;
+extern void func_021D928C(u8 *p);
+extern void func_021D933C(u8 *p);
 void func_021D9254(char *p,int n) {
  *(unsigned *)p=1;
  *(unsigned short *)(p+8)=0;

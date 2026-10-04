@@ -42,7 +42,8 @@ extern char d_021DDA50[];
 extern void func_02192F74(Fx *a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02192B20(u8 a, u8 b, u8 c, u8 d, u32 e);
-extern u32 func_021904EC(Fx *p, u32 a, u32 b);
+struct Slot;
+extern struct Slot *func_021904EC(u32 *p, u32 a, u32 b);
 extern void func_02193044(u32 v);
 
 Obj *func_021907C4(Fx *a, u32 b, u32 c, u32 d, u16 e, u16 f)
@@ -54,7 +55,7 @@ Obj *func_021907C4(Fx *a, u32 b, u32 c, u32 d, u16 e, u16 f)
     r = func_02030734(a->f00, 0xC, 1, d_021DDA50, 0x560);
     r->owner = a;
     r->id = func_02192B20(c, d, e, f, a->f00);
-    r->slot = func_021904EC(a, b, r->id);
+    r->slot = (u32)func_021904EC((u32 *)a, b, r->id);
     func_02193044(1);
     return r;
 }

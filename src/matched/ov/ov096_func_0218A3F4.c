@@ -29,8 +29,9 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_02020F20(int, int, u16);
-extern int func_02021014(int, int);
-extern void func_020307B0(int);
+struct Rec;
+extern u32 func_02021014(struct Rec *p, u32 sel);
+extern void func_020307B0(void *p);
 
 int func_0218A3F4(int a, int b, int c) {
     u16 h;
@@ -38,7 +39,7 @@ int func_0218A3F4(int a, int b, int c) {
     int q;
     h = *(u16 *)(a + 0xa0);
     p = func_02020F20(*(int *)(a + 0xa8), b, h);
-    q = func_02021014(p, c);
-    func_020307B0(p);
+    q = func_02021014((struct Rec *)p, c);
+    func_020307B0((void *)p);
     return q;
 }

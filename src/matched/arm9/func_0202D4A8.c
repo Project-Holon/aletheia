@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern int func_020490A8(void *narc, u32 index);
+extern u32 func_020490A8(u32 a, u32 b);
 
 typedef enum { PAL_0 } Pal;
 
@@ -102,7 +102,7 @@ void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode,
     case 0:
         break;
     case 1:
-        count = func_020490A8(narc, (u32)(idx + pal + 1));
+        count = func_020490A8((u32)narc, (u32)(idx + pal + 1));
         mode = 1;
         if (count == 0) {
             mode = 0;

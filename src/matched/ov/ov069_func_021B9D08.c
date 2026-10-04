@@ -23,7 +23,7 @@ typedef short s16;
 
 struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C440(u16 heap);
+extern u32 func_0201C440(void *p);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -34,7 +34,7 @@ void func_021B9D08(u8 *p)
     u32 h;
 
     *(void **)(p + 0xC) = func_0201D7EC(0x17, 0, 0, 0, 0x80);
-    *(void **)(p + 0xE8) = func_0201C440(0x80);
+    *(void **)(p + 0xE8) = (void *)func_0201C440((void *)0x80);
     for (i = 0; i < 18; i++) {
         *(int *)(p + i * 8 + 0x58) = *(int *)(p + i * 4 + 0x10);
         p[i * 8 + 0x5C] = 0;

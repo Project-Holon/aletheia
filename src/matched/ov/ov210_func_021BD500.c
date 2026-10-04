@@ -24,7 +24,7 @@ extern void func_021BE83C(u8 *);
 extern void func_021C0234(u8 *);
 struct S;
 extern int func_021B7A64(struct S *p);
-extern void func_021BF480(u8 *);
+extern void func_021BF480(int p);
 extern void func_021BCAC8(u8 *);
 extern void func_021BC5C8(void);
 extern void func_021BCD30(u8 *);
@@ -39,7 +39,7 @@ int func_021BD500(u8 *p)
         p[0x2BA]++;
     case 1:
         if (func_021B7A64(*(void **)(p + 0x1E0)) == 0) {
-            func_021BF480(p);
+            func_021BF480((int)p);
             func_021BCAC8(p);
             func_021BC5C8();
             func_021BCD30(p);

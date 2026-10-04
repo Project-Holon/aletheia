@@ -16,10 +16,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_021D60FC(void *);
-extern void *func_0202DB0C(void *,int,void *,void *,int,int,u16);
+struct PmsDraw;
+extern u32 func_021D60FC(u8 *p);
+extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 void func_021D8430(u8 *p,void *q)
 {
     if(!*(void **)(p+0xcc))
-        *(void **)(p+0xcc)=func_0202DB0C(func_021D60FC(q),0,*(void **)(p+0xa4),*(void **)(p+0x14),8,4,*(u16 *)(p+0xc8));
+        *(void **)(p+0xcc)=func_0202DB0C(func_021D60FC(q),0,(u32)(*(void **)(p+0xa4)),(u32)(*(void **)(p+0x14)),8,4,*(u16 *)(p+0xc8));
 }

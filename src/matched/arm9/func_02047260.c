@@ -28,13 +28,13 @@ typedef unsigned int u32;
 
 extern u32 (*g_020A8140)(void *p, u32 mode, u32 a2);
 
-extern void *func_02069FD0(u32 a0);
-extern void *func_02069FE4(u32 a0);
+extern int func_02069FD0(int p);
+extern int func_02069FE4(int p);
 
 int func_02047260(u32 a0, u32 *a1, u32 *a2)
 {
-    void *p = func_02069FD0(a0);
-    void *q = func_02069FE4(a0);
+    void *p = (void *)func_02069FD0(a0);
+    void *q = (void *)func_02069FE4(a0);
 
     if (p != 0) {
         *a1 = g_020A8140(p, 0, 0);

@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern void func_02022518(u32 a0, u8 *a1, u32 a2, u32 a3, u32 a4);
+extern void func_02022518(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 struct S;
 extern void func_02022F60(struct S *p);
 
 void func_02022F0C(u32 a0, u8 *a1, u32 a2, u32 a3)
 {
-    func_02022518(a0, a1, (u32)func_02022F60, a1[0x309], a2);
+    func_02022518(a0, (u32)a1, (u32)func_02022F60, a1[0x309], a2);
 }

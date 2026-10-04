@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_021A3960(unsigned char *p);
 extern int func_021A491C(u8 *, void *, u32);
-extern int func_021A4994(u8 *, void *, u32);
-extern int func_021A4A74(u8 *, void *, u32);
+extern int func_021A4994(u8 *a, void *b, u8 *c);
+extern int func_021A4A74(int a, int b, u8 *c);
 extern int func_021A4AA8(u8 *, void *, u32);
 
 int ov021_func_021A48C8(u8 *a, u32 b)
@@ -36,10 +36,10 @@ int ov021_func_021A48C8(u8 *a, u32 b)
         ret = func_021A491C(a, r, b);
         break;
     case 1:
-        ret = func_021A4994(a, r, b);
+        ret = func_021A4994(a, r, (u8 *)b);
         break;
     case 2:
-        ret = func_021A4A74(a, r, b);
+        ret = func_021A4A74((int)a, (int)r, (u8 *)b);
         break;
     case 3:
         ret = func_021A4AA8(a, r, b);

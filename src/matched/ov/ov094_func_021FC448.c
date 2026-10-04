@@ -80,7 +80,7 @@ typedef struct {
 } State;
 
 extern void func_021FDB08(void *);
-extern void *func_021F86F0(void);
+extern int func_021F86F0(void);
 typedef unsigned int   u32;
 struct Res;
 struct ScriptVm;
@@ -91,13 +91,13 @@ extern void func_021FE4F8(State *);
 extern void func_021FE520(State *);
 extern void func_021F8934(int);
 extern void func_02011290(struct ScriptVm *vm);
-extern void *func_021F8764(void);
+extern int func_021F8764(void);
 extern void func_021EB2A8(const u8 *a);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02006210(void);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern int func_021FFD9C(char *p, int key);
 extern int func_021FFF38(char *p, int key);
 extern void func_02040588(u32 which, u32 enable);
@@ -125,7 +125,7 @@ int func_021FC448(void *a, State *s)
     }
     for (i = 0; i < 4; i++) {
         if (s->res[i] != -1) {
-            func_02201CA4(func_021F86F0(), s->res[i]);
+            func_02201CA4((struct Res *)func_021F86F0(), s->res[i]);
             s->res[i] = -1;
         }
     }
@@ -140,7 +140,7 @@ int func_021FC448(void *a, State *s)
     func_02011290(a);
     s->f23c = 1;
     if (s->flags.bit.b4) {
-        q = func_021F8764();
+        q = (void *)func_021F8764();
         if (q != 0)
             func_021EB2A8(q);
         func_0204047C(3, 0);
@@ -155,11 +155,11 @@ int func_021FC448(void *a, State *s)
     if (s->flags.bit.b12)
         func_02006210();
     v = 0;
-    if (func_021FFD9C(func_021F8694(), s->fdc) != 0) {
+    if (func_021FFD9C((char *)func_021F8694(), s->fdc) != 0) {
         id = s->h258;
         if (((id == 0xf8 || id == 0x161) && s->b249 == 1) || id == 0x90 || id == 0x77 || id == 0x10b) {
         } else {
-            v = func_021FFF38(func_021F8694(), s->fdc) & 1;
+            v = func_021FFF38((char *)func_021F8694(), s->fdc) & 1;
         }
     }
     if (s->f1ec != 0) {
@@ -191,7 +191,7 @@ int func_021FC448(void *a, State *s)
     id2 = s->h258;
     if ((id2 == 0x286 || s->flags.bit.b6 == 0) && id2 != 0x90 && id2 != 0xe2 && b == 0 && v != 0) {
         if (id2 == 0x1f6)
-            func_021FF374(func_021F8694(), s->fdc, 0);
+            func_021FF374((void *)func_021F8694(), s->fdc, 0);
         func_020307B0(s->f1e8);
         s->h258 = 0x34;
         p = func_02048F60(0x43, s->h258, (u16)((s->h238 & 0x7fff) | 0x8000));

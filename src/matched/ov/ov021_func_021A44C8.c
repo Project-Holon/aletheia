@@ -28,9 +28,9 @@ extern void *func_021A3960(unsigned char *p);
 extern int func_021A5610(u8 *);
 extern int func_021A53BC(u8 *);
 extern int func_021A46F0(u8 *, u32);
-extern int func_021A4544(u8 *, void *, u32);
-extern int func_021A4598(u8 *, void *, u32);
-extern int func_021A4664(u8 *, void *, u32);
+extern int func_021A4544(u8 *p, u32 r, u8 *q);
+extern int func_021A4598(u8 *a, void *b, u8 *c);
+extern int func_021A4664(int a, int b, u8 *c);
 extern int func_021A4698(u8 *, void *, u32);
 
 int func_021A44C8(u8 *p, u32 s)
@@ -45,13 +45,13 @@ int func_021A44C8(u8 *p, u32 s)
     }
     switch (*(u32 *)p) {
     case 0:
-        r = func_021A4544(p, a, s);
+        r = func_021A4544(p, (u32)a, (u8 *)s);
         break;
     case 1:
-        r = func_021A4598(p, a, s);
+        r = func_021A4598(p, a, (u8 *)s);
         break;
     case 2:
-        r = func_021A4664(p, a, s);
+        r = func_021A4664((int)p, (int)a, (u8 *)s);
         break;
     case 3:
         r = func_021A4698(p, a, s);

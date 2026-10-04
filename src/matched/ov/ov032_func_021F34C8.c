@@ -29,29 +29,35 @@ typedef struct {
     unsigned f24;
 } T_021F34C8;
 
-extern void func_02045808(unsigned p);
-extern void func_02025774(unsigned p, int v);
-extern void func_0202570C(unsigned p);
-extern void func_020437AC(unsigned p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Grid;
+struct Obj;
+struct Obj020437AC;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02025774(u8 *g, u32 a);
+extern void func_0202570C(struct Grid *g);
+extern void func_020437AC(struct Obj020437AC *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B3B4(unsigned p);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021F34C8(char *a0, int a1)
 {
     T_021F34C8 *p = (T_021F34C8 *)(a0 + 0x1B8 + a1 * 0x34);
 
-    func_02045808(p->f24);
-    func_02045808(p->f20);
-    func_02025774(p->f18, 0);
-    func_0202570C(p->f18);
-    func_020437AC(p->f1c);
+    func_02045808((struct U16Vec *)p->f24);
+    func_02045808((struct U16Vec *)p->f20);
+    func_02025774((u8 *)p->f18, 0);
+    func_0202570C((struct Grid *)p->f18);
+    func_020437AC((struct Obj020437AC *)p->f1c);
     func_0204B3DC((struct Obj *)p->f14, 0);
-    func_0204B3B4(p->f14);
+    func_0204B3B4((struct Obj *)p->f14);
     func_0204B3DC((struct Obj *)p->f10, 0);
-    func_0204B3B4(p->f10);
+    func_0204B3B4((struct Obj *)p->f10);
     func_0204B3DC((struct Obj *)p->f0c, 0);
-    func_0204B3B4(p->f0c);
+    func_0204B3B4((struct Obj *)p->f0c);
     func_02082BCC(p, 0, 0x34);
 }

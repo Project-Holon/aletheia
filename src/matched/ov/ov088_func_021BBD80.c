@@ -31,22 +31,25 @@ typedef unsigned int u32;
 
 struct Descriptor;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045EC0(u32 a, u32 b);
+struct Cfg;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u16 color);
-extern void func_02045808(u32 a);
-extern void func_02045374(u32 win);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern void func_021BBA64(u8 x, u8 y, u8 w, u8 h, u8 bg);
 extern void func_020452E8(struct Descriptor *d);
 
 static inline void print_line(char *p, u32 id, u32 y, u16 color)
 {
-    u32 s = func_02045EC0(*(u32 *)(p + 0x5c), id);
+    u32 s = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x5c)), id);
     u32 a = *(u32 *)(p + 0x68);
     func_0201C724(a, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xf0)), 0, y, s, *(u32 *)(p + 0x58), color);
     *(u8 *)(p + 0xf4) = 1;
-    func_02045808(s);
+    func_02045808((struct U16Vec *)s);
 }
 
 void func_021BBD80(char *p)
@@ -54,7 +57,7 @@ void func_021BBD80(char *p)
     *(u32 *)(p + 0xf0) = func_020450F0(4, 2, 3, 0x1e, 0x13, 5, 1);
     print_line(p, 0x14, 0, 0x14c0);
     print_line(p, 0x15, 0x18, 0x440);
-    func_02045374(*(u32 *)(p + 0xf0));
+    func_02045374((struct Cfg *)(*(u32 *)(p + 0xf0)));
     func_02041B6C(4);
     func_021BBA64(0, 1, 0x20, 0x16, 5);
 }

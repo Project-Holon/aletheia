@@ -22,13 +22,13 @@ typedef signed int s32;
 extern u32 func_02202840(u8 *p);
 extern u32 func_020362DC(void);
 extern u32 func_02035C60(void);
-extern void func_0201F7A8(u32 v, u32 k);
+extern void func_0201F7A8(void *desc, u32 kind);
 
 int func_021F6604(u8 *p)
 {
     if (func_02202840(p + 0xfa0) == 0) {
         if (func_020362DC() != 0 || func_02035C60() != 0) {
-            func_0201F7A8(*(u32 *)(p + 0xdd0), 0);
+            func_0201F7A8((void *)(*(u32 *)(p + 0xdd0)), 0);
             *(u32 *)(p + 0x28) = *(u32 *)(p + 0x2c);
         }
     }

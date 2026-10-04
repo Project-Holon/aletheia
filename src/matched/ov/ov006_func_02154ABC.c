@@ -21,7 +21,7 @@
 typedef int s32;
 
 extern int func_020130B4(s32);
-extern void func_020307B0(s32);
+extern void func_020307B0(void *p);
 
 void func_02154ABC(s32 *p)
 {
@@ -30,10 +30,10 @@ void func_02154ABC(s32 *p)
         func_020130B4(v);
         p[0x37] = 0;
     }
-    func_020307B0(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x14));
-    func_020307B0(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x18));
-    func_020307B0(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x1c));
-    func_020307B0(*(s32 *)((char *)p + 0x168));
-    func_020307B0(*(s32 *)(*(int *)((char *)p + 0x5c)));
-    func_020307B0(*(int *)((char *)p + 0x5c));
+    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x14)));
+    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x18)));
+    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x1c)));
+    func_020307B0((void *)(*(s32 *)((char *)p + 0x168)));
+    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c))));
+    func_020307B0((void *)(*(int *)((char *)p + 0x5c)));
 }

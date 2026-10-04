@@ -35,7 +35,7 @@ typedef unsigned int u32;
 extern char d_021F36A0[];
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020120F4(u32 a);
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188E30(u8 *p);
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -56,7 +56,7 @@ char *func_021F2234(u32 a0, u32 a1)
 
     p = func_02030734(0x70, 0x3d0, 1, d_021F36A0, 0x8d);
     *(u32 *)(p + 0x0) = a0;
-    *(u32 *)(p + 0x4) = func_020120F4(a0);
+    *(u32 *)(p + 0x4) = (u32)func_020120F4((const struct Ctx *)a0);
     *(void **)(p + 0x8) = v = func_0201210C((void *)a0);
     *(u32 *)(p + 0x10) = func_02188E30(v);
     *(u32 *)(p + 0xc) = a1;

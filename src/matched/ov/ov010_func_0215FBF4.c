@@ -23,14 +23,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02188CCC();
+struct Obj;
+extern u32 func_02188CCC(u8 *p);
 struct Desc;
 struct Ctx;
 struct Big;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void func_0201232C();
-extern u32 *func_020124E8();
+extern void func_0201232C(char *p, int a1, int a2);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void func_0215FA54();
@@ -47,13 +48,13 @@ struct Desc *func_0215FBF4(int a0, int a1, struct Desc *a2, int a3)
     struct Rec *p;
     void *ctx;
 
-    func_02188CCC(a1);
+    func_02188CCC((u8 *)a1);
     if (a3 != 0) {
         a2 = func_020122C0((void *)a0, 0, (void *)func_0215FA54, 0x34);
     } else {
-        func_0201232C(a2, func_0215FA54, 0x34);
+        func_0201232C((char *)a2, (int)func_0215FA54, 0x34);
     }
-    p = (struct Rec *)func_020124E8(a2);
+    p = (struct Rec *)func_020124E8((struct Obj *)a2);
     ctx = func_020120F4((const struct Ctx *)a0);
     p->ctx = ctx;
     p->head = func_02012EBC((struct Big *)ctx);

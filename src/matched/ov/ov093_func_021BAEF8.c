@@ -29,11 +29,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BB724(u8 *, int, void *, int);
+extern void func_021BB724(u8 *p, int a, int b, int c);
 extern int func_021BB798(u8 *);
 extern int func_021BB040(u8 *);
 extern u32 func_021BB0A0(u8 *);
-extern void func_021BB768(u8 *, int, int, void *, int);
+extern void func_021BB768(u8 *p, int a, u32 i, int b, int c);
 extern void func_021BB7D0(const u8 *p);
 extern int func_021BA618(u8 *);
 extern void func_021BABEC(void *, void *);
@@ -42,22 +42,22 @@ extern void func_021BB6A8(u8 *);
 extern int func_021BB628(u8 *, int, int);
 extern void func_021BBD80(u8 *);
 extern int func_021BBD8C(u8 *, void *);
-extern int func_021C84D8(int);
-extern void func_021B916C(int, int);
+extern int func_021C84D8(u8 *p);
+extern void func_021B916C(u8 *p, u32 x);
 extern void func_021BABF4(void *);
 
 int func_021BAEF8(u8 *p, int *s)
 {
     switch (*s) {
     case 0:
-        func_021BB724(p, 5, p + 0xcb4, p[0xcba]);
+        func_021BB724(p, 5, (int)(p + 0xcb4), p[0xcba]);
         (*s)++;
         break;
     case 1:
         if (func_021BB798(p)) {
             if (func_021BB040(p)) {
                 p[0xec] = func_021BB0A0(p);
-                func_021BB768(p, 4, 0, p + 0xec, 1);
+                func_021BB768(p, 4, 0, (int)(p + 0xec), 1);
             }
             (*s)++;
         }
@@ -90,7 +90,7 @@ int func_021BAEF8(u8 *p, int *s)
         *(int *)(p + 0x48) = func_021BBD8C(*(u8 **)(p + 0x44), p + 0xb4);
         {
             int *q = *(int **)(p + 0xcb0);
-            func_021BB724(p, 8, q + 2, *q);
+            func_021BB724(p, 8, (int)(q + 2), *q);
         }
         (*s)++;
         break;
@@ -105,7 +105,7 @@ int func_021BAEF8(u8 *p, int *s)
                 *s = 5;
                 break;
             case 4:
-                func_021B916C(*(int *)(p + 0xc), func_021C84D8(*(int *)(p + 0x44)));
+                func_021B916C((u8 *)(*(int *)(p + 0xc)), func_021C84D8((u8 *)(*(int *)(p + 0x44))));
                 func_021BABEC(p, (void *)func_021BB280);
                 break;
             case 5:

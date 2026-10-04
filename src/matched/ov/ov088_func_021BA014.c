@@ -48,7 +48,7 @@ extern void func_021BC0E4(void);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
-extern void func_020312F8(int id, void *tmpl, void *arg);
+extern void func_020312F8(u32 a1, u32 a2, u32 a3);
 extern char d_021BDA00[];
 extern char d_021DF538[];
 extern char d_02213C4C[];
@@ -85,31 +85,31 @@ int func_021BA014(int a0, int a1, int a2, char *a3)
         func_021BC0E4();
         break;
     case 2:
-        func_020312F8((int)ov121_id, d_021DF538, 0);
+        func_020312F8((int)ov121_id, (u32)d_021DF538, 0);
         break;
     case 3:
         w = func_02030734(1, 0x14, 0, d_021BDA00, 0x200);
         func_02082BCC(w, 0, 0x14);
         *(u32 *)(w + 8) = 0;
         *(u32 *)(w + 0x10) = 1;
-        func_020312F8((int)ov199_id, d_02213C4C, w);
+        func_020312F8((int)ov199_id, (u32)d_02213C4C, (u32)w);
         break;
     case 4:
-        func_020312F8(-1, d_0209DEF0, 0);
+        func_020312F8(-1, (u32)d_0209DEF0, 0);
         break;
     case 5:
-        func_020312F8((int)ov016_id, d_021D77AC, 0);
+        func_020312F8((int)ov016_id, (u32)d_021D77AC, 0);
         break;
     case 6:
-        func_020312F8((int)ov168_id, d_02184904, 0);
+        func_020312F8((int)ov168_id, (u32)d_02184904, 0);
         break;
     case 7:
         w = func_02030734(1, 8, 1, d_021BDA00, 0x216);
         *(u8 *)w = 1;
-        func_020312F8((int)ov107_id, d_021F6D78, w);
+        func_020312F8((int)ov107_id, (u32)d_021F6D78, (u32)w);
         break;
     default:
-        func_020312F8((int)ov088_id, d_021BD574, 0);
+        func_020312F8((int)ov088_id, (u32)d_021BD574, 0);
         break;
     }
     return 1;

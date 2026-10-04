@@ -15,10 +15,11 @@
  */
 
 extern void func_021F8AC0(int a);
-extern void func_021F8554(void *h, int a, int b, int c, int d);
+typedef unsigned int   u32;
+extern void func_021F8554(u32 flags, int kind, int n, int s, int t);
 
 void func_022067E8(char *p)
 {
     func_021F8AC0(2);
-    func_021F8554(*(void **)(p + 0x278), 1, 10, 0, 8);
+    func_021F8554((u32)(*(void **)(p + 0x278)), 1, 10, 0, 8);
 }

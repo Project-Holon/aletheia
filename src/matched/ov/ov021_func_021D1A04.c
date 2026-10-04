@@ -26,26 +26,26 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *a);
-extern u32 func_02188C84(u32 a);
+extern int func_02158F58(int a0);
+extern u16 func_02188C84(u8 *p);
 extern unsigned int func_02159B10(void *a, void *b);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern u8 *func_021D182C(u32 a, u32 b, u32 *c, u32 d);
-extern void func_02159104(void *a, u8 *b);
+extern void func_02159104(u8 *p, u32 v);
 
 int func_021D1A04(u32 a, u32 b)
 {
     u32 buf[3];
     void *s = func_0215A5F4((void *)b);
-    u32 *q = func_02158F58(s);
-    u32 t = func_02188C84(q[1]);
+    u32 *q = (u32 *)func_02158F58((int)s);
+    u32 t = func_02188C84((u8 *)q[1]);
     u32 k = func_02159B10((void *)a, (void *)b);
     u8 *r;
 
     func_021A3038(func_02188CB4((u8 *)q[1]), (struct VecFx32 *)buf);
     r = func_021D182C(q[1], k, buf, t);
-    func_02159104(s, r);
+    func_02159104(s, (u32)r);
     return 0;
 }

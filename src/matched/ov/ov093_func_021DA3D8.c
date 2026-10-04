@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 id, pad; u16 move; } Entry;
 extern int func_021D775C(int);
-extern u8 func_021C7D54(void *, int, u8 *);
+extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
 struct QG;
 extern void *func_021C7CF4(int *p, int i);
 extern void *func_021C8120(void *, int);
@@ -40,7 +40,7 @@ extern u8 func_021D5448(struct QG *p);
 extern u8 func_021D5440(u8 *p);
 extern u16 func_021D54C0(u8 *p, int i);
 extern int func_0201C1E8(int a);
-extern u16 func_0201C1D8(u16);
+extern u16 func_0201C1D8(void *p);
 extern u32 func_0201C1BC(u16);
 extern u32 func_021D78AC(u32);
 extern void func_021C88B4(void *, int, int);
@@ -53,7 +53,7 @@ static inline u32 score(u16 move)
 {
     u32 value;
     if (func_0201C1E8(move)) {
-        value = (u8)func_0201C1D8(move);
+        value = (u8)func_0201C1D8((void *)move);
         if (value == 1) {
             if (func_0201C1BC(move) == 9) value = 150;
             else if (move == 68 || move == 243 || move == 368) value = 120;
@@ -75,7 +75,7 @@ void func_021DA3D8(int a, void *b, int c)
     u32 best, value;
     u8 *p;
     if (c != func_021D775C(2)) return;
-    n = func_021C7D54(b, c, buf);
+    n = func_021C7D54(b, (u8 *)c, buf);
     best = 0;
     count = 0;
     entries = func_021C8120(b, 12);

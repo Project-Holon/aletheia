@@ -25,7 +25,8 @@ struct Sub02008AECSession;
 
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
-extern int func_02012984();
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
 extern u8 func_020113F0(int row, int col);
 
 int func_021690B4(int a0, int a1)
@@ -40,7 +41,7 @@ loc_021690BC:
     t4 = func_02008B14(big);
 loc_021690C0:
 a0 = t5 + 0;
-    a0 = func_02012984(a0);
+    a0 = func_02012984((const struct BigObj *)a0);
 loc_021690C8:
 a1 = *(int *)((char *)t4 + 0x14);
     a0 = func_020113F0(a0, a1);

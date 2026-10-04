@@ -30,7 +30,7 @@ extern void func_02005DF8(u32);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 extern void func_020307B0(void *);
 extern void func_02013930(void *);
-extern void func_0220B0F8(u32, u32);
+extern void func_0220B0F8(u8 *p, u32 v);
 void func_0220B1D8(u8 *a, u8 *b)
 {
     void *p = (void *)func_02012A30(*(void **)(*(u8 **)(b+0x17F0)+4));
@@ -42,5 +42,5 @@ void func_0220B1D8(u8 *a, u8 *b)
     func_020307B0(*(void **)(a+0x34));
     func_02013930(a);
     func_020307B0(a);
-    func_0220B0F8((u32)b,0);
+    func_0220B0F8((u8 *)((u32)b),0);
 }

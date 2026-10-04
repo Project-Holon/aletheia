@@ -24,7 +24,8 @@ struct Ov208Pal {
     int phase;
 };
 extern s16 tbl_020A1B38[];
-extern void func_02061CA4(u32 a, u32 b, u16 *src, u32 n);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void func_021BE20C(struct Ov208Pal *m)
 {
     s16 t;
@@ -48,5 +49,5 @@ void func_021BE20C(struct Ov208Pal *m)
         u8 b = b1 + ((b2 - b1) * t >> 12);
         m->out[i] = r | g << 5 | b << 10;
     }
-    func_02061CA4(14, 0x1a0, m->out, 0x20);
+    func_02061CA4((void *)14, 0x1a0, (u32)m->out, 0x20);
 }

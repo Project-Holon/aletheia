@@ -42,7 +42,8 @@ struct Obj {
 
 extern void func_020222A8(u32 a);
 extern void func_020235F0(struct Obj *p, u32 arg);
-extern void func_0202363C(struct Obj *p);
+struct Rec;
+extern u32 func_0202363C(struct Rec *r);
 
 void func_0202285C(struct Obj *p)
 {
@@ -53,5 +54,5 @@ void func_0202285C(struct Obj *p)
         p->unk2C = 0;
         return;
     }
-    func_0202363C(p);
+    func_0202363C((struct Rec *)p);
 }

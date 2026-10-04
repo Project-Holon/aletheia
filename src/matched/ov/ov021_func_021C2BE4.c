@@ -55,7 +55,8 @@ typedef struct Obj {
     void *plttRes;
 } Obj;
 
-extern void *func_02048A0C(void *p, int i);
+typedef signed int     s32;
+extern u32 func_02048A0C(u8 *a0, int i);
 struct Bmp;
 struct Layer;
 struct Tagged;
@@ -63,15 +64,15 @@ extern u32 func_02047388(struct Layer *layer);
 extern u32 func_020473B8(struct Layer *layer);
 extern void *func_02046F48(struct Tagged *p);
 extern unsigned char *func_0206E964(unsigned char *p);
-extern u32 func_021C2EDC(void *tex, u32 a);
-extern u32 func_021C2F14(void *tex, u32 a);
-extern void *func_02049DB4(u32 arc, u32 file, u32 comp, CharData **out, u16 heap);
+extern int func_021C2EDC(u8 *p, const char *name);
+extern int func_021C2F14(u8 *p, const char *name);
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 arc, u32 file, PlttData **out, u16 heap);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 extern struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u32 heap);
-extern void func_02061CA4(int type, u32 addr, void *data, u32 size);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void *func_02030830(u32 heapId);
 
 void func_021C2BE4(Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile)
@@ -89,15 +90,15 @@ void func_021C2BE4(Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile)
 
     heap = p->heap;
     k = 0;
-    h = func_02048A0C(p->f14, 0);
+    h = (void *)func_02048A0C(p->f14, 0);
     func_02047388(h);
     func_020473B8(h);
     t = func_0206E964(func_02046F48(h));
-    tex = func_021C2EDC(t, a1);
-    pltt = func_021C2F14(t, a2);
+    tex = func_021C2EDC(t, (const char *)a1);
+    pltt = func_021C2F14(t, (const char *)a2);
     p->chr = 0;
     p->pltt = 0;
-    p->chrRes = func_02049DB4(0xb4, chrFile, 1, &p->chr, heap);
+    p->chrRes = func_02049DB4(0xb4, chrFile, 1, (u32)(&p->chr), heap);
     p->plttRes = func_02049F34(0xb4, plttFile, &p->pltt, heap);
     src = p->chr->raw;
     buf = func_020437D4(p->canvas);
@@ -109,7 +110,7 @@ void func_021C2BE4(Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile)
         }
     }
     func_02044F64(p->canvas, 0, heap);
-    func_02061CA4(0, tex, func_020437D4(p->canvas), 0x2000);
-    func_02061CA4(1, pltt, p->pltt->raw, 0x20);
+    func_02061CA4(0, tex, (u32)func_020437D4(p->canvas), 0x2000);
+    func_02061CA4((void *)1, pltt, (u32)p->pltt->raw, 0x20);
     func_02030830(p->heap);
 }

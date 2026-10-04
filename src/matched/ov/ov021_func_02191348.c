@@ -25,18 +25,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02194990(u32, u32);
-extern void func_0219499C(u32, u32, u32, u32);
-extern u32 func_02193210(u32);
+struct CharBuf;
+struct Descriptor;
+extern void func_0219499C(u8 *p, int i, u32 b, u32 c);
+extern u32 func_02193210(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(u32, u32);
-extern u32 func_02045730(u32);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern u8 func_02045730(struct Descriptor *p);
 extern u32 func_020409B4(u32);
 
 u32 func_02191348(u32 *a, u32 b)
 {
     u32 x = func_02194990(a[2], *((u8 *)a + 1));
-    func_02043B5C((u32)func_02045770((struct Descriptor *)x), 255);
-    func_0219499C(a[2], *((u8 *)a + 1), b, func_02193210(a[5] + 0x160));
-    return func_020409B4(func_02045730(x));
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)x)), 255);
+    func_0219499C((u8 *)a[2], *((u8 *)a + 1), b, func_02193210((u8 *)(a[5] + 0x160)));
+    return func_020409B4(func_02045730((struct Descriptor *)x));
 }

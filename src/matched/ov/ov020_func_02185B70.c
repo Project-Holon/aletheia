@@ -17,10 +17,10 @@
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_021859F0(void *p);
+extern void func_021859F0(int a);
 void func_02185B70(void *p)
 {
     void *q = func_020120F4(p);
     func_0201210C(p);
-    func_021859F0(q);
+    func_021859F0((int)q);
 }

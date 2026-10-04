@@ -25,9 +25,9 @@ typedef struct Pair {
     int b;
 } Pair;
 
-extern int func_021542CC(int a, int b, int c);
+extern void *func_021542CC(void *p, int a, int b);
 
 int func_021542C0(int x, Pair *p)
 {
-    return func_021542CC(x, p->a, p->b);
+    return (int)func_021542CC((void *)x, p->a, p->b);
 }

@@ -39,7 +39,9 @@ typedef struct {u32 a,b,c,d;} Quad;
 extern const Pair d_021E7924,d_021E791C,d_021E790C;
 extern const Quad d_021E7974;
 extern u32 func_02017E1C(void *,u32,u32);
-extern void func_020452E8(int);
+struct Cfg;
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
@@ -54,7 +56,7 @@ extern void func_021E1778(int,int,int,int,char *);
 extern void func_021E0E68(char *,void *,int,int,int,int,u16,int);
 extern void func_021E1CA8(char *p);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(int);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void func_021E272C(char *p,int i,void *mon)
 {
@@ -70,8 +72,8 @@ void func_021E272C(char *p,int i,void *mon)
     flag=func_02017E1C(mon,76,0);
     index=i*4;
     if(*(int *)(p+i*4+0x5c4)) {
-        func_020452E8(*(int *)(p+i*4+0x5c4));
-        func_020452E8(*(int *)(p+i*4+0x5cc));
+        func_020452E8((struct Descriptor *)(*(int *)(p+i*4+0x5c4)));
+        func_020452E8((struct Descriptor *)(*(int *)(p+i*4+0x5cc)));
     }
     layer=*(int *)((char *)&a+index);
     items=p+0x5c4;
@@ -103,8 +105,8 @@ void func_021E272C(char *p,int i,void *mon)
         long endindex=(long)i*4;
         func_02045334((struct Descriptor *)*(int *)(first+endindex));
         func_02045334((struct Descriptor *)*(int *)(second+endindex));
-        func_02045374(*(int *)(first+endindex));
-        func_02045374(*(int *)(second+endindex));
+        func_02045374((struct Cfg *)(*(int *)(first+endindex)));
+        func_02045374((struct Cfg *)(*(int *)(second+endindex)));
     }
     func_02041B6C(1);
     *(u8 *)(p+i+0x11e2)=120;

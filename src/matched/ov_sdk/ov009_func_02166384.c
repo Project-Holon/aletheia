@@ -27,7 +27,7 @@ typedef struct WCMWork {
     unsigned char bssid[6];
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
@@ -38,7 +38,7 @@ unsigned char *func_02166384(void)
     unsigned long e;
 
     mac = 0;
-    w = func_021657C8();
+    w = (WCMWork *)func_021657C8();
     e = OS_DisableInterrupts();
     if (w != 0) {
         if (w->phase == 9 && w->resetting == 0) {

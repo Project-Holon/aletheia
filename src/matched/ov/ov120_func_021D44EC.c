@@ -19,10 +19,11 @@ typedef unsigned short u16;
 typedef struct { u16 v[4]; } Halfwords;
 extern const Halfwords d_021D8904;
 extern int func_0203CD98(void);
-extern void func_021D8430(int, int);
+typedef unsigned char  u8;
+extern void func_021D8430(u8 *p, void *q);
 extern void func_021D8484(int, const Halfwords *);
 extern void func_021D4244(int, void (*)(int), int);
-extern void func_021D44AC(int);
+extern void func_021D44AC(char *p);
 void func_021D44EC(int a)
 {
     Halfwords table = d_021D8904;
@@ -30,7 +31,7 @@ void func_021D44EC(int a)
     if (func_0203CD98() != 0)
         p = (const Halfwords *)(a + 0x174);
     *(int *)(a + 0x14) = 0xb4;
-    func_021D8430(*(int *)(a + 0x40), *(int *)(a + 0x3c));
+    func_021D8430((u8 *)(*(int *)(a + 0x40)), (void *)(*(int *)(a + 0x3c)));
     func_021D8484(*(int *)(a + 0x40), p);
-    func_021D4244(a, func_021D44AC, 0x232);
+    func_021D4244(a, (void (*)(int))func_021D44AC, 0x232);
 }

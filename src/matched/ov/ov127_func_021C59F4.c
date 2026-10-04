@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { void *f0; u32 f4; void *f8; u32 fC, f10, f14, f18; } Obj;
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void *func_02049EB4(u8, u8, u8, void *, u16);
+extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_021C5AAC(u32, u32, const u8 *);
 extern const char d_021C6144[];
 Obj *func_021C59F4(void *p, u32 n, const u8 *q, u32 heap)
@@ -29,6 +29,6 @@ Obj *func_021C59F4(void *p, u32 n, const u8 *q, u32 heap)
     o->f10 = q[0];
     o->f14 = q[1];
     func_021C5AAC(n, q[1], q);
-    o->f8 = func_02049EB4(q[8], q[9], q[10], &o->fC, heap);
+    o->f8 = func_02049EB4(q[8], q[9], q[10], (u32)(&o->fC), heap);
     return o;
 }

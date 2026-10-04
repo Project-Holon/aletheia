@@ -33,7 +33,7 @@ struct WordSet;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C440(u32 heap);
+extern u32 func_0201C440(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 
@@ -54,7 +54,7 @@ Ctx *func_02202974(u32 a, u32 b, u32 c, u32 heap)
     func_02082BCC(ctx, 0, 0x74);
     ctx->heap = heap;
     ctx->font = func_0201D7EC(0x17, 3, 0, 0, heap);
-    ctx->msg = func_0201C440(heap);
+    ctx->msg = (void *)func_0201C440((void *)heap);
     ctx->bank = func_02045B38(0, 2, 0xD0, heap);
     ctx->words = func_0201EC64(heap);
     return ctx;

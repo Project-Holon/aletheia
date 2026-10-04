@@ -21,14 +21,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern void func_020215A0(u32 a, u32 b);
+struct PalAnmSlot;
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(u32 a);
 
 void func_021BC800(u8 *p)
 {
-    func_020215A0(*(u32 *)(p + 12), 0);
-    func_020215A0(*(u32 *)(p + 12), 1);
-    func_020215A0(*(u32 *)(p + 12), 2);
-    func_020215A0(*(u32 *)(p + 12), 3);
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 0);
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 1);
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 2);
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 3);
     func_02021540(*(u32 *)(p + 12));
 }

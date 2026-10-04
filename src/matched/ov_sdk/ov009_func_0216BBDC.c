@@ -18,7 +18,7 @@
  */
 
 extern int g_021AA8A0[];
-extern char *func_02195E78(int conn);
+extern int func_02195E78(const int *p);
 extern int *func_0216BBCC(int i);
 
 int *func_0216BBDC(int pid)
@@ -26,7 +26,7 @@ int *func_0216BBDC(int pid)
     int i;
 
     for (i = 0; i < 0x20; i++) {
-        if (g_021AA8A0[i] != 0 && pid == *(int *)(func_02195E78(g_021AA8A0[i]) + 4)) {
+        if (g_021AA8A0[i] != 0 && pid == *(int *)(func_02195E78((const int *)g_021AA8A0[i]) + 4)) {
             return func_0216BBCC(i);
         }
     }

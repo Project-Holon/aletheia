@@ -18,14 +18,14 @@
 
 typedef unsigned int u32;
 
-extern void func_02022490(void *p, void *a1, void *a2, int idx);
+extern void func_02022490(char *p, int a1, int a2, int a3);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *p);
 
 void func_020225B4(void *a0, u32 *a1)
 {
-    func_02022490((void *)a1[0], (void *)a1[1], (void *)a1[2], (int)a1[3]);
+    func_02022490((void *)a1[0], (int)((void *)a1[1]), (int)((void *)a1[2]), (int)a1[3]);
     func_02030EAC(a0);
     func_020307B0(a1);
 }

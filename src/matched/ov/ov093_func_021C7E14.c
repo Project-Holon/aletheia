@@ -21,7 +21,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_0201C314(u32 c);
+extern u32 func_0201C314(void *p);
 extern u8 *func_021B9934(char *p, int i);
 struct R4;
 struct Out64B4;
@@ -38,7 +38,7 @@ u16 func_021C7E14(u8 *p, int a, int b, u32 c, int e0, int e1)
     u8 *x;
     u8 *y;
     int z;
-    if (c != 0 && func_0201C314(c) != 0) {
+    if (c != 0 && func_0201C314((void *)c) != 0) {
         x = func_021B9934(*(char **)(p + 8), a);
         y = func_021B9934(*(char **)(p + 8), b);
         *(int *)(p + 0x774) += 1;

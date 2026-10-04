@@ -40,20 +40,20 @@ typedef struct Pair { u32 f0; u32 f4; } Pair;
 typedef struct Res { Pair p; u16 h8; } Res;
 typedef struct Head { u8 pad[4]; u32 f4; u16 h8; } Head;
 
-extern Pair *func_021AC1AC(u32 a);
+extern int func_021AC1AC(u32 a);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern u32 func_02050340(u32, u32, Desc *, u32, u32);
 extern void func_021AC154(u32 a);
-extern void func_02050804(u32, u32, u32, u32);
-extern void func_0205082C(u32, u32, u32);
-extern void func_020507F0(u32, u32, u32);
+extern void func_02050804(void *p, int idx, u32 v, u16 h);
+extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_020507F0(void *p, int idx, u32 v);
 extern u8 d_021DE478[];
 
 void func_021C4A3C(u32 a, Res *r)
 {
-    Pair *s = func_021AC1AC(a);
+    Pair *s = (Pair *)func_021AC1AC(a);
     Head *h;
     u32 t, k;
     V3 pos;
@@ -79,8 +79,8 @@ void func_021C4A3C(u32 a, Res *r)
         func_021AC154(a);
         return;
     }
-    func_02050804(t, r->h8, (u32)d_021DE478, 1);
+    func_02050804((void *)t, r->h8, (u32)d_021DE478, 1);
     k = r->h8;
-    func_0205082C(t, k, 0);
-    func_020507F0(t, k, 1);
+    func_0205082C((void *)t, k, 0);
+    func_020507F0((void *)t, k, 1);
 }

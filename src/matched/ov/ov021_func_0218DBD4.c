@@ -14,14 +14,16 @@
  *   func_021697E0  0x021697E0  thumb ov010
  */
 
-extern int func_021694FC(int o);
-extern int func_021697E0(int o);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u16 func_021694FC(u8 *p);
+extern int func_021697E0(char *p);
 
 int func_0218DBD4(char *p, int i)
 {
     if (*(int *)(p + 0x1c) == 0)
         return 0;
-    if (func_021694FC(*(int *)(*(char **)(p + 0x24) + i * 0x28)) == 0)
+    if (func_021694FC((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28))) == 0)
         return 0;
-    return func_021697E0(*(int *)(*(char **)(p + 0x24) + i * 0x28));
+    return func_021697E0((char *)(*(int *)(*(char **)(p + 0x24) + i * 0x28)));
 }

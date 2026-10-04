@@ -26,7 +26,8 @@ extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
 extern void func_02192FA4(int, int);
-extern void func_02195588(int);
+typedef unsigned char  u8;
+extern void func_02195588(u8 *p);
 
 void func_02193068(char *p)
 {
@@ -35,5 +36,5 @@ void func_02193068(char *p)
     func_02041300(*(u16 *)(p + 2) & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(*(u16 *)(p + 2) & 0xff);
     func_02192FA4(*(u16 *)(p + 2), *(u16 *)p);
-    func_02195588(*(int *)(p + 0x15c));
+    func_02195588((u8 *)(*(int *)(p + 0x15c)));
 }

@@ -28,13 +28,14 @@ typedef unsigned int   u32;
 struct Obj_02016880;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void *func_02049FFC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_0204A07C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_0204A0FC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_0204A17C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern u32 *func_02049250(void *a0, void *a1, u32 a2);
-extern void *func_02049DF4(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_02049F78(void *a0, void *a1, void *a2, u32 a3);
+struct ArcFile;
+extern void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_0204A07C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_0204A17C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02063790(void *p);
 extern void func_020637D4(void *p);
 extern void sub_02016028(void *p, u32 flag);
@@ -96,19 +97,19 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
     func_02063790(a1 + 0x9C);
     func_020637D4(a1 + 0xC0);
 
-    *(void **)(a1 + 0x0C) = func_02049FFC(h, ((struct Src *)a2)->f0c, 0,
-                                          (void *)(a1 + 0x10),
+    *(void **)(a1 + 0x0C) = func_02049FFC(h, (u32)(((struct Src *)a2)->f0c), 0,
+                                          (u32)((void *)(a1 + 0x10)),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
-    *(void **)(a1 + 0x1C) = func_0204A07C(h, a2->f10, 1, a1 + 0x20,
+    *(void **)(a1 + 0x1C) = func_0204A07C(h, (u32)a2->f10, 1, (u32)(a1 + 0x20),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
     flag = 1;
-    *(void **)(a1 + 0x14) = func_0204A0FC(h, a2->f14, 0, a1 + 0x18,
+    *(void **)(a1 + 0x14) = func_0204A0FC(h, (u32)a2->f14, 0, (u32)(a1 + 0x18),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
-    *(void **)(a1 + 0x24) = func_0204A17C(h, a2->f18, 0, a1 + 0x28,
+    *(void **)(a1 + 0x24) = func_0204A17C(h, (u32)a2->f18, 0, (u32)(a1 + 0x28),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
     sub_02016028(a1, 0);
 
-    q = func_02049250(h, a2->f1c, (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
+    q = func_02049250(h, (u32)a2->f1c, (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
     *(u32 **)(a1 + 0x2C) = q;
     *(u32 **)(a1 + 0x30) = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
 
@@ -125,9 +126,9 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
     p->f1c = a0->f34 + (idx << 5);
     p->f24 = a1;
 
-    p->f10 = func_02049DF4(h, a2->f04, 1, p,
+    p->f10 = func_02049DF4(h, (u32)a2->f04, 1, (u32)p,
                            (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
-    p->f14 = func_02049F78(h, a2->f08, &p->f04,
+    p->f14 = func_02049F78(h, (u32)a2->f08, (u32)(&p->f04),
                            (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
 
     *(void **)(a1 + 0xD4) = func_02030734((u16)*(u32 *)(a1 + 0x14C),

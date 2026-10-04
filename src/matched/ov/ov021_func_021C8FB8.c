@@ -19,12 +19,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
-extern u32 *func_021AC1AC(u32 a);
+extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32 a, u32 *p);
 extern void func_020061E4(u32 id);
 void func_021C8FB8(u32 a, u32 *out)
 {
-    u32 *r = func_021AC1AC(a);
+    u32 *r = (u32 *)func_021AC1AC(a);
     *out = r[0];
     func_021AC1CC(a, &r[1]);
     func_020061E4(0x6a2);

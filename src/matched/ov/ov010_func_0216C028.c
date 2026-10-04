@@ -25,8 +25,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
-extern int func_020457B0(int, unsigned short);
-extern void func_02045838(int, int);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern char d_02172A60[];
 
@@ -44,8 +45,8 @@ int *func_0216C028(unsigned short a0, int a1, int a2, int a3, int s0)
         t = func_02017E1C((void *)a1, 0x6f, 0);
         *(short *)((char *)p + 6) = (func_02017E1C((void *)a1, 0x6e, 0) << 8) | t;
     }
-    p[8] = func_020457B0(0xb, a0);
+    p[8] = (int)func_020457B0(0xb, a0);
     if (a3)
-        func_02045838(p[8], a3);
+        func_02045838((struct U16Vec *)p[8], (struct U16Vec *)a3);
     return p;
 }

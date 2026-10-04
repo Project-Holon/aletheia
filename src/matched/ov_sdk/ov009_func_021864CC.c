@@ -25,7 +25,7 @@ typedef struct GPIConnection {
     int f1F4;
 } GPIConnection;
 
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_021889A0(void **connection, int profileid, int type, char *message,
                          int sendOption, void *peerOp);
 extern char g_021A4024[];
@@ -40,11 +40,11 @@ int func_021864CC(void **connection, int profile, char *message)
     if (iconnection->f108 != 0)
         return 0;
     if (iconnection->f1F4 == 4) {
-        func_02193734(connection, g_021A4024);
+        func_02193734((int *)connection, (int)g_021A4024);
         return 2;
     }
     if (message == 0) {
-        func_02193734(connection, g_021A4118);
+        func_02193734((int *)connection, (int)g_021A4118);
         return 2;
     }
     return func_021889A0(connection, profile, 1, message, 0, 0);

@@ -29,7 +29,9 @@ extern void func_0218D1D0(char *p, void *a, struct Elem *e);
 extern void func_0218D304(void *p, void *q, void *r);
 extern void func_0218D444(void *p, void *q, void *r);
 extern void func_0218D570(void *p, void *q, void *r);
-extern void func_0218D7A8(void *p, void *q);
+struct Cell;
+struct Obj;
+extern int func_0218D7A8(struct Obj *p, struct Cell *nc);
 extern void func_0216932C(int a);
 extern u32 sub_0207C768(u32 a, u32 b);
 
@@ -58,7 +60,7 @@ void func_0218CA78(char *p)
         func_0218D570(p, p + 0x34, *(void **)(p + 0x28));
         break;
     }
-    func_0218D7A8(p, *(void **)(p + 0x28));
+    func_0218D7A8((struct Obj *)p, *(void **)(p + 0x28));
     for (i = 0; i < *(u16 *)(p + 0x2e); i++)
         func_0216932C(*(int *)(*(char **)(p + 0x24) + i * 0x28));
     a = sub_0207C768(*(int *)(p + 0x34), *(int *)(p + 4));

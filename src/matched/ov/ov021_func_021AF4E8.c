@@ -29,7 +29,7 @@ typedef struct {
 
 extern int func_02005C64(void);
 extern void func_02006CAC(u32 *p);
-extern u32 func_02006984(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 *h);
+extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void func_0215A6B8(u32 a, u32 b);
 
 int func_021AF4E8(u32 a, u32 b, Rec *c)
@@ -44,7 +44,7 @@ int func_021AF4E8(u32 a, u32 b, Rec *c)
         y = c->b;
         x = c->a;
         func_02006CAC(&v);
-        r = func_02006984(x, y, 0x40, 0, 0, 0, 0, &v);
+        r = func_02006984(x, y, 0x40, 0, 0, 0, 0, (u32)(&v));
     } else {
         r = func_02006984(c->a, c->b, 0x40, 0, 0, 0, 0, 0);
     }

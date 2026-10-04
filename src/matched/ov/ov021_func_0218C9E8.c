@@ -23,7 +23,8 @@ typedef unsigned short u16;
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 extern int d_021DD9EC;
 extern int func_0218B754(int a, void *p, int b);
-extern int func_021938AC(int a);
+typedef unsigned int   u32;
+extern void *func_021938AC(u32 heap);
 extern int func_021C05D4(int a, int b);
 
 char *func_0218C9E8(int heap, int b)
@@ -45,7 +46,7 @@ char *func_0218C9E8(int heap, int b)
     *(u8 *)(p + 0x40) = z;
     *(int *)(p + 0x68) = z;
     *(int *)(p + 0x64) = func_0218B754(*(u16 *)p, p, b);
-    *(int *)(p + 0x6c) = func_021938AC(heap);
+    *(int *)(p + 0x6c) = (int)func_021938AC(heap);
     *(int *)(p + 0x70) = func_021C05D4(0x10, (u8)heap);
     return p;
 }

@@ -27,7 +27,8 @@ typedef unsigned int   u32;
 
 extern u32 func_02025440(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u32 func_02025508(u32 a1, u32 a2, u32 a3);
-extern void func_020216D4(u32 a0, u32 a1, u32 a2, u32 a3);
+struct PalAnmSlot;
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 
 u32 func_020254BC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 {
@@ -40,6 +41,6 @@ u32 func_020254BC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
     }
     p = func_02025440(a1, a2, a3, a4, a5, a6);
     v = func_02025508(a1, p, a4);
-    func_020216D4(a0, mode, (u16)(v << 4), a5 << 5);
+    func_020216D4((struct PalAnmSlot *)a0, mode, (u16)(v << 4), a5 << 5);
     return p;
 }

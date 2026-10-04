@@ -25,20 +25,21 @@ typedef struct {
     s16 y;
 } Pt;
 
-extern int *func_021A2630(int);
-extern int func_021A2638(int);
+typedef unsigned int   u32;
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A26C4(int, Pt *);
-extern void func_021A21E0(int);
+extern void func_021A21E0(u32 *p);
 
 void func_021EEDD8(int a)
 {
     int *p;
     Pt pt;
 
-    p = func_021A2630(a);
-    func_021A2638(a);
+    p = (int *)func_021A2630((unsigned char *)a);
+    func_021A2638((unsigned char *)a);
     func_021A2640((unsigned char *)a, (struct PtS *)&pt);
     switch (p[3]) {
     case 0:
@@ -50,7 +51,7 @@ void func_021EEDD8(int a)
         func_021A26C4(a, &pt);
         break;
     case 1:
-        func_021A21E0(a);
+        func_021A21E0((u32 *)a);
         break;
     }
 }

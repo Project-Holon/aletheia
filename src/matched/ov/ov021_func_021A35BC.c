@@ -17,13 +17,17 @@
  */
 
 int func_021A30BC(int a);
-int func_020120F4(int x);
-int func_0201296C(int x);
-int func_020142E8(int x, int y);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
+u32 func_0201296C(const struct BigObj *p);
+u32 func_020142E8(void *bitmap, s32 id);
 
 int func_021A35BC(int a)
 {
-    if (func_020142E8(func_0201296C(func_020120F4(func_021A30BC(a))), 0x963) != 0)
+    if (func_020142E8((void *)func_0201296C(func_020120F4((const struct Ctx *)func_021A30BC(a))), 0x963) != 0)
         return 1;
     return 0;
 }

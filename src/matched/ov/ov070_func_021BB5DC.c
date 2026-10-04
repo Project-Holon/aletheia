@@ -17,33 +17,35 @@
  */
 
 extern int func_021BB368(int);
-extern void func_021BB5A4(int);
+typedef unsigned short u16;
+struct Obj;
+extern void func_021BB5A4(char *p);
 extern int func_02012BF8(int, int);
-extern void func_0204B878(int, int);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BB5DC(int p, int mode)
 {
     int r = func_02012BF8(*(int *)p, func_021BB368(*(int *)(p + 0x80C)));
 
     if (mode == 1) {
-        func_021BB5A4(p);
-        func_0204B878(*(int *)(p + 0x710), 4);
-        func_0204B878(*(int *)(p + 0x714), 5);
-        func_0204B878(*(int *)(p + 0x71C), 0);
+        func_021BB5A4((char *)p);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 4);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 5);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0);
         if (r == 1) {
-            func_0204B878(*(int *)(p + 0x718), 7);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 7);
         } else {
-            func_0204B878(*(int *)(p + 0x718), 6);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 6);
         }
     } else {
-        func_0204B878(*(int *)(p + 0x72C), 4);
-        func_0204B878(*(int *)(p + 0x710), 0x12);
-        func_0204B878(*(int *)(p + 0x714), 0x13);
-        func_0204B878(*(int *)(p + 0x71C), 0xE);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x72C)), 4);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 0x12);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 0x13);
+        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0xE);
         if (r == 1) {
-            func_0204B878(*(int *)(p + 0x718), 0x16);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x16);
         } else {
-            func_0204B878(*(int *)(p + 0x718), 0x15);
+            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x15);
         }
     }
 }

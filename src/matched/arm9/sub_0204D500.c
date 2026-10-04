@@ -43,9 +43,9 @@ struct Obj {
     u8  unk_0c;
 };
 
-extern void sub_02064B68(void *p, u32 arg);
+extern void sub_02064B68(struct Obj *o, void *arg);
 
 void sub_0204D500(struct Obj *o, u32 arg)
 {
-    sub_02064B68(&o->unk_0c, arg);
+    sub_02064B68((struct Obj *)(&o->unk_0c), (void *)arg);
 }

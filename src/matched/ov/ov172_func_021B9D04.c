@@ -44,10 +44,14 @@ extern void func_02027974(void *p);
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020456F8(int a);
-extern void func_02045374(int a);
+typedef unsigned short u16;
+struct Cfg;
+struct Descriptor;
+struct Obj;
+extern void func_020456F8(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
-extern void func_0204B878(int a, int b);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021B7578(int x, char *p);
 extern void func_021B7B80(int x, char *p);
 extern u32 func_021B80E4(int unused, char *p);
@@ -92,10 +96,10 @@ void func_021B9D04(int self, int *q)
     } else {
         q[0] = 5;
         func_0201F7A8((void *)q[0x1F], 1);
-        func_020456F8(q[0x1F]);
-        func_02045374(q[0xB]);
+        func_020456F8((struct Descriptor *)q[0x1F]);
+        func_02045374((struct Cfg *)q[0xB]);
         func_020409B4(4);
-        func_0204B878(q[0x26], 1);
+        func_0204B878((struct Obj *)q[0x26], 1);
     }
     func_02027858((void *)q[0x20]);
     q[0x20] = 0;

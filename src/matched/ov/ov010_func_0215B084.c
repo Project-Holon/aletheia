@@ -20,11 +20,11 @@ extern void *func_0215A5E4(void *a0);
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_0201293C(const struct BigObj *p);
-extern void func_02007A68(int,int);
+extern void func_02007A68(void *save, u32 bits);
 int func_0215B084(int a,int b)
 {
     int k = (int)func_02159B10((void *)a, (void *)b);
     int p = func_0201293C(func_0215A5E4((void *)b));
-    if ((u16)(k + 0xFFFF) <= 1) func_02007A68(p,k);
+    if ((u16)(k + 0xFFFF) <= 1) func_02007A68((void *)p,k);
     return 0;
 }

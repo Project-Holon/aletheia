@@ -20,9 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0204BA00(void *, int);
+struct Actor;
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 
 void func_021D62D0(u8 *p, int i, int v)
 {
-    func_0204BA00(*(void **)(p + i * 4 + 0x74), v);
+    func_0204BA00(*(void **)(p + i * 4 + 0x74), (const struct Cmd *)v);
 }

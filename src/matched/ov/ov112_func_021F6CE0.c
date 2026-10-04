@@ -20,8 +20,9 @@
  */
 typedef unsigned short u16;
 typedef struct { short x, y; } Point;
-extern int func_021F9E04(int);
-extern int func_021F9E18(int);
+typedef unsigned char  u8;
+extern u16 func_021F9E04(u8 *p);
+extern int func_021F9E18(char *p);
 extern void func_0204B404(int, Point *, int);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -30,13 +31,13 @@ void func_021F6CE0(char *p, char *q) {
     int tmp;
     Point point;
     if (*(int *)(p + 4) == 0) tmp = 0x80;
-    else tmp = func_021F9E04(*(int *)(p + 4));
+    else tmp = func_021F9E04((u8 *)(*(int *)(p + 4)));
     n = tmp;
     if (*(int *)q == 1) {
         point.x = (short)((float)*(int *)(q + 8) / 4096.0f - (float)(unsigned)n);
         point.y = (short)((float)*(int *)(q + 0xc) / 4096.0f);
         func_0204B404(*(int *)(q + 0x1c), &point, 0);
-        if (*(int *)(p + 4) != 0 && func_021F9E18(*(int *)(p + 4)) != 4) {
+        if (*(int *)(p + 4) != 0 && func_021F9E18((char *)(*(int *)(p + 4))) != 4) {
             func_0204B3DC((struct Obj *)*(int *)(q + 0x1c), 0);
             return;
         }

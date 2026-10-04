@@ -45,18 +45,18 @@ typedef struct Src { u32 f0; V3 v; } Src;
 typedef struct Res { u32 f0; u16 h4; } Res;
 typedef struct Head { u8 pad[4]; u32 f4; u16 h8; } Head;
 
-extern Src *func_021AC1AC(u32 a);
+extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32 a, V3 *v);
 extern u32 func_02050340(u32, u32, Desc *, u32, u32);
 extern void func_021AC154(u32 a);
-extern void func_02050804(u32, u32, u32, u32);
-extern void func_0205082C(u32, u32, u32);
-extern void func_020507F0(u32, u32, u32);
+extern void func_02050804(void *p, int idx, u32 v, u16 h);
+extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_020507F0(void *p, int idx, u32 v);
 extern u8 d_021DE464[];
 
 void func_021C48A0(u32 a, Res *r)
 {
-    Src *s = func_021AC1AC(a);
+    Src *s = (Src *)func_021AC1AC(a);
     Head *h;
     u32 t, k;
     Desc d;
@@ -79,8 +79,8 @@ void func_021C48A0(u32 a, Res *r)
         func_021AC154(a);
         return;
     }
-    func_02050804(t, r->h4, (u32)d_021DE464, 1);
+    func_02050804((void *)t, r->h4, (u32)d_021DE464, 1);
     k = r->h4;
-    func_0205082C(t, k, 0);
-    func_020507F0(t, k, 1);
+    func_0205082C((void *)t, k, 0);
+    func_020507F0((void *)t, k, 1);
 }

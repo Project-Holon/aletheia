@@ -38,7 +38,9 @@ typedef struct {
 
 extern void func_02082BCC(void *, int, int);
 extern void func_02082A7C(int, void *, int);
-extern int func_02045B38(int, int, int, int);
+typedef unsigned int   u32;
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern int func_02190A20(int, int);
 
 void func_0215A77C(unsigned short *p, unsigned short a, unsigned short b,
@@ -60,7 +62,7 @@ void func_0215A77C(unsigned short *p, unsigned short a, unsigned short b,
     func_02082A7C(0, (char *)q + 0x20, 0x80);
     if (q->i == 0) {
         q->h = 1;
-        q->i = func_02045B38(0, 3, 0x80 + 0x86, *p);
+        q->i = (int)func_02045B38(0, 3, 0x80 + 0x86, *p);
     }
     q->j = func_02190A20(0x20, *p);
 }

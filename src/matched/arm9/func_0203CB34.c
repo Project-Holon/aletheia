@@ -27,12 +27,12 @@ typedef unsigned int  u32;
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void func_020371AC(unsigned short a, unsigned int b);
 extern void func_020370C8(void);
-extern u32 *func_0200F17C(u32 a);
+extern int func_0200F17C(u32 sel);
 extern void func_0200F234(u32 a);
 
 void func_0203CB34(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 *p = func_0200F17C(1);
+    u32 *p = (u32 *)func_0200F17C(1);
     u32 v = a;
 
     if (p != 0)

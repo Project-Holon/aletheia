@@ -18,12 +18,12 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_021C0FF8(u32 a, u32 b);
+extern void func_021C0FF8(u8 *p, int visible);
 void func_021BF3B4(char *p)
 {
     if (*(u32 *)(p + 0x3d0) != 0) {
-        func_021C0FF8(*(u32 *)(p + 0x364), 1);
+        func_021C0FF8((u8 *)(*(u32 *)(p + 0x364)), 1);
     } else {
-        func_021C0FF8(*(u32 *)(p + 0x364), 0);
+        func_021C0FF8((u8 *)(*(u32 *)(p + 0x364)), 0);
     }
 }

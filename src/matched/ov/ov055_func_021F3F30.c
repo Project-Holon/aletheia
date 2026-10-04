@@ -31,7 +31,7 @@ typedef struct S {
 } S;
 
 extern u8 *func_021F3B20(char *);
-extern void func_021F3F9C(char *, S *, E *, u8 *, u16);
+extern void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e);
 
 void func_021F3F30(S *p, char *q, int k)
 {
@@ -42,7 +42,7 @@ void func_021F3F30(S *p, char *q, int k)
         if (p->cnt[i] >= p->lim[k]) {
             e = func_021F3B20(q);
             if (e) {
-                func_021F3F9C(q, p, &p->ent[i], e, 0);
+                func_021F3F9C(q, (int)p, (const u16 *)(&p->ent[i]), e, 0);
                 p->cnt[i] = 0;
             }
         } else {

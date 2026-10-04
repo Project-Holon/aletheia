@@ -30,10 +30,12 @@ struct Mgr {
 
 extern struct Mgr *g_02146A74;
 
-extern void func_0204BF40(void *block, u32 a0, u32 a1, u32 id, u32 payload);
+struct OamEntry;
+struct Win;
+extern void func_0204BF40(struct Win *win, struct OamEntry *src, u32 mode, u32 pal, u32 op);
 
 void func_0204BFF4(u32 a0, u32 a1)
 {
-    func_0204BF40((u8 *)g_02146A74 + 0x20, a0, a1,
+    func_0204BF40((struct Win *)((u8 *)g_02146A74 + 0x20), (struct OamEntry *)a0, a1,
                   g_02146A74->unk_f2, g_02146A74->unk_f4);
 }

@@ -21,12 +21,12 @@ typedef struct Word { u32 v; } Word;
 extern Word func_021E8940(int v);
 extern unsigned char func_021B9A40(unsigned int x);
 extern void func_021E556C(int a, int b, int c, int d, int e, int f, Word g, int h);
-extern void func_021E3C5C(int a, int c, int d);
+extern void func_021E3C5C(void *a, int b, int c);
 
 void func_021E7E0C(int a, int b, int c, int d)
 {
     Word t = func_021E8940(1);
     int e = func_021B9A40(c);
     func_021E556C(a, b, c, d, e, 10, t, 0xa2);
-    func_021E3C5C(b, c, 1);
+    func_021E3C5C((void *)b, c, 1);
 }

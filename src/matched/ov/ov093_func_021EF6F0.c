@@ -41,14 +41,16 @@ typedef struct {
     u16 f5a;
 } D;
 
-extern void func_021EEFE0(u32 a, u32 b, u32 c);
-extern void func_02045CAC(u32 a, u32 b, u32 c);
-extern void func_0201F250(u32 a, u32 b, u32 c);
+struct MsgBank;
+struct WordSet;
+extern void func_021EEFE0(void *s, const u32 *values, void *w);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern D d_021F6398;
 
 void func_021EF6F0(u32 a, u32 b, u32 c)
 {
-    func_02045CAC(d_021F6398.f28, b, d_021F6398.fc);
-    func_021EEFE0(d_021F6398.fc, c, d_021F6398.f8);
-    func_0201F250(d_021F6398.f8, a, d_021F6398.fc);
+    func_02045CAC((struct MsgBank *)d_021F6398.f28, b, (void *)d_021F6398.fc);
+    func_021EEFE0((void *)d_021F6398.fc, (const u32 *)c, (void *)d_021F6398.f8);
+    func_0201F250((struct WordSet *)d_021F6398.f8, (void *)a, (void *)d_021F6398.fc);
 }

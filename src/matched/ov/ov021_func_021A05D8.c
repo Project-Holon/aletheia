@@ -26,7 +26,7 @@ typedef signed int     s32;
 extern void func_021A07B0(void);
 extern void func_021A0734(u8 *a, u32 b);
 extern u32 func_021A07B4(u8 *p, int t);
-extern void func_021A0974(void *a, void *b, void *c);
+extern void func_021A0974(u32 a1, u32 a2, u32 a3);
 
 void func_021A05D8(u8 *a)
 {
@@ -36,5 +36,5 @@ void func_021A05D8(u8 *a)
     func_021A0734(a, *(u16 *)(a + 0x354));
     r = func_021A07B4(a, *(u32 *)(a + 0x48c));
     *(u32 *)(a + 0x350) = r;
-    func_021A0974(a + 0x390, a + 0x356, a + 0x10 + r * 0x34);
+    func_021A0974((u32)(a + 0x390), (u32)(a + 0x356), (u32)(a + 0x10 + r * 0x34));
 }

@@ -30,7 +30,7 @@ typedef struct {
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
-extern void func_021EDA70(char *p, unsigned i, short *x, short *y);
+extern void func_021EDA70(int a0, int a1, short *a2, short *a3);
 
 void func_021DDEFC(unsigned char *p, Obj *o)
 {
@@ -40,7 +40,7 @@ void func_021DDEFC(unsigned char *p, Obj *o)
         if (o->slot < 0x24)
             func_021EC548(o->slot, &t[1], &t[0], p[0x1A]);
         else
-            func_021EDA70(*(char **)(p + 0x2C), o->slot - 0x24, &t[1], &t[0]);
+            func_021EDA70((int)(*(char **)(p + 0x2C)), o->slot - 0x24, &t[1], &t[0]);
     } else if (p[0x14] > p[0x17]) {
         func_021EC0B0(*(char **)(p + 0x2C), 0, &t[1], &t[0], 0);
     } else {

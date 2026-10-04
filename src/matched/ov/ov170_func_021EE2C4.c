@@ -22,7 +22,10 @@ typedef unsigned char  u8;
 struct Struct_02025D1C;
 extern u8 func_020355C4(void);
 extern void func_021EE3CC(char **);
-extern void *func_02025CD0(unsigned, unsigned, void *, int, unsigned char, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Struct_02025CD0;
+extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void func_02025D1C(struct Struct_02025D1C *obj);
 extern void func_021EE408(char **, int);
 extern void func_021ED55C(char **, int);
@@ -40,7 +43,7 @@ void func_021EE2C4(char **p)
     case 5: i = 15; break;
     }
     func_021EE3CC(p);
-    *(void **)(p[11] + 0x70) = func_02025CD0(d_021F02F0[i].a, d_021F02F0[i].b, p, f, ((unsigned *)p)[9], 0x4c);
+    *(void **)(p[11] + 0x70) = func_02025CD0(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
     func_02025D1C(*(void **)(p[11] + 0x70));
     func_021EE408(p, ((int *)p)[9]);
     func_021ED55C(p, f);

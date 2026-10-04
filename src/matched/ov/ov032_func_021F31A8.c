@@ -19,7 +19,7 @@
 extern void func_0204AFD8(unsigned);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
-extern void func_020307B0(unsigned);
+extern void func_020307B0(void *p);
 
 typedef struct {
     unsigned n0;
@@ -42,6 +42,6 @@ void func_021F31A8(void *unused, T *p)
         func_0204ADA4(p->a0[i]);
     for (j = 0; j < 3; j++) {
         if (((unsigned *)p)[j * 2 + 1] != 0)
-            func_020307B0(((unsigned *)p)[j * 2 + 1]);
+            func_020307B0((void *)(((unsigned *)p)[j * 2 + 1]));
     }
 }

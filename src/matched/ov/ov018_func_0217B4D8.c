@@ -23,7 +23,7 @@ typedef unsigned short u16;
 
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
-extern u8 *func_02158344();
+extern int func_02158344(int a0);
 extern int func_0203D1B4();
 extern int func_02175BE4(void *a);
 extern void *func_0217B044(void *a, int b, int c, int d, int e, int f);
@@ -38,7 +38,7 @@ void *func_0217B4D8(int a0, int a1, int a2, int *a3, int a4, u16 a5)
     int n;
     int sub;
 
-    p = func_02158344(func_02012138((const struct Ctx *)a0));
+    p = (u8 *)func_02158344(func_02012138((const struct Ctx *)a0));
     r = 9;
     x = *a3;
     n = 1;

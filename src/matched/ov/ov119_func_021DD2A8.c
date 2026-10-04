@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
-extern int func_02007984(int);
+extern int func_02007984(void *save);
 extern int func_021DD21C(char *p);
 int func_021DD2A8(char *p)
 {
@@ -27,7 +27,7 @@ int func_021DD2A8(char *p)
     a = func_0201293C(*(int *)(p + 0x82c));
     b = func_021DD21C(p);
     n = func_0201AA18(func_02012934(*(void **)(p + 0x82c)));
-    n += func_02007984(a);
+    n += func_02007984((void *)a);
     if (n == 2 && b >= 1) return 1;
     if (n > 2 && b >= 2) return 1;
     return 0;

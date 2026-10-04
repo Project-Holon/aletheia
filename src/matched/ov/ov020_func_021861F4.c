@@ -19,8 +19,10 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-int func_0200855C(int x);
-int func_02008530(int x);
+typedef unsigned int   u32;
+struct Sub0200852CObj;
+u8 func_0200855C(const struct Sub0200852CObj *obj);
+u32 func_02008530(const struct Sub0200852CObj *obj);
 int func_021584F4(int a, int b);
 void func_021866F8(char *p);
 
@@ -33,8 +35,8 @@ void func_021861F4(u16 *p, int x)
     if (p[0] == 0 && p[1] != 2)
         p[1] = 2;
     if (p[0] == 1 && p[1] >= 2) {
-        int r6 = func_0200855C(x);
-        if (func_021584F4((u8)r6, func_02008530(x)) == 0x15)
+        int r6 = func_0200855C((const struct Sub0200852CObj *)x);
+        if (func_021584F4((u8)r6, func_02008530((const struct Sub0200852CObj *)x)) == 0x15)
             p[1] = 0;
         else
             p[1] = 1;

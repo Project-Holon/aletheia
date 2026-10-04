@@ -60,7 +60,7 @@ typedef struct {
 
 extern u16 func_0208AF08(void);
 extern void func_0208B104(TPData *disp, TPData *raw);
-extern void func_021D5FE8(s32 x, s32 y, COORD *coord);
+extern void func_021D5FE8(unsigned short a, unsigned short b, unsigned short *p);
 extern s32 func_0207C994(s32 a, s32 b);
 extern InputStatics g_021DE688;
 
@@ -81,7 +81,7 @@ void func_021D668C(void)
         if (g_021DE688.work->tp[idx].touch == 1 && g_021DE688.work->tp[idx].validity == 0) {
             touch = 1;
             func_0208B104(&p, &g_021DE688.work->tp[idx]);
-            func_021D5FE8(p.x, p.y, &g_021DE688.work->coord);
+            func_021D5FE8(p.x, p.y, (short unsigned int *)(&g_021DE688.work->coord));
             break;
         }
     }

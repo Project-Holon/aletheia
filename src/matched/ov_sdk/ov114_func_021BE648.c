@@ -22,9 +22,9 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021BEF08(void);
-extern int func_021BA88C(u8 *, int, int, int);
+extern int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*free)(void *), unsigned long threadprio);
 
 int func_021BE648(int a, int b, int c)
 {
-    return -(func_021BA88C(func_021BEF08(), a, b, c) == 0);
+    return -(func_021BA88C(func_021BEF08(), (void * (*)(long unsigned int,  int))a, (void (*)(void *))b, c) == 0);
 }

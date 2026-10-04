@@ -50,7 +50,7 @@ typedef signed char    s8;
 extern u32 func_02013E4C(u32 id);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_02020FE4(u32 species, u32 a1, u32 a2);
+extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern int func_02011014(int a0);
 
 void sub_0201B850(void *mon, const s8 *tbl, int a2, u32 a3)
@@ -68,7 +68,7 @@ void sub_0201B850(void *mon, const s8 *tbl, int a2, u32 a3)
     if (species == 0 || species == 650) {
         return;
     }
-    kind = (u8)func_02020FE4((u16)func_02017E1C(mon, 6, idx), 1, a3);
+    kind = (u8)func_02020FE4((void *)((u16)func_02017E1C(mon, 6, idx)), 1, a3);
     cur = func_02017E1C(mon, 9, idx);
 
     if (cur >= 100) {

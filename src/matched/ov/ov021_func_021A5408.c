@@ -25,10 +25,10 @@ typedef unsigned int   u32;
 
 extern u32 func_021A572C(u32);
 extern u32 func_0216D5F8(void);
-extern void func_0216D4B4(u32);
+extern void func_0216D4B4(char *p);
 extern void func_0216D5E0(int a0, int a1);
-extern void func_0216D674(u32, u32);
-extern void func_021A3964(u32, u32);
+extern void func_0216D674(void *p, u16 v);
+extern void func_021A3964(u8 *p, u32 v);
 
 int func_021A5408(u32 a)
 {
@@ -43,10 +43,10 @@ int func_021A5408(u32 a)
     case 3:
         x = func_021A572C(a);
         y = func_0216D5F8();
-        func_0216D4B4(x);
+        func_0216D4B4((char *)x);
         func_0216D5E0(x, y);
-        func_0216D674(x, 0);
-        func_021A3964(*(u32 *)(a + 12), 0);
+        func_0216D674((void *)x, 0);
+        func_021A3964((u8 *)(*(u32 *)(a + 12)), 0);
         break;
     }
     return 1;

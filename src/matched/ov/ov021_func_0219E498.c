@@ -32,20 +32,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D67C();
-extern u32 func_0216D530();
-extern u32 func_021BB480();
+typedef signed int     s32;
+struct Ctx;
+struct Rec;
+extern void *func_0216D67C(void *a0);
+extern void *func_0216D530(void *p);
+extern void *func_021BB480(void *p);
 extern void func_021B7D38();
-extern u32 func_021B7C38();
+extern int func_021B7C38(u8 *o);
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0216DD1C();
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216D55C(int a0, int a1);
-extern u32 func_0219E348();
-extern int func_021B8040();
-extern u32 func_021B8038();
+extern void *func_0219E348(void *a);
+extern u8 func_021B8040(u8 *p);
+extern u8 func_021B8038(u8 *p);
 extern void func_021B7E60();
 extern void func_021B7ED4();
-extern int func_021B83B0();
+extern int func_021B83B0(const s32 *a, const s32 *b, s32 r);
 
 int func_0219E498(u32 o, u32 k)
 {
@@ -60,12 +63,12 @@ int func_0219E498(u32 o, u32 k)
     u32 s;
     int z;
 
-    s = func_0216D67C(o);
-    h = func_021BB480(func_0216D530(s));
+    s = (u32)func_0216D67C((void *)o);
+    h = (u32)func_021BB480(func_0216D530((void *)s));
     st = 0;
     func_021B7D38(h, k, rec);
-    m = func_0207C768(func_021B7C38(h), 0x4000);
-    while (func_0216DD1C(s, &cur, &st) == 1) {
+    m = func_0207C768(func_021B7C38((u8 *)h), 0x4000);
+    while (func_0216DD1C((struct Ctx *)s, (struct Rec **)(&cur), &st) == 1) {
         lim = 0x4000 >> 1;
         if (cur == o) {
             continue;
@@ -75,15 +78,15 @@ int func_0219E498(u32 o, u32 k)
         }
         z = (func_0216D55C(cur, lim) == 0);
         if (!z) {
-            t = func_0219E348(cur);
-            if (func_021B8040(t)) {
-                func_021B7E60(t, func_021B8038(t), 0, tA);
-                if (func_021B83B0(rec, tA, m)) {
+            t = (u32)func_0219E348((void *)cur);
+            if (func_021B8040((u8 *)t)) {
+                func_021B7E60(t, func_021B8038((u8 *)t), 0, tA);
+                if (func_021B83B0((const s32 *)rec, (const s32 *)tA, m)) {
                     return 1;
                 }
             }
             func_021B7ED4(t, tA);
-            if (func_021B83B0(rec, tA, m)) {
+            if (func_021B83B0((const s32 *)rec, (const s32 *)tA, m)) {
                 return 1;
             }
         }

@@ -51,12 +51,16 @@ typedef struct {
     int k;
 } Q;
 
-extern int func_0215A5FC(void *);
-extern int func_02190ACC(int, int, int, int);
-extern unsigned func_02190AC4(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Handle;
+extern int func_0215A5FC(int a0);
+extern u32 func_02190ACC(u32 *obj, u32 *tab, u32 unused, u32 key);
+extern unsigned func_02190AC4(void *p);
 extern unsigned func_02190AEC(unsigned a, unsigned b, unsigned c, int d);
 extern void func_02190B08(void *, unsigned short, unsigned short, unsigned short, unsigned short, unsigned short);
-extern int func_02190988(int, void *, int, void *, void *, int, int, int);
+extern struct Handle *func_02190988(u16 *a, const u8 *b, u32 c, u32 d, u32 x, u16 y, u16 z, u32 w);
 extern void func_0215A9C0(int a);
 extern L32 d_02171140;
 
@@ -66,20 +70,20 @@ void func_0215A864(int *p)
     int y;
     Q *q = (Q *)(*(char **)((char *)p + 0x20) + 0x34);
     L32 l = d_02171140;
-    int t = func_0215A5FC(p);
+    int t = func_0215A5FC((int)p);
     unsigned m;
     unsigned n;
 
-    x = func_02190ACC(t, q->j, l.h8, l.f1);
+    x = func_02190ACC((u32 *)t, (u32 *)q->j, l.h8, l.f1);
     if (q->e == 1) {
         q->a = q->a - (unsigned short)x;
     }
-    n = func_02190AC4(q->j);
+    n = func_02190AC4((void *)q->j);
     m = 6;
     if (n <= 6) {
         m = n;
     }
     y = func_02190AEC(m, l.h9, l.f2, n > 6);
-    func_02190B08(&l, func_02190AC4(q->j), q->a, q->b, x, y);
-    q->k = func_02190988(t, &l, q->j, (void *)func_0215A9C0, p, 0, q->c, q->d);
+    func_02190B08(&l, func_02190AC4((void *)q->j), q->a, q->b, x, y);
+    q->k = (int)func_02190988((u16 *)t, (const u8 *)(&l), q->j, (u32)((void *)func_0215A9C0), (u32)p, 0, q->c, q->d);
 }

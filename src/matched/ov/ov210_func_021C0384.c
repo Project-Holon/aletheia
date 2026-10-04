@@ -31,7 +31,7 @@ extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void func_02049238(void *);
 extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern unsigned func_021BCEF4(char *, unsigned);
+extern u16 func_021BCEF4(int a0, int a1);
 void func_021C0384(char *ctx)
 {
     void *archive = func_020490F4(159, 0x807b);
@@ -46,5 +46,5 @@ void func_021C0384(char *ctx)
     func_021B7A10(*(void **)(ctx + 0x1e0), archive, 97, 0, 0);
     func_021B7A4C(*(void **)(ctx + 0x1e0), archive, 73, 2, 3);
     func_02049238(archive);
-    for (i = 0; i <= 16; i++) { func_021B79E4(*(void **)(ctx + 0x1e0), 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(*(void **)(ctx + 0x1d0), func_021BCEF4(ctx, i)); }
+    for (i = 0; i <= 16; i++) { func_021B79E4(*(void **)(ctx + 0x1e0), 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(*(void **)(ctx + 0x1d0), func_021BCEF4((int)ctx, i)); }
 }

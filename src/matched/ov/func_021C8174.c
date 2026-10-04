@@ -13,9 +13,9 @@
  *   func_021B8714  0x021B8714  thumb  ov093
  */
 
-int func_021B8714(int);
+char *func_021B8714(char **p);
 
 int func_021C8174(int *p)
 {
-    return *(int *)((char *)func_021B8714(*(int *)((char *)p + 4)) + 4);
+    return *(int *)((char *)func_021B8714((char **)(*(int *)((char *)p + 4))) + 4);
 }

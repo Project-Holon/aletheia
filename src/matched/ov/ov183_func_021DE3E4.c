@@ -12,10 +12,10 @@
  *   func_021FD170 0x021FD170 thumb ov186
  */
 typedef unsigned short u16;
-extern void *func_021FD12C(int, int, u16);
-extern void func_021FD170(void *, int, int);
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
 void func_021DE3E4(char *p, char *q)
 {
-    *(void **)(p + 8) = func_021FD12C(*(int *)(q + 8), *(int *)(p + 4), *(u16 *)(p + 0x6c));
-    func_021FD170(*(void **)(p + 8), *(int *)(q + 8), 0x86);
+    *(void **)(p + 8) = func_021FD12C(*(int *)(q + 8), (void *)(*(int *)(p + 4)), *(u16 *)(p + 0x6c));
+    func_021FD170(*(void **)(p + 8), (char *)(*(int *)(q + 8)), (void *)0x86);
 }

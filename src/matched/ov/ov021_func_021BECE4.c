@@ -23,15 +23,17 @@ typedef struct {
     int fC;
 } Work;
 
-extern void *func_020122C0(int a, int b, void (*cb)(void), int size);
+typedef unsigned int   u32;
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern void func_021BF3BC(void);
+extern int func_021BF3BC(int a, int *s, int *q);
 extern int func_021BEA6C(int a);
 
 void *func_021BECE4(int a, int b)
 {
-    void *t = func_020122C0(a, 0, func_021BF3BC, 0x2c);
+    void *t = func_020122C0((void *)a, 0, func_021BF3BC, 0x2c);
     Work *w = func_020124E8(t);
     w->f0 = a;
     w->f4 = b;

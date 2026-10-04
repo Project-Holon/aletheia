@@ -18,13 +18,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02030EAC(u32 a);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021D1418(void *p);
 
 void func_021D11D8(u32 *p)
 {
     if (p[3] != 0) {
-        func_02030EAC(p[3]);
+        func_02030EAC((struct Node *)p[3]);
         p[3] = 0;
         func_021D1418(p);
     }

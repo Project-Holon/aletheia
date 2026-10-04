@@ -23,9 +23,9 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_02012E08(int);
-extern void func_021D8F58(int);
-extern int func_021D5D58(int);
+extern void func_02012E08(char *p);
+extern void func_021D8F58(char *p);
+extern int func_021D5D58(char *p);
 extern void func_021D6EE0(int, int, int);
 typedef unsigned char  u8;
 extern void func_021D6F44(u8 *p);
@@ -37,12 +37,12 @@ void func_021D6F70(int a)
     if (func_020362DC() == 0 && func_02035C60() == 0)
         return;
     if (*(unsigned char *)(a + 0xad) != 0) {
-        func_02012E08(*(int *)(a + 0x2c));
+        func_02012E08((char *)(*(int *)(a + 0x2c)));
         *(unsigned char *)(a + 0xad) = 0;
     }
-    func_021D8F58(a);
+    func_021D8F58((char *)a);
     if (*(int *)(a + 8) != 0) {
-        if (func_021D5D58(*(int *)(a + 8)) != 0)
+        if (func_021D5D58((char *)(*(int *)(a + 8))) != 0)
             func_021D6EE0(a, (int)func_021D6F44, 0x191);
         func_021D6EE0(a, 0x021D706D, 0x193);
     } else {

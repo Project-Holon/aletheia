@@ -24,7 +24,7 @@ typedef struct {
     u32 b;
 } P2;
 
-extern u32 func_021ABEA0(void *a, u32 b);
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(void *a, void *fn, u32 c, u32 d, P2 *e, u32 f);
 extern char d_021DAA2C[];
 
@@ -32,7 +32,7 @@ void func_021C4A10(void *a, u32 b)
 {
     P2 t;
 
-    t.a = func_021ABEA0(a, 8);
+    t.a = func_021ABEA0((u32)a, 8);
     t.b = b;
     func_021ABFA8(a, d_021DAA2C, 0, 0, &t, 0);
 }

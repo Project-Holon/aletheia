@@ -13,9 +13,10 @@
  *   func_02030EAC  0x02030EAC  arm
  */
 
-void func_02030EAC(int);
+struct Node;
+void func_02030EAC(struct Node *n);
 
 void func_021BD10C(int *p)
 {
-    func_02030EAC(p[0]);
+    func_02030EAC((struct Node *)p[0]);
 }

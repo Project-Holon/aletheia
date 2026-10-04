@@ -42,7 +42,7 @@ extern void func_021C4B5C(void *a, u32 *p);
 extern int func_021C4D14(u8 *p);
 extern Step021C42C8 data_021C7774[];
 extern void func_0202223C(u32 a, u32 b);
-extern void func_02022224(u32 a);
+extern u32 func_02022224(void *win);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02022230(u32 a);
@@ -73,7 +73,7 @@ int func_021C42C8(u8 *p)
         func_0202223C(0, 0);
         func_0202223C(1, 0);
         func_02022224(0);
-        func_02022224(1);
+        func_02022224((void *)1);
         (*(u32 *)(p + 4))++;
         break;
     case 1:

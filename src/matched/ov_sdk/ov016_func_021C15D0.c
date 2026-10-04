@@ -17,7 +17,7 @@
  *   func_021CF9BC  0x021CF9BC  arm  ov016
  */
 
-extern int func_021BC7F0(void *param);
+extern int func_021BC7F0(int a);
 extern void OS_Terminate(void);
 extern void func_021CF9BC(void *param);
 
@@ -25,7 +25,7 @@ void func_021C15D0(void)
 {
 	char prm[0xe8];
 
-	if (func_021BC7F0(prm) != 1)
+	if (func_021BC7F0((int)prm) != 1)
 		OS_Terminate();
 	func_021CF9BC(prm);
 }

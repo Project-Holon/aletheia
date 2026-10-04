@@ -47,7 +47,7 @@ struct DWCstMatchControl {
 struct DWCstNodeInfo { int profileID; };
 extern int func_02176554(void);
 extern void func_0217653C(void);
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void NNCancel(int cookie);
 extern unsigned char func_02175FB8(void);
 extern void func_02175F4C(int state);
@@ -65,18 +65,18 @@ int func_02171FD4(int clientPid, int resetLevel)
 
     if (func_02176554())
         func_0217653C();
-    func_02175F3C()->f6d8 = 0xff;
-    if (func_02175F3C()->f618 != 0) {
-        NNCancel(func_02175F3C()->f618);
-        func_02175F3C()->f618 = 0;
+    ((struct DWCstMatchControl *)func_02175F3C())->f6d8 = 0xff;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f618 != 0) {
+        NNCancel(((struct DWCstMatchControl *)func_02175F3C())->f618);
+        ((struct DWCstMatchControl *)func_02175F3C())->f618 = 0;
     }
-    func_02175F3C()->f67c = 0;
+    ((struct DWCstMatchControl *)func_02175F3C())->f67c = 0;
     if (func_02175FB8() == 2) {
-        func_02175F3C()->f18 = 0;
-        func_02175F3C()->f5dc = 0;
+        ((struct DWCstMatchControl *)func_02175F3C())->f18 = 0;
+        ((struct DWCstMatchControl *)func_02175F3C())->f5dc = 0;
         func_02175F4C(0x11);
-        func_02175F3C()->f654 = 0;
-        func_02175F3C()->f632 = 0;
+        ((struct DWCstMatchControl *)func_02175F3C())->f654 = 0;
+        ((struct DWCstMatchControl *)func_02175F3C())->f632 = 0;
         func_02172E18(clientPid);
         for (i = 1; i < func_0217603C(); i++) {
             pNodeInfo = func_0217637C(i);

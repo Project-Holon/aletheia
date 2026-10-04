@@ -21,7 +21,9 @@
  */
 
 extern void func_021BE184(void *a, void *b);
-extern void func_0218FEA0(void *a, void *b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_0218FEA0(u8 *p, u32 v);
 extern int func_021BE1A0(void *a);
 extern void func_021BDFB0(char *a);
 extern void func_021BE068(void *a);
@@ -31,7 +33,7 @@ extern void func_021BDEB4(void *a);
 void func_021BDCC8(char *a, int *b)
 {
     func_021BE184(a, b);
-    func_0218FEA0(*(void **)(a + 0x54), a + 8);
+    func_0218FEA0(*(void **)(a + 0x54), (u32)(a + 8));
     if (func_021BE1A0(a) != 0) {
         switch (b[1]) {
         case 0:

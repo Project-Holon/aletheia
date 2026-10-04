@@ -35,7 +35,7 @@ typedef struct WCMWork {
     unsigned char wmSysBuf[1];
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
 extern void func_02165A4C(unsigned char phase);
 extern long func_0208EAC8(void (*callback)(void *));
@@ -51,7 +51,7 @@ long func_02166880(void)
     WCMWork *wcmw;
     long wmResult;
 
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     wmResult = WM_Init(wcmw->wmSysBuf, wcmw->dmaNo);
     switch (wmResult) {
     case 3:

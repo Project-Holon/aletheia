@@ -33,8 +33,8 @@ extern u8 func_02045760(struct Descriptor *p);
 extern u8 func_02045748(struct Descriptor *p);
 extern u8 func_02045750(struct Descriptor *p);
 extern void  func_0201F628(void *ctx, u32 v10, u32 v14, u32 v18, u32 v0, int a3, int a2);
-extern void  func_020409B4(void *ctx);
-extern void  func_02041B6C(void *ctx);
+extern void func_020409B4(u32 index);
+extern void func_02041B6C(u32 bit);
 
 void func_0201F73C(void *a0, int a1, int a2, int a3)
 {
@@ -47,8 +47,8 @@ void func_0201F73C(void *a0, int a1, int a2, int a3)
     func_0201F628(ctx, v10, v14, v18, v0, a3, a2);
 
     if (a1 == 0) {
-        func_020409B4(ctx);
+        func_020409B4((u32)ctx);
     } else if (a1 == 1) {
-        func_02041B6C(ctx);
+        func_02041B6C((u32)ctx);
     }
 }

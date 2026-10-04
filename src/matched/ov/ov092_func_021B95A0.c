@@ -38,7 +38,8 @@ struct W {
 
 extern void func_0203064C(u32 src, u32 dst, u32 size);
 extern struct W *func_0203159C(int, int, int);
-extern u32 func_020457B0(int, int);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02031324(u32);
 
 int func_021B95A0(int a0)
@@ -47,7 +48,7 @@ int func_021B95A0(int a0)
 
     func_0203064C(1, 0x52, 0x1000);
     p = func_0203159C(a0, 0x4c, 0x52);
-    p->f04 = func_020457B0(0x20, 0x52);
+    p->f04 = (u32)func_020457B0(0x20, 0x52);
     p->f00 = 0;
     p->f08 = 0;
     p->f2c = 0;

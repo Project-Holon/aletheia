@@ -28,7 +28,8 @@ extern void func_02045088(u16 heapId);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int, int);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *);
 extern void func_021F6B7C(int, int);
 extern void func_021F6CE4(int, int);
@@ -45,7 +46,7 @@ void func_021F6A98(int a)
         *(int *)(a + i * 8 + 0x20) = func_020450F0(0, 0, 0, 0xf, 5, 9, 1);
     for (i = 0; i < 6; i++) {
         p = (int *)(a + i * 8);
-        func_02043B5C((int)func_02045770((struct Descriptor *)p[8]), 0);
+        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p[8])), 0);
         if (*(int *)(a + i * 4 + 0xf8) != 0) {
             func_021F6B7C(a, i);
             func_021F6CE4(a, i);

@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sub0204A9D0;
-extern void *func_02049E74(u32,u32,u32,struct Sub0204A9D0 **,u16);
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_0204A9D0(int,struct Sub0204A9D0 *);
 extern void func_020307B0(void *);
-void func_021B78A0(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=func_02049E74(a,c,d,&out,heap);func_0204A9D0(b,out);func_020307B0(raw);}
+void func_021B78A0(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=func_02049E74((void *)a,c,d,(u32)(&out),heap);func_0204A9D0(b,out);func_020307B0(raw);}

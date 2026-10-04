@@ -72,7 +72,8 @@ extern u8 d_02202BE0[];
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(void *a, u32 b, u32 heap);
-extern u32 func_0204B100(u32 a, u32 b, u32 heap);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u32 heap);
@@ -99,7 +100,7 @@ void func_021F49F8(Obj *p, u32 mode)
 
     arc = func_020490F4(0x60, 0x48);
     func_0204A48C(d_02202BE0, mode, 0x48);
-    p->res.f0 = func_0204B100(0x60, 0, 0x48);
+    p->res.f0 = (u32)func_0204B100(0x60, 0, 0x48);
     p->res.f4 = func_0204A6C8(arc, 0x11, 1, 0, 0x48);
     p->res.f8 = func_0204ABF0(arc, 8, 0, 0, 0x48);
     p->res.fC = func_0204AF28(arc, 0x12, 0x13, 0x48);

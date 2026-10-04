@@ -24,11 +24,21 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0201F7A8(void *,int),func_020456F8(void *),func_02041B6C(unsigned),func_020452E8(void *),func_0201F73C(void *,int,int,int),func_02043B5C(void *,int),func_02045374(void *),func_02028470(void *,int);
+typedef unsigned int   u32;
+struct CharBuf;
+extern void func_0201F7A8(void *,int);
+extern void func_020456F8(void *);
+extern void func_02041B6C(unsigned);
+extern void func_020452E8(void *);
+extern void func_0201F73C(void *,int,int,int);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045374(void *);
+extern void func_02028470(void *,int);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
-extern void *func_020450F0(unsigned,unsigned,unsigned,unsigned,u8,u8,u8),*func_02045770(struct Descriptor *);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void *func_02045770(struct Descriptor *);
 void func_021B68F8(u8 *p,int mode)
 {
  void *tmp;
@@ -37,8 +47,8 @@ void func_021B68F8(u8 *p,int mode)
  tmp=*(void **)(p+92);func_020456F8(tmp);func_02041B6C(func_02045730(tmp));
  func_020452E8(*(void **)(p+92));*(void **)(p+92)=0;
  }
- if(mode==0) *(void **)(p+92)=func_020450F0(0,1,1,30,4,12,1);
- else if(mode==1) *(void **)(p+92)=func_020450F0(0,1,19,30,4,12,1);
+ if(mode==0) *(void **)(p+92)=(void *)func_020450F0(0,1,1,30,4,12,1);
+ else if(mode==1) *(void **)(p+92)=(void *)func_020450F0(0,1,19,30,4,12,1);
  func_0201F73C(*(void **)(p+92),1,1,13);
  func_02043B5C(func_02045770(*(void **)(p+92)),15);
  func_02045334(*(void **)(p+92));func_02045374(*(void **)(p+92));

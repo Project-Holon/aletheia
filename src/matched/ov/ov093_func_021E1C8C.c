@@ -28,12 +28,12 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 struct UtilWork;
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021C804C(int a, int b, u32 *out);
 extern u32 func_021D8340(u32 *m);
-extern int func_0201C314(u32 m);
+extern u32 func_0201C314(void *p);
 extern int func_021D76BC(int key, u32 val);
 extern void func_021C8838(void *p, int a, int b);
 
@@ -47,14 +47,14 @@ void func_021E1C8C(int u, int a, int b)
 
     if (b == func_021D775C(3)) {
         k = func_021D775C(4);
-        q = func_021C7CF4(a, k);
+        q = func_021C7CF4((int *)a, k);
         ok = 0;
         if (func_021D5BB0(q, 3) == 0) {
-            if (func_021C804C(a, k, &buf) != 0 && (m = func_021D8340(&buf)) != 0 && func_0201C314(m) != 0)
+            if (func_021C804C(a, k, &buf) != 0 && (m = func_021D8340(&buf)) != 0 && func_0201C314((void *)m) != 0)
                 ok = 1;
         }
         if (ok == 0) {
-            if ((m = func_021D8340(&buf)) == 0 || func_0201C314(m) == 0) {
+            if ((m = func_021D8340(&buf)) == 0 || func_0201C314((void *)m) == 0) {
                 if (func_021D76BC(0x40, 1) != 0)
                     func_021C8838((void *)func_021D775C(0x3f), 1, 0x47);
             }

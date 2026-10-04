@@ -76,10 +76,10 @@ typedef struct Sub {
     Out f64;
 } Sub;
 
-extern void func_021B919C(Sub *p, Tbl *t);
+extern void func_021B919C(u8 *p, u32 a);
 extern u32 func_021B9278(Rec *o, u32 b, Tbl *t);
 extern u32 func_021B9280(Rec *o, u32 a, u32 b, Tbl *t);
-extern void func_021B8658(Sub *p, Rec *o, u32 c, u32 d, u32 e, u32 m, u32 n);
+extern void func_021B8658(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_021B91F8(Sub *p, V3 *out);
 
 void func_021B7EE4(Sub *p, const Out *q)
@@ -93,7 +93,7 @@ void func_021B7EE4(Sub *p, const Out *q)
     u32 v;
 
     o = 0;
-    func_021B919C(p, p->f24);
+    func_021B919C((u8 *)p, (u32)p->f24);
     if (q->t == 0) {
         p->f0 = 0;
         p->f4 = &p->f24->f10[q->a];
@@ -123,7 +123,7 @@ void func_021B7EE4(Sub *p, const Out *q)
         c = q->c;
     }
     m = func_021B9278(o, p->f1C, p->f24);
-    func_021B8658(p, o, c, d, e, m, func_021B9280(o, d, m, p->f24));
+    func_021B8658((u8 *)p, (u32)o, c, d, e, m, func_021B9280(o, d, m, p->f24));
     p->f33 = 1;
     p->f32 = c;
     p->f8 = 1;

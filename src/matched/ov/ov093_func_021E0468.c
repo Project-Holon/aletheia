@@ -32,7 +32,7 @@ extern void *func_021C7CF4(int *p, int i);
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(void *q, u8 i);
 extern u16 func_021D70A8(struct QQ *p);
-extern int func_0201C1C8(u32 c);
+extern u8 func_0201C1C8(void *p);
 extern int func_021D5814(void *q, int k);
 extern void *func_021C88A4(void *a, int k, int b);
 extern u32 func_021D78AC(u32 range);
@@ -57,7 +57,7 @@ void func_021E0468(void *a, void *b, int c)
         for (; i < n; i++) {
             v = func_021D54C0(q, i);
             if (v != func_021D70A8(a)) {
-                v = func_0201C1C8(v);
+                v = func_0201C1C8((void *)v);
                 if (func_021D5814(q, v) == 0) {
                     buf[cnt++] = v;
                 }

@@ -33,11 +33,11 @@ extern const Vec positions[];
 extern u16 func_02047E88(struct Util *,const struct Setup *);
 extern struct Record *func_021B95B0(u32,u32);
 extern u32 func_020489F4(u8 *,int);
-extern int *func_02048A18(u8 *,int);
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *);
 extern u32 func_020477A4(struct G3dSys *,u32);
 extern void *func_02011510(u32,u32,u32,u32);
-extern void *func_021BC52C(void *);
+extern unsigned func_021BC52C(unsigned char *p);
 extern void func_02011B8C(void *,void *);
 void func_021B99A0(char *p)
 {
@@ -58,10 +58,10 @@ void func_021B99A0(char *p)
         if(i+1>=2&&i+1<=4)r->translation=*(positions+i-1);
         n++;
     }
-    obj=func_02048A18(*(u8 **)(p+40),*(u16 *)(*(char **)(p+60)+*(u16 *)(p+50)*68));
+    obj=(int *)func_02048A18(*(u8 **)(p+40),*(u16 *)(*(char **)(p+60)+*(u16 *)(p+50)*68));
     count=func_0204779C(obj);
     for(j=0;j<count;j++)func_020477A4((struct G3dSys *)obj,j);
     *(void **)(p+64)=func_02011510(*(u16 *)p,205,36,10);
-    func_02011B8C(func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
+    func_02011B8C((void *)func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
     *(u32 *)(p+80)=0;
 }

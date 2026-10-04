@@ -27,7 +27,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern u16 func_02012914(const struct BigObj *p);
-extern void func_02159FA8(int a, void *b);
+extern void func_02159FA8(int a, int b);
 extern void func_02185694(void);
 void *func_0218571C(void *owner)
 {
@@ -38,6 +38,6 @@ void *func_0218571C(void *owner)
     w = func_020124E8(task);
     w->owner = owner;
     w->object = func_020120F4(owner);
-    func_02159FA8(func_02012914(w->object), w->payload);
+    func_02159FA8(func_02012914(w->object), (int)w->payload);
     return task;
 }

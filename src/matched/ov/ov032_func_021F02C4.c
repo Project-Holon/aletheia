@@ -30,13 +30,15 @@ typedef unsigned int   u32;
 extern int func_021F180C(u8 *p, int x, int flag);
 extern void func_021F05E8(u8 *p, int a, u32 b);
 extern void func_021F0DD8(unsigned int a);
-extern void func_021F1144(u8 *p, u8 *q, int r, int mode, int skip, int t);
+struct Queue;
+struct Rec;
+extern void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t);
 extern void func_021F0EA4(u8 *e, int a);
 extern void func_021F0AC0(u8 *p);
 extern void func_021F0B10(u8 *p, int a, void *b);
 extern void func_021F06E0(u8 *p, u32 x, int y);
-extern void func_02165AC4(int, int, void *, int);
-extern int func_021659F0(int, int);
+extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
+extern int func_021659F0(u8 *q, int delta);
 extern void func_021F13A0(u8 *p, int a, int b, u8 c, int s);
 
 int func_021F02C4(u8 *p)
@@ -57,7 +59,7 @@ int func_021F02C4(u8 *p)
                 func_021F0DD8(0x549);
             }
             if (*(u8 **)(p + 0x50) != 0) {
-                func_021F1144(p, *(u8 **)(p + 0x50), *(int *)(p + 0x4C), 0, r == 0, 0);
+                func_021F1144(p, *(u8 **)(p + 0x50), (void *)(*(int *)(p + 0x4C)), 0, r == 0, 0);
                 func_021F0EA4(*(u8 **)(p + 0x50), 1);
             }
             return 1;
@@ -74,8 +76,8 @@ int func_021F02C4(u8 *p)
     case 3:
         if (p[0x7C] != 0) {
             p[0x54] = p[0x7C];
-            func_02165AC4(*(int *)(p + 0x3C), *(int *)(p + 0x4C), p + 0x4A, p[0x54]);
-            p[0x55] = func_021659F0(*(int *)(p + 0x3C), p[0x54]);
+            func_02165AC4((struct Queue *)(*(int *)(p + 0x3C)), (struct Rec *)(*(int *)(p + 0x4C)), (u16 *)(p + 0x4A), p[0x54]);
+            p[0x55] = func_021659F0((u8 *)(*(int *)(p + 0x3C)), p[0x54]);
         }
         func_021F13A0(p, *(int *)(p + 0x4C), p[0x55], 1, (p[0x7C] != 0 ? 1 : 0) + 1);
         p[0x7C] = p[0x54];

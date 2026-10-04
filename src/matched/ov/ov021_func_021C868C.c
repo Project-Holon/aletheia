@@ -15,7 +15,8 @@
  */
 
 extern int func_021C87E0(char *p);
-extern int func_02158768(int a, int b, int c, int d);
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 
 int func_021C868C(int a, char *b)
 {
@@ -37,7 +38,7 @@ int func_021C868C(int a, char *b)
         flag = 0;
         break;
     case 2:
-        r4 = func_02158768(a, 1, 0, 0x8015);
+        r4 = (int)func_02158768(a, 1, 0, 0x8015);
         flag = 1;
         break;
     default:

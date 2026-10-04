@@ -30,14 +30,16 @@
 
 typedef struct { int x, y, z; } Vec;
 
-extern int func_02188C58(int);
+typedef unsigned char  u8;
+struct Evt;
+extern void *func_02188C58(void *p);
 extern int func_0218E138(int);
 extern void func_0218E13C(int, int);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D8C0(void *, Vec *);
-extern int func_021BE92C(int, int, int, int, int, int, int);
-extern void func_02012374(int, int);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C71D4(int, int, int);
 extern int func_021C7858(int, int, Vec *);
 extern int func_02188D38(int);
@@ -58,7 +60,7 @@ int func_021BFB90(int task, int *state, int *q)
     int d;
 
     obj = q[1];
-    h = func_02188C58(obj);
+    h = (int)func_02188C58((void *)obj);
 
     switch (*state) {
     case 0:
@@ -72,7 +74,7 @@ int func_021BFB90(int task, int *state, int *q)
             v.z = 0;
             func_0216D8C0(t, &v);
         }
-        func_02012374(task, func_021BE92C(q[0], obj, 0, 1, 1, 0, 0));
+        func_02012374((struct Evt *)task, (struct Evt **)func_021BE92C((void *)q[0], obj, 0, 1, 1, 0, 0));
         {
             Vec v2;
             v2.y = 0x96000;

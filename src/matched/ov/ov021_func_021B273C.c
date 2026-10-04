@@ -20,21 +20,23 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern int func_02011330(int a);
-extern int func_021F3A88(void *a, int b, int c);
-extern void func_0215897C(void *a, int b);
+typedef unsigned short u16;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern int func_021F3A88(int a0, int a1, int a2);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B273C(int a, int b)
 {
     void *x = func_0215A5F4((void *)b);
     void *y = func_0215A5DC((void *)b);
-    int p = func_02011330(a);
-    int q = func_02011330(a);
-    int r = func_021F3A88(y, p, q);
+    int p = func_02011330((struct Stream *)a);
+    int q = func_02011330((struct Stream *)a);
+    int r = func_021F3A88((int)y, p, q);
 
     if (r == 0) {
         return 1;
     }
-    func_0215897C(x, r);
+    func_0215897C(x, (void *)r);
     return 1;
 }

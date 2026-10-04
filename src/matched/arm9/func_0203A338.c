@@ -39,9 +39,11 @@
 typedef unsigned int u32;
 
 extern void func_02034714(const char *file, u32 line, const char *msg);
-extern u32  func_0203996C(u32 v);
-extern void func_02039658(u32 a, u32 b);
-extern void func_0203971C(u32 a, u32 b);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
+extern void func_02039658(struct Entry *e, u32 idx);
+extern void func_0203971C(unsigned char *a, u32 b);
 extern const char file_020A7A68[];
 extern const char file_020A7AB0[];
 
@@ -50,5 +52,5 @@ void func_0203A338(u32 a0)
     if (a0 == 0xFF)
         func_02034714(file_020A7A68, 0x3BE, file_020A7AB0);
     func_02039658(func_0203996C(a0), a0);
-    func_0203971C(func_0203996C(0xFF), a0);
+    func_0203971C((unsigned char *)func_0203996C(0xFF), a0);
 }

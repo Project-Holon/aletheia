@@ -21,7 +21,7 @@
 
 extern int func_02175F3C(void);
 extern char *func_021763AC(int profileID);
-extern int func_0216FF2C(int cmd, int profileID, int ip, int port, void *data, int len);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int result);
 extern unsigned long long func_020870D0(void);
 
@@ -41,7 +41,7 @@ int func_02173614(int profileID, unsigned char command)
     pNodeInfo = func_021763AC(profileID);
     if (!pNodeInfo)
         return 0;
-    result = func_0216FF2C(command, profileID, *(int *)(pNodeInfo + 4), *(unsigned short *)(pNodeInfo + 12), senddata, len);
+    result = func_0216FF2C(command, profileID, *(int *)(pNodeInfo + 4), *(unsigned short *)(pNodeInfo + 12), (const unsigned int *)senddata, len);
     if (func_021719A4(result))
         return 0;
     {

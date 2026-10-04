@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D67C();
+extern void *func_0216D67C(void *a0);
 extern int func_0216D948(int a0);
 extern int func_0216D76C();
 extern int func_0216D55C(int a0, int a1);
@@ -38,7 +38,7 @@ int func_0216CF2C(int a0, int a1)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216D67C(a0);
+    a0 = (int)func_0216D67C((void *)a0);
 loc_0216CF34:
     a0 = func_0216D948(a0);
 loc_0216CF38:

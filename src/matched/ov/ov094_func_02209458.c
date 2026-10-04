@@ -26,7 +26,8 @@ typedef struct {
     void *m70;
 } W;
 
-extern void func_0204B3B4(int h);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
@@ -38,7 +39,7 @@ void func_02209458(W *w)
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 6; j++) {
             if (w->r[i].f[j + 2] != 0) {
-                func_0204B3B4(w->r[i].f[j + 2]);
+                func_0204B3B4((struct Obj *)w->r[i].f[j + 2]);
                 w->r[i].f[j + 2] = 0;
             }
         }

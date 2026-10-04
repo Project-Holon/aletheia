@@ -16,24 +16,25 @@
  *   d_0218044C     0x0218044C  data
  */
 
-extern int func_02012EBC(int a);
-extern int func_02024988(int a);
-extern void func_020249A0(int a, int b);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_02024988(int a0);
+extern void func_020249A0(int *p, int bit);
 extern int d_0218044C[];
 
 void func_0217EFE0(int a, unsigned int n)
 {
     int r;
     unsigned short i;
-    r = func_02024988(func_02012EBC(a));
+    r = (int)func_02024988((int)func_02012EBC((struct Big *)a));
     i = n - 1;
     if (n >= 1 && n <= 8) {
         if (i < 8) {
-            func_020249A0(r, d_0218044C[i]);
+            func_020249A0((int *)r, d_0218044C[i]);
             return;
         }
-        func_020249A0(r, 7);
+        func_020249A0((int *)r, 7);
         return;
     }
-    func_020249A0(r, 7);
+    func_020249A0((int *)r, 7);
 }

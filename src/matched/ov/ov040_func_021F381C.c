@@ -35,12 +35,13 @@ extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern u16 *func_021897BC(void *a, int b);
-extern u32 func_02188C80(void *a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
+struct Big;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern u8 *func_0200B3A4(u32 a, u32 b);
-extern void func_021BE700(u32 a, int b, u16 c, u16 d, int e);
-extern u8 *func_021BE674(u32 a, int b, u16 c, u16 d);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
 extern int func_021BE6BC(u8 *p);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
@@ -58,18 +59,18 @@ int func_021F381C(void *a, int *st)
     s = func_0201210C(func_020124E4(a));
     t = func_02188D2C(s);
     p = func_021897BC(s, 1);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(s))), 3);
+    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 3);
     switch (*st) {
     case 0:
         x = *p;
         z = 0;
-        func_021BE700(t, 0, x, 0, 1);
-        func_021BE6B0(func_021BE674(t, 0, x, 0), 0);
+        func_021BE700((void *)t, 0, x, 0, 1);
+        func_021BE6B0(func_021BE674((char *)t, 0, x, 0), 0);
         func_021BE6CC(t, 0, x, 0, z);
         (*st)++;
         break;
     case 1:
-        e = func_021BE674(t, 0, (u8)*p, 0);
+        e = func_021BE674((char *)t, 0, (u8)*p, 0);
         if (func_021BE6BC(e) && func_021BE6BC(e)) {
             (q + *p)[4] = 1;
             return 1;

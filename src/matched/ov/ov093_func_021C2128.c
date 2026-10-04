@@ -26,7 +26,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 a:10,b:9,c:9,d:1,e:1,f:1,g:1; } Lock;
-extern int func_021D5B40(u8 *);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern u8 func_021D5440(u8 *p);
 extern int func_021C21F4(void *, u32);
 extern u32 func_021CC8D8(void *, int);
@@ -37,11 +38,11 @@ extern void func_021C6DD0(u8 *, u8 *);
 extern int func_021C88E4(u8 *);
 extern void func_021CC95C(void *, u32, int);
 extern void func_021CD568(void *, u32, u32, ...);
-extern u32 func_021D805C(u32, int);
+extern u32 func_021D805C(void *p, u32 n);
 extern void func_021C2250(u8 *p, u8 *a, u16 b, u32 c);
 int func_021C2128(u8 *p, u8 *a)
 {
-    int t = func_021D5B40(a);
+    int t = func_021D5B40((struct QI *)a);
     int result = 0;
     u32 s;
     u32 v;
@@ -57,7 +58,7 @@ int func_021C2128(u8 *p, u8 *a)
             func_021CC95C(p + 0x1d74, v, 0x1cf9);
             if (result) {
                 func_021CD568(*(void **)(p + 12), pos, 0x42, func_021D5440(a));
-                if (func_021D805C((u16)t, 0x10)) func_021C2250(p, a, 0, 1);
+                if (func_021D805C((void *)((u16)t), 0x10)) func_021C2250(p, a, 0, 1);
             }
         }
         func_021CC95C(p + 0x1d74, s, 0x1d06);

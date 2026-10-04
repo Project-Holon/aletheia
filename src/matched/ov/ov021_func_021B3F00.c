@@ -22,8 +22,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0204B100(u32, u32, u16);
-extern void func_0204B22C(u32, u32);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_021B3C78(u8 *);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021B3CFC(u8 *);
@@ -31,8 +32,8 @@ extern void func_021B3DEC(u8 *);
 
 void func_021B3F00(u8 *w)
 {
-    *(u32 *)(w + 0x1BC) = func_0204B100(5, 1, *(u16 *)(w + 4));
-    func_0204B22C(*(u32 *)(w + 0x1BC), 1);
+    *(u32 *)(w + 0x1BC) = (u32)func_0204B100(5, 1, *(u16 *)(w + 4));
+    func_0204B22C((struct Bank *)(*(u32 *)(w + 0x1BC)), 1);
     func_021B3C78(w);
     *(void **)(w + 0x1F8) = func_020490F4(0x19, *(u16 *)(w + 4));
     func_021B3CFC(w);

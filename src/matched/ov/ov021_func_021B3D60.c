@@ -23,11 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_02020E60(u32 a, u32 b);
-extern u32 func_02049F78(u32 a, u32 b, u32 *c, u32 d);
-extern u32 func_02049E74(u32 a, u32 b, u32 c, u32 *d, u32 e);
+struct Sub0204A9D0;
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_0204ADEC(u32 a, u32 b, u32 c);
-extern void func_0204A9D0(u32 a, u32 b);
-extern void func_020307B0(u32 a);
+extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
+extern void func_020307B0(void *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
@@ -39,12 +40,12 @@ void func_021B3D60(char *w, u32 b)
     u32 q;
 
     if (b <= 0x272) {
-        p = func_02049F78(*(u32 *)(w + 0x1F8), func_02020E60(b, 2), &x, *(u16 *)(w + 4));
-        q = func_02049E74(*(u32 *)(w + 0x1F8), func_02020E60(b, 1), 0, &y, *(u16 *)(w + 4));
+        p = (u32)func_02049F78((void *)(*(u32 *)(w + 0x1F8)), func_02020E60(b, 2), (u32)(&x), *(u16 *)(w + 4));
+        q = (u32)func_02049E74((void *)(*(u32 *)(w + 0x1F8)), func_02020E60(b, 1), 0, (u32)(&y), *(u16 *)(w + 4));
         func_0204ADEC(*(u32 *)(w + 0x1EC), x, 1);
-        func_0204A9D0(*(u32 *)(w + 0x1F0), y);
-        func_020307B0(p);
-        func_020307B0(q);
+        func_0204A9D0(*(u32 *)(w + 0x1F0), (struct Sub0204A9D0 *)y);
+        func_020307B0((void *)p);
+        func_020307B0((void *)q);
         func_0204B3DC((struct Obj *)*(u32 *)(w + 0x1D0), 1);
     } else {
         func_0204B3DC((struct Obj *)*(u32 *)(w + 0x1D0), 0);

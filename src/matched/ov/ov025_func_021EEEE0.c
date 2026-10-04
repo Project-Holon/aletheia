@@ -26,10 +26,12 @@
 
 typedef signed char s8;
 
-extern void func_021A244C(int, int *, int *);
+typedef signed int     s32;
+typedef unsigned char  u8;
+extern void func_021A244C(u8 *o, s32 *outX, s32 *outY);
 extern void func_021A2564(int, int, int);
-extern void func_021A2190(int, int, int);
-extern void func_021A21A0(int, int, int);
+extern void func_021A2190(unsigned char *o, unsigned int v, int i);
+extern void func_021A21A0(unsigned char *o, unsigned int v, int i);
 extern const s8 d_021EF765[];
 extern const s8 d_021EF75C[];
 
@@ -40,7 +42,7 @@ void func_021EEEE0(int a, int *s)
     int i;
     int t;
 
-    func_021A244C(a, &w, &h);
+    func_021A244C((u8 *)a, &w, &h);
     func_021A2564(a, w, h);
     t = s[8];
     i = t / 28;
@@ -56,6 +58,6 @@ void func_021EEEE0(int a, int *s)
     }
     s[2] = s[2] % 256;
     s[9] = s[9] % 256;
-    func_021A2190(a, -s[2], 0);
-    func_021A21A0(a, -s[9], 0);
+    func_021A2190((unsigned char *)a, -s[2], 0);
+    func_021A21A0((unsigned char *)a, -s[9], 0);
 }

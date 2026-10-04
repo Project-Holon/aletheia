@@ -41,8 +41,9 @@ void *func_02188030(int a, int b);
 void func_02012110(struct Ctx *p, void *v);
 unsigned int func_0201214C(const struct Ctx *x);
 unsigned int func_02012138(const struct Ctx *x);
-int func_02026454(int x);
-void func_02026400(int x);
+struct Comm;
+u32 func_02026454(void *obj);
+void func_02026400(struct Comm *p);
 
 int func_02187F00(int a, int *state, int b)
 {
@@ -69,10 +70,10 @@ int func_02187F00(int a, int *state, int b)
     case 1:
         if (func_0201214C((const struct Ctx *)b) == 0) {
             int t = func_02012138((const struct Ctx *)b);
-            switch (func_02026454(t)) {
+            switch (func_02026454((void *)t)) {
             case 1:
             case 2:
-                func_02026400(t);
+                func_02026400((struct Comm *)t);
                 break;
             }
         }

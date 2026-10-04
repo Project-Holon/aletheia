@@ -44,8 +44,10 @@ extern const char func_0204932C_File[];
 extern const char func_0204932C_Msg[];
 
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
-extern void func_02078B44(struct ArcFile *arc, u32 pos, u32 origin);
-extern void func_02078B70(struct ArcFile *arc, void *dst, u32 size);
+typedef signed int     s32;
+struct FSFile;
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
 void func_0204932C(struct ArcFile *arc, u32 member, void *dst)
 {
@@ -56,8 +58,8 @@ void func_0204932C(struct ArcFile *arc, u32 member, void *dst)
                       arc->count, member);
     }
 
-    func_02078B44(arc, arc->fatOffset + 0xc + member * 8, 0);
-    func_02078B70(arc, range, 8);
-    func_02078B44(arc, arc->imageBase + 8 + range[0], 0);
-    func_02078B70(arc, dst, range[1] - range[0]);
+    func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + member * 8, 0);
+    func_02078B70((struct FSFile *)arc, range, 8);
+    func_02078B44((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
+    func_02078B70((struct FSFile *)arc, dst, range[1] - range[0]);
 }

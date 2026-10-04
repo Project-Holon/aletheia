@@ -22,8 +22,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D518(u32);
-extern u32 func_02046E24(u32, u32);
+extern u32 func_0216D518(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
 
 int func_0219CE60(u8 *o, u32 a, u32 b, u32 c, u16 e, u32 w)
 {
@@ -37,7 +37,7 @@ int func_0219CE60(u8 *o, u32 a, u32 b, u32 c, u16 e, u32 w)
             *(u8 *)(p + 0xa) = b;
             *(u8 *)(p + 0xb) = c;
             *(u32 *)(p + 4) = w;
-            *(u32 *)(p + 0x10) = func_02046E24(func_0216D518(*(u32 *)(o + 0x10)), e);
+            *(u32 *)(p + 0x10) = (u32)func_02046E24(func_0216D518((u8 *)(*(u32 *)(o + 0x10))), e);
             *(u8 *)p = 1;
             return 1;
         }

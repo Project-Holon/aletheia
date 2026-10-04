@@ -19,9 +19,11 @@
  *   func_020478B8  0x020478B8  arm
  */
 
-extern int func_02048A18(int a, int b);
-extern int func_02047910(int a, int b, int c);
-extern int func_020478B8(int a, int b, int c);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
+extern int func_02047910(void *a, int idx, int amount);
+extern int func_020478B8(void *a, int idx, int amount);
 
 void func_02208B6C(char *p)
 {
@@ -31,23 +33,23 @@ void func_02208B6C(char *p)
 
     for (i = 0; i < *(unsigned short *)(p + 0x1c); i++) {
         unsigned short v = *(unsigned short *)(*(int *)(p + 0x20) + i * 0x44);
-        int x = func_02048A18(*(int *)(p + 0x14), v);
+        int x = func_02048A18((u8 *)(*(int *)(p + 0x14)), v);
 
-        func_02047910(x, j, 0x1000);
+        func_02047910((void *)x, j, 0x1000);
     }
     *(int *)(p + 0x24) = *(int *)(p + 0x24) + 1;
-    v2 = func_02048A18(*(int *)(p + 0x14),
+    v2 = func_02048A18((u8 *)(*(int *)(p + 0x14)),
                        *(unsigned short *)(*(int *)(p + 0x20) +
                                            *(unsigned short *)(p + 0x1a) * 0x44));
     if (*(int *)(p + 0x28) == 1) {
-        int a = func_020478B8(v2, 1, 0x5000);
-        int b = func_020478B8(v2, 2, 0x5000);
+        int a = func_020478B8((void *)v2, 1, 0x5000);
+        int b = func_020478B8((void *)v2, 2, 0x5000);
 
         if (a == 0 && b == 0)
             *(int *)(p + 0x28) = 2;
     } else if (*(int *)(p + 0x28) == 3) {
-        int a = func_020478B8(v2, 1, -0x2000);
-        int b = func_020478B8(v2, 2, -0x2000);
+        int a = func_020478B8((void *)v2, 1, -0x2000);
+        int b = func_020478B8((void *)v2, 2, -0x2000);
 
         if (a == 0 && b == 0)
             *(int *)(p + 0x28) = 0;

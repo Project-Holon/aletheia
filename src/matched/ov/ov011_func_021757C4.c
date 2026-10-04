@@ -52,8 +52,9 @@ typedef struct {
 extern u32 func_0203D378(void);
 extern int func_02175B14(Work *w);
 extern int func_02175894(Work *w);
-extern int func_02026478(u32 a);
-extern int func_02012B58(int a);
+struct BigObj;
+extern u32 func_02026478(void *obj);
+extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02175D34(Ctx *c, Work *w, int a);
 extern void func_02176158(Ctx *c, Work *w);
 extern void func_02176194(Ctx *c, Work *w);
@@ -71,9 +72,9 @@ void func_021757C4(Ctx *c, Work *w)
                     w->b19C = 1;
                 }
             } else if (w->f1 == 1 && func_02175894(w) > w->hAA) {
-                x = func_02026478(c->w4);
+                x = func_02026478((void *)c->w4);
                 if (w->bE3 == 0) {
-                    func_02175D34(c, w, func_02012B58(x));
+                    func_02175D34(c, w, func_02012B58((const struct BigObj *)x));
                 }
             }
         } else if (w->f1 == 1 && func_02175894(w) > w->hAA) {

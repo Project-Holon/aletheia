@@ -39,9 +39,10 @@ typedef struct Obj {
 } Obj;
 
 extern void func_021AC154(int a);
-extern int func_02050080(int a);
+typedef unsigned int   u32;
+extern u32 func_02050080(u32 *p);
 extern int func_020508C4(int a, int b);
-extern void func_0204F6B4(int a, u16 b, u8 *c);
+extern void func_0204F6B4(u8 *a0, int i, u8 *px);
 
 void func_021BBF10(int a0, Obj *p)
 {
@@ -64,9 +65,9 @@ void func_021BBF10(int a0, Obj *p)
         }
         c = p->h0e;
         r4 = p->head->h4;
-        r6 = func_02050080(r4);
+        r6 = func_02050080((u32 *)r4);
         t = func_020508C4(r4, p->h8);
-        func_0204F6B4(r6, t, &c);
+        func_0204F6B4((u8 *)r6, t, &c);
         break;
     }
 }

@@ -20,9 +20,9 @@
  *   func_021FC644  0x021FC644  thumb  ov132
  */
 
-extern void func_021FC644(int, int, int, int);
+extern void func_021FC644(int a, void *b, void *c, int d);
 
 void func_0215DE38(int a, int b, int c, int d)
 {
-    func_021FC644(4, b, c, d);
+    func_021FC644(4, (void *)b, (void *)c, d);
 }

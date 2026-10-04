@@ -38,15 +38,15 @@ typedef struct {
 extern void func_021D4820(u8 *p);
 extern void func_02015C30(u32, Vec *);
 extern void func_02015C48(u32, Vec *);
-extern void func_02015EB0(u32);
-extern void func_02015EA0(u32);
-extern void func_02015E4C(u32);
+extern void func_02015EB0(void *p);
+extern void func_02015EA0(void *p);
+extern void func_02015E4C(void *p);
 extern int func_021E12AC(void *p);
 extern void func_021E1098(void *p);
 extern void func_021E36D8(void *p, int a);
-extern void func_020307B0(u32);
+extern void func_020307B0(void *p);
 extern void func_021D8E84(void *p, int next);
-extern void func_021DFC68(u32, void *);
+extern void func_021DFC68(void *p, int a1);
 extern void func_021D4B14(u8 *p);
 
 #define FRAME (*(s32 *)(p + 0xF2C))
@@ -63,9 +63,9 @@ void func_021D48F0(u8 *p)
     if (*(u8 *)(p + 0x11ED) == 0 && FRAME == 6) {
         func_02015C30(OBJ(0), &v);
         func_02015C48(OBJ(2), &v);
-        func_02015EB0(OBJ(2));
-        func_02015EA0(OBJ(0));
-        func_02015E4C(OBJ(2));
+        func_02015EB0((void *)OBJ(2));
+        func_02015EA0((void *)OBJ(0));
+        func_02015E4C((void *)OBJ(2));
         *(u32 *)SLOT0 = OBJ(2);
     }
     if (FRAME > 0xC8 && func_021E12AC(p) != 0) {
@@ -76,10 +76,10 @@ void func_021D48F0(u8 *p)
             OBJ(2) = 0;
         }
         if (SLOT0 != 0) {
-            func_020307B0(SLOT0);
+            func_020307B0((void *)SLOT0);
             SLOT0 = 0;
         }
         func_021D8E84(p, (int)func_021D4B14);
     }
-    func_021DFC68(SLOT0, p);
+    func_021DFC68((void *)SLOT0, (int)p);
 }

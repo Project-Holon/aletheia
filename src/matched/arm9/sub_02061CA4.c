@@ -57,8 +57,8 @@ struct Queue {
 extern struct Queue g_02146B80;
 
 extern s32 func_02061860(struct Queue *q);
-extern struct Req *func_02061BC0(struct Queue *q);
-extern void func_02061B74(struct Queue *q);
+extern u32 func_02061BC0(u8 *p);
+extern int func_02061B74(char *p);
 
 s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size)
 {
@@ -68,12 +68,12 @@ s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size)
         return 0;
     }
 
-    req = func_02061BC0(&g_02146B80);
+    req = (struct Req *)func_02061BC0((u8 *)(&g_02146B80));
     req->unk_00 = p;
     req->unk_04 = b;
     req->unk_08 = a;
     req->size = size;
-    func_02061B74(&g_02146B80);
+    func_02061B74((char *)(&g_02146B80));
     g_02146B80.total += req->size;
     return 1;
 }

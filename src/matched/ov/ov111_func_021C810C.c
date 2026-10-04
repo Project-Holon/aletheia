@@ -107,7 +107,7 @@ extern void *func_02012F08(int *p);
 extern u32 func_0200C234(struct Blk34 *p, u32 bit);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021C80E8(Work *p, int row, int v);
-extern int func_02012BF8(void *p, int id);
+extern int func_02012BF8(int a0, int a1);
 extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021C810C(Work *p, int a, int b)
@@ -127,5 +127,5 @@ void func_021C810C(Work *p, int a, int b)
             p->f17C[i] = 0;
         }
     }
-    func_0204B878(p->f58, func_02012BF8(p->f108->f4, 0x17) + 6);
+    func_0204B878(p->f58, func_02012BF8((int)p->f108->f4, 0x17) + 6);
 }

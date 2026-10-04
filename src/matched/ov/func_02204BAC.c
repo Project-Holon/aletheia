@@ -21,13 +21,13 @@
 
 extern void *func_021F8678(void);
 extern void func_021F8884(int a);
-extern void func_0220687C(char *p, int v);
+extern void func_0220687C(char *p, void *q);
 
 void func_02204BAC(int a, int *b)
 {
     if (func_021F8678() != 0) {
         func_021F8884(b[1]);
-        func_0220687C((char *)b[0], a);
+        func_0220687C((char *)b[0], (void *)a);
     }
 }
 

@@ -13,6 +13,6 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021F62EC(int);
-extern void func_021F62DC(int);
-void func_021F5374(int *p,int b) { if(b==1)func_021F62EC(p[2]); else func_021F62DC(p[2]); }
+extern void func_021F62EC(char *p);
+extern void func_021F62DC(char *p);
+void func_021F5374(int *p,int b) { if(b==1)func_021F62EC((char *)p[2]); else func_021F62DC((char *)p[2]); }

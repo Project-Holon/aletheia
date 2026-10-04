@@ -18,7 +18,7 @@ extern char d_021E81C0[];
 typedef unsigned int   u32;
 extern void func_02050B80(u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02050C04(void *,int,int,u16);
+extern int func_02050C04(int a, int b, int c, int d);
 void func_021E2F34(char *p) {
     int i,flag;
     func_02050B80(*(u16 *)(p+0xba));
@@ -29,6 +29,6 @@ void func_021E2F34(char *p) {
         case 0: case 1: case 2: case 5: case 6: case 8: flag=0; break;
         case 3: case 4: case 7: default: flag=1; break;
         }
-        ((void **)p)[i]=func_02050C04(((void **)p)[9+i],0x4800,flag,*(u16 *)(p+0xba));
+        ((void **)p)[i]=(void *)func_02050C04((int)(((void **)p)[9+i]),0x4800,flag,*(u16 *)(p+0xba));
     }
 }

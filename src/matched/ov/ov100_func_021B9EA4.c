@@ -24,8 +24,9 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA1D0(int);
 extern void func_0201DD68(void);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021B9E48(void);
+typedef unsigned char  u8;
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021B9E48(int a);
 void func_021B9EA4(int a) {
  struct Word x=d_021BB65C;
  int v=*(int *)(a+0xcb0);
@@ -34,5 +35,5 @@ void func_021B9EA4(int a) {
  *(int *)(a+0xcb0)=v;
  func_021BA1D0(a);
  func_0201DD68();
- func_021B95B8(a,func_021B9E48);
+ func_021B95B8((u8 *)a,(u32)func_021B9E48);
 }

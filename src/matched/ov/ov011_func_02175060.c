@@ -47,11 +47,12 @@ extern u16 func_02039338(void);
 extern u32 func_02013D5C(u32 id);
 extern u32 func_02013D9C(u32 id);
 extern u32 func_02013E90(u32 a, u32 b);
-extern int func_021677E4(int, int);
-extern int func_02026478(int);
-extern int func_021583EC(int, int);
-extern int func_02175598(Entry *, int);
-extern int func_02167810(int, int);
+struct Work;
+extern int func_021677E4(void *p, int i);
+extern u32 func_02026478(void *obj);
+extern int func_021583EC(void *a0, int a1);
+extern u16 func_02175598(u8 *o, u32 id);
+extern u16 func_02167810(struct Work *w, int i);
 extern void func_02167658(int, int);
 extern void func_021675D0(int, int, int, Entry *);
 
@@ -91,9 +92,9 @@ void func_02175060(u8 *p, int idx)
         Entry *me = (Entry *)(p + 0x70);
         e->f0 = func_02175060_check(e, me);
     }
-    if (func_021677E4(*(int *)(p + 8), idx) == 1) {
-        r = func_02175598(e, func_021583EC(func_02026478(*(int *)(p + 4)), idx));
-        if (r != func_02167810(*(int *)(p + 8), idx)) {
+    if (func_021677E4((void *)(*(int *)(p + 8)), idx) == 1) {
+        r = func_02175598((u8 *)e, func_021583EC((void *)func_02026478((void *)(*(int *)(p + 4))), idx));
+        if (r != func_02167810((struct Work *)(*(int *)(p + 8)), idx)) {
             func_02167658(*(int *)(p + 8), idx);
             if (e->f18 != 0) {
                 func_021675D0(*(int *)(p + 8), idx, r, e);

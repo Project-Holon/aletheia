@@ -48,17 +48,17 @@ typedef struct {
 extern u8 d_021D84AC[];
 
 extern E *func_0216D69C(u32);
-extern void func_0216DA50(u32);
-extern void func_0216DA7C(u32);
+extern void func_0216DA50(u8 *p);
+extern void func_0216DA7C(u8 *p);
 extern u32 func_0216D5F8(u32);
 extern u32 func_02197E7C(u16, u32);
 extern void func_0216D438(u32, u16);
-extern int func_02197EDC(u32);
+extern u32 func_02197EDC(u8 *p);
 extern int func_0219EA10();
 extern u32 func_0219EA24(u32, u32);
 extern void func_0216D60C(u32, u16);
 extern int func_0219E418(u32, u16);
-extern void func_0219E2F4(u32, u16 *);
+extern void func_0219E2F4(void *o, void *out);
 extern void func_0219E664(u32, u16, u16 *);
 extern int func_0219E9A8(u32, u32, s32, u16 *);
 extern void func_0216DA44(u32);
@@ -74,13 +74,13 @@ int func_0219EBF4(u32 o)
     e = func_0216D69C(o);
     switch (e->state) {
     case 0:
-        func_0216DA50(o);
-        func_0216DA7C(o);
+        func_0216DA50((u8 *)o);
+        func_0216DA7C((u8 *)o);
         func_0216D438(o, func_02197E7C(func_0216D5F8(o), 0));
         e->state++;
         break;
     case 1:
-        if (!func_02197EDC(o)) {
+        if (!func_02197EDC((u8 *)o)) {
             break;
         }
         e->cnt = func_0219EA10(d_021D84AC, -1);
@@ -98,7 +98,7 @@ int func_0219EBF4(u32 o)
             e->state = 0;
             break;
         }
-        func_0219E2F4(o, a);
+        func_0219E2F4((void *)o, a);
         func_0219E664(o, k, b);
         if (a[0] != b[0]) {
             e->state = 0;
@@ -112,8 +112,8 @@ int func_0219EBF4(u32 o)
         func_0216DA44(o);
         e->state++;
     case 4:
-        if (func_02197EDC(o)) {
-            func_0216DA50(o);
+        if (func_02197EDC((u8 *)o)) {
+            func_0216DA50((u8 *)o);
             e->state = 0;
         }
         break;

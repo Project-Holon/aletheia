@@ -25,9 +25,11 @@ typedef unsigned int u32;
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void func_021F7D44(int a, u16 b);
 extern int func_021F7EB4(void);
-extern void func_021EAF18(u8 *a, int b, int c);
-extern void func_021EA614(u32 a, u8 *b);
-extern int func_021EA710(u32 a);
+struct H;
+struct L;
+extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EA614(char *p, struct H *h);
+extern int func_021EA710(u32 *p);
 
 int func_021D3138(u32 *a, int *b, u32 *c)
 {
@@ -38,13 +40,13 @@ int func_021D3138(u32 *a, int *b, u32 *c)
         break;
     case 1:
         if (func_021F7EB4() == 0) {
-            func_021EAF18((u8 *)a + 0x58, 1, 0x43);
-            func_021EA614(a[0x15], (u8 *)a + 0x58);
+            func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x43);
+            func_021EA614((char *)a[0x15], (struct H *)((u8 *)a + 0x58));
             (*b)++;
         }
         break;
     case 2:
-        if (func_021EA710(a[0x15]) != 0) {
+        if (func_021EA710((u32 *)a[0x15]) != 0) {
             return 1;
         }
         break;

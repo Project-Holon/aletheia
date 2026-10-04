@@ -37,7 +37,8 @@ typedef struct Top {
 } Top;
 
 void func_021F98F8(char *p, int a, int b, int c);
-int func_02012EBC(int x);
+struct Big;
+void *func_02012EBC(struct Big *p);
 void func_0200B570(int a, int b, int *buf, int c);
 
 void func_021F9868(Top *p, Top *q)
@@ -47,5 +48,5 @@ void func_021F9868(Top *p, Top *q)
     if (p->f28 == 0)
         return;
     func_021F98F8((char *)q->f18->f8 + 0x1748, 0, q->f18->p0c->f4, 0x5a);
-    func_0200B570(func_02012EBC(q->f18->p0c->f4), 0x805a, buf, p->f2c);
+    func_0200B570((int)func_02012EBC((struct Big *)q->f18->p0c->f4), 0x805a, buf, p->f2c);
 }

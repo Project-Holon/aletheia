@@ -21,25 +21,26 @@
 
 typedef unsigned int u32;
 
-extern void func_0207D534(u32, int);
+typedef unsigned short u16;
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_020435F4(u32 planes);
-extern u32 func_0207E24C(void);
+extern void *func_0207E24C(void);
 extern void func_02082A48(int, u32, u32);
-extern u32 func_0207DFB4(void);
+extern void *func_0207DFB4(void);
 extern void func_020809A0(void);
 extern void func_020808F4(void);
 
 void func_021B641C(void)
 {
-    func_0207D534(0x0400006C, -16);
-    func_0207D534(0x0400106C, -16);
+    func_0207D534((volatile u16 *)0x0400006C, -16);
+    func_0207D534((volatile u16 *)0x0400106C, -16);
     func_020435F4(0);
-    func_02082A48(0, func_0207E24C(), 0x4000);
-    func_02082A48(0, func_0207DFB4(), 0x800);
+    func_02082A48(0, (u32)func_0207E24C(), 0x4000);
+    func_02082A48(0, (u32)func_0207DFB4(), 0x800);
     func_02082A48(0x7FFF, 0x05000000, 0x20);
     *(volatile u32 *)0x04000000 &= 0xFFFFE0FF;
     func_020809A0();
     func_020808F4();
-    func_0207D534(0x0400006C, 0);
-    func_0207D534(0x0400106C, 0);
+    func_0207D534((volatile u16 *)0x0400006C, 0);
+    func_0207D534((volatile u16 *)0x0400106C, 0);
 }

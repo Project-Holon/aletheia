@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 
 extern int  func_021E1DD0(int mode, int *out);
-extern void func_021E17D8(int id, int a, int b);
+extern void func_021E17D8(int line, char *fmt, ...);
 extern int  func_021E1EAC(int a, int b);
 extern void func_02059F54(int a, int b);
 extern u32  g_021E47B0[];
@@ -30,7 +30,7 @@ int func_021E1F18(int a, int mode)
     int h = func_021E1DD0(mode, &local);
 
     if (h != 0) {
-        func_021E17D8(0x6ec, (int)g_021E47B0, h);
+        func_021E17D8(0x6ec, (char *)((int)g_021E47B0), h);
         func_02059F54(local, func_021E1EAC(a, h));
     }
     return h;

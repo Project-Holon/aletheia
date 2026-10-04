@@ -33,7 +33,7 @@ extern int func_021BA064(char *p, int i);
 extern int func_021BA080(void *battle);
 extern u8 func_0202A3CC(u32 cls);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
-extern void func_0201F02C(void *win, u32 slot, int v);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
 extern void *d_021F6398;
 
@@ -53,9 +53,9 @@ void func_021EED90(void *win, u32 slot, int k)
                 func_0201EE0C(win, slot, (void *)v, func_0202A3CC(t), 1, 2);
             }
         } else {
-            func_0201F02C(win, slot, func_021BA064(d_021F6398, k));
+            func_0201F02C(win, slot, (void *)func_021BA064(d_021F6398, k));
         }
     } else {
-        func_0201F02C(win, slot, func_021BA080(d_021F6398));
+        func_0201F02C(win, slot, (void *)func_021BA080(d_021F6398));
     }
 }

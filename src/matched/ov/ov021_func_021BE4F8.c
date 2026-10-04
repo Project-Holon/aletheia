@@ -25,7 +25,8 @@ typedef unsigned int   u32;
 extern u32 func_020489F4(u8 *a0, int i);
 extern u32 func_02048A00(u8 *a0, int i);
 extern void *func_02048A18(void *res, u16 id);
-extern void func_02047AC8(void *a, void *b);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 extern void func_02047A60(void *a, void *b);
 
 void func_021BE4F8(char *p)
@@ -47,7 +48,7 @@ void func_021BE4F8(char *p)
                     void *r = func_02048A18(*(void **)(p + 4), base + j);
                     ent = *(char **)(e + 0xc) + j * 0x44;
                     if (*(int *)ent != 0) {
-                        func_02047AC8(r, ent + 8);
+                        func_02047AC8(r, (struct Arg *)(ent + 8));
                     } else {
                         func_02047A60(r, ent + 8);
                     }

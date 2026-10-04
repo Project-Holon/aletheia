@@ -46,13 +46,13 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern u8 *func_021897BC(void *p, int idx);
 extern void *func_02188CB4(u8 *p);
-extern void func_021BE4B4(int p, int i, int j, int v);
-extern void func_021BE700(int p, int i, int j, int k, int flag);
+extern void func_021BE4B4(char *p, int i, int j, int v);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6CC(int p, int i, int j, int k, int flag);
 extern void func_020061E4(u32 se);
 extern void func_02006210(void);
 extern int func_02197DA0(u32 a);
-extern int func_02197DAC();
+extern void func_02197DAC(void *a);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3044(void *q, V3 *v);
@@ -84,7 +84,7 @@ int func_021F3DFC(int a0, int *a1)
     case 1:
         if (*(int *)(s + 0x14) != 0) {
             if (func_02197DA0(*(int *)(s + 0x14)) == 1) {
-                func_02197DAC(*(int *)(s + 0x14));
+                func_02197DAC((void *)(*(int *)(s + 0x14)));
                 *(int *)(s + 0x14) = 0;
                 s[5] = 0;
                 *a1 = *a1 + 1;
@@ -122,9 +122,9 @@ int func_021F3DFC(int a0, int *a1)
         func_021BE6CC(h, 0, 0x22, k, d);
         func_021A3044(q, &v);
         if (done) {
-            func_021BE700(h, 0, 0x22, k, 0);
-            func_021BE4B4(h, 0, 0x22, 1);
-            func_021BE4B4(h, 0, c, 0);
+            func_021BE700((void *)h, 0, 0x22, k, 0);
+            func_021BE4B4((char *)h, 0, 0x22, 1);
+            func_021BE4B4((char *)h, 0, c, 0);
             return 1;
         }
         break;

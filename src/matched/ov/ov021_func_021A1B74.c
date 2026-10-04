@@ -25,10 +25,11 @@ typedef unsigned int   u32;
 
 extern const u32 d_021D886C[];
 extern const u32 d_021D8868[];
-extern void func_021A20C8(u32 v);
+struct O;
+extern void func_021A20C8(struct O *p);
 extern void func_021A1C04(u8 *p);
 extern void func_021A1BF8(void *p, u32 v);
-extern void func_021A1FEC(u32 obj, u32 v, int b, int c, int d, int e, int f);
+extern void func_021A1FEC(struct O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
 
 void func_021A1B74(u8 *p, int a, int f)
 {
@@ -39,13 +40,13 @@ void func_021A1B74(u8 *p, int a, int f)
         return;
     }
     for (i = 0; i < 2; i++) {
-        func_021A20C8(*(u32 *)(p + 0x20 + i * 4));
+        func_021A20C8((struct O *)(*(u32 *)(p + 0x20 + i * 4)));
     }
     func_021A1C04(p);
     *(u16 *)(p + 0xa) = 0;
     func_021A1BF8(p, d_021D886C[a * 2]);
     t = d_021D8868[a * 2];
-    func_021A1FEC(*(u32 *)(p + 0x20), t, 0, 0, 1, 1, f);
+    func_021A1FEC((struct O *)(*(u32 *)(p + 0x20)), t, 0, 0, 1, 1, f);
     *(u16 *)(p + 0xc) = a;
     *(u16 *)(p + 0xe) = 0xFFFF;
 }

@@ -23,12 +23,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_02188C6C(void *p);
+extern u32 func_02188C6C(u8 *p);
 extern u16 func_021A1BF4(u8 *p);
 
 u8 func_021AA69C(void *p)
 {
-    switch (func_021A1BF4(func_02188C6C(p))) {
+    switch (func_021A1BF4((u8 *)func_02188C6C(p))) {
     case 2:
     case 6:
     case 7:

@@ -29,7 +29,8 @@ extern void func_02045808(void *),func_0201F73C(void *,int,int,int);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *),func_02045374(void *),func_02041B6C(unsigned);
 extern u8 func_02045730(struct Descriptor *p);
-extern void *func_02184968(const u8 *,int);
+typedef unsigned int   u32;
+extern u32 func_02184968(const u8 *p, int flag);
 extern void func_02184D30(void *,void *,void *,void *,u8,u8);
 extern int func_02185C84(unsigned,unsigned,void *,void *,unsigned);
 void func_02185254(char *p,unsigned key,unsigned member)
@@ -37,7 +38,7 @@ void func_02185254(char *p,unsigned key,unsigned member)
     void *first,*second,*object;
     first=func_020457B0(64,*(unsigned *)p);
     second=func_020457B0(64,*(unsigned *)p);
-    *(void **)(p+0xC040)=func_02184968(d_02185DCB,1);
+    *(void **)(p+0xC040)=(void *)func_02184968(d_02185DCB,1);
     func_02185C84(key,member,first,second,*(unsigned *)p);
     if(member!=0) func_02184D30(p,p+0xC044,*(void **)(p+0xC040),second,0,16);
     func_02184D30(p,p+0xC044,*(void **)(p+0xC040),first,0,0);

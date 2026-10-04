@@ -52,8 +52,9 @@ struct G {
 };
 
 extern void func_020222A8(u32 v);
-extern void func_020238B4(struct T *p, void *g);
-extern void func_0202390C(struct T *p);
+struct Task;
+extern void func_020238B4(struct Task *t, u32 a1);
+extern u32 func_0202390C(struct Task *t);
 extern const u32 d_0209F574[];
 extern struct G g_020A73D0;
 
@@ -62,10 +63,10 @@ void func_02022790(struct T *p)
     if (p->f0c == 0) {
         g_020A73D0.f20 = (u32)d_0209F574;
         func_020222A8(p->f24);
-        func_020238B4(p, &g_020A73D0.f20);
+        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f20));
         p->f28 = 1;
         p->f2c = 0;
     } else {
-        func_0202390C(p);
+        func_0202390C((struct Task *)p);
     }
 }

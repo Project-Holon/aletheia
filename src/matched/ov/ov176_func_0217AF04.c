@@ -13,10 +13,10 @@
  *   func_021E54E0  0x021E54E0  thumb  ov177
  */
 
-extern void func_021E54E0(int);
+extern void func_021E54E0(char *p);
 
 void func_0217AF04(int *p)
 {
-    func_021E54E0(*(int *)((char *)p + 0x24));
+    func_021E54E0((char *)(*(int *)((char *)p + 0x24)));
     *(int *)((char *)p + 0x24) = 0;
 }

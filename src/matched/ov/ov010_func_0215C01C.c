@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern u32 func_0215B4DC(void *, int, int);
+extern int func_0215B4DC(void *a0, void *a1, void *a2);
 extern u16 d_02171180[];
 
 int func_0215C01C(void *a0, void *a1)
@@ -36,7 +36,7 @@ int func_0215C01C(void *a0, void *a1)
     u16 *out = func_02159AE8(a0, a1);
     int k = func_02159B10(a0, a1);
     int j = func_02159B10(a0, a1);
-    u16 t = func_0215B4DC(a1, k, 0x95);
+    u16 t = func_0215B4DC(a1, (void *)k, (void *)0x95);
 
     if (t == d_02171180[j]) {
         *out = 1;

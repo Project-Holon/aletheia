@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Node;
 extern void func_021C1F44(int a);
-extern void func_021C0C00(u32, u32);
+extern void func_021C0C00(void *a, void *b);
 extern void func_021C0B58(void *, char *, void *);
 extern void func_021C0950(void *, char *, void *);
 extern void func_021C0898(void *, char *, void *);
@@ -56,7 +56,7 @@ u32 func_021BF8E0(void *a0, u32 a1, void *a2, char *p, void *a4)
     func_021C1F44(*(u32 *)(p + 0x94));
     for (i = 0; i < 2; i++) {
         char *q = p + i * 4;
-        if (*(u32 *)(q + 0x5c) != 0) func_021C0C00(*(u32 *)(q + 0x4c), *(u32 *)(q + 0x5c));
+        if (*(u32 *)(q + 0x5c) != 0) func_021C0C00((void *)(*(u32 *)(q + 0x4c)), (void *)(*(u32 *)(q + 0x5c)));
         *(u32 *)(q + 0x5c) = 0;
     }
     func_021C0B58(a2, p, a4);

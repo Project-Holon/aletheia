@@ -13,9 +13,11 @@
  *   func_0204B98C  0x0204B98C  arm
  */
 
-extern void func_0204B98C(int);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 
 void func_021DE0AC(int *p, int i)
 {
-    func_0204B98C(*(int *)((char *)p + i * 4 + 0xB74));
+    func_0204B98C((struct Actor *)(*(int *)((char *)p + i * 4 + 0xB74)));
 }

@@ -57,7 +57,7 @@ extern u32 func_021B7948(u8 *);
 extern int func_021B7FFC(void *),func_021B8000(void *);
 extern void *func_021B70DC(u32,u32,u16,u16,u8,u32,u32,u32,u16);
 extern void func_021B63CC(int *,int);
-extern void func_021B8338(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B8338(u32 p, u32 a);
 extern void func_021B8364(u8 *,u16 *);
 #define REG32(a) (*(volatile u32 *)(a))
 #define REG16(a) (*(volatile u16 *)(a))
@@ -91,7 +91,7 @@ int func_021B7560(void *owner,int unused,void *arg)
     second=func_021B8000(p+0x174);
     *(void **)(p+0xa38)=func_021B70DC(2,handle,1,13,13,2,first,second,55);
     func_021B63CC(*(int **)(*(u8 **)(p+0xb0c)+4),2);
-    func_021B8338(p,func_021B8364);
+    func_021B8338((u32)p,(u32)func_021B8364);
     REG32(0x04000000)=(REG32(0x04000000)&~0xe000)|0x6000;
     REG16(0x04000048)=(REG16(0x04000048)&~0x3f)|0x1e;
     REG16(0x04000048)=(REG16(0x04000048)&~0x3f00)|0x1e00;

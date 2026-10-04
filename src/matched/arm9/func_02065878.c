@@ -76,8 +76,9 @@ struct Scr02065878 {
 
 extern void  func_02065438(void *a);
 extern void  func_0206615C(int a);
-extern int   func_02067B50(int a);
-extern int   func_02067B64(int a);
+struct G2dOamState;
+extern u32 func_02067B50(const struct G2dOamState *p);
+extern u32 func_02067B64(const struct G2dOamState *p);
 extern void  func_020663D0(fx32 x, fx32 y, fx32 z);
 extern void  func_02066620(fx32 sn, fx32 cs);
 extern void  func_020664CC(fx32 sx, fx32 sy, fx32 sz);
@@ -116,9 +117,9 @@ void func_02065878(struct Obj02065878 *c)
         y = c->unk_4a;
         x = c->unk_48;
 
-        if (func_02067B50(g_02147B88.unk_08) != 0)
+        if (func_02067B50((const struct G2dOamState *)g_02147B88.unk_08) != 0)
             x = -x;
-        if (func_02067B64(g_02147B88.unk_08) != 0)
+        if (func_02067B64((const struct G2dOamState *)g_02147B88.unk_08) != 0)
             y = -y;
 
         func_020663D0(x << 12, y << 12, 0);

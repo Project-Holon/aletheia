@@ -17,10 +17,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020751F4(u32 a, u32 b, u32 c);
-extern void func_0208A424(int);
+struct SNDWaveArc;
+extern void func_0208A424(struct SNDWaveArc *waveArc);
 
 void func_020752D4(int a, int b, int c, int d)
 {
     func_020751F4(a, c, d);
-    func_0208A424(a);
+    func_0208A424((struct SNDWaveArc *)a);
 }

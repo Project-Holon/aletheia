@@ -24,7 +24,7 @@ typedef struct { int x, y, z; } V12;
 
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern u8 *func_02158344();
+extern int func_02158344(int a0);
 extern u32 *func_0217BEA8(u16);
 extern void *func_02184D38(void *, void *, u16, V12 *, int, int);
 
@@ -35,7 +35,7 @@ void *func_0217CE6C(void *a0, void *a1, int a2)
     V12 v;
     u16 s;
 
-    p = func_02158344(func_02012138(a0));
+    p = (u8 *)func_02158344(func_02012138(a0));
     if (p == 0 || !(p[0x8FB] & (1 << a2)))
         return 0;
     q = func_0217BEA8(*(u16 *)(p + a2 * 0x1C + 0xA0));

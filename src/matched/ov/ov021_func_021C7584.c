@@ -49,7 +49,7 @@ extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3044(void *p, const VecFx32 *v);
-extern void func_02164010(void *m);
+extern int func_02164010(int a);
 extern void func_020520A4(const VecFx32 *v, fx32 s, VecFx32 *o);
 extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *c);
 
@@ -79,7 +79,7 @@ int func_021C7584(Work *w)
         func_020520A4(&w->to, t, &b);
         func_0207C9D0(&a, &b, &c);
         func_021A3044(o, &c);
-        func_02164010(m);
+        func_02164010((int)m);
         if (w->max <= w->cnt)
             return 1;
         break;

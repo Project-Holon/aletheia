@@ -35,7 +35,7 @@ extern void func_020113D0(char *p, int val);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern void *func_0205121C(u32, u32, u16);
-extern void *func_02050C30(void *, u32, u32, u32, u32, u32, u32);
+extern void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
 extern void func_02051380(void *, void *);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern unsigned int func_021FE38C(char *, unsigned int);
@@ -60,7 +60,7 @@ int func_021FA12C(void *a, char *s)
         buffer = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x4800, 0, d_0220AE68, line);
         resource = func_0205121C(6, key, (*(u16 *)(s + 0x238) & 0x7fff) | 0x8000);
         if (buffer != 0 && resource != 0) {
-            *(void **)(s + 12 + slot * 4) = func_02050C30(buffer, 0x4800, 0, 5, 6, 0x36, (u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000));
+            *(void **)(s + 12 + slot * 4) = func_02050C30((u32)buffer, 0x4800, 0, 5, 6, 0x36, (u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000));
             if (*(void **)(s + 12 + slot * 4) != 0) {
                 func_02051380(*(void **)(s + 12 + slot * 4), resource);
                 line += 10;

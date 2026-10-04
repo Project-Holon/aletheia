@@ -15,11 +15,12 @@
  */
 typedef signed char s8;
 typedef unsigned int u32;
-extern void func_0220266C(u32);
+struct Obj;
+extern void func_0220266C(struct Obj *p);
 void func_06899CDC(const s8 *p)
 {
     *(s8 *)(p + 0x8c) = -16;
     *(s8 *)(p + 0x8d) = 0;
     *(s8 *)(p + 0x8e) = 1;
-    func_0220266C(*(const u32 *)(p + 0xb0));
+    func_0220266C((struct Obj *)(*(const u32 *)(p + 0xb0)));
 }

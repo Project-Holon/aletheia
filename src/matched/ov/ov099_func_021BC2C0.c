@@ -35,7 +35,7 @@ extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
 extern s32 func_020200CC(struct Obj *o);
 extern void func_021BA8EC(char *);
-extern void *func_021BA8BC(void *);
+extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *);
 extern void func_021BAAB8(char *,int,int);
@@ -101,7 +101,7 @@ int func_021BC2C0(char *p,int v)
         break;
     case 7: *(u32 *)(p+0x1cc)=0x4e; break;
     }
-    *(void **)(p+0x1a4)=func_021BA8BC(*(void **)(p+0x1a4));
+    *(void **)(p+0x1a4)=(void *)func_021BA8BC(*(void **)(p+0x1a4));
     func_0202020C(*(void **)(p+0xbc),0,(u16 *)(p+0x23c));
     func_0201F868(*(void **)(p+0xb8));
     return v;

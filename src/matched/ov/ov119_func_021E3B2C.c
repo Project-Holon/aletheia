@@ -22,7 +22,8 @@
 typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_02049F78(void *, int, void **, unsigned int);
+typedef unsigned int   u32;
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_020862F0(void *, int);
 extern void func_02083194(const void *, void *, int);
 extern void func_0207FA0C(void);
@@ -38,7 +39,7 @@ void func_021E3B2C(char *p)
     void *descriptor;
     char *data;
     v = func_020490F4(0x74, *(unsigned short *)(p + 0x5F4));
-    allocation = func_02049F78(v, 0x48, &descriptor, *(unsigned short *)(p + 0x5F4));
+    allocation = func_02049F78(v, 0x48, (u32)(&descriptor), *(unsigned short *)(p + 0x5F4));
     data = *(char **)((char *)descriptor + 12);
     func_020862F0(data + 32, 32);
     func_02083194(data + 32, data + 34, 30);

@@ -22,9 +22,11 @@ typedef struct Vec {
     int z;
 } Vec;
 
-int func_02188C58(int a);
-int func_0218EC2C(int a);
-void func_021BB7B4(int a, Vec *b, Vec *c);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+void *func_02188C58(void *p);
+u32 func_0218EC2C(u8 *p);
+void func_021BB7B4(int a, int b, int c);
 void func_0207C9D0(Vec *a, Vec *b, Vec *c);
 
 void func_021BB808(int *o, Vec *out)
@@ -50,13 +52,13 @@ void func_021BB808(int *o, Vec *out)
         }
         break;
     }
-    r3 = func_0218EC2C(func_02188C58(o[6]));
+    r3 = func_0218EC2C(func_02188C58((void *)o[6]));
     {
         Vec v = {0, 0, 0};
 
         v.y = o[10] + 0x16000;
         w = v;
     }
-    func_021BB7B4(r3, &w, &w);
+    func_021BB7B4(r3, (int)(&w), (int)(&w));
     func_0207C9D0(&w, out, out);
 }

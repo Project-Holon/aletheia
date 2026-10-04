@@ -26,7 +26,7 @@ extern int func_02035C60(void);
 extern int func_02035C38(void);
 extern int func_02035BA4(const void *);
 extern void func_021D77E8(void *,u32,u32);
-extern void func_021D75A4(void *,void *);
+extern void func_021D75A4(int a, u8 *p);
 extern const Rects d_021DC1E0;
 void func_021D7460(u8 *a,u8 *p) {
     Rects r=d_021DC1E0;
@@ -51,7 +51,7 @@ void func_021D7460(u8 *a,u8 *p) {
                 p[0x9a]=0;
                 *(u32 *)(p+0x90)=0;
             } else if(g==1 && *(u32 *)(p+0x6c)==1) {
-                func_021D75A4(a,p);
+                func_021D75A4((int)a,p);
             }
             *(u32 *)(p+0x70)=x;
             *(u32 *)(p+0x74)=y;

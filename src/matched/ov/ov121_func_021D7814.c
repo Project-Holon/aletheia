@@ -44,15 +44,15 @@ typedef unsigned int u32;
 typedef struct { u32 w[12]; } Desc;
 extern void func_021D9750(u8 *p);
 extern void func_02040588(u32 which, u32 enable);
-extern void *func_021D9744(void *);
+extern unsigned func_021D9744(char *p);
 extern void func_021D84D4(void *,void *,void *,int,void *,void *,void *,u16);
 extern void func_021D8C1C(u8 *p, int mode);
 extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D8D00(void *);
 extern int func_021D8D18(void *);
-extern void func_0200A2B8(void *,void *);
-extern int func_0200A2D8(void *,void *);
+extern void func_0200A2B8(void *a0, int a1);
+extern int func_0200A2D8(void *a0, int a1);
 extern void func_021D8CA8(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021D8380(void *);
@@ -68,7 +68,7 @@ extern u32 func_020362DC(void);
 extern void func_021D93F4(u8 *p, const void *q, int n, int k, int x, int y, int z, u16 heap);
 extern int func_021D94B8(void *);
 extern void func_021D9488(void *);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D6DF4(void *a, int *state);
 void func_021D7814(void *task,u32 *state,u8 *p)
 {
@@ -78,7 +78,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         func_021D9750(*(void **)(p+916));
         func_02040588(1,1);
         func_02040588(3,1);
-        func_021D84D4(p+12,func_021D9744(*(void **)(p+916)),p+972,*(int *)(p+952),p+660,p+912,p+312,29);
+        func_021D84D4(p+12,(void *)func_021D9744(*(void **)(p+916)),p+972,*(int *)(p+952),p+660,p+912,p+312,29);
         func_021D8C1C(p+12,0);
         func_021D9F08(*(void **)(p+644),*(int *)(p+932),113,2);
         *state=1;
@@ -95,11 +95,11 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         if (func_021D8D18(p+12)) *state=4;
         break;
     case 4:
-        func_0200A2B8(*(void **)(p+956),*(void **)(p+952));
+        func_0200A2B8(*(void **)(p+956),(int)(*(void **)(p+952)));
         *state=5;
         break;
     case 5:
-        if (func_0200A2D8(*(void **)(p+956),*(void **)(p+952))==2) *state=6;
+        if (func_0200A2D8(*(void **)(p+956),(int)(*(void **)(p+952)))==2) *state=6;
         break;
     case 6:
         func_021D8C1C(p+12,1);
@@ -183,7 +183,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         }
         break;
     case 18:
-        func_021DA8B0(task,func_021D6DF4);
+        func_021DA8B0(task,(u32)func_021D6DF4);
         break;
     }
 }

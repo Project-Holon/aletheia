@@ -27,7 +27,8 @@ typedef struct Rec { u32 h; V3 pos; } Rec;
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern u32 func_0216D5F8(u32);
+typedef unsigned short u16;
+extern u16 func_0216D5F8(void *p);
 extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32, void *, u32, u32, Rec *, u32);
 extern u32 d_021DAC80[];
@@ -38,7 +39,7 @@ void func_021C9550(u32 a, u32 b)
     Rec r;
 
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
-    switch (func_0216D5F8(a)) {
+    switch (func_0216D5F8((void *)a)) {
     case 0:
         v.v[2] -= 0x10000;
         break;

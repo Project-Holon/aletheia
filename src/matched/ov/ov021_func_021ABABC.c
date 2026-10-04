@@ -23,13 +23,15 @@
 typedef unsigned short u16;
 typedef long long s64;
 
-extern int func_021AB760(int a);
-extern void func_0218E124(int h, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021AB760(u8 *p);
+extern void func_0218E124(u8 *a, u32 s);
 extern void func_021ABBA0(const u16 *r, void *v, int *o1, int *o2);
 extern int FX_Div(int a, int b);
-extern void func_0218ED34(int h, u16 v);
-extern void func_0218ED48(int h, u16 v);
-extern void func_0218ED58(int h, int v);
+extern void func_0218ED34(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u16 v);
+extern void func_0218ED58(u8 *p, u32 v);
 
 /*
  * const on p lets the three loads from p schedule above the store of t to the
@@ -40,14 +42,14 @@ extern void func_0218ED58(int h, int v);
  */
 void func_021ABABC(int a0, const u16 *p, void *q)
 {
-    int h = func_021AB760(a0);
+    int h = func_021AB760((u8 *)a0);
     int s;
     int d;
     int t;
     int x, y, z;
     int v;
 
-    func_0218E124(h, 0);
+    func_0218E124((u8 *)h, 0);
     func_021ABBA0(p, q, &s, &d);
     d = t = FX_Div(d, s);
     v = p[10] - p[6];
@@ -59,7 +61,7 @@ void func_021ABABC(int a0, const u16 *p, void *q)
     v = *(const int *)(p + 12) - *(const int *)(p + 8);
     v = (int)(((s64)v * t + 0x800) >> 12);
     z = v + *(const int *)(p + 8);
-    func_0218ED34(h, x);
-    func_0218ED48(h, y);
-    func_0218ED58(h, z);
+    func_0218ED34((u8 *)h, x);
+    func_0218ED48((u8 *)h, y);
+    func_0218ED58((u8 *)h, z);
 }

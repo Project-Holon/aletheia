@@ -26,7 +26,7 @@ struct S02031140;
 struct U16Vec;
 extern void func_021BB4D0(char *p);
 extern void func_021BB42C(void *p);
-extern void func_02028604(void *a);
+extern int func_02028604(int a0);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_02031140(struct S02031140 *p);
@@ -37,7 +37,7 @@ void func_021BB224(char *p)
 {
     func_021BB4D0(p);
     func_021BB42C(p);
-    func_02028604(*(void **)(p + 0x9B0));
+    func_02028604((int)(*(void **)(p + 0x9B0)));
     func_02045808(*(void **)(p + 0xF8));
     func_02045808(*(void **)(p + 0xF4));
     func_02045808(*(void **)(p + 0xFC));

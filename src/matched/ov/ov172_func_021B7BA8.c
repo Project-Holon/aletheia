@@ -34,8 +34,8 @@ extern void func_021B8614(int unused, int unused2, void *p);
 extern int func_021BE0D8(void *p);
 extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
 extern unsigned long func_021C1A80(unsigned long width, unsigned long height, unsigned long sampling, unsigned long option);
-extern u32 *func_021BE004(void *p);
-extern void *func_02012944(u32 v);
+extern u32 func_021BE004(void *p);
+extern u8 *func_02012944(void *p);
 extern void func_02008494(void *src, void *dst);
 extern int func_021BE100(void);
 extern void func_0203E5F8(int a0, int a1);
@@ -81,14 +81,14 @@ char *func_021B7BA8(void *p, u16 heap)
     *(u32 *)(q + 0x3c8) = 1;
     *(u32 *)(q + 0x3cc) = 0;
     *(u8 *)(q + 0x3d8) = 0xff;
-    func_02008494(func_02012944(*func_021BE004(p)), q + 0xc);
+    func_02008494(func_02012944((void *)(*((u32 *)func_021BE004(p)))), q + 0xc);
     *(u8 *)(q + 0x2c) = 1;
     for (i = 0; i < 3; i++)
         for (j = 0; j < 6; j++)
             *(u8 *)(q + i * 6 + j + 0x2e) = 0xff;
     ((Flags *)(q + 0x2d))->b0 = func_021BE100();
     ((Flags *)(q + 0x2d))->b1 = 0;
-    func_02008494(func_02012944(*func_021BE004(p)), q + 0x40);
+    func_02008494(func_02012944((void *)(*((u32 *)func_021BE004(p)))), q + 0x40);
     *(u8 *)(q + 0x60) = func_021BE100();
     *(u32 *)q = 1;
     func_0203E5F8(heap, 0);

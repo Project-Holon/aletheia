@@ -26,13 +26,17 @@ typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
-extern u32 func_02011330(u32 a);
-extern u32 func_02029A74(void *a, u32 b);
-extern void func_0215897C(void *a, u32 b);
-extern u32 func_020120F4(void *a);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Ctx;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern void *func_02029A74(void *a, u16 b);
+extern void func_0215897C(void *vm, void *task);
+extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *a);
-extern void func_02028BA0(u32 a, u32 b);
+extern void func_02028BA0(u8 *o, u32 v);
 extern void func_02159144(int n);
 
 int func_021AEE78(u32 a, u32 b)
@@ -43,9 +47,9 @@ int func_021AEE78(u32 a, u32 b)
 
     x = func_0215A5DC((void *)b);
     y = func_0215A5F4((void *)b);
-    z = func_02029A74(x, func_02011330(a));
-    func_0215897C(y, z);
-    func_02028BA0(func_02012A30((const struct BigObj *)func_020120F4(x)), 2);
+    z = (u32)func_02029A74(x, func_02011330((struct Stream *)a));
+    func_0215897C(y, (void *)z);
+    func_02028BA0((u8 *)func_02012A30((const struct BigObj *)func_020120F4(x)), 2);
     func_02159144(13);
     return 1;
 }

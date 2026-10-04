@@ -23,14 +23,16 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C58(void *);
-extern u32 func_02011330(u32);
+typedef unsigned short u16;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern void func_0218F9C4(void *, u32 *, u32);
 
 int func_021B5498(u32 a, u32 b)
 {
     u32 v[6];
     void *x = func_02188C58(func_0201210C(func_0215A5DC((void *)b)));
-    u32 k = func_02011330(a);
+    u32 k = func_02011330((struct Stream *)a);
 
     v[0] = 1;
     v[1] = 1;

@@ -23,12 +23,14 @@
  */
 typedef struct Pair {int a,b;} Pair;
 extern void func_021E2E60(Pair *);
-extern void func_021E2E30(char *,int,int),func_021E2E48(char *,char *,char *);
+extern void func_021E2E30(char *,int,int);
+extern void func_021E2E48(char *p, int a, int b);
 extern int func_021E31E8(char *,int,int),func_021E3228(char *,int,int);
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *),func_02035D20(unsigned *,unsigned *);
 extern void func_021FD73C(int *,int);
-extern void func_021E2C2C(void),func_021E2910(void);
+extern void func_021E2C2C(void);
+extern void func_021E2910(int task, int *state, char *p);
 void func_021E2AE0(int *task,unsigned *state,char *p)
 {
     unsigned x,y;
@@ -58,7 +60,7 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;
         break;
     case 6:
-        func_021E2E48(p+0x4c,p,*(char **)(p+0x3c));
+        func_021E2E48(p+0x4c,(int)p,(int)(*(char **)(p+0x3c)));
         func_021FD73C(task,(int)func_021E2C2C); break;
     case 7:
         func_021FE784(**(int **)(p+0x3c),2,3,1);
@@ -67,7 +69,7 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;
         break;
     case 9:
-        func_021E2E48(p+0x4c,p,*(char **)(p+0x3c));
+        func_021E2E48(p+0x4c,(int)p,(int)(*(char **)(p+0x3c)));
         func_021FD73C(task,(int)func_021E2910); break;
     }
 }

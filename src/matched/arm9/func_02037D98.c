@@ -28,7 +28,10 @@ struct S02037D98 {
 
 extern u8 lbl_020A7A20[];
 extern struct S02037D98 *lbl_021469D0;
-extern int func_02038AE0(u32 a, u32 b, u32 c, u32 d);
+typedef signed int     s32;
+struct Conn;
+struct Hdr;
+extern s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3);
 extern u32 func_0203D6BC(void);
 
 int func_02037D98(int a)
@@ -40,7 +43,7 @@ int func_02037D98(int a)
         struct S02037D98 *p = lbl_021469D0;
         if (p->f1B0 > 0)
             return r;
-        if (func_02038AE0(p->f0, (u32)p + 0xcc, func_0203D6BC(), p->f1D5) != 0) {
+        if (func_02038AE0((struct Hdr *)p->f0, (struct Conn *)((u32)p + 0xcc), func_0203D6BC(), p->f1D5) != 0) {
             struct S02037D98 *q = lbl_021469D0;
             q->f1D5++;
         }
@@ -48,7 +51,7 @@ int func_02037D98(int a)
         r = 1;
     } else {
         struct S02037D98 *p = lbl_021469D0;
-        if (func_02038AE0(p->f0, (u32)p + 0xcc, func_0203D6BC(), p->f1D5) != 0) {
+        if (func_02038AE0((struct Hdr *)p->f0, (struct Conn *)((u32)p + 0xcc), func_0203D6BC(), p->f1D5) != 0) {
             struct S02037D98 *q = lbl_021469D0;
             q->f1D5++;
             lbl_020A7A20[1] = 0;

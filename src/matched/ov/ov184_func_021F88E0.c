@@ -22,9 +22,9 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern void func_021F3BF0(u8 *p);
 extern void func_021FC640(u32 a, u16 b);
-extern void func_021FC148(u32 a, u32 b, u16 c);
-extern void func_021FB964(u32 a, u32 b, u16 c);
-extern void func_021FEEC0(u32 a, u32 b, u32 c);
+extern void func_021FC148(char *p, unsigned i, unsigned heap);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
+extern void func_021FEEC0(char *p, int mode, u32 value);
 
 void func_021F88E0(char *p, char *q)
 {
@@ -33,7 +33,7 @@ void func_021F88E0(char *p, char *q)
     func_021F3BF0(*(void **)p);
     *(u32 *)p = 0;
     func_021FC640(*(u32 *)(q + 8), *(u16 *)(p + 0x24));
-    func_021FC148(*(u32 *)(q + 0xc), 0, *(u16 *)(p + 0x24));
-    func_021FB964(*(u32 *)(q + 0xc), 0, *(u16 *)(p + 0x24));
-    func_021FEEC0(*(u32 *)(q + 4), 0, 1);
+    func_021FC148((char *)(*(u32 *)(q + 0xc)), 0, *(u16 *)(p + 0x24));
+    func_021FB964((void *)(*(u32 *)(q + 0xc)), 0, *(u16 *)(p + 0x24));
+    func_021FEEC0((char *)(*(u32 *)(q + 4)), 0, 1);
 }

@@ -26,7 +26,7 @@ typedef struct {
     u32 unk134;
 } Seq;
 
-extern u32 func_021CD644(u32 a);
+extern u8 func_021CD644(u8 *p);
 extern void func_021EA280(void *win, u32 n, u32 b, u8 *buf, u32 c);
 extern int func_021EA2BC(char *ctx);
 
@@ -44,7 +44,7 @@ int func_021D215C(Seq *s, int *state, u32 *a)
         p1 = a[1];
         p2 = a[2];
         for (i = 0; i < n; i++) {
-            buf[i] = func_021CD644(s->unk134);
+            buf[i] = func_021CD644((u8 *)s->unk134);
         }
         func_021EA280(s->win, n, p1, buf, p2);
         *state = *state + 1;

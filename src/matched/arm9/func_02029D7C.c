@@ -15,9 +15,10 @@ typedef signed char    s8;
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020289F8(u32 a, u32 b, u32 c, u32 d, u32 e);
+struct Sys;
+extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
 void func_02029D7C(u32 a)
 {
-    func_020289F8(a, 1, 0, 0, 0);
+    func_020289F8((struct Sys *)a, 1, 0, 0, 0);
 }

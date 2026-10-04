@@ -30,7 +30,7 @@ extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
 extern void func_021D75A8(int key, u32 val);
 extern void func_021D7630(int key, u32 val);
-extern void func_021D70F0(int p, int k);
+extern void func_021D70F0(void *a, int id);
 extern int func_021D775C(int key);
 extern void func_021D7540(int line);
 
@@ -47,7 +47,7 @@ int func_021BEB14(int a, u8 *b, int c, int d, u8 *e, u8 *g)
         func_021D75EC(6 + i, func_021D5440(func_021BEBC8(d, i)));
     func_021D7630(2, 0x1f);
     func_021D75A8(4, 0x1f);
-    func_021D70F0(a, 0x1a);
+    func_021D70F0((void *)a, 0x1a);
     *e = func_021D775C(2);
     *g = func_021D775C(4);
     func_021D7540(4155);

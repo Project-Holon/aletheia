@@ -23,33 +23,34 @@
 
 typedef unsigned char u8;
 
-extern int func_021BEBA8(void *a, int b);
-extern int func_021BEB38(void *a, int b, int c, int d, int e);
-extern int func_021BEBD8(void *a, int b, u8 c, u8 d);
-extern int func_021BEC84(void *a, int b);
-extern int func_021BECE4(void *a, int b);
-extern int func_021BED44(void *a, int b);
-extern int func_021BEDA4(void *a, int b);
+typedef unsigned int   u32;
+extern void *func_021BEBA8(int a, int b);
+extern void *func_021BEB38(void *p, int a1, int a2, int a3, int a4);
+extern void *func_021BEBD8(void *p, int a1, int a2, int a3);
+extern void *func_021BEC84(void *a, u32 b);
+extern void *func_021BECE4(int a, int b);
+extern void *func_021BED44(int a, int b);
+extern int func_021BEDA4(int a, int b);
 extern int func_021BEE24(void *a, int b);
 
 int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g)
 {
     switch (sel) {
     default:
-        return func_021BEBA8(a, b);
+        return (int)func_021BEBA8((int)a, b);
     case 0:
     case 1:
-        return func_021BEB38(a, b, sel, d, e);
+        return (int)func_021BEB38(a, b, sel, d, e);
     case 3:
-        return func_021BEBD8(a, b, f, g);
+        return (int)func_021BEBD8(a, b, f, g);
     case 5:
-        return func_021BEC84(a, b);
+        return (int)func_021BEC84(a, b);
     case 6:
-        return func_021BECE4(a, b);
+        return (int)func_021BECE4((int)a, b);
     case 7:
-        return func_021BED44(a, b);
+        return (int)func_021BED44((int)a, b);
     case 8:
-        return func_021BEDA4(a, b);
+        return func_021BEDA4((int)a, b);
     case 9:
         return func_021BEE24(a, b);
     }

@@ -23,7 +23,7 @@ extern void func_021B907C(u8 *p);
 extern void func_021B90F8(u8 *p);
 extern void func_021B916C(u8 *p);
 extern void func_021BBBD8(int unused, int *q);
-extern int func_021BBBE4(u8 *p, int *q);
+extern unsigned int func_021BBBE4(int a, unsigned char *b);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -38,7 +38,7 @@ void func_021B9020(u8 *p)
         break;
     case 1:
         func_021BBBD8((int)p, (int *)W(0x154));
-        r = func_021BBBE4(p, (int *)W(0x154));
+        r = func_021BBBE4((int)p, (unsigned char *)((int *)W(0x154)));
         if (r != 0x17) {
             W(0x3c) = r;
             p[0xe] = 2;

@@ -51,17 +51,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32  func_0207E24C(void);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern void *func_0207E24C(void);
 extern void func_02082A7C(u32 a, u32 b, u32 c);
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern int  func_02062A4C(u32 h, u32 **out);
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(u32 a, u32 b);
 extern void func_02082A60(u32 a, u32 b, u32 c);
-extern void func_020307B0(u32 a);
-extern int  func_02062B30(u32 h, u32 **out);
-extern u32  func_0207DFB4(void);
-extern int  func_02062AD4(u32 h, u32 **out);
-extern int  func_02062A98(u32 h, u32 **out);
+extern void func_020307B0(void *p);
+extern int func_02062B30(void *file, void **out);
+extern void *func_0207DFB4(void);
+extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
 void func_0202F870(void)
 {
@@ -73,24 +75,24 @@ void func_0202F870(void)
     u32 v1;
     u32 v2;
 
-    func_02082A7C(0, func_0207E24C(), 0x4000);
+    func_02082A7C(0, (u32)func_0207E24C(), 0x4000);
     h = func_0204A1BC(0x16, 1, 0, 7);
-    if (func_02062A4C(h, &p1) != 0) {
+    if (func_02062A4C((struct NitroFileHeader *)h, (void **)(&p1)) != 0) {
         func_020862F0(p1[5], p1[4]);
-        func_02082A60(p1[5], func_0207E24C(), v1 = p1[4]);
+        func_02082A60(p1[5], (u32)func_0207E24C(), v1 = p1[4]);
     }
-    func_020307B0(h);
+    func_020307B0((void *)h);
     h = func_0204A1BC(0x16, 2, 0, 7);
-    if (func_02062B30(h, &p2) != 0) {
+    if (func_02062B30((void *)h, (void **)(&p2)) != 0) {
         func_020862F0((u32)p2 + 0xc, p2[2]);
-        func_02082A60((u32)p2 + 0xc, func_0207DFB4(), v2 = p2[2]);
+        func_02082A60((u32)p2 + 0xc, (u32)func_0207DFB4(), v2 = p2[2]);
     }
-    func_020307B0(h);
+    func_020307B0((void *)h);
     h = func_0204A1BC(0x16, 0, 0, 7);
-    func_02062AD4(h, &p4);
-    if (func_02062A98(h, &p3) != 0) {
+    func_02062AD4((struct NitroFileHeader *)h, (void **)(&p4));
+    if (func_02062A98((struct NitroFileHeader *)h, (void **)(&p3)) != 0) {
         func_020862F0(p3[3], 0x20);
         func_02082A60(p3[3], 0x05000000, 0x20);
     }
-    func_020307B0(h);
+    func_020307B0((void *)h);
 }

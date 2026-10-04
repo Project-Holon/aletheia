@@ -19,12 +19,12 @@ struct GfFont;
 struct MsgBank;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201C440(unsigned);
+extern u32 func_0201C440(void *p);
 extern void *func_021E8568(unsigned,unsigned,unsigned,unsigned,void *,void *,unsigned);
 void func_0217AF50(char *p)
 {
     *(void **)(p+0xc)=func_0201D7EC(0x17,0,0,0,*(unsigned short *)p);
     *(void **)(p+0x10)=func_02045B38(0,2,4,*(unsigned short *)p);
-    *(void **)(p+0x14)=func_0201C440(*(unsigned short *)p);
+    *(void **)(p+0x14)=(void *)func_0201C440((void *)(*(unsigned short *)p));
     *(void **)(p+8)=func_021E8568(0,15,14,10,*(void **)(p+0x14),*(void **)(p+0xc),*(unsigned short *)p);
 }

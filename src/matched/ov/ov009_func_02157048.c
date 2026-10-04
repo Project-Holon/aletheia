@@ -39,7 +39,7 @@ extern char d_021A1C7C[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heap, u32 size, int align, const char *file, u16 line);
-extern u32 func_02060C5C(u32 a, u32 b, u32 c);
+extern void *func_02060C5C(void *start, u32 size, u32 attr);
 
 void func_02157048(u32 a, u32 b)
 {
@@ -48,6 +48,6 @@ void func_02157048(u32 a, u32 b)
     }
     d_021A8268 = (Obj *)func_02030734(0, 0x24, 1, d_021A1C7C, 0x14C);
     d_021A8268->f4 = (u32)func_02030734(a, b - 0x80, 0, d_021A1C7C, 0x14D);
-    d_021A8268->f0 = func_02060C5C((d_021A8268->f4 + 0x1f) & ~0x1f, b - 0xc0, 0);
+    d_021A8268->f0 = (u32)func_02060C5C((void *)((d_021A8268->f4 + 0x1f) & ~0x1f), b - 0xc0, 0);
     d_021A8268->f20 = 0;
 }

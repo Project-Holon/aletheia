@@ -13,10 +13,10 @@
  *   func_0220AFDC 0x0220AFDC thumb ov196
  */
 
-extern void func_0220AFDC(int, int);
+extern void func_0220AFDC(char *p, void *v);
 
 void func_0220D974(char *a, int b)
 {
     *(int *)(a + 0x598) = b;
-    func_0220AFDC(*(int *)(a + 0x148), b);
+    func_0220AFDC((char *)(*(int *)(a + 0x148)), (void *)b);
 }

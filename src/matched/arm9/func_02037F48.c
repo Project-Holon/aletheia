@@ -36,7 +36,7 @@ extern void *func_0203D788(void);
 extern u32 func_0203D6BC(void);
 extern u32 func_0203D680(void);
 extern int func_02037D98(int a);
-extern void func_020387A0(u32 a, u32 b, u32 c);
+extern int func_020387A0(u32 i, u8 *p, s32 n);
 
 void func_02037F48(void)
 {
@@ -66,8 +66,8 @@ void func_02037F48(void)
         v = (unsigned short)v;
         do {
         func_020387A0((unsigned short)i,
-                      ((u32 (*)(u32))
-                           * (u32 *)(*(u32 *)(p + 0x340) + 0x60))(i), v);
+                      (u8 *)(((u32 (*)(u32))
+                           * (u32 *)(*(u32 *)(p + 0x340) + 0x60))(i)), v);
             i++;
         } while (i < n);
     }

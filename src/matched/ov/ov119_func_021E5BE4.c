@@ -14,20 +14,21 @@
  *   func_0204A8D4  0x0204A8D4  arm
  */
 
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 
 void func_021E5BE4(int a)
 {
     if (*(int *)(a + 0xf08) != 0)
-        func_0204B3B4(*(int *)(a + 0xf08));
+        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf08)));
     if (*(int *)(a + 0xf0c) != 0)
-        func_0204B3B4(*(int *)(a + 0xf0c));
+        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf0c)));
     if (*(int *)(a + 0xf10) != 0)
-        func_0204B3B4(*(int *)(a + 0xf10));
+        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf10)));
     if (*(int *)(a + 0xf14) != 0)
-        func_0204B3B4(*(int *)(a + 0xf14));
+        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf14)));
     *(int *)(a + 0xf08) = 0;
     *(int *)(a + 0xf0c) = 0;
     *(int *)(a + 0xf10) = 0;

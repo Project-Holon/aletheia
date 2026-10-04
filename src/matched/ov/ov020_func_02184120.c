@@ -26,9 +26,11 @@ typedef struct { int w[7]; } Blk28;
 extern int func_021BE89C(int a, int b);
 extern int func_021BE8B8(int a, int b);
 extern u8 sub_0202E8A4(u8 a);
-extern int func_02012844(int a);
-extern int func_021625CC(int a, int b);
-extern int func_021626E8(int a);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012844(const struct BigObj *p);
+extern void *func_021625CC(char *p, unsigned i);
+extern u8 func_021626E8(u8 *p);
 
 void func_02184120(u8 *p, int arg)
 {
@@ -50,5 +52,5 @@ void func_02184120(u8 *p, int arg)
         *(int *)(q + 0x14) = 0;
         return;
     }
-    *(int *)(q + 0x14) = func_021626E8(func_021625CC(func_02012844(*(int *)(p + 4)), *(u16 *)(p + 0x16)));
+    *(int *)(q + 0x14) = func_021626E8(func_021625CC((char *)func_02012844((const struct BigObj *)(*(int *)(p + 4))), *(u16 *)(p + 0x16)));
 }

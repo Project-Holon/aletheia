@@ -31,7 +31,7 @@ extern void func_021BA4F4(char *p);
 extern void func_021BB0FC(void *obj);
 extern void func_021BBC38(char *p);
 extern void func_021BBC68(char *p, int v);
-extern void func_021BB13C(char *p, int a, u16 b, int c);
+extern void func_021BB13C(void *a0, void *a1, void *a2, void *a3);
 extern void func_021BBE34(char *p, int v);
 void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int a7)
 {
@@ -67,6 +67,6 @@ void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int 
         y = 0x48;
         break;
     }
-    func_021BB13C(p, x, (u16)(y + *(int *)(p+0x1b4)), *(int *)(p+0xb4));
+    func_021BB13C(p, (void *)x, (void *)((u16)(y + *(int *)(p+0x1b4))), (void *)(*(int *)(p+0xb4)));
     func_021BBE34(p, (*(int *)(p+0x44) != 0) ? 0 : 1);
 }

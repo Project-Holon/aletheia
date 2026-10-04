@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern int func_02006224(u32 a0);
 extern int func_02156A3C(void);
 extern int func_021C23C0(int);
-extern void *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
 extern u8 func_021BDD48(char *, void *);
@@ -40,7 +40,7 @@ int func_021C10A8(char *p, int ret)
         *(int *)(p + 0x1cc) = 19;
         return ret;
     }
-    s = func_021C23B8(func_02156A3C());
+    s = (void *)func_021C23B8(func_02156A3C());
     func_021BDD48(p, *(void **)(p + 8));
     func_021BDD48(p, s);
     func_021C27E0(*(void **)(p + 8));

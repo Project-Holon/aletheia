@@ -35,7 +35,7 @@ extern const Config d_021E3758;
 extern const Record d_021E3728[];
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern void func_021FB964(int,int,u16);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern Slot *func_0201F81C(u32,u32);
 extern void func_0201F878(Slot *,u32,u32,u32,u32);
 extern void *func_021FC8C8(Config *,u32);
@@ -50,7 +50,7 @@ int func_021DFE98(char *p,char *q)
     Params params;
     first=func_021FC20C(*(char **)(q+8));
     second=func_021FC214(*(char **)(q+8));
-    func_021FB964(*(int *)(q+8),27,*(u16 *)(p+0x54));
+    func_021FB964((void *)(*(int *)(q+8)),27,*(u16 *)(p+0x54));
     *(Slot **)(p+0x14)=func_0201F81C(19,*(u16 *)(p+0x54));
     for(i=0;i<19;i++)func_0201F878((Slot *)((u32)*(Slot **)(p+0x14)+i*8),second,i+205,i,*(u16 *)(p+0x54));
     cfg=d_021E3758;

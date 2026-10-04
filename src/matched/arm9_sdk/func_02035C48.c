@@ -31,10 +31,12 @@
 struct Ctx02035C48;
 
 extern void func_02035750(struct Ctx02035C48 *ctx);
-extern void func_020357C0(struct Ctx02035C48 *ctx);
+typedef unsigned short u16;
+struct Kind;
+extern u16 func_020357C0(struct Kind *p);
 
 void func_02035C48(struct Ctx02035C48 *ctx)
 {
     func_02035750(ctx);
-    func_020357C0(ctx);
+    func_020357C0((struct Kind *)ctx);
 }

@@ -14,11 +14,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020410D0(u32,u32,u32,u32,u8,void *,u8,u8,u8,u8);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32);
 void func_021C9CCC(void *unused,u8 *p)
 {
     u16 *q = *(u16 **)(p+0x178);
-    func_020410D0(2,0,20,32,4,(u8 *)q+12,0,28,(u32)q[0]>>3,(u32)q[1]>>3);
+    func_020410D0(2,0,20,32,4,(u32)((u8 *)q+12),0,28,(u32)q[0]>>3,(u32)q[1]>>3);
     func_02041B6C(2);
 }

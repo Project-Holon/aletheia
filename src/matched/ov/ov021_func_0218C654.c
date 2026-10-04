@@ -15,11 +15,11 @@
  */
 
 void func_0218C9C4(unsigned char *buf, int c);
-int func_0218C638(int a, int b, unsigned char *buf);
+int func_0218C638(int a, int b, int c);
 
 int func_0218C654(int a, int b, int c)
 {
     unsigned char buf[16];
     func_0218C9C4(buf, c);
-    return func_0218C638(a, b, buf);
+    return func_0218C638(a, b, (int)buf);
 }

@@ -20,8 +20,9 @@
 extern int func_02158344(int);
 extern int func_02175B14(int);
 extern int func_02176258(int);
-extern int func_02026478(int);
-extern int func_02158590(int);
+typedef unsigned int   u32;
+extern u32 func_02026478(void *obj);
+extern int func_02158590(void *p);
 
 int func_02158630(int a)
 {
@@ -31,7 +32,7 @@ int func_02158630(int a)
     if (func_02175B14(q + 0x1AC) == 1) {
         if (func_02176258(q) == 1)
             return 2;
-        if (func_02158590(func_02026478(a)) == 0)
+        if (func_02158590((void *)func_02026478((void *)a)) == 0)
             return 1;
         return 3;
     }

@@ -26,7 +26,7 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void func_021F36C0(void *, u32, u32);
+extern void func_021F36C0(unsigned int a0, int a1, int a2);
 extern char ov037_id[];
 
 int func_0215CD3C(void *a, void *b)
@@ -35,7 +35,7 @@ int func_0215CD3C(void *a, void *b)
     u16 *p = func_02159AE8(a, b);
     u16 *q = func_02159AE8(a, b);
     func_02034AC4((u32)ov037_id);
-    func_021F36C0(h, *p, *q);
+    func_021F36C0((unsigned int)h, *p, *q);
     func_02034A5C((u32)ov037_id);
     return 0;
 }

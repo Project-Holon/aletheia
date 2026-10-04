@@ -44,7 +44,7 @@ extern ReqInfo **func_021BEF48(void *sysInfo);
 extern DataList *func_021BABF4(void *list);
 extern int func_021BA118(const char *s);
 extern int func_021BC384(void *threadData, const char *src, int srclen);
-extern void func_021BA850(void *ptr);
+extern void func_021BA850(int a);
 extern char g_021CE4B0[];
 extern char g_021CE440[];
 
@@ -76,7 +76,7 @@ int func_021BC924(void *threadData_p)
 		if (sendStatus) {
 			return sendStatus;
 		}
-		func_021BA850(datalist_p);
+		func_021BA850((int)datalist_p);
 	}
 	return 0;
 }

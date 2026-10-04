@@ -49,7 +49,7 @@ extern const u8 d_02183650[20][2];
 
 extern int func_02166618(int);
 extern int func_02166640(int);
-extern int func_02188C84(int);
+extern u16 func_02188C84(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_0216D83C(void *);
@@ -79,7 +79,7 @@ void func_0217C37C(int a0, int a1, Entry *list, int a3, int kind)
     else
         tbl = d_02183650;
 
-    ctx.f0 = func_0202A128(func_02188C84(a0));
+    ctx.f0 = func_0202A128(func_02188C84((u8 *)a0));
     ctx.f4 = a0;
     ctx.f8 = a1;
     obj = func_021A3074(func_02188CB4((void *)a0));

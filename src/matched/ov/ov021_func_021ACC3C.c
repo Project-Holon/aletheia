@@ -38,21 +38,21 @@ typedef struct B {
     Inner in;
 } B;
 
-extern u8 *func_021AC1AC(u32 a);
+extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32 a, u8 *b);
-extern u32 func_021ABE18(u32 a);
+extern void func_021ABE18(u8 *p);
 extern int func_021AC1A0(u32 a);
 extern void func_021AC178(u32 a);
 
 void func_021ACC3C(u32 a, B *b)
 {
-    u8 *p = func_021AC1AC(a);
+    u8 *p = (u8 *)func_021AC1AC(a);
     Inner *q;
     u32 k = 0x1000;
     b->blk = *(Blk *)p;
     func_021AC1CC(a, p + 0x10);
     b->fc = *(u16 *)(p + 0xc);
-    func_021ABE18(*(u32 *)b->blk.w[0]);
+    func_021ABE18((u8 *)(*(u32 *)b->blk.w[0]));
     b->f18 = *(u16 *)(b->blk.w[0] + 8);
     b->f9 = func_021AC1A0(a);
     b->f10 = k;

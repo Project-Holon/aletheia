@@ -25,7 +25,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern u8 *func_021BE674(int a, int b, int c, u16 d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern int func_021BE6BC(u8 *p);
 
 int func_021F3BD8(void *task)
@@ -33,7 +33,7 @@ int func_021F3BD8(void *task)
     int s;
 
     s = func_02188D2C(func_0201210C(func_020124E4(task)));
-    if (func_021BE6BC(func_021BE674(s, 0, 1, 0)) != 0) {
+    if (func_021BE6BC(func_021BE674((char *)s, 0, 1, 0)) != 0) {
         return 1;
     }
     return 0;

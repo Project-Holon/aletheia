@@ -45,7 +45,8 @@ typedef unsigned char  u8;
 extern u8 func_02060F98(char *p);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32 h);
-extern void func_02060E30(u32 heap, void *p);
+struct ExpHeap;
+extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
 void func_02156FDC(u32 a, void *p)
@@ -58,7 +59,7 @@ void func_02156FDC(u32 a, void *p)
     if (func_02060F98(p) == 0xEA) {
         if (d_021A8268->f8 != 0) {
             h = func_02087988();
-            func_02060E30(d_021A8268->f8, p);
+            func_02060E30((struct ExpHeap *)d_021A8268->f8, p);
             func_0208799C(h);
             d_021A8268->f14--;
             return;
@@ -67,6 +68,6 @@ void func_02156FDC(u32 a, void *p)
         return;
     }
     h = func_02087988();
-    func_02060E30(d_021A8268->f0, p);
+    func_02060E30((struct ExpHeap *)d_021A8268->f0, p);
     func_0208799C(h);
 }

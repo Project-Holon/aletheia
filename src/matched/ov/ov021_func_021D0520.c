@@ -28,7 +28,7 @@ typedef struct Vec3 {
     int z;
 } Vec3;
 
-extern int func_0216E1C4(u32 a, u16 *b);
+extern int func_0216E1C4(int a0, int a1);
 extern void func_021AC154(u32 a);
 struct Actor;
 struct VecFx32;
@@ -41,7 +41,7 @@ void func_021D0520(u32 a, u8 *b)
     int h;
     Vec3 v;
 
-    if (func_0216E1C4(*(u32 *)(b + 8), (u16 *)(b + 0x10)) == 0) {
+    if (func_0216E1C4(*(u32 *)(b + 8), (int)((u16 *)(b + 0x10))) == 0) {
         func_021AC154(a);
         return;
     }

@@ -32,7 +32,7 @@ extern int func_021EF948(int k);
 extern u8 *func_021C88A4(int a, int k, int c);
 extern Word func_021E8940(int k);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C88C8(int a, u8 *p);
+extern void func_021C88C8(void *a, void *b);
 extern int d_021F265C[];
 
 void func_021E7A08(int a, int b, int c)
@@ -47,11 +47,11 @@ void func_021E7A08(int a, int b, int c)
             *(int *)(p + 4) = k;
             *(Word *)(p + 8) = func_021E8940(5);
             func_021C8838(p + 0x10, 1, 0xb4);
-            func_021C88C8(b, p);
+            func_021C88C8((void *)b, p);
         } else {
             p = func_021C88A4(b, 0x1c, c);
             *(int *)(p + 4) = k;
-            func_021C88C8(b, p);
+            func_021C88C8((void *)b, p);
         }
     }
 }

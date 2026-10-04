@@ -29,15 +29,15 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int func_021D775C(int a);
-extern u8 func_021C7D54(int a, int b, u8 *out);
-extern void *func_021C7CF4(int a, int b);
+extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021DA5BC(void *a, void *b);
-extern void func_021C88B4(int a, int k, int b);
+extern void func_021C88B4(void *a, int k, int b);
 extern void *func_021C88A4(int a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 val);
-extern void func_021C88C8(int a, void *p);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021DA528(int a, int b, int c)
 {
@@ -49,18 +49,18 @@ void func_021DA528(int a, int b, int c)
 
     if (c != func_021D775C(2))
         return;
-    n = func_021C7D54(b, c, buf);
-    q = func_021C7CF4(b, c);
+    n = func_021C7D54((u8 *)b, (u8 *)c, buf);
+    q = func_021C7CF4((int *)b, c);
     for (i = 0; i < n; i++) {
-        if (func_021DA5BC(q, func_021C7CF4(b, buf[i])) != 0)
+        if (func_021DA5BC(q, func_021C7CF4((int *)b, buf[i])) != 0)
             break;
     }
     if (i == n)
         return;
-    func_021C88B4(b, 2, c);
+    func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 0x1b4);
     func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8(b, p);
-    func_021C88B4(b, 3, c);
+    func_021C88C8((void *)b, p);
+    func_021C88B4((void *)b, 3, c);
 }

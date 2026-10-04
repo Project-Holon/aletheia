@@ -19,8 +19,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021BE92C(u32, u32, u32, u32, u32, u32, u32);
-extern void func_02012374(u32, u32);
+struct Evt;
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_021BDC2C(u32 *ctx, u32 a)
 {
@@ -29,7 +30,7 @@ void func_021BDC2C(u32 *ctx, u32 a)
     u32 y = *(u32 *)(p + 0xc);
 
     if (*(u32 *)(p + 0x40) != 0)
-        func_02012374(a, func_021BE92C(x, y, 3, 0, 0, p[0x44], p[0x45]));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)x, y, 3, 0, 0, p[0x44], p[0x45]));
     else
-        func_02012374(a, func_021BE92C(x, y, *(u32 *)(p + 0x3c), 0, 1, 0, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)x, y, *(u32 *)(p + 0x3c), 0, 1, 0, 0));
 }

@@ -20,22 +20,25 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0215A60C(u32);
-extern u32 func_02158F78(u32);
-extern u32 func_02158F74(u32);
-extern u32 func_02158F7C(u32);
-extern void func_02045CAC(u32, u32, u32);
-extern void func_0201F250(u32, u32, u32);
+typedef unsigned char  u8;
+struct MsgBank;
+struct WordSet;
+extern u32 func_0215A60C(u8 *p);
+extern u32 func_02158F78(u8 *p);
+extern void *func_02158F74(void *p);
+extern u32 func_02158F7C(u8 *p);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 u32 func_021B162C(u32 a, u32 b, u32 c)
 {
     u32 x, r, s, n;
 
-    x = func_0215A60C(a);
-    r = func_02158F78(b);
-    s = func_02158F74(b);
-    n = func_02158F7C(b);
-    func_02045CAC(x, c, n);
-    func_0201F250(s, r, n);
+    x = func_0215A60C((u8 *)a);
+    r = func_02158F78((u8 *)b);
+    s = (u32)func_02158F74((void *)b);
+    n = func_02158F7C((u8 *)b);
+    func_02045CAC((struct MsgBank *)x, c, (void *)n);
+    func_0201F250((struct WordSet *)s, (void *)r, (void *)n);
     return r;
 }

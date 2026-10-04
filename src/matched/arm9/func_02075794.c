@@ -55,13 +55,16 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_02073344(u32 a0, u32 a1, u32 a2);
-extern u32   func_020734AC(u32 a, void *h);
+typedef signed int     s32;
+struct Node;
+struct Obj;
+extern struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri);
+extern void *func_020734AC(s32 idx, void *owner);
 extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern void  func_020733DC(void *h);
-extern void  func_020733E8(void *h, u32 *a, u32 b, u32 c);
-extern void  func_02072F48(u32 a, u32 b);
-extern void  func_02072F88(u32 a, u32 b);
+extern void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
+extern void func_02072F48(struct Obj *o, u8 v);
+extern void func_02072F88(struct Obj *o, u32 v);
 extern void  func_020730DC(u32 a, u32 b, u32 c);
 
 u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
@@ -70,21 +73,21 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3
     u32 v;
     u32 slot;
 
-    h = func_02073344(a0, a1, a3);
+    h = func_02073344((struct Obj *)a0, a1, a3);
     if (h == 0) {
         return 0;
     }
 
-    v = func_020734AC(a1, h);
+    v = (u32)func_020734AC(a1, h);
 
     if (func_02074CD0(a2, 6, v, 0, &slot) != 0) {
         func_020733DC(h);
         return 0;
     }
 
-    func_020733E8(h, (u32 *)(s1 + *(u32 *)(s1 + 0x18)), *(u32 *)s0, slot);
-    func_02072F48(a0, s0[6]);
-    func_02072F88(a0, s0[7]);
+    func_020733E8(h, (u32 *)(s1 + *(u32 *)(s1 + 0x18)), *(u32 *)s0, (const void *)slot);
+    func_02072F48((struct Obj *)a0, s0[6]);
+    func_02072F88((struct Obj *)a0, s0[7]);
     func_020730DC(a0, s2, s3);
     return 1;
 }

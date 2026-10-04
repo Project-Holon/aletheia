@@ -45,7 +45,7 @@ extern void func_021DC680(u8 *,int);
 extern int func_021DC5AC(const unsigned int *,unsigned int);
 extern void func_021DC6A4(u8 *,int);
 extern void func_021DC6D0(u8 *,int);
-extern void func_021DC6FC(int,int,int);
+extern void func_021DC6FC(void *p, u32 kind);
 extern void func_0203C9AC(int,u32,u32,u32);
 extern void func_0200FA84(void);
 struct Reg2;
@@ -58,7 +58,7 @@ int func_021DC338(u8 *p)
     u32 count,percent;
     switch(*(u32 *)(p+0x12c)) {
     case 0:
-        if(func_021C5928(func_021DC6FC,d_021E2FA8,d_021E2FB0)==0)return 3;
+        if(func_021C5928((void (*)(int,  int,  int))func_021DC6FC,d_021E2FA8,d_021E2FB0)==0)return 3;
         *(u32 *)(p+0x1458)=1;
         func_021DC680(p,1);break;
     case 1:

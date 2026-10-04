@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 
 extern u32 func_02049030(u32 a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u8   *func_0202C2EC(u16 heapId);
+extern u32 func_0202C2EC(void *heap);
 extern void  func_0202C318(u8 *unit, u32 i, u16 heapId);
 
 void func_0202C148(u8 *p, u16 heapId)
@@ -45,7 +45,7 @@ void func_0202C148(u8 *p, u16 heapId)
     *(u32 *)(p + 8) = (u32)func_02030734(heapId, (u32)(n << 2), 0,
                                          (const void *)0x020A7758, 0x13a);
     for (i = 0; (int)i < n; i++) {
-        u8 *r = func_0202C2EC(heapId);
+        u8 *r = (u8 *)func_0202C2EC((void *)heapId);
         func_0202C318(r, i, heapId);
         *(u32 *)(*(u32 *)(p + 8) + (i << 2)) = (u32)r;
     }

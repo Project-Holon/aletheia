@@ -15,14 +15,14 @@
  *   func_02034FB8  0x02034FB8  arm
  */
 
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 extern void func_02006D44(void);
 typedef unsigned int   u32;
 extern void func_02034FB8(u32 v);
 
 void func_02184408(int *p)
 {
-    func_020307B0(*(int *)((char *)p + 0x1c));
+    func_020307B0((void *)(*(int *)((char *)p + 0x1c)));
     func_02006D44();
     func_02034FB8(8);
 }

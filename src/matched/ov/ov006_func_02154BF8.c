@@ -15,15 +15,17 @@
  *   func_021544F0  0x021544F0  thumb  ov006
  */
 
-int func_020122C0(int p, int a, void (*cb)(void), int n);
-void func_02154B08(int h, int a, int b, int c);
+typedef unsigned int   u32;
+struct Desc;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void func_02154B08(void *obj_in, void *p, int a, int b);
 void func_021544F0(void);
 
 int func_02154BF8(int a, int b, int c)
 {
     int h;
 
-    h = func_020122C0(a, 0, func_021544F0, 0x174);
-    func_02154B08(h, a, b, c);
+    h = (int)func_020122C0((void *)a, 0, func_021544F0, 0x174);
+    func_02154B08((void *)h, (void *)a, b, c);
     return h;
 }

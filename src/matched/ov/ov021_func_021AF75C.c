@@ -34,10 +34,11 @@ static inline u8 Ctx_ReadByte(Ctx *s)
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern void func_02158F58(void *a);
-extern u32 func_02158F74(void *a);
-extern u32 func_02012944(void *a);
-extern void func_0201F02C(u32 a, u32 b, u32 c);
+struct WordSet;
+extern int func_02158F58(int a0);
+extern void *func_02158F74(void *p);
+extern u8 *func_02012944(void *p);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 
 int func_021AF75C(Ctx *s, u32 b)
 {
@@ -45,9 +46,9 @@ int func_021AF75C(Ctx *s, u32 b)
     u32 y;
     u32 w;
 
-    func_02158F58(x);
-    y = func_02012944(func_0215A5E4((void *)b));
-    w = func_02158F74(x);
-    func_0201F02C(w, Ctx_ReadByte(s), y);
+    func_02158F58((int)x);
+    y = (u32)func_02012944(func_0215A5E4((void *)b));
+    w = (u32)func_02158F74(x);
+    func_0201F02C((struct WordSet *)w, Ctx_ReadByte(s), (void *)y);
     return 0;
 }

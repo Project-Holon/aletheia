@@ -21,7 +21,7 @@
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 #define BE32(p, o) (((unsigned long)SWAP16(*(unsigned short *)((p) + (o))) << 16) | SWAP16(*(unsigned short *)((p) + (o) + 2)))
 
-extern unsigned short func_0215781C(unsigned char *s, unsigned long len);
+extern int func_0215781C(int a, int b);
 extern unsigned long func_02158F84(unsigned long ip1, unsigned long ip2);
 extern void func_02158E84(unsigned char *iphdr, unsigned char *icmpdata, unsigned long len);
 extern void func_02158DB0(unsigned char *iphdr, unsigned char *icmpdata, unsigned long len);
@@ -30,7 +30,7 @@ void func_02158FE4(unsigned char *iphdr, unsigned char *icmpdata, unsigned long 
 {
 	if (len < 8)
 		return;
-	if (func_0215781C(icmpdata, len) != 0xffff)
+	if (func_0215781C((int)icmpdata, len) != 0xffff)
 		return;
 	if (func_02158F84(BE32(iphdr, 0xc), BE32(iphdr, 0x10)) == 0)
 		return;

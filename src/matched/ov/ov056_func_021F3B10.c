@@ -65,8 +65,9 @@ typedef struct Obj {
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0207ADC4(Mtx33 *m);
-extern u32 func_02008550(int a);
-extern void *func_02046E24(void *a0, u32 a1);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern void *func_02046E24(u32 a0, u32 a1);
 extern int func_02047180(u32 *p);
 extern void func_02049238(void *);
 
@@ -93,16 +94,16 @@ void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx)
     o->scale.y = 0x1000;
     o->scale.z = 0x1000;
     func_0207ADC4(&o->rot);
-    if (func_02008550(a2) == 0) {
+    if (func_02008550((const struct Sub0200852CObj *)a2) == 0) {
         k = idx * 6;
-        o->res0 = func_02046E24(h, k + 3);
-        o->res2 = func_02046E24(h, k + 4);
+        o->res0 = func_02046E24((u32)h, k + 3);
+        o->res2 = func_02046E24((u32)h, k + 4);
     } else {
         k = idx * 6;
-        o->res0 = func_02046E24(h, k + 1);
-        o->res2 = func_02046E24(h, k + 2);
+        o->res0 = func_02046E24((u32)h, k + 1);
+        o->res2 = func_02046E24((u32)h, k + 2);
     }
-    o->res1 = func_02046E24(h, k + 5);
+    o->res1 = func_02046E24((u32)h, k + 5);
     func_02047180(o->res0);
     o->f0c = 1;
     func_02049238(h);

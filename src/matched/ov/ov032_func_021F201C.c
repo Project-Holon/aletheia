@@ -26,14 +26,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021F20A8(char *p, char *q, u32 a);
-extern void func_02043B5C(u32 a, u32 b);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void func_021F20A8(char *p, char *q, int *r);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(u32 a);
-extern u8 func_02045730(u32 a);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
@@ -42,18 +45,18 @@ void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u3
     u32 w;
     u32 v;
 
-    func_02043B5C(*(u32 *)(q + 4), a5);
+    func_02043B5C((struct CharBuf *)(*(u32 *)(q + 4)), a5);
     if (*(u8 *)(p + 0x7a) != 0) {
         func_0201C7D0(*(u32 *)(q + 4), x, y, text, *(u32 *)(p + 0xb0), col);
         w = *(u32 *)q;
         func_02045334((struct Descriptor *)w);
-        func_02045374(w);
-        func_020409B4(func_02045730(w));
+        func_02045374((struct Cfg *)w);
+        func_020409B4(func_02045730((struct Descriptor *)w));
         return;
     }
     v = *(u32 *)(p + 0xb4);
     func_0201C724(v, (u32)func_02045770((struct Descriptor *)*(u32 *)(q + 8)), x, y, text,
                   *(u32 *)(p + 0xb0), col);
     *(u8 *)(q + 0xc) = 1;
-    func_021F20A8(p, q, a7);
+    func_021F20A8(p, q, (int *)a7);
 }

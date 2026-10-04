@@ -28,10 +28,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020134F4(u8 *p, u32 a, u32 id, u32 c, u16 d);
-extern void func_02013284(u8 *p, u32 a, u32 b, u8 *q, u32 d, u16 e);
+extern void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h);
 
 void func_02013678(u8 *p, u32 a, u32 b, u32 c, u16 d)
 {
     func_020134F4(p, a, 2, b, d);
-    func_02013284(p, a, 1, p + 0x28, c, d);
+    func_02013284(p, (u32 *)a, 1, (u32 *)(p + 0x28), c, d);
 }

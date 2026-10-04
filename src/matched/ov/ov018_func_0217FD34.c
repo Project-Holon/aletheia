@@ -30,7 +30,7 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
-void func_0217FDA0(int a, int *b, u8 *c, int d, int e, int f, int g);
+void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g);
 int func_021800A4(void);
 
 void *func_0217FD34(int a, int b, u8 *c, int d, int e, u16 f)
@@ -39,7 +39,7 @@ void *func_0217FD34(int a, int b, u8 *c, int d, int e, u16 f)
     u8 *q = func_020124E8(r);
 
     func_02082BCC(q, 0, 0x9c);
-    func_0217FDA0(a, (int *)c, q, b, d, e, f);
+    func_0217FDA0(a, (u8 *)((int *)c), q, b, d, e, f);
     q[0x41] = c[0x11c];
     *(S52 *)(q + 0x44) = *(S52 *)(c + 0x120);
     return r;

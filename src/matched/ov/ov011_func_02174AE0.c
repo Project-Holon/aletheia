@@ -16,8 +16,10 @@
  *   func_02174E14  0x02174E14  thumb ov011
  */
 
-int func_02026478(int a);
-int func_02012B38(int a);
+typedef unsigned int   u32;
+struct BigObj;
+u32 func_02026478(void *obj);
+void *func_02012B38(const struct BigObj *p);
 int func_02014484(int a);
 typedef unsigned char  u8;
 void func_02174E14(u8 *p, int a);
@@ -26,7 +28,7 @@ void func_02174AE0(unsigned char *p)
 {
     int r;
 
-    r = func_02014484(func_02012B38(func_02026478(*(int *)(p + 4))));
+    r = func_02014484((int)func_02012B38((const struct BigObj *)func_02026478((void *)(*(int *)(p + 4)))));
     switch (r) {
     case 0:
         if (((unsigned)(*(unsigned short *)(p + 0x86) << 17) >> 26) == 2) {

@@ -43,7 +43,8 @@ typedef struct {
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void func_0201A2A8(void *, void *);
-extern u32 func_0200873C(void *);
+struct Sub02008700Obj;
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int func_02034AC4(int);
 extern void func_021B6100(u8 *);
 extern const char ov90_id[];
@@ -58,7 +59,7 @@ void func_021DCB48(Args *p, void *unused, Output *out)
     func_0201A2A8(a, out->party);
     out->f4 = 0;
     out->f8 = 0;
-    out->fC = func_0200873C(b);
+    out->fC = (u32)func_0200873C(b);
     out->f10 = 0;
     out->f30 = 0;
     out->f34 = 26;

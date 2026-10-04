@@ -41,11 +41,11 @@ extern void func_021EAF18(struct L *p, int kind, u16 id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern u16 func_021D5B40(struct QI *p);
 extern u8 func_021D5440(u8 *p);
-extern int func_0201C314(u32);
+extern u32 func_0201C314(void *p);
 extern u16 func_021D67B8(u8 *p);
 extern u16 func_021D62D8(struct UtilSlots *p, int i);
 extern int func_0201BEB8(u32, int);
-extern int func_021EFCE4(int, int);
+extern void *func_021EFCE4(char *arg0, int arg1);
 extern int func_021EFC1C(int, int, void *, u32);
 int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
 {
@@ -76,7 +76,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
             return 1;
         }
     }
-    if (func_021D62C4(m, 0xb) && func_0201C314(move) == 0) {
+    if (func_021D62C4(m, 0xb) && func_0201C314((void *)move) == 0) {
         if (out) {
             func_021EAF18(out, 2, 0x23b);
             func_021EAF50(out, func_021D5440(m));
@@ -108,7 +108,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021EFCE4(*(int *)(g + 0x34), 3) && func_021EFC1C(*(int *)(g + 0x34), *(int *)(g + 4), m, move)) {
+    if (func_021EFCE4((char *)(*(int *)(g + 0x34)), 3) && func_021EFC1C(*(int *)(g + 0x34), *(int *)(g + 4), m, move)) {
         if (out) {
             func_021EAF18(out, 2, 0x24d);
             func_021EAF50(out, func_021D5440(m));
@@ -116,7 +116,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021EFCE4(*(int *)(g + 0x34), 2) && func_0201BEB8(move, 9)) {
+    if (func_021EFCE4((char *)(*(int *)(g + 0x34)), 2) && func_0201BEB8(move, 9)) {
         if (out) {
             func_021EAF18(out, 2, 0x43e);
             func_021EAF50(out, func_021D5440(m));

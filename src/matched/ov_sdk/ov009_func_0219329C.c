@@ -43,7 +43,8 @@
 
 extern int func_020949F4(const char *s1, const char *s2, int n);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern int func_02094B20(const char *s1, const char *s2);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern char g_021A5718[];
@@ -59,7 +60,7 @@ int func_0219329C(int *connection, const char *input, int fatal)
     if (func_020949F4(input, g_021A5718, 7) != 0)
         goto fail;
     if (func_02193418(input, g_021A5720, value, 0x10))
-        ic[0x5b8 / 4] = func_020964E0(value);
+        ic[0x5b8 / 4] = func_020964E0((u32)value);
     if (!func_02193418(input, g_021A5728, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {

@@ -20,10 +20,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_021AC1E0(void *obj);
+extern int func_021AC1E0(u32 a);
 
 void func_021D028C(void *obj, u8 v)
 {
     if (obj != 0)
-        func_021AC1E0(obj)[1] = v;
+        ((u8 *)func_021AC1E0((u32)obj))[1] = v;
 }

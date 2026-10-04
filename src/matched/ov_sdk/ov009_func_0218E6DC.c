@@ -90,7 +90,8 @@ extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePee
 extern char *func_02094B20(const char *s1, const char *s2);
 extern int func_020949F4(const char *s1, const char *s2, unsigned long n);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern int func_02084F40(char *dst, const char *fmt, ...);
 extern unsigned long func_0209477C(const char *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
@@ -131,7 +132,7 @@ int func_0218E6DC(void **connection, GPIPeer *peer)
                 peer->state = 0x6A;
                 return 0;
             }
-            pid = func_020964E0(intValue);
+            pid = func_020964E0((u32)intValue);
 
             if (!func_02193418(peer->inputBuffer.buffer, g_021A4EA8, nick, sizeof(nick))) {
                 peer->state = 0x6A;

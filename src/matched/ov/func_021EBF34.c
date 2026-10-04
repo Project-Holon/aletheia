@@ -19,12 +19,13 @@
  */
 
 
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 struct S { char pad[0x9E74]; int arr[1]; };
 void func_021EBF34(struct S *p, int i)
 {
     if (p->arr[i] != 0) {
-        func_0204B3B4(p->arr[i]);
+        func_0204B3B4((struct Obj *)p->arr[i]);
         p->arr[i] = 0;
     }
 }

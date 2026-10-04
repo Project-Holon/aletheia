@@ -49,9 +49,10 @@ typedef signed int     s32;
 extern int func_0202D060(void);
 extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void  func_0202D214(u32 obj, u32 key);
-extern void  func_0202D3D0(u32 obj, u32 pid);
-extern void  func_0202D2EC(u32 obj, u32 key);
+struct Obj;
+extern void func_0202D214(void *p, u32 v);
+extern void func_0202D3D0(struct Obj *obj, u32 a1);
+extern void func_0202D2EC(u32 *obj, u32 heap);
 
 void *func_0202D760(u32 *out, u32 a1, u32 a2, u32 a3,
                     u32 s0, u32 s1, u32 s2, u32 s3, volatile u16 s4)
@@ -62,9 +63,9 @@ void *func_0202D760(u32 *out, u32 a1, u32 a2, u32 a3,
     id = func_0202D064(func_0202D060(), a1, a2, a3, s0, s1, s2);
     res = func_02049E34(func_0202D060(), id, 1, (u32)out, s4);
     if (a1 == 0x147) {
-        func_0202D214(*out, s4);
-        func_0202D3D0(*out, s3);
-        func_0202D2EC(*out, s4);
+        func_0202D214((void *)(*out), s4);
+        func_0202D3D0((struct Obj *)(*out), s3);
+        func_0202D2EC((u32 *)(*out), s4);
     }
     return res;
 }

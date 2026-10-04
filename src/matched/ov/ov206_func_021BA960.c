@@ -19,34 +19,40 @@
  */
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern int func_020457B0(int,int);
-extern void func_0201F250(int,int,int);
-extern int func_0201D304(int,int,int);
-extern int func_020437DC(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Bmp;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_0201C724(int,int,short,short,int,int,unsigned short);
-extern void func_02045808(int);
+extern void func_02045808(struct U16Vec *vec);
 void func_021BA960(int heap,int window,int printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
 {
     int buffer=(int)func_02045770((struct Descriptor *)window);
     unsigned short x;
     int text;
     if(expansion) {
-        text=func_020457B0(128,heap);
-        func_0201F250(expansion,text,input);
+        text=(int)func_020457B0(128,heap);
+        func_0201F250((struct WordSet *)expansion,(void *)text,(void *)input);
     } else text=input;
     switch(alignment) {
     case 0: x=right; break;
     case 1: {
-        unsigned short width=func_0201D304(text,font,0);
+        unsigned short width=func_0201D304((struct StrObj *)text,font,0);
         x=right-width;
         break;
     }
     case 2: {
-        unsigned short width=func_0201D304(text,font,0);
-        x=(func_020437DC(buffer)-width)/2;
+        unsigned short width=func_0201D304((struct StrObj *)text,font,0);
+        x=(func_020437DC((const struct Bmp *)buffer)-width)/2;
         break;
     }
     }
     func_0201C724(printer,buffer,x,y,text,font,color);
-    if(expansion) func_02045808(text);
+    if(expansion) func_02045808((struct U16Vec *)text);
 }

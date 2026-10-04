@@ -18,8 +18,12 @@
 
 struct Entry;
 struct Entry *func_020399A8(void);
-int func_0203D1A4(int a);
-void func_020264B4(int a, int b, int c, unsigned char d, int e, int f);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Link;
+u32 func_0203D1A4(struct Link *p);
+void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
 void func_02174F54(void *a, int b, const void *c, int d);
 
 typedef struct C {
@@ -30,8 +34,8 @@ typedef struct C {
 
 void func_0217392C(int a, int b, const C *c, unsigned char *d)
 {
-    if (a == func_0203D1A4((int)func_020399A8())) {
-        func_020264B4(*(int *)(d + 4), a, c->w14, c->f, 0x15, 0);
+    if (a == func_0203D1A4((struct Link *)((int)func_020399A8()))) {
+        func_020264B4((void *)(*(int *)(d + 4)), a, c->w14, c->f, 0x15, 0);
     } else if ((d[0x8FB] & (1 << a)) != 0) {
         func_02174F54(d, a, c, 0);
     }

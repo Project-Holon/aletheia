@@ -39,7 +39,7 @@ typedef struct {
 } Fx;
 
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02188CD0(u32 a);
+extern u32 func_02188CD0(u8 *p);
 extern void func_021C76C4(Vec *out, float a, float b, float c);
 extern void func_0216D8C0(u32 a, Vec *v);
 extern void func_021AC528(u32 a, u32 b);
@@ -64,7 +64,7 @@ int func_021C7730(Fx *o)
         func_021C76C4(&v, (float)(u32)o->h8, (float)(u32)o->ha, o->fc);
         func_0216D8C0(s, &v);
         if (o->ha <= o->h8) {
-            func_021AC528(s, func_02188CD0(o->w4));
+            func_021AC528(s, func_02188CD0((u8 *)o->w4));
             func_020061E4(0x682);
             return 1;
         }

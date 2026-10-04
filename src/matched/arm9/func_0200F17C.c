@@ -61,9 +61,9 @@ typedef unsigned int  u32;
 typedef signed int     s32;
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
-extern int  func_0215536C(void);
-extern int  func_02177020(void);
-extern int  func_021798D4(void);
+extern void *func_0215536C(void);
+extern void *func_02177020(void);
+extern void *func_021798D4(void);
 
 extern u8 ov_id_0A[];
 extern u8 ov_id_0B[];
@@ -82,27 +82,27 @@ int func_0200F17C(u32 sel)
         func_02034AC4((u32)ov_id_09);
         func_02034AC4((u32)ov_id_0D);
         func_02034AC4((u32)ov_id_72);
-        return func_0215536C();
+        return (int)func_0215536C();
     case 1:
         func_02034A5C((u32)ov_id_0A);
         func_02034A5C((u32)ov_id_0B);
         func_02034AC4((u32)ov_id_09);
         func_02034AC4((u32)ov_id_0D);
-        return func_0215536C();
+        return (int)func_0215536C();
     case 2:
         func_02034A5C((u32)ov_id_0A);
         func_02034A5C((u32)ov_id_0B);
         func_02034AC4((u32)ov_id_09);
         func_02034AC4((u32)ov_id_0D);
-        return func_0215536C();
+        return (int)func_0215536C();
     case 0:
     case 5:
         func_02034AC4((u32)ov_id_0E);
-        return func_02177020();
+        return (int)func_02177020();
     case 3:
     case 4:
         func_02034AC4((u32)ov_id_0F);
-        return func_021798D4();
+        return (int)func_021798D4();
     }
     return 0;
 }

@@ -18,13 +18,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02060640(void *p, u32 a);
+struct DList;
+struct Elem;
+extern struct Elem *func_02060640(struct DList *list, u32 val);
 extern u32 g_02146B64;
 
 void *func_020606A8(u32 a)
 {
     void *r = &g_02146B64;
-    u32 v = func_02060640(&g_02146B64, a);
+    u32 v = (u32)func_02060640((struct DList *)(&g_02146B64), a);
 
     if (v != 0) {
         r = (void *)(v + 0xc);

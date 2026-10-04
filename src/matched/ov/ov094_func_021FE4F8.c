@@ -16,7 +16,7 @@
  */
 typedef enum { KEY_0 } Key;
 
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern int func_021FFD9C(char *p, int key);
 extern void func_022004BC(void *w, int key);
 void func_021FE4F8(void)
@@ -24,7 +24,7 @@ void func_021FE4F8(void)
     Key i;
 
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C(func_021F8694(), i) == 1)
-            func_022004BC(func_021F8694(), i);
+        if (func_021FFD9C((char *)func_021F8694(), i) == 1)
+            func_022004BC((void *)func_021F8694(), i);
     }
 }

@@ -30,10 +30,11 @@ struct IcaAnime;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02012374(void *, u32);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void func_0215DE44(int a0);
-extern void func_0215DE0C(u32, void *);
+extern void func_0215DE0C(void *w, void *h);
 extern u32 func_02012138(const struct Ctx *);
 extern int func_02026454(void *, u32);
 extern int func_0203CDBC(void);
@@ -44,7 +45,7 @@ int func_0215DE58(void *a, u32 *st, Ctx *c)
     p = func_020120F4(func_020124E4(a));
     switch (*st) {
     case 0:
-        func_02012374(a, c->f0);
+        func_02012374(a, (struct Evt **)c->f0);
         (*st)++;
         break;
     case 1:
@@ -70,7 +71,7 @@ int func_0215DE58(void *a, u32 *st, Ctx *c)
         if (c->f8 == 1) {
             func_020121CC(func_020124E4(a));
         }
-        func_0215DE0C(c->f4, p);
+        func_0215DE0C((void *)c->f4, p);
         (*st)++;
         return 1;
     }

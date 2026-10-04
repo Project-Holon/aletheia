@@ -23,7 +23,7 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void *func_02051A34(void *);
+extern int func_02051A34(void *p);
 struct IcaAnime;
 struct Rec12;
 extern unsigned int func_02011610(struct IcaAnime *p, struct Rec12 *dst);
@@ -36,7 +36,7 @@ void func_021D6ECC(void *obj, int on)
     void *w;
 
     if (on != 0 && obj != 0) {
-        w = func_02051A34(obj);
+        w = (void *)func_02051A34(obj);
         if (*(void **)(*(char **)((char *)w + 0xc) + 0x9c) != 0) {
             v = (Vec *)buf;
             v->x = 0;

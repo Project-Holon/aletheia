@@ -33,8 +33,8 @@ extern int func_021DB228(u32 *ctx);
 extern int func_021DB218(u32 *ctx);
 extern int func_021DB248(u32 *ctx);
 extern int func_021DB238(u32 *ctx);
-extern int func_021DB160(u32 *ctx);
-extern int func_021DAFB8(u32 *ctx);
+extern void func_021DB160(int *ctx, int *input, int invert);
+extern void func_021DAFB8(int *ctx, const u32 *record, int invert);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_0203D378(void);
 extern const char d_021E2EF8[];
@@ -83,10 +83,10 @@ void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot)
             *(u32 *)(obj + 0x188) = rec[4];
             switch (kind) {
             case 0:
-                *(ReportFn *)(obj + 0x158) = func_021DB160;
+                *(ReportFn *)(obj + 0x158) = (ReportFn)func_021DB160;
                 break;
             case 2:
-                *(ReportFn *)(obj + 0x158) = func_021DAFB8;
+                *(ReportFn *)(obj + 0x158) = (ReportFn)func_021DAFB8;
                 break;
             default:
                 func_02034714(d_021E2EF8, 0, d_021E2EF8);

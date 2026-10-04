@@ -20,14 +20,14 @@ extern void *func_0215A5DC(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
-extern void func_021F3724(void *, int);
+extern void func_021F3724(unsigned int a0, int a1);
 
 int func_0215CDB8(void *a, void *b)
 {
     void *p = func_0215A5DC(b);
     int v = func_02159B10(a, b);
     func_02034AC4((int)ov037_id);
-    func_021F3724(p, v);
+    func_021F3724((unsigned int)p, v);
     func_02034A5C((int)ov037_id);
     return 0;
 }

@@ -38,7 +38,7 @@ extern int func_021C83D4(u8 *p);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021DBE50(u32 k);
-extern int func_021D85C0(void *a, int b);
+extern int func_021D85C0(int a, u32 b);
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern void *func_021C88A4(void *a, int k, int b);
 extern Word func_021E896C(int a, int b);
@@ -60,7 +60,7 @@ void func_021DBD9C(int u, void *a, int b)
         if (func_021D62C4(m, 0xd) == 0) {
             k = func_021D775C(0x14);
             if (k != 0 && k != 0xa5 && func_021DBE50(k) == 0
-                && func_021D85C0(a, 0x1e) != 0) {
+                && func_021D85C0((int)a, 0x1e) != 0) {
                 if (func_021D5BB0(m, 1) != 0) {
                     n = (N)(u8)(n + 1);
                 }

@@ -18,10 +18,12 @@
 
 typedef struct Vec { int x, y, z; } Vec;
 
-extern void *func_02012974(void *p);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012974(const struct BigObj *p);
 extern void func_020141E0(void *a, Vec *v);
-extern int func_02159C48(void *a, int x, int z);
-extern int func_02159BD4(void *a, int x, int z);
+extern int func_02159C48(int a0, int a1, int a2);
+extern int func_02159BD4(int a0, int a1, int a2);
 
 int func_02189370(char *p)
 {
@@ -31,10 +33,10 @@ int func_02189370(char *p)
     int r;
 
     q = p + 0xd4;
-    m = func_02012974(*(void **)(p + 8));
+    m = (void *)func_02012974(*(void **)(p + 8));
     func_020141E0(q, &v);
-    if (func_02159C48(m, v.x, v.z) == 1) {
-        r = func_02159BD4(m, v.x, v.z);
+    if (func_02159C48((int)m, v.x, v.z) == 1) {
+        r = func_02159BD4((int)m, v.x, v.z);
         if (r != 0xFFFF && r != *(short *)(q + 4))
             return 1;
     }

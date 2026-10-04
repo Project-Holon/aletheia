@@ -37,7 +37,8 @@ extern void func_021B8D9C(void *);
 extern void func_021B78AC(void *);
 extern void func_021B807C(u8 *p);
 extern void func_021B8D5C(u8 *p);
-extern void func_0204ADA4(void *);
+typedef unsigned int   u32;
+extern void func_0204ADA4(u32 i);
 extern void func_02025588(void *);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
@@ -49,7 +50,7 @@ int func_021B7798(void *a,int b,int *state,u8 *p)
 {
  int i;
  for(i=0;i<4;i++)func_021B9360(*(void **)(p+0x62C+i*4));
- func_0204ADA4(*(void **)(p+0x644));
+ func_0204ADA4((u32)(*(void **)(p+0x644)));
  func_021B71C0(*(void **)(p+0x614));
  func_021B8304(p+0x38);
  func_021B8FC4(p+0x600); func_021B8D9C(p+0x5D4);func_021B78AC(p+0x28);

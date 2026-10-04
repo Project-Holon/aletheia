@@ -28,9 +28,13 @@ typedef struct Pair {int x,y;} Pair;
 extern void func_02082BCC(void *,int,unsigned);
 extern void func_021FF54C(char *,int,Cfg *);
 extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char *,int,int,int *);
-extern void func_021FD860(int,int,Pair *),func_021FD73C(int *,int),func_021FD170(void *,void *,int);
+extern void func_021FD860(int,int,Pair *);
+extern void func_021FD73C(int *,int);
+extern void func_021FD170(char *p, char *q, void *text);
 extern int func_02035C60(void),func_02035D20(int *,int *);
-extern void func_020061E4(int),func_021F88B0(void),func_021F8A0C(void);
+extern void func_020061E4(int);
+extern void func_021F88B0(int a, int *state, char *p);
+extern void func_021F8A0C(int *sys, int *state, char *p);
 void func_021F8790(int *task,unsigned *state,char *p)
 {
     Cfg cfg;
@@ -58,10 +62,10 @@ void func_021F8790(int *task,unsigned *state,char *p)
                 break;
             }
             *state=3;
-            func_021FD170(*(void **)(p+4),*(void **)(*(char **)(p+0x34)+12),0x14d);
+            func_021FD170(*(void **)(p+4),*(void **)(*(char **)(p+0x34)+12),(void *)0x14d);
         }else{
             *state=3;
-            func_021FD170(*(void **)(p+4),*(void **)(*(char **)(p+0x34)+12),out);
+            func_021FD170(*(void **)(p+4),*(void **)(*(char **)(p+0x34)+12),(void *)out);
         }
         break;
     case 3:

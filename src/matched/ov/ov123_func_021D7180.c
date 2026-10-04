@@ -26,14 +26,15 @@
 
 typedef unsigned int u32;
 
-extern int func_021D580C(int);
+typedef unsigned char  u8;
+extern int func_021D580C(char *p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_021D6EE0(int, int, int);
-extern void func_021D5A60(int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
+extern void func_021D5A60(char *p);
 extern void func_021D57D0(int, int, int, int);
-extern void func_021D56FC(int, int);
-extern void func_02005DE4(int);
+extern void func_021D56FC(char *p, int mode);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 extern void func_02005D90(int, int);
 extern void func_021D70BC(char *p);
@@ -41,21 +42,21 @@ extern void func_021D7130(void);
 
 void func_021D7180(int a)
 {
-    if (func_021D580C(*(int *)(a + 0x18)) == 0)
+    if (func_021D580C((char *)(*(int *)(a + 0x18))) == 0)
         return;
     if (func_020362DC() == 0 && func_02035C60() == 0)
         return;
     if (*(int *)(a + 0x6c) == 0) {
-        func_021D6EE0(a, (int)func_021D70BC, 0x217);
+        func_021D6EE0((u8 *)a, (int)func_021D70BC, 0x217);
         return;
     }
-    func_021D5A60(*(int *)(a + 0x18));
+    func_021D5A60((char *)(*(int *)(a + 0x18)));
     func_021D57D0(*(int *)(a + 0x18), 0x16, *(int *)(a + 0x6c),
                  *(int *)(a + 0xc));
-    func_021D56FC(*(int *)(a + 0x18), 0);
-    func_02005DE4(1);
+    func_021D56FC((char *)(*(int *)(a + 0x18)), 0);
+    func_02005DE4((void *)1);
     func_02005E64();
     func_02005D90(0x515, 0xffff);
     *(int *)(a + 0x78) = 0xb4;
-    func_021D6EE0(a, (int)func_021D7130, 0x222);
+    func_021D6EE0((u8 *)a, (int)func_021D7130, 0x222);
 }

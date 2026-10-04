@@ -22,7 +22,7 @@
  */
 
 extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
-extern void func_0217D254(int cat, int type, unsigned char level, char *str);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int g_021ACEF8;
 extern char g_021ACEFC[];
 extern char g_021E52B4[128];
@@ -36,6 +36,6 @@ char *func_021DF968(void)
             func_02084F80(g_021E52B4, 128, g_021E412C, g_021ACEFC);
         return g_021E52B4;
     }
-    func_0217D254(0, 3, 1, g_021E4184);
+    func_0217D254(0, (char *)3, 1, g_021E4184);
     return 0;
 }

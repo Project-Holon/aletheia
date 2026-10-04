@@ -28,15 +28,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_02009470(u32 a);
-extern void func_021CFDBC(u32 a, u32 b, u32 c);
-extern u32 func_0200973C(u32 a, u32 b);
-extern u32 func_02008550(u32 a);
-extern u32 func_02009634(u32 a, u32 b, u32 c);
-extern u32 func_02008530(u32 a);
-extern u8 *func_02012F38(u32 a);
+struct Big;
+struct Ctx;
+struct Sub0200852CObj;
+struct Sub02009470Ent;
+struct Sub02009470Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
+extern void func_021CFDBC(void *ws, u32 h, u32 x);
+extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u32 func_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern int func_02012F38(int base);
 extern u8 func_02025B64(u32 v);
 extern int func_021CFD88(int a, u32 b, u32 c, int d, int e);
 
@@ -46,18 +51,18 @@ int func_021CFD08(u32 a, u32 b, u8 *c, int d, u32 e)
     u32 flag;
 
     flag = 0;
-    h = func_020120F4(b);
-    g = func_02009470(func_02012EBC(h));
+    h = (u32)func_020120F4((const struct Ctx *)b);
+    g = (u32)func_02009470(func_02012EBC((struct Big *)h));
     if (d >= 5) {
         return 4;
     }
     x = ((u8 *)(c + d))[8];
-    func_021CFDBC(a, h, x);
-    v = func_0200973C(g, x);
-    s = func_02008550(v);
-    w = func_02009634(g, x, 4);
-    t = func_02008530(v);
-    if (func_02025B64(*func_02012F38(h))) {
+    func_021CFDBC((void *)a, h, x);
+    v = (u32)func_0200973C((struct Sub02009470Obj *)g, x);
+    s = func_02008550((const struct Sub0200852CObj *)v);
+    w = func_02009634((const struct Sub02009470Obj *)g, x, 4);
+    t = func_02008530((const struct Sub0200852CObj *)v);
+    if (func_02025B64(*((u8 *)func_02012F38(h)))) {
         flag = 1;
     }
     return func_021CFD88(s, t, w, e, flag);

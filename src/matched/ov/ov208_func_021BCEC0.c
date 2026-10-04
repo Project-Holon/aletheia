@@ -24,7 +24,7 @@ extern void func_021BD07C(char *p);
 extern void func_021BCFF8(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);
-extern void func_020307B0(unsigned);
+extern void func_020307B0(void *p);
 void func_021BCEC0(char *p)
 {
     func_02030EAC(*(void **)(p+0xc));
@@ -37,5 +37,5 @@ void func_021BCEC0(char *p)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     func_02082BCC(p,0,0x14);
-    func_020307B0((unsigned)p);
+    func_020307B0((void *)((unsigned)p));
 }

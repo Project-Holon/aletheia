@@ -113,14 +113,16 @@ extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *arc);
-extern void func_0204A48C(const void *a, const void *b, int heap);
+typedef signed int     s32;
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
-extern void *func_0204A6C8(void *arc, int id, int a, int b, int heap);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void *func_0204ABF0(void *arc, int id, int a, int b, int heap);
-extern void *func_0204AC18(void *arc, int id, int a, int b, int c, int d, int heap);
-extern void *func_0204AF28(void *arc, int id, int id2, int heap);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern const unsigned char d_020A1448[];
 extern const unsigned char d_021C88FC[];
 
@@ -128,15 +130,15 @@ void func_021C7504(Work *p)
 {
     void *arc = func_020490F4(func_020275E4(), 0x27);
 
-    func_0204A48C(d_020A1448, d_021C88FC, 0x27);
+    func_0204A48C((const struct Cfg *)d_020A1448, (u32)d_021C88FC, 0x27);
     p->f48 = func_0204B100(0x24, 1, 0x27);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
-    p->fE0 = func_0204A6C8(p->f0, 0x1B, 0, 0, 0x27);
+    p->fE0 = (void *)func_0204A6C8(p->f0, 0x1B, 0, 0, 0x27);
     p->fDC = func_0204ABF0(p->f0, 2, 0, 0, 0x27);
-    p->fE4 = func_0204AF28(p->f0, 0x2D, 0x2F, 0x27);
-    p->fEC = func_0204A6C8(arc, func_02027618(), 0, 0, 0x27);
-    p->fE8 = func_0204AC18(arc, func_02027614(), 0, 0x160, 0, 3, 0x27);
-    p->fF0 = func_0204AF28(arc, func_0202761C(0), func_02027620(0), 0x27);
+    p->fE4 = (void *)func_0204AF28(p->f0, 0x2D, 0x2F, 0x27);
+    p->fEC = (void *)func_0204A6C8(arc, func_02027618(), 0, 0, 0x27);
+    p->fE8 = (void *)func_0204AC18(arc, func_02027614(), 0, 0x160, 0, 3, 0x27);
+    p->fF0 = (void *)func_0204AF28(arc, func_0202761C(0), func_02027620(0), 0x27);
     func_02049238(arc);
 }

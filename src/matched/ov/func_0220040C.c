@@ -20,11 +20,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_020457B0(u32 a, u32 b);
-extern u32 func_02045EC0(u32 v, u32 k);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void func_0220040C(u8 *p)
 {
-    *(u32 *)(p + 0xb88) = func_020457B0(0xb4, 0x48);
-    *(u32 *)(p + 0xb8c) = func_02045EC0(*(u32 *)(p + 0xb6c), 0x2d);
+    *(u32 *)(p + 0xb88) = (u32)func_020457B0(0xb4, 0x48);
+    *(u32 *)(p + 0xb8c) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0xb6c)), 0x2d);
 }

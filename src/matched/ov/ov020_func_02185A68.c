@@ -38,7 +38,7 @@ struct BigObj;
 struct Ctx;
 struct Sub02014444Obj;
 void *func_020120F4(const struct Ctx *p);
-void *func_02012844(void *p);
+u32 func_02012844(const struct BigObj *p);
 void *func_0201210C(const struct Ctx *p);
 u8 func_02012B70(const struct BigObj *p);
 u32 func_02013D5C(u32 id);
@@ -51,11 +51,11 @@ u32 func_02013D20(u32 id);
 u8 func_020129AC(const struct BigObj *p);
 void func_020129B8(struct BigObj *p, u8 v);
 u8 func_02012984(const struct BigObj *p);
-void *func_02012974(void *p);
+u32 func_02012974(const struct BigObj *p);
 u32 func_02013B44(u32 id);
-void func_02162408(void *p, int v, int w);
-void func_02159B94(void *p, int a, int b, int c);
-void func_02159CC4(void *p, void *a, int b);
+int func_02162408(int a0, int a1, int a2);
+int func_02159B94(int a0, int a1, int a2, int a3);
+void func_02159CC4(u32 *a, int b, int c);
 void func_02185A34(void *p, unsigned int id);
 
 void func_02185A68(void *a, int b)
@@ -65,7 +65,7 @@ void func_02185A68(void *a, int b)
     int st;
 
     r4 = func_020120F4(a);
-    r7 = func_02012844(r4);
+    r7 = (void *)func_02012844(r4);
     func_0201210C(a);
     if (func_02012B70(r4) == 1 && func_02013D5C(b) == 0)
         func_02014450(func_02012B38(r4), 1);
@@ -86,9 +86,9 @@ void func_02185A68(void *a, int b)
             func_020129B8(r4, 0);
     }
 
-    func_02162408(r7, b, func_02012984(r4));
-    r7 = func_02012974(r4);
-    func_02159B94(r7, func_02013B44(b), b, 0x8001);
-    func_02159CC4(r7, a, 0x8001);
+    func_02162408((int)r7, b, func_02012984(r4));
+    r7 = (void *)func_02012974(r4);
+    func_02159B94((int)r7, func_02013B44(b), b, 0x8001);
+    func_02159CC4(r7, (int)a, 0x8001);
     func_02185A34(r4, b);
 }

@@ -83,7 +83,7 @@ extern void func_02010888(void *p, u32 v);
 extern void func_0201093C(u8 *p);
 extern void func_020307B0(void *p);
 extern u32  func_0200FB24(void);
-extern void func_02012E08(u32 v);
+extern void func_02012E08(char *p);
 
 void *func_0201088C(u32 heap, u32 a1)
 {
@@ -115,7 +115,7 @@ u32 func_02010904(struct Sub0201088CObj *p)
         p->f8(p);
     if (func_0200FB24() != 0) {
         if (p->f0c != 0)
-            func_02012E08(p->f0c);
+            func_02012E08((char *)p->f0c);
         return 1;
     }
     if (p->f8 == 0)

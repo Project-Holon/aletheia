@@ -61,7 +61,8 @@ struct Sub020089A8Obj;
 struct U16Vec;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern u32 func_0201D304(void *a, void *b, u32 c);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
@@ -86,7 +87,7 @@ void func_021C61EC(Work *p, int k, int flush)
     } else {
         str = func_02045EC0(bank, 0);
     }
-    w = func_0201D304(str, p->f31FC, 0);
+    w = func_0201D304(str, (u32)p->f31FC, 0);
     func_02043B5C(func_02045770(p->bg[1]), 0);
     func_0201C7A4(func_02045770(p->bg[1]), 0x80 - w, 0, str, p->f31FC);
     func_02045808(str);

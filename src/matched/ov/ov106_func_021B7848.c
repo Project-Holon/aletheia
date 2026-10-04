@@ -17,16 +17,17 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021B78B8(u8 *);
 extern void func_021B80A0(u8 *);
-extern void func_0201C4E4(u32);
-extern int func_021B93E4(u32);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern int func_021B93E4(u8 *p);
 extern u32 func_021B78CC(u8 *);
 int func_021B7848(int a, int b, int c, u8 *p)
 {
     int i;
     func_021B78B8(p + 0x28);
     func_021B80A0(p);
-    func_0201C4E4(*(u32 *)(p + 0x61C));
-    for (i = 0; i < 4; i++) func_021B93E4(*(u32 *)(p + 0x62C + i * 4));
+    func_0201C4E4((struct PrintSys *)(*(u32 *)(p + 0x61C)));
+    for (i = 0; i < 4; i++) func_021B93E4((u8 *)(*(u32 *)(p + 0x62C + i * 4)));
     if (func_021B78CC(p + 0x28)) return 1;
     return 0;
 }

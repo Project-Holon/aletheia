@@ -24,8 +24,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_021901E4(u8 *p);
-extern u8 *func_021901E8(u8 *p);
+extern u32 func_021901E4(u8 *p);
+extern u32 func_021901E8(u8 *p);
 extern void func_0218ED34(u8 *p, u16 v);
 extern void func_0218ED48(u8 *p, u16 v);
 extern void func_0218ED58(u8 *p, u32 v);
@@ -34,8 +34,8 @@ extern void func_0218ECD4(u8 *p, u8 *v);
 
 void func_0218FEC0(u8 *o)
 {
-    u8 *a = func_021901E4(o);
-    u8 *b = func_021901E8(o) + 4;
+    u8 *a = (u8 *)func_021901E4(o);
+    u8 *b = (u8 *)(func_021901E8(o) + 4);
     func_0218ED34(a, *(u16 *)b);
     func_0218ED48(a, *(u16 *)(b + 2));
     func_0218ED58(a, *(u32 *)(b + 4));

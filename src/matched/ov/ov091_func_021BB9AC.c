@@ -13,7 +13,9 @@
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201EF4C 0x0201EF4C thumb
  */
-extern void func_0201EF40(int,int,int);
-extern void func_0201EF4C(int,int,int);
-void func_021BB9AC(int a,int b,int c,int d) {func_0201EF40(*(int *)(b+0x2c),c,d);}
-void func_021BB9BC(int a,int b,int c,int d) {func_0201EF4C(*(int *)(b+0x2c),c,d);}
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EF4C(struct WordSet *p, u32 i, u32 v);
+void func_021BB9AC(int a,int b,int c,int d) {func_0201EF40((struct WordSet *)(*(int *)(b+0x2c)),c,d);}
+void func_021BB9BC(int a,int b,int c,int d) {func_0201EF4C((struct WordSet *)(*(int *)(b+0x2c)),c,d);}

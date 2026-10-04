@@ -100,11 +100,11 @@ extern BmpMenuWork *func_0201F81C(u32 n, u16 heap);
 extern void  func_0201F878(BmpMenuWork *list, void *msg, u32 strId, u32 param, u16 heap);
 extern void func_02045C04(struct Rec *rec);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void *func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201DC80(struct Font *p);
-extern void *func_0201C440(u16 heap);
+extern u32 func_0201C440(void *p);
 extern BmpMenu *func_0201F9D0(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -141,7 +141,7 @@ BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
 
     MI_CpuFill8(&hdr, 0, sizeof(hdr));
     hdr.items = list;
-    hdr.win = func_020450F0(winDat->frame, winDat->x, winDat->y, 7, 4, winDat->pal, 1);
+    hdr.win = (void *)func_020450F0(winDat->frame, winDat->x, winDat->y, 7, 4, winDat->pal, 1);
     hdr.xmax = 1;
     hdr.ymax = 2;
     hdr.lineSpc = 1;
@@ -152,7 +152,7 @@ BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
     hdr.unk0e = func_0201DC80(hdr.fontH);
     hdr.unk0c = 10;
     PrintUtil_Init(hdr.util, hdr.win);
-    hdr.que = func_0201C440(heap);
+    hdr.que = (void *)func_0201C440((void *)heap);
     hdr.unk20 = 0;
 
     m = func_0201F9D0(&hdr, 0xE, 0, pos, heap, 2);

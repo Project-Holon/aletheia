@@ -31,7 +31,7 @@ extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int ov208_func_021BC3A4(int key);
-extern void *func_0200CA1C(int a);
+extern void *func_0200CA1C(void *a);
 extern u16 ov208_func_021BC3C0(int key);
 extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
@@ -62,7 +62,7 @@ void ov208_func_021C3514(u16 *heap, u8 *p, int key)
         }
     }
     if (hit != 0) {
-        pd = func_0200CA1C(ov208_func_021BC3A4(key));
+        pd = func_0200CA1C((void *)ov208_func_021BC3A4(key));
         species = ov208_func_021BC3C0(key);
         func_0200CC40(pd, species, &o1, &o2, &form, *heap);
         *(u32 *)(p + 0x64) = func_02006984(species, form, 0x40, 0, 0, 0, 0, 0);

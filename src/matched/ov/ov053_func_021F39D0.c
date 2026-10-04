@@ -16,16 +16,19 @@
  *   func_021C4E20 0x021C4E20 thumb ov021
  */
 
-extern int func_02188C80(int);
-extern unsigned func_020120F4(unsigned);
-extern unsigned func_02012EC4(unsigned);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern char *func_0200B3A4(unsigned, int);
 extern unsigned func_021C4E20(void *);
 
 void func_021F39D0(char *a, int b)
 {
     int i;
-    int *p = (int *)func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(b))), 1);
+    int *p = (int *)func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)b))), 1);
     for (i = 0; i < 5; i++)
         p[i] = (int)func_021C4E20(((void **)(a + 8))[i]) >> 12;
 }

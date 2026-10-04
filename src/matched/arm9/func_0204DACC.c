@@ -60,7 +60,7 @@ struct Ovr {
 
 extern void func_02063790(void *h);
 extern u32 func_0204D9B4(u32 a, u32 b);
-extern u32 func_02034660(u32 bank, u32 key, void *desc);
+extern int func_02034660(u8 *p, u32 a, void **out);
 extern u32 func_020346D8(u32 *p, void *desc);
 extern void func_0204DC70(struct Sink *s, int kind);
 extern void func_02063828(struct Sink *s, u32 off, int kind, void *cell);
@@ -91,7 +91,7 @@ void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
     func_02063790(cell);
 
     if (func_0204D9B4(mode, 0) != 0) {
-        if (func_02034660(r->f00, key, cell + 0x2c) != 0) {
+        if (func_02034660((u8 *)r->f00, key, (void **)(cell + 0x2c)) != 0) {
             off = func_020346D8((u32 *)r->f00, cell + 0x2c);
             kind = 1;
             func_0204DC70(s, (int)kind);
@@ -106,7 +106,7 @@ void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
     }
 
     if (func_0204D9B4(mode, 1) != 0) {
-        if (func_02034660(r->f04, key, cell + 0x34) != 0) {
+        if (func_02034660((u8 *)r->f04, key, (void **)(cell + 0x34)) != 0) {
             off = func_020346D8((u32 *)r->f04, cell + 0x34);
             kind = 2;
             func_0204DC70(s, (int)kind);

@@ -15,27 +15,30 @@
  *   func_02008DF0  0x02008DF0  thumb
  */
 
-extern int  func_02012EBC(int a);
-extern int  func_02008C58(int sys);
-extern void func_02008DF0(int x, int y);
+typedef unsigned int   u32;
+struct Big;
+struct Sub02008C20Obj;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008C20Obj *func_02008C58(void *sys);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
 void func_021E8AC0(int a, int b)
 {
     int x;
 
-    x = func_02008C58(func_02012EBC(a));
+    x = (int)func_02008C58(func_02012EBC((struct Big *)a));
     switch (b) {
     case 1:
     case 4:
-        func_02008DF0(x, 0x12);
+        func_02008DF0((struct Sub02008C20Obj *)x, 0x12);
         break;
     case 0:
     case 3:
-        func_02008DF0(x, 0x13);
+        func_02008DF0((struct Sub02008C20Obj *)x, 0x13);
         break;
     case 2:
-        func_02008DF0(x, 0x14);
+        func_02008DF0((struct Sub02008C20Obj *)x, 0x14);
         break;
     }
-    func_02008DF0(x, 0x11);
+    func_02008DF0((struct Sub02008C20Obj *)x, 0x11);
 }

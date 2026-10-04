@@ -26,11 +26,13 @@ typedef unsigned int   u32;
 typedef struct { u8 e:3; u8 f:3; u8 g:2; u8 h[5]; } Rec;
 
 extern char d_02186F58[];
-extern int  func_020457B0(int, int);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern int  func_02186558(u8 *);
 extern u16 func_02039338(void);
 extern void func_02186444(u8 *, u32);
-extern void func_02045CAC(int, u16, int);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void func_021849F8(u8 *p)
@@ -39,14 +41,14 @@ void func_021849F8(u8 *p)
     int z = i;
 
     for (; i < 5; i++) {
-        *(u32 *)(p + i * 4 + 0x18) = func_020457B0(8, 0x28);
+        *(u32 *)(p + i * 4 + 0x18) = (u32)func_020457B0(8, 0x28);
         ((Rec *)(p + 0x4216))[i].f = 0;
         *(u16 *)(p + i * 4 + 0x4232) = z;
         *(u32 *)(p + 0x1C8 + i * 8) = z;
         *(u32 *)(p + 0x1CC + i * 8) = z;
     }
-    *(u32 *)(p + 0x2C) = func_020457B0(0xA, 0x28);
-    *(u32 *)(p + 0x30) = func_020457B0(0x50, 0x28);
+    *(u32 *)(p + 0x2C) = (u32)func_020457B0(0xA, 0x28);
+    *(u32 *)(p + 0x30) = (u32)func_020457B0(0x50, 0x28);
     *(u8 *)(p + 0x420A) = z;
     *(u8 *)(p + 0x420B) = 1;
     *(u32 *)(p + 0x9E6C) = 1;
@@ -61,7 +63,7 @@ void func_021849F8(u8 *p)
     *(u32 *)(p + 0x178) = z;
     func_02039338();
     func_02186444(p, 4);
-    func_02045CAC(*(u32 *)(p + 0x14), 7, *(u32 *)(p + 0x2C));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x14)), 7, (void *)(*(u32 *)(p + 0x2C)));
     *(void **)(p + 0x4288) = func_02030734(0x28, 0x3C00, z, d_02186F58, 0x31D);
     *(u32 *)(p + 0x1A8) = z;
 }

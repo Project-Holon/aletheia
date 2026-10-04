@@ -16,12 +16,14 @@
  */
 
 
-extern int func_0201C6B4(int);
-extern void func_021E8F60(int, int);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern int func_021E8F60(void *p, int a);
 int func_021E22B8(int p)
 {
-    if (func_0201C6B4(*(int *)(*(int *)(p + 0x2c) + 0x8c)) == 0)
+    if (func_0201C6B4((const struct PrintSys *)(*(int *)(*(int *)(p + 0x2c) + 0x8c))) == 0)
         return 0xc;
-    func_021E8F60(p, *(int *)(*(int *)(p + 0x2c) + 0xA198));
+    func_021E8F60((void *)p, *(int *)(*(int *)(p + 0x2c) + 0xA198));
 }
 

@@ -20,11 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void func_0204B3B4(u32 v);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_021F7964(u8 *p)
 {
-    func_0204B3B4(*(u32 *)(p + 0xbf8));
-    func_0204B3B4(*(u32 *)(p + 0xd2c));
-    func_0204B3B4(*(u32 *)(p + 0xd30));
+    func_0204B3B4((struct Obj *)(*(u32 *)(p + 0xbf8)));
+    func_0204B3B4((struct Obj *)(*(u32 *)(p + 0xd2c)));
+    func_0204B3B4((struct Obj *)(*(u32 *)(p + 0xd30)));
 }

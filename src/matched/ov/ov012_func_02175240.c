@@ -20,7 +20,8 @@ typedef unsigned int u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 v);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 struct Party;
 extern void func_0201A948(struct Party *p);
 
@@ -29,7 +30,7 @@ void func_02175240(u8 *a, int b)
     int self;
     int i;
 
-    self = func_0203D1A4((u32)func_020399A8());
+    self = func_0203D1A4((struct Link *)((u32)func_020399A8()));
     for (i = 0; i < 4; i++) {
         if (b == 0 || self != i) {
             func_0201A948(*(void **)(a + i * 4 + 0x148));

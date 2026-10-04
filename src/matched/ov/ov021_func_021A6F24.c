@@ -17,14 +17,15 @@
 
 typedef unsigned int u32;
 
-extern u32 *func_02188CA4(u32 a);
+typedef unsigned char  u8;
+extern u32 func_02188CA4(u8 *p);
 extern void (*const d_021DDF38[])(u32 a, u32 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
 
 void func_021A6F24(u32 a, int *v)
 {
-    u32 *p = func_02188CA4(a);
+    u32 *p = (u32 *)func_02188CA4((u8 *)a);
     d_021DDF38[p[0]](a, p);
     func_021A3038((unsigned char *)p[1], (struct VecFx32 *)v);
 }

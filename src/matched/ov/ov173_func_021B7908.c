@@ -16,13 +16,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020275F8(u32);
-extern void func_021B78A0(void *, void *, u32, u32, u16);
+extern void func_021B78A0(u32 a, int b, u32 c, u32 d, u16 heap);
 void func_021B7908(char *p)
 {
     int i;
     for (i = 0; i < 8; i++) {
         if (*(u32 *)(p + i * 8 + 0x144) != 0) {
-            func_021B78A0(*(void **)(p + 0x13c), *(void **)(p + i * 4 + 0x80), func_020275F8((u8)*(u32 *)(p + i * 8 + 0x140)), 0, 0x4f);
+            func_021B78A0((u32)(*(void **)(p + 0x13c)), (int)(*(void **)(p + i * 4 + 0x80)), func_020275F8((u8)*(u32 *)(p + i * 8 + 0x140)), 0, 0x4f);
             *(u32 *)(p + i * 8 + 0x144) = 0;
         }
     }

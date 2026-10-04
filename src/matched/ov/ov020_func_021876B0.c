@@ -15,8 +15,10 @@
 typedef unsigned short u16;
 typedef struct { int index; char *base; } Pair;
 extern int d_02187ECC[];
-extern void func_02061CA4(int a, void *dst, int data, int size);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void func_021876B0(Pair *p, int tick)
 {
-    func_02061CA4(1, p->base + (u16)p->index * 8, d_02187ECC[(tick & 31) / 8], 8);
+    func_02061CA4((void *)1, (u32)(p->base + (u16)p->index * 8), d_02187ECC[(tick & 31) / 8], 8);
 }

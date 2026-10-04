@@ -21,9 +21,9 @@
 
 typedef unsigned int u32;
 
-void func_021A392C(u32 x, u32 b);
+void func_021A392C(void *p, int b);
 
 void func_021A305C(char *p, u32 b)
 {
-    func_021A392C(*(u32 *)(p + 4), b);
+    func_021A392C((void *)(*(u32 *)(p + 4)), b);
 }

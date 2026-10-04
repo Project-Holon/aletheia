@@ -30,7 +30,7 @@ typedef struct {
 extern int func_021D5580(int lcd);
 extern void func_021BCAE4(void);
 extern int func_021D55A4(int kind, int lcd, int plane, int frame);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021C2FA0(void);
 extern FocusPosT g_021DE5A8;
 
@@ -42,5 +42,5 @@ void func_021C2F34(void)
 		func_021BCAE4();
 	func_021D55A4(3, 1, 1, 8);
 	func_021D55A4(3, 0, 0x14, 8);
-	func_021C0E40(func_021C2FA0);
+	func_021C0E40((unsigned int)func_021C2FA0);
 }

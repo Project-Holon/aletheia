@@ -25,18 +25,21 @@
 
 typedef unsigned int u32;
 
-extern void *func_020120F4(int);
+struct Blk37;
+struct Ctx;
+struct Desc;
+extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned short u16;
 struct BigObj;
 struct Ctx;
 struct Obj;
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020122C0(int, int, void (*)(void), int);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_0200CA1C(void *);
-extern int func_0200CA38(int);
+extern void *func_0200CA1C(void *a);
+extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 func_0201AA18(void *p);
 extern void func_0215A214(void);
 extern const char d_021728CC[];
@@ -45,9 +48,9 @@ typedef unsigned char u8;
 
 void *func_0215A168(int a, int b, int c)
 {
-    void *h = func_020120F4(a);
+    void *h = func_020120F4((const struct Ctx *)a);
     void *l = func_02012934(h);
-    int m = func_0200CA1C(h);
+    int m = (int)func_0200CA1C(h);
     u32 *p = func_02030734(4, 0x98, 1, d_021728CC, 0x90);
     u32 *s;
     void *r;
@@ -63,9 +66,9 @@ void *func_0215A168(int a, int b, int c)
     ((u8 *)s)[0xd] = 1;
     ((u8 *)s)[0xe] = func_0201AA18(l);
     ((u8 *)s)[0x10] = 0;
-    s[0x18 / 4] = func_0200CA38(m);
+    s[0x18 / 4] = func_0200CA38((struct Blk37 *)m);
     s[0x20 / 4] = 0;
-    r = func_020122C0(a, 0, func_0215A214, 0x18);
+    r = func_020122C0((void *)a, 0, func_0215A214, 0x18);
     q = func_020124E8(r);
     q[0] = a;
     q[1] = (u32)func_0201210C((void *)a);

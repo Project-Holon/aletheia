@@ -17,11 +17,11 @@
  */
 
 extern int func_021D8AA8(void *p);
-extern void func_021E57FC(void *p);
+extern void func_021E57FC(int p);
 
 void func_021DF904(void *p)
 {
     if (func_021D8AA8(p))
-        func_021E57FC(p);
+        func_021E57FC((int)p);
 }
 

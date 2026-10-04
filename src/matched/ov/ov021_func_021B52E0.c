@@ -19,13 +19,13 @@ typedef unsigned int u32;
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188C58(void *);
+extern void *func_02188C58(void *p);
 extern void func_021B52A4(void *, u32);
 
 int func_021B52E0(void **p)
 {
     void *w = func_0201210C(p[0]);
 
-    func_021B52A4(w, func_02188C58(w));
+    func_021B52A4(w, (u32)func_02188C58(w));
     return 1;
 }

@@ -18,9 +18,10 @@
 
 typedef unsigned int u32;
 
-extern void func_021B7C04(u32 a, int b, int c);
+typedef unsigned char  u8;
+extern void func_021B7C04(u8 *o, int k, int flag);
 
 void func_021BB3DC(u32 *p, int b, int c)
 {
-    func_021B7C04(*p, b, c);
+    func_021B7C04((u8 *)(*p), b, c);
 }

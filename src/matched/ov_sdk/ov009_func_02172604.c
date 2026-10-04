@@ -56,7 +56,7 @@ struct DWCstNodeInfo {
     u8 aid;
 };
 
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_02175F4C(int state);
 extern int func_02176674(void);
 extern int func_0217603C(void);
@@ -71,28 +71,28 @@ int func_02172604(void)
     int i;
     u64 tick;
 
-    if (func_02175F3C()->f5a4 != 0 || func_02175F3C()->f5a8 == 0xf) {
-        func_02175F3C()->f18 = 0;
-        func_02175F3C()->f5dc = 0;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f5a4 != 0 || ((struct DWCstMatchControl *)func_02175F3C())->f5a8 == 0xf) {
+        ((struct DWCstMatchControl *)func_02175F3C())->f18 = 0;
+        ((struct DWCstMatchControl *)func_02175F3C())->f5dc = 0;
         func_02175F4C(1);
         func_02176674();
         return sbClear;
     }
-    func_02175F3C()->f18 = 0;
-    func_02175F3C()->f5dc = 0;
-    if (func_02175F3C()->f0d == 0 && func_0217603C() == 1) {
+    ((struct DWCstMatchControl *)func_02175F3C())->f18 = 0;
+    ((struct DWCstMatchControl *)func_02175F3C())->f5dc = 0;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f0d == 0 && func_0217603C() == 1) {
         tick = func_020870D0();
-        func_02175F3C()->f7a0 = tick;
+        ((struct DWCstMatchControl *)func_02175F3C())->f7a0 = tick;
     }
-    qr2_send_statechanged(func_02175F3C()->qr2Obj);
-    if (func_02175F3C()->f14 == 2)
-        func_02175F3C()->f680 = func_02175F3C()->f554;
+    qr2_send_statechanged(((struct DWCstMatchControl *)func_02175F3C())->qr2Obj);
+    if (((struct DWCstMatchControl *)func_02175F3C())->f14 == 2)
+        ((struct DWCstMatchControl *)func_02175F3C())->f680 = ((struct DWCstMatchControl *)func_02175F3C())->f554;
     func_02175F4C(0x13);
-    func_02175F3C()->f650 = 0;
+    ((struct DWCstMatchControl *)func_02175F3C())->f650 = 0;
     for (i = 1; i < func_0217603C(); i++)
         func_02173064(func_0217637C(i)->aid, 2);
-    func_02173064(func_02175F3C()->aid, 2);
-    if (func_02175F3C()->f14 != 2)
+    func_02173064(((struct DWCstMatchControl *)func_02175F3C())->aid, 2);
+    if (((struct DWCstMatchControl *)func_02175F3C())->f14 != 2)
         sbClear = 1;
     return sbClear;
 }

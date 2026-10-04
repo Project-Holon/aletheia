@@ -47,8 +47,9 @@ typedef struct {
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188C58();
-extern int func_02011330();
+struct Stream;
+extern void *func_02188C58(void *p);
+extern u16 func_02011330(struct Stream *s);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern void func_0218F900();
 
@@ -60,9 +61,9 @@ int func_021B542C(int a0, int a1)
     int r6;
     int r4;
 
-    r5 = func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
-    r6 = func_02011330(a0);
-    r4 = func_02011330(a0);
+    r5 = (int)func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
+    r6 = func_02011330((struct Stream *)a0);
+    r4 = func_02011330((struct Stream *)a0);
     func_02048F4C(&s, 0xa3, r6);
     o.h24 = s.h0;
     o.h26 = s.h2;

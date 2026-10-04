@@ -25,8 +25,9 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
-extern int func_0203D3F8();
-extern void func_02157960();
+typedef unsigned int   u32;
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern void func_02157960(int a, int b, int c);
 extern void func_02157AC8(int *p);
 
 void func_02157AF0(int *p)
@@ -38,13 +39,13 @@ void func_02157AF0(int *p)
         if (b[0x676] == 1) {
             int *e = (int *)(b + 8 + b[0x677] * 16);
             int k = 0xFF;
-            if (func_0203D3F8(func_020399A8(), 0xFF, (unsigned)(p[0] << 24) >> 16, e[0], e[1], 0, 0, 1) == 0)
+            if (func_0203D3F8((u32)func_020399A8(), 0xFF, (unsigned)(p[0] << 24) >> 16, e[0], e[1], 0, 0, 1) == 0)
                 return;
-            func_02157960(p, (void *)func_02157AC8, k + 0x2F);
+            func_02157960((int)p, (int)((void *)func_02157AC8), k + 0x2F);
             return;
         }
-        func_02157960(p, (void *)func_02157AC8, 0x133);
+        func_02157960((int)p, (int)((void *)func_02157AC8), 0x133);
         return;
     }
-    func_02157960(p, (void *)func_02157AC8, 0x137);
+    func_02157960((int)p, (int)((void *)func_02157AC8), 0x137);
 }

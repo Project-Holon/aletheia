@@ -35,13 +35,21 @@
  */
 typedef unsigned long u32;
 struct Obj;
-extern void func_021E8738(u32,u32,u32,u32);
-extern void func_021E8AB4(u32,u32),func_021E8AA0(u32,void *),func_021E8AB8(u32);
-extern int func_021E8844(u32);
+typedef unsigned char  u8;
+extern void func_021E8738(int *p, int a, int b, int c);
+extern void func_021E8AB4(u32,u32);
+extern void func_021E8AA0(int *p, int v);
+extern void func_021E8AB8(u32);
+extern int func_021E8844(const int *p);
 extern int func_021D9F04(char *,void *,void *);
 extern void func_021D9A1C(char *,void *);
 extern u32 func_021D9A30(char *);
-extern void func_021D9064(void),func_021D7E18(void),func_021D8E30(void),func_021D9344(void),func_021D8EC8(void),func_021D95B0(void);
+extern void func_021D9064(void *obj, int unused, u8 *p);
+extern void func_021D7E18(u32 sys, int *state, struct Obj *obj);
+extern void func_021D8E30(u32 sys, int *state, char *ctx);
+extern void func_021D9344(u32 sys, int *state, char *p);
+extern void func_021D8EC8(u32 sys, int *state, char *p);
+extern void func_021D95B0(u32 sys, int *state, char *ctx);
 extern void func_02040588(u32,u32);
 extern void func_021D965C(struct Obj *),func_021D97E4(char *,u32);
 extern u32 func_021D97B8(char *);
@@ -55,7 +63,7 @@ void func_021D7BE4(u32 sys,int *state,char *p)
     case 0:
         switch(func_021D9F04(*(char **)(p+52),0,0)) {
         case 0:*state=1;break;
-        case 1:case 2:func_021E8AA0(sys,func_021D9064);break;
+        case 1:case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
         }break;
     case 1:if(*(u32 *)(p+28)==0) {
             func_021D965C((struct Obj *)p);func_021D97E4(p,0);*state=2;
@@ -63,7 +71,7 @@ void func_021D7BE4(u32 sys,int *state,char *p)
         break;
     case 2:if(func_021D97B8(p)) *state=3;break;
     case 3:func_02040588(0,1);
-        func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),74,1);
+        func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),74,1);
         func_021E8AB4(sys,4);*state=16;break;
     case 4:func_021D98E4(p,3);*state=5;break;
     case 5:v=func_021D9A08(p);
@@ -75,32 +83,32 @@ void func_021D7BE4(u32 sys,int *state,char *p)
             case 2:*state=6;break;
             }
         }break;
-    case 6:func_021E8AA0(sys,func_021D8E30);break;
+    case 6:func_021E8AA0((int *)sys,(int)func_021D8E30);break;
     case 7:func_021D9A1C(p,func_021D9344);*state=8;break;
     case 8:v=func_021D9A30(p);
         if(v==1 || v==2) *state=1;
         else if(v==0) *state=9;
-        else if(v==3) func_021E8AA0(sys,func_021D9064);
+        else if(v==3) func_021E8AA0((int *)sys,(int)func_021D9064);
         switch(func_021D9F04(*(char **)(p+52),0,0)) {
-        case 1:case 2:func_021E8AA0(sys,func_021D9064);break;
+        case 1:case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
         }break;
-    case 9:func_021E8AA0(sys,func_021D8EC8);break;
+    case 9:func_021E8AA0((int *)sys,(int)func_021D8EC8);break;
     case 10:func_021D9A50(*(char **)(q+20),p);
-        func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),24,2);
+        func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),24,2);
         func_021E8AB4(sys,11);*state=16;break;
     case 11:func_021D9A1C(p,func_021D95B0);*state=12;break;
     case 12:v=func_021D9A30(p);
         if(v==0) *state=13;
         else if(v==1) *state=13;
-        else if(v==3) func_021E8AA0(sys,func_021D9064);
+        else if(v==3) func_021E8AA0((int *)sys,(int)func_021D9064);
         switch(func_021D9F04(*(char **)(p+52),0,0)) {
-        case 1:func_021E8AA0(sys,func_021D7BE4);break;
-        case 2:func_021E8AA0(sys,func_021D9064);break;
+        case 1:func_021E8AA0((int *)sys,(int)func_021D7BE4);break;
+        case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
         }break;
-    case 13:func_021E8AA0(sys,func_021D7E18);break;
-    case 14:func_021E8738(*(u32 *)(p+44),*(u32 *)(p+20),120,1);
+    case 13:func_021E8AA0((int *)sys,(int)func_021D7E18);break;
+    case 14:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),120,1);
         *state=16;func_021E8AB4(sys,15);break;
-    case 15:func_021E8AA0(sys,func_021D8EC8);break;
-    case 16:if(func_021E8844(*(u32 *)(p+44)))func_021E8AB8(sys);break;
+    case 15:func_021E8AA0((int *)sys,(int)func_021D8EC8);break;
+    case 16:if(func_021E8844((const int *)(*(u32 *)(p+44))))func_021E8AB8(sys);break;
     }
 }

@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_021A0A50(u8 *a, u8 *b, u32 c, u32 d);
-extern s32 func_021A0B34(void *a);
+extern int func_021A0B34(u32 a);
 extern void func_021A0980(u8 *a, u8 *b, u8 *c, u16 d);
 
 s32 func_021A0C74(u16 *a, void *b, void *c, void *d)
@@ -34,7 +34,7 @@ s32 func_021A0C74(u16 *a, void *b, void *c, void *d)
         a[0] = 2;
         break;
     case 2:
-        if (func_021A0B34(b) == 0) {
+        if (func_021A0B34((u32)b) == 0) {
             if (a[2] != 0xFFFF) {
                 func_021A0980(b, c, d, a[2]);
             }
@@ -42,7 +42,7 @@ s32 func_021A0C74(u16 *a, void *b, void *c, void *d)
         }
         break;
     case 3:
-        if (func_021A0B34(b) == 0) {
+        if (func_021A0B34((u32)b) == 0) {
             a[0] = 0;
         }
         break;

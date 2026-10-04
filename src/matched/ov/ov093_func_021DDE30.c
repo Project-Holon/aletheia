@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021DDE74(int a, int b, int c, int d);
-extern int func_021DDEA4(int b, int c, int d);
-extern void func_021DD044(int a, int b, int c);
+extern int func_021DDE74(int a, void *b, int c, unsigned int d);
+extern int func_021DDEA4(void *a, int b, u32 n);
+extern void func_021DD044(void *a, void *b, int c);
 
 void func_021DDE30(int a, int b, int c, int d, int e)
 {
@@ -31,10 +31,10 @@ void func_021DDE30(int a, int b, int c, int d, int e)
 
     if (c == func_021D775C(2)) {
         if (e != 0)
-            r = func_021DDE74(a, b, c, d);
+            r = func_021DDE74(a, (void *)b, c, d);
         else
-            r = func_021DDEA4(b, c, d);
+            r = func_021DDEA4((void *)b, c, d);
         if (r != 0)
-            func_021DD044(a, b, c);
+            func_021DD044((void *)a, (void *)b, c);
     }
 }

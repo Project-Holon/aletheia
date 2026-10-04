@@ -29,7 +29,7 @@ struct IcaAnime;
 struct Rec12;
 extern u32 func_02011610(struct IcaAnime *, struct Rec12 *);
 extern void *func_02188D2C(void *);
-extern void *func_021BE480(void *, int, int);
+extern int func_021BE480(char *p, unsigned i, int j);
 
 void *func_0216C280(void *p)
 {
@@ -37,7 +37,7 @@ void *func_0216C280(void *p)
     void *q;
 
     func_02011610(*(void **)((char *)p + 0x10), (struct Rec12 *)v);
-    q = func_021BE480(func_02188D2C(*(void **)((char *)p + 8)), 0, 0);
+    q = (void *)func_021BE480(func_02188D2C(*(void **)((char *)p + 8)), 0, 0);
     *(void **)((char *)q + 4) = *(void **)(v + 4);
 
     return q;

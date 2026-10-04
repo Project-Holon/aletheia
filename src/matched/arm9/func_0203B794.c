@@ -34,14 +34,14 @@ extern void *func_0203D798(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_020399B8(u32 a);
+extern u32 func_020399B8(u8 *p);
 extern u32 func_0203D650(void);
 
 void func_0203B794(struct B794 *p)
 {
     u8 *s = func_0203D798();
 
-    if (func_020399B8((u32)func_020399A8()) == 0)
+    if (func_020399B8((u8 *)((u32)func_020399A8())) == 0)
         return;
 
     if (p->unk_2C != 0) {

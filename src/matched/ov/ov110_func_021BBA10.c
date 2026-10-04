@@ -35,7 +35,7 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_021BF814(u8 *,int,void *);
+extern void func_021BF814(u8 *p, u32 a, int b);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02040804(unsigned);
@@ -56,7 +56,7 @@ void func_021BBA10(u8 *p,unsigned n)
     p[0xa0]=0;
     for(i=0;i<n;i++) {
         if(i%2==0) x=8; else x=128;
-        func_021BF814(*(u8 **)(p+4),i,str);
+        func_021BF814(*(u8 **)(p+4),i,(int)str);
         func_0201C724((void *)owner,(u32)func_02045770(*(void **)(p+0x9c)),(s16)x,(s16)((i/2)*16),(u32)str,font,1103);
         p[0xa0]=1;
     }

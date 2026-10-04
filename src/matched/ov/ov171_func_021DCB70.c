@@ -14,13 +14,15 @@
  *   func_0202155C  0x0202155C  thumb
  */
 
-extern int func_02021518(int);
-extern void func_0202155C(int, int, int, int);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void *func_02021518(u32 heap);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
 void func_021DCB70(int *p)
 {
-    int x = func_02021518(0x8c);
+    int x = (int)func_02021518(0x8c);
 
     *(int *)((char *)p + 0xB30) = x;
-    func_0202155C(x, 2, 0x200, 0x8c);
+    func_0202155C((struct PalAnmSlot *)x, 2, 0x200, 0x8c);
 }

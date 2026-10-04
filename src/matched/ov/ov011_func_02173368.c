@@ -64,7 +64,7 @@ extern int func_02177494(u8 *obj, u32 flags);
 extern Rec *func_02177BFC(void *, u8 *);
 extern int func_02013D5C(u16);
 extern int func_02158570(u16);
-extern void func_02165C34(u32 *, u32);
+extern void func_02165C34(struct Rec *r, void *buf);
 extern u8 func_02165D08(u32 *);
 extern u8 func_02165C50(u32 *);
 
@@ -110,7 +110,7 @@ void func_02173368(void *a0, Obj *s)
     if (func_02158570(rec->mon) == 0) {
         return;
     }
-    func_02165C34(&rec->w8, s->a928[s->count]);
+    func_02165C34((struct Rec *)(&rec->w8), (void *)s->a928[s->count]);
     s->b938[s->count] = func_02165D08(&rec->w8);
     s->b93a[s->count] = func_02165C50(&rec->w8);
     s->ids[s->count] = rec->id;

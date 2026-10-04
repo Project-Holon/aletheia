@@ -38,7 +38,8 @@ struct W {
 extern const struct Col4 d_021DBFA8;
 extern const struct Col4 d_021DBFB8;
 extern const s16 FX_SinCosTable_[];
-extern int func_02061CA4(void *, u32, void *, int);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void func_021D5650(struct W *p)
 {
     struct Col4 A;
@@ -81,7 +82,7 @@ void func_021D5650(struct W *p)
         if (b_1 > 31) b_1 = 31;
         p->pal4[n_1] = (b_1 << 10) | ((g_1 << 5) | r_1);
     }
-    func_02061CA4((void *)14, 0x6c, p->pal4, 8);
+    func_02061CA4((void *)14, 0x6c, (u32)p->pal4, 8);
 
     for (n_1 = 0; n_1 < 16; n_1++) {
         ca_2 = p->a16[n_1];
@@ -100,7 +101,7 @@ void func_021D5650(struct W *p)
         if (b_2 > 31) b_2 = 31;
         p->o16[n_1] = (b_2 << 10) | ((g_2 << 5) | r_2);
     }
-    func_02061CA4((void *)14, 0x180, p->o16, 0x20);
+    func_02061CA4((void *)14, 0x180, (u32)p->o16, 0x20);
 
     for (n_1 = 12; n_1 <= 14; n_1++) {
         ca_3 = p->i3[n_1];
@@ -127,5 +128,5 @@ void func_021D5650(struct W *p)
         if (b_3 > 31) b_3 = 31;
         p->o3[n_1] = (b_3 << 10) | ((g_3 << 5) | r_3);
     }
-    func_02061CA4((void *)14, 0x1a0, p->o3, 0x20);
+    func_02061CA4((void *)14, 0x1a0, (u32)p->o3, 0x20);
 }

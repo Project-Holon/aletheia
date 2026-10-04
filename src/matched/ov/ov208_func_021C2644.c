@@ -39,8 +39,9 @@ extern void func_020065D8(void);
 extern void func_021C3638(void *a0, u8 *st, void *a2);
 extern void func_021BC97C(char *p);
 extern void func_021BCA54(u32 a, u32 packed);
-extern void func_021C2FEC(void *a0, u8 *st, void *a2, u32 i);
-extern void func_021C32FC(void *a0, u8 *st, void *a2);
+struct S;
+extern void func_021C2FEC(void *unused, struct S *p, u32 unused2, u32 i);
+extern void func_021C32FC(u16 *heap, u8 *p, int key);
 extern void func_021C3268(void *a0, u8 *st, void *a2);
 extern void func_021C337C(void *a0, u8 *st, void *a2);
 extern void func_021C3374(void *a0, u8 *st, void *a2);
@@ -64,9 +65,9 @@ u32 func_021C2644(void *a0, u32 a1, void *a2, u8 *st, void *a4)
     func_021BC97C(*(char **)(st + 0x7c));
     func_021BCA54(2, *(u32 *)(st + 0x78));
     for (i = 0; i < 2; i++) {
-        func_021C2FEC(a2, st, a4, i);
+        func_021C2FEC(a2, (struct S *)st, (u32)a4, i);
     }
-    func_021C32FC(a2, st, a4);
+    func_021C32FC(a2, st, (int)a4);
     func_021C3268(a2, st, a4);
     func_021C337C(a2, st, a4);
     func_021C3374(a2, st, a4);

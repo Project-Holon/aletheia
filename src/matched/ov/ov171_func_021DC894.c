@@ -13,11 +13,12 @@
  *   func_021DCE70  0x021DCE70  thumb  ov171
  */
 
-extern int func_021DCE70(int);
+typedef unsigned char  u8;
+extern int func_021DCE70(u8 *p);
 
 int func_021DC894(int a, int b, int c, int d)
 {
-    if (func_021DCE70(d))
+    if (func_021DCE70((u8 *)d))
         return 0;
     return 1;
 }

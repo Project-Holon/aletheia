@@ -31,16 +31,19 @@ typedef unsigned int u32;
 extern char d_02176FCC[];
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int  func_02029BCC(int a, int b);
-extern void func_02012374(void *a, int b);
+typedef unsigned char  u8;
+struct Evt;
+struct Obj;
+extern void *func_02029BCC(void *a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int  func_02189A08(unsigned char *p);
-extern void func_021CF498(int a, void *b, int c);
+extern void func_021CF498(struct Ctx *c, u32 x, int idx);
 extern int  func_020144DC(int a, int b);
-extern void func_02012444(void *a, int b, void *c, int d);
-extern int  func_02029C00(int a);
-extern int  func_020145CC(int a);
-extern int  func_02029CC0(int a);
-extern int  func_021BE92C(int a, int b, int c, int d, int e, int f, int g);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void *func_02029C00(void *a);
+extern void *func_020145CC(void *a0);
+extern void *func_02029CC0(void *a);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 int func_021766F0(void *a, u32 *p, int *q)
 {
@@ -49,35 +52,35 @@ int func_021766F0(void *a, u32 *p, int *q)
     sv = (int)func_0201210C((const struct Ctx *)q[0]);
     switch (*p) {
     case 0:
-        func_02012374(a, func_02029BCC(q[0], 0x490));
+        func_02012374(a, func_02029BCC((void *)q[0], 0x490));
         (*p)++;
         break;
     case 1:
-        func_021CF498(func_02189A08((unsigned char *)sv), a, 5);
+        func_021CF498((struct Ctx *)func_02189A08((unsigned char *)sv), (u32)a, 5);
         (*p)++;
         break;
     case 2:
-        func_02012374(a, func_020144DC(q[0], sv));
+        func_02012374(a, (struct Evt **)func_020144DC(q[0], sv));
         (*p)++;
         break;
     case 3:
-        func_02012444(a, -1, d_02176FCC, q[1]);
+        func_02012444(a, -1, (u32)d_02176FCC, q[1]);
         (*p)++;
         break;
     case 4:
-        func_02012374(a, func_02029C00(q[0]));
+        func_02012374(a, func_02029C00((void *)q[0]));
         (*p)++;
         break;
     case 5:
-        func_02012374(a, func_020145CC(q[0]));
+        func_02012374(a, func_020145CC((void *)q[0]));
         (*p)++;
         break;
     case 6:
-        func_02012374(a, func_02029CC0(q[0]));
+        func_02012374(a, func_02029CC0((void *)q[0]));
         (*p)++;
         break;
     case 7:
-        func_02012374(a, func_021BE92C(q[0], sv, 0, 0, 1, 0, 0));
+        func_02012374(a, (struct Evt **)func_021BE92C((void *)q[0], sv, 0, 0, 1, 0, 0));
         (*p)++;
         break;
     default:

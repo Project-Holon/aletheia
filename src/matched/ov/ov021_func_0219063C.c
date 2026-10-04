@@ -36,12 +36,12 @@ typedef struct Slot {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern u32 func_02045730(u32 a);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02043AF4(u32 a, s16 b, s16 c, u16 d, u16 e, u32 f);
 extern void func_020409B4(u32 a);
 
 void func_0219063C(Slot *s, int x, int y, int w, int h)
 {
     func_02043AF4((u32)func_02045770((struct Descriptor *)s->f14), x, y, w, h, 0xFF);
-    func_020409B4(func_02045730(s->f14));
+    func_020409B4(func_02045730((struct Descriptor *)s->f14));
 }

@@ -19,18 +19,21 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02025DE8(int h);
+typedef unsigned int   u32;
+struct Sound;
+struct Struct_02025CD0;
+extern int func_02025DE8(struct Sound *obj);
 extern unsigned func_020362DC(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
-extern void func_020260F4(int h, int v);
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021C003C(int p, unsigned b);
 
 int func_021BFF68(int p)
 {
     int *q = (int *)p;
-    int r = func_02025DE8(q[0xac]);
+    int r = func_02025DE8((struct Sound *)q[0xac]);
     unsigned k;
 
     if (r != -1)
@@ -43,14 +46,14 @@ int func_021BFF68(int p)
     k = func_020362DC();
     if (k & 0x800) {
         if (func_020355C4() == 1)
-            func_020260F4(q[0xac], 1);
+            func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
         return 7;
     }
     k = func_020362DC();
     if (k & 8) {
         if (func_020355C4() == 1)
-            func_020260F4(q[0xac], 1);
+            func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
         func_021C003C(p, 5);
         return 5;
@@ -58,14 +61,14 @@ int func_021BFF68(int p)
     k = func_020362DC();
     if (k & 4) {
         if (func_020355C4() == 1)
-            func_020260F4(q[0xac], 1);
+            func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
         func_021C003C(p, 6);
         return 6;
     }
     if (func_020362DC() != 0 && func_020355C4() == 1) {
         func_020355D8(0);
-        func_020260F4(q[0xac], 1);
+        func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
         return -4;
     }
     return r;

@@ -57,9 +57,10 @@ extern void func_02080294(u32 bank);
 extern u32 func_021F54E0(void);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_021899F8(u8 *p, u32 v);
-extern int func_02189A08(int a);
+struct Evt;
+extern int func_02189A08(unsigned char *p);
 extern u32 func_021CF560(u32 *p);
-extern void func_02012374(void *a, int b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021F5518(void *task, int *st, Work *w)
 {
@@ -98,8 +99,8 @@ int func_021F5518(void *task, int *st, Work *w)
         func_02040588(0, 1);
         func_021899F8((u8 *)v, 2);
         r = w->f28(t);
-        w->f24 = func_021CF560((u32 *)func_02189A08((int)v));
-        func_02012374(task, r);
+        w->f24 = func_021CF560((u32 *)func_02189A08((unsigned char *)((int)v)));
+        func_02012374(task, (struct Evt **)r);
         *st = *st + 1;
         break;
     case 3:

@@ -16,11 +16,11 @@
 typedef unsigned short u16;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *,void *);
-extern int func_0215B4DC(int,int,int);
+extern int func_0215B4DC(void *a0, void *a1, void *a2);
 int func_0215B7E8(int a,int b)
 {
     u16 *out = func_02159AE8((void *)a,(void *)b);
     int k = func_02159B10((void *)a,(void *)b);
-    if (func_0215B4DC(b,k,0x4C) != 0) *out = 0x28A; else *out = func_0215B4DC(b,k,5);
+    if (func_0215B4DC((void *)b,(void *)k,(void *)0x4C) != 0) *out = 0x28A; else *out = func_0215B4DC((void *)b,(void *)k,(void *)5);
     return 0;
 }

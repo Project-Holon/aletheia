@@ -30,8 +30,8 @@ typedef int            s32;
 typedef struct Vec3 { s32 x, y, z; } Vec3;
 typedef struct Arg { u32 a; Vec3 v; } Arg;
 
-extern u32 func_0216D67C(u32 a);
-extern int func_0216D538(u32 p);
+extern void *func_0216D67C(void *a0);
+extern u32 func_0216D538(u8 *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
@@ -45,7 +45,7 @@ void func_021AC578(u32 a, u32 b)
     Vec3 v;
     Arg s;
     int i;
-    i = func_0216D538(func_0216D67C(a));
+    i = func_0216D538(func_0216D67C((void *)a));
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
     v.y += 0x1000;
     i = (i >> 4) * 2;

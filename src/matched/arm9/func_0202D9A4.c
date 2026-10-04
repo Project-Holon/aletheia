@@ -37,8 +37,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02017E88(u32 h, u32 sel, u32 z);
-extern u32 func_02017EB4(u32 h);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 func_02017EB4(void *p);
 extern u32 func_0202D898(u32 a0, u32 a1, u32 a2, u32 a3,
                          u32 w0, u32 w1, u32 w2, u32 w3, u32 key);
 
@@ -49,11 +49,11 @@ u32 func_0202D9A4(u32 h, u32 b1, u32 b2, u32 b3, u16 key)
     u32 v3;
     u32 v4;
 
-    v1 = func_02017E88(h, 5, 0);
-    v2 = func_02017E88(h, 0x6f, 0);
-    v3 = func_02017E88(h, 0x6e, 0);
-    v4 = func_02017EB4(h);
+    v1 = func_02017E88((void *)h, 5, 0);
+    v2 = func_02017E88((void *)h, 0x6f, 0);
+    v3 = func_02017E88((void *)h, 0x6e, 0);
+    v4 = func_02017EB4((void *)h);
 
     return func_0202D898(v1, v2, v3, v4,
-                         b1, func_02017E88(h, 0x4c, 0), b2, b3, key);
+                         b1, func_02017E88((void *)h, 0x4c, 0), b2, b3, key);
 }

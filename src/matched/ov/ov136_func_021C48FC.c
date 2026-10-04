@@ -14,7 +14,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 x,y,w,h; } Template;
-extern u32 func_02045EC0(void *, int);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02027778(Template *, void *);
 struct Chan02021FD8;
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
@@ -22,10 +23,10 @@ extern void func_0202843C(u8 *p);
 void func_021C48FC(u8 *p)
 {
     Template t;
-    *(u32 *)(p + 0x110) = func_02045EC0(*(void **)(p + 0x20), 4);
+    *(u32 *)(p + 0x110) = (u32)func_02045EC0(*(void **)(p + 0x20), 4);
     *(u16 *)(p + 0x114) = 0x39E3;
     *(u32 *)(p + 0x118) = 0;
-    *(u32 *)(p + 0x11C) = func_02045EC0(*(void **)(p + 0x20), 5);
+    *(u32 *)(p + 0x11C) = (u32)func_02045EC0(*(void **)(p + 0x20), 5);
     *(u16 *)(p + 0x120) = 0x39E3;
     *(u32 *)(p + 0x124) = 0;
     t.heap = *(u32 *)p;

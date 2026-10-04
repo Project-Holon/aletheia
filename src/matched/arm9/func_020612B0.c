@@ -27,9 +27,9 @@ struct Allocator02061 {
     u32 param2;
 };
 
-extern void *func_02061124(void *heap, u32 size, s32 align);
+extern unsigned int func_02061124(char *p, int n, int v);
 
 void *func_020612B0(struct Allocator02061 *allocator, u32 size)
 {
-    return func_02061124(allocator->heap, size, (s32)allocator->param1);
+    return (void *)func_02061124(allocator->heap, size, (s32)allocator->param1);
 }

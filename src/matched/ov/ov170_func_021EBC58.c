@@ -21,7 +21,7 @@
 
 typedef unsigned int u32;
 
-extern void *func_021DD2D0(unsigned char *p, int a, unsigned b);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 struct WordSet;
 extern void func_0201EF14(struct WordSet *p, u32 i, void *mon);
 extern void func_021EBA84(unsigned char *p, int msg, int i);
@@ -37,7 +37,7 @@ void func_021EBC58(unsigned char *p, int sel, int kind, int i)
         break;
     case 1:
         msg = 0;
-        func_0201EF14(*(void **)(WORK(p) + 0x84), 0, func_021DD2D0(p, p[0x14], p[0x16]));
+        func_0201EF14(*(void **)(WORK(p) + 0x84), 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
         break;
     case 2:
         msg = 5;

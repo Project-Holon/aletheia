@@ -25,7 +25,7 @@ struct GPIKey {
     char *value;
 };
 
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern char *func_0217F1E0(char *src);
 extern void func_021842D0(void *array, void *newElem, int (*comparator)(void *, void *));
 extern int func_0218D864(void *elem1, void *elem2);
@@ -37,11 +37,11 @@ int func_0218D878(void **connection, void *keys, char *theKeyName, char *theKeyV
     struct GPIKey aKey;
 
     if (theKeyName == 0) {
-        func_02193734(connection, g_021A4D90);
+        func_02193734((int *)connection, (int)g_021A4D90);
         return 2;
     }
     if (theKeyValue == 0) {
-        func_02193734(connection, g_021A4DA4);
+        func_02193734((int *)connection, (int)g_021A4DA4);
         return 2;
     }
     aKey.name = func_0217F1E0(theKeyName);

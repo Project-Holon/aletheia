@@ -76,8 +76,8 @@ extern void func_020433E0(const void *);
 extern void func_0203F8F4(u16 heapId);
 extern void func_0203FC28(const void *);
 extern void func_0203FCA0(int, const void *, int);
-extern void func_0207D534(u32 reg, int brightness);
-extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0207D534(volatile u16 *reg, int brightness);
+extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040588(u32 which, u32 enable);
@@ -112,21 +112,21 @@ int func_021BC9E8(int a0, int a1, int *mode, St *st)
         func_0203FCA0(1, d_021BD904, 0);
         func_0203FCA0(5, d_021BD924, 0);
         if (*mode == 1) {
-            func_0207D534(0x0400006C, -16);
-            func_0207D534(0x0400106C, -16);
+            func_0207D534((volatile u16 *)0x0400006C, -16);
+            func_0207D534((volatile u16 *)0x0400106C, -16);
             st->state = 7;
         } else {
-            func_0207D534(0x0400006C, 16);
-            func_0207D534(0x0400106C, 16);
+            func_0207D534((volatile u16 *)0x0400006C, 16);
+            func_0207D534((volatile u16 *)0x0400106C, 16);
             st->state = 1;
         }
         break;
     case 1:
         z = Z0;
-        func_02049624(0x1a, 0xc, 1, 0, 0, 1, 0x16);
+        func_02049624((void *)0x1a, (void *)0xc, (void *)1, 0, 0, 1, 0x16);
         func_0204989C(0x1a, 0xd, 1, 0, 0, 1, 0x16);
         func_02049B40(0x1a, 0xb, 0, 0, 0, 0x16);
-        func_02049624(0x1a, 0xc, 5, 0, 0, 1, 0x16);
+        func_02049624((void *)0x1a, (void *)0xc, (void *)5, 0, 0, 1, 0x16);
         func_0204989C(0x1a, 0xe, 5, 0, 0, 1, 0x16);
         func_02049B40(0x1a, 0xb, 4, 0, 0, 0x16);
         func_02040588(1, 1);
@@ -165,10 +165,10 @@ int func_021BC9E8(int a0, int a1, int *mode, St *st)
         }
         break;
     case 7:
-        func_02049624(0xa4, 1, 1, 0, 0x8000, 0, 0x16);
+        func_02049624((void *)0xa4, (void *)1, (void *)1, 0, 0x8000, 0, 0x16);
         func_0204989C(0xa4, 2, 1, 0, 0, 0, 0x16);
         func_02049B40(0xa4, 0, 0, 0, 0, 0x16);
-        func_02049624(0xa4, 3, 5, 0, 0x8000, 0, 0x16);
+        func_02049624((void *)0xa4, (void *)3, (void *)5, 0, 0x8000, 0, 0x16);
         func_0204989C(0xa4, 4, 5, 0, 0, 0, 0x16);
         func_02049B40(0xa4, 0, 4, 0, 0, 0x16);
         func_020409B4(1);

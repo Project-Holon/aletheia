@@ -59,8 +59,8 @@ extern void func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 struct PalAnmSlot;
 extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void *func_021F86E0(void);
-extern char *func_02021728(void *, u32);
+extern int func_021F86E0(void);
+extern int func_02021728(char *p, int i);
 extern void func_02082A60(const void *, void *, u32);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0204AF28(void *, u32, u32, u32);
@@ -85,7 +85,7 @@ void func_022033F4(Main *m)
     func_020498F4(m->f48, 0x72, 7, 0, 0, 0, m->heap);
     func_020216B4(m->pal, m->f48, 0x5c, m->heap, 1, 0x1e0, 0);
     if (m->f23c == 1)
-        func_02082A60(func_02021728(func_021F86E0(), 1) + 0x40, m->buf284, 0x20);
+        func_02082A60((const void *)(func_02021728((char *)func_021F86E0(), 1) + 0x40), m->buf284, 0x20);
     m->h104 = func_0204A6C8(m->f48, 0x73, 0, 1, m->heap);
     m->h10c = func_0204AF28(m->f48, 0x75, 0x76, m->heap);
     m->h108 = func_0204ABF0(m->f48, 0x74, 1, 0, m->heap);

@@ -22,10 +22,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0204762C(u32 x);
-extern u32 func_02047788(u32 x);
-extern void func_02047738(u32 x);
-extern void func_02047504(u32 x);
+struct Rec;
+extern void func_0204762C(struct Rec *p);
+extern int func_02047788(int *p);
+extern void func_02047738(struct Rec *p);
+extern void func_02047504(struct Rec *p);
 extern void func_02082C60(void *p, int v, int n);
 
 void func_021C6A90(u32 *p, u8 *q)
@@ -35,12 +36,12 @@ void func_021C6A90(u32 *p, u8 *q)
 
     if (p + 0x12) {
         for (i = 0; i < q[0x28]; i++)
-            func_0204762C(p[0x12 + i]);
+            func_0204762C((struct Rec *)p[0x12 + i]);
     }
     if (p[0x11] != 0) {
-        t = func_02047788(p[0x11]);
-        func_02047738(p[0x11]);
-        func_02047504(t);
+        t = func_02047788((int *)p[0x11]);
+        func_02047738((struct Rec *)p[0x11]);
+        func_02047504((struct Rec *)t);
     }
     func_02082C60(p, 0, 0x68);
 }

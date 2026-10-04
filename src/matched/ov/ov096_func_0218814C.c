@@ -27,7 +27,7 @@ typedef unsigned long long u64;
 typedef enum { COUNT_ONE = 1 } Count;
 typedef struct { u8 state, index; unsigned short move; int scores[4]; u8 p14[0x28]; u32 mask, all; u8 flags, entry, slot, target; u8 p48[0x4c]; u8 side, opp; u8 p96[0x1a]; int fb0, fb4, fb8; u8 *fbc, *fc0; int fc4; u8 pc8[8]; u64 tick; } Obj;
 extern u8 *func_0218A2FC(u8 *, u8);
-extern void func_0218A310(u8 *);
+extern void func_0218A310(unsigned int a);
 extern void func_0218A324(u8 *);
 extern void func_021885BC(int, u8 *);
 extern u8 func_021D5448(u8 *);
@@ -50,7 +50,7 @@ int func_0218814C(int a, Obj *b)
     b->fbc = func_0218A2FC((u8 *)b, b->side);
     b->fc0 = func_0218A2FC((u8 *)b, b->opp);
     if (!(b->flags & 16)) {
-        func_0218A310((u8 *)b);
+        func_0218A310((unsigned int)((u8 *)b));
         func_0218A324((u8 *)b);
     }
     if ((mask = b->mask) != 0) {

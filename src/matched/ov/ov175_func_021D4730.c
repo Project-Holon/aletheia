@@ -48,13 +48,15 @@ extern void func_021E8AB8(u32);
 extern void func_021DC738(char *, unsigned);
 extern int func_021DC77C(char *);
 extern void func_021DC8A0(char *, void *);
-extern void func_021D61A4(void), func_021D4608(void);
+extern void func_021D61A4(void *obj, int unused, u8 *p);
+extern void func_021D4608(u32 sys, int *state, u32 *p);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021D63DC(char *);
 extern void func_021D6788(char *, void *);
 extern void func_021D61F0(u32 sys, int *state, char *p);
 extern u32 func_021D679C(char *);
-extern void func_021D61CC(void), func_021D495C(void);
+extern void func_021D61CC(void *a, u32 **pp, char *p);
+extern void func_021D495C(u32 sys, int *state, u32 *p);
 void func_021D4730(u32 sys, int *state, u32 *p)
 {
     u32 *ctx = (u32 *)p[16];

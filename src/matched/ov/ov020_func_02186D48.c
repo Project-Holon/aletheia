@@ -54,15 +54,16 @@ extern void *func_0215A5E4(void *a0);
 extern int func_020127C4(void *a);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_02186278(int p, int which);
+typedef unsigned int   u32;
+extern int func_02186278(char *p, int which);
 extern Ent *func_02158F58(void *a);
-extern void *func_02188C98(int a);
+extern u32 func_02188C98(u8 *p);
 extern void *func_0218DC70(u8 *p);
-extern void *func_02188CB4(int p);
-extern void *func_02188C7C(int p);
+extern void *func_02188CB4(u8 *p);
+extern void *func_02188C7C(u8 *p);
 extern void *func_020127F0(void *a);
-extern void func_021A3460(void *o, s16 *x, s16 *y, s16 *z);
-extern void *func_0216DDC0(void *a, int x, int y, int z);
+extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
+extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
 extern int func_02186090(void *p);
 extern u16 func_0216D588(void *p);
 extern int func_02193904(void *p);
@@ -103,15 +104,15 @@ int func_02186D48(int a0, int a1)
     kind = func_02159B10((void *)a0, (void *)a1);
     out = func_02159AE8((void *)a0, (void *)a1);
     if (kind == 3) {
-        *out = func_02186278(c, 0);
+        *out = func_02186278((char *)c, 0);
     } else {
     ent = func_02158F58(m);
-    m = func_0218DC70(func_02188C98(ent->f4));
-    d = func_02188CB4(ent->f4);
-    w = func_02188C7C(ent->f4);
+    m = func_0218DC70((u8 *)func_02188C98((u8 *)ent->f4));
+    d = func_02188CB4((u8 *)ent->f4);
+    w = func_02188C7C((u8 *)ent->f4);
     s = func_020127F0(b);
-    func_021A3460(d, &v[2], &v[1], &v[0]);
-    obj = func_0216DDC0(w, v[2], v[0], 0);
+    func_021A3460((u32)d, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
+    obj = func_0216DDC0((u32)w, v[2], v[0], 0);
     if (obj != 0) {
         cur = func_02186090(obj);
         st = func_0216D588(obj);

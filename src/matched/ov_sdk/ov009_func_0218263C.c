@@ -43,7 +43,8 @@
 extern int func_020949F4(const char *s1, const char *s2, unsigned int n);
 extern char *func_02094A28(const char *s, int c);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern void *func_02092364(void *dst, const void *src, unsigned int n);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
 extern char g_021A3F1C[];       /* "&amp;" */
@@ -135,7 +136,7 @@ int func_0218263C(char *buffer, int *len)
 			if (digitEnd == 0)
 				return 0;
 
-			digitValue = (unsigned int)func_020964E0(&buffer[readPos+2]);
+			digitValue = (unsigned int)func_020964E0((u32)(&buffer[readPos+2]));
 
 			for (i=0; i < 4; i++)
 			{

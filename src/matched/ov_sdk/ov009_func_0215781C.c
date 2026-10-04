@@ -15,11 +15,11 @@
  *   func_02157700  0x02157700  arm  ov009
  */
 
-extern int func_02157700(int a, int b, int c);
+extern unsigned long func_02157700(unsigned char *s, unsigned long len, unsigned long sum);
 extern unsigned int func_02157808(unsigned int x);
 
 int func_0215781C(int a, int b)
 {
-    return func_02157808((unsigned short)func_02157700(a, b, 0));
+    return func_02157808((unsigned short)func_02157700((unsigned char *)a, b, 0));
 }
 

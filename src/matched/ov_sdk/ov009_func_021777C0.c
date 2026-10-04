@@ -19,7 +19,7 @@
  *   DWCi_SetError  0x02059F54  arm
  */
 
-extern void *func_0216BAF4(int aid);
+extern int func_0216BAF4(int aid);
 extern int func_02176C00(void *connection);
 extern int gt2Send(void *connection, unsigned char *buffer, int size, int reliable);
 extern int func_02176CF8(void *connection, unsigned char *buffer, int size);
@@ -30,7 +30,7 @@ void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int relia
     void *connection;
     int res;
 
-    connection = func_0216BAF4(aid);
+    connection = (void *)func_0216BAF4(aid);
     if (reliable != 0) {
         if (func_02176C00(connection) != 0) {
             res = gt2Send(connection, buffer, size, reliable);

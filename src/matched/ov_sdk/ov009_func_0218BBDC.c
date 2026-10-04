@@ -77,41 +77,41 @@ typedef struct GPGetInfoResponseArg {
     int conntypeid;
 } GPGetInfoResponseArg;
 
-extern void func_0219327C(char *dest, char *src, unsigned long len);
+extern void func_0219327C(char *p, int b, int n);
 
 void func_0218BBDC(GPIInfoCache *cache, GPGetInfoResponseArg *arg)
 {
     if (cache->nick)
-        func_0219327C(arg->nick, cache->nick, 31);
+        func_0219327C(arg->nick, (int)cache->nick, 31);
     else
         arg->nick[0] = '\0';
     if (cache->uniquenick)
-        func_0219327C(arg->uniquenick, cache->uniquenick, 21);
+        func_0219327C(arg->uniquenick, (int)cache->uniquenick, 21);
     else
         arg->uniquenick[0] = '\0';
     if (cache->email)
-        func_0219327C(arg->email, cache->email, 51);
+        func_0219327C(arg->email, (int)cache->email, 51);
     else
         arg->email[0] = '\0';
     if (cache->firstname)
-        func_0219327C(arg->firstname, cache->firstname, 31);
+        func_0219327C(arg->firstname, (int)cache->firstname, 31);
     else
         arg->firstname[0] = '\0';
     if (cache->lastname)
-        func_0219327C(arg->lastname, cache->lastname, 31);
+        func_0219327C(arg->lastname, (int)cache->lastname, 31);
     else
         arg->lastname[0] = '\0';
     if (cache->homepage)
-        func_0219327C(arg->homepage, cache->homepage, 76);
+        func_0219327C(arg->homepage, (int)cache->homepage, 76);
     else
         arg->homepage[0] = '\0';
     arg->icquin = cache->icquin;
-    func_0219327C(arg->zipcode, cache->zipcode, 11);
-    func_0219327C(arg->countrycode, cache->countrycode, 3);
+    func_0219327C(arg->zipcode, (int)cache->zipcode, 11);
+    func_0219327C(arg->countrycode, (int)cache->countrycode, 3);
     arg->longitude = cache->longitude;
     arg->latitude = cache->latitude;
     if (cache->place)
-        func_0219327C(arg->place, cache->place, 128);
+        func_0219327C(arg->place, (int)cache->place, 128);
     else
         arg->place[0] = '\0';
     arg->birthday = cache->birthday;
@@ -120,7 +120,7 @@ void func_0218BBDC(GPIInfoCache *cache, GPGetInfoResponseArg *arg)
     arg->sex = cache->sex;
     arg->publicmask = cache->publicmask;
     if (cache->aimname)
-        func_0219327C(arg->aimname, cache->aimname, 51);
+        func_0219327C(arg->aimname, (int)cache->aimname, 51);
     else
         arg->aimname[0] = '\0';
     arg->icquin = cache->icquin;

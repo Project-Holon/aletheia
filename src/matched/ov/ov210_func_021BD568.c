@@ -27,18 +27,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern int func_021B7AB0(u32 a);
+struct S;
+extern int func_021B7AB0(struct S *p);
 extern int func_021C014C(u8 *p);
 extern u8 func_020355C4(void);
 extern void func_020061E4(u32 id);
 extern void func_021BE0E4(u8 *p, u32 v);
-extern void func_021BEDB8(u8 *p, u32 a, u32 b);
+extern void func_021BEDB8(int p, int i, int v);
 extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021BE110(u8 *p);
 
 u32 func_021BD568(u8 *p)
 {
-    int r5 = func_021B7AB0(*(u32 *)(p + 0x1e0));
+    int r5 = func_021B7AB0((struct S *)(*(u32 *)(p + 0x1e0)));
 
     if (r5 != -1) {
         switch (r5) {
@@ -59,11 +60,11 @@ u32 func_021BD568(u8 *p)
     switch (r5) {
     case 0:
         func_020061E4(0x551);
-        func_021BEDB8(p, 2, 9);
+        func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 11);
     case 8:
         func_020061E4(0x551);
-        func_021BEDB8(p, 2, 9);
+        func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 11);
     case 9:
         func_020061E4(0x54c);

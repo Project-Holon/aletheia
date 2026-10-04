@@ -87,7 +87,8 @@ extern void func_02064140(struct Srt0206469C *srt, u32 a);
 extern void func_020640DC(struct Srt0206469C *srt, s16 x, s16 y);
 extern void func_02064100(struct Srt0206469C *srt, u16 rot);
 extern void func_02064120(struct Srt0206469C *srt, u32 sx, u32 sy);
-extern void func_020643CC(void *walk, u32 a, u16 b);
+struct MCInstance;
+extern void func_020643CC(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
 void func_0206469C(struct Obj0206469C *o, void *bank)
 {
@@ -121,5 +122,5 @@ void func_0206469C(struct Obj0206469C *o, void *bank)
     }
 
 done:
-    func_020643CC(o->unk_34, r, o->unk_30);
+    func_020643CC((struct MCInstance *)o->unk_34, (const struct MultiCellData *)r, o->unk_30);
 }

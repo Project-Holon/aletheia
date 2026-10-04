@@ -17,26 +17,27 @@
  *   func_021A21BC  0x021A21BC  thumb  ov021
  */
 
-extern int *func_021A21B8(int);
-extern void func_021A2390(int, int, int, int);
+typedef unsigned int   u32;
+extern int *func_021A21B8(int *p);
+extern void func_021A2390(u32 *p, int a, int b, int c);
 extern int func_021A23B0(int);
-extern int func_021A21BC(int);
+extern int func_021A21BC(unsigned char *o);
 
 int func_021EEA18(int a, int b)
 {
-    int *p = func_021A21B8(a);
+    int *p = func_021A21B8((int *)a);
     int ok;
 
     if (p[1] == 0) {
         p[1] = p[1] - 1;
-        func_021A2390(a, 0x7FDF, 0x3C, b);
+        func_021A2390((u32 *)a, 0x7FDF, 0x3C, b);
     } else {
         if (b != 0) {
             ok = func_021A23B0(a);
         } else {
             ok = 1;
         }
-        if (ok != 0 && func_021A21BC(a) == 0) {
+        if (ok != 0 && func_021A21BC((unsigned char *)a) == 0) {
             return 1;
         }
     }

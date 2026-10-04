@@ -36,7 +36,7 @@ extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
@@ -62,7 +62,7 @@ void func_021D7FD0(char *p,void *r)
     }
     func_02045CAC(*(void **)(p+12),34,*(void **)(p+32));
     func_0201F250(*(void **)(p+16),*(void **)(p+24),*(void **)(p+32));
-    if(!*(void **)(p+0x84)) *(void **)(p+0x84)=func_020450F0(1,1,15,30,5,11,1);
+    if(!*(void **)(p+0x84)) *(void **)(p+0x84)=(void *)func_020450F0(1,1,15,30,5,11,1);
     q=*(void **)(p+0x84);
     func_02043B5C(func_02045770(q),0);
     func_0201DD78(15,2,0);

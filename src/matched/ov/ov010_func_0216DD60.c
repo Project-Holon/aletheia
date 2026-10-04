@@ -29,7 +29,7 @@ typedef struct {
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern int func_0216DD1C(u32 x, u8 **o, int *n);
-extern int func_02163C04(u8 *o, u32 b, u32 c, u32 d);
+extern int func_02163C04(int a, int x, int y, int flag);
 
 int func_0216DD60(u32 x, u32 b, u32 c, u32 d, List *out)
 {
@@ -39,7 +39,7 @@ int func_0216DD60(u32 x, u32 b, u32 c, u32 d, List *out)
     n = 0;
     func_02082BCC(out, 0, 0x44);
     while (func_0216DD1C(x, &o, &n) == 1) {
-        if (func_02163C04(o, b, c, d) == 1) {
+        if (func_02163C04((int)o, b, c, d) == 1) {
             int i = out->n++;
             out->e[i] = o;
             if (out->n >= 16)

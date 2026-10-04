@@ -24,14 +24,14 @@
 
 typedef unsigned long u32;
 
-extern void func_021E5EF8(u32 p);
+extern void func_021E5EF8(void *p);
 
 void func_021D97A4(char *obj)
 {
     u32 p = *(u32 *)(obj + 0x1c);
 
     if (p != 0) {
-        func_021E5EF8(p);
+        func_021E5EF8((void *)p);
         *(u32 *)(obj + 0x1c) = 0;
     }
 }

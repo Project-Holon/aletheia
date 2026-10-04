@@ -24,12 +24,12 @@ typedef unsigned int   u32;
 
 typedef struct { u32 w[8]; } Blk32;
 
-extern u32 func_02188C58(u32 a);
-extern u32 func_0218FE80(u32 a);
-extern void func_0218FEA0(u32 a, u8 *b);
+extern void *func_02188C58(void *p);
+extern void *func_0218FE80(void *a);
+extern void func_0218FEA0(u8 *p, u32 v);
 extern void func_0218FEA4(u32 a);
 extern void func_0218FE78(u32 a, u8 *b);
-extern void func_0218FEC0(u32 a);
+extern void func_0218FEC0(u8 *o);
 extern void func_0218FF00(u32 a);
 
 void func_021C017C(u8 *p)
@@ -37,17 +37,17 @@ void func_021C017C(u8 *p)
     u32 a;
     u32 b;
 
-    a = func_02188C58(*(u32 *)(p + 4));
-    b = func_0218FE80(*(u32 *)(p + 4));
+    a = (u32)func_02188C58((void *)(*(u32 *)(p + 4)));
+    b = (u32)func_0218FE80((void *)(*(u32 *)(p + 4)));
     *(u32 *)(p + 0x24) = 0x3c;
     *(u32 *)(p + 0x68) = 1;
     *(u32 *)(p + 0x6c) = 1;
     *(u32 *)(p + 0x70) = b;
-    func_0218FEA0(b, p + 0x24);
+    func_0218FEA0((u8 *)b, (u32)(p + 0x24));
     func_0218FEA4(*(u32 *)(p + 0x70));
     func_0218FE78(a, p + 0x28);
     *(Blk32 *)(p + 0x48) = *(Blk32 *)(p + 0x28);
     *(u32 *)(p + 0x4c) -= 0x64000;
-    func_0218FEC0(*(u32 *)(p + 0x70));
+    func_0218FEC0((u8 *)(*(u32 *)(p + 0x70)));
     func_0218FF00(*(u32 *)(p + 0x70));
 }

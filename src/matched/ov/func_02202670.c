@@ -21,17 +21,20 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_02045EC0(u32 a, u32 b);
-extern u32 func_020457B0(u32 a, u32 b);
-extern void func_0201F250(u32 a, u32 b, u32 c);
-extern void func_02045808(u32 a);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 
 u32 func_02202670(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 t1 = func_02045EC0(b, c);
-    u32 t2 = func_020457B0(0x200, d);
+    u32 t1 = (u32)func_02045EC0((struct MsgBank *)b, c);
+    u32 t2 = (u32)func_020457B0(0x200, d);
 
-    func_0201F250(a, t2, t1);
-    func_02045808(t1);
+    func_0201F250((struct WordSet *)a, (void *)t2, (void *)t1);
+    func_02045808((struct U16Vec *)t1);
     return t2;
 }

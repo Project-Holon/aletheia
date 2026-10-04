@@ -53,9 +53,10 @@ struct FieldCtx {
 };
 
 extern void *func_021A3074(u8 *p);
-extern void func_021A3460(void *p, s16 *x, s16 *y, s16 *z);
+typedef signed int     s32;
+extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
 extern void func_02164294(int x, int y, int z, int *out);
-extern void *func_02188C98(u8 *p);
+extern u32 func_02188C98(u8 *p);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB194(u16 id);
@@ -63,7 +64,7 @@ extern u16 func_0216D5F8(void *p);
 extern void func_02164240(int dir, s16 *x, s16 *z, s16 amt);
 extern void *func_02188C7C(u8 *p);
 extern u32 func_0216D8AC(void *p);
-extern int func_0216DDDC(void *p, int x, int z, int h, int a, int b);
+extern u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
 
 int func_0218B4B0(struct FieldCtx *p, u8 *pos)
 {
@@ -72,10 +73,10 @@ int func_0218B4B0(struct FieldCtx *p, u8 *pos)
     int xyz[3];
     void *cam;
 
-    func_021A3460(p->f18, &v[2], &v[1], &v[0]);
+    func_021A3460((u32)p->f18, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
     func_02164294(v[2], v[1], v[0], xyz);
-    if (func_021AB194(func_021AB0F0(func_021AB0D4(func_02188C98(pos), xyz))) == 1)
+    if (func_021AB194(func_021AB0F0(func_021AB0D4((void *)func_02188C98(pos), xyz))) == 1)
         func_02164240(func_0216D5F8(obj), &v[2], &v[0], 1);
     cam = func_02188C7C(pos);
-    return func_0216DDDC(cam, v[2], v[0], func_0216D8AC(obj), 0x10000, 0);
+    return (int)func_0216DDDC((u32)cam, v[2], v[0], func_0216D8AC(obj), 0x10000, 0);
 }

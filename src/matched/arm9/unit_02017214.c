@@ -39,14 +39,14 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0202D5CC(void *q);
-extern u32 func_0202D5F8(void *p, void *q);
-extern u32 func_0202D61C(void *p, void *q);
-extern u32 func_0202D640(void *p, void *q);
-extern u32 func_0202D664(void *p, void *q);
-extern u32 func_0202D688(void *p, void *q);
-extern u32 func_0202D6AC(void *p, void *q);
-extern u32 func_0202D6D0(void *p, void *q);
+extern u32 func_0202D5CC(u32 a);
+extern u32 func_0202D5F8(u32 id, u32 flags);
+extern u32 func_0202D61C(u32 id, u32 flags);
+extern u32 func_0202D640(u32 id, u32 flags);
+extern u32 func_0202D664(u32 id, u32 flags);
+extern u32 func_0202D688(u32 id, u32 flags);
+extern u32 func_0202D6AC(u32 id, u32 flags);
+extern u32 func_0202D6D0(u32 id, u32 flags);
 
 struct Stats {
     u32 unk00;
@@ -62,13 +62,13 @@ struct Stats {
 
 void func_02017214(void *p, struct Stats *out, void *q)
 {
-    out->unk00 = func_0202D5CC(q);
-    out->unk04 = func_0202D5F8(p, q);
-    out->unk08 = func_0202D61C(p, q);
-    out->unk0C = func_0202D640(p, q);
-    out->unk10 = func_0202D664(p, q);
-    out->unk14 = func_0202D688(p, q);
-    out->unk18 = func_0202D6AC(p, q);
-    out->unk1C = func_0202D6D0(p, q);
+    out->unk00 = func_0202D5CC((u32)q);
+    out->unk04 = func_0202D5F8((u32)p, (u32)q);
+    out->unk08 = func_0202D61C((u32)p, (u32)q);
+    out->unk0C = func_0202D640((u32)p, (u32)q);
+    out->unk10 = func_0202D664((u32)p, (u32)q);
+    out->unk14 = func_0202D688((u32)p, (u32)q);
+    out->unk18 = func_0202D6AC((u32)p, (u32)q);
+    out->unk1C = func_0202D6D0((u32)p, (u32)q);
     out->unk20 = 1;
 }

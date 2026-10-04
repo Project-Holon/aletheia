@@ -23,30 +23,33 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_020452E8(u32);
-extern void func_02030EAC(u32);
+struct Descriptor;
+struct Node;
+struct TaskMenuState;
+extern void func_020452E8(struct Descriptor *d);
+extern void func_02030EAC(struct Node *n);
 extern void func_021B6C34(char *);
-extern void func_021BBA88(u8 *, u32);
-extern void func_021BA2B8(u8 *, u32);
+extern void func_021BBA88(int unused, int v);
+extern void func_021BA2B8(int unused, int v);
 extern void func_021B8CB0(void *, char *);
-extern void func_021B7DCC(u8 *, u32);
-extern void func_021B70A8(u8 *, u32);
-extern void func_02027FD8(u32);
+extern void func_021B7DCC(void *p, char *q);
+extern void func_021B70A8(int unused, char *q);
+extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_021BDC70(u8 *);
 extern void func_021BDB5C(u8 *);
 extern void func_021BD7D0(void *);
 void func_021BD3B8(u8 *p)
 {
     u8 i;
-    for (i=0; i<4; i++) func_020452E8(*(u32 *)(p + i*4 + 0x1b8));
-    func_02030EAC(*(u32 *)(p+4));
+    for (i=0; i<4; i++) func_020452E8((struct Descriptor *)(*(u32 *)(p + i*4 + 0x1b8)));
+    func_02030EAC((struct Node *)(*(u32 *)(p+4)));
     func_021B6C34(*(char **)(p+0x1f4));
-    func_021BBA88(p, *(u32 *)(p+0x1f0));
-    func_021BA2B8(p, *(u32 *)(p+0x1ec));
+    func_021BBA88((int)p, *(u32 *)(p+0x1f0));
+    func_021BA2B8((int)p, *(u32 *)(p+0x1ec));
     func_021B8CB0(p, *(char **)(p+0x1e8));
-    func_021B7DCC(p, *(u32 *)(p+0x1e4));
-    func_021B70A8(p, *(u32 *)(p+0x1e0));
-    func_02027FD8(*(u32 *)(p+0x1d4));
+    func_021B7DCC(p, (char *)(*(u32 *)(p+0x1e4)));
+    func_021B70A8((int)p, (char *)(*(u32 *)(p+0x1e0)));
+    func_02027FD8((struct TaskMenuState *)(*(u32 *)(p+0x1d4)));
     func_021BDC70(p);
     func_021BDB5C(p);
     func_021BD7D0(p);

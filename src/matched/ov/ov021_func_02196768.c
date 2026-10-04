@@ -30,9 +30,11 @@ extern void func_02196454(u8 *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_0203FB44(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
-extern void func_02045C04(u32 a);
-extern void func_0201D83C(u32 a);
-extern void func_02045808(u32 a);
+struct Rec;
+struct U16Vec;
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201D83C(void *ptr);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02040588(u32 a, u32 b);
 
 void func_02196768(u8 *p)
@@ -46,8 +48,8 @@ void func_02196768(u8 *p)
     func_0203FB44(5, (u16)v, (u16)(v >> 16));
     func_020403F4(5);
     func_020403F4(4);
-    func_02045C04(*(u32 *)(p + 0x28));
-    func_0201D83C(*(u32 *)(p + 0x2C));
-    func_02045808(*(u32 *)(p + 0x38));
+    func_02045C04((struct Rec *)(*(u32 *)(p + 0x28)));
+    func_0201D83C((void *)(*(u32 *)(p + 0x2C)));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x38)));
     func_02040588(5, 0);
 }

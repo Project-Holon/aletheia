@@ -28,7 +28,7 @@ extern int func_02197E7C(int a, int b);
 extern void func_0216D410(u32, u32);
 extern void func_0216DB4C(u32, u32);
 extern void func_0216DCE8(u32, u32);
-extern void func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 
 void func_021A4F0C(u32 a, u32 b, u32 c)
 {
@@ -39,6 +39,6 @@ void func_021A4F0C(u32 a, u32 b, u32 c)
     func_0216D410(b, func_02197E7C(x, 0x34));
     func_0216DB4C(b, 1);
     func_0216DCE8(b, 1);
-    func_0216D568(b, 0x8000);
+    func_0216D568((void *)b, 0x8000);
     *(u32 *)a = 5;
 }

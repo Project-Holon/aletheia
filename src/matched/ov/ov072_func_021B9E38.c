@@ -65,9 +65,10 @@ extern void func_02049238(void *);
 struct Obj;
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B974(int);
+struct Actor;
+extern void func_0204B974(struct Actor *a);
 extern u32 func_021B62E0(Req *r, int heap);
-extern void func_021B6520(u32 p, u32 v);
+extern void func_021B6520(u8 *p, u32 v);
 extern Tbl d_021BBB8C;
 
 void func_021B9E38(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap)
@@ -90,7 +91,7 @@ void func_021B9E38(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap
     s.c = 7;
     o[5] = (u32)func_0204B294((void *)a2, o[1], o[0], o[2], &s, 0, heap);
     func_0204B92C((struct Obj *)o[5], 1);
-    func_0204B974(o[5]);
+    func_0204B974((struct Actor *)o[5]);
     t = d_021BBB8C;
     func_02082BCC(&r, 0, 0x20);
     r.f0 = (u8 *)&t;
@@ -101,5 +102,5 @@ void func_021B9E38(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap
     r.f14 = s1 + 4;
     r.f18 = 2;
     o[3] = func_021B62E0(&r, heap);
-    func_021B6520(o[3], 10);
+    func_021B6520((u8 *)o[3], 10);
 }

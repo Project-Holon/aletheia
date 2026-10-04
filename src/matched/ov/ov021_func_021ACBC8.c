@@ -19,14 +19,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u8 *func_021AC1E0(u32 a);
+extern int func_021AC1E0(u32 a);
 
 void func_021ACBC8(u32 a, int v)
 {
     u8 *p;
 
     if (a != 0) {
-        p = func_021AC1E0(a);
+        p = (u8 *)func_021AC1E0(a);
         if (v == 1)
             p[10] = 0;
         else

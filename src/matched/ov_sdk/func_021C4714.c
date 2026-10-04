@@ -25,7 +25,7 @@ extern int  func_021D5580(int x);
 extern int  func_021C11B8(void);
 extern void func_021BCAE4(void);
 extern void func_021D55A4(int a, int b, int c, int d);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern void func_021C4794(void);
 extern u8   g_021DE5C8[];
 
@@ -41,5 +41,5 @@ void func_021C4714(void)
     if (g_021DE5C8[0] == 0)
         func_021D55A4(3, 1, 1, 8);
     func_021D55A4(3, 0, 0x15, 8);
-    func_021C0E40(func_021C4794);
+    func_021C0E40((unsigned int)func_021C4794);
 }

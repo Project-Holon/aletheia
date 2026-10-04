@@ -48,8 +48,8 @@ extern int func_02084F40(char *dst, const char *fmt, ...);
 extern void *func_02184208(void *array, int n);
 extern unsigned long func_0209477C(const char *s);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
-extern void func_02193734(void **connection, char *errorString);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void func_02193734(int *p, int b);
 extern char *func_020948B0(char *dst, const char *src);
 extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 extern char g_021A4DB8[];
@@ -100,8 +100,8 @@ int func_0218DA40(void **connection, char **buffer)
 
     *buffer = (char *)func_0217EAB0(func_0209477C(keysHeader) + sizeKeys + 1);
     if (*buffer == 0) {
-        func_0217D254(1, 2, 1, g_021A4DC4);
-        func_02193734(connection, g_021A4D80);
+        func_0217D254(1, (char *)2, 1, g_021A4DC4);
+        func_02193734((int *)connection, (int)g_021A4D80);
         return 1;
     }
 

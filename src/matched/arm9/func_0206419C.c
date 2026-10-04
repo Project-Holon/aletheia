@@ -13,7 +13,9 @@
  *   func_02066ABC  0x02066ABC  arm
  */
 extern char *func_02062D40(char *self);
-extern int func_0206285C(char *a, int v);
+typedef unsigned int   u32;
+struct CellDataBank;
+extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
 extern void func_02064140(char *p, int v);
 extern void func_020640DC(char *p, int a, int b);
 extern void func_02064120(char *p, int a, int b);
@@ -33,7 +35,7 @@ void func_0206419C(char *self)
     func_02062D40(self);
     p = func_02062D40(self);
     o = *(char **)(self + 0x34);
-    *(int *)(self + 0x30) = func_0206285C(o, *(unsigned short *)p);
+    *(int *)(self + 0x30) = (int)func_0206285C((struct CellDataBank *)o, *(unsigned short *)p);
     kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
     func_02064140(self + 0x3c, 1);
     switch (kind) {

@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int func_021D7AF4(char *p);
 extern void func_021D79F4(u8 *p, u16 n);
-extern void *func_021D6988(void *);
+extern u32 func_021D6988(u8 *p);
 extern void func_021B64D0(u8 *p, u32 v);
 extern void func_021D4244(int, int, int);
 extern void func_021D5AD4(u8 *p);
@@ -33,7 +33,7 @@ void func_021D5758(u8 *p)
     if (func_021D7AF4(*(void **)(p + 0x40))) {
         if (--*(int *)(p + 0x14) <= 0) {
             func_021D79F4(*(void **)(p + 0x40), 0x20);
-            func_021B64D0(func_021D6988(*(void **)(p + 0x3c)), 1);
+            func_021B64D0((u8 *)func_021D6988(*(void **)(p + 0x3c)), 1);
             func_021D4244((int)p, (int)func_021D5AD4, 0x7c7);
             if (func_020355C4() == 0)
                 func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x15c));

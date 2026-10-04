@@ -27,29 +27,35 @@
  *   func_020458F8  0x020458F8  arm
  */
 
-extern int func_021BD118(int a);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern u16 func_021BD118(u8 *p);
 extern unsigned int func_02013E4C(unsigned int id);
 extern void func_021BC5BC(int a);
-extern int func_021BCB48(int a, int b);
+extern int func_021BCB48(int *p, int b);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *a);
 extern int func_02158344(int a);
 extern int func_0215841C(int a);
 extern int func_021583EC(int a, int b);
-extern int func_02045EC0(int a, int b);
-extern void func_02045CAC(int a, int b, int c);
-extern void func_0201F02C(int a, int b, int c);
-extern void func_0201F158(int a, int b, int c);
-extern void func_0201F250(int a, int b, int c);
-extern void func_02045808(int a);
-extern unsigned char func_020458F8(int a);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern u16 func_020458F8(struct U16Vec *vec);
 
 void func_021BCAB0(int *p)
 {
     int r6, r7;
     unsigned int r4;
 
-    r6 = func_021BD118((int)p);
+    r6 = func_021BD118((u8 *)((int)p));
     r4 = func_02013E4C((unsigned int)r6);
     if (r4 >= 0x75) {
         r4 = 0;
@@ -58,17 +64,17 @@ void func_021BCAB0(int *p)
         func_021BC5BC((int)p);
         return;
     }
-    if (func_021BCB48((int)p, r6) != 0) {
+    if (func_021BCB48((int *)((int)p), r6) != 0) {
         func_02158344((int)func_02012138((const struct Ctx *)p[0]));
         r7 = func_021583EC(p[1], func_0215841C(p[1]));
-        r6 = func_02045EC0(p[5], 3);
-        func_02045CAC(p[5], r4, p[7]);
-        func_0201F02C(p[2], 0, r7);
-        func_0201F158(p[2], 1, r4);
-        func_0201F250(p[2], p[7], r6);
-        func_02045808(r6);
+        r6 = (int)func_02045EC0((struct MsgBank *)p[5], 3);
+        func_02045CAC((struct MsgBank *)p[5], r4, (void *)p[7]);
+        func_0201F02C((struct WordSet *)p[2], 0, (void *)r7);
+        func_0201F158((struct WordSet *)p[2], 1, r4);
+        func_0201F250((struct WordSet *)p[2], (void *)p[7], (void *)r6);
+        func_02045808((struct U16Vec *)r6);
     } else {
-        func_02045CAC(p[5], r4, p[7]);
+        func_02045CAC((struct MsgBank *)p[5], r4, (void *)p[7]);
     }
-    *((unsigned char *)p + 0x20) = func_020458F8(p[7]);
+    *((unsigned char *)p + 0x20) = func_020458F8((struct U16Vec *)p[7]);
 }

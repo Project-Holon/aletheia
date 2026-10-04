@@ -36,7 +36,7 @@ void *func_020124E4(struct Obj *p);
 u32 func_02012138(const struct Ctx *p);
 void *func_020120F4(const struct Ctx *p);
 void *func_0201210C(const struct Ctx *p);
-u8 *func_02158344(int);
+int func_02158344(int a0);
 u8 func_02012B58(const struct BigObj *p);
 u8 func_02176230(u8 *p, u8 *q);
 void *func_0217CE08(void *a, void *b, int c, int d);
@@ -60,7 +60,7 @@ int func_0217FA38(void *a, int *state)
     h = func_02012138(s);
     p2 = func_020120F4(s);
     p3 = func_0201210C(s);
-    w = func_02158344(h);
+    w = (u8 *)func_02158344(h);
     switch (*state) {
     case 0:
         if (w == 0) {

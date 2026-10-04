@@ -26,8 +26,12 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u32  func_020120F4(u32 a0);
-extern void func_0200AEE8(u32 a0, int a1, int a2);
+typedef signed int     s32;
+struct Ctx;
+struct Reg;
+struct ZoneData;
+extern void *func_020120F4(const struct Ctx *p);
+extern void func_0200AEE8(struct Reg *p, u32 id, s32 value);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
@@ -35,10 +39,10 @@ extern void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void func_020137C0(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void func_02013864(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void func_02013894(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013980(u32 a0, int a1);
-extern void func_02013160(u32 a0, u32 a1, int a2);
-extern void func_0201A2A8(u32 a0, u32 a1);
-extern u32  func_02012F2C(u32 a0);
+extern void func_02013980(struct ZoneData *o, u32 heap);
+extern void func_02013160(u8 *o, void *a1, u32 a2);
+extern void func_0201A2A8(void *a0, void *a1);
+extern void *func_02012F2C(int *p);
 
 typedef struct Sub {
     u32 f00[5];
@@ -55,12 +59,12 @@ void func_021542C0(char *obj, int idx)
     u8 flag;
     int v;
 
-    h = func_020120F4(*(u32 *)(obj + 4));
+    h = (u32)func_020120F4((const struct Ctx *)(*(u32 *)(obj + 4)));
     flag = (*(Sub **)(obj + 0x5c))->f48;
     if (flag)
-        func_0200AEE8((*(Sub **)(obj + 0x5c))->f1c, 0xd, 1);
+        func_0200AEE8((struct Reg *)((*(Sub **)(obj + 0x5c))->f1c), 0xd, 1);
     else
-        func_0200AEE8((*(Sub **)(obj + 0x5c))->f1c, 0xd, 0);
+        func_0200AEE8((struct Reg *)((*(Sub **)(obj + 0x5c))->f1c), 0xd, 0);
 
     switch (idx) {
     case 8:
@@ -125,9 +129,9 @@ void func_021542C0(char *obj, int idx)
         func_02013894(*(u32 *)(obj + 0xdc), h, (u32)func_020399A8(), 1, 4);
         break;
     }
-    func_02013980(*(u32 *)(obj + 0xdc), 1);
-    func_02013160(*(u32 *)(obj + 0xdc), (*(Sub **)(obj + 0x5c))->f1c, 4);
-    func_0201A2A8((*(Sub **)(obj + 0x5c))->f1c, (*(Sub **)(obj + 0x5c))->f14);
-    func_0201A2A8((*(Sub **)(obj + 0x5c))->f1c, (*(Sub **)(obj + 0x5c))->f18);
-    *(u32 *)(*(char **)(obj + 0xdc) + 0x6c) = func_02012F2C(func_020120F4(*(u32 *)(obj + 4)));
+    func_02013980((struct ZoneData *)(*(u32 *)(obj + 0xdc)), 1);
+    func_02013160((u8 *)(*(u32 *)(obj + 0xdc)), (void *)((*(Sub **)(obj + 0x5c))->f1c), 4);
+    func_0201A2A8((void *)((*(Sub **)(obj + 0x5c))->f1c), (void *)((*(Sub **)(obj + 0x5c))->f14));
+    func_0201A2A8((void *)((*(Sub **)(obj + 0x5c))->f1c), (void *)((*(Sub **)(obj + 0x5c))->f18));
+    *(u32 *)(*(char **)(obj + 0xdc) + 0x6c) = (u32)func_02012F2C(func_020120F4((const struct Ctx *)(*(u32 *)(obj + 4))));
 }

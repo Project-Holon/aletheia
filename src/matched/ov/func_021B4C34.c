@@ -24,7 +24,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02009A34(u32);
+struct Sub020097BCObj;
+extern u32 func_02009A34(struct Sub020097BCObj *obj);
 struct BigObj;
 extern u32 func_0201283C(const struct BigObj *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
@@ -32,7 +33,7 @@ extern void *func_0215A5E4(void *a0);
 
 int func_021B4C34(u32 a, u32 b)
 {
-*func_02159AE8((void *)a, (void *)b) = func_02009A34(func_0201283C(func_0215A5E4((void *)b)));
+*func_02159AE8((void *)a, (void *)b) = func_02009A34((struct Sub020097BCObj *)func_0201283C(func_0215A5E4((void *)b)));
 return 0;
 }
 

@@ -16,11 +16,12 @@
 
 typedef unsigned int u32;
 
-int func_02188CFC(u32 x);
+typedef unsigned char  u8;
+u32 func_02188CFC(u8 *p);
 void func_021A5738(u32 x, int a);
 
 void func_021A3550(u32 *p, int a)
 {
-    if (func_02188CFC(p[0]) == 0)
+    if (func_02188CFC((u8 *)p[0]) == 0)
         func_021A5738(p[2], a);
 }

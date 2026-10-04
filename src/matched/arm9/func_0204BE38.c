@@ -41,7 +41,10 @@ struct Obj {
     u32 f9c;
 };
 
-extern void func_0204C2C8(void);
+typedef signed int     s32;
+struct Box;
+struct Pair;
+extern void func_0204C2C8(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *box);
 
 void func_0204BE38(struct Obj *obj, int on)
 {
@@ -49,7 +52,7 @@ void func_0204BE38(struct Obj *obj, int on)
     CullFn fn;
 
     if (on != 0) {
-        fn = func_0204C2C8;
+        fn = (CullFn)func_0204C2C8;
     } else {
         obj->f30 = 1;
         fn = 0;

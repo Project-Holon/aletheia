@@ -55,14 +55,14 @@ typedef struct {
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern void *func_021BEF3C(void);
-extern void *func_021BEF58(void *sysInfo);
-extern void *func_021BA820(u32 size, int a);
+extern void *func_021BEF58(int p);
+extern int func_021BA820(int a, int b);
 extern void func_021BA874(u8 *p, int v);
-extern void func_021BA13C(void *p, u32 size);
+extern void func_021BA13C(int a, int b);
 extern Req *func_021BB3CC(void *bgnEnd, char *url_p, int method, char *buf_p, u32 len,
                           void *param_p, void *bufFull, void *freeBuf);
-extern void func_021BA850(void *p);
-extern void func_021BEB88(void *mutexInfo, void *conn);
+extern void func_021BA850(int a);
+extern int func_021BEB88(int a, int b);
 extern void func_021BEF60(void *conn, u32 len);
 
 void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len,
@@ -75,16 +75,16 @@ void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len,
 
     sysInfo_p = func_021BEF08();
     bgnEndInfo_p = func_021BEF3C();
-    mutexInfo_p = func_021BEF58(sysInfo_p);
-    connection_p = func_021BA820(0x804c, 0x20);
+    mutexInfo_p = func_021BEF58((int)sysInfo_p);
+    connection_p = (Connection *)func_021BA820(0x804c, 0x20);
     if (connection_p == 0) {
         func_021BA874(bgnEndInfo_p, 1);
         return 0;
     }
-    func_021BA13C(connection_p, 0x804c);
+    func_021BA13C((int)connection_p, 0x804c);
     connection_p->req_p = func_021BB3CC(bgnEndInfo_p, url_p, method, buf_p, len, userParam_p, 0, 0);
     if (connection_p->req_p == 0) {
-        func_021BA850(connection_p);
+        func_021BA850((int)connection_p);
         return 0;
     }
     connection_p->res_p = connection_p->req_p->res_p;
@@ -93,7 +93,7 @@ void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len,
     connection_p->postData0 = 0;
     connection_p->postData1 = 0;
     connection_p->reqId = -1;
-    func_021BEB88(mutexInfo_p, connection_p);
+    func_021BEB88((int)mutexInfo_p, (int)connection_p);
     connection_p->nhttpError = 0xf;
     connection_p->sslError = 0;
     connection_p->running = 1;
@@ -101,7 +101,7 @@ void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len,
     connection_p->reqCallback = 0;
     connection_p->tmpBufOffset = 0;
     connection_p->tmpBufRest = 0;
-    func_021BA13C(connection_p->tmpBuf, 0x8000);
+    func_021BA13C((int)connection_p->tmpBuf, 0x8000);
     connection_p->ref = 1;
     return connection_p;
 }

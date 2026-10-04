@@ -22,7 +22,10 @@ extern int func_021E5158(int);
 extern int func_021DF6B4(char *, int, int);
 extern u8 func_020355C4(void);
 extern void func_0204B800(int, u8);
-extern void func_0204B404(int, const Pt *, unsigned int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021E4F28(char *p)
 {
     char *q;
@@ -56,12 +59,12 @@ void func_021E4F28(char *p)
                 q = p + row * 20 + j * 4;
                 func_0204B800(*(int *)(q + 0xac0), 0x1c - i);
             }
-            func_0204B404(*(int *)(q + 0xac0), &b, 1);
+            func_0204B404((struct Obj *)(*(int *)(q + 0xac0)), (const struct Vec2 *)(&b), 1);
             if (*(u8 *)(p + row * 5 + j + 0xebc)) {
                 *(Pt *)(q + 0xdcc) = a;
             }
             b.y = ty + 3;
-            func_0204B404(*(int *)(q + 0xbb0), &b, 1);
+            func_0204B404((struct Obj *)(*(int *)(q + 0xbb0)), (const struct Vec2 *)(&b), 1);
         }
         y++;
     }

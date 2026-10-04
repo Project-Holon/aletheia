@@ -60,14 +60,14 @@ typedef struct B {
 } B;
 
 extern void func_021ACCB0(u32 a, B *b);
-extern u16 func_0216D5F8(u32 a);
-extern u16 func_0216D598(u32 a);
+extern u16 func_0216D5F8(void *p);
+extern u16 func_0216D598(void *p);
 extern void func_0216D8E0(u32 a, V3 *v);
-extern void func_0216D8D0(u32 a, V3 *v);
-extern void func_02197CCC(u32 a, V3 *v);
+extern void func_0216D8D0(u8 *p, u8 *q);
+extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_021AC1CC(u32 a, V3 *v);
 extern u32 func_021ABE18(u32 a);
-extern void func_021C66EC(u32 a, u32 b, u32 c);
+extern int func_021C66EC(u32 *a, int idx, int v);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
@@ -87,7 +87,7 @@ void func_021ACDC4(u32 a, B *b)
         func_021ACCB0(a, b);
         return;
     }
-    b->fc = func_0216D5F8(b->f20);
+    b->fc = func_0216D5F8((void *)b->f20);
     if (b->f9 == 1) {
         b->f10 += b->f14;
         if (b->f10 >= 0x4000) {
@@ -100,14 +100,14 @@ void func_021ACDC4(u32 a, B *b)
         v.x = 0;
         v.y = b->f10 + 0x1000;
         v.z = 0x5000;
-        k = func_0216D598(b->f20);
+        k = func_0216D598((void *)b->f20);
         if (k == 0xA0 || k == 0xA1)
             v.y = b->f10 + 0x8000;
         func_0216D8E0(b->f20, &v);
     } else if (b->f9 == 2) {
-        func_0216D8D0(b->f20, &v);
+        func_0216D8D0((u8 *)b->f20, (u8 *)(&v));
     }
-    func_02197CCC(b->f20, &w);
+    func_02197CCC((u8 *)b->f20, (s32 *)(&w));
     w.x -= v.x;
     w.y -= v.y;
     w.z -= v.z;
@@ -121,7 +121,7 @@ void func_021ACDC4(u32 a, B *b)
             in->a = 1;
     } else {
         in = &b->in;
-        func_021C66EC(func_021ABE18(*b->f1c), in->c, 0x1000);
+        func_021C66EC((u32 *)func_021ABE18(*b->f1c), in->c, 0x1000);
         func_0216D88C((const struct Actor *)b->f20, (struct VecFx32 *)&u);
         if (b->fc != in->b) {
             in->b = b->fc;

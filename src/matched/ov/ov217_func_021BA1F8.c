@@ -30,12 +30,12 @@ typedef signed int     s32;
 extern void func_020061E4(u32 a);
 extern void func_021BA284(int sel);
 extern void func_021BA2BC(int sel);
-extern u32 func_021BA388();
+extern void func_021BA388(char *self, int d);
 extern u32 func_021BA3E8();
 u32 func_021BA1F8(u32 a0)
 {
     func_021BA2BC(*(u32*)(((u8*)a0) + 40));
-    func_021BA388(a0, -1);
+    func_021BA388((char *)a0, -1);
     func_021BA284(*(u32*)(((u8*)a0) + 40));
     func_020061E4(1352);
     return func_021BA3E8(a0, 1);

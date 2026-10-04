@@ -29,14 +29,21 @@ typedef struct {char f000[0x300]; struct Sys *f300; struct Grid *f304[1];} Objec
 typedef enum {INDEX_0,INDEX_1} Index;
 extern const int d_021E3850[];
 extern int func_021FC214(char *);
-extern int func_02045EC0(int,int);
-extern int func_02043678(int,int,int,u16);
-extern void func_0201C7A4(int,int,int,int,int);
+typedef signed short   s16;
+typedef unsigned int   u32;
+struct Bmp;
+struct MsgBank;
+struct Obj;
+struct Obj020437AC;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern struct Grid *func_020255A0(struct Sys *,const Descriptor *);
-extern void func_020257D0(int);
-extern void func_0202597C(int,int);
-extern void func_020437AC(int);
-extern void func_02045808(int);
+extern void func_020257D0(struct Obj *o);
+extern void func_0202597C(u8 *g, u32 a);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_02045808(struct U16Vec *vec);
 void func_021E111C(const Object *object,Index index,int x,int y)
 {
     char *p=(char *)object;
@@ -45,9 +52,9 @@ void func_021E111C(const Object *object,Index index,int x,int y)
     struct Grid **slots;
     Descriptor desc;
     source=func_021FC214(*(char **)(p+0x344));
-    source=func_02045EC0(source,d_021E3850[index]);
-    handle=func_02043678(10,2,32,*(u16 *)(p+0x34c));
-    func_0201C7A4(handle,1,0,source,*(int *)(p+0x310));
+    source=(int)func_02045EC0((struct MsgBank *)source,d_021E3850[index]);
+    handle=(int)func_02043678(10,2,32,*(u16 *)(p+0x34c));
+    func_0201C7A4((void *)handle,1,0,(void *)source,(void *)(*(int *)(p+0x310)));
     xx=((u8 *)(p+0x29a))[(index+22)*4];
     yy=((u8 *)(p+0x298))[(index+22)*4];
     desc.handle=(void *)handle;
@@ -66,9 +73,9 @@ void func_021E111C(const Object *object,Index index,int x,int y)
         slot=&out[index];
         grid=func_020255A0(object->f300,&desc);
         *slot=grid;
-        func_020257D0((int)grid);
-        func_0202597C((int)*slot,1);
+        func_020257D0((struct Obj *)((int)grid));
+        func_0202597C((u8 *)((int)*slot),1);
     }
-    func_020437AC(handle);
-    func_02045808(source);
+    func_020437AC((struct Obj020437AC *)handle);
+    func_02045808((struct U16Vec *)source);
 }

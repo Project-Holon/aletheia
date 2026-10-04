@@ -39,7 +39,7 @@ extern void func_021CFFAC(unsigned int v);
 extern void func_02058518(WiFiInfoT *buf);
 extern void func_021BCB44(int idx);
 extern void func_021C3130(void);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021C2F14(void);
 extern FocusPosT g_021DE5A8;
 
@@ -65,5 +65,5 @@ void func_021C2E6C(void)
 	default:
 		return;
 	}
-	func_021C0E40(func_021C2F14);
+	func_021C0E40((unsigned int)func_021C2F14);
 }

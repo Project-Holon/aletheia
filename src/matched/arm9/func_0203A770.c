@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 func_0203A634(u32 a);
-extern u32 func_020399B8(u32 a);
+extern u32 func_020399B8(u8 *p);
 extern int func_0203A70C(u32 idx);
 extern u32 func_0203A730(u32 a);
 
@@ -32,7 +32,7 @@ void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f)
         return;
     }
     ok = 1;
-    if (func_020399B8(f) == 0) {
+    if (func_020399B8((u8 *)f) == 0) {
         if (c >= 0x11) {
             ok = 0;
         }

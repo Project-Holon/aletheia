@@ -28,7 +28,7 @@ typedef unsigned long long u64;
 struct Source { int words[10]; };
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
-extern int func_021FC20C(int);
+extern unsigned func_021FC20C(char *p);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021E1244(char *);
 extern void func_021E1910(char *);
@@ -44,7 +44,7 @@ char *func_021E06D0(const struct Source *src, u16 heap)
     *(struct Source *)(p + 0x324) = *src;
     *(u16 *)(p + 0x34c) = heap;
     *(int *)(p + 0x25c) = src->words[7];
-    *(int *)(p + 0x310) = func_021FC20C(src->words[8]);
+    *(int *)(p + 0x310) = func_021FC20C((char *)src->words[8]);
     *(void **)(p + 0x258) = func_020490F4(59, *(u16 *)(p + 0x34c));
     func_021E1244(p);
     func_021E1910(p);

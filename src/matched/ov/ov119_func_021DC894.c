@@ -61,8 +61,16 @@ extern void func_021DC538(char *,void *,u16),func_021DC5F0(char *),func_021DC3EC
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0203A574(unsigned,unsigned,unsigned,unsigned);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
-extern void func_021DC500(void *,void *);
-extern void func_021E30EC(char *),func_021D8E84(void *,int),func_021E0B34(void),func_021E10D8(void *),func_021E3FE4(void *),func_021DC494(char *),func_021E3C20(void *),func_021E3208(void *,int),func_021DAC60(void);
+extern void func_021DC500(int a, char *p);
+extern void func_021E30EC(char *);
+extern void func_021D8E84(void *,int);
+extern void func_021E0B34(char *p);
+extern void func_021E10D8(void *);
+extern void func_021E3FE4(void *);
+extern void func_021DC494(char *);
+extern void func_021E3C20(void *);
+extern void func_021E3208(void *,int);
+extern void func_021DAC60(char *p);
 #define I(o) (*(int *)(p+(o)))
 #define H(o) (*(u16 *)(p+(o)))
 int func_021DC894(int a,int b,char *q,char *p,int n)
@@ -86,7 +94,7 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
         func_0203A574(0xc00,(unsigned)d_021E7614,24,(unsigned)p);
         func_0203D7B0(1);func_0203D7BC(1);
     }
-    I(0x9c8)=(int)func_020056A0(func_021DC500,p,0);
+    I(0x9c8)=(int)func_020056A0((void (*)(void *, void *))func_021DC500,p,0);
     I(0xf60)=0;
     I(0xf84)=-1;I(0x109c)=-1;I(0xf7c)=-1;I(0xf80)=-1;I(0xf98)=-1;I(0xf94)=-1;
     func_021E30EC(p);

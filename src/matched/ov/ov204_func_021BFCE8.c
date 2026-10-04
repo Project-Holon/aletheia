@@ -31,7 +31,7 @@
 
 typedef unsigned int u32;
 
-extern void func_020515B4(u32 p, int idx, u32 *buf);
+extern int func_020515B4(void *p, int b, int c);
 
 void func_021BFCE8(u32 *a0, u32 a1, u32 a2, u32 a3)
 {
@@ -41,7 +41,7 @@ void func_021BFCE8(u32 *a0, u32 a1, u32 a2, u32 a3)
     buf[0] = a1;
     buf[1] = a2;
     buf[2] = a3;
-    func_020515B4(p[2], 0, buf);
-    func_020515B4(p[2], 1, buf);
-    func_020515B4(p[2], 2, buf);
+    func_020515B4((void *)p[2], 0, (int)buf);
+    func_020515B4((void *)p[2], 1, (int)buf);
+    func_020515B4((void *)p[2], 2, (int)buf);
 }

@@ -24,7 +24,8 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(int);
-extern void func_020113B0(int, int);
+struct Cur;
+extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_021D5BDC(void *, int);
@@ -39,7 +40,7 @@ int func_02189718(int a, int b) {
     s = func_0218A160((u8 *)b, r7);
     t = func_0218A2FC((u8 *)b, s);
     if (func_021D5BDC(t, 13)) {
-        func_020113B0(a, *(int *)(a + 0x14) + r6);
+        func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + r6);
     }
     return *(int *)(b + 0xc4);
 }

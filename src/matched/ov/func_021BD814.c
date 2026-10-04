@@ -16,7 +16,9 @@
  */
 
 
-extern void func_0204B878(int, int);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BD814(char *p, int v)
 {
@@ -24,9 +26,9 @@ void func_021BD814(char *p, int v)
     if (v != 0) {
         if (*(int *)(p + 8) == *(unsigned short *)(p + 0x28))
             *(int *)(p + 8) = *(unsigned short *)(p + 0x24);
-        func_0204B878(*(int *)p, (unsigned short)*(int *)(p + 8));
+        func_0204B878((struct Obj *)(*(int *)p), (unsigned short)*(int *)(p + 8));
     } else {
-        func_0204B878(*(int *)p, *(unsigned short *)(p + 0x26));
+        func_0204B878((struct Obj *)(*(int *)p), *(unsigned short *)(p + 0x26));
     }
 }
 

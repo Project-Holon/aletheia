@@ -15,7 +15,8 @@
  */
 
 extern void func_020307B0(void *p);
-extern void func_0216754C(int a, int b);
+struct O;
+extern void func_0216754C(int a, struct O *o);
 
 void func_0217505C(int *p, int x)
 {
@@ -25,6 +26,6 @@ void func_0217505C(int *p, int x)
         func_020307B0(*(void **)((char *)p + i * 4 + 0x134));
         func_020307B0(*(void **)((char *)p + i * 4 + 0x148));
     }
-    func_0216754C(x, *p);
+    func_0216754C(x, (struct O *)(*p));
     func_020307B0(p);
 }

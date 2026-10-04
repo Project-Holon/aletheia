@@ -41,8 +41,8 @@ struct SaveBackup {
 
 extern struct { u8 pad000[4]; u8 crcTable[1]; } *unk_02146994;
 
-extern u32 func_02033B68(u32 table, u32 i);
-extern u32 func_02033BAC(u32 table, u32 id);
+extern u32 func_02033B68(u8 *p, u32 i);
+extern u32 func_02033BAC(u8 *p, u32 i);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
 
 u16 sub_020332A4(struct SaveBackup *p, u32 id)
@@ -52,8 +52,8 @@ u16 sub_020332A4(struct SaveBackup *p, u32 id)
     u16 *q;
     u32 buf;
 
-    base = func_02033B68(p->unk2C, id);
-    len = func_02033BAC(p->unk2C, id);
+    base = func_02033B68((u8 *)p->unk2C, id);
+    len = func_02033BAC((u8 *)p->unk2C, id);
     buf = p->unk34;
     q = (u16 *)(buf + (base + len));
     q[1] = MATH_CalcCRC16CCITT(unk_02146994->crcTable, (void *)(buf + base), len);

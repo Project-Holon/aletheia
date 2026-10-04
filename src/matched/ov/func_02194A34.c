@@ -23,11 +23,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020409B4(u32);
-extern u32 func_02195E90(u32, u32);
+struct FrameStyle;
+extern void func_02195E90(struct FrameStyle *style, void *win);
 
 int func_02194A34(u32 a, u32 b)
 {
-func_02195E90(a, b);
+func_02195E90((struct FrameStyle *)a, (void *)b);
 return func_020409B4(((*(u32 *)((u8 *)(a) + 16) << 24) >> 24));
 }
 

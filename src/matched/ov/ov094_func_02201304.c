@@ -36,7 +36,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern char *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_020307B0(void *);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -45,14 +45,14 @@ extern void func_02015F40(char *p, unsigned flags, void *callback);
 extern int func_02201810(u32 flags, int a, int *out, int key);
 extern u32 func_0203F0A8(void);
 extern const u8 d_0220AE78[];
-extern void *func_021F86C4(void);
+extern int func_021F86C4(void);
 extern int func_021F9824(void *);
 extern void func_02016028(void *, u32);
 extern void func_02015F2C(void *, u32, void (*)(int), int);
 extern void func_02201718(int);
 void func_02201304(void *task, int *q)
 {
-    char *p = func_021F8694();
+    char *p = (char *)func_021F8694();
     int i = q[1];
     int off;
     char *e;
@@ -77,7 +77,7 @@ void func_02201304(void *task, int *q)
         return;
     case 1:
         q[2]--;
-        if (q[2] != 0 && *(int *)(p + 0x51c) == 0 && func_021F9824(func_021F86C4()) != 0) break;
+        if (q[2] != 0 && *(int *)(p + 0x51c) == 0 && func_021F9824((void *)func_021F86C4()) != 0) break;
         func_02016028(*(void **)(e + off), 0);
         *(int *)((char *)func_02015EE8(*(void **)(e + off)) + 12) = 1;
         func_02015F40(*(void **)(e + off), i, func_02201810);

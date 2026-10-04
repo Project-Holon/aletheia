@@ -54,17 +54,19 @@ extern void func_021C1F44(int a);
 extern Entry *func_021C1F28(u32 a, u32 b, u32 c);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
-extern void func_021C0C00(u32 a, u32 b);
-extern int  func_021BC3A4(int key);
-extern void *func_0200CA1C(int a);
+struct MsgBank;
+struct PrintSys;
+extern void func_021C0C00(void *a, void *b);
+extern int func_021BC3A4(int *p);
+extern void *func_0200CA1C(void *a);
 extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg, u8 x, u8 y);
-extern void func_0201C6EC(u32 a);
+extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void *func_02045EC0(u32 bank, u32 index);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -74,7 +76,7 @@ extern void func_0201C724(u32 a, void *b, u32 c, u32 d, void *e, u32 f, u16 g);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern void func_02045334(struct Descriptor *p);
 extern void func_021C1F50(u16 *heap, u8 *p, int key);
-extern void func_0204B878(u32 obj, u32 anim);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define SLOT4C(i) (((u32 *)(p + 0x4c))[i])
@@ -104,18 +106,18 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
     *(int *)(p + 0x64) = (*(int *)(p + 0x64) + 1) % 2;
     if (SLOT5C(*(int *)(p + 0x64)) != 0) {
         if (SLOT5C(*(int *)(p + 0x64)) != 0)
-            func_021C0C00(SLOT4C(*(int *)(p + 0x64)), SLOT5C(*(int *)(p + 0x64)));
+            func_021C0C00((void *)SLOT4C(*(int *)(p + 0x64)), (void *)SLOT5C(*(int *)(p + 0x64)));
         SLOT5C(*(int *)(p + 0x64)) = 0;
     }
 
-    func_0200CC40(func_0200CA1C(func_021BC3A4(key)), id, &out1, &out2, &form, *heap);
+    func_0200CC40(func_0200CA1C((void *)func_021BC3A4((int *)key)), id, &out1, &out2, &form, *heap);
     SLOT5C(*(int *)(p + 0x64)) = func_021C0B6C(&SLOT4C(*(int *)(p + 0x64)), W(0x54), W(0x58), W(0),
                                                *heap, id, form, out1, 0, 0x38, 0xb0);
     W(0x24) = 0;
-    func_0201C6EC(W(0x34));
+    func_0201C6EC((struct PrintSys *)W(0x34));
     func_02043B5C(func_02045770((struct Descriptor *)W(0x14)), 0);
     win = func_0201EC64(*heap);
-    str = func_02045EC0(W(0xc), 0xbd);
+    str = func_02045EC0((struct MsgBank *)W(0xc), 0xbd);
     buf = func_020457B0(0x40, *heap);
     func_0201EE60(win, 0, id);
     func_0201F250(win, buf, str);
@@ -129,7 +131,7 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
     if (W(0x8c) == 0) {
         if (prev == 1) {
             W(0x2c) = 0;
-            func_0201C6EC(W(0x3c));
+            func_0201C6EC((struct PrintSys *)W(0x3c));
             func_02043B5C(func_02045770((struct Descriptor *)W(0x1c)), 0);
             func_02045334((struct Descriptor *)W(0x1c));
             func_0204B3DC((struct Obj *)W(0xbc), 0);
@@ -139,9 +141,9 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
     } else if (prev == 0) {
         func_021C1F50(heap, p, key);
         func_0204B3DC((struct Obj *)W(0xbc), 1);
-        func_0204B878(W(0xc4), 2);
+        func_0204B878((struct Obj *)W(0xc4), 2);
         func_0204B3DC((struct Obj *)W(0xc4), 1);
-        func_0204B878(W(0xc0), 4);
+        func_0204B878((struct Obj *)W(0xc0), 4);
         func_0204B3DC((struct Obj *)W(0xc0), 1);
     }
 }

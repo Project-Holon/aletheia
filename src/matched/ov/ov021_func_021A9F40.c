@@ -67,14 +67,17 @@ struct Sel {
 struct Pos;
 struct Sub02008C20Obj;
 extern void *func_02188CB4(u8 *p);
-extern void *func_02012A38(void *p);
+struct BigObj;
+struct Obj;
+struct Unit;
+extern u32 func_02012A38(const struct BigObj *p);
 extern void func_021AA728(struct Pos *p, void *q);
 extern int func_021AA35C(void *ctx, int mode, u8 *out);
 extern int func_021AA3E0(struct Ctx *t, int i, int add);
 extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u32 v);
+extern u16 func_021A1BF4(u8 *p);
 extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
-extern u32 func_021A94B0(struct Sel *o, void *unused, u32 n);
+extern u32 func_021A94B0(struct Obj *o, u32 unused, u32 n);
 extern int func_021AA3FC(void *a0, void *p, u32 rate);
 extern void *func_02012F2C(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -84,9 +87,9 @@ extern void *func_02013090(u32 heap);
 extern void func_021AA548(struct Ctx *ctx, void *a1, void *a2, u16 heap, void *src);
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_021A954C(void *a0, void *u, u16 id, void *slots);
-extern void func_021AA490(struct Ctx *ctx, struct Sel *s, void *a, int b, struct Slot14 *o);
+extern void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
 extern void func_021AA6F8(struct Pos *p, void *q);
-extern int func_0216E7C8(int a0, void *a1, void *a2, int a3, int a4);
+extern int func_0216E7C8(int a0, int a1, int a2, int a3, int a4);
 
 int func_021A9F40(struct Ctx *ctx, int mode)
 {
@@ -105,7 +108,7 @@ int func_021A9F40(struct Ctx *ctx, int mode)
     skip = 0;
     src = 0;
     q = func_02188CB4(ctx->f00);
-    p = func_02012A38(ctx->f08);
+    p = (void *)func_02012A38(ctx->f08);
     if (mode == 1 || mode == 2)
         skip = 1;
     else
@@ -117,9 +120,9 @@ int func_021A9F40(struct Ctx *ctx, int mode)
     n = func_021AA3E0(ctx, m, loc);
     if (m == 0xFF || n == 0)
         return 0;
-    func_021A9350(&sel, ctx->f08, m, mode, func_021A1BF4(func_02188C6C(ctx->f00)));
+    func_021A9350(&sel, ctx->f08, m, mode, func_021A1BF4((u8 *)func_02188C6C(ctx->f00)));
     if (!skip) {
-        if (!func_021AA3FC(ctx, p, func_021A94B0(&sel, ctx->f08, n)))
+        if (!func_021AA3FC(ctx, p, func_021A94B0((struct Obj *)(&sel), (u32)ctx->f08, n)))
             return 0;
     }
     if (mode == 1)
@@ -140,8 +143,8 @@ int func_021A9F40(struct Ctx *ctx, int mode)
             sel.f15 = cnt;
         }
         h = func_02013090(4);
-        func_021AA490(ctx, &sel, h, 4, slots);
+        func_021AA490(ctx, (struct Unit *)(&sel), h, 4, slots);
     }
     func_021AA6F8(p, q);
-    return func_0216E7C8(ctx->f04, ctx->f00, h, 0, mode);
+    return func_0216E7C8(ctx->f04, (int)ctx->f00, (int)h, 0, mode);
 }

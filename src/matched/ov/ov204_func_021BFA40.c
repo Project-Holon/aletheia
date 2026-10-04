@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 struct G3dSys;
 struct Owner;
 extern void func_020061E4(u32 a);
-extern void *func_02048A18(void *, unsigned short);
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_020478B8(void *, int, int);
 extern int func_020477D4(struct Owner *owner, u32 index);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
@@ -38,7 +39,7 @@ int func_021BFA40(char *p)
         ++*(unsigned int *)(p + 36);
     case 1:
     {
-        void *obj = func_02048A18(*(void **)(p + 8), *(unsigned short *)(p + 16));
+        void *obj = (void *)func_02048A18(*(void **)(p + 8), *(unsigned short *)(p + 16));
         int a = func_020478B8(obj, 3, 4096);
         int b = func_020478B8(obj, 4, 4096);
         if (a == 0 && b == 0)

@@ -27,7 +27,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { void *bmp; s16 x,y; void *resource; u32 value; u8 a,b; u16 c; u32 d; } Descriptor;
 extern const u8 d_021DC2C2[];
-extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Bmp;
 struct Descriptor;
 extern void func_02045798(struct Descriptor *p, u8 v);
@@ -42,7 +42,7 @@ void func_021DA6A4(u8 *a,u8 *p)
     u8 i;
     Descriptor desc;
     for(i=0;i<13;i++) {
-        *(void **)(p+0x5c+i*4)=func_020450F0(4,d_021DC2C2[i*4],d_021DC2C2[i*4+1],d_021DC2C2[i*4+2],d_021DC2C2[i*4+3],14,1);
+        *(void **)(p+0x5c+i*4)=(void *)func_020450F0(4,d_021DC2C2[i*4],d_021DC2C2[i*4+1],d_021DC2C2[i*4+2],d_021DC2C2[i*4+3],14,1);
     }
     func_02045798(*(void **)(p+0x60),13);
     func_021D9EE8(a,p);

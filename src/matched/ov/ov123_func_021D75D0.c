@@ -20,8 +20,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02012EBC(int);
-extern u8 *func_021D5BA0(int);
+struct Big;
+struct Sub020090B0Obj;
+struct Sub02009210Obj;
+extern void *func_02012EBC(struct Big *p);
+extern int func_021D5BA0(char *p);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -29,8 +32,8 @@ extern int func_020072CC(int,int,u16,int,int);
 extern void func_02082D44(const void *,void *,int);
 extern void func_0200E8E0(void *obj, u32 value);
 extern void func_02012E4C(u8 *,u32);
-extern int func_02009210(int);
-extern void func_02009108(int,u16);
+extern struct Sub02009210Obj *func_02009210(void *sys);
+extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
 extern void func_021D6EE0(int,int,int);
 extern void func_021D6FF0(char *p);
 extern void func_021D76B8(char *p);
@@ -42,8 +45,8 @@ void func_021D75D0(int a)
     int b;
     u8 *p;
     int x;
-    b=func_02012EBC(*(int *)(a+0x2c));
-    p=func_021D5BA0(*(int *)(a+8));
+    b=(int)func_02012EBC((struct Big *)(*(int *)(a+0x2c)));
+    p=(u8 *)func_021D5BA0((char *)(*(int *)(a+8)));
     checksum=func_0203F1FC(p,0x2600);
     if(checksum!=*(u16 *)(p+0x2600)) {
         *(int *)(a+0x80)=0xfff0;
@@ -55,7 +58,7 @@ void func_021D75D0(int a)
     *(int *)(a+0x40)=x;
     func_020072CC(b,4,*(u16 *)a,x,0x3000);
     func_02082D44(p,(void *)x,0x2600);
-    func_02009108(func_02009210(b),checksum);
+    func_02009108((struct Sub020090B0Obj *)func_02009210((void *)b),checksum);
     func_02012E4C((u8 *)*(int *)(a+0x2c),4);
     func_021D6EE0(a,(int)func_021D758C,0x355);
 }

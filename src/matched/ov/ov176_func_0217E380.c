@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 extern void func_02157E78(u8 *p);
 extern int func_02157E34(void *p);
 extern unsigned char func_02157E6C(char *p);
-extern void func_02157E8C(void *);
+extern int func_02157E8C(int a0);
 extern u32 func_0203D210(void);
 int func_0217E380(char *p)
 {
@@ -38,7 +38,7 @@ int func_0217E380(char *p)
             (*(unsigned *)p)++;
         break;
     case 2:
-        func_02157E8C(*(void **)(p + 0x1018));
+        func_02157E8C((int)(*(void **)(p + 0x1018)));
         *(void **)(p + 0x1018) = 0;
         (*(unsigned *)p)++;
         break;

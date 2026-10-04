@@ -42,7 +42,7 @@ typedef struct {
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern int func_021F88E0(void);
-extern int func_021FCF2C(void *vm, u32 idx);
+extern int func_021FCF2C(int a, int idx);
 extern void func_021FDB40(u32 a, int b, int c, int d, u32 e, u32 f, u32 g);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
@@ -67,7 +67,7 @@ void func_021F9858(void *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, in
         else
             c = -128;
     } else {
-        if (func_021FCF2C(vm, c) & 1)
+        if (func_021FCF2C((int)vm, c) & 1)
             c = 127;
         else
             c = -128;

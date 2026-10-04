@@ -24,8 +24,8 @@ typedef struct N {
 
 extern int d_021B4BF4[];
 extern N *func_021B2A20(int id);
-extern void func_021B25B0(void *p, int k);
-extern void func_021B2724(void *p, int id);
+extern int func_021B25B0(int a, int b);
+extern void func_021B2724(u8 *p, u8 v);
 
 int func_021B2D54(u8 *p, int *out)
 {
@@ -38,10 +38,10 @@ int func_021B2D54(u8 *p, int *out)
         out[0] = 2;
         out[1] = (int)n;
         n->a = 0;
-        func_021B25B0(n, 2);
+        func_021B25B0((int)n, 2);
         return 1;
     }
-    func_021B2724(d_021B4BF4, p[8]);
-    func_021B25B0(d_021B4BF4, 2);
+    func_021B2724((u8 *)d_021B4BF4, p[8]);
+    func_021B25B0((int)d_021B4BF4, 2);
     return 0;
 }

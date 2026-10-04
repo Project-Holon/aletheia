@@ -22,7 +22,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_021A0818(void *o, u32 a, u32 b);
-extern void func_021A08CC(void *o, void *a, void *b);
+extern void func_021A08CC(s32 *o, const s16 *in, u32 c);
 
 void func_021A0980(u8 *a, u8 *b, u8 *c, u16 d)
 {
@@ -47,7 +47,7 @@ void func_021A0980(u8 *a, u8 *b, u8 *c, u16 d)
     p3 += 0x10;
     for (; i < 4; i++) {
         func_021A0818(p0 + i * 12, *(u16 *)(b + 8 + i * 2), *(u16 *)(c + 8 + i * 2));
-        func_021A08CC(p1 + i * 0x1c, p2 + i * 6, p3 + i * 6);
+        func_021A08CC((s32 *)(p1 + i * 0x1c), (const s16 *)(p2 + i * 6), (u32)(p3 + i * 6));
         a[4 + i] = c[4 + i];
     }
     func_021A0818(a + 0xa8, *(u16 *)(b + 0x28), *(u16 *)(c + 0x28));

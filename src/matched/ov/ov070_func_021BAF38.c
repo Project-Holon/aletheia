@@ -22,23 +22,31 @@
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(int, int);
-extern void func_02045CAC(int, int, int);
-extern void func_0201F14C(int, int, int);
-extern void func_0201F250(int, int, int);
-extern int func_0201D304(int, int, int);
-extern void func_021BB6E0(int, int, int, int, int, int);
-extern void func_021BB724(int);
+typedef signed short   s16;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct MsgBank;
+struct StrObj;
+struct WordSet;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F14C(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void func_021BB6E0(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
+extern void func_021BB724(void **p);
 
 void func_021BAF38(int p, int val)
 {
     int r;
 
-    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p + 0x504)), 0);
-    func_02045CAC(*(int *)(p + 0x51C), 0x8B, *(int *)(p + 0x524));
-    func_0201F14C(*(int *)(p + 0x520), 0, val);
-    func_0201F250(*(int *)(p + 0x520), *(int *)(p + 0x528), *(int *)(p + 0x524));
-    r = 0x60 - func_0201D304(*(int *)(p + 0x528), *(int *)(p + 0x530), 0);
-    func_021BB6E0(p, p + 0x504, *(int *)(p + 0x528), (unsigned short)(r >> 1), 4, 0x3C40);
-    func_021BB724(p + 0x504);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(p + 0x504))), 0);
+    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), 0x8B, (void *)(*(int *)(p + 0x524)));
+    func_0201F14C((struct WordSet *)(*(int *)(p + 0x520)), 0, val);
+    func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
+    r = 0x60 - func_0201D304((struct StrObj *)(*(int *)(p + 0x528)), *(int *)(p + 0x530), 0);
+    func_021BB6E0(p, (u32 *)(p + 0x504), *(int *)(p + 0x528), (unsigned short)(r >> 1), 4, 0x3C40);
+    func_021BB724((void **)(p + 0x504));
 }

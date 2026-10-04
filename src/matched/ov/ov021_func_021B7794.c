@@ -39,8 +39,10 @@ extern struct Sub02009448Obj *func_02009448(void *sys);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188C84(unsigned short *p);
-extern void *func_021B7640(void *a, int b, void *c, void *d);
+typedef unsigned char  u8;
+struct Pair;
+extern u16 func_02188C84(u8 *p);
+extern struct Pair *func_021B7640(u32 a, u32 b, u32 c, int *d);
 extern int func_021B7574(void *task, int *st, struct Work *w);
 
 void *func_021B7794(void *p)
@@ -56,6 +58,6 @@ void *func_021B7794(void *p)
     r = func_020124E8(res);
     r->f0 = func_0201210C(p);
     r->f10 = 0;
-    r->f8 = func_021B7640(a, func_02188C84(r->f0), b, r->fC);
+    r->f8 = func_021B7640((u32)a, func_02188C84((u8 *)r->f0), (u32)b, (int *)r->fC);
     return res;
 }

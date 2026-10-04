@@ -11,5 +11,7 @@
  * symbols:
  *   func_0201C4DC 0x0201C4DC thumb
  */
-extern void func_0201C4DC(unsigned,unsigned,unsigned);
-void func_021F029C(char *p,int flag) { if(flag) func_0201C4DC(*(unsigned *)(p+0xb4),2000,0); else func_0201C4DC(*(unsigned *)(p+0xb4),500,0); }
+typedef unsigned int   u32;
+struct PrintSys;
+extern void func_0201C4DC(struct PrintSys *p, u32 lo, u32 hi);
+void func_021F029C(char *p,int flag) { if(flag) func_0201C4DC((struct PrintSys *)(*(unsigned *)(p+0xb4)),2000,0); else func_0201C4DC((struct PrintSys *)(*(unsigned *)(p+0xb4)),500,0); }

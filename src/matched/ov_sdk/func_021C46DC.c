@@ -19,7 +19,7 @@
 extern void func_021C115C(void);
 extern void func_021BCB9C(void);
 extern void func_021D5790(int);
-extern void func_021C0E40(void *);
+extern void func_021C0E40(unsigned int v);
 
 void func_021C46DC(void)
 {
@@ -27,5 +27,5 @@ void func_021C46DC(void)
         func_021C115C();
     func_021BCB9C();
     func_021D5790(8);
-    func_021C0E40((void *)0x021C4714);
+    func_021C0E40((unsigned int)((void *)0x021C4714));
 }

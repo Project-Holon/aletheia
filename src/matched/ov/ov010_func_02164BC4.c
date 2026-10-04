@@ -24,8 +24,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02030B50(int a);
-extern void func_0203CBAC(void *a, void *b, void *c);
+struct Req;
+extern void func_02030B50(void *p);
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern u8 d_02171C30[];
 extern void func_02164C04(u8 *p);
 
@@ -33,8 +34,8 @@ int func_02164BC4(int *st, int unused, int *q)
 {
     switch (*st) {
     case 0:
-        func_02030B50(12);
-        func_0203CBAC(d_02171C30, func_02164C04, q);
+        func_02030B50((void *)12);
+        func_0203CBAC((struct Req *)d_02171C30, (u32)func_02164C04, (u32)q);
         (*st)++;
         break;
     case 1:

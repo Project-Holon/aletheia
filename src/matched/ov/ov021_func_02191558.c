@@ -46,8 +46,9 @@ typedef struct R {
 extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020457B0(u32 n, u32 heap);
-extern void func_02191504(Fx *a, R *r, u32 d, u16 e, u16 f, u16 g, u32 c);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02191504(u16 *a, u32 *b, u32 c, u32 d, u16 e, u16 f, u32 g);
 
 R *func_02191558(Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g)
 {
@@ -56,8 +57,8 @@ R *func_02191558(Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g)
     r = func_02030734(a->f00, 0x2C, 1, d_021DDA50, 0xCA7);
     r->f0c = a;
     r->f14 = b;
-    r->f08 = func_020457B0(0xA0, a->f00);
-    func_02191504(a, r, d, e, f, g, c);
+    r->f08 = (u32)func_020457B0(0xA0, a->f00);
+    func_02191504((u16 *)a, (u32 *)r, d, e, f, g, c);
     if (c == 1)
         r->f28 = 8;
     return r;

@@ -38,8 +38,9 @@ struct BigObj;
 struct Sub02014444Obj;
 extern void *func_02012B38(const struct BigObj *p);
 extern void func_02014474(struct Sub02014444Obj *o, u16 v);
-extern int func_02158768(int a0, int a1, int a2, int a3);
-extern int func_02158B00(void *p, u16 id);
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern void *func_02158B00(void *a, u32 b);
 
 int func_0218A738(struct Ctx738 *c)
 {
@@ -47,9 +48,9 @@ int func_0218A738(struct Ctx738 *c)
 
     if (c->f26 != 0) {
         func_02014474(func_02012B38(c->f8), 0);
-        return func_02158768((int)c->f4, c->f26, 0, c->f0);
+        return (int)func_02158768((int)c->f4, c->f26, 0, c->f0);
     }
-    r = func_02158B00(c->f4, c->f0);
+    r = (int)func_02158B00(c->f4, c->f0);
     if (r == 0)
         return 0;
     return r;

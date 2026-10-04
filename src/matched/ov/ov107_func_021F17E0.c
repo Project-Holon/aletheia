@@ -64,7 +64,8 @@ struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void func_0201F250(struct WordSet *ws, void *dst, void *src);
 int func_02194A24(void *, void *, int);
 void func_0201F73C(void *, int, int, int);
-void func_0201C6FC(void *, void *, int, int, void *, void *);
+struct PrintSys;
+void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 void func_020409B4(u32 index);
 
 void func_021F17E0(Ov107Ctx *p, int a)
@@ -91,7 +92,7 @@ void func_021F17E0(Ov107Ctx *p, int a)
         func_02045808(p->f20);
         p->f20 = s;
     }
-    func_0201C6FC(p->f30, func_02045770(p->f10), 0, 0, p->f20, p->f14);
+    func_0201C6FC(p->f30, (u32)func_02045770(p->f10), 0, 0, p->f20, (u32)p->f14);
     p->f34 = 1;
     if (p->f04 == 8) {
         func_02194A24(p->f54, p->f10, 0);

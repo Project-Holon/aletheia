@@ -31,8 +31,9 @@ typedef struct Blk {
     u32 e : 6;
 } Blk;
 
-int func_02026478(int a);
-void *func_02012EBC(int p);
+struct Big;
+u32 func_02026478(void *obj);
+void *func_02012EBC(struct Big *p);
 void *func_0200E0B0(void *p);
 void func_0216749C(void *a, Blk *b, int c, int d, u8 *e);
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ void func_02174D5C(int *p, const u8 *q)
     u8 buf[4];
 
     b = (Blk *)((u8 *)p + 0x880);
-    x = func_0200E0B0(func_02012EBC(func_02026478(p[1])));
+    x = func_0200E0B0(func_02012EBC((struct Big *)func_02026478((void *)p[1])));
     func_0216749C(x, b, 0x14, q[0], buf);
     b->a = buf[0];
     b->b = func_021673C4(x);

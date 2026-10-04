@@ -62,7 +62,7 @@ extern u32  func_0203C990(void);
 extern void func_0203D864(void);
 extern void func_0200FAAC(void);
 extern void *func_0203D798(void);
-extern u32 *func_0203CA98(void);
+extern u32 func_0203CA98(void);
 extern int func_02156460(int err, int kind);
 
 void sub_0200F734(void)
@@ -91,7 +91,7 @@ void sub_0200F734(void)
     }
 
     {
-        u32 *obj = func_0203CA98();
+        u32 *obj = (u32 *)func_0203CA98();
         u32 field = obj[0xc / 4];
 
         if (field - 0x3f0 <= 1) {

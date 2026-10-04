@@ -45,7 +45,7 @@ extern struct Scratch g_0214655C;
 struct U16Vec;
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern void sub_0201C808(struct Scratch *p, void *w, void *x, s16 y, s16 z);
-extern void func_0201C8BC(struct Scratch *c, void *s);
+extern void func_0201C8BC(u8 *a0, int a1);
 extern void sub_0201C8A4(struct Scratch *c, u16 v);
 
 void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v)
@@ -56,5 +56,5 @@ void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v)
     base = (u32)&g_0214655C;
     sub_0201C808((struct Scratch *)base, w, x, y, z);
     sub_0201C8A4((struct Scratch *)base, v);
-    func_0201C8BC((struct Scratch *)base, s);
+    func_0201C8BC((u8 *)((struct Scratch *)base), (int)s);
 }

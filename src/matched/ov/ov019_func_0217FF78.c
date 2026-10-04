@@ -46,9 +46,11 @@ extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(void *);
 extern int func_021751DC(u32 *p, int i, u32 *out);
 extern int func_021677E4(u32 v, int i);
-extern int func_02008550(u32 *q);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_021675D0(u32 v, int i, int mode, u32 *out);
-extern void func_02167848(u32 v, int i, u32 *out);
+extern void func_02167848(char *a0, int a1, char *a2);
 
 void func_0217FF78(u32 *p)
 {
@@ -61,14 +63,14 @@ void func_0217FF78(u32 *p)
     for (i = 0; i < 4; i++) {
         if (count != i && func_021751DC(p, i, tmp) == 1) {
             if (func_021677E4(p[0], i) == 0) {
-                int v = func_02008550((u32 *)((char *)p + 0x18 + 0x2c * i));
+                int v = func_02008550((const struct Sub0200852CObj *)((u32 *)((char *)p + 0x18 + 0x2c * i)));
                 int mode = 1;
 
                 if (v)
                     mode = 4;
                 func_021675D0(p[0], i, mode, tmp);
             } else {
-                func_02167848(p[0], i, tmp);
+                func_02167848((char *)p[0], i, (char *)tmp);
             }
         }
     }

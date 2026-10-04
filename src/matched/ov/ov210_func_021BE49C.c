@@ -18,13 +18,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02045374(u32);
-extern u32 func_02045730(u32);
+struct Cfg;
+struct Descriptor;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 
 void func_021BE49C(u8 *p)
 {
-    func_02045374(*(u32 *)p);
-    func_02041B6C(func_02045730(*(u32 *)p));
+    func_02045374((struct Cfg *)(*(u32 *)p));
+    func_02041B6C(func_02045730((struct Descriptor *)(*(u32 *)p)));
 }
 

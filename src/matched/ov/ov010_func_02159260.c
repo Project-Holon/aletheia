@@ -25,15 +25,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02011330(void *);
-extern void func_0215A684(void *, void *);
-extern void func_020113D0(void *, void (*)(void));
-extern void func_02159254(void);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern void func_0215A684(int *p, unsigned short v);
+extern void func_020113D0(char *p, int val);
+extern void func_02159254(char *a0, char *a1);
 
 int func_02159260(void *a0, void *a1)
 {
     func_0215A684(a1, func_02011330(a0));
-    func_020113D0(a0, func_02159254);
+    func_020113D0(a0, (int)func_02159254);
 
     return 1;
 }

@@ -26,7 +26,7 @@ struct Rec;
 extern int func_0204779C(int *p);
 extern void *func_02047790(void *h, u16 i);
 extern void func_0204762C(struct Rec *p);
-extern void *func_02047788(void *h);
+extern int func_02047788(int *p);
 extern void func_02047738(struct Rec *p);
 extern void func_02047504(struct Rec *p);
 
@@ -43,7 +43,7 @@ void func_0218C0D8(void **s)
             if (o != 0)
                 func_0204762C(o);
         }
-        r = func_02047788(s[0]);
+        r = (void *)func_02047788(s[0]);
         func_02047738(s[0]);
         s[0] = 0;
         s[1] = 0;

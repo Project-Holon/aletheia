@@ -29,8 +29,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D3CC(void *);
-extern int func_021A4544(u8 *, void *, u8 *);
+extern int func_0216D3CC(int a0);
+extern int func_021A4544(u8 *p, u32 r, u8 *q);
 extern int func_021A5264(u8 *a, void *b, u32 c, int *d);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
@@ -47,11 +47,11 @@ int func_021A4598(u8 *a, void *b, u8 *c)
     u32 t;
     int cls;
 
-    if (func_0216D3CC(b) == 0) {
+    if (func_0216D3CC((int)b) == 0) {
         return 0;
     }
     if (*(u16 *)(c + 8) == 9) {
-        return func_021A4544(a, b, c);
+        return func_021A4544(a, (u32)b, c);
     }
     r = func_021A5264(a, b, *(u16 *)(c + 8), &sp);
     if (*(u32 *)(c + 16) == 1 && r != 0 && !(r & 0x10)) {

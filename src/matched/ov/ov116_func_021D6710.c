@@ -40,7 +40,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D696C(u8 *,int),func_021D7158(void *),func_0200FB24(void),func_02005E50(void);
-extern void func_02005DE4(int),func_02005E64(void),func_02005D90(int,int),func_02005DF8(unsigned),func_02005E30(int);
+extern void func_02005DE4(void *p);
+extern void func_02005E64(void);
+extern void func_02005D90(int,int);
+extern void func_02005DF8(unsigned);
+extern void func_02005E30(int);
 extern void func_021D737C(u8 *),func_021D7B70(u8 *,u32),func_0204E720(int,int,int,int),func_021D7A3C(u8 *);
 extern int func_021D73D4(u8 *),func_0204E804(void),func_021D7A94(u8 *),func_021D80CC(void *);
 extern void func_021D8010(void *,u32),func_021D8190(void *),func_021D6B88(u8 *,void *,int);
@@ -56,7 +60,7 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     }
     switch(*state) {
     case 0: func_02005E30(6); ++*state; break;
-    case 1: if(func_02005E50()==0) { func_02005DE4(1); func_02005E64(); func_02005D90(1153,65535); func_02005DF8(6); ++*state; } break;
+    case 1: if(func_02005E50()==0) { func_02005DE4((void *)1); func_02005E64(); func_02005D90(1153,65535); func_02005DF8(6); ++*state; } break;
     case 2: func_021D737C(p); ++*state; break;
     case 3: if(func_021D73D4(p)==0) ++*state; else { *(int *)(*(u8 **)p+8)=2; *state=17; } break;
     case 4: func_021D7B70(p+4,125); func_0204E720(3,16,0,1); ++*state; break;

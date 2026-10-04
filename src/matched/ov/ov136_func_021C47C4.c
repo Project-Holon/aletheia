@@ -31,8 +31,8 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
-extern void *func_02045730(void *);
-extern void func_020409B4(void *);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 void func_021C47C4(u8 *p, int n)
 {
     void *q;

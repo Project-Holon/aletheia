@@ -29,7 +29,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_021A32A8(void *, u32);
-extern u16 func_0216D588(int);
+extern u16 func_0216D588(void *p);
 
 int func_021B1CB0(u32 a, u32 b)
 {
@@ -44,7 +44,7 @@ int func_021B1CB0(u32 a, u32 b)
     r = func_021A32A8(h, 0x8000);
     if (r != 0) {
         *q = 1;
-        *p = func_0216D588(r);
+        *p = func_0216D588((void *)r);
     } else {
         *q = 0;
     }

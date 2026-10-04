@@ -23,9 +23,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A1BC(u32 a0, u32 a1, u32 a2, u16 a3);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
-extern int   func_02062920(void *ptr, u32 val);
+extern int func_02062920(u32 a, u32 *out);
 extern int   func_0206267C(void *ptr, u32 val);
 extern void  func_020307B0(void *ptr);
 
@@ -33,7 +33,7 @@ void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062920(res, a3)) {
+        if (!func_02062920((u32)res, (u32 *)a3)) {
             func_020307B0(res);
             return 0;
         }
@@ -43,7 +43,7 @@ void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
-    void *res = func_0204A1BC(a0, a1, a2, a4);
+    void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
         if (!func_0206267C(res, a3)) {
             func_020307B0(res);

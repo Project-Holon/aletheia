@@ -28,13 +28,13 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_02188CD0(u8 *p);
-extern void func_021C9550(void *, u32);
+extern void func_021C9550(u32 a, u32 b);
 
 int func_021C4678(void *a, void *b)
 {
     void *g = func_0201210C(func_0215A5DC(b));
     void *h = func_021A3074(func_02188CB4((void *)g));
 
-    func_021C9550(h, func_02188CD0(g));
+    func_021C9550((u32)h, func_02188CD0(g));
     return 0;
 }

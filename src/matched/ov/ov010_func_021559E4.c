@@ -38,7 +38,7 @@ struct Desc;
 struct Obj;
 struct Party;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void func_0201232C(void *, void (*)(void), int);
+extern void func_0201232C(char *p, int a1, int a2);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
@@ -52,7 +52,7 @@ void *func_021559E4(void *a, int b, void *c, int d)
     if (d != 0)
         c = func_020122C0(a, 0, func_02155478, 0xE8);
     else
-        func_0201232C(c, func_02155478, 0xE8);
+        func_0201232C(c, (int)func_02155478, 0xE8);
     t = func_020124E8(c);
     *(void **)((u8 *)t + 0x4C) = func_02012EBC(func_020120F4(a));
     t->f04 = func_020120F4(a);

@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-extern void *func_0203D610(void);
+extern u32 func_0203D610(void);
 extern int   func_0200F38C(void *o, u32 *out);
 extern void  func_02082D44(void *dst, const void *src, u32 n);
 
@@ -28,7 +28,7 @@ int func_0200F4E4(void *o)
 {
     u32 out;
     int r = 0;
-    void *base = func_0203D610();
+    void *base = (void *)func_0203D610();
     int v = func_0200F38C(o, &out);
 
     if (v == 0) {

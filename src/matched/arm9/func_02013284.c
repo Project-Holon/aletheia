@@ -73,11 +73,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_0201A920(u32 a);
-extern u32  func_02013234(u32 a);
-extern void func_0202A440(u32 a, u32 b, u32 c);
+struct BigObj;
+struct Out;
+struct Party;
+extern struct Party *func_0201A920(u32 heap);
+extern void *func_02013234(u32 heap);
+extern void func_0202A440(u32 id, struct Out *out, u32 heap);
 extern void func_0202A4B4(u32 a, u32 b, u32 c);
-extern u32  func_02012984(u32 a);
+extern u8 func_02012984(const struct BigObj *p);
 extern void func_0216AAE4(u32 a, u32 b, u32 c);
 extern u8 func_0202A3FC(u32 key);
 
@@ -87,19 +90,19 @@ void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
     u32 off;
 
     if (*dst == 0) {
-        *dst = func_0201A920(h);
+        *dst = (u32)func_0201A920(h);
     }
     off = n * 4;
     base = o + 0x48;
     if (*(u32 *)(base + off) == 0) {
-        *(u32 *)(base + off) = func_02013234(h);
+        *(u32 *)(base + off) = (u32)func_02013234(h);
     }
     if (v == 0) {
         return;
     }
-    func_0202A440(v, *(u32 *)(base + off), h);
+    func_0202A440(v, (struct Out *)(*(u32 *)(base + off)), h);
     func_0202A4B4(v, *dst, h);
-    func_0216AAE4((u32)a1, *dst, func_02012984((u32)a1));
+    func_0216AAE4((u32)a1, *dst, func_02012984((const struct BigObj *)((u32)a1)));
     switch (func_0202A3FC(*(u32 *)(*(u32 *)(base + off) + 4))) {
     case 2:
     case 3:

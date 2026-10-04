@@ -30,8 +30,8 @@ extern Word func_021E8940(int);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
-extern void func_021C88C8(int, u8 *);
-extern int func_021C7D34(int, int);
+extern void func_021C88C8(void *a, void *b);
+extern int func_021C7D34(char *p, int i);
 void func_021E84FC(int a, int b, int c, const int *d)
 {
     int tmp;
@@ -82,9 +82,9 @@ void func_021E84FC(int a, int b, int c, const int *d)
             *(Word *)(p + 8) = func_021E8940(4);
             func_021C8838(p + 16, 1, message);
             func_021C8860((struct S *)(p + 16), selected);
-            func_021C88C8(b, p);
+            func_021C88C8((void *)b, p);
             if (target != 31) {
-                tmp = func_021C7D34(b, target);
+                tmp = func_021C7D34((char *)b, target);
                 slot = tmp;
                 if (slot != 6) {
                     p = func_021C88A4(b, 0x37, c);
@@ -92,7 +92,7 @@ void func_021E84FC(int a, int b, int c, const int *d)
                     p[7] = 6;
                     tmp1 = p + 4;
                     *(u16 *)tmp1 = code;
-                    func_021C88C8(b, p);
+                    func_021C88C8((void *)b, p);
                 }
             }
         }

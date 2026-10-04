@@ -21,7 +21,8 @@
 
 extern void func_02048AFC(int, const int *);
 extern void func_02048B44(int, int);
-extern void func_02048AD0(int);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_021F73A4(int *);
 
 void func_021F6EDC(int *p, int *a, int *b)
@@ -38,6 +39,6 @@ void func_021F6EDC(int *p, int *a, int *b)
         p[11] = b[2];
         func_02048B44(p[1], (int)b);
     }
-    func_02048AD0(p[1]);
+    func_02048AD0((struct Light *)p[1]);
     func_021F73A4(p);
 }

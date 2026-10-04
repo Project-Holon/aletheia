@@ -30,9 +30,9 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
-extern void *func_021DD2D0(unsigned char *p, int a, unsigned b);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021EBB34(unsigned char *p, unsigned item, int b);
-extern void func_021DD2B4(unsigned char *p, int a, int b, int c, int d);
+extern void func_021DD2B4(int a, int b, int c, int d, int e);
 extern int func_021DD718(unsigned char *p, void *mon);
 extern void func_021DD8A8(unsigned char *p, unsigned idx);
 extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
@@ -50,9 +50,9 @@ int func_021E9010(unsigned char *p)
     void *mon;
     item = func_021DD25C(p, p[0x16], p[0x14], 6, 0);
     if (func_02007E50(*(void **)(*(char **)p + 0xC), item, 1, 0x4C) == 1) {
-        mon = func_021DD2D0(p, p[0x14], p[0x16]);
+        mon = (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]);
         func_021EBB34(p, item, 0x18);
-        func_021DD2B4(p, p[0x16], p[0x14], 6, 0);
+        func_021DD2B4((int)p, p[0x16], p[0x14], 6, 0);
         if (func_021DD718(p, mon) == 1) {
             func_021DD8A8(p, p[0x16]);
             func_021EC48C(p, p[0x14], p[0x16], *(unsigned char *)(WORK(p) + p[0x16] + 0x3DD2));

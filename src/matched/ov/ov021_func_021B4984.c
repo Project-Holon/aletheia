@@ -21,16 +21,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021B4878(u32 a);
-extern void func_021B4894(u32 a, u32 b);
-extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+struct WordSet;
+extern void func_021B4894(char *w, u32 b);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int func_020212B0(u32 a);
-extern void func_0201EF34(u32 a, u32 b, u32 c);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 
 void func_021B4984(char *w, u32 a, u32 b, u32 c)
 {
     func_021B4878(*(u32 *)(w + 0x17C));
-    func_0201EFA4(*(u32 *)(w + 0x190), 0, b - 327, 2, 2, 1);
-    func_0201EF34(*(u32 *)(w + 0x190), 1, func_020212B0(b));
-    func_0201EFA4(*(u32 *)(w + 0x190), 2, c, 5, 0, 1);
-    func_021B4894((u32)w, a);
+    func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 0, b - 327, 2, 2, 1);
+    func_0201EF34((struct WordSet *)(*(u32 *)(w + 0x190)), 1, func_020212B0(b));
+    func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 2, c, 5, 0, 1);
+    func_021B4894((char *)((u32)w), a);
 }

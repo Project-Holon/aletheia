@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Blk38;
 struct GdsEnt;
 
-extern int func_0200D488();
+extern u8 func_0200D488(struct Blk38 *p, u32 i);
 extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
 extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
 
@@ -39,7 +39,7 @@ t4 = 0;
 loc_0215E80C:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_0200D488(a0, a1);
+    a0 = func_0200D488((struct Blk38 *)a0, a1);
 loc_0215E814:
     if (a0 == 0) goto loc_0215E830;
 loc_0215E818:

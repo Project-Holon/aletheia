@@ -24,17 +24,21 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern void func_02045808(u32 a);
-extern void func_0201C4C0(u32 a);
-extern void func_0201ED04(u32 a);
-extern void func_0201D83C(u32 a);
-extern void func_02045C04(u32 a);
+struct PrintSys;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_0201D83C(void *ptr);
+extern void func_02045C04(struct Rec *rec);
 
 void func_021BC99C(u8 *p)
 {
-    func_02045808(*(u32 *)(p + 0x1d8));
-    func_0201C4C0(*(u32 *)(p + 0x1dc));
-    func_0201ED04(*(u32 *)(p + 0x1d4));
-    func_0201D83C(*(u32 *)(p + 0x1cc));
-    func_02045C04(*(u32 *)(p + 0x1d0));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1d8)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x1dc)));
+    func_0201ED04((struct WordSet *)(*(u32 *)(p + 0x1d4)));
+    func_0201D83C((void *)(*(u32 *)(p + 0x1cc)));
+    func_02045C04((struct Rec *)(*(u32 *)(p + 0x1d0)));
 }

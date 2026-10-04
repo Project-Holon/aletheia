@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern int func_0219B200(int a, int id, int end);
-extern u32 func_0216D5F8(u32);
+extern u16 func_0216D5F8(void *p);
 extern u32 func_02197E7C(u16 a, u16 b);
 extern void func_0216D438(u32, u16);
 
@@ -30,7 +30,7 @@ int func_0219A604(u32 a, u8 *s)
 {
     u32 v = func_0219B200(a, 0x26, 9);
     if (v == 9) {
-        v = func_0216D5F8(a);
+        v = func_0216D5F8((void *)a);
     }
     func_0216D438(a, func_02197E7C(v, 0));
     s[2] = 1;

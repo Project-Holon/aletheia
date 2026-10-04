@@ -29,12 +29,12 @@ typedef unsigned int   u32;
 extern int func_021A5788(u32, u32, u32 *);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB41C(int x);
-extern u32 func_02188CD0(u32);
+extern u32 func_02188CD0(u8 *p);
 extern void func_021AC528(u32, u32);
-extern int func_021A57C0(u32, u32);
+extern int func_021A57C0(u8 *p, int dir);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(u32, u32);
-extern void func_021A3964(u32, u32);
+extern void func_021A3964(u8 *p, u32 v);
 
 void func_021A5044(u32 *a, u32 b, u32 *c)
 {
@@ -49,12 +49,12 @@ void func_021A5044(u32 *a, u32 b, u32 *c)
         if (func_021A5788((u32)a, 9, &v) == 1) {
             if (func_021AB41C(func_021AB0F0(v)) == 1) {
                 r = 0x9b;
-                func_021AC528(b, func_02188CD0(a[4]));
+                func_021AC528(b, func_02188CD0((u8 *)a[4]));
             }
         }
     }
     if (f == 1) {
-        if (func_021A57C0((u32)a, *(u16 *)(c + 2)) == 1) {
+        if (func_021A57C0((u8 *)((u32)a), *(u16 *)(c + 2)) == 1) {
             if (r == 0x14) {
                 r = 0x10;
             }
@@ -62,5 +62,5 @@ void func_021A5044(u32 *a, u32 b, u32 *c)
     }
     func_0216D410(b, func_02197E7C(*(u16 *)(c + 2), r));
     a[0] = 1;
-    func_021A3964(a[3], 1);
+    func_021A3964((u8 *)a[3], 1);
 }

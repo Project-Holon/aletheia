@@ -18,8 +18,8 @@
 
 extern int func_021BAB9C(int a);
 extern int func_021CD97C(int);
-extern void func_021CDD94(int, int);
-extern void func_021E908C(int);
+extern void func_021CDD94(char *p, int *o);
+extern void func_021E908C(char *p);
 
 int func_021B83F4(int a)
 {
@@ -29,10 +29,10 @@ int func_021B83F4(int a)
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 &&
             func_021CD97C(*(int *)(p + i * 4 + 0x10)) != 0) {
-            func_021CDD94(*(int *)(p + i * 4 + 0x10), (int)(p + 0x448));
+            func_021CDD94((char *)(*(int *)(p + i * 4 + 0x10)), (int *)((int)(p + 0x448)));
             found = 1;
         }
     }
-    func_021E908C(*(int *)(p + 4));
+    func_021E908C((char *)(*(int *)(p + 4)));
     return found;
 }

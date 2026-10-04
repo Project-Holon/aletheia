@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(u32 h, u16 b, u16 c, void *q);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern void func_021D8E84(void *p, int next);
@@ -33,7 +33,7 @@ void func_021DE0F0(void *p)
 {
     u8 cmd;
     cmd = 0xB;
-    if (func_0203D3A8((u32)func_020399A8(), 0xC00, 1, &cmd) != 0) {
+    if (func_0203D3A8((struct Entry *)((u32)func_020399A8()), 0xC00, 1, (u32)(&cmd)) != 0) {
         func_02039C68((struct Link *)func_020399A8(), 0x1C, 8);
         func_021D8E84(p, (int)func_021DDF74);
     }

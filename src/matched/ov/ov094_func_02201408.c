@@ -73,13 +73,13 @@ extern const s16 d_020A1B38[];
 
 extern int func_021F86A4(void);
 extern void func_021F6AA8(int p, int i, int j, int a, int b);
-extern void func_0200616C(u32 a, int b);
+extern void func_0200616C(void *arg, int i);
 extern void func_020061F8(int a);
 extern int func_021FFD9C(char *p, int key);
 extern void func_021FF4C0(char *p, int key, int b, Vec *v, int d, int e, int f);
 extern void func_022018A8(char *p, Vec *out, int key);
 extern int func_022019F4(char *p, int key);
-extern void *func_021F86B4(void);
+extern int func_021F86B4(void);
 extern void func_022089BC(char *p, int i);
 extern void func_021F89BC(void *task);
 
@@ -111,7 +111,7 @@ void func_02201408(void *task, Work *w)
         w->step = (w->dir == 0) ? 0x16c : -0x16c;
         w->cnt = 0x3c;
         if (w->sound)
-            func_0200616C(0x6ca, 2);
+            func_0200616C((void *)0x6ca, 2);
         w->state++;
         return;
     case 1:
@@ -140,7 +140,7 @@ void func_02201408(void *task, Work *w)
             return;
         for (i = 0; i < 3; i++) {
             idx[i] = func_022019F4(w->p, keys.v[w->idx][i]);
-            func_022089BC(func_021F86B4(), keys.v[w->idx][i]);
+            func_022089BC((char *)func_021F86B4(), keys.v[w->idx][i]);
         }
         for (i = 0; i < 3; i++) {
             if (idx[i] != -1)
@@ -148,7 +148,7 @@ void func_02201408(void *task, Work *w)
         }
         if (w->sound) {
             func_020061F8(2);
-            func_0200616C(0x57a, 1);
+            func_0200616C((void *)0x57a, 1);
         }
         func_021F89BC(task);
         return;

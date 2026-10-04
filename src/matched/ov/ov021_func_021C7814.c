@@ -21,14 +21,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u32 x, y, z; } V;
-extern u32 func_02188C84(u32 a);
+extern u16 func_02188C84(u8 *p);
 extern Q *func_021C6C70(u32 heap, u32 size, void *fn);
 extern void *func_021C6CCC(Q *q);
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; u32 f10; } X;
 extern int func_021C7844(u32 a, u32 b, u32 c);
 Q *func_021C7814(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    Q *q = func_021C6C70(func_02188C84(a), 0x14, func_021C7844);
+    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x14, func_021C7844);
     X *x = func_021C6CCC(q);
     x->f0 = a;
     x->f4 = b;

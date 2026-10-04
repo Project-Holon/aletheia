@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32   func_020490A8(u32 a, u32 b);
-extern void  func_02048F74(void *dst, u32 a, u32 b, u32 c, u32 d);
+extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
 extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
@@ -36,7 +36,7 @@ u32 func_0202A298(u16 key, u16 want, u32 heap)
     u32   found = 0;
 
     end = func_020490A8(0x5a, 0);
-    func_02048F74(rec, 0x5b, 0, key * 2, 2);
+    func_02048F74(rec, 0x5b, 0, key * 2, (u32 *)2);
     h = func_020490F4(0x5a, heap);
 
     while (rec[0] != end) {

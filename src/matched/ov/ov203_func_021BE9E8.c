@@ -13,9 +13,9 @@
  *   func_021BEA48 0x021BEA48 thumb
  */
 
-extern void func_021BEA48(int, int, int, int);
+extern void func_021BEA48(int *s, unsigned a, unsigned b, unsigned c);
 
 void func_021BE9E8(int a)
 {
-    func_021BEA48(a, 1, 0, 1);
+    func_021BEA48((int *)a, 1, 0, 1);
 }

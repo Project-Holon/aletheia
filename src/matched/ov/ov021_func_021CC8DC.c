@@ -49,7 +49,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_020185F0(void *p);
-extern u32 func_0201BA68(u32 a);
+extern u32 func_0201BA68(void *mon);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *h);
 
@@ -64,12 +64,12 @@ void func_021CC8DC(Obj *p)
     p->f7E = func_0204AF28(arc, func_0201BC40(), func_0201BCB4(), p->heap);
     n = func_0201AA18(p->f4);
     for (i = 0; i < n; i++) {
-        p->f80[i] = func_0204A6C8(arc, func_0201BA68(func_020185F0(func_0201AB28(p->f4, i))), 0, 0, p->heap);
+        p->f80[i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(p->f4, i))), 0, 0, p->heap);
     }
     if (p->f8 != 0) {
         n = func_0201AA18(p->f8);
         for (i = 0; i < n; i++) {
-            p->f8C[i] = func_0204A6C8(arc, func_0201BA68(func_020185F0(func_0201AB28(p->f8, i))), 0, 0, p->heap);
+            p->f8C[i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(p->f8, i))), 0, 0, p->heap);
         }
     }
     func_02049238(arc);

@@ -23,8 +23,8 @@ struct Obj;
 extern struct Obj *func_02159D84(int a, int b);
 extern u32 func_02159DC8(void *p);
 extern u32 func_02159DCC(void *, int);
-extern void func_02159C68(void *, void *, int);
-extern void func_02159DEC(void *);
+extern void func_02159C68(struct Obj *a, int b, int c);
+extern int func_02159DEC(int a0);
 
 void func_02159CC4(u32 *a, int b, int c)
 {
@@ -34,7 +34,7 @@ void func_02159CC4(u32 *a, int b, int c)
     for (i = 0; i < n; i++) {
         u32 t = func_02159DCC(l, i);
         if (t == a[1])
-            func_02159C68(a, l, c);
+            func_02159C68((struct Obj *)a, (int)l, c);
     }
-    func_02159DEC(l);
+    func_02159DEC((int)l);
 }

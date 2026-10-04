@@ -31,14 +31,14 @@ extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_021E3230(void *);
 extern void func_021E1098(char *p);
 extern void func_021E2438(char *,int);
-extern void func_021E5958(void *);
+extern void func_021E5958(int p);
 extern void func_021E219C(char *p, void *mon, int side, int flag);
 extern int func_021D8AA8(void *);
 extern void func_021E5998(char *p);
 extern void func_021E3F30(char *p);
 extern void func_021E2A98(void *,void *);
 extern void func_020056A0(void (*)(void *,void *),void *,int);
-extern void func_021B6558(int,int,int);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 void func_021E1D68(char *p,void *a)
 {
     func_02040588(3,0);
@@ -46,7 +46,7 @@ void func_021E1D68(char *p,void *a)
     func_021E1098(p);
     func_021E2438(p,0);
     func_021E2438(p,1);
-    func_021E5958(p);
+    func_021E5958((int)p);
     func_021E219C(p,a,0,1);
     if(func_021D8AA8(p)==0) {
         func_021E5998(p);
@@ -57,5 +57,5 @@ void func_021E1D68(char *p,void *a)
         p[0x11f9]=1;
         func_020056A0(func_021E2A98,p,0);
     }
-    func_021B6558(*(int *)(p+0x9c0),1,1);
+    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,1);
 }

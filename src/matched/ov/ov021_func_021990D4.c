@@ -25,7 +25,7 @@ typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 typedef struct { int w[10]; } T40;
 extern T40 d_021D4C1C;
-extern int *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern void func_0216D8C0(u32, Vec *);
 extern u32 func_0216D7CC(u32);
 
@@ -37,7 +37,7 @@ int func_021990D4(u32 a)
     int i;
 
     t = d_021D4C1C;
-    p = func_0216D6D4(a);
+    p = func_0216D6D4((void *)a);
     i = p[0];
     if (i >= 10) {
         i = 9;

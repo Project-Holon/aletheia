@@ -29,7 +29,7 @@ u32 func_021B8220(u8 *p);
 u8 *func_021B830C(void);
 void func_021B79D4(u8 *p, V *v);
 u32 func_021B821C(u8 *p);
-u32 func_0218E124(u32 a, u32 b);
+void func_0218E124(u8 *a, u32 s);
 void func_0218ECF4(u32 a, V *v);
 u32 func_0218EC60(u32 a);
 
@@ -41,7 +41,7 @@ void func_021BA25C(u8 *p)
     func_021B8220(p);
     q = func_021B830C();
     func_021B79D4(p, &v);
-    func_0218E124(func_021B821C(p), 2);
+    func_0218E124((u8 *)func_021B821C(p), 2);
     v.x += *(int *)(q + 4);
     v.y += *(int *)(q + 8);
     v.z += *(int *)(q + 12);

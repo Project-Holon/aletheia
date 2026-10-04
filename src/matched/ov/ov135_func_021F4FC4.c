@@ -22,17 +22,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0202F038(u32 v);
-extern void func_02045374(u32 v);
-extern u32 func_02045730(u32 v);
+struct Cfg;
+struct Descriptor;
+extern void func_0202F038(u8 *p);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
 void func_021F4FC4(u8 *p)
 {
     if (*(u32 *)(p + 0xdf8) != 0) {
-        func_0202F038(*(u32 *)(p + 0xdf8));
+        func_0202F038((u8 *)(*(u32 *)(p + 0xdf8)));
         *(u32 *)(p + 0xdf8) = 0;
-        func_02045374(*(u32 *)(p + 0xd40));
-        func_020409B4(func_02045730(*(u32 *)(p + 0xd40)));
+        func_02045374((struct Cfg *)(*(u32 *)(p + 0xd40)));
+        func_020409B4(func_02045730((struct Descriptor *)(*(u32 *)(p + 0xd40))));
     }
 }

@@ -30,31 +30,36 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 sub_02045EC0(u32 a, u32 b);
-extern void func_0201F250(u32 a, u32 b, u32 c);
+struct Cfg;
+struct CharBuf;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *sub_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void *sub_02045770(struct Descriptor *p);
-extern void sub_02043B5C(u32 a, u32 b);
+extern void sub_02043B5C(struct CharBuf *buf, u8 value);
 extern void sub_02045334(struct Descriptor *a);
-extern void sub_02045374(u32 a);
+extern void sub_02045374(struct Cfg *cfg);
 extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
-extern void func_0201F73C(u32 h, u32 a, u32 b, u32 c);
-extern void sub_02045808(u32 a);
-extern void func_02202858(u32 a, u32 b, u32 c, u32 d, u32 e, u8 *f);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void sub_02045808(struct U16Vec *vec);
+extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
 void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
 {
-    u32 v = sub_02045EC0(*(u32 *)(p + 0xb6c), b);
+    u32 v = (u32)sub_02045EC0((struct MsgBank *)(*(u32 *)(p + 0xb6c)), b);
     u32 h;
 
-    func_0201F250(*(u32 *)(p + 0xb68), *(u32 *)(p + 0xb88), v);
+    func_0201F250((struct WordSet *)(*(u32 *)(p + 0xb68)), (void *)(*(u32 *)(p + 0xb88)), (void *)v);
     h = *(u32 *)(p + (sel == 0 ? 0xd40 : 0xdd0));
-    sub_02043B5C((u32)sub_02045770((struct Descriptor *)h), 0xf);
+    sub_02043B5C((struct CharBuf *)((u32)sub_02045770((struct Descriptor *)h)), 0xf);
     sub_02045334((struct Descriptor *)h);
-    sub_02045374(h);
+    sub_02045374((struct Cfg *)h);
     sub_020409B4(unit_02045730(h));
-    func_0201F73C(h, 0, 1, 0xe);
-    func_02202858(h, 0, *(u32 *)(p + 0xb88), 0, 0, p + 0xfa0);
-    sub_02045808(v);
+    func_0201F73C((void *)h, 0, 1, 0xe);
+    func_02202858((void *)h, 0, (void *)(*(u32 *)(p + 0xb88)), 0, 0, p + 0xfa0);
+    sub_02045808((struct U16Vec *)v);
 }

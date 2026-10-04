@@ -22,9 +22,10 @@ struct Bank;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B1CC(struct Bank *bank);
-extern void func_0204A8D4(void *);
-extern void func_0204ADA4(void *);
-extern void func_0204AFD8(void *);
+typedef unsigned int   u32;
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern void func_0204A5AC(void);
 
 void func_021BB328(char *p)
@@ -34,10 +35,10 @@ void func_021BB328(char *p)
         func_0204B3B4(*(void **)(p + 0x1c + i * 4));
     func_0204B1CC(*(void **)(p + 0x18));
     for (i = 0; i < 3; i++)
-        func_0204A8D4(*(void **)(p + 0x34 + i * 4));
+        func_0204A8D4((u32)(*(void **)(p + 0x34 + i * 4)));
     for (i = 0; i < 3; i++)
-        func_0204ADA4(*(void **)(p + 0x40 + i * 4));
+        func_0204ADA4((u32)(*(void **)(p + 0x40 + i * 4)));
     for (i = 0; i < 3; i++)
-        func_0204AFD8(*(void **)(p + 0x4c + i * 4));
+        func_0204AFD8((u32)(*(void **)(p + 0x4c + i * 4)));
     func_0204A5AC();
 }

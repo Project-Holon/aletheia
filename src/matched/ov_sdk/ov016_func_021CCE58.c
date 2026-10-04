@@ -23,12 +23,12 @@
 
 extern void func_021BCB9C(void);
 extern int func_021D5790(int frame);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CCE78(void);
 
 void func_021CCE58(void)
 {
     func_021BCB9C();
     func_021D5790(8);
-    func_021C0E40(func_021CCE78);
+    func_021C0E40((unsigned int)func_021CCE78);
 }

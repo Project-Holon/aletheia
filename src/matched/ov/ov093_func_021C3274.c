@@ -28,9 +28,9 @@ typedef struct { u8 pad[5]; u8 f : 1; } BF;
 extern void func_021C331C(u32 c);
 extern u32 func_021C332C(u32 c);
 extern u32 func_021C333C(u32 c);
-extern int func_021C334C(u8 *p, u32 t, u32 v, u32 k);
-extern int func_021C3370(u8 *p, u32 t);
-extern u32 func_021C79E0(u8 *p, u32 x, u32 t);
+extern int func_021C334C(u8 *p, u8 *q, int a, int b);
+extern int func_021C3370(u8 *p, void *q);
+extern u32 func_021C79E0(u8 *p, u32 x, u8 *a);
 extern u8 func_021D5440(u8 *p);
 extern int func_021D5B48(u8 *p);
 extern void func_021CD64C(void *w, u8 id, ...);
@@ -41,8 +41,8 @@ void func_021C3274(u8 *p, u32 q, u32 b, u32 c)
     func_021C331C(c);
     for (t = func_021C332C(c); t != 0; t = func_021C333C(c)) {
         u8 m = func_021D5440((u8 *)t);
-        if (func_021C3370(p, t) == 0) {
-            if (func_021C334C(p, t, (u16)func_021C79E0(p, q, t), 1) != 0) {
+        if (func_021C3370(p, (void *)t) == 0) {
+            if (func_021C334C(p, (u8 *)t, (u16)func_021C79E0(p, q, (u8 *)t), 1) != 0) {
                 BF *f = *(BF **)(p + 0x4A8);
                 if (!f->f)
                     f->f = 1;

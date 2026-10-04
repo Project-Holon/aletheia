@@ -42,8 +42,9 @@ extern int func_0215A690(void *a);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C54(u8 *p);
-extern u32 func_02190BE4(u32 a, u32 b);
-extern int func_02190C78(u32 s);
+struct Handle;
+extern u32 *func_02190BE4(u16 *a, u32 b);
+extern int func_02190C78(struct Handle *h);
 extern int func_021909BC(u32 a);
 
 int func_021CB934(void *task, int *state, Work *w)
@@ -55,12 +56,12 @@ int func_021CB934(void *task, int *state, Work *w)
         (*state)++;
     case 1:
         if (func_0215A690(w->owner) == 1) {
-            w->screen = func_02190BE4(func_02188C54(func_0201210C(func_0215A5DC(w->owner))), w->arg);
+            w->screen = (u32)func_02190BE4((u16 *)func_02188C54(func_0201210C(func_0215A5DC(w->owner))), w->arg);
             (*state)++;
         }
         break;
     case 2:
-        switch (func_02190C78(w->screen)) {
+        switch (func_02190C78((struct Handle *)w->screen)) {
         case 0:
             *w->result = 0;
             (*state)++;

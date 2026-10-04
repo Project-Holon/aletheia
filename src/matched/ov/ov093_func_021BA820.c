@@ -13,9 +13,11 @@
  *   func_021BB964  0x021BB964  thumb  ov093
  */
 
-void func_021BB964(int);
+typedef unsigned int   u32;
+struct Q5;
+u32 func_021BB964(struct Q5 *p);
 
 void func_021BA820(int *p)
 {
-    func_021BB964(p[2]);
+    func_021BB964((struct Q5 *)p[2]);
 }

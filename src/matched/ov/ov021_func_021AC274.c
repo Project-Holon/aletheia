@@ -22,19 +22,21 @@ typedef signed char    s8;
 typedef struct Tmpl { u32 res; u8 b4, b5, b6, b7; u32 w8; } Tmpl;
 typedef struct Ctl { u32 f0; u32 f4; u32 f8; u32 fc; u32 f10; u32 f14; u32 f18; } Ctl;
 
-extern u32 func_021ABE24(u32 a);
-extern u32 func_02046E24(u32 a, u32 b);
-extern u16 func_020500F0(u32 a, Tmpl *b, u32 c);
+struct BbActRec;
+struct BbActSys;
+extern u32 func_021ABE24(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
 
 void func_021AC274(Ctl *p)
 {
     Tmpl t;
 
-    t.res = func_02046E24(func_021ABE24(p->f0), 0x2f);
+    t.res = (u32)func_02046E24(func_021ABE24((u8 *)p->f0), 0x2f);
     t.b4 = 2;
     t.b5 = 0x11;
     t.b6 = 0x10;
     t.b7 = 0x10;
     t.w8 = 1;
-    p->f18 = func_020500F0(p->f10, &t, 1);
+    p->f18 = func_020500F0((struct BbActSys *)p->f10, (const struct BbActRec *)(&t), 1);
 }

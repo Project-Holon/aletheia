@@ -82,7 +82,7 @@ struct Sys {
 
 struct AreaMan;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0204EBD4(void *src, int heap);
+extern void *func_0204EBD4(u8 *src, void *heap);
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
 extern void  func_02050088(void *p);
 extern void  func_020500B8(void *p);
@@ -106,7 +106,7 @@ void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap)
     tmp = gBillboardActTpl;
     *(u16 *)&tmp = h->f10;
     *((u16 *)&tmp + 1) = h->f1C;
-    h->f04 = func_0204EBD4(&tmp, heap);
+    h->f04 = func_0204EBD4((u8 *)(&tmp), (void *)heap);
 
     h->f0C = func_02030734(heap, h->f10 * 8, 1, file, 119);
     h->f14 = func_02033C00(h->f10, heap);

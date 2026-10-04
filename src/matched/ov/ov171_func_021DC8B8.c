@@ -15,9 +15,10 @@
  */
 
 extern int func_020056A0(void (*)(void), int *, int);
-extern void func_021DC8E4(void);
+typedef unsigned char  u8;
+extern void func_021DC8E4(void *unused, const u8 *p);
 
 void func_021DC8B8(int *p)
 {
-    *(int *)((char *)p + 0xB28) = func_020056A0(func_021DC8E4, p, 0);
+    *(int *)((char *)p + 0xB28) = func_020056A0((void (*)(void))func_021DC8E4, p, 0);
 }

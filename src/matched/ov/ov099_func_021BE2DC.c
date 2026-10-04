@@ -16,18 +16,18 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02049B68(u32, u32, u32, u32, u32, u16);
-extern u32 func_02049740(u32, u32, u32, u32, u32, u16);
-extern void *func_02049E74(u32, u32, u32, u32, u16);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049EF4(void *, u32, u32, void **, u16);
 void func_021BE2DC(char *p, u32 a, int b)
 {
-    func_02049B68(a, 4, 0, 0x100, 0x80, b);
-    func_02049B68(a, 4, 4, 0x100, 0x80, b);
-    *(u32 *)(p + 0x10) = func_02049740(a, 13, 1, 0, 0, b);
-    *(u32 *)(p + 0x14) = func_02049740(a, 13, 6, 0, 0, b);
+    func_02049B68((void *)a, 4, 0, 0x100, 0x80, b);
+    func_02049B68((void *)a, 4, 4, 0x100, 0x80, b);
+    *(u32 *)(p + 0x10) = func_02049740((void *)a, 13, 1, 0, 0, b);
+    *(u32 *)(p + 0x14) = func_02049740((void *)a, 13, 6, 0, 0, b);
     if (*(void **)(p + 8) == 0) {
-        *(void **)(p + 8) = func_02049E74(a, 13, 0, (u32)(p + 12), b);
+        *(void **)(p + 8) = func_02049E74((void *)a, 13, 0, (u32)(p + 12), b);
     }
     if (*(void **)p == 0) {
         *(void **)p = func_02049EF4((void *)a, 21, 0, (void **)(p + 4), b);

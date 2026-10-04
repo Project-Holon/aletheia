@@ -51,8 +51,8 @@ extern void (*g_020A8140)(void);
 extern void (*g_020A8144)(void);
 
 extern void func_02062270(u32 a, u32 b, u32 c, u32 d);
-extern void func_0206216C(void);
-extern void func_020621FC(void);
+extern u32 func_0206216C(u32 size, u32 flag);
+extern u32 func_020621FC(u32 h);
 
 void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
@@ -64,7 +64,7 @@ void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e)
     func_02062270(a, b, c, d);
 
     if (e != 0) {
-        g_020A8140 = func_0206216C;
-        g_020A8144 = func_020621FC;
+        g_020A8140 = (void (*)(void))func_0206216C;
+        g_020A8144 = (void (*)(void))func_020621FC;
     }
 }

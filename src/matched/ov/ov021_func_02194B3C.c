@@ -21,20 +21,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02194A74(u8 *e);
-extern void func_0201CE48(u32 a);
-extern void func_02195E90(u8 *p, u32 a);
-extern void func_020452E8(u32 a);
+struct Descriptor;
+struct FrameStyle;
+struct Rec3;
+extern int func_02194A74(u32 a);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02195E90(struct FrameStyle *style, void *win);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_02194B3C(u8 *p, u8 *e)
 {
-    if (func_02194A74(e) == 0) {
+    if (func_02194A74((u32)e) == 0) {
         if (*(u32 *)(e + 8) != 0) {
-            func_0201CE48(*(u32 *)(e + 8));
+            func_0201CE48((struct Rec3 *)(*(u32 *)(e + 8)));
             *(u32 *)(e + 8) = 0;
         }
-        func_02195E90(p, *(u32 *)(e + 0xC));
-        func_020452E8(*(u32 *)(e + 0xC));
+        func_02195E90((struct FrameStyle *)p, (void *)(*(u32 *)(e + 0xC)));
+        func_020452E8((struct Descriptor *)(*(u32 *)(e + 0xC)));
         *(u8 *)(e + 2) = 0;
         *(u16 *)e = 0;
     }

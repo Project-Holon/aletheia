@@ -17,10 +17,13 @@
  */
 
 
-extern void func_0204B8C4(int, int);
-extern void func_0204B878(int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021EBFA8(char *p, int i, int v)
 {
-    func_0204B8C4(*(int *)(p + 0x9E74 + i * 4), 0);
-    func_0204B878(*(int *)(p + 0x9E74 + i * 4), (unsigned short)v);
+    func_0204B8C4((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), 0);
+    func_0204B878((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned short)v);
 }

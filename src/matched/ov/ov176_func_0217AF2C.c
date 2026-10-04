@@ -21,10 +21,10 @@
  *   func_021E567C  0x021E567C  thumb  ov177
  */
 
-extern int func_021E5548(int);
+extern int func_021E5548(int *p);
 extern int func_021E567C(int, int, int);
 
 void func_0217AF2C(int *p)
 {
-    *(int *)((char *)p + 0x20) = func_021E567C(func_021E5548(*(int *)((char *)p + 0x24)), 1, *(unsigned short *)p);
+    *(int *)((char *)p + 0x20) = func_021E567C(func_021E5548((int *)(*(int *)((char *)p + 0x24))), 1, *(unsigned short *)p);
 }

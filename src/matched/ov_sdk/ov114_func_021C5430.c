@@ -55,9 +55,9 @@ typedef struct {
 
 extern unsigned int func_0217F264(void);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen);
-extern void func_021C4E68(char *buffer);
+extern void func_021C4E68(int a);
 extern int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen);
 extern int func_021C0378(GHIConnection *connection);
 extern int func_021C4C50(GHIConnection *connection, char *data, int len);
@@ -85,7 +85,7 @@ void func_021C5430(GHIConnection *connection)
         return;
     }
 
-    func_0217D254(8, 3, 0x10, g_021CF310);
+    func_0217D254(8, (char *)3, 0x10, g_021CF310);
 
     while (!connection->completed && running_time < connection->maxRecvTime)
     {
@@ -93,7 +93,7 @@ void func_021C5430(GHIConnection *connection)
         result = func_021C04D4(connection, buffer, &bufferLen);
         if (result == 1)
         {
-            func_021C4E68(buffer);
+            func_021C4E68((int)buffer);
             if (connection->lastReceiveTime == 0)
             {
                 connection->lastReceiveTime = func_0217F264();
@@ -111,7 +111,7 @@ void func_021C5430(GHIConnection *connection)
 
         if (result == 3)
         {
-            func_021C4E68(buffer);
+            func_021C4E68((int)buffer);
             return;
         }
         if (result == 2)
@@ -119,7 +119,7 @@ void func_021C5430(GHIConnection *connection)
             connection->completed = 1;
             if (connection->totalSize > 0 && connection->fileBytesReceived < connection->totalSize)
                 connection->result = 0xF;
-            func_021C4E68(buffer);
+            func_021C4E68((int)buffer);
             return;
         }
 
@@ -127,7 +127,7 @@ void func_021C5430(GHIConnection *connection)
         {
             if (!func_021BFCEC(&connection->decodeBuffer, buffer, bufferLen))
             {
-                func_021C4E68(buffer);
+                func_021C4E68((int)buffer);
                 return;
             }
             connection->recvBuffer.len = connection->recvBuffer.pos;
@@ -135,7 +135,7 @@ void func_021C5430(GHIConnection *connection)
             {
                 connection->completed = 1;
                 connection->result = 0x11;
-                func_021C4E68(buffer);
+                func_021C4E68((int)buffer);
                 return;
             }
             decryptedLen = connection->recvBuffer.len - connection->recvBuffer.pos;
@@ -143,7 +143,7 @@ void func_021C5430(GHIConnection *connection)
             {
                 if (!func_021C4C50(connection, connection->recvBuffer.data + connection->recvBuffer.pos, decryptedLen))
                 {
-                    func_021C4E68(buffer);
+                    func_021C4E68((int)buffer);
                     return;
                 }
             }
@@ -152,7 +152,7 @@ void func_021C5430(GHIConnection *connection)
         {
             if (!func_021C4C50(connection, buffer, bufferLen))
             {
-                func_021C4E68(buffer);
+                func_021C4E68((int)buffer);
                 return;
             }
         }
@@ -160,5 +160,5 @@ void func_021C5430(GHIConnection *connection)
         running_time = func_0217F264() - start_time;
     }
 
-    func_021C4E68(buffer);
+    func_021C4E68((int)buffer);
 }

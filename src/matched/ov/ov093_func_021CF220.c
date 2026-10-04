@@ -21,10 +21,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021E9964(u32);
 extern int func_021E9974(u32);
-extern void *func_021B990C(u32, u32, u32);
+extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
 extern u32 func_021CF470(u8 *, void *, u8 *);
 extern void func_021D8434(u8 *);
-extern void func_021CE150(u8 *, u32);
+extern void func_021CE150(u8 *p, void *q);
 extern void func_021CE4D0(void);
 typedef signed int     s32;
 extern u32 func_021CF2F0(u8 *p, s32 *st);
@@ -42,11 +42,11 @@ u32 func_021CF220(u8 *p, int *st)
             ++p[0x11d];
             if (p[0x11d] < p[0x11c]) {
                 if ((((u32)p[0x1b2] << 29) >> 31) == 0) {
-                    func_021CE150(p, (u32)func_021CE4D0);
+                    func_021CE150(p, (void *)((u32)func_021CE4D0));
                     break;
                 }
                 while (p[0x11d] < p[0x11c]) {
-                    q = func_021B990C(*(u32 *)(p + 4), p[0x1a6], p[0x11d]);
+                    q = func_021B990C((char *)(*(u32 *)(p + 4)), p[0x1a6], p[0x11d]);
                     if (!func_021CF470(p, q, p + 0x124 + p[0x11d] * 4))
                         func_021D8434(p + 0x124 + p[0x11d] * 4);
                     ++p[0x11d];
@@ -57,7 +57,7 @@ u32 func_021CF220(u8 *p, int *st)
                 p[0x1af] = 0;
                 *(u8 **)(p + 0xd8) = p + 0x124;
                 *(u32 *)(p + 0xdc) = n * 4;
-                func_021CE150(p, (u32)func_021CF2F0);
+                func_021CE150(p, (void *)((u32)func_021CF2F0));
             }
         }
         break;

@@ -75,7 +75,8 @@ struct EnvModule {
 
 extern struct EnvModule g_EnvModule;
 extern void *sub_0202FBAC(u32 idx);
-extern void func_02061358(void *p, void *arena, s32 len);
+struct S02061358;
+extern void func_02061358(struct S02061358 *s, u32 a, u32 b);
 
 u32 func_02030238(void *p, u32 heapId, s32 size)
 {
@@ -92,7 +93,7 @@ u32 func_02030238(void *p, u32 heapId, s32 size)
         g_EnvModule.error = 1;
         goto fail;
     }
-    func_02061358(p, sub_0202FBAC(heapId & 0x7FFF), len);
+    func_02061358(p, (u32)sub_0202FBAC(heapId & 0x7FFF), len);
     g_EnvModule.error = 0;
     return 1;
 

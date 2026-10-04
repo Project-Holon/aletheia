@@ -29,7 +29,8 @@ typedef struct {
 } Buf;
 
 extern void *func_02188C7C(unsigned char *p);
-extern int func_02188C9C(int);
+typedef unsigned char  u8;
+extern u16 func_02188C9C(u8 *p);
 extern void func_0216CE60(void *, Buf *, int);
 extern const Buf d_02182B6C;
 
@@ -41,7 +42,7 @@ void func_0217BF2C(int a, u16 b, u16 c, int d, u16 e, u16 f, u16 g)
     Sub *q;
 
     h = func_02188C7C((void *)a);
-    k = func_02188C9C(a);
+    k = func_02188C9C((u8 *)a);
     buf = d_02182B6C;
     buf.f00 = g;
     buf.f02 = e;

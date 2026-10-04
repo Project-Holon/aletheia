@@ -32,9 +32,10 @@
 
 typedef unsigned char u8;
 
-extern void sub_020222CC(void *a, void *b);
+typedef unsigned int   u32;
+extern void sub_020222CC(u32 which, int brightness);
 
 void sub_02022AC4(void *unused, u8 *o)
 {
-    sub_020222CC(*(void **)(o + 0x18), *(void **)(o + 0x1c));
+    sub_020222CC((u32)(*(void **)(o + 0x18)), (int)(*(void **)(o + 0x1c)));
 }

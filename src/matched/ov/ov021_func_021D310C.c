@@ -28,23 +28,24 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020146F8(u32 a, u32 b, const void *c, const char *d, u32 e);
+struct Evt;
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
 extern unsigned char abs_id_e1[];
-extern void func_02012374(u32 a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_021D3164(u32 *p);
-extern void func_020307B0(u32 p);
+extern void func_020307B0(void *p);
 extern char d_021BBDE4[];
 
 u32 func_021D310C(u32 a, u32 *st, u32 *p)
 {
     switch (st[0]) {
     case 0:
-        func_02012374(a, func_020146F8(p[0], p[1], abs_id_e1, d_021BBDE4, p[2]));
+        func_02012374((struct Evt *)a, func_020146F8((char *)p[0], p[1], (int)abs_id_e1, (int)d_021BBDE4, p[2]));
         st[0]++;
         break;
     case 1:
         func_021D3164(p);
-        func_020307B0(p[2]);
+        func_020307B0((void *)p[2]);
         return 1;
     }
     return 0;

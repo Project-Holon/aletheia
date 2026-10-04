@@ -19,7 +19,7 @@
 
 extern char g_021AA878[];
 extern int g_021AA8A0[];
-extern unsigned char *func_02195E78(int conn);
+extern int func_02195E78(const int *p);
 
 int func_0216BAF4(int aid)
 {
@@ -29,7 +29,7 @@ int func_0216BAF4(int aid)
         return 0;
     }
     for (i = 0; i < 0x20; i++) {
-        if (g_021AA8A0[i] != 0 && aid == func_02195E78(g_021AA8A0[i])[1]) {
+        if (g_021AA8A0[i] != 0 && aid == ((unsigned char *)func_02195E78((const int *)g_021AA8A0[i]))[1]) {
             return g_021AA8A0[i];
         }
     }

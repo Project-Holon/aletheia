@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern void func_021F44B8(u8 *);
-extern int func_02188C70(int, int);
+extern int func_02188C70(int *p, int b);
 extern u16 d_021F4E5C[1];
 extern u8 d_021F4E5E[3];
 
@@ -38,7 +38,7 @@ void func_021F4590(int *p, u8 *out)
     n = 0;
     for (i = 0; i < sizeof(d_021F4E5C) / sizeof(d_021F4E5C[0]); i++) {
         u16 v = d_021F4E5C[i];
-        u8 r = func_02188C70(p[1], v);
+        u8 r = func_02188C70((int *)p[1], v);
 
         for (j = 0; j < sizeof(d_021F4E5E); j++) {
             if (r == d_021F4E5E[j]) {

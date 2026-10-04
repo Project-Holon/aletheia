@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0215B4AC(u32 a, u32 b, u32 *out);
+extern int func_0215B4AC(void *a0, u32 a1, void **a2);
 extern int func_0215B500(u32 a, u32 b);
 extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern int func_021B5FB8(u32 a, int sel);
@@ -45,7 +45,7 @@ int func_021B6164(u32 a, u32 b)
     y = func_02159B10((void *)a, (void *)b);
     o = func_02159AE8((void *)a, (void *)b);
     *o = 1;
-    if (func_0215B4AC(b, y, &rec) == 0)
+    if (func_0215B4AC((void *)b, y, (void **)(&rec)) == 0)
         return 0;
     if (func_021B5FB8(rec, x) == 0) {
         *o = 1;

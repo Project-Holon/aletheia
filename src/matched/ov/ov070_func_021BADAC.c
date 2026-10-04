@@ -17,6 +17,6 @@
 
 void func_021BADAC(void *p)
 {
-    void func_021BACF0(void *, int);
-    func_021BACF0(p, 0);
+    void func_021BACF0(int p, int mode);
+    func_021BACF0((int)p, 0);
 }

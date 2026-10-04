@@ -23,7 +23,7 @@ struct O {
     int f18;
 };
 
-extern int func_021672D0(struct O *o);
+extern int func_021672D0(int a0);
 extern int func_02190708(int a, int b, u16 c, u16 d, u16 e, u16 f);
 
 void func_02167178(struct O *o)
@@ -31,7 +31,7 @@ void func_02167178(struct O *o)
     int a;
     int b;
     int c;
-    switch (func_021672D0(o)) {
+    switch (func_021672D0((int)o)) {
     case 0:
         a = 1;
         b = 0x1e;

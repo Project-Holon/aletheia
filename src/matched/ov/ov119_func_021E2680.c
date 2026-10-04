@@ -13,7 +13,7 @@
  */
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_021E6DEC(char *);
+extern void func_021E6DEC(int p);
 void func_021E2680(char *p)
 {
     int i;
@@ -24,5 +24,5 @@ void func_021E2680(char *p)
             *(void **)(q+0x1038)=0;
         }
     }
-    func_021E6DEC(p);
+    func_021E6DEC((int)p);
 }

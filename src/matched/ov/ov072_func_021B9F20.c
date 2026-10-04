@@ -18,14 +18,15 @@
  *   func_02082BCC 0x02082BCC arm
  */
 extern void func_021B639C(unsigned char *);
-extern void func_0204B3B4(unsigned);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(unsigned);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
 extern void func_02082BCC(void *,int,int);
 void func_021B9F20(unsigned *p) {
     func_021B639C((unsigned char *)p[3]);
-    func_0204B3B4(p[5]); func_0204AFD8(p[2]);
+    func_0204B3B4((struct Obj *)p[5]); func_0204AFD8(p[2]);
     func_0204A8D4(p[1]); func_0204ADA4(p[0]);
     func_02082BCC(p,0,32);
 }

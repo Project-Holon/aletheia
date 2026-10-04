@@ -33,11 +33,15 @@ extern u32  func_021BE03C(void *p);
 extern u32  func_021BE044(void *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32 p, int v);
-extern u32  func_02045EC0(u32 p, int v);
+typedef unsigned char  u8;
+struct CharBuf;
+struct MsgBank;
+struct U16Vec;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(u32 a, u32 b, int c, int d, u32 e, u32 f, int g);
-extern void func_02045808(u32 p);
-extern void func_0201F73C(u32 p, int a, int b, int c);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 void func_021BD0C4(void *a0, char *a1, int a2)
 {
@@ -46,10 +50,10 @@ void func_021BD0C4(void *a0, char *a1, int a2)
     u32 z = func_021BE044(a0);
     u32 w;
 
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(a1 + 0x2c)), 0xf);
-    w = func_02045EC0(y, a2);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(a1 + 0x2c))), 0xf);
+    w = (u32)func_02045EC0((struct MsgBank *)y, a2);
     func_0201C724(z, (u32)func_02045770((struct Descriptor *)*(u32 *)(a1 + 0x2c)), 0, 0, w, x, 0x440);
-    func_02045808(w);
-    func_0201F73C(*(u32 *)(a1 + 0x2c), 2, 0x140, 9);
+    func_02045808((struct U16Vec *)w);
+    func_0201F73C((void *)(*(u32 *)(a1 + 0x2c)), 2, 0x140, 9);
     *(u32 *)(a1 + 0x20) = 1;
 }

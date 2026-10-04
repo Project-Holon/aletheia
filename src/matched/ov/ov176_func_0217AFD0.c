@@ -14,20 +14,20 @@
  *   func_0217B0C8 0x0217B0C8 thumb ov176
  *   func_0217B1BC 0x0217B1BC thumb ov176
  */
-extern void func_021E8AA0(void *,void *);
-extern void func_021E8AA8(void *);
+extern void func_021E8AA0(int *p, int v);
+extern void func_021E8AA8(int a);
 extern void func_0217B0C8(int *a, int *state, int *p);
 extern void func_0217B1BC(int *a, int *state, int *p);
 void func_0217AFD0(void *a,int b,char *p)
 {
     switch(*(unsigned *)(*(char **)(p+0x28)+4)){
     case 0: case 1: case 2:
-        func_021E8AA0(a,func_0217B0C8); break;
+        func_021E8AA0(a,(int)func_0217B0C8); break;
     case 3: case 4: case 5: case 6:
-        func_021E8AA0(a,func_0217B1BC); break;
+        func_021E8AA0(a,(int)func_0217B1BC); break;
     }
 }
 void func_0217B00C(void *a)
 {
-    func_021E8AA8(a);
+    func_021E8AA8((int)a);
 }

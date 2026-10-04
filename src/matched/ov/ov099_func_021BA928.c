@@ -18,7 +18,8 @@
 typedef unsigned char  u8;
 typedef unsigned long  u32;
 
-extern void func_020286C4(void *a, void *b, int c);
+struct Ctx;
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
 extern int  func_02028484(void *a, void *b);
 struct Rec3;
 extern void func_0201CE48(struct Rec3 *p);
@@ -38,7 +39,7 @@ int func_021BA928(W *w)
     int r = 1;
     if (w->f1bc != 0) {
         if (w->f190 != 0) {
-            func_020286C4(w->f9b0, w->f1bc, w->f190);
+            func_020286C4(w->f9b0, w->f1bc, (void *)w->f190);
         }
         r = func_02028484(w->f26c, w->f1bc);
         if (r != 0 && w->f1bc != 0) {

@@ -22,8 +22,9 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u32 func_02155A94(u32 a);
-extern u32 func_0200873C(u32 h);
+struct Sub02008700Obj;
+extern u32 func_02155A94(u8 *p);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 func_02008428(unsigned short *p);
 extern void func_02196034(void *p, void *fn, u32 n);
 extern void func_02196804(u8 *p);
@@ -36,7 +37,7 @@ void func_0219686C(u8 *p)
         func_02196034(p, (void *)func_02196804, 0x38C);
         return;
     }
-    if (func_02008428((unsigned short *)func_0200873C(func_02155A94(*(u32 *)(p + 0x2E4)))) == 1) {
+    if (func_02008428((unsigned short *)func_0200873C((void *)func_02155A94((u8 *)(*(u32 *)(p + 0x2E4))))) == 1) {
         func_02196034(p, (void *)func_02197700, 0x38F);
         return;
     }

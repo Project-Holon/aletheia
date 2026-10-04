@@ -20,7 +20,7 @@
 
 
 extern int  func_022019F4(char *p, int key);
-extern void func_020160C4(int a, void *v);
+extern void func_020160C4(char *p, int v);
 
 void func_021FF498(char *p, int key, void *v)
 {
@@ -32,6 +32,6 @@ void func_021FF498(char *p, int key, void *v)
     e = p + i * 0x5c;
     if (*(int *)(e + 8) == 0)
         return;
-    func_020160C4(*(int *)(e + 8), v);
+    func_020160C4((char *)(*(int *)(e + 8)), (int)v);
 }
 

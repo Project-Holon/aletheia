@@ -25,12 +25,13 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021C8F14(int a, u8 b);
 extern int func_021D5B68(void *p);
-extern int func_021D5C30(int a);
+struct UtilWork;
+extern int func_021D5C30(struct UtilWork *p);
 extern int func_021C20BC(int a, int b, int c);
 extern int func_021C20D0(u8 *p, u8 *a, int c, u8 *l);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021C5A34(u8 *p, u8 *a);
-extern void func_021C70E4(int a, int b, int c, int d, int e, int f);
+extern void func_021C70E4(u8 *p, int a, int b, int c, int e, u32 f);
 
 typedef struct {
     u32 pad : 8; u32 idx : 5; u32 mid : 10; u32 fl : 1; u32 top : 8;
@@ -50,12 +51,12 @@ int func_021C8E58(int p, const Ent *e)
         if (i != 0x1f)
             b = func_021B9934(*(char **)(p + 8), (u8)i);
         if (func_021D5B68((void *)a) == 0) {
-            if (!e->f7a || func_021D5C30(a) == 0) {
+            if (!e->f7a || func_021D5C30((struct UtilWork *)a) == 0) {
                 if (func_021C20BC(p, a, e->h4)) {
                     if (e->fl)
                         func_021C5A1C((u8 *)p, b);
                     if (e->f7b)
-                        func_021C70E4(p, e->h8, e->ba, e->bb, 0, 0);
+                        func_021C70E4((u8 *)p, e->h8, e->ba, e->bb, 0, 0);
                     func_021C20D0((u8 *)p, (u8 *)a, e->h4, (void *)((u8 *)e + 0xc));
                     if (e->fl)
                         func_021C5A34((u8 *)p, b);

@@ -118,7 +118,7 @@ extern u32 func_0208799C(u32 state);
 extern void func_02159404(CPSSoc *soc, int flush);
 extern void func_02085868(void *thread);
 extern void func_021599EC(CPSSoc *soc);
-extern void func_02159494(CPSSoc *soc);
+extern void func_02159494(int a);
 extern void func_020858D8(void);
 
 #define HTONS(x) ((u16)(((u16)(x) >> 8) | ((u16)(x) << 8)))
@@ -294,7 +294,7 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
             soc->ackno++;
             soc->state = 6;
             func_0208799C(enabled);
-            func_02159494(soc);
+            func_02159494((int)soc);
             if (len == 0 && soc->block_type == 2)
             {
                 soc->block_type = 0;

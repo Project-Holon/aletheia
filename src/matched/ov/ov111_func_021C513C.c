@@ -58,7 +58,7 @@ typedef struct {
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
 extern void func_020061E4(u32 a);
-extern int func_02012BF8(void *a, u32 b);
+extern int func_02012BF8(int a0, int a1);
 extern void func_02012BE0(void *p, u32 a, u32 b);
 
 void func_021C513C(Work *p)
@@ -67,11 +67,11 @@ void func_021C513C(Work *p)
 
     func_020061E4(0x646);
     if (p->f3034 == 0) {
-        v = func_02012BF8(p->args->f4, 0x15) ^ 1;
+        v = func_02012BF8((int)p->args->f4, 0x15) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);
         func_02012BE0(p->args->f4, 0x15, v);
     } else {
-        v = func_02012BF8(p->args->f4, 0x16) ^ 1;
+        v = func_02012BF8((int)p->args->f4, 0x16) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);
         func_02012BE0(p->args->f4, 0x16, v);
     }

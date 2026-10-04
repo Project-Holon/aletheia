@@ -20,12 +20,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_0204B98C(u32 v);
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 extern void func_021F5CD4(u8 *p, u32 k);
 
 int func_021F65C8(u8 *p)
 {
-    if (func_0204B98C(*(u32 *)(p + 0xbfc)) == 0) {
+    if (func_0204B98C((struct Actor *)(*(u32 *)(p + 0xbfc))) == 0) {
         func_021F5CD4(p, *(u32 *)(p + 0x20));
     }
     return 2;

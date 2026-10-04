@@ -51,19 +51,19 @@ typedef struct {
 } E;
 
 extern E *func_0216D69C(u32);
-extern u32 func_0216D5D4(u32);
+extern u16 func_0216D5D4(void *p);
 extern u32 func_021642A4(u16);
 extern void func_0216D60C(u32, u16);
 extern void func_0219E2F4(u32, T *);
-extern u16 func_0216D608(u32);
+extern u16 func_0216D608(void *p);
 extern u32 func_0219E418(u32, u16);
 extern void func_0219E664(u32, u16, T *);
 extern int func_0219E9A8(u32, u32, s32, T *);
 extern u32 func_02197E7C(u16, u16);
 extern void func_0216D438(u32, u16);
 extern void func_0216DA44(u32);
-extern int func_02197EDC(u32);
-extern void func_0216DA50(u32);
+extern u32 func_02197EDC(u8 *p);
+extern void func_0216DA50(u8 *p);
 extern int func_0219EA78(E *, u32);
 
 int func_0219EDC4(u32 o)
@@ -79,7 +79,7 @@ int func_0219EDC4(u32 o)
     e = func_0216D69C(o);
     switch (e->state) {
     case 0:
-        k = func_0216D5D4(o);
+        k = func_0216D5D4((void *)o);
         if (e->d == 1) {
             k = func_021642A4(k);
         }
@@ -88,11 +88,11 @@ int func_0219EDC4(u32 o)
     case 1:
         func_0219E2F4(o, &c);
         if (e->d != 0 && e->f == c.d && e->e == c.c) {
-            func_0216D60C(o, func_021642A4(func_0216D608(o)));
+            func_0216D60C(o, func_021642A4(func_0216D608((void *)o)));
             e->d = 0;
         }
         z = 0;
-        k = func_0216D608(o);
+        k = func_0216D608((void *)o);
         s = func_0219E418(o, k);
         func_0219E664(o, k, &b);
         r = func_0219E9A8(o, e->f, e->e, &b);
@@ -110,8 +110,8 @@ int func_0219EDC4(u32 o)
         e->state = 2;
         break;
     case 2:
-        if (func_02197EDC(o) == 1) {
-            func_0216DA50(o);
+        if (func_02197EDC((u8 *)o) == 1) {
+            func_0216DA50((u8 *)o);
             e->state = 0;
         }
         break;

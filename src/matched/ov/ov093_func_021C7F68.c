@@ -26,7 +26,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021B8778(int a, int b, u8 *buf);
+struct Unk021B8CB0;
+extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
 extern u8 *func_021B98A4(char *const *q, u8 b);
 extern int func_021D5B68(void *p);
 extern u8 func_021D5440(u8 *p);
@@ -34,7 +35,7 @@ extern u8 func_021D5440(u8 *p);
 int func_021C7F68(int *p, int b, u8 *out)
 {
     u8 buf[8];
-    volatile u32 n = (u32)func_021B8778(p[1], b, buf);
+    volatile u32 n = (u32)func_021B8778((struct Unk021B8CB0 **)p[1], b, buf);
     u8 j;
     u8 i;
 

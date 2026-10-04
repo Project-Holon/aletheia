@@ -19,8 +19,10 @@
  *   func_02169004  0x02169004  thumb
  */
 
-extern int func_02012EBC(int);
-extern int *func_02008B14(int);
+struct Big;
+struct Sub02008AECSession;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern void func_0203F49C(int *, int *);
 extern int func_02168F54(int *, int *, int *, int *, int *);
 extern void func_02008BE0(int *, unsigned int);
@@ -33,7 +35,7 @@ void func_02168EEC(int a)
     int B[3];
     int y;
     int x;
-    int *p = func_02008B14(func_02012EBC(a));
+    int *p = (int *)func_02008B14(func_02012EBC((struct Big *)a));
     if (*p == 0)
         return;
     func_0203F49C(A, B);

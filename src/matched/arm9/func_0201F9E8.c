@@ -15,7 +15,8 @@ typedef unsigned int   u32;
 
 struct Obj;
 
-extern void func_02020D3C(u32 v);
+struct D;
+extern void func_02020D3C(struct D *p);
 extern void func_020307B0(void *p);
 
 void func_0201F9E8(struct Obj *o, u8 *out)
@@ -23,6 +24,6 @@ void func_0201F9E8(struct Obj *o, u8 *out)
     if (out != 0) {
         *out = *(u8 *)((u8 *)o + 0x2d);
     }
-    func_02020D3C(*(u32 *)((u8 *)o + 0x24));
+    func_02020D3C((struct D *)(*(u32 *)((u8 *)o + 0x24)));
     func_020307B0(o);
 }

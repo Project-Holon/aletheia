@@ -30,7 +30,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void  func_02014CD4(void *a0);
-extern void *func_02030EE8(void *a0);
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 extern void  func_020307B0(void *a0);
 extern void  func_02030EAC(void *a0);
 extern void  func_02015BA4(void *a0, void *a1);
@@ -41,7 +42,7 @@ void func_02014BA8(u8 *a0)
 
     func_02014CD4(a0);
     if (*(u8 **)(a0 + 0xc) != 0) {
-        u8 *p = func_02030EE8(*(u8 **)(a0 + 0xc));
+        u8 *p = (u8 *)func_02030EE8((struct S02030EE8 *)(*(u8 **)(a0 + 0xc)));
 
         func_020307B0(*(u8 **)(*(u8 **)(p + 4) + 0xc));
         func_020307B0(*(u8 **)(p + 4));

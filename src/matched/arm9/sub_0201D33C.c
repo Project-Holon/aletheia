@@ -35,7 +35,7 @@ struct StrObj {
 };
 
 extern u16 *sub_02045A90(struct StrObj *s);
-extern u32  sub_0201D26C(u16 *cur, u32 a, u32 b, u16 **next);
+extern u32 sub_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
 
 u32 sub_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max)
 {
@@ -48,7 +48,7 @@ u32 sub_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max)
         if (*p == 0xFFFF) {
             break;
         }
-        out[i] = sub_0201D26C(p, a, b, &p);
+        out[i] = sub_0201D26C(p, (void *)a, b, &p);
         i++;
     }
     return i;

@@ -27,7 +27,7 @@ extern void func_021EEE24(u32, u16, u32, ...);
 extern u32 func_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
-extern void func_0201C7A4(void *, s16, s16, void *, u32);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 void func_021EDE54(u8 *p)
 {
     u8 *q;
@@ -65,12 +65,12 @@ void func_021EDE54(u8 *p)
         if (left < 0) left = 0;
         if (right < 0) right = 0;
         func_0201D37C(*(void **)(q + 0x38), *(void **)(q + 0x3c), 0);
-        func_0201C7A4(*(void **)(p + 4), left, 7, *(void **)(q + 0x3c), *(u32 *)(q + 0x28));
+        func_0201C7A4(*(void **)(p + 4), left, 7, *(void **)(q + 0x3c), (void *)(*(u32 *)(q + 0x28)));
         func_0201D37C(*(void **)(q + 0x38), *(void **)(q + 0x3c), 1);
-        func_0201C7A4(*(void **)(p + 4), right, 18, *(void **)(q + 0x3c), *(u32 *)(q + 0x28));
+        func_0201C7A4(*(void **)(p + 4), right, 18, *(void **)(q + 0x3c), (void *)(*(u32 *)(q + 0x28)));
     } else {
         center = (0x88 - func_0201D304(*(void **)(q + 0x38), *(u32 *)(q + 0x28), 0)) / 2;
         if ((int)center < 0) center = 0;
-        func_0201C7A4(*(void **)(p + 4), center, 18, *(void **)(q + 0x38), *(u32 *)(q + 0x28));
+        func_0201C7A4(*(void **)(p + 4), center, 18, *(void **)(q + 0x38), (void *)(*(u32 *)(q + 0x28)));
     }
 }

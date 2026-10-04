@@ -16,11 +16,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_020310C4(int);
-extern void func_021BAF48(void *);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
+extern int func_021BAF48(char *p);
 
 void func_021BAF30(int *p)
 {
-    func_020310C4(p[0x95]);
-    func_021BAF48(p);
+    func_020310C4((struct Tcbl *)p[0x95]);
+    func_021BAF48((char *)p);
 }

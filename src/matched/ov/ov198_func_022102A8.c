@@ -18,11 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201F7A8(u32, u32);
+extern void func_0201F7A8(void *desc, u32 kind);
 
 u32 func_022102A8(u8 *p)
 {
-    func_0201F7A8(*(u32 *)(p + 0x1f68), 0);
+    func_0201F7A8((void *)(*(u32 *)(p + 0x1f68)), 0);
     return 4;
 }
 

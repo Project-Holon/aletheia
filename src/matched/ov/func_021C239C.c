@@ -15,10 +15,10 @@
  * Masks 0x04000000 with 0xFFFF1FFF, then tail-calls func_021BC518 on the word at +0x418.
  */
 
-extern void func_021BC518(int);
+extern void func_021BC518(int *p);
 
 void func_021C239C(char *p)
 {
     *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
-    func_021BC518(*(int *)(p + 0x418));
+    func_021BC518((int *)(*(int *)(p + 0x418)));
 }

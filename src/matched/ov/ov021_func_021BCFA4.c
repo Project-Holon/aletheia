@@ -19,12 +19,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 pad8[8]; int f28; u32 pad2C[6]; u16 f44; u16 f46; u32 f48; u32 f4C; } X;
 extern void func_02082BCC(void *, int, int);
-extern u32 func_020120F4(u32 a);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 void func_021BCFA4(X *x, u32 b)
 {
     func_02082BCC(x, 0, 0x154);
     x->f0 = b;
-    x->f4 = func_020120F4(b);
+    x->f4 = (u32)func_020120F4((const struct Ctx *)b);
     x->f28 = -1;
     x->f4C = 0;
     x->f48 = 0;

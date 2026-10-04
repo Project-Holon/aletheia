@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 struct Mtx33;
 extern void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst);
 extern void func_0207C9D0(u8 *dst, u8 *src, int *v);
-extern u32 func_0218C7F0(u32 a, u32 b, int *v);
+struct Blk;
+extern u8 *func_0218C7F0(u8 *owner, u32 x, struct Blk *src);
 extern void func_020061E4(u32 a);
 extern u8 d_021DA098[];
 
@@ -39,7 +40,7 @@ void func_021C09B0(u8 *p)
         s.scale[2] = 0x1000;
         func_020520FC(0, 0, 0, (struct Mtx33 *)s.mat);
         func_0207C9D0(p + 8, d_021DA098 + i * 12, s.out);
-        *(u32 *)(p + 0x1c + i * 4) = func_0218C7F0(*(u32 *)(p + 0x18), 0x62, s.out);
+        *(u32 *)(p + 0x1c + i * 4) = (u32)func_0218C7F0((u8 *)(*(u32 *)(p + 0x18)), 0x62, (struct Blk *)s.out);
         p[0x15] = p[0x15] + 1;
         func_020061E4(0x568);
     }

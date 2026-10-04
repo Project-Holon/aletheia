@@ -27,10 +27,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
-extern u32 func_020457B0(u32 a, u32 b);
-extern void func_02045808(u32 a);
-extern u32 func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_02045EC0(u32 a, u32 b);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 tbl_0209E444[];
 
 u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
@@ -41,8 +43,8 @@ u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
     u32 f;
 
     v7 = (u8 *)func_02030734(a2, 0x38, 1, (const char *)0x020A72F0, 0x312);
-    *(u32 *)v7 = func_02045B38(0, 2, 0xa5, a2);
-    v10 = func_020457B0(0x40, a2);
+    *(u32 *)v7 = (u32)func_02045B38(0, 2, 0xa5, a2);
+    v10 = (u32)func_020457B0(0x40, a2);
     f = *(u8 *)(a0 + 0xab);
     if (f == 2)
         *(u8 *)(v7 + 0x34) = a3;
@@ -52,11 +54,11 @@ u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
         int off = i * 4;
         u8 *q = v7 + off;
 
-        *(u32 *)(q + 4) = func_02045EC0(*(u32 *)v7, i);
+        *(u32 *)(q + 4) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)v7), i);
         *(u32 *)(q + 0x1c) =
             ((u32 (*)(u8 *, u32, u8 *, u32, u32))
                  (*(u32 *)(tbl_0209E444 + off)))(a0, a1, v7, v10, a2);
     }
-    func_02045808(v10);
+    func_02045808((struct U16Vec *)v10);
     return v7;
 }

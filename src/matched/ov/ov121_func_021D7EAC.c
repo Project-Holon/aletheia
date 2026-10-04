@@ -45,7 +45,7 @@ typedef unsigned int u32;
 extern int func_021DE500(void *);
 typedef signed int     s32;
 extern void func_021DE550(char *p);
-extern void func_021DA8B0(void *,void *);
+extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
@@ -59,8 +59,8 @@ extern void func_02082BCC(void *,int,int);
 extern int func_0200A350(void *);
 extern void func_020312CC(u32,u32,u32);
 extern u8 *func_021D9624(int arg, u16 heap);
-extern void func_021D6924(void *,int);
-extern void *func_021D9744(void *);
+extern void func_021D6924(u16 *p, u16 heap);
+extern unsigned func_021D9744(char *p);
 extern void func_021D6AEC(void *,void *,int);
 extern void *func_021D9CA4(int,int,void *,void *,int);
 extern void func_021D9FFC(u8 *p, int a, int b);
@@ -79,7 +79,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
     switch(result) {
     case 1: case 2:
         func_021DE550(*(void **)(p+944));
-        func_021DA8B0(task,func_021D6E3C);
+        func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     }
     switch(*state) {
@@ -117,8 +117,8 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         *state=5; return;
     case 5:
         *(void **)(p+916)=func_021D9624(1,29);
-        func_021D6924(p+912,29);
-        func_021D6AEC(p+660,func_021D9744(*(void **)(p+916)),29);
+        func_021D6924((u16 *)(p+912),29);
+        func_021D6AEC(p+660,(void *)func_021D9744(*(void **)(p+916)),29);
         *(void **)(p+644)=func_021D9CA4(1,15,*(void **)(p+924),*(void **)(p+920),29);
         func_021D9FFC(*(void **)(p+644),10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
@@ -135,8 +135,8 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         if(!func_0204E804()) { *state=8; return; }
         break;
     case 8:
-        if(!*(u32 *)(*(u8 **)(p+960)+28)) func_021DA8B0(task,func_021D73DC);
-        else func_021DA8B0(task,func_021D6E3C);
+        if(!*(u32 *)(*(u8 **)(p+960)+28)) func_021DA8B0(task,(u32)func_021D73DC);
+        else func_021DA8B0(task,(u32)func_021D6E3C);
         func_020307B0(*(void **)(p+960));
         break;
     }

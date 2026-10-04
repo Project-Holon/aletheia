@@ -36,7 +36,7 @@ extern void func_021BF6F4(unsigned char v);
 extern int func_021C7690(int val);
 extern void func_021BF708(unsigned char v);
 extern void func_021BF71C(unsigned char v);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C73A0();
 extern MemSsea *g_021DE5E4;
 
@@ -56,5 +56,5 @@ void func_021C7314(void)
             func_021BF708(0);
         func_021BF71C(0);
     }
-    func_021C0E40(func_021C73A0);
+    func_021C0E40((unsigned int)func_021C73A0);
 }

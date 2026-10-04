@@ -24,8 +24,9 @@ typedef unsigned int u32;
 
 typedef struct { u8 pad : 5; u8 f : 1; u8 rest : 2; } Bf;
 
-extern u32 func_02188C80(void *);
-extern int func_020120F4(u32);
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012B58(int);
 extern int func_02175DCC(void *p);
 extern u8 *func_02175BCC(u8 *p);
@@ -63,7 +64,7 @@ int func_021803F0(u8 *a, u8 *b)
     int kind;
     int r;
 
-    cur = func_02012B58(func_020120F4(func_02188C80(*(void **)(a + 0xC))));
+    cur = func_02012B58((int)func_020120F4(func_02188C80(*(void **)(a + 0xC))));
     kind = func_02175DCC(b + 0x1AC);
     r = state(a, b, cur);
     if (r >= 3) {

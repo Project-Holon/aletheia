@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021FCEA8(void *, int, void *, int);
+extern void func_021FCEA8(int unused, int kind, u32 value, u32 id);
 
 void func_021FD6C8(u8 *p)
 {
     void *q = *(void **)(p + 0x140);
-    func_021FCEA8(p, 4, *(void **)((u8 *)q + 0x20), 0xff);
+    func_021FCEA8((int)p, 4, (u32)(*(void **)((u8 *)q + 0x20)), 0xff);
 }

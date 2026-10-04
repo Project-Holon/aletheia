@@ -11,5 +11,7 @@
  *   func_021BA190 0x021BA190 thumb ov214
  *   func_02035630 0x02035630 arm
  */
-extern int func_021BA190(int,char *),func_02035630(void);
+typedef unsigned char  u8;
+extern int func_021BA190(int,char *);
+extern u8 func_02035630(void);
 int func_021BA16C(int a,char *p){int result=func_021BA190(a,p);if(result==0){if(func_02035630()==30)result=func_021BA190(a,p);}return result;}

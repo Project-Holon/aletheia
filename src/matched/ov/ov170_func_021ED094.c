@@ -24,12 +24,16 @@
 
 extern unsigned func_02020F08(void);
 extern unsigned func_02020E60(unsigned item, unsigned which);
-extern void *func_02049E34(unsigned a0, unsigned a1, unsigned a2, void **a3, unsigned short a4);
-extern void *func_0204B7F0(void *p);
-extern void func_0204A9D0(void *a, void *b);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub0204A9D0;
+extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern u16 func_0204B7F0(u8 *p);
+extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 extern void func_020307B0(void *p);
-extern void *func_02049F34(unsigned a0, unsigned a1, void **a2, unsigned a3);
-extern void *func_0204B7F8(void *p);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern u16 func_0204B7F8(u8 *p);
 extern void func_0204ADEC(void *dst, void *src, unsigned flag);
 
 void func_021ED094(char *w, unsigned item)
@@ -37,10 +41,10 @@ void func_021ED094(char *w, unsigned item)
     void *a;
     void *b;
     void *q;
-    q = func_02049E34(func_02020F08(), func_02020E60(item, 1), 0, &a, 0x4C);
+    q = func_02049E34(func_02020F08(), func_02020E60(item, 1), 0, (u32)(&a), 0x4C);
     func_0204A9D0(func_0204B7F0(*(void **)(w + 0x9E9C)), a);
     func_020307B0(q);
-    q = func_02049F34(func_02020F08(), func_02020E60(item, 2), &b, 0x4C);
-    func_0204ADEC(func_0204B7F8(*(void **)(w + 0x9E9C)), b, 1);
+    q = func_02049F34(func_02020F08(), func_02020E60(item, 2), (u32)(&b), 0x4C);
+    func_0204ADEC((void *)func_0204B7F8(*(void **)(w + 0x9E9C)), b, 1);
     func_020307B0(q);
 }

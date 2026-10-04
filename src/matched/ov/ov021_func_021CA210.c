@@ -21,13 +21,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0200D884(u32 a, int b, int c);
+struct Blk3C;
+extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 
 void *func_021CA210(u8 *p)
 {
-    if (func_0200D884(*(u32 *)(p + 0x70), 10, 0) == 0)
+    if (func_0200D884((struct Blk3C *)(*(u32 *)(p + 0x70)), 10, 0) == 0)
         return func_02012934(*(void **)(p + 0x6c));
     return *(void **)(p + 0x7c8);
 }

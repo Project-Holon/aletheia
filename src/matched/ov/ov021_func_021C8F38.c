@@ -22,24 +22,26 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_0204762C(u32);
-extern void func_02047738(u32);
-extern void func_02047504(u32);
-extern void func_020470D0(u32);
-extern void func_02046EFC(u32);
+struct Rec;
+struct Tagged;
+extern void func_0204762C(struct Rec *p);
+extern void func_02047738(struct Rec *p);
+extern void func_02047504(struct Rec *p);
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_021C8F38(u8 *p)
 {
     u32 i;
 
-    func_0204762C(*(u32 *)(p + 0x28));
-    func_02047738(*(u32 *)(p + 0x30));
-    func_02047504(*(u32 *)(p + 0x2c));
+    func_0204762C((struct Rec *)(*(u32 *)(p + 0x28)));
+    func_02047738((struct Rec *)(*(u32 *)(p + 0x30)));
+    func_02047504((struct Rec *)(*(u32 *)(p + 0x2c)));
     for (i = 0; i < 4; i++) {
-        func_020470D0(*(u32 *)(p + i * 4 + 4));
-        func_02046EFC(*(u32 *)(p + i * 4 + 4));
+        func_020470D0((u32 *)(*(u32 *)(p + i * 4 + 4)));
+        func_02046EFC((struct Tagged *)(*(u32 *)(p + i * 4 + 4)));
     }
     for (i = 0; i < 5; i++) {
-        func_02046EFC(*(u32 *)(p + i * 4 + 0x14));
+        func_02046EFC((struct Tagged *)(*(u32 *)(p + i * 4 + 0x14)));
     }
 }

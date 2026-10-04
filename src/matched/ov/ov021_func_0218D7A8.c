@@ -77,8 +77,8 @@ extern void func_0218DDA4(Cell *c, Vec *v);
 extern void func_0218DD70(Cell *c);
 extern void func_0218DD4C(void *d);
 extern void func_0218B9FC(int a, int obj);
-extern void func_02169500(int obj, Vec *v);
-extern void func_021694F8(int obj, int on);
+extern void func_02169500(u8 *p, u8 *q);
+extern void func_021694F8(u8 *p, u16 v);
 extern void func_021694D4(int obj);
 extern void func_02169470(u8 *obj, u32 member);
 
@@ -101,14 +101,14 @@ int func_0218D7A8(Obj *p, Cell *nc)
                 if (id == func_0218DD98(&nc[j]) && !moved) {
                     Vec v;
                     func_0218DDA4(&nc[j], &v);
-                    func_02169500(p->entries[i].obj, &v);
+                    func_02169500((u8 *)p->entries[i].obj, (u8 *)(&v));
                     func_0218DD70(&nc[j]);
                     moved = 1;
                 }
             }
             if (!moved) {
                 func_0218DD70(&p->entries[i].cell);
-                func_021694F8(p->entries[i].obj, 0);
+                func_021694F8((u8 *)p->entries[i].obj, 0);
                 func_0218B9FC(p->f64, p->entries[i].obj);
                 func_0218DD4C(p->entries[i].desc);
                 func_021694D4(p->entries[i].obj);
@@ -126,8 +126,8 @@ int func_0218D7A8(Obj *p, Cell *nc)
                     func_0218DDA4(&nc[i], &v);
                     if (obj != -1) {
                         func_02169470((u8 *)p->entries[j].obj, (u32)obj);
-                        func_02169500(p->entries[j].obj, &v);
-                        func_021694F8(p->entries[j].obj, 1);
+                        func_02169500((u8 *)p->entries[j].obj, (u8 *)(&v));
+                        func_021694F8((u8 *)p->entries[j].obj, 1);
                     }
                     p->entries[j].cell = nc[i];
                     placed = 1;

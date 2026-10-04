@@ -21,24 +21,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_02188C84(u32 a);
+extern u16 func_02188C84(u8 *p);
 extern void *func_021C6C70(u32 h, int size, void *fn);
-extern u8 *func_021C6CCC(void *o);
+extern u32 func_021C6CCC(u8 *p);
 extern void func_021C7418(void);
-extern u16 func_0216D5F8(u32 a);
+extern u16 func_0216D5F8(void *p);
 
 void *func_021C7220(u32 a, u16 b, int c, u32 d)
 {
     void *o;
     u8 *p;
 
-    o = func_021C6C70(func_02188C84(a), 0x10, (void *)func_021C7418);
-    p = func_021C6CCC(o);
+    o = func_021C6C70(func_02188C84((u8 *)a), 0x10, (void *)func_021C7418);
+    p = (u8 *)func_021C6CCC(o);
     *(u32 *)(p + 0) = a;
     *(u32 *)(p + 4) = d;
     *(u16 *)(p + 8) = 0;
     *(u16 *)(p + 0xa) = b;
     p[0xc] = c;
-    *(u16 *)(p + 0xe) = func_0216D5F8(d);
+    *(u16 *)(p + 0xe) = func_0216D5F8((void *)d);
     return o;
 }

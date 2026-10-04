@@ -20,16 +20,16 @@
  *   func_021BEDB8 0x021BEDB8 thumb ov210
  */
 typedef unsigned char u8;
-extern int func_02012BF8(void *, unsigned);
+extern int func_02012BF8(int a0, int a1);
 extern void func_02012BE0(void *, unsigned, unsigned);
-extern void func_021BEDB8(void *, int, int);
+extern void func_021BEDB8(int p, int i, int v);
 void func_021BE324(u8 *p)
 {
-    if (func_02012BF8(**(void ***)p, 16) == 1) {
+    if (func_02012BF8((int)(**(void ***)p), 16) == 1) {
         func_02012BE0(**(void ***)p, 16, 0);
-        func_021BEDB8(p, 4, 6);
+        func_021BEDB8((int)p, 4, 6);
     } else {
         func_02012BE0(**(void ***)p, 16, 1);
-        func_021BEDB8(p, 4, 7);
+        func_021BEDB8((int)p, 4, 7);
     }
 }

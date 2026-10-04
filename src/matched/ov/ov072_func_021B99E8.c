@@ -67,7 +67,7 @@ extern void func_021BA450(int *,int *);
 extern int func_021BA488(int *);
 extern int func_021BA6C8(void *,void *);
 extern int func_021BA3E8(int *);
-extern int func_021BA774(int,int);
+extern int func_021BA774(char *p, int i);
 extern void func_020061E4(u32);
 extern void func_021B995C(int *,int);
 struct Obj;
@@ -128,11 +128,11 @@ int func_021B99E8(int *a,int unused,char *p)
             if (*(int *)W(0x130)==0 || *(int *)W(0x130)==2) {
                 w=func_021BA488(R(0x38));
                 t=func_021BA6C8(R(0x50),R(0x38));
-                if (w!=0 && w==t && func_021BA3E8(R(0x38))!=0 && func_021BA774(w,12)!=0) {
+                if (w!=0 && w==t && func_021BA3E8(R(0x38))!=0 && func_021BA774((char *)w,12)!=0) {
                     *(int *)(W(0x130)+4)=2;
-                    *(unsigned short *)(W(0x130)+8)=func_021BA774(w,0);
-                    *(int *)(W(0x130)+12)=func_021BA774(w,13);
-                    *(int *)(W(0x130)+16)=func_021BA774(w,14);
+                    *(unsigned short *)(W(0x130)+8)=func_021BA774((char *)w,0);
+                    *(int *)(W(0x130)+12)=func_021BA774((char *)w,13);
+                    *(int *)(W(0x130)+16)=func_021BA774((char *)w,14);
                     func_020061E4(0x54c); func_021B995C(a,(int)func_021B99AC);
                 }
             }

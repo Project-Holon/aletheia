@@ -35,7 +35,8 @@ typedef struct Fade {
     s16 count;
 } Fade;
 
-extern void func_02061CA4(int, u32, void *, int);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_022082DC(Fade *p)
 {
@@ -68,5 +69,5 @@ void func_022082DC(Fade *p)
         }
         p->pal[i] = r | (g << 5) | (b << 10);
     }
-    func_02061CA4(1, p->f18, p->pal, 0x20);
+    func_02061CA4((void *)1, p->f18, (u32)p->pal, 0x20);
 }

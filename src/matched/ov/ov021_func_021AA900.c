@@ -30,11 +30,13 @@ typedef struct Self {
     void *obj;
 } Self;
 
-extern Entry *func_02012A38(void *p);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012A38(const struct BigObj *p);
 
 int func_021AA900(Self *self, short *pos)
 {
-    Entry *e = func_02012A38(self->obj);
+    Entry *e = (Entry *)func_02012A38(self->obj);
 
     if (e->flags == 0)
         return 0;

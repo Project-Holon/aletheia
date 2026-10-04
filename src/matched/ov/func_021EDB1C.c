@@ -17,10 +17,10 @@
 
 
 
-extern void func_021EDAB0(int, unsigned);
+extern void func_021EDAB0(char *p, int i);
 void func_021EDB1C(int p)
 {
     unsigned i;
     for (i = 0; i < 24; i++)
-        func_021EDAB0(p, i);
+        func_021EDAB0((char *)p, i);
 }

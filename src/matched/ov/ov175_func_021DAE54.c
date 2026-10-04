@@ -27,12 +27,13 @@ typedef unsigned long u32;
 
 typedef int (*RoundFn)(char *ctx, char *peer, int dir, int flag);
 
-extern int func_021DF23C(int a, int b, int c, void *out);
+typedef signed int     s32;
+extern int func_021DF23C(u32 a0, u32 a1, u32 a2, u32 a3);
 extern int func_021DF298(u32 h);
 extern int func_021DF2C8(u32 h);
 extern int func_021DF2F8(u32 h);
 extern int func_021DF328(u32 h);
-extern int func_021DF358(u32 h, int dir, void *buf, int d, int mode, u32 id, void *aux);
+extern s32 func_021DF358(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6);
 extern int func_021DF3B0(u32 h, u32 a, int flag);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
@@ -43,7 +44,7 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
     int mode;
     int mode2;
 
-    if ((r = func_021DF23C(1, 2, 0, ctx + 4)) != 0)
+    if ((r = func_021DF23C(1, 2, 0, (u32)(ctx + 4))) != 0)
         return r;
     if ((r = func_021DF298(*(u32 *)(ctx + 4))) != 0)
         return r;
@@ -72,7 +73,7 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
             break;
         }
     }
-    if ((r = func_021DF358(*(u32 *)(ctx + 4), 0, ctx + 0x30, 0, mode, *(u32 *)ctx, ctx + 0x58)) != 0)
+    if ((r = func_021DF358(*(u32 *)(ctx + 4), 0, (s32)(ctx + 0x30), 0, mode, (char *)(*(u32 *)ctx), (s32)(ctx + 0x58))) != 0)
         return r;
     if ((r = cb(ctx, peer, 1, flag)) != 0)
         return r;
@@ -102,7 +103,7 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
                 break;
             }
         }
-        if ((r = func_021DF358(*(u32 *)(ctx + 4), 1, other + 0x30, 0, mode2, *(u32 *)other, other + 0x58)) != 0)
+        if ((r = func_021DF358(*(u32 *)(ctx + 4), 1, (s32)(other + 0x30), 0, mode2, (char *)(*(u32 *)other), (s32)(other + 0x58))) != 0)
             return r;
         if ((r = cb(ctx, peer, 0, flag)) != 0)
             return r;

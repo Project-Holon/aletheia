@@ -12,14 +12,15 @@
  *   func_0207D658  0x0207D658  arm
  */
 
-extern void func_0207D658(volatile unsigned short *p, int a, int b);
+typedef unsigned int   u32;
+extern void func_0207D658(u32 addr, int plane, int brightness);
 
 void func_021B81B0(int a)
 {
     volatile unsigned short *p = (volatile unsigned short *)0x04001050;
 
     if (a == 1) {
-        func_0207D658(p, 0x1e, -8);
+        func_0207D658((u32)p, 0x1e, -8);
     } else {
         *p = 0;
     }

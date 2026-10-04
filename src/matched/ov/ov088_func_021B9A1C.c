@@ -78,15 +78,21 @@ extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32 win, u32 c);
-extern void func_02045374(u32 a);
+struct Cfg;
+struct CharBuf;
+struct GfFont;
+struct MsgBank;
+struct StrObj;
+struct U16Vec;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
-extern u32  func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32  func_0201C440(u32 heap);
-extern u32  func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_020457B0(u32 size, u32 heap);
-extern void func_02045CAC(u32 bank, u32 index, u32 buf);
-extern int  func_0201D304(u32 a, u32 b, u32 c);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern u32 func_0201C440(void *p);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
 
 void func_021B9A1C(Work *p, u32 heap)
@@ -113,18 +119,18 @@ void func_021B9A1C(Work *p, u32 heap)
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     p->win = func_020450F0(5, 0, 0x13, 0x20, 2, 0xA, 0);
     p->bmp = (u32)func_02045770((struct Descriptor *)p->win);
-    func_02043B5C(p->bmp, 0);
-    func_02045374(p->win);
+    func_02043B5C((struct CharBuf *)p->bmp, 0);
+    func_02045374((struct Cfg *)p->win);
     func_02045334((struct Descriptor *)p->win);
     p->fC = 0;
     p->win2 = p->win;
     func_020409B4(5);
-    p->font = func_0201D7EC(0x17, 0, 0, 0, heap);
-    p->print = func_0201C440(heap);
-    p->msg = func_02045B38(0, 2, 0xB5, heap);
-    p->buf = func_020457B0(0x40, heap);
-    func_02045CAC(p->msg, 1, p->buf);
-    w = func_0201D304(p->buf, p->font, 0);
+    p->font = (u32)func_0201D7EC(0x17, 0, 0, 0, heap);
+    p->print = func_0201C440((void *)heap);
+    p->msg = (u32)func_02045B38(0, 2, 0xB5, heap);
+    p->buf = (u32)func_020457B0(0x40, heap);
+    func_02045CAC((struct MsgBank *)p->msg, 1, (void *)p->buf);
+    w = func_0201D304((struct StrObj *)p->buf, p->font, 0);
     func_0201C724(p->print, p->bmp, 0x80 - w / 2, 0, p->buf, p->font, 0x440);
     p->f10 = 1;
 }

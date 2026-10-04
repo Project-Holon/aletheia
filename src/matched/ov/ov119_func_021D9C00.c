@@ -35,7 +35,8 @@ extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
 extern void func_021D8E84(void *p, int next);
-extern void func_02045CAC(int a, int b, int c);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *p);
 extern void func_021E1030(char *p);
 extern void func_021D9AD8(char *p);
@@ -67,7 +68,7 @@ void func_021D9C00(char *p)
     }
     if (a == 4 && ((u8 *)p + other)[0x11e0] == 4) {
         *(int *)(*(char **)(p + 8) + 8) = 3;
-        func_02045CAC(*(int *)(p + 0x720), 0x8d, *(int *)(p + 0x738));
+        func_02045CAC((struct MsgBank *)(*(int *)(p + 0x720)), 0x8d, (void *)(*(int *)(p + 0x738)));
         func_021E1024(p);
         func_021E1030(p);
         *(int *)(p + 0xf2c) = 0;
@@ -78,7 +79,7 @@ void func_021D9C00(char *p)
         cmd = 0x61;
     else if (a == 4)
         cmd = 0x66;
-    func_02045CAC(*(int *)(p + 0x720), cmd, *(int *)(p + 0x738));
+    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x720)), cmd, (void *)(*(int *)(p + 0x738)));
     func_021E1024(p);
     p[0x11e0] = 0;
     p[0x11e1] = 0;

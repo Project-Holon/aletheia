@@ -24,7 +24,7 @@ extern void func_02082BCC(void *,int,unsigned);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern const char d_0217E5E4[];
 extern void func_0217B380(int,int,int *);
-extern void *func_021E8A3C(void *,void (*)(int,int,int *),unsigned);
+extern int *func_021E8A3C(int a, int b, int c);
 void *func_0217B2E4(const Data *src,unsigned heap)
 {
     char *p;
@@ -33,6 +33,6 @@ void *func_0217B2E4(const Data *src,unsigned heap)
     *(Data *)(p+0x14)=*src;
     *(unsigned short *)(p+0x34)=heap;
     *(void **)(p+0xc)=func_02045B38(0,3,0x9e,heap);
-    *(void **)p=func_021E8A3C(p,func_0217B380,heap);
+    *(void **)p=func_021E8A3C((int)p,(int)func_0217B380,heap);
     return p;
 }

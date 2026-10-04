@@ -19,8 +19,11 @@ typedef unsigned char u8;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1A4(int v);
-extern int func_02184D38(int a, int b, int c, int *d, int e, int f);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
+extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
 
 int func_02174654(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
@@ -28,10 +31,10 @@ int func_02174654(int a, int b, int c, int d, int e, int *out, u8 *cnt)
     int z = 0;
 
     if (*cnt == 0) {
-        v[0] = (func_0203D1A4((int)func_020399A8()) * 16 + 0x58) << 12;
+        v[0] = (func_0203D1A4((struct Link *)((int)func_020399A8())) * 16 + 0x58) << 12;
         v[1] = 0;
         v[2] = 0x98000;
-        *out = func_02184D38(a, c, 0x96, v, 0, 0);
+        *out = (int)func_02184D38((void *)a, c, 0x96, v, 0, 0);
     } else {
         return 1;
     }

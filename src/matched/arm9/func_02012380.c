@@ -29,7 +29,8 @@ struct S02012304;
 extern void sub_02012108(struct Ctx *p, u32 v);
 extern int sub_02012304(struct S02012304 *o);
 extern void sub_02012314(char *p);
-extern int   sub_020124F0(void *v);
+struct Obj;
+extern void *sub_020124F0(struct Obj *p);
 
 int func_02012380(void *p)
 {
@@ -44,7 +45,7 @@ int func_02012380(void *p)
         case 0:
             return 0;
         case 1:
-            x = sub_020124F0(v);
+            x = (int)sub_020124F0(v);
             sub_02012314(v);
             sub_02012108(p, x);
             if (x == 0)

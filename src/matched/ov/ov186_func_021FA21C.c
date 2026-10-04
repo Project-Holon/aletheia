@@ -11,7 +11,7 @@
  *   func_021FA284 0x021FA284 thumb
  */
 extern void func_021FAFC0(char *p, unsigned value);
-extern void func_021FD73C(void *, void *);
+extern void func_021FD73C(int *p, int v);
 extern void func_021FA284(void *p, int *state, unsigned char *ctx);
 void func_021FA21C(unsigned char *ctx, int mode)
 {
@@ -29,5 +29,5 @@ void func_021FA21C(unsigned char *ctx, int mode)
 }
 void func_021FA274(void *p)
 {
-    func_021FD73C(p, func_021FA284);
+    func_021FD73C(p, (int)func_021FA284);
 }

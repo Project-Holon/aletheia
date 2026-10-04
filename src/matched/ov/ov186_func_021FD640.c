@@ -18,15 +18,22 @@
  *   func_020307B0 0x020307B0 arm
  *   func_020409B4 0x020409B4 arm
  */
-extern void func_0204B3B4(int),func_0204ADA4(int),func_0204A8D4(int),func_0204AFD8(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0204ADA4(int);
+extern void func_0204A8D4(int);
+extern void func_0204AFD8(int);
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
-extern void func_0202DC08(int),func_021FBDA4(int,int),func_020307B0(void *),func_020409B4(int);
+extern void func_0202DC08(struct Obj *p);
+extern void func_021FBDA4(int,int);
+extern void func_020307B0(void *);
+extern void func_020409B4(int);
 void func_021FD640(int *p)
 {
     int i;
-    if(p[10]) {func_0204B3B4(p[10]);func_0204ADA4(p[14]);func_0204A8D4(p[15]);func_0204AFD8(p[16]);}
-    if(p[9]) {func_0204B3B4(p[9]);func_0204ADA4(p[11]);func_0204A8D4(p[12]);func_0204AFD8(p[13]);}
+    if(p[10]) {func_0204B3B4((struct Obj *)p[10]);func_0204ADA4(p[14]);func_0204A8D4(p[15]);func_0204AFD8(p[16]);}
+    if(p[9]) {func_0204B3B4((struct Obj *)p[9]);func_0204ADA4(p[11]);func_0204A8D4(p[12]);func_0204AFD8(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {func_021FC734((void *)p[i]);p[i]=0;}
-    func_0202DC08(p[8]);func_021FBDA4(p[7],8);func_020307B0(p);func_020409B4(1);
+    func_0202DC08((struct Obj *)p[8]);func_021FBDA4(p[7],8);func_020307B0(p);func_020409B4(1);
 }

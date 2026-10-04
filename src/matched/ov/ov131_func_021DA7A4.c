@@ -18,7 +18,8 @@
  *   func_021DB468 0x021DB468 thumb ov131
  */
 typedef unsigned char u8;
-extern void func_020410D0(unsigned,int,int,int,int,void *,int,int,int,int);
+typedef unsigned int   u32;
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(unsigned);
 extern void func_021D9EF0(u8 *,u8 *);
 extern void func_021DB964(u8 *,void *,u8 *);
@@ -29,7 +30,7 @@ extern void func_021D5A9C(u8 *,int);
 extern void func_021DB468(u8 *,u8 *,u8,int);
 void func_021DA7A4(u8 *a,u8 *b) {
     u8 i;
-    func_020410D0(2,0,0,32,24,*(u8 **)(b+52)+12,0,0,32,32);
+    func_020410D0(2,0,0,32,24,(u32)(*(u8 **)(b+52)+12),0,0,32,32);
     func_02041B6C(2);
     func_021D9EF0(a,b);
     for(i=0;i<b[43];i++) func_021DB964(a,b,b+176+i*24);

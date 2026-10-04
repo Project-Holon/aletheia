@@ -20,13 +20,16 @@
 
 typedef signed short s16;
 
-extern int *func_021A2630(int);
-extern int func_021A2638(int);
-extern void func_021A21E0(int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
+extern void func_021A21E0(u32 *p);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
-extern void func_0204B404(int, s16 *, int);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021EED78(int a)
 {
@@ -34,8 +37,8 @@ void func_021EED78(int a)
     int q;
     s16 v[2];
 
-    p = func_021A2630(a);
-    q = func_021A2638(a);
+    p = (int *)func_021A2630((unsigned char *)a);
+    q = func_021A2638((unsigned char *)a);
     func_0204B454((struct Actor *)q, (struct PtS *)v, 0);
     switch (p[3]) {
     case 0:
@@ -50,10 +53,10 @@ void func_021EED78(int a)
                 p[2] = p[2] - 1;
             }
         }
-        func_0204B404(q, v, 0);
+        func_0204B404((struct Obj *)q, (const struct Vec2 *)v, 0);
         break;
     case 1:
-        func_021A21E0(a);
+        func_021A21E0((u32 *)a);
         break;
     }
 }

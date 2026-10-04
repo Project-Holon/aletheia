@@ -20,30 +20,31 @@
  *   func_021BEA64 0x021BEA64  arm
  */
 
-extern int func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern int func_021BEF50(void);
-extern int func_021BEF58(int);
+extern void *func_021BEF58(int p);
 extern int func_021BEC00(int, int);
 extern int func_021BF3BC(int);
 extern void func_021B9C1C(int, int);
 extern int func_021BF488(int);
-extern void func_021BEA64(int);
+extern void func_021BEA64(u8 *p);
 
 int func_021BF288(int x)
 {
-    int a = func_021BEF08();
+    int a = (int)func_021BEF08();
     int b = func_021BEF50();
     int c;
     int d;
 
-    c = func_021BEC00(func_021BEF58(a), x);
+    c = func_021BEC00((int)func_021BEF58(a), x);
     if (c == 0)
         return -1;
     d = func_021BF3BC(x);
     func_021B9C1C(b, 1);
     if (d != -1 && d != 0) {
         if (func_021BF488(x) == 0xf)
-            func_021BEA64(c);
+            func_021BEA64((u8 *)c);
     }
     return 0;
 }

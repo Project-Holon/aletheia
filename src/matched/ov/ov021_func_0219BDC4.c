@@ -21,9 +21,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 func_0216D684(u32, u32);
-extern void func_0216D674(u32, u32);
+typedef unsigned short u16;
+extern void func_0216D674(void *p, u16 v);
 extern void func_0216DA50(u32);
-extern void func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 extern void func_0216D8C0(u32, void *);
 
 typedef struct { u32 a, b, c; } T12;
@@ -34,9 +35,9 @@ void func_0219BDC4(u32 a, u32 b)
     T12 t;
     u32 k = 8;
     *(u8 *)(func_0216D684(a, 8) + 1) = b;
-    func_0216D674(a, 0);
+    func_0216D674((void *)a, 0);
     func_0216DA50(a);
-    func_0216D568(a, k << 12);
+    func_0216D568((void *)a, k << 12);
     t = d_021D5474;
     func_0216D8C0(a, &t);
 }

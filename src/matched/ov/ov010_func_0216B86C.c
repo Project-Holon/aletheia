@@ -33,8 +33,8 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
 extern int func_0216BB70(int index);
-extern int func_0216BAE8();
-extern int func_0216BA88();
+extern u16 func_0216BAE8(int p);
+extern u16 func_0216BA88(int c);
 
 int func_0216B86C(int c, int vm)
 {
@@ -50,10 +50,10 @@ int func_0216B86C(int c, int vm)
     k = func_0216BB70(func_0200C32C(r7));
     if (k != 0) {
         if (k == 1) {
-            r5 = func_0216BAE8(r6);
+            r5 = func_0216BAE8((int)r6);
         }
     } else {
-        r5 = func_0216BA88(r6);
+        r5 = func_0216BA88((int)r6);
     }
     *dst = r5;
     return 0;

@@ -18,9 +18,9 @@
 
 typedef unsigned int u32;
 
-void func_021841A0(u32 x);
+unsigned char func_021841A0(unsigned char *p);
 
 void func_02186558(char *p)
 {
-    func_021841A0(*(u32 *)*(u32 **)(p + 4));
+    func_021841A0((unsigned char *)(*(u32 *)*(u32 **)(p + 4)));
 }

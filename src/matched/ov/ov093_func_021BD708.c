@@ -37,7 +37,7 @@ extern void func_021CC95C(void *, u32, int);
 extern int func_021BD850(u8 *, u8 *);
 extern int func_021BD8AC(u8 *, u8 *);
 extern void *func_021B86B8(void ***);
-extern int func_021B86C0(u8 *);
+extern u8 func_021B86C0(u8 **p);
 extern void func_021CD64C(void *, u8, ...);
 extern void func_021D8244(void *, int);
 
@@ -74,7 +74,7 @@ int func_021BD708(u8 *p, u8 *a, int r, int z)
             p[0x78a] |= 4;
         }
     } else {
-        if (func_021B86C0(*(u8 **)(p + 4)) != 0 && ((Bits *)(p + 0x78a))->b2 == 0) {
+        if (func_021B86C0((u8 **)(*(u8 **)(p + 4))) != 0 && ((Bits *)(p + 0x78a))->b2 == 0) {
             func_021CD64C(*(void **)(p + 0xc), 0x5a, 0xc6, 0xffff0000);
             p[0x78a] |= 4;
         }

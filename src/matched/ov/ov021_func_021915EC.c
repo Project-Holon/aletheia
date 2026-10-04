@@ -44,11 +44,12 @@ typedef struct R {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(u32 a, u32 b);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020409B4(u32 a);
 
 void func_021915EC(R *r)
 {
-    func_02043B5C((u32)func_02045770((struct Descriptor *)r->f18), 0xFF);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)r->f18)), 0xFF);
     func_020409B4((u8)r->f0c->f02);
 }

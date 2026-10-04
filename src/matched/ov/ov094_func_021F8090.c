@@ -14,19 +14,20 @@
  */
 typedef unsigned int u32;
 extern char *d_0220AF20;
-extern void func_02207288(u32 obj, u32 a, u32 b, u32 mode, u32 c);
+struct W;
+extern void func_02207288(struct W *p, void *a, void *q, int mode, int i);
 
 void func_021F8090(u32 a, u32 b, u32 c)
 {
     switch (*(u32 *)(d_0220AF20 + 0x1BC)) {
     case 2:
-        func_02207288(*(u32 *)(d_0220AF20 + 0x1A4), a, b, 2, c);
+        func_02207288((struct W *)(*(u32 *)(d_0220AF20 + 0x1A4)), (void *)a, (void *)b, 2, c);
         break;
     case 3:
-        func_02207288(*(u32 *)(d_0220AF20 + 0x1A4), a, b, 3, c);
+        func_02207288((struct W *)(*(u32 *)(d_0220AF20 + 0x1A4)), (void *)a, (void *)b, 3, c);
         break;
     default:
-        func_02207288(*(u32 *)(d_0220AF20 + 0x1A4), a, b, 0, c);
+        func_02207288((struct W *)(*(u32 *)(d_0220AF20 + 0x1A4)), (void *)a, (void *)b, 0, c);
         break;
     }
 }

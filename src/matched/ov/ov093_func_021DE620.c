@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int k);
-extern void *func_021C7CF4(int a, u8 b);
+extern void *func_021C7CF4(int *p, int i);
 struct UtilWork;
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021DD008(int a);
@@ -36,7 +36,7 @@ void func_021DE620(int a, int b, int c)
     u8 v;
     if (c == func_021D775C(3)) {
         v = func_021D775C(4);
-        if (func_021D5BB0(func_021C7CF4(b, v), 1) != 0)
+        if (func_021D5BB0(func_021C7CF4((int *)b, v), 1) != 0)
             func_021D7704(0x35, func_021DD008(a));
     }
 }

@@ -74,7 +74,8 @@ extern void func_0206A854(void);
 extern void func_0206DB80(void);
 extern void func_0207ADC4(void *mtx);
 extern void func_021AC1B8(u32 a, Node *n);
-extern int func_02047AC8(u32 a, Node *n);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
@@ -99,7 +100,7 @@ void func_021BB68C(u32 a, Arg *b)
     func_0206DB80();
     func_0207ADC4(n.mtx);
     func_021AC1B8(a, &n);
-    func_02047AC8(b->f8->f24[b->f0], &n);
+    func_02047AC8((void *)b->f8->f24[b->f0], (struct Arg *)(&n));
     MIi_CpuCopyFast(&saved, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;
     func_0206A854();

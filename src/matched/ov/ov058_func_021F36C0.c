@@ -24,13 +24,16 @@
 
 typedef unsigned short u16;
 
-extern int func_02188C84(int a);
-extern int func_02188D2C(int a);
-extern int func_02188C80(int a);
-extern int func_020120F4(int a);
-extern int func_02012EC4(int a);
-extern void func_02189764(int a, int b, int c, int d);
-extern void *func_021897BC(int a, int b);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern u16 func_02188C84(u8 *p);
+extern int func_02188D2C(int *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
+extern int *func_021897BC(char *p, int idx);
 extern void func_021BE760(int a, void *b, int c);
 extern void func_021F38F4(void *a, int b);
 extern char d_021F3B60[];
@@ -40,11 +43,11 @@ void func_021F36C0(int a)
     int r4;
     void *r6;
 
-    func_02188C84(a);
-    r4 = func_02188D2C(a);
-    func_02012EC4(func_020120F4(func_02188C80(a)));
-    func_02189764(a, 1, func_02188C84(a), 0x20);
-    r6 = func_021897BC(a, 1);
+    func_02188C84((u8 *)a);
+    r4 = func_02188D2C((int *)a);
+    func_02012EC4(func_020120F4(func_02188C80((void *)a)));
+    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 0x20);
+    r6 = func_021897BC((char *)a, 1);
     func_021BE760(r4, d_021F3B60, 0);
     func_021F38F4(r6, a);
 }

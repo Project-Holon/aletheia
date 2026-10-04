@@ -25,8 +25,8 @@ extern u8 *func_021E9100(void *p, u32 k);
 extern u32 func_021CD9E0(u8 *p);
 extern void func_021F8414(int a, int b, int c);
 extern int func_021F7EB4(void);
-extern void func_021ED53C(u32 o, u8 k);
-extern int func_021ED554(u32 o, u8 k);
+extern void func_021ED53C(u8 *p, int k);
+extern int func_021ED554(u8 *p, int k);
 
 int func_021EAB18(int *st, u8 *b)
 {
@@ -40,21 +40,21 @@ int func_021EAB18(int *st, u8 *b)
         break;
     case 1:
         if (func_021F7EB4() == 0) {
-            func_021ED53C(*(u32 *)(b + 0x17c), t[5]);
-            func_021ED53C(*(u32 *)(b + 0x17c), t[6]);
-            func_021ED53C(*(u32 *)(b + 0x17c), t[7]);
+            func_021ED53C((u8 *)(*(u32 *)(b + 0x17c)), t[5]);
+            func_021ED53C((u8 *)(*(u32 *)(b + 0x17c)), t[6]);
+            func_021ED53C((u8 *)(*(u32 *)(b + 0x17c)), t[7]);
             *st = *st + 1;
         }
         break;
     case 2:
         r = 1;
-        if (func_021ED554(*(u32 *)(b + 0x17c), t[5]) == 0) {
+        if (func_021ED554((u8 *)(*(u32 *)(b + 0x17c)), t[5]) == 0) {
             r = 0;
         }
-        if (func_021ED554(*(u32 *)(b + 0x17c), t[6]) == 0) {
+        if (func_021ED554((u8 *)(*(u32 *)(b + 0x17c)), t[6]) == 0) {
             r = 0;
         }
-        if (func_021ED554(*(u32 *)(b + 0x17c), t[7]) == 0) {
+        if (func_021ED554((u8 *)(*(u32 *)(b + 0x17c)), t[7]) == 0) {
             r = 0;
         }
         if (r != 0) {

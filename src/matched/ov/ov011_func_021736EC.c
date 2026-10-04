@@ -22,7 +22,8 @@ extern u16 func_02039338(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern void func_021736E0(int, int, int, char *, unsigned int);
-extern int func_0203D3A8(unsigned int, unsigned int, unsigned int, unsigned int);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 int func_021736EC(char *p)
 {
     unsigned int n;
@@ -31,5 +32,5 @@ int func_021736EC(char *p)
         func_021736E0(n, 0, 0, p, (unsigned int)func_020399A8());
         return 1;
     }
-    return func_0203D3A8((unsigned int)func_020399A8(), 0x200, 0, 0);
+    return func_0203D3A8((struct Entry *)((unsigned int)func_020399A8()), 0x200, 0, 0);
 }

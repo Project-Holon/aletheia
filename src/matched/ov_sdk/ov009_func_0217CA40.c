@@ -41,7 +41,7 @@ extern void *func_0217CA20(void);
 extern void func_0217F2BC(unsigned int msec);
 extern unsigned int func_0217F0B4(unsigned int *value);
 extern void func_0217F0FC(void *mutex);
-extern void func_020912A8();
+extern u32 func_020912A8(u32 a0);
 extern void func_0217F108(void *mutex);
 extern void func_0217F114(void *mutex);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
@@ -57,7 +57,7 @@ void func_0217CA40(void)
     if (func_0217F0B4(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
             func_0217F0FC(aCore->mQueueCrit);
-            func_020912A8(func_0217CA2C);
+            func_020912A8((u32)func_0217CA2C);
             aCore->mIsStaticInitComplete = 1;
         }
         func_0217F108(aCore->mQueueCrit);

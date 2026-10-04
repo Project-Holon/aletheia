@@ -22,10 +22,10 @@
 
 typedef unsigned short u16;
 
-extern void func_021693CC(int o);
-extern void func_021693BC(int o);
+extern void func_021693CC(char *p);
+extern void func_021693BC(char *p);
 extern void func_021693A0(int o);
-extern void func_0216928C(int o);
+extern void func_0216928C(void *p);
 extern void func_0218DD38(void *p);
 extern void func_020307B0(void *p);
 extern void func_021A73C0(int p);
@@ -38,10 +38,10 @@ void func_0218D05C(char *p)
     if (*(int *)(p + 0x24) != 0) {
         for (i = 0; i < *(u16 *)(p + 0x2e); i++) {
             int off = i * 0x28;
-            func_021693CC(*(int *)(*(char **)(p + 0x24) + off));
-            func_021693BC(*(int *)(*(char **)(p + 0x24) + off));
+            func_021693CC((char *)(*(int *)(*(char **)(p + 0x24) + off)));
+            func_021693BC((char *)(*(int *)(*(char **)(p + 0x24) + off)));
             func_021693A0(*(int *)(*(char **)(p + 0x24) + off));
-            func_0216928C(*(int *)(*(char **)(p + 0x24) + off));
+            func_0216928C((void *)(*(int *)(*(char **)(p + 0x24) + off)));
             func_0218DD38(*(char **)(p + 0x24) + off + 4);
         }
         func_020307B0(*(void **)(p + 0x24));

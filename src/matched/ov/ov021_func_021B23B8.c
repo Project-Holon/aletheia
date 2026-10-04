@@ -21,7 +21,9 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_02011330(u32);
+typedef unsigned short u16;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern void func_021F4134(void *p, u32 i);
 
 int func_021B23B8(u32 a, u32 b)
@@ -31,7 +33,7 @@ int func_021B23B8(u32 a, u32 b)
 
     func_0215A5F4((void *)b);
     d = func_0215A5DC((void *)b);
-    k = func_02011330(a);
+    k = func_02011330((struct Stream *)a);
     func_021F4134(d, k);
     return 0;
 }

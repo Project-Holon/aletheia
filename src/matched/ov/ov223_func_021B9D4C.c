@@ -14,7 +14,9 @@
  *   func_02047910 0x02047910 arm
  */
 typedef unsigned short u16;
-extern void *func_02048A18(void *,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
 extern int func_02047910(void *,int,int);
 void func_021B9D4C(char *p)
@@ -23,7 +25,7 @@ void func_021B9D4C(char *p)
     unsigned count;
     u16 i;
     if(*(unsigned *)(p+556)!=4) {
-        object=func_02048A18(*(void **)(p+40),*(u16 *)(*(char **)(p+60)+68*(*(u16 *)(p+48+2*(*(unsigned *)(p+556)+2)))));
+        object=(void *)func_02048A18(*(void **)(p+40),*(u16 *)(*(char **)(p+60)+68*(*(u16 *)(p+48+2*(*(unsigned *)(p+556)+2)))));
         count=func_0204779C(object);
         for(i=0;i<count;i++) func_02047910(object,i,2048);
     }

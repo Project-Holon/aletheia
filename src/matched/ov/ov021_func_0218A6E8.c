@@ -20,12 +20,14 @@
  */
 
 extern void *func_02188CCC(void *p);
-extern void *func_021A1358(void *p);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_021A1358(u32 *p);
 typedef unsigned char  u8;
 struct Ctx;
 struct SoundSys;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012A30(void *p);
+extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A70(struct SoundSys *sys);
 extern int func_021F2AB8(char *p);
 extern void func_021F2AD4(u8 *p);
@@ -34,13 +36,13 @@ void func_0218A6E8(void *sys, void *q)
 {
     void *r;
 
-    r = func_021A1358(func_02188CCC(q));
+    r = (void *)func_021A1358(func_02188CCC(q));
     if (r == 0) {
-        func_02028A70(func_02012A30(func_020120F4(sys)));
+        func_02028A70((struct SoundSys *)func_02012A30(func_020120F4(sys)));
         return;
     }
     if (func_021F2AB8(r) == 0) {
-        func_02028A70(func_02012A30(func_020120F4(sys)));
+        func_02028A70((struct SoundSys *)func_02012A30(func_020120F4(sys)));
         func_021F2AD4(r);
     }
 }

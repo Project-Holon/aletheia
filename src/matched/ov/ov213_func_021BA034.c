@@ -27,7 +27,7 @@ extern struct V zero;
 extern int func_021B98DC(int,int);
 extern void func_020061E4(u32 a);
 extern int func_021B9E50(u32),func_021B9E80(u32);
-extern void func_021BA8F4(void*,const struct V*);
+extern void func_021BA8F4(char *p, int v);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B84C(void*,u32);
 extern void func_021BA1C8(struct C*,void*,const u8*,int);
@@ -48,7 +48,7 @@ void func_021BA034(struct C *p,int time)
             else if(p->index==3){x=(i<<11)+0x1f00;y=0x300;}
         }
         pos=zero; pos.x=x; pos.y=y;
-        func_021BA8F4(p->parent,&pos);
+        func_021BA8F4(p->parent,(int)(&pos));
         if(func_021B9E80(p->kind)) func_0204B3DC(p->obj[i],1);
         else func_021BA1C8(p,p->owner,p->types,p->count-1-i);
     } else {

@@ -29,17 +29,20 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02030EAC(int a);
-extern int func_021B9A84(u8 *p);
+struct Descriptor;
+struct Node;
+struct TaskMenuState;
+extern void func_02030EAC(struct Node *n);
+extern int func_021B9A84(u32 p);
 extern void func_021BBE44(int x);
-extern void func_021BBAE0(u8 *p, int a);
-extern void func_021BB5FC(u8 *p, int a);
-extern void func_020452E8(int a);
-extern void func_021BA890(u8 *p, int a);
-extern void func_02027FD8(int a);
-extern void func_021B7268(u8 *p);
+extern void func_021BBAE0(int a, unsigned char *b);
+extern void func_021BB5FC(void *a, int *s);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_021BA890(void *ignored, u8 *p);
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_021B7268(unsigned p);
 extern void func_021BCD80(u8 *p);
-extern void func_021B71B0(u8 *p);
+extern void func_021B71B0(unsigned p);
 extern void func_021B7624(u8 *p);
 extern void func_021B6FEC(u8 *p);
 extern void func_020355D8(int a);
@@ -50,24 +53,24 @@ int func_021B6818(u8 *p)
 {
     u8 i;
 
-    func_02030EAC(W(4));
-    if (func_021B9A84(p) == 1) {
+    func_02030EAC((struct Node *)W(4));
+    if (func_021B9A84((u32)p) == 1) {
         func_021BBE44(W(0x108));
         func_021BBE44(W(0x10c));
         W(0x108) = 0;
         W(0x10c) = 0;
     }
-    func_021BBAE0(p, W(0x154));
-    func_021BB5FC(p, W(0x150));
+    func_021BBAE0((int)p, (unsigned char *)W(0x154));
+    func_021BB5FC(p, (int *)W(0x150));
     if (W(0x130) != 0)
-        func_020452E8(W(0x130));
+        func_020452E8((struct Descriptor *)W(0x130));
     for (i = 0; i < 6; i++)
-        func_021BA890(p, ((int *)(p + 0x160))[i]);
-    func_02027FD8(W(0x254));
-    func_021B7268(p);
-    if (func_021B9A84(p) == 1)
+        func_021BA890(p, (u8 *)(((int *)(p + 0x160))[i]));
+    func_02027FD8((struct TaskMenuState *)W(0x254));
+    func_021B7268((unsigned int)p);
+    if (func_021B9A84((u32)p) == 1)
         func_021BCD80(p);
-    func_021B71B0(p);
+    func_021B71B0((unsigned int)p);
     func_021B7624(p);
     func_021B6FEC(p);
     if (W(0x18) == 1)

@@ -30,7 +30,8 @@ typedef unsigned int u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 h);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 struct MsgBank;
 extern int func_021E12AC(char *p);
 extern int func_021DD140(char *p);
@@ -39,7 +40,7 @@ struct Link;
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
-extern void func_021DD080(u32 h, int id, void *p);
+extern void func_021DD080(void *a, void *b, void *c);
 extern void func_021D8E84(void *p, int next);
 extern void func_021DA76C(void *p);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -49,7 +50,7 @@ extern void func_021DDB90(unsigned char *p);
 void func_021DDBF0(char *p)
 {
     int a, b, c, d, m;
-    a = func_0203D1A4((u32)func_020399A8());
+    a = func_0203D1A4((struct Link *)((u32)func_020399A8()));
     b = 1 - a;
     if (func_021E12AC(p) == 0) return;
     if (func_021DD140(p) == 0) return;
@@ -60,7 +61,7 @@ void func_021DDBF0(char *p)
     func_021DD294(p, 0, 0);
     c = (unsigned char)(p + a)[0x11E0];
     if (c == 13 && (unsigned char)(p + b)[0x11E0] == 13) {
-        func_021DD080((u32)func_020399A8(), 13, p);
+        func_021DD080((void *)((u32)func_020399A8()), (void *)13, p);
         func_021D8E84(p, (int)func_021DA76C);
         return;
     }

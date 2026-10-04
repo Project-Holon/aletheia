@@ -33,28 +33,31 @@ typedef struct {
 extern V3 d_021F3768;
 extern V3 d_021F3790;
 
-extern int func_02188C80(int a);
-extern int func_020120F4(int a);
-extern int func_02012EC4(int a);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(int a, int b);
-extern int func_02188D2C(int a);
+extern int func_02188D2C(int *p);
 extern void func_021BE760(int a, void *b, int c);
-extern int func_021BE480(int a, unsigned b, int c);
-extern void func_021BE4A4(int a, int b, int c, int d);
-extern void func_021BE700(int a, int b, int c, int d, int e);
-extern void func_021BE4B4(int a, int b, int c, int d);
+extern int func_021BE480(char *p, unsigned i, int j);
+extern void func_021BE4A4(char *p, int i, int j, int v);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 
 void func_021F36C0(int a)
 {
     int *q;
     int s;
 
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 0x34);
-    s = func_02188D2C(a);
+    q = func_0200B3A4((int)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x34);
+    s = func_02188D2C((int *)a);
     func_021BE760(s, &d_021F3768, 0);
-    *(V3 *)func_021BE480(s, 0, 0) = d_021F3790;
-    func_021BE4A4(s, 0, 0, 1);
-    func_021BE700(s, 0, 0, 0, 1);
+    *(V3 *)func_021BE480((char *)s, 0, 0) = d_021F3790;
+    func_021BE4A4((char *)s, 0, 0, 1);
+    func_021BE700((void *)s, 0, 0, 0, 1);
     if (*q != 0)
-        func_021BE4B4(s, 0, 0, 1);
+        func_021BE4B4((char *)s, 0, 0, 1);
 }

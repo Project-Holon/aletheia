@@ -34,7 +34,7 @@ extern void func_021C6438(u8 *p, u8 a, u8 b);
 extern void func_021C91CC(char *p, void *q);
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 extern u32 func_020221A4(void);
-extern void func_021C9154(void *, void *, void *);
+extern void func_021C9154(char *p, int unused, char *q);
 void func_021C8F24(void *, void *, void *);
 int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
 {
@@ -84,5 +84,5 @@ int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
 }
 void func_021C8F24(void *p, void *q, void *r)
 {
-    func_021C9154(p, q, r);
+    func_021C9154(p, (int)q, r);
 }

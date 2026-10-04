@@ -22,8 +22,8 @@ typedef unsigned int   u32;
 
 typedef struct Arg { u32 a; u32 b; u32 c; u32 d; u32 e; } Arg;
 
-extern u32 func_0216D520(u32);
-extern u32 func_0219C9DC(u32);
+extern u32 func_0216D520(void *p);
+extern u32 func_0219C9DC(u8 *p);
 extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
 extern u8 d_021D9B64[];
@@ -35,7 +35,7 @@ void func_021BBFB8(u32 a, u32 b, u32 c, u32 d)
     s.b = d;
     s.c = b;
     s.d = a;
-    s.e = func_0219C9DC(func_0216D520(a));
+    s.e = func_0219C9DC((u8 *)func_0216D520((void *)a));
     s.a = func_021ABEA0(c, 6);
     func_021ABFA8(c, d_021D9B64, 0, 0, &s, 0);
 }

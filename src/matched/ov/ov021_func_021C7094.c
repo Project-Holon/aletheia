@@ -19,8 +19,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0218ED40(u32 p);
-extern u32 func_0218ED2C(u32 p);
+extern u16 func_0218ED40(u8 *p);
+extern u16 func_0218ED2C(u8 *p);
 
 void func_021C7094(u32 *p)
 {
@@ -30,9 +30,9 @@ void func_021C7094(u32 *p)
     u32 d;
 
     if (m == 0 || m != 1)
-        a = func_0218ED40(a);
+        a = func_0218ED40((u8 *)a);
     else
-        a = func_0218ED2C(a);
+        a = func_0218ED2C((u8 *)a);
     if (a < b) {
         d = b - a;
         if (d > 0x8000)

@@ -25,12 +25,15 @@ typedef signed int     s32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021DDA50[];
-extern u32 func_0201D7EC(int a, int b, int c, int d, u16 heap);
-extern u32 func_0201C440(u16 heap);
-extern u32 func_0203101C(u16 a, u16 b, int c, int d);
-extern void func_021931F4(void *p);
+struct GfFont;
+struct NitroFileHeader;
+struct Tcbl;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern u32 func_0201C440(void *p);
+extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern void func_021931F4(u32 a);
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern void func_02062A4C(u32 a, void *b);
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 
 u8 *func_021901EC(u16 heap, u32 b)
 {
@@ -39,11 +42,11 @@ u8 *func_021901EC(u16 heap, u32 b)
     *(u16 *)(o + 2) = 0xff;
     *(u16 *)(o + 4) = 0xff;
     *(u32 *)(o + 0x168) = b;
-    *(u32 *)(o + 8) = func_0201D7EC(0x17, 0, 0, 0, *(u16 *)o);
-    *(u32 *)(o + 0xc) = func_0201C440(*(u16 *)o);
-    *(u32 *)(o + 0x164) = func_0203101C(*(u16 *)o, *(u16 *)o, 1, 4);
-    func_021931F4(o + 0x160);
+    *(u32 *)(o + 8) = (u32)func_0201D7EC(0x17, 0, 0, 0, *(u16 *)o);
+    *(u32 *)(o + 0xc) = func_0201C440((void *)(*(u16 *)o));
+    *(u32 *)(o + 0x164) = (u32)func_0203101C(*(u16 *)o, *(u16 *)o, 1, 4);
+    func_021931F4((u32)(o + 0x160));
     *(u32 *)(o + 0x174) = func_0204A1BC(5, 0xc, 0, heap);
-    func_02062A4C(*(u32 *)(o + 0x174), o + 0x178);
+    func_02062A4C((struct NitroFileHeader *)(*(u32 *)(o + 0x174)), (void **)(o + 0x178));
     return o;
 }

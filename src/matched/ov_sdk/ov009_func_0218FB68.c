@@ -47,12 +47,13 @@ typedef struct {
 
 extern int func_0219329C(void **connection, char *input, int callErrorCallback);
 extern int func_020949F4(const char *, const char *, unsigned int);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+typedef unsigned int   u32;
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(const char *);
+extern int func_020964E0(u32 a0);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern void func_0218E240(void **connection, GPIOperation *operation);
 extern char g_021A51D0[];
@@ -71,23 +72,23 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
     if (func_0219329C(connection, input, 1))
         return 4;
     if (func_020949F4(input, g_021A51D0, 5) != 0) {
-        func_02193710(connection, 1, g_021A51D8);
+        func_02193710((int *)connection, 1, (int)g_021A51D8);
         __result__ = 3;
-        func_02189D78(connection, __result__, 1);
+        func_02189D78((int *)connection, __result__, 1);
         return __result__;
     }
     if (!func_02193418(input, g_021A5208, buffer, 16)) {
-        func_02193710(connection, 1, g_021A51D8);
+        func_02193710((int *)connection, 1, (int)g_021A51D8);
         __result__ = 3;
-        func_02189D78(connection, __result__, 1);
+        func_02189D78((int *)connection, __result__, 1);
         return __result__;
     }
-    pid = func_020964E0(buffer);
+    pid = func_020964E0((u32)buffer);
     callback = operation->callback;
     if (callback.callback != 0) {
         arg = (GPNewProfileResponseArg *)func_0217EAB0(sizeof(GPNewProfileResponseArg));
         if (arg == 0) {
-            func_02193734(connection, g_021A5214);
+            func_02193734((int *)connection, (int)g_021A5214);
             return 1;
         }
         arg->profile = pid;

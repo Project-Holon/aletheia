@@ -47,7 +47,8 @@ extern void func_021FAC50(void *, void *, void *, u32, u16, void *);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
-extern void func_0204B878(u32, int);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32, u32, u32);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -78,7 +79,7 @@ int func_021FAEE0(u8 *p)
     }
     func_0202CB4C(*(void **)(p + 24), 0, 16, 0);
     func_0202CC58(*(void **)(p + 24), 0);
-    func_0204B878(*(u32 *)(p + 8), 18);
+    func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 18);
     func_021F4FF4(*(u32 *)(p + 8), (tbl_022032C6[*(s16 *)(p + 56)].x + 16) * 8, tbl_022032C6[*(s16 *)(p + 56)].y * 8);
     *(int *)(p + 68) = *(s16 *)(p + 56);
     func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);

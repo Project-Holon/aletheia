@@ -46,7 +46,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern void func_022042E4(void *a, void *b);
 extern void func_022043AC(void *h);
-extern void func_0220684C(Main *m, void *t, void *cb);
+extern void func_0220684C(char *p, int a, int b);
 extern void func_021F8AC0(int a);
 extern void func_021F7998(u32 a);
 
@@ -60,7 +60,7 @@ void func_02204B0C(Main *m, int c)
     m->mode = d_0220A38C[k][c - 5];
     m->b0 = 1;
     o->main = m;
-    func_0220684C(m, func_02030DA8(m->owner, func_022042E4, o, 1), (void *)func_022043AC);
+    func_0220684C((char *)m, (int)func_02030DA8(m->owner, func_022042E4, o, 1), (int)((void *)func_022043AC));
     func_021F8AC0(2);
     func_021F7998(d_0220A3E4[k][c - 5]);
 }

@@ -52,7 +52,9 @@ typedef struct MemSsea {
 } MemSsea;
 
 extern void func_021D5F14();
-extern void func_021D5E5C();
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_021D5E5C(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
 extern void func_021D5FC4(int x);
 extern MemSsea *g_021DE5E4;
 extern COORD g_021DA5E8;
@@ -71,7 +73,7 @@ void func_021C78A0(void)
     for (i = 0; i < 12; i++) {
         buf[0] = g_021DE5E4->text[i];
         a.x = g_021DA5D4[i];
-        func_021D5E5C(g_021DE5E4->bg, a.x, a.y, a.w, a.h, 2, 0x480, buf);
+        func_021D5E5C((void *)g_021DE5E4->bg, a.x, a.y, a.w, a.h, 2, 0x480, buf);
     }
     func_021D5FC4(g_021DE5E4->bg);
 

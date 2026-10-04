@@ -19,11 +19,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_02048AD0(int a);
+struct Arg;
+struct Light;
+void func_02048AD0(struct Light *l);
 int func_020489F4(int a, u16 b);
 int func_02048A00(int a, u16 b);
 int func_02048A18(int a, u16 b);
-void func_02047A60(int a, char *b);
+void func_02047A60(void *a0, struct Arg *a1);
 
 void func_021C1C4C(char *p)
 {
@@ -33,15 +35,15 @@ void func_021C1C4C(char *p)
     u8 k;
 
     if (*(int *)(p + 0xc) == 0)
-        func_02048AD0(*(int *)(p + 4));
+        func_02048AD0((struct Light *)(*(int *)(p + 4)));
     else
-        func_02048AD0(*(int *)(p + 8));
+        func_02048AD0((struct Light *)(*(int *)(p + 8)));
     if (*(int *)(p + 0x18) != -1) {
         a = func_020489F4(*(int *)(p + 0x14), *(int *)(p + 0x18));
         n = func_02048A00(*(int *)(p + 0x14), *(int *)(p + 0x18));
         for (k = 0; k < n; k++) {
             i = func_02048A18(*(int *)(p + 0x14), a + k);
-            func_02047A60(i, p + 0x1c);
+            func_02047A60((void *)i, (struct Arg *)(p + 0x1c));
         }
     }
 }

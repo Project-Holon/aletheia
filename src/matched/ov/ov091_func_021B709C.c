@@ -29,8 +29,9 @@ typedef struct {
     u8 e;
 } R;
 
-extern u32 func_0204B100(u32 a, u32 b, u32 heap);
-extern void func_0204B270(u32 bank);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -44,9 +45,9 @@ void func_021B709C(u8 *p)
     int x;
     u32 bank;
 
-    bank = func_0204B100(10, 8, *(u16 *)p);
+    bank = (u32)func_0204B100(10, 8, *(u16 *)p);
     *(u32 *)(p + 0x1d4) = bank;
-    func_0204B270(bank);
+    func_0204B270((struct Bank *)bank);
     b.a = 0;
     b.b = 0;
     b.c = 0;

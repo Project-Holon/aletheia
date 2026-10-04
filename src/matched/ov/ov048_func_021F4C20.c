@@ -43,18 +43,18 @@ typedef struct W {
     Vec v14;
 } W;
 
-extern u32 func_02188C58(u32 a);
-extern u32 func_02188D38(u32 a);
-extern u16 func_0218ED2C(u32 p);
-extern u16 func_0218ED40(u32 p);
-extern u32 func_0218ED54(u32 p);
+extern void *func_02188C58(void *p);
+extern u32 func_02188D38(u8 *p);
+extern u16 func_0218ED2C(u8 *p);
+extern u16 func_0218ED40(u8 *p);
+extern u32 func_0218ED54(u8 *p);
 extern void func_0218ECC4(u32 a, void *b);
-extern u8 func_021F3790(u32 a);
+extern u8 func_021F3790(char *p);
 extern u32 func_021C6F00(u32 a, u16 b, u32 c);
 extern u32 func_021C7058(u32 a, u16 b, u16 c);
 extern u32 func_021C701C(u32 a, u16 b, u16 c);
 extern u32 func_021C7AE4(u32 a, u16 b, void *c);
-extern void func_021C6DE0(u32 a, u32 b, u32 c);
+extern void func_021C6DE0(u8 *p, u32 a, u32 b);
 extern int func_021C6E48(u32 a);
 extern u32 func_020362DC(void);
 
@@ -66,13 +66,13 @@ int func_021F4C20(int a0, int *state, W *w)
     u32 v;
 
     cam = w->f4;
-    obj = func_02188C58(cam);
-    h = func_02188D38(cam);
+    obj = (u32)func_02188C58((void *)cam);
+    h = func_02188D38((u8 *)cam);
     switch (*state) {
     case 0:
-        w->hA = func_0218ED2C(obj);
-        w->hC = func_0218ED40(obj);
-        w->f10 = func_0218ED54(obj);
+        w->hA = func_0218ED2C((u8 *)obj);
+        w->hC = func_0218ED40((u8 *)obj);
+        w->f10 = func_0218ED54((u8 *)obj);
         func_0218ECC4(obj, &w->v14);
         (*state)++;
         break;
@@ -86,7 +86,7 @@ int func_021F4C20(int a0, int *state, W *w)
         u32 r2;
         u32 r3;
 
-        switch (func_021F3790(cam)) {
+        switch (func_021F3790((char *)cam)) {
         case 1:
         default:
             ang1 = 0xEE5;
@@ -109,10 +109,10 @@ int func_021F4C20(int a0, int *state, W *w)
         r1 = func_021C7058(cam, w->h8, ang1);
         r2 = func_021C701C(cam, w->h8, ang2);
         r3 = func_021C7AE4(cam, w->h8, &vec);
-        func_021C6DE0(h, r0, 0);
-        func_021C6DE0(h, r1, 0);
-        func_021C6DE0(h, r2, 0);
-        func_021C6DE0(h, r3, 0);
+        func_021C6DE0((u8 *)h, r0, 0);
+        func_021C6DE0((u8 *)h, r1, 0);
+        func_021C6DE0((u8 *)h, r2, 0);
+        func_021C6DE0((u8 *)h, r3, 0);
         (*state)++;
         break;
     }
@@ -135,10 +135,10 @@ int func_021F4C20(int a0, int *state, W *w)
         r1 = func_021C7058(cam, w->h8, w->hA);
         r2 = func_021C701C(cam, w->h8, w->hC);
         r3 = func_021C7AE4(cam, w->h8, &w->v14);
-        func_021C6DE0(h, r0, 0);
-        func_021C6DE0(h, r1, 0);
-        func_021C6DE0(h, r2, 0);
-        func_021C6DE0(h, r3, 0);
+        func_021C6DE0((u8 *)h, r0, 0);
+        func_021C6DE0((u8 *)h, r1, 0);
+        func_021C6DE0((u8 *)h, r2, 0);
+        func_021C6DE0((u8 *)h, r3, 0);
         (*state)++;
         break;
     }

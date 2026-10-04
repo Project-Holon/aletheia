@@ -19,7 +19,7 @@ typedef struct List {
     struct List *next;
 } List;
 
-extern void func_021BA850(void *ptr_p);
+extern void func_021BA850(int a);
 
 void func_021BB8F0(List *list_p)
 {
@@ -30,10 +30,10 @@ void func_021BB8F0(List *list_p)
             p = list_p->next;
             if (list_p != p) {
                 List *n = p->next;
-                func_021BA850(p);
+                func_021BA850((int)p);
                 list_p->next = n;
             } else {
-                func_021BA850(list_p);
+                func_021BA850((int)list_p);
                 list_p = 0;
             }
         } while (list_p);

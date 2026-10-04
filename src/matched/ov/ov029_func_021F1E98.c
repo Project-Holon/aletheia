@@ -21,7 +21,8 @@
 typedef unsigned int   u32;
 extern void func_021F1DB0(char *p);
 extern void func_021F1BBC(char *p);
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
@@ -38,21 +39,21 @@ void func_021F1E98(char *p)
     for (i = 0; i < 11; i++) {
         q = (int *)(p + i * 4);
         if (q[0x4b] != 0) {
-            func_0204B3B4(q[0x4b]);
+            func_0204B3B4((struct Obj *)q[0x4b]);
             q[0x4b] = 0;
         }
     }
     for (i = 0; i < 3; i++) {
         q = (int *)(p + i * 4);
         if (q[0x56] != 0) {
-            func_0204B3B4(q[0x56]);
+            func_0204B3B4((struct Obj *)q[0x56]);
             q[0x56] = 0;
         }
     }
     for (i = 0; i < 20; i++) {
         q = (int *)(p + i * 12);
         if (q[0xf] != 0) {
-            func_0204B3B4(q[0xf]);
+            func_0204B3B4((struct Obj *)q[0xf]);
             q[0xf] = 0;
         }
     }

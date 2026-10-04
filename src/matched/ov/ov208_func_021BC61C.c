@@ -18,7 +18,7 @@ struct PalAnmSlot;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
 extern void func_02030DA4(void *);
-extern void func_020307B0(unsigned);
+extern void func_020307B0(void *p);
 void func_021BC61C(char *p)
 {
     if(*(unsigned short *)(p+0xc)&8)func_020215A0(*(void **)(p+8),3);
@@ -27,6 +27,6 @@ void func_021BC61C(char *p)
     if(*(unsigned short *)(p+0xc)&1)func_020215A0(*(void **)(p+8),0);
     func_02021540(*(void **)(p+8));
     func_02030DA4(*(void **)p);
-    func_020307B0(*(unsigned *)(p+4));
-    func_020307B0((unsigned)p);
+    func_020307B0((void *)(*(unsigned *)(p+4)));
+    func_020307B0((void *)((unsigned)p));
 }

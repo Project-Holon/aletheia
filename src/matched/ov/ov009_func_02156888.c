@@ -63,7 +63,7 @@ extern G *d_021A8264;
 unsigned char func_02156C84(void);
 void func_02156C60(void);
 u32 func_0203D650(void);
-int func_0216B354(int, u8, void *, u32, void *, u32, void *, int *, u32);
+int func_0216B354(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 int func_0216B408(int, int, void *, u32, void *, u32, void *, int *, u32);
 void func_02156A58(int a, int b, int c, int d, int e);
 void func_02156B18(int a, int b, int c, int d, int e);
@@ -72,10 +72,10 @@ u8 func_02155678(void);
 void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 void func_02156C00(u32 a);
 void func_02155374(int);
-int func_02177138(void *, int);
-int func_02177160(void *, int);
-int func_0216B634(void *, int);
-int func_02177188(void *, int);
+int func_02177138(int a, int b);
+int func_02177160(int a, int b);
+int func_0216B634(int a, int b);
+int func_02177188(int a, int b);
 void func_02155D80(int a, u32 i);
 void func_02155DCC(u32 a, u8 *p, int c);
 void func_02155E9C(int a, int b, int c, u32 d);
@@ -105,9 +105,9 @@ int func_02156888(int a, int b, int c)
         n = 2;
     d_021A8264->f778 = 1;
     if (a < 0) {
-        r = func_0216B354(2, n, func_02156A58, func_0203D650(), func_02156B3C,
-                          func_0203D650(), func_02155678, &d_021A8264->f750,
-                          func_0203D650());
+        r = func_0216B354(2, n, func_02156A58, (void *)func_0203D650(), func_02156B3C,
+                          (void *)func_0203D650(), func_02155678, &d_021A8264->f750,
+                          (void *)func_0203D650());
         d_021A8264->f75c = 1;
     } else {
         r = func_0216B408(2, a, func_02156B18, 0, func_02156B3C,
@@ -125,10 +125,10 @@ int func_02156888(int a, int b, int c)
     for (i = 0; i < b; i++)
         func_02156C00(i);
     func_02155374(7);
-    func_02177138(func_02155D80, 0);
-    func_02177160(func_02155DCC, 0);
-    func_0216B634(func_02155E9C, 0);
-    func_02177188(func_02155BDC, 0);
+    func_02177138((int)func_02155D80, 0);
+    func_02177160((int)func_02155DCC, 0);
+    func_0216B634((int)func_02155E9C, 0);
+    func_02177188((int)func_02155BDC, 0);
     d_021A8264->f760 = 0;
     return 0;
 }

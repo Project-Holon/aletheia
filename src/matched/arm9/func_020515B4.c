@@ -21,11 +21,11 @@
 
 typedef unsigned int u32;
 
-extern int func_02052634(u32 a, int b, int c);
+extern int func_02052634(char *p, int b, int c);
 
 int func_020515B4(void *p, int b, int c)
 {
-    int r = func_02052634(*(u32 *)p, b, c);
+    int r = func_02052634((char *)(*(u32 *)p), b, c);
     *(u32 *)((char *)p + 8) = r;
     return r;
 }

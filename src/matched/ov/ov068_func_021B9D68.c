@@ -31,7 +31,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern s16  d_020A1B38[];
-extern void func_02061CA4(u32 a, u32 b, void *c, u32 d);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021B9D68(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1)
 {
@@ -57,5 +57,5 @@ void func_021B9D68(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1
     r = (u8)(r0 + (((r1 - r0) * f) >> 12));
     g = (u8)(g0 + (((g1 - g0) * f) >> 12));
     *out = (u16)((b << 10) | (r | (g << 5)));
-    func_02061CA4(15, idx * 32 + slot * 2, out, 2);
+    func_02061CA4((void *)15, idx * 32 + slot * 2, (u32)out, 2);
 }

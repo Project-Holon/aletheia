@@ -32,15 +32,15 @@ typedef struct {
     void *fA8;
 } Work;
 
-extern void *func_02188C54(void *p);
-extern void *func_021904B0(void *p, u32 id);
+extern u32 func_02188C54(u8 *p);
+extern int func_021904B0(u32 a, u32 b);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 
 void func_021CCEB8(Work *w)
 {
-    void *o = func_02188C54(w->f0);
-    w->fA8 = func_021904B0(o, 0x54);
+    void *o = (void *)func_02188C54(w->f0);
+    w->fA8 = (void *)func_021904B0((u32)o, 0x54);
     w->fA4 = o;
     w->fA0 = func_0201EC64(w->hC);
 }

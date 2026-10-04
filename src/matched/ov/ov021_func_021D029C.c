@@ -41,7 +41,9 @@ typedef struct {
 } Dst;
 
 extern Src *func_021AC1AC(void *p);
-extern int func_02047564(int a, int b, int c);
+struct G3dOwner;
+struct G3dRec;
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern int func_0204767C(int a, int *b, int c);
 extern void func_020477D4(int a, u16 b);
 
@@ -58,7 +60,7 @@ void func_021D029C(void *p, Dst *d)
     tbl = d->src.tbl;
     cnt = d->src.cnt;
     for (i = 0; i < 4; i++)
-        d->sub[i] = func_02047564(tbl->a34[cnt], tbl->a24[i], 0);
+        d->sub[i] = (int)func_02047564((struct G3dOwner *)tbl->a34[cnt], (const struct G3dOwner *)tbl->a24[i], 0);
     d->f2 = 4;
     d->obj = func_0204767C(tbl->a34[cnt], d->sub, 4);
     for (j = 0; j < 4; j++)

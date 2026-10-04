@@ -15,5 +15,6 @@
 typedef unsigned int   u32;
 struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
-extern unsigned int func_02027A04(int);
-unsigned int func_021BBBE4(int a,unsigned char *b) {if(func_020279E8(*(void **)(b+116))==0)return 23;return *(unsigned short *)((unsigned int)b+func_02027A04(*(int *)(b+116))*2+2);}
+typedef unsigned char  u8;
+extern u8 func_02027A04(const u8 *p);
+unsigned int func_021BBBE4(int a,unsigned char *b) {if(func_020279E8(*(void **)(b+116))==0)return 23;return *(unsigned short *)((unsigned int)b+func_02027A04((const u8 *)(*(int *)(b+116)))*2+2);}

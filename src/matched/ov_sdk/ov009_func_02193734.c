@@ -15,10 +15,10 @@
  *   func_0219327C  0x0219327C  arm  ov009
  */
 
-extern void func_0219327C(int a, int b, int c);
+extern void func_0219327C(char *p, int b, int n);
 
 void func_02193734(int *p, int b)
 {
-    func_0219327C(*p, b, 0x100);
+    func_0219327C((char *)(*p), b, 0x100);
 }
 

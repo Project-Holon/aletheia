@@ -55,7 +55,8 @@ extern struct Sub02009470Obj *func_02009470(void *sys);
 extern u32 func_02009794(const struct Sub02009470Obj *obj, u32 n);
 extern u8 func_020095C8(const struct Sub02009470Obj *obj);
 extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
-extern u16 func_0200856C();
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern void func_02166908();
 
 void *func_02166854(void *a, u8 b, u32 c, u32 d, u32 e)
@@ -85,7 +86,7 @@ void *func_02166854(void *a, u8 b, u32 c, u32 d, u32 e)
     if (n > 20)
         n = 20;
     for (i = 0; i < n; i++)
-        t->h[i] = func_0200856C(func_0200973C(o, i));
+        t->h[i] = func_0200856C((const struct Sub0200852CObj *)func_0200973C(o, i));
     for (; i < 20; i++)
         t->h[i] = 0;
     return task;

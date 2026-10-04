@@ -14,12 +14,13 @@
  *   func_02041B6C  0x02041B6C  arm
  */
 
-extern void func_02045374(int);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 
 void func_021B7350(int a, int *p)
 {
-    func_02045374(*(int *)((char *)p + 0x18));
+    func_02045374((struct Cfg *)(*(int *)((char *)p + 0x18)));
     func_02041B6C(0);
 }

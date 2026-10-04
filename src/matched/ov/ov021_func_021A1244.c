@@ -23,26 +23,29 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_02188C80(u32);
+struct BigObj;
+struct Ctx;
+struct Obj;
+extern void *func_02188C80(void *p);
 struct Ctx;
 extern unsigned char *func_020120F8(const struct Ctx *p);
 struct Rec44;
 extern unsigned short func_02012AC8(const struct Rec44 *p);
-extern u32 func_020120F4(u32);
-extern u32 func_0201296C(u32);
-extern u32 func_021A8B18(u32, u32, u32);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_021A8B18(void *a, void *b, u32 c);
 extern void func_02024DCC(void);
-extern void func_021A84BC(u32);
+extern void func_021A84BC(struct Obj *p);
 extern void func_020403F4(u32);
 
 void ov021_func_021A1244(u32 *p)
 {
     u32 a, b, c;
-    a = func_02188C80(p[5]);
+    a = (u32)func_02188C80((void *)p[5]);
     b = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
-    c = func_020120F4(a);
-    if (func_021A8B18(c, func_0201296C(c), b) != 1)
+    c = (u32)func_020120F4((const struct Ctx *)a);
+    if (func_021A8B18((void *)c, (void *)func_0201296C((const struct BigObj *)c), b) != 1)
         func_02024DCC();
-    func_021A84BC(p[8]);
+    func_021A84BC((struct Obj *)p[8]);
     func_020403F4(4);
 }

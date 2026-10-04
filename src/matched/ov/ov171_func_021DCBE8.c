@@ -16,5 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02021ED8(const char*);
-extern void func_02021EE4(u32,u32);
-int func_021DCBE8(u8*p){if(func_02021ED8(*(char**)(p+0xb30)))return 1;func_02021EE4(*(u32*)(p+0xb30),0);return 0;}
+struct Obj02021EE4;
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+int func_021DCBE8(u8*p){if(func_02021ED8(*(char**)(p+0xb30)))return 1;func_02021EE4((struct Obj02021EE4 *)(*(u32*)(p+0xb30)),0);return 0;}

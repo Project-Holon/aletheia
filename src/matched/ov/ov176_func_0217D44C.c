@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021E8A90(int);
-int func_0217D44C(int *p) {return func_021E8A90(p[4]);}
+extern int func_021E8A90(int **p);
+int func_0217D44C(int *p) {return func_021E8A90((int **)p[4]);}

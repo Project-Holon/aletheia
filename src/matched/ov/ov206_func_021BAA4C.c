@@ -36,9 +36,10 @@ struct MsgBank;
 struct U16Vec;
 extern u16 *func_0201AF80(u32 heap, u16 *countOut);
 extern void func_020307B0(void *p);
-extern u32 func_0201EC64(u32 a);
-extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_0201ED04(u32 p);
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201ED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -78,10 +79,10 @@ void func_021BAA4C(char *p)
         func_020307B0(tab);
     }
     if (r7 != 0x3e7) {
-        h2 = func_0201EC64(*(u16 *)p);
-        func_0201EFA4(h2, 0, r7, 3, 2, 1);
+        h2 = (u32)func_0201EC64(*(u16 *)p);
+        func_0201EFA4((struct WordSet *)h2, 0, r7, 3, 2, 1);
         func_021BA960(*(u16 *)p, *(int *)(p+0x70), *(int *)(p+0x2c), *(int *)(p+0x28), *(int *)(p+0x270), 8, 5, 0x3e7 + 0x59, 0, h2);
-        func_0201ED04(h2);
+        func_0201ED04((struct WordSet *)h2);
     } else {
         func_021BA960(*(u16 *)p, *(int *)(p+0x70), *(int *)(p+0x2c), *(int *)(p+0x28), *(int *)(p+0x274), 8, 5, 0x3e7 + 0x59, 0, 0);
     }

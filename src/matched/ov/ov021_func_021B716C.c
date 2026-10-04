@@ -30,13 +30,13 @@ typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern u32 *func_02158F58(void *p);
-extern u32 func_02188C84(u32 p);
+extern int func_02158F58(int a0);
+extern u16 func_02188C84(u8 *p);
 extern u32 func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 struct BigObj;
 extern void *func_0201292C(const struct BigObj *p);
-extern u32 *func_0204A298(u32, u32, u32, u32, u32 *);
+extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 extern int func_02007F68(void *a, u32 b, u32 c, u32 d);
 extern void func_020307B0(void *p);
 extern u8 d_021D99D0[];
@@ -54,11 +54,11 @@ int func_021B716C(u32 a, u32 b)
 
     s = func_0215A5F4((void *)b);
     h = func_0215A5E4((void *)b);
-    v = func_02188C84(func_02158F58(s)[1]);
+    v = func_02188C84((u8 *)(((u32 *)func_02158F58((int)s))[1]));
     idx = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
     h = func_0201292C(h);
-    arr = func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
+    arr = (u32 *)func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
     cnt >>= 3;
     *out = 0;
     for (i = 0; i < cnt; i++) {

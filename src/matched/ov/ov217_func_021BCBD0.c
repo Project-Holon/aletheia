@@ -28,7 +28,7 @@ extern u32 func_021BC6DC(void *p);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_02062B30(void *ptr, char **out);
-extern void func_02041090(int a, void *b, int c, int d, int e, int f);
+extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02041B6C(u32 bg);
 extern void func_020307B0(void *p);
 extern void func_02049238(void *h);
@@ -40,7 +40,7 @@ void func_021BCBD0(struct S *p)
     void *res = func_02049250(heap, 5, p->h8);
     char *q;
     func_02062B30(res, &q);
-    func_02041090(2, q + 0xc, 0, 0, 0x20, (u8)v);
+    func_02041090(2, (u32)(q + 0xc), 0, 0, 0x20, (u8)v);
     func_02041B6C(2);
     func_020307B0(res);
     func_02049238(heap);

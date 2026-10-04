@@ -24,9 +24,9 @@ typedef unsigned int   u32;
 
 extern void func_02193170(u32);
 extern void func_02193044(u32);
-extern u32 func_02193210(u32);
-extern void func_021947E8(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
-extern void func_02194940(u32, u32);
+extern u32 func_02193210(u8 *p);
+extern void func_021947E8(u8 *p, int i, u32 a, u8 b, u8 c, u8 d, u8 f, u32 g, u32 h, u32 k, u8 m, u8 n);
+extern void func_02194940(u8 *p, int i);
 
 void func_021917C4(u16 *a, u32 *b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u32 i)
 {
@@ -36,6 +36,6 @@ void func_021917C4(u16 *a, u32 *b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u32 i)
     b[1] = i;
     func_02193170(a[0]);
     func_02193044(0);
-    func_021947E8(b[3], b[2], c, e, f, g, h, 0xFF, 0, func_02193210((u32)a + 0x15C + 4), 2, 0);
-    func_02194940(b[3], b[2]);
+    func_021947E8((u8 *)b[3], b[2], c, e, f, g, h, 0xFF, 0, func_02193210((u8 *)((u32)a + 0x15C + 4)), 2, 0);
+    func_02194940((u8 *)b[3], b[2]);
 }

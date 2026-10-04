@@ -18,7 +18,8 @@
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern void func_021E1604(char *, int);
-extern void func_021DCBC4(int, int, void *, int);
+typedef unsigned int   u32;
+extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 
 void func_021E19C0(char *r4, int r5)
 {
@@ -38,5 +39,5 @@ void func_021E19C0(char *r4, int r5)
         int v = *(int *)(r4 + 0x2FC + i * 0xB4);
         buf.h[i] = (short)(v / 4096);
     }
-    func_021DCBC4(*(int *)(r4 + 0xDC), 0x2808, &buf, 0x14);
+    func_021DCBC4((void *)(*(int *)(r4 + 0xDC)), 0x2808, &buf, 0x14);
 }

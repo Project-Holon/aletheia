@@ -38,7 +38,7 @@
  */
 struct WinMgr;
 extern void func_021EF670(char *);
-extern void func_021EA75C(unsigned char *);
+extern void func_021EA75C(int p);
 extern void func_021ECB20(unsigned char *,int,int);
 extern void func_021ED888(char *,int);
 extern void func_021EE364(unsigned char *,int,int);
@@ -63,7 +63,7 @@ extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_021ED55C(char **p, int flag);
 #define WORK (*(char **)(p+0x2c))
 #define ITEM (*(unsigned short *)(p+0x10))
-extern void func_021EA770(unsigned char *);
+extern void func_021EA770(int p);
 extern void func_02026124(struct Sound *obj, u32 idx);
 extern void func_021ECB84(char *,unsigned);
 extern void func_021E072C(unsigned char *);
@@ -80,13 +80,13 @@ int func_021E9B74(unsigned char *p)
         func_021EB988(p,data_021EF918,4);
         func_021EF4E4(*(struct WinMgr **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
         func_021ECB20(p,1,1); func_021ED888(WORK,0);
-        func_021EE364(p,0xe,0xa); func_021EA75C(p); func_021ED588(p); return 0x27;
+        func_021EE364(p,0xe,0xa); func_021EA75C((int)p); func_021ED588(p); return 0x27;
     case 4:
-        func_021EA770(p); func_021EE364(p,6,p[0x16]);
+        func_021EA770((int)p); func_021EE364(p,6,p[0x16]);
         func_02026124(*(void **)(WORK+0x70),0x27);
         p[0x16]=0xff; return 0x20;
     case 5:
-        func_021EA770(p);
+        func_021EA770((int)p);
         if(p[0x16]<0x1e && p[0x14]!=p[0x17])
             func_021EC48C(p,p[0x17],p[0x16],*(unsigned char *)(WORK+0x3df6));
         else func_021ECB84(WORK,p[0x16]);

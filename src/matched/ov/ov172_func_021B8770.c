@@ -29,12 +29,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 v);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern void func_021BE210(u8 *p, u32 arg);
 extern void *func_021BDFEC(void *p);
 extern void func_021BE2E0(void *p);
 extern void func_021BA234(void *p);
-extern char *func_021BDFFC(void *p);
+extern u32 func_021BDFFC(void *p);
 extern void func_021B6EA8(void *p, u16 v);
 extern void func_021BE0CC(void *p, u32 v);
 extern u32 func_021BDFDC(void *p);
@@ -49,7 +50,7 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
     void *r;
     char *base;
     u32 v;
-    self = func_0203D1A4((u32)func_020399A8());
+    self = func_0203D1A4((struct Link *)((u32)func_020399A8()));
     switch (*(u8 *)(msg + 1)) {
     case 0:
         if (id == self)
@@ -68,7 +69,7 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
         }
         break;
     case 3:
-        func_021B6EA8(func_021BDFFC(*(void **)(q + 0x3dc)), msg[0]);
+        func_021B6EA8((void *)func_021BDFFC(*(void **)(q + 0x3dc)), msg[0]);
         func_021BE0CC(*(void **)(q + 0x3dc), 0);
         break;
     case 2:

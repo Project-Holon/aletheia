@@ -35,7 +35,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void *func_02012FFC(void);
+extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *,int,int,void *,void *,void *,void *,int,u16,int);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *d);
@@ -56,7 +56,7 @@ void func_021C867C(u8 *p,u8 *a,int n,u16 heap)
     text=func_020457B0(128,heap);
     func_02045CAC(*(void **)(a + 4),n,text);
     func_0201F250(*(void **)a,*(void **)(p + 0x110),text);
-    *(void **)(a + 44)=func_0201CCE4(*(void **)(p + 0x108),0,0,*(void **)(p + 0x110),*(void **)(a + 0x17c),func_02012FFC(),*(void **)(a + 40),10,*(u16 *)(a + 0x180),0);
+    *(void **)(a + 44)=func_0201CCE4(*(void **)(p + 0x108),0,0,*(void **)(p + 0x110),*(void **)(a + 0x17c),(void *)func_02012FFC(),*(void **)(a + 40),10,*(u16 *)(a + 0x180),0);
     func_0201F73C(*(void **)(p + 0x108),2,70,11);
     q=*(void **)(p + 0x108);
     func_02045334(q);

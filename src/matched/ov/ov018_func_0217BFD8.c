@@ -22,11 +22,14 @@
  *   func_0202647C  0x0202647C  thumb
  */
 
-extern int func_020120F4(int);
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02158344(int);
-extern int func_02012B70(int);
+extern u8 func_02012B70(const struct BigObj *p);
 extern int func_02012204(int);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
@@ -41,10 +44,10 @@ int func_0217BFD8(int a, int b)
     int t;
     int w;
 
-    h = func_020120F4(a);
+    h = (int)func_020120F4((const struct Ctx *)a);
     t = func_02012138((const struct Ctx *)a);
     w = func_02158344(t);
-    if (func_02012B70(h) == 0)
+    if (func_02012B70((const struct BigObj *)h) == 0)
         return 0;
     if (w != 0)
         return 0;

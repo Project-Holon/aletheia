@@ -21,10 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02190960(u32, u32, u32, u32, u32);
+struct Handle;
+extern struct Handle *func_02190960(u16 *a, const u8 *b, u32 c, u16 d, u16 e);
 
 int func_0219097C(u32 a, u32 b, u32 c, u32 d)
 {
-return func_02190960(a, b, c, 0, 0);
+return (int)func_02190960((u16 *)a, (const u8 *)b, c, 0, 0);
 }
 

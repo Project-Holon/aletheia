@@ -17,14 +17,15 @@
  *   d_021F0BB4     0x021F0BB4  data   ov093  a4
  */
 
-extern void func_021D9670(int, int, int, int, int);
+typedef unsigned short u16;
+extern void func_021D9670(void *a, void *b, int c, int *d, u16 e);
 extern void func_021D96DC(int, int, int);
-extern void func_021D96FC(int, int, int);
+extern void func_021D96FC(void *a, int b, int c);
 extern int d_021F0BB4[];
 
 void func_021D9558(int a, int b, int c, int d)
 {
-    func_021D9670(a, b, c, d, 0x165);
+    func_021D9670((void *)a, (void *)b, c, (int *)d, 0x165);
 }
 
 void func_021D956C(int a, int b, int c)
@@ -34,7 +35,7 @@ void func_021D956C(int a, int b, int c)
 
 void func_021D957C(int a, int b, int c)
 {
-    func_021D96FC(b, c, 6);
+    func_021D96FC((void *)b, c, 6);
 }
 
 int *func_021D958C(int *p)

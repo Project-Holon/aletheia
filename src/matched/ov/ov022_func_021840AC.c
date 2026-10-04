@@ -20,9 +20,10 @@ typedef unsigned int u32;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 v);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 
 void func_021840AC(u8 *s)
 {
-    s[1] = s[1] | (u8)(1 << func_0203D1A4((u32)func_020399A8()));
+    s[1] = s[1] | (u8)(1 << func_0203D1A4((struct Link *)((u32)func_020399A8())));
 }

@@ -35,15 +35,18 @@ struct Ov208Icon {
     u32 f30;
 };
 
-extern int  func_0201C6C4(u32 a, u32 b);
-extern u32  func_020437D4(u32 a);
-extern void func_02040B1C(u32 layer, u32 src, u32 a, u32 b);
+typedef unsigned char  u8;
+struct Bmp;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *func_020437D4(const struct Bmp *bmp);
+extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
 extern void func_02041B6C(u32 layer);
 
 void ov208_func_021BE9CC(struct Ov208Icon *p)
 {
-    if (p->f30 != 0 && func_0201C6C4(p->f2c, p->f18) == 0) {
-        func_02040B1C(5, func_020437D4(p->f18), p->f20, p->f1c);
+    if (p->f30 != 0 && func_0201C6C4((struct PrintSys *)p->f2c, (void *)p->f18) == 0) {
+        func_02040B1C(5, func_020437D4((const struct Bmp *)p->f18), p->f20, p->f1c);
         func_02041B6C(5);
         p->f30 = 0;
     }

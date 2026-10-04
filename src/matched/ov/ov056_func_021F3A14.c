@@ -32,13 +32,14 @@ extern int func_0218EC60(u32 a);
 extern u32 func_0218EC5C(u8 *p);
 extern void func_0218EC90(u32 a, u32 b);
 extern void func_0218ECD4(u32 a, u32 b);
-extern void func_0218E13C(u32 a, u32 b);
+struct IcaAnime;
+extern void func_0218E13C(u8 *a, u32 s);
 extern void func_0218F1AC(u8 *p, u32 v);
-extern void func_0218ED14(u32 a, u32 b);
+extern void func_0218ED14(u8 *p, u32 q);
 extern void func_0218E17C(u32 *p, u32 v);
 extern void func_0218F05C(u8 *a);
-extern u32 func_02048AC4(u32);
-extern void func_02011558(u32);
+extern void func_02048AC4(void *ptr);
+extern void func_02011558(struct IcaAnime *p);
 extern void func_02082BCC(void *, unsigned, unsigned);
 
 void func_021F3A14(u8 *p)
@@ -46,12 +47,12 @@ void func_021F3A14(u8 *p)
     func_0218EC60(*(u32 *)(p + 8));
     func_0218EC90(*(u32 *)(p + 8), func_0218EC5C(*(u8 **)(p + 8)));
     func_0218ECD4(*(u32 *)(p + 8), (u32)(p + 0x10));
-    func_0218E13C(*(u32 *)(p + 8), *(u16 *)(p + 0xc));
+    func_0218E13C((u8 *)(*(u32 *)(p + 8)), *(u16 *)(p + 0xc));
     func_0218F1AC(*(u8 **)(p + 8), *(u16 *)(p + 0xe));
-    func_0218ED14(*(u32 *)(p + 8), (u32)(p + 0x1c));
+    func_0218ED14((u8 *)(*(u32 *)(p + 8)), (u32)(p + 0x1c));
     func_0218E17C(*(u32 **)(p + 8), *(u32 *)(p + 0x2c));
     func_0218F05C(*(u8 **)(p + 8));
-    func_02048AC4(*(u32 *)(p + 4));
-    func_02011558(*(u32 *)p);
+    func_02048AC4((void *)(*(u32 *)(p + 4)));
+    func_02011558((struct IcaAnime *)(*(u32 *)p));
     func_02082BCC(p, 0, 0x30);
 }

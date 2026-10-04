@@ -52,7 +52,8 @@ extern char g_020A7E4C[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void  func_020819B8(void *buf, u32 a);
+struct MATHCRC16Table;
+extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
 
 void func_0203EF5C(u32 heapId)
 {
@@ -60,5 +61,5 @@ void func_0203EF5C(u32 heapId)
     g_021469F8->index = 625;
     g_021469F8->unk_9c4 = 0;
     g_021469F8->unk_9c8 = 0x9908b0df;
-    func_020819B8(g_021469F8->unk_9cc, 4129);
+    func_020819B8((struct MATHCRC16Table *)g_021469F8->unk_9cc, 4129);
 }

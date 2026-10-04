@@ -39,7 +39,8 @@ struct Handle {
     u8    drawn;
 };
 
-extern void  func_0201C6FC(void *dst, void *src, s32 x, s32 y, void *pal, u32 f);
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 struct Bmp;
 struct Descriptor;
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
@@ -50,7 +51,7 @@ void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h,
                    void *dst, u32 f)
 {
     if (d->mode == 1) {
-        func_0201C6FC(dst, func_02045770(h->cell), (s16)x, (s16)y, d->f4, f);
+        func_0201C6FC(dst, (u32)func_02045770(h->cell), (s16)x, (s16)y, d->f4, f);
         h->drawn = 1;
     } else if (d->f8 != 0) {
         func_020439A0(d->f8, func_02045770(h->cell), 0, 0,

@@ -24,14 +24,18 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0200B3AC(u32);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
+typedef signed int     s32;
+struct Big;
+struct Ctx;
+struct Rec94;
+extern s32 func_0200B3AC(struct Rec94 *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern u32 func_02188C80(u32, u32, u32, u32);
 
 int func_021BE288(u32 a, u32 b, u32 c, u32 d)
 {
-if (b == func_0200B3AC(func_02012EC4(func_020120F4(func_02188C80(a, b, c, d))))) {
+if (b == func_0200B3AC((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(a, b, c, d))))) {
     return 1;
 }
 return 0;

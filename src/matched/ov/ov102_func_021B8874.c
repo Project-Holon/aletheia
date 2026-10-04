@@ -17,7 +17,9 @@
 typedef signed char s8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204B404(int, u16 *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_021B88F8(int *);
 void func_021B8874(u32 *p)
 {
@@ -37,6 +39,6 @@ void func_021B8874(u32 *p)
     sign2 = diff2 / magnitude2;
     if (diff2 < 0) diff2 = -diff2;
     xy[1] = start2 + sign2 * (((u32)diff2 * (u32)p[4]) / (u32)p[5]);
-    func_0204B404(p[6], xy, 1);
+    func_0204B404((struct Obj *)p[6], (const struct Vec2 *)xy, 1);
     if ((p[4])++ > (u32)p[5]) func_021B88F8((int *)p);
 }

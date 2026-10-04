@@ -41,10 +41,12 @@ struct C {
     u16 f17c;
 };
 
-extern void func_021D590C(int a, void *b);
+typedef signed short   s16;
+struct CharBuf;
+extern void func_021D590C(void **p, u16 *out);
 extern void func_021EF7AC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02043B5C(int a, int b);
-extern void func_0201C7A4(int a, int b, int c, int d, int e);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 extern void func_020061E4(u32 a);
@@ -53,10 +55,10 @@ int func_021EE4B4(int *st, struct C *c)
 {
     switch (*st) {
     case 0:
-        func_021D590C(c->f16c, &c->f170);
+        func_021D590C((void **)c->f16c, &c->f170);
         func_021EF7AC(c->f34, c->f172, c->f174, c->f176, c->f178, c->f17a, c->f17c);
-        func_02043B5C(c->f0c, 12);
-        func_0201C7A4(c->f0c, 0, 0, c->f34, c->f24);
+        func_02043B5C((struct CharBuf *)c->f0c, 12);
+        func_0201C7A4((void *)c->f0c, 0, 0, (void *)c->f34, (void *)c->f24);
         (*st)++;
         break;
     case 1:

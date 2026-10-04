@@ -25,8 +25,9 @@ struct CharBuf;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045838(void *,int);
-extern void func_02045CAC(int,int,void *);
+struct MsgBank;
+extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_020307B0(void *);
 extern void func_021D9BE8(int,Pair *,void *,void *,int,Pair *);
 extern void func_0201C724(void *,void *,s16,s16,void *,int,u16);
@@ -42,8 +43,8 @@ void func_021DA3EC(char *p,char *desc,void *dst)
             pos.x=*(s16 *)(d+16);
             pos.y=*(s16 *)(d+18);
             func_021D9BE8(*(int *)(d+12),&pos,*(void **)(p+i*4+8),text,*(int *)(*(char **)(p+4)+8),&out);
-            if(*(int *)(d+8)) func_02045838(text,*(int *)(d+8));
-            else func_02045CAC(*(int *)(*(char **)(p+4)+12),*(int *)(d+4),text);
+            if(*(int *)(d+8)) func_02045838(text,(struct U16Vec *)(*(int *)(d+8)));
+            else func_02045CAC((struct MsgBank *)(*(int *)(*(char **)(p+4)+12)),*(int *)(d+4),text);
             func_0201C724(dst,*(void **)(p+i*4+8),(s16)out.x,(s16)out.y,text,*(int *)(*(char **)(p+4)+8),*(u16 *)(d+20));
         }
     }

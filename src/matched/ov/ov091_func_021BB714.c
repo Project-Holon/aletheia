@@ -19,8 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(u32 h, u32 a, u32 b, u32 c);
-extern void func_021BBA28(void *a, u32 *s);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void func_021BBA28(int a, int b);
 
 void func_021BB714(void *a, u32 *s, u32 k)
 {
@@ -39,6 +39,6 @@ void func_021BB714(void *a, u32 *s, u32 k)
         s[1] = func_020450F0(0, 2, 0x13, 0x1c, 4, 0xe, 1);
         break;
     }
-    func_0201F73C(s[1], 1, 1, 0xc);
-    func_021BBA28(a, s);
+    func_0201F73C((void *)s[1], 1, 1, 0xc);
+    func_021BBA28((int)a, (int)s);
 }

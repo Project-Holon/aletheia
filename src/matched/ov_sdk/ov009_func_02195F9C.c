@@ -36,7 +36,7 @@ typedef struct Conn {
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_02195EB4(unsigned short SN1, unsigned short SN2);
-extern void func_0218437C(void *array, int n);
+extern void func_0218437C(int a, int b);
 extern void func_02194E80(void *buffer, int start, int shortenBy);
 
 int func_02195F9C(Conn *connection, unsigned short ESN)
@@ -57,7 +57,7 @@ int func_02195F9C(Conn *connection, unsigned short ESN)
 	if (i == 0)
 		return 1;
 	while (i-- != 0)
-		func_0218437C(connection->outgoing, i);
+		func_0218437C((int)connection->outgoing, i);
 	len = func_02184200(connection->outgoing);
 	if (len == 0) {
 		connection->a58 = 0;

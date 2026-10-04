@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern u8 d_021F3AD0[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern int func_020457B0(int, int);
-extern u32 func_0201C440(u16);
+extern u32 func_0201C440(void *p);
 
 u8 *func_021EAF7C(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap)
 {
@@ -42,7 +42,7 @@ u8 *func_021EAF7C(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap)
     *(int *)(p + 0x3c) = func_020457B0(0x180, heap);
     p[0x14e] = 0;
     *(u32 *)(p + 0xd8) = 0;
-    *(u32 *)(p + 0x18) = func_0201C440(*(u16 *)(p + 0x13c));
+    *(u32 *)(p + 0x18) = func_0201C440((void *)(*(u16 *)(p + 0x13c)));
     *(u32 *)(p + 0x1c) = *(u32 *)p;
     p[0x20] = 0;
     return p;

@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *);
-extern int func_0201C6C4(void *, unsigned);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
@@ -29,7 +29,7 @@ static inline void clean(u8 *p, int off)
 {
     void *t = *(void **)(p + 0x50C);
     if (p[off] != 0) {
-        if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + off - 4))) == 0) {
+        if (func_0201C6C4(t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + off - 4)))) == 0) {
             func_02045334((struct Descriptor *)*(u32 *)(p + off - 4));
             p[off] = 0;
         }

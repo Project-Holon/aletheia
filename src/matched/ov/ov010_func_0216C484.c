@@ -20,41 +20,43 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern int func_021BE8D4(int, int, int, int);
-extern void func_02012374(int, int);
+typedef unsigned char  u8;
+struct Evt;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_020144DC(int, int);
-extern int func_02014910(int, int, char *, char *);
-extern int func_020145CC(int);
-extern int func_021BE92C(int, int, int, int, int, int, int);
+extern void *func_02014910(char *a0, int a1, int a2, int a3);
+extern void *func_020145CC(void *a0);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void func_02082D44(void *, void *, int);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 int func_0216C484(int a, int *st, int *o)
 {
     int x = o[0];
     switch (*st) {
     case 0:
-        func_02012374(a, func_021BE8D4(x, o[1], 0, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE8D4((void *)x, o[1], 0, 0));
         (*st)++;
         break;
     case 1:
-        func_02012374(a, func_020144DC(x, o[1]));
+        func_02012374((struct Evt *)a, (struct Evt **)func_020144DC(x, o[1]));
         (*st)++;
         break;
     case 2:
-        func_02012374(a, func_02014910(x, o[1], (char *)o + 0x30, (char *)o + 8));
+        func_02012374((struct Evt *)a, func_02014910((char *)x, o[1], (int)((char *)o + 0x30), (int)((char *)o + 8)));
         (*st)++;
         break;
     case 3:
-        func_02012374(a, func_020145CC(x));
+        func_02012374((struct Evt *)a, func_020145CC((void *)x));
         (*st)++;
         break;
     case 4:
-        func_02012374(a, func_021BE92C(x, o[1], 0, 0, 1, 0, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)x, o[1], 0, 0, 1, 0, 0));
         func_02082D44((char *)o + 0x79, *(void **)((char *)o + 0xd0), 6);
         **(short **)((char *)o + 0xcc) = o[0x6c / 4];
         **(short **)((char *)o + 0xc8) = o[0x70 / 4];
-        func_020307B0(o[0x44 / 4]);
+        func_020307B0((void *)o[0x44 / 4]);
         (*st)++;
         break;
     case 5:

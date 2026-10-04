@@ -28,14 +28,17 @@ struct Position { short x,y,z;u8 a,b; };
 struct Triple { int a,b,c; };
 struct Record { u8 a,b,c,d;int value; };
 extern const struct Record d_021E336C[];
-extern void func_021FBE54(char *,unsigned,unsigned),func_021FB964(int,int,int);
+extern void func_021FBE54(char *,unsigned,unsigned);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern int func_021FC20C(char *),func_021FC214(char *);
 extern void *func_02082BCC(void *,int,unsigned);
 extern int func_021FC124(int,int,struct Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
-extern int func_021DE000(int,int),func_021DE02C(int,int),func_021DE058(int,int);
-extern void func_021FC754(void *,int,int,int,u16);
+extern int func_021DE000(void *p, char *q);
+extern int func_021DE02C(void *p, void *q);
+extern int func_021DE058(void *p, void *q);
+extern void func_021FC754(char *p, void *a, void *b, void *font, unsigned short value);
 void func_021DDE2C(char *p,char *q)
 {
  int first,second,i,id;
@@ -44,7 +47,7 @@ void func_021DDE2C(char *p,char *q)
  const struct Record *rec;
  char *slot;
  func_021FBE54(*(char **)(q+8),6,*(u16 *)(p+0x7c));
- func_021FB964(*(int *)(q+8),9,*(u16 *)(p+0x7c));
+ func_021FB964((void *)(*(int *)(q+8)),9,*(u16 *)(p+0x7c));
  first=func_021FC20C(*(char **)(q+8));
  second=func_021FC214(*(char **)(q+8));
  func_02082BCC(&pos,0,8);
@@ -55,11 +58,11 @@ void func_021DDE2C(char *p,char *q)
   rec=&d_021E336C[i];slot=p+i*4;
   *(void **)(slot+0x24)=func_021FC6A4(4,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
   switch(i){
-   case 0: if(func_021DE000(*(int *)(q+0x10),*(int *)(q+0x14))) id=0x83;else id=0x7e;break;
-   case 1: if(func_021DE02C(*(int *)(q+0x10),*(int *)(q+0x14))) id=0x84;else id=0x7f;break;
-   case 2: if(func_021DE058(*(int *)(q+0x10),*(int *)(q+0x14))) id=0x85;else id=0x80;break;
+   case 0: if(func_021DE000((void *)(*(int *)(q+0x10)),(char *)(*(int *)(q+0x14)))) id=0x83;else id=0x7e;break;
+   case 1: if(func_021DE02C((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))) id=0x84;else id=0x7f;break;
+   case 2: if(func_021DE058((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))) id=0x85;else id=0x80;break;
    case 3: id=0x81;break;
   }
-  func_021FC754(*(void **)(slot+0x24),second,id,first,0x3da0);
+  func_021FC754(*(void **)(slot+0x24),(void *)second,(void *)id,(void *)first,0x3da0);
  }
 }

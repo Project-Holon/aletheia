@@ -22,16 +22,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern void func_021C9380(u32 a, u32 b);
+struct Blk37;
+extern void func_021C9380(struct Blk37 *p, u8 *out);
 extern void func_021BE564(u8 *p);
-extern void func_021BEDF0(u8 *p, u32 a, u32 b);
+extern void func_021BEDF0(int p, int i, int v);
 
 u32 func_021BD388(u8 *p)
 {
     u32 *ctx = *(u32 **)p;
 
-    func_021C9380(ctx[1], ctx[2]);
+    func_021C9380((struct Blk37 *)ctx[1], (u8 *)ctx[2]);
     func_021BE564(p);
-    func_021BEDF0(p, 7, 0);
+    func_021BEDF0((int)p, 7, 0);
     return 4;
 }

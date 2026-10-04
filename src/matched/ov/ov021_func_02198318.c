@@ -26,9 +26,9 @@ typedef signed char    s8;
 
 extern u16 *func_0216D6BC(u32, u32);
 extern void func_0216D5E0(u32, u16);
-extern void func_0216D674(u32, u32);
+extern void func_0216D674(void *p, u16 v);
 extern void func_02163F10(u32);
-extern void func_0216D7CC(u32);
+extern void func_0216D7CC(u8 *p);
 
 void func_02198318(u32 a, u32 b, u16 c, u16 d)
 {
@@ -38,7 +38,7 @@ void func_02198318(u32 a, u32 b, u16 c, u16 d)
     p[0] = d;
     p[1] = c;
     func_0216D5E0(a, b);
-    func_0216D674(a, d);
+    func_0216D674((void *)a, d);
     func_02163F10(a);
-    func_0216D7CC(a);
+    func_0216D7CC((u8 *)a);
 }

@@ -20,8 +20,9 @@ typedef unsigned int u32;
 extern const u32 d_022038FC[][3];
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32, u32);
-extern void func_02200A7C(u32, u32, u32, u32, u32, void *, u16);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02200A7C(void *p, void *bank, u32 b, u32 id, u32 fifth, void *out, u16 se);
 typedef struct {
     u8 pad0[0x32];
     u16 index;
@@ -41,7 +42,7 @@ void func_0220093C(Work *p)
     i = 0;
     q = p->queue;
     for (; i < 3; i++) {
-        func_02043B5C((u32)func_02045770((struct Descriptor *)p->win[i]), 1);
-        func_02200A7C(p->win[i], p->bank, 0, t[i], 0, q, 0x3dc1);
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[i])), 1);
+        func_02200A7C((void *)p->win[i], (void *)p->bank, 0, t[i], 0, q, 0x3dc1);
     }
 }

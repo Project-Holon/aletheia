@@ -15,9 +15,10 @@
  *   FATFSi_FormatDriveEx  0x02095AA4  arm
  */
 
-extern int func_02095AA4(char *path, int formatMedia);
+typedef unsigned int   u32;
+extern unsigned long long func_02095AA4(u32 a0, u32 *a1);
 
 int func_02095B2C(char *path)
 {
-    return func_02095AA4(path, 0);
+    return func_02095AA4((u32)path, 0);
 }

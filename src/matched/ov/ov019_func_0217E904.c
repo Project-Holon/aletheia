@@ -69,7 +69,8 @@ void func_0217422C(u8 *p, int a, int b);
 int func_02174268(u8 *w);
 void func_0217505C(u8 *p, int a);
 u32 func_0200FB24(void);
-void func_02012124(int a, int b);
+struct Ctx;
+void func_02012124(struct Ctx *p, u8 v);
 struct Entry;
 struct Entry *func_020399A8(void);
 struct Link;
@@ -149,7 +150,7 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
             return 0;
         if (func_0200FB24() != 0) {
             func_0217F074(w);
-            func_02012124((*(Sys **)w)->fc, 1);
+            func_02012124((struct Ctx *)((*(Sys **)w)->fc), 1);
             return 0;
         }
         func_02172D38(w);

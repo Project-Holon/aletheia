@@ -40,22 +40,24 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02012984(void *a);
+typedef unsigned char  u8;
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
 extern u32   func_02029E74(void *a, void *b);
-extern u32   func_02029E64(void *a, void *b, void *pri);
+extern u32 func_02029E64(void *unused, u32 id, u32 which);
 extern u32   func_02029E58(void *a);
 struct Sys;
 extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
 void func_02029CF0(void *sys, void *a, void *b)
 {
-    void *pri = func_02012984(a);
+    void *pri = (void *)func_02012984(a);
     u32 id = func_02029E74(a, b);
     u16 c;
     u16 v;
 
     if (id == 0xFFFFFFFF) {
-        id = func_02029E64(a, b, pri);
+        id = func_02029E64(a, (u32)b, (u32)pri);
     }
     if (func_02029E58(a) == 1) {
         c = 0x3C;

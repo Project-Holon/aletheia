@@ -31,7 +31,8 @@ typedef unsigned int u32;
 extern u32 func_021BD2F4(void *p);
 extern unsigned int func_02031330(void *p);
 extern void func_02031348(u32 h, void *id, void *proc, void *arg);
-extern u32 func_02008550(int);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_021BC4A4(int a, int b, int c);
 extern u8 ov204_id[];
 extern u8 ov194_id[];
@@ -54,7 +55,7 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
             *seq = 2;
         break;
     case 2:
-        *(u16 *)(*(char **)(w + 0x28) + 4) = func_02008550(*(int *)(w + 0x8));
+        *(u16 *)(*(char **)(w + 0x28) + 4) = func_02008550((const struct Sub0200852CObj *)(*(int *)(w + 0x8)));
         *(u32 *)(*(char **)(w + 0x28) + 0x24) = *(u32 *)(w + 0x2c);
         func_02031348(*(u32 *)(w + 0x30), ov194_id, d_021F5580, *(void **)(w + 0x28));
         *seq = 3;
@@ -65,7 +66,7 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
         break;
     case 4:
         func_021BC4A4(*(int *)(w + 0x54), *(int *)(*(char **)(w + 0x28) + 0x20),
-                      func_02008550(*(int *)(w + 0x54)));
+                      func_02008550((const struct Sub0200852CObj *)(*(int *)(w + 0x54))));
         *(u32 *)(w + 0x18) = 7;
         func_02031348(*(u32 *)(w + 0x30), ov204_id, d_021BFD24, w + 0x10);
         *seq = 6;

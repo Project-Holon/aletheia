@@ -23,7 +23,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02011330(void *);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern void *func_0215A5E4(void *a0);
 struct BigObj;
 extern void *func_02012B38(const struct BigObj *p);
@@ -31,7 +32,7 @@ extern void func_02014474(void *, void *);
 
 int func_021596E8(void *a0, void *a1)
 {
-    void *v = func_02011330(a0);
+    void *v = (void *)func_02011330(a0);
 
     func_02014474(func_02012B38(func_0215A5E4(a1)), v);
 

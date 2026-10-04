@@ -97,7 +97,7 @@ extern void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
 
 extern void sub_0201C808(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
 extern void sub_0201C8A4(struct PrintCtx *c, u16 v);
-extern void sub_0201C8BC(struct PrintCtx *c, void *s);
+extern void sub_0201C8BC(u8 *a0, int a1);
 
 void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
 
@@ -121,7 +121,7 @@ void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s)
     u32 need;
 
     if (busy == 0 && (((u32)((u8 *)p)[7] << 24) >> 28) == 0) {
-        sub_0201C8BC(c, s);
+        sub_0201C8BC((u8 *)c, (int)s);
         return;
     }
     need = func_0201D6B8(s);

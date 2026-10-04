@@ -59,13 +59,15 @@ extern u32 func_0201862C(u32 id, u16 species, u16 level, u8 a3, u8 a4, int a5);
 struct Mon;
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *mon, u32 field, u32 v);
-extern void func_021CC23C(void *mon);
-extern u32 func_021CC070(u16 a, u32 b);
-extern void func_02045808(u32 p);
+struct Personal;
+struct U16Vec;
+extern void func_021CC23C(int obj);
+extern void *func_021CC070(u32 file, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32 func_0201AE1C(u32 x, u32 field);
-extern void func_0201AE14(u32 x);
-extern u32 func_02012944(void *sys);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern void func_0201AE14(void *p);
+extern u8 *func_02012944(void *p);
 extern void func_0202F190(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_020185C4(void *mon);
 
@@ -79,10 +81,10 @@ void func_021CC098(void *sys, u16 b, void *mon, Spec *d)
     pid = func_0201862C(d->id, d->species, d->level, d->f30, 0, 0);
     func_02017588(mon, d->species, d->f0C, d->id, 0xFFFFFFFF, pid);
     func_02017E40(mon, 0x6F, d->level);
-    func_021CC23C(mon);
-    s = func_021CC070(b, d->f64);
+    func_021CC23C((int)mon);
+    s = (u32)func_021CC070(b, d->f64);
     func_02017E40(mon, 0x73, s);
-    func_02045808(s);
+    func_02045808((struct U16Vec *)s);
     func_02017E40(mon, 0x46, d->f10[0]);
     func_02017E40(mon, 0x47, d->f10[1]);
     func_02017E40(mon, 0x48, d->f10[2]);
@@ -90,10 +92,10 @@ void func_021CC098(void *sys, u16 b, void *mon, Spec *d)
     func_02017E40(mon, 0x4A, d->f10[4]);
     func_02017E40(mon, 0x4B, d->f10[5]);
     x = (u32)func_0201ADE4((u16)d->species, (u16)d->level, b);
-    v[0] = func_0201AE1C(x, 0x1A);
-    v[1] = func_0201AE1C(x, 0x1B);
-    v[2] = func_0201AE1C(x, 0x1C);
-    func_0201AE14(x);
+    v[0] = func_0201AE1C((const struct Personal *)x, 0x1A);
+    v[1] = func_0201AE1C((const struct Personal *)x, 0x1B);
+    v[2] = func_0201AE1C((const struct Personal *)x, 0x1C);
+    func_0201AE14((void *)x);
     switch (d->sel) {
     case 0:
         break;
@@ -112,12 +114,12 @@ void func_021CC098(void *sys, u16 b, void *mon, Spec *d)
     func_02017E40(mon, 0x16, d->f38[3]);
     func_02017E40(mon, 0x17, d->f38[4]);
     func_02017E40(mon, 0x6, d->f4C);
-    s = func_021CC070(b, d->f68);
+    s = (u32)func_021CC070(b, d->f68);
     func_02017E40(mon, 0x8D, s);
-    func_02045808(s);
+    func_02045808((struct U16Vec *)s);
     func_02017E40(mon, 0x9A, d->f50);
     func_02017E40(mon, 0xC, d->f58);
-    func_0202F190(mon, 1, func_02012944(sys), 0x7532, b);
-    func_021CC23C(mon);
+    func_0202F190(mon, 1, (u32)func_02012944(sys), 0x7532, b);
+    func_021CC23C((int)mon);
     func_020185C4(mon);
 }

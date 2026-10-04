@@ -49,7 +49,7 @@ typedef struct DWCstMatchControl {
     char *secretKey;
 } DWCstMatchControl;
 
-extern DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 struct qr2_implementation_s;
 extern int func_02195E60(const int *p);
 extern unsigned short func_02195E40(const unsigned short *p);
@@ -80,33 +80,33 @@ int func_0216CD8C(void)
     int i;
     int qr2Error;
 
-    if (func_02175F3C()->qr2 != 0)
+    if (((DWCstMatchControl *)func_02175F3C())->qr2 != 0)
         return 0;
     for (i = 0; i < 1; i++) {
-        qr2Error = func_0219AEB4(&func_02175F3C()->qr2,
-                                 func_02195E60(*func_02175F3C()->gt2Socket),
-                                 func_02195E40(*func_02175F3C()->gt2Socket),
-                                 func_02175F3C()->gameName,
-                                 func_02175F3C()->secretKey,
+        qr2Error = func_0219AEB4(&((DWCstMatchControl *)func_02175F3C())->qr2,
+                                 func_02195E60(*((DWCstMatchControl *)func_02175F3C())->gt2Socket),
+                                 func_02195E40(*((DWCstMatchControl *)func_02175F3C())->gt2Socket),
+                                 ((DWCstMatchControl *)func_02175F3C())->gameName,
+                                 ((DWCstMatchControl *)func_02175F3C())->secretKey,
                                  1, 1,
                                  func_02174AA0, func_02174C2C, func_02174C30,
                                  func_02174C34, func_02174CF0, func_02174CF8,
                                  0);
         if (qr2Error == 0)
             break;
-        func_0219B540(func_02175F3C()->qr2);
-        func_02175F3C()->qr2 = 0;
+        func_0219B540(((DWCstMatchControl *)func_02175F3C())->qr2);
+        ((DWCstMatchControl *)func_02175F3C())->qr2 = 0;
         if (qr2Error != 3 || i == 0) {
             func_02173E30(qr2Error);
             return qr2Error;
         }
     }
-    func_02175F3C()->qr2NNFinishCount = 0;
-    func_02175F3C()->qr2MatchType = 0;
-    func_0219B1AC(func_02175F3C()->qr2, func_02174D04);
-    func_0219B134(func_02175F3C()->qr2, func_02174D28);
-    func_0219B170(func_02175F3C()->qr2, func_02174ED0);
+    ((DWCstMatchControl *)func_02175F3C())->qr2NNFinishCount = 0;
+    ((DWCstMatchControl *)func_02175F3C())->qr2MatchType = 0;
+    func_0219B1AC(((DWCstMatchControl *)func_02175F3C())->qr2, func_02174D04);
+    func_0219B134(((DWCstMatchControl *)func_02175F3C())->qr2, func_02174D28);
+    func_0219B170(((DWCstMatchControl *)func_02175F3C())->qr2, func_02174ED0);
     func_02176ABC();
-    func_0219B490(func_02175F3C()->qr2);
+    func_0219B490(((DWCstMatchControl *)func_02175F3C())->qr2);
     return qr2Error;
 }

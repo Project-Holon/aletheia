@@ -66,7 +66,7 @@ extern void sub_020352DC(void);
 extern void sub_020360A8(void);
 extern void sub_02035A60(void);
 extern void sub_0203545C(void);
-extern void sub_020356A0(struct AreaCtx *p);
+extern void sub_020356A0(int a0);
 extern unsigned int sub_0203630C(void);
 extern void sub_02035544(u32 x);
 
@@ -78,7 +78,7 @@ void sub_02034EF8(struct AreaCtx *p)
     sub_020360A8();
     sub_02035A60();
     sub_0203545C();
-    sub_020356A0(p);
+    sub_020356A0((int)p);
 
     if ((sub_0203630C() & 0x30C) == 0x30C && p->inhibit == 0) {
         if (p->fn != 0) {

@@ -22,14 +22,14 @@ typedef unsigned int u32;
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
 extern void *func_02158F50(void *p);
-extern u32 func_021C0AA0(void *, void *);
-extern void func_0215897C(void *, u32);
+extern void *func_021C0AA0(void *p, int a1);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B2AB0(u32 a, u32 b)
 {
     void *d = func_0215A5DC((void *)b);
     void *s = func_0215A5F4((void *)b);
 
-    func_0215897C(s, func_021C0AA0(d, func_02158F50((void *)s)));
+    func_0215897C(s, func_021C0AA0(d, (int)func_02158F50((void *)s)));
     return 1;
 }

@@ -18,7 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-extern u8 *func_02011324(int);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern u32 func_0203F0A8(void);
 
 void func_021880BC(int a, u8 *b, int c)
@@ -27,7 +28,7 @@ void func_021880BC(int a, u8 *b, int c)
     int i;
     int z;
 
-    p = func_02011324(a);
+    p = func_02011324((struct ScriptVm *)a);
     p[0] = 0;
     *(u16 *)(p + 2) = 0;
     p[1] = 0;

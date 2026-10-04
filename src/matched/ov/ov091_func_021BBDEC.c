@@ -23,22 +23,25 @@ typedef struct {
     int flag;
 } S;
 
-extern int func_02045EC0(int, int);
-extern int func_02027FEC(int, void *, int, int, u8, u16);
-extern void func_02045808(int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern void func_02045808(struct U16Vec *vec);
 
 int func_021BBDEC(int p, int unused, int id, int r3, u8 a4, int a5)
 {
     S s;
     int r;
-    s.a = func_02045EC0(*(int *)(p + 0x134), id);
+    s.a = (int)func_02045EC0((struct MsgBank *)(*(int *)(p + 0x134)), id);
     s.b = 0x39e3;
     if (a5 == 0) {
         s.flag = 0;
     } else {
         s.flag = 1;
     }
-    r = func_02027FEC(*(int *)(p + 0x254), &s, r3, a4, 10, *(u16 *)p);
-    func_02045808(s.a);
+    r = func_02027FEC(*(int *)(p + 0x254), (u32)(&s), r3, a4, 10, *(u16 *)p);
+    func_02045808((struct U16Vec *)s.a);
     return r;
 }

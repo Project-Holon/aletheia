@@ -21,11 +21,13 @@
  *   func_02021540  0x02021540  thumb
  */
 
-extern void func_020215A0(int, int);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(int);
 
 void func_021DCDD8(int *p)
 {
-    func_020215A0(*(int *)(*(int *)((char *)p + 0x2c) + 0x6c), 0);
+    func_020215A0((struct PalAnmSlot *)(*(int *)(*(int *)((char *)p + 0x2c) + 0x6c)), 0);
     func_02021540(*(int *)(*(int *)((char *)p + 0x2c) + 0x6c));
 }

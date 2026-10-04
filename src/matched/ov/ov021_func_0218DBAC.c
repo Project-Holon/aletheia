@@ -20,12 +20,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02169848(void *out, u32 a, u32 b, u32 c);
+extern void func_02169848(void *a, u8 *b, u32 c, u32 d);
 
 int func_0218DBAC(u8 *a, int idx, u32 c, u8 *d)
 {
     u32 buf[0x41];
-    func_02169848(buf, *(u32 *)(*(u8 **)(a + 0x24) + idx * 0x28), c, *(u32 *)(a + 4));
+    func_02169848(buf, (u8 *)(*(u32 *)(*(u8 **)(a + 0x24) + idx * 0x28)), c, *(u32 *)(a + 4));
     *(u32 *)(d + 8) = buf[2];
     *(u32 *)(d + 0xc) = buf[3];
     return 1;

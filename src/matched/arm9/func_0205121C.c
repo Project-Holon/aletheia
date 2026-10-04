@@ -20,9 +20,9 @@
 
 typedef unsigned int u32;
 
-extern int func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 
 int func_0205121C(u32 a, u32 b, u32 c)
 {
-    return func_02048F60(a, b, (unsigned short)c);
+    return (int)func_02048F60(a, b, (unsigned short)c);
 }

@@ -39,7 +39,7 @@ int func_021B9434(int dir);
 int func_021B9404(int dir);
 int func_021B9278(const u32 *p, u32 b, u8 *t);
 int func_021B9280(const u32 *p, int a, int b, u8 *t);
-int func_021B8674(u8 *t, u32 *p, u32 *row);
+int func_021B8674(u8 *p, u32 *q, u32 v);
 
 void func_021B86A4(u8 *t, const u32 *q, int *out1, int *out2, u16 *a5, u32 a6)
 {
@@ -66,7 +66,7 @@ void func_021B86A4(u8 *t, const u32 *q, int *out1, int *out2, u16 *a5, u32 a6)
     }
     if (res2) {
         m = func_021B9278(res2, a6, t);
-        if (func_021B8674(t, res2, row))
+        if (func_021B8674(t, res2, (u32)row))
             r = func_021B9280(res2, 0, m, t);
         else
             r = func_021B9280(res2, m, m, t);
@@ -75,7 +75,7 @@ void func_021B86A4(u8 *t, const u32 *q, int *out1, int *out2, u16 *a5, u32 a6)
     }
     if (res3) {
         m = func_021B9278(res3, a6, t);
-        if (func_021B8674(t, res3, row))
+        if (func_021B8674(t, res3, (u32)row))
             r = func_021B9280(res3, 0, m, t);
         else
             r = func_021B9280(res3, m, m, t);

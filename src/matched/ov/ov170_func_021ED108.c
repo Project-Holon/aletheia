@@ -14,8 +14,11 @@
  *   func_0204B588 0x0204B588 arm
  */
 
-extern void func_0204B588(int, unsigned short *);
-extern void func_0204B570(int, int);
+typedef unsigned int   u32;
+struct Actor;
+struct Pt;
+extern void func_0204B588(struct Actor *actor, const struct Pt *src);
+extern void func_0204B570(struct Actor *actor, u32 value);
 
 #define HND(p) (*(int *)((p) + 0x9E9C))
 
@@ -23,14 +26,14 @@ void func_021ED108(char *p, int on)
 {
     unsigned short s[2];
     if (on == 1) {
-        func_0204B570(HND(p), 1);
+        func_0204B570((struct Actor *)HND(p), 1);
         s[0] = 0xC;
         s[1] = 0xC;
-        func_0204B588(HND(p), s);
+        func_0204B588((struct Actor *)HND(p), (const struct Pt *)s);
     } else {
         s[0] = 0;
         s[1] = 0;
-        func_0204B588(HND(p), s);
-        func_0204B570(HND(p), 0);
+        func_0204B588((struct Actor *)HND(p), (const struct Pt *)s);
+        func_0204B570((struct Actor *)HND(p), 0);
     }
 }

@@ -51,7 +51,8 @@ extern void func_021DD90C(char *,int,int,int),func_021D9468(void *,int,void *),f
 extern void func_0204A600(void),func_02027974(void *),func_02028178(u8 *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
+typedef unsigned short u16;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern void func_0201DE00(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32),func_020310C4(void *);
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -80,7 +81,7 @@ int func_021DCD38(int a,int b,int c,char *p)
     if(P(0x64c)) func_02027974(P(0x64c));
     if(P(0x648)) func_02028178(P(0x648));
     if(((Bits *)(p+0x11fb))->high) {
-        if(func_0203D3A8((unsigned)func_020399A8(),0xc17,0,0)) ((Bits *)(p+0x11fb))->high=0;
+        if(func_0203D3A8((struct Entry *)((unsigned)func_020399A8()),0xc17,0,0)) ((Bits *)(p+0x11fb))->high=0;
     }
     if(P(0x744)) {
         func_0201DE00(&rgb[2],&rgb[1],&rgb[0]);

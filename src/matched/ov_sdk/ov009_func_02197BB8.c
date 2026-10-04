@@ -15,10 +15,11 @@
  *   func_02197BD4  0x02197BD4  arm  ov009
  */
 
-extern void func_02197BD4(int a, int b, int c);
+struct Sock;
+extern int func_02197BD4(struct Sock *sock, unsigned int ip, unsigned short port);
 
 void func_02197BB8(int *p)
 {
-    func_02197BD4(p[2], p[0], *(unsigned short *)((char *)p + 4));
+    func_02197BD4((struct Sock *)p[2], p[0], *(unsigned short *)((char *)p + 4));
 }
 

@@ -20,7 +20,8 @@ typedef unsigned int   u32;
 
 extern u8 func_02021930(u32 val, int bit);
 extern void func_02021C20(void *dst0, void *dst1, void *src, u32 arg);
-extern void func_02021CA8(u8 *p, u8 idx, void *s);
+struct S;
+extern void func_02021CA8(u8 *p, u32 idx, struct S *s);
 
 struct S02021BC8 {
     u8  *p0;
@@ -45,5 +46,5 @@ void func_02021BC8(u8 *p, u32 idx, u32 arg)
         }
     }
 
-    func_02021CA8(p, (u8)idx, (u8 *)s + 0xc);
+    func_02021CA8(p, (u8)idx, (struct S *)((u8 *)s + 0xc));
 }

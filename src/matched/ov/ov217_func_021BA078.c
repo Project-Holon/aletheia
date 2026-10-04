@@ -27,13 +27,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BA150();
-extern u32 func_021BA37C();
+extern void func_021BA150(void *p);
+extern u32 func_021BA37C(void *p);
 extern u32 func_021BA384(void *p);
 void func_021BA078(u32 a0)
 {
     u32 v1 = func_021BA384((void *)a0);
-    if (v1 < func_021BA37C(a0)) {
-    func_021BA150(a0);
+    if (v1 < func_021BA37C((void *)a0)) {
+    func_021BA150((void *)a0);
     }
 }

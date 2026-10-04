@@ -9,10 +9,12 @@
  * status:   EXACT
  */
 typedef struct Bits { unsigned a:1; unsigned n:3; unsigned rest:28; } Bits;
-extern char **func_02030EE8(void *h);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 
 void func_022044A0(void *h)
 {
-    char *p = *func_02030EE8(h);
+    char *p = *((char **)func_02030EE8(h));
     ((Bits *)(p + 0x68))->n--;
 }

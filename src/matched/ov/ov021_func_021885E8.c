@@ -49,82 +49,84 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0218CA78(u32 a);
-extern void func_0216CD64(u32 a);
-extern void func_0219C624(u32 a);
-extern int func_0219C630(u32 a);
+struct BigObj;
+struct Obj;
+extern void func_0218CA78(char *p);
+extern int func_0216CD64(int a0);
+extern int func_0219C624(void *p);
+extern int func_0219C630(void *p);
 extern int func_021A1B50(u32 a);
-extern void func_021A1AF4(u32 a, u32 b);
+extern void func_021A1AF4(u8 *p, int x);
 extern void func_02189004(u8 *p);
 extern void func_02189084(u8 *p);
 extern void func_021890AC(u8 *p);
 extern void func_0204A600(void);
-extern void func_021903E0(u32 a);
+extern void func_021903E0(struct Obj *o);
 extern void func_021ABE04(u32 a);
-extern void func_021BB948(u32 a);
-extern void *func_02012B38(u32 a);
+extern void func_021BB948(u8 *p);
+extern void *func_02012B38(const struct BigObj *p);
 extern u8 func_02014460(void *o);
-extern int func_02189B04(u16 a);
+extern int func_02189B04(int x);
 extern int func_02005C64(void);
 extern u8 func_02014458(void *o);
-extern void func_02158AC8(u32 a, u16 b);
+extern void func_02158AC8(int a, int b);
 extern void func_02014454(void *o, u8 v);
-extern void func_02158AD4(u32 a, u16 b);
+extern void func_02158AD4(int a, int b);
 extern void func_0201445C(void *o, u8 v);
-extern int func_02013CC8(u16 a);
-extern int func_02013CE0(u16 a);
-extern int func_02188CF0(u8 *p);
-extern void func_0201209C(void *o, void *f, void *arg);
+extern u32 func_02013CC8(u32 id);
+extern u32 func_02013CE0(u32 id);
+extern int func_02188CF0(u32 a);
+extern void func_0201209C(void *o, u32 v1, u32 v2);
 extern void *func_020120F4(void *o);
-extern void func_020129DC(void *o, int v);
-extern void func_0218A0E4(void);
-extern void func_0218A240(void);
-extern void func_0218A4BC(void);
-extern void func_0218A074(void);
+extern void func_020129DC(struct BigObj *p, u8 v);
+extern int func_0218A0E4(void *sys, u8 *pos);
+extern int func_0218A240(void *p, unsigned char *pos);
+extern int func_0218A4BC(u32 a, u32 b, u32 c, u32 d);
+extern int func_0218A074(void *a, int b);
 
 int func_021885E8(void *a, u8 *p)
 {
     switch (p[0xC8]) {
     case 0:
-        func_0218CA78(*(u32 *)(p + 0x48));
+        func_0218CA78((char *)(*(u32 *)(p + 0x48)));
         if (*(u32 *)(p + 0x38) != 0) {
             do {
                 func_0216CD64(*(u32 *)(p + 0x38));
-                func_0219C624(*(u32 *)(p + 0x38));
-            } while (func_0219C630(*(u32 *)(p + 0x38)) == 1);
+                func_0219C624((void *)(*(u32 *)(p + 0x38)));
+            } while (func_0219C630((void *)(*(u32 *)(p + 0x38))) == 1);
         }
         while (func_021A1B50(*(u32 *)(p + 0x20)) != 0)
-            func_021A1AF4(*(u32 *)(p + 0x20), 0x92);
+            func_021A1AF4((u8 *)(*(u32 *)(p + 0x20)), 0x92);
         func_02189004(p);
         func_02189084(p);
         func_021890AC(p);
         func_0204A600();
         if (*(u32 *)(p + 0x28) != 0)
-            func_021903E0(*(u32 *)(p + 0x28));
+            func_021903E0((struct Obj *)(*(u32 *)(p + 0x28)));
         func_021ABE04(*(u32 *)(p + 0x94));
-        func_021BB948(*(u32 *)(p + 0xBC));
+        func_021BB948((u8 *)(*(u32 *)(p + 0xBC)));
         p[0xC8]++;
     case 1:
-        if (func_02014460(func_02012B38(*(u32 *)(p + 8))) == 1
+        if (func_02014460(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8)))) == 1
             && func_02189B04(*(u16 *)(p + 0xD0)) == 1
             && func_02005C64() != 0)
             return 0;
-        if (func_02014458(func_02012B38(*(u32 *)(p + 8))) != 0) {
+        if (func_02014458(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8)))) != 0) {
             func_02158AC8(*(u32 *)(p + 4), *(u16 *)p);
-            func_02014454(func_02012B38(*(u32 *)(p + 8)), 0);
+            func_02014454(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8))), 0);
         } else {
             func_02158AD4(*(u32 *)(p + 4), *(u16 *)p);
         }
-        func_0201445C(func_02012B38(*(u32 *)(p + 8)), 0);
-        func_0218CA78(*(u32 *)(p + 0x48));
+        func_0201445C(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8))), 0);
+        func_0218CA78((char *)(*(u32 *)(p + 0x48)));
         if (func_02013CC8(*(u16 *)(p + 0xD0)) == 1 || func_02013CE0(*(u16 *)(p + 0xD0)) == 1)
-            func_0201209C(a, func_0218A0E4, p);
-        else if (func_02188CF0(p) == 1)
-            func_0201209C(a, func_0218A240, p);
-        else if (func_02188CF0(p) == 2)
-            func_0201209C(a, func_0218A4BC, p);
+            func_0201209C(a, (u32)func_0218A0E4, (u32)p);
+        else if (func_02188CF0((u32)p) == 1)
+            func_0201209C(a, (u32)func_0218A240, (u32)p);
+        else if (func_02188CF0((u32)p) == 2)
+            func_0201209C(a, (u32)func_0218A4BC, (u32)p);
         else
-            func_0201209C(a, func_0218A074, p);
+            func_0201209C(a, (u32)func_0218A074, (u32)p);
         *(u32 *)(p + 0xC0) = 1;
         func_020129DC(func_020120F4(a), 1);
         break;

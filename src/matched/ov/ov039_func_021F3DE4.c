@@ -16,5 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021BE4C4(void *p, u32 i, int delta);
-extern int func_02047828(int h, u32 i, int *out);
-int func_021F3DE4(void *p, u8 delta, u16 i) { int v = 0; func_02047828(func_021BE4C4(p, 0, delta), i, &v); return v; }
+typedef signed int     s32;
+struct AnmCtl;
+extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
+int func_021F3DE4(void *p, u8 delta, u16 i) { int v = 0; func_02047828((struct AnmCtl *)func_021BE4C4(p, 0, delta), i, &v); return v; }

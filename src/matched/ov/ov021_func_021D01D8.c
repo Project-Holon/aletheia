@@ -18,9 +18,11 @@
 
 typedef unsigned int u32;
 
-extern void func_02047504(u32 a);
-extern void func_020470D0(u32 a);
-extern void func_02046EFC(u32 a);
+struct Rec;
+struct Tagged;
+extern void func_02047504(struct Rec *p);
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_021D01D8(u32 *p)
 {
@@ -28,14 +30,14 @@ void func_021D01D8(u32 *p)
 
     for (i = 0; i < 8; i++) {
         if (p[1 + i] != 0) {
-            func_02047504(p[13 + i]);
-            func_020470D0(p[1 + i]);
-            func_02046EFC(p[1 + i]);
+            func_02047504((struct Rec *)p[13 + i]);
+            func_020470D0((u32 *)p[1 + i]);
+            func_02046EFC((struct Tagged *)p[1 + i]);
         }
     }
     for (i = 0; i < 4; i++) {
         if (p[9 + i] != 0) {
-            func_02046EFC(p[9 + i]);
+            func_02046EFC((struct Tagged *)p[9 + i]);
         }
     }
 }

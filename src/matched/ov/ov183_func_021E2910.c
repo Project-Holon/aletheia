@@ -32,10 +32,11 @@ extern int func_021FE7B0(int *);
 extern u32 func_02035D20(u32 *,u32 *);
 extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,Pair *);
-extern void func_021E2E48(char *,char *,char *);
+extern void func_021E2E48(char *p, int a, int b);
 extern void func_021FD73C(int *,int);
 extern int func_021FD744(int);
-extern void func_021E2C2C(void),func_021E2AE0(void);
+extern void func_021E2C2C(void);
+extern void func_021E2AE0(int *task, unsigned *state, char *p);
 void func_021E2910(int task,int *state,char *p) {
     u32 x,y;
     Pair first,second,cb;
@@ -69,12 +70,12 @@ void func_021E2910(int task,int *state,char *p) {
     }
     case 4: func_021FE784(**(int **)(p+0x3c),2,3,1); *state=5; break;
     case 5: if(func_021FE7B0((int *)**(int **)(p+0x3c))) *state=6; break;
-    case 6: func_021E2E48(p+0x4c,p,*(char **)(p+0x3c)); func_021FD73C(*(int **)(p+12),(int)func_021E2C2C); break;
+    case 6: func_021E2E48(p+0x4c,(int)p,(int)(*(char **)(p+0x3c))); func_021FD73C(*(int **)(p+12),(int)func_021E2C2C); break;
     case 7: func_021FE784(**(int **)(p+0x3c),2,3,1); ++*state; break;
     case 8: if(func_021FE7B0((int *)**(int **)(p+0x3c))) ++*state; break;
-    case 9: func_021E2E48(p+0x4c,p,*(char **)(p+0x3c)); func_021FD73C(*(int **)(p+12),(int)func_021E2AE0); break;
+    case 9: func_021E2E48(p+0x4c,(int)p,(int)(*(char **)(p+0x3c))); func_021FD73C(*(int **)(p+12),(int)func_021E2AE0); break;
     case 10: func_021FE784(**(int **)(p+0x3c),2,3,1); *state=11; break;
     case 11: if(func_021FE7B0((int *)**(int **)(p+0x3c))) *state=12; break;
-    case 12: func_021E2E48(p+0x4c,p,*(char **)(p+0x3c)); func_021FD744(task); break;
+    case 12: func_021E2E48(p+0x4c,(int)p,(int)(*(char **)(p+0x3c))); func_021FD744(task); break;
     }
 }

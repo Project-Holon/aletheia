@@ -31,14 +31,17 @@ typedef unsigned short u16;
 extern void *func_0215A5F4(void *p);
 struct Stream;
 extern u16 func_02011330(struct Stream *s);
-extern int func_021B162C(int, void *, int);
-extern int *func_02158F58(void *);
-extern int func_0219270C(int, int, int);
-extern int func_0219272C(int, int, int);
-extern int func_02192570(int, int, int, int, int, int);
-extern void func_0215A614(int, int);
-extern void func_0219269C(int, int, int, int);
-extern void func_020113D0(void *, int (*)(int, int, int, int));
+typedef unsigned int   u32;
+struct Q;
+struct T;
+extern u32 func_021B162C(u32 a, u32 b, u32 c);
+extern int func_02158F58(int a0);
+extern u32 func_0219270C(struct Q *q, int a, int n);
+extern u32 func_0219272C(u16 *a, u32 b, u32 c);
+extern u32 *func_02192570(u16 *a, u32 b, u32 c, u16 d, u16 e, u16 f);
+extern void func_0215A614(u8 *p, u32 v);
+extern void func_0219269C(struct T *t, u16 b, u16 c, u32 d);
+extern void func_020113D0(char *p, int val);
 extern void func_02159144(int);
 extern int func_021B1424(int, int, int, int);
 
@@ -58,16 +61,16 @@ int func_021B143C(void *a, int b)
     s2 = **pp;
     (*pp)++;
     k = func_02011330(a);
-    n = func_021B162C(b, o, s0);
-    q = func_02158F58(o);
-    h0 = func_0219270C(*q, n, 4);
-    h1 = func_0219272C(*q, n, 4);
+    n = func_021B162C(b, (u32)o, s0);
+    q = (int *)func_02158F58((int)o);
+    h0 = func_0219270C((struct Q *)(*q), n, 4);
+    h1 = func_0219272C((u16 *)(*q), n, 4);
     {
-        int m = func_02192570(*q, k, s1, s2, h0, h1);
-        func_0215A614(b, m);
-        func_0219269C(m, 4, 4, n);
+        int m = (int)func_02192570((u16 *)(*q), k, s1, s2, h0, h1);
+        func_0215A614((u8 *)b, m);
+        func_0219269C((struct T *)m, 4, 4, n);
     }
-    func_020113D0(a, func_021B1424);
+    func_020113D0(a, (int)func_021B1424);
     func_02159144(6);
     return 1;
 }

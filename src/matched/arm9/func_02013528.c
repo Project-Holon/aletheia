@@ -36,7 +36,7 @@ extern void func_020130C4(u8 *p);
 extern void func_0201320C(u32 *a);
 extern void func_02013360(u8 *o, void *a1, const void *a2);
 extern void func_0201333C(void *a, void *b, u16 c);
-extern u32  func_0200846C(u16 a);
+extern void *func_0200846C(int a0);
 extern u32  func_0201A920(u16 a);
 
 void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
@@ -63,7 +63,7 @@ void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
         if (i != 0) {
             u8 *e = o + i * 4;
             if (*(u32 *)(e + 0x34) == 0)
-                *(u32 *)(e + 0x34) = func_0200846C(a7);
+                *(u32 *)(e + 0x34) = (u32)func_0200846C(a7);
             if (*(u32 *)(e + 0x24) == 0)
                 *(u32 *)(e + 0x24) = func_0201A920(a7);
         }

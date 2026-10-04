@@ -15,7 +15,8 @@
  */
 typedef unsigned int u32;
 
-extern void func_0220B0F8(u32 a, u32 b);
+typedef unsigned char  u8;
+extern void func_0220B0F8(u8 *p, u32 v);
 extern void func_020307B0(void *p);
 
 void func_0220B144(u32 *p, u32 a)
@@ -24,7 +25,7 @@ void func_0220B144(u32 *p, u32 a)
     case 0:
         break;
     case 1:
-        func_0220B0F8(a, 1);
+        func_0220B0F8((u8 *)a, 1);
         break;
     }
     func_020307B0(p);

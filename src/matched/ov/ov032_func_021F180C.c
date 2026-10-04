@@ -25,9 +25,11 @@ typedef unsigned short u16;
 extern int func_02165E24(int a);
 extern void func_02165FCC(int a, int b, u16 c);
 extern void func_02165374(unsigned a0);
-extern unsigned func_0200C1C8(int a);
+typedef unsigned int   u32;
+struct Blk34;
+extern u32 func_0200C1C8(struct Blk34 *p);
 extern void func_021F18C4(char *this, int a);
-extern int func_021F199C(char *this, int a, int b);
+extern int func_021F199C(char *p, void *x, int flag);
 extern void func_021F1888(char *this, int a);
 
 int func_021F180C(char *this, int x, int flag)
@@ -44,11 +46,11 @@ int func_021F180C(char *this, int x, int flag)
     case 1:
         return 0;
     case 0x12:
-        return func_021F199C(this, x, 0);
+        return func_021F199C(this, (void *)x, 0);
     case 0x32:
-        return func_021F199C(this, x, 1);
+        return func_021F199C(this, (void *)x, 1);
     case 0x18:
-        func_02165374(func_0200C1C8(*(int *)(this + 0x14)));
+        func_02165374(func_0200C1C8((struct Blk34 *)(*(int *)(this + 0x14))));
         break;
     }
     func_021F1888(this, x);

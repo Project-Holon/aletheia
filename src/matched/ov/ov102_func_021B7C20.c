@@ -19,18 +19,22 @@
 typedef unsigned short u16;
 extern void func_02082BCC(void *,int,unsigned);
 extern void func_0201DD60(void);
-extern unsigned func_0201D7EC(int,int,int,int,unsigned);
-extern unsigned func_0201C440(unsigned);
-extern unsigned func_02045B38(unsigned,unsigned,unsigned,unsigned);
-extern unsigned func_0201EC64(unsigned);
+typedef unsigned int   u32;
+struct GfFont;
+struct MsgBank;
+struct WordSet;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern u32 func_0201C440(void *p);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 void func_021B7C20(unsigned *p,u16 heap) {
  func_02082BCC(p,0,0x10);
  func_0201DD60();
- p[0]=func_0201D7EC(0x17,0,0,0,heap);
- p[2]=func_0201C440(heap);
- p[1]=func_02045B38(0,2,0x31,heap);
- p[3]=func_0201EC64(heap);
+ p[0]=(unsigned int)func_0201D7EC(0x17,0,0,0,heap);
+ p[2]=func_0201C440((void *)heap);
+ p[1]=(unsigned int)func_02045B38(0,2,0x31,heap);
+ p[3]=(unsigned int)func_0201EC64(heap);
  func_02049B40(0x17,5,4,0,0x20,heap);
  func_02049B40(0x17,5,0,0,0x20,heap);
 }

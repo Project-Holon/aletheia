@@ -25,17 +25,18 @@ typedef struct {
     int f40;
 } R;
 
-extern int func_021BE8D4(int a, int b, int c, int d);
-extern void func_02012374(int a, int b);
+struct Evt;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_021A8324(int a, R **r)
 {
     R *p = *r;
     int t;
     if (p->f40 != 0) {
-        t = func_021BE8D4(p->f4, p->fc, 0, 0);
+        t = func_021BE8D4((void *)p->f4, p->fc, 0, 0);
     } else {
-        t = func_021BE8D4(p->f4, p->fc, p->f38, 0);
+        t = func_021BE8D4((void *)p->f4, p->fc, p->f38, 0);
     }
-    func_02012374(a, t);
+    func_02012374((struct Evt *)a, (struct Evt **)t);
 }

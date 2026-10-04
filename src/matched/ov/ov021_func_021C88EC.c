@@ -26,8 +26,10 @@ struct Big;
 extern void *func_020120F4(const struct Ctx *p);
 extern unsigned char *func_02012ED0(struct Big *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern int func_02011330(int a);
-extern void func_021C87D4(int p, int i, int v);
+typedef unsigned short u16;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern void func_021C87D4(char *p, int i, int v);
 
 int func_021C88EC(int a, int b)
 {
@@ -39,8 +41,8 @@ int func_021C88EC(int a, int b)
     func_0215A5F4((void *)b);
     r7 = (int *)func_02012ED0(func_020120F4(func_0215A5DC((void *)b)));
     sp = (int)func_02159B10((void *)a, (void *)b);
-    r5 = func_02011330(a);
-    func_02011330(a);
+    r5 = func_02011330((struct Stream *)a);
+    func_02011330((struct Stream *)a);
     v = (int)func_02159B10((void *)a, (void *)b);
     switch (r5) {
     case 0:
@@ -53,7 +55,7 @@ int func_021C88EC(int a, int b)
     case 7:
         break;
     case 8:
-        func_021C87D4(*r7, sp, v == 1);
+        func_021C87D4((char *)(*r7), sp, v == 1);
         break;
     }
     return 0;

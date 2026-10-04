@@ -55,7 +55,9 @@ typedef struct {
 } W;
 
 extern int func_0202D034(u32 a, u32 b);
-extern int func_0204B898(int h);
+typedef unsigned short u16;
+struct Obj;
+extern u16 func_0204B898(struct Obj *p);
 
 int func_02208958(W *w, int i, int *o1, int *o2)
 {
@@ -65,7 +67,7 @@ int func_02208958(W *w, int i, int *o1, int *o2)
         return 0;
     }
     *o1 = func_0202D034(w->r[i].f48, w->r[i].f4c);
-    *o2 = func_0204B898(w->r[i].h14);
+    *o2 = func_0204B898((struct Obj *)w->r[i].h14);
     if (*o2 == 0)
         *o2 = 8;
     return 1;

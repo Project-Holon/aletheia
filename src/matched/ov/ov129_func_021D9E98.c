@@ -13,14 +13,17 @@
  */
 typedef unsigned short u16;
 typedef struct { u16 x,y; } Pair;
-extern void func_0204B404(int,void *,int);
-extern void func_0204B8C4(int,int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B8C4(struct Obj *p, u32 value);
 void func_021D9E98(char *p,int i)
 {
     Pair s;
     unsigned char *q = (unsigned char *)p + (i+12)*4;
     s.x = (q[0x29a] + q[0x29b])/2;
     s.y = (q[0x298] + q[0x299])/2;
-    func_0204B404(*(int *)(p+0x1b0),&s,0);
-    func_0204B8C4(*(int *)(p+0x1b0),0);
+    func_0204B404((struct Obj *)(*(int *)(p+0x1b0)),(const struct Vec2 *)(&s),0);
+    func_0204B8C4((struct Obj *)(*(int *)(p+0x1b0)),0);
 }

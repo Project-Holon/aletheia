@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_020056EC(u32 v);
-extern void func_02191870(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+struct Fx;
+extern void func_02191870(struct Fx *a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h);
 
 void func_021F4530(u16 *p, u32 a, u32 b, u32 c, u32 d)
 {
@@ -28,5 +29,5 @@ void func_021F4530(u16 *p, u32 a, u32 b, u32 c, u32 d)
 
     p[0] = 1;
     p[3] = 0;
-    func_02191870(a, b, c + r % d, p[2], ((u8 *)p)[2], ((u8 *)p)[3], 8, 2);
+    func_02191870((struct Fx *)a, b, c + r % d, p[2], ((u8 *)p)[2], ((u8 *)p)[3], 8, 2);
 }

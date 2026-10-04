@@ -30,7 +30,7 @@ struct Ctx;
 struct Obj;
 void *func_020124E4(struct Obj *p);
 u32 func_02012138(const struct Ctx *p);
-u8 *func_02158344(int a0);
+int func_02158344(int a0);
 void func_0217F2B4(void *a0, void *a1);
 int func_0217F5A0(void *p);
 void func_0217F4A0(void **p, unsigned int index, int a, int b);
@@ -46,7 +46,7 @@ int func_0217F95C(void *a0, int *state, void *a2)
     struct Desc *r;
 
     h = func_020124E4(a0);
-    w = func_02158344(func_02012138(h));
+    w = (u8 *)func_02158344(func_02012138(h));
     if (w == 0 && *state < 3) {
         *state = 3;
     }

@@ -62,7 +62,7 @@ extern void *func_021BDC94(void *p);
 extern void func_021A811C(void *p, void *q);
 extern void func_021A8214(Work *w);
 extern void func_021A7EB4(Work *w);
-extern int func_02162370(void *p);
+extern int func_02162370(int a);
 extern int func_021A7F38(void *task, int *state, struct Work *w);
 
 void *func_021A7E3C(Args *a)
@@ -85,7 +85,7 @@ void *func_021A7E3C(Args *a)
     func_021A811C(a->f0C, (u8 *)w + 0x1C);
     func_021A8214(w);
     func_021A7EB4(w);
-    if (func_02162370(a->f10) != 0) {
+    if (func_02162370((int)a->f10) != 0) {
         w->f38 = 1;
     } else {
         w->f38 = 0;

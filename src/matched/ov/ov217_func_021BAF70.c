@@ -49,7 +49,7 @@ extern void func_021BC600(void *p);
 extern void func_021BC608(void *p);
 extern u32 func_021BC6D0(void *p);
 extern int func_021BC6DC(void *p);
-extern void func_021BBAD0(void *p);
+extern void func_021BBAD0(u32 a0);
 extern void func_021BB934(void *p, int v);
 extern void func_021BB91C(void *p);
 extern void func_021BB910(void *p, int v);
@@ -58,11 +58,11 @@ extern void func_021BBDAC(void *p);
 extern void func_021BBD40(void *p, int v);
 extern void func_021BC580(char *p, int i);
 extern void func_021BC6EC(void *p, u8 v);
-extern int func_021BC6F4(void *p, u8 v);
+extern u32 func_021BC6F4(u32 a0, u32 a1);
 extern void func_021BBAA4(void *p, u8 v);
 extern int func_021BC06C(char *p);
 extern int func_021BC428(void *p);
-extern void func_021BC0E8(void *p);
+extern u32 func_021BC0E8(u32 a0);
 
 void func_021BAF70(char *p)
 {
@@ -81,7 +81,7 @@ void func_021BAF70(char *p)
     }
     if (func_021BC6D0(p) != 0 || flag == 0) {
         func_020061E4(0x551);
-        func_021BBAD0(p);
+        func_021BBAD0((u32)p);
         func_021BB934(p, 1);
         func_021BB91C(p);
         func_021BB910(p, 6);
@@ -112,7 +112,7 @@ void func_021BAF70(char *p)
         return;
     }
     if (sel >= 0 && sel <= 9) {
-        if (b >= 0x18 && b <= 0xa8 && func_021BC6F4(p, (u8)sel) == 1) {
+        if (b >= 0x18 && b <= 0xa8 && func_021BC6F4((u32)p, (u8)sel) == 1) {
             func_021BBAA4(p, (u8)sel);
             func_021BC6EC(p, *(u8 *)(p + 0x32));
             func_021BC580(p, 2);
@@ -125,7 +125,7 @@ void func_021BAF70(char *p)
     }
     if (keys & 2) {
         func_020061E4(0x551);
-        func_021BBAD0(p);
+        func_021BBAD0((u32)p);
         func_021BB934(p, 0);
         func_021BB91C(p);
         func_021BB910(p, 6);
@@ -134,7 +134,7 @@ void func_021BAF70(char *p)
     if (func_02035BA4(p + 0x90) == 0 || func_02035C08(p + 0x90) == 0) {
         if (func_021BC428(p) == 1) {
             func_021BBDAC(p);
-            func_021BC0E8(p);
+            func_021BC0E8((u32)p);
             func_021BB91C(p);
             func_021BB910(p, 4);
             func_021BB910(p, 1);

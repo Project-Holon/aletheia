@@ -18,11 +18,11 @@
 
 typedef unsigned long u32;
 
-extern void func_021E8AA0(u32 sys, void *fn);
+extern void func_021E8AA0(int *p, int v);
 
 void func_021D9A1C(char *obj, void *fn)
 {
-    func_021E8AA0(*(u32 *)(obj + 0x3c), fn);
+    func_021E8AA0((int *)(*(u32 *)(obj + 0x3c)), (int)fn);
     *(u32 *)(obj + 0x40) = 0xFFFF;
 }
 

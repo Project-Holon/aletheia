@@ -64,9 +64,12 @@
 typedef unsigned int u32;
 
 extern int func_02035C38(void);
-extern void func_020355D8(int v);
+typedef unsigned char  u8;
+struct MsgBank;
+struct S;
+extern void func_020355D8(u8 v);
 extern unsigned int func_0203630C(void);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern int func_021E4E0C(char *p, int *out);
@@ -82,33 +85,33 @@ extern void func_021DB52C(char *p);
 extern void func_021DF7F0(char *p);
 extern int func_021D8AF4(int v, char *p);
 extern int func_021D8B0C(int a, int b);
-extern int func_021D8DD0(int a, int b, int c, char *p);
-extern int func_02017E88(int e, int a, int b);
+extern void *func_021D8DD0(void *a, int b, int c, char *p);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021DD0CC(char *p, int e);
-extern void func_02045CAC(int a, int b, int c);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E0FF4(char *p, int a, int b);
 extern void func_021D8E84(void *p, int next);
-extern void func_021DA064(void);
+extern void func_021DA064(char *p);
 extern int func_021D8AA8(char *p);
 extern int func_021DD34C(char *p, int a, int b);
 extern void func_020061E4(int se);
-extern void func_021DF708(void);
+extern void func_021DF708(void *p);
 extern void func_021E4A1C(char *p);
-extern void func_021DBDB4(char *p);
+extern int func_021DBDB4(char *p);
 extern int func_021D9F24(char *p, int v);
 extern int func_021D9548(char *p, int a, int b);
 extern void func_021D8C6C(char *p);
-extern void func_021DA0CC(void);
+extern void func_021DA0CC(char *p);
 extern void func_021E6544(char *p);
-extern void func_021DBD3C(void);
+extern void func_021DBD3C(char *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_021DB89C(char *p);
-extern void func_021DC2B0(void);
-extern void func_021B6558(int a, int b, int c);
-extern void func_021B6548(int a, int b, int c);
-extern void func_021B63D0(int a);
-extern int func_021B6470(int a);
+extern void func_021DC2B0(char *p);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern int func_021B6548(unsigned char *p, unsigned int id, int v);
+extern void func_021B63D0(struct S *p);
+extern int func_021B6470(u8 *p);
 
 #define I(p, o) (*(int *)((p) + (o)))
 #define H(p, o) (*(short *)((p) + (o)))
@@ -197,10 +200,10 @@ void func_021DBE70(char *p)
             } else if (I(p, 0xF78) >= 5)
                 I(p, 0xF78) = 0;
         }
-        e = func_021D8DD0(I(p, 0x828), func_021D8AF4(I(p, 0xF74), p), func_021D8B0C(I(p, 0xF74), I(p, 0xF78)), p);
-        if (e && func_02017E88(e, 0xA9, 0)) {
+        e = (int)func_021D8DD0((void *)I(p, 0x828), func_021D8AF4(I(p, 0xF74), p), func_021D8B0C(I(p, 0xF74), I(p, 0xF78)), p);
+        if (e && func_02017E88((void *)e, 0xA9, 0)) {
             if (func_021DD0CC(p, e)) {
-                func_02045CAC(I(p, 0x720), 0x8E, I(p, 0x738));
+                func_02045CAC((struct MsgBank *)I(p, 0x720), 0x8E, (void *)I(p, 0x738));
                 func_021E0FF4(p, 1, 0);
                 func_021D8E84(p, (int)func_021DA064);
                 return;
@@ -213,7 +216,7 @@ void func_021DBE70(char *p)
                 func_021D8E84(p, (int)func_021DF708);
                 return;
             }
-            func_021D8DD0(I(p, 0x828), I(p, 0xF98), I(p, 0xF94), p);
+            func_021D8DD0((void *)I(p, 0x828), I(p, 0xF98), I(p, 0xF94), p);
             func_021D8C84(p);
             func_021E4A1C(p);
             func_021DBDB4(p);
@@ -245,8 +248,8 @@ void func_021DBE70(char *p)
                 I(p, 0xF84) = I(p, 0xF7C);
                 I(p, 0xF88) = I(p, 0xF80);
                 I(p, 0xF60) = 0;
-                func_021B6558(I(p, 0x9C0), 8, 1);
-                func_021B6548(I(p, 0x9C0), 8, 1);
+                func_021B6558((unsigned char *)I(p, 0x9C0), 8, 1);
+                func_021B6548((unsigned char *)I(p, 0x9C0), 8, 1);
                 func_021E6544(p);
                 func_020061E4(0x72A);
                 func_021D8E84(p, (int)func_021DBD3C);
@@ -271,8 +274,8 @@ void func_021DBE70(char *p)
         func_021DB89C(p);
         if (func_02035C38())
             I(p, 0x1088) = 1;
-        func_021B63D0(I(p, 0x9C0));
-        switch (func_021B6470(I(p, 0x9C0))) {
+        func_021B63D0((struct S *)I(p, 0x9C0));
+        switch (func_021B6470((u8 *)I(p, 0x9C0))) {
         case 1:
         case 7:
         case 8:

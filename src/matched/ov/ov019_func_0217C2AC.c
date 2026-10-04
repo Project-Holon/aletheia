@@ -78,7 +78,8 @@ void func_0217F378(void *p);
 int func_0217F380(void *ctx, int a);
 int func_0217B8E4(Ctx *ctx, int v);
 void *func_02012934(const struct BigObj *p);
-void func_020120F4(int a);
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
 int func_0201AA1C(void *a);
 int func_0201AAD4(void *a);
 u32 func_0201AA88(void *p);
@@ -124,7 +125,7 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
             return 1;
         }
         if (r == 0x18) {
-            func_020120F4(ctx->sys->fc);
+            func_020120F4((const struct Ctx *)ctx->sys->fc);
             if (func_0201AA1C(h) < 2) {
                 func_0217F210(ctx, a2, func_0217ECA0(obj->f14->flag));
                 *state = 4;

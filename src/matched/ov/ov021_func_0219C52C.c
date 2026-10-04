@@ -21,15 +21,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02050330(u32, u32);
-extern u32 func_02050080(u32);
+extern u16 func_02050330(u8 *p, int i);
+extern u32 func_02050080(u32 *p);
 extern void func_02050304(u32, u32);
-extern void func_0204F214(u32, u32);
+extern void func_0204F214(u8 *a0, int i);
 
 void func_0219C52C(u32 a, u32 b)
 {
-    u32 x = func_02050330(a, b);
-    u32 y = func_02050080(a);
+    u32 x = func_02050330((u8 *)a, b);
+    u32 y = func_02050080((u32 *)a);
     func_02050304(a, b);
-    func_0204F214(y, x);
+    func_0204F214((u8 *)y, x);
 }

@@ -21,14 +21,14 @@
 typedef unsigned char  u8;
 typedef unsigned long  u32;
 
-extern u8 *func_02020D0C(void *p);
+extern u32 func_02020D0C(u8 *p);
 extern int func_021C27E0(void *a);
 struct Obj;
 extern void func_02020268(struct Obj *obj, u8 a, u8 b, u8 c);
 
 void func_021BABDC(void *obj, int k)
 {
-    u8 *w = func_02020D0C(obj);
+    u8 *w = (u8 *)func_02020D0C(obj);
 
     if (func_021C27E0(*(void **)(w + 8)) == 0) {
         switch (k) {

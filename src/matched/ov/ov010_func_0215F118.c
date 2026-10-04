@@ -29,9 +29,11 @@ typedef struct Area {
     u16 h;              /* 0x06 */
 } Area;
 
-extern u32 func_02188C80(void *p);
-extern void *func_020120F4(u32 v);
-extern void *func_0201296C(void *p);
+struct BigObj;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 typedef signed int     s32;
 extern u32 func_020142E8(void *bitmap, s32 id);
 
@@ -40,7 +42,7 @@ int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field)
     int dx;
     int dz;
 
-    if (func_020142E8(func_0201296C(func_020120F4(func_02188C80(field))), flag) != 0)
+    if (func_020142E8((void *)func_0201296C(func_020120F4(func_02188C80(field))), flag) != 0)
         return 0;
     dx = a->x - x;
     dz = a->z - z;

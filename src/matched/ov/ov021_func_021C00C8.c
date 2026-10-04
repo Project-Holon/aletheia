@@ -23,7 +23,9 @@
  * which keeps r0 live across the switch and puts the dispatch index in r1.
  */
 
-extern void *func_02188D38(void *o);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02188D38(u8 *p);
 extern void func_021C0140(void **q);
 extern void func_021C017C(void **q);
 extern void *func_021C01F8(void **q);
@@ -38,7 +40,7 @@ int func_021C00C8(void *task, int *state, void **q)
     void *d;
     int t;
 
-    d = func_02188D38(q[1]);
+    d = (void *)func_02188D38(q[1]);
 
     switch (*state) {
     case 0:

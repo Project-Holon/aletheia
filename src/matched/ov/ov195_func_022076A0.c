@@ -80,7 +80,8 @@ typedef struct Owner {
 
 extern void func_02207868(Grid *g, u16 heap);
 extern int func_022083DC(Grid *g, u16 heap);
-extern void func_022083EC(Grid *g, u16 heap);
+struct Fade;
+extern void func_022083EC(struct Fade *p, int x);
 extern void func_02208420(Grid *g, u16 heap);
 extern void func_0220851C(Quad *q, u16 heap);
 
@@ -153,8 +154,8 @@ void func_022076A0(Owner *o)
     d = w->prev;
     d->state = s->state;
     if (func_022083DC(s, heap)) {
-        func_022083EC(s, heap);
-        func_022083EC(d, heap);
+        func_022083EC((struct Fade *)s, heap);
+        func_022083EC((struct Fade *)d, heap);
     }
     func_02208420(s, heap);
     if (w->quad != 0) {

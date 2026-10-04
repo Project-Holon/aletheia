@@ -17,6 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Rec;
 extern void func_021B709C(u8 *);
-extern void func_02045808(u32);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *);
-void func_02205580(void *unused,char *p) {func_021B709C(*(u8 **)(p+0x9C));*(u32 *)(p+0x9C)=0;if(*(u32 *)(p+0x94))func_02045808(*(u32 *)(p+0x94));if(*(u32 *)(p+0x98))func_02045808(*(u32 *)(p+0x98));func_02045C04(*(struct Rec **)(p+0x90));}
+void func_02205580(void *unused,char *p) {func_021B709C(*(u8 **)(p+0x9C));*(u32 *)(p+0x9C)=0;if(*(u32 *)(p+0x94))func_02045808((struct U16Vec *)(*(u32 *)(p+0x94)));if(*(u32 *)(p+0x98))func_02045808((struct U16Vec *)(*(u32 *)(p+0x98)));func_02045C04(*(struct Rec **)(p+0x90));}

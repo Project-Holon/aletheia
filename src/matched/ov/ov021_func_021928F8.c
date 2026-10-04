@@ -28,9 +28,10 @@ struct T3 {
 
 extern struct T3 d_021D3E58;
 
-extern int func_020437DC(u32 a);
-extern int func_020437E4(u32 a);
-extern void func_020439A0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i);
+struct Bmp;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
 void func_021928F8(u8 *a, u32 b, u32 c)
 {
@@ -40,20 +41,20 @@ void func_021928F8(u8 *a, u32 b, u32 c)
     s16 m;
 
     t = d_021D3E58;
-    x = func_020437DC(b) - 8;
-    y = func_020437E4(b) - 8 - t.v[a[1]];
+    x = func_020437DC((const struct Bmp *)b) - 8;
+    y = func_020437E4((const struct Bmp *)b) - 8 - t.v[a[1]];
     m = y & 7;
     if (m != 0)
-        func_020439A0(c, b, 0, 8 - m, x, y, 8, m, 0xFFFF);
-    func_020439A0(c, b, 0, 0, x, y + m, 8, 8 - m, 0xFFFF);
+        func_020439A0((struct Bmp *)c, (struct Bmp *)b, 0, 8 - m, x, y, 8, m, 0xFFFF);
+    func_020439A0((struct Bmp *)c, (struct Bmp *)b, 0, 0, x, y + m, 8, 8 - m, 0xFFFF);
     a[2]++;
     if (a[2] >= 4) {
         a[2] = 0;
         a[1]++;
         a[1] = a[1] % 3;
     }
-    x = func_020437DC(b) - 8;
-    y = func_020437E4(b) - 8 - t.v[a[1]];
-    func_020439A0(*(u32 *)(a + 4), b, 0, 0, x, y, 8, 8, 0);
+    x = func_020437DC((const struct Bmp *)b) - 8;
+    y = func_020437E4((const struct Bmp *)b) - 8 - t.v[a[1]];
+    func_020439A0((struct Bmp *)(*(u32 *)(a + 4)), (struct Bmp *)b, 0, 0, x, y, 8, 8, 0);
     a[0] = 1;
 }

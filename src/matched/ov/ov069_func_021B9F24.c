@@ -15,10 +15,14 @@
  *   d_021BA5EC 0x021BA5EC data a4
  */
 extern const char d_021BA71C[], d_021BA5EC[];
-extern void *func_02025CD0(const void *a, const void *b, void *p, int k, unsigned char flag, unsigned short heap);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Struct_02025CD0;
+extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void func_021B9FC8(char *p, int i);
 void func_021B9F24(char *p)
 {
-    *(void **)(p + 0x14C) = func_02025CD0(d_021BA71C, d_021BA5EC, p, 1, 0, 0x80);
+    *(void **)(p + 0x14C) = func_02025CD0((u32)d_021BA71C, (u32)d_021BA5EC, (u32)p, 1, 0, 0x80);
     func_021B9FC8(p, 0);
 }

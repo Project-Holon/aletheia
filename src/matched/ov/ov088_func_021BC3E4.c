@@ -17,7 +17,8 @@
 
 typedef unsigned int u32;
 extern void func_020312CC(u32 a0, u32 a1, u32 a2);
-extern void func_02008450(int, int);
+struct Flags02008450;
+extern void func_02008450(struct Flags02008450 *p, int on);
 extern char d_021BD830[];
 
 int func_021BC3E4(int a, int *st, int k, int *p)
@@ -27,9 +28,9 @@ int func_021BC3E4(int a, int *st, int k, int *p)
         if (k == 0) {
             func_020312CC(-1, (u32)d_021BD830, (u32)p);
         } else if (k == 1) {
-            func_02008450(p[1], 0);
+            func_02008450((struct Flags02008450 *)p[1], 0);
         } else if (k == 2) {
-            func_02008450(p[1], 1);
+            func_02008450((struct Flags02008450 *)p[1], 1);
         }
         *st = *st + 1;
         break;

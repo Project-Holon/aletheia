@@ -17,11 +17,11 @@
  *   byte-correct.
  */
 
-extern void func_02015E04(int);
+extern void func_02015E04(void *p);
 
 int func_021F6D0C(char *a)
 {
-    func_02015E04(*(int *)(a + 0x34));
+    func_02015E04((void *)(*(int *)(a + 0x34)));
     *(int *)(a + 0x38) = 1;
     return 1;
 }

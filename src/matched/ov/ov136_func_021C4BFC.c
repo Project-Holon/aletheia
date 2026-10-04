@@ -31,7 +31,8 @@ extern void func_021C4DE4(u8 *);
 extern void func_021C4EEC(u8 *);
 extern void func_021C515C(u8 *);
 extern void func_021C5420(u8 *);
-extern void *func_02027F60(int, int, void *, void *, u16);
+struct R;
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_021C4D54(u8 *);
 extern void func_021C5360(u8 *);
 extern void func_021C5268(u8 *);
@@ -52,7 +53,7 @@ int func_021C4BFC(u8 *p)
         break;
     case 3:
         func_021C5420(p);
-        *(void **)(p + 0x108) = func_02027F60(0, 8, *(void **)(p + 0x24), *(void **)(p + 0x98), (u16)*(u32 *)p);
+        *(void **)(p + 0x108) = func_02027F60(0, 8, (u32)(*(void **)(p + 0x24)), (u32)(*(void **)(p + 0x98)), (u16)*(u32 *)p);
         *(u16 *)(p + 8) = 0;
         func_021C4D54(p);
         func_021C5360(p);

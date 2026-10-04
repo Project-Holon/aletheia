@@ -20,9 +20,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_021C2DE0(void *p, u32 b, u32 c, u32 d);
+extern void func_021C2DE0(char *p, unsigned short *dst, unsigned short *src, int count);
 
 void func_021C29E8(void *p, u32 b, u32 c, u32 d)
 {
-    func_021C2DE0(p, b, c, d);
+    func_021C2DE0(p, (short unsigned int *)b, (short unsigned int *)c, d);
 }

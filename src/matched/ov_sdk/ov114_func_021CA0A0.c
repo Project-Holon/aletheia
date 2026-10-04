@@ -34,7 +34,7 @@ extern Session g_021CF7AC;
 extern int func_021BF6C4(char *url, int bufferlen, int buffer_clear, void (*progress)(void), void (*completed)(void), void *param);
 extern int func_021BF5B8(void);
 extern void func_021CA06C(void);
-extern void func_021C9B64(void);
+extern void func_021C9B64(char *buf, int len, int result);
 extern void func_021C9B60(void);
 
 int func_021CA0A0(void)
@@ -44,7 +44,7 @@ int func_021CA0A0(void)
         func_021CA06C();
         break;
     case 4:
-        g_021CF7AC.result = func_021BF6C4(g_021CF7AC.buf, 0, 0, func_021C9B60, func_021C9B64, 0);
+        g_021CF7AC.result = func_021BF6C4(g_021CF7AC.buf, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
         if (g_021CF7AC.result >= 0) {
             g_021CF7AC.state = 5;
         } else {
@@ -57,7 +57,7 @@ int func_021CA0A0(void)
         }
         break;
     case 6:
-        g_021CF7AC.result = func_021BF6C4(g_021CF7AC.buf, 0, 0, func_021C9B60, func_021C9B64, 0);
+        g_021CF7AC.result = func_021BF6C4(g_021CF7AC.buf, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
         if (g_021CF7AC.result >= 0) {
             g_021CF7AC.state = 7;
         } else {

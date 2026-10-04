@@ -56,10 +56,12 @@ struct Obj {
 
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
-extern u32   func_02012944(void *owner);
-extern u32   func_02012950(void *owner, u32 id);
-extern u32   func_020084BC(u32 h);
-extern void  func_02008500(u32 h, u32 v);
+struct Rec44;
+struct Sub24;
+extern u8 *func_02012944(void *p);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern int func_020084BC(const u16 *values);
+extern void func_02008500(void *a, void *b);
 extern u32   func_02008550(u32 h);
 
 void func_02026504(struct Obj *o, u32 id0, u32 id1, u32 v)
@@ -71,19 +73,19 @@ void func_02026504(struct Obj *o, u32 id0, u32 id1, u32 v)
 
     r = &o->ring;
     if (id0 == func_02012B58((void *)o->owner)) {
-        h0 = func_02012944((void *)o->owner);
+        h0 = (u32)func_02012944((void *)o->owner);
     } else {
-        h0 = func_02012950((void *)o->owner, id0);
+        h0 = (u32)func_02012950((void *)o->owner, id0);
     }
     if (id1 == func_02012B58((void *)o->owner)) {
-        h1 = func_02012944((void *)o->owner);
+        h1 = (u32)func_02012944((void *)o->owner);
     } else {
-        h1 = func_02012950((void *)o->owner, id1);
+        h1 = (u32)func_02012950((void *)o->owner, id1);
     }
-    if (func_020084BC(h0) == 1) {
+    if (func_020084BC((const u16 *)h0) == 1) {
         return;
     }
-    if (func_020084BC(h1) == 1) {
+    if (func_020084BC((const u16 *)h1) == 1) {
         return;
     }
     s = &r->slot[r->cursor];
@@ -93,9 +95,9 @@ void func_02026504(struct Obj *o, u32 id0, u32 id1, u32 v)
     s->f02 = (u8)id0;
     s->f00 = (u16)v;
     s->b0 = 1;
-    func_02008500(h0, s->f04);
+    func_02008500((void *)h0, (void *)s->f04);
     s->b1 = (u8)func_02008550(h0);
-    func_02008500(h1, s->f08);
+    func_02008500((void *)h1, (void *)s->f08);
     s->b2 = (u8)func_02008550(h1);
     r->cursor = (u8)(r->cursor + 1);
     if (r->cursor >= 6) {

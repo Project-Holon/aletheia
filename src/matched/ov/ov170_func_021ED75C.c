@@ -17,7 +17,9 @@
  */
 
 extern int func_0204B838(int a);
-extern unsigned func_0204B864(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_0204B864(u8 *a0);
 extern void func_021EC030(char *p, int i, int c);
 extern void func_021EC048(char *p, int i, int c);
 
@@ -25,7 +27,7 @@ void func_021ED75C(char **p, int i)
 {
     unsigned char k = *(unsigned char *)(p[11] + i + 0x3DD2);
     int a = func_0204B838(*(int *)(p[11] + k * 4 + 0x9E74));
-    int b = func_0204B864(*(int *)(p[11] + k * 4 + 0x9E74));
+    int b = func_0204B864((u8 *)(*(int *)(p[11] + k * 4 + 0x9E74)));
     int j;
     for (j = 0; j < 8u; j++) {
         if (*(int *)(p[11] + j * 4 + 0x9FD4) != 0 && ((unsigned char *)p)[0x16] != 0xFF) {

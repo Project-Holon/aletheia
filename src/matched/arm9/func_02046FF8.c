@@ -23,13 +23,15 @@
  * (a plain `return 0` there is if-converted and loses the branch).
  */
 
-extern int func_0206E964(int x);
+typedef unsigned int   u32;
+struct Up;
+extern unsigned char *func_0206E964(unsigned char *p);
 extern int func_02047260(int a, int *b, int *c);
 extern int func_020472F8(int a, int *b);
-extern void func_02069FF8(int a, int b, int c);
-extern void func_0206A124(int a, int b);
+extern void func_02069FF8(char *p, int a, int b);
+extern void func_0206A124(int *p, int v);
 extern void func_020862F0(int a, int b);
-extern void func_0206A00C(int a, int b);
+extern void func_0206A00C(struct Up *u, u32 wrap);
 extern void func_0206A12C(int a, int b);
 
 int func_02046FF8(int *self)
@@ -41,17 +43,17 @@ int func_02046FF8(int *self)
     int p;
 
     h = self[1];
-    p = func_0206E964(h);
+    p = (int)func_0206E964((unsigned char *)h);
     if (p == 0)
         goto fail;
     if (func_02047260(p, &v8, &v4) == 0)
         return 0;
     if (func_020472F8(p, &v0) == 0)
         return 0;
-    func_02069FF8(p, v8, v4);
-    func_0206A124(p, v0);
+    func_02069FF8((char *)p, v8, v4);
+    func_0206A124((int *)p, v0);
     func_020862F0(h, *(int *)(h + 8));
-    func_0206A00C(p, 1);
+    func_0206A00C((struct Up *)p, 1);
     func_0206A12C(p, 1);
     return 1;
 fail:

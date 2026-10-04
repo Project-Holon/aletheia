@@ -17,7 +17,7 @@ typedef unsigned int u32;
 extern void func_0202208C(void *, u32, u32, u16, u32, u32, u32);
 extern void func_02005E30(u32);
 extern void func_021D6134(void *, void (*)(void), int);
-extern void func_021D630C(void);
+extern void func_021D630C(void *a0);
 void func_021D62B4(u8 *p) {
     int color;
     u8 *q = *(u8 **)(p + 16);
@@ -25,5 +25,5 @@ void func_021D62B4(u8 *p) {
     else color = 0;
     if (*(u32 *)(q + 12) == 0) func_02005E30(6);
     func_0202208C(0, 0, 0, color, 6, 1, *(u16 *)(p + 20));
-    func_021D6134(p, func_021D630C, 0x213);
+    func_021D6134(p, (void (*)(void))func_021D630C, 0x213);
 }

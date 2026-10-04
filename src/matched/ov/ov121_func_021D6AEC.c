@@ -34,7 +34,7 @@ extern void *func_020490F4(u32 id, u16 heap);
 extern int func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern void *func_02049F78(void *,int,void **,u16);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
@@ -55,7 +55,7 @@ void func_021D6AEC(char *p,u32 owner,u16 heap)
     *(int *)p=func_0204ABF0(arc,8,2,0,heap);
     *(int *)(p+8)=func_0204AF28(arc,34,37,heap);
     *(int *)(p+4)=func_0204A6C8(arc,16,0,2,heap);
-    allocation=func_02049F78(arc,8,&res,heap);
+    allocation=func_02049F78(arc,8,(u32)(&res),heap);
     data=*(char **)((char *)res+12);
     func_02082D44(data,p+0xda,32);
     data+=32;

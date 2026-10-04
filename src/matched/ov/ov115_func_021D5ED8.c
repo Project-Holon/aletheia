@@ -37,7 +37,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_021D5FC4(u32);
-extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32,u32,u32);
@@ -53,7 +53,7 @@ void func_021D5ED8(u8 *p,u32 n) {
     func_02045CAC(*(void **)(p+0x1c),n,*(void **)(p+0x28));
     s=func_02045874(*(void **)(p+0x28),*(u16 *)(p+0x4c));
     func_0201F250(*(void **)(p+0x20),*(void **)(p+0x28),s);
-    if (*(void **)(p+0x30)==0) *(void **)(p+0x30)=func_020450F0(func_021D5FC4(*(u32 *)(p+0x50)),1,1,30,16,11,1);
+    if (*(void **)(p+0x30)==0) *(void **)(p+0x30)=(void *)func_020450F0(func_021D5FC4(*(u32 *)(p+0x50)),1,1,30,16,11,1);
     w=*(void **)(p+0x30);
     func_02043B5C(func_02045770(w),15);
     func_0201DD78(1,2,15);

@@ -24,7 +24,7 @@ struct T {
 };
 
 extern void func_02028BA0(struct T *p, u32 v);
-extern void func_02005DE4(u32 v);
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 
 void func_0202939C(struct T *p)
@@ -38,7 +38,7 @@ void func_0202939C(struct T *p)
     if (p->f20 == 0) {
         func_02028BA0(p, 1);
     }
-    func_02005DE4(1);
+    func_02005DE4((void *)1);
     func_02005E64();
     *(u32 *)((char *)p + 0x24 + p->f20 * 4) = p->f08;
     p->f20 = p->f20 + 1;

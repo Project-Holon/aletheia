@@ -27,7 +27,8 @@ typedef struct {
 } D;
 
 extern D d_021F6398;
-extern void func_02045CAC(u32, u32, u32);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
 void func_021EF664(u32 a, int b, int c)
 {
@@ -39,6 +40,6 @@ void func_021EF664(u32 a, int b, int c)
             k = k + 1;
         else
             k = k + 2;
-        func_02045CAC(d_021F6398.t[7], k, a);
+        func_02045CAC((struct MsgBank *)d_021F6398.t[7], k, (void *)a);
     }
 }

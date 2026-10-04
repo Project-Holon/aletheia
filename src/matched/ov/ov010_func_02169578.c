@@ -16,9 +16,9 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02169A68(unsigned char *a);
+extern void *func_02169A68(int a0);
 
 int func_02169578(unsigned char *a)
 {
-    return func_02169A68(a);
+    return (int)func_02169A68((int)a);
 }

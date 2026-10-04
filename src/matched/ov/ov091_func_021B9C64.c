@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_02045EC0(u32 h, u32 idx);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct U16Vec;
@@ -30,7 +31,7 @@ extern void  func_0201C724(u32 a, u32 bmp, s16 x, s16 y, void *text, u32 f, u16 
 
 void func_021B9C64(u8 *p, u32 win, u32 idx, u32 x, s16 y, u16 color)
 {
-    void *text = func_02045EC0(*(u32 *)(p + 0x134), idx);
+    void *text = func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x134)), idx);
     func_0201C724(*(u32 *)(p + 0x140), (u32)func_02045770((struct Descriptor *)win), x, y, text,
                   *(u32 *)(p + 0x13c), color);
     func_02045808(text);

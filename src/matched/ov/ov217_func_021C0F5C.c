@@ -25,11 +25,12 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_020307B0();
-extern void *func_02045EC0(u32, u32);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_021C0F78();
 u32 func_021C0F5C(u32 a0, u32 a1)
 {
-    u32 v1 = (u32)func_02045EC0(*(u32*)(((u8*)a0) + 20), a1);
+    u32 v1 = (u32)func_02045EC0((struct MsgBank *)(*(u32*)(((u8*)a0) + 20)), a1);
     func_021C0F78(a0, v1);
     return func_020307B0(v1);
 }

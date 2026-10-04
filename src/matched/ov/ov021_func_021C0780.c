@@ -34,11 +34,12 @@ extern int func_0203CD98(void);
 extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 extern void func_0200FBA0(void);
-extern void func_02012124(u32 a, u32 b);
-extern int func_020121CC(u32 a);
-extern u32 func_02026474(u32 a);
-extern int func_02026454(u32 a);
-extern void func_02164FC4(u32 a);
+struct IcaAnime;
+extern void func_02012124(struct Ctx *p, u8 v);
+extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 func_02026474(void *obj);
+extern u32 func_02026454(void *obj);
+extern void func_02164FC4(char *p);
 
 int func_021C0780(u32 a, int *st)
 {
@@ -58,20 +59,20 @@ int func_021C0780(u32 a, int *st)
     case 1:
         if (func_0203CDBC() == 1) {
             func_0200FBA0();
-            func_02012124(x, 0);
+            func_02012124((struct Ctx *)x, 0);
             *st = *st + 1;
         }
         break;
     case 2:
-        if (func_020121CC(x) == 1) {
+        if (func_020121CC((struct IcaAnime *)x) == 1) {
             *st = *st + 1;
             break;
         }
         return 1;
     case 3:
-        z = func_02026474(y);
-        if (z && func_02026454(y)) {
-            func_02164FC4(z);
+        z = func_02026474((void *)y);
+        if (z && func_02026454((void *)y)) {
+            func_02164FC4((char *)z);
             return 1;
         }
         break;

@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Obj;
 struct Ov208Scene;
-extern void *func_021BC3B4(int);
+extern int func_021BC3B4(int *p);
 extern u32 func_0203633C(void);
 extern u32 func_020362DC(void);
 extern u32 func_0204B3F4(struct Obj *);
@@ -39,7 +39,7 @@ int func_021BF088(void *first,char *p,int key)
     int changed;
     u32 buttons,press;
     u8 i,next;
-    scene=func_021BC3B4(key);
+    scene=(void *)func_021BC3B4((int *)key);
     changed=0;
     if(*(int *)(p+0x94)==6) {
         buttons=func_0203633C();

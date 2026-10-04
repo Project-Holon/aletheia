@@ -18,19 +18,22 @@
  */
 
 
-extern int func_02012EBC(int);
-extern int func_021FC4DC(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern u32 func_021FC4DC(u8 *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
 
 void func_021F962C(char *r5, int *r4)
 {
     int x;
-    x = func_02012EBC(*(int *)(*(int *)(*(int *)((char *)r4 + 0x18) + 0xC) + 4));
+    x = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)(*(int *)((char *)r4 + 0x18) + 0xC) + 4)));
     *(int *)(r5 + 8) = r4[1];
     *(int *)r5 = r4[3];
     *(int *)(r5 + 0xC) = r4[2];
-    *(int *)(r5 + 4) = func_021FC4DC(r4[0]);
+    *(int *)(r5 + 4) = func_021FC4DC((u8 *)r4[0]);
     *(int *)(r5 + 0x10) = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
     *(int *)(r5 + 0x14) = *(int *)(*(int *)(*(int *)((char *)r4 + 0x18) + 0xC) + 4);
 }

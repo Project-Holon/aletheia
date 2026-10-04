@@ -104,7 +104,8 @@ typedef struct ScriptVm {
 } ScriptVm;
 
 extern void func_020111EC(ScriptVm *vm);
-extern u32 func_02011330(ScriptVm *vm);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 
 void func_0201126C(ScriptVm *vm, void *user)
 {
@@ -150,7 +151,7 @@ int func_02011298(ScriptVm *vm)
                 vm->state = 0;
                 return 0;
             }
-            op = func_02011330(vm);
+            op = func_02011330((struct Stream *)vm);
             if (op >= vm->params.cmd_count) {
                 vm->state = 0;
                 return 0;

@@ -20,7 +20,7 @@ typedef struct { u32 a, b, c; } E;
 typedef struct { E e[12]; } T;
 
 extern u32 func_02017E1C(void *a, u32 b, u32 c);
-extern u32 func_021C3BB0(u32 *p);
+extern int func_021C3BB0(u32 a);
 extern T d_021DA960;
 
 void func_021C3B2C(u32 *p, u32 *q)
@@ -28,7 +28,7 @@ void func_021C3B2C(u32 *p, u32 *q)
     T t = d_021DA960;
     int i;
     u32 r5, r3;
-    u32 x = func_021C3BB0(p);
+    u32 x = func_021C3BB0((u32)p);
 
     i = 0;
     func_02017E1C((void *)x, 5, 0);

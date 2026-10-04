@@ -34,12 +34,15 @@ struct Ov208MonArc {
     u8 d[0x24];
 };
 
-extern void func_020172AC(void *sys, u32 form);
+struct Obj;
+struct Rec;
+struct Sub150;
+extern void func_020172AC(int a0, int a1);
 extern void func_02017168(u32 species, u32 gender, u32 side, u32 form, u32 shiny,
                           struct Ov208MonArc *out, u32 personality);
-extern u32  func_020159C8(void *sys, u32 x, u32 y, u32 z, struct Ov208MonArc *arc);
-extern void func_02015FF0(u32 obj, int v);
-extern void func_02015E04(u32 obj);
+extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void func_02015FF0(char *p, int v);
+extern void func_02015E04(void *p);
 extern void func_02015CAC(u32 obj, Vec *scale);
 extern void ov208_func_021C5090(u32 obj);
 extern const Vec data_021C8804;
@@ -53,11 +56,11 @@ u32 ov208_func_021C5000(void *sys, u32 species, u32 gender, u32 side, u32 form, 
 
     scale = data_021C8804;
     if (species == 0x147)
-        func_020172AC(sys, extra);
+        func_020172AC((int)sys, extra);
     func_02017168(species, gender, side, form, shiny, &arc, personality);
-    obj = func_020159C8(sys, 0, 0, 0, &arc);
-    func_02015FF0(obj, 1);
-    func_02015E04(obj);
+    obj = (u32)func_020159C8(sys, 0, 0, 0, (const struct Sub150 *)(&arc));
+    func_02015FF0((char *)obj, 1);
+    func_02015E04((void *)obj);
     func_02015CAC(obj, &scale);
     ov208_func_021C5090(obj);
     return obj;

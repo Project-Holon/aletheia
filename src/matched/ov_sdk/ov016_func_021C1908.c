@@ -22,8 +22,8 @@
 
 extern int func_021D5580(int lcd);
 extern unsigned int func_021C0ED8(void);
-extern void func_021C0E50(void *p0, void *p1);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E50(unsigned int a, unsigned int b);
+extern void func_021C0E40(unsigned int v);
 extern void func_021C1984(void);
 extern void func_021CBC90(void);
 
@@ -35,12 +35,12 @@ void func_021C1908(void)
 		return;
 	switch (func_021C0ED8()) {
 	case 0:
-		func_021C0E50(0, (void *)1);
-		func_021C0E40(func_021C1984);
+		func_021C0E50(0, (unsigned int)((void *)1));
+		func_021C0E40((unsigned int)func_021C1984);
 		break;
 	case 1:
-		func_021C0E50((void *)1, (void *)1);
-		func_021C0E40(func_021CBC90);
+		func_021C0E50((unsigned int)((void *)1), (unsigned int)((void *)1));
+		func_021C0E40((unsigned int)func_021CBC90);
 		break;
 	}
 }

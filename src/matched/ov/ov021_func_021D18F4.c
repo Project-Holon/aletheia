@@ -29,16 +29,17 @@ typedef int            s32;
 
 typedef struct Vec3 { s32 x, y, z; } Vec3;
 
-extern int func_02011590(u32 a, u32 v);
-extern void func_02011558(u32 a);
+struct IcaAnime;
+extern u32 func_02011590(struct IcaAnime *p, s32 v);
+extern void func_02011558(struct IcaAnime *p);
 extern void func_021D1988(u32 a, u32 b, u8 *c);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern u32 func_0216D5F8(u32 a);
-extern void func_0216E014(u32 a, Vec3 *b, u32 c);
-extern void func_0216D570(u32 a, u32 b);
-extern void func_0216D758(u32 a);
+extern u16 func_0216D5F8(void *p);
+extern void func_0216E014(void *a, int *p, int b);
+extern void func_0216D570(char *p, u32 v);
+extern void func_0216D758(void *a0);
 extern u32 d_021DD5E0[];
 
 void func_021D18F4(u32 a, u32 b, u8 *p)
@@ -49,18 +50,18 @@ void func_021D18F4(u32 a, u32 b, u8 *p)
         return;
     }
     if (p[0x19A] == 1) {
-        if (func_02011590(*(u32 *)(p + 0x184), 0x1000) == 0) {
+        if (func_02011590((struct IcaAnime *)(*(u32 *)(p + 0x184)), 0x1000) == 0) {
             func_021D1988(*(u32 *)(p + 0x184), *(u32 *)p, p + 0x18C);
         } else {
-            func_02011558(*(u32 *)(p + 0x184));
+            func_02011558((struct IcaAnime *)(*(u32 *)(p + 0x184)));
             *(u32 *)(p + 0x184) = 0;
             p[0x19A] = 0;
             func_0216D88C((const struct Actor *)*(u32 *)p, (struct VecFx32 *)&v);
-            func_0216E014(*(u32 *)p, &v, func_0216D5F8(*(u32 *)p));
+            func_0216E014((void *)(*(u32 *)p), (int *)(&v), func_0216D5F8((void *)(*(u32 *)p)));
             if (d_021DD5E0[p[0x199]] != 0) {
-                func_0216D570(*(u32 *)p, 0x8000);
+                func_0216D570((char *)(*(u32 *)p), 0x8000);
             }
         }
-        func_0216D758(*(u32 *)p);
+        func_0216D758((void *)(*(u32 *)p));
     }
 }

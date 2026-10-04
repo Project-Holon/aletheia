@@ -30,7 +30,7 @@ extern unsigned long func_0215D200(void *param);
 extern unsigned long OS_DisableInterrupts(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned char *func_0215D2A8(void *socket, void *param);
-extern void func_0215F2DC(void *socket);
+extern void func_0215F2DC(int a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern Cfg *g_021A1CD8;
 
@@ -46,7 +46,7 @@ void *func_0215D198(void *param)
 	if (socket) {
 		MI_CpuFill8(socket, 0, size);
 		func_0215D2A8(socket, param);
-		func_0215F2DC(socket);
+		func_0215F2DC((int)socket);
 	}
 	OS_RestoreInterrupts(enable);
 	return socket;

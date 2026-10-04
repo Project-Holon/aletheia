@@ -18,7 +18,7 @@
  */
 
 extern int func_021D8AA8(void *p);
-extern void func_021E68B4(void *p, int i);
+extern void func_021E68B4(int p, int n);
 extern void func_021E5868(char *p);
 
 void func_021DF8E0(void *p)
@@ -28,7 +28,7 @@ void func_021DF8E0(void *p)
     if (func_021D8AA8(p) == 0)
         return;
     for (i = 0; i < 2; i++)
-        func_021E68B4(p, i);
+        func_021E68B4((int)p, i);
     func_021E5868(p);
 }
 

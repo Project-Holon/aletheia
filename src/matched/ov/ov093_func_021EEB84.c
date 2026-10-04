@@ -31,7 +31,7 @@ typedef struct {
     u8 d[1];
 } W;
 
-extern u32 func_021D4B58(u32 a, void *b, u32 c);
+extern u32 func_021D4B58(u32 a, u32 b, u32 c);
 
 u32 func_021EEB84(W *p)
 {
@@ -39,7 +39,7 @@ u32 func_021EEB84(W *p)
 
     if (p->hi != 0) {
         q = &p->h10;
-        return func_021D4B58(p->f0d, q, q[1] + 4);
+        return func_021D4B58(p->f0d, (u32)q, q[1] + 4);
     }
     return 1;
 }

@@ -31,12 +31,12 @@ typedef unsigned int   u32;
 
 extern u16  func_021BB464(int unused, u16 *q);
 extern void func_021BB97C(u8 *p, u32 obj);
-extern void func_021BB99C(u8 *p, u32 obj, u32 a, u32 b);
+extern void func_021BB99C(int a, int b, int c, int d);
 extern void func_021BB9EC(u8 *p, u32 obj, u32 a, u16 b, u8 c);
-extern void func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
+extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021BB98C(void *p, u32 s);
 extern void func_021B9E20(u8 *p);
-extern void func_021B9804(u8 *p, void (*cb)());
+extern void func_021B9804(u8 *p, int a1);
 extern void func_021BA3A4(u8 *p, u32 state);
 
 void func_021BA318(u8 *p)
@@ -47,16 +47,16 @@ void func_021BA318(u8 *p)
     r = func_021BB464((int)p, (u16 *)((u32 *)(p + 0x160))[((u32 *)W(0x280))[0x3c / 4]]);
     W(0x2c) = ((u32 *)W(0x280))[0x3c / 4];
     func_021BB97C(p, W(0x150));
-    func_021BB99C(p, W(0x150), 0, W(0x38));
+    func_021BB99C((int)p, W(0x150), 0, W(0x38));
     t = *(u16 *)(p + 0x11c);
     if (t) {
         func_021BB9EC(p, W(0x150), 1, r - t, 3);
-        func_021B9788(p, 0x2c, 1, func_021B9E20);
+        func_021B9788(p, 0x2c, 1, (int)func_021B9E20);
     }
     func_021BB98C(p, W(0x150));
 }
 
 void func_021BA394(u8 *p)
 {
-    func_021B9804(p, func_021BA3A4);
+    func_021B9804(p, (int)func_021BA3A4);
 }

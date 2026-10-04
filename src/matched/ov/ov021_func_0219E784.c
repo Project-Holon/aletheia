@@ -48,9 +48,10 @@ extern u8  d_021D84D4[][4];
 extern u16 d_021D841C[];
 extern s16 d_020A1B38[];
 
-extern u32 func_0219E348();
-extern void func_021B8050();
-extern u32 func_021B80D8();
+struct Sub;
+extern void *func_0219E348(void *a);
+extern void func_021B8050(struct Sub *o, s16 *out);
+extern u32 func_021B80D8(u8 *p);
 extern void func_0207AF1C();
 extern void func_0207B51C();
 extern void func_0207CCA4();
@@ -64,9 +65,9 @@ void func_0219E784(u32 o, u32 idx, s16 *v)
     s32 m[9];
     V vec;
 
-    t = func_0219E348(o);
-    func_021B8050(t, v);
-    n = func_021B80D8(t);
+    t = (u32)func_0219E348((void *)o);
+    func_021B8050((struct Sub *)t, v);
+    n = func_021B80D8((u8 *)t);
     k = (d_021D841C[d_021D84D4[n][idx]] >> 4) * 2;
     c = d_020A1B38[k + 1];
     v[1] = (s16)(((s64)c * v[1] + 0x800) >> 12);

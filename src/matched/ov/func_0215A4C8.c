@@ -17,13 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0202A230();
+extern u32 func_0202A230(void *a, u32 idx);
 
 int func_0215A4C8(int a0, int a1)
 {
 
 a1 = 2;
-    a0 = func_0202A230(a0, a1);
+    a0 = func_0202A230((void *)a0, a1);
 loc_0215A4D0:
 a0 = a0 << 0x18;
 a0 = (unsigned)a0 >> 0x18;

@@ -32,7 +32,7 @@ typedef struct Main {
     u16 h240;
 } Main;
 typedef struct { Main *main; int state; } Ctx;
-extern void func_020498F4(u32, u32, u32, u32, u32, u32, u16);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02206AF8(Main *);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
@@ -44,8 +44,8 @@ void func_022040FC(void *h, Ctx *c)
 {
     switch (c->state) {
     case 0:
-        func_020498F4(c->main->f48, 0x63, 4, 0, 0, 0, c->main->h240);
-        func_020498F4(c->main->f48, 0x6b, 5, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x63, 4, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x6b, 5, 0, 0, 0, c->main->h240);
         func_02206AF8(c->main);
         func_02204960(c->main, 5, 0, 0, 1, 0, 2, 1);
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);

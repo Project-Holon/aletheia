@@ -40,8 +40,8 @@ struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02021288(u32 id);
 extern void *func_0201F81C(int, int);
-extern void func_021B385C(void *, int, int, int, void *);
-extern u16 func_02020FE4(int, int, int);
+extern void func_021B385C(char *p, int idx, int mode, int val, int arg);
+extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern u32 func_0201102C(u32 v);
 extern void func_021B3834(void *, int);
 extern void func_0201F878(void *, void *, int, int, int);
@@ -75,10 +75,10 @@ void func_021B38E0(char *p, int a, int b, int c)
     *(void **)(p + 384) = func_0201F81C(n + 1, *(u16 *)(p + 4));
     for (k = 0; k < n; k++) {
         v = (*(u16 **)((char *)d_021DE1A8 + off))[k];
-        func_021B385C(p, k, *(u8 *)(p + 354), v, q);
+        func_021B385C(p, k, *(u8 *)(p + 354), v, (int)q);
         e = p + k * 8;
         *(u16 *)(e + 32) = v;
-        *(int *)(e + 36) = func_0201102C(func_02020FE4(v, 0, *(u16 *)(p + 4)));
+        *(int *)(e + 36) = func_0201102C(func_02020FE4((void *)v, 0, *(u16 *)(p + 4)));
     }
     *(u16 *)(p + 352) = k;
     func_021B3834(p + 32, *(u16 *)(p + 352));

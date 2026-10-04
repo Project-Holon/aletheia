@@ -16,9 +16,9 @@
  *   func_021A03B8  0x021A03B8  thumb  ov021
  */
 
-int func_021A03B8(int a);
+int func_021A03B8(int *p);
 
 int func_021A240C(int *p)
 {
-    return func_021A03B8(p[4]);
+    return func_021A03B8((int *)p[4]);
 }

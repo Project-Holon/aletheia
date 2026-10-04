@@ -18,7 +18,7 @@
  *   g_021A2470     0x021A2470  data
  */
 
-extern void func_02177EC8(char *nasaddr);
+extern void func_02177EC8(int v);
 extern char g_021A2424[];
 extern char g_021A244C[];
 extern char g_021A2470[];
@@ -27,13 +27,13 @@ int func_02178C88(int auth_server)
 {
 	switch (auth_server) {
 	case 0:
-		func_02177EC8(g_021A2424);
+		func_02177EC8((int)g_021A2424);
 		break;
 	case 2:
-		func_02177EC8(g_021A244C);
+		func_02177EC8((int)g_021A244C);
 		break;
 	case 1:
-		func_02177EC8(g_021A2470);
+		func_02177EC8((int)g_021A2470);
 		break;
 	default:
 		return 0;

@@ -14,7 +14,7 @@
  */
 extern int func_021D8AF4(int, char *);
 extern int func_021D8B0C(int, int);
-extern int func_021D8DD0(int, int, int, char *);
+extern void *func_021D8DD0(void *a, int b, int c, char *p);
 int func_021E4984(int v, int a, int b, char *p, int *out)
 {
     int n, m;
@@ -22,11 +22,11 @@ int func_021E4984(int v, int a, int b, char *p, int *out)
         n = func_021D8AF4(a, p);
         m = func_021D8B0C(a, b);
         *out = 0;
-        return func_021D8DD0(v, n, m, p);
+        return (int)func_021D8DD0((void *)v, n, m, p);
     }
     if (b < 3) {
         *out = 1;
-        return func_021D8DD0(v, *(int *)(p + 0x630), a + b * 2, p);
+        return (int)func_021D8DD0((void *)v, *(int *)(p + 0x630), a + b * 2, p);
     }
     return 0;
 }

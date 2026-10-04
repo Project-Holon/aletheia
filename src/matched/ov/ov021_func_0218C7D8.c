@@ -14,13 +14,15 @@
  *   func_0218C724  0x0218C724  thumb  ov021
  */
 
-int func_0218C654(void *p, int b, int c);
-int func_0218C724(void *p, int r);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+int func_0218C654(int a, int b, int c);
+u8 *func_0218C724(u8 *owner, u32 *obj);
 
 int func_0218C7D8(void *p, int b, int c)
 {
-    int r = func_0218C654(p, b, c);
+    int r = func_0218C654((int)p, b, c);
     if (r == 0)
         return 0;
-    return func_0218C724(p, r);
+    return (int)func_0218C724(p, (u32 *)r);
 }

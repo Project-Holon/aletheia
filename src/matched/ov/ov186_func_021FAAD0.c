@@ -14,7 +14,7 @@
 extern int func_021FAF24(char *ctx, int kind);
 extern void func_021FAD18(char *ctx, int mode, const int *target);
 extern int func_021FAD74(char *ctx);
-extern void func_021FD73C(void *, void *);
+extern void func_021FD73C(int *p, int v);
 extern void func_021FA274(void *p);
 void func_021FAAD0(void *p, int *state, unsigned char *ctx)
 {
@@ -35,6 +35,6 @@ void func_021FAAD0(void *p, int *state, unsigned char *ctx)
             ready &= func_021FAD74(*(char **)(ctx + 0x40) + i * 0x44);
         if (ready) *state = 2;
         break;
-    case 2: func_021FD73C(p, func_021FA274); break;
+    case 2: func_021FD73C(p, (int)func_021FA274); break;
     }
 }

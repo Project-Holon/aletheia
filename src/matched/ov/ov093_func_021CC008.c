@@ -34,7 +34,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern int func_021D5B68(void *p);
 extern u8 func_021D5440(u8 *p);
 extern void *func_021C88A4(void *a, int k, int b);
-extern u32 func_021D805C(u32 v, u32 n);
+extern u32 func_021D805C(void *p, u32 n);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
@@ -52,7 +52,7 @@ int func_021CC008(u8 *p, u8 *q, u16 s)
         id = func_021D5440(q);
         w = func_021C88A4(p, 0x2c, id);
         w[4] = id;
-        r = func_021D805C(s, 0x3a);
+        r = func_021D805C((void *)s, 0x3a);
         switch (r) {
         case 0xff:
             *(u16 *)(w + 6) = func_021D59B4(q, 0xe);
@@ -64,7 +64,7 @@ int func_021CC008(u8 *p, u8 *q, u16 s)
             *(u16 *)(w + 6) = func_021D7B74(q, 4);
             break;
         default:
-            *(u16 *)(w + 6) = func_021D805C(s, 0x3a);
+            *(u16 *)(w + 6) = func_021D805C((void *)s, 0x3a);
             break;
         }
         func_021C8838(w + 8, 2, 3);

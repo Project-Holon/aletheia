@@ -55,9 +55,10 @@ typedef struct Vec { int x, y, z; } Vec;
 
 extern void func_0218AE48(struct FieldInput *p, Vec *out);
 extern int func_021BE288(u8 *pos, int k);
-extern int func_021F3A88(void *a, int x, int z);
-extern int func_021F38A4(u8 *pos, u16 dir);
-extern void *func_02188C98(u8 *pos);
+struct Desc;
+extern int func_021F3A88(int a0, int a1, int a2);
+extern int func_021F38A4(int a, int b);
+extern u32 func_02188C98(u8 *p);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F8(u32 attr);
 extern int func_021A3098(void *obj);
@@ -67,8 +68,8 @@ extern int func_021AB310(u16 a);
 extern void *func_021A3074(unsigned char *p);
 extern void func_02164208(u32 dir, Vec *pos, int step);
 extern int func_02163E58(void *m, Vec *pos, int *h);
-extern int func_02158768(void *sys, u32 msg, int a, u16 id);
-extern u16 func_0218AE04(struct FieldInput *p, Vec *v);
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern u32 func_0218AE04(u8 *p, void *arg);
 extern int func_021F404C(void *a);
 extern int func_021F37E0(void *a);
 
@@ -82,10 +83,10 @@ int func_0218AF90(struct FieldInput *p, void *a, u8 *pos)
 
     func_0218AE48(p, &v);
     if (func_021BE288(pos, 6))
-        return func_021F3A88(a, v.x / 0x10000, v.z / 0x10000);
+        return func_021F3A88((int)a, v.x / 0x10000, v.z / 0x10000);
     if (func_021BE288(pos, 0x19) || func_021BE288(pos, 0x1A) || func_021BE288(pos, 0x1B))
-        return func_021F38A4(pos, p->f24);
-    attr = func_021AB0D4(func_02188C98(pos), &v);
+        return func_021F38A4((int)pos, p->f24);
+    attr = func_021AB0D4((void *)func_02188C98(pos), &v);
     if ((func_021AB0F8(attr) & 1) == 0)
         return 0;
     if (func_021A3098(p->f18) == 2 && func_0218B630(p->f8, 0x7F) != 6
@@ -94,9 +95,9 @@ int func_0218AF90(struct FieldInput *p, void *a, u8 *pos)
         m = func_021A3074(p->f18);
         func_02164208(p->f24, &w, 0x10000);
         if (func_02163E58(m, &w, &h) == 1 && v.y > h)
-            return func_02158768(p->sys, 0x271F, 0, p->f0);
+            return (int)func_02158768((int)p->sys, 0x271F, 0, p->f0);
     }
-    if (func_0218AE04(p, &v) == 0xFFFF) {
+    if (func_0218AE04((u8 *)p, &v) == 0xFFFF) {
         if (func_021BE288(pos, 2))
             return func_021F404C(a);
         if (func_021BE288(pos, 5))

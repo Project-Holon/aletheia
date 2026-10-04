@@ -30,7 +30,8 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012844(const struct BigObj *p);
 extern int func_0219E664(void *o, u32 k, void *buf);
-extern int func_02162598(u32 a, u32 *b);
+struct Q;
+extern int func_02162598(char *p, struct Q *q);
 
 int func_021A6C6C(u8 *p, u32 k)
 {
@@ -40,5 +41,5 @@ int func_021A6C6C(u8 *p, u32 k)
 
     r4 = func_02012844(func_020120F4(func_02188C80(*(u8 **)(p + 0x18))));
     func_0219E664(o, k, buf);
-    return func_02162598(r4, buf) != 0xFFFF;
+    return func_02162598((char *)r4, (struct Q *)buf) != 0xFFFF;
 }

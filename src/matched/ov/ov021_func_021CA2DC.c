@@ -24,9 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_021CA4C0(u8 *p, u32 unused, int flag);
-extern void func_0200D914(u32 h, int id, void *val);
-extern u32 func_0200DA54(u32 h);
-extern void func_0200DC94(u32 a, u32 b);
+struct Blk1AC;
+struct Blk3C;
+struct Src;
+extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
+extern u16 func_0200DA54(struct Blk3C *p);
+extern void func_0200DC94(struct Blk1AC *p, const struct Src *q);
 
 void func_021CA2DC(u8 *p, u32 h, int flag, u16 v)
 {
@@ -41,10 +44,10 @@ void func_021CA2DC(u8 *p, u32 h, int flag, u16 v)
     case 4:
         func_021CA4C0(p, h, 1);
         b = p[9];
-        func_0200D914(*(u32 *)(p + 0x70), 0, &b);
-        b = func_0200DA54(*(u32 *)(p + 0x70)) + 1;
-        func_0200D914(*(u32 *)(p + 0x70), 1, &b);
-        func_0200DC94(*(u32 *)(p + 0x74), *(u32 *)(p + 0x70));
+        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 0, &b);
+        b = func_0200DA54((struct Blk3C *)(*(u32 *)(p + 0x70))) + 1;
+        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 1, &b);
+        func_0200DC94((struct Blk1AC *)(*(u32 *)(p + 0x74)), (const struct Src *)(*(u32 *)(p + 0x70)));
         break;
     }
 }

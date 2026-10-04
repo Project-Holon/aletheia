@@ -11,5 +11,6 @@
  * symbols:
  *   func_02048F74 0x02048F74 arm
  */
-extern void func_02048F74(int a,int b,int c,int d,int e);
-int func_021F4DE4(int a,int b,int c) { func_02048F74(a,b,c,0,0x24); return 1; }
+typedef unsigned int   u32;
+extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
+int func_021F4DE4(int a,int b,int c) { func_02048F74((void *)a,b,c,0,(u32 *)0x24); return 1; }

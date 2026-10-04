@@ -26,18 +26,18 @@
 struct WinMgr;
 extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021ED6E4(char *, int);
-extern void func_021EBA5C(int, int);
+extern void func_021EBA5C(char *p, int i);
 extern void func_021DD14C(char *);
 extern void func_021EF670(char *p);
-extern void func_021EF68C(int);
+extern void func_021EF68C(char *p);
 extern int func_021E8FE0(char *, int);
 extern int func_021E8FC0(char *p, int a, int b);
 void func_021E3BF8(char *p)
 {
     func_021EF57C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
     func_021ED6E4(p, 0);
-    func_021EBA5C(*(int *)(p + 0x2c), 0x18);
+    func_021EBA5C((char *)(*(int *)(p + 0x2c)), 0x18);
     func_021DD14C(p);
-    func_021EF68C(*(int *)(p + 0x2c));
+    func_021EF68C((char *)(*(int *)(p + 0x2c)));
     func_021E8FC0(p, 0x21E070D, func_021E8FE0(p, 0x1B));
 }

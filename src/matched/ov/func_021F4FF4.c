@@ -20,7 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_0204B404(u32 a, u16 *t, int n);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021F4FF4(u32 a, u32 b, u32 c)
 {
@@ -28,5 +30,5 @@ void func_021F4FF4(u32 a, u32 b, u32 c)
 
     t[0] = b;
     t[1] = c;
-    func_0204B404(a, t, 0);
+    func_0204B404((struct Obj *)a, (const struct Vec2 *)t, 0);
 }

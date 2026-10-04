@@ -25,7 +25,7 @@ extern void *func_02049250(struct ArcFile *, u32, u32);
 extern int func_02062B30(void *, void **);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_020409B4(u32);
-extern u32 func_020307B0(u32);
+extern void func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021C00AC(char *p)
 {
@@ -37,6 +37,6 @@ void func_021C00AC(char *p)
     func_02062B30(blob, &out);
     func_02041090(6, (u32)((char *)out + 12), 0, 0, 32, 24);
     func_020409B4(6);
-    func_020307B0((u32)blob);
+    func_020307B0((void *)((u32)blob));
     func_02049238(h);
 }

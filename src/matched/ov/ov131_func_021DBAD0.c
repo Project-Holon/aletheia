@@ -31,8 +31,9 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_021DBEA4(u8 *,int,void *);
-extern void *func_0204A6C8(void *,u32,u32,u32,u16);
+typedef signed int     s32;
+extern int func_021DBEA4(u8 *p, int screen, u32 owner);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(void *,u8,u32);
@@ -63,9 +64,9 @@ u8 *func_021DBAD0(u8 *a,const u8 *b)
     for(i=0;i<rows;i++) {
         for(j=0;j<cols;j++) {
             row=blk+i*cols*4;
-            mode=func_021DBEA4(a,*(const u32 *)(b+0x14),heap);
+            mode=func_021DBEA4(a,*(const u32 *)(b+0x14),(u32)heap);
             e=row+j*4;
-            *(void **)(e+0x14)=func_0204A6C8(heap,7,0,*(const u32 *)(b+0x14),*(u16 *)(a+4));
+            *(void **)(e+0x14)=(void *)func_0204A6C8(heap,7,0,*(const u32 *)(b+0x14),*(u16 *)(a+4));
             d.x=*(const s16 *)(b+4)+(j<<6);
             d.y=*(const s16 *)(b+6)+(i<<5);
             d.kind=b[0x10];

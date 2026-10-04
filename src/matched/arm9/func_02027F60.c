@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32   func_020275E4(void);
-extern u32   func_02049DB4(u32 h, u32 a, u32 c, void *d, u16 heap);
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void  func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern const char sFile_020A74E0[];
 
@@ -64,7 +64,7 @@ struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap)
     if (a0 > 3) {
         sel = 4;
     }
-    r->obj = func_02049DB4(func_020275E4(), 0x20, 0, &r->f04, heap);
+    r->obj = (u32)func_02049DB4(func_020275E4(), 0x20, 0, (u32)(&r->f04), heap);
     func_02049B40(func_020275E4(), 0x1f, sel, a1 << 5, 0x40, heap);
     return r;
 }

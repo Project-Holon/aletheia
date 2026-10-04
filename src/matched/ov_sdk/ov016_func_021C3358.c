@@ -27,7 +27,7 @@ extern void func_021D0014(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021C11D4(unsigned int v);
 extern void func_021C115C(void);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021C3298(void);
 extern unsigned char g_021DE5B4;
 
@@ -49,5 +49,5 @@ void func_021C3358(int state)
 	}
 	func_021C11D4(0);
 	func_021C115C();
-	func_021C0E40(func_021C3298);
+	func_021C0E40((unsigned int)func_021C3298);
 }

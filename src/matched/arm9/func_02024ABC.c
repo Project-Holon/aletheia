@@ -66,7 +66,7 @@ extern int   func_0203CD98(void);
 extern void *func_0203D798(void);
 extern int   func_0203D1B4(void);
 extern u32 func_0203D29C(void);
-extern u32   func_0201058C(u32 a);
+extern u32 func_0201058C(void *key);
 extern int   func_02026CA0(int *p);
 
 void func_02024ABC(void)
@@ -99,7 +99,7 @@ void func_02024ABC(void)
     }
 
     if (n < 2 && flag == 0) {
-        bits = func_0201058C(gInfoWin->f0C);
+        bits = func_0201058C((void *)gInfoWin->f0C);
         idx = 0;
         if (gInfoWin->f10 == 1 && func_02026CA0(&idx) != 0x1E) {
             gInfoWin->f04 = (u16)(gInfoWin->f04 | 0x10);

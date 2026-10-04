@@ -35,7 +35,7 @@ typedef struct GHTTPCertificateInfo {
 } GHTTPCertificateInfo;
 
 extern int func_020948E0(const char *, const char *);
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char *func_021C1020(char *);
 extern int func_021843E8(void *, void *, int (*)(void *, void *), int, int);
 extern void func_0217EAE0(void *);
@@ -55,14 +55,14 @@ void *func_021C1230(char *url)
     int pos;
 
     if (url == 0 || g_021D3B40 == 0 || func_020948E0(url, g_021CE758) == 0) {
-        func_0217D254(8, 4, 1, g_021CE7C4, g_021CE7B0, g_021CE6F9, 0x312, url, g_021D3B40);
+        func_0217D254(8, (char *)4, 1, g_021CE7C4, g_021CE7B0, g_021CE6F9, 0x312, url, g_021D3B40);
         return 0;
     }
     certInfo.serverUrl = func_021C1020(url);
     pos = func_021843E8(g_021D3B40, &certInfo, func_021C121C, 0, 1);
     func_0217EAE0(certInfo.serverUrl);
     if (pos == -1) {
-        func_0217D254(8, 4, 1, g_021CE818, g_021CE7B0, g_021CE6F9, 0x323, url);
+        func_0217D254(8, (char *)4, 1, g_021CE818, g_021CE7B0, g_021CE6F9, 0x323, url);
         return 0;
     }
     certInfoToReturn = func_02184208(g_021D3B40, pos);

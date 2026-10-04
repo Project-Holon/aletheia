@@ -50,7 +50,7 @@ void func_0203D7BC(int a);
 u32 func_020362DC(void);
 void func_02172D20(u8 *p);
 int func_02172D68(u8 *p);
-void func_021734A8(void *ctx, int a, void *b);
+void func_021734A8(u8 *self, u32 id, u32 v);
 int func_02173A90(void);
 int func_0217B8E4(char *p, char v);
 void func_0217F210(u8 *p, int a, u32 b);
@@ -98,7 +98,7 @@ int func_0217C074(void *ctx, Obj *obj, int a2, u8 *state)
     case 4:
         switch (obj->mode) {
         case 1:
-            func_021734A8(ctx, 3, obj->f1c);
+            func_021734A8(ctx, 3, (u32)obj->f1c);
             func_021734A8(ctx, 2, 0);
             func_0217B8E4(ctx, 9);
             return 1;

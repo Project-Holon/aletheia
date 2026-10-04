@@ -22,11 +22,13 @@
 extern int func_0202824C(int);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern void func_0202822C(int, int);
+typedef unsigned char  u8;
+struct Obj;
+extern void func_0202822C(char *p, int v);
 extern int func_02028230(int);
-extern void func_020282A4(int);
+extern void func_020282A4(struct Obj *obj);
 extern void func_02028218(int, int);
-extern void func_02028178(int);
+extern void func_02028178(u8 *p);
 
 void func_021B71E4(int a)
 {
@@ -36,13 +38,13 @@ void func_021B71E4(int a)
             *(int *)(a + 0x44) = -1;
             if (func_0202824C(*(int *)(a + 0))) {
                 func_020061E4(0x551);
-                func_0202822C(*(int *)(a + 0), 1);
+                func_0202822C((char *)(*(int *)(a + 0)), 1);
                 *(int *)(a + 0x50) = 1;
             }
             break;
         case 1:
             if (func_02028230(*(int *)(a + 0))) {
-                func_020282A4(*(int *)(a + 0));
+                func_020282A4((struct Obj *)(*(int *)(a + 0)));
                 func_02028218(*(int *)(a + 0), 0);
                 *(int *)(a + 0x50) = 2;
             }
@@ -51,6 +53,6 @@ void func_021B71E4(int a)
             *(int *)(a + 0x44) = 1;
             break;
         }
-        func_02028178(*(int *)(a + 0));
+        func_02028178((u8 *)(*(int *)(a + 0)));
     }
 }

@@ -14,9 +14,10 @@
  *       --func func_02050C04 --addr 0x02050C04 --cc 1.1p1 --arm
  */
 
-extern int func_02050C30(int a, int b, int c, int d, int e, int f, int g);
+typedef unsigned int   u32;
+extern void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
 
 int func_02050C04(int a, int b, int c, int d)
 {
-    return func_02050C30(a, b, c, 5, 6, 63, d);
+    return (int)func_02050C30(a, b, c, 5, 6, 63, d);
 }

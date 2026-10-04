@@ -16,11 +16,12 @@
  */
 
 extern void func_021BFF30(int p, unsigned a, unsigned b);
-extern void func_0202EB04(int h);
+struct CodeIn;
+extern void func_0202EB04(struct CodeIn *p);
 
 void func_021C00B4(int p, unsigned a, unsigned b)
 {
     func_021BFF30(p, b, 1);
     func_021BFF30(p, a, 3);
-    func_0202EB04(((int *)p)[0xad]);
+    func_0202EB04((struct CodeIn *)(((int *)p)[0xad]));
 }

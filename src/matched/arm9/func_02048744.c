@@ -94,7 +94,7 @@ extern int func_02046FF8(int *self);
 extern int func_02047348(struct Layer *layer);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(void *rnd, void **anm, u16 anmCount);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 
 static inline void *getRes(Util *util, u16 resIdx, u16 idx)
 {
@@ -146,7 +146,7 @@ void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
                                   os->anmTbl[j].anmDatIdx);
             anm[j] = a;
         }
-        util->obj[objIdx + i] = func_0204767C(rnd, anm, os->anmCount);
+        util->obj[objIdx + i] = func_0204767C((u32)rnd, (u32 *)anm, os->anmCount);
         func_020307B0(anm);
     }
 }

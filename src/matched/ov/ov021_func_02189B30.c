@@ -30,10 +30,13 @@ struct Obj;
 extern unsigned short func_02159BF4(struct Obj *p);
 extern unsigned short func_02159BF8(struct Obj *p);
 extern int func_02159BFC(struct Obj *p);
-extern int func_02159C20(void *p);
-extern int func_020140BC(int x);
-extern int func_020140C0(int x);
-extern int func_020140CC(int x);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Sub020140BCObj;
+extern char *func_02159C20(char *p);
+extern u16 func_020140BC(struct Sub020140BCObj *p);
+extern u32 func_020140C0(struct Sub020140BCObj *p);
+extern u32 func_020140CC(struct Sub020140BCObj *p);
 
 void func_02189B30(int a, int x, char *out, void *obj)
 {
@@ -44,11 +47,11 @@ void func_02189B30(int a, int x, char *out, void *obj)
         *(unsigned short *)(out + 0x14) = func_02159BF4(obj);
         *(unsigned short *)(out + 0x16) = func_02159BF8(obj);
         *(int *)(out + 0x18) = func_02159BFC(obj);
-        *(int *)(out + 0x1c) = func_02159C20(obj);
+        *(int *)(out + 0x1c) = (int)func_02159C20(obj);
     }
     *(int *)(out + 0x20) = 1;
     *(int *)(out + 0x24) = 0xe;
-    *(int *)(out + 0x28) = func_020140BC(x);
-    *(int *)(out + 0x2c) = func_020140C0(x);
-    *(int *)(out + 0x30) = func_020140CC(x);
+    *(int *)(out + 0x28) = func_020140BC((struct Sub020140BCObj *)x);
+    *(int *)(out + 0x2c) = func_020140C0((struct Sub020140BCObj *)x);
+    *(int *)(out + 0x30) = func_020140CC((struct Sub020140BCObj *)x);
 }

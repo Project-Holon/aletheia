@@ -29,7 +29,7 @@ extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
 extern void func_020061E4(u32);
 extern int func_021F681C(u8 *, int, int);
-extern void func_021F7308(u8 *, u32, int);
+extern void func_021F7308(int a, unsigned b, int c);
 extern int func_021F67F0(u8 *, int);
 int func_021F66B4(u8 *p)
 {
@@ -57,14 +57,14 @@ int func_021F66B4(u8 *p)
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);
             }
-            func_021F7308(p, 3, -8);
+            func_021F7308((int)p, 3, -8);
         } else {
             if (func_0202CE40(*(struct WinMgr **)(p + 8), 0) == 0) {
                 (*(int *)(p + 0x110))++;
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);
             }
-            func_021F7308(p, 0, 8);
+            func_021F7308((int)p, 0, 8);
         }
         break;
     case 2:

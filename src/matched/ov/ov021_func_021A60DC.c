@@ -30,7 +30,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D3CC(void *p);
+extern int func_0216D3CC(int a0);
 extern int func_021A607C(void *a, void *b, int c, int d, int e, int f);
 extern u32 func_021A5B6C(void *a, void *b, int c, int d);
 extern int func_0219E664(void *o, u32 k, void *buf);
@@ -50,7 +50,7 @@ int func_021A60DC(void *a, void *b, int c, int d, int e, int f)
     u16 k;
     int cls;
 
-    if (func_0216D3CC(b) == 0) {
+    if (func_0216D3CC((int)b) == 0) {
         return 0;
     }
     if (e == 9) {

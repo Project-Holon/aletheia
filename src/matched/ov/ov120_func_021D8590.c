@@ -24,12 +24,12 @@ struct Obj;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_0202800C(void *, void *, u32, u32, u8, u8, u32, u32, u16);
+extern u32 *func_0202800C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern u8 func_020355C4(void);
 extern void func_02028218(struct Obj *obj, u32 a);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021D7710(u8 *);
-extern void *func_02051B84(const void *, int, int, u16);
+extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 extern const int d_021D8AF0[];
 void func_021D8590(u8 *p, int a, int b)
 {
@@ -38,9 +38,9 @@ void func_021D8590(u8 *p, int a, int b)
     func_02045CAC(*(void **)(p + 12), 15, q);
     *(u16 *)(p + 0xac) = 0x39e3;
     *(int *)(p + 0xb0) = 0;
-    *(void **)(p + 0xc4) = func_0202800C(*(void **)(p + 0xc0), p + 0xa8, 10, 21, 12, 3, 0, 1, *(u16 *)(p + 0xc8));
+    *(void **)(p + 0xc4) = func_0202800C((u32)(*(void **)(p + 0xc0)), (u32)(p + 0xa8), 10, 21, 12, 3, 0, 1, *(u16 *)(p + 0xc8));
     if (!func_020355C4()) func_02028218(*(void **)(p + 0xc4), 1);
     func_02045808(*(void **)(p + 0xa8));
     func_021D7710(p);
-    *(void **)(p + 8) = func_02051B84(d_021D8AF0, a, b, *(u16 *)(p + 0xc8));
+    *(void **)(p + 8) = func_02051B84((u8 *)d_021D8AF0, a, b, *(u16 *)(p + 0xc8));
 }

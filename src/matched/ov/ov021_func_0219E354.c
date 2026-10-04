@@ -21,14 +21,14 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u32 *func_0216D69C(u32);
+extern void *func_0216D69C(void *p);
 struct Sub;
 extern void func_021B810C(struct Sub *o);
 extern int func_0219EA78(u32 *, u32);
 
 void func_0219E354(u32 a)
 {
-    u32 *p = func_0216D69C(a);
+    u32 *p = func_0216D69C((void *)a);
     func_021B810C((void *)*p);
     func_0219EA78(p, a);
 }

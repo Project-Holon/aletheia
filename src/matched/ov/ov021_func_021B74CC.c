@@ -47,13 +47,15 @@ typedef struct {
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
+struct Descriptor;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02190758(int a0, int a1, u16 a2, int a3);
-extern void func_0201EFA4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
-extern void func_0201F250(u32 a0, u32 a1, u32 a2);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045C04(struct Rec *rec);
-extern int func_021907C0(int a);
-extern int func_02045730(int a);
+extern u32 func_021907C0(u8 *p);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
 void func_021B74CC(Obj *p)
@@ -63,13 +65,13 @@ void func_021B74CC(Obj *p)
 
     msg = func_02045B38(0, 2, 0x36, (u16)((p->f00 & 0x7fff) | 0x8000));
     for (i = 0; i < p->f20; i++) {
-        func_02045CAC((u32)msg, p->f24[i].a, p->f18);
+        func_02045CAC((struct MsgBank *)((u32)msg), p->f24[i].a, (void *)p->f18);
         func_02190758(p->f0C, 0, i * 14, p->f18);
-        func_02045CAC(p->f08, 5, p->f18);
-        func_0201EFA4(p->f14, 0, p->f24[i].b, 2, 1, 1);
-        func_0201F250(p->f14, p->f1C, p->f18);
+        func_02045CAC((struct MsgBank *)p->f08, 5, (void *)p->f18);
+        func_0201EFA4((struct WordSet *)p->f14, 0, p->f24[i].b, 2, 1, 1);
+        func_0201F250((struct WordSet *)p->f14, (void *)p->f1C, (void *)p->f18);
         func_02190758(p->f0C, 0x6c, i * 14, p->f1C);
     }
     func_02045C04(msg);
-    func_020409B4(func_02045730(func_021907C0(p->f0C)));
+    func_020409B4(func_02045730((struct Descriptor *)func_021907C0((u8 *)p->f0C)));
 }

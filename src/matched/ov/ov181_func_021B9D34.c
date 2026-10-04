@@ -20,8 +20,10 @@ extern void func_02045088(unsigned short);
 extern unsigned func_020450F0(unsigned, unsigned, unsigned, unsigned, unsigned char, unsigned char, unsigned char);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(unsigned);
-extern unsigned char func_02045730(unsigned);
+typedef unsigned char  u8;
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(unsigned);
 void func_021B9D34(char *p)
 {
@@ -31,10 +33,10 @@ void func_021B9D34(char *p)
     *(unsigned *)(p + 0x2C4) = func_020450F0(5, 0, 0, 0x20, 0x1C, 0xF, 1);
     h = *(unsigned *)(p + 0x2BC);
     func_02045334((struct Descriptor *)h);
-    func_02045374(h);
-    func_020409B4(func_02045730(h));
+    func_02045374((struct Cfg *)h);
+    func_020409B4(func_02045730((struct Descriptor *)h));
     h = *(unsigned *)(p + 0x2C4);
     func_02045334((struct Descriptor *)h);
-    func_02045374(h);
-    func_020409B4(func_02045730(h));
+    func_02045374((struct Cfg *)h);
+    func_020409B4(func_02045730((struct Descriptor *)h));
 }

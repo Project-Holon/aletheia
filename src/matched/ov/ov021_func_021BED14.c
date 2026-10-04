@@ -19,14 +19,15 @@
 
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; } X;
-extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern X *func_020124E8(u32 h);
 typedef unsigned char  u8;
 extern int func_021BEA6C(int x);
 extern int func_021BF274(u32 p0, int *st, u8 *q);
 u32 func_021BED14(u32 a, u32 b)
 {
-    u32 h = func_020122C0(a, 0, func_021BF274, 0x2c);
+    u32 h = (u32)func_020122C0((void *)a, 0, func_021BF274, 0x2c);
     X *x = func_020124E8(h);
     x->f0 = a;
     x->f4 = b;

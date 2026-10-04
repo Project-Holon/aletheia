@@ -26,15 +26,18 @@ typedef unsigned int u32;
 
 typedef struct { u32 a, b, c; } Ent;
 
-extern int func_02188C98(int a);
-extern int func_0218DC6C(int a);
+typedef unsigned char  u8;
+struct Ctx;
+struct SoundSys2;
+extern u32 func_02188C98(u8 *p);
+extern u32 func_0218DC6C(u8 *p);
 extern u32 func_0218C654(u32 a, u32 b, Ent *e);
-extern int func_0218C6F4(u32 a, u32 b, int c);
-extern int func_02188C80(int a);
-extern int func_020120F4(int a);
+extern int func_0218C6F4(unsigned char *p, int b, int id);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A7C(int a, int b);
+extern void func_02028A7C(struct SoundSys2 *s, u32 id);
 extern Ent d_021F4278;
 extern int d_021F4258[];
 
@@ -44,11 +47,11 @@ void func_021F3DCC(int unused, int b, u32 *c)
     u32 i;
     int r;
 
-    r7 = func_0218DC6C(func_02188C98(b));
+    r7 = func_0218DC6C((u8 *)func_02188C98((u8 *)b));
     i = 0;
     c[1] = func_0218C654(r7, 0, &d_021F4278);
     c[0] = r7;
-    r = func_0218C6F4(r7, c[1], 1);
+    r = func_0218C6F4((unsigned char *)r7, c[1], 1);
     c[2] = 0x6000;
     c[3] = i;
     for (; i < 1; i++) {
@@ -58,5 +61,5 @@ void func_021F3DCC(int unused, int b, u32 *c)
             break;
         }
     }
-    func_02028A7C(func_02012A30((const struct BigObj *)func_020120F4(func_02188C80(b))), 0x746);
+    func_02028A7C((struct SoundSys2 *)func_02012A30((const struct BigObj *)func_020120F4(func_02188C80((void *)b))), 0x746);
 }

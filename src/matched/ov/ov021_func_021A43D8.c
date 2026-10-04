@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_021A3960(unsigned char *p);
-extern u32 func_02188C80(u32);
-extern u32 func_0202E83C(u32);
+extern void *func_02188C80(void *p);
+extern int func_0202E83C(void *a0);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern int func_021A428C(u8 *, int, u32 *, int, u32);
+extern int func_021A428C(u8 *o, int unused, int c, int flag, int kind);
 extern void func_02164208(int, u32 *, int);
 
 void func_021A43D8(u8 *p, int k, int dir)
@@ -43,10 +43,10 @@ void func_021A43D8(u8 *p, int k, int dir)
         return;
     }
     a = func_021A3960(*(void **)(p + 0xc));
-    r = func_0202E83C(func_02188C80(*(u32 *)(p + 0x10)));
+    r = func_0202E83C(func_02188C80((void *)(*(u32 *)(p + 0x10))));
     func_0216D88C(a, (struct VecFx32 *)buf);
-    if (func_021A428C(p, k, buf, 0, r) == 0) {
+    if (func_021A428C(p, k, (int)buf, 0, r) == 0) {
         func_02164208(dir, buf, 0x10000);
-        func_021A428C(p, k, buf, 1, r);
+        func_021A428C(p, k, (int)buf, 1, r);
     }
 }

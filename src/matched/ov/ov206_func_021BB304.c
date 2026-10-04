@@ -40,9 +40,11 @@ extern u8 func_020275EC(u8 i);
 extern u32 func_020275F8(u32 a);
 extern u32 func_020275FC(u32 a);
 extern u32 func_02027600(u32 a);
-extern void *func_0204AC18(void *, int, int, int, int, int, unsigned short);
-extern void *func_0204AF28(void *, int, int, unsigned short);
-extern void *func_0204A6C8(void *, int, int, int, unsigned short);
+typedef signed int     s32;
+typedef unsigned short u16;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -92,15 +94,15 @@ void func_021BB304(Ent *p)
         }
     }
     p->fe0 = 0;
-    p->fc8 = func_0204AC18(arc, func_020275E8(), flag, 0x40, 0, 3, p->f0);
-    p->fcc = func_0204AF28(arc, func_020275FC(2), func_02027600(2), p->f0);
+    p->fc8 = (void *)func_0204AC18(arc, func_020275E8(), flag, 0x40, 0, 3, p->f0);
+    p->fcc = (void *)func_0204AF28(arc, func_020275FC(2), func_02027600(2), p->f0);
     if (p->f18 == 2 && p->f1c == 0) {
         r.a = 0; r.b = 0; r.c = 0; r.d = 0; r.e = 0;
         p->fe4 = 1;
         p->f170 = 0x11;
         p->f171 = 0x11;
         for (i = 0; i < 0x11; i++) {
-            p->a[i] = func_0204A6C8(arc, func_020275F8(i), 0, flag, p->f0);
+            p->a[i] = (void *)func_0204A6C8(arc, func_020275F8(i), 0, flag, p->f0);
             p->b[i] = func_0204B294(p->f24, (unsigned int)p->a[i], (unsigned int)p->fc8, (unsigned int)p->fcc, &r, sh, p->f0);
             func_0204B6F4(p->b[i], func_020275EC(i), 1);
             func_0204B800(p->b[i], 2);

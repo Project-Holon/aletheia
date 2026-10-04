@@ -50,15 +50,15 @@ extern void func_02164280(int x, int y, void *p);
 extern void func_02163E58(void *a, Vec3 *v, int *out);
 extern void func_0216E014(void *a, void *b, u32 c);
 extern void *func_021A2F98(u32 a);
-extern void func_021ACBB8(void *a, u32 b);
-extern u32 func_02188CD0(u32 a);
+extern void func_021ACBB8(u32 a, u8 v);
+extern u32 func_02188CD0(u8 *p);
 extern void func_021ABE30(int a, int *b, int c);
 extern void func_021ABE64(u32 a, int b);
 extern u32 func_021AD564(u32 a, u32 b, void *c);
 extern void func_021AC154(u32 a);
 extern void func_021C6B18(u32 a, u16 b, u32 c);
 extern void func_021C12E4(void *a, u8 *b);
-extern void func_021A35A0(u32 a, int b);
+extern void func_021A35A0(u32 *p, int a);
 extern void func_020061E4(u32 se);
 
 void func_021C16AC(u8 *p)
@@ -95,10 +95,10 @@ void func_021C16AC(u8 *p)
         *(int *)(p + 0x34) = -0x6000;
         *(int *)(p + 0x1c) = 0x1000;
         r7 = func_021A2F98(*(u32 *)(p + 0x3c));
-        func_021ACBB8(r7, 2);
+        func_021ACBB8((u32)r7, 2);
         if ((u16)(*(u16 *)(p + 4) + 0xfffe) <= 1)
             k = 3;
-        t = func_02188CD0(*(u32 *)(p + 0x40));
+        t = func_02188CD0((u8 *)(*(u32 *)(p + 0x40)));
         n = 9;
         func_021ABE30(t, &n, 1);
         *(u32 *)(p + 0x48) = func_021AD564(t, k, r7);
@@ -122,7 +122,7 @@ void func_021C16AC(u8 *p)
                 u32 k2 = 2;
                 if ((u16)(*(u16 *)(p + 4) + 0xfffe) <= 1)
                     k2 = 2;
-                *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0(*(u32 *)(p + 0x40)), k2, r7);
+                *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0((u8 *)(*(u32 *)(p + 0x40))), k2, r7);
             }
         }
         func_021C12E4(o, p + 0x18);
@@ -138,8 +138,8 @@ void func_021C16AC(u8 *p)
             func_021C6B18(*(u32 *)(p + 0x40), 0x10, -0x20000);
             func_021AC154(*(u32 *)(p + 0x48));
             r7 = func_021A2F98(*(u32 *)(p + 0x3c));
-            func_021ACBB8(r7, 1);
-            *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0(*(u32 *)(p + 0x40)), 0, r7);
+            func_021ACBB8((u32)r7, 1);
+            *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0((u8 *)(*(u32 *)(p + 0x40))), 0, r7);
         }
         func_0216D89C(o, &w);
         break;
@@ -150,12 +150,12 @@ void func_021C16AC(u8 *p)
         func_0216D89C(o, &w);
         *(u16 *)(p + 8) += 1;
         if (*(u16 *)(p + 8) >= 0x10) {
-            t = func_02188CD0(*(u32 *)(p + 0x40));
+            t = func_02188CD0((u8 *)(*(u32 *)(p + 0x40)));
             func_0216DB4C(o, 0);
             func_0216E014(o, p + 0x24, *(u16 *)(p + 4));
             func_021AC154(*(u32 *)(p + 0x48));
             func_021ABE64(t, 9);
-            func_021A35A0(*(u32 *)(p + 0x3c), 1);
+            func_021A35A0((u32 *)(*(u32 *)(p + 0x3c)), 1);
             *(u32 *)(p + 0x48) = 0;
             *(u16 *)(p + 6) = 1;
             func_020061E4(0x6e2);

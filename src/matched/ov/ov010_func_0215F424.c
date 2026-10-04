@@ -33,9 +33,9 @@ typedef struct Entry {
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern Entry *func_0215911C();
-extern void func_02162774();
-extern void func_02162788();
+extern u32 func_0215911C(void *p);
+extern void func_02162774(char *p, unsigned i, u16 v);
+extern void func_02162788(char *p, unsigned i, u16 v);
 struct BigObj;
 extern u16 func_0215A480(unsigned a);
 extern u32 func_02012844(const struct BigObj *p);
@@ -50,12 +50,12 @@ int func_0215F424(int a0, int a1)
     int i1 = func_02159B10((void *)a0, (void *)a1);
     int i2 = func_02159B10((void *)a0, (void *)a1);
     int obj = func_02012844(func_0215A5E4((void *)a1));
-    Entry *t = func_0215911C(w);
-    func_02162774(obj, s0, t[i0].f04);
-    func_02162774(obj, s1, t[i1].f04);
-    func_02162774(obj, s2, t[i2].f04);
-    func_02162788(obj, s0, func_0215A480(t[i0].f06));
-    func_02162788(obj, s1, func_0215A480(t[i1].f06));
-    func_02162788(obj, s2, func_0215A480(t[i2].f06));
+    Entry *t = (Entry *)func_0215911C(w);
+    func_02162774((char *)obj, s0, t[i0].f04);
+    func_02162774((char *)obj, s1, t[i1].f04);
+    func_02162774((char *)obj, s2, t[i2].f04);
+    func_02162788((char *)obj, s0, func_0215A480(t[i0].f06));
+    func_02162788((char *)obj, s1, func_0215A480(t[i1].f06));
+    func_02162788((char *)obj, s2, func_0215A480(t[i2].f06));
     return 0;
 }

@@ -116,7 +116,7 @@ extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(unsigned char *p, int box);
 extern int func_021DEDCC(unsigned char *p, int box);
 extern void func_021DEC98(unsigned char *p, int a, int dir);
-extern int func_021EF180(unsigned a, unsigned b);
+extern void func_021EF180(int a, int b);
 extern void func_021DD1E8(unsigned char *p);
 extern void func_021EE364(unsigned char *p, int idx, int v);
 extern void func_021EE038(unsigned char *p, int a, int b, int c);

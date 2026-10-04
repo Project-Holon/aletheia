@@ -17,7 +17,7 @@
  *   func_020315D4 0x020315D4 arm
  */
 extern void func_021E037C(char *, char *);
-extern void func_021FC0C8(int, int);
+extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FD820(char *);
 extern void func_021FD15C(void *, int);
 extern void func_02025588(void *);
@@ -29,7 +29,7 @@ int func_021DF9C8(void *p, int unused, char *q, char *data)
 {
     int i;
     func_021E037C(data, q);
-    func_021FC0C8(*(int *)(q + 8), 6);
+    func_021FC0C8((char *)(*(int *)(q + 8)), 6);
     for (i = 0; i < 2; i++) func_021FD820(*(char **)(data + i * 4 + 0x3c));
     func_021FD15C(*(void **)(data + 0x38), *(int *)(q + 8));
     func_02025588(*(void **)(data + 0x44));

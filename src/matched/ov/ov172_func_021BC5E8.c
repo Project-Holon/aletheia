@@ -43,11 +43,13 @@ extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern u32 func_021BDFE4(void *p);
 extern void func_020061E4(u32 id);
 extern void func_021BCEF8(void *ctx, u8 *st);
-extern void func_0204B878(u32 spr, int anim);
-extern void func_0204B404(u32 spr, struct SpritePos *pos, int n);
-extern u32 func_0202824C(u32 p);
-extern void func_0202822C(u32 p, int v);
-extern void func_0200616C(u32 id, int v);
+struct Obj;
+struct Vec2;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern u32 func_0202824C(void **p);
+extern void func_0202822C(char *p, int v);
+extern void func_0200616C(void *arg, int i);
 extern int func_02035C08(const void *p);
 extern u32 func_020362DC(void);
 extern const u8 d_021C7040[];
@@ -132,7 +134,7 @@ void func_021BC5E8(void *ctx, u8 *list)
         } else if (tx >= 0xec && tx <= 0x104 && ty >= *(u16 *)(list + 6) + 0xc
                    && ty <= *(u16 *)(list + 6) + 0x24 && list[0x14] > 5) {
             *(u32 *)(list + 0x10) = 1;
-            func_0204B878(*(u32 *)(list + 0x404), 0xd);
+            func_0204B878((struct Obj *)(*(u32 *)(list + 0x404)), 0xd);
             func_020061E4(0x66c);
         }
     }
@@ -147,25 +149,25 @@ void func_021BC5E8(void *ctx, u8 *list)
             *(u16 *)(list + 6) = s;
             pos.x = 0xf8;
             pos.y = *(u16 *)(list + 6) + 0x18;
-            func_0204B404(*(u32 *)(list + 0x404), &pos, 1);
+            func_0204B404((struct Obj *)(*(u32 *)(list + 0x404)), (const struct Vec2 *)(&pos), 1);
             *(u16 *)(list + 4) = *(u16 *)(list + 6) * range / 0x78;
             *(u32 *)(list + 0xc) = 1;
         }
     } else {
         *(u32 *)(list + 0x10) = 0;
-        func_0204B878(*(u32 *)(list + 0x404), 0xc);
+        func_0204B878((struct Obj *)(*(u32 *)(list + 0x404)), 0xc);
     }
-    if (*(u32 *)(list + 0x1c) != 0 && func_0202824C(*(u32 *)(list + 0x1c)) == 1) {
-        func_0202822C(*(u32 *)(list + 0x1c), 1);
+    if (*(u32 *)(list + 0x1c) != 0 && func_0202824C((void **)(*(u32 *)(list + 0x1c))) == 1) {
+        func_0202822C((char *)(*(u32 *)(list + 0x1c)), 1);
         *(u32 *)(list + 8) = 6;
         func_020061E4(0x54c);
         if (*(u32 *)(list + 0x18) == 1)
-            func_0200616C(0x73d, 2);
+            func_0200616C((void *)0x73d, 2);
     }
     if (!func_02035C08(d_021C7040) || (func_020362DC() & 2)) {
         *(u32 *)(list + 8) = 6;
         *(u32 *)(list + 0x18) = 5;
-        func_0204B878(*(u32 *)(list + 0x400), 9);
+        func_0204B878((struct Obj *)(*(u32 *)(list + 0x400)), 9);
         func_020061E4(0x551);
     }
 }

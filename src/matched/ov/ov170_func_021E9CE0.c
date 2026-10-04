@@ -27,7 +27,7 @@ extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(char *p);
 extern void func_021EF670(char *w);
-extern void func_021E8FC0(char *p, int (*cb)(char *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0128(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -42,5 +42,5 @@ void func_021E9CE0(char *p, int a, int n)
         if (a == 1)
             func_021EF670(WORK(p));
     }
-    func_021E8FC0(p, func_021E0128, n);
+    func_021E8FC0(p, (int)func_021E0128, n);
 }

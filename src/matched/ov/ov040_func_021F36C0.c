@@ -43,21 +43,24 @@ typedef struct {
 extern V3 d_021F38D4;
 extern char d_021F38EC[];
 
-extern u32 func_02188D2C(u32 a);
-extern u32 func_02188C84(u32 a);
-extern void func_02189764(u32 a, int b, u32 c, int d);
-extern void *func_021897BC(u32 a, int b);
+typedef unsigned short u16;
+struct Big;
+struct Ctx;
+extern int func_02188D2C(int *p);
+extern u16 func_02188C84(u8 *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
+extern int *func_021897BC(char *p, int idx);
 extern void func_021BE310(u32 a, void *b, int c);
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern u8 *func_0200B3A4(u32 a, u32 b);
 extern V3 *func_021BE480(u32 a, int b, int c);
-extern u8 *func_021BE674(u32 a, int b, int c, int d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6B8(u8 *p, int v);
-extern void func_021BE700(u32 a, int b, int c, int d, int e);
-extern int func_021BE748(u8 *p);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern int func_021BE748(u32 a);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 
 void func_021F36C0(u32 a)
@@ -67,20 +70,20 @@ void func_021F36C0(u32 a)
     u8 *e;
     V3 v;
 
-    s = func_02188D2C(a);
-    func_02189764(a, 1, func_02188C84(a), 4);
-    func_021897BC(a, 1);
+    s = func_02188D2C((int *)a);
+    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 4);
+    func_021897BC((char *)a, 1);
     func_021BE310(s, d_021F38EC, 0);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 3);
+    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 3);
     v.a = d_021F38D4.a;
     v.b = 0;
     v.c = d_021F38D4.b;
     *func_021BE480(s, 0, 0) = v;
-    e = func_021BE674(s, 0, 0, 0);
+    e = func_021BE674((char *)s, 0, 0, 0);
     func_021BE6B0(e, 1);
     func_021BE6B8(e, 0);
     if (q[4] != 0) {
-        func_021BE700(s, 0, 0, 0, 1);
-        func_021BE6CC(s, 0, 0, 0, func_021BE748(e));
+        func_021BE700((void *)s, 0, 0, 0, 1);
+        func_021BE6CC(s, 0, 0, 0, func_021BE748((u32)e));
     }
 }

@@ -20,15 +20,17 @@
  *   result (the field is re-read after the 0x70 call).
  */
 
-extern void func_020260E4(int, int);
+typedef unsigned char  u8;
+struct Sound;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE408(char *, int);
-extern void func_020260E4(int, int);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE408(char *, int);
 void func_021EECB0(char *p, int a)
 {
     int v;
     if (a == 0 || (unsigned)(a - 5) <= 1) {
-        func_020260E4(*(int *)(*(int *)(p + 0x2c) + 0x70),
+        func_020260E4((struct Sound *)(*(int *)(*(int *)(p + 0x2c) + 0x70)),
                       *(int *)(*(int *)(p + 0x2c) + 0xA168) & 0xff);
         v = *(int *)(*(int *)(p + 0x2c) + 0xA168);
     } else {

@@ -14,8 +14,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_02028484(u8 *,u32);
+typedef signed int     s32;
+struct Blk;
+extern s32 func_02028484(struct Blk *blk, void *h);
 int func_021B98B4(u8 *a,u8 *b)
 {
-    return func_02028484(a+0x38,*(u32 *)(b+0x294));
+    return func_02028484((struct Blk *)(a+0x38),(void *)(*(u32 *)(b+0x294)));
 }

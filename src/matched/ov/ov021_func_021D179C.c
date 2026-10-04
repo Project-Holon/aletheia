@@ -35,16 +35,19 @@ typedef unsigned int   u32;
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
-extern u32 func_0215A5CC(u32 a);
-extern u32 func_02158F74(void *a);
+struct Sub02009210Ent;
+struct Sub02009210Obj;
+struct U16Vec;
+extern u16 func_0215A5CC(void *a0);
+extern void *func_02158F74(void *p);
 extern u32 func_02012F8C(u32 *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern u16 *func_02009390(u32 a, u32 b);
-extern u32 func_020457B0(u32 a, u32 b);
+extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 extern void func_0201EE0C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_02045808(u32 a);
+extern void func_02045808(struct U16Vec *vec);
 
 int func_021D179C(u32 a, u32 b)
 {
@@ -60,17 +63,17 @@ int func_021D179C(u32 a, u32 b)
 
     func_0215A5DC((void *)b);
     r7 = func_0215A5E4((void *)b);
-    s8 = func_0215A5CC(b);
-    s12 = func_02158F74(r6);
+    s8 = func_0215A5CC((void *)b);
+    s12 = (u32)func_02158F74(r6);
     id = func_02012F8C(r7);
     k0 = func_02159B10((void *)a, (void *)b);
     k1 = func_02159B10((void *)a, (void *)b);
-    e = func_02009390(id, k1);
+    e = (u16 *)func_02009390((struct Sub02009210Obj *)id, k1);
     if (e != 0 && e[0] != 0x7E && e[0] != 0) {
-        h = func_020457B0(0xE, s8);
+        h = (u32)func_020457B0(0xE, s8);
         func_02045994((struct Strbuf *)h, e + 1, 0xD);
         func_0201EE0C(s12, k0, h, 0, 0, 2);
-        func_02045808(h);
+        func_02045808((struct U16Vec *)h);
     }
     return 0;
 }

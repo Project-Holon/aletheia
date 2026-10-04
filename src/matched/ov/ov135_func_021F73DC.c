@@ -32,7 +32,7 @@ extern void func_021F777C(void *);
 extern void func_021F7878(u8 *);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021F9254(u8 *);
-extern void func_021F81C8(void *,void *,void *,void *,int,int,int,void *);
+extern void func_021F81C8(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
 extern void func_021F8358(void *,void *,void **,void *,void *,void *);
 extern void *func_021F9890(Init *,u32,u32);
 int func_021F73DC(u8 *p)
@@ -46,7 +46,7 @@ int func_021F73DC(u8 *p)
     func_021F7878(p);
     func_0202208C((void *)3,1,1,0,6,1,0x48);
     func_021F9254(p);
-    func_021F81C8(*(void **)(p+0xB6C),*(void **)(p+0xB70),*(void **)(p+0xB68),p+0xD90,0,3,-1,p+0xFA0);
+    func_021F81C8(*(void **)(p+0xB6C),*(void **)(p+0xB70),(int)(*(void **)(p+0xB68)),p+0xD90,0,3,-1,p+0xFA0);
     func_021F8358(*(void **)(p+0xB6C),*(void **)(p+0xB68),(void **)(p+0xD9C),*(void **)(p+0xCC),p+0xB4C,p+0xFA0);
     init.a=p+0xD50;
     init.b=p+0xDD4;

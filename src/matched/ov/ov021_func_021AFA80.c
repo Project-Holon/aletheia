@@ -27,19 +27,20 @@ typedef struct {
 } Script;
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F74(void *a);
+struct WordSet;
+extern void *func_02158F74(void *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 int func_021AFA80(Script *a, u32 b)
 {
-    u32 x = func_02158F74(func_0215A5F4((void *)b));
+    u32 x = (u32)func_02158F74(func_0215A5F4((void *)b));
     u8 *p = a->cur;
     u32 v = *p;
     u32 e, f;
     a->cur = p + 1;
     e = func_02159B10(a, (void *)b);
     f = func_02159B10(a, (void *)b);
-    func_0201EFA4(x, v, e, f, 0, 1);
+    func_0201EFA4((struct WordSet *)x, v, e, f, 0, 1);
     return 0;
 }

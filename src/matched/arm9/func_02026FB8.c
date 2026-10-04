@@ -44,7 +44,7 @@ struct Big;
 struct Blk34;
 struct PlayTime;
 extern void *func_02012EBC(struct Big *p);
-extern void *func_02012FCC(void *a);
+extern int func_02012FCC(int p0);
 extern void *func_0200C0F0(void *a);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
@@ -57,7 +57,7 @@ void func_02026FB8(Obj *o)
     void *b;
 
     a = func_02012EBC(*(void **)g_02146940);
-    b = func_02012FCC(*(void **)g_02146940);
+    b = (void *)func_02012FCC((int)(*(void **)g_02146940));
     a = func_0200C0F0(a);
     o->f0c = func_0200864C(b);
     o->f0chi = func_02008650(b);

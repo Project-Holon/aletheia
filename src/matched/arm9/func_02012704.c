@@ -45,34 +45,36 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_020307B0(u32 p);
+struct SoundSys;
+struct Sub02006E40Obj;
+extern void func_020307B0(void *p);
 extern int func_021647D8(int a0);
-extern void func_02027584(u32 p);
-extern void func_0202E794(u32 p);
+extern void func_02027584(u8 *p);
+extern void func_0202E794(void *p);
 extern void func_0215E334(u32 p);
-extern void func_02006E64(u32 p);
-extern void func_02007AC8(u32 p);
+extern void func_02006E64(struct Sub02006E40Obj *obj);
+extern void func_02007AC8(void *p);
 extern int func_0216CCB0(int a0);
-extern void func_02159BBC(u32 p);
+extern void func_02159BBC(void *ptr);
 extern int func_021623BC(int a0);
 extern void func_02014444(u32 p);
-extern void func_0202889C(u32 p);
+extern void func_0202889C(struct SoundSys *s);
 
 void func_02012704(u8 *p)
 {
-    func_020307B0(*(u32 *)(p + 0x6AC));
+    func_020307B0((void *)(*(u32 *)(p + 0x6AC)));
     func_021647D8(*(u32 *)(p + 0x690));
-    func_02027584(*(u32 *)(p + 0x68C));
-    func_0202E794(*(u32 *)(p + 0x684));
+    func_02027584((u8 *)(*(u32 *)(p + 0x68C)));
+    func_0202E794((void *)(*(u32 *)(p + 0x684)));
     func_0215E334(*(u32 *)(p + 0x5E4));
-    func_02006E64(*(u32 *)(p + 0x1A4));
-    func_020307B0(*(u32 *)(p + 0x1A0));
-    func_02007AC8(*(u32 *)(p + 0x19C));
-    func_020307B0(*(u32 *)(p + 0x18C));
+    func_02006E64((struct Sub02006E40Obj *)(*(u32 *)(p + 0x1A4)));
+    func_020307B0((void *)(*(u32 *)(p + 0x1A0)));
+    func_02007AC8((void *)(*(u32 *)(p + 0x19C)));
+    func_020307B0((void *)(*(u32 *)(p + 0x18C)));
     func_0216CCB0(*(u32 *)(p + 0x1A8));
-    func_02159BBC(*(u32 *)(p + 0x1B0));
+    func_02159BBC((void *)(*(u32 *)(p + 0x1B0)));
     func_021623BC(*(u32 *)(p + 0x158));
     func_02014444(*(u32 *)(p + 0x1B8));
-    func_0202889C(*(u32 *)(p + 0x1B4));
-    func_020307B0((u32)p);
+    func_0202889C((struct SoundSys *)(*(u32 *)(p + 0x1B4)));
+    func_020307B0((void *)((u32)p));
 }

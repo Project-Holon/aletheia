@@ -118,12 +118,18 @@ struct Head {
 };
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_020582CC(void);
-extern void func_02058204(void);
-extern void func_02058180(void);
-extern void func_020580A8(void);
-extern void func_02057F8C(void);
-extern void func_02057EF8(void);
+struct A;
+struct B;
+struct C;
+struct Obj;
+struct S;
+struct Src;
+extern void func_020582CC(struct Obj *o, void *s, int *dst);
+extern void func_02058204(struct Obj *o, struct Src *s, int *dst);
+extern void func_02058180(struct A *a, struct B *b, volatile int *c);
+extern void func_020580A8(struct Obj *o, u8 *dst);
+extern void func_02057F8C(struct A *a, struct S *s, int unused, struct C *c);
+extern void func_02057EF8(struct A *a, struct B *b);
 
 void func_02052A50(struct Head *h, struct Hdr *d)
 {
@@ -156,12 +162,12 @@ void func_02052A50(struct Head *h, struct Hdr *d)
             struct Anim *p;
             rec->anims = h->alloc(rec->nanims * sizeof(struct Anim));
             p = rec->anims;
-            if (fl.b24) { p->data = (char *)d + off; p->fn = func_020582CC; off += 8; p++; }
-            if (fl.b25) { p->data = (char *)d + off; p->fn = func_02058204; off += 8; p++; }
-            if (fl.b26) { p->data = (char *)d + off; p->fn = func_02058180; off += 0x10; p++; }
-            if (fl.b27) { p->data = (char *)d + off; p->fn = func_020580A8; off += 4; p++; }
-            if (fl.b28) { p->data = (char *)d + off; p->fn = func_02057F8C; off += 8; p++; }
-            if (fl.b29) { p->data = (char *)d + off; p->fn = func_02057EF8; off += 0x10; }
+            if (fl.b24) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020582CC; off += 8; p++; }
+            if (fl.b25) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058204; off += 8; p++; }
+            if (fl.b26) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058180; off += 0x10; p++; }
+            if (fl.b27) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020580A8; off += 4; p++; }
+            if (fl.b28) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057F8C; off += 8; p++; }
+            if (fl.b29) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057EF8; off += 0x10; }
         } else {
             rec->anims = 0;
         }

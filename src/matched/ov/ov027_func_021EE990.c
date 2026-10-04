@@ -20,19 +20,20 @@
  *   func_021A21E0  0x021A21E0  thumb  ov021
  */
 
-int *func_021A2630(int a);
-int func_021A2638(int a);
+typedef unsigned int   u32;
+unsigned char *func_021A2630(unsigned char *o);
+unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 void func_021A2640(unsigned char *a, struct PtS *pt);
 void func_021A2654(int a, short *pt);
-void func_021A21E0(int a);
+void func_021A21E0(u32 *p);
 
 void func_021EE990(int a)
 {
-    int *o = func_021A2630(a);
+    int *o = (int *)func_021A2630((unsigned char *)a);
     short pt[2];
 
-    func_021A2638(a);
+    func_021A2638((unsigned char *)a);
     func_021A2640((unsigned char *)a, (struct PtS *)pt);
     if (o[3] == 0) {
         pt[0] = pt[0] + (short)o[4];
@@ -43,6 +44,6 @@ void func_021EE990(int a)
             o[3] = 1;
         func_021A2654(a, pt);
     } else {
-        func_021A21E0(a);
+        func_021A21E0((u32 *)a);
     }
 }

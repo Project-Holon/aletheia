@@ -20,7 +20,8 @@ extern int func_02035C60(void);
 extern int func_02035CB8(int *, int *);
 extern void *func_021BA184(char *p);
 extern unsigned int func_021BA324(u8 *, int, int);
-extern u8 *func_021BA208(u8 *);
+typedef unsigned int   u32;
+extern u32 func_021BA208(u8 *p);
 extern void func_021B95AC(u8 *);
 void func_021B952C(u8 *p)
 {
@@ -37,7 +38,7 @@ void func_021B952C(u8 *p)
         while (e) {
             n = func_021BA324(e, *(int *)(p + 0x1c), *(int *)(p + 0x20));
             if (distance > n) { best = e; distance = n; }
-            e = func_021BA208(e);
+            e = (u8 *)func_021BA208(e);
         }
         if (best) *(u8 **)(p + 0x38) = best;
     }

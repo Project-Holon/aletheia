@@ -22,11 +22,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern void func_0202E848(int a, u16 *b, u16 *c);
-extern int func_02188C84(int a);
+struct Sub020140BCObj;
+extern u16 func_02188C84(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_02013B38(u32 id);
 extern int func_0201407C(int a, int b, int c);
-extern int func_020140D8(int a);
+extern u8 func_020140D8(struct Sub020140BCObj *p);
 extern u32 func_020140B4(u32 a);
 
 void func_0218403C(u8 *p)
@@ -38,10 +39,10 @@ void func_0218403C(u8 *p)
     u16 hi;
 
     func_0202E848(*(int *)(p + 4), &s[1], &s[0]);
-    r4 = func_02188C84(*(int *)(p + 8));
+    r4 = func_02188C84((u8 *)(*(int *)(p + 8)));
     r6 = func_0201407C(r4, func_02013B38(*(u16 *)(p + 0x14)), 0);
     flag = 0;
-    if (func_020140D8(r6) != 0)
+    if (func_020140D8((struct Sub020140BCObj *)r6) != 0)
         flag = 1;
     func_020140B4(r6);
     hi = s[1];

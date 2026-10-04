@@ -45,7 +45,7 @@ extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02018438(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void *func_02202670(void *ws, void *bank, u32 c, u32 d);
+extern u32 func_02202670(u32 a, u32 b, u32 c, u32 d);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -72,7 +72,7 @@ void func_021F8358(void *bank, void *ws, void **win, void *mon, MonTag *out, voi
     has = func_02017E88(mon, 0xAD, 0);
     title = func_02045EC0(bank, 0x6E);
     func_0201EFA4(ws, 3, gender, 3, 0, 1);
-    place = func_02202670(ws, bank, 0x72, 0x48);
+    place = (void *)func_02202670((u32)ws, (u32)bank, 0x72, 0x48);
     if (form != 3) {
         func_02045CAC(bank, tbl_02202EB0[form], tmp);
     }

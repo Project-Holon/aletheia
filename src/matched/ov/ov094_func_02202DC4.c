@@ -67,7 +67,7 @@ typedef struct {
     int f280;           /* 0x280 */
 } Obj;
 
-extern int func_02021ED8(int a);
+extern u32 func_02021ED8(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
 extern int func_02035C08(void *key);
@@ -97,7 +97,7 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
     Ent *e;
     int mode;
 
-    if (o->busy || func_02021ED8(o->f64) != 0 || o->lock)
+    if (o->busy || func_02021ED8((const char *)o->f64) != 0 || o->lock)
         return -1;
     ret = o->pending;
     if (ret != -1) {

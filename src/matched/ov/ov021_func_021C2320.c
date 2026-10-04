@@ -37,12 +37,14 @@ int func_021C1AA8(u32 a, u32 b, u32 c, u32 d);
 int func_020489F4(int a, u16 b);
 int func_02048A00(int a, u16 b);
 int func_02048A18(int a, u16 b);
-int func_0204779C(int a);
+struct Evt;
+struct Obj;
+int func_0204779C(int *p);
 void func_020477A4(int a, u8 b);
-int func_02051B04(int a);
-int func_020124E4(int a);
+u16 func_02051B04(void *res);
+void *func_020124E4(struct Obj *p);
 int func_020122C0(int a, int b, int c, int d);
-void func_02012374(int a, int b);
+void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_021C2320(int a, char *p, char *q, int d)
 {
@@ -68,7 +70,7 @@ void func_021C2320(int a, char *p, char *q, int d)
     cnt = func_02048A00(*(int *)(p + 0x14), *(int *)(p + 0x18));
     for (i = 0; i < cnt; i++) {
         h = func_02048A18(*(int *)(p + 0x14), base + i);
-        n = func_0204779C(h);
+        n = func_0204779C((int *)h);
         for (k = 0; k < n; k++)
             func_020477A4(h, k);
     }
@@ -77,7 +79,7 @@ void func_021C2320(int a, char *p, char *q, int d)
     *(u16 *)(p + 0x60) = *(u16 *)(q + 0x24);
     *(u16 *)(p + 0x62) = *(u16 *)(q + 0x26);
     if (t != 0)
-        r = func_02051B04(t);
+        r = func_02051B04((void *)t);
     else
         r = 0;
     if (r == 2) {
@@ -97,7 +99,7 @@ void func_021C2320(int a, char *p, char *q, int d)
     if (*(u8 *)(q + 0x2f) != 0)
         *(int *)(p + 0x84) = 1;
     if (*(int *)(p + 0x128) != 0) {
-        h = func_020124E4(a);
-        func_02012374(a, func_020122C0(h, a, *(int *)(p + 0x128), 0));
+        h = (int)func_020124E4((struct Obj *)a);
+        func_02012374((struct Evt *)a, (struct Evt **)func_020122C0(h, a, *(int *)(p + 0x128), 0));
     }
 }

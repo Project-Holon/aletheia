@@ -18,7 +18,9 @@
 
 typedef unsigned short u16;
 
-extern void func_02194D1C(int a, void *b, int c);
+struct Owner;
+struct Sprite;
+extern void func_02194D1C(struct Owner *a, struct Sprite *b, int c);
 
 void func_02194CE8(int a, u16 *b)
 {
@@ -30,10 +32,10 @@ void func_02194CE8(int a, u16 *b)
     case 6:
         break;
     case 3:
-        func_02194D1C(a, b, 0);
+        func_02194D1C((struct Owner *)a, (struct Sprite *)b, 0);
         break;
     case 4:
-        func_02194D1C(a, b, 1);
+        func_02194D1C((struct Owner *)a, (struct Sprite *)b, 1);
         break;
     }
 }

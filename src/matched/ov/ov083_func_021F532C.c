@@ -11,5 +11,6 @@
  * symbols:
  *   func_02158768 0x02158768 thumb ov010
  */
-extern void func_02158768(void *p,int a,int b,int c);
-void func_021F532C(void *p) { func_02158768(p,0x28ba,0,0x15); }
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+void func_021F532C(void *p) { func_02158768((int)p,0x28ba,0,0x15); }

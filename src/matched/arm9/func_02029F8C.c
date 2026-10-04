@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 
 extern int func_02006224(u32 a0);
 extern void func_020061F8(int a);
-extern void func_0200616C(u32 a, int b);
+extern void func_0200616C(void *arg, int i);
 
 int func_02029F8C(u16 *p)
 {
@@ -33,7 +33,7 @@ int func_02029F8C(u16 *p)
         return 0;
     }
     if (func_02006224(4) == 0) {
-        func_0200616C(0x662, 4);
+        func_0200616C((void *)0x662, 4);
     }
     return 1;
 }

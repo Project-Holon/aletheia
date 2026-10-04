@@ -20,9 +20,11 @@
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0217AFB0(void *, int, void *);
-extern void *func_02188CE0(void *);
-extern void func_0217F958(void *, void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_0217AFB0(void **a, u8 *b, u8 *c);
+extern u32 func_02188CE0(u8 *p);
+extern void func_0217F958(char *p, u32 key);
 extern void func_0216CF2C(void *);
 extern void MI_CpuFill8(void *p, int v, int n);
 
@@ -32,9 +34,9 @@ void func_0217B054(void **a, int b, void *c)
     void *r;
 
     h = func_0201210C(((void **)a[0])[3]);
-    r = func_0217AFB0(a, b, c);
+    r = func_0217AFB0(a, (u8 *)b, c);
     if (h != 0 && r != 0)
-        func_0217F958(func_02188CE0(h), r);
+        func_0217F958((char *)func_02188CE0(h), (u32)r);
     func_0216CF2C(r);
     MI_CpuFill8(c, 0, 12);
 }

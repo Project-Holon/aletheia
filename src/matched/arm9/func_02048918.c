@@ -71,16 +71,16 @@ typedef struct {
 } Setup;
 
 
-extern void *func_02047788(void *obj);
+extern int func_02047788(int *p);
 extern u16   func_0204779C(void *obj);
 extern void *func_02047790(void *obj, u16 idx);
 struct Rec;
 struct Tagged;
 extern void func_0204762C(struct Rec *p);
-extern void *func_02047554(void *rnd);
+extern int func_02047554(int *p);
 extern int func_020470D0(u32 *p);
 extern void func_02046EFC(struct Tagged *p);
-extern void *func_0204754C(void *rnd);
+extern int func_0204754C(int *p);
 extern void func_02047504(struct Rec *p);
 extern void func_02047738(struct Rec *p);
 
@@ -95,17 +95,17 @@ void func_02048918(Util *util, u16 unitIdx)
 
     for (i = 0; i < objCount; i++) {
         obj = util->obj[objIdx + i];
-        rnd = func_02047788(obj);
+        rnd = (void *)func_02047788(obj);
         anmCount = func_0204779C(obj);
         for (j = 0; j < anmCount; j++)
             func_0204762C(func_02047790(obj, j));
         if (util->objStat[objIdx + i] & 0xfd) {
-            void *tex = func_02047554(rnd);
+            void *tex = (void *)func_02047554(rnd);
             func_020470D0(tex);
             func_02046EFC(tex);
         }
         if (util->objStat[objIdx + i] & 0xfe)
-            func_02046EFC(func_0204754C(rnd));
+            func_02046EFC((struct Tagged *)func_0204754C(rnd));
         func_02047504(rnd);
         func_02047738(obj);
     }

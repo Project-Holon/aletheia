@@ -24,18 +24,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0202B7B8(u32 a, u32 b);
-extern void func_0202B7BC(u32 a, u32 b);
+struct Obj;
+extern void func_0202B7BC(struct Obj *o, u32 a1);
 extern void func_0202B7C8(u32 a, u32 b);
-extern void func_0202B7D4(u32 a, u32 b);
+extern void func_0202B7D4(u8 *p, u32 key);
 extern void func_0202B7E0(u32 a, u32 b);
 extern void func_0202B7EC(u32 a, u32 b);
 
 void func_0202B544(u32 a, u32 b)
 {
     func_0202B7B8(a, b);
-    func_0202B7BC(a, b);
+    func_0202B7BC((struct Obj *)a, b);
     func_0202B7C8(a, b);
-    func_0202B7D4(a, b);
+    func_0202B7D4((u8 *)a, b);
     func_0202B7E0(a, b);
     func_0202B7EC(a, b);
 }

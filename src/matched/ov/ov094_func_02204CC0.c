@@ -127,7 +127,8 @@ struct Obj;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern int func_0201EC64(int);
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern u32 func_0201BD28(u16 id, u32 field);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
@@ -135,22 +136,22 @@ extern void func_0204B404(void *, const Point *, int);
 extern u32 func_020275E4(void);
 extern u32 func_020275F8(u8);
 extern u8 func_020275EC(u8 i);
-extern void *func_02049E34(u32 arc, u32 file, u32 comp, void **out, u16 heap);
-extern void *func_02049F34(u32 arc, u32 file, void **out, u16 heap);
+extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B7C8(void *, Struct36 *);
 extern void func_02082A60(const void *, void *, int);
 extern void func_020307B0(void *);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201EF34(int, int, int);
-extern void func_0201EFA4(int, int, int, int, int, int);
-extern void func_0201F250(int, void *, void *);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02204C98(void *a, void *b, int *w, int *h);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern int func_02205768(int a, int b);
 extern void func_020215BC(void *, void *, int, u16, u16);
-extern void func_0201ED04(int);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_02045808(struct U16Vec *vec);
 
 typedef struct Work {
@@ -210,7 +211,7 @@ void func_02204CC0(Work *p, const Slots *q)
     str1 = func_020457B0(0x10, p->heap);
     m0 = func_02045EC0(p->msgdata, 0);
     m1 = func_02045EC0(p->msgdata, 1);
-    font = func_0201EC64(p->heap);
+    font = (int)func_0201EC64(p->heap);
     str2 = func_020457B0(0x10, p->heap);
     m2 = func_02045EC0(p->msgdata, 2);
     func_0204B22C(p->sys, 0);
@@ -222,7 +223,7 @@ void func_02204CC0(Work *p, const Slots *q)
             func_0204B404(p->obj[i], &d_0220A3C4[i], 1);
             heap = (p->heap & 0x7fff) | 0x8000;
             arc = func_020275E4();
-            chr = func_02049E34(arc, func_020275F8(k), 0, &cd, heap);
+            chr = func_02049E34(arc, func_020275F8(k), 0, (u32)(&cd), heap);
             func_0204B6F4(p->obj[i], func_020275EC(k), 1);
             func_0204B7C8(p->obj[i], &buf);
             vram = VRAM_BASE;
@@ -230,13 +231,13 @@ void func_02204CC0(Work *p, const Slots *q)
             func_020307B0(chr);
             func_0201DE00(&c[2], &c[1], &c[0]);
             func_0201DD78(1, 2, 0);
-            func_0201EF34(font, 0, q->id[i]);
-            func_0201F250(font, str1, m0);
+            func_0201EF34((struct WordSet *)font, 0, q->id[i]);
+            func_0201F250((struct WordSet *)font, str1, m0);
             func_02204C98(str1, p->fnt, &w, &h);
             func_0201C7A4(p->win, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, p->fnt);
-            func_0201EFA4(font, 0, q->a[i], 2, 1, 1);
-            func_0201EFA4(font, 1, q->b[i], 2, 1, 1);
-            func_0201F250(font, str2, m2);
+            func_0201EFA4((struct WordSet *)font, 0, q->a[i], 2, 1, 1);
+            func_0201EFA4((struct WordSet *)font, 1, q->b[i], 2, 1, 1);
+            func_0201F250((struct WordSet *)font, str2, m2);
             col = func_02205768(q->a[i], q->b[i]);
             cb = (u8)(col & 0x1f);
             cg = (u8)((col >> 5) & 0x1f);
@@ -252,7 +253,7 @@ void func_02204CC0(Work *p, const Slots *q)
             file = 0xc1;
         }
         heap = (p->heap & 0x7fff) | 0x8000;
-        pltt = func_02049F34(0xb, file, &pd, heap);
+        pltt = func_02049F34(0xb, file, (u32)(&pd), heap);
         func_020215BC(p->bg, *(void **)((char *)pd + 0xc), 1, i * 16 + 0x90, 0x20);
         func_020307B0(pltt);
     }
@@ -260,7 +261,7 @@ void func_02204CC0(Work *p, const Slots *q)
     if (p->mode == 2) {
         p->f25a[i + 1] = 1;
     }
-    func_0201ED04(font);
+    func_0201ED04((struct WordSet *)font);
     func_02045808(str1);
     func_02045808(m1);
     func_02045808(m0);

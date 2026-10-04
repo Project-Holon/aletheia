@@ -25,8 +25,10 @@ typedef struct Ctx {
 } Ctx;
 
 extern Ctx d_021B60D8;
-extern int func_021B2D54(u8 *p, int x);
-extern int func_021B2AA0(u8 *p, int x);
+struct Event;
+struct Pkt;
+extern int func_021B2D54(u8 *p, int *out);
+extern int func_021B2AA0(struct Pkt *pkt, struct Event *ev);
 extern int func_021B2BE0(u8 *p, int x);
 
 int func_021B2488(int a, u8 *p, int len, int x)
@@ -36,8 +38,8 @@ int func_021B2488(int a, u8 *p, int len, int x)
     if (p[8] != a || p[9] != d_021B60D8.b0)
         return 0;
     if (p[5] != 0x10)
-        return func_021B2D54(p, x);
+        return func_021B2D54(p, (int *)x);
     if (d_021B60D8.fC == 0)
-        return func_021B2AA0(p, x);
+        return func_021B2AA0((struct Pkt *)p, (struct Event *)x);
     return func_021B2BE0(p, x);
 }

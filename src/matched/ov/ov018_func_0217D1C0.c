@@ -58,10 +58,10 @@ void *func_020120F4(const struct Ctx *p);
 u8 *func_020120F8(const struct Ctx *p);
 struct Rec44;
 unsigned short func_02012AC8(const struct Rec44 *);
-void *func_0201283C(void *);
+u32 func_0201283C(const struct BigObj *p);
 u32 func_0201058C(void *key);
 void func_02037174(void);
-u8 *func_02158344(void *);
+int func_02158344(int a0);
 void func_0217F008(u8 *w, u8 *p);
 u8 func_02012B70(const struct BigObj *p);
 void func_020061E4(u32 a);
@@ -96,9 +96,9 @@ void func_0217D1C0(u8 *w, int b)
 
     s1 = (void *)func_02012138(*(void **)w);
     s2 = func_020120F4(*(void **)w);
-    p = func_02158344(s1);
+    p = (u8 *)func_02158344((int)s1);
     q = func_02012AC8((const struct Rec44 *)func_020120F8(*(void **)w));
-    func_0201058C(func_0201283C(s2));
+    func_0201058C((void *)func_0201283C(s2));
     func_02037174();
     if (p == 0 || (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 0)) {
         func_0217F008(w, p);

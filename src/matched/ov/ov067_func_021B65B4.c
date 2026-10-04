@@ -24,11 +24,11 @@
 
 typedef unsigned int u32;
 
-extern void func_021B6548(u32 *p, u32 a1, u32 a2);
+extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 
 void func_021B65B4(u32 *p, u32 a1)
 {
     p[2] = 0;
     p[0] = (u32)-1;
-    func_021B6548(p, a1, 1);
+    func_021B6548((unsigned char *)p, a1, 1);
 }

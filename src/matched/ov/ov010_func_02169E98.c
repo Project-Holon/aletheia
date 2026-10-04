@@ -14,9 +14,10 @@
 
 typedef unsigned int u32;
 
-void func_020452E8(u32 x);
+struct Descriptor;
+void func_020452E8(struct Descriptor *d);
 
 void func_02169E98(char *p)
 {
-    func_020452E8(*(u32 *)(*(char **)(p + 0x18) + 8));
+    func_020452E8((struct Descriptor *)(*(u32 *)(*(char **)(p + 0x18) + 8)));
 }

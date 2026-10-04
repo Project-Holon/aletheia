@@ -36,13 +36,13 @@ typedef unsigned int u32;
 
 struct Obj0202C244;
 extern u32 sub_0202C24C(struct Obj0202C244 *p);
-extern void sub_0202C358(u32 v);
+extern u32 sub_0202C358(void *p);
 
 void sub_0202C2C0(void *p)
 {
     u32 v = sub_0202C24C(p);
 
     if (v != 0) {
-        sub_0202C358(v);
+        sub_0202C358((void *)v);
     }
 }

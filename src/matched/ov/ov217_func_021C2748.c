@@ -29,15 +29,15 @@ typedef signed int     s32;
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern u32 func_021C28A4();
-extern u32 func_021C28BC();
+extern u8 func_021C28A4(char *p);
+extern u8 func_021C28BC(char *p);
 void func_021C2748(u32 a0, u32 a1)
 {
     func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 16), a1);
-    if (func_021C28BC(a0) != 0) {
+    if (func_021C28BC((char *)a0) != 0) {
     func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 20), a1);
     }
-    if (func_021C28BC(a0) != 0 || func_021C28A4(a0) != 0) {
+    if (func_021C28BC((char *)a0) != 0 || func_021C28A4((char *)a0) != 0) {
     func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 24), a1);
     }
     func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 28), a1);

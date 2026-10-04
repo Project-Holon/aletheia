@@ -28,9 +28,9 @@ extern u32 d_021DAA88;
 extern void func_02088168(void *);
 extern void func_02162248(void *, u32);
 extern void func_02082BCC(void *, u32, u32);
-extern void func_021D8BC0(void *);
-extern void func_021D8BF8(void *, int);
-extern void func_021D8BE4(void *);
+extern void func_021D8BC0(u32 value);
+extern void func_021D8BF8(int a, int b);
+extern void func_021D8BE4(int a);
 extern const u32 d_021D8D38[];
 extern int func_021D8B3C(void);
 void func_021D8B44(void)
@@ -40,7 +40,7 @@ void func_021D8B44(void)
     if (d_021DAA88) return;
     func_02082BCC(d_021DAAAC, 0, 0x830);
     *(u32 *)(d_021DAAAC + 0x800) = 0;
-    func_021D8BC0(d_021DAAAC);
-    func_021D8BF8((void *)d_021D8D38, 1);
-    func_021D8BE4(func_021D8B3C);
+    func_021D8BC0((u32)d_021DAAAC);
+    func_021D8BF8((int)((void *)d_021D8D38), 1);
+    func_021D8BE4((int)func_021D8B3C);
 }

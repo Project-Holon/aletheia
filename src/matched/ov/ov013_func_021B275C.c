@@ -16,13 +16,13 @@
 
 typedef unsigned char u8;
 
-extern void func_021B2620(u8 *o, u8 *p);
+extern int func_021B2620(int *o, u8 *p);
 extern int func_02176E90(int i, u8 *p, int n);
 
 int func_021B275C(u8 *o, u8 *p)
 {
     if (p[4] == 0xff && p[6] == 4) {
-        func_021B2620(o, p);
+        func_021B2620((int *)o, p);
     } else if (func_02176E90(o[4], p, 0x10) == 0) {
         return 0;
     }

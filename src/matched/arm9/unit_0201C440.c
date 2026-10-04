@@ -24,9 +24,10 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_0201C450(u32 a, void *b);
+typedef unsigned short u16;
+extern void *sub_0201C450(u16 n, u32 heap);
 
 u32 sub_0201C440(void *p)
 {
-    return sub_0201C450(0x400, p);
+    return (u32)sub_0201C450(0x400, (u32)p);
 }

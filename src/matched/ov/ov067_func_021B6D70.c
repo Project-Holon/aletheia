@@ -17,8 +17,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020458F8(u32 h);
-extern u16 *func_02045A90(u32 h);
+struct U16Vec;
+extern u16 func_020458F8(struct U16Vec *vec);
+extern u16 *func_02045A90(struct U16Vec *vec);
 
 int func_021B6D70(u32 a, u32 b, u32 n)
 {
@@ -26,14 +27,14 @@ int func_021B6D70(u32 a, u32 b, u32 n)
     u16 *pb;
     u32 i;
 
-    if (func_020458F8(a) < n) {
+    if (func_020458F8((struct U16Vec *)a) < n) {
         return 0;
     }
-    if (func_020458F8(b) < n) {
+    if (func_020458F8((struct U16Vec *)b) < n) {
         return 0;
     }
-    pa = func_02045A90(a);
-    pb = func_02045A90(b);
+    pa = func_02045A90((struct U16Vec *)a);
+    pb = func_02045A90((struct U16Vec *)b);
     for (i = 0; i < n; i++) {
         if (*pa++ != *pb++) {
             return 0;

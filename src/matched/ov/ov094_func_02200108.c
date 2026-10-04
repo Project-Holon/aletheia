@@ -34,7 +34,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(Work *w, int key);
-extern void func_020172AC(void *obj, int k);
+extern void func_020172AC(int a0, int a1);
 extern void func_02016078(void *obj, void *h, int v);
 
 void func_02200108(Work *w, int key, int v)
@@ -45,6 +45,6 @@ void func_02200108(Work *w, int key, int v)
         return;
     if (w->e[idx].h == 0)
         return;
-    func_020172AC(w->obj, w->e[idx].k34);
+    func_020172AC((int)w->obj, w->e[idx].k34);
     func_02016078(w->obj, w->e[idx].h, v);
 }

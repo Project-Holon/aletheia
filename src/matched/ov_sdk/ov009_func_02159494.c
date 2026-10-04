@@ -15,10 +15,10 @@
  *   func_021593A8  0x021593A8  arm
  */
 
-extern void func_021593A8(int a, int b);
+extern void func_021593A8(char *soc, unsigned char flag);
 
 void func_02159494(int a)
 {
-    func_021593A8(a, 0x11);
+    func_021593A8((char *)a, 0x11);
 }
 

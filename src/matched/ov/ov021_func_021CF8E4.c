@@ -29,7 +29,7 @@ extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32   func_02017E1C(void *p, u32 id, u32 v);
-extern int   func_021CFA04(void *a, u32 b, int c);
+extern int func_021CFA04(int a, int v, void *l);
 
 int func_021CF8E4(void *a, void *src, int c)
 {
@@ -42,7 +42,7 @@ int func_021CF8E4(void *a, void *src, int c)
         void *p = func_0201AB28(party, i);
         if (func_02017E1C(p, 0x4c, 0) == 0) {
             u32 v = func_02017E1C(p, 7, 0);
-            if (func_021CFA04(a, v, c) != 0) {
+            if (func_021CFA04((int)a, v, (void *)c) != 0) {
                 n++;
             }
         }

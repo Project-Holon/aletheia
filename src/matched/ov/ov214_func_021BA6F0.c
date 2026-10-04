@@ -20,7 +20,8 @@
  *   func_021BAD08 0x021BAD08 thumb ov214
  */
 typedef unsigned char u8;
-extern void func_0201C6EC(int);
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -36,12 +37,12 @@ void func_021BA6F0(void*obj,char*p)
     void*h;
     *(int*)(p+0xac)=0;
     *(int*)(p+0xb0)=0;
-    func_0201C6EC(*(int*)(p+0x14));
+    func_0201C6EC((struct PrintSys *)(*(int*)(p+0x14)));
     func_02043B5C(func_02045770(*(void**)(p+0x94)),0);
     h=*(void**)(p+0x94);
     func_02045334(h);func_02045374(h);func_02041B6C(func_02045730(h));
     *(int*)(p+0xa4)=1;
-    func_0201C6EC(*(int*)(p+0x18));
+    func_0201C6EC((struct PrintSys *)(*(int*)(p+0x18)));
     func_02043B5C(func_02045770(*(void**)(p+0x98)),0);
     h=*(void**)(p+0x98);
     func_02045334(h);func_02045374(h);func_02041B6C(func_02045730(h));

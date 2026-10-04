@@ -45,7 +45,7 @@ typedef struct Obj {
 extern u32 func_021A7A8C(u8 *p);
 extern Pair func_021A7A40(void *t, u32 idx, u32 key);
 extern u8 *func_021A79E4(void *a, u32 idx);
-extern void func_02061CA4(int type, u32 addr, void *data, u32 size);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021A7818(Obj *a, s32 dt)
 {
@@ -63,7 +63,7 @@ void func_021A7818(Obj *a, s32 dt)
         } else if (a->f08[i] != -1) {
             t = func_021A7A40(a->f20, i, a->f10[i] >> 12);
             if (t.lo != a->f04[i].lo || a->f00)
-                func_02061CA4(0, a->f08[i], func_021A79E4(a->f3C, t.lo), a->f0C[i]);
+                func_02061CA4(0, a->f08[i], (u32)func_021A79E4(a->f3C, t.lo), a->f0C[i]);
             a->f04[i] = t;
         }
     }

@@ -22,19 +22,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D4F8(u32);
-extern u32 func_0216D4F0(u32);
+extern u32 func_0216D4F8(u8 *p);
+extern u16 func_0216D4F0(void *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern unsigned char d_021DDD70[];
 
 void func_0219CBE0(u8 *o)
 {
-    u32 h = func_0216D4F8(*(u32 *)(o + 0x10));
+    u32 h = func_0216D4F8((u8 *)(*(u32 *)(o + 0x10)));
     u8 *p = func_02030734(h, 0x18, 1, (const char *)d_021DDD70, 1491);
     u16 *e;
     int i;
     *(u16 *)(p + 4) = *(u16 *)(o + 2);
-    *(u16 *)(p + 8) = func_0216D4F0(*(u32 *)(o + 0x10));
+    *(u16 *)(p + 8) = func_0216D4F0((void *)(*(u32 *)(o + 0x10)));
     *(u16 *)(p + 6) = 1;
     e = (u16 *)func_02030734(h, 0xc * *(u16 *)(p + 4), 1, (const char *)d_021DDD70, 1498);
     *(u16 **)(p + 0xc) = e;

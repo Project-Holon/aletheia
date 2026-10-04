@@ -19,12 +19,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021F914C(u8 *p, u32 b, u32 c, u32 e, u16 f, u32 z, u32 g);
+extern int func_021F914C(void *win, void *str, int x, int align, int unused, int font, void *ctx);
 extern u32 func_022028C8(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
 
 int func_021F91DC(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g)
 {
-    u32 r = func_021F914C(p, b, c, e, f, 0, g);
+    u32 r = func_021F914C(p, (void *)b, c, e, f, 0, (void *)g);
 
     return func_022028C8(p, 0, b, r, d, 0, f, g);
 }

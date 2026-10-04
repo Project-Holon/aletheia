@@ -77,7 +77,7 @@ extern struct EnvModule g_EnvModule;
 extern void *sub_0202FBAC(u16 idx);
 struct ExpHeap;
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
-extern int   sub_0202FED8(void *res, u32 idx, void *bound, u32 param);
+extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
 
 int sub_0202FDC4(u32 src, u32 dst, u32 param)
 {
@@ -109,7 +109,7 @@ int sub_0202FDC4(u32 src, u32 dst, u32 param)
         goto fail;
     }
 
-    if (sub_0202FED8(res, dst, bound, param) == 0) {
+    if (sub_0202FED8((u32)res, dst, (u32)bound, param) == 0) {
         goto fail;
     }
     return 1;

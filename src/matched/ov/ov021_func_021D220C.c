@@ -44,7 +44,8 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 func_02008990(const struct Sub02008828Obj *obj);
 extern u16 func_02188C84(u8 *p);
-extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 
 int func_021D220C(void *msg, u8 *pos)
 {
@@ -53,9 +54,9 @@ int func_021D220C(void *msg, u8 *pos)
 
     for (i = 0; i < 5; i++) {
         if (n == data_021DD6BC[i].count)
-            return func_02158768(msg, data_021DD6BC[i].msg, 0, func_02188C84(pos));
+            return (int)func_02158768((int)msg, data_021DD6BC[i].msg, 0, func_02188C84(pos));
     }
     if (n > 500)
-        return func_02158768(msg, 0x28E1, 0, func_02188C84(pos));
+        return (int)func_02158768((int)msg, 0x28E1, 0, func_02188C84(pos));
     return 0;
 }

@@ -14,13 +14,14 @@
  *   func_021E5980  0x021E5980  thumb  ov177
  */
 
-extern void func_021E5534(int);
+typedef unsigned char  u8;
+extern void func_021E5534(u8 *p);
 extern void func_021E5980(int);
 
 void func_0217AF14(int *p)
 {
     if (*(int *)((char *)p + 0x24)) {
-        func_021E5534(*(int *)((char *)p + 0x24));
+        func_021E5534((u8 *)(*(int *)((char *)p + 0x24)));
         func_021E5980(*(int *)((char *)p + 0x20));
     }
 }

@@ -65,8 +65,12 @@ extern const Row7 data_021C8560;
 extern const Row7 data_021C8568;
 
 extern void *func_0204B034(const BankDesc *desc, unsigned int a1, unsigned int heap);
-extern u32  func_0204B100(u32 a, u32 b, u32 heap);
-extern void func_0204B258(u32 bank, void *p);
+struct Actor;
+struct Bank;
+struct Node;
+struct Obj;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B258(struct Bank *bank, void *p);
 extern void *func_020490F4(unsigned int id, u16 heap);
 typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -76,13 +80,13 @@ extern void func_02049238(void *h);
 extern void func_02082BCC(void *dst, int v, int n);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B878(u32 obj, u32 anim);
+extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B84C(u32 obj, int v);
-extern void func_0204B800(u32 obj, int v);
+extern void func_0204B800(struct Node *node, u32 val);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
-extern void func_0204B688(u32 obj, u32 on);
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -100,8 +104,8 @@ void func_021C0134(u16 *heap, u8 *p, int key)
 
     desc = data_021C8580;
     WP(0x1d4) = func_0204B034(&desc, 1, *heap);
-    W(0x1d0) = func_0204B100(0x10, 0, *heap);
-    func_0204B258(W(0x1d0), WP(0x1d4));
+    W(0x1d0) = (u32)func_0204B100(0x10, 0, *heap);
+    func_0204B258((struct Bank *)W(0x1d0), WP(0x1d4));
 
     h = func_020490F4(0x55, *heap);
     W(0x9c) = func_0204AC18(h, 2, 0, 0, 0, 5, *heap);
@@ -132,12 +136,12 @@ void func_021C0134(u16 *heap, u8 *p, int key)
         OBJ(i) = (u32)func_0204B294((void *)W(0x1d0), W(0xa4), W(0xa8), W(0xac), &pos, 0, *heap);
 
     for (i = 0; i < 7; i++) {
-        func_0204B878(OBJ(i), anim.v[i]);
+        func_0204B878((struct Obj *)OBJ(i), anim.v[i]);
         func_0204B92C((struct Obj *)OBJ(i), 1);
         func_0204B84C(OBJ(i), pri.v[i]);
-        func_0204B800(OBJ(i), pal.v[i]);
+        func_0204B800((struct Node *)OBJ(i), pal.v[i]);
         func_0204B3DC((struct Obj *)OBJ(i), 0);
-        func_0204B688(OBJ(i), 1);
+        func_0204B688((struct Actor *)OBJ(i), 1);
     }
 
     pt.x = 0x80;

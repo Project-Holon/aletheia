@@ -19,7 +19,10 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DAC60 0x021DAC60 thumb ov119
  */
-extern void func_02039338(void),func_021E36D8(void *,int),func_021DD1B8(void *);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
+extern void func_021E36D8(void *,int);
+extern void func_021DD1B8(void *);
 extern int func_021D8AA8(void *),func_020173EC(void);
 struct Obj;
 extern void func_02082BCC(void *,int,int),func_0204B3DC(struct Obj *,unsigned int),func_021E1098(void *);

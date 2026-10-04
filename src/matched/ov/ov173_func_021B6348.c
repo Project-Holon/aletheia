@@ -17,16 +17,19 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void func_021B7EB0(u8 *, int);
-extern void func_02045808(u32);
-extern void func_02027FD8(u32);
-extern void func_0201C4C0(u32);
+struct PrintSys;
+struct TaskMenuState;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_0201C4C0(struct PrintSys *p);
 void func_021B6348(u8 *p)
 {
     func_021B7EB0(p, 0);
-    func_02045808(*(u32 *)(p + 0x1e4));
-    func_02045808(*(u32 *)(p + 0x1f0));
-    func_02045808(*(u32 *)(p + 0x1fc));
-    func_02045808(*(u32 *)(p + 0x208));
-    func_02027FD8(*(u32 *)(p + 0x1dc));
-    func_0201C4C0(*(u32 *)(p + 0x218));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1e4)));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1f0)));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1fc)));
+    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x208)));
+    func_02027FD8((struct TaskMenuState *)(*(u32 *)(p + 0x1dc)));
+    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x218)));
 }

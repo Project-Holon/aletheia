@@ -26,13 +26,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *);
-extern u32 func_02188D38(u32);
+extern int func_02158F58(int a0);
+extern u32 func_02188D38(u8 *p);
 extern unsigned int func_02159B10(void *a, void *b);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_021C78DC(u32, int, void *, void *);
-extern void func_021C6DE0(u32, u32, int);
+extern void func_021C6DE0(u8 *p, u32 a, u32 b);
 
 int func_021B1DEC(u32 a, u32 b)
 {
@@ -46,8 +46,8 @@ int func_021B1DEC(u32 a, u32 b)
     int zero;
     void *w;
 
-    x = func_02158F58(func_0215A5F4((void *)b))[1];
-    y = func_02188D38(x);
+    x = ((u32 *)func_02158F58((int)func_0215A5F4((void *)b)))[1];
+    y = func_02188D38((u8 *)x);
     neg = func_02159B10((void *)a, (void *)b);
     p = func_02159B10((void *)a, (void *)b);
     q = func_02159B10((void *)a, (void *)b);
@@ -66,6 +66,6 @@ int func_021B1DEC(u32 a, u32 b)
         v.z = zero;
     }
     w = func_021A3074(func_02188CB4((void *)x));
-    func_021C6DE0(y, func_021C78DC(x, p, &v, w), 0);
+    func_021C6DE0((u8 *)y, func_021C78DC(x, p, &v, w), 0);
     return 0;
 }

@@ -95,7 +95,7 @@ extern void func_021FD5F0(Work *p);
 extern void func_021FFD1C(Work *p, int i, int dy);
 extern void func_021FD8BC(void *p);
 extern void func_0203D34C(u32 a, u32 b);
-extern void func_0202208C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int func_021FCC40(Work *p)
 {
@@ -125,9 +125,9 @@ int func_021FCC40(Work *p)
     func_0203D34C(1, 0x48);
     if (p->kind == 0x11) {
         if (func_0207D55C((vu16 *)0x0400006C) == -16 && func_0207D55C((vu16 *)0x0400106C) != -16) {
-            func_0202208C(3, 1, 1, 0, 6, 1, 0x48);
+            func_0202208C((void *)3, 1, 1, 0, 6, 1, 0x48);
         } else if (func_0207D55C((vu16 *)0x0400006C) != -16 && func_0207D55C((vu16 *)0x0400106C) == -16) {
-            func_0202208C(4, 1, 1, 0, 6, 1, 0x48);
+            func_0202208C((void *)4, 1, 1, 0, 6, 1, 0x48);
         } else {
             func_0202208C(0, 1, 1, 0, 6, 1, 0x48);
         }

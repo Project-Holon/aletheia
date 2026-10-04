@@ -17,12 +17,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_02006224(u32 a0);
-extern void func_0200616C(u32 a, int b);
+extern void func_0200616C(void *arg, int i);
 
 void func_02029FF8(u16 *p)
 {
     if (func_02006224(4) == 0) {
-        func_0200616C(0x662, 4);
+        func_0200616C((void *)0x662, 4);
     }
     p[2] = 0x384;
 }

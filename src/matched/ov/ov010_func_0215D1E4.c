@@ -37,8 +37,8 @@ extern void *func_021BE8D4(void *, void *, int, int);
 extern void *func_021BE92C(void *, void *, int, int, int, int, int);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020144DC(void *, void *);
-extern void *func_02014910(void *, void *, void *, void *);
+extern int func_020144DC(int a0, int a1);
+extern void *func_02014910(char *a0, int a1, int a2, int a3);
 extern void *func_020145CC(void *);
 extern void func_020307B0(void *);
 
@@ -52,12 +52,12 @@ int func_0215D1E4(void *a, u32 *st, Ctx *c)
         *st = 1;
         break;
     case 1:
-        func_02012374(a, func_020144DC(p0, c->f4));
+        func_02012374(a, (struct Evt **)func_020144DC((int)p0, (int)c->f4));
         c->f8->f3c = c->fC->fF;
         *st = 2;
         break;
     case 2:
-        func_02012374(a, func_02014910(p0, c->f4, c->f8, c->fC));
+        func_02012374(a, func_02014910(p0, (int)c->f4, (int)c->f8, (int)c->fC));
         *st = 3;
         break;
     case 3:

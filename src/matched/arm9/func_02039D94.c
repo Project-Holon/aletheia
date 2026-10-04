@@ -65,7 +65,7 @@ extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
 extern u32 func_0203D378(void);
 extern u32 func_0203D394(u8 *e);
 extern u32 func_0203D4D0(u8 *e, u32 a, u32 b, u32 c, void *d, u32 e2, u32 f, u32 g2);
-extern int func_0203D3A8(u8 *e, u16 b, u16 c, void *q);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern u32 func_0203D650(void);
 extern void *func_0203D798(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
@@ -113,7 +113,7 @@ void func_02039D94(void)
             continue;
         if (func_020395EC(p) == 0xff)
             continue;
-        if (func_0203D3A8(p, 7, 4, p + 0x46) != 0)
+        if (func_0203D3A8((struct Entry *)p, 7, 4, (u32)(p + 0x46)) != 0)
             p[0x49] = 0;
     }
 
@@ -146,7 +146,7 @@ void func_02039D94(void)
         u32 b;
         a = (*(u32 (**)(u32))(g + 0x14))(func_0203D650());
         b = (*(u32 (**)(u32))(g + 0x10))(func_0203D650());
-        if (func_0203D3A8(e, 0xa, a, (void *)b) != 0)
+        if (func_0203D3A8((struct Entry *)e, 0xa, a, (u32)((void *)b)) != 0)
             e[0x4e] = 0;
     } else {
         e[0x4e] = 0;

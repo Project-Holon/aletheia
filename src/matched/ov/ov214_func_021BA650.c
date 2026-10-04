@@ -19,7 +19,8 @@
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
-extern void func_0201C6EC(int);
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -34,7 +35,7 @@ void func_021BA650(int unused,char*p)
     u8 i;
     void*h;
     for(i=0;i<=1;i++){
-        func_0201C6EC(*(int*)(p+0x10));
+        func_0201C6EC((struct PrintSys *)(*(int*)(p+0x10)));
         func_02043B5C(func_02045770(*(void**)(p+i*4+0x8c)),0);
         h=*(void**)(p+i*4+0x8c);
         func_02045334(h);

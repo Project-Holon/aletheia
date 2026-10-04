@@ -15,10 +15,12 @@
  * Forward the i-th word of the pooled table.
  */
 
-extern void func_0204B3F4(int);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 
 void func_021EC01C(char *p, int i)
 {
-    func_0204B3F4(*(int *)(p + i * 4 + 0x9E74));
+    func_0204B3F4((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)));
 }
 

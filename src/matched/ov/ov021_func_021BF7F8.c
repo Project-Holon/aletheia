@@ -35,12 +35,14 @@ typedef struct {
     int f58;
 } Q;
 
-extern int func_02188C58(int);
-extern int func_0218FE80(int);
-extern void func_0218FEA0(int, int *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_02188C58(void *p);
+extern void *func_0218FE80(void *a);
+extern void func_0218FEA0(u8 *p, u32 v);
 extern void func_0218FEA4(int);
 extern void func_0218FE78(int, V8 *);
-extern void func_0218FEC0(int);
+extern void func_0218FEC0(u8 *o);
 extern void func_0218FF00(int);
 
 void func_021BF7F8(Q *q)
@@ -48,17 +50,17 @@ void func_021BF7F8(Q *q)
     int r4;
     int r0;
 
-    r4 = func_02188C58(q->f4);
-    r0 = func_0218FE80(q->f4);
+    r4 = (int)func_02188C58((void *)q->f4);
+    r0 = (int)func_0218FE80((void *)q->f4);
     q->fc = 60;
     q->f50 = 1;
     q->f54 = 1;
     q->f58 = r0;
-    func_0218FEA0(r0, &q->fc);
+    func_0218FEA0((u8 *)r0, (u32)(&q->fc));
     func_0218FEA4(q->f58);
     func_0218FE78(r4, &q->v30);
     q->v10 = q->v30;
     q->v10.w[1] = q->v10.w[1] - 0x64000;
-    func_0218FEC0(q->f58);
+    func_0218FEC0((u8 *)q->f58);
     func_0218FF00(q->f58);
 }

@@ -30,7 +30,8 @@ typedef struct Blk021D08D8 {
 } Blk021D08D8;
 
 extern void func_0204784C(int a, u16 i, int *v);
-extern void func_02047AC8(int a, void *b);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 extern Blk021D08D8 d_021DE628;
 
 void func_021D08D8(Row *r, int a)
@@ -42,6 +43,6 @@ void func_021D08D8(Row *r, int a)
         for (i = 0; i < 2; i++) {
             func_0204784C(a, i, &r->f4);
         }
-        func_02047AC8(a, &d_021DE628);
+        func_02047AC8((void *)a, (struct Arg *)(&d_021DE628));
     }
 }

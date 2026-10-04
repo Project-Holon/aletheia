@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 struct PlayTime;
 struct Sub02008C20Obj;
 extern void *func_02012F2C(int *p);
-extern void *func_02012FCC(void *);
+extern int func_02012FCC(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u8 func_02008654(const struct PlayTime *p);
@@ -31,7 +31,7 @@ void func_021B9A94(char *p)
     void *counter,*date;
     unsigned year,month,day;
     counter=func_02012F2C(*(void **)(p+4));
-    date=func_02012FCC(*(void **)(p+4));
+    date=(void *)func_02012FCC((int)(*(void **)(p+4)));
     year=func_0200864C(date);
     month=func_02008650(date);
     day=func_02008654(date);

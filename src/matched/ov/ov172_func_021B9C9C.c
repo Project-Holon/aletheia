@@ -24,7 +24,7 @@ extern u32 func_021B80E4(int, char *);
 extern u8 func_021BE0A4(void *);
 extern u8 func_021BE054(void *);
 extern void func_021B9C1C(void *p, char *q, int id);
-extern void *func_021BE11C(void *);
+extern u32 func_021BE11C(u8 *p);
 struct Actor;
 struct Obj;
 typedef unsigned short u16;
@@ -39,7 +39,7 @@ void func_021B9C9C(void *p, char *q)
     } else {
         func_021B9C1C(p, q, 32);
     }
-    *(void **)(q + 128) = func_021BE11C(p);
+    *(void **)(q + 128) = (void *)func_021BE11C(p);
     *(u32 *)q = 10;
     if (func_0204B98C(*(void **)(q + 152)) == 0)
         func_0204B878(*(void **)(q + 152), 15);

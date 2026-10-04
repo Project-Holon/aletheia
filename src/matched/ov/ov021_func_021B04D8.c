@@ -26,12 +26,15 @@ typedef unsigned char u8;
 
 extern void *func_0215A5F4(void *p);
 extern unsigned int func_02159B10(void *, void *);
-extern u32 func_02011330(u32);
+typedef unsigned short u16;
+struct P;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern void func_021B03E4(u32, u32);
-extern u32 func_021B162C(u32, void *, u32);
+extern u32 func_021B162C(u32 a, u32 b, u32 c);
 extern int func_0215A61C(int a0);
-extern void func_02191084(u32, u32, u32, u32);
-extern void func_020113D0(u32, u32);
+extern void func_02191084(struct P *p, u32 b, u16 c, u32 d);
+extern void func_020113D0(char *p, int val);
 extern int func_021B04C0(u32 a, u32 b, u32 c, u32 d);
 
 int func_021B04D8(u32 a, u32 b)
@@ -41,9 +44,9 @@ int func_021B04D8(u32 a, u32 b)
 
     t = func_0215A5F4((void *)b);
     x = func_02159B10((void *)a, (void *)b);
-    func_021B03E4(b, (u8)func_02011330(a));
-    y = func_021B162C(b, t, x);
-    func_02191084(func_0215A61C(b), 0, 0, y);
-    func_020113D0(a, (u32)func_021B04C0);
+    func_021B03E4(b, (u8)func_02011330((struct Stream *)a));
+    y = func_021B162C(b, (u32)t, x);
+    func_02191084((struct P *)func_0215A61C(b), 0, 0, y);
+    func_020113D0((char *)a, (u32)func_021B04C0);
     return 1;
 }

@@ -16,11 +16,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021D4F60(int);
-extern void func_021D771C(int, void *);
+typedef unsigned char  u8;
+extern void func_021D4F60(u8 *p);
+extern void func_021D771C(char *p, unsigned int v);
 
 void func_021BF6B0(void)
 {
-    func_021D4F60(*(int *)(*(char **)0x021DE560 + 0x58));
-    func_021D771C(*(int *)(*(char **)0x021DE560 + 0x5c), (void *)0x021C0528);
+    func_021D4F60((u8 *)(*(int *)(*(char **)0x021DE560 + 0x58)));
+    func_021D771C((char *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
 }

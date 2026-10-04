@@ -17,12 +17,12 @@
 
 typedef unsigned int u32;
 
-extern void *func_021C3C5C(void *a);
+extern int func_021C3C5C(u32 a);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
 void func_021C3C30(void *a, u32 *out)
 {
-    void *mon = func_021C3C5C(a);
+    void *mon = (void *)func_021C3C5C((u32)a);
     u32 sp = func_02017E1C(mon, 5, 0);
 
     if (sp == 0x226)

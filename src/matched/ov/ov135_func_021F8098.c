@@ -28,7 +28,7 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
 extern u16 func_021F8078(int mode, u16 color);
-extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
+extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
 void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g)
 {
@@ -37,9 +37,9 @@ void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16
     if (force != 0 || mode != 3) {
         str = func_02045EC0(bank, tbl_02202EB0[mode]);
         if (y > 3) {
-            func_021F91A0(win, str, y, x, 0, func_021F8078(mode, color), g);
+            func_021F91A0(win, (u32)str, y, x, 0, func_021F8078(mode, color), (u32)g);
         } else {
-            func_021F91A0(win, str, 0, x, y, func_021F8078(mode, color), g);
+            func_021F91A0(win, (u32)str, 0, x, y, func_021F8078(mode, color), (u32)g);
         }
         func_02045808(str);
     }

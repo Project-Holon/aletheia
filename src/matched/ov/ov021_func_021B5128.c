@@ -26,13 +26,13 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02188CE8(u8 *p);
-extern u16 func_021AAB48(u32);
+extern u16 func_021AAB48(char *p);
 
 int func_021B5128(u32 a, u32 b)
 {
     void *w = func_0201210C(func_0215A5DC((void *)b));
     u16 *o = func_02159AE8((void *)a, (void *)b);
 
-    *o = func_021AAB48(func_02188CE8(w));
+    *o = func_021AAB48((char *)func_02188CE8(w));
     return 0;
 }

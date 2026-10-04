@@ -39,7 +39,7 @@ typedef struct CPSSslConnection {
 } CPSSslConnection;
 
 extern int func_02160E0C(unsigned char major, unsigned char minor);
-extern int func_02160DB4(unsigned char *s, int num, int size);
+extern int func_02160DB4(int a0, int a1, int a2);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 
@@ -54,7 +54,7 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     if (!func_02160E0C(s[0], s[1]))
         return;
     pairlist_len = (s[2] << 8) + s[3];
-    method = func_02160DB4(s + 8, pairlist_len / 3, 3);
+    method = func_02160DB4((int)(s + 8), pairlist_len / 3, 3);
     if (method == 0)
         return;
     con->method = method;

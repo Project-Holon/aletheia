@@ -56,7 +56,7 @@ struct DWCstNodeInfo {
 extern unsigned char func_02175FB8(void);
 extern struct DWCstNodeInfo *func_02176344(void);
 extern int func_021758C4(u8 AID, int suspend, int immediate);
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern u64 func_020870D0(void);
 extern struct DWCstNodeInfo *func_0217637C(int index);
 extern int func_0216FF2C(u8 command, int profileID, u32 ip, u16 port, u32 *data, int len);
@@ -71,16 +71,16 @@ static int func_02175D10(int suspend)
 
     if (func_02175FB8() == 2)
         return func_021758C4(func_02176344()->aid, suspend, 0);
-    if (func_02175F3C()->f61c != 1)
+    if (((struct DWCstMatchControl *)func_02175F3C())->f61c != 1)
         return 1;
-    if (func_02175F3C()->f30) {
-        if (((func_020870D0() - func_02175F3C()->f20) * 64) / 33514 < func_02175F3C()->f7cc)
+    if (((struct DWCstMatchControl *)func_02175F3C())->f30) {
+        if (((func_020870D0() - ((struct DWCstMatchControl *)func_02175F3C())->f20) * 64) / 33514 < ((struct DWCstMatchControl *)func_02175F3C())->f7cc)
             return 1;
     }
-    if (((func_020870D0() - func_02175F3C()->f20) * 64) / 33514 > 3000) {
+    if (((func_020870D0() - ((struct DWCstMatchControl *)func_02175F3C())->f20) * 64) / 33514 > 3000) {
         pMyNodeInfo = func_02176344();
         pServerNodeInfo = func_0217637C(0);
-        senddata[0] = func_02175F3C()->f678;
+        senddata[0] = ((struct DWCstMatchControl *)func_02175F3C())->f678;
         senddata[1] = 0;
         senddata[2] = suspend;
         senddata[3] = pMyNodeInfo->aid;
@@ -90,9 +90,9 @@ static int func_02175D10(int suspend)
             return 0;
         {
             u64 now = func_020870D0();
-            func_02175F3C()->f20 = now;
+            ((struct DWCstMatchControl *)func_02175F3C())->f20 = now;
         }
-        func_02175F3C()->f7cc = 3000;
+        ((struct DWCstMatchControl *)func_02175F3C())->f7cc = 3000;
     }
     return 1;
 }

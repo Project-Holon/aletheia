@@ -22,9 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_021BD94C(u32 *);
-extern u32 func_021BE8D4(u32, u32, u32, u32);
+struct Evt;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern void func_020061E4(u32);
-extern void func_02012374(u32, u32);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 u32 func_021BD874(u32 a, int *st, u32 *ctx)
 {
@@ -36,7 +37,7 @@ u32 func_021BD874(u32 a, int *st, u32 *ctx)
     case 0:
         func_021BD94C(ctx);
         func_020061E4(0x737);
-        func_02012374(a, func_021BE8D4(x, y, 2, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BE8D4((void *)x, y, 2, 0));
         (*st)++;
         break;
     case 1:

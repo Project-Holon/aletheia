@@ -16,12 +16,13 @@
  */
 
 
-extern void func_020452E8(int);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 void func_021EAAC4(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x1c; i++)
-        func_020452E8(*(int *)(*(int *)(p + 0x2c) + i * 8 + 0x94));
+        func_020452E8((struct Descriptor *)(*(int *)(*(int *)(p + 0x2c) + i * 8 + 0x94)));
     func_020450C8();
 }

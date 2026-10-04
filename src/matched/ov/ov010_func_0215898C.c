@@ -11,9 +11,9 @@
  *   func_021589DC 0x021589DC thumb ov010
  *   func_021588A4 0x021588A4 thumb ov010
  */
-extern void *func_021589DC(int);
+extern int func_021589DC(int a0);
 extern void func_021588A4(void *, int);
 void func_0215898C(int a, int b) {
-    void *p = func_021589DC(a);
+    void *p = (void *)func_021589DC(a);
     if (p != 0) func_021588A4(p, b);
 }

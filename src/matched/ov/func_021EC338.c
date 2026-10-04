@@ -16,10 +16,11 @@
 
 typedef unsigned int   u32;
 extern u32 func_0201BA68(void *mon);
-extern void func_02049E74(int, int, int, void *, int);
+typedef unsigned short u16;
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 void func_021EC338(char *p, void *b, void *c)
 {
-    func_02049E74(*(int *)(p + 0x1b0), func_0201BA68(b), 0, c, 0x4c);
+    func_02049E74((void *)(*(int *)(p + 0x1b0)), func_0201BA68(b), 0, (u32)c, 0x4c);
 }
 

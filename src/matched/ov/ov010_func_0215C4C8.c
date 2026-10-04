@@ -24,11 +24,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0201293C(void *a);
+struct BigObj;
+struct Sub02007454Entry;
+extern u32 func_0201293C(const struct BigObj *p);
 extern int func_02007984(void *a);
 extern void *func_0215C40C(void *a, void *b);
 extern void *func_020185F4(void *p);
-extern void func_020074D8(void *a, u32 b);
+extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void *func_0200CA1C(void *a);
 struct Blk37;
 extern void func_0200CDE0(struct Blk37 *p, void *m);
@@ -39,11 +41,11 @@ int func_0215C4C8(void *a, void *b)
     void *r6;
     void *r5;
 
-    r6 = func_0201293C(a);
+    r6 = (void *)func_0201293C(a);
     if (func_02007984(r6) >= 0x2D0)
         return 0;
     r5 = func_0215C40C(a, b);
-    func_020074D8(r6, (u32)func_020185F4(r5));
+    func_020074D8(r6, (const struct Sub02007454Entry *)((u32)func_020185F4(r5)));
     func_0200CDE0(func_0200CA1C(a), r5);
     func_020307B0(r5);
     return 1;

@@ -23,10 +23,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02191388(int);
+struct Handle;
+extern u32 func_02191388(u32 *a);
 extern u32 func_020362DC(void);
-extern int func_02190BE4(int, int);
-extern int func_02190C78(int);
+extern u32 *func_02190BE4(u16 *a, u32 b);
+extern int func_02190C78(struct Handle *h);
 extern int func_021909BC(u32 a);
 extern int func_021912D8(u32 a);
 extern int func_021912F8(int);
@@ -37,7 +38,7 @@ int func_02187508(char *p)
 
     switch (*(u16 *)(p + 0x52)) {
     case 0:
-        if (func_02191388(*(int *)(p + 0x10)) == 0)
+        if (func_02191388((u32 *)(*(int *)(p + 0x10))) == 0)
             break;
         *(u16 *)(p + 0x52) = *(u16 *)(p + 0x52) + 1;
         break;
@@ -50,11 +51,11 @@ int func_02187508(char *p)
             *(u16 *)(p + 0x52) = 2;
         break;
     case 2:
-        *(int *)(p + 0x14) = func_02190BE4(*(int *)(p + 0xc), 0);
+        *(int *)(p + 0x14) = (int)func_02190BE4((u16 *)(*(int *)(p + 0xc)), 0);
         *(u16 *)(p + 0x52) = *(u16 *)(p + 0x52) + 1;
         break;
     case 3:
-        r = func_02190C78(*(int *)(p + 0x14));
+        r = func_02190C78((struct Handle *)(*(int *)(p + 0x14)));
         if (r == 2)
             break;
         if (r == 0)

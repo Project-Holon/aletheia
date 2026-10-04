@@ -47,7 +47,7 @@ extern int func_021F11B4(char *p);
 extern void func_021F122C(char *p);
 extern void func_021F1A44(char *p, int a);
 extern void func_021EFEF8(char *p, void (*f)(void), int a);
-extern void func_021F21B4(void);
+extern void func_021F21B4(char *p);
 extern void func_021F0AA0(char *p);
 
 void func_021F21F8(char *p)
@@ -120,7 +120,7 @@ void func_021F21F8(char *p)
         if (*(u8 *)(p + 0x456) >= 8) {
             func_021F1A64(p, 1);
             func_021F1A44(p, 0);
-            func_021EFEF8(p, func_021F21B4, 0x100b);
+            func_021EFEF8(p, (void (*)(void))func_021F21B4, 0x100b);
             return;
         }
         break;

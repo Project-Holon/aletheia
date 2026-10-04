@@ -26,21 +26,23 @@ typedef unsigned short u16;
 
 extern int d_021DE48C;
 
-extern int func_02188C84(int a);
-extern int func_02188C80(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u16 func_02188C84(u8 *p);
+extern void *func_02188C80(void *p);
 extern int func_02012134(int a);
-extern int func_0202B57C(int a);
+extern u32 func_0202B57C(void *obj);
 extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 extern int func_0202B928(int a, int b);
-extern void func_0202B920(int a, int b, int c, int d);
+extern void func_0202B920(void *m, int i, int a, int b);
 
 void *func_021C4D14(int a, int b, int c, int d, int e)
 {
-    int n = func_02188C84(a);
+    int n = func_02188C84((u8 *)a);
     int r;
     int *p;
 
-    r = func_0202B57C(func_02012134(func_02188C80(a)));
+    r = func_0202B57C((void *)func_02012134((int)func_02188C80((void *)a)));
     p = (int *)func_02030734(n, 0x18, 0, (const char *)&d_021DE48C, 0x3c);
     *(u16 *)p = n;
     p[1] = a;
@@ -49,7 +51,7 @@ void *func_021C4D14(int a, int b, int c, int d, int e)
     p[4] = 0;
     p[5] = b;
     if (func_0202B928(r, c) == 0) {
-        func_0202B920(r, c, d, e);
+        func_0202B920((void *)r, c, d, e);
     }
     return p;
 }

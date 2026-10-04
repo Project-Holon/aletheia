@@ -39,11 +39,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern int func_021BA928(char *);
-extern void func_021BF280(char *,int);
+extern void func_021BF280(void *a, void *b);
 extern void func_021C1BEC(char *);
 extern void func_021B9B54(char *);
 extern int func_021BF03C(char *);
-extern void func_0200616C(int,int);
+extern void func_0200616C(void *arg, int i);
 extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 extern int func_021BF068(char *);
@@ -60,7 +60,7 @@ extern unsigned func_021B96D0(char *);
 extern void func_021B9B64(char *);
 extern void func_021B9B24(char *);
 extern int func_021B97F4(char *);
-extern void * func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern void func_02082D44(void *,void *,int);
 int func_021BF6E0(char *p,int ret)
 {
@@ -71,11 +71,11 @@ int func_021BF6E0(char *p,int ret)
     }
     func_021BA928(p);
     *(u8 *)(p+0x1356)=0;
-    func_021BF280(p,33);
+    func_021BF280(p,(void *)33);
     func_021C1BEC(p);
     func_021B9B54(p+0x274);
     if(func_021BF03C(p) && *(int *)(p+0x1f0)!=-1){
-        func_0200616C(0x806,0);
+        func_0200616C((void *)0x806,0);
         func_0203D7B0(1);
         func_0203D7BC(1);
         *(int *)(p+0x1cc)=40;
@@ -137,7 +137,7 @@ int func_021BF6E0(char *p,int ret)
         if(kind==1){
             index=func_021B97F4(p+0x274);
             func_020061E4(0x54c);
-            func_02082D44(func_021C23B8(index-1),p+0x24c,32);
+            func_02082D44((void *)func_021C23B8(index-1),p+0x24c,32);
             *(int *)(p+0x1cc)=34;
             func_021C1A30(p,33);
             return ret;

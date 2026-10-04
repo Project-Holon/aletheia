@@ -15,11 +15,11 @@
  */
 typedef unsigned int u32;
 extern void *func_021F52D8(void *, u32, u32, u32, int);
-extern int func_02189A08(int);
+extern int func_02189A08(unsigned char *p);
 extern u32 func_021CF560(u32 *);
 void *func_021F52B0(void *a, u32 b, int c) {
     void *h;
     h = func_021F52D8(a,b,11,10,c);
-    *(u32 *)(func_021CF560((u32 *)func_02189A08(b)) + 0x40) = 0x7F3;
+    *(u32 *)(func_021CF560((u32 *)func_02189A08((unsigned char *)b)) + 0x40) = 0x7F3;
     return h;
 }

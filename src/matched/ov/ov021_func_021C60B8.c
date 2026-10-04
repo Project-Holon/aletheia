@@ -45,13 +45,14 @@ extern int func_021A2F54(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D480(char *p);
-extern int func_02189A00(void *a);
-extern void *func_021C1D68(u32 a, int b, int c);
+struct Ctx;
+extern void *func_02189A00(u8 *p);
+extern int func_021C1D68(int a, int b, int c);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C61D4(Work *w);
-extern void func_021C61EC(void *a, u32 b, void *c);
-extern void *func_02188CE8(void *a);
-extern void *func_021A9F40(void *self, u32 v);
+extern void func_021C61EC(void *a, void *b, void *c);
+extern u32 func_02188CE8(u8 *p);
+extern int func_021A9F40(struct Ctx *ctx, int mode);
 extern int func_02158780(void *p, int b, int c, int d, u16 e);
 extern void *func_02188C7C(u8 *p);
 extern void func_0216D9E4(void *o);
@@ -77,7 +78,7 @@ int func_021C60B8(void *task, int *state, Work *w)
     case 2:
         if (func_0216D480(func_021A3074(w->f10)) != 1)
             break;
-        t = func_021C1D68(w->f4, func_02189A00(w->fC), w->f0);
+        t = (void *)func_021C1D68(w->f4, (int)func_02189A00(w->fC), w->f0);
         if (t != 0)
             func_02012374(task, t);
         (*state)++;
@@ -95,11 +96,11 @@ int func_021C60B8(void *task, int *state, Work *w)
             *state = 8;
             break;
         }
-        func_021C61EC(task, w->f4, w->fC);
+        func_021C61EC(task, (void *)w->f4, w->fC);
         *state = 6;
         break;
     case 6:
-        t = func_021A9F40(func_02188CE8(w->fC), 2);
+        t = (void *)func_021A9F40((struct Ctx *)func_02188CE8(w->fC), 2);
         if (t == 0) {
             *state = 7;
             break;

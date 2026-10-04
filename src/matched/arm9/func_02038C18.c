@@ -85,7 +85,7 @@ extern int    func_02039594(void);
 extern int    func_020368C0(void *tbl, u32 a, u32 b, u32 c, u32 d, u32 e,
                             u32 f);
 extern void   func_02039548(void);
-extern struct Err *func_0203CA98(void);
+extern u32 func_0203CA98(void);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
 int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
@@ -121,7 +121,7 @@ int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
         return 1;
 
     func_02039548();
-    err = func_0203CA98();
+    err = (struct Err *)func_0203CA98();
     if (err->f0c == 0)
         func_0203C9AC(err->f00, err->f04, err->f08, 0x3f4);
     return 0;

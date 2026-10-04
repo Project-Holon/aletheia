@@ -48,7 +48,7 @@ extern u32 func_0203630C(void);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern void *func_020173F0(u16,u16,u32,u32,u32);
-extern void func_02017E40(void *,u32,const void *);
+extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_020307B0(void *);
 extern u32 func_020173E8(void);
@@ -57,14 +57,14 @@ extern void func_02017550(struct Sav *p);
 extern u32 func_02005728(u32 range);
 typedef unsigned long long u64;
 extern void func_02017600(void *obj,u16 species,u16 level,u64 id);
-extern void func_02017E64(void *,u32,const void *);
+extern void func_02017E64(void *p, u32 id, u32 v);
 extern void *func_020124F4(u16);
 extern void func_020355D8(u8 v);
 extern int func_021D4240(char *);
 extern const char d_021DC80C[];
 extern const Moves d_021DC138,d_021DC144;
-static inline void SetA(void *p, Moves m) { func_02017E40(p,0x8e,&m); }
-static inline void SetB(void *p, Moves m) { func_02017E64(p,0x8e,&m); }
+static inline void SetA(void *p, Moves m) { func_02017E40(p,0x8e,(u32)(&m)); }
+static inline void SetB(void *p, Moves m) { func_02017E64(p,0x8e,(u32)(&m)); }
 int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
     switch(*st) {
     case 0: {

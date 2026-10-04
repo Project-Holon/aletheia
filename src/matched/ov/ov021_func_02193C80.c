@@ -33,18 +33,18 @@ typedef struct X {
     u32 f118;
 } X;
 
-extern void func_0218683C(u32 a);
+extern void func_0218683C(void *p);
 extern void func_020307B0(void *p);
 extern void func_02049238(u32 a);
-extern void func_02186804(u32 a);
+extern void func_02186804(void **p);
 
 void func_02193C80(X *x)
 {
     if (x->f0c != 0) {
-        func_0218683C(x->f118);
+        func_0218683C((void *)x->f118);
         func_020307B0(x->f14);
         func_02049238(x->f10);
-        func_02186804(x->f0c);
+        func_02186804((void **)x->f0c);
         func_020307B0(x->f04);
         x->f0c = 0;
         x->f04 = 0;

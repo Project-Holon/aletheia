@@ -64,10 +64,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BFB14(void *p);
-extern void func_021BFB38(void *p);
+typedef unsigned int   u32;
+extern void func_021BFB14(u32 a0);
+extern void func_021BFB38(u32 a0);
 extern void func_021BFB74(void *p);
-extern void func_021BFBC0(void *p);
+extern void func_021BFBC0(u32 a0);
 extern void func_021BFE40(void *p);
 extern void func_021BEFF8(void *p);
 extern void func_021BFF78(void);
@@ -94,7 +95,7 @@ extern void func_021C07BC(void *p);
 extern void func_021C083C(void *p);
 extern void func_021C0878(void *p);
 extern void func_021C08D4(void *p);
-extern void func_021C08C4(void *p);
+extern void func_021C08C4(u32 a0);
 extern void func_021BF100(void *p);
 extern void func_021BF11C(void *p);
 extern void func_021BF13C(void *p);
@@ -118,10 +119,10 @@ extern void func_021BE448(void *p);
 void func_021BD718(unsigned char *p)
 {
     int r;
-    func_021BFB14(p);
-    func_021BFB38(p);
+    func_021BFB14((u32)p);
+    func_021BFB38((u32)p);
     func_021BFB74(p);
-    func_021BFBC0(p);
+    func_021BFBC0((u32)p);
     func_021BFE40(p);
     func_021BEFF8(p);
     func_021BFF78();
@@ -148,7 +149,7 @@ void func_021BD718(unsigned char *p)
     func_021C083C(p);
     func_021C0878(p);
     func_021C08D4(p);
-    func_021C08C4(p);
+    func_021C08C4((u32)p);
     func_021BF100(p);
     func_021BF11C(p);
     func_021BF13C(p);

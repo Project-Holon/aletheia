@@ -20,8 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021F0B80(char *p, u32 a, u8 *s);
-extern void func_021F178C(char *p, int a, u8 *s);
+extern void func_021F0B80(char *p, void *t, unsigned a);
+extern void func_021F178C(char *this, u8 a, int *p);
 extern int func_021F0BA8(u8 *s);
 struct TcblNode;
 extern void func_02031194(struct TcblNode *n);
@@ -32,16 +32,16 @@ void func_021F1930(void *task, u8 *s)
         return;
     switch (s[0]) {
     case 0:
-        func_021F0B80(*(char **)(s + 8), *(u32 *)(*(char **)(s + 8) + 0x120), s + 4);
+        func_021F0B80(*(char **)(s + 8), (void *)(*(u32 *)(*(char **)(s + 8) + 0x120)), (unsigned int)(s + 4));
         s[0]++;
         return;
     case 1:
-        func_021F178C(*(char **)(s + 8), 0, s + 4);
+        func_021F178C(*(char **)(s + 8), 0, (int *)(s + 4));
         s[0]++;
         return;
     case 2:
         if (func_021F0BA8(s + 1) != 0) {
-            func_021F178C(*(char **)(s + 8), 1, s + 4);
+            func_021F178C(*(char **)(s + 8), 1, (int *)(s + 4));
             s[0]++;
         }
         return;

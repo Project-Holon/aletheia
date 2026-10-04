@@ -16,12 +16,12 @@
  *   func_02017DE4 0x02017DE4 thumb
  *   func_021DF040 0x021DF040 thumb ov170
  */
-extern void *func_021DD2D0(void *p, int a, unsigned b);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 typedef unsigned int   u32;
 struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern void *func_021DEDD8(void *p);
-extern void func_021DEF60(char *p, void *s);
+extern void func_021DEF60(char *p, int a);
 extern void func_021DEF58(void *s);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern void func_021DF040(char *p);
@@ -30,12 +30,12 @@ int func_021DEF98(char *p, int a, unsigned b)
     void *mon;
     int state;
     void *s;
-    mon = func_021DD2D0(p, a, b);
+    mon = (void *)func_021DD2D0((void ***)p, a, b);
     if (mon) {
         state = func_02017DBC(mon);
         s = func_021DEDD8(mon);
         if (s) {
-            func_021DEF60(p, s);
+            func_021DEF60(p, (int)s);
             func_021DEF58(s);
             func_02017DE4(mon, state);
         } else {

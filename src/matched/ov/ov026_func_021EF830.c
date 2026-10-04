@@ -21,19 +21,21 @@
 
 typedef signed short s16;
 
-extern void func_021A244C(int, int *, int *);
+typedef signed int     s32;
+typedef unsigned char  u8;
+extern void func_021A244C(u8 *o, s32 *outX, s32 *outY);
 extern void func_021A2564(int, int, int);
-extern void func_021A2190(int, int, int);
-extern void func_021A21A0(int, int, int);
-extern void func_021A2170(int, int, int);
-extern void func_021A2180(int, int, int);
+extern void func_021A2190(unsigned char *o, unsigned int v, int i);
+extern void func_021A21A0(unsigned char *o, unsigned int v, int i);
+extern void func_021A2170(unsigned char *o, unsigned int v, int i);
+extern void func_021A2180(unsigned char *o, unsigned int v, int i);
 
 void func_021EF830(int a, s16 *p)
 {
     int x;
     int y;
 
-    func_021A244C(a, &x, &y);
+    func_021A244C((u8 *)a, &x, &y);
     func_021A2564(a, x, y);
     if (p[11] != 0) {
         p[2] = (p[2] + 9) % 256;
@@ -44,10 +46,10 @@ void func_021EF830(int a, s16 *p)
         p[2] = (p[2] + 3) % 256;
         p[3] = (p[3] + 8) % 256;
     }
-    func_021A2190(a, -(p[2] + x), 0);
-    func_021A21A0(a, y - p[3], 0);
-    func_021A2190(a, -(p[4] + x), 1);
-    func_021A21A0(a, y - p[5], 1);
-    func_021A2170(a, *(int *)(p + 14), 1);
-    func_021A2180(a, *(int *)(p + 14), 1);
+    func_021A2190((unsigned char *)a, -(p[2] + x), 0);
+    func_021A21A0((unsigned char *)a, y - p[3], 0);
+    func_021A2190((unsigned char *)a, -(p[4] + x), 1);
+    func_021A21A0((unsigned char *)a, y - p[5], 1);
+    func_021A2170((unsigned char *)a, *(int *)(p + 14), 1);
+    func_021A2180((unsigned char *)a, *(int *)(p + 14), 1);
 }

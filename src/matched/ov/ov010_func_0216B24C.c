@@ -19,8 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int value; u8 flag; u8 padding[3]; } Work;
-extern void func_020120F4(int);
-extern int func_020122C0(int, int, int (*)(int, int *, u8 **), int);
+struct Ctx;
+struct Desc;
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern Work *func_020124E8(int);
 extern void func_02082BCC(void *, int, int);
 extern int func_0216B280(int, int *, u8 **);
@@ -28,8 +30,8 @@ int func_0216B24C(int vm, int value, int flag)
 {
     int task;
     Work *p;
-    func_020120F4(vm);
-    task = func_020122C0(vm, 0, func_0216B280, 8);
+    func_020120F4((const struct Ctx *)vm);
+    task = (int)func_020122C0((void *)vm, 0, func_0216B280, 8);
     p = func_020124E8(task);
     func_02082BCC(p, 0, 8);
     p->value = value;

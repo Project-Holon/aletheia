@@ -46,8 +46,9 @@ extern u8 func_02012B70(const struct BigObj *p);
 extern u32 func_0202647C(void *obj);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0200FB38(void);
-extern void *func_020146F8(void *a, void *b, void *c, void *d, void *e);
-extern void func_02012374(u32, void *);
+struct Evt;
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_02188C7C(unsigned char *p);
 extern int func_02188BE8(void *);
 extern void func_0216D9A0(void *);
@@ -66,15 +67,15 @@ int func_021C06E0(u32 a, int *st)
         if (func_0202647C((void *)func_02012138(h)) == 2) {
             if (func_02012B70(func_020120F4(h)) == 1) {
                 func_0200FB38();
-                v = func_020146F8(h, o, ov021_id, d_021DA08C, h);
+                v = func_020146F8(h, (int)o, (int)ov021_id, (int)d_021DA08C, (int)h);
             } else {
                 v = func_020122C0(h, 0, func_021C0780, 0);
             }
         } else {
             func_0200FB38();
-            v = func_020146F8(h, o, ov021_id, d_021DA08C, h);
+            v = func_020146F8(h, (int)o, (int)ov021_id, (int)d_021DA08C, (int)h);
         }
-        func_02012374(a, v);
+        func_02012374((struct Evt *)a, v);
         (*st)++;
         break;
     case 1:

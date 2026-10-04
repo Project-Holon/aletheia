@@ -43,17 +43,18 @@ typedef struct Obj {
 typedef unsigned int   u32;
 struct BigObj;
 u32 func_02012A30(const struct BigObj *p);
-void func_02012374(void *a, int b);
+struct Evt;
+void func_02012374(struct Evt *evt, struct Evt **out);
 void func_02029D44(int a, int b, u16 c, u8 d);
 void func_02029D7C(int a, int b);
 void func_0218403C(Obj *o);
-int func_02184360(Obj *o, int v);
-void func_02185F48(int v);
-int func_02161824(int a, int b);
-int func_02188D20(int a);
-void func_021BC550(int a, s16 b);
-int func_021BF5E8(void *a, int b, int c, int d, int e, int f);
-int func_021BFDA0(void *a, int b, int c, int d);
+void *func_02184360(u8 *p, int value);
+void func_02185F48(void *p);
+void *func_02161824(void *a, void *b);
+u32 func_02188D20(u8 *p);
+void func_021BC550(void *p, int v);
+u32 func_021BF5E8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+void *func_021BFDA0(int a0, void *p, int a2, int a3);
 
 int func_02184894(void *a, int *state, Obj *o)
 {
@@ -65,29 +66,29 @@ int func_02184894(void *a, int *state, Obj *o)
     switch (*state) {
     case 0:
         func_0218403C(o);
-        func_02012374(a, func_02161824(f0, f8));
+        func_02012374(a, func_02161824((void *)f0, (void *)f8));
         (*state)++;
         break;
     case 1:
-        func_02012374(a, func_021BFDA0(a, f0, f8, o->f44));
+        func_02012374(a, func_021BFDA0((int)a, (void *)f0, f8, o->f44));
         (*state)++;
         break;
     case 2:
-        func_02185F48(f4);
+        func_02185F48((void *)f4);
         func_02029D44(h, f4, o->f14, o->f4a);
         func_02029D7C(h, f4);
         (*state)++;
         break;
     case 3:
-        func_02012374(a, func_02184360(o, 2));
+        func_02012374(a, func_02184360((u8 *)o, 2));
         (*state)++;
         break;
     case 4:
-        func_02012374(a, func_021BF5E8(a, f0, f8, o->f44, o->f48, o->f4a));
+        func_02012374(a, (struct Evt **)func_021BF5E8((u32)a, f0, f8, o->f44, o->f48, o->f4a));
         (*state)++;
         break;
     case 5:
-        func_021BC550(func_02188D20(f8), o->f14);
+        func_021BC550((void *)func_02188D20((u8 *)f8), o->f14);
         return 1;
     }
     return 0;

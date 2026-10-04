@@ -31,8 +31,10 @@ struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 extern int   func_0200BF10(void *p);
-extern void  func_02045CAC(u32 bank, u32 index, u32 buf);
-extern void  func_02190844(u32 a, u32 b, u32 c, u32 d);
+struct MsgBank;
+struct Slot;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02190844(struct Slot **p, int x, int y, u32 z);
 extern void  func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4);
 extern int   func_02010EB4(u8 i);
 extern u32 func_02010EC0(u32 i);
@@ -50,16 +52,16 @@ void func_021F55D4(char *p)
     u8 t;
 
     x = func_0200BE48(func_02012EBC(*(void **)(p + 0xC)));
-    func_02045CAC(*(u32 *)(p + 0x28), 4, *(u32 *)(p + 0x34));
-    func_02190844(*(u32 *)(p + 0x18), 0, 0, *(u32 *)(p + 0x34));
-    func_02045CAC(*(u32 *)(p + 0x28), 6, *(u32 *)(p + 0x34));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 4, (void *)(*(u32 *)(p + 0x34)));
+    func_02190844((struct Slot **)(*(u32 *)(p + 0x18)), 0, 0, *(u32 *)(p + 0x34));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 6, (void *)(*(u32 *)(p + 0x34)));
     c = func_0200BF10(x);
     if (c != 0x30) {
         func_021F556C(p, *(u32 *)(p + 0x34), c, 0, 1);
     }
-    func_02045CAC(*(u32 *)(p + 0x28), 5, *(u32 *)(p + 0x34));
-    func_02190844(*(u32 *)(p + 0x18), 0, 0x30, *(u32 *)(p + 0x34));
-    func_02045CAC(*(u32 *)(p + 0x28), 7, *(u32 *)(p + 0x34));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 5, (void *)(*(u32 *)(p + 0x34)));
+    func_02190844((struct Slot **)(*(u32 *)(p + 0x18)), 0, 0x30, *(u32 *)(p + 0x34));
+    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 7, (void *)(*(u32 *)(p + 0x34)));
 
     for (i = 0, n = 0; i < 13; i++) {
         order[i] = i;

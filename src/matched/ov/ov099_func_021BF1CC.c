@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void *func_021BE2A8(char *p, int key);
-extern char *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern void *func_021B9968(char *, int, int);
 extern void func_021C2028(char *p, int i, u8 v);
 extern void func_021BE21C(char *, void *);
@@ -33,7 +33,7 @@ void func_021BF1CC(char *p)
     char *s;
     for (i = 0; i < 32; i++) {
         if (*(u8 *)(p + i + 0x10) && !func_021BE2A8(p, *(u8 *)(p + i + 0x10))) {
-            s = func_021C23B8(*(u8 *)(p + i + 0x10) - 1);
+            s = (char *)func_021C23B8(*(u8 *)(p + i + 0x10) - 1);
             v = func_021B9968(p + 0x274, *(u8 *)(s + 0x14), *(u8 *)(p + i + 0x10));
             if (v) {
                 func_021C2028(p, *(u8 *)(p + i + 0x10), 2);

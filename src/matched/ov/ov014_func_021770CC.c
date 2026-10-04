@@ -16,12 +16,12 @@
 typedef unsigned char u8;
 extern u8 *g_021797A0;
 extern int func_021770A8(void *);
-extern int func_02177EB0(void *);
+extern int func_02177EB0(int a);
 int func_021770CC(void (*cb)(void *))
 {
     if(g_021797A0 != 0) {
         *(void (**)(void *))(g_021797A0+4)=cb;
-        return func_02177EB0(func_021770A8);
+        return func_02177EB0((int)func_021770A8);
     }
     return 1;
 }

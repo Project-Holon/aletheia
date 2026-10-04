@@ -28,10 +28,10 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5DC(void *a0);
 extern u32 func_02188C98(u8 *p);
-extern u32 func_0218DC6C(u32);
+extern u32 func_0218DC6C(u8 *p);
 
 int func_021B2BD8(u32 a)
 {
-return func_0218DC6C(func_02188C98(func_0201210C(func_0215A5DC((void *)a))));
+return func_0218DC6C((u8 *)func_02188C98(func_0201210C(func_0215A5DC((void *)a))));
 }
 

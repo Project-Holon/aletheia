@@ -56,7 +56,8 @@ extern u32 arr_02153BB0[];
 extern s32 func_020860D0(void *blk);
 extern void func_02086028(void *blk);
 extern void func_02086078(void *blk);
-extern s32 func_020917D4(u32 a0, u32 a1, u32 a2, u32 a3);
+struct FILE;
+extern unsigned int func_020917D4(void *ptr, unsigned int memb_size, unsigned int num_memb, struct FILE *file);
 
 s32 func_020916D4(u32 a0, u32 a1, u32 a2, u32 a3)
 {
@@ -79,7 +80,7 @@ s32 func_020916D4(u32 a0, u32 a1, u32 a2, u32 a3)
             arr_02153BB0[idx] = 1;
         }
     }
-    r = func_020917D4(a0, a1, a2, a3);
+    r = func_020917D4((void *)a0, a1, a2, (struct FILE *)a3);
     arr_02153BB0[idx]--;
     if (arr_02153BB0[idx] == 0) func_02086078(blk);
     return r;

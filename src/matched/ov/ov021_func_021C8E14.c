@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; void *f10; void *f14; u32 f18; u32 f1C; u32 f20; u32 f24; } P;
 extern int func_02005C64(void);
-extern void func_0200616C(u32 id, u32 h);
+extern void func_0200616C(void *arg, int i);
 void func_021C8E14(P *p)
 {
     if (func_02005C64() == 0)
-        func_0200616C(0x6e2, p->f20);
+        func_0200616C((void *)0x6e2, p->f20);
 }

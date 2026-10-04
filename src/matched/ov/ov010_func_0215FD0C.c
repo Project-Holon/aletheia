@@ -75,18 +75,18 @@ typedef struct Ctx {
     u32 f4c;            /* 0x4C */
 } Ctx;
 
-extern void *func_02188CCC(void *field);
+extern u32 func_02188CCC(u8 *p);
 struct BigObj;
 struct Evt;
 struct Obj;
 struct S0201235C;
 extern void *func_02188C7C(u8 *p);
-extern int func_021A0ED4(void *link);
-extern void func_021A0F30(void *link, int on);
-extern int func_021A0F94(void *link);
+extern int func_021A0ED4(u32 a);
+extern int func_021A0F30(u32 a, u32 b);
+extern int func_021A0F94(u32 a);
 extern void func_021A0FA8(int *p);
 extern u32 func_021A12A4(void *link);
-extern void *func_021945A4(void *sys, void *field, u32 arg);
+extern void *func_021945A4(void *a, u32 b, u32 c);
 extern void func_0216D9A0(void *map);
 extern void func_0216D9E4(void *map);
 extern u32 func_0215FEC8(u32 n);
@@ -94,7 +94,7 @@ extern void func_0215E840(void *field, Info *out);
 extern void func_0215EA30(Query *q, u16 a, u16 b, u32 c);
 extern void *func_0215EA38(u32 kind, Query *q, Info *info);
 extern void *func_0216075C(void *req, u16 id);
-extern void *func_021644F4(u32 i, void *a, void *b);
+extern int func_021644F4(int i, void *a, void *p);
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_020129D0(struct BigObj *p, u8 v);
@@ -127,24 +127,24 @@ int func_0215FD0C(void *task, void *unused, Ctx *c)
         r = func_021A0F94(func_02188CCC(c->field));
         if (r == 3) {
             c->state = 2;
-            func_021A0FA8(func_02188CCC(c->field));
+            func_021A0FA8((int *)func_02188CCC(c->field));
         } else if (r == 4) {
             c->state = 3;
-            func_021A0FA8(func_02188CCC(c->field));
+            func_021A0FA8((int *)func_02188CCC(c->field));
         }
         break;
     case 2:
         sys = func_020120F4(func_020124E4(task));
-        n = func_021A12A4(func_02188CCC(c->field));
+        n = func_021A12A4((void *)func_02188CCC(c->field));
         func_020129D0(sys, n);
-        c->f10 = func_021A12A4(func_02188CCC(c->field));
+        c->f10 = func_021A12A4((void *)func_02188CCC(c->field));
         c->f28 = func_0215FEC8(n);
         c->state = 5;
         break;
     case 3:
         func_0216D9E4(func_02188C7C(c->field));
         if (c->f40 != 1 && c->f40 != 4) {
-            func_0201235C(task, func_021945A4(func_020124E4(task), c->field, c->f18));
+            func_0201235C(task, func_021945A4(func_020124E4(task), (u32)c->field, c->f18));
             return 0;
         }
         return 1;
@@ -175,7 +175,7 @@ int func_0215FD0C(void *task, void *unused, Ctx *c)
         break;
     case 7:
         func_0216D9E4(func_02188C7C(c->field));
-        func_02012374(task, func_021644F4(c->f44, c->f08, c->field));
+        func_02012374(task, (struct Evt **)func_021644F4(c->f44, c->f08, c->field));
         c->state = 8;
         break;
     case 8:

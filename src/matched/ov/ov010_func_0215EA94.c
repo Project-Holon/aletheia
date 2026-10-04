@@ -19,7 +19,7 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
-extern int func_021587B0(void *,int,int,int);
+extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern void func_02159058(int,int,int,int,u16);
 int func_0215EA94(void *a,void *b,void *c)
 {
@@ -27,7 +27,7 @@ int func_0215EA94(void *a,void *b,void *c)
  int t;
  func_0201296C(func_020120F4(*(void **)((char *)c+8)));
  h = *(u16 *)((char *)c+12);
- t = func_021587B0(a,0x2715,0,0);
+ t = func_021587B0((int)a,0x2715,0,0);
  func_02159058(t,h,0,0,0);
  return 0;
 }

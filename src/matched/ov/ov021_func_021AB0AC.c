@@ -29,11 +29,12 @@ typedef struct {
     D *f10;
 } S;
 
-extern u16 func_02188C84(u32 a);
+typedef unsigned char  u8;
+extern u16 func_02188C84(u8 *p);
 extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);
 
 void func_021AB0AC(S *s, u16 v)
 {
     s->f10->h5bc = v;
-    func_02158768(s->f4, 0x2795, 0, func_02188C84(s->f0));
+    func_02158768(s->f4, 0x2795, 0, func_02188C84((u8 *)s->f0));
 }

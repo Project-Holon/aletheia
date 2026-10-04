@@ -24,13 +24,13 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0216C204(void *a, void *b);
+extern int func_0216C204(int a, int b);
 extern void func_0215897C(void *a, void *b);
 
 int func_021CC544(void *task, void *p)
 {
     void *a = func_0215A5F4(p);
     void *b = func_0215A5DC(p);
-    func_0215897C(a, func_0216C204(b, func_0201210C(b)));
+    func_0215897C(a, (void *)func_0216C204((int)b, (int)func_0201210C(b)));
     return 1;
 }

@@ -22,13 +22,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020493D4(u32, u32);
+struct ArcFile;
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 struct ArcFile;
 extern void func_0204944C(struct ArcFile *, u32, u32, u32, void *);
 
 void func_0218E260(void *a, void *b)
 {
-func_020493D4(*(u32 *)((u8 *)(a) + 4), 0);
+func_020493D4((struct ArcFile *)(*(u32 *)((u8 *)(a) + 4)), 0);
 func_0204944C((struct ArcFile *)*(u32 *)((u8 *)(a) + 4), 0, (44 * *(u32 *)((u8 *)(a) + 16)), 44, b);
 }
 

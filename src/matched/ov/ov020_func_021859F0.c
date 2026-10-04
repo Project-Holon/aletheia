@@ -13,10 +13,12 @@
  *   func_0216CF6C  0x0216CF6C  thumb
  */
 
-int func_02012964(int a);
+typedef unsigned int   u32;
+struct BigObj;
+u32 func_02012964(const struct BigObj *p);
 void func_0216CF6C(int x);
 
 void func_021859F0(int a)
 {
-    func_0216CF6C(func_02012964(a));
+    func_0216CF6C(func_02012964((const struct BigObj *)a));
 }

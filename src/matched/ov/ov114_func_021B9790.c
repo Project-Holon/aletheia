@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BF488(int a);
 extern int func_021BF4B0(u32, int *, int *);
-extern int func_021BE838(u32, int *);
+extern int func_021BE838(void *handle, char **value_pp);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern void func_021B9774(u8 *);
 int func_021B9790(u8 *p)
@@ -32,7 +32,7 @@ int func_021B9790(u8 *p)
         func_021BF4B0(*(u32 *)(p+12), &a, &b);
     } else {
         int x = func_021BF488(*(u32 *)(p+12));
-        if (x == 0) func_021BE838(*(u32 *)(p+12), &c);
+        if (x == 0) func_021BE838((void *)(*(u32 *)(p+12)), (char **)(&c));
         else func_0203C9AC(x, 2, x, 0x3f6);
         func_021B9774(p);
         return result;

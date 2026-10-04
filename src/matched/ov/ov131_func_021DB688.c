@@ -19,11 +19,11 @@ struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_021D618C(u8 *,void *,int,int,int,int);
+extern void func_021D618C(unsigned char *p, unsigned int a, int b, int c, unsigned short d, unsigned short e);
 extern void func_020061E4(u32 a);
 void func_021DB688(u8 *a,u8 *b,int c) {
     *(int *)(b+12)=1;
     func_02043B5C(func_02045770(*(void **)(b+140)),0);
-    if(c==1) func_021D618C(a,*(void **)(b+140),156,0,0,15424);
+    if(c==1) func_021D618C(a,(unsigned int)(*(void **)(b+140)),156,0,0,15424);
     func_020061E4(1367);
 }

@@ -25,13 +25,13 @@ typedef struct {
     void *f50[0x1E];
 } Obj;
 
-extern void *func_021BD148(u16 a, void *b, int c, void *d);
+extern void *func_021BD148(int a0, int a1, int a2, int a3);
 
 void func_021BC7D4(Obj *p)
 {
     int i;
 
     for (i = 0; i < 0x1E; i++) {
-        p->f50[i] = func_021BD148(p->hC, p->f30, 0, p->f2C);
+        p->f50[i] = func_021BD148(p->hC, (int)p->f30, 0, (int)p->f2C);
     }
 }

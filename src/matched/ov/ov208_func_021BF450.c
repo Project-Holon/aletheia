@@ -19,13 +19,13 @@ typedef unsigned short u16;
 struct Actor;
 struct Obj;
 struct Ov208Scene;
-extern void *func_021BC3B4(int);
+extern int func_021BC3B4(int *p);
 extern unsigned func_0204B98C(struct Actor *);
 extern void func_0204B878(struct Obj *, u16);
 extern void func_021BDC48(struct Ov208Scene *, unsigned);
 void func_021BF450(void *unused, char *p, int key)
 {
-    void *scene = func_021BC3B4(key);
+    void *scene = (void *)func_021BC3B4((int *)key);
     if (*(unsigned *)(p + 0x94) != 6) {
         u8 i = *(unsigned *)(p + 0x94);
         char *states = p + 0x2c;

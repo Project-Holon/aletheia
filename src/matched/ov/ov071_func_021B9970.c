@@ -40,7 +40,8 @@ typedef struct {
     u8 count;
 } List;
 
-extern void func_020120F4(void *a);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_021B6F40(void *a);
 struct Bmp;
 struct Pos;
@@ -55,7 +56,7 @@ void func_021B9970(char **a, List *l, char *c)
     int r;
     void *pos;
 
-    func_020120F4(**(char ***)a);
+    func_020120F4((const struct Ctx *)(**(char ***)a));
     pos = func_021B6F40(a);
     l->idx[0] = i;
     l->kind[0] = 1;

@@ -33,20 +33,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
-extern u16 **func_02158F58(void *);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern int func_02158F58(int a0);
 struct Stream;
 extern u16 func_02011330(struct Stream *s);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern u32 func_0215A5CC(u32);
-extern u32 func_020457B0(u32 n, u32 heap);
-extern u32 func_0215A60C(u32);
-extern u32 func_02158F74(void *);
+extern u16 func_0215A5CC(void *a0);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u32 func_0215A60C(u8 *p);
+extern void *func_02158F74(void *p);
 extern u32 func_02158F7C(u8 *p);
-extern void func_02045CAC(u32, u32, u32);
-extern void func_0201F250(u32, u32, u32);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02191830(u16 *, u32, u8 *, u8 *);
 extern void func_021918DC(u16 *a, u32 b, u32 c, u8 d, u8 e, u8 f, u8 g);
-extern void func_02045808(u32);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02159144(int n);
 
 int func_021B1100(void *a, u32 b)
@@ -60,18 +63,18 @@ int func_021B1100(void *a, u32 b)
     u8 t;
 
     o = func_0215A5F4((void *)b);
-    q = func_02158F58(o);
+    q = (u16 **)func_02158F58((int)o);
     x1 = func_02011330(a);
     k0 = func_02159B10(a, (void *)b);
     k1 = func_02159B10(a, (void *)b);
     x2 = func_02011330(a);
     buf[0] = 2;
-    h = func_020457B0(0x40, func_0215A5CC(b));
-    y = func_0215A60C(b);
-    z = func_02158F74(o);
+    h = (u32)func_020457B0(0x40, func_0215A5CC((void *)b));
+    y = func_0215A60C((u8 *)b);
+    z = (u32)func_02158F74(o);
     w = func_02158F7C(o);
-    func_02045CAC(y, x1, w);
-    func_0201F250(z, h, w);
+    func_02045CAC((struct MsgBank *)y, x1, (void *)w);
+    func_0201F250((struct WordSet *)z, (void *)h, (void *)w);
     func_02191830(*q, h, &buf[1], &buf[0]);
     t = buf[1];
     if (k0 + t > 0x1f) {
@@ -82,7 +85,7 @@ int func_021B1100(void *a, u32 b)
         buf[0] = k1;
     }
     func_021918DC(*q, h, x2, k0, k1, t, buf[0]);
-    func_02045808(h);
+    func_02045808((struct U16Vec *)h);
     func_02159144(5);
     return 0;
 }

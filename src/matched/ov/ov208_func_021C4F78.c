@@ -39,25 +39,26 @@ struct Ov208Menu {
     void *heap3d;
 };
 
-extern u32  func_02014B08(int kind, u16 heap);
-extern void func_02016020(u32 cam, u32 v);
-extern void func_02015BF0(u32 cam);
+struct Sub02014CB8Obj;
+extern void *func_02014B08(u32 id, void *heap);
+extern void func_02016020(void *p, u32 v);
+extern void func_02015BF0(void *obj);
 struct Ctx;
 extern int func_0202D060(void);
-extern void func_02014CB8(u32 cam, u32 v);
+extern void func_02014CB8(struct Sub02014CB8Obj *o, u32 x);
 extern u32  func_02030CB0(u32 n);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_02014CEC(u32 cam, void *v);
+extern void func_02014CEC(u8 *p, u32 value);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_021C8E64[];
 
 void ov208_func_021C4F78(u16 *heap, struct Ov208Menu *p)
 {
-    p->cam = func_02014B08(4, *heap);
-    func_02016020(p->cam, 0);
-    func_02015BF0(p->cam);
-    func_02014CB8(p->cam, func_0202D060());
+    p->cam = (u32)func_02014B08(4, (void *)(*heap));
+    func_02016020((void *)p->cam, 0);
+    func_02015BF0((void *)p->cam);
+    func_02014CB8((struct Sub02014CB8Obj *)p->cam, func_0202D060());
     p->mem = func_02030734(*heap, func_02030CB0(4), 0, data_021C8E64, 0xa53);
     p->heap3d = func_02030CBC(4, p->mem);
-    func_02014CEC(p->cam, p->heap3d);
+    func_02014CEC((u8 *)p->cam, (u32)p->heap3d);
 }

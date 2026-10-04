@@ -36,7 +36,7 @@ struct Ov208Mdl {
     u8  pos[0x3c];
 };
 
-extern void *func_021BC3B4(int key);
+extern int func_021BC3B4(int *p);
 extern u32  ov208_func_021C6760(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C526C(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C5B00(u16 *heap, u8 *p, int key);
@@ -65,7 +65,7 @@ void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
     u32 r;
     u8 i;
 
-    scene = func_021BC3B4(key);
+    scene = (void *)func_021BC3B4((int *)key);
     switch (W(0x6b8)) {
     case 0:
         if (W(0x6b4) == 0)

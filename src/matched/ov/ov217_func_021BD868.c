@@ -20,22 +20,23 @@
 typedef unsigned int u32;
 
 #pragma thumb on
-extern u32 func_021BE448();
-extern u32 func_021BE4DC();
-extern u32 func_021BE4E0();
-extern u32 func_021C0918();
-extern u32 func_021C093C();
+typedef unsigned char  u8;
+extern void func_021BE448(void *p);
+extern u32 func_021BE4DC(void *p);
+extern void func_021BE4E0(void *p);
+extern void func_021C0918(u8 *a0);
+extern int func_021C093C(u8 *a0);
 
 void func_021BD868(u32 a0)
 {
-    switch (func_021BE4DC(a0)) {
+    switch (func_021BE4DC((void *)a0)) {
     case 0:
-        func_021C0918(a0);
-        func_021BE4E0(a0);
+        func_021C0918((u8 *)a0);
+        func_021BE4E0((void *)a0);
         break;
     case 1:
-        if (func_021C093C(a0) != 0) {
-            func_021BE448(a0);
+        if (func_021C093C((u8 *)a0) != 0) {
+            func_021BE448((void *)a0);
         }
         break;
     }

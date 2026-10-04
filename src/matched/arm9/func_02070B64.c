@@ -50,10 +50,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16 *func_0206EA58(u16 *p, u32 arg, u32 v);
-extern u32   func_0206EA00(void *h, u32 i);
-extern u32   func_0206EA2C(void *h, u32 i);
+struct NNSG3dResName;
+struct NNSG3dResTexPatAnm;
+extern const struct NNSG3dResName *func_0206EA00(const struct NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
+extern const struct NNSG3dResName *func_0206EA2C(const struct NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);
 extern void  func_02070A24(void *p, u32 v, void *ctx);
-extern void  func_02070AFC(void *p, u32 v, void *ctx);
+struct Dst70AFC;
+struct Obj70AFC;
+extern void func_02070AFC(struct Obj70AFC *obj, void *name, struct Dst70AFC *dst);
 
 struct N {
     u32   f0;
@@ -71,8 +75,8 @@ void func_02070B64(void *ctx, struct N *n, u32 t)
 
     h = n->f8;
     r = (u8 *)func_0206EA58(h, (t << 16) >> 16, (n->f0 << 4) >> 16);
-    func_02070A24(n->f14, func_0206EA00(h, r[2]), ctx);
+    func_02070A24(n->f14, (u32)func_0206EA00(h, r[2]), ctx);
     if (r[3] == 0xff)
         return;
-    func_02070AFC(n->f14, func_0206EA2C(h, r[3]), ctx);
+    func_02070AFC(n->f14, (void *)((u32)func_0206EA2C(h, r[3])), ctx);
 }

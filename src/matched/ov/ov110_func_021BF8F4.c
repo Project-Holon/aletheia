@@ -26,7 +26,8 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045374(u32);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *);
 extern void func_020409B4(u32);
 extern void func_021BF94C(u8 *);
@@ -35,7 +36,7 @@ void func_021BF8F4(u8 *p) {
     func_02040B94(2,32,0,42);
     func_02041300(2,0,0,0,32,32,13);
     func_02043B5C(func_02045770((struct Descriptor *)*(u32 *)(p+12)),0);
-    func_02045374(*(u32 *)(p+12));
+    func_02045374((struct Cfg *)(*(u32 *)(p+12)));
     func_02045334((struct Descriptor *)*(u32 *)(p+12));
     func_020409B4(2); func_021BF94C(p); func_02040588(2,0);
 }

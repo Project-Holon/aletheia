@@ -23,14 +23,14 @@ typedef struct { u8 pad[5]; u8 f : 1; } BF;
 extern void func_021C2E1C(u32 c);
 extern u32 func_021C2E2C(u32 c);
 extern u32 func_021C2E3C(u32 c);
-extern int func_021C2E64(u8 *p, u32 a, u32 b, u32 t, u32 k);
+extern int func_021C2E64(u8 *p, const u16 *q, u8 *a, u8 *b, int k);
 
 void func_021C2DC4(u8 *p, u32 a, u32 b, u32 c)
 {
     u32 t;
     func_021C2E1C(c);
     for (t = func_021C2E2C(c); t != 0; t = func_021C2E3C(c)) {
-        if (func_021C2E64(p, a, b, t, 1) != 0) {
+        if (func_021C2E64(p, (const u16 *)a, (u8 *)b, (u8 *)t, 1) != 0) {
             BF *f = *(BF **)(p + 0x4A8);
             if (!f->f)
                 f->f = 1;

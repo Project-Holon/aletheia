@@ -43,7 +43,7 @@ struct DWCstMatchControl {
     int f798;
 };
 
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_0217603C(void);
 extern void func_02172E7C(void);
 extern void func_0216EB68(int error, int errorCode);
@@ -60,13 +60,13 @@ int func_02172124(void)
 {
     int result = 1;
 
-    if (func_02175F3C()->f798 != 0)
+    if (((struct DWCstMatchControl *)func_02175F3C())->f798 != 0)
         goto stop;
-    if (func_02175F3C()->qr2MatchTypeExt == 3) {
+    if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 3) {
     stop:
         if (func_0217603C() > 1)
             func_02172E7C();
-        if (func_02175F3C()->f798 != 0)
+        if (((struct DWCstMatchControl *)func_02175F3C())->f798 != 0)
             func_0216EB68(0x16, -80432);
         else
             func_0216EB68(0x16, -80430);
@@ -74,18 +74,18 @@ int func_02172124(void)
     }
     if (func_02176674() == 1)
         return result;
-    if (func_02175F3C()->f57c != 0)
-        func_02175F3C()->f57c = 0;
-    if (func_02175F3C()->f618 != 0) {
-        NNCancel(func_02175F3C()->f618);
-        func_02175F3C()->f618 = 0;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f57c != 0)
+        ((struct DWCstMatchControl *)func_02175F3C())->f57c = 0;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f618 != 0) {
+        NNCancel(((struct DWCstMatchControl *)func_02175F3C())->f618);
+        ((struct DWCstMatchControl *)func_02175F3C())->f618 = 0;
     }
     if (func_0217695C()) {
-        if (func_02175F3C()->f62f != 0)
+        if (((struct DWCstMatchControl *)func_02175F3C())->f62f != 0)
             goto restart;
     }
     if (func_02176554()) {
-        if (func_0216BBDC(func_02175F3C()->f554, 1) != 0)
+        if (func_0216BBDC(((struct DWCstMatchControl *)func_02175F3C())->f554, 1) != 0)
             goto restart;
     }
     if (func_0217603C() > 1) {

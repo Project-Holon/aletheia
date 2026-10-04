@@ -54,7 +54,7 @@ struct Res {
 };
 
 extern s32 func_02062A4C(void *buf, struct Res **out);
-extern s32 func_02040B58(u32 a0, u32 a1, u32 a2);
+extern u32 func_02040B58(u32 index, const void *src, u32 size);
 
 u32 sub_0204979C(void *buf, u32 a1, u32 a2)
 {
@@ -69,7 +69,7 @@ u32 sub_0204979C(void *buf, u32 a1, u32 a2)
         a2 = res->unk_10;
     }
 
-    slot = func_02040B58(a1, res->unk_14, a2);
+    slot = func_02040B58(a1, (const void *)res->unk_14, a2);
     if (slot == -1) {
         goto fail;
     }

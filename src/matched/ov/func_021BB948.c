@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02030D28(u32 v);
+struct Ctx;
+extern void func_02030D28(struct Ctx *c);
 
 void func_021BB948(u8 *p)
 {
-    func_02030D28(*(u32 *)(p + 0x10));
+    func_02030D28((struct Ctx *)(*(u32 *)(p + 0x10)));
 }

@@ -49,25 +49,25 @@ typedef struct { int x, y, z; } Vec;
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_02188CD0(int);
-extern int func_02188C58(int);
+extern void *func_02188C58(void *p);
 extern int func_0218E138(int);
 extern void func_0218E13C(int, int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int func_02006148(u32 a0);
-extern void func_0200616C(int, int);
+extern void func_0200616C(void *arg, int i);
 extern int func_02188C98(int);
 extern int func_0218DC6C(int);
 extern int *func_0218C584(int, int *, int, int *);
 extern int func_0218C724(int, int);
-extern void func_0218C88C(int, int, int);
+extern void func_0218C88C(unsigned char *p, int v, int c);
 extern void func_020307B0(void *);
 struct VecFx32;
 extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_021C754C(int, int, int *);
 extern int func_02188D38(int);
 extern void func_021C6DE0(int, int, int);
-extern int func_0218C8FC(int, int);
+extern int func_0218C8FC(unsigned char *p, int i);
 extern unsigned int func_0203630C(void);
 extern void func_0216D410(void *a0, u16 a1);
 extern void func_021AC528(void *, int);
@@ -107,7 +107,7 @@ int func_021BFE2C(int task, int *state, int *q)
     s = func_02188CB4((unsigned char *)q[1]);
     t = func_021A3074((void *)s);
     u = func_02188CD0(q[1]);
-    h = func_02188C58(q[1]);
+    h = (int)func_02188C58((void *)q[1]);
 
     switch (*state) {
     case 0:
@@ -116,7 +116,7 @@ int func_021BFE2C(int task, int *state, int *q)
         *state = 1;
         break;
     case 1:
-        func_0200616C(0x680, func_02006148(0x680));
+        func_0200616C((void *)0x680, func_02006148(0x680));
         g = func_0218DC6C(func_02188C98(q[1]));
         rect[2] = q[5] - 0x20000;
         rect[3] = q[5] + 0x20000;
@@ -125,7 +125,7 @@ int func_021BFE2C(int task, int *state, int *q)
         r = func_0218C584(g, rect, 2, &cnt);
         if (*r != 0) {
             q[8] = func_0218C724(g, *r);
-            func_0218C88C(q[8], 0, 0);
+            func_0218C88C((unsigned char *)q[8], 0, 0);
         } else {
             q[8] = 0;
         }
@@ -156,8 +156,8 @@ int func_021BFE2C(int task, int *state, int *q)
         q[3] = 0;
         break;
     case 3:
-        if (q[8] != 0 && func_0218C8FC(q[8], 0) != 0)
-            func_0218C88C(q[8], 0, 0);
+        if (q[8] != 0 && func_0218C8FC((unsigned char *)q[8], 0) != 0)
+            func_0218C88C((unsigned char *)q[8], 0, 0);
         keys = func_0203630C();
         if (keys & 0x40)
             func_0216D410(t, 0x24);

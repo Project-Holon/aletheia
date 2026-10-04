@@ -30,8 +30,8 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5F4(void *p);
 extern u32 func_02159B10(void *a, void *b);
-extern void *func_021D2418(void *a, void *b);
-extern void *func_021D2440(void *a, void *b, u32 c);
+extern void *func_021D2418(void *a, u32 b);
+extern void *func_021D2440(void *a, u32 b, u32 c);
 extern void func_0215897C(void *a, void *b);
 
 int func_021C46A4(void *a, void *b)
@@ -46,10 +46,10 @@ int func_021C46A4(void *a, void *b)
     z = func_0215A5F4(b);
     t = func_02159B10(a, b);
     if (t == 0)
-        func_0215897C(z, func_021D2418(x, y));
+        func_0215897C(z, func_021D2418(x, (u32)y));
     else if (t == 1)
-        func_0215897C(z, func_021D2440(x, y, 0));
+        func_0215897C(z, func_021D2440(x, (u32)y, 0));
     else
-        func_0215897C(z, func_021D2440(x, y, 1));
+        func_0215897C(z, func_021D2440(x, (u32)y, 1));
     return 1;
 }

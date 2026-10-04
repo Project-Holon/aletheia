@@ -53,7 +53,7 @@ typedef signed int     s32;
 struct Entry;
 extern u16 func_02039338(void);
 extern struct Entry *func_0203996C(s32 idx);
-extern int func_0203D3A8(u8 *p, u16 b, u16 c, u8 *q);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 
 void func_02039A5C(void)
 {
@@ -68,7 +68,7 @@ void func_02039A5C(void)
     for (i = 0; i < 8; i++) {
         off = i * 2;
         if (*(u8 *)(p + 0x2d + i * 2) != 0) {
-            if (func_0203D3A8(p, 5, 2, p + 0x2c + i * 2) != 0) {
+            if (func_0203D3A8((struct Entry *)p, 5, 2, (u32)(p + 0x2c + i * 2)) != 0) {
                 *(u8 *)(p + 0x2d + off) = 0;
             }
         }

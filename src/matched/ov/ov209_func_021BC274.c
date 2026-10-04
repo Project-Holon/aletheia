@@ -13,11 +13,11 @@
  *   func_021BCC58 0x021BCC58 thumb
  */
 
-extern int func_021BCC58(int);
+extern int func_021BCC58(char *p);
 
 int func_021BC274(int a, int b, int c, int d)
 {
-    if (func_021BCC58(d) == 0)
+    if (func_021BCC58((char *)d) == 0)
         return 1;
     return 0;
 }

@@ -52,7 +52,7 @@ struct WCMWork {
     unsigned char phase;
     unsigned char deviceId;
 };
-extern struct WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern int func_02085D3C(void);
 struct WMGameInfo;
 extern struct WMGameInfo *func_021661F0(struct WCMBssDesc *bssDesc);
@@ -67,7 +67,7 @@ void func_02165D04(struct WCMBssDesc *bssDesc, unsigned short linkLevel)
     struct WCMApList *aplist;
     struct WCMWork *w;
 
-    w = func_021657C8();
+    w = (struct WCMWork *)func_021657C8();
     if (w == 0)
         return;
     if (w->apListLock)

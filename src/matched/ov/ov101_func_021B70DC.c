@@ -41,7 +41,7 @@ extern u8 func_020416D4(u32);
 extern void func_021B739C(void *,u32,int,u32,u8,u16);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027FEC(void *,void *,u32,u32,u8,u16);
+extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *rec);
 void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 heap)
@@ -69,7 +69,7 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     desc.color=0x39e3;
     desc.str=func_02045EC0(bank,8);
     desc.flag=1;
-    *(u32 *)p=func_02027FEC(*(void **)(p+4),&desc,19,21,13,heap);
+    *(u32 *)p=func_02027FEC((u32)(*(void **)(p+4)),(u32)(&desc),19,21,13,heap);
     func_02045808(desc.str);
     func_02045C04(bank);
     return p;

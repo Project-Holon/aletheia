@@ -16,8 +16,10 @@
 
 typedef unsigned short u16;
 
-extern int func_021694FC(int o);
-extern void func_02169510(int o, int *v);
+typedef unsigned char  u8;
+struct V3;
+extern u16 func_021694FC(u8 *p);
+extern void func_02169510(u8 *src, struct V3 *dst);
 
 int func_0218D168(char *p)
 {
@@ -25,7 +27,7 @@ int func_0218D168(char *p)
     unsigned int i;
 
     for (i = 0; i < *(u16 *)(p + 0x2e); i++) {
-        if (func_021694FC(*(int *)(*(char **)(p + 0x24) + i * 0x28))) {
+        if (func_021694FC((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28)))) {
             int h;
             int x;
             int z;
@@ -33,7 +35,7 @@ int func_0218D168(char *p)
             int x1;
             int z0;
             int z1;
-            func_02169510(*(int *)(*(char **)(p + 0x24) + i * 0x28), v);
+            func_02169510((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28)), (struct V3 *)v);
             h = *(int *)(p + 4) / 2;
             x = v[0];
             z = v[2];

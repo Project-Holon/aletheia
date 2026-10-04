@@ -54,8 +54,8 @@ extern u32  func_02050920(Cmd *c);
 extern u32  func_02050944(Ent *e, Cmd *c);
 extern void func_020506B8(Own *o, u8 *p, u32 a2);
 extern void func_0204F66C(u32 res, u32 id, u16 *v);
-extern void func_0204F764(u32 res, u32 id, u32 *v);
-extern void func_0204F794(u32 res, u32 id, u32 *v);
+extern void func_0204F764(void *p, u32 idx, u32 *val);
+extern void func_0204F794(void *p, u32 idx, u32 *val);
 
 void func_02050550(Own *o, Ent *e)
 {
@@ -105,8 +105,8 @@ void func_02050550(Own *o, Ent *e)
         s1 = 0;
     }
 
-    func_0204F764(o->f04, e->f00, &s2);
-    func_0204F794(o->f04, e->f00, &s1);
+    func_0204F764((void *)o->f04, e->f00, &s2);
+    func_0204F794((void *)o->f04, e->f00, &s1);
 
     if (rem != 0) {
         rem = rem - 1;

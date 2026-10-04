@@ -18,20 +18,24 @@
  *   func_021F3998 0x021F3998 thumb ov052
  */
 
-extern int func_02188C80(int);
-extern unsigned func_020120F4(unsigned);
-extern unsigned func_02012EC4(unsigned);
-extern int func_02188C9C(int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
+extern u16 func_02188C9C(u8 *p);
 extern char *func_0200B3A4(unsigned, int);
-extern int func_02188C84(int);
+extern u16 func_02188C84(u8 *p);
 extern void func_021F3998(int, int *, int *);
 
 int func_021F380C(int a)
 {
     int y, x;
     unsigned h;
-    func_02188C84(a);
-    h = func_02012EC4(func_020120F4(func_02188C80(a)));
-    func_021F3998(func_02188C9C(a), &x, &y);
+    func_02188C84((u8 *)a);
+    h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a)));
+    func_021F3998(func_02188C9C((u8 *)a), &x, &y);
     return **(int **)(func_0200B3A4(h, x) + 0x24);
 }

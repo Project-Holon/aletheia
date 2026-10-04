@@ -18,12 +18,13 @@
  */
 
 extern unsigned int func_02026454(void *p);
-extern void *func_02026474(void *p);
+typedef unsigned int   u32;
+extern u32 func_02026474(void *obj);
 
 void *func_021F3938(void *p)
 {
     if (func_02026454(p) == 2) {
-        return func_02026474(p);
+        return (void *)func_02026474(p);
     }
     return 0;
 }

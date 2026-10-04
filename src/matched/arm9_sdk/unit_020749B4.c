@@ -31,11 +31,11 @@ struct Table {
 };
 
 extern void func_02060468(void *list, u32 param);
-extern void *func_02061124(void *heap, u32 size, u32 align);
+extern unsigned int func_02061124(char *p, int n, int v);
 extern void func_020604AC(void *list, void *node);
-extern void *func_02089D40(void);
+extern u32 func_02089D40(void);
 extern void func_02089B38(u32 a0);
-extern void func_02089CD4(void *p);
+extern void func_02089CD4(u32 tag);
 
 int func_020749F8(struct Table *t);
 
@@ -56,7 +56,7 @@ int func_020749C4(struct Table *t, void *heap)
 
 int func_020749F8(struct Table *t)
 {
-    void *node = func_02061124(t->heap, 0x14, 4);
+    void *node = (void *)func_02061124(t->heap, 0x14, 4);
     if (!node) {
         return 0;
     }
@@ -67,7 +67,7 @@ int func_020749F8(struct Table *t)
 
 void func_02074A34(void)
 {
-    void *p = func_02089D40();
+    void *p = (void *)func_02089D40();
     func_02089B38(1);
-    func_02089CD4(p);
+    func_02089CD4((u32)p);
 }

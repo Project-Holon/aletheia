@@ -32,15 +32,15 @@ int func_0217BB20(u8 *w);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 void func_0217F074(void *p);
-void func_0217F210(u8 *w, void *a, int msg);
+void func_0217F210(u8 *p, int a, u32 b);
 u32 func_0217F1EC(u8 *p);
-void func_0217F22C(u8 *w, void *a);
+void func_0217F22C(u8 *p, u32 a);
 int func_0217F268(u8 *w, int *flag);
 void func_0217F24C(u8 *w);
 int func_0217B8E4(u8 *w, int v);
 void *func_02188CB4(u8 *p);
 void *func_021A3074(u8 *p);
-int func_0216D3CC(void *h);
+int func_0216D3CC(int a0);
 void func_0216D410(void *a0, u16 a1);
 int func_0216D454(void *h);
 int func_0216D480(char *p);
@@ -57,12 +57,12 @@ int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
     }
     switch (*state) {
     case 0:
-        func_0217F210(w, a2, 0x14e);
+        func_0217F210(w, (int)a2, 0x14e);
         (*state)++;
         break;
     case 1:
         if (func_0217F1EC(w) != 0) {
-            func_0217F22C(w, a2);
+            func_0217F22C(w, (u32)a2);
             (*state)++;
         }
         break;
@@ -78,7 +78,7 @@ int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
         }
         break;
     case 3:
-        if (func_0216D3CC(h) == 1) {
+        if (func_0216D3CC((int)h) == 1) {
             func_0216D410(h, 8);
             (*state)++;
         }

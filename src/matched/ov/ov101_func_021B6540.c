@@ -12,8 +12,8 @@
  *   func_021B67C4 0x021B67C4 thumb ov101
  */
 typedef unsigned int u32;
-extern int func_021B67C4(u32);
+extern int func_021B67C4(int *p);
 int func_021B6540(u32 p) {
     if(*(u32 *)(p+0x78)!=0) return 1;
-    return func_021B67C4(p+4);
+    return func_021B67C4((int *)(p+4));
 }

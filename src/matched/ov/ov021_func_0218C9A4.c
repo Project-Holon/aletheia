@@ -15,7 +15,7 @@
  *   func_02006224  0x02006224  thumb
  */
 
-int func_0218C990(void *p, unsigned short *out);
+int func_0218C990(unsigned char *p, int v);
 typedef unsigned int   u32;
 int func_02006148(u32 a0);
 int func_02006224(u32 a0);
@@ -23,7 +23,7 @@ int func_02006224(u32 a0);
 int func_0218C9A4(void *p)
 {
     unsigned short v;
-    if (func_0218C990(p, &v) == 0)
+    if (func_0218C990(p, (int)(&v)) == 0)
         return 0;
     return func_02006224(func_02006148(v));
 }

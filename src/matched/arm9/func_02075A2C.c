@@ -30,7 +30,7 @@ extern u8  g_02150190[];
 extern u8  g_0214EA90[];
 
 extern void func_02075A94(u8 *o);
-extern void func_02075AB8(u8 *p, u8 *o);
+extern void func_02075AB8(void *a, u32 v);
 extern void func_02075968(u8 *o);
 
 struct Obj {
@@ -48,8 +48,8 @@ void func_02075A2C(struct Obj *o)
     if (o->b0 == 0) return;
     func_02075A94((u8 *)o);
     o->f170((u8 *)o);
-    func_02075AB8(g_02150190, (u8 *)o);
+    func_02075AB8(g_02150190, (u32)((u8 *)o));
     p = *(u8 **)(g_0214EA90 + 4);
-    if (p != 0) func_02075AB8(p + 0x10e0, (u8 *)o);
+    if (p != 0) func_02075AB8(p + 0x10e0, (u32)((u8 *)o));
     func_02075968((u8 *)o);
 }

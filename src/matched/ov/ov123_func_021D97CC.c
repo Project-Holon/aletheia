@@ -24,7 +24,7 @@ typedef unsigned long long u64;
 typedef struct { u16 a[32]; } Table;
 extern const Table d_021DA868;
 extern const u16 d_021DA864;
-extern int func_0203F1FC(const void *,int);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 struct U16Vec;
 extern void func_0204581C(struct U16Vec *vec);
 extern void func_02045AFC(struct U16Vec *vec, u16 value);
@@ -39,7 +39,7 @@ void func_021D97CC(int value, void *p)
     int i;
     table=d_021DA868;
     copy=value;
-    checksum=func_0203F1FC(&copy,4);
+    checksum=func_0203F1FC((const u8 *)(&copy),4);
     arg=d_021DA864;
     v=(u64)(long long)copy+((u64)checksum<<32);
     func_0204581C(p);

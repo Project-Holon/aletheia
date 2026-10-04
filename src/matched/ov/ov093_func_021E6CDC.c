@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 struct QG;
 struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
@@ -36,7 +36,7 @@ extern u16 func_021D54C0(u8 *p, int i);
 extern int func_021E6D90(int e);
 extern int func_0201BEB8(int bag, int item);
 extern u32 func_021D78AC(u32 range);
-extern int func_021C8030(int a, int b, int c);
+extern int func_021C8030(u8 *p, int v, u16 k);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E6CDC(int x, int a, int c, u32 *d)
@@ -51,7 +51,7 @@ void func_021E6CDC(int x, int a, int c, u32 *d)
     int r;
 
     if (c == func_021D775C(2)) {
-        m = func_021C7CF4(a, c);
+        m = func_021C7CF4((int *)a, c);
         if (func_021D62C4(m, t) != 0) {
             n = func_021D5448(m);
             i = 0;
@@ -64,7 +64,7 @@ void func_021E6CDC(int x, int a, int c, u32 *d)
             }
             if (cnt != 0) {
                 id = d[(u8)func_021D78AC(cnt)];
-                r = func_021C8030(a, c, id);
+                r = func_021C8030((u8 *)a, c, id);
                 func_021D76BC(0x12, id);
                 func_021D76BC(0xd, r);
             } else {

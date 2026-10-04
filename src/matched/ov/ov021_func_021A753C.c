@@ -27,7 +27,8 @@ typedef unsigned int   u32;
 typedef struct Res { u32 x0, x1; u8 a, cnt; u16 b, c, ofs; } Res;
 typedef struct Ctx { u32 flags; u32 *buf; u32 v; } Ctx;
 
-extern u32 func_02046F48(u32 a);
+struct Tagged;
+extern void *func_02046F48(struct Tagged *p);
 extern Res *func_0206E954(u32 a);
 extern u32 func_02047250(u32 a);
 extern void func_02082BCC(u32 *p, u32 v, u32 n);
@@ -56,7 +57,7 @@ static inline u32 res0(Res *x)
 void func_021A753C(Ctx *s, u32 b, u32 c, u32 d)
 {
     u32 r6;
-    r6 = res0(func_0206E954(func_02046F48(b)));
+    r6 = res0(func_0206E954((u32)func_02046F48((struct Tagged *)b)));
     if (c != 0)
         c = func_02047250(c);
     else

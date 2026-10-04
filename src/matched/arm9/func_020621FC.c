@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 
 extern u32 g_02146B94, g_02146B98, g_02146B9C;
-extern u32 func_0206207C(u32 a, u32 b, u32 c, u32 d);
+extern int func_0206207C(void *headp, void *freep, int a2, int a3);
 
 u32 func_020621FC(u32 h)
 {
@@ -30,9 +30,9 @@ u32 func_020621FC(u32 h)
 
     if (a3 != 0) {
         if (flag != 0) {
-            r = func_0206207C((u32)&g_02146B98, (u32)&g_02146B9C, a2, a3);
+            r = func_0206207C((void *)((u32)&g_02146B98), (void *)((u32)&g_02146B9C), a2, a3);
         } else {
-            r = func_0206207C((u32)&g_02146B94, (u32)&g_02146B9C, a2, a3);
+            r = func_0206207C((void *)((u32)&g_02146B94), (void *)((u32)&g_02146B9C), a2, a3);
         }
         if (r != 0) return 0;
         return 1;

@@ -96,7 +96,8 @@ extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C6FC(void *, void *, u32, u32, void *, void *);
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_021B6A0C(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
@@ -143,10 +144,10 @@ void func_021B6A0C(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
     if (h) {
         t = func_020457B0(0x80, 0x61);
         func_0201F250(h, t, s);
-        func_0201C6FC(a->f8, b->bmp, 0, 0, t, a->fc);
+        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, t, (u32)a->fc);
         func_02045808(t);
     } else {
-        func_0201C6FC(a->f8, b->bmp, 0, 0, s, a->fc);
+        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, s, (u32)a->fc);
     }
     func_02045808(s);
     b->on = 1;

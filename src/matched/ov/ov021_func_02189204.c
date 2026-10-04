@@ -42,25 +42,25 @@ struct BigObj;
 struct Ctx;
 struct Sub0200852CObj;
 
-extern u32 func_020120F4(u32 a);
+extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012964(const struct BigObj *p);
-extern void func_0216CCDC(u32 a, u32 b, u32 c, void *d, u32 e, u32 f);
+extern void func_0216CCDC(char *a, int b, int c, int d, int e, int f);
 extern void func_0219C554(u32 a, u32 b, u32 c);
 extern void func_0219C680(u32 a);
 extern u32 func_02013CC8(u32 a);
 extern u32 func_02013CE0(u32 a);
 extern u32 func_02012138(const struct Ctx *p);
-extern u32 func_0217C0A8(void *a0);
+extern u8 func_0217C0A8(int a0);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *p);
 extern u16 func_021A31A4(int i, u16 v);
 extern void func_0219C658(u32 a, u32 b);
 extern void func_0219D448(int a, int b);
-extern u32 func_0218ED50(u32 a);
-extern void func_0216CDB8(u32 a, u32 b);
+extern u8 *func_0218ED50(u8 *p);
+extern void func_0216CDB8(u8 *p, u32 v);
 extern void func_0216D2F8(u32 a);
 extern int func_02189AE8(int a);
-extern void func_0216D974(u32 a, u32 b);
+extern void func_0216D974(unsigned int *p, unsigned int v);
 
 void func_02189204(u8 *a)
 {
@@ -69,21 +69,21 @@ void func_02189204(u8 *a)
     u32 r;
     u32 t;
 
-    h = func_020120F4(*(u32 *)(a + 4));
+    h = (u32)func_020120F4((const struct Ctx *)(*(u32 *)(a + 4)));
     r = func_02012964((const struct BigObj *)h);
     *(u32 *)(a + 0x38) = r;
-    func_0216CCDC(r, *(u16 *)a, h, a, *(u32 *)(a + 0x48), *(u32 *)(a + 0x3C));
+    func_0216CCDC((char *)r, *(u16 *)a, h, (int)a, *(u32 *)(a + 0x48), *(u32 *)(a + 0x3C));
     func_0219C554(*(u32 *)(a + 0x38), *(u32 *)(a + 0xB0), 0x20);
     func_0219C680(*(u32 *)(a + 0x38));
     x = *(u16 *)(a + 0xD8);
     if (func_02013CC8(x) == 0 && func_02013CE0(x) == 0) {
-        t = func_0217C0A8((void *)func_02012138((const struct Ctx *)*(u32 *)(a + 4)));
+        t = func_0217C0A8((int)((void *)func_02012138((const struct Ctx *)*(u32 *)(a + 4))));
     } else {
         t = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)h));
     }
     func_0219C658(r, func_021A31A4(t, 0));
     func_0219D448(*(u32 *)(a + 0x38), *(u32 *)(a + 0x130));
-    func_0216CDB8(*(u32 *)(a + 0x38), func_0218ED50(*(u32 *)(a + 0x10)));
+    func_0216CDB8((u8 *)(*(u32 *)(a + 0x38)), (u32)func_0218ED50((u8 *)(*(u32 *)(a + 0x10))));
     func_0216D2F8(*(u32 *)(a + 0x38));
-    func_0216D974(r, func_02189AE8(*(u16 *)(a + 0xD0)));
+    func_0216D974((unsigned int *)r, func_02189AE8(*(u16 *)(a + 0xD0)));
 }

@@ -15,7 +15,8 @@
  *   func_0204E804  0x0204E804  arm
  */
 
-void *func_020124E4(int a);
+struct Obj;
+void *func_020124E4(struct Obj *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
@@ -25,7 +26,7 @@ int func_0204E804(void);
 
 int func_021C2B1C(int a, int *b)
 {
-    func_0201210C(func_020124E4(a));
+    func_0201210C(func_020124E4((struct Obj *)a));
     switch (*b) {
     case 0:
         func_0204E720(4, 0, 0x10, -1);

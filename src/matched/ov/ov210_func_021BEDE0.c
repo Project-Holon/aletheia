@@ -17,11 +17,13 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_0204B98C(int v);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 
 int func_021BEDE0(int a0, int a1)
 {
     int *p = (int *)(a0 + a1 * 4);
 
-    return func_0204B98C(p[0xa]);
+    return func_0204B98C((struct Actor *)p[0xa]);
 }

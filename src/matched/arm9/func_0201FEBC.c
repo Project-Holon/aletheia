@@ -20,7 +20,8 @@ typedef signed short s16;
 typedef signed char s8;
 
 extern u32  func_0201FA04(void *p);
-extern u32  func_0201C4E4(u32 a);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *a);
 extern void func_0201FEF4(u8 *o);
@@ -28,7 +29,7 @@ extern void func_0201FEF4(u8 *o);
 u32 func_0201FEBC(u8 *p)
 {
     u32 r = func_0201FA04(p);
-    u32 t = func_0201C4E4(*(u32 *)(p + 0x18));
+    u32 t = func_0201C4E4((struct PrintSys *)(*(u32 *)(p + 0x18)));
 
     if (*(u32 *)(p + 0x20) == 0 && t != 0) {
         func_02045334((struct Descriptor *)*(u32 *)(p + 4));

@@ -76,7 +76,7 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u8 func_02018598(void *p);
 extern void func_021A9828(struct Sel *s, u16 d);
-extern void *func_0201296C(void *p);
+extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern u32 func_0200D58C(struct Blk38 *p);
 extern int func_0201AA50(void *party);
@@ -110,7 +110,7 @@ void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d)
         s->f1D = func_02018598(mon);
         func_021A9828(s, d);
     }
-    s->b0 = func_020142E8(func_0201296C(a), 0x960);
+    s->b0 = func_020142E8((void *)func_0201296C(a), 0x960);
     if (func_0200D58C(func_0200D418(t)) == 0)
         s->b2 = 1;
     if (s->f0C == 2) {

@@ -36,8 +36,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D5EC(void);
-extern u8   *func_0203D610(void);
+extern u32 func_0203D5EC(void);
+extern u32 func_0203D610(void);
 struct DWCstAccUserData;
 extern u32 func_0203D634(void);
 extern int   func_020596D8(void *p);
@@ -47,8 +47,8 @@ extern int   func_02059A5C(void *a, void *b);
 int func_0200F38C(void *a, int *out)
 {
     int   i;
-    void *key = func_0203D5EC();
-    u8   *tbl = func_0203D610();
+    void *key = (void *)func_0203D5EC();
+    u8   *tbl = (u8 *)func_0203D610();
     int   n = func_0203D634();
 
     *out = -1;

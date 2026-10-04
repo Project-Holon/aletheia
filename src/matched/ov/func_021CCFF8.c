@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02190EF0(u32 v);
+extern u32 func_02190EF0(u32 *p);
 
 void func_021CCFF8(u8 *p)
 {
-    func_02190EF0(*(u32 *)(p + 0xb0));
+    func_02190EF0((u32 *)(*(u32 *)(p + 0xb0)));
 }

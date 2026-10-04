@@ -21,11 +21,12 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0218A378(int, int, int);
-extern int func_021D67A8(void *);
+struct QL;
+extern u16 func_021D67A8(struct QL *p);
 
 int func_02189A44(int a, int b) {
     int t;
-    t = func_021D67A8(*(u8 **)(b + 0xc0));
+    t = func_021D67A8((struct QL *)(*(u8 **)(b + 0xc0)));
     if (t != 0) {
         t = func_0218A378(b, t, 2);
     } else {

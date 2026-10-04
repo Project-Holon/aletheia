@@ -25,8 +25,8 @@ typedef unsigned int u32;
 extern u8 d_021F0668[];
 extern int func_021D775C(int);
 extern void func_021D7704(int,int);
-extern void *func_021C7CF4(int,int);
+extern void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-void func_021D8808(int a,int b,int c) { if (c==func_021D775C(4)) { if (func_021D62C4(func_021C7CF4(b,c),6)) func_021D7704(53,2048); } }
+void func_021D8808(int a,int b,int c) { if (c==func_021D775C(4)) { if (func_021D62C4(func_021C7CF4((int *)b,c),6)) func_021D7704(53,2048); } }
 u8 *func_021D8838(u32 *p) { *p=1; return d_021F0668; }

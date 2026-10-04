@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021BADF0(void *o);
+extern int func_021BADF0(int p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 struct Obj;
@@ -33,12 +33,12 @@ extern void func_020414EC(u32 i);
 extern void func_021B6138(void *o);
 extern void func_021BA6A4(void *o);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_021BB3F4(void *o, int v);
+extern void func_021BB3F4(int p, int mode);
 extern void func_021B8AF4(void *o);
 
 void func_021B6A14(u8 *p)
 {
-    if (func_021BADF0(p) == 0)
+    if (func_021BADF0((int)p) == 0)
         return;
     if ((func_020362DC() & 3) == 0 && func_02035C60() == 0)
         return;
@@ -48,6 +48,6 @@ void func_021B6A14(u8 *p)
     *(u16 *)(p + 0x83E) = 1;
     func_021BA6A4(p);
     func_0204B92C(*(void **)(p + 0x6A8), 1);
-    func_021BB3F4(p, 1);
+    func_021BB3F4((int)p, 1);
     func_021B8AF4(p);
 }

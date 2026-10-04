@@ -73,7 +73,8 @@ extern u32 arr_02153BB0[];
 extern s32 func_020860D0(void *blk);
 extern void func_02086028(void *blk);
 extern void func_02086078(void *blk);
-extern s32 func_02091CBC(u32 a0);
+struct P02091CBC;
+extern int func_02091CBC(struct P02091CBC *p);
 
 s32 func_02091D38(u32 a0)
 {
@@ -97,7 +98,7 @@ s32 func_02091D38(u32 a0)
             arr_02153BB0[idx] = 1;
         }
     }
-    r = func_02091CBC(a0);
+    r = func_02091CBC((struct P02091CBC *)a0);
     arr_02153BB0[idx]--;
     if (arr_02153BB0[idx] == 0) func_02086078(blk);
     return r;

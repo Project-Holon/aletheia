@@ -36,11 +36,12 @@ typedef struct Obj {
 
 extern const char d_021F5224[];
 
-extern u32 func_02188C9C(u32 a);
+typedef unsigned char  u8;
+extern u16 func_02188C9C(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02049030(u32 id);
 extern u32 func_020111E8(void);
-extern void func_021F4C10(Rec *r, u32 id, u32 i);
+extern int func_021F4C10(int a, int b, int c);
 
 void func_021F392C(Obj *o)
 {
@@ -50,12 +51,12 @@ void func_021F392C(Obj *o)
     Rec buf;
 
     if (o->f1c == 0) {
-        r5 = func_02188C9C(o->f04);
+        r5 = func_02188C9C((u8 *)o->f04);
         i = 0;
         o->f1c = func_02030734(o->f00, 0x7c, 0, d_021F5224, 0x387);
         n = func_02049030(0xae);
         for (; i < n; i++) {
-            func_021F4C10(&buf, 0xae, i);
+            func_021F4C10((int)(&buf), 0xae, i);
             if (buf.a == r5) {
                 if (buf.b == 0 || buf.b == func_020111E8()) {
                     *o->f1c = buf;

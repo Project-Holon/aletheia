@@ -23,13 +23,15 @@
 extern char ov011_id[];
 extern char ov012_id[];
 
-void func_02012374(void *ctx, int v);
+typedef unsigned char  u8;
+struct Evt;
+void func_02012374(struct Evt *evt, struct Evt **out);
 void func_02034A5C(int id);
 int func_02034AC4(int id);
 typedef unsigned short u16;
 int func_02158780(void *p, int b, int c, int d, u16 e);
-int func_02184360(int *p, int n);
-int func_021BFDD0(void *ctx, int a, int b, int c);
+void *func_02184360(u8 *p, int value);
+void *func_021BFDD0(int a0, void *p, int a2, int a3);
 
 int func_02184BF8(void *ctx, int *st, int *p)
 {
@@ -39,13 +41,13 @@ int func_02184BF8(void *ctx, int *st, int *p)
 
     switch (*st) {
     case 0:
-        r = func_021BFDD0(ctx, a, b, 0);
+        r = (int)func_021BFDD0((int)ctx, (void *)a, b, 0);
     join:
-        func_02012374(ctx, r);
+        func_02012374(ctx, (struct Evt **)r);
         (*st)++;
         break;
     case 1:
-        r = func_02184360(p, 0);
+        r = (int)func_02184360((u8 *)p, 0);
         goto join;
     case 2:
         func_02034A5C((int)ov012_id);

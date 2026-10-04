@@ -31,7 +31,7 @@ typedef struct CPSSslConnection {
 extern int func_02160E0C(unsigned char major, unsigned char minor);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 extern void func_0215FDA4(CPSSslConnection *con);
-extern int func_02160DB4(unsigned char *s, int num, int size);
+extern int func_02160DB4(int a0, int a1, int a2);
 
 static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
 {
@@ -51,7 +51,7 @@ static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
         func_0215FDA4(con);
     }
     s += sessionID_len;
-    method = func_02160DB4(s + 2, ((s[0] << 8) + s[1]) / 2, 2);
+    method = func_02160DB4((int)(s + 2), ((s[0] << 8) + s[1]) / 2, 2);
     con->method = method;
     if (method != 0)
         con->state = 1;

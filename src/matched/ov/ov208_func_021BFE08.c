@@ -42,9 +42,9 @@ extern int func_021BC3B4(int *p);
 extern u16 func_021BC3C0(void *p);
 extern void func_021BC3CC(char *p);
 extern void func_021BC40C(void *p);
-extern void func_021C1AD4(void *heap, struct S *st, void *obj);
-extern void func_021C1D0C(void *heap, struct S *st, void *obj);
-extern void func_021C1920(void *heap, struct S *st, void *obj, int mode);
+extern void func_021C1AD4(u16 *heap, u8 *p, int key);
+extern void func_021C1D0C(int a, int b, int c);
+extern void func_021C1920(u16 *heap, u8 *p, int key, int mode);
 extern void func_021BDBA0(int p);
 extern int func_021BC3A4(int *p);
 extern int func_021BDC2C(char *p);
@@ -78,8 +78,8 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         u16 old = func_021BC3C0(obj);
         func_021BC3CC((char *)obj);
         if (old != func_021BC3C0(obj)) {
-            func_021C1AD4(heap, st, obj);
-            func_021C1D0C(heap, st, obj);
+            func_021C1AD4(heap, (u8 *)st, (int)obj);
+            func_021C1D0C((int)heap, (int)st, (int)obj);
             st->f42c = 1;
             st->f430 = 0;
             st->f434 = 0;
@@ -94,8 +94,8 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         u16 old = func_021BC3C0(obj);
         func_021BC40C(obj);
         if (old != func_021BC3C0(obj)) {
-            func_021C1AD4(heap, st, obj);
-            func_021C1D0C(heap, st, obj);
+            func_021C1AD4(heap, (u8 *)st, (int)obj);
+            func_021C1D0C((int)heap, (int)st, (int)obj);
             st->f42c = 1;
             st->f430 = 0;
             st->f434 = 0;
@@ -141,7 +141,7 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         func_021BDBA0(sc);
         return;
     case 19:
-        func_021C1920(heap, st, obj, 6);
+        func_021C1920(heap, (u8 *)st, (int)obj, 6);
         return;
     default:
         if (flag != 0) {

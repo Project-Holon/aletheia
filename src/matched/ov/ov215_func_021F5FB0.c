@@ -13,11 +13,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_020063B4(unsigned, void *, int);
+typedef unsigned int   u32;
+extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
 void func_021F5FB0(void *unused, char *p)
 {
     *(int *)(p + 0x24) = 0;
-    func_020063B4(0x3f3, p + 0x24, 1);
+    func_020063B4((u8 *)0x3f3, (u32 *)(p + 0x24), 1);
     *(int *)(p + 0x18) = 3;
 }
 

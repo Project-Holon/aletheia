@@ -35,7 +35,8 @@ extern void *func_0215A5DC(void *a0);
 extern void func_0215897C(void *a, void *b);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_020124AC(void *a, u32 b, void *(*fn)(void *, u32), void *c);
+struct Desc;
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 
 int func_021B4CDC(u32 a, u32 b)
 {
@@ -44,6 +45,6 @@ int func_021B4CDC(u32 a, u32 b)
 
     r5 = func_0215A5F4((void *)b);
     r4 = func_0215A5DC((void *)b);
-    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_01, func_02154694, func_0201210C((void *)r4)));
+    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_01, (u32 (*)(void *, u32))func_02154694, (u32)func_0201210C((void *)r4)));
     return 1;
 }

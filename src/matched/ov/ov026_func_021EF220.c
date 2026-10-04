@@ -26,10 +26,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_020056EC(u32 v);
-extern u8 *func_021A21B8(int);
+extern int *func_021A21B8(int *p);
 extern int func_021A21C8(int, int);
-extern s32 *func_021A2630(int);
-extern int func_021A2638(int);
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
 extern void (*d_021EFDC0[])(int, s32, s32 *, int);
 
 void func_021EF220(int a, int n, int idx)
@@ -43,7 +43,7 @@ void func_021EF220(int a, int n, int idx)
     int q;
 
     r = func_020056EC(0);
-    w = func_021A21B8(a);
+    w = (u8 *)func_021A21B8((int *)a);
     if (*(s16 *)(w + 0x10) == 0) {
         return;
     }
@@ -60,8 +60,8 @@ void func_021EF220(int a, int n, int idx)
         if (obj == 0) {
             return;
         }
-        e = func_021A2630(obj);
-        q = func_021A2638(obj);
+        e = (s32 *)func_021A2630((unsigned char *)obj);
+        q = func_021A2638((unsigned char *)obj);
         e[1] = (s32)w;
         switch (*(s16 *)(w + 0x10)) {
         case 0:

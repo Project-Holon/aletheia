@@ -67,10 +67,10 @@ struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_020307B0(void *p);
-extern void func_02041B6C(void *p);
+extern void func_02041B6C(u32 bit);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020456F8(struct Descriptor *d);
-extern void *func_02045730(void *cell);
+extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 
 void func_02027858(struct TaskMenu *m)
@@ -79,7 +79,7 @@ void func_02027858(struct TaskMenu *m)
     u8 i;
     u8 j;
 
-    owner = func_02045730(m->cells[0]);
+    owner = (void *)func_02045730(m->cells[0]);
 
     for (i = 0; i < m->count; i++) {
         while (func_0201C6C4(m->unk_34->unk_14,
@@ -93,7 +93,7 @@ void func_02027858(struct TaskMenu *m)
         func_020452E8(m->cells[j]);
     }
 
-    func_02041B6C(owner);
+    func_02041B6C((u32)owner);
     func_020307B0(m->cells);
     func_020307B0(m->unk_1c);
     func_020307B0(m);

@@ -26,12 +26,13 @@ typedef struct {
     s16 y;
 } Pt;
 
-extern int *func_021A2630(int);
-extern int func_021A2638(int);
+typedef unsigned int   u32;
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A2654(int, Pt *);
-extern void func_021A21E0(int);
+extern void func_021A21E0(u32 *p);
 extern signed char d_021EF790[];
 
 void func_021EE980(int a)
@@ -41,8 +42,8 @@ void func_021EE980(int a)
     int *q;
     Pt pt;
 
-    p = func_021A2630(a);
-    func_021A2638(a);
+    p = (int *)func_021A2630((unsigned char *)a);
+    func_021A2638((unsigned char *)a);
     s = p[8];
     q = (int *)p[7];
     if (s == 0) {
@@ -52,7 +53,7 @@ void func_021EE980(int a)
     } else {
         p[9] = p[9] - 1;
         if (p[9] < 0) {
-            func_021A21E0(a);
+            func_021A21E0((u32 *)a);
             return;
         }
     }
@@ -67,6 +68,6 @@ void func_021EE980(int a)
     p[5] = (unsigned)(p[5] + 1) % 337u;
     if ((pt.y < -284 && pt.y > -296) || (pt.y > 212 && pt.y < 232)) {
         *(int *)p[0] = 1;
-        func_021A21E0(a);
+        func_021A21E0((u32 *)a);
     }
 }

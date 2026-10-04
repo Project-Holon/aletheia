@@ -39,7 +39,8 @@ struct L {
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern int func_0216FC4C(void);
-extern int func_0216FAB4(int, int, int, int, int, int, int, int, int, struct L *);
+struct TexKey;
+extern int func_0216FAB4(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern int d_02187EDC;
 
 int *func_021875F4(int a0, int a1, int a2, int a3, struct P e)
@@ -53,7 +54,7 @@ int *func_021875F4(int a0, int a1, int a2, int a3, struct P e)
     *(u16 *)((char *)p + 6) = func_0216FC4C() - 1;
     p[4] = -1;
     p[5] = -1;
-    if (func_0216FAB4(a0, a1, 0, a2, a3, ((u16 *)&e)[0], ((u16 *)&e)[2], 0xC40, ((u16 *)&e)[4], &l) != 0) {
+    if (func_0216FAB4((void *)a0, (const char *)a1, 0, (const char *)a2, a3, ((u16 *)&e)[0], ((u16 *)&e)[2], 0xC40, ((u16 *)&e)[4], (struct TexKey *)(&l)) != 0) {
         p[2] = l.c;
         p[3] = l.d;
         p[4] = l.e;

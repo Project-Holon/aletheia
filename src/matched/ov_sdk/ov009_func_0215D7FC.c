@@ -15,7 +15,8 @@
  * func_0215DD28 when that did not fail.
  */
 
-extern int func_0215DDC4(char *a, int b, int c, int d, int e, int f);
+struct SOCLSocket;
+extern int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip, long flag_block);
 extern int func_0215D898(char *a, int b, int c, int d, int e, int f);
 extern void func_0215DD28(char *a);
 
@@ -37,7 +38,7 @@ int func_0215D7FC(char *a, int b, int c, int d, int e, int f, int g)
     }
 
     if (*(signed char *)(a + 0xaf) == 1) {
-        r = func_0215DDC4(a, b, c, d, e, f);
+        r = func_0215DDC4((struct SOCLSocket *)a, (void *)b, c, (short unsigned int *)d, (long unsigned int *)e, f);
     } else {
         r = func_0215D898(a, b, c, d, e, f);
         if (r >= 0)

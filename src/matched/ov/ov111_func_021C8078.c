@@ -80,7 +80,7 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern int func_02012BF8(void *p, int id);
+extern int func_02012BF8(int a0, int a1);
 struct Obj;
 extern void func_02012BE0(void *p, u32 a, u32 b);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -88,7 +88,7 @@ extern void func_020061E4(u32 a);
 
 void func_021C8078(Work *p)
 {
-    int v = func_02012BF8(p->f108->f4, 0x17) ^ 1;
+    int v = func_02012BF8((int)p->f108->f4, 0x17) ^ 1;
 
     func_0204B878(p->f58, v + 6);
     func_02012BE0(p->f108->f4, 0x17, v);

@@ -20,7 +20,8 @@ typedef unsigned int u32;
 typedef struct { int state; int y; u8 *p; } Anim;
 extern void func_021FF914(Anim *, int);
 extern void func_021FFAEC(u32, int, int);
-extern int func_0204B98C(u32);
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 extern void func_020307B0(void *);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -40,7 +41,7 @@ void func_021FF92C(void *task, Anim *a)
         func_021FFAEC(*(u32 *)(p + 0xD0C), 128, a->y);
         break;
     case 1:
-        if (func_0204B98C(*(u32 *)(p + 0xD0C)) == 0) {
+        if (func_0204B98C((struct Actor *)(*(u32 *)(p + 0xD0C))) == 0) {
             func_021FF914(a, 2);
             a->state = 2;
         }

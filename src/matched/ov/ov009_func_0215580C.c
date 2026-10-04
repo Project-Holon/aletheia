@@ -64,11 +64,11 @@ void func_02177160(Fn f, int a);
 void func_0216B634(Fn f, int a);
 void func_02177188(Fn f, int a);
 void func_02155674(void);
-void func_02155D3C(void);
-void func_02155D80(void);
-void func_02155DCC(void);
-void func_02155E9C(void);
-void func_02155BDC(void);
+void func_02155D3C(int a, int b, int c, int d, int e);
+void func_02155D80(int a, u32 i);
+void func_02155DCC(u32 a, u8 *p, int c);
+void func_02155E9C(int a, int b, int c, u32 d);
+void func_02155BDC(unsigned int n);
 
 int func_0215580C(int a0, int n, int a2, int a3)
 {
@@ -83,14 +83,14 @@ int func_0215580C(int a0, int n, int a2, int a3)
         func_02156C00(i);
     func_02155374(7);
     d_021A8264->n = n;
-    if (func_0216B284(1, n, a0, func_02155D3C, 0, func_02155674, 0, a2, a3,
+    if (func_0216B284(1, n, a0, (Fn)func_02155D3C, 0, func_02155674, 0, a2, a3,
                       0, 0, 0) == 0)
         return 0;
     d_021A8264->w75C = 0;
-    func_02177138(func_02155D80, 0);
-    func_02177160(func_02155DCC, 0);
-    func_0216B634(func_02155E9C, 0);
-    func_02177188(func_02155BDC, 0);
+    func_02177138((Fn)func_02155D80, 0);
+    func_02177160((Fn)func_02155DCC, 0);
+    func_0216B634((Fn)func_02155E9C, 0);
+    func_02177188((Fn)func_02155BDC, 0);
     d_021A8264->w760 = 0;
     d_021A8264->b7A1 = 1;
     d_021A8264->w758 = 0x3EF;

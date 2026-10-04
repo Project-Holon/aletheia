@@ -15,5 +15,9 @@
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-extern void func_0203FCA0(u32,u32,u32),func_02040588(u32,u32),func_020414AC(u32),func_020409B4(u32);
-void func_021EF0D0(u32 a,u32 b,u32 c) { func_0203FCA0(b,a,c);func_02040588(b,1);func_020414AC(b);func_020409B4(b); }
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_02040588(u32,u32);
+extern void func_020414AC(u32);
+extern void func_020409B4(u32);
+void func_021EF0D0(u32 a,u32 b,u32 c) { func_0203FCA0(b,(const struct BgTemplate *)a,c);func_02040588(b,1);func_020414AC(b);func_020409B4(b); }

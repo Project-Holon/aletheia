@@ -67,7 +67,7 @@ extern void func_02040588(u32 which, u32 enable);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void func_02082A48(u16 data, void *destp, u32 size);
 extern void func_021F8198(int a, int b);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021F8934(int a);
 extern void func_021F8A10(int a);
 extern void func_021FE410(T *t, int a, int b, int c);
@@ -122,11 +122,11 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
         off += ((u8 *)q)[1] * 0x38;
     }
     flag = 0;
-    if (func_021FFD9C(func_021F8694(), t->fdc)) {
+    if (func_021FFD9C((char *)func_021F8694(), t->fdc)) {
         if (((t->h258 == 0xf8 || t->h258 == 0x161) && ((u8 *)q)[1] == 1)
             || t->h258 == 0x90 || t->h258 == 0x77 || t->h258 == 0x10b) {
         } else {
-            flag = func_021FFF38(func_021F8694(), t->fdc) & 1;
+            flag = func_021FFF38((char *)func_021F8694(), t->fdc) & 1;
         }
     }
     if (t->h258 == 0x27e)

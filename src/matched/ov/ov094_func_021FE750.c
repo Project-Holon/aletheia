@@ -12,11 +12,13 @@
  * symbols:
  *   func_02030EE8  0x02030EE8  arm
  */
-extern unsigned int **func_02030EE8(void *h);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 
 void func_021FE750(void *h)
 {
-    unsigned int *p = *func_02030EE8(h);
+    unsigned int *p = *((unsigned int **)func_02030EE8(h));
 
     *p &= ~0x800u;
 }

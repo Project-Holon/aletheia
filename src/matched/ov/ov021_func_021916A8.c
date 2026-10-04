@@ -44,11 +44,11 @@ typedef struct R {
 
 extern int func_02190D48(u32 a);
 extern u32 func_02193210(u8 *p);
-extern u32 func_02190D2C(Fx *a, u32 b, u32 c, u32 d, u16 e, u32 f);
+extern u32 *func_02190D2C(u32 *a, u32 b, u32 c, u32 d, u16 e, u32 f);
 
 void func_021916A8(R *r, u32 b, u16 c, u32 d)
 {
     if (r->f1c != 0)
         func_02190D48(r->f1c);
-    r->f1c = func_02190D2C(r->f0c, d, r->f18, b, c, func_02193210((u8 *)r->f0c + 0x160));
+    r->f1c = (u32)func_02190D2C((u32 *)r->f0c, d, r->f18, b, c, func_02193210((u8 *)r->f0c + 0x160));
 }

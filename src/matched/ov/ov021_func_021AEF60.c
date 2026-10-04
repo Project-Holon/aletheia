@@ -24,7 +24,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
-extern u32 func_020120F4(void *a);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 struct BigObj;
 extern void *func_0201210C(const struct Ctx *p);
@@ -39,7 +40,7 @@ int func_021AEF60(u32 a, u32 b)
     void *x;
 
     x = func_0215A5DC((void *)b);
-    y = func_020120F4(x);
+    y = (u32)func_020120F4(x);
     func_0201210C((void *)x);
     y = func_02012A30((const struct BigObj *)y);
     func_02028A58(y, 0x7f, func_02159B10((void *)a, (void *)b));

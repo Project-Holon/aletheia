@@ -23,18 +23,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern u32 func_02047400(u32 a, u32 b, u32 c);
-extern u32 func_02047564(u32 a, u32 b, u32 c);
-extern u32 func_0204767C(u32 a, u32 *b, u32 c);
-extern void func_020477A4(u32 a, u32 b);
+struct G3dOwner;
+struct G3dRec;
+struct G3dSys;
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 
 void func_0217FA10(char *self, u32 *out, u32 a2, u16 a3)
 {
     func_02082BCC(out, 0, 0x14);
     out[0] = a2;
     *(u16 *)((char *)out + 0x10) = a3;
-    out[1] = func_02047400(*(u32 *)(self + 0x14), 0, *(u32 *)(self + 0x14));
-    out[2] = func_02047564(out[1], *(u32 *)(self + 0x18), 0);
-    out[3] = func_0204767C(out[1], &out[2], 1);
-    func_020477A4(out[3], 0);
+    out[1] = (u32)func_02047400((void *)(*(u32 *)(self + 0x14)), 0, (void *)(*(u32 *)(self + 0x14)));
+    out[2] = (u32)func_02047564((struct G3dOwner *)out[1], (const struct G3dOwner *)(*(u32 *)(self + 0x18)), 0);
+    out[3] = (u32)func_0204767C(out[1], &out[2], 1);
+    func_020477A4((struct G3dSys *)out[3], 0);
 }

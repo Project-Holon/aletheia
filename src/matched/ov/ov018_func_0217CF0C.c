@@ -21,7 +21,9 @@ typedef struct {
     int f8;
 } Obj;
 
-extern int func_02188E30();
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02188E30(u8 *p);
 extern void func_021D324C();
 extern void func_021A0F40();
 
@@ -31,7 +33,7 @@ int func_0217CF0C(int a0, int *state, Obj *o)
     case 0:
         o->f8 += 1;
         if (o->f8 > 15) {
-            func_021D324C(func_02188E30(o->f0), -16);
+            func_021D324C(func_02188E30((u8 *)o->f0), -16);
             *state += 1;
         }
         break;
@@ -40,7 +42,7 @@ int func_0217CF0C(int a0, int *state, Obj *o)
         *state += 1;
         break;
     case 2:
-        func_021D324C(func_02188E30(o->f0), 0);
+        func_021D324C(func_02188E30((u8 *)o->f0), 0);
         *state += 1;
         break;
     case 3:

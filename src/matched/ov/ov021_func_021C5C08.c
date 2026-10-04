@@ -30,7 +30,7 @@ typedef struct {
     u16 *f10;
 } Arg;
 
-extern void *func_020146F8(int a, int b, int c, const char *d, void *e);
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern char d_021DEA44[];
@@ -42,7 +42,7 @@ int func_021C5C08(void *a, int *st, Arg *p)
 
     switch (*st) {
     case 0:
-        func_02012374(a, func_020146F8(p->f0, p->f4, (int)ov171_id, d_021DEA44, p->f8));
+        func_02012374(a, func_020146F8((char *)p->f0, p->f4, (int)ov171_id, (int)d_021DEA44, (int)p->f8));
         *st = *st + 1;
         break;
     case 1:

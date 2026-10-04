@@ -41,7 +41,7 @@ struct DWCstMatchControl {
     int f798;
 };
 
-extern struct DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_0219F00C(char *p);
 extern void func_02175F4C(int state);
 extern int func_02171C08(int delay, int init, int resendPid);
@@ -56,33 +56,33 @@ int func_02175AA4(void)
     int result;
     int sbError;
 
-    if (func_02175F3C()->sbObj != 0)
-        func_0219F00C(func_02175F3C()->sbObj);
-    if (func_02175F3C()->f798 != 0) {
+    if (((struct DWCstMatchControl *)func_02175F3C())->sbObj != 0)
+        func_0219F00C(((struct DWCstMatchControl *)func_02175F3C())->sbObj);
+    if (((struct DWCstMatchControl *)func_02175F3C())->f798 != 0) {
         func_02175F4C(0xc);
-    } else if (func_02175F3C()->qr2MatchTypeExt == 0) {
+    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 0) {
         func_02175F4C(2);
-    } else if (func_02175F3C()->qr2MatchTypeExt == 1) {
+    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 1) {
         func_02175F4C(3);
         result = 1;
         if (func_021719A4(func_02171C08(0, 1, 0)))
             result = 0;
         return result;
-    } else if (func_02175F3C()->qr2MatchTypeExt == 2) {
+    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 2) {
         func_02175F4C(0xd);
-        func_02175F3C()->f0d = 1;
+        ((struct DWCstMatchControl *)func_02175F3C())->f0d = 1;
         return 1;
-    } else if (func_02175F3C()->qr2MatchTypeExt == 3) {
-        if (gpIsBuddy(func_02175F3C()->connection, func_02175F3C()->f554)) {
+    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 3) {
+        if (gpIsBuddy(((struct DWCstMatchControl *)func_02175F3C())->connection, ((struct DWCstMatchControl *)func_02175F3C())->f554)) {
             func_02175F4C(3);
-            result = func_021719A4(func_021719D0(func_02175F3C()->f554, 0));
+            result = func_021719A4(func_021719D0(((struct DWCstMatchControl *)func_02175F3C())->f554, 0));
             if (result)
                 return 0;
         }
         return 1;
     }
-    func_02175F3C()->f67c = 0;
-    sbError = func_02173D9C(func_0216F770(func_02175F3C()->f67c));
+    ((struct DWCstMatchControl *)func_02175F3C())->f67c = 0;
+    sbError = func_02173D9C(func_0216F770(((struct DWCstMatchControl *)func_02175F3C())->f67c));
     result = 0;
     if (sbError == 0)
         result = 1;

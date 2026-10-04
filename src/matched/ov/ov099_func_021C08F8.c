@@ -36,7 +36,7 @@ struct S;
 struct Work;
 extern u8 func_021B97F4(struct W *);
 extern u32 func_0201AC80(void *);
-extern struct S *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern u8 func_021BDD48(int, struct S *);
 extern int func_021C27E0(struct S *);
 extern int func_021C23C8(void *, void *);
@@ -59,7 +59,7 @@ int func_021C08F8(char *p)
     if (n != 0) {
         func_0201AC80(*(void **)(p + 0xc8));
         index = n - 1;
-        state = func_021C23B8(index);
+        state = (struct S *)func_021C23B8(index);
         kind = func_021BDD48((int)p, state);
         func_021C27E0(state);
         if (kind == 6) return 0;

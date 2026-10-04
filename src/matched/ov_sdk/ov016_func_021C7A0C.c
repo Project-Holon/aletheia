@@ -40,7 +40,7 @@ typedef struct FuncTable {
 } FuncTable;
 
 extern int func_021D157C();
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021C0EA0();
 extern void func_021C7314();
 extern void func_021C77F4();
@@ -56,10 +56,10 @@ void func_021C7A0C(void)
         return;
     if (g_021DE5E4->result == 0) {
         g_021DE5E4->caret->attr01 &= 0xC1FFFCFF;
-        func_021C0E40(func_021C7314);
+        func_021C0E40((unsigned int)func_021C7314);
         return;
     }
     func_021C0EA0(&prm, 0);
     FUNC.f[prm]((char *)g_021DE5E4 + 8);
-    func_021C0E40(func_021C77F4);
+    func_021C0E40((unsigned int)func_021C77F4);
 }

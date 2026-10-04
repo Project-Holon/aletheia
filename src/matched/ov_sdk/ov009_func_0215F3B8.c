@@ -17,10 +17,11 @@
  */
 
 extern char g_021AA4B8[];
-extern void func_0215F334(char *p, int a);
+struct Sock;
+extern void func_0215F334(struct Sock **next, struct Sock *socket);
 
 void func_0215F3B8(int a)
 {
-    func_0215F334(g_021AA4B8, a);
+    func_0215F334((struct Sock **)g_021AA4B8, (struct Sock *)a);
 }
 

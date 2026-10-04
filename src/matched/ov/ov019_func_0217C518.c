@@ -27,7 +27,8 @@ extern int func_0217BB04(u8 *a);
 extern void func_02173518(u8 *a);
 typedef unsigned int   u32;
 extern void func_021734A8(u8 *self, u32 id, u32 v);
-extern void func_021735FC(u8 *a, int b);
+struct Entry;
+extern int func_021735FC(u8 *self, const struct Entry *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -45,7 +46,7 @@ int func_0217C518(u8 *a, u8 *b, int c, u8 *d)
     case 0:
         func_02173518(b + 0x14);
         func_021734A8(a, 4, 1);
-        func_021735FC(b + 0x14, *(int *)(b + 0x20));
+        func_021735FC(b + 0x14, (const struct Entry *)(*(int *)(b + 0x20)));
         r = (int)func_020399A8();
         func_02039C68((struct Link *)r, 2, 0x14);
         (*d)++;

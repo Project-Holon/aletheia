@@ -25,7 +25,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_021B985C(char *, int);
+extern int func_021B985C(char *p, int i);
 extern char *func_021B9AEC(char *, int);
 struct Party;
 struct PartyMon;
@@ -53,7 +53,7 @@ void func_021B969C(char *a, char *b, int k, int flag)
     void *m, *e;
     void *h;
     u8 links[6];
-    list = func_021B985C(a, k);
+    list = (void *)func_021B985C(a, k);
     g = func_021B9AEC(a, k);
     n = func_0201AA18(list);
     func_0201A948(*(void **)(b + 0x2b8));

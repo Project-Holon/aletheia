@@ -26,7 +26,11 @@ typedef short s16;
 typedef struct {int x,y;} Pair;
 typedef struct {s16 x,y;} Pos;
 extern const Pair a1,b1,a2,b2;
-extern void func_021B9990(u8 *,u16,int,u16),func_021B9A88(u8 *,u16),func_021B9AC0(u8 *,int *,int *,u16),func_021B987C(u8 *),func_021B75E0(u8 *);
+extern void func_021B9990(u8 *,u16,int,u16);
+extern void func_021B9A88(unsigned char *p, unsigned int limit);
+extern void func_021B9AC0(u8 *,int *,int *,u16);
+extern void func_021B987C(u8 *);
+extern void func_021B75E0(u8 *);
 extern void func_0204B404(void *,const Pos *,unsigned);
 void func_021B98A0(u8 *p)
 {

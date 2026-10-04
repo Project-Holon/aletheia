@@ -24,9 +24,10 @@ typedef struct { int x; int y; int z; } V;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_021ABE14(int a);
-extern int func_02188C88(int a);
-extern int func_02050080(int a);
+typedef unsigned char  u8;
+extern u32 func_021ABE14(u8 *p);
+extern u32 func_02188C88(u8 *p);
+extern u32 func_02050080(u32 *p);
 extern void func_021AC274(char *p);
 extern char d_021DE028[];
 extern V d_021D908C;
@@ -38,8 +39,8 @@ char *func_021AC218(int a, int heap)
     p = (char *)func_02030734(heap, 0x1c, 1, d_021DE028, 0x5c);
     *(int *)p = a;
     *(V *)(p + 4) = d_021D908C;
-    *(int *)(p + 0x10) = func_02188C88(func_021ABE14(a));
-    *(int *)(p + 0x14) = func_02050080(*(int *)(p + 0x10));
+    *(int *)(p + 0x10) = func_02188C88((u8 *)func_021ABE14((u8 *)a));
+    *(int *)(p + 0x14) = func_02050080((u32 *)(*(int *)(p + 0x10)));
     func_021AC274(p);
     return p;
 }

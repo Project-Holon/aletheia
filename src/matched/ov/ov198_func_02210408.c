@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02021ED8(u32);
+extern u32 func_02021ED8(const char *ptr);
 
 u32 func_02210408(u8 *p)
 {
-    if (func_02021ED8(*(u32 *)(p + 0x1d8)) == 0) {
+    if (func_02021ED8((const char *)(*(u32 *)(p + 0x1d8))) == 0) {
         return 0x21;
     }
     return 0x20;

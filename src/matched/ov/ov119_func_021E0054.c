@@ -48,7 +48,7 @@ extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *,int);
 extern int func_021D8A24(void *);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *,u32,u32);
 extern void func_021D8E84(void *,int);
@@ -73,7 +73,7 @@ void func_021E0054(char *p)
     packet.b=func_02009584(saved);
     packet.mode=func_0200960C(saved);
     if(func_021D8A24(p)) {
-        if(func_0203D3A8(func_020399A8(),0xc12,40,&packet)) {
+        if(func_0203D3A8(func_020399A8(),0xc12,40,(u32)(&packet))) {
             func_02039C68((struct Link *)func_020399A8(),23,8);
             func_021D8E84(p,(int)func_021E0030);
             return;

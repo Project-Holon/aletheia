@@ -13,13 +13,15 @@
  *   func_02012B58 0x02012B58 thumb
  */
 typedef unsigned char u8;
-extern int func_02026478(int);
-extern int func_02012B58(int);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02026478(void *obj);
+extern u8 func_02012B58(const struct BigObj *p);
 int func_021751A8(u8 *p, int index)
 {
     int value;
     if (index >= p[0x902]) return 0;
-    value = index - func_02012B58(func_02026478(*(int *)(p + 4)));
+    value = index - func_02012B58((const struct BigObj *)func_02026478((void *)(*(int *)(p + 4))));
     if (value < 0) value += p[0x902];
     return value;
 }

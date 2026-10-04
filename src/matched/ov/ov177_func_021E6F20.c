@@ -36,10 +36,11 @@ extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern void *func_0204ACEC(void *, u32, u32, u16, u16);
-extern void *func_0204AF28(void *, u32, u32, u32);
+typedef signed int     s32;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_0200B214(void *, int, u8);
 extern u32 func_0201BABC(u16, u32, u32, u32);
-extern void *func_0204A6C8(void *, u32, u32, u32, u16);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern u32 func_020275E4(void);
 extern u32 func_02027694(void);
@@ -62,18 +63,18 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
     Request req, sub;
     h = func_020490F4(7, heap);
     w->pal = func_0204ACEC(h, func_0201BC3C(), w->layer, w->palSlot << 5, (heap & 0x7fff) | 0x8000);
-    w->cell = func_0204AF28(h, func_0201BC40(), func_0201BCB4(), heap);
+    w->cell = (void *)func_0204AF28(h, func_0201BC40(), func_0201BCB4(), heap);
     for (i = 0; i < 6; i++) {
         species = func_0200B214(rec, 0, i);
         form = func_0200B214(rec, 1, i);
         gender = func_0200B214(rec, 3, i);
-        w->chr[i] = func_0204A6C8(h, func_0201BABC(species != 0 ? species : 1, form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
+        w->chr[i] = (void *)func_0204A6C8(h, func_0201BABC(species != 0 ? species : 1, form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
     }
     func_02049238(h);
     h = func_020490F4(func_020275E4(), heap);
     w->pal2 = func_0204AC18(h, func_02027694(), w->layer, (w->palSlot + 3) << 5, 0, 1, (heap & 0x7fff) | 0x8000);
-    w->chr2 = func_0204A6C8(h, func_02027698(), 0, w->layer, (heap & 0x7fff) | 0x8000);
-    w->cell2 = func_0204AF28(h, func_0202769C(2), func_020276A0(2), heap);
+    w->chr2 = (void *)func_0204A6C8(h, func_02027698(), 0, w->layer, (heap & 0x7fff) | 0x8000);
+    w->cell2 = (void *)func_0204AF28(h, func_0202769C(2), func_020276A0(2), heap);
     func_02049238(h);
     func_02082BCC(&req, 0, 8);
     req.y = 0xa8;

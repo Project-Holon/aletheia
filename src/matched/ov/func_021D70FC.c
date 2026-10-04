@@ -13,9 +13,9 @@
  *   func_021D7108  0x021D7108  thumb  ov093
  */
 
-void func_021D7108(int, int, int, int);
+void func_021D7108(void *a, int id, int kind, int check);
 
 void func_021D70FC(int a, int b, int c)
 {
-    func_021D7108(a, b, c, 1);
+    func_021D7108((void *)a, b, c, 1);
 }

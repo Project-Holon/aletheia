@@ -39,33 +39,38 @@ struct Save {
     u32 *blk;
 };
 
-extern u32 func_02012EBC(u32 sav);
-extern u32 func_02012944(u32 sav);
-extern void func_02008494(u32 name, char *dst);
-extern u32 func_0200E6E8(u32 p);
-extern void func_0200E6FC(u32 src, int idx, char *dst);
-extern u32 func_021DC194(u32 p);
-extern u32 func_0201283C(u32 sav);
+typedef signed int     s32;
+struct Big;
+struct BigObj;
+struct Rec0200E6FC;
+struct Reg2;
+extern void *func_02012EBC(struct Big *p);
+extern u8 *func_02012944(void *p);
+extern void func_02008494(void *src, void *dst);
+extern void *func_0200E6E8(u32 a);
+extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern u32 func_021DC194(char *obj);
+extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009CC0(u32 p);
-extern u32 func_0200B078(u32 id, u32 kind);
-extern u32 func_0200B1C4(u32 id);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern u16 func_0200B1C4(struct Reg2 *p);
 
 void func_021D9A9C(char *dst, char *obj)
 {
-    u32 st = func_02012EBC(*(*(struct Save **)(obj + 0x104))->sav);
+    u32 st = (u32)func_02012EBC((struct Big *)(*(*(struct Save **)(obj + 0x104))->sav));
     u32 h;
 
-    func_02008494(func_02012944(*(*(struct Save **)(obj + 0x104))->sav), dst);
-    func_0200E6FC(func_0200E6E8(st), 0, dst + 0x38);
+    func_02008494(func_02012944((void *)(*(*(struct Save **)(obj + 0x104))->sav)), dst);
+    func_0200E6FC(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
     {
         const struct Save *s = *(struct Save **)(obj + 0x104);
         *(u32 *)(dst + 0x28) = s->blk[2];
         *(u32 *)(dst + 0x2c) = s->blk[3];
         *(u32 *)(dst + 0x34) = s->blk[4];
     }
-    *(u32 *)(dst + 0x4c) = func_021DC194(*(u32 *)(obj + 0x34));
-    *(u32 *)(dst + 0x48) = func_02009CC0(func_0201283C(*(*(struct Save **)(obj + 0x104))->sav));
+    *(u32 *)(dst + 0x4c) = func_021DC194((char *)(*(u32 *)(obj + 0x34)));
+    *(u32 *)(dst + 0x48) = func_02009CC0(func_0201283C((const struct BigObj *)(*(*(struct Save **)(obj + 0x104))->sav)));
     h = *(u32 *)(obj + 0x108);
-    *(u32 *)(dst + 0x40) = func_0200B078(h, 2);
-    *(u32 *)(dst + 0x50) = func_0200B1C4(h);
+    *(u32 *)(dst + 0x40) = func_0200B078((struct Reg2 *)h, 2);
+    *(u32 *)(dst + 0x50) = func_0200B1C4((struct Reg2 *)h);
 }

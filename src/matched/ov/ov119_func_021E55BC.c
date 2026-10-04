@@ -28,7 +28,8 @@ extern const s16 d_020A1EB8[];
 extern void func_021E5520(void);
 extern void func_02046440(int,int,int,int,u16,u16,void (*)(void));
 extern int func_02048A24(int,int,int,int,int,int,int,int,const Vec *,const Vec *,const Vec *,u16);
-extern void func_02048AD0(int);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 typedef unsigned int   u32;
 extern void func_02046BE0(u32 a, u32 b);
 void func_021E55BC(char *p)
@@ -39,7 +40,7 @@ void func_021E55BC(char *p)
     heap = (*(u16 *)(p+0x5f4)&0x7fff)|0x8000;
     v = d_021E7DE0;
     *(int *)(p+0x810) = func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021E7CA0,&v,&d_021E7C94,heap);
-    func_02048AD0(*(int *)(p+0x810));
+    func_02048AD0((struct Light *)(*(int *)(p+0x810)));
     *(volatile u16 *)0x04000060 &= 0xcfdf;
     func_02046BE0(0,0);
 }

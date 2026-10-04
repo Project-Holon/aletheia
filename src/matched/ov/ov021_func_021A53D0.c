@@ -24,9 +24,10 @@ void *func_021A3960(unsigned char *p);
 typedef unsigned short u16;
 u16 func_0216D5F8(void *p);
 void func_0216D4B4(char *p);
-void func_0216D5E0(void *h, int v);
+typedef unsigned char  u8;
+void func_0216D5E0(int a0, int a1);
 void func_0216D674(void *p, u16 v);
-void func_021A3964(u32 h, int s);
+void func_021A3964(u8 *p, u32 v);
 
 void func_021A53D0(u32 *p)
 {
@@ -37,8 +38,8 @@ void func_021A53D0(u32 *p)
         h = func_021A3960(*(unsigned char **)(p + 3));
         v = func_0216D5F8(h);
         func_0216D4B4(h);
-        func_0216D5E0(h, v);
+        func_0216D5E0((int)h, v);
         func_0216D674(h, 0);
-        func_021A3964(p[3], 0);
+        func_021A3964((u8 *)p[3], 0);
     }
 }

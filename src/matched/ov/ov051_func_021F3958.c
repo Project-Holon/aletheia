@@ -27,8 +27,11 @@ extern int func_021F3C84(char *a, char *b, int c);
 extern int func_021F39F8(int a, int *s, int *t);
 extern int func_021F3AB4(int a, int *s, int *t);
 extern int func_02188C80(int a);
-extern int func_020122C0(int a, int b, void *c, int d);
-extern unsigned short *func_020124E8(int a);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082C60(void *a, int b, int c);
 
 int func_021F3958(int a, int id, int arg)
@@ -56,10 +59,10 @@ int func_021F3958(int a, int id, int arg)
         return 0;
     sp3 = func_021F3C84(r5, r7, arg);
     if (sp3 == 0)
-        sp1 = func_020122C0(sp8, 0, func_021F3AB4, 0x10);
+        sp1 = (int)func_020122C0((void *)sp8, 0, func_021F3AB4, 0x10);
     else
-        sp1 = func_020122C0(sp8, 0, func_021F39F8, 0x10);
-    r6 = func_020124E8(sp1);
+        sp1 = (int)func_020122C0((void *)sp8, 0, func_021F39F8, 0x10);
+    r6 = func_020124E8((struct Obj *)sp1);
     func_02082C60(r6, 0, 0x10);
     r6[0] = arg;
     *(char **)(r6 + 6) = r5;

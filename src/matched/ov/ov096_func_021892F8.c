@@ -27,8 +27,9 @@ typedef struct { u8 pad[0x4c]; u16 values[8]; u8 pad2[0xb0-0x5c]; int fb0, fb4, 
 extern unsigned int func_0201134C(int);
 extern int func_0218A160(Obj *, int);
 extern int func_0218A378(Obj *, int, int);
-extern int func_0218A0F4(int, int, int, int, int);
-extern int func_021D5448(void *);
+struct QG;
+extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
+extern u8 func_021D5448(struct QG *p);
 extern int func_021D54C0(void *, u8);
 int func_021892F8(int a, Obj *b, int c)
 {
@@ -41,7 +42,7 @@ int func_021892F8(int a, Obj *b, int c)
     r = 0;
     switch (k) {
     case 1:
-        for (i = 0; i < func_021D5448(b->fbc); i++) {
+        for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
             t = func_0218A378(b, func_021D54C0(b->fbc, i), 28);
             if (t == value) {
                 r = 1;
@@ -61,7 +62,7 @@ int func_021892F8(int a, Obj *b, int c)
         }
         break;
     }
-    return func_0218A0F4(a, c, r, 1, z);
+    return func_0218A0F4((u8 *)a, c, r, 1, z);
 }
 int func_021893AC(int a, Obj *b) { return b->fc4; }
 int func_021893B4(int a, Obj *b) {

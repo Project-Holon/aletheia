@@ -31,12 +31,12 @@ extern void *func_0215A5E4(void *a0);
 extern void *func_0215A5DC(void *a0);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *a, void *b);
-extern u32 func_0200CA1C(void *a);
+extern void *func_0200CA1C(void *a);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_0200D298(u32 a);
-extern u32 func_0200D2B0(u32 a, u32 b);
-extern u32 func_0200D2C4(u32 a, u32 b);
+extern int func_0200D298(void *a0);
+extern int func_0200D2B0(void *a0, int a1);
+extern int func_0200D2C4(void *p, unsigned int heap);
 extern u16 func_02188C84(u8 *p);
 
 int func_021B5EB8(u32 a, u32 b)
@@ -45,18 +45,18 @@ int func_021B5EB8(u32 a, u32 b)
     void *s;
     u16 *out;
 
-    w = func_0200CA1C(func_0215A5E4((void *)b));
+    w = (u32)func_0200CA1C(func_0215A5E4((void *)b));
     s = func_0201210C(func_0215A5DC((void *)b));
     out = func_02159AE8((void *)a, (void *)b);
     switch (func_02159B10((void *)a, (void *)b)) {
     case 1:
-        *out = func_0200D298(w);
+        *out = func_0200D298((void *)w);
         break;
     case 3:
-        *out = func_0200D2B0(w, func_02188C84(s));
+        *out = func_0200D2B0((void *)w, func_02188C84(s));
         break;
     case 2:
-        *out = func_0200D2C4(w, func_02188C84(s));
+        *out = func_0200D2C4((void *)w, func_02188C84(s));
         break;
     }
     return 0;

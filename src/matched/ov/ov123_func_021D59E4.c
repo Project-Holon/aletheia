@@ -24,7 +24,7 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-extern void *func_020450F0(int,int,u8,int,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(unsigned int,unsigned int,unsigned int);
@@ -37,7 +37,7 @@ void func_021D59E4(char *p)
 {
     void *q;
     if (*(void **)(p+0x48)) func_020452E8(*(void **)(p+0x48));
-    q=func_020450F0(6,1,9,30,6,11,1);
+    q=(void *)func_020450F0(6,1,9,30,6,11,1);
     *(void **)(p+0x48)=q;
     func_02043B5C(func_02045770(q),15);
     func_0201DD78(1,2,15);

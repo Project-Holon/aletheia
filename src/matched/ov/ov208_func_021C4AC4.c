@@ -18,12 +18,12 @@ struct Ov208Menu {
     u32 slot[5];
     u32 print[5];
 };
-extern u32 func_0201C440(u32 heap);
+extern u32 func_0201C440(void *p);
 void func_021C4AC4(u16 *heap, struct Ov208Menu *p)
 {
     u8 i;
     for (i = 0; i < 5; i++) {
-        p->print[i] = func_0201C440(*heap);
+        p->print[i] = func_0201C440((void *)(*heap));
         p->slot[i] = 0;
     }
 }

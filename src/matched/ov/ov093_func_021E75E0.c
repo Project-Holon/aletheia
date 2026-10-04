@@ -27,7 +27,7 @@ extern int func_021D775C(int key);
 extern u8 *func_021C88A4(int a, int k, int c);
 struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
-extern void func_021C88C8(int a, u8 *p);
+extern void func_021C88C8(void *a, void *b);
 extern int d_021F28B8[];
 
 void func_021E75E0(int a, int b, int c)
@@ -45,7 +45,7 @@ void func_021E75E0(int a, int b, int c)
         else
             k += 0x8f;
         *(u16 *)(p + 4) = k;
-        func_021C88C8(b, p);
+        func_021C88C8((void *)b, p);
     }
 }
 

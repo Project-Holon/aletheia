@@ -53,15 +53,17 @@ typedef struct Obj {
 
 extern char d_021DDF7C;
 extern int func_021A7A28(u32 a, u32 b);
-extern void func_021A7AB0(u32 src, void *t);
+struct Out;
+struct S02046CE0;
+extern void func_021A7AB0(u32 *src, struct Out *o);
 extern int func_02046C94(void);
 extern void *func_02030734(u16 heap, u32 size, u32 one, char *file, u32 line);
 extern int func_021A7A34(u32 a, u32 b);
-extern void func_02046CE0(void *dst, u32 src);
+extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 extern u32 func_021A7A88(u8 *p);
 extern Pair func_021A7A40(void *t, u32 idx, u32 key);
 extern u16 func_021A7A90(void *t, u32 idx);
-extern s32 func_021A78EC(u32 a, void *b, u32 idx);
+extern int func_021A78EC(void *a, void *b, u32 idx);
 extern u32 func_021A797C(void *a, u32 idx);
 
 void func_021A7678(Obj *o, u32 a, u32 b, u32 c, u16 heap)
@@ -74,9 +76,9 @@ void func_021A7678(Obj *o, u32 a, u32 b, u32 c, u16 heap)
 
     o->f18 = c;
     o->f1C = func_021A7A28(a, b);
-    func_021A7AB0(o->f1C, o->f20);
+    func_021A7AB0((u32 *)o->f1C, (struct Out *)o->f20);
     o->f3C = func_02030734(heap, func_02046C94(), 1, &d_021DDF7C, 0x2c9);
-    func_02046CE0(o->f3C, func_021A7A34(a, b));
+    func_02046CE0(o->f3C, (u32 *)func_021A7A34(a, b));
     o->f14 = func_021A7A88(o->f20);
     o->f04 = func_02030734(heap, o->f14 * 2, 1, &d_021DDF7C, 0x2d4);
     o->f08 = func_02030734(heap, o->f14 * 4, 1, &d_021DDF7C, 0x2d5);
@@ -92,7 +94,7 @@ void func_021A7678(Obj *o, u32 a, u32 b, u32 c, u16 heap)
                 m = t.lo;
             }
         }
-        o->f08[i] = func_021A78EC(c, o->f3C, m);
+        o->f08[i] = func_021A78EC((void *)c, o->f3C, m);
         o->f0C[i] = func_021A797C(o->f3C, m);
     }
     o->f00 = 1;

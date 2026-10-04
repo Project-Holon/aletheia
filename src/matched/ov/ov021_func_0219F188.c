@@ -32,18 +32,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern u16 *func_0216D6F0(u32);
+struct Trip;
+extern void *func_0216D6F0(void *p);
 extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u32);
-extern void func_02197CCC(u32, s32 *);
+extern u32 func_0219C9DC(u8 *p);
+extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_0219FFBC(u32, s32 *);
-extern u32 func_02050080(u32);
-extern void func_0204F638(u32, u32, s32 *);
-extern u32 func_0216D678(u32);
+extern u32 func_02050080(u32 *p);
+extern void func_0204F638(u8 *a0, int i, struct Trip *src);
+extern u16 func_0216D678(void *p);
 extern u32 func_0219FFD4(u32);
 extern void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id);
 extern void func_0205082C(u32, u32, u32);
-extern void func_0205085C(u32, u32, u32);
+extern void func_0205085C(void *p, int idx, u16 v);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 
 void func_0219F188(u32 a)
@@ -55,11 +56,11 @@ void func_0219F188(u32 a)
     u32 x;
     u32 y;
     flag = 0;
-    q = (u8 *)func_0216D6F0(a);
+    q = (u8 *)func_0216D6F0((void *)a);
     if (*(u16 *)q != 0xFFFF) {
-        r = func_0219C9DC(func_0216D910(a));
+        r = func_0219C9DC((u8 *)func_0216D910(a));
         x = func_0219FFD4(a);
-        y = func_0216D678(a);
+        y = func_0216D678((void *)a);
         if (q[4] != x) {
             q[4] = x;
             q[5] = y;
@@ -67,13 +68,13 @@ void func_0219F188(u32 a)
             flag = 1;
         } else if (q[5] != y) {
             func_0205082C(r, *(u16 *)q, x);
-            func_0205085C(r, *(u16 *)q, flag);
+            func_0205085C((void *)r, *(u16 *)q, flag);
             q[5] = y;
         }
         func_021A000C(a, r, *(u16 *)q, flag, 0);
-    func_02197CCC(a, buf);
+    func_02197CCC((u8 *)a, buf);
     func_0219FFBC(a, buf);
-    r = func_02050080(r);
-    func_0204F638(r, *(u16 *)q, buf);
+    r = func_02050080((u32 *)r);
+    func_0204F638((u8 *)r, *(u16 *)q, (struct Trip *)buf);
     }
 }

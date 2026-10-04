@@ -17,6 +17,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043AF4(u32,int,int,int,int,int);
+struct Bmp;
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_021BAAE4(u8 *,u8 *,int);
-void func_021BB2E0(u8 *a,u8 *s) {func_02043AF4((u32)func_02045770((struct Descriptor *)*(u32 *)(s+32)),0,26,128,22,0);func_021BAAE4(a,s,1);}
+void func_021BB2E0(u8 *a,u8 *s) {func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(s+32))),0,26,128,22,0);func_021BAAE4(a,s,1);}

@@ -29,8 +29,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02078B44(void *p, u32 off, u32 mode);
-extern void func_02078B70(void *p, void *dst, u32 n);
+typedef signed int     s32;
+struct FSFile;
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
 void func_0204919C(u8 *p)
 {
@@ -38,13 +40,13 @@ void func_0204919C(u8 *p)
     u32 off;
 
     *(u16 *)(p + 0x4c) = 0;
-    func_02078B44(p, 0xc, 0);
-    func_02078B70(p, p + 0x4c, 2);
-    func_02078B44(p, *(u16 *)(p + 0x4c) + 4, 0);
-    func_02078B70(p, buf, 6);
+    func_02078B44((struct FSFile *)p, 0xc, 0);
+    func_02078B70((struct FSFile *)p, p + 0x4c, 2);
+    func_02078B44((struct FSFile *)p, *(u16 *)(p + 0x4c) + 4, 0);
+    func_02078B70((struct FSFile *)p, buf, 6);
     *(u16 *)(p + 0x4e) = *(u16 *)(buf + 4);
     off = *(u16 *)(p + 0x4c) + *(u32 *)buf;
-    func_02078B44(p, off + 4, 0);
-    func_02078B70(p, buf + 8, 4);
+    func_02078B44((struct FSFile *)p, off + 4, 0);
+    func_02078B70((struct FSFile *)p, buf + 8, 4);
     *(u32 *)(p + 0x48) = off + *(u32 *)(buf + 8);
 }

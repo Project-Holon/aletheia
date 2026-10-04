@@ -52,7 +52,7 @@ extern u32 func_021DD2CC(char *obj);
 extern void func_021E17D8(int line, char *fmt, ...);
 extern int func_021E1F18(int process, int result);
 extern void func_021E212C(u32 v);
-extern void func_021E1948(void);
+extern void func_021E1948(void *sake, void *request, int result, void *inputData, void *outputData, void *userData);
 
 int func_021E1540(char *gdb_name, int record_id, void *fields, int field_num)
 {
@@ -69,7 +69,7 @@ int func_021E1540(char *gdb_name, int record_id, void *fields, int field_num)
     work->b = (void *)record_id;
     work->c = fields;
     work->d = (void *)field_num;
-    request = func_021DD380(g_021E5334.sake, &work->a, func_021E1948, 0);
+    request = func_021DD380(g_021E5334.sake, &work->a, (void (*)(void))func_021E1948, 0);
     if (request == 0) {
         int sake_result = func_021DD2CC(g_021E5334.sake);
         func_021E17D8(0x29c, g_021E45DC, sake_result);

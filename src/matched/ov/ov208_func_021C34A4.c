@@ -24,7 +24,8 @@ extern void func_0204B3DC(struct Obj *p,u32 v);
 extern void func_021C32FC(u16 *heap,u8 *p,int key);
 extern void func_021C2FEC(u16 *heap,u8 *p,int key,int slot);
 extern void func_021C2E6C(u16 *heap, u8 *p, int key, u32 slot);
-extern void func_021C3280(u16 *heap,u8 *p,int key);
+struct Key;
+extern void func_021C3280(u16 *heap, u8 *p, struct Key *key);
 extern void func_021C3480(u16 *heap,u8 *p,int key);
 extern void func_021C3678(u16 *heap,u8 *p,int key);
 void func_021C34A4(u16 *heap,u8 *p,int key)
@@ -35,7 +36,7 @@ void func_021C34A4(u16 *heap,u8 *p,int key)
     func_021C32FC(heap,p,key);
     func_021C2FEC(heap,p,key,*(int *)(p+0x5c));
     func_021C2E6C(heap,p,key,*(int *)(p+0x5c));
-    func_021C3280(heap,p,key);
+    func_021C3280(heap,p,(struct Key *)key);
     func_021C3480(heap,p,key);
     func_021C3678(heap,p,key);
 }

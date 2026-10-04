@@ -20,12 +20,13 @@ typedef unsigned int u32;
 struct S { char pad0[8]; u16 h8; char pad[0x10a]; int arr[3]; };
 extern const u8 d_021C305C[];
 extern const u16 d_021C3060[];
-extern int func_0204B100(int a, u8 b, u32 c);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 
 void func_021BCF68(struct S *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        p->arr[i] = func_0204B100(d_021C3060[i], d_021C305C[i], p->h8);
+        p->arr[i] = (int)func_0204B100(d_021C3060[i], d_021C305C[i], p->h8);
     }
 }

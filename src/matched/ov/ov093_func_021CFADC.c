@@ -23,7 +23,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct QI;
 struct Unk021D62A8;
 extern int func_021CF89C(u8 *p, void *q);
-extern int func_021EFCE4(int p, int k);
+extern void *func_021EFCE4(char *arg0, int arg1);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u16 func_021D5B40(struct QI *p);
 extern int func_021D59B4(u8 *p, int k);
@@ -34,7 +34,7 @@ int func_021CFADC(u8 *g, void *m)
     u32 a;
 
     a = func_021CF89C(g, m);
-    if (func_021EFCE4(*(int *)(g + 0x34), 2) != 0)
+    if (func_021EFCE4((char *)(*(int *)(g + 0x34)), 2) != 0)
         return 1;
     if (func_021D62C4(m, 0x1f) != 0)
         return 1;

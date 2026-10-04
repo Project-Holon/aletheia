@@ -20,13 +20,14 @@
 
 typedef unsigned int u32;
 
-extern void *func_02020D0C(void *p);
+typedef unsigned char  u8;
+extern u32 func_02020D0C(u8 *p);
 extern void func_021CD184(void *p, u32 sel);
 extern void func_021CD1AC(void *p);
 
 void func_021CCF60(void *a, u32 sel)
 {
-    void *p = func_02020D0C(a);
+    void *p = (void *)func_02020D0C(a);
     if (sel < 2)
         func_021CD184(p, sel);
     else

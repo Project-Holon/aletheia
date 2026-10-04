@@ -26,11 +26,12 @@ typedef struct {
 } Obj;
 
 extern Ops d_021D3D5C[];
-unsigned char *func_0218BCAC(int id);
+typedef unsigned char  u8;
+u8 *func_0218BCAC(u8 *p);
 
 void func_0218C124(void *p, Obj *s)
 {
-    unsigned char k = *func_0218BCAC(*s->f4);
+    unsigned char k = *func_0218BCAC((u8 *)(*s->f4));
     if (s->f0 != 0)
         d_021D3D5C[k].f0(p, s);
 }

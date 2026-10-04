@@ -18,14 +18,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_0215A954(u8 *);
 extern u32 func_020362DC(void);
-extern void func_0215A920(void *);
+extern int func_0215A920(int a0);
 int func_0215A990(u8 *a) {
  int v;
  u8 *p;
  p = *(u8 **)(a + 32) + 52;
  v = func_0215A954(a);
  if (v == 0 && (func_020362DC() & 1024)) {
- func_0215A920(p);
+ func_0215A920((int)p);
  **(u16 **)(p + 8) = 65533;
  v = 1;
  }

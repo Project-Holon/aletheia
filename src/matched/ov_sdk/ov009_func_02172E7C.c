@@ -16,12 +16,12 @@
  *   gt2CloseAllConnections  0x02195DE4  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void gt2CloseAllConnections(int conn);
 
 void func_02172E7C(void)
 {
-    func_02175F3C()[0x629] = 1;
+    ((char *)func_02175F3C())[0x629] = 1;
     gt2CloseAllConnections(**(int **)(func_02175F3C() + 4));
-    func_02175F3C()[0x629] = 0;
+    ((char *)func_02175F3C())[0x629] = 0;
 }

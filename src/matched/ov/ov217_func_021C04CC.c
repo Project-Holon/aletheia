@@ -28,11 +28,12 @@ struct Ent {
 };
 
 extern const struct Ent d_021C37A4[];
-extern int func_02043678(u32 a, u32 b, u32 c, u16 heap);
+struct Bmp;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 
 void func_021C04CC(u8 *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        *(int *)(p + i * 4 + 0x3B0) = func_02043678(d_021C37A4[i].a, d_021C37A4[i].b, d_021C37A4[i].c, *(u16 *)(p + 4));
+        *(int *)(p + i * 4 + 0x3B0) = (int)func_02043678(d_021C37A4[i].a, d_021C37A4[i].b, d_021C37A4[i].c, *(u16 *)(p + 4));
 }

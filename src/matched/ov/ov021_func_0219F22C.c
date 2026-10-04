@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 
 extern u8 *func_0216D6D8(u32, u32);
 extern void func_0219FE9C(u8 *);
-extern void func_0219C814(u32, u8 *);
+extern int func_0219C814(u32 a, u16 *b);
 
 void func_0219F22C(u32 a)
 {
     u8 *q = func_0216D6D8(a, 8);
     func_0219FE9C(q + 4);
-    func_0219C814(a, q);
+    func_0219C814(a, (u16 *)q);
 }

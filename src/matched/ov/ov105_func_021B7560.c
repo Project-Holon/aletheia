@@ -64,8 +64,8 @@ extern void *func_021B70DC(u32,u32,u16,u16,u8,u32,u32,u32,u16);
 extern void func_021B728C(int,int);
 extern void func_021B84B4(u8 *,int,int,int);
 extern unsigned int func_021B8840(unsigned int x, int y);
-extern void func_021B80BC(u8 *,void (*)(u8 *,u16 *));
-extern void func_021B80D8(u8 *,u16 *);
+extern void func_021B80BC(unsigned char *p, unsigned int v);
+extern void func_021B80D8(u8 *p);
 #define CTX (*(u8 **)(p+0x1a4))
 int func_021B7560(struct Task *a,void *b,u8 *context)
 {
@@ -105,6 +105,6 @@ int func_021B7560(struct Task *a,void *b,u8 *context)
         else *(int *)(p+0x19c)=0;
         *(int *)(p+0x1a0)=func_021B8840(CTX[12],*(int *)(p+0x19c));
     }
-    func_021B80BC(p,func_021B80D8);
+    func_021B80BC(p,(unsigned int)func_021B80D8);
     return 1;
 }

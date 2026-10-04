@@ -32,9 +32,11 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void *func_02158F54(void *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02011330();
+struct Evt;
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern unsigned int func_02012104(const struct Ctx *p);
-extern int func_02012374(int a, void *b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32 func_02188C5C(u8 *p);
 extern int func_021BB3E8();
 extern void *func_02184DE8(void *p, void *unused, int a, const Q *q, int s, int t);
@@ -53,13 +55,13 @@ int func_021B0000(int a0, int a1)
 
     h = func_02158F54(func_0215A5F4((void *)a1));
     a = func_0201210C(h);
-    b = func_02011330(a0);
-    c = func_02011330(a0);
-    d = func_02011330(a0);
-    e = func_02011330(a0);
-    f = func_02011330(a0);
+    b = func_02011330((struct Stream *)a0);
+    c = func_02011330((struct Stream *)a0);
+    d = func_02011330((struct Stream *)a0);
+    e = func_02011330((struct Stream *)a0);
+    f = func_02011330((struct Stream *)a0);
     w = func_02012104(h);
     func_021BB3E8(func_02188C5C(a), b, c, d, e, loc, 0x15);
-    func_02012374(w, func_02184DE8(h, a, b, (const Q *)loc, f, 0));
+    func_02012374((struct Evt *)w, func_02184DE8(h, a, b, (const Q *)loc, f, 0));
     return 1;
 }

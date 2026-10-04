@@ -13,16 +13,18 @@
  *   func_021D6FF0 0x021D6FF0 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  */
-extern int func_021D5D58(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021D5D58(char *p);
 extern void func_021D7858(int a);
 extern void func_021D6FF0(char *p);
-extern void func_021D6EE0(int, int, int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 void func_021D751C(int a)
 {
-    if (func_021D5D58(*(int *)(a + 8))) {
-        func_021D6EE0(a, (int)func_021D7858, 0x319);
+    if (func_021D5D58((char *)(*(int *)(a + 8)))) {
+        func_021D6EE0((u8 *)a, (int)func_021D7858, 0x319);
         return;
     }
     *(int *)(a + 0x80) = 0xfff0;
-    func_021D6EE0(a, (int)func_021D6FF0, 0x31d);
+    func_021D6EE0((u8 *)a, (int)func_021D6FF0, 0x31d);
 }

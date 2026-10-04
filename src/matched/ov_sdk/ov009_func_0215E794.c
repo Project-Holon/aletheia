@@ -17,7 +17,7 @@
  */
 
 extern int func_0215F3D0(void *s);
-extern int func_0215F404(void *s);
+extern int func_0215F404(int b);
 
 int func_0215E794(int s)
 {
@@ -25,7 +25,7 @@ int func_0215E794(int s)
 
 	if (s >= 0) {
 		socket = (void *)s;
-		if (func_0215F3D0(socket) != 0 && func_0215F404(socket) == 0)
+		if (func_0215F3D0(socket) != 0 && func_0215F404((int)socket) == 0)
 			return 1;
 	}
 	return 0;

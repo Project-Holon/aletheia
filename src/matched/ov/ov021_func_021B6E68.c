@@ -26,9 +26,11 @@ typedef unsigned char u8;
 
 struct Ent { u16 a; u16 b; u8 pad[0x20]; };
 
-int func_02012844(int a);
-struct Ent *func_02162740(int a);
-int func_02162744(int a);
+typedef unsigned int   u32;
+struct BigObj;
+u32 func_02012844(const struct BigObj *p);
+u32 func_02162740(u8 *p);
+u16 func_02162744(u8 *p);
 
 int func_021B6E68(int a)
 {
@@ -37,9 +39,9 @@ int func_021B6E68(int a)
     int m;
     int i;
 
-    m = func_02012844(a);
-    t = func_02162740(m);
-    n = func_02162744(m);
+    m = func_02012844((const struct BigObj *)a);
+    t = (struct Ent *)func_02162740((u8 *)m);
+    n = func_02162744((u8 *)m);
     if (t == 0 || n == 0) {
         return -1;
     }

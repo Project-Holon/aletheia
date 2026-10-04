@@ -16,12 +16,13 @@
  */
 
 
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_02082BCC(char *, int, int);
 
 void func_021BD74C(char *p)
 {
-    func_0204B3B4(*(int *)p);
+    func_0204B3B4((struct Obj *)(*(int *)p));
     func_02082BCC(p, 0, 0x38);
 }
 

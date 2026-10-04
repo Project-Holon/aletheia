@@ -25,12 +25,13 @@ typedef unsigned int   u32;
 
 struct P16 { short x; short z; };
 extern void *func_02188CB4(unsigned char *p);
-extern u32 func_02188C80(u32 a);
+struct Rec44;
+extern void *func_02188C80(void *p);
 struct Ctx;
 extern u8 *func_020120F8(const struct Ctx *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
-extern void func_02012AD0(u32 a);
+extern u16 func_02012AD0(const struct Rec44 *p);
 extern struct P16 d_02180718[];
 
 int func_0217F7E4(u32 arg)
@@ -42,11 +43,11 @@ int func_0217F7E4(u32 arg)
     int x, z;
 
     h5 = func_02188CB4((void *)arg);
-    r4 = (u32)func_020120F8((const struct Ctx *)func_02188C80(arg));
+    r4 = (u32)func_020120F8((const struct Ctx *)func_02188C80((void *)arg));
     func_021A3038(h5, (struct VecFx32 *)v);
     v[0] = (v[0] >> 4) / 4096;
     v[2] = (v[2] >> 4) / 4096;
-    func_02012AD0(r4);
+    func_02012AD0((const struct Rec44 *)r4);
     x = v[0];
     z = v[2];
     for (i = 0; i < 1; i++) {

@@ -24,7 +24,7 @@ extern void func_02082BCC(void *, int, int);
 typedef unsigned short u16;
 struct Big;
 extern void *func_02012EBC(struct Big *p);
-extern int func_0200E9F4(void *);
+extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
 extern u16 func_02005C44(void);
 extern void func_02005D90(unsigned, unsigned);
@@ -53,7 +53,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
     p[16] = (int)(ctx + 0x8ac);
     {
         void *q = func_02012EBC(*(void **)(ctx + 4));
-        p[4] = func_0200EA04(func_0200E9F4(q));
+        p[4] = func_0200EA04((int)func_0200E9F4(q));
     }
     if (func_02005C44() != 0x487) func_02005D90(0x487, 0xffff);
     return p;

@@ -23,14 +23,15 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_021BE92C(void *, void *, u32, u32, u32, u32, u32);
-extern void func_0215897C(void *, u32);
+typedef unsigned char  u8;
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B5094(u32 a, u32 b)
 {
     void *s = func_0215A5F4((void *)b);
     void *d = func_0215A5DC((void *)b);
 
-    func_0215897C(s, func_021BE92C(d, func_0201210C((void *)d), 0, 0, 1, 0, 0));
+    func_0215897C(s, (void *)func_021BE92C(d, (int)func_0201210C((void *)d), 0, 0, 1, 0, 0));
     return 1;
 }

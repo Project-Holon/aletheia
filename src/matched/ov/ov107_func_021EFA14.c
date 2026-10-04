@@ -57,7 +57,8 @@ extern void func_02034714(void *,int,void *),func_021EFC1C(u8 *,int);
 extern u8 *func_02012944(void *p);
 extern void func_021F19B8(void *),func_021F1A24(void *),func_021F18D8(void *);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
-extern void func_021F1918(void *,int,u16,int),func_021F18EC(void *);
+extern void func_021F1918(unsigned char *a, int b, int c, int d);
+extern void func_021F18EC(void *);
 extern u8 d_021F6AF8[],d_021F6E08[];
 void func_021EFA14(u8 *p)
 {

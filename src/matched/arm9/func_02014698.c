@@ -27,10 +27,12 @@
 
 typedef unsigned int u32;
 
-extern void *func_020144DC(u32 a0, u32 a1);
-extern void  func_020120B4(u32 a0, u32 a1, u32 a2, u32 a3);
-extern u32   func_020120F0(u32 ctx);
-extern void *func_020145CC(u32 a0);
+struct Ctx;
+struct IcaAnime;
+extern int func_020144DC(int a0, int a1);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
+extern void *func_020145CC(void *a0);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
@@ -40,20 +42,20 @@ u32 func_02014698(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        func_02012374(obj, func_020144DC(a0, args[1]));
+        func_02012374(obj, (struct Evt **)func_020144DC(a0, args[1]));
         (*mode)++;
         break;
     case 1:
-        func_020120B4(a0, args[2], args[3], args[4]);
+        func_020120B4((struct IcaAnime *)a0, args[2], (void *)args[3], (void *)args[4]);
         (*mode)++;
         break;
     case 2:
-        if (func_020120F0(a0) == 0) {
+        if (func_020120F0((const struct Ctx *)a0) == 0) {
             (*mode)++;
         }
         break;
     case 3:
-        func_02012374(obj, func_020145CC(a0));
+        func_02012374(obj, func_020145CC((void *)a0));
         (*mode)++;
         break;
     case 4:

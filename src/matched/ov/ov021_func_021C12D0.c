@@ -12,13 +12,15 @@
  * Frees the resource buffer, then releases the handle.
  */
 
-extern char **func_02030EE8(void *h);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 extern void func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
 void func_021C12D0(void *h)
 {
-    func_020307B0(func_02030EE8(h));
+    func_020307B0((void *)func_02030EE8(h));
     func_02030EAC(h);
 }

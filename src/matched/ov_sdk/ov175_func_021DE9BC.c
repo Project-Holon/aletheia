@@ -53,8 +53,9 @@ typedef struct O {
 
 extern void func_02182AC0(void *log, void *a, void *b, int v);
 extern void func_02182CF0(void *log, void *a, void *b, int v);
-extern void func_021DE26C(O *o, int a, int b);
-extern void func_021DE184(O *o, int a, int b);
+typedef unsigned int   u32;
+extern void func_021DE26C(u32 ctx, u32 *arr, int n);
+extern void func_021DE184(u32 ctx, u32 *arr, int n);
 extern char d_021E3DF8[];
 extern char d_021E3EFC[];
 extern char d_021E3F04[];
@@ -82,8 +83,8 @@ int func_021DE9BC(O *o)
         func_02182AC0(o->f18, d_021E3DF8, d_021E3F20, s->f1c);
     }
     func_02182CF0(o->f18, d_021E3DF8, d_021E3F30, s->f20);
-    func_021DE26C(o, s->f24, s->f28);
+    func_021DE26C((u32)o, (u32 *)s->f24, s->f28);
     func_02182CF0(o->f18, d_021E3DF8, d_021E3F3C, s->f2c);
-    func_021DE184(o, s->f4, s->f8);
+    func_021DE184((u32)o, (u32 *)s->f4, s->f8);
     return 0;
 }

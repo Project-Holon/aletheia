@@ -20,9 +20,10 @@ typedef unsigned int   u32;
 
 
 extern char *g_02146940;
-extern void  func_02027460(void *p, u32 a0);
+struct Src;
+extern void func_02027460(void *p, const struct Src *s);
 
 void func_020274B4(u32 a0)
 {
-    func_02027460(g_02146940 + 4, a0);
+    func_02027460(g_02146940 + 4, (const struct Src *)a0);
 }

@@ -17,13 +17,13 @@
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E76F4;
 extern void func_021E1410(void *,Pair *,int);
-extern void func_021B6558(int,int,int);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D8E84(void *,int);
 extern void func_021DDA50(void *);
 void func_021DDAD4(char *p)
 {
     Pair t=d_021E76F4;
     func_021E1410(p,&t,2);
-    func_021B6558(*(int *)(p+0x9c0),1,0);
+    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,0);
     func_021D8E84(p,(int)func_021DDA50);
 }

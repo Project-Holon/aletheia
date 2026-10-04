@@ -46,19 +46,22 @@ typedef struct {
 } W;
 
 extern u32 func_021576D0(W *w);
-extern int func_021578A0(u32 p);
+struct Big;
+struct Ctx;
+struct Flags;
+extern int func_021578A0(u32 *p);
 extern u32 func_020362DC(void);
-extern void func_02157928(u32 p);
-extern int func_021578F0(u32 p);
-extern int func_02157910(u32 p);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EBC(u32 a);
-extern u8 *func_0200E8F8(u32 a);
-extern int func_0200E5E4(u32 a);
-extern int func_0200E5A0(u32 a);
-extern int func_021D1058(u8 *a, int b);
+extern void func_02157928(u8 *p);
+extern int func_021578F0(void *p);
+extern int func_02157910(u8 *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E8F8(void *sys);
+extern u16 func_0200E5E4(void *p);
+extern int func_0200E5A0(void *a0);
+extern u8 func_021D1058(struct Flags *p, u32 n);
 extern void func_021D1080(u8 *a, int b);
-extern void func_0200E608(u32 a, u32 b, u32 c);
+extern void func_0200E608(void *sys, void *dst, u32 heap);
 extern int func_02157938(int a0);
 extern u32 func_0203D210(void);
 extern void func_021D09D0(u32 a, u8 *b);
@@ -74,7 +77,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
     switch (*state) {
     case 0:
         w->f7c = func_021576D0(w);
-        if (func_021578A0(w->f7c) == 0) {
+        if (func_021578A0((u32 *)w->f7c) == 0) {
             *w->f88 = 0;
             *state = 4;
         } else {
@@ -87,7 +90,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
             *state = 4;
             break;
         }
-        func_02157928(w->f7c);
+        func_02157928((u8 *)w->f7c);
         if (++w->f8c > 120) {
             *state = 2;
         }
@@ -98,8 +101,8 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
             *state = 4;
             break;
         }
-        func_02157928(w->f7c);
-        if (func_021578F0(w->f7c)) {
+        func_02157928((u8 *)w->f7c);
+        if (func_021578F0((void *)w->f7c)) {
             *state = 3;
         } else {
             *w->f88 = 0;
@@ -112,19 +115,19 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
             *state = 4;
             break;
         }
-        func_02157928(w->f7c);
-        if (func_02157910(w->f7c) == 0) {
+        func_02157928((u8 *)w->f7c);
+        if (func_02157910((u8 *)w->f7c) == 0) {
             break;
         }
-        h = func_020120F4(x);
-        rec = func_0200E8F8(func_02012EBC(h));
+        h = (u32)func_020120F4((const struct Ctx *)x);
+        rec = func_0200E8F8(func_02012EBC((struct Big *)h));
         sv = *(u32 *)(w->f84 + 0x14c);
-        n = func_0200E5E4(sv);
-        ok = func_0200E5A0(sv);
-        r = func_021D1058(rec, n);
+        n = func_0200E5E4((void *)sv);
+        ok = func_0200E5A0((void *)sv);
+        r = func_021D1058((struct Flags *)rec, n);
         if (ok != 0 && (r == 0 || n == 0)) {
             func_021D1080(rec, n);
-            func_0200E608(h, *(u32 *)(w->f84 + 0x14c), 0x8004);
+            func_0200E608((void *)h, (void *)(*(u32 *)(w->f84 + 0x14c)), 0x8004);
             *w->f88 = 1;
         } else if (r != 0) {
             *w->f88 = 2;

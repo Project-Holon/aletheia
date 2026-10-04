@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
 extern void func_021B9B64(char *);
 extern int func_02156B8C(void);
-extern void func_0201FEF4(int);
+typedef unsigned char  u8;
+extern void func_0201FEF4(u8 *o);
 extern void func_021C18C8(char *p, int kind, int value);
 extern void func_0203C554(u32 a);
 extern void func_021BDD0C(void *p, int on);
@@ -32,7 +33,7 @@ int func_021C01CC(char *p,int ret) {
     int r=func_021BA858(p);
     func_021B9B64(p+0x274);
     if(*(int *)(p+0x1f0)==-1 && func_02156B8C()!=-1){
-        if(r==-1){func_0201FEF4(*(int *)(p+0x108)); *(int *)(p+0x108)=0;}
+        if(r==-1){func_0201FEF4((u8 *)(*(int *)(p+0x108))); *(int *)(p+0x108)=0;}
         r=1;
     }
     if(r==-1)return ret;

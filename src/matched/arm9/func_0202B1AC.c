@@ -32,7 +32,9 @@ struct Node {
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern const Copy *func_02012AA0(u32 v);
+struct Rec44;
+struct Vec12;
+extern struct Vec12 *func_02012AA0(struct Rec44 *p);
 
 struct Node *func_0202B1AC(u32 a, u32 heapId)
 {
@@ -44,7 +46,7 @@ struct Node *func_0202B1AC(u32 a, u32 heapId)
     p->f4 = 0;
     p->f8 = a;
 
-    s = func_02012AA0(a);
+    s = (const Copy *)func_02012AA0((struct Rec44 *)a);
     p->body = *s;
     return p;
 }

@@ -28,15 +28,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02045B38(u32, u32, u32, u32);
+struct Cfg;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045EC0(u32 a, u32 b);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u16 color);
-extern void func_02045808(u32 a);
-extern void func_02045C04(u32 a);
-extern void func_02045374(u32 win);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern void func_021BBA64(u8 x, u8 y, u8 w, u8 h, u8 bg);
 extern void func_02041EE4(u32, u32, u32);
@@ -44,19 +48,19 @@ extern void func_021BB9DC(char *, int);
 
 void func_021BBE48(char *p)
 {
-    u32 msg = func_02045B38(0, 2, 0xe8, 0x800b);
+    u32 msg = (u32)func_02045B38(0, 2, 0xe8, 0x800b);
     u32 s;
     u32 a;
 
     *(u32 *)(p + 0xf0) = func_020450F0(0, 2, 2, 0x1e, 0x14, 5, 1);
-    s = func_02045EC0(msg, 0x20);
+    s = (u32)func_02045EC0((struct MsgBank *)msg, 0x20);
     a = *(u32 *)(p + 0x68);
     func_0201C724(a, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xf0)), 0, 0, s, *(u32 *)(p + 0x58), 0x440);
     *(u8 *)(p + 0xf4) = 1;
-    func_02045808(s);
-    func_02045C04(msg);
+    func_02045808((struct U16Vec *)s);
+    func_02045C04((struct Rec *)msg);
 
-    func_02045374(*(u32 *)(p + 0xf0));
+    func_02045374((struct Cfg *)(*(u32 *)(p + 0xf0)));
     func_02041B6C(0);
     func_021BBA64(0x20, 1, 0x20, 0x16, 2);
     func_02041EE4(1, 0, 0x100);

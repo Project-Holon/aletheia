@@ -15,10 +15,11 @@
 
 typedef unsigned int u32;
 
-void func_021A05D8(u32 x);
+typedef unsigned char  u8;
+void func_021A05D8(u8 *a);
 
 void func_021A2120(u32 *p, int x)
 {
     if (x == 1)
-        func_021A05D8(p[2]);
+        func_021A05D8((u8 *)p[2]);
 }

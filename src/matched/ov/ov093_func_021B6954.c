@@ -17,8 +17,10 @@
 
 typedef unsigned char  u8;
 extern u8 func_021BA710(int a, int b);
-extern void func_021B9E7C(int, int);
-extern void func_021B9E38(int, int, int);
+struct A;
+struct B;
+extern void func_021B9E7C(struct A *p, struct B *src);
+extern void func_021B9E38(char *p, int a, int b);
 
 void func_021B6954(int a, int b)
 {
@@ -29,7 +31,7 @@ void func_021B6954(int a, int b)
     char *e = (char *)base + idx * 4;
     int *r = (int *)*(int *)(e + 0x48);
     if (*r != 0)
-        func_021B9E7C((int)q, (int)r);
+        func_021B9E7C((struct A *)((int)q), (struct B *)((int)r));
     else
-        func_021B9E38((int)q, *(unsigned short *)(p + 0x468), *(int *)(e + 0x34));
+        func_021B9E38((char *)((int)q), *(unsigned short *)(p + 0x468), *(int *)(e + 0x34));
 }

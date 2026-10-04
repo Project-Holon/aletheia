@@ -21,9 +21,11 @@ typedef unsigned short u16;
 struct Descriptor;
 struct Cfg;
 extern void *func_02045770(struct Descriptor *);
-extern int func_0201C6C4(unsigned,unsigned);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(unsigned);
-void func_021BADE8(u8 *p) { struct Descriptor *q; if(*(int *)(p+0x70)!=0 && func_0201C6C4(*(unsigned *)(p+0x7c),(unsigned)func_02045770(*(struct Descriptor **)(p+0x6c)))==0) { q=*(struct Descriptor **)(p+0x6c); func_02045334(q);func_02045374((struct Cfg *)q);func_02041B6C(func_02045730(q));*(int *)(p+0x70)=0; } }
+void func_021BADE8(u8 *p) { struct Descriptor *q; if(*(int *)(p+0x70)!=0 && func_0201C6C4((struct PrintSys *)(*(unsigned *)(p+0x7c)),(void *)((unsigned)func_02045770(*(struct Descriptor **)(p+0x6c))))==0) { q=*(struct Descriptor **)(p+0x6c); func_02045334(q);func_02045374((struct Cfg *)q);func_02041B6C(func_02045730(q));*(int *)(p+0x70)=0; } }

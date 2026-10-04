@@ -48,11 +48,19 @@ extern void func_021F3DE0(char *,int,u32,u32,u16);
 extern void func_021F3E18(char *,int,void *),func_021F3D70(char *,int);
 extern int func_021F2190(char *,u16),func_021F21BC(char *,u16,u16),func_021F21FC(char *,int),func_021F22AC(char *),func_021F2150(char *);
 extern void func_021F233C(char *),func_021F235C(char *),func_021F2394(char *),func_021F23B8(char *,void *);
-extern int func_021F23F8(int),func_021F45A8(int),func_021F5370(const u32 *,const void *,u32),func_021F54CC(void *,int,int),func_021F4480(void *,int,int);
+typedef unsigned char  u8;
+struct U16Vec;
+extern u32 func_021F23F8(const u8 *p);
+extern int func_021F45A8(int);
+extern int func_021F5370(const u32 *cache, const void *input, u16 heap);
+extern int func_021F54CC(void *,int,int);
+extern int func_021F4480(void *,int,int);
 extern void func_021F4524(char *),func_021F3EF0(char *,char *,int *,u32),func_021F462C(unsigned char *,u32);
-extern void func_021F46F4(void),func_021F46B4(void);
-extern void func_020061E4(int),func_02045808(int);
-extern void *func_02045A90(int);
+extern void func_021F46F4(unsigned char *a, int *state, char *p);
+extern void func_021F46B4(unsigned char *p, int *state);
+extern void func_020061E4(int);
+extern void func_02045808(struct U16Vec *vec);
+extern u16 *func_02045A90(struct U16Vec *vec);
 extern void func_021F31F4(char *,char *),func_021F1FB4(char *),func_021F42E8(char *),func_021F3E78(char *);
 static inline int invert(char *p,int v) { int r=1; if(func_021F21FC(p,v)==0) r=0; return r; }
 void func_021F47B4(unsigned char *owner,void *unused,char *p)
@@ -79,7 +87,7 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     case 5: if(func_021F2150(p+0x68)) func_020061E4(0x553); else func_020061E4(0x557); break;
     case 6: func_021F233C(p+0x68); break;
     case 11: func_021F235C(p+0x68); break;
-    case 7: if(func_021F23F8((int)(p+0x68))==0) {
+    case 7: if(func_021F23F8((const u8 *)((int)(p+0x68)))==0) {
         if(func_021F45A8((int)p)==0) {func_020061E4(0x557);func_021F3D70(p+0x230,8);*(int *)(p+0x2c8)=1;}
         else {
             if(func_021F5370(*(u32 **)(p+0x2cc),p+0x68,30)) func_020061E4(0x557);
@@ -95,7 +103,7 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     case 0: if(func_021F4390(p+0x264)) {
         int text=func_021F4480(p,**(int **)(p+0x2c4),30);
         func_021F2394(p+0x68);
-        if(text) {func_021F23B8(p+0x68,func_02045A90(text));func_02045808(text);}
+        if(text) {func_021F23B8(p+0x68,func_02045A90((struct U16Vec *)text));func_02045808((struct U16Vec *)text);}
         func_020061E4(0x54c);
     } break;
     case 9: func_021F235C(p+0x68);if(func_021F2190(p+0x68,selected)) func_020061E4(0x54c); else func_020061E4(0x557);break;

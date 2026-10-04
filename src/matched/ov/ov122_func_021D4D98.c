@@ -41,10 +41,10 @@ extern int func_02158630(int);
 extern int func_02026CA0(int *);
 extern void func_021D4CD8(int, int, int, int, void *);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_021D4590(int, void *);
-extern int func_02158678(int);
+extern void func_021D4590(u32 i, u32 p);
+extern int func_02158678(void *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021D45BC(int, void *);
+extern void func_021D45BC(u32 i, u32 p);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D44BC(int, void *, Row *, const int *, const int *);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -74,28 +74,28 @@ void func_021D4D98(char *p)
         if (*(int *)(p + 0x374)) func_021D4CD8(9, 5, force, 1, p);
         else func_021D4CD8(9, 6, force, 1, p);
     } else {
-        func_021D4590(5, p); func_021D4590(7, p); func_021D4590(9, p);
+        func_021D4590(5, (u32)p); func_021D4590(7, (u32)p); func_021D4590(9, (u32)p);
     }
-    if (mode == 2 && *(int *)(p + 0x128) != func_02158678(object)) *(int *)(p + 0x124) = 0;
+    if (mode == 2 && *(int *)(p + 0x128) != func_02158678((void *)object)) *(int *)(p + 0x124) = 0;
     if (*(int *)(p + 0x124) != mode) {
         switch (mode) {
         case 0:
             func_0204B3DC(*(void **)(p + 0x3a4), 0);
-            func_021D45BC(10, p);
+            func_021D45BC(10, (u32)p);
             func_02045CAC(*(void **)(p + 0x44), 0, *(void **)(p + 0x54));
             func_021D44BC(0, p, &data_021D5840, data_021D5710, data_021D5714);
             break;
         case 1:
             func_0204B3DC(*(void **)(p + 0x3a4), 0);
-            func_021D45BC(10, p);
+            func_021D45BC(10, (u32)p);
             func_02045CAC(*(void **)(p + 0x44), 15, *(void **)(p + 0x54));
             func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 2:
-            count = func_02158678(object);
+            count = func_02158678((void *)object);
             *(int *)(p + 0x128) = count;
             func_0204B3DC(*(void **)(p + 0x3a4), 0);
-            func_021D45BC(10, p);
+            func_021D45BC(10, (u32)p);
             func_0201EFA4(*(void **)(p + 0x48), 0, count, 1, 0, 1);
             func_02045CAC(*(void **)(p + 0x44), 16, *(void **)(p + 0x50));
             func_0201F250(*(void **)(p + 0x48), *(void **)(p + 0x54), *(void **)(p + 0x50));

@@ -51,11 +51,12 @@ extern char d_021D3DDC[];
 extern int d_021DD9EC;
 extern void func_0218DD70(void *e);
 extern void func_0218DD14(void *dst, char *src, int a, int b);
-extern int func_02169148(Cfg *cfg, u32 heap);
-extern void func_0216937C(int h, int a, int b);
-extern void func_021693B4(int h, int v);
-extern void func_021693C4(int h, int v);
-extern int func_0218BB04(int p);
+struct Mgr;
+extern struct Mgr *func_02169148(const struct Cfg *cfg, u32 heap);
+extern void func_0216937C(u8 *p, int a, int b);
+extern void func_021693B4(char *p, int v);
+extern void func_021693C4(char *p, int v);
+extern u8 *func_0218BB04(u8 *p);
 
 typedef struct Src {
     int f00;
@@ -155,11 +156,11 @@ void func_0218CEE4(Obj *p, const Src *src, void *c)
         func_0218DD70(p->f24 + off + 0x18);
         func_0218DD14(p->f24 + off + 4, (char *)p, i, p->heap);
         cfg.f0c = p->f24 + off + 4;
-        h = func_02169148(&cfg, p->heap);
+        h = (int)func_02169148(&cfg, p->heap);
         *(int *)(p->f24 + off) = h;
-        func_0216937C(h, p->f10, p->heap);
+        func_0216937C((u8 *)h, p->f10, p->heap);
         if (p->f60 != 0)
-            func_021693B4(h, p->f60);
-        func_021693C4(h, func_0218BB04(p->f64));
+            func_021693B4((char *)h, p->f60);
+        func_021693C4((char *)h, (int)func_0218BB04((u8 *)p->f64));
     }
 }

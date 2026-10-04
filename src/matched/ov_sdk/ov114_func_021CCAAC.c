@@ -21,13 +21,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021CAE20(u8 *a, u8 *b);
 extern int func_021CAEC8(u8 *, unsigned long);
-extern int func_021CAB94(u8 *);
+extern char *func_021CAB94(u8 *p);
 
 int func_021CCAAC(u8 *p, u8 *b)
 {
     func_021CAE20(p, b);
     func_021CAEC8(p + 0x14, 0);
-    *(u32 *)(p + 0x28) = func_021CAB94(b);
+    *(u32 *)(p + 0x28) = (u32)func_021CAB94(b);
     *(u32 *)(p + 0x2c) = 0;
     return 1;
 }

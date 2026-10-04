@@ -17,22 +17,23 @@
  *   func_021904C8  0x021904C8  thumb  ov021
  */
 
-extern void func_0219160C(int a);
+struct U16Vec;
+extern void func_0219160C(int *p);
 typedef unsigned int   u32;
 extern int func_021915B4(u32 a);
-extern void func_02045808(int a);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0217F044(unsigned char *p);
 extern void func_021904C8(int a);
 
 void func_0217F128(unsigned char *base)
 {
     if (*(int *)(base + 0x280C) != 0) {
-        func_0219160C(*(int *)(base + 0x280C));
+        func_0219160C((int *)(*(int *)(base + 0x280C)));
         func_021915B4(*(int *)(base + 0x280C));
         *(int *)(base + 0x280C) = 0;
         *(base + 0x2828) = 0;
-        func_02045808(*(int *)(base + 0x2820));
-        func_02045808(*(int *)(base + 0x2824));
+        func_02045808((struct U16Vec *)(*(int *)(base + 0x2820)));
+        func_02045808((struct U16Vec *)(*(int *)(base + 0x2824)));
         *(int *)(base + 0x2820) = 0;
         *(int *)(base + 0x2824) = 0;
     }

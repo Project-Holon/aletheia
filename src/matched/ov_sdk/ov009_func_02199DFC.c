@@ -54,7 +54,7 @@ typedef struct _NATNegotiator {
     int result;                                      /* 0x44 */
 } NATNegotiator;
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_02199D60(void);
 extern NATNegotiator *func_02199138(void);
 extern int func_0217EB18(int pf, int type, int protocol);
@@ -89,7 +89,7 @@ int func_02199DFC(int gamesocket, int cookie, int clientindex,
 
     neg = func_02199138();
     if (neg == 0) {
-        func_0217D254(7, 2, 1, g_021A5D90);
+        func_0217D254(7, (char *)2, 1, g_021A5D90);
         return 1;
     }
 

@@ -13,10 +13,10 @@
  *   func_021E8738  0x021E8738  thumb  ov177
  */
 
-extern void func_021E8738(int, int, int, int);
+extern void func_021E8738(int *p, int a, int b, int c);
 
 void func_0217CFE8(void *obj, int a, int b)
 {
-    func_021E8738(*(int *)((char *)obj + 0x1a4), *(int *)((char *)obj + 0x20), a, b);
+    func_021E8738((int *)(*(int *)((char *)obj + 0x1a4)), *(int *)((char *)obj + 0x20), a, b);
 }
 

@@ -66,7 +66,7 @@ typedef unsigned int u32;
 extern void veneer_02072788(u32 volume);
 
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
-extern void func_0203508C(void (*a)(void), void (*b)(void), u32 arg);
+extern void func_0203508C(u32 a, u32 b, u32 c);
 
 void sub_02005794(void);
 void sub_020057A0(void);
@@ -83,5 +83,5 @@ void sub_020057A0(void)
 
 void sub_020057AC(void)
 {
-    func_0203508C(sub_02005794, sub_020057A0, 0);
+    func_0203508C((u32)sub_02005794, (u32)sub_020057A0, 0);
 }

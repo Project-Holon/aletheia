@@ -23,10 +23,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_0201CE30(u32 h);
-extern void func_0201CE5C(u32 h, int v);
-extern void func_0201CE38(u32 h);
-extern void func_0201CE48(u32 h);
+typedef signed int     s32;
+struct Rec;
+struct Rec3;
+extern u32 func_0201CE30(void *p);
+extern void func_0201CE5C(struct Rec *p, s32 v);
+extern void func_0201CE38(void *p);
+extern void func_0201CE48(struct Rec3 *p);
 extern int func_02035C60(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
@@ -38,23 +41,23 @@ extern void func_020061E4(u32 v);
 
 int func_02169F34(u8 *p)
 {
-    switch (func_0201CE30(H)) {
+    switch (func_0201CE30((void *)H)) {
     case 0:
         if (func_02035C60() == 1 || (func_0203630C() & 3) != 0)
-            func_0201CE5C(H, 0);
+            func_0201CE5C((struct Rec *)H, 0);
         ST = 0;
         break;
     case 1:
         if (ST == 0) {
             if (func_02035C60() == 1 || (func_020362DC() & 3) != 0) {
                 func_020061E4(0x547);
-                func_0201CE38(H);
+                func_0201CE38((void *)H);
                 ST = 1;
             }
         }
         break;
     case 2:
-        func_0201CE48(H);
+        func_0201CE48((struct Rec3 *)H);
         ST = 0;
         return 0;
     }

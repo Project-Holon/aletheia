@@ -22,10 +22,14 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_02188C80(u32);
-extern u32 func_02188C9C(u32);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EBC(u32);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern u16 func_02188C9C(u8 *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern u32 func_02009210(void);
 extern u32 func_020090E0(void);
 extern u32 func_02013D20(void);
@@ -35,11 +39,11 @@ u32 ov021_func_021A0EE4(u32 *p, u32 x)
 {
     u32 a, b;
     if (x == 0) {
-        a = func_020120F4(func_02188C80(p[5]));
-        b = func_02188C9C(p[5]);
+        a = (u32)func_020120F4(func_02188C80((void *)p[5]));
+        b = func_02188C9C((u8 *)p[5]);
         if (func_02013D20() != 0 || func_02013D00(b) != 0)
             return 5;
-        func_02012EBC(a);
+        func_02012EBC((struct Big *)a);
         func_02009210();
         if (func_020090E0() == 0)
             return 5;

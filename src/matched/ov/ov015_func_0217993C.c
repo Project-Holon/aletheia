@@ -48,7 +48,7 @@ typedef unsigned short u16;
 extern u16 func_0208F1B4(void);
 extern void func_02179F74(u8 unitId);
 extern void func_0217A584(void (*cb)(void));
-extern void func_02179B38(void);
+extern void func_02179B38(u8 *pkt, u32 len, u32 type);
 extern u32 func_020056EC(u32 x);
 
 void func_0217993C(u32 a, u8 b)
@@ -57,7 +57,7 @@ void func_0217993C(u32 a, u8 b)
     d_0217AB40.f3c = a;
     d_0217ABA0.b6 = func_0208F1B4();
     func_02179F74(3);
-    func_0217A584(func_02179B38);
+    func_0217A584((void (*)(void))func_02179B38);
     d_0217AAC0.f8 = func_020056EC(0);
     if (d_0217AAC0.f8 == 0)
         d_0217AAC0.f8 = 1;

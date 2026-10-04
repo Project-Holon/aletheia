@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void *func_02188CB4(u8 *p);
 extern int func_021A3098(void *a);
-extern void *func_02188C98(void *x);
+extern u32 func_02188C98(u8 *p);
 extern int func_021A2FA4(int a, int b);
 extern void func_021A3364(u32 *a, int b, int *out);
 extern int func_021AB0D4(void *a, void *b);
@@ -39,7 +39,7 @@ extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB2E8(int a);
 extern void func_02164208(int a, int *b, int c);
 extern int func_0218B6F8(char *p, void *x);
-extern int func_0218B3DC(char *p, void *a, void *x, int b, int c);
+extern int func_0218B3DC(int unused, int a, int b, int c, int d);
 
 int func_0218B408(char *p, void *a, void *x)
 {
@@ -54,7 +54,7 @@ int func_0218B408(char *p, void *a, void *x)
 
     id = func_02188CB4(x);
     if (func_021A3098(id) == 2) {
-        cam = func_02188C98(x);
+        cam = (void *)func_02188C98(x);
         r7 = func_021A2FA4(*(int *)(p + 0x18), *(int *)(p + 0x2C));
         if (r7 != 9) {
             func_021A3364(id, r7, buf);
@@ -68,7 +68,7 @@ int func_0218B408(char *p, void *a, void *x)
                 flag = 1;
             }
             if (func_0218B6F8(p, x) == 1 && !(v & 1) && !(v & 2))
-                return func_0218B3DC(p, a, x, r7, flag);
+                return func_0218B3DC((int)p, (int)a, (int)x, r7, flag);
         }
     }
     return 0;

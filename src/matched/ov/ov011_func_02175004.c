@@ -23,15 +23,16 @@ typedef struct Fl {
     u8 rest : 6;
 } Fl;
 
-int func_02026478(int a);
-int func_02012E40(int a);
+typedef unsigned int   u32;
+u32 func_02026478(void *obj);
+u8 func_02012E40(const u8 *o);
 void func_02175060(u8 *p, int i);
 
 void func_02175004(u8 *p)
 {
     u8 i;
 
-    if (func_02012E40(func_02026478(*(int *)(p + 4))) == 1) {
+    if (func_02012E40((const u8 *)func_02026478((void *)(*(int *)(p + 4)))) == 1) {
         return;
     }
     if (((Fl *)(p + 0x904))->b1 == 1) {

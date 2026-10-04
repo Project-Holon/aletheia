@@ -14,9 +14,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204B898(int h);
+typedef unsigned short u16;
+struct Obj;
+extern u16 func_0204B898(struct Obj *p);
 
 void func_021BEDD0(int p, int i)
 {
-    func_0204B898(((int *)(p + i * 4))[0xa]);
+    func_0204B898((struct Obj *)(((int *)(p + i * 4))[0xa]));
 }

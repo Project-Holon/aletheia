@@ -29,52 +29,62 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020310C4(u32);
-extern void func_020286C4(u32,u32,u32);
-extern int func_02028484(u8 *,u32);
+typedef signed int     s32;
+struct Blk;
+struct Bmp;
+struct Cfg;
+struct Ctx;
+struct Descriptor;
+struct PrintSys;
+struct Rec3;
+struct Tcbl;
+struct U16Vec;
+extern void func_020310C4(struct Tcbl *p);
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern s32 func_02028484(struct Blk *blk, void *h);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_020061E4(u32);
-extern void func_0201CE48(u32);
-extern void func_02045808(u32);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0202865C(u32,u32,int);
+extern void func_0202865C(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void func_02045334(struct Descriptor *d);
-extern int func_0201C6C4(int,u32);
-extern void func_02045374(u32);
-extern u8 func_02045730(u32);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern u32 func_0202EE8C(u32,u32,int,int,u16);
-extern void func_0201C4E4(int);
+extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 #define W(o) (*(u32 *)(s+(o)))
 void func_021BB644(u8 *p,u8 *s)
 {
-    func_020310C4(W(8));
+    func_020310C4((struct Tcbl *)W(8));
     if (W(0xc) != 0) {
-        func_020286C4(W(0x14),W(0xc),W(4));
-        if (func_02028484(s+0x18,W(0xc)) == 1) {
+        func_020286C4((struct Ctx *)W(0x14),(void *)W(0xc),(void *)W(4));
+        if (func_02028484((struct Blk *)(s+0x18),(void *)W(0xc)) == 1) {
             if (W(0x20) == 0 || (func_020362DC() & 3) != 0 || func_02035C60() == 1) {
                 if (W(0x20) == 1) func_020061E4(0x547);
-                func_0201CE48(W(0xc));
+                func_0201CE48((struct Rec3 *)W(0xc));
                 W(0xc)=0;
-                func_02045808(W(0x10));
+                func_02045808((struct U16Vec *)W(0x10));
             } else {
-                func_0202865C(W(0x14),(u32)func_02045770((struct Descriptor *)W(4)),15);
+                func_0202865C((struct Ctx *)W(0x14),(const struct Bmp *)((u32)func_02045770((struct Descriptor *)W(4))),15);
                 func_02045334((struct Descriptor *)W(4));
             }
         }
     }
-    if (W(0x24) == 1 && func_0201C6C4(W(0x28),(u32)func_02045770((struct Descriptor *)W(4))) == 0) {
+    if (W(0x24) == 1 && func_0201C6C4((struct PrintSys *)W(0x28),(void *)((u32)func_02045770((struct Descriptor *)W(4)))) == 0) {
         u32 t=W(4);
         W(0x24)=0;
         func_02045334((struct Descriptor *)t);
-        func_02045374(t);
-        func_02041B6C(func_02045730(t));
+        func_02045374((struct Cfg *)t);
+        func_02041B6C(func_02045730((struct Descriptor *)t));
         if (W(0x30) == 1) {
             W(0x30)=0;
-            W(0x34)=func_0202EE8C(W(8),W(4),15,16,*(u16 *)p);
+            W(0x34)=(u32)func_0202EE8C(W(8),(void *)W(4),15,16,*(u16 *)p);
         }
     }
-    func_0201C4E4(W(0x28));
+    func_0201C4E4((struct PrintSys *)W(0x28));
 }

@@ -15,14 +15,16 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_020215A0(int obj, int n);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 
 void func_021C0CC8(int *p)
 {
     int obj;
     obj = p[10];
-    func_020215A0(obj, 0);
-    func_020215A0(obj, 2);
-    func_020215A0(obj, 1);
-    func_020215A0(obj, 3);
+    func_020215A0((struct PalAnmSlot *)obj, 0);
+    func_020215A0((struct PalAnmSlot *)obj, 2);
+    func_020215A0((struct PalAnmSlot *)obj, 1);
+    func_020215A0((struct PalAnmSlot *)obj, 3);
 }

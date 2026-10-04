@@ -18,10 +18,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_020061E4(void *);
+extern void func_020061E4(u32 a);
 void func_021B6A28(u8 *p)
 {
     *(u32 *)(p + 8) = *(u16 *)(p + 0x2a);
     func_0204B878(*(void **)p, *(u32 *)(p + 8));
-    if (*(void **)(p + 0x34)) func_020061E4(*(void **)(p + 0x34));
+    if (*(void **)(p + 0x34)) func_020061E4((u32)(*(void **)(p + 0x34)));
 }

@@ -33,7 +33,7 @@ extern void *func_02012F50(void *base);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 struct Desc;
-extern struct Desc *func_02168BF0(void *a, int b, int c, int d, unsigned short *e);
+extern struct Desc *func_02168BF0(int a, int b, int c, int d, u16 *e);
 extern void func_0215897C(void *a, void *b);
 
 int func_0216A470(int a0, int a1)
@@ -51,6 +51,6 @@ int func_0216A470(int a0, int a1)
     l8 = func_02159B10((void *)a0, (void *)a1);
     lc = func_02159B10((void *)a0, (void *)a1);
     l0 = func_02159AE8((void *)a0, (void *)a1);
-    func_0215897C(r7, func_02168BF0(l4, *r6, l8, lc, l0));
+    func_0215897C(r7, func_02168BF0((int)l4, *r6, l8, lc, l0));
     return 1;
 }

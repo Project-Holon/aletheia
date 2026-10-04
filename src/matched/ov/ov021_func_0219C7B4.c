@@ -22,15 +22,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } V3;
-extern u32 func_0216D67C(u32);
-extern u8 *func_0216E3C4(u32);
+extern void *func_0216D67C(void *a0);
+extern void *func_0216E3C4(void *p);
 extern void func_02197CCC(u32, V3 *);
 extern u32 func_0219C780(u32 a, V3 *b, int c, u32 d, u16 e, u16 g);
 
 void func_0219C7B4(u32 a, u16 e, u16 g)
 {
-    u32 o = func_0216D67C(a);
-    u8 *d = func_0216E3C4(a);
+    u32 o = (u32)func_0216D67C((void *)a);
+    u8 *d = func_0216E3C4((void *)a);
     V3 v;
     func_02197CCC(a, &v);
     func_0219C780(o, &v, d[7], d[9], e, g);

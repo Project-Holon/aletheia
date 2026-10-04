@@ -14,24 +14,26 @@
  *   func_02019D84 0x02019D84 thumb
  *   d_021E7718 0x021E7718 data ov119 a4
  */
-extern int func_02017E88(int,int,int);
-extern int func_02017DBC(int);
-extern int func_02017DE4(int,int);
+typedef unsigned int   u32;
+struct Sav;
+extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern int func_02019D84(unsigned short);
 extern const int d_021E7718[];
 int func_021DD0CC(char *p, int a)
 {
     int v, lock, r;
     unsigned i;
-    v = func_02017E88(a,5,0);
+    v = func_02017E88((void *)a,5,0);
     i = 0;
     if (*(int *)(p + 0x118c) == 3) {
-        lock = func_02017DBC(a);
+        lock = func_02017DBC((struct Sav *)a);
         for (; i < 15; i++) {
-            r = func_02017E88(a,d_021E7718[i],0);
+            r = func_02017E88((void *)a,d_021E7718[i],0);
             if (r == 1) break;
         }
-        func_02017DE4(a,lock);
+        func_02017DE4((struct Sav *)a,lock);
         if (r) return 1;
         if (func_02019D84(v)) return 1;
     }

@@ -31,8 +31,10 @@ extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void func_02049238(void *);
 extern u32 func_02020E60(u16, int);
-extern void func_02062A98(void *, u8 **);
-extern void func_02062A4C(void *, u8 **);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_02082D44(const void *, void *, u32);
 extern void func_020307B0(void *);
 extern int func_02019D30(u16, u8);
@@ -54,11 +56,11 @@ void func_021D6AB8(u8 *p)
         species = ((struct Obj *)p)->records[i].d;
         if (species) {
             buf = func_02049250(h,func_02020E60(species,2),*(u16 *)(p+0x43c4));
-            func_02062A98(buf,&out);
+            func_02062A98(buf,(void **)(&out));
             func_02082D44(*(void **)(out+12),p+0xbc+i*0x224,32);
             func_020307B0(buf);
             buf2 = func_02049250(h,func_02020E60(species,1),*(u16 *)(p+0x43c4));
-            func_02062A4C(buf2,&out2);
+            func_02062A4C(buf2,(void **)(&out2));
             func_02082D44(*(void **)(out2+20),p+0xdc+i*0x224,512);
             func_020307B0(buf2);
         }
@@ -74,7 +76,7 @@ void func_021D6AB8(u8 *p)
             value = func_0201BB5C(species,form,gender,0);
             id = func_0201BABC(species,form,gender,0);
             buf2 = func_02049250(h2,id,*(u16 *)(p+0x43c4));
-            func_02062A4C(buf2,&out2);
+            func_02062A4C(buf2,(void **)(&out2));
             func_02082D44(*(void **)(out2+20),p+0xdc+n*0x224,512);
             func_020307B0(buf2);
             *(u32 *)(p+n*0x224+0x2dc) = value;

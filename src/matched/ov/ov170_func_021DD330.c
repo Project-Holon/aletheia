@@ -17,7 +17,7 @@
  *   func_0201AB48 0x0201AB48 thumb
  *   func_020307B0 0x020307B0 arm
  */
-extern void *func_021DD2D0(void ***,int,unsigned);
+extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021EDAB0(void *,int);
 typedef unsigned int   u32;
 struct Mon;
@@ -36,7 +36,7 @@ void func_021DD330(unsigned char *p,unsigned short *q,unsigned short *t)
     unsigned short slot;
     void *m;
     if (q[0] == 0x24) box=p[0x17]; else box=p[0x14];
-    m=func_0201747C(func_021DD2D0((void ***)p,box,q[2]),0x804c);
+    m=func_0201747C((struct Mon *)func_021DD2D0((void ***)p,box,q[2]),0x804c);
     slot=t[2]-30;
     func_020075B0((*(void ***)p)[1],box,q[2],func_020185F4(func_0201AB28((*(void ***)p)[2],slot)));
     func_0201AB48((*(void ***)p)[2],slot,m);

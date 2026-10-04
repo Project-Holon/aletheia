@@ -17,24 +17,25 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02017DBC(u32 a);
-extern u32  func_0202F498(u32 a, u32 b);
-extern void func_02017E64(u32 a, u32 b, u32 c);
-extern void func_02017DE4(u32 a, u32 b);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern int func_0202F498(void *a0, int a1);
+extern void func_02017E64(void *p, u32 id, u32 v);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 void func_0202F640(u32 a, u32 b)
 {
-    u32 r = func_02017DBC(a);
+    u32 r = func_02017DBC((struct Sav *)a);
 
-    if (func_0202F498(a, b) == 1) {
+    if (func_0202F498((void *)a, b) == 1) {
         switch (b) {
         case 0:
-            func_02017E64(a, 0x96, 0x753B);
+            func_02017E64((void *)a, 0x96, 0x753B);
             break;
         case 2:
-            func_02017E64(a, 0x96, 0x753D);
+            func_02017E64((void *)a, 0x96, 0x753D);
             break;
         }
     }
-    func_02017DE4(a, r);
+    func_02017DE4((struct Sav *)a, r);
 }

@@ -30,13 +30,14 @@ extern int func_0217F1EC(int *a);
 typedef unsigned int   u32;
 extern void func_0217F074(void *p);
 extern u32 func_0200FB24(void);
-extern void func_02012124(int a, int b);
+struct Ctx;
+extern void func_02012124(struct Ctx *p, u8 v);
 extern void func_02172D38(int *a);
 extern int func_02172D68(int *a);
 extern void func_02173420(int *a);
 extern void func_02173524(int *a, u8 *b);
 extern void func_02172D50(int *a);
-extern void func_0217B8E4(int *a, int b);
+extern int func_0217B8E4(char *p, char v);
 
 int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
 {
@@ -53,7 +54,7 @@ int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
         break;
     case 2:
         if (func_0200FB24() != 0) {
-            func_02012124(*(int *)(a[0] + 0xc), 1);
+            func_02012124((struct Ctx *)(*(int *)(a[0] + 0xc)), 1);
             return 0;
         }
         func_02172D38(a);
@@ -74,7 +75,7 @@ int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
             (*d)++;
         break;
     default:
-        func_0217B8E4(a, 0);
+        func_0217B8E4((char *)a, 0);
         return 1;
     }
     return 0;

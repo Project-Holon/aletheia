@@ -50,39 +50,41 @@ typedef struct Arg {
     s16 fC;
 } Arg;
 
-extern u32   func_020120F4(u32 a);
-extern void  func_0201296C(u32 a);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 extern void  func_02158A10(u32 a, int b);
 extern void  func_02185A68(u32 a, u16 b);
-extern void  func_021857C0(u32 a, void *b);
-extern u32   func_02012984(u32 a);
-extern int   func_02029DF4(u32 a, int b, u32 c);
-extern void *func_020298A0(u32 a, int b, int c, int d);
+extern void func_021857C0(void *a, int b);
+extern u8 func_02012984(const struct BigObj *p);
+extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
+extern void *func_020298A0(void *a, u32 b, u16 c, u16 d);
 struct Ctx;
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020145FC(u32 a);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_021BE92C(u32 a0, void *a1, int a2, int a3, int a4, int a5, int a6);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern u32 func_02188D20(u8 *p);
-extern void  func_021BC578(u32 a, int b);
+extern void func_021BC578(void *p, int v);
 
 int func_02183C9C(void *obj, int *state, Arg *arg)
 {
     u32 x = arg->f0;
-    u32 t = func_020120F4(x);
+    u32 t = (u32)func_020120F4((const struct Ctx *)x);
     void *w;
 
-    func_0201296C(t);
+    func_0201296C((const struct BigObj *)t);
     switch (*state) {
     case 0:
         func_02158A10(x, 1);
         func_02185A68(x, arg->fC);
-        func_021857C0(x, arg->f8);
+        func_021857C0((void *)x, (int)arg->f8);
         (*state)++;
         break;
     case 1:
-        func_02012374(obj, func_020298A0(x, func_02029DF4(t, arg->fC, func_02012984(t)), 0, 0x3c));
+        func_02012374(obj, func_020298A0((void *)x, func_02029DF4((void *)t, arg->fC, func_02012984((const struct BigObj *)t)), 0, 0x3c));
         (*state)++;
         break;
     case 2:
@@ -90,13 +92,13 @@ int func_02183C9C(void *obj, int *state, Arg *arg)
         (*state)++;
         break;
     case 3:
-        func_02012374(obj, func_021BE92C(x, func_0201210C((void *)x), 1, 0, 1, 0, 0));
+        func_02012374(obj, (struct Evt **)func_021BE92C((void *)x, (int)func_0201210C((void *)x), 1, 0, 1, 0, 0));
         (*state)++;
         break;
     case 4:
         w = func_0201210C((void *)x);
         if (func_02188D20(w) != 0)
-            func_021BC578(func_02188D20(w), arg->fC);
+            func_021BC578((void *)func_02188D20(w), arg->fC);
         return 1;
     }
     return 0;

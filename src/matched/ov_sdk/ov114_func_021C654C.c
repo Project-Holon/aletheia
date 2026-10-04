@@ -19,8 +19,8 @@
  */
 
 extern void func_021C78E0(void);
-extern int func_021BF3BC(void *handle);
-extern int func_021BF184(void *handle);
+extern int func_021BF3BC(int a);
+extern int func_021BF184(int a);
 extern void func_021C78F4(void);
 
 int func_021C654C(void *volatile handle)
@@ -28,8 +28,8 @@ int func_021C654C(void *volatile handle)
 	int result = 1;
 	func_021C78E0();
 	if (handle) {
-		func_021BF3BC(handle);
-		if (func_021BF184(handle) != 0)
+		func_021BF3BC((int)handle);
+		if (func_021BF184((int)handle) != 0)
 			result = 0;
 		else
 			handle = 0;

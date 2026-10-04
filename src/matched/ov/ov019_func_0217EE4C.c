@@ -15,15 +15,17 @@
  *   func_02008570  0x02008570  thumb
  */
 
-extern int func_02012944(int a);
-extern int func_0200856C(int a);
-extern int func_02008570(int a);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 *func_02012944(void *p);
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
 
 int func_0217EE4C(int **p, int x, int y)
 {
-    int v = func_02012944((*p)[2]);
-    int a = func_0200856C(v);
-    int b = func_02008570(v);
+    int v = (int)func_02012944((void *)((*p)[2]));
+    int a = func_0200856C((const struct Sub0200852CObj *)v);
+    int b = func_02008570((const struct Sub0200852CObj *)v);
 
     if (x == 0)
         return 15;

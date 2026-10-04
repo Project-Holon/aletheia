@@ -37,8 +37,8 @@ typedef struct Obj {
 } Obj;
 
 extern void func_0689A030(void);
-extern void func_0689A76C(void);
-extern void func_0689A84C(void);
+extern int func_0689A76C(int *st, u8 *s);
+extern int func_0689A84C(u32 unused, u32 p);
 extern void func_06899E48(Obj *o, void (*a)(void), void (*b)(void));
 
 void func_06899ED0(Obj *o, int a, u8 b, u8 c, int d)
@@ -48,7 +48,7 @@ void func_06899ED0(Obj *o, int a, u8 b, u8 c, int d)
     o->f98 = 0;
     o->f8b = b;
     o->f91 = c;
-    func_06899E48(o, func_0689A030, func_0689A76C);
+    func_06899E48(o, func_0689A030, (void (*)(void))func_0689A76C);
 }
 
 void func_06899F00(Obj *o, int a, u8 b, int c)
@@ -57,5 +57,5 @@ void func_06899F00(Obj *o, int a, u8 b, int c)
     o->f70 = c;
     o->f98 = 0;
     o->f8b = b;
-    func_06899E48(o, func_0689A030, func_0689A84C);
+    func_06899E48(o, func_0689A030, (void (*)(void))func_0689A84C);
 }

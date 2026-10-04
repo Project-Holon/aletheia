@@ -32,7 +32,7 @@ extern u16 func_02179024(void);
 extern u16 func_0208F1B4(void);
 extern void func_0217778C(void);
 extern void func_02179288(u16 a, u16 b, int c, u16 d);
-extern void func_0217727C(u8 *w, void *fn);
+extern void func_0217727C(u32 *p, u32 v);
 
 void func_02177C4C(u8 *p)
 {
@@ -59,6 +59,6 @@ void func_02177C4C(u8 *p)
             *(u16 *)(p + 0xC68) = func_0208F1B4();
         func_0217778C();
         func_02179288(buf[st[0x64]], *(u16 *)(p + 0xC68), r6, st[0x60] - 1);
-        func_0217727C(g_021797A4, 0);
+        func_0217727C((u32 *)g_021797A4, 0);
     }
 }

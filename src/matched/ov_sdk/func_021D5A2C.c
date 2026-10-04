@@ -16,11 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D71C0(int);
-extern void func_021D546C(int, void *);
+extern void func_021D71C0(void *ovram);
+extern void func_021D546C(void *queue, void *data);
 
 void func_021D5A2C(char *a)
 {
-    func_021D71C0(*(int *)(a + 0x28));
-    func_021D546C(*(int *)(*(char **)0x021DE680 + 0x670), a);
+    func_021D71C0((void *)(*(int *)(a + 0x28)));
+    func_021D546C((void *)(*(int *)(*(char **)0x021DE680 + 0x670)), a);
 }

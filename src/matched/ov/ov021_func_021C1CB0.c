@@ -23,9 +23,11 @@ typedef unsigned int u32;
 extern u32 d_021DA7F4[];
 
 u32 func_0203038C(int a);
-int func_020122C0(int a, int b, void *c, int d);
-int func_020124E8(int a);
-void func_021C313C(char *a, int b);
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
+void func_021C313C(u32 a, u32 *p);
 typedef unsigned char  u8;
 int func_021C1E7C(int a, int *st, u8 *ctx);
 
@@ -43,7 +45,7 @@ int func_021C1CB0(int a, char *b, int c)
     *(u32 *)(b + 0x128) = 0;
     *(u32 *)(b + 0x12c) = 0;
     *(u32 *)(b + 0xc) = 0;
-    r = func_020122C0(a, 0, func_021C1E7C, 0x40);
-    func_021C313C(b, func_020124E8(r));
+    r = (int)func_020122C0((void *)a, 0, func_021C1E7C, 0x40);
+    func_021C313C((u32)b, func_020124E8((struct Obj *)r));
     return r;
 }

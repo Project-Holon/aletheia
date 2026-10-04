@@ -65,16 +65,23 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
-extern int func_020120F4(int a);
-extern int func_02012EBC(int a);
-extern int func_0200ED48(int a);
-extern int func_0203D1A4(int a);
-extern int func_02012950(int a, int b);
-extern int func_02008530(int a);
-extern void func_0200ED54(int a, int b);
+struct Big;
+struct Ctx;
+struct L0200ED54;
+struct Party;
+struct Rec44;
+struct Sub0200852CObj;
+struct Sub24;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200ED48(void *p);
+extern u32 func_0203D1A4(struct Link *p);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
-extern int func_0201A920(int heap);
-extern void func_0217422C(u8 *a, int b, void *c);
+extern struct Party *func_0201A920(u32 heap);
+extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern void func_020307B0(void *p);
 extern u32 func_0203D378(void);
@@ -101,16 +108,16 @@ int func_0217D18C(u8 *a, int b, int c, u8 *d)
         break;
     case 2:
         if (func_02039CB4((struct Link *)func_020399A8(), 6, 0x14) == 1) {
-            x = func_020120F4((*(int **)a)[3]);
-            y = func_0200ED48(func_02012EBC(x));
-            func_0200ED54(y, func_02008530(func_02012950(x, func_0203D1A4((int)func_020399A8()) ^ 1)));
+            x = (int)func_020120F4((const struct Ctx *)((*(int **)a)[3]));
+            y = (int)func_0200ED48(func_02012EBC((struct Big *)x));
+            func_0200ED54((struct L0200ED54 *)y, func_02008530((const struct Sub0200852CObj *)func_02012950((struct Sub24 *)x, func_0203D1A4((struct Link *)((int)func_020399A8())) ^ 1)));
             (*d)++;
         }
         break;
     case 3:
         p = func_02030734(0x41, 0x30, 1, (const char *)d_021807E8, 0xA54);
-        p->f14 = func_020120F4((*(int **)a)[3]);
-        p->f1c = func_0201A920(0x41);
+        p->f14 = (int)func_020120F4((const struct Ctx *)((*(int **)a)[3]));
+        p->f1c = (int)func_0201A920(0x41);
         q = func_02030734(4, 0x14, 0, (const char *)d_021807E8, 0xA5B);
         q->f00 = p->f14;
         q->f04 = p->f1c;
@@ -122,7 +129,7 @@ int func_0217D18C(u8 *a, int b, int c, u8 *d)
         p->f20 = q;
         p->f08 = 0;
         *(Rec30 **)(a + 0x3558) = p;
-        func_0217422C(a, 2, p);
+        func_0217422C(a, 2, (int)p);
         (*d)++;
         break;
     case 4:

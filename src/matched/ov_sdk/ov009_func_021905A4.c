@@ -48,7 +48,7 @@ typedef struct {
 extern void *func_0217EAB0(int size);
 typedef unsigned int   u32;
 extern void *func_020923B0(void *p, int c, u32 n);
-extern void func_02193734(int connection, int string);
+extern void func_02193734(int *p, int b);
 extern char g_021A5280[];
 
 int func_021905A4(int connection, GPISearchData **out, int type)
@@ -56,7 +56,7 @@ int func_021905A4(int connection, GPISearchData **out, int type)
     GPISearchData *data = func_0217EAB0(0x1a0);
 
     if (data == 0) {
-        func_02193734(connection, (int)g_021A5280);
+        func_02193734((int *)connection, (int)g_021A5280);
         return 1;
     }
     func_020923B0(data, 0, 0x1a0);
@@ -71,7 +71,7 @@ int func_021905A4(int connection, GPISearchData **out, int type)
     data->outputBuffer.size = 0x1000;
     data->outputBuffer.data = func_0217EAB0(0x1001);
     if (data->outputBuffer.data == 0) {
-        func_02193734(connection, (int)g_021A5280);
+        func_02193734((int *)connection, (int)g_021A5280);
         return 1;
     }
     data->processing = 0;

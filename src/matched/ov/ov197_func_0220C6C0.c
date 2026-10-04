@@ -13,9 +13,10 @@
  *   func_0220AFC4 0x0220AFC4 thumb ov196
  */
 
-extern void func_0220AFC4(int);
+typedef unsigned char  u8;
+extern void func_0220AFC4(u8 *p);
 
 void func_0220C6C0(char *a)
 {
-    func_0220AFC4(*(int *)(a + 0x148));
+    func_0220AFC4((u8 *)(*(int *)(a + 0x148)));
 }

@@ -36,8 +36,8 @@ extern u16 func_02159B10(void *a0, void *a1); /* u16 return on purpose: see note
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_0215A2E4(void *a, void *b, int c, u16 *d, u16 *e, int f, unsigned short g);
-extern void func_0215897C(void *a, u32 b);
+extern int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B636C(void *a, void *b)
 {
@@ -54,6 +54,6 @@ int func_021B636C(void *a, void *b)
     t4 = func_02159B10(a, b);
     p7 = func_0215A5F4(b);
     p5 = func_0215A5DC(b);
-    func_0215897C(p7, func_0215A2E4(p5, func_0201210C(p5), tc, t10, t6, t4 == 0, t4));
+    func_0215897C(p7, (void *)func_0215A2E4((int)p5, (int)func_0201210C(p5), tc, (int)t10, (int)t6, t4 == 0, t4));
     return 1;
 }

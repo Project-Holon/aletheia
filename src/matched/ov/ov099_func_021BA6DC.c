@@ -38,7 +38,9 @@ typedef struct {
 extern const E d_021C287C[];
 extern u16 *func_021BA764(S *s, int i);
 extern void func_021BA770(S *s);
-extern void func_02061CA4(int type, int addr, void *data, int size);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021BA6DC(S *s)
 {
@@ -66,6 +68,6 @@ void func_021BA6DC(S *s)
         b = d_021C287C[s->fd].d;
     }
     if (a != 0) {
-        func_02061CA4(0xf, (s->fc + 1) * 2 + 0xe0, func_021BA764(s, b), 2);
+        func_02061CA4((void *)0xf, (s->fc + 1) * 2 + 0xe0, (u32)func_021BA764(s, b), 2);
     }
 }

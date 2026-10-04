@@ -35,12 +35,12 @@ typedef signed int s32;
 
 int func_021C815C(int a);
 int func_021D775C(int a);
-void *func_021C7CF4(int a, int b);
+void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
 int func_021B9A24(unsigned int a, unsigned int b);
 int func_021D62C4(struct Unk021D62A8 *p, int i);
-int func_021C830C(int a);
-int func_021C8290(int a, int k, int c, int t);
+unsigned int func_021C830C(u8 *p);
+int func_021C8290(u8 *p, int a, int b, void *item);
 int func_021D76BC(int key, u32 val);
 
 void func_021E0BE8(void *a, int b, int c)
@@ -54,17 +54,17 @@ void func_021E0BE8(void *a, int b, int c)
     if (func_021C815C(b) == 3)
         return;
     k = (u8)func_021D775C(3);
-    r = func_021C7CF4(b, c);
+    r = func_021C7CF4((int *)b, c);
     if (func_021B9A24(c, k) != 0)
         return;
     if (func_021D775C(0x12) == 0x1fb)
         return;
     if (func_021D62C4(r, 0x21) != 0)
         return;
-    if (func_021C830C(b) != 0)
+    if (func_021C830C((u8 *)b) != 0)
         return;
     t = (u16)func_021D775C(0x12);
-    if (func_021C8290(b, k, c, t) != 0)
+    if (func_021C8290((u8 *)b, k, c, (void *)t) != 0)
         return;
     func_021D76BC(4, c);
 }

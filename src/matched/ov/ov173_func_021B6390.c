@@ -13,12 +13,13 @@
  *   func_02028178  0x02028178  thumb
  */
 
-extern void func_02028178(int);
+typedef unsigned char  u8;
+extern void func_02028178(u8 *p);
 
 void func_021B6390(int *p)
 {
     if (*(int *)((char *)p + 0x220)) {
-        func_02028178(*(int *)((char *)p + 0x220));
-        func_02028178(*(int *)((char *)p + 0x224));
+        func_02028178((u8 *)(*(int *)((char *)p + 0x220)));
+        func_02028178((u8 *)(*(int *)((char *)p + 0x224)));
     }
 }

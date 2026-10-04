@@ -26,14 +26,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u16 *func_0216D6F0(u32);
+extern void *func_0216D6F0(void *p);
 extern u32 func_0219D49C(u32);
 extern void func_02197CCC(u32, u32 *);
-extern u32 func_0216DAB4(u32);
+extern int func_0216DAB4(void *a0);
 extern u32 func_02197C9C(u32);
 extern void func_021C6664(u32, u32, u32 *);
 extern void func_021C6678(u32, u32, u32);
-extern void func_021C66EC(u32, u32, u32);
+extern int func_021C66EC(u32 *a, int idx, int v);
 
 void func_021A0084(u32 a)
 {
@@ -42,14 +42,14 @@ void func_021A0084(u32 a)
     u32 buf[3];
     u16 *p;
 
-    p = func_0216D6F0(a);
+    p = func_0216D6F0((void *)a);
     q = func_0219D49C(a);
     func_02197CCC(a, buf);
     func_021C6664(q, *p, buf);
     f = 0;
-    if (func_0216DAB4(a) == 1) f = 1;
+    if (func_0216DAB4((void *)a) == 1) f = 1;
     func_021C6678(q, *p, f);
     if (func_02197C9C(a) == 0) {
-        func_021C66EC(q, *p, 0x1000);
+        func_021C66EC((u32 *)q, *p, 0x1000);
     }
 }

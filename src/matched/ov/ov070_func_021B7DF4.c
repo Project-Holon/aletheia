@@ -61,7 +61,7 @@ extern Item *func_021B616C(Obj *o, int v);
 extern int func_02035BA4(const void *p);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(unsigned int id);
-extern void func_0204B878(unsigned a, unsigned b);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021BB260(Obj *o, int val);
 
 int func_021B7DF4(Obj *o)
@@ -128,9 +128,9 @@ int func_021B7DF4(Obj *o)
     if (o->num != saved) {
         func_020061E4(0x548);
         if (dir == 0)
-            func_0204B878(o->winA, 0xB);
+            func_0204B878((struct Obj *)o->winA, 0xB);
         else
-            func_0204B878(o->winB, 0xA);
+            func_0204B878((struct Obj *)o->winB, 0xA);
         func_021BB260(o, o->num);
     }
     return changed;

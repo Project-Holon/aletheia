@@ -25,7 +25,8 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u16 func_021BE00C(u16 *p);
-extern void func_0203CBAC(void *a, int b, void *c);
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_0203D7BC(int a);
 
 typedef struct {
@@ -37,6 +38,6 @@ void func_021B8050(void *a, void *b)
     Blob s = *(Blob *)0x021C6EF4;
 
     func_021BE00C(a);
-    func_0203CBAC(&s, 0, b);
+    func_0203CBAC((struct Req *)(&s), 0, (u32)b);
     func_0203D7BC(0);
 }

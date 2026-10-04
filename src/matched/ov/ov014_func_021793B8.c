@@ -26,13 +26,16 @@ typedef int BOOL;
 extern u8 *g_021797A8;
 
 extern void func_0217814C(int err);
-extern int func_020902D8(void *info, int arg, void *buf);
+typedef unsigned short u16;
+struct WMDataSet;
+struct WMDataSharingInfo;
+extern int func_020902D8(struct WMDataSharingInfo *dsInfo, const u16 *sendData, struct WMDataSet *receiveData);
 
 BOOL func_021793B8(int arg)
 {
     int r;
 
-    r = func_020902D8(g_021797A8 + 0x1444, arg, g_021797A8 + 0x1C64);
+    r = func_020902D8((struct WMDataSharingInfo *)(g_021797A8 + 0x1444), (const u16 *)arg, (struct WMDataSet *)(g_021797A8 + 0x1C64));
     if (r == 7)
         return 0;
     if (r == 5)

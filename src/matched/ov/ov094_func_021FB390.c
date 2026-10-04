@@ -18,7 +18,7 @@
  *   func_02200468 0x02200468 thumb ov094
  */
 extern int func_0201134C(void *);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern int func_0220041C(void *, int, int);
 extern void func_02200468(void *, int);
 
@@ -27,7 +27,7 @@ int func_021FB390(void *a, char *s)
     int x = func_0201134C(a);
     int y = func_0201134C(a);
 
-    if (func_0220041C(func_021F8694(), x, y) == 1)
-        func_02200468(func_021F8694(), x);
+    if (func_0220041C((void *)func_021F8694(), x, y) == 1)
+        func_02200468((void *)func_021F8694(), x);
     return *(int *)(s + 0x23c);
 }

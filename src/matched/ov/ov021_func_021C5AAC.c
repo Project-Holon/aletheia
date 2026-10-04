@@ -32,7 +32,9 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *a);
-extern int func_020122C0(void *a, int b, void *cb, int c);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Work {
     void *a;
     void *f04;
@@ -42,7 +44,7 @@ struct Work {
     int f14;
 };
 
-extern struct Work *func_020124E8(int a);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_02012EBC(struct Big *p);
@@ -63,8 +65,8 @@ int func_021C5AAC(void *a, int b, int c, int d)
     if ((int)func_0201AA18(func_02012934(func_020120F4(a))) <= c) {
         c = 0;
     }
-    h = func_020122C0(a, 0, (void *)func_021C5B58, 0x18);
-    p = func_020124E8(h);
+    h = (int)func_020122C0(a, 0, (void *)func_021C5B58, 0x18);
+    p = func_020124E8((struct Obj *)h);
     p->a = a;
     p->f04 = func_0201210C(a);
     p->f10 = b;

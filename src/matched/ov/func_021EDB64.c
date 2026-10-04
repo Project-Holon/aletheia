@@ -16,11 +16,14 @@
  */
 
 
-extern int func_0204B7F0(int);
-extern void func_0204AA94(int, int, int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u16 func_0204B7F0(u8 *p);
+extern void func_0204AA94(int a, void *b, u32 c, int d, int e);
 void func_021EDB64(char *p, int a, int i)
 {
     int q = *(int *)(p + 0x2c);
-    int x = func_0204B7F0(*(int *)(q + i * 4 + 0x9E74));
-    func_0204AA94(x, q + 0x3E70 + a * 0x400, 0x400, 0, 0);
+    int x = func_0204B7F0((u8 *)(*(int *)(q + i * 4 + 0x9E74)));
+    func_0204AA94(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
 }

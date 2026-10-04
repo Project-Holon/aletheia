@@ -16,7 +16,7 @@
  */
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
-extern void func_0216E280(void *, int);
+extern void *func_0216E280(int a0, int a1);
 extern char d_02172B48[];
 
 char *func_0216CC58(int a, int b, int c)
@@ -27,7 +27,7 @@ char *func_0216CC58(int a, int b, int c)
     *(short *)(p + 8) = a;
     *(int *)(p + 0x2c) = c;
     *(short *)(p + 0xc) = 0x80;
-    func_0216E280(p, a);
+    func_0216E280((int)p, a);
     *(int *)(p + 0x44) = (int)func_02030734(a, 0xc4 << 2, 1, d_02172B48, 0xcf);
     return p;
 }

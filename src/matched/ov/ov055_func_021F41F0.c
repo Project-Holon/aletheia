@@ -26,11 +26,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0216D454();
-extern void func_0216D410(u32 a, u32 b);
-extern void func_0216D5B4(u32 a, u32 b);
+extern void func_0216D410(void *a0, u16 a1);
+extern void func_0216D5B4(void *p, u16 v);
 extern void *func_021A3074(unsigned char *p);
 extern int func_021F4318(const u8 *a, void *b, u16 c, u16 d);
-extern int func_021F42AC(u8 *a, u32 b, u32 *c, u16 d, u16 e);
+extern int func_021F42AC(u8 *a, void *b, u32 *c, u16 d, u16 e);
 extern void func_021F3DD4(u8 *a, u32 b);
 extern void func_021F3DBC(u8 *a);
 extern void func_021F3D90(u8 *a);
@@ -54,17 +54,17 @@ void func_021F41F0(u8 *a, u32 b, u32 c)
         x = (void *)func_021A3074((void *)c);
         c = 1;
         if (func_021F4318(a, x, 1, 1)) {
-            func_0216D5B4(*(u32 *)(a + 0xc), *(u16 *)(a + 6));
+            func_0216D5B4((void *)(*(u32 *)(a + 0xc)), *(u16 *)(a + 6));
             return;
         }
-        if (func_021F42AC(a, b, &loc, c, 0)) {
+        if (func_021F42AC(a, (void *)b, &loc, c, 0)) {
             func_021F3DD4(a, loc);
-            func_0216D5B4(*(u32 *)(a + 0xc), 0x7d0);
+            func_0216D5B4((void *)(*(u32 *)(a + 0xc)), 0x7d0);
             func_021F3D90(a);
         } else {
-            func_0216D410(*(u32 *)(a + 0xc), (u16)(*(u16 *)(a + 0xa) + a[3]));
+            func_0216D410((void *)(*(u32 *)(a + 0xc)), (u16)(*(u16 *)(a + 0xa) + a[3]));
             *(u16 *)(a + 4) = *(u16 *)(a + 4) - 1;
-            func_0216D5B4(*(u32 *)(a + 0xc), 0x7d0);
+            func_0216D5B4((void *)(*(u32 *)(a + 0xc)), 0x7d0);
         }
         a[1] = 0;
         return;

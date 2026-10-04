@@ -47,20 +47,21 @@ struct S {
     u16 f13c;
 };
 
-extern int func_02049DB4(u32 h, u32 a, u32 c, void *d, u16 heap);
-extern int func_02043678(u32 w, u32 h, u32 d, u32 heap);
+struct Bmp;
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 
 void func_021EDB3C(struct S *s, char *a1)
 {
     u32 i;
 
-    s->fd8 = func_02049DB4(0xb, 0xd5, 0, &s->fdc, s->f13c);
+    s->fd8 = (int)func_02049DB4(0xb, 0xd5, 0, (u32)(&s->fdc), s->f13c);
     for (i = 0; i < 2; i++) {
         s->e[i].f00 = s;
         s->e[i].f0a = i;
         s->e[i].f0b = (i == 0) ? 2 : 3;
         s->e[i].f10 = s->fdc->f14 + i * 0x900;
-        s->e[i].f04 = func_02043678(0x12, 4, 0x20, s->f13c);
+        s->e[i].f04 = (int)func_02043678(0x12, 4, 0x20, s->f13c);
         s->e[i].f08 = 0;
         s->e[i].f0c = 0x1f;
         s->e[i].f1c = a1 + i * 0x48;

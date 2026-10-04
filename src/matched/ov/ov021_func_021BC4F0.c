@@ -20,18 +20,20 @@
  *   func_021BCF24  0x021BCF24  thumb  ov021
  */
 
-extern int func_021BD0A4(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BD0A4(u8 *p);
 extern void func_021BCEAC(int a);
 extern void func_021BCEB0(int a);
-extern void func_021BCEB4(int a);
+extern void func_021BCEB4(char *p);
 extern void func_021BCF18(int a);
 extern void func_021BCF1C(int a);
 extern void func_021BCF20(int a);
-extern void func_021BCF24(int a);
+extern void func_021BCF24(char *p);
 
 void func_021BC4F0(int a)
 {
-    switch (func_021BD0A4(a)) {
+    switch (func_021BD0A4((u8 *)a)) {
     case 0:
         func_021BCEAC(a);
         break;
@@ -39,7 +41,7 @@ void func_021BC4F0(int a)
         func_021BCEB0(a);
         break;
     case 2:
-        func_021BCEB4(a);
+        func_021BCEB4((char *)a);
         break;
     case 3:
         func_021BCF18(a);
@@ -51,7 +53,7 @@ void func_021BC4F0(int a)
         func_021BCF20(a);
         break;
     case 6:
-        func_021BCF24(a);
+        func_021BCF24((char *)a);
         break;
     }
 }

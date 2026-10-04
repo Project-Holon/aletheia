@@ -11,5 +11,5 @@
  * symbols:
  *   func_0216DAC8 0x0216DAC8 thumb ov010
  */
-extern void func_0216DAC8(int,int);
-void func_021F3DBC(unsigned char *p) { p[0]=0; p[2]=0; p[3]=0; p[1]=0; func_0216DAC8(*(int *)(p+12),1); }
+extern void func_0216DAC8(unsigned int *p, unsigned int v);
+void func_021F3DBC(unsigned char *p) { p[0]=0; p[2]=0; p[3]=0; p[1]=0; func_0216DAC8((unsigned int *)(*(int *)(p+12)),1); }

@@ -56,11 +56,11 @@ struct Obj {
 struct AnimBank;
 struct AnimSequence;
 extern struct AnimSequence *sub_020627D8(struct AnimBank *bank, u32 idx);
-extern void  sub_0206428C(struct Rec *r, void *v, void *owner);
+extern void sub_0206428C(char *self, int a1, char *c);
 
 void sub_0204D158(struct Obj *o, const struct Src *s)
 {
     o->unk_04 = s->unk_0c;
     o->unk_08 = s->unk_10;
-    sub_0206428C(&o->unk_0c, sub_020627D8(o->unk_08, 0), o->unk_04);
+    sub_0206428C((char *)(&o->unk_0c), (int)sub_020627D8(o->unk_08, 0), o->unk_04);
 }

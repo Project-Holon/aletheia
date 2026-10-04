@@ -24,7 +24,7 @@ typedef signed int s32;
 
 struct Unk021F6360 { u32 pad0; u16 *tbl; };
 extern struct Unk021F6360 data_021F6360;
-int func_021D7E90(int a, int b, int c);
+int func_021D7E90(const u16 *p, u32 n, u32 v);
 u32 func_021D78AC(u32 range);
 
 u16 func_021D7E44(int a, int b)
@@ -33,7 +33,7 @@ u16 func_021D7E44(int a, int b)
     u16 n = 0;
 
     for (i = 1; i < 0x230; i++) {
-        if (func_021D7E90(a, b, i) == 0)
+        if (func_021D7E90((const u16 *)a, b, i) == 0)
             data_021F6360.tbl[n++] = i;
     }
     return data_021F6360.tbl[(u16)func_021D78AC(n)];

@@ -22,12 +22,12 @@ typedef signed int s32;
 typedef signed short s16;
 extern int func_021F6B34(int v);
 extern u32 func_0201AA18(void *p);
-extern u32 func_020078C4(u32 a, u32 b);
+extern int func_020078C4(void *save, u32 box);
 
 u32 func_021F6B80(u8 *p, u32 b, u32 c)
 {
     if (func_021F6B34(c) != 0) {
         return func_0201AA18(p);
     }
-    return func_020078C4(b, c);
+    return func_020078C4((void *)b, c);
 }

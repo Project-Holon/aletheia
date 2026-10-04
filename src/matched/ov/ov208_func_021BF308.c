@@ -29,8 +29,9 @@ typedef unsigned int u32;
 enum Index { INDEX_ZERO = 0 };
 struct Pos { u16 x, y, z, pad; };
 extern const u8 d_021C851C[];
-extern void *func_021BC3B4(int);
-extern char *func_021BC3A8(int);
+struct Actor;
+extern int func_021BC3B4(int *p);
+extern int func_021BC3A8(int *p);
 extern int func_021BCF4C(char *);
 extern int func_021BDC80(char *p);
 extern void *func_020490F4(u32,u16);
@@ -42,7 +43,7 @@ extern void func_02082BCC(void *,int,u32);
 extern u32 func_0204B294(u32,u32,u32,u32,struct Pos *,u16,u16);
 struct Obj;
 extern void func_0204B92C(struct Obj *,u32);
-extern void func_0204B688(u32,u32);
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021BF308(u16 *heap, char *p, int key)
 {
     struct Pos pos;
@@ -51,8 +52,8 @@ void func_021BF308(u16 *heap, char *p, int key)
     void *arc;
     enum Index i;
     u16 flag;
-    scene = func_021BC3B4(key);
-    owner = func_021BCF4C(func_021BC3A8(key));
+    scene = (void *)func_021BC3B4((int *)key);
+    owner = func_021BCF4C((char *)func_021BC3A8((int *)key));
     i = 0;
     arc = func_020490F4(0x9f, *heap);
     *(u32 *)(p + 0x9c) = func_021BDC80(scene);
@@ -79,7 +80,7 @@ void func_021BF308(u16 *heap, char *p, int key)
         pos.z = *(u16 *)(q + 0x24);
         *(u32 *)(q + 0x1c) = func_0204B294(owner, *(u32 *)(p + 0xa0), *(u32 *)(p + 0x9c), *(u32 *)(p + 0xa4), &pos, flag, *heap);
         func_0204B92C((struct Obj *)*(u32 *)(q + 0x1c), 1);
-        func_0204B688(*(u32 *)(q + 0x1c), 1);
+        func_0204B688((struct Actor *)(*(u32 *)(q + 0x1c)), 1);
         i = (u8)(i + 1);
     } while ((u32)i < 6);
 }

@@ -25,9 +25,13 @@ typedef unsigned int u32;
 extern int func_0200BCB8(u32);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_021C3248(void);
-extern void func_021C3250(u32);
-extern void func_0200BC4C(u32, int, u32);
-extern void func_0201A9C8(u32, u32);
+typedef signed int     s32;
+struct Obj;
+struct Party;
+struct Payload;
+extern void func_021C3250(void *mon);
+extern void func_0200BC4C(struct Obj *p, s32 i, const struct Payload *src);
+extern u32 func_0201A9C8(struct Party *p, s32 idx);
 extern void func_021C38DC(u32, u32);
 
 void func_021C3204(u32 *p, u32 b, u32 c)
@@ -37,9 +41,9 @@ void func_021C3204(u32 *p, u32 b, u32 c)
 
     if (n < 2) {
         func_021C3248();
-        func_021C3250(m);
-        func_0200BC4C(p[2], n, m);
-        func_0201A9C8(b, c);
+        func_021C3250((void *)m);
+        func_0200BC4C((struct Obj *)p[2], n, (const struct Payload *)m);
+        func_0201A9C8((struct Party *)b, c);
         func_021C38DC(p[1], b);
     }
 }

@@ -26,18 +26,19 @@ struct Big;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
-extern u8 *func_02012F38(void *a);
-extern u32 func_02009470(void *a);
+struct Sub02009470Obj;
+extern int func_02012F38(int base);
+extern struct Sub02009470Obj *func_02009470(void *sys);
 extern int func_0200E878(u8 *p);
 extern int func_021CFC80(u32 a, u8 *b, int c, void *d);
 
 int func_021CFC4C(void *a, int b, void *c)
 {
     void *sys = func_020120F4(a);
-    u8 *sv = func_02012F38(sys);
+    u8 *sv = (u8 *)func_02012F38((int)sys);
 
     if (b < 0xe9) {
-        return func_021CFC80(func_02009470(func_02012EBC(sys)), sv, b, c);
+        return func_021CFC80((u32)func_02009470(func_02012EBC(sys)), sv, b, c);
     }
     return func_0200E878(sv);
 }

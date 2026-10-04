@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 func_02026D48(u16 v);
-extern void func_021F2144(char *p, char *q, int r, int s, int t);
+extern void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4);
 
 void func_021F1080(char *p, char *q, int r, int t)
 {
@@ -32,8 +32,8 @@ void func_021F1080(char *p, char *q, int r, int t)
     }
     *(u8 *)(q + 5) = c;
     if (c != 0) {
-        func_021F2144(p, q, *(int *)(q + 0x24), 0xca0, t);
+        func_021F2144(p, q, (void *)(*(int *)(q + 0x24)), 0xca0, t);
     } else {
-        func_021F2144(p, q, *(int *)(q + 0x24), 0x3c60, t);
+        func_021F2144(p, q, (void *)(*(int *)(q + 0x24)), 0x3c60, t);
     }
 }

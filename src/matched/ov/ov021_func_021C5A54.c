@@ -26,9 +26,10 @@
 extern char d_021F5580;
 extern unsigned char abs_id_C2[];
 
-extern int func_020146F8(int a, int b, const void *id, const char *file, int e);
-extern int func_02014728(int a, int b, const void *id, const char *file, int e);
-extern void func_02012374(int a, int b);
+struct Evt;
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
+extern void *func_02014728(char *a0, int a1, int a2, int a3, int a4);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021C5A54(int a, int *st, int *c)
 {
@@ -37,11 +38,11 @@ int func_021C5A54(int a, int *st, int *c)
     switch (*st) {
     case 0:
         if (c[3] != 0) {
-            r = func_020146F8(c[0], c[1], abs_id_C2, &d_021F5580, c[2]);
+            r = (int)func_020146F8((char *)c[0], c[1], (int)abs_id_C2, (int)(&d_021F5580), c[2]);
         } else {
-            r = func_02014728(c[0], c[1], abs_id_C2, &d_021F5580, c[2]);
+            r = (int)func_02014728((char *)c[0], c[1], (int)abs_id_C2, (int)(&d_021F5580), c[2]);
         }
-        func_02012374(a, r);
+        func_02012374((struct Evt *)a, (struct Evt **)r);
         (*st)++;
         break;
     case 1:

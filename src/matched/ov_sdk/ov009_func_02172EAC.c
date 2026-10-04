@@ -59,7 +59,7 @@ typedef struct DWCstMatchControl {
 extern int func_0217603C(void);
 extern DWCstNodeInfo *func_0217637C(int index);
 extern int func_02176554(void);
-extern DWCstMatchControl *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern DWCstNodeInfo *func_021763AC(int profileID);
 extern int func_0216FF2C(u8 command, int profileID, u32 ip, u16 port, u32 *data, int len);
 extern int func_021719A4(int error);
@@ -100,7 +100,7 @@ static int func_02172EAC(u32 bitmap)
     }
 
     if (func_02176554()) {
-        DWCstNodeInfo *nodeInfo = &func_02175F3C()->tempNewNodeInfo;
+        DWCstNodeInfo *nodeInfo = &((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo;
 
         if (bitmap & (1 << nodeInfo->aid)) {
             validPid[validPidLen] = nodeInfo->profileID;
@@ -115,8 +115,8 @@ static int func_02172EAC(u32 bitmap)
     for (i = 0; i < validPidLen; i++) {
         nodeInfo = func_021763AC(validPid[i]);
         if (func_02176554() && nodeInfo == 0 &&
-            validPid[i] == func_02175F3C()->tempNewNodeInfo.profileID)
-            nodeInfo = &func_02175F3C()->tempNewNodeInfo;
+            validPid[i] == ((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.profileID)
+            nodeInfo = &((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo;
         if (nodeInfo) {
             result = func_0216FF2C(0x10, validPid[i], nodeInfo->publicInetAddress,
                                    nodeInfo->publicQueryPort, (u32 *)senddata, senddataLen);
@@ -125,9 +125,9 @@ static int func_02172EAC(u32 bitmap)
         }
     }
 
-    func_02175F3C()->closeState = 1;
+    ((DWCstMatchControl *)func_02175F3C())->closeState = 1;
     if (bShutdownNewNode) {
-        func_0216BEA4(func_02175F3C()->tempNewNodeInfo.aid);
+        func_0216BEA4(((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.aid);
         func_0217653C();
     }
     for (i = 0; i < senddataLen; i++) {
@@ -135,6 +135,6 @@ static int func_02172EAC(u32 bitmap)
         if (aid != 0xff)
             func_0216BEA4(aid);
     }
-    func_02175F3C()->closeState = 0;
+    ((DWCstMatchControl *)func_02175F3C())->closeState = 0;
     return bRet;
 }

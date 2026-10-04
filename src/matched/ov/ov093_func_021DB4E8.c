@@ -18,7 +18,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021C8290(int a, int k, int c, int t);
+extern int func_021C8290(u8 *p, int a, int b, void *item);
 extern int func_021DB550(int t);
 extern int func_021D76BC(int key, u32 val);
 
@@ -31,7 +31,7 @@ int func_021DB4E8(int a, int b, int c, int d)
     k = func_021D775C(3);
     if (k != b && d == func_021D775C(0x16)) {
         t = func_021D775C(0x12);
-        if (func_021C8290(a, k, b, t) == 0 && func_021DB550(t) == 0) {
+        if (func_021C8290((u8 *)a, k, b, (void *)t) == 0 && func_021DB550(t) == 0) {
             n = func_021D775C(4);
             if (func_021D76BC(4, b) != 0 && n != b)
                 return 1;

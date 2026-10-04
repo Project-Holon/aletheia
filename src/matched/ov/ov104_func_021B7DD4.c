@@ -17,5 +17,6 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0201C4E4(u32);
-void func_021B7DD4(u8 *p) { func_0201C4E4(*(u32 *)(p + 8)); }
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+void func_021B7DD4(u8 *p) { func_0201C4E4((struct PrintSys *)(*(u32 *)(p + 8))); }

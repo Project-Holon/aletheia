@@ -22,11 +22,12 @@
 
 typedef unsigned char u8;
 
-extern void func_0202B5D4(u8 *p);
+typedef unsigned int   u32;
+extern void func_0202B5D4(u32 a);
 extern void func_020307B0(void *p);
 
 void func_0202B4F0(u8 *p)
 {
-    func_0202B5D4(p);
+    func_0202B5D4((u32)p);
     func_020307B0(p);
 }

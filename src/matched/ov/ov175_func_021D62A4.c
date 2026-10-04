@@ -19,11 +19,13 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct { u32 kind; u16 count,pad; u32 name,total; u16 a,b; } Desc;
-extern u32 func_02012944(u32);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 *func_02012944(void *p);
 extern int func_021E5548(int *);
 extern void func_02082BCC(void *,int,u32);
 extern u32 func_0200DFD8(u32,u32,u32);
-extern u32 func_02008554(u32);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_021E5C20(Desc *,int,u32,int,u32,u32,u32,u32,u32,int);
 #define CTX ((u32 *)p[16])
 #define REC ((u32 *)CTX[2])
@@ -33,7 +35,7 @@ void func_021D62A4(u32 *p,int mode)
     int base,flag;
     Desc desc;
     if(p[6]==0) {
-        sys=func_02012944(REC[0]);
+        sys=(u32)func_02012944((void *)REC[0]);
         base=func_021E5548((int *)p[0]);
         func_02082BCC(&desc,0,20);
         if(mode==0) {
@@ -49,7 +51,7 @@ void func_021D62A4(u32 *p,int mode)
             desc.b=func_0200DFD8(CTX[4],REC[1],2);
             desc.total=desc.a+desc.b;
         }
-        desc.name=func_02008554(sys);
+        desc.name=func_02008554((const struct Sub0200852CObj *)sys);
         p[6]=func_021E5C20(&desc,flag,sys,base,p[1],p[2],p[3],p[4],p[5],87);
     }
 }

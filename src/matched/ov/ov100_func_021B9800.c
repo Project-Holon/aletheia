@@ -16,5 +16,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef unsigned short u16;
 struct Point { s16 x,y; };
-extern void func_0204B404(int,struct Point *,u16);
-void func_021B9800(int a,int b,int c,int d) { struct Point p; int obj; obj=*(int *)(a+0x2c8+d*4); if(obj){p.x=b;p.y=c;func_0204B404(obj,&p,0);} }
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+void func_021B9800(int a,int b,int c,int d) { struct Point p; int obj; obj=*(int *)(a+0x2c8+d*4); if(obj){p.x=b;p.y=c;func_0204B404((struct Obj *)obj,(const struct Vec2 *)(&p),0);} }

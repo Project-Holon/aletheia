@@ -34,7 +34,7 @@ extern u32 func_021D95F0(void *p);
 extern int func_021D9610(void *p);
 extern int func_021E12AC(char *p);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern void func_021DA798(char *p);
@@ -50,19 +50,19 @@ void func_021D9670(char *p)
     if (kind != 0) {
         if (func_021D94D4(p)) {
             b[4] = 5;
-            r = func_0203D3A8(func_020399A8(), 0xc00, 1, &b[4]);
+            r = func_0203D3A8(func_020399A8(), 0xc00, 1, (u32)(&b[4]));
         } else if (func_021D95D0(p)) {
             b[3] = 7;
-            r = func_0203D3A8(func_020399A8(), 0xc00, 1, &b[3]);
+            r = func_0203D3A8(func_020399A8(), 0xc00, 1, (u32)(&b[3]));
         } else if (func_021D95F0(p)) {
             b[2] = 8;
-            r = func_0203D3A8(func_020399A8(), 0xc00, 1, &b[2]);
+            r = func_0203D3A8(func_020399A8(), 0xc00, 1, (u32)(&b[2]));
         } else if (func_021D9610(p)) {
             b[1] = 6;
-            r = func_0203D3A8(func_020399A8(), 0xc00, 1, &b[1]);
+            r = func_0203D3A8(func_020399A8(), 0xc00, 1, (u32)(&b[1]));
         } else {
             b[0] = 2;
-            r = func_0203D3A8(func_020399A8(), 0xc00, 1, &b[0]);
+            r = func_0203D3A8(func_020399A8(), 0xc00, 1, (u32)(&b[0]));
         }
         if (r == 0)
             return;

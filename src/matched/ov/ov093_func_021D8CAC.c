@@ -20,7 +20,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern u32 func_021D7B60(void *p, u32 n);
 extern int func_021D59B4(u8 *p, int k);
 extern void func_021D7704(int a, int b);
@@ -31,7 +31,7 @@ void func_021D8CAC(int a, int b, int c)
     u32 lim;
 
     if (b == func_021D775C(3)) {
-        p = func_021C7CF4(a, b);
+        p = func_021C7CF4((int *)a, b);
         lim = func_021D7B60(p, 3);
         if (func_021D59B4(p, 13) <= lim) {
             if (c == func_021D775C(22))

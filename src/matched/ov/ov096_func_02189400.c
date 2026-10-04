@@ -27,14 +27,15 @@ extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A3F4(int a, int b, int c);
-extern int func_021D5B40(void *);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 
 int func_02189400(int a, int b) {
     int t;
     u8 s;
     t = func_0201134C(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D5B40(func_0218A2FC((u8 *)b, s));
+    t = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, s));
     t = func_0218A3F4(b, (u16)t, 1);
     *(int *)(b + 0x38) = t;
     return *(int *)(b + 0xc4);

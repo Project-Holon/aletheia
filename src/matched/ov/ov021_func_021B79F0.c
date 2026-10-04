@@ -26,7 +26,8 @@ typedef void (*Cb)(void *);
 struct Obj { char pad00[2]; u16 f2; u16 f4; char pad06[0xE]; struct Sub *f14; u32 f18; };
 
 extern int func_021B91AC(struct Sub *s);
-extern int func_021B8048(struct Sub *s);
+typedef unsigned char  u8;
+extern u8 func_021B8048(u8 *p);
 extern u32 *func_021B8820(void *p);
 extern Cb func_021B8870(void *p, u32 v);
 
@@ -45,7 +46,7 @@ int func_021B79F0(struct Obj *o, int flag)
         return 0;
     if (func_021B91AC(t) == 0)
         return 0;
-    if (func_021B8048(t) == 0 && o->f18 == 0 && flag == 0)
+    if (func_021B8048((u8 *)t) == 0 && o->f18 == 0 && flag == 0)
         return 0;
     switch (t->f0) {
     case 0:

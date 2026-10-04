@@ -58,7 +58,7 @@ struct GHIConnection {
     GHIEncryptor encryptor;     /* 0x194 */
 };
 
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
 extern int func_021C011C(struct GHIConnection *connection);
 extern void func_021C00FC(GHIBuffer *buffer);
@@ -75,7 +75,7 @@ void func_021C4150(GHIConnection *connection)
 
     if (!connection->encryptor.initialized)
     {
-        func_0217D254(8, 3, 0x10, g_021CF138);
+        func_0217D254(8, (char *)3, 0x10, g_021CF138);
         if (connection->encryptor.processFunc != 0)
         {
             if (connection->encryptor.processFunc(connection, &connection->encryptor) == 3)

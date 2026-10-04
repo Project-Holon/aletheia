@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0204B3B4(u32 v);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(u32 v);
 extern void func_0204A8D4(u32 v);
 extern void func_0204AFD8(u32 v);
@@ -38,7 +39,7 @@ struct S {
 void func_021C2FEC(void *unused, struct S *p, u32 unused2, u32 i)
 {
     if (p->a54[i] != 0) {
-        func_0204B3B4(p->a54[i]);
+        func_0204B3B4((struct Obj *)p->a54[i]);
         p->a54[i] = 0;
         func_0204ADA4(p->a3c[i]);
         func_0204A8D4(p->a44[i]);

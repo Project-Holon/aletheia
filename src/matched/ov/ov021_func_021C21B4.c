@@ -16,7 +16,8 @@
 typedef unsigned short u16;
 
 void func_021C24A8(char *p, int k);
-int func_021C1AB4(int a);
+typedef unsigned int   u32;
+int func_021C1AB4(u32 *p);
 
 int func_021C21B4(char *p)
 {
@@ -39,7 +40,7 @@ int func_021C21B4(char *p)
         }
         if (*(int *)(p + 0x78) != 0 && *(int *)(p + 0x7c) != 0)
             *(u16 *)(p + 0x64) = 1;
-    } else if (func_021C1AB4(*(int *)p) != 0) {
+    } else if (func_021C1AB4((u32 *)(*(int *)p)) != 0) {
         return 1;
     }
     return 0;

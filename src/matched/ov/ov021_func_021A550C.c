@@ -21,12 +21,12 @@ typedef unsigned int u32;
 int func_021A5340(u32 *p);
 void *func_021A3960(unsigned char *p);
 void func_0216D550(u32 *p, u32 v);
-void func_021A5334(u32 *p);
+void func_021A5334(u32 a);
 
 void func_021A550C(u32 *p)
 {
     if (func_021A5340(p) == 1) {
         func_0216D550(func_021A3960(*(unsigned char **)(p + 3)), 0x18);
-        func_021A5334(p);
+        func_021A5334((u32)p);
     }
 }

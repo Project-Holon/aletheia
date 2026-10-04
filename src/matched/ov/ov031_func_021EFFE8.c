@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern u8 *func_02026474(void *p);
+extern u32 func_02026474(void *obj);
 struct Obj;
 extern void func_0202DC08(struct Obj *p);
 extern void func_021F0420(void *p);
@@ -48,7 +48,7 @@ void func_021EFFE8(u32 *p)
 {
     u8 *q;
 
-    q = func_02026474((void *)func_02012138((const struct Ctx *)p[0]));
+    q = (u8 *)func_02026474((void *)func_02012138((const struct Ctx *)p[0]));
     if (q != 0)
         q[0x282E] = 0;
     func_0202DC08((void *)p[0x1F]);

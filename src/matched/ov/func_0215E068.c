@@ -26,8 +26,8 @@ typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern int func_02012F80(char *base);
-extern void func_02156BAC(int a0);
-extern int func_02156BCC();
+extern void func_02156BAC(void *p);
+extern u32 func_02156BCC(void *p);
 extern int func_021FCE00();
 
 int func_0215E068(int a0, int a1)
@@ -49,10 +49,10 @@ t4 = a0 + 0;
 a0 = *(int *)((char *)t4);
     if (a0 == 0) goto loc_0215E096;
 loc_0215E084:
-    func_02156BAC(a0);
+    func_02156BAC((void *)a0);
 loc_0215E088:
 a0 = *(int *)((char *)t4);
-    a0 = func_02156BCC(a0);
+    a0 = func_02156BCC((void *)a0);
 loc_0215E08E:
     if (a0 != 1) goto loc_0215E096;
 loc_0215E092:

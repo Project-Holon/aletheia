@@ -16,16 +16,16 @@
  *   func_021D48F0 0x021D48F0 thumb ov120
  */
 typedef unsigned char u8;
-extern int func_021D7AF4(int);
+extern int func_021D7AF4(char *p);
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern int func_02039ACC(void);
 extern void func_021D4244(int, void (*)(int), int);
-extern void func_021D4864(int);
+extern void func_021D4864(u8 *p);
 extern void func_021D48F0(int);
 void func_021D4930(u8 *a)
 {
-    if (func_021D7AF4(*(int *)(a + 0x40)) != 0) {
+    if (func_021D7AF4((char *)(*(int *)(a + 0x40))) != 0) {
         if (*(int *)(a + 0x14) > 0) {
             *(int *)(a + 0x14) = *(int *)(a + 0x14) - 1;
             return;
@@ -33,7 +33,7 @@ void func_021D4930(u8 *a)
         if (func_02039338() != 0) {
             if (func_02039ACC() != 0) {
                 *(int *)(a + 0x14) = 0xb4;
-                func_021D4244((int)a, func_021D4864, 0x33f);
+                func_021D4244((int)a, (void (*)(int))func_021D4864, 0x33f);
                 return;
             }
         } else {

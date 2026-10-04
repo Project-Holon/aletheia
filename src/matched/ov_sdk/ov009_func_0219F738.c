@@ -21,13 +21,13 @@ struct SBServerList {
     struct SBServer *deadlist;
 };
 
-extern void func_0219E264(struct SBServer *server, struct SBServer *next);
+extern void func_0219E264(int *p, int v);
 
 void func_0219F738(struct SBServerList *slist, struct SBServer *server)
 {
     if (slist->deadlist == 0)
-        func_0219E264(server, 0);
+        func_0219E264((int *)server, 0);
     else
-        func_0219E264(server, slist->deadlist);
+        func_0219E264((int *)server, (int)slist->deadlist);
     slist->deadlist = server;
 }

@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern int  func_0200A350(void);
 extern int  func_021DFE00(void *p);
-extern int  func_02012DD0(int a1);
+extern int func_02012DD0(u8 *p);
 
 int func_0200A2D8(void *a0, int a1)
 {
@@ -26,5 +26,5 @@ int func_0200A2D8(void *a0, int a1)
             return 2;
         return 0;
     }
-    return func_02012DD0(a1);
+    return func_02012DD0((u8 *)a1);
 }

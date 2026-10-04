@@ -40,7 +40,8 @@ extern u8 d_02177010[];
 extern u8 *func_0203159C(int a, int size, int align);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02031324(int heap);
-extern void *func_020120F4(u32 a);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 struct Party;
 struct PartyMon;
@@ -66,7 +67,7 @@ int func_02176454(int a0, int a1, Arg *arg)
     w = func_0203159C(a0, 0x100, 4);
     func_02082BCC(w, 0, 0x100);
     *(void **)(w + 0xf4) = func_02031324(4);
-    list = func_02012934(func_020120F4(arg->w0));
+    list = func_02012934(func_020120F4((const struct Ctx *)arg->w0));
     func_0201BA34(list);
     n = func_0201AA18(list);
     *(void **)(w + 0xf8) = func_0201A920(4);

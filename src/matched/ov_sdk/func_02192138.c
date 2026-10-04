@@ -21,11 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201D37C(u32, u32, u32);
+struct StrObj;
+extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
 
 int func_02192138(u32 a, u32 b, u32 c)
 {
-if (func_0201D37C(a, b, c) == 0) {
+if (func_0201D37C((struct StrObj *)a, (struct StrObj *)b, c) == 0) {
     return 1;
 }
 return 0;

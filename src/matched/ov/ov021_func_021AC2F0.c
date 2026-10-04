@@ -48,22 +48,24 @@ typedef struct P {
     u32 f14;
 } P;
 
-extern u32 *func_021AC1AC(u32 a);
-extern int func_0216E1A4(u32 a, u16 *out);
-extern u32 func_02050340(u32, u32, Desc *, u32, u32);
+struct BbActDesc;
+struct BbActSys;
+extern int func_021AC1AC(u32 a);
+extern int func_0216E1A4(int a0, int a1);
+extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 extern void func_021AC154(u32 a);
-extern void func_0204F6DC(u32 a, u32 b, Arg4 *c);
+extern void func_0204F6DC(u8 *a0, int i, u8 *px);
 extern void func_021AC178(u32 a);
 
 void func_021AC2F0(u32 a, P *p)
 {
-    u32 *q = func_021AC1AC(a);
+    u32 *q = (u32 *)func_021AC1AC(a);
     Arg4 t;
     Desc s;
 
     p->sys = (Sys *)q[0];
     p->f8 = q[1];
-    func_0216E1A4(q[1], p->fc);
+    func_0216E1A4(q[1], (int)p->fc);
     s.slot = 0;
     s.v12 = 0x1000;
     s.v14 = 0x1000;
@@ -77,12 +79,12 @@ void func_021AC2F0(u32 a, P *p)
     }
     s.f1c = 0;
     s.f20 = (u32)p;
-    p->f14 = func_02050340(p->sys->f10, (u16)p->sys->f18, &s, 1, 3);
+    p->f14 = func_02050340((struct BbActSys *)p->sys->f10, (u16)p->sys->f18, (const struct BbActDesc *)(&s), 1, 3);
     if (p->f14 == 0xFFFF) {
         func_021AC154(a);
         return;
     }
     t.b0 = 2;
-    func_0204F6DC(p->sys->f14, p->f14, &t);
+    func_0204F6DC((u8 *)p->sys->f14, p->f14, (u8 *)(&t));
     func_021AC178(a);
 }

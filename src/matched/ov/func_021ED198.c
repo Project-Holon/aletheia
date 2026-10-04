@@ -19,10 +19,10 @@
 
 
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
-extern void func_021ED14C(char *, int, int);
+extern void func_021ED14C(int a, int b, int c);
 void func_021ED198(char *p, int a, int c)
 {
     short t[2];
     func_021EC548(a, t + 1, t, c);
-    func_021ED14C(p, t[1], (short)(t[0] + 4));
+    func_021ED14C((int)p, t[1], (short)(t[0] + 4));
 }

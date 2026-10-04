@@ -30,13 +30,15 @@
  *       --func func_02031354 --addr 0x02031354 --cc 1.1p1 --arm
  */
 
-extern void *func_02030734(int a0, int a1, int a2, int a3, int a4);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern char data_020A783C[];
 
 void *func_02031354(int a0)
 {
-    char *p = func_02030734(a0, 0x20, 0, (int)data_020A783C, 0xc5);
+    char *p = func_02030734(a0, 0x20, 0, (const char *)((int)data_020A783C), 0xc5);
 
     *(unsigned short *)p = a0;
     *(int *)(p + 4) = -1;

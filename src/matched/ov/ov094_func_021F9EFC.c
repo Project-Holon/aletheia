@@ -28,9 +28,9 @@ typedef struct {
 extern u32 func_0201134C(void *p);
 extern void func_021FDB20(Ctx *c);
 extern int func_021F8684(void);
-extern void func_021F6EDC(int cam, int *a, int *b);
+extern void func_021F6EDC(int *p, int *a, int *b);
 extern void func_021F6F48(int cam, int *a, int *b, int n, int s, int t);
-extern void func_021F70F0(int cam, int *a, int *b);
+extern void func_021F70F0(void **p, void *b, int c);
 extern void func_0207C9D0(int *a, int *b, int *c);
 
 int func_021F9EFC(void *r, Ctx *c)
@@ -57,13 +57,13 @@ int func_021F9EFC(void *r, Ctx *c)
     func_021FDB20(c);
     switch (type) {
     case 0:
-        func_021F6EDC(func_021F8684(), A, B);
+        func_021F6EDC((int *)func_021F8684(), A, B);
         break;
     case 1:
         func_021F6F48(func_021F8684(), A, B, n, s, t);
         break;
     case 2:
-        func_021F70F0(func_021F8684(), C, D);
+        func_021F70F0((void **)func_021F8684(), C, (int)D);
         func_0207C9D0(C, A, A);
         func_0207C9D0(D, B, B);
         func_021F6F48(func_021F8684(), A, B, n, s, t);

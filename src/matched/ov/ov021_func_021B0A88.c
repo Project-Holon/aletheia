@@ -25,13 +25,13 @@ typedef signed char    s8;
 extern int func_02159190(int a0);
 extern int func_0215A61C(int a0);
 extern int func_021912D8(u32 a);
-extern void func_020113D0(u32 a, void (*cb)(void));
-extern void func_021B0A60(void);
+extern void func_020113D0(char *p, int val);
+extern int func_021B0A60(u32 a, u32 b, u32 c, u32 d);
 
 void func_021B0A88(u32 a, u32 b)
 {
     if (func_02159190(2) != 0) {
         func_021912D8(func_0215A61C(b));
-        func_020113D0(a, func_021B0A60);
+        func_020113D0((char *)a, (int)func_021B0A60);
     }
 }

@@ -88,30 +88,32 @@ struct Sub02008828Obj;
 struct U16Vec;
 struct WordSet;
 extern void func_02045088(u16 heapId);
-extern void *func_020450F0(int, int, int, int, int, int, int);
+struct Blk34;
+struct Blk37;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C724(void *, void *, int, int, void *, void *, int);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201F158(void *, int, void *);
-extern void func_0201EFA4(void *, int, void *, int, int, int);
+extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_020139B0(u32 heap);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 *func_02008848(void *);
 extern void func_0200890C(void *, void *);
-extern void *func_02013E4C(u16);
+extern u32 func_02013E4C(u32 id);
 extern void func_02013A48(void);
 extern struct PlayTime *func_02008748(void *sys);
-extern void *func_0200864C(void *);
-extern void *func_02008650(void *);
+extern u16 func_0200864C(const struct PlayTime *p);
+extern u8 func_02008650(const struct PlayTime *p);
 extern void *func_0200CA10(void *);
-extern void *func_0200D0AC(void *, int);
+extern u16 func_0200D0AC(struct Blk37 *p, u32 heap);
 extern void *func_0200C0F0(void *);
-extern void *func_0200C258(void *);
+extern u32 func_0200C258(struct Blk34 *p);
 
 void func_021BAD08(struct Menu *p)
 {
@@ -124,7 +126,7 @@ void func_021BAD08(struct Menu *p)
 
     func_02045088(11);
     for (i = 0; i < 14; i++) {
-        p->slot[i].obj = func_020450F0(d_021BD7C4[i].a0, d_021BD7C4[i].a1, d_021BD7C4[i].a2,
+        p->slot[i].obj = (void *)func_020450F0(d_021BD7C4[i].a0, d_021BD7C4[i].a1, d_021BD7C4[i].a2,
                                        d_021BD7C4[i].a3, d_021BD7C4[i].a4, d_021BD7C4[i].a5, 1);
     }
 
@@ -151,13 +153,13 @@ void func_021BAD08(struct Menu *p)
     a = func_02045EC0(p->f5c, 16);
     func_020139B0(0x800B);
     if (func_020142E8(p->f10, 0x966) == 1) {
-        s = func_02013E4C(func_02008848(func_02008854(p->f00))[2]);
+        s = (void *)func_02013E4C(func_02008848(func_02008854(p->f00))[2]);
     } else {
         func_0200890C(p->f00, buf);
-        s = func_02013E4C(buf[0]);
+        s = (void *)func_02013E4C(buf[0]);
     }
     func_02013A48();
-    func_0201F158(p->f60, 0, s);
+    func_0201F158(p->f60, 0, (u32)s);
     func_0201F250(p->f60, p->f64, a);
     bg = p->f68;
     func_0201C724(bg, func_02045770(p->slot[2].obj), 0, 0, p->f64, p->f58, 0x440);

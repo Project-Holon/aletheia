@@ -28,14 +28,15 @@ extern unsigned int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern u8 *func_0218A308(void *, u8);
-extern int func_0218A0F4(int, int, int, int, int);
-extern int func_021B8DE4(int, int);
+struct QG;
+extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
+extern unsigned char func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
-extern int func_021B99B8(int, int);
+extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
 extern int func_021D5B68(void *);
-extern int func_021D5448(void *);
+extern u8 func_021D5448(struct QG *p);
 extern int func_021D554C(void *, u8);
 int func_0218989C(int a, int b)
 {
@@ -46,16 +47,16 @@ int func_0218989C(int a, int b)
     x = func_0201134C(a);
     z = func_0201134C(a);
     y = func_0218A160((u8 *)b, x);
-    n = func_021B8DE4(*(int *)(b + 0xb0), y);
+    n = func_021B8DE4((char *)(*(int *)(b + 0xb0)), y);
     p = func_021B9AF8(*(char **)(b + 0xb8), n);
-    i = func_021B99B8(*(int *)(b + 0xb0), n);
+    i = func_021B99B8((void *)(*(int *)(b + 0xb0)), n);
     for (; i < func_021B9B94((struct Q1 *)p); i++) {
         if (func_021D5B68(func_0218A308(p, i)) == 0) {
-            for (j = 0; j < func_021D5448(func_0218A2FC((u8 *)b, y)); j++) {
-                if (func_0218A0F4(a, 3, func_021D554C(func_0218A2FC((u8 *)b, y), j), 0, z) != 0)
+            for (j = 0; j < func_021D5448((struct QG *)func_0218A2FC((u8 *)b, y)); j++) {
+                if (func_0218A0F4((u8 *)a, 3, func_021D554C(func_0218A2FC((u8 *)b, y), j), 0, z) != 0)
                     break;
             }
-            if (j != func_021D5448(func_0218A2FC((u8 *)b, y)))
+            if (j != func_021D5448((struct QG *)func_0218A2FC((u8 *)b, y)))
                 break;
         }
     }

@@ -36,19 +36,23 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_02012944(void *p);
+typedef signed int     s32;
+struct Big;
+struct Rec0200E6FC;
+struct Reg2;
+extern u8 *func_02012944(void *p);
 extern int func_02008468(void);
 extern void func_02082D44(u32 a, void *p, u32 b);
 extern void func_02087C6C(void *p);
-extern u32 func_02012EBC(void *p);
-extern u32 func_0200E6E8(u32 a);
-extern void func_0200E6FC(u32 a, int b, void *p);
-extern u32 func_0200BAC8(u32 a);
-extern u32 func_0200BAF4(u32 a, int b);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E6E8(u32 a);
+extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void *func_0200BAC8(void *p);
+extern void *func_0200BAF4(int a0, int a1);
 extern int func_0201A918(void);
 extern void func_020307B0(void *p);
-extern u32 func_0200E918(u32 a, int b);
-extern u32 func_0200B078(u32 a, int b);
+extern u8 func_0200E918(const u8 *base, u32 idx);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 
 void func_0217D2F0(u8 *p, u8 *q)
 {
@@ -57,17 +61,17 @@ void func_0217D2F0(u8 *p, u8 *q)
     u32 a;
 
     *(u32 *)(p + 0x44) = 0x64;
-    x = func_02012944(r);
+    x = (u32)func_02012944(r);
     func_02082D44(x, p, func_02008468());
     func_02087C6C(p + 0x20);
-    func_0200E6FC(func_0200E6E8(func_02012EBC(r)), 0, p + 0x38);
-    a = func_0200BAF4(func_0200BAC8(func_02012EBC(r)), 0x8056);
+    func_0200E6FC(func_0200E6E8((u32)func_02012EBC((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
+    a = (u32)func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)r)), 0x8056);
     func_02082D44(a, p + 0xd4, func_0201A918());
     func_020307B0((void *)a);
-    *(u32 *)(p + 0x28) = func_0200E918(*(u32 *)(q + 0x34), 1);
-    *(u32 *)(p + 0x2c) = func_0200E918(*(u32 *)(q + 0x34), 2);
-    *(u32 *)(p + 0x30) = func_0200E918(*(u32 *)(q + 0x34), 0);
-    *(u32 *)(p + 0x40) = func_0200B078(*(u32 *)(q + 0x38), 2);
+    *(u32 *)(p + 0x28) = func_0200E918((const u8 *)(*(u32 *)(q + 0x34)), 1);
+    *(u32 *)(p + 0x2c) = func_0200E918((const u8 *)(*(u32 *)(q + 0x34)), 2);
+    *(u32 *)(p + 0x30) = func_0200E918((const u8 *)(*(u32 *)(q + 0x34)), 0);
+    *(u32 *)(p + 0x40) = func_0200B078((struct Reg2 *)(*(u32 *)(q + 0x38)), 2);
 }
 
 

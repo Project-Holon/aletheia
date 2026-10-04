@@ -49,14 +49,15 @@ typedef struct S {
     u16  f0c;        /* 0x0c -- slot count */
 } S;
 
-extern u32 func_02061184(u32 key, u32 a);
+struct H;
+extern int func_02061184(struct H *h, u32 a1);
 extern s32 func_020749F8(S *p);
 struct NNSiFndHeapHead;
 extern int func_020611D4(struct NNSiFndHeapHead *heap, u32 tagName);
 
 s32 func_02074894(S *p)
 {
-    if (func_02061184(p->f00, p->f0c) == 0) {
+    if (func_02061184((struct H *)p->f00, p->f0c) == 0) {
         return -1;
     }
     if (func_020749F8(p) != 0) {

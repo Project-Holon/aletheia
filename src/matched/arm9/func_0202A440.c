@@ -56,7 +56,7 @@ typedef unsigned short u16;
 struct MsgBank;
 struct Rec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0202A3AC(u32 a, struct Tmp *t);
+extern void func_0202A3AC(void *a0, void *a1);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02045C04(struct Rec *rec);
@@ -70,7 +70,7 @@ void func_0202A440(u32 id, struct Out *out, u32 heap)
     void *bank;
 
     t = func_02030734(heap, 0x14, 0, g_020A76DC, 0x159);
-    func_0202A3AC(id, t);
+    func_0202A3AC((void *)id, t);
 
     out->f00 = id;
     out->f04 = t->f01;

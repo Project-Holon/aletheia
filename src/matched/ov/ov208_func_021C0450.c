@@ -36,15 +36,18 @@ typedef struct {
 } ObjPos;
 
 extern void func_02082BCC(void *dst, int v, int n);
-extern u16  func_021BBB3C(u32 tbl, int idx, int field);
+struct Actor;
+struct Node;
+struct Obj;
+extern unsigned short func_021BBB3C(char *p, int a, int b);
 struct Obj;
 extern struct Obj *func_0204B294(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
-extern void func_0204B878(u32 obj, u32 anim);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B84C(u32 obj, int v);
-extern void func_0204B800(u32 obj, int v);
+extern void func_0204B800(struct Node *node, u32 val);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
-extern void func_0204B688(u32 obj, u32 on);
+extern void func_0204B688(struct Actor *actor, u32 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -55,14 +58,14 @@ void ov208_func_021C0450(u16 *heap, u8 *p, int key)
 
     func_02082BCC(&pos, 0, sizeof(pos));
     for (i = 0; i < 0x3d; i++) {
-        pos.x = func_021BBB3C(W(0x3c8), i, 0x19);
-        pos.y = func_021BBB3C(W(0x3c8), i, 0x1a);
+        pos.x = func_021BBB3C((char *)W(0x3c8), i, 0x19);
+        pos.y = func_021BBB3C((char *)W(0x3c8), i, 0x1a);
         *(u32 *)(p + i * 4 + 0xdc) = (u32)func_0204B294((void *)W(0), W(0xb0), W(0xb4), W(0xb8), &pos, 0, *heap);
-        func_0204B878(*(u32 *)(p + i * 4 + 0xdc), func_021BBB3C(W(0x3c8), i, 0x18));
+        func_0204B878((struct Obj *)(*(u32 *)(p + i * 4 + 0xdc)), func_021BBB3C((char *)W(0x3c8), i, 0x18));
         func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 1);
         func_0204B84C(*(u32 *)(p + i * 4 + 0xdc), 2);
-        func_0204B800(*(u32 *)(p + i * 4 + 0xdc), 4);
+        func_0204B800((struct Node *)(*(u32 *)(p + i * 4 + 0xdc)), 4);
         func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 0);
-        func_0204B688(*(u32 *)(p + i * 4 + 0xdc), 1);
+        func_0204B688((struct Actor *)(*(u32 *)(p + i * 4 + 0xdc)), 1);
     }
 }

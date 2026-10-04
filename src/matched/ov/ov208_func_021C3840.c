@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 
 struct Bmp;
 
-extern s8 *func_02006B5C(u32 i);
+extern u32 func_02006B5C(u32 i);
 extern u32 func_02006B94(u32 i);
 extern u32 func_02006B3C(u32 i);
 extern u32 func_02006B78(u32 i);
@@ -52,7 +52,7 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
     int v;
     s16 w;
     int t;
-    *(s8 **)(p + 0x34) = func_02006B5C(*(u32 *)(p + 0x64));
+    *(s8 **)(p + 0x34) = (s8 *)func_02006B5C(*(u32 *)(p + 0x64));
     *(u16 *)(p + 0x32) = 0;
     if (a == *(u16 *)(p + 0x26) && b == *(u16 *)(p + 0x28))
         return;

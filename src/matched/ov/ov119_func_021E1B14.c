@@ -39,7 +39,9 @@ typedef struct {int a,b;} Pair;
 extern const Pair d_021E7934,d_021E7914,d_021E794C;
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void func_020452E8(int);
+struct Cfg;
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
 extern void func_0201DD78(u32,u32,u32);
 struct Descriptor;
@@ -53,7 +55,7 @@ extern void func_021E0E68(char *,void *,int,int,int,int,u16,int);
 extern void func_0204B84C(void *,u32);
 extern void func_021E0E4C(char *p);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(int);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void func_021E1B14(char *p,int i,void *mon)
 {
@@ -69,7 +71,7 @@ void func_021E1B14(char *p,int i,void *mon)
     old=p;
     old=old+0x5bc;
     index=i*4;
-    if(*(const int *)(old+index))func_020452E8(*(const int *)(old+index));
+    if(*(const int *)(old+index))func_020452E8((struct Descriptor *)(*(const int *)(old+index)));
     *(int *)(p+0x5bc+index)=func_020450F0(3,*(int *)((char *)&a+index),1,14,20,14,0);
     func_0201DD78(15,2,0);
     {
@@ -91,6 +93,6 @@ void func_021E1B14(char *p,int i,void *mon)
         func_021E0E4C(tmp+(i+1)*20);
     }
     func_02045334((struct Descriptor *)*(const int *)(old+index));
-    func_02045374(*(const int *)(old+index));
+    func_02045374((struct Cfg *)(*(const int *)(old+index)));
     func_02041B6C(3);
 }

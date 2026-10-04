@@ -25,7 +25,7 @@ extern int func_021F7EB4(void);
 extern u8 func_021B8BEC(u8 *, u32, u8);
 extern u8 func_021B8E70(u8 *, u32);
 extern char *func_021B9AEC(char *, int);
-extern void func_021B9C10(char *, u8, u8);
+extern void func_021B9C10(u32 *p, int a, int b);
 extern void func_021EA904(u32 *, u32, u32, u32, u8, u8);
 extern int func_021EA950(void *);
 int func_021D2700(u32 *p, int *st, u32 *c)
@@ -43,7 +43,7 @@ int func_021D2700(u32 *p, int *st, u32 *c)
             y = func_021B8BEC((u8 *)p[0], a, 1);
             v = func_021B8E70((u8 *)p[0], x);
             w = func_021B8E70((u8 *)p[0], y);
-            func_021B9C10(func_021B9AEC((char *)p[1], a), b, 1);
+            func_021B9C10((u32 *)func_021B9AEC((char *)p[1], a), b, 1);
             func_021EA904((u32 *)p[21], a, v, w, b, 1);
             (*st)++;
         }
@@ -56,7 +56,7 @@ int func_021D2700(u32 *p, int *st, u32 *c)
             y = func_021B8BEC((u8 *)p[0], a, 1);
             v = func_021B8E70((u8 *)p[0], x);
             w = func_021B8E70((u8 *)p[0], y);
-            func_021B9C10(func_021B9AEC((char *)p[1], a), b, 1);
+            func_021B9C10((u32 *)func_021B9AEC((char *)p[1], a), b, 1);
             func_021EA904((u32 *)p[21], a, v, w, b, 1);
             (*st)++;
         }

@@ -29,14 +29,14 @@ extern Ov114Global g_021D3B68;
 extern char        g_021D3B84;
 
 void func_02085710(void *p);
-void func_021C56B4(void *p);
+void func_021C56B4(int a);
 void func_02086028(void *p, int a);
 void func_02086078(void *p, int a);
 
 void func_021C56CC(void)
 {
     func_02085710((char *)g_021D3B68.f18 + 0x1b8 + 0x800);
-    func_021C56B4((void *)g_021D3B68.f18);
+    func_021C56B4((int)((void *)g_021D3B68.f18));
     g_021D3B68.f18 = 0;
     func_02086028(&g_021D3B84, 0);
     g_021D3B68.f14 = 3;

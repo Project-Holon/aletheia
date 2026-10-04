@@ -24,8 +24,8 @@ struct CharBuf;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_021BA8BC(void *);
-extern void *func_020450F0(int, int, int, int, int, int, int);
+extern int func_021BA8BC(void *p);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
@@ -34,9 +34,9 @@ void func_021BEDA0(char *p)
 {
     if (*(void **)(p + 0x194)) func_020452E8(*(void **)(p + 0x194));
     func_02049B40(0x17, 5, 0, 0x1e0, 0x20, 0x21);
-    *(void **)(p + 0x198) = func_021BA8BC(*(void **)(p + 0x198));
-    *(void **)(p + 0x194) = func_020450F0(3, 1, 1, 0x1c, 2, 0xf, 1);
-    *(void **)(p + 0x198) = func_020450F0(2, 1, 1, 0x1c, 2, 0xf, 1);
+    *(void **)(p + 0x198) = (void *)func_021BA8BC(*(void **)(p + 0x198));
+    *(void **)(p + 0x194) = (void *)func_020450F0(3, 1, 1, 0x1c, 2, 0xf, 1);
+    *(void **)(p + 0x198) = (void *)func_020450F0(2, 1, 1, 0x1c, 2, 0xf, 1);
     func_02043B5C(func_02045770(*(void **)(p + 0x194)), 0xff);
     func_02045334(*(void **)(p + 0x194));
     func_02043B5C(func_02045770(*(void **)(p + 0x198)), 0xff);

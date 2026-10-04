@@ -49,7 +49,9 @@ extern void *func_0200BAF4(void *, u16);
 extern void func_0204989C(int, int, int, int, int, int, u16);
 extern void *func_020490F4(unsigned int id, unsigned heap);
 extern unsigned func_0201BC3C(void);
-extern void *func_0204ACEC(void *, unsigned, int, int, u16);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern unsigned func_0201BC40(void);
 extern unsigned func_0201BCB4(void);
 extern void *func_0204AF28(void *, unsigned, unsigned, u16);
@@ -58,14 +60,14 @@ extern void *func_0201AB28(void *party, int i);
 extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
 extern void *func_020185F4(void *);
 extern unsigned func_0201BA68(void *);
-extern void *func_0204A6C8(void *, unsigned, unsigned, unsigned, u16);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern unsigned func_020275E4(void);
 extern unsigned func_02027694(void);
 extern unsigned func_0202769C(int);
 extern unsigned func_020276A0(int);
 extern unsigned func_02027698(void);
-extern void *func_0204AC18(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void *func_0204B294(void *, void *, void *, void *, const Request *, unsigned short, unsigned);
 extern unsigned func_0201BBE8(void *);
 extern void func_0204B6F4(void *, unsigned, unsigned);
@@ -117,19 +119,19 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     party = func_0200BAF4(src, h);
     func_0204989C(0x85, 7, 2, 0, 0, 0, h);
     handle = func_020490F4(7, heap);
-    work->pal = func_0204ACEC(handle, func_0201BC3C(), 0, 0xA0, h);
+    work->pal = (void *)func_0204ACEC(handle, func_0201BC3C(), 0, 0xA0, h);
     work->cell = func_0204AF28(handle, func_0201BC40(), func_0201BCB4(), h);
     for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
-            work->chr[i] = func_0204A6C8(handle, func_0201BA68(func_020185F4(mon)), 0, 0, h);
+            work->chr[i] = (void *)func_0204A6C8(handle, func_0201BA68(func_020185F4(mon)), 0, 0, h);
         }
     }
     func_02049238(handle);
     handle = func_020490F4(func_020275E4(), heap);
-    work->chrB = func_0204AC18(handle, func_02027694(), 0, 0x100, 0, 1, (heap & 0x7FFF) | 0x8000);
+    work->chrB = (void *)func_0204AC18(handle, func_02027694(), 0, 0x100, 0, 1, (heap & 0x7FFF) | 0x8000);
     work->cellB = func_0204AF28(handle, func_0202769C(2), func_020276A0(2), (heap & 0x7FFF) | 0x8000);
-    work->palB = func_0204A6C8(handle, func_02027698(), 0, 0, (heap & 0x7FFF) | 0x8000);
+    work->palB = (void *)func_0204A6C8(handle, func_02027698(), 0, 0, (heap & 0x7FFF) | 0x8000);
     func_02049238(handle);
     func_02082BCC(&req, 0, 8);
     req.x = 0x18;

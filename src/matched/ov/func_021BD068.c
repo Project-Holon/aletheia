@@ -20,13 +20,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_02045808(u32 v);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021BD068(u8 *p)
 {
     u32 v = *(u32 *)(p + 28);
     if (v != 0) {
-        func_02045808(v);
+        func_02045808((struct U16Vec *)v);
         *(u32 *)(p + 28) = 0;
     }
 }

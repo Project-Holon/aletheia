@@ -25,7 +25,7 @@ extern struct Entry *func_020399A8(void);
 extern int func_020173EC(int);
 typedef unsigned int   u32;
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 extern void func_021D9468(void *,int,void *);
 int func_021DB0A0(char *p)
 {
@@ -33,11 +33,11 @@ int func_021DB0A0(char *p)
     if(func_021D8A24(p)) {
         unsigned id=(unsigned)func_020399A8();
         if(func_0203D3A8((void *)id,0xc01,func_020173EC(id),t)==0) {
-            func_020307B0(t);
+            func_020307B0((void *)t);
             return 0;
         }
     }
     func_021D9468(p,0,(void *)t);
-    func_020307B0(t);
+    func_020307B0((void *)t);
     return 1;
 }

@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_0201A090(int a, int b, int *out);
+extern int func_0201A090(void *rules, void *party, u32 *mask);
 
 int func_021BCBBC(int a, int b, int *out)
 {
@@ -33,7 +33,7 @@ int func_021BCBBC(int a, int b, int *out)
     *out = 0;
 
     if (b != 0) {
-        r = func_0201A090(a, b, out);
+        r = func_0201A090((void *)a, (void *)b, (u32 *)out);
     } else {
         *out = -1;
     }

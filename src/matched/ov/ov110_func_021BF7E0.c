@@ -12,5 +12,6 @@
  *   func_021BAFE4 0x021BAFE4 thumb ov110
  */
 typedef unsigned char u8;
-extern void func_021BAFE4(u8 *);
-void func_021BF7E0(u8 *p) { func_021BAFE4(*(u8 **)(p+0x1c)); }
+typedef unsigned int   u32;
+extern void func_021BAFE4(u32 p);
+void func_021BF7E0(u8 *p) { func_021BAFE4((u32)(*(u8 **)(p+0x1c))); }

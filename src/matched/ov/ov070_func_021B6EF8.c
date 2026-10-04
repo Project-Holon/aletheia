@@ -58,7 +58,9 @@ typedef struct RangeEnt {
 
 extern const RangeEnt d_021BB9C4[8];
 
-extern int  func_021BADF0(void *o);
+struct MsgBank;
+struct WordSet;
+extern int func_021BADF0(int p);
 struct Obj;
 struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
@@ -73,15 +75,15 @@ extern int  func_021B690C(u16 id);
 extern void func_021B6934(u8 *p);
 extern void func_021B6A78(u8 *p);
 extern u32 func_02028754(struct Obj *obj, u32 n);
-extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
-extern void func_0201F02C(u32 a0, u32 a1, u32 a2);
-extern void func_0201F250(u32 a0, u32 a1, u32 a2);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021B6AD8(int p);
 extern void func_021B7804(struct Obj *o);
 extern int func_021B811C(u8 *p);
 extern int  func_021B8134(void *o, int k);
 extern void func_021B6138(void *o);
-extern void func_021BB3F4(void *o, int v);
+extern void func_021BB3F4(int p, int mode);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B8AF4(void *o);
 extern u8 func_020355C4(void);
@@ -96,7 +98,7 @@ void func_021B6EF8(u8 *p)
     u32 x;
     int r;
 
-    if (func_021BADF0(p) == 0)
+    if (func_021BADF0((int)p) == 0)
         return;
     if (func_020279E8(*(void **)(p + 0x77C))) {
         x = *(u32 *)(p + 0x828 + func_02027A04(*(void **)(p + 0x77C)) * 4);
@@ -131,9 +133,9 @@ void func_021B6EF8(u8 *p)
                 *(u32 *)(p + 0x844) = 0xB;
                 func_021B6100(p, 0);
             } else {
-                func_02045CAC(*(u32 *)(p + 0x51C), 0x39, *(u32 *)(p + 0x524));
-                func_0201F02C(*(u32 *)(p + 0x520), 0, *(u32 *)(p + 8));
-                func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
+                func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x39, (void *)(*(u32 *)(p + 0x524)));
+                func_0201F02C((struct WordSet *)(*(u32 *)(p + 0x520)), 0, (void *)(*(u32 *)(p + 8)));
+                func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
                 func_021B6100(p, (void *)func_021B6AD8);
             }
             break;
@@ -145,7 +147,7 @@ void func_021B6EF8(u8 *p)
             if (func_021B811C(p) == 1) {
                 func_021B8134(p, *(u32 *)(p + 0x810));
                 func_021B6138(p);
-                func_021BB3F4(p, 1);
+                func_021BB3F4((int)p, 1);
                 func_0204B92C(*(void **)(p + 0x6A8), 1);
                 func_021B8AF4(p);
             }
@@ -161,7 +163,7 @@ void func_021B6EF8(u8 *p)
             if (func_020355C4() == 1)
                 func_021B9AAC(p);
             func_021B80C4(p, func_020355C4() == 0);
-            func_021BB3F4(p, 1);
+            func_021BB3F4((int)p, 1);
             func_0204B92C(*(void **)(p + 0x6A8), 1);
             func_021B8AF4(p);
             break;

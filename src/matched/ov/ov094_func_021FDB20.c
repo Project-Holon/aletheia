@@ -19,14 +19,14 @@ typedef struct {
     int f244;
 } State;
 
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FF16C(void *w);
 extern void func_021FF1B0(void *w);
 
 void func_021FDB20(State *s)
 {
     if (s->f244 == 1)
-        func_021FF1B0(func_021F8694());
+        func_021FF1B0((void *)func_021F8694());
     else
-        func_021FF16C(func_021F8694());
+        func_021FF16C((void *)func_021F8694());
 }

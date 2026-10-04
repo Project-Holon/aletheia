@@ -48,7 +48,7 @@ extern char g_021E4C88[128];
 extern char g_021E387C[];
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 extern GSSoapTask *func_0217FD7C(char *url, char *service, void *soap, void (*callback)(int, void *, void *), void *userData);
-extern void func_021DD84C(int httpResult, void *responseData, void *userData);
+extern void func_021DD84C(int httpResult, int unused, void *responseData, void *userData);
 
 void func_021DDA98(SAKERequestInternal *request)
 {
@@ -56,7 +56,7 @@ void func_021DDA98(SAKERequestInternal *request)
 
     if (!g_021E4C88[0])
         func_02084F80(g_021E4C88, 128, g_021E387C, request->sake->gameName);
-    soapTask = func_0217FD7C(g_021E4C88, request->service->serviceName, request->soapRequest, func_021DD84C, request);
+    soapTask = func_0217FD7C(g_021E4C88, request->service->serviceName, request->soapRequest, (void (*)(int,  void *, void *))func_021DD84C, request);
     if (soapTask)
         request->service->f24 = soapTask->f24;
     else

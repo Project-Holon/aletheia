@@ -31,7 +31,7 @@ struct Grid {
     u8    rows;
 };
 
-extern void func_0204A8D4(void *p);
+extern void func_0204A8D4(u32 i);
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern void func_020307B0(void *p);
@@ -42,7 +42,7 @@ void func_0202570C(struct Grid *g)
 
     for (i = 0; i < g->rows; i++) {
         for (j = 0; j < g->cols; j++) {
-            func_0204A8D4(g->b[j + i * g->cols]);
+            func_0204A8D4((u32)g->b[j + i * g->cols]);
             func_0204B3B4(g->a[j + i * g->cols]);
         }
     }

@@ -20,18 +20,18 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u8 *func_0216D6D4(u32);
-extern void func_0216D7CC(u32);
+extern void *func_0216D6D4(void *p);
+extern void func_0216D7CC(u8 *p);
 
 int func_02198978(u32 a)
 {
     int *p;
 
-    p = (int *)func_0216D6D4(a);
+    p = (int *)func_0216D6D4((void *)a);
     if (*p != 0) {
         *p -= 1;
         return 0;
     }
-    func_0216D7CC(a);
+    func_0216D7CC((u8 *)a);
     return 1;
 }

@@ -23,13 +23,16 @@
  *   func_0216DAF8  0x0216DAF8  thumb  ov010
  */
 
-int func_0215A5EC(int b);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct SaveBlock;
+void *func_0215A5EC(void *p);
 void *func_0215A5E4(void *a0);
 typedef unsigned int   u32;
 struct BigObj;
 u32 func_02012844(const struct BigObj *p);
-int func_02162744(int a);
-int func_020127A4(void *a);
+u16 func_02162744(u8 *p);
+void *func_020127A4(struct SaveBlock *p);
 struct Rec44;
 unsigned short func_02012AC8(const struct Rec44 *p);
 unsigned int func_02159B10(void *a0, void *a1);
@@ -48,10 +51,10 @@ int func_021B18E4(int a, int b)
     int s10;
     int r0;
 
-    s8 = func_0215A5EC(b);
+    s8 = (int)func_0215A5EC((void *)b);
     r4 = func_0215A5E4((void *)b);
     sc = func_02012844(r4);
-    r5 = func_02162744(sc);
+    r5 = func_02162744((u8 *)sc);
     s10 = func_02012AC8((const struct Rec44 *)func_020127A4(r4));
     r6 = func_02159B10((void *)a, (void *)b);
     if (r5 != 0) {

@@ -20,7 +20,8 @@ typedef unsigned char u8;
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B6F4(int, u32, int);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void func_021BB398(int p, u32 val)
 {
@@ -35,5 +36,5 @@ void func_021BB398(int p, u32 val)
             break;
         }
     }
-    func_0204B6F4(*(int *)(p + i * 4 + 0x634), (u8)val, 0);
+    func_0204B6F4((struct Obj *)(*(int *)(p + i * 4 + 0x634)), (u8)val, 0);
 }

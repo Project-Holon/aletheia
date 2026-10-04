@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u32 func_02188E30(u32);
+extern u32 func_02188E30(u8 *p);
 extern void func_021D3270(u32, u32, u32, u32, u32, u32);
 extern void func_02193060(u32);
 extern void func_020414EC(u32 i);
@@ -31,7 +31,7 @@ extern void func_021902A4(u32, u32);
 
 void func_021A0FB4(u32 *p, u32 a)
 {
-    func_021D3270(func_02188E30(p[5]), 1, 0, 0, 0, 0);
+    func_021D3270(func_02188E30((u8 *)p[5]), 1, 0, 0, 0, 0);
     func_02193060(0);
     func_020414EC(1);
     func_021902A4(1, a);

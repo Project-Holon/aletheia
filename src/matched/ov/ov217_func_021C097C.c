@@ -20,14 +20,16 @@
 typedef unsigned int u32;
 
 extern u32 func_021C0A38(u32 a0);
-extern void func_021C0A04(int a);
-extern void func_021C0A5C(int a, int b, int c);
+typedef unsigned char  u8;
+struct Ctx;
+extern void func_021C0A04(u8 *p);
+extern void func_021C0A5C(u8 *p, const struct Ctx *ctx, u32 heap);
 
 int func_021C097C(int a0, int a1)
 {
     int r;
     r = func_021C0A38(a0);
-    func_021C0A04(r);
-    func_021C0A5C(r, a1, a0);
+    func_021C0A04((u8 *)r);
+    func_021C0A5C((u8 *)r, (const struct Ctx *)a1, a0);
     return r;
 }

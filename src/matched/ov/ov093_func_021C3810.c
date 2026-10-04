@@ -51,7 +51,7 @@ extern void func_021CC95C(void *, u32, int);
 extern void func_021B8E28(u8 *, int, u8 *, u8 *);
 extern u8 *func_021BB85C(u8 *p, unsigned int i);
 extern int func_021C39F4(u8 *, u8 *);
-extern u32 func_021B990C(u32, u32, u8);
+extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
 extern void func_021BDD7C(u8 *, u8 *, u32);
 extern int func_021C99A0(void *, const struct Msg *);
 extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
@@ -94,7 +94,7 @@ int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore
         u8 id;
         mode = func_021C39F4(p, func_021BB85C(*(u8 **)p, pair.id));
         if (mode >= 0) {
-            id = func_021D5440((u8 *)func_021B990C(*(u32 *)(p + 8), pair.id, (u8)mode));
+            id = func_021D5440((u8 *)func_021B990C((char *)(*(u32 *)(p + 8)), pair.id, (u8)mode));
             func_021BDD7C(p, b, move);
             if (msg) func_021C99A0(p, msg);
             func_021BD9D4(p, pair.id, pair.count, (u8)mode, 0);

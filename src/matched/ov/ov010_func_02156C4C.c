@@ -24,7 +24,7 @@
 
 extern int func_021B6100(int, int);
 extern int func_021B63BC(int);
-extern void func_021B6294(int);
+extern void func_021B6294(char *p);
 extern int func_021FD904(int *);
 typedef struct S S;
 extern void func_021FD52C(struct S *s);
@@ -49,7 +49,7 @@ int func_02156C4C(int a, int *state, int c, int *d)
         break;
     }
     case 2:
-        func_021B6294(d[1]);
+        func_021B6294((char *)d[1]);
         return 1;
     }
     return 0;

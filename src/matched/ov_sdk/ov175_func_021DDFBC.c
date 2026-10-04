@@ -28,8 +28,10 @@ typedef struct {
     u32 f8;
 } Blk;
 
-extern void func_02182AC0(u32 a, u32 b, u32 c, u32 d);
-extern void func_021DDBE4(u32 a, u32 b, u32 c);
+struct SAKEField;
+struct SAKERequestInternal;
+extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
+extern void func_021DDBE4(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
 extern u32 g_021E3A8C[];
 extern u32 g_021E3B4C[];
 
@@ -37,7 +39,7 @@ u32 func_021DDFBC(char *obj)
 {
     Blk *b = *(Blk **)(obj + 8);
 
-    func_02182AC0(*(u32 *)(obj + 0x18), (u32)g_021E3A8C, (u32)g_021E3B4C, b->f0);
-    func_021DDBE4((u32)obj, b->f4, b->f8);
+    func_02182AC0((void *)(*(u32 *)(obj + 0x18)), (char *)((u32)g_021E3A8C), (char *)((u32)g_021E3B4C), (char *)b->f0);
+    func_021DDBE4((struct SAKERequestInternal *)((u32)obj), (struct SAKEField *)b->f4, b->f8);
     return 0;
 }

@@ -18,7 +18,7 @@
 
 extern void func_021EC000(char *p, int i, int v);
 extern void func_021EB324(char *w);
-extern void func_021DF128(char *w);
+extern void func_021DF128(int p);
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 
@@ -34,7 +34,7 @@ void func_021DF040(char *p)
     for (i = 0x1C; i < 0x2D; i++)
         func_021EC000(WORK(p), i, 0);
     func_021EB324(WORK(p));
-    func_021DF128(WORK(p));
+    func_021DF128((int)WORK(p));
     func_021EC000(WORK(p), 0x19, 0);
     func_021EC000(WORK(p), 0x1A, 0);
     func_021EC000(WORK(p), 0x1B, 0);

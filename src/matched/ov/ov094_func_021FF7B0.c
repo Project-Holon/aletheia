@@ -41,7 +41,7 @@ extern int func_022019F4(Work *w, int key);
 extern int func_021FFD9C(Work *w, int key);
 extern void func_022018A8(Work *w, Vec3 *out, int key);
 extern void func_021FF4C0(Work *w, int key, int a, Vec3 *v, int b, int c, int d);
-extern void *func_021F86B4(void);
+extern int func_021F86B4(void);
 extern void func_022089BC(char *p, int i);
 extern void func_021FF374(Work *w, int key, int kind);
 
@@ -59,7 +59,7 @@ void func_021FF7B0(Work *w, int a, int b)
         if (func_021FFD9C(w, keys[i])) {
             func_022018A8(w, &v, keys[i ^ 1]);
             func_021FF4C0(w, keys[i], 0, &v, 0, 0, 0);
-            func_022089BC(func_021F86B4(), keys[i]);
+            func_022089BC((char *)func_021F86B4(), keys[i]);
             if (w->e[idx[i]].f6) {
                 w->e[idx[i]].f6 = 0;
                 func_021FF374(w, keys[i], 0);

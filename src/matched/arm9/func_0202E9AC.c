@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern const char blink_palanm_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02049F78(u8 *a1, u32 a2, void **out, u16 heap);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void  func_02082D44(void *dst, const void *src, int size);
 extern void  func_020307B0(void *handle);
 
@@ -54,7 +54,7 @@ void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4)
                            0x83);
     p->w04 = func_02030734(p->h18, (u32)p->h0e * 2, 0, blink_palanm_File,
                            0x84);
-    handle = func_02049F78(a1, a2, &tmp, p->h18);
+    handle = func_02049F78(a1, a2, (u32)(&tmp), p->h18);
     base = *(u8 **)((u8 *)tmp + 0xc);
     func_02082D44(base + a3 * 2, p->w00, (int)((u32)p->h0e * 2));
     func_02082D44(base + a4 * 2, p->w04, (int)((u32)p->h0e * 2));

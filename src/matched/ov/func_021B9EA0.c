@@ -25,9 +25,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void sub_0204A8D4(void *p);
-extern void sub_0204ADA4(void *p);
-extern void sub_0204AFD8(void *p);
+extern void sub_0204A8D4(u32 i);
+extern void sub_0204ADA4(u32 i);
+extern void sub_0204AFD8(u32 i);
 
 typedef struct {
     char pad[8];
@@ -38,7 +38,7 @@ typedef struct {
 
 void func_021B9EA0(S *s)
 {
-    sub_0204A8D4(s->f08);
-    sub_0204ADA4(s->f0C);
-    sub_0204AFD8(s->f10);
+    sub_0204A8D4((u32)s->f08);
+    sub_0204ADA4((u32)s->f0C);
+    sub_0204AFD8((u32)s->f10);
 }

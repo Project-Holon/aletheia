@@ -26,14 +26,15 @@ typedef unsigned char u8;
 typedef struct { int x, y, z; } Vec;
 
 extern int func_02188C98(int);
-extern int func_02188C9C(int);
+typedef unsigned short u16;
+extern u16 func_02188C9C(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 struct VecFx32;
 extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_0217B94C(Vec *);
-extern int func_02159B48(int);
+extern u16 *func_02159B48(int a);
 extern int func_02159B94(int a0, int a1, int a2, int a3);
 extern void func_02159BBC(int);
 extern void func_0218CD20(int, int, int);
@@ -49,7 +50,7 @@ void func_0217BBD8(int a, int b, u8 *c)
         return;
     if (func_02188C98(a) == 0)
         return;
-    if (func_02013D5C(func_02188C9C(a)) == 0)
+    if (func_02013D5C(func_02188C9C((u8 *)a)) == 0)
         return;
     n = c[0x902] - 1;
     if (n <= 0)
@@ -65,7 +66,7 @@ void func_0217BBD8(int a, int b, u8 *c)
     v.x = v.x % 0x400000;
     if (func_0217B94C(&v) == 1)
         return;
-    buf = func_02159B48(0x8015);
+    buf = (int)func_02159B48(0x8015);
     func_02159B94(buf, 0x76, 0x76 + 0xa1, 0x8015);
     do {
         func_0218CD20(a, func_02188C98(a), buf);

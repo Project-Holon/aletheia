@@ -18,7 +18,7 @@
  */
 
 extern char g_021AA860[];
-extern void *func_0216A39C(void);
+extern int func_0216A39C(void);
 extern int DWC_GetGsProfileId(void *user, void *data);
 
 int func_02168FF0(int index)
@@ -29,7 +29,7 @@ int func_02168FF0(int index)
     if (list == 0) {
         return 0;
     }
-    pid = DWC_GetGsProfileId(func_0216A39C(), list + index * 0xc);
+    pid = DWC_GetGsProfileId((void *)func_0216A39C(), list + index * 0xc);
     if (pid != 0 && pid != -1) {
         return pid;
     }

@@ -25,10 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C0E54();
-extern void func_021C16FC();
+struct Ring;
+extern u32 func_021C0E54(struct Ring *r);
+extern void func_021C16FC(void *p, u32 v);
 void func_021C16E8(u32 a0)
 {
-    func_021C16FC(a0 + 0 + 0, func_021C0E54(*(u32*)(((u8*)a0 + 0) + 12)) + 0);
+    func_021C16FC((void *)(a0 + 0 + 0), func_021C0E54((struct Ring *)(*(u32*)(((u8*)a0 + 0) + 12))) + 0);
 }
 

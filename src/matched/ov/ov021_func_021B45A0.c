@@ -34,15 +34,18 @@ typedef struct {
     u32 v;
 } Ent;
 
-extern char *func_02020D0C(void *p);
-extern int func_02007F68(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0201D304(u32 a, u32 b, u32 c);
+struct Bmp;
+struct StrObj;
+struct WordSet;
+extern u32 func_02020D0C(u8 *p);
+extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern int func_020437DC(u32 a);
+extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_021B44CC(u32 a, u32 b, int c, int d, u32 e, u32 f, u16 g);
-extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_0201F250(u32 a, u32 b, u32 c);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 void func_021B45A0(u32 ctx, int a, u8 b)
 {
@@ -50,18 +53,18 @@ void func_021B45A0(u32 ctx, int a, u8 b)
     u32 lo;
     int hi;
 
-    w = func_02020D0C((void *)ctx);
+    w = (char *)func_02020D0C((void *)ctx);
     if (a != -2) {
-        if (func_02007F68(*(u32 *)(w + 0x10), ((Ent *)(w + 0x20))[a].id, 1, *(u16 *)(w + 4)) != 0) {
-            lo = func_0201D304(*(u32 *)(w + 0x1A0), *(u32 *)(w + 8), 0);
-            hi = func_020437DC((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)));
+        if (func_02007F68((u8 *)(*(u32 *)(w + 0x10)), ((Ent *)(w + 0x20))[a].id, 1, *(u16 *)(w + 4)) != 0) {
+            lo = func_0201D304((struct StrObj *)(*(u32 *)(w + 0x1A0)), *(u32 *)(w + 8), 0);
+            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C))));
             func_021B44CC(*(u32 *)(w + 0x1B0), (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)), hi - lo, b,
                           *(u32 *)(w + 0x1A0), *(u32 *)(w + 8), 0x31A0);
         } else {
-            func_0201EFA4(*(u32 *)(w + 0x190), 1, ((Ent *)(w + 0x20))[a].v, 5, 1, 1);
-            func_0201F250(*(u32 *)(w + 0x190), *(u32 *)(w + 0x198), *(u32 *)(w + 0x194));
-            lo = func_0201D304(*(u32 *)(w + 0x198), *(u32 *)(w + 8), 0);
-            hi = func_020437DC((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)));
+            func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 1, ((Ent *)(w + 0x20))[a].v, 5, 1, 1);
+            func_0201F250((struct WordSet *)(*(u32 *)(w + 0x190)), (void *)(*(u32 *)(w + 0x198)), (void *)(*(u32 *)(w + 0x194)));
+            lo = func_0201D304((struct StrObj *)(*(u32 *)(w + 0x198)), *(u32 *)(w + 8), 0);
+            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C))));
             func_021B44CC(*(u32 *)(w + 0x1B0), (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)), hi - lo, b,
                           *(u32 *)(w + 0x198), *(u32 *)(w + 8), 0x31A0);
         }

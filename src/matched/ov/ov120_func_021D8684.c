@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -39,7 +39,7 @@ void func_021D8684(char *p,int unused,u32 n)
 {
     void *q;
     func_02045CAC(*(void **)(p+12),40,*(void **)(p+24));
-    if(!*(void **)(p+0x8c)) *(void **)(p+0x8c)=func_020450F0(1,21,4,10,2,4,1);
+    if(!*(void **)(p+0x8c)) *(void **)(p+0x8c)=(void *)func_020450F0(1,21,4,10,2,4,1);
     q=*(void **)(p+0x8c);
     func_02043B5C(func_02045770(q),0);
     func_0201DD78(15,14,0);
@@ -49,7 +49,7 @@ void func_021D8684(char *p,int unused,u32 n)
     func_0201EFA4(*(void **)(p+16),0,n,5,1,1);
     func_02045CAC(*(void **)(p+12),36,*(void **)(p+32));
     func_0201F250(*(void **)(p+16),*(void **)(p+24),*(void **)(p+32));
-    if(!*(void **)(p+0x90)) *(void **)(p+0x90)=func_020450F0(1,21,6,10,3,11,1);
+    if(!*(void **)(p+0x90)) *(void **)(p+0x90)=(void *)func_020450F0(1,21,6,10,3,11,1);
     q=*(void **)(p+0x90);
     func_02043B5C(func_02045770(q),0);
     func_0201DD78(15,2,0);

@@ -18,10 +18,11 @@
  */
 
 extern unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5);
-extern int func_0219CBD4(int *, unsigned int, unsigned short *, unsigned short *);
+typedef unsigned int   u32;
+extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
 extern unsigned short func_0219C7B4(int, unsigned int, unsigned int);
 extern unsigned short func_0219C780(int, int, unsigned int, unsigned int, unsigned int, unsigned int);
-extern void func_0216D758(int);
+extern void func_0216D758(void *a0);
 
 void func_0219D064(int *obj, int *rec)
 {
@@ -34,9 +35,9 @@ void func_0219D064(int *obj, int *rec)
         x[2] = func_0219D3F0(obj, *(unsigned short *)(rec + 2), *((unsigned char *)rec + 0xa),
                              *((unsigned char *)rec + 0xb), rec[4], 1);
         rec[4] = 0;
-        func_0219CBD4(obj, *(unsigned short *)(rec + 2), &x[0], &x[1]);
+        func_0219CBD4((u32)obj, *(unsigned short *)(rec + 2), (u32)(&x[0]), (u32)(&x[1]));
     } else {
-        func_0219CBD4(obj, *(unsigned short *)(rec + 2), &x[2], &x[1]);
+        func_0219CBD4((u32)obj, *(unsigned short *)(rec + 2), (u32)(&x[2]), (u32)(&x[1]));
     }
     if (rec[1] != 0) {
         r = func_0219C7B4(rec[1], x[2], x[0]);
@@ -49,6 +50,6 @@ void func_0219D064(int *obj, int *rec)
         ((void (*)(unsigned int, int))rec[5])(*(unsigned short *)rec[0], rec[6]);
     }
     if (rec[1] != 0) {
-        func_0216D758(rec[1]);
+        func_0216D758((void *)rec[1]);
     }
 }

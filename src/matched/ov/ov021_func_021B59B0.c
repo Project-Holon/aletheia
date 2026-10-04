@@ -32,10 +32,11 @@ typedef struct {
     u16 *f18;
 } Work;
 
-extern u32 func_021CC720();
-extern int func_021CC810();
+struct Obj;
+extern struct Obj *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
+extern int func_021CC810(struct Obj *p);
 extern u16 func_021CC7B4();
-extern void func_020307B0();
+extern void func_020307B0(void *p);
 
 int func_021B59B0(int a0, int *state, Work *w)
 {
@@ -43,16 +44,16 @@ int func_021B59B0(int a0, int *state, Work *w)
 
     switch (*state) {
     case 0:
-        w->f8 = func_021CC720(w->f4, w->fc, w->f10, w->f14, w->f15, w->f16);
+        w->f8 = (u32)func_021CC720(w->f4, w->fc, w->f10, w->f14, w->f15, w->f16);
         (*state)++;
         break;
     case 1:
-        if (func_021CC810(w->f8)) {
+        if (func_021CC810((struct Obj *)w->f8)) {
             *w->f18 = func_021CC7B4(w->f8, &loc);
             if (loc == 1) {
                 *w->f18 = 3;
             }
-            func_020307B0(w->f10);
+            func_020307B0((void *)w->f10);
             return 1;
         }
         break;

@@ -22,12 +22,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02026478();
-extern int func_02012B70();
-extern int func_02012984();
-extern int func_0215841C();
-extern int func_02012B58();
-extern int func_02012B98();
+struct BigObj;
+extern u32 func_02026478(void *obj);
+extern u8 func_02012B70(const struct BigObj *p);
+extern u8 func_02012984(const struct BigObj *p);
+extern int func_0215841C(void *p);
+extern u8 func_02012B58(const struct BigObj *p);
+extern u8 func_02012B98(const struct BigObj *p, u32 i);
 
 int func_02158468(int a0)
 {
@@ -35,34 +36,34 @@ int func_02158468(int a0)
     int t4;
     int t5;
 
-    a0 = func_02026478(a0);
+    a0 = func_02026478((void *)a0);
 loc_0215846E:
 t5 = a0 + 0;
-    a0 = func_02012B70(a0);
+    a0 = func_02012B70((const struct BigObj *)a0);
 loc_02158474:
     if (a0 != 0) goto loc_02158480;
 loc_02158478:
 a0 = t5 + 0;
-    a0 = func_02012984(a0);
+    a0 = func_02012984((const struct BigObj *)a0);
 loc_0215847E:
     return a0;
 loc_02158480:
 a0 = t5 + 0;
-    a0 = func_0215841C(a0);
+    a0 = func_0215841C((void *)a0);
 loc_02158486:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_02012B58(a0);
+    a0 = func_02012B58((const struct BigObj *)a0);
 loc_0215848E:
     if (t4 != a0) goto loc_0215849A;
 loc_02158492:
 a0 = t5 + 0;
-    a0 = func_02012984(a0);
+    a0 = func_02012984((const struct BigObj *)a0);
 loc_02158498:
     return a0;
 loc_0215849A:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_02012B98(a0, a1);
+    a0 = func_02012B98((const struct BigObj *)a0, a1);
 loc_021584A2:
     return a0;}

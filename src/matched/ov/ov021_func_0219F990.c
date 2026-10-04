@@ -37,14 +37,14 @@ typedef signed int     s32;
 
 typedef struct { s32 x, y, z; } Vec;
 
-extern u8 *func_0216E3C4(u32);
+extern void *func_0216E3C4(void *p);
 extern s32 func_02197C9C(u32);
 extern void func_0216D8B0(u32, Vec *);
-extern s32 func_0216D83C(u32);
-extern u32 func_0216D590(u32);
-extern u32 func_0216D588(u32);
-extern u32 func_0216D67C(u32);
-extern u32 func_0216D534(u32);
+extern int func_0216D83C(void *p);
+extern u16 func_0216D590(void *p);
+extern u16 func_0216D588(void *p);
+extern void *func_0216D67C(void *a0);
+extern u32 func_0216D534(void *p);
 extern int func_02188CBC(u32);
 extern void *func_02188CB4(unsigned char *p);
 extern u32 func_021A3080(u8 *p);
@@ -70,21 +70,21 @@ void func_0219F990(u32 a, u8 *p, u32 b)
     void *x;
 
     ok = 1;
-    info = func_0216E3C4(a);
+    info = func_0216E3C4((void *)a);
     ff = 0;
     d.x = 0;
     d.y = 0;
     d.z = 0;
     s14 = func_02197C9C(a);
     func_0216D8B0(a, &v);
-    sc = func_0216D83C(a);
-    s10 = func_0216D590(a);
-    t = func_0216D588(a);
+    sc = func_0216D83C((void *)a);
+    s10 = func_0216D590((void *)a);
+    t = func_0216D588((void *)a);
     if (t == 0xff)
         ff = ok;
     clr = (t == 0xfc) ? 1 : 0;
     if (ff != 0) {
-        u = func_0216D534(func_0216D67C(a));
+        u = func_0216D534(func_0216D67C((void *)a));
         if (func_02188CBC(u) != 0 && (x = func_02188CB4((void *)u)) != 0) {
             ok = func_021A3080(x) != 0;
         }

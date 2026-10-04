@@ -33,10 +33,10 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
 extern void func_021F77EC(u32,u8 *,u32);
-extern int func_021F4B3C(int);
+extern void *func_021F4B3C(int type);
 extern void *func_021F4B88(void *,int,u32,int *);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4E6C(int,int,int);
+extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
 extern int func_0204F428(void *,u32,u16,u16,int *,u8,u32,u32);
 extern void func_0204F720(void *,u32,u32 *);
 extern u32 func_020056EC(u32);
@@ -91,10 +91,10 @@ void func_021F760C(u8 *p,u8 *input)
         *(u8 **)(row+168)=record;
         if(id!=255) {
             *(int *)(row+204)=1;
-            *(int *)(row+96)=func_021F4B3C(id);
+            *(int *)(row+96)=(int)func_021F4B3C(id);
             *(void **)(row+132)=func_021F4B88(*(void **)(p+16),id,*(u32 *)(row+96),(int *)(q+24));
             func_021F4EB4(*(int *)(p+16),*(int *)(row+132),scale,scale);
-            func_021F4E6C(*(int *)(p+16),*(int *)(row+132),0);
+            func_021F4E6C((u8 *)(*(int *)(p+16)),(u8 *)(*(int *)(row+132)),0);
         } else {
             *(int *)(row+204)=0;
             *(int *)(row+96)=0;

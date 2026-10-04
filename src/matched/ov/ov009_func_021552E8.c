@@ -18,7 +18,7 @@
 int func_02059E38(int *a, int *b);
 typedef unsigned int   u32;
 void func_0203C9AC(int a, u32 b, u32 c, u32 d);
-int *func_0203CA98(void);
+u32 func_0203CA98(void);
 
 int func_021552E8(void)
 {
@@ -31,7 +31,7 @@ int func_021552E8(void)
         return 0;
     if (a == 0)
         return -10000;
-    r = func_0203CA98()[3];
+    r = ((int *)func_0203CA98())[3];
     if (r == 0)
         r = a;
     return r;

@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef enum { C0=0 } Counter;
 extern u8 ov_id[];
-extern void func_021D9FB0(u8 *);
+extern void func_021D9FB0(unsigned int p);
 extern void func_0204ADA4(void *);
 extern void func_0204A8D4(void *);
 extern void func_0204AFD8(void *);
@@ -45,7 +45,7 @@ extern void func_02034A5C(int);
 void func_021D9A1C(u8 *p)
 {
     Counter i;
-    func_021D9FB0(p);
+    func_021D9FB0((unsigned int)p);
     if (*(void **)(p+8)) {
         func_02030EAC(*(void **)(p+8));
         *(void **)(p+8)=0;

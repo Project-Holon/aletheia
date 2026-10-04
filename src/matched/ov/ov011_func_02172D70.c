@@ -93,9 +93,10 @@ typedef struct Work {
     u32   warned : 1;
 } Work;
 
-extern void *func_02026478(void *p);
+struct BigObj;
+extern u32 func_02026478(void *obj);
 extern u32   func_020127C4(void *p);
-extern void  func_02161F74(void *p, u32 a, u32 b);
+extern void func_02161F74(int a0, int a1, int a2);
 extern int   func_0200FB24(void);
 extern void  func_02026400(void *p);
 extern u32   func_02035390(void);
@@ -105,7 +106,7 @@ extern void  func_02173658(Work *w);
 extern int   func_020392B8(void);
 extern void  func_0203D7BC(int a);
 extern u32   func_02039ACC(void);
-extern u32   func_02039338(void);
+extern u16 func_02039338(void);
 extern void  func_02012B64(void *sv, u32 a);
 extern void *func_02012950(void *sv, int i);
 extern void *func_02012944(void *sv);
@@ -115,13 +116,13 @@ extern u8    func_02012984(void *sv);
 extern int   func_02158590(void *sv);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32   func_020399B8(u32 a);
+extern u32 func_020399B8(u8 *p);
 extern void  func_02161F54(void *p);
 extern void  func_02174E3C(Work *w);
 extern void  func_02174EAC(Work *w, u32 a, void *b);
 extern int   func_02173828(Work *w);
 extern s32   func_0203F4FC(void);
-extern int   func_02012B70(void *sv);
+extern u8 func_02012B70(const struct BigObj *p);
 struct Ctx;
 extern u32   func_02012114(const struct Ctx *p);
 extern void  func_02174978(Work *w);
@@ -139,9 +140,9 @@ void func_02172D70(int *state, Param *p, Work *w)
     s32 base;
     s32 now;
 
-    sv = func_02026478(p->field04);
+    sv = (void *)func_02026478(p->field04);
     if (w != 0 && w->step >= 7) {
-        func_02161F74((u8 *)w + 0x35c, func_020127C4(sv), w->field8fb);
+        func_02161F74((int)((u8 *)w + 0x35c), func_020127C4(sv), w->field8fb);
     }
     if (func_0200FB24() != 0 || w->quit == 1) {
         if (w->lock) {
@@ -192,7 +193,7 @@ void func_02172D70(int *state, Param *p, Work *w)
         }
         break;
     case 1:
-        if (func_020399B8((u32)func_020399A8()) == 1) {
+        if (func_020399B8((u8 *)((u32)func_020399A8())) == 1) {
             w->step = 6;
             (*state)++;
         }

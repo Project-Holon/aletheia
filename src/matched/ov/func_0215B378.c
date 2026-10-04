@@ -26,7 +26,7 @@ struct BigObj;
 extern u32 func_0201296C(const struct BigObj *p);
 extern unsigned int func_02159B10(void *, void *);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0215A4D8();
+extern unsigned func_0215A4D8(void *a, unsigned b);
 
 int func_0215B378(int a0, int a1)
 {
@@ -56,7 +56,7 @@ a1 = t4 + 0;
 loc_0215B39C:
 a0 = t6 + 0;
 a1 = t7 + 0;
-    a0 = func_0215A4D8(a0, a1);
+    a0 = func_0215A4D8((void *)a0, a1);
 loc_0215B3A6:
 *q = a0;
 a0 = 0;

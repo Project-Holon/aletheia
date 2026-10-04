@@ -31,18 +31,22 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_021C5424(int a, int b);
-extern void func_0204B3B4(int a);
-extern void func_0201C6EC(int a);
-extern void func_0201C4C0(int a);
-extern void func_0201D83C(int a);
-extern void func_02045C04(int a);
+struct Bank;
+struct Obj;
+struct PrintSys;
+struct Rec;
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201D83C(void *ptr);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(int a);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
-extern void func_020307B0(int a);
+extern void func_020307B0(void *p);
 
 void func_021C51A0(int *a)
 {
@@ -52,17 +56,17 @@ void func_021C51A0(int *a)
     func_02040588(1, 0);
     func_021C5424((int)a, a[0x7c / 4]);
     for (i = 0; i < 3; i++) {
-        func_0204B3B4(a[0x58 / 4 + i]);
+        func_0204B3B4((struct Obj *)a[0x58 / 4 + i]);
     }
-    func_0201C6EC(a[0x6c / 4]);
-    func_0201C4C0(a[0x6c / 4]);
-    func_0201D83C(a[0x68 / 4]);
-    func_02045C04(a[0x64 / 4]);
+    func_0201C6EC((struct PrintSys *)a[0x6c / 4]);
+    func_0201C4C0((struct PrintSys *)a[0x6c / 4]);
+    func_0201D83C((void *)a[0x68 / 4]);
+    func_02045C04((struct Rec *)a[0x64 / 4]);
     func_0204ADA4(*(u16 *)((char *)a + 0x50));
     func_0204A8D4(*(u16 *)((char *)a + 0x52));
     func_0204AFD8(*(u16 *)((char *)a + 0x54));
-    func_0204B1CC(a[0x4c / 4]);
+    func_0204B1CC((struct Bank *)a[0x4c / 4]);
     func_02040DA8(1, 1, 0);
     func_020403F4(1);
-    func_020307B0((int)a);
+    func_020307B0((void *)((int)a));
 }

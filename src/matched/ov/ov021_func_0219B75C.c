@@ -43,11 +43,11 @@ typedef struct St {
 
 extern Tbl24 d_021D5258;
 
-extern St *func_0216D6B8(int a);
-extern u16 func_0216D5F8(int a);
+extern void *func_0216D6B8(void *p);
+extern u16 func_0216D5F8(void *p);
 extern u32 func_02197E7C(u16 a, u16 b);
 extern void func_0216D438(int a, u16 b);
-extern u32 func_02197EDC(int a);
+extern u32 func_02197EDC(u8 *p);
 extern u16 func_0216D5A8(int a);
 extern int func_0219B8A8(void);
 extern int func_02164168(int a);
@@ -62,10 +62,10 @@ int func_0219B75C(int a)
     u16 v;
     u16 k;
 
-    p = func_0216D6B8(a);
+    p = func_0216D6B8((void *)a);
     switch (p->state) {
     case 0:
-        v = func_0216D5F8(a);
+        v = func_0216D5F8((void *)a);
         for (i = 0; i < 4 && v != t.w[p->f5][i]; i++) {
         }
         i++;
@@ -76,7 +76,7 @@ int func_0219B75C(int a)
         func_0216D438(a, func_02197E7C(t.w[p->f5][p->f6], 0));
         p->state++;
     case 2:
-        if (func_02197EDC(a) == 0) {
+        if (func_02197EDC((u8 *)a) == 0) {
             return 1;
         }
         p->state++;

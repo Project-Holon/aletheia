@@ -27,12 +27,12 @@
 typedef unsigned short u16;
 extern unsigned func_0201AC80(void *);
 extern void func_021BAAB8(char *, int, int);
-extern void *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern unsigned char func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern unsigned char func_021C27E0(void *);
 extern void func_021BA874(char *, int);
-extern unsigned char func_021C23C0(int);
+extern void func_021C23C0(void *a);
 extern int func_021C23C8(char *, int);
 extern void func_021BDE30(void *, int, int);
 extern void func_021C18C8(char *, int, int);
@@ -49,7 +49,7 @@ int func_021C0E60(char *p, int ret)
         func_021BAAB8(p, 0x4a, 0);
         *(int *)(p + 0x1cc) = 21;
     }
-    state = func_021C23B8(index - 1);
+    state = (void *)func_021C23B8(index - 1);
     kind = func_021BDD48(p, state);
     value = func_021BDD54(p, state);
     flag = func_021C27E0(state);
@@ -61,7 +61,7 @@ int func_021C0E60(char *p, int ret)
         *(int *)(p + 0x1cc) = 21;
         return ret;
     }
-    func_021C23C0(index - 1);
+    func_021C23C0((void *)(index - 1));
     if (func_021C23C8(p, index - 1)) {
         *(int *)(p + 0x1c4) = 0xe10;
         func_021BDE30(p, 3, value);

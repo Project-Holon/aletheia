@@ -41,7 +41,7 @@ struct U16Vec;
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_020456F8(struct Descriptor *d);
-extern void *func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
@@ -78,7 +78,7 @@ void func_021BB65C(void *ctx, u8 *p, int k)
     }
     *(int *)(p + 0x3c) = k;
     if (k == 1) {
-        *(void **)(p + 0x48) = func_020450F0(4, 2, 8, 0x1c, 0xd, 0xa, 1);
+        *(void **)(p + 0x48) = (void *)func_020450F0(4, 2, 8, 0x1c, 0xd, 0xa, 1);
         func_02043B5C(func_02045770(*(void **)(p + 0x48)), 0xf);
         func_02045334(*(void **)(p + 0x48));
         w0 = func_02045EC0(h3c, 6);
@@ -97,7 +97,7 @@ void func_021BB65C(void *ctx, u8 *p, int k)
         func_0201C724(h44, func_02045770(*(void **)(p + 0x48)), 0x40, 0x54, last, h34, 0x440);
         func_02045808(last);
     } else {
-        *(void **)(p + 0x48) = func_020450F0(4, 2, 0x10, 0x1c, 6, 0xa, 1);
+        *(void **)(p + 0x48) = (void *)func_020450F0(4, 2, 0x10, 0x1c, 6, 0xa, 1);
         func_02043B5C(func_02045770(*(void **)(p + 0x48)), 0xf);
         func_02045334(*(void **)(p + 0x48));
         w4 = func_02045EC0(h3c, 0);

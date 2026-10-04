@@ -39,7 +39,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *,u32,u32);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_021F6B34(int);
-extern int func_021F6B80(void *,void *,int);
+extern u32 func_021F6B80(u8 *p, u32 b, u32 c);
 extern void *func_021F6B40(void *,void *,int,int);
 extern void func_02031348(void *,u32,const void *,void *);
 void func_021FF58C(u8 *p)
@@ -52,7 +52,7 @@ void func_021FF58C(u8 *p)
     r->ctx=*(void **)(*(u8 **)p+0x20);
     r->save=func_020120F4(*(void **)(*(u8 **)p+0x40));
     if(func_021F6B34(*(u16 *)(p+0xC4)))
-        r->fE=func_021F6B80(*(void **)(*(u8 **)p+8),*(void **)(*(u8 **)p+12),*(u16 *)(p+0xC4));
+        r->fE=func_021F6B80(*(void **)(*(u8 **)p+8),(u32)(*(void **)(*(u8 **)p+12)),*(u16 *)(p+0xC4));
     else r->fE=30;
     r->fF=*(u16 *)(p+0xC6);
     r->fD=1;

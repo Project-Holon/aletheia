@@ -18,33 +18,34 @@
  *   func_021DB690 0x021DB690 thumb ov183
  *   func_021FD744 0x021FD744 thumb ov186
  */
-extern void func_021FE794(int,int,int,int,int);
+typedef unsigned int   u32;
+extern void func_021FE794(char *p, u32 index, u32 a, u32 b, u32 c);
 extern int func_021FE7B0(int *);
-extern void func_021FEE9C(int);
-extern void func_021FEE4C(int);
-extern void func_021F9BF4(int,int);
-extern void func_021FD73C(int *,void *);
+extern void func_021FEE9C(char *p);
+extern void func_021FEE4C(char *p);
+extern void func_021F9BF4(unsigned *ctx, unsigned index);
+extern void func_021FD73C(int *p, int v);
 extern void func_021DB690(int *);
-extern void func_021FD744(int *);
+extern int func_021FD744(int a);
 void func_021DB61C(int *task, int *state, char *p)
 {
     switch(*state) {
     case 0:
-        func_021FE794(*(int *)(*(char **)(p+0x1c)+8),2,3,1,1);
+        func_021FE794((char *)(*(int *)(*(char **)(p+0x1c)+8)),2,3,1,1);
         *state=1;
         break;
     case 1:
         if(func_021FE7B0(*(int **)(*(char **)(p+0x1c)+8))) *state=2;
         break;
     case 2:
-        func_021FEE9C(*(int *)(*(char **)(p+0x1c)+0x14));
-        func_021FEE4C(*(int *)(*(char **)(p+0x1c)+0x14));
-        func_021F9BF4(*(int *)(*(char **)(p+0x1c)+0x10),1);
-        func_021FD73C(task,func_021DB690);
+        func_021FEE9C((char *)(*(int *)(*(char **)(p+0x1c)+0x14)));
+        func_021FEE4C((char *)(*(int *)(*(char **)(p+0x1c)+0x14)));
+        func_021F9BF4((unsigned int *)(*(int *)(*(char **)(p+0x1c)+0x10)),1);
+        func_021FD73C(task,(int)func_021DB690);
         break;
     }
 }
 void func_021DB690(int *task)
 {
-    func_021FD744(task);
+    func_021FD744((int)task);
 }

@@ -27,7 +27,7 @@ extern u8 *g_021A8264;
 extern void func_02155374(int v);
 extern void func_02156400(void);
 extern int func_0216B804(void);
-extern u32 *func_0203CA98(void);
+extern u32 func_0203CA98(void);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern void func_0203A338(u32);
 
@@ -51,7 +51,7 @@ void func_02155E9C(int a, int b, int c, u32 d)
             }
         }
         if (g_021A8264[0x7a3] != 0) {
-            u32 *q = func_0203CA98();
+            u32 *q = (u32 *)func_0203CA98();
             if (q[3] == 0) {
                 func_0203C9AC(q[0], q[1], q[2], 0x3f1);
             }

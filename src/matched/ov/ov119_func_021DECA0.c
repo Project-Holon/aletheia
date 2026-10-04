@@ -41,8 +41,8 @@ extern void func_021DD528(char *,int);
 extern void func_02041570(int channel, u16 val);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_021B6558(int,int,int);
-extern void func_021B6548(int,int,int);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 extern void func_021E24E8(void *,int);
 extern void func_021E6B90(char *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -51,7 +51,7 @@ extern void func_021DEC4C(void *);
 void func_021DECA0(char *p) {
  func_021E4000(p);func_021DF7D0(p);func_021DF8E0(p);func_021E64B8(p);func_021DD588(p);func_021E4570(p);func_021DD9DC((unsigned char *)p);func_021E4888(p);
  func_021DD528(p,1);func_02041570(6,0);func_0204B3DC((struct Obj *)*(int *)(p+0xf04),0);
- func_021B6558(*(int *)(p+0x9c0),1,1);func_021B6548(*(int *)(p+0x9c0),1,0);func_021E24E8(p,6);
+ func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,1);func_021B6548((unsigned char *)(*(int *)(p+0x9c0)),1,0);func_021E24E8(p,6);
  *(int *)(p+0x108c)=0;*(int *)(p+0x1084)=1;func_021E6B90(p);
  func_0202208C(0,1,1,0,6,1,*(u16 *)(p+0x5f4));func_021D8E84(p,(int)func_021DEC4C);
 }

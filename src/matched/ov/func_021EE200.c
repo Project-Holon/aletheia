@@ -16,15 +16,17 @@
  */
 
 
-extern void func_0202570C(int);
-extern void func_020437AC(int);
-extern void func_02025588(int);
+struct Grid;
+struct Obj020437AC;
+extern void func_0202570C(struct Grid *g);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_02025588(void *p);
 void func_021EE200(char *p)
 {
     unsigned i;
     for (i = 0; i < 9; i++) {
-        func_0202570C(*(int *)(p + i * 8 + 4));
-        func_020437AC(*(int *)(p + i * 8 + 8));
+        func_0202570C((struct Grid *)(*(int *)(p + i * 8 + 4)));
+        func_020437AC((struct Obj020437AC *)(*(int *)(p + i * 8 + 8)));
     }
-    func_02025588(*(int *)p);
+    func_02025588((void *)(*(int *)p));
 }

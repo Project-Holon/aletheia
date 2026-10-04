@@ -17,7 +17,7 @@
  *   func_021EE244 0x021EE244 thumb
  */
 
-extern void func_021DEC64(char *a, int b, int c, int d, int e);
+extern void func_021DEC64(int a, int b, int c, int d, int e);
 extern void func_021EB7E8(char *p, unsigned box, int i);
 extern void func_021EE224(char *p, int i, int v);
 extern int func_021EE234(char *p, int i);
@@ -45,7 +45,7 @@ void func_021DEC98(char *p, int a, int dir)
         e = 0xF;
     }
     *(unsigned char *)(q + 0xA179) ^= 1;
-    func_021DEC64(p, a, *(signed char *)(*(char **)(p + 0x2C) + 0xA178), d, e);
+    func_021DEC64((int)p, a, *(signed char *)(*(char **)(p + 0x2C) + 0xA178), d, e);
     if (dir == 2) {
         func_021EB7E8(p, (unsigned char)p[0x14], 7);
         func_021EE224(*(char **)(p + 0x2C), 8, 0);

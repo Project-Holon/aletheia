@@ -42,7 +42,7 @@ extern void func_021C7B3C(u8 *, int, u16, u16);
 extern void func_021C7B7C(u8 *p, unsigned int i);
 struct QJ;
 extern void func_021D66D0(struct QJ *p, u32 v);
-extern void func_021D8564(u8 *, u8 *);
+extern void func_021D8564(int a, int b);
 extern int func_021D62C4(u8 *, int);
 extern void func_021C195C(u8 *p, u8 *q, u32 n);
 extern void func_021C3FDC(u8 *, u8 *);
@@ -70,7 +70,7 @@ void func_021C3E0C(u8 *p, u8 *a, u8 *c)
         func_021CC95C(p + 0x1d74, s, line + 3);
         func_021D66D0((struct QJ *)a, y);
         func_021D66D0((struct QJ *)b, x);
-        func_021D8564(a, b);
+        func_021D8564((int)a, (int)b);
         func_021CD4B0(*(void **)(p + 12), 0x58, ai);
         func_021CD4B0(*(void **)(p + 12), 0x58, bi);
         if (x != y) {

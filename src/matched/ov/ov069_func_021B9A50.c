@@ -38,8 +38,10 @@ extern u8 d_020A1448[];
 extern u8 d_021BA620[];
 extern u32 func_020275E4(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_0204A48C(void *, void *, u32);
-extern u32 func_0204B100(u32 a, u32 b, u32 heap);
+struct Bank;
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 typedef signed int     s32;
@@ -59,9 +61,9 @@ void func_021B9A50(u8 *p)
     u32 t;
 
     h = func_020490F4(func_020275E4(), 0x80);
-    func_0204A48C(d_020A1448, d_021BA620, 0x80);
-    *(u32 *)(p + 0x11C) = func_0204B100(4, 1, 0x80);
-    *(u32 *)(p + 0x120) = func_0204B100(2, 1, 0x80);
+    func_0204A48C((const struct Cfg *)d_020A1448, (u32)d_021BA620, 0x80);
+    *(u32 *)(p + 0x11C) = (u32)func_0204B100(4, 1, 0x80);
+    *(u32 *)(p + 0x120) = (u32)func_0204B100(2, 1, 0x80);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
     *(u32 *)(p + 0x138) = func_0204A6C8(*(void **)p, 7, 1, 2, 0x80);

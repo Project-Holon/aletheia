@@ -23,26 +23,26 @@ typedef unsigned short u16;
 extern char d_021E39B4[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u16 func_021F9B9C(int);
+extern unsigned func_021F9B9C(char *p);
 extern char *func_0203159C(int,int,int);
 extern void func_02082BCC(void *,int,int);
-extern int func_021FD6D8(void *,void *,u16);
+extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021E214C(int *task, int *state, char *p);
-extern int func_0201C440(u16);
+extern u32 func_0201C440(void *p);
 extern void func_021E23C8(char *,char *);
-extern int func_021FD760(int,int,int,u16);
+extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 int func_021E2028(int obj,int unused,char *arg)
 {
     char *p;
     int i;
     if (*(int *)arg>=4) func_02034714(d_021E39B4,0,d_021E39B4);
-    p=func_0203159C(obj,40,func_021F9B9C(*(int *)(arg+0x10)));
+    p=func_0203159C(obj,40,func_021F9B9C((char *)(*(int *)(arg+0x10))));
     func_02082BCC(p,0,40);
     *(char **)(p+0x20)=arg;
-    *(u16 *)(p+0x1c)=func_021F9B9C(*(int *)(arg+0x10));
-    *(int *)(p+8)=func_021FD6D8(p,func_021E214C,*(u16 *)(p+0x1c));
-    *(int *)p=func_0201C440(*(u16 *)(p+0x1c));
+    *(u16 *)(p+0x1c)=func_021F9B9C((char *)(*(int *)(arg+0x10)));
+    *(int *)(p+8)=(int)func_021FD6D8((int)p,(int)func_021E214C,*(u16 *)(p+0x1c));
+    *(int *)p=func_0201C440((void *)(*(u16 *)(p+0x1c)));
     func_021E23C8(p,arg);
-    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=func_021FD760(*(int *)(arg+8),*(int *)(arg+0xc),i,*(u16 *)(p+0x1c));
+    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)func_021FD760(*(int *)(arg+8),(char *)(*(int *)(arg+0xc)),i,*(u16 *)(p+0x1c));
     return 1;
 }

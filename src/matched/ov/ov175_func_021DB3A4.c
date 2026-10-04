@@ -36,11 +36,12 @@ extern char *func_021DD02C(void);
 extern u32 func_021DD034(void);
 extern char *func_021DD038(void);
 extern u32 func_021DD040(void);
-extern void func_021DB7C0(void);
-extern void func_021DBA00(void);
-extern void func_021DBB00(void);
-extern void func_021DBB54(void);
-extern void func_021DBBAC(void);
+struct Field;
+extern void func_021DB7C0(int count, struct Field **fields, char *p, int n);
+extern void func_021DBA00(int count, struct Field **fields, u8 *p, int n);
+extern void func_021DBB00(int count, char **rows, int *out, int width);
+extern void func_021DBB54(int count, struct Field **recs, void *dst, int nfields);
+extern void func_021DBBAC(int count, struct Field **recs, void *dst, int nfields);
 extern char d_021E2DF4[];
 extern char d_021E2DEC[];
 extern char d_021E2DF0[];
@@ -54,27 +55,27 @@ void func_021DB3A4(char *obj, u32 target, int kind, u32 arg)
     case 0:
         *(char **)(obj + 0x194) = func_021DD02C();
         *(u32 *)(obj + 0x198) = func_021DD034();
-        *(StepFn *)(obj + 0x17c) = func_021DB7C0;
+        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DB7C0;
         break;
     case 1:
         *(char **)(obj + 0x194) = func_021DD038();
         *(u32 *)(obj + 0x198) = func_021DD040();
-        *(StepFn *)(obj + 0x17c) = func_021DBA00;
+        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBA00;
         break;
     case 2:
         *(char **)(obj + 0x194) = d_021E2DF4;
         *(u32 *)(obj + 0x198) = 1;
-        *(StepFn *)(obj + 0x17c) = func_021DBB00;
+        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBB00;
         break;
     case 3:
         *(char **)(obj + 0x194) = d_021E2DEC;
         *(u32 *)(obj + 0x198) = 1;
-        *(StepFn *)(obj + 0x17c) = func_021DBB54;
+        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBB54;
         break;
     case 4:
         *(char **)(obj + 0x194) = d_021E2DF0;
         *(u32 *)(obj + 0x198) = 1;
-        *(StepFn *)(obj + 0x17c) = func_021DBBAC;
+        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBBAC;
         break;
     }
 }

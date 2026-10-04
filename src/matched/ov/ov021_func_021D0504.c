@@ -31,12 +31,12 @@ typedef struct St021D04D8 {
     u16 f18;
 } St021D04D8;
 
-extern int func_0216E1C4(u32 a, void *b);
+extern int func_0216E1C4(int a0, int a1);
 extern void func_0219BF3C(int a, u32 v);
 
 void func_021D0504(void *a, St021D04D8 *s)
 {
-    if (func_0216E1C4(s->f8, s->f10) == 1) {
+    if (func_0216E1C4(s->f8, (int)s->f10) == 1) {
         func_0219BF3C(s->f8, 0);
     }
 }

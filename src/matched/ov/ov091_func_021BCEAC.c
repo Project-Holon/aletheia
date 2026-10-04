@@ -35,26 +35,27 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049BDC(u32, u32, u32, u32, u32, u32, u16);
+typedef signed int     s32;
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(u32, u32, u32, u32, u32, u32, u16);
-extern void func_020498F4(u32, u32, u32, u32, u32, u32, u16);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *);
 extern u32 func_020275E4(void);
 extern u32 func_02027694(void);
 extern u32 func_0204ABF0(u32, u32, u32, u32, u16);
 extern u32 func_02027698(void);
-extern u32 func_0204A6C8(u32, u32, u32, u32, u16);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
-extern u32 func_0204AF28(u32, u32, u32, u16);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern void func_02041B6C(u32);
 extern int func_0201BC3C(void);
-extern int func_0204ACEC(u32, u32, u32, u32, u16);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02082A60(void *, void *, unsigned long);
 #define H (*(u16 *)p)
 #define W(o) (*(u32 *)(p + (o)))
@@ -63,30 +64,30 @@ void func_021BCEAC(u8 *p)
 {
     void *h, *h2;
     h = func_020490F4(0x4c, H);
-    func_02049BDC((u32)h, 1, 4, 0x20, 0x20, 0x20, H);
+    func_02049BDC((void *)((u32)h), 1, 4, 0x20, 0x20, 0x20, H);
     func_02049B68(h, 0, 4, 0x1a0, 0x20, H);
-    func_02049658((u32)h, 9, 6, 0, 0, 0, H);
+    func_02049658((void *)((u32)h), 9, 6, 0, 0, 0, H);
     if (F(0x8c) == 1) {
         switch (F(0x64)) {
-        case 1: func_020498F4((u32)h, 0x11, 6, 0, 0, 0, H); break;
-        case 2: func_020498F4((u32)h, 0x10, 6, 0, 0, 0, H); break;
+        case 1: func_020498F4((void *)((u32)h), 0x11, 6, 0, 0, 0, H); break;
+        case 2: func_020498F4((void *)((u32)h), 0x10, 6, 0, 0, 0, H); break;
         }
     }
     func_02049238(h);
     h2 = func_020490F4(func_020275E4(), H);
     W(0x184) = func_0204ABF0((u32)h, func_02027694(), 1, 0x60, H);
-    W(0x1a8) = func_0204A6C8((u32)h, func_02027698(), 0, 1, H);
-    W(0x1c4) = func_0204AF28((u32)h, func_0202769C(2), func_020276A0(2), H);
+    W(0x1a8) = func_0204A6C8((void *)((u32)h), func_02027698(), 0, 1, H);
+    W(0x1c4) = func_0204AF28((void *)((u32)h), func_0202769C(2), func_020276A0(2), H);
     if (F(0x90) == 1) {
         func_02049B68(h, func_02027624(), 4, 0x40, 0x20, H);
-        func_02049658((u32)h, func_02027628(), 5, 0, 0, 0, H);
-        func_020498F4((u32)h, func_0202762C(), 5, 0, 0, 0, H);
+        func_02049658((void *)((u32)h), func_02027628(), 5, 0, 0, 0, H);
+        func_020498F4((void *)((u32)h), func_0202762C(), 5, 0, 0, 0, H);
         func_020413B0(5, 0, 0, 0x20, 0x20, 2);
         func_02041B6C(5);
     }
     func_02049238(h2);
     h = func_020490F4(7, H);
-    W(0x194) = func_0204ACEC((u32)h, func_0201BC3C(), 1, 0xc0, H);
+    W(0x194) = func_0204ACEC((void *)((u32)h), func_0201BC3C(), 1, 0xc0, H);
     func_02049238(h);
     func_02082A60((void *)0x05000440, p + 0x20e, 0x20);
 }

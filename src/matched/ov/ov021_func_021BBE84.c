@@ -51,16 +51,19 @@ typedef struct Desc2 {
     Res *b;
 } Desc2;
 
-extern Src *func_021AC1AC(int a);
+typedef unsigned int   u32;
+struct BbActDesc;
+struct BbActSys;
+extern int func_021AC1AC(u32 a);
 extern void func_021AC1B8(int a, Desc2 *d);
 extern void func_021AC154(int a);
-extern u16 func_02050340(void *a, int b, Desc1 *c, int d, int e);
+extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 
 void func_021BBE84(int a0, Res *r)
 {
     Desc2 d2;
     Desc1 d1;
-    Src *s = func_021AC1AC(a0);
+    Src *s = (Src *)func_021AC1AC(a0);
 
     *(Src *)r = *s;
     r->h0e = 0x1f;
@@ -73,7 +76,7 @@ void func_021BBE84(int a0, Res *r)
     d2.a = 0;
     d2.b = r;
     func_021AC1B8(a0, &d2);
-    r->h8 = func_02050340(r->head->h4, 0, &d1, 1, 3);
+    r->h8 = func_02050340(r->head->h4, 0, (const struct BbActDesc *)(&d1), 1, 3);
     if (r->h8 == 0xFFFF) {
         func_021AC154(a0);
     }

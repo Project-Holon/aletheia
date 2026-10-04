@@ -17,17 +17,17 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BF1C4(u8 *,void *);
-extern int func_021B9C90(void *,int);
+extern int func_021B9C90(unsigned int a, int b);
 extern void func_021B9BEC(u8 *p, int id);
-extern int func_021B9C74(void *);
+extern int func_021B9C74(unsigned int a);
 extern void func_021BD7A0(u8 *,void *);
 int func_021BEDEC(u8 *p,u32 *q) {
     switch(*q) {
     case 0: func_021BF1C4(p,q); break;
-    case 1: if(func_021B9C90(*(void **)(p+20),20)) *q=0; break;
-    case 2: if(func_021B9C90(*(void **)(p+20),20)) { func_021B9BEC(*(void **)(p+20),19); *q=0; } break;
-    case 3: if(func_021B9C90(*(void **)(p+20),31)) *q=0; break;
-    case 4: if(func_021B9C74(*(void **)(p+20))) { func_021BD7A0(p,*(void **)(p+40)); *q=0; } break;
+    case 1: if(func_021B9C90((unsigned int)(*(void **)(p+20)),20)) *q=0; break;
+    case 2: if(func_021B9C90((unsigned int)(*(void **)(p+20)),20)) { func_021B9BEC(*(void **)(p+20),19); *q=0; } break;
+    case 3: if(func_021B9C90((unsigned int)(*(void **)(p+20)),31)) *q=0; break;
+    case 4: if(func_021B9C74((unsigned int)(*(void **)(p+20)))) { func_021BD7A0(p,*(void **)(p+40)); *q=0; } break;
     }
     return 0;
 }

@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0201C6B4();
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 
 void func_0219049C(u8 *p)
 {
-    func_0201C6B4(*(u32 *)(p + 0xc));
+    func_0201C6B4((const struct PrintSys *)(*(u32 *)(p + 0xc)));
 }

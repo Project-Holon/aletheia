@@ -18,24 +18,27 @@
  *   func_02028218  0x02028218  thumb
  */
 
-extern void func_02028148(int);
-extern void func_02028178(int);
-extern void func_02028218(int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_02028148(u8 *p);
+extern void func_02028178(u8 *p);
+extern void func_02028218(struct Obj *obj, u32 a);
 
 void func_021BBE44(int x)
 {
     if (x != 0)
-        func_02028148(x);
+        func_02028148((u8 *)x);
 }
 
 void func_021BBE50(int x)
 {
     if (x != 0)
-        func_02028178(x);
+        func_02028178((u8 *)x);
 }
 
 void func_021BBE5C(int x, int f)
 {
     if (x != 0)
-        func_02028218(x, f);
+        func_02028218((struct Obj *)x, f);
 }

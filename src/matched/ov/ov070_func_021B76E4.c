@@ -15,7 +15,7 @@
  */
 
 extern int func_021BADF0(int p);
-extern void func_021B6100(void *p, void *fn);
+extern void func_021B6100(char *p, int k);
 struct Obj;
 extern void func_021B7688(struct Obj *o);
-void func_021B76E4(int p) { if (func_021BADF0(p)) func_021B6100((void *)p,(void *)func_021B7688); }
+void func_021B76E4(int p) { if (func_021BADF0(p)) func_021B6100((void *)p,(int)((void *)func_021B7688)); }

@@ -17,7 +17,9 @@
  */
 
 extern void func_02164280(int, int, int *);
-extern int func_02188CD0(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02188CD0(u8 *p);
 extern unsigned func_021C9258(unsigned, int *);
 
 void func_021F3CCC(int *a, unsigned *b, int x, int y, int z)
@@ -25,5 +27,5 @@ void func_021F3CCC(int *a, unsigned *b, int x, int y, int z)
     int v[3];
     func_02164280((short)x, (short)z, v);
     v[1] = (int)(((unsigned)y << 16) + 0x8000u);
-    *b = func_021C9258(func_02188CD0(a[2]), v);
+    *b = func_021C9258(func_02188CD0((u8 *)a[2]), v);
 }

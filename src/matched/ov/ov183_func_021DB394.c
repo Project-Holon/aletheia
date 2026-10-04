@@ -18,7 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 struct PrintSys;
-extern void func_021FD71C(int),func_021FD854(char *);
+extern void func_021FD71C(u8 *p);
+extern void func_021FD854(char *);
 extern int func_021FD72C(int *);
 extern u32 func_0201C4E4(struct PrintSys *);
-int func_021DB394(int a,int b,int c,char *p) { func_021FD71C(*(int *)p); func_0201C4E4(*(struct PrintSys **)(p+12)); func_021FD854(*(char **)(p+20)); func_021FD854(*(char **)(p+24)); if(func_021FD72C(*(int **)p)) return 1; return 0; }
+int func_021DB394(int a,int b,int c,char *p) { func_021FD71C((u8 *)(*(int *)p)); func_0201C4E4(*(struct PrintSys **)(p+12)); func_021FD854(*(char **)(p+20)); func_021FD854(*(char **)(p+24)); if(func_021FD72C(*(int **)p)) return 1; return 0; }

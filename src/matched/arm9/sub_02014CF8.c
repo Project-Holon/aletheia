@@ -38,11 +38,13 @@ struct Sub02014CF8Ctx {
 };
 
 extern void func_02016BA0(void *obj);
-extern void func_020163C4(void *a, void *hook, struct Sub02014CF8Rec *rec);
+struct Ctx;
+struct Src;
+extern void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2);
 
 void sub_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c)
 {
     func_02016BA0(b);
     b->f150 = *c;
-    func_020163C4(a, b->f148, (struct Sub02014CF8Rec *)c);
+    func_020163C4(a, (u32)b->f148, (const struct Src *)((struct Sub02014CF8Rec *)c));
 }

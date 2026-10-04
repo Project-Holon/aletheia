@@ -29,11 +29,11 @@ typedef struct Stage {
     Obj *f04[4];        /* 0x04 */
 } Stage;
 
-extern Obj *func_021F67E0(u16 id, u8 v, u32 a, u32 b, u32 w, u16 y);
+extern char *func_021F67E0(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
 
 void func_02156FD0(Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y)
 {
-    s->f04[idx] = func_021F67E0(id, v, 0, 0, w, y);
+    s->f04[idx] = (Obj *)func_021F67E0(id, v, 0, 0, w, y);
     s->f04[idx]->kind = 2;
     s->f04[idx]->f78 = x;
 }

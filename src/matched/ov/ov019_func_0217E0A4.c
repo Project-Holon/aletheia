@@ -41,7 +41,7 @@ extern void func_0217F074(void *ctx);
 extern void func_021750B0(u8 *p, u8 v);
 extern int func_02174CE4(void *w);
 extern u8 func_021750D0(u8 *p);
-extern int func_0216D3CC(void *h);
+extern int func_0216D3CC(int a0);
 extern u8 func_0217F060(int i);
 extern int func_0217FE44(int a, int mode, unsigned *out);
 extern void func_0216D410(void *h, u16 v);
@@ -79,7 +79,7 @@ int func_0217E0A4(void *ctx, Obj *obj, int a2, u8 *state)
         (*state)++;
         break;
     case 4:
-        if (func_0216D3CC(h) == 1) {
+        if (func_0216D3CC((int)h) == 1) {
             func_0217FE44(a2, func_0217F060(obj->f2d), &out);
             func_0216D410(h, (out & 1) ? 0xb : 0xa);
             (*state)++;

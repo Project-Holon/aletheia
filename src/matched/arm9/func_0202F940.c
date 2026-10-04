@@ -43,15 +43,22 @@ typedef int s32;
 extern void *func_0207DFB4(void);
 extern u32  func_0207E24C(void);
 extern void func_02082A48(u32 v, u32 dst, u32 n);
-extern u32  func_02043754(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32  func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32  func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_02045EC0(u32 a, u32 b);
-extern void func_0201C7D0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_02045808(u32 a);
-extern void func_02045C04(u32 a);
-extern void func_0201D83C(u32 a);
-extern void func_020437AC(u32 a);
+typedef signed short   s16;
+struct Bmp;
+struct GfFont;
+struct MsgBank;
+struct Obj020437AC;
+struct Rec;
+struct U16Vec;
+extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201D83C(void *ptr);
+extern void func_020437AC(struct Obj020437AC *p);
 
 void func_0202F940(u32 a0)
 {
@@ -73,13 +80,13 @@ void func_0202F940(u32 a0)
         }
     }
     func_02082A48(0x7777, func_0207E24C() + 0x400, 0x3C00);
-    o1 = func_02043754(func_0207E24C() + 0x400, 0x1e, 0x10, 0x20, 7);
-    o2 = func_0201D7EC(0x17, 0, 0, 0, 7);
-    o3 = func_02045B38(0, 2, 2, 7);
-    h = func_02045EC0(o3, a0);
-    func_0201C7D0(o1, 0, 0, h, o2, 0x1167);
-    func_02045808(h);
-    func_02045C04(o3);
-    func_0201D83C(o2);
-    func_020437AC(o1);
+    o1 = (u32)func_02043754((void *)(func_0207E24C() + 0x400), 0x1e, 0x10, 0x20, 7);
+    o2 = (u32)func_0201D7EC(0x17, 0, 0, 0, 7);
+    o3 = (u32)func_02045B38(0, 2, 2, 7);
+    h = (u32)func_02045EC0((struct MsgBank *)o3, a0);
+    func_0201C7D0((void *)o1, 0, 0, (void *)h, (void *)o2, 0x1167);
+    func_02045808((struct U16Vec *)h);
+    func_02045C04((struct Rec *)o3);
+    func_0201D83C((void *)o2);
+    func_020437AC((struct Obj020437AC *)o1);
 }

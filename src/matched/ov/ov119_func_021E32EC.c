@@ -49,7 +49,9 @@ typedef struct {
 
 extern const Handler d_021E7AC8[];
 extern Cfg d_021E8144;
-extern void *func_02048A18(void *, u16);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 struct Light;
 extern int func_0204779C(int *p);
 extern int func_02047910(void *a, int idx, int amount);
@@ -75,7 +77,7 @@ void func_021E32EC(char *p)
     if (d_021E7AC8[idx].fn != 0)
         d_021E7AC8[idx].fn(p, buf);
     if (*(u16 *)(p + 0x824) != 0xFFFF) {
-        q = func_02048A18(*(void **)(p + 0x820), *(u16 *)(p + 0x824));
+        q = (void *)func_02048A18(*(void **)(p + 0x820), *(u16 *)(p + 0x824));
         n = func_0204779C(q);
         for (i = 0; i < n; i++)
             func_02047910(q, (u16)i, d_021E8144.amount);
@@ -88,7 +90,7 @@ void func_021E32EC(char *p)
         func_02051574();
     }
     if (*(u16 *)(p + 0x824) != 0xFFFF)
-        func_02047A60(func_02048A18(*(void **)(p + 0x820), *(u16 *)(p + 0x824)), buf);
+        func_02047A60((void *)func_02048A18(*(void **)(p + 0x820), *(u16 *)(p + 0x824)), buf);
     if (*(Sub **)(p + 0xC) != 0) {
         if ((*(Sub **)(p + 0xC))->a90 != 0) {
             if ((*(Sub **)(p + 0xC))->aA8 == 0)

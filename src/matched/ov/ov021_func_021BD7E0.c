@@ -24,40 +24,42 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02188C58(u32);
-extern int func_0218F0F8(u32);
-extern int func_0218F0E8(u32);
-extern void func_0218F0A8(u32);
-extern void func_0218EC54(u32);
-extern u32 func_021A7E3C(u32);
-extern void func_02012374(u32, u32);
+struct Args;
+struct Evt;
+extern void *func_02188C58(void *p);
+extern int func_0218F0F8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
+extern void func_0218F0A8(u8 *a);
+extern void func_0218EC54(u8 *p);
+extern void *func_021A7E3C(struct Args *a);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 u32 func_021BD7E0(u32 a, int *st, u32 *ctx)
 {
     u8 *p = (u8 *)ctx[2];
-    u32 h = func_02188C58(*(u32 *)(p + 0xc));
+    u32 h = (u32)func_02188C58((void *)(*(u32 *)(p + 0xc)));
 
     switch (*st) {
     case 0:
-        if (func_0218F0F8(h) && func_0218F0E8(h)) {
-            func_0218F0A8(h);
+        if (func_0218F0F8((u8 *)h) && func_0218F0E8((u8 *)h)) {
+            func_0218F0A8((u8 *)h);
             *st = 1;
         } else {
             *st = 2;
         }
         return 0x21;
     case 1:
-        if (!func_0218F0F8(h)) {
+        if (!func_0218F0F8((u8 *)h)) {
             *st = 2;
             return 0x21;
         }
-        if (func_0218F0E8(h))
+        if (func_0218F0E8((u8 *)h))
             break;
-        func_0218EC54(h);
+        func_0218EC54((u8 *)h);
         *st = 2;
         return 0x21;
     case 2:
-        func_02012374(a, func_021A7E3C((u32)p));
+        func_02012374((struct Evt *)a, func_021A7E3C((struct Args *)((u32)p)));
         *st = 3;
         return 0x21;
     case 3:

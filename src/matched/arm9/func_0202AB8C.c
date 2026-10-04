@@ -33,8 +33,9 @@ struct A {
 };
 
 extern u32 func_02049030(u32 a);
-extern void *func_02030734(void *heap, u32 size, u32 flags, const void *file, u32 line);
-extern u32  func_0202AEEC(void *a1, u32 i);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u8 *func_0202AEEC(u32 a, u32 b);
 extern const char g_020A76E8[];
 
 void func_0202AB8C(struct A *a0, void *a1)
@@ -43,8 +44,8 @@ void func_0202AB8C(struct A *a0, void *a1)
     s32 i;
 
     a0->unk18 = n;
-    a0->unk14 = func_02030734(a1, n << 2, 0, g_020A76E8, 0x14d);
+    a0->unk14 = func_02030734((u32)a1, n << 2, 0, g_020A76E8, 0x14d);
     for (i = 0; i < n; i++) {
-        a0->unk14[i] = func_0202AEEC(a1, i);
+        a0->unk14[i] = (u32)func_0202AEEC((u32)a1, i);
     }
 }

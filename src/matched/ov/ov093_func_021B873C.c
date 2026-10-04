@@ -13,9 +13,11 @@
  *   func_0200CF28  0x0200CF28  thumb
  */
 
-void func_0200CF28(int);
+typedef unsigned short u16;
+struct Blk37;
+u16 func_0200CF28(struct Blk37 *p);
 
 void func_021B873C(char **p)
 {
-    func_0200CF28(*(int *)(*p + 0x68));
+    func_0200CF28((struct Blk37 *)(*(int *)(*p + 0x68)));
 }

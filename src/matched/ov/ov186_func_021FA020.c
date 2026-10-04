@@ -14,7 +14,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021FAE70(u8 *ctx, u8 *elem, int a1, int a2);
+struct Record;
+void func_021FAE70(void *ctx, struct Record *dest, const struct Record *source, int mode);
 void func_021FAFA0(u8 *elem, int x);
 void func_021FAFB0(u8 *elem, int x);
 void func_02034714(void *a, int b, void *c);
@@ -26,7 +27,7 @@ void func_021FA020(u8 *ctx, int a1, int a2)
 
     if (ctx[0x3b] >= ctx[0x3a])
         func_02034714(d_02200D18, 0, d_02200D18);
-    func_021FAE70(ctx, *(u8 **)(ctx + 0x3c) + ctx[0x3b] * 0x44, a1, a2);
+    func_021FAE70(ctx, (struct Record *)(*(u8 **)(ctx + 0x3c) + ctx[0x3b] * 0x44), (const struct Record *)a1, a2);
     ctx[0x3b]++;
     for (i = 0; i < ctx[0x3b]; i++) {
         func_021FAFA0(*(u8 **)(ctx + 0x3c) + i * 0x44,

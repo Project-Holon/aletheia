@@ -20,9 +20,9 @@
  *   func_0219B440  0x0219B440  thumb  ov021
  */
 
-extern int func_0219B440(int);
+extern int func_0219B440(char *a);
 
 int func_0219B414(int a)
 {
-    return func_0219B440(a);
+    return func_0219B440((char *)a);
 }

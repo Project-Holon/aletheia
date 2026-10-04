@@ -21,7 +21,9 @@ struct Config { int words[26]; int context; int tail; };
 struct Obj { int first; int data[15]; int context; unsigned state; int rest[11]; int ready; int done; int spare[3]; u16 heap; };
 extern const struct Config d_021B743C;
 extern int func_0203CD98(void);
-extern void func_0203CBAC(struct Config *,void (*)(void),int);
+typedef unsigned int   u32;
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_021B6670(void);
 extern void func_021B66E0(int,int,int);
 int func_021B6150(struct Obj *p) {
@@ -33,7 +35,7 @@ int func_021B6150(struct Obj *p) {
   else {
    config=d_021B743C;
    config.context=p->context;
-   func_0203CBAC(&config,func_021B6670,(int)p);
+   func_0203CBAC((struct Req *)(&config),(u32)func_021B6670,(int)p);
   }
   p->state=1;
   break;

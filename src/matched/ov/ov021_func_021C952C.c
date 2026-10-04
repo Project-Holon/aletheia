@@ -22,13 +22,14 @@ typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 typedef struct { u32 f0; u32 f4; u32 f8[3]; } Q;
-extern void func_02046EFC(u32 h);
-extern void func_020470D0(u32 h);
+struct Tagged;
+extern void func_02046EFC(struct Tagged *p);
+extern int func_020470D0(u32 *p);
 void func_021C952C(Q *q)
 {
     int i;
     for (i = 0; i < 3; i++)
-        func_02046EFC(q->f8[i]);
-    func_020470D0(q->f4);
-    func_02046EFC(q->f4);
+        func_02046EFC((struct Tagged *)q->f8[i]);
+    func_020470D0((u32 *)q->f4);
+    func_02046EFC((struct Tagged *)q->f4);
 }

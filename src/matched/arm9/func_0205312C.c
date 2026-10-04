@@ -92,7 +92,7 @@ struct Obj {
 typedef void (*Fn)(struct Obj *, struct Node *);
 typedef void (*Fn1)(void *);
 
-extern void func_02053D2C(void *);
+extern void func_02053D2C(void);
 extern void func_02053D30(void *);
 extern void func_0205429C(struct Obj *, struct Node *);
 extern void func_02054A68(struct Obj *, struct Node *);
@@ -130,7 +130,7 @@ void func_0205312C(struct Obj *o)
     if ((*(volatile u32 *)&d->flags << 20) >> 31)
         g = func_02053D30;
     else
-        g = func_02053D2C;
+        g = (Fn1)func_02053D2C;
 
     n = b->f08;
     if (n == 0)

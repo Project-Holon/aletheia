@@ -97,7 +97,8 @@ struct Mtx { u32 w[4]; };
 
 extern struct BgSys *g_02146A44;
 extern void func_0203D814(u32 x, u32 y);
-extern void func_02051E74(struct Mtx *m, u16 a, u32 b, u32 c, u32 d);
+struct Mtx22;
+extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
 #define W(a) (*(volatile u32 *)(a))
@@ -123,9 +124,9 @@ void func_02041B94(void)
                           | (hm & (SLOT(2).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74(&t, SLOT(2).aff_20,
-                          SLOT(2).aff_24,
-                          SLOT(2).aff_28, 2);
+            func_02051E74((struct Mtx22 *)(&t), SLOT(2).aff_20,
+                          (const void *)SLOT(2).aff_24,
+                          (const void *)SLOT(2).aff_28, 2);
             func_0207D59C((void *)0x04000020, &t,
                           SLOT(2).aff_2c, SLOT(2).aff_30,
                           SLOT(2).scroll_x, SLOT(2).scroll_y);
@@ -137,9 +138,9 @@ void func_02041B94(void)
                           | (hm & (SLOT(3).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74(&t, SLOT(3).aff_20,
-                          SLOT(3).aff_24,
-                          SLOT(3).aff_28, 2);
+            func_02051E74((struct Mtx22 *)(&t), SLOT(3).aff_20,
+                          (const void *)SLOT(3).aff_24,
+                          (const void *)SLOT(3).aff_28, 2);
             func_0207D59C((void *)0x04000030, &t,
                           SLOT(3).aff_2c, SLOT(3).aff_30,
                           SLOT(3).scroll_x, SLOT(3).scroll_y);
@@ -159,9 +160,9 @@ void func_02041B94(void)
                           | (hm & (SLOT(6).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74(&t, SLOT(6).aff_20,
-                          SLOT(6).aff_24,
-                          SLOT(6).aff_28, 2);
+            func_02051E74((struct Mtx22 *)(&t), SLOT(6).aff_20,
+                          (const void *)SLOT(6).aff_24,
+                          (const void *)SLOT(6).aff_28, 2);
             func_0207D59C((void *)0x04001020, &t,
                           SLOT(6).aff_2c, SLOT(6).aff_30,
                           SLOT(6).scroll_x, SLOT(6).scroll_y);
@@ -173,9 +174,9 @@ void func_02041B94(void)
                           | (hm & (SLOT(7).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74(&t, SLOT(7).aff_20,
-                          SLOT(7).aff_24,
-                          SLOT(7).aff_28, 2);
+            func_02051E74((struct Mtx22 *)(&t), SLOT(7).aff_20,
+                          (const void *)SLOT(7).aff_24,
+                          (const void *)SLOT(7).aff_28, 2);
             func_0207D59C((void *)0x04001030, &t,
                           SLOT(7).aff_2c, SLOT(7).aff_30,
                           SLOT(7).scroll_x, SLOT(7).scroll_y);

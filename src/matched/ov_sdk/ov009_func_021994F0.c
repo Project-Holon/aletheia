@@ -47,7 +47,7 @@ typedef struct _NATNegotiator {
 
 extern char g_021A5AF8[];
 extern char g_021A5B30[];
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_02199FB4(int cookie);
 extern void func_02199394(NATNegotiator *neg);
 extern unsigned int func_0217F264(void);
@@ -59,12 +59,12 @@ void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *re
     if (remoteaddr)
         neg->remoteaddr = *remoteaddr;
     if (result == 1 || result == 2) {
-        func_0217D254(7, 3, 8, g_021A5AF8, neg->cookie);
+        func_0217D254(7, (char *)3, 8, g_021A5AF8, neg->cookie);
         neg->state = 5;
         neg->reportCallback(neg->result, neg->socket, &neg->remoteaddr, neg->userdata);
         func_02199FB4(neg->cookie);
     } else {
-        func_0217D254(7, 3, 8, g_021A5B30, neg->cookie);
+        func_0217D254(7, (char *)3, 8, g_021A5B30, neg->cookie);
         func_02199394(neg);
         neg->state = 7;
         neg->timeout = func_0217F264() + 500;

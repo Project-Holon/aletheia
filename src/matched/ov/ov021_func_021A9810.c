@@ -15,11 +15,12 @@
 
 typedef unsigned short u16;
 
-extern u16 *func_021A99A8(int a);
+struct Entry8;
+extern const struct Entry8 *func_021A99A8(void *p);
 
 u16 func_021A9810(int a)
 {
-    u16 *p = func_021A99A8(a);
+    u16 *p = (u16 *)func_021A99A8((void *)a);
     if (p == 0) {
         return 0xffff;
     }

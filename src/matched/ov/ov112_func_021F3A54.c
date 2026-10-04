@@ -28,12 +28,13 @@ extern void func_020434CC(void);
 extern void func_02043588(void);
 typedef unsigned int   u32;
 extern void func_0202223C(u32 a, u32 color);
-extern void func_02022224(int);
+struct Cfg;
+extern u32 func_02022224(void *win);
 extern void func_020433E0(void *);
 extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
 extern void func_0203FC28(void *);
-extern void func_0204A48C(void *,void *,u16);
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern char d_021F816C[],d_021F815C[],d_020A1448[];
 void func_021F3A54(u8 *p)
@@ -45,12 +46,12 @@ void func_021F3A54(u8 *p)
     func_0202223C(0,0);
     func_0202223C(1,0);
     func_02022224(0);
-    func_02022224(1);
+    func_02022224((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_020433E0(d_021F816C);
     func_0203F8F4(*(u16 *)p);
     func_02045088(*(u16 *)p);
     func_0203FC28(d_021F815C);
-    func_0204A48C(d_020A1448,d_021F816C,*(u16 *)p);
+    func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021F816C,*(u16 *)p);
     func_020434DC(16,1);
 }

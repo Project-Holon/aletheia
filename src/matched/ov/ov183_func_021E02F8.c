@@ -20,24 +20,24 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Record { u8 a, b, c, d; int value; };
 extern const struct Record d_021E37D8[];
-extern int func_021FC20C(int);
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern void func_021FB964(int, int, u16);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 typedef unsigned int   u32;
 extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021FC754(void *, int, int, int, u16);
+extern void func_021FC754(char *p, void *a, void *b, void *font, unsigned short value);
 void func_021E02F8(char *p, int *q)
 {
     int first, second, i;
     const struct Record *r;
-    first = func_021FC20C(q[2]);
+    first = func_021FC20C((char *)q[2]);
     second = func_021FC214((char *)q[2]);
-    func_021FB964(q[2], 25, *(u16 *)(p + 0x54));
+    func_021FB964((void *)q[2], 25, *(u16 *)(p + 0x54));
     for (i = 0; i < 6; i++) {
         r = &d_021E37D8[i];
         *(void **)(p + i * 4 + 0x20) = func_021FC6A4(1, r->a, r->b, r->c, r->d, 14, *(void **)(p + 0x48), *(u16 *)(p + 0x54));
         func_021FC868(*(void **)(p + i * 4 + 0x20), 0, 1, 0);
-        func_021FC754(*(void **)(p + i * 4 + 0x20), second, r->value, first, 15776);
+        func_021FC754(*(void **)(p + i * 4 + 0x20), (void *)second, (void *)r->value, (void *)first, 15776);
     }
 }

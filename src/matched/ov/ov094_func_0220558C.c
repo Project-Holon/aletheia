@@ -29,7 +29,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201EC64(int);
+typedef signed short   s16;
+struct PalAnmSlot;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -39,12 +42,12 @@ extern void func_0201DE00(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32, u32, u32);
 extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C7A4(int, short, int, void *, int);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(int);
-extern void *func_021F86E0(void);
+extern void func_0201ED04(struct WordSet *p);
+extern int func_021F86E0(void);
 extern int func_02021728(char *, int);
-extern void func_020215BC(int, u16 *, int, int, u16);
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 void func_0220558C(char *s, const int *b)
 {
     int h;
@@ -52,26 +55,26 @@ void func_0220558C(char *s, const int *b)
     void *w;
     void *extra;
     u8 c[3];
-    h = func_0201EC64(*(u16 *)(s + 0x240));
+    h = (int)func_0201EC64(*(u16 *)(s + 0x240));
     v = func_020457B0(8, *(u16 *)(s + 0x240));
     w = func_02045EC0(*(void **)(s + 0x5c), 6);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(9, 10, 0);
     func_0201EFA4(h, 0, b[2], 3, 2, 1);
     func_0201F250((void *)h, v, w);
-    func_0201C7A4(*(int *)(s + 0x22c), 0x8c, 8, v, *(int *)(s + 0x224));
+    func_0201C7A4((void *)(*(int *)(s + 0x22c)), 0x8c, 8, v, (void *)(*(int *)(s + 0x224)));
     if (b[0] != b[1])
         func_0201DD78(7, 8, 0);
     func_0201EFA4(h, 0, b[1], 3, 2, 1);
     func_0201F250((void *)h, v, w);
-    func_0201C7A4(*(int *)(s + 0x22c), 0x60, 8, v, *(int *)(s + 0x224));
+    func_0201C7A4((void *)(*(int *)(s + 0x22c)), 0x60, 8, v, (void *)(*(int *)(s + 0x224)));
     func_0201DD78(1, 2, 0);
     extra = func_02045EC0(*(void **)(s + 0x5c), 7);
-    func_0201C7A4(*(int *)(s + 0x22c), 0x7c, 8, extra, *(int *)(s + 0x224));
+    func_0201C7A4((void *)(*(int *)(s + 0x22c)), 0x7c, 8, extra, (void *)(*(int *)(s + 0x224)));
     func_02045808(extra);
     func_0201DD78(c[2], c[1], c[0]);
-    func_0201ED04(h);
+    func_0201ED04((struct WordSet *)h);
     func_02045808(w);
     func_02045808(v);
-    func_020215BC(*(int *)(s + 0x64), (u16 *)(func_02021728(func_021F86E0(), 1) + 0x40), 1, 0x70, 0x20);
+    func_020215BC((struct PalAnmSlot *)(*(int *)(s + 0x64)), (u16 *)(func_02021728((char *)func_021F86E0(), 1) + 0x40), 1, 0x70, 0x20);
 }

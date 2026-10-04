@@ -11,10 +11,10 @@
  * symbols:
  *   func_021B6308 0x021B6308 thumb ov098
  */
-extern int func_021B6308(void *);
+extern int func_021B6308(unsigned p);
 int func_021B61A4(int a, int b, int c, unsigned p)
 {
-    *(int *)(*(unsigned *)(p + 4) + 0x1c) = func_021B6308(*(void **)p);
+    *(int *)(*(unsigned *)(p + 4) + 0x1c) = func_021B6308((unsigned int)(*(void **)p));
     if (*(int *)(*(unsigned *)(p + 4) + 0x1c) != 0) return 1;
     return 0;
 }

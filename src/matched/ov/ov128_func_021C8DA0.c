@@ -22,18 +22,20 @@ struct Big;
 struct Sub020097BCObj;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *);
-extern void *func_0201283C(const void *);
+struct BigObj;
+struct Strbuf;
+extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern char *func_0216BFD4(int,int,u32,u32,int,int,void *);
-extern void func_02045924(void *,int);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 char *func_021C8DA0(void *unused,char *q,int mode,int heap) {
  void *v;void *base;int idx;char *ret;unsigned kind;
  v=func_0200C0F0(func_02012EBC(*(void **)(q+4)));
- base=func_0201283C(*(void **)(q+4));idx=*(u8 *)(q+24+*(signed char *)(q+11));
+ base=(void *)func_0201283C(*(void **)(q+4));idx=*(u8 *)(q+24+*(signed char *)(q+11));
  kind=func_02009864(base,idx,9);
  if(mode==1 || kind==2) ret=func_0216BFD4(heap,4,65535,0,7,0,v);
  else ret=func_0216BFD4(heap,4,func_02009864(base,idx,8),0,7,0,v);
- if(*(int *)(q+100)==1) {func_02045924(*(void **)(ret+32),*(int *)(q+96));*(int *)(q+100)=0;}
+ if(*(int *)(q+100)==1) {func_02045924(*(void **)(ret+32),(const u16 *)(*(int *)(q+96)));*(int *)(q+100)=0;}
  return ret;
 }
 extern void func_021C8F88(void *,void *,void *,int);

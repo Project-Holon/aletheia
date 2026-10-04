@@ -28,22 +28,24 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern unsigned func_02021518(unsigned);
-extern void func_02021EE4(unsigned, unsigned);
-extern void func_0202155C(unsigned, unsigned, unsigned, unsigned);
-extern void func_020216D4(unsigned, unsigned, unsigned, unsigned);
+struct Obj02021EE4;
+struct PalAnmSlot;
+extern void *func_02021518(u32 heap);
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern const char d_021F0E60[];
 
 void func_021F0B74(char *p)
 {
     *(void **)(p + 0xB8) = func_02030734(*(unsigned short *)p, func_02030CB0(2), 1, d_021F0E60, 0x6DF);
     *(void **)(p + 0xB4) = func_02030CBC(2, *(void **)(p + 0xB8));
-    *(unsigned *)(p + 0xBC) = func_02021518(*(unsigned short *)p);
-    func_02021EE4(*(unsigned *)(p + 0xBC), 1);
-    func_0202155C(*(unsigned *)(p + 0xBC), 1, 0x60, *(unsigned short *)p);
-    func_0202155C(*(unsigned *)(p + 0xBC), 3, 0x80, *(unsigned short *)p);
-    func_020216D4(*(unsigned *)(p + 0xBC), 1, 0, 0x60);
-    func_020216D4(*(unsigned *)(p + 0xBC), 3, 0, 0x80);
+    *(unsigned *)(p + 0xBC) = (unsigned int)func_02021518(*(unsigned short *)p);
+    func_02021EE4((struct Obj02021EE4 *)(*(unsigned *)(p + 0xBC)), 1);
+    func_0202155C((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 1, 0x60, *(unsigned short *)p);
+    func_0202155C((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 3, 0x80, *(unsigned short *)p);
+    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 1, 0, 0x60);
+    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 3, 0, 0x80);
     *(unsigned *)(p + 0xC0) = 0;
     *(unsigned *)(p + 0xC4) = 0;
 }

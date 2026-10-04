@@ -19,7 +19,8 @@
 
 typedef short s16;
 
-extern int func_0216D5F8(int a);
+typedef unsigned short u16;
+extern u16 func_0216D5F8(void *p);
 extern int func_0216D55C(int a, int b);
 extern int func_021641E8(int a);
 extern int func_021641F8(int a);
@@ -31,7 +32,7 @@ int func_021D0914(int a, s16 *v)
 {
     int r;
 
-    r = func_0216D5F8(a);
+    r = func_0216D5F8((void *)a);
     if (func_0216D55C(a, 0x1000 * 2) == 0) {
         v[1] = 0;
         v[0] = func_021641E8(r);

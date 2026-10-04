@@ -54,7 +54,7 @@ struct Cmd {
 };
 
 extern void *func_0204D410(struct Ctl *c);
-extern void  func_02063000(void *h, u32 mode, u32 a, u32 b);
+extern void func_02063000(int p0, int p1, int p2, int p3);
 struct CellAnim;
 extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 
@@ -64,10 +64,10 @@ void func_0204D768(struct Ctl *c, const struct Cmd *cmd)
 
     switch (cmd->op) {
     case 0:
-        func_02063000(h, 1, cmd->arg1, cmd->arg2);
+        func_02063000((int)h, 1, cmd->arg1, cmd->arg2);
         break;
     case 2:
-        func_02063000(h, 3, cmd->arg1, cmd->arg2);
+        func_02063000((int)h, 3, cmd->arg1, cmd->arg2);
         break;
     case 1:
         func_02063018(h, cmd->arg1, cmd->arg2, cmd->arg0);

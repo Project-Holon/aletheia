@@ -30,7 +30,7 @@ struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *ctx, void *work);
-extern u16   func_0216BE20(void *s, int species, int move, int kind, u16 *out);
+extern int func_0216BE20(int a, int b, int e, int d, u16 *out);
 
 int func_0216BD54(void *ctx, void *work)
 {
@@ -76,6 +76,6 @@ int func_0216BD54(void *ctx, void *work)
     if (flag == 0) {
         move = 0;
     }
-    *res = func_0216BE20(s, species, move, kind, out);
+    *res = func_0216BE20((int)s, species, move, kind, out);
     return 0;
 }

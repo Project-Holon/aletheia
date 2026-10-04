@@ -27,7 +27,7 @@ extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6FF0(char *p);
 extern s32 func_020093D0(const struct Sub02009210Obj *obj);
 extern void func_021D6A70(u8 *p, int i, int a, int b, int c);
-extern int func_021D7CEC(void *, u8 *);
+extern int func_021D7CEC(int a, u8 *p);
 extern void func_021D7E20(u8 *, u8 *);
 extern void func_021D6AB8(u8 *p);
 extern void func_021D7BDC(u8 *);
@@ -56,7 +56,7 @@ void func_021D7E58(u8 *p, void *h, u8 *q, int *r)
             if (*(u16 *)(q+i*8+4) == 0) break;
             func_021D6A70(*(void **)(p+20), i+20, *(u16 *)(q+i*8+4), q[i*8+8], q[i*8+9]);
         }
-        p[0xa9] = func_021D7CEC(h,q);
+        p[0xa9] = func_021D7CEC((int)h,q);
         func_021D7E20(p,q);
         func_021D6AB8(*(void **)(p+20));
     }

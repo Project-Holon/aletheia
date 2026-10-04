@@ -30,7 +30,7 @@ typedef struct Ctx {
 extern const Ent d_0220A46C[][2];
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0220687C(char *p, int v);
+extern void func_0220687C(char *p, void *q);
 
 void func_0220461C(int a0, Ctx *c)
 {
@@ -44,6 +44,6 @@ void func_0220461C(int a0, Ctx *c)
         c->idx = i + 1;
         func_02040618(5, 3, d_0220A46C[c->set][i].v1);
         if (c->idx >= 2)
-            func_0220687C(c->main, a0);
+            func_0220687C(c->main, (void *)a0);
     }
 }

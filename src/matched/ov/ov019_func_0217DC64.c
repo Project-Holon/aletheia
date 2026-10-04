@@ -17,13 +17,14 @@
 
 typedef unsigned char  u8;
 
-extern int func_02008554(int a);
-extern int func_02008550(int a);
+struct Sub0200852CObj;
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_0217357C(u8 *p, int a, int b, int c);
 
 void func_0217DC64(u8 *base, int obj, int x)
 {
-    int a = func_02008554(obj);
-    int b = func_02008550(obj);
+    int a = func_02008554((const struct Sub0200852CObj *)obj);
+    int b = func_02008550((const struct Sub0200852CObj *)obj);
     func_0217357C(base + 0x2844, x, a, (u8)b);
 }

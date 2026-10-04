@@ -24,8 +24,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_021B90E8(void *);
-extern void *func_021B90F0(void *);
+extern u32 func_021B90E8(void **p);
+extern u32 func_021B90F0(void **p);
 extern int func_021E9E60(void *);
 extern char *func_021BA1E4(char **);
 extern void *func_021B86B8(void ***);
@@ -34,7 +34,7 @@ struct S2;
 extern int func_021BA1A8(char **p, int m);
 extern unsigned char func_021B9B04(int a, int b);
 extern void func_021E9984(u8 *, u8 *, int, u8, int);
-extern void *func_021D3D7C(void *);
+extern u32 func_021D3D7C(u8 *p);
 extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D62C4(void *, int);
@@ -46,8 +46,8 @@ void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
     void *list;
     int flag;
     if (p[0x174]) return;
-    *(void **)(p + 0xc8) = func_021B90E8(*(void **)p);
-    *(void **)(p + 0xe4) = func_021B90F0(*(void **)p);
+    *(void **)(p + 0xc8) = (void *)func_021B90E8(*(void **)p);
+    *(void **)(p + 0xe4) = (void *)func_021B90F0(*(void **)p);
     *(int *)(p + 0xd0) = x;
     *(u32 *)(p + 0xcc) = *(u32 *)(p + 0xb0);
     *(u16 *)(p + 0xd4) = *(u16 *)(p + 0x184);
@@ -74,7 +74,7 @@ void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
     }
     p[0xf0] = flag;
     func_021E9984(p, p + 0x10c, 3, 0, 0);
-    list = func_021D3D7C(*(void **)(p + 4));
+    list = (void *)func_021D3D7C(*(void **)(p + 4));
     n = func_021B9B94(list);
     for (i = 0; i < n; i++)
         p[0x144 + i] = func_021D62C4(func_021B9C00(list, (u8)i), 0x13);

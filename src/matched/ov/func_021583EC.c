@@ -24,14 +24,16 @@ typedef unsigned int u32;
 
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
-extern int func_02012944(void *);
-extern int func_02012950(void *, int);
+struct Rec44;
+struct Sub24;
+extern u8 *func_02012944(void *p);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 
 int func_021583EC(void *a0, int a1)
 {
     if (func_02012B58(a0) == a1)
-        return func_02012944(a0);
+        return (int)func_02012944(a0);
 
-    return func_02012950(a0, a1);
+    return (int)func_02012950(a0, a1);
 }
 

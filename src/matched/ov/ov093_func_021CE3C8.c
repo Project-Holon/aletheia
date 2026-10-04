@@ -35,7 +35,7 @@ extern u16 func_021D54C0(u8 *p, int i);
 extern u32 func_021D81F8(void *,void *,void *,u32,void *);
 extern void func_021D82D0(u8 *,u32,u32);
 extern void func_021CF58C(u8 *,u8 *,void *);
-extern void func_021CE150(u8 *,u32);
+extern void func_021CE150(u8 *p, void *q);
 extern u32 func_021CF2F0(u8 *p, s32 *st);
 int func_021CE3C8(u8 *p,int *state)
 {
@@ -67,7 +67,7 @@ int func_021CE3C8(u8 *p,int *state)
     case 2:
         *(u8 **)(p+0xd8) = p+0x124;
         *(u32 *)(p+0xdc) = p[0x11c]*4;
-        func_021CE150(p,(u32)func_021CF2F0);
+        func_021CE150(p,(void *)((u32)func_021CF2F0));
         break;
     }
     return 0;

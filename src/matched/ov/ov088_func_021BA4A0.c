@@ -17,7 +17,8 @@
  *   func_021BB858  0x021BB858  thumb  ov088
  */
 
-extern void func_0202EB04(int);
+struct CodeIn;
+extern void func_0202EB04(struct CodeIn *p);
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern int func_021BB840(char *p, int y);
@@ -29,7 +30,7 @@ int func_021BA4A0(char *p)
     if (*(int *)(p + 0x134) == 3) {
         *(int *)(p + 0x134) = 0;
         *(int *)(p + 0x138) = 0;
-        func_0202EB04(*(int *)(p + 0x11c));
+        func_0202EB04((struct CodeIn *)(*(int *)(p + 0x11c)));
         func_021BB810(p, *(unsigned char *)(p + *(unsigned char *)(p + 0x128) + 0x120),
                       func_021BB840(p, *(signed char *)(p + 0x12f)), 2);
         return 5;

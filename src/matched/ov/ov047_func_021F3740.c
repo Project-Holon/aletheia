@@ -43,14 +43,16 @@ typedef struct Obj {
 
 extern u8 d_021F3840[];
 
-extern int func_02188C80(int a);
-extern Obj *func_021897BC(int a, int b);
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern int *func_021897BC(char *p, int idx);
 extern int func_021F381C(Obj *p);
 extern void func_0216D8E0(u8 *p, Rec12 *src);
 typedef unsigned int   u32;
 extern u32 func_02005728(u32 range);
-extern unsigned int func_020120F4(unsigned int);
-extern unsigned int func_02012EC4(unsigned int);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern s16 *func_0200B3A4(unsigned int, unsigned int);
 extern s32 func_0203F684(u16 a);
 extern int _fflt(int a);
@@ -66,8 +68,8 @@ void func_021F3740(int a)
     int v;
     s32 x;
 
-    p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 0x1f);
-    o = func_021897BC(a, 1);
+    p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x1f);
+    o = (Obj *)func_021897BC((char *)a, 1);
     if (func_021F381C(o) == 0) {
         o->r.b = 0;
         p[0] = 0;

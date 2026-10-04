@@ -17,12 +17,13 @@
 
 typedef unsigned short u16;
 
-extern void func_02027858(int);
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
 
 void func_021D8418(int a)
 {
     if (a != 0) {
         *(volatile u16 *)0x04000050 = 0;
-        func_02027858(a);
+        func_02027858((struct TaskMenu *)a);
     }
 }

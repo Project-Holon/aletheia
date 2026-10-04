@@ -27,7 +27,7 @@ void func_021780E4(u32 a);
 void func_0217758C(u8 *p);
 void func_02177560(void);
 void func_0217933C(void *fn);
-void func_0217727C(u8 *p, void *fn);
+void func_0217727C(u32 *p, u32 v);
 int func_021775AC(int a, int b, int c);
 void func_02177FF0(u8 *a);
 
@@ -41,6 +41,6 @@ int func_02178034(void)
     func_02177560();
     func_0217933C(func_021775AC);
     p[0xCE8] = 1;
-    func_0217727C(g_021797A4, func_02177FF0);
+    func_0217727C((u32 *)g_021797A4, (u32)func_02177FF0);
     return 1;
 }

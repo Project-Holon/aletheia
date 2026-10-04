@@ -23,9 +23,9 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8 *g_02146994;
-extern int func_020335E8(u32 a, u32 b, u32 c, u32 d);
+extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 
 int func_020334CC(u32 a, u32 b, u32 c)
 {
-    return func_020335E8(a, b, c, *(u32 *)(g_02146994 + 0x204));
+    return func_020335E8(a, b, c, (void (*)(void))(*(u32 *)(g_02146994 + 0x204)));
 }

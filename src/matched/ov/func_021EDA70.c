@@ -21,14 +21,14 @@
  *   r6+1, r6 = r1, muls r6) and swaps a2/a3 between r6 and r7.
  */
 
-extern void func_021EC0B0(int, int, void *, void *, int);
-extern void func_021EC0B0(int, int, void *, void *, int);
+extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
+extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 void func_021EDA70(int a0, int a1, short *a2, short *a3)
 {
     unsigned i;
     a1 = (a1 + 1) * 0x22;
     for (i = 0; i < 6; i++) {
-        func_021EC0B0(a0, i + 0x2d, a2, a3, 0);
+        func_021EC0B0((char *)a0, i + 0x2d, a2, a3, 0);
         if (a1 == a3[0])
             return;
     }

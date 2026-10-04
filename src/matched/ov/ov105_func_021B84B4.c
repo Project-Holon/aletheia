@@ -27,10 +27,12 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_020498F4(void *,int,int,int,int,int,int);
 extern void func_02049238(void *);
-extern void *func_02049F34(int,int,void **,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
 extern void func_020307B0(void *);
-extern void func_02061CA4(int,int,void *,int);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void func_021B84B4(u8 *p,int id,int choice,int heap)
 {
     void *archive, *data, *raw;
@@ -44,12 +46,12 @@ void func_021B84B4(u8 *p,int id,int choice,int heap)
     func_02049658(archive,15,3,0,0,0,heap);
     func_020498F4(archive,17,3,0,0,0,heap);
     func_02049238(archive);
-    data=func_02049F34(0x5e,16,&raw,heap);
+    data=func_02049F34(0x5e,16,(u32)(&raw),heap);
     pal=*(u8 **)((u8 *)raw+12);
     func_02082D44(pal,p+8,32);
     func_02082D44(pal+0x100,p+8,32);
     func_020307B0(data);
     func_02082D44(p+8,p+0x28,32);
     for(i=0;i<13;++i) *(u16 *)(p+0x28+i*2)=0x7fff;
-    for(i=0;i<16;++i) func_02061CA4(15,0x100+i*2,p+0x28+i*2,2);
+    for(i=0;i<16;++i) func_02061CA4((void *)15,0x100+i*2,(u32)(p+0x28+i*2),2);
 }

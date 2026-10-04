@@ -21,8 +21,9 @@ typedef unsigned int u32;
 
 extern int func_02159190(int a0);
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *);
-extern void func_02191978(u32);
+struct P;
+extern int func_02158F58(int a0);
+extern void func_02191978(struct P *p);
 extern void func_02159168(int n);
 
 void func_021B120C(u32 a)
@@ -30,7 +31,7 @@ void func_021B120C(u32 a)
     u32 id = 5;
 
     if (func_02159190(id)) {
-        func_02191978(*func_02158F58(func_0215A5F4((void *)a)));
+        func_02191978((struct P *)(*((u32 *)func_02158F58((int)func_0215A5F4((void *)a)))));
         func_02159168(id);
     }
 }

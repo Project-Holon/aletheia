@@ -61,7 +61,7 @@ void func_0217F388(void *ctx, int a, int n, int *p);
 int func_0217F4B4(void *ctx, int *flag, int *p, int *flag2, int a);
 void func_0217F4AC(void *ctx);
 void func_0217BA10(void *ctx, int id);
-int func_0217BAA8(void *ctx, int id, int *p, int *q);
+int func_0217BAA8(int a, int b, int *p, int *q);
 void func_0217F210(u8 *p, int a, u32 b);
 int func_0217B8E4(char *p, char v);
 int func_0217B974(int id);
@@ -120,7 +120,7 @@ int func_0217C88C(void *ctx, Obj *obj, int a2, u8 *state)
         } else if (r != -1) {
             func_0217F624(ctx);
             func_0217F4AC(ctx);
-            if (func_0217BAA8(ctx, r, &obj->f64, &obj->f68) == 0) {
+            if (func_0217BAA8((int)ctx, r, &obj->f64, &obj->f68) == 0) {
                 func_0217F210(ctx, a2, 0x13e);
                 *state = 5;
             } else {

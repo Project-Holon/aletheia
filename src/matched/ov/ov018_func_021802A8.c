@@ -33,8 +33,8 @@ void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void func_020307B0(void *p);
 void func_02034714(const char *expr, u32 line, const char *file);
 void MI_CpuCopy8(const void *src, void *dst, unsigned int n);
-void func_021829F8(int x, void *p);
-void func_021808C4(int x, void *p);
+void func_021829F8(void *a, void *b);
+void func_021808C4(void *task, const void *src);
 
 void func_021802A8(int x, u8 *y)
 {
@@ -44,18 +44,18 @@ void func_021802A8(int x, u8 *y)
     MI_CpuCopy8(y, p, 0x98);
     c = y[0x41];
     if (c == 0) {
-        func_021808C4(x, p);
+        func_021808C4((void *)x, p);
     } else if (c == 1) {
-        func_021829F8(x, p);
+        func_021829F8((void *)x, p);
     } else if (c == 2) {
-        func_021808C4(x, p);
+        func_021808C4((void *)x, p);
     } else if (c >= 3) {
         if (d_0218374C[c - 8] == 0) {
             func_02034714(d_02183B44, 0, d_02183B44);
         }
         d_0218374C[y[0x41] - 8](x, p);
     } else {
-        func_021808C4(x, p);
+        func_021808C4((void *)x, p);
     }
     func_020307B0(p);
 }

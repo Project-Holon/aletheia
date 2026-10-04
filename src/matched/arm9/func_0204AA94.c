@@ -26,8 +26,8 @@ struct Obj02146A74 {
 };
 
 extern struct Obj02146A74 *lbl_02146A74;
-extern int func_020637BC(u32 a, int b);
-extern void *func_020637B4(u32 a, int b);
+extern int func_020637BC(const u32 *p, u32 i);
+extern int func_020637B4(int *p, int i);
 extern void func_020862F0(void *a, u32 b);
 extern void func_0207E780(void *a, void *b, u32 c);
 extern void func_0207E804(void *a, void *b, u32 c);
@@ -35,17 +35,17 @@ extern void func_0207E804(void *a, void *b, u32 c);
 void func_0204AA94(int a, void *b, u32 c, int d, int e)
 {
     if (e == 0 || e == 2) {
-        if (func_020637BC(lbl_02146A74->f10C + (a << 6), 1) != 0) {
-            void *p = func_020637B4(lbl_02146A74->f10C + (a << 6), 1);
+        if (func_020637BC((const u32 *)(lbl_02146A74->f10C + (a << 6)), 1) != 0) {
+            void *p = (void *)func_020637B4((int *)(lbl_02146A74->f10C + (a << 6)), 1);
             func_020862F0(b, c);
             func_0207E780(b, (char *)p + d, c);
         }
     }
     if (e == 1 || e == 2) {
-        if (func_020637BC(lbl_02146A74->f10C + (a << 6), 2) == 0)
+        if (func_020637BC((const u32 *)(lbl_02146A74->f10C + (a << 6)), 2) == 0)
             return;
         {
-            void *p = func_020637B4(lbl_02146A74->f10C + (a << 6), 2);
+            void *p = (void *)func_020637B4((int *)(lbl_02146A74->f10C + (a << 6)), 2);
             func_020862F0(b, c);
             func_0207E804(b, (char *)p + d, c);
         }

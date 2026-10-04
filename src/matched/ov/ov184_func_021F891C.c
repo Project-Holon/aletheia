@@ -30,12 +30,13 @@ typedef struct
   unsigned char flag;
   unsigned char pad;
 } Config;
-extern void func_021FB964(u32, u32, u16);
+typedef unsigned char  u8;
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBE54(char *, u32, u32);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void func_02082BCC(void *, int, unsigned);
-extern void *func_021FC4DC(void *);
+extern u32 func_021FC4DC(u8 *p);
 extern int func_021FC124(char *, unsigned, void *);
 extern int func_021FB378(Config *, u16, int, int, void *, int, int, int, void *, u16);
 void func_021F891C(char *p, const char *q)
@@ -53,14 +54,14 @@ void func_021F891C(char *p, const char *q)
   if (*((int *) (p + 4)))
     return;
   tmp1 = (char **) (q + 12);
-  func_021FB964(*((u32 *) (q + 12)), 23, *((u16 *) (p + 36)));
+  func_021FB964((void *)(*((u32 *) (q + 12))), 23, *((u16 *) (p + 36)));
   func_021FBE54(*tmp1, 6, *((u16 *) (p + 36)));
   v0 = func_021FC20C(*((char **) (q + 12)));
   v1 = func_021FC214(*((char **) (q + 12)));
   func_02082BCC(&cfg, 0, 8);
   cfg.y = 168;
   cfg.flag = 1;
-  v = func_021FC4DC(*((void **) (q + 8)));
+  v = (void *)func_021FC4DC(*((void **) (q + 8)));
   func_021FC124(*((char **) (q + 12)), 6, resources);
   for (i = 0; i < 2; i++)
   {

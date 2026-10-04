@@ -33,7 +33,7 @@ typedef struct Anim021D1488 {
     u32 idx;
 } Anim021D1488;
 
-extern void func_021D1430(Anim021D1488 *p, u16 v);
+extern void func_021D1430(u8 *p, u32 n);
 extern Step021D1488 d_021DB990[];
 
 void func_021D1488(void *task, Anim021D1488 *p)
@@ -48,6 +48,6 @@ void func_021D1488(void *task, Anim021D1488 *p)
             p->idx = 0;
             p->cnt = 0;
         }
-        func_021D1430(p, d_021DB990[p->idx].v);
+        func_021D1430((u8 *)p, d_021DB990[p->idx].v);
     }
 }

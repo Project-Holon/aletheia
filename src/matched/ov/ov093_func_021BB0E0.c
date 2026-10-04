@@ -26,7 +26,8 @@
  *   func_021BABF4 0x021BABF4 thumb ov093
  */
 typedef unsigned char u8;
-extern void func_021BB724(u8 *, int, void *, int);
+typedef unsigned int   u32;
+extern void func_021BB724(u8 *p, int a, int b, int c);
 extern int func_021BB798(u8 *);
 extern void func_021BB7D0(const u8 *p);
 extern int func_021BA618(char *p);
@@ -36,15 +37,15 @@ extern int func_021BAEF8(u8 *, int *);
 extern void func_021BB6A8(u8 *);
 extern int func_021BB628(u8 *, int, int);
 extern void func_021BBD20(u8 *p);
-extern int func_021BBD2C(void *, void *);
-extern int func_021C84D8(int);
-extern void func_021B916C(int, int);
+extern int func_021BBD2C(u8 *p, int a);
+extern int func_021C84D8(u8 *p);
+extern void func_021B916C(u8 *p, u32 x);
 extern void func_021BABF4(void *);
 int func_021BB0E0(u8 *p, int *s)
 {
     switch (*s) {
     case 0:
-        func_021BB724(p, 6, p + 0xcb4, p[0xcba]);
+        func_021BB724(p, 6, (int)(p + 0xcb4), p[0xcba]);
         (*s)++;
         break;
     case 1:
@@ -74,9 +75,9 @@ int func_021BB0E0(u8 *p, int *s)
         q = *(int **)(p + 0xcb0);
         q[0] = 0;
         q[1] = 0;
-        *(int *)(p + 0x48) = func_021BBD2C(*(void **)(p + 0x44), p + 0xb4);
+        *(int *)(p + 0x48) = func_021BBD2C(*(void **)(p + 0x44), (int)(p + 0xb4));
         q = *(int **)(p + 0xcb0);
-        func_021BB724(p, 8, q + 2, q[0]);
+        func_021BB724(p, 8, (int)(q + 2), q[0]);
         (*s)++;
         break;
     }
@@ -88,7 +89,7 @@ int func_021BB0E0(u8 *p, int *s)
             case 3: *s = 4; break;
             case 2: func_021BABEC(p, (void *)func_021BAEF8); break;
             case 4:
-                func_021B916C(*(int *)(p + 12), func_021C84D8(*(int *)(p + 0x44)));
+                func_021B916C((u8 *)(*(int *)(p + 12)), func_021C84D8((u8 *)(*(int *)(p + 0x44))));
                 func_021BABEC(p, (void *)func_021BB280);
                 break;
             case 5: return 1;

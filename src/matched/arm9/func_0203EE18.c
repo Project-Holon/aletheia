@@ -55,7 +55,8 @@ extern char s_020A7E28[];
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32  func_0203D1A4(u32);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern void *func_0203D798(void);
 
 void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
@@ -97,7 +98,7 @@ void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
         break;
 
     case 2:
-        if (idx != func_0203D1A4((u32)func_020399A8())) {
+        if (idx != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
             ((struct Manager *)g_021469F4)->unk3c = 1;
         }
         break;

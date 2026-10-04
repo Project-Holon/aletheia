@@ -25,7 +25,7 @@
 extern unsigned char g_021DE620;
 extern void func_021CD5B0(void);
 extern void func_021BD29C(int msgId);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CD61C(void);
 
 void func_021CD580(void)
@@ -33,5 +33,5 @@ void func_021CD580(void)
     g_021DE620 = 0;
     func_021CD5B0();
     func_021BD29C(45);
-    func_021C0E40(func_021CD61C);
+    func_021C0E40((unsigned int)func_021CD61C);
 }

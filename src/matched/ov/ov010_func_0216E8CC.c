@@ -21,10 +21,14 @@
 typedef unsigned short u16;
 
 extern void func_0216EB98();
-extern int func_020122C0(int a, int b, void (*fn)(), int c);
-extern int *func_020124E8(int task);
-extern void func_0216F02C(int *t, int a, int b);
-extern int func_02188CE8(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_0216F02C(void **p, void *a, void *b);
+extern u32 func_02188CE8(u8 *p);
 extern void func_021AAABC(int s);
 
 int func_0216E8CC(int a0, int a1, int a2)
@@ -32,13 +36,13 @@ int func_0216E8CC(int a0, int a1, int a2)
     int h;
     int *t;
 
-    h = func_020122C0(a0, 0, func_0216EB98, 0x28);
-    t = func_020124E8(h);
-    func_0216F02C(t, a0, a2);
+    h = (int)func_020122C0((void *)a0, 0, func_0216EB98, 0x28);
+    t = func_020124E8((struct Obj *)h);
+    func_0216F02C((void **)t, (void *)a0, (void *)a2);
     t[5] = 0;
     t[6] = 1;
     t[8] = 1;
     t[9] = 9;
-    func_021AAABC(func_02188CE8(a1));
+    func_021AAABC(func_02188CE8((u8 *)a1));
     return h;
 }

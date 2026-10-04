@@ -27,7 +27,7 @@ typedef struct MemSsea {
 } MemSsea;
 
 extern int func_021BF730();
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021C77F4();
 extern void func_021C7C74();
@@ -42,12 +42,12 @@ void func_021C7768(void)
         return;
     r = g_021DE5E4->result;
     if (r == 0) {
-        func_021C0E40(func_021C77F4);
+        func_021C0E40((unsigned int)func_021C77F4);
     } else if (r == 2) {
         func_021D1208(6, 3, 1, -1, 0);
-        func_021C0E40(func_021C7C74);
+        func_021C0E40((unsigned int)func_021C7C74);
     } else {
         func_021D1208(0x47, 2, 1, -1, 0);
-        func_021C0E40(func_021C79B4);
+        func_021C0E40((unsigned int)func_021C79B4);
     }
 }

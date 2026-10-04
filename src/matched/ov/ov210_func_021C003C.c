@@ -16,15 +16,17 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_020260E0(int h);
-extern void func_020260E4(int h, unsigned v);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021BFF30(int p, unsigned a, unsigned b);
 
 void func_021C003C(int p, unsigned b)
 {
     int *q = (int *)p;
 
-    func_021BFF30(p, func_020260E0(q[0xac]), 1);
+    func_021BFF30(p, func_020260E0((struct Sound *)q[0xac]), 1);
     func_021BFF30(p, b, 3);
-    func_020260E4(q[0xac], (unsigned char)b);
+    func_020260E4((struct Sound *)q[0xac], (unsigned char)b);
 }

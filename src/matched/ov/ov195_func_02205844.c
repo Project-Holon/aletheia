@@ -13,9 +13,10 @@
  *   func_02017E40 0x02017E40 thumb
  */
 
-extern void func_02017E40(int, int, int);
+typedef unsigned int   u32;
+extern void func_02017E40(void *p, u32 id, u32 v);
 
 void func_02205844(int a, char *b)
 {
-    func_02017E40(*(int *)(b + 0x10), 6, 0);
+    func_02017E40((void *)(*(int *)(b + 0x10)), 6, 0);
 }

@@ -66,7 +66,7 @@ typedef struct {
 extern u32 func_02005728(u32 n);
 extern T *func_02012A38(int a);
 extern int func_021AAEC0(S *s, s16 x, s16 y, s16 z, int w);
-extern u16 func_02188C9C(int a);
+extern u16 func_02188C9C(u8 *p);
 extern void func_021AABEC(T *t);
 extern void func_021AAFC0(S *s, R *r, Sub *b);
 
@@ -83,7 +83,7 @@ void func_021AAE34(S *s, R *r)
         b->h6 = e->h6;
         b->f8 = e->f8;
         b->bc = e->b0;
-        b->h0 = func_02188C9C(s->f0);
+        b->h0 = func_02188C9C((u8 *)s->f0);
         b->lo = 1;
         func_021AABEC(t);
         func_021AAFC0(s, r, b);

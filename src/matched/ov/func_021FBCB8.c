@@ -24,7 +24,8 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void func_021FAAD4(u8 *p);
 extern void func_021F4FF4(u32 v, u32 a, u32 b);
-extern u32 func_0204B878(u32 v, u32 k);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 g_0220320E[];
 extern u8 g_0220320F[];
 
@@ -34,7 +35,7 @@ int func_021FBCB8(u8 *p)
 
     *(u32 *)(p + 0x44) = 0;
     func_021FAAD4(p);
-    func_0204B878(*(u32 *)(p + 8), 6);
+    func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 6);
     i = *(u32 *)(p + 0x44);
     func_021F4FF4(*(u32 *)(p + 8), g_0220320E[i * 2], g_0220320F[i * 2]);
     *(u32 *)(p + 0x48) = 1;

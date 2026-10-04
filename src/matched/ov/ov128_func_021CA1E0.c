@@ -12,30 +12,31 @@
  * Extent ends with two bytes of zero alignment padding.
  */
 
-extern void func_021CA124(void *,int);
+typedef unsigned int   u32;
+extern void func_021CA124(u32 a, u32 b);
 int func_021CA1E0(char *p)  {
     switch(*(unsigned short *)(p+8))  {
-        case 0: func_021CA124(*(void **)p,1);
+        case 0: func_021CA124((u32)(*(void **)p),1);
         *(unsigned short *)(p+10)=0;
         (*(unsigned short *)(p+8))++;
         break;
         case 1: (*(unsigned short *)(p+10))++;
         if(*(unsigned short *)(p+10)==4)  {
-            func_021CA124(*(void **)p,2);
+            func_021CA124((u32)(*(void **)p),2);
             *(unsigned short *)(p+10)=0;
             (*(unsigned short *)(p+8))++;
         }
         break;
         case 2: (*(unsigned short *)(p+10))++;
         if(*(unsigned short *)(p+10)==4)  {
-            func_021CA124(*(void **)p,1);
+            func_021CA124((u32)(*(void **)p),1);
             *(unsigned short *)(p+10)=0;
             (*(unsigned short *)(p+8))++;
         }
         break;
         case 3: (*(unsigned short *)(p+10))++;
         if(*(unsigned short *)(p+10)==4)  {
-            func_021CA124(*(void **)p,2);
+            func_021CA124((u32)(*(void **)p),2);
             *(unsigned short *)(p+10)=0;
             (*(unsigned short *)(p+8))++;
         }

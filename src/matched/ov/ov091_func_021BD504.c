@@ -26,14 +26,16 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern int func_021BB7D8(void *unused, u32 p);
-extern void func_021BB714(char *a, int x, int y);
+struct Strbuf;
+struct U16Vec;
+extern void func_021BB714(void *a, u32 *s, u32 k);
 extern void func_021BB97C(char *a, int x);
-extern void func_021BBA0C(char *a, int x, int y, int z, int w);
+extern void func_021BBA0C(int a, int b, int c, int d, int e);
 extern void func_021BB7E8(char *a, int x, int y);
 extern void func_021BB98C(void *p, u32 s);
-extern int func_020457B0(int size, int heap);
-extern void func_02045924(int buf, int src);
-extern void func_02045808(int buf);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021BD504(char *a)
 {
@@ -41,15 +43,15 @@ void func_021BD504(char *a)
     if (*(u8 *)(*(char **)(a + 0x280) + 0x94) == 0)
         return;
     if (func_021BB7D8(a, *(int *)(a + 0x150)) == 0)
-        func_021BB714(a, *(int *)(a + 0x150), 1);
+        func_021BB714(a, (u32 *)(*(int *)(a + 0x150)), 1);
     if (*(int *)(*(char **)(a + 0x280) + 0x64) == 1) {
-        t = func_020457B0(0x10, *(u16 *)a);
-        func_02045924(t, *(int *)(*(char **)(a + 0x280) + 0x78));
+        t = (int)func_020457B0(0x10, *(u16 *)a);
+        func_02045924((struct Strbuf *)t, (const u16 *)(*(int *)(*(char **)(a + 0x280) + 0x78)));
         func_021BB97C(a, *(int *)(a + 0x150));
-        func_021BBA0C(a, *(int *)(a + 0x150), 0, t, *(u8 *)(*(char **)(a + 0x280) + 0x7C));
+        func_021BBA0C((int)a, *(int *)(a + 0x150), 0, t, *(u8 *)(*(char **)(a + 0x280) + 0x7C));
         func_021BB7E8(a, *(int *)(a + 0x150), 0xA9);
         func_021BB98C(a, *(int *)(a + 0x150));
-        func_02045808(t);
+        func_02045808((struct U16Vec *)t);
     } else {
         func_021BB7E8(a, *(int *)(a + 0x150), *(u8 *)(*(char **)(a + 0x280) + 0x94) + 0xA9);
     }

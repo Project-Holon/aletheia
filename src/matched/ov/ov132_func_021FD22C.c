@@ -21,7 +21,7 @@ struct Entry;
 extern int func_02008468(void);
 extern void func_02082D44(void *,void *,u32);
 extern struct Entry *func_0203996C(s32 idx);
-extern int func_0203D3F8(void *,int,int,u32,void *,int,int,int);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 void func_021FD22C(char *p)
 {
     u8 i;
@@ -42,5 +42,5 @@ void func_021FD22C(char *p)
     h=func_0203996C(0xff);
     m=func_02008468();
     n=func_020173E8();
-    func_0203D3F8(h,0xff,0x1102,(m+4+n)*4,*(void **)(p+0x13c),1,0,1);
+    func_0203D3F8((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(*(void **)(p+0x13c)),1,0,1);
 }

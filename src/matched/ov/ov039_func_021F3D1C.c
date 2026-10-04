@@ -20,11 +20,14 @@
  *   func_021F3DE4 0x021F3DE4 thumb ov039
  */
 
-extern int func_02188D2C(int);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern int func_02188D2C(int *p);
 extern unsigned char *func_021897BC(int, int);
 extern int func_02188C80(int);
-extern int func_020120F4(int);
-extern int func_02012EC4(int);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(int, int);
 extern void func_021BE580(int);
 extern int func_021F3DE4(int, unsigned char, unsigned char);
@@ -36,9 +39,9 @@ void func_021F3D1C(int a)
     int i;
     unsigned char *r5;
 
-    r6 = func_02188D2C(a);
+    r6 = func_02188D2C((int *)a);
     r5 = func_021897BC(a, 1);
-    r7 = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 2);
+    r7 = func_0200B3A4((int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(a))), 2);
     func_021BE580(r6);
     for (i = 0; i < 4; i++)
         r7[i] = func_021F3DE4(r6, i, r5[i + 0x21EC] + 1);

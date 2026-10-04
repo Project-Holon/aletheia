@@ -43,10 +43,10 @@ struct Obj {
 };
 
 extern void sub_0204D4C4(struct Sub *s, u32 arg);
-extern void sub_0204D3C4(struct Sub *s, u32 v);
+extern void *sub_0204D3C4(struct Obj *o, u32 arg);
 
 void sub_0204B8D4(struct Obj *p, u32 arg)
 {
     sub_0204D4C4(&p->unk_68, arg);
-    sub_0204D3C4(&p->unk_68, 0x1000);
+    sub_0204D3C4((struct Obj *)(&p->unk_68), 0x1000);
 }

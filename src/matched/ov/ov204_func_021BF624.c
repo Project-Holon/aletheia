@@ -23,7 +23,8 @@ struct Rec;
 struct Sub150;
 extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void func_02015CAC(void *, void *);
-extern void func_021BF7F0(void *, void *);
+typedef unsigned char  u8;
+extern void func_021BF7F0(u8 *p);
 extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
 
 void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i)
@@ -37,5 +38,5 @@ void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = 1;
-    func_02015F2C(*(void **)(base + off), base + off, func_021BF7F0, 0);
+    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }

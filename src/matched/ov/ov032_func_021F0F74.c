@@ -21,18 +21,21 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02165CE8(int a);
-extern void func_0204A9D0(int a, int b);
-extern void func_020215BC(int slots, int src, u32 idx, u32 off, u16 size);
+struct PalAnmSlot;
+struct S;
+struct Sub0204A9D0;
+extern u8 func_02165CE8(struct S *p);
+extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u8 d_021F3541[];
 
 void func_021F0F74(char *p, u8 *q, int r)
 {
     int x;
 
-    x = func_02165CE8(r);
-    func_0204A9D0(*(int *)(*(int *)(p + 0x158) + q[0] * 4), *(int *)(p + x * 8 + 0x338));
-    func_020215BC(*(int *)(p + 0xac),
-                  *(int *)(p + 0x3bc) + ((d_021F3541[x] & 0xf) << 5), 3,
+    x = func_02165CE8((struct S *)r);
+    func_0204A9D0(*(int *)(*(int *)(p + 0x158) + q[0] * 4), (struct Sub0204A9D0 *)(*(int *)(p + x * 8 + 0x338)));
+    func_020215BC((struct PalAnmSlot *)(*(int *)(p + 0xac)),
+                  (const void *)(*(int *)(p + 0x3bc) + ((d_021F3541[x] & 0xf) << 5)), 3,
                   (u16)((q[0] + 9) << 4), 0x20);
 }

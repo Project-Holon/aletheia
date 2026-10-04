@@ -22,13 +22,13 @@ typedef unsigned short u16;
 extern char d_021E8530[];
 extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_021D8DD0(int, int, int, char *);
+extern void *func_021D8DD0(void *a, int b, int c, char *p);
 extern int func_0201BA68(int);
 typedef unsigned int   u32;
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 extern int func_02049DF4(void *, int, int, int *, u16);
 extern void func_02082D44(void *, const void *, int);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021E5098(char *p, int b)
 {
@@ -42,13 +42,13 @@ body:
         n = b * 30;
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
-            x = func_021D8DD0(*(int *)(p + 0x828), b, i, p);
+            x = (int)func_021D8DD0((void *)(*(int *)(p + 0x828)), b, i, p);
             if (x) x = func_0201BA68(x);
             else x = func_0201BABC(0, 0, 0, 0);
             t = func_02049DF4(a, x, 0, &out, *(u16 *)(p + 0x5f4));
             func_02082D44(*(void **)(out + 0x14), (void *)(*(int *)(p + 0x1184) + n * 512), 512);
             n++;
-            func_020307B0(t);
+            func_020307B0((void *)t);
         }
     }
     goto done;

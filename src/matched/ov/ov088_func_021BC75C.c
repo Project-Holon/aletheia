@@ -29,18 +29,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 
-extern u32 func_02045B38(u32, u32, u32, u32);
+struct Cfg;
+struct CharBuf;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_020450F0(int, int, u8, int, int, int, int);
-extern void func_02045374(u32 win);
+extern void func_02045374(struct Cfg *cfg);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32 win, u32 c);
-extern u32 func_02045EC0(u32 a, u32 b);
-extern void func_0201F73C(u32 desc, u32 kind, u16 base, u32 pal);
-extern void func_0201C7A4(u32 x, s16 y, s16 z, u32 s, u32 w);
-extern void func_02045808(u32 a);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045C04(u32 a);
+extern void func_02045C04(struct Rec *rec);
 extern void func_021BC870(u8 *p);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -52,26 +57,26 @@ void func_021BC75C(u8 *p)
     u8 i;
     u8 *q;
 
-    arc = func_02045B38(0, 2, 0xab, 0x39);
+    arc = (u32)func_02045B38(0, 2, 0xab, 0x39);
     p[0] = 0;
     W(0xc) = func_020450F0(5, 1, 0x13, 0x1d, 4, 0, 1);
-    func_02045374(W(0xc));
-    func_02043B5C((u32)func_02045770((struct Descriptor *)W(0xc)), 0xf);
-    s = func_02045EC0(arc, W(4));
-    func_0201F73C(W(0xc), 0, 1, 1);
-    func_0201C7A4((u32)func_02045770((struct Descriptor *)W(0xc)), 2, 2, s, W(8));
-    func_02045808(s);
+    func_02045374((struct Cfg *)W(0xc));
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)W(0xc))), 0xf);
+    s = (u32)func_02045EC0((struct MsgBank *)arc, W(4));
+    func_0201F73C((void *)W(0xc), 0, 1, 1);
+    func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)W(0xc))), 2, 2, (void *)s, (void *)W(8));
+    func_02045808((struct U16Vec *)s);
     func_02045334((struct Descriptor *)W(0xc));
     for (i = 0; i < 2; i++) {
         q = p + i * 4;
         *(u32 *)(q + 0x10) = func_020450F0(1, 6, i * 4 + 0xc, 0x14, 2, 0, 1);
-        func_02045374(*(u32 *)(q + 0x10));
-        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10)), 0xf);
-        s = func_02045EC0(arc, i + 5 + W(4) * 2);
-        func_0201C7A4((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10)), 2, 2, s, W(8));
-        func_02045808(s);
+        func_02045374((struct Cfg *)(*(u32 *)(q + 0x10)));
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10))), 0xf);
+        s = (u32)func_02045EC0((struct MsgBank *)arc, i + 5 + W(4) * 2);
+        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10))), 2, 2, (void *)s, (void *)W(8));
+        func_02045808((struct U16Vec *)s);
         func_02045334((struct Descriptor *)*(u32 *)(q + 0x10));
     }
-    func_02045C04(arc);
+    func_02045C04((struct Rec *)arc);
     func_021BC870(p);
 }

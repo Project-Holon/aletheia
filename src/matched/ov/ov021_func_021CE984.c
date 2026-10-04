@@ -17,11 +17,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02190794(u32 h, u32 a, u32 b, u32 c, u32 d);
+struct Slot;
+extern void func_02190794(struct Slot **p, int x, int y, int w, int h);
 
 void func_021CE984(u32 *p, u32 n)
 {
     if (p[3] != 0) {
-        func_02190794(p[3], 0, n << 4, 0x90, 0x10);
+        func_02190794((struct Slot **)p[3], 0, n << 4, 0x90, 0x10);
     }
 }

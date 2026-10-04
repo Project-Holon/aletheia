@@ -18,11 +18,11 @@
  */
 
 extern int func_021D55A4(int kind, int lcd, int plane, int frame);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021CD434(void);
 
 void func_021CD40C(void)
 {
 	func_021D55A4(3, 0, 0x15, 8);
-	func_021C0E40(func_021CD434);
+	func_021C0E40((unsigned int)func_021CD434);
 }

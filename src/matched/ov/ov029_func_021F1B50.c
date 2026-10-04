@@ -27,8 +27,10 @@ typedef struct {
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B954(int, int);
-extern void func_0204B9A0(int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B954(struct Actor *a, u32 v);
+extern void func_0204B9A0(struct Actor *a);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 
@@ -48,8 +50,8 @@ void func_021F1B50(char *p)
         q[0x5c] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
                                 *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
         func_0204B3DC((struct Obj *)q[0x5c], 0);
-        func_0204B954(q[0x5c], 0x2000);
-        func_0204B9A0(q[0x5c]);
+        func_0204B954((struct Actor *)q[0x5c], 0x2000);
+        func_0204B9A0((struct Actor *)q[0x5c]);
         func_0204B92C((struct Obj *)q[0x5c], 1);
     }
 }

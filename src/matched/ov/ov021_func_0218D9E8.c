@@ -39,8 +39,10 @@ typedef struct {
 } List;
 
 extern void func_0218D9C8(List *l);
-extern int func_021694FC(int o);
-extern void func_02169510(int o, int *v);
+typedef unsigned char  u8;
+struct V3;
+extern u16 func_021694FC(u8 *p);
+extern void func_02169510(u8 *src, struct V3 *dst);
 extern void func_02169800(Hits *h, int o, int *pos, int size);
 extern void func_0218DDB4(char *p, int *pos, List *l);
 
@@ -58,14 +60,14 @@ int func_0218D9E8(char *p, int *pos, List *dst)
     n = 0;
     h = *(int *)(p + 4) >> 1;
     for (i = 0; i < *(u16 *)(p + 0x2e); i++) {
-        if (func_021694FC(*(int *)(*(char **)(p + 0x24) + i * 0x28)) == 1) {
+        if (func_021694FC((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28))) == 1) {
             int x;
             int z;
             int x0;
             int x1;
             int z0;
             int z1;
-            func_02169510(*(int *)(*(char **)(p + 0x24) + i * 0x28), v);
+            func_02169510((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28)), (struct V3 *)v);
             x = v[0];
             z = v[2];
             x0 = x - h;

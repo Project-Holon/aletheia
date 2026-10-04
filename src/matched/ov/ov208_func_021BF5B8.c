@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ov208Pltt { u32 pad0[3]; u8 *data; };
-extern u32 func_02049F34(u32, u32, struct Ov208Pltt **, u32);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(void *, void *, u32);
 extern void func_020307B0(void *);
 extern int func_02061CA4(void *, u32, u32, int);
@@ -26,7 +26,7 @@ void func_021BF5B8(u16 *heap, u8 *p)
     struct Ov208Pltt *pltt;
     u32 file;
     u8 *data;
-    file = func_02049F34(159, 3, &pltt, *heap);
+    file = (u32)func_02049F34(159, 3, (u32)(&pltt), *heap);
     data = pltt->data;
     func_02082D44(data + 0x20, p + 0xa8, 32);
     func_02082D44(data + 0x60, p + 0xc8, 32);

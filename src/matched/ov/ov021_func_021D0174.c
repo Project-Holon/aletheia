@@ -22,10 +22,11 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_021ABE24(u32 a);
-extern u32 func_02046E24(u32 a, u32 b);
-extern int func_02046FF8(u32 self);
-extern u32 func_02047400(u32 a, u32 b, u32 c);
+typedef unsigned char  u8;
+extern u32 func_021ABE24(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern int func_02046FF8(int *self);
+extern void *func_02047400(void *a0, u32 n, void *a2);
 extern const u16 data_021DB8CC[];
 extern const u16 data_021DB8C4[];
 
@@ -43,17 +44,17 @@ void func_021D0174(B *p, int i)
     const u16 *t;
     int j;
 
-    x = func_021ABE24(p->f0);
+    x = func_021ABE24((u8 *)p->f0);
     s = data_021DB8CC;
     if (p->f4[i] == 0) {
-        p->f4[i] = func_02046E24(x, s[i]);
-        func_02046FF8(p->f4[i]);
-        p->f34[i] = func_02047400(p->f4[i], 0, p->f4[i]);
+        p->f4[i] = (u32)func_02046E24(x, s[i]);
+        func_02046FF8((int *)p->f4[i]);
+        p->f34[i] = (u32)func_02047400((void *)p->f4[i], 0, (void *)p->f4[i]);
     }
     t = data_021DB8C4;
     for (j = 0; j < 4; j++, t++) {
         if (p->f24[j] == 0) {
-            p->f24[j] = func_02046E24(x, *t);
+            p->f24[j] = (u32)func_02046E24(x, *t);
         }
     }
 }

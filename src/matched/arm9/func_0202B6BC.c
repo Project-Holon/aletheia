@@ -10,9 +10,10 @@
  * status:   EXACT
  */
 
-extern void func_0202B8E4(int);
+struct Obj;
+extern void func_0202B8E4(struct Obj *o);
 void func_0202B6BC(int a0)
 {
-    func_0202B8E4(*(int *)((char *)a0 + 36));
+    func_0202B8E4((struct Obj *)(*(int *)((char *)a0 + 36)));
     *(int *)((char *)a0 + 36) = 0;
 }

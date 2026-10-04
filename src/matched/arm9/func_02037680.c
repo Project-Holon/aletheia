@@ -45,7 +45,8 @@ extern const u8 str_020A7A24[];
 extern const u8 str_020A7A34[];
 extern struct Net *g_021469D0;
 extern void func_02034714(const u8 *file, int line, const u8 *msg);
-extern void func_0203640C(u8 *dst, u8 *src, u32 n);
+struct Rec;
+extern void func_0203640C(struct Rec *p, u32 a, int b);
 extern void func_02037234(u8 *p);
 
 void func_02037680(int i)
@@ -54,7 +55,7 @@ void func_02037680(int i)
         func_02034714(str_020A7A24, 0x155, str_020A7A34);
     }
     g_021469D0->f1B4[i] = 0;
-    func_0203640C(g_021469D0->f4C + i * 16, g_021469D0->f10 + i * g_021469D0->f1E0, g_021469D0->f1E0);
+    func_0203640C((struct Rec *)(g_021469D0->f4C + i * 16), (u32)(g_021469D0->f10 + i * g_021469D0->f1E0), g_021469D0->f1E0);
     g_021469D0->f1D7[i] = 0;
     func_02037234(g_021469D0->f11C + i * 16);
 }

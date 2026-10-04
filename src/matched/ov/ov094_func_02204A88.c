@@ -29,7 +29,7 @@ struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *h, s16 *in, int k);
-extern void func_0220687C(Main *m, int a);
+extern void func_0220687C(char *p, void *q);
 
 void func_02204A88(int a0, Ctx *c)
 {
@@ -42,6 +42,6 @@ void func_02204A88(int a0, Ctx *c)
     v[0] -= 8;
     func_0204B404(c->main->o214, v, 1);
     if (v[0] == 0xe0) {
-        func_0220687C(c->main, a0);
+        func_0220687C((char *)c->main, (void *)a0);
     }
 }

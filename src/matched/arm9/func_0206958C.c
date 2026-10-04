@@ -59,7 +59,8 @@ typedef struct {
     signed char b01;
 } Hdr;
 
-extern s32 func_02068030(void *a, void *b, const void *cur, void *last);
+struct NNSG2dFont;
+extern int func_02068030(const struct NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos);
 extern void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2,
                           const void *cur, const void **slot, Step st);
 
@@ -96,11 +97,11 @@ void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
         px = x + sx;
         py = y + sy;
         if (bit11 != 0) {
-            n = w - func_02068030(ctx->f04, ctx->f08, cur, 0);
+            n = w - func_02068030(ctx->f04, (int)ctx->f08, cur, 0);
             px = px + n * st.dx;
             py = py + n * st.dy;
         } else if (bit10 != 0) {
-            n = half - (func_02068030(ctx->f04, ctx->f08, cur, 0) + 1) / 2;
+            n = half - (func_02068030(ctx->f04, (int)ctx->f08, cur, 0) + 1) / 2;
             px = px + n * st.dx;
             py = py + n * st.dy;
         }

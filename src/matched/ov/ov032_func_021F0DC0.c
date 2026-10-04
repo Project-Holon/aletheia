@@ -11,5 +11,5 @@
  * symbols:
  *   func_02165E24 0x02165E24 thumb ov010
  */
-extern unsigned short func_02165E24(void *);
-int func_021F0DC0(void *p) { int a; a=func_02165E24(p); if(a==0 || a>=0x33) return 0x12; return a+0x11; }
+extern int func_02165E24(int a0);
+int func_021F0DC0(void *p) { int a; a=func_02165E24((int)p); if(a==0 || a>=0x33) return 0x12; return a+0x11; }

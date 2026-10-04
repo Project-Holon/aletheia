@@ -24,7 +24,7 @@ extern void *func_021C7CF4(int *p, int i);
 extern u32 func_021D5B40(void *p);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
-extern u32 func_021D805C(u32 v, int k);
+extern u32 func_021D805C(void *p, u32 n);
 
 void func_021E5DAC(u8 *p, void *a, int b, int *c)
 {
@@ -41,7 +41,7 @@ void func_021E5DAC(u8 *p, void *a, int b, int *c)
     *(int *)(q + 4) = 1;
     func_021C88C8(a, q);
     *c = 1;
-    if (func_021D775C(0x46) == 0 && func_021D775C(0x47) == 0 && func_021D805C(v, 9) != 0) {
+    if (func_021D775C(0x46) == 0 && func_021D775C(0x47) == 0 && func_021D805C((void *)v, 9) != 0) {
         q = func_021C88A4(a, 0x22, b);
         q[4] = func_021D775C(4);
         *(u16 *)(q + 6) = v;

@@ -10,5 +10,6 @@
  * symbols:
  *   func_021BCBA0 0x021BCBA0 thumb ov216
  */
-extern void *func_021BCBA0(void *);
-void *func_021BCA38(char *p){return func_021BCBA0(p+4);}
+typedef unsigned int   u32;
+extern u32 func_021BCBA0(u32 *p);
+void *func_021BCA38(char *p){return (void *)func_021BCBA0((u32 *)(p+4));}

@@ -46,7 +46,7 @@ extern u64 func_020870D0(void);
 extern void func_022094BC(void *, int, int, int);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_02209744(void *, void *);
+extern void func_02209744(int unused, int x);
 void func_02209318(Work *m, int a, int b)
 {
     Six icons;
@@ -82,5 +82,5 @@ void func_02209318(Work *m, int a, int b)
     m->time[0] = m->time[1];
     func_022094BC(m, 0, 0, 0);
     func_022094BC(m, 1, 0, 0);
-    m->task = func_02030DA8(func_021F86D4(), func_02209744, m, 0);
+    m->task = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))func_02209744, m, 0);
 }

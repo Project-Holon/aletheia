@@ -17,9 +17,9 @@
  *   func_0203B0C4  0x0203B0C4  arm
  */
 
-extern void func_0203B0C4(void *p, int flag);
+extern void func_0203B0C4(int a0, int a1);
 
 void func_0203D000(void *p)
 {
-    func_0203B0C4(p, 0);
+    func_0203B0C4((int)p, 0);
 }

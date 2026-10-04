@@ -17,15 +17,16 @@
  */
 
 typedef unsigned char u8;
-extern void func_0204AFD8(void *);
-extern void func_0204ADA4(void *);
+typedef unsigned int   u32;
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 void func_021C65E4(u8 *p)
 {
-    func_0204AFD8(*(void **)(p + 0x230));
-    func_0204ADA4(*(void **)(p + 0x250));
+    func_0204AFD8((u32)(*(void **)(p + 0x230)));
+    func_0204ADA4((u32)(*(void **)(p + 0x250)));
     func_0204B1CC(*(void **)(p + 0x1EC));
     func_0204A5AC();
 }

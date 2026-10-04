@@ -21,19 +21,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02188C58(u32);
-extern u32 func_021A7B20(u32);
+struct Args;
+struct Evt;
+extern void *func_02188C58(void *p);
+extern void *func_021A7B20(struct Args *a);
 extern void func_021BDC80(u32 *);
-extern void func_02012374(u32, u32);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 u32 func_021BDB5C(u32 a, int *st, u32 *ctx)
 {
     u32 *p = (u32 *)ctx[0];
 
-    func_02188C58(p[3]);
+    func_02188C58((void *)p[3]);
     switch (*st) {
     case 0:
-        func_02012374(a, func_021A7B20((u32)p));
+        func_02012374((struct Evt *)a, func_021A7B20((struct Args *)((u32)p)));
         (*st)++;
         break;
     case 1:

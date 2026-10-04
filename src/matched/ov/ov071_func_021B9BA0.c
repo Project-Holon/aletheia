@@ -23,8 +23,9 @@ void func_021B9BA0(void *p)
     func_021B6B38((char *)p + 8);
 }
 
+typedef unsigned char  u8;
 void func_021B9BAC(void *p, int a)
 {
-    void func_021B6B70(void *, int);
-    func_021B6B70(p, a + 8);
+    int func_021B6B70(void **p, u8 *q);
+    func_021B6B70(p, (u8 *)(a + 8));
 }

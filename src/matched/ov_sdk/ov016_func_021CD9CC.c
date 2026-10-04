@@ -29,7 +29,7 @@ extern void func_021CDA10(void);
 extern signed char func_021D1568(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021D1524(void);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CDA14(void);
 
 void func_021CD9CC(void)
@@ -41,5 +41,5 @@ void func_021CD9CC(void)
     func_021CFFAC(6);
     func_021D1524();
     func_021CFFAC(6);
-    func_021C0E40(func_021CDA14);
+    func_021C0E40((unsigned int)func_021CDA14);
 }

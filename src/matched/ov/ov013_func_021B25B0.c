@@ -16,18 +16,19 @@
 
 typedef unsigned char u8;
 
-extern int func_021B20D4(int a, int b, u8 *buf, int n);
-extern int func_021B275C(int a, u8 *buf);
+struct Chan;
+extern int func_021B20D4(struct Chan *a, unsigned int b, unsigned char *buf, unsigned int c);
+extern int func_021B275C(u8 *o, u8 *p);
 
 int func_021B25B0(int a, int b)
 {
     u8 buf[16];
     int r;
 
-    r = func_021B20D4(a, b, buf, 16);
+    r = func_021B20D4((struct Chan *)a, b, buf, 16);
     if (r != 0)
         return r;
-    if (func_021B275C(a, buf) != 0)
+    if (func_021B275C((u8 *)a, buf) != 0)
         return 0;
     return -4;
 }

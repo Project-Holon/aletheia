@@ -25,12 +25,13 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32  func_0200CA1C(void *a);
+struct Blk37;
+extern void *func_0200CA1C(void *a);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017988(void *mon, u16 form);
-extern void func_0200CFA0(u32 v, void *mon);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 
 void func_0216AAE4(void *sys, void *party, int season)
 {
@@ -42,7 +43,7 @@ void func_0216AAE4(void *sys, void *party, int season)
     int doneA;
     int doneB;
 
-    dex = func_0200CA1C(sys);
+    dex = (u32)func_0200CA1C(sys);
     doneA = 0;
     doneB = 0;
 
@@ -78,13 +79,13 @@ void func_0216AAE4(void *sys, void *party, int season)
         if (species == 585 && form != formA) {
             func_02017988(mon, formA);
             if (!doneA) {
-                func_0200CFA0(dex, mon);
+                func_0200CFA0((struct Blk37 *)dex, mon);
                 doneA = 1;
             }
         } else if (species == 586 && form != formB) {
             func_02017988(mon, formB);
             if (!doneB) {
-                func_0200CFA0(dex, mon);
+                func_0200CFA0((struct Blk37 *)dex, mon);
                 doneB = 1;
             }
         }

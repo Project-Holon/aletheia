@@ -31,11 +31,12 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_02021540();
-extern u32 func_020215A0();
+struct PalAnmSlot;
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 u32 func_021C0800(u32 a0)
 {
-    func_020215A0(*(u32*)(((u8*)a0) + 952), 0);
-    func_020215A0(*(u32*)(((u8*)a0) + 952), 2);
+    func_020215A0((struct PalAnmSlot *)(*(u32*)(((u8*)a0) + 952)), 0);
+    func_020215A0((struct PalAnmSlot *)(*(u32*)(((u8*)a0) + 952)), 2);
     return func_02021540(*(u32*)(((u8*)a0) + 952));
 }
 

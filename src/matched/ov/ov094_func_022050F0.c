@@ -67,17 +67,19 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern int func_0201EC64(int);
+typedef signed short   s16;
+struct PalAnmSlot;
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201DD78(u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(int, void *, void *);
-extern void func_02204C98(void *a, int b, int *w, int *h);
-extern void func_0201C7A4(int, short, short, void *, int);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02204C98(int a, int b, int *outn, int *outq);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(int);
-extern void *func_02049F34(u32 arc, u32 file, Res **out, u16 heap);
-extern void func_020215BC(int, u16 *, int, int, u16);
+extern void func_0201ED04(struct WordSet *p);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_020307B0(void *);
 
 extern const int d_0220A7FC[2][6][2];
@@ -103,22 +105,22 @@ void func_022050F0(char *s, Out *out, const Info *p)
     k = (*(int *)(s + 0x50) == 2) ? 1 : 0;
     func_0201DE00(&c[2], &c[1], &c[0]);
     v = func_020457B0(12, (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
-    h = func_0201EC64((u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
+    h = (int)func_0201EC64((u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
     func_0201DD78(1, 2, 0);
     for (i = 0; i < n; i++) {
         if (p->e[i].show != 0) {
             w = func_02045EC0(*(void **)(s + 0x5c), p->e[i].kind + 3);
             func_0201EEF4((void *)h, 0, p->e[i].text);
-            func_0201F250(h, v, w);
-            func_02204C98(v, *(int *)(s + 0x224), &ww, &hh);
-            func_0201C7A4(*(int *)(s + 0x22c), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, *(int *)(s + 0x224));
+            func_0201F250((struct WordSet *)h, v, w);
+            func_02204C98((int)v, *(int *)(s + 0x224), &ww, &hh);
+            func_0201C7A4((void *)(*(int *)(s + 0x22c)), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, (void *)(*(int *)(s + 0x224)));
             func_02045808(w);
         }
         (s + i)[0x25a] = p->e[i].flag;
     }
     (s + i)[0x25a] = 1;
     func_0201DD78(c[2], c[1], c[0]);
-    func_0201ED04(h);
+    func_0201ED04((struct WordSet *)h);
     func_02045808(v);
     idx = (p->b48 - 2) / 2;
     ((Bits6C *)(s + 0x6c))->x = p->b49;
@@ -127,13 +129,13 @@ void func_022050F0(char *s, Out *out, const Info *p)
     if (*(int *)(s + 0x50) != 2)
         m = 2;
     for (i = 0; i < m; i++) {
-        r = func_02049F34(11, 0xd3, &res, (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
-        func_020215BC(*(int *)(s + 0x64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        r = func_02049F34(11, 0xd3, (u32)(&res), (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
+        func_020215BC((struct PalAnmSlot *)(*(int *)(s + 0x64)), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
         func_020307B0(r);
     }
     for (m *= 2; i < m; i++) {
-        r = func_02049F34(11, 0xd4, &res, (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
-        func_020215BC(*(int *)(s + 0x64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        r = func_02049F34(11, 0xd4, (u32)(&res), (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
+        func_020215BC((struct PalAnmSlot *)(*(int *)(s + 0x64)), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
         func_020307B0(r);
     }
 }

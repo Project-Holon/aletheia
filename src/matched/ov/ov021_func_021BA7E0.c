@@ -31,9 +31,9 @@ typedef long long      s64;
 
 typedef struct { int x, y, z; } V;
 
-u32 func_021B821C(u32 p);
-void func_0218E124(u32 a, u32 b);
-void func_0218EC54(u32 a);
+u32 func_021B821C(u8 *p);
+void func_0218E124(u8 *a, u32 s);
+void func_0218EC54(u8 *p);
 void func_021B79D4(u32 p, V *v);
 void func_0207CA00(const V *a, const V *b, V *c);
 void func_0207CCA4(const V *a, V *b);
@@ -57,9 +57,9 @@ void func_021BA7E0(u32 p, u16 ang, int r, V *pos)
     int i;
     int cr;
 
-    h = func_021B821C(p);
-    func_0218E124(h, 2);
-    func_0218EC54(h);
+    h = func_021B821C((u8 *)p);
+    func_0218E124((u8 *)h, 2);
+    func_0218EC54((u8 *)h);
     c = *pos;
     save = c.y;
     c.y = 0;

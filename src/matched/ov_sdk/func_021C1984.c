@@ -34,7 +34,7 @@ extern void func_021BD674(int x);
 extern void func_021BD060(int a, int b, int c);
 extern void func_021D0AB0(int x);
 extern void func_021BD4C8(int a, int b, int c, int d);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern u8   dat_021DE59C[];
 extern u16  d_021DA488[][4];
 extern u16  d_021DA48A[][4];
@@ -53,5 +53,5 @@ void func_021C1984(void)
     i = dat_021DE59C[0];
     func_021BD4C8(d_021DA488[i][0], d_021DA48C[i][0],
                   d_021DA48A[i][0], d_021DA48E[i][0]);
-    func_021C0E40(func_021C1AE8);
+    func_021C0E40((unsigned int)func_021C1AE8);
 }

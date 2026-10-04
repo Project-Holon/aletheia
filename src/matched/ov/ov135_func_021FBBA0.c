@@ -20,8 +20,8 @@ typedef unsigned int u32;
 struct WinMgr;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int on);
-extern u32 func_0204B898(u32 p);
-extern void func_0204B878(u32 p, u16 k);
+extern u16 func_0204B898(struct Obj *p);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021FA85C(void *p);
 extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 int func_021FBBA0(u8 *p)
@@ -31,7 +31,7 @@ int func_021FBBA0(u8 *p)
     switch (r) {
     case -2:
         func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
+        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
         func_0202CAE4(*(void **)(p + 0x18), 0, 0x60, 0x18, 1);
         *(int *)(p + 0x48) = 5;
         *(int *)(p + 0x4c) = 28;
@@ -39,7 +39,7 @@ int func_021FBBA0(u8 *p)
     case -1: break;
     default:
         func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
+        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
         *(int *)(p + 0x48) = 3;
         *(int *)(p + 0x4c) = 29;
         *(s16 *)(p + 0x3e) = r;

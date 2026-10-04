@@ -72,7 +72,8 @@ extern struct Obj *sub_0204CFDC(void *owner, const struct Req *r, void *c, u32 s
 extern void sub_0204B59C(struct Obj *o, s16 value, u32 axis);
 extern void sub_0204B5D4(struct Obj *o, u32 value, u32 axis);
 extern void sub_0204B5F4(struct Obj *o, u16 value);
-extern void sub_0204B570(struct Obj *o, u16 value);
+struct Actor;
+extern void sub_0204B570(struct Actor *actor, u32 value);
 
 struct Obj *sub_0204D048(void *owner, const struct Req *r, void *c, u32 space, u16 e)
 {
@@ -83,6 +84,6 @@ struct Obj *sub_0204D048(void *owner, const struct Req *r, void *c, u32 space, u
     sub_0204B5D4(o, r->unk_0c, 0);
     sub_0204B5D4(o, r->unk_10, 1);
     sub_0204B5F4(o, r->unk_14);
-    sub_0204B570(o, r->unk_16);
+    sub_0204B570((struct Actor *)o, r->unk_16);
     return o;
 }

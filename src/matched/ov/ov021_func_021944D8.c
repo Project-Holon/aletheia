@@ -25,12 +25,12 @@ typedef unsigned short u16;
 
 extern void *func_0216D69C(void *p);
 extern int func_021945A0(int x);
-extern void func_0216D5E0(void *a, int x);
+extern void func_0216D5E0(int a0, int a1);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern u16 func_0216D5F8(void *p);
-extern void func_0216E014(void *a, int p, int n);
+extern void func_0216E014(void *a, int *p, int b);
 extern u16 func_0216D598(void *p);
 extern void func_0216D674(void *a, int v);
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
@@ -45,12 +45,12 @@ void func_021944D8(void *a)
     int t;
 
     r4 = func_0216D69C(a);
-    func_0216D5E0(a, func_021945A0(*(u16 *)r4[0]));
+    func_0216D5E0((int)a, func_021945A0(*(u16 *)r4[0]));
     r6 = 0;
     func_0216D88C(a, (struct VecFx32 *)v);
     p = (int *)r4[1];
     if (v[0] != p[0] || v[1] != p[1] || v[2] != p[2]) {
-        func_0216E014(a, r4[1], func_0216D5F8(a));
+        func_0216E014(a, (int *)r4[1], func_0216D5F8(a));
         r6 = 3;
         if (*(u16 *)(r4[3] + 6) != 0) {
             s = func_0216D598(a);

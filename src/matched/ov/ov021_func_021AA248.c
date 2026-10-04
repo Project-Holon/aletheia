@@ -57,20 +57,23 @@ struct Sel {
 
 struct Pos;
 extern void *func_02188CB4(u8 *p);
-extern void *func_02012A38(void *p);
+struct BigObj;
+struct Out;
+struct Unit;
+extern u32 func_02012A38(const struct BigObj *p);
 extern void func_021AA728(struct Pos *p, void *q);
 extern u8 func_02193920(u8 *p);
 extern int func_021AA42C(void *a, void *b);
 extern int func_021AA35C(void *ctx, int mode, u8 *out);
 extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u32 v);
+extern u16 func_021A1BF4(u8 *p);
 extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_021A9604(void *b, struct Sel *s, struct Slot14 *o);
+extern u32 func_021A9604(int obj, struct Sel *sel, struct Out *out);
 extern void *func_02013090(u32 heap);
-extern void func_021AA490(struct Ctx *ctx, struct Sel *s, void *a, int b, struct Slot14 *o);
+extern void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
 extern void func_021AA6F8(struct Pos *p, void *q);
-extern int func_0216E7C8(int a0, void *a1, void *a2, int a3, int a4);
+extern int func_0216E7C8(int a0, int a1, int a2, int a3, int a4);
 
 int func_021AA248(struct Ctx *ctx, void *b)
 {
@@ -83,7 +86,7 @@ int func_021AA248(struct Ctx *ctx, void *b)
     void *h;
 
     q = func_02188CB4(ctx->f00);
-    p = func_02012A38(ctx->f08);
+    p = (void *)func_02012A38(ctx->f08);
     func_021AA728(p, q);
     if (func_02193920(b) == 1) {
         return 0;
@@ -93,13 +96,13 @@ int func_021AA248(struct Ctx *ctx, void *b)
     }
     loc = 0;
     m = func_021AA35C(ctx, 3, &loc);
-    func_021A9350(&sel, ctx->f08, m, 3, func_021A1BF4(func_02188C6C(ctx->f00)));
+    func_021A9350(&sel, ctx->f08, m, 3, func_021A1BF4((u8 *)func_02188C6C(ctx->f00)));
     func_02082BCC(slots, 0, 0x28);
-    if (!func_021A9604(b, &sel, slots)) {
+    if (!func_021A9604((int)b, &sel, (struct Out *)slots)) {
         return 0;
     }
     h = func_02013090(4);
-    func_021AA490(ctx, &sel, h, 4, slots);
+    func_021AA490(ctx, (struct Unit *)(&sel), h, 4, slots);
     func_021AA6F8(p, q);
-    return func_0216E7C8(ctx->f04, ctx->f00, h, 0, 3);
+    return func_0216E7C8(ctx->f04, (int)ctx->f00, (int)h, 0, 3);
 }

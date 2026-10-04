@@ -93,7 +93,8 @@ int func_0217F268(Ctx *ctx, int *flag);
 void func_0217F24C(Ctx *ctx);
 int func_02173A48(int a, ...);
 void *func_02012934(const struct BigObj *p);
-void func_020120F4(int a);
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
 int func_0201AA1C(void *a);
 int func_0201AAD4(void *a);
 u32 func_0201AA88(void *p);
@@ -156,7 +157,7 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
             func_0217F210(ctx, a2, 0x13e);
             flag = 0;
         } else if (obj->f2d == 0x18 && flag == 1) {
-            func_020120F4(ctx->sys->fc);
+            func_020120F4((const struct Ctx *)ctx->sys->fc);
             if (func_0201AA1C(h) < 2) {
                 flag = 0;
                 obj->f6e = 1;

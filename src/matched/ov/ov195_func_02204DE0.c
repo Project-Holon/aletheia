@@ -21,11 +21,13 @@
 
 extern int func_02005E50(void);
 extern int func_02005F38(void);
-extern void func_02005DE4(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 extern void func_02005D28(void);
-extern int func_020063B4(int, void *, int);
-extern void func_02204F40(char *, char *);
+extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
+extern void func_02204F40(int a, int *p);
 
 void func_02204DE0(char *a, char *b)
 {
@@ -35,7 +37,7 @@ void func_02204DE0(char *a, char *b)
     case 1:
         if (func_02005E50() == 0) {
             if (*(int *)(a + 0xc) != 0) {
-                func_02005DE4(1);
+                func_02005DE4((void *)1);
                 func_02005E64();
             }
             *(int *)(b + 0x30) = 0;
@@ -46,7 +48,7 @@ void func_02204DE0(char *a, char *b)
             *(int *)(b + 0x30) = 0;
         break;
     case 3:
-        if (func_020063B4(0x3f3, b + 0x34, 0) != 0)
+        if (func_020063B4((u8 *)0x3f3, (u32 *)(b + 0x34), 0) != 0)
             *(int *)(b + 0x30) = 4;
         break;
     case 4:
@@ -59,16 +61,16 @@ void func_02204DE0(char *a, char *b)
         }
         break;
     case 7:
-        if (func_020063B4(0x519, b + 0x34, 0) != 0)
+        if (func_020063B4((u8 *)0x519, (u32 *)(b + 0x34), 0) != 0)
             *(int *)(b + 0x30) = 8;
         break;
     case 8:
         if (func_02005F38() == 0)
-            func_02204F40(a, b);
+            func_02204F40((int)a, (int *)b);
         break;
     case 9:
         if (func_02005F38() == 0)
-            func_02204F40(a, b);
+            func_02204F40((int)a, (int *)b);
         break;
     }
 }

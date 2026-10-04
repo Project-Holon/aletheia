@@ -19,10 +19,12 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 extern u32 func_021BF740(u8 *);
 extern int func_02012FCC(int);
-extern u32 func_0200864C(int);
+typedef unsigned short u16;
+struct PlayTime;
+extern u16 func_0200864C(const struct PlayTime *p);
 u32 func_021BF968(u8 *p)
 {
-    u32 v = func_0200864C(func_02012FCC(func_021BF740(p)));
+    u32 v = func_0200864C((const struct PlayTime *)func_02012FCC(func_021BF740(p)));
     if (v < 10) return 135;
     if (v < 20) return 136;
     if (v < 30) return 137;

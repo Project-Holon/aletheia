@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Ctx;
 struct Desc;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(int a);
+extern int func_02189A08(unsigned char *p);
 extern u32 func_021CF52C(u32 *p, int size, int heap);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F5748(void *task, int *st);
@@ -36,7 +36,7 @@ void *func_021F5698(void *a)
     void *h;
     int i;
 
-    w = (u8 *)func_021CF52C((u32 *)func_02189A08((int)func_0201210C(a)), 0x19E0, 0x50);
+    w = (u8 *)func_021CF52C((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(a))), 0x19E0, 0x50);
     h = func_020122C0(a, 0, (void (*)(void))func_021F5748, 0);
     *(s16 *)(w + 0x19CA) = 7;
     *(s16 *)(w + 0x19C8) = 0;

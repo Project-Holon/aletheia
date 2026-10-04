@@ -20,7 +20,8 @@
 typedef unsigned short u16;
 extern int func_021912F8(void *p);
 extern void func_0219131C(void *p);
-extern void func_021909BC(void *p);
+typedef unsigned int   u32;
+extern int func_021909BC(u32 a);
 int func_021875B8(char *p)
 {
     if (*(void **)(p + 0x10) != 0) {
@@ -33,7 +34,7 @@ int func_021875B8(char *p)
         }
     }
     if (*(void **)(p + 0x14) != 0) {
-        func_021909BC(*(void **)(p + 0x14));
+        func_021909BC((u32)(*(void **)(p + 0x14)));
         *(void **)(p + 0x14) = 0;
     }
     return 1;

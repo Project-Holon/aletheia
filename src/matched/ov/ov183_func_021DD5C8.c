@@ -31,15 +31,17 @@ extern const struct Record d_021E3350[];
 typedef unsigned int   u32;
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern void func_021FB964(int, int, int);
+typedef signed short   s16;
+struct Blk1AC;
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021FC754(void *, int, int, int, u16);
-extern void *func_021FD12C(int, int, int);
-extern void func_021FD170(void *, int, int);
-extern int func_0200DABC(int);
+extern void func_021FC754(char *p, void *a, void *b, void *font, unsigned short value);
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
+extern u16 func_0200DABC(struct Blk1AC *p);
 extern int func_021FC124(int, int, struct Triple *);
-extern void func_021DE084(void *, int, struct Triple *, int, short, short, u16);
+extern void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap);
 void func_021DD5C8(char *p, char *q)
 {
     int first, second, v;
@@ -48,7 +50,7 @@ void func_021DD5C8(char *p, char *q)
     u8 a, b, c, d;
     first = func_021FC20C(*(char **)(q + 8));
     second = func_021FC214(*(char **)(q + 8));
-    func_021FB964(*(int *)(q + 8), 14, *(u16 *)(p + 0x7c));
+    func_021FB964((void *)(*(int *)(q + 8)), 14, *(u16 *)(p + 0x7c));
     rec = &d_021E3350[0];
     d = rec->d;
     a = rec->a;
@@ -56,10 +58,10 @@ void func_021DD5C8(char *p, char *q)
     c = rec->c;
     *(void **)(p + 0x34) = func_021FC6A4(1, a, b, c, d, 14, *(void **)(p + 4), *(u16 *)(p + 0x7c));
     func_021FC868(*(void **)(p + 0x34), 0, 1, 0);
-    func_021FC754(*(void **)(p + 0x34), second, rec->value, first, 0x3da0);
-    *(void **)(p + 0x1c) = func_021FD12C(*(int *)(q + 8), *(int *)(p + 4), *(u16 *)(p + 0x7c));
-    func_021FD170(*(void **)(p + 0x1c), *(int *)(q + 8), 0x86);
-    v = func_0200DABC(*(int *)(q + 0x10));
+    func_021FC754(*(void **)(p + 0x34), (void *)second, (void *)rec->value, (void *)first, 0x3da0);
+    *(void **)(p + 0x1c) = func_021FD12C(*(int *)(q + 8), (void *)(*(int *)(p + 4)), *(u16 *)(p + 0x7c));
+    func_021FD170(*(void **)(p + 0x1c), (char *)(*(int *)(q + 8)), (void *)0x86);
+    v = func_0200DABC((struct Blk1AC *)(*(int *)(q + 0x10)));
     func_021FC124(*(int *)(q + 8), 13, &triple);
-    func_021DE084((void *)(p + 8), *(int *)(q + 4), &triple, v, 0x68, 0x58, *(u16 *)(p + 0x7c));
+    func_021DE084((void *)(p + 8), (void *)(*(int *)(q + 4)), (const char *)(&triple), v, 0x68, 0x58, *(u16 *)(p + 0x7c));
 }

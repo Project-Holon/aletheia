@@ -46,7 +46,7 @@ extern void func_021D4FA4(void *,u32);
 extern void func_021D5214(void *,u32);
 extern void func_021D57D0(void *);
 extern void func_021D5598(u8 *p);
-extern void func_021D4E58(void *,u32);
+extern void func_021D4E58(u32 unused, unsigned long base);
 extern void func_021D50BC(void *,u32);
 extern void func_021D532C(void *);
 u8 *func_021D4D38(u16 heap, u32 mode) {
@@ -71,7 +71,7 @@ u8 *func_021D4D38(u16 heap, u32 mode) {
         func_021D5598(p);
         break;
     case 0:
-        func_021D4E58(p,0);
+        func_021D4E58((u32)p,0);
         func_021D50BC(p,4);
         func_021D532C(p);
         break;

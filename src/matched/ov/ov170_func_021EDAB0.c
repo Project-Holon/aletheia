@@ -15,18 +15,20 @@
  *   func_021EDBE8 0x021EDBE8 thumb ov170
  *   func_021EDC0C 0x021EDC0C thumb ov170
  */
-extern void *func_02049E34(unsigned, unsigned, unsigned, void **, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02082D44(const void *, void *, unsigned);
 extern void func_020307B0(void *);
 extern int func_021DEDCC(unsigned char *, int);
-extern void func_021EDBE8(char *, unsigned char *, int, unsigned, unsigned);
+extern void func_021EDBE8(int x0, unsigned char *a, unsigned c, unsigned char d, unsigned n);
 extern void func_021EDC0C(char *, int, unsigned char *);
 void func_021EDAB0(char *p, int i)
 {
     void *t;
-    void *q = func_02049E34(0x74, 0x47, 1, &t, 0x4c);
+    void *q = func_02049E34(0x74, 0x47, 1, (u32)(&t), 0x4c);
     func_02082D44(*(void **)((char *)t + 0x14), *(char **)(p + 0x2c) + 0x3e70 + i * 0x400, 0x400);
     func_020307B0(q);
-    func_021EDBE8(p, (unsigned char *)(*(char **)(p + 0x2c) + 0x3e70 + i * 0x400), func_021DEDCC((unsigned char *)p, i), 8, 0x400);
+    func_021EDBE8((int)p, (unsigned char *)(*(char **)(p + 0x2c) + 0x3e70 + i * 0x400), func_021DEDCC((unsigned char *)p, i), 8, 0x400);
     func_021EDC0C(p, i, (unsigned char *)(*(char **)(p + 0x2c) + 0x3e70 + i * 0x400));
 }

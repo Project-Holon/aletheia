@@ -45,7 +45,7 @@ typedef struct {
 } Ctx0202FED8;
 
 extern Ctx0202FED8 g_02146954;
-extern u32 func_02060C5C(u32 a, u32 b, u32 c);
+extern void *func_02060C5C(void *start, u32 size, u32 attr);
 
 int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3)
 {
@@ -55,7 +55,7 @@ int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3)
         if (g_02146954.f00[i].f0 != 0) {
             continue;
         }
-        g_02146954.f00[i].f0 = func_02060C5C(a2, a3, 0);
+        g_02146954.f00[i].f0 = (u32)func_02060C5C((void *)a2, a3, 0);
         if (g_02146954.f00[i].f0 == 0) {
             g_02146954.f0e = 5;
             continue;

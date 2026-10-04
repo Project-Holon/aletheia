@@ -50,7 +50,8 @@ typedef struct {
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(const void *a, u32 b, u32 heap);
 extern const u8 d_020A1448[];
-extern u32 func_0204B100(u32 a, u32 b, u32 heap);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -71,7 +72,7 @@ void func_021C6D9C(Anim *a, u32 x)
 
     h = func_020490F4(0x28, a->heap);
     func_0204A48C(d_020A1448, x, a->heap);
-    a->f4 = func_0204B100(0x23, 0, a->heap);
+    a->f4 = (u32)func_0204B100(0x23, 0, a->heap);
     a->fB8 = func_0204AC18(h, 0xC, 1, 0, 0, 5, a->heap);
     a->fBC = func_0204A6C8(h, 0x1D, 0, 1, a->heap);
     a->fC0 = func_0204AF28(h, 0x2E, 0x30, a->heap);

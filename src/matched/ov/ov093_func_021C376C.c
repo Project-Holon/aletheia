@@ -24,7 +24,8 @@ typedef struct { u8 pad[5]; u8 f : 1; } Q;
 extern void func_021C37E0(int it);
 extern int func_021C37F0(int it);
 extern int func_021C3800(int it);
-extern int func_021C3810(u8 *p, int b, int r, int z, int *out, int z1, int z2, int z3);
+struct Msg;
+extern int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore, const struct Msg *msg);
 extern void func_021C5718(u8 *p, int b, int c);
 
 void func_021C376C(u8 *p, u16 a1, int b, int it)
@@ -34,7 +35,7 @@ void func_021C376C(u8 *p, u16 a1, int b, int it)
     func_021C37E0(it);
     r = func_021C37F0(it);
     while (r) {
-        if (func_021C3810(p, b, r, 0, &v, 0, 0, 0)) {
+        if (func_021C3810(p, (u8 *)b, (u8 *)r, 0, &v, 0, 0, 0)) {
             Q *q = *(Q **)(p + 0x4a8);
             if (!q->f)
                 q->f = 1;

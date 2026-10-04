@@ -44,7 +44,8 @@ struct S {
     int f80;
 };
 
-extern int func_0201C6B4(int a);
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_02035BA4(void *p);
 extern u32 func_021B8A44(struct S *s);
 extern void func_021B8434(struct S *s, s8 a, u8 b, u16 c, u32 d);
@@ -54,7 +55,7 @@ int func_021B8B74(struct S *s)
     u32 x;
     u32 d;
 
-    if (func_0201C6B4(s->f34) == 0)
+    if (func_0201C6B4((const struct PrintSys *)s->f34) == 0)
         return 1;
     if (func_02035BA4(&s->f74) == -1 && s->f80 == -1) {
         s->f7f = 0;

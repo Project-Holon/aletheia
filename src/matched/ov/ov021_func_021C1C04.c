@@ -14,14 +14,15 @@
 
 typedef unsigned int u32;
 
-extern void func_02048AC4(u32);
-extern void func_02047E54(u32);
+struct Rec;
+extern void func_02048AC4(void *ptr);
+extern void func_02047E54(struct Rec *p);
 extern void func_020307B0(void *);
 
 void func_021C1C04(u32 *p)
 {
-    func_02048AC4(p[1]);
-    func_02048AC4(p[2]);
-    func_02047E54(p[5]);
+    func_02048AC4((void *)p[1]);
+    func_02048AC4((void *)p[2]);
+    func_02047E54((struct Rec *)p[5]);
     func_020307B0(p);
 }

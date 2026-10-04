@@ -14,14 +14,14 @@
 
 typedef unsigned int u32;
 
-extern u32  func_0202C384(void *heap);
+extern void *func_0202C384(void *heap);
 struct Obj0202C360;
 extern void func_0202C360(struct Obj0202C360 *p);
 extern void func_0202C3A8(char *p, int a1);
 
 u32 func_0202C2EC(void *heap)
 {
-    u32 r = func_0202C384(heap);
+    u32 r = (u32)func_0202C384(heap);
 
     func_0202C360((void *)r);
     func_0202C3A8((char *)r, (int)heap);

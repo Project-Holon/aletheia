@@ -22,16 +22,16 @@
 
 typedef unsigned int u32;
 
-extern void func_02015EA0(u32);
-extern void func_02015BA4(u32, u32);
+extern void func_02015EA0(void *p);
+extern void func_02015BA4(void *sys, void *obj);
 
 void func_021E36D8(void *p, int idx)
 {
     u32 v = ((u32 *)((char *)p + 0x844))[idx];
 
     if (v != 0) {
-        func_02015EA0(v);
-        func_02015BA4(*(u32 *)((char *)p + 0x840), ((u32 *)((char *)p + 0x844))[idx]);
+        func_02015EA0((void *)v);
+        func_02015BA4((void *)(*(u32 *)((char *)p + 0x840)), (void *)(((u32 *)((char *)p + 0x844))[idx]));
         ((u32 *)((char *)p + 0x844))[idx] = 0;
     }
 }

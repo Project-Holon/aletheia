@@ -19,7 +19,7 @@
  */
 extern signed char func_021BCB14(void);
 extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(void *p);
+extern void func_021C0E40(unsigned int v);
 extern void func_021CDF10(void);
 extern unsigned char g_021DE628;
 
@@ -36,5 +36,5 @@ void func_021CDEC0(void)
     default:
         return;
     }
-    func_021C0E40(func_021CDF10);
+    func_021C0E40((unsigned int)func_021CDF10);
 }

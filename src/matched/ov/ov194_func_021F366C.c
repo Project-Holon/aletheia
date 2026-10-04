@@ -18,7 +18,8 @@
 extern int func_021F3358(int,int,unsigned char);extern void func_021F25F8(int *,int,void *);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);extern void func_02043B5C(int,unsigned);
-extern void func_021F26F0(char *,void *,int,int,unsigned short);
+typedef unsigned short u16;
+extern void func_021F26F0(char *p, char *target, void *window, void *font, u16 heap);
 void func_021F366C(char *p,int index,int variant) {
  int selected;
  if(*(volatile int *)(p+0x100)!=3)return;
@@ -26,6 +27,6 @@ void func_021F366C(char *p,int index,int variant) {
  selected=func_021F3358(*(volatile int *)(p+0x100),index,variant);
  func_021F25F8((int *)p,selected,*(void **)(p+0x12C));
  func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p+0xE0)),0);
- func_021F26F0(p,p+0xEC,*(int *)(p+0xF8),*(int *)(p+0xF4),*(unsigned short *)(p+0xFE));
+ func_021F26F0(p,p+0xEC,(void *)(*(int *)(p+0xF8)),(void *)(*(int *)(p+0xF4)),*(unsigned short *)(p+0xFE));
  *(int *)(p+0x104)=index;*(unsigned char *)(p+0x108)=variant;
 }

@@ -24,7 +24,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *func_02012944(void *p);
-extern int func_02008554();
+struct Sub0200852CObj;
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int func_02027174();
 extern int func_020307B0();
 struct S020315D4;
@@ -47,7 +48,7 @@ loc_0216F1EE:
 a0 = *(int *)((char *)t5 + 4);
     p = func_02012944((void *)a0);
 loc_0216F1F4:
-    a0 = func_02008554(p);
+    a0 = func_02008554((const struct Sub0200852CObj *)p);
 loc_0216F1F8:
 a1 = *(int *)((char *)t4 + 0x1c);
     if (a1 == a0) goto loc_0216F202;

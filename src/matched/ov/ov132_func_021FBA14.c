@@ -25,20 +25,20 @@
 
 typedef unsigned short u16;
 
-extern int func_021F9DA0();
-extern int func_021FAE1C();
+extern void *func_021F9DA0(char *p);
+extern int func_021FAE1C(char *p, int *out);
 extern int func_0209C0A4();
-extern void func_021F8068();
-extern void func_021FADF8();
+extern void func_021F8068(int self, char *p, u16 v);
+extern void func_021FADF8(char *p, char *q);
 
 void func_021FBA14(int a0, int *a1)
 {
-    int r4 = func_021F9DA0(a1[0]);
+    int r4 = (int)func_021F9DA0((char *)a1[0]);
     int local;
-    if (func_021FAE1C(a1, &local) == 1) {
-        func_021F8068(r4, a1[6], (u16)func_0209C0A4(a1[2] << 16, 0x168));
-        func_021FADF8(a1[7], a1[8]);
+    if (func_021FAE1C((char *)a1, &local) == 1) {
+        func_021F8068(r4, (char *)a1[6], (u16)func_0209C0A4(a1[2] << 16, 0x168));
+        func_021FADF8((char *)a1[7], (char *)a1[8]);
     } else {
-        func_021F8068(r4, a1[6], (u16)func_0209C0A4(local << 16, 0x168));
+        func_021F8068(r4, (char *)a1[6], (u16)func_0209C0A4(local << 16, 0x168));
     }
 }

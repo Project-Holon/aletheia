@@ -20,22 +20,24 @@
 
 typedef unsigned int u32;
 
-extern int func_0218C6F4(u32 a, u32 b, int c);
-extern int func_02188C80(int a);
-extern int func_020120F4(int a);
+struct Ctx;
+struct SoundSys2;
+extern int func_0218C6F4(unsigned char *p, int b, int id);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A7C(int a, int b);
+extern void func_02028A7C(struct SoundSys2 *s, u32 id);
 extern int d_021F4258[];
 
 void func_021F3E54(int unused, int b, u32 *c)
 {
     int r;
 
-    if (c[2] == func_0218C6F4(c[0], c[1], 1)) {
-        r = func_02012A30((const struct BigObj *)func_020120F4(func_02188C80(b)));
+    if (c[2] == func_0218C6F4((unsigned char *)c[0], c[1], 1)) {
+        r = func_02012A30((const struct BigObj *)func_020120F4(func_02188C80((void *)b)));
         c[3] = 0;
         c[2] = d_021F4258[c[3]];
-        func_02028A7C(r, 0x692);
+        func_02028A7C((struct SoundSys2 *)r, 0x692);
     }
 }

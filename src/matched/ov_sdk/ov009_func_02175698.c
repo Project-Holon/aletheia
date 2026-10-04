@@ -33,29 +33,29 @@ typedef struct MatchCnt {
     int f688;
 } MatchCnt;
 
-extern MatchCnt *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_0219EC74(int a, int b, int c, int d, int e, int f, int g, void (*cb)(void), int h);
 extern int func_02173D9C(int err);
 extern void func_02175F4C(int status);
 extern int func_021719D0(int a, int b);
 extern int func_021719A4(int error);
-extern void func_02174058(void);
+extern void func_02174058(void *sb, int reason, void *server);
 
 void func_02175698(void)
 {
     int result;
 
-    func_02175F3C()->f14 = 3;
-    if (func_02175F3C()->f5E0 == 0) {
-        func_02175F3C()->f5E0 = func_0219EC74(func_02175F3C()->f684, func_02175F3C()->f684,
-                                              func_02175F3C()->f688, 0, 20, 1, 0,
-                                              func_02174058, 0);
+    ((MatchCnt *)func_02175F3C())->f14 = 3;
+    if (((MatchCnt *)func_02175F3C())->f5E0 == 0) {
+        ((MatchCnt *)func_02175F3C())->f5E0 = func_0219EC74(((MatchCnt *)func_02175F3C())->f684, ((MatchCnt *)func_02175F3C())->f684,
+                                              ((MatchCnt *)func_02175F3C())->f688, 0, 20, 1, 0,
+                                              (void (*)(void))func_02174058, 0);
     }
-    if (func_02175F3C()->f5E0 == 0) {
+    if (((MatchCnt *)func_02175F3C())->f5E0 == 0) {
         if (func_02173D9C(5))
             return;
     }
     func_02175F4C(3);
-    result = func_021719D0(func_02175F3C()->f554, 0);
+    result = func_021719D0(((MatchCnt *)func_02175F3C())->f554, 0);
     func_021719A4(result);
 }

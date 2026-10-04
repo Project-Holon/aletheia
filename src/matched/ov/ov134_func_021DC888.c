@@ -24,7 +24,7 @@ typedef struct { u32 w[11]; } Args;
 extern u8 *func_0203159C(void *, u32, u32);
 extern void func_02082BCC(void *, int, u32);
 extern void *func_02031324(u16);
-extern void func_0203A574(u32, const void *, u32, void *);
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_021DCB48(const Args *, void *, void *);
 extern void func_021DCC48(const Args *, void *, void *);
 extern const u32 tbl_021DCC9C[];
@@ -37,7 +37,7 @@ int func_021DC888(void *ctx, int unused, const Args *args)
     *(Args *)(p + 0xd0) = *args;
     *(u16 *)(p + 0xfc) = 4;
     *(void **)(p + 0xcc) = func_02031324(*(u16 *)(p + 0xfc));
-    func_0203A574(0x2f00, tbl_021DCC9C, 1, p);
+    func_0203A574(0x2f00, (u32)tbl_021DCC9C, 1, (u32)p);
     func_021DCB48(args, p, p + 4);
     func_021DCC48(args, p, p + 0x9c);
     p[0xc4] = 0;

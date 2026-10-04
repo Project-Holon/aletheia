@@ -19,11 +19,15 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0216D5A8(int a);
-extern int func_0216D590(int a);
-extern int func_0216D67C(int a);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Ctx;
+struct Rec;
+extern u32 func_0216D5A8(u8 *p);
+extern u16 func_0216D590(void *p);
+extern void *func_0216D67C(void *a0);
 extern int func_021AE884(int a);
-extern int func_0216DD1C(int a, int *out, u32 *iter);
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 
 int func_0219BBA4(int a)
 {
@@ -35,9 +39,9 @@ int func_0219BBA4(int a)
     int r5;
 
     iter = 0;
-    kind = func_0216D5A8(a);
-    r7 = func_0216D590(a);
-    r6 = func_0216D67C(a);
+    kind = func_0216D5A8((u8 *)a);
+    r7 = func_0216D590((void *)a);
+    r6 = (int)func_0216D67C((void *)a);
     r5 = func_021AE884(a);
     switch (kind) {
     case 1:
@@ -49,8 +53,8 @@ int func_0219BBA4(int a)
     case 7:
     case 8:
     case 20:
-        while (func_0216DD1C(r6, &out, &iter) == 1) {
-            if (a != out && r7 == func_0216D590(out) && r5 == func_021AE884(out)) {
+        while (func_0216DD1C((struct Ctx *)r6, (struct Rec **)(&out), &iter) == 1) {
+            if (a != out && r7 == func_0216D590((void *)out) && r5 == func_021AE884(out)) {
                 return out;
             }
         }

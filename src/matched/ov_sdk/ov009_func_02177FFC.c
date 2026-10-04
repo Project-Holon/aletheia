@@ -48,7 +48,7 @@ extern void func_02086004(void *mutex);
 extern int func_0208574C(void *thread);
 extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stack_size, unsigned long prio);
 extern void func_02085868(void *thread);
-extern void func_021783BC(void *arg);
+extern void func_021783BC(void);
 
 void func_02177FFC(void)
 {
@@ -58,6 +58,6 @@ void func_02177FFC(void)
 		if (func_0208574C(g_021AB184.ctx->thread) == 0)
 			return;
 	}
-	func_020853C0(g_021AB184.ctx->thread, func_021783BC, &g_021AB188, (unsigned char *)g_021AB184.ctx + 0x1000, 0x1000, 0x10);
+	func_020853C0(g_021AB184.ctx->thread, (void (*)(void *))func_021783BC, &g_021AB188, (unsigned char *)g_021AB184.ctx + 0x1000, 0x1000, 0x10);
 	func_02085868(g_021AB184.ctx->thread);
 }

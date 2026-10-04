@@ -15,9 +15,10 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern int func_02049F78(int, int, void *, int);
+typedef unsigned int   u32;
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A90(int, int, int);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 void func_021B6338(void *obj, int a, int b)
 {
@@ -25,9 +26,9 @@ void func_021B6338(void *obj, int a, int b)
     int t;
     char *p;
 
-    t = func_02049F78(*(int *)((char *)obj + 4), b, &ptr, 0x807f);
+    t = (int)func_02049F78((void *)(*(int *)((char *)obj + 4)), b, (u32)(&ptr), 0x807f);
     p = (char *)obj + 8 + a * 0x2004;
     *(int *)(p + 0x2000) = *(int *)((char *)ptr + 8);
     func_02082A90(*(int *)((char *)ptr + 0xc), (int)p, *(int *)(p + 0x2000));
-    func_020307B0(t);
+    func_020307B0((void *)t);
 }

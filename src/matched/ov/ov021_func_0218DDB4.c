@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef struct { u16 a; u16 b; u16 c; } S6;
 
 extern S6 d_021D3DD4;
-extern int func_021C0688(int o);
+typedef unsigned int   u32;
+extern u32 func_021C0688(u8 *p);
 extern int func_021C068C(int x, int z, int o, u8 i);
 extern int func_021C06B4(u8 i, int o);
 extern int func_021C06A8(u8 i, int o);
@@ -33,7 +34,7 @@ void func_0218DDB4(const char *p, int *q, char *r)
     S6 tmp = d_021D3DD4;
     int cnt = 0;
     int base = *(u16 *)(r + 0x100);
-    int n = func_021C0688(*(int *)(p + 0x70));
+    int n = func_021C0688((u8 *)(*(int *)(p + 0x70)));
     int z;
     int x;
     int i;

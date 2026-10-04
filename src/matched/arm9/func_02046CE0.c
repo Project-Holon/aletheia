@@ -47,13 +47,13 @@ struct S02046CE0 {
     u32 *tag;
 };
 
-extern u32 func_0206E964(u32 *tag);
+extern unsigned char *func_0206E964(unsigned char *p);
 
 void func_02046CE0(struct S02046CE0 *out, u32 *tag)
 {
     switch (*tag) {
     case 0x30444D42:
-        if (func_0206E964(tag) == 0) {
+        if (func_0206E964((unsigned char *)tag) == 0) {
             out->result = 2;
         } else {
             out->result = 1;

@@ -25,10 +25,12 @@ typedef unsigned int u32;
 typedef struct { u8 pad[0x473]; u8 a:1; u8 b:1; } B;
 extern int func_021B6818(int *);
 extern int func_021D4270(void);
-extern int func_021BA9C8(void *, void *, void *, int, u16);
+struct Copy24;
+struct QB;
+extern u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap);
 extern int func_021CD6F0(void *, void *, int, int, u16, u8, u8, int, u8, void *, u16);
-extern int func_021CD978(int);
-extern void func_021BAA94(int, int, u8, u8);
+extern u32 func_021CD978(struct QB *p);
+extern void func_021BAA94(char *p, int b, int c, u8 d);
 extern void func_021BAACC(int, int, int, u8, u8);
 extern int func_021B8B9C(u8 *, u8);
 extern void func_021BAB10(int, u8, int);
@@ -47,15 +49,15 @@ int func_021B7CB4(u8 *p)
         return 1;
     }
     if (p[0x46e]) {
-        *(int *)(p + 8) = func_021BA9C8(p, p + 0x3f0, p + 0x1b0, t, *(u16 *)(p + 0x468));
+        *(int *)(p + 8) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
         ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, 1, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
-        func_021BAA94(*(int *)(p + 8), func_021CD978(((int *)(p + 0x10))[idx]), idx, 1);
+        func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(((int *)(p + 0x10))[idx])), idx, 1);
         flag = 1;
         if (idx != 0) flag = 0;
         func_021BAACC(*(int *)(p + 8), q[0x20], *(int *)(q + 0x1c), flag, 1);
     } else {
         ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, 1, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
-        *(int *)(p + 0xc) = func_021BA9C8(p, p + 0x3f0, p + 0x1b0, t, *(u16 *)(p + 0x468));
+        *(int *)(p + 0xc) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
         for (i = 0; i < 4; i++) {
             if (func_021B8B9C(p, i))
                 func_021BAB10(*(int *)(p + 0xc), i, 1);

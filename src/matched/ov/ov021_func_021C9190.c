@@ -29,8 +29,8 @@ struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void func_021AC1CC(u32, V3 *);
-extern void func_02047910(u32 h, u32 i, int v);
-extern int func_020478B8(u32 h, u32 i, int v);
+extern int func_02047910(void *a, int idx, int amount);
+extern int func_020478B8(void *a, int idx, int amount);
 
 void func_021C9190(u32 a, u8 *b)
 {
@@ -43,10 +43,10 @@ void func_021C9190(u32 a, u8 *b)
         *(int *)(b + 0x2c) -= 0x4000;
         *(int *)(b + 0x30) += 0x2800;
         if (b[0x14] == 0) {
-            func_02047910(*(u32 *)(b + 0x18), 0, 0x1000);
+            func_02047910((void *)(*(u32 *)(b + 0x18)), 0, 0x1000);
         }
         if (b[0x15] == 1 && b[0x16] == 0) {
-            if (func_020478B8(*(u32 *)(b + 0x18), 1, 0x1000) == 0) {
+            if (func_020478B8((void *)(*(u32 *)(b + 0x18)), 1, 0x1000) == 0) {
                 b[0x16] = 1;
             }
         }

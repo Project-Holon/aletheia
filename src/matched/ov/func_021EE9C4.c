@@ -19,12 +19,12 @@
 
 
 extern void func_021EE754(char *, int, int);
-extern void func_021EEF74(int, int, int);
-extern void func_021DC9B4(int, int);
+extern void func_021EEF74(char *q, int a, int b);
+extern void func_021DC9B4(char *p, int v);
 void func_021EE9C4(char *p, int a, int b)
 {
     func_021EE754(p, a, b);
-    func_021EEF74(*(int *)(p + 0x2c), a, b);
-    func_021DC9B4(*(int *)(p + 0x2c), 0x021E066D);
+    func_021EEF74((char *)(*(int *)(p + 0x2c)), a, b);
+    func_021DC9B4((char *)(*(int *)(p + 0x2c)), 0x021E066D);
     *(int *)(*(int *)(p + 0x2c) + 0xA168) = a;
 }

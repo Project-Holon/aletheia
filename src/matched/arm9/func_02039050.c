@@ -27,9 +27,11 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469D0;
 extern void func_0203666C(u32 a);
-extern u32 func_020365E8(u32 a);
+struct Src;
+struct St;
+extern int func_020365E8(char *p);
 extern u32 func_02037258(void);
-extern void func_02038DF0(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n);
 
 void func_02039050(void)
 {
@@ -42,11 +44,11 @@ void func_02039050(void)
     func_0203666C((u32)(g_021469D0 + 0x2C));
 
     for (i = 0; i < 4; i++) {
-        if ((int)func_020365E8((u32)(g_021469D0 + 0x2C)) <= 0)
+        if ((int)func_020365E8((char *)((u32)(g_021469D0 + 0x2C))) <= 0)
             return;
 
         p = g_021469D0;
-        func_02038DF0((u32)(p + 0x2C), 0xFF, *(u32 *)(p + 0x18),
-                      (u32)(p + 0x19C), func_02037258());
+        func_02038DF0((struct Src *)((u32)(p + 0x2C)), 0xFF, (u8 *)(*(u32 *)(p + 0x18)),
+                      (struct St *)((u32)(p + 0x19C)), func_02037258());
     }
 }

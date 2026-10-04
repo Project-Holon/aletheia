@@ -23,11 +23,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BDD60(void *p);
+extern int func_021BDD60(int x);
 
 BOOL func_021BDDB4(int a, void *b)
 {
-    if (func_021BDD60(b) != 0 && a == 4) {
+    if (func_021BDD60((int)b) != 0 && a == 4) {
         return 1;
     }
 

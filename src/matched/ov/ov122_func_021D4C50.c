@@ -14,7 +14,7 @@
  */
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
-extern int func_02158630(void *);
+extern int func_02158630(int a);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void func_021D4BF4(char *p);
@@ -27,7 +27,7 @@ int func_021D4C50(int value, char *p)
     switch (value) {
     case 0:
     case 3:
-        *(int *)(*(char **)(p + 0x344) + 0x28) = func_02158630(obj);
+        *(int *)(*(char **)(p + 0x344) + 0x28) = func_02158630((int)obj);
         *(int *)(p + 8) = 0;
         func_020061E4(0x73b);
         func_021D4244(p, func_021D4BF4, 0x3c4);

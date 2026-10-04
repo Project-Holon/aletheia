@@ -19,7 +19,8 @@ typedef struct {
 } State;
 
 extern int func_0201134C(int);
-extern void func_021F9858(int a, int b, int c, int d, int e, int f, int g, int h, int i);
+typedef unsigned int   u32;
+extern void func_021F9858(void *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, int d);
 
 int func_021FBA64(int a, State *s)
 {
@@ -33,6 +34,6 @@ int func_021FBA64(int a, State *s)
     int v7 = func_0201134C(a);
 
     func_0201134C(a);
-    func_021F9858(a, v0, v1, v2, v4, v5, v6, v7, v3);
+    func_021F9858((void *)a, v0, v1, v2, v4, v5, v6, v7, v3);
     return s->f23c;
 }

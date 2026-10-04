@@ -31,9 +31,9 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Struct_02023CFC;
 extern void func_02023CFC(struct Struct_02023CFC *table, void *val, u32 idx);
-extern void func_02023D18(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void func_02023D18(void *obj, void *val, u32 f4, u32 f8, u32 fC);
 extern void func_02023D60(u8 *p, u16 a, u16 b, u16 c, u32 d, u32 e, u32 f);
-extern void func_02023D40(void *a0, u32 a1, u32 a2, u32 a3);
+extern void func_02023D40(void *obj, void *val, u32 f4, u32 f8);
 
 void func_02022DCC(u32 a0, void *a1, u32 a2)
 {
@@ -42,7 +42,7 @@ void func_02022DCC(u32 a0, void *a1, u32 a2)
         return;
     }
     func_02023CFC(a1, (void *)1, a2);
-    func_02023D18(a1, 0x3f, 0, 0, a2);
+    func_02023D18(a1, (void *)0x3f, 0, 0, a2);
     func_02023D60(a1, 0, 0, 0, 0, 0, a2);
-    func_02023D40(a1, 0x20, 0, a2);
+    func_02023D40(a1, (void *)0x20, 0, a2);
 }

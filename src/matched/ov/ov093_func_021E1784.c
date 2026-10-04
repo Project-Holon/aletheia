@@ -19,13 +19,13 @@
 typedef unsigned char u8;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
 typedef unsigned int   u32;
 extern unsigned char func_021D69AC(unsigned char *base, int idx);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E1784(int a, int b, int c)
 {
-    if (c == func_021D775C(2) && func_021D69AC(func_021C7CF4(b, c), 0) == 0)
+    if (c == func_021D775C(2) && func_021D69AC(func_021C7CF4((int *)b, c), 0) == 0)
         func_021D76BC(34, 26);
 }

@@ -27,12 +27,12 @@ typedef struct {
 extern void *func_021D6414(unsigned long size, int alignment);
 extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
 extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void func_021CE760(void *task);
+extern void func_021CE760(void);
 extern SCR *g_021DE630;
 
 void func_021CE668(void *scr)
 {
 	g_021DE630 = (SCR *)func_021D6414(0x608, 4);
 	MIi_CpuCopyFast(scr, g_021DE630->data, 0x600);
-	g_021DE630->task = func_021D7680(1, func_021CE760, 0, 0x78);
+	g_021DE630->task = func_021D7680(1, (void (*)(void *))func_021CE760, 0, 0x78);
 }

@@ -36,12 +36,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 func_020056EC(u32 v);
-extern void func_021A232C(int, int, int, int, int);
-extern void func_021A25BC(int, int);
-extern void func_021A2160(int, int, int);
-extern void func_021A2170(int, int, int);
-extern void func_021A2180(int, int, int);
-extern void func_021EF920(int, s16 *, int, int);
+typedef unsigned char  u8;
+extern void func_021A232C(u8 *p, int a, int b, int c, int d);
+extern void func_021A25BC(unsigned char *o, int arg);
+extern void func_021A2160(unsigned char *o, unsigned int v, int i);
+extern void func_021A2170(unsigned char *o, unsigned int v, int i);
+extern void func_021A2180(unsigned char *o, unsigned int v, int i);
+extern void func_021EF920(u8 *a, s16 *p, int b, int c);
 extern void func_021EF950(int, s16 *, int);
 extern void func_021EF614(int, u16 *, int, int);
 typedef struct {
@@ -64,29 +65,29 @@ void func_021EF664(int a, s16 *p, int b, int d)
         break;
     case 1:
         p[6] = p[6] + 1;
-        func_021EF920(a, p, b, 0x71F);
+        func_021EF920((u8 *)a, p, b, 0x71F);
         if (p[6] >= p[7]) {
             p[8] = 3;
             p[7] = 0x10;
             p[6] = 0;
             if (d == 0) {
-                func_021A232C(a, 9, 0x7F70, 10, b);
-                func_021A25BC(a, 0x720);
+                func_021A232C((u8 *)a, 9, 0x7F70, 10, b);
+                func_021A25BC((unsigned char *)a, 0x720);
             }
         }
         break;
     case 2:
         p[6] = p[6] + 1;
-        func_021EF920(a, p, b, 0x71F);
+        func_021EF920((u8 *)a, p, b, 0x71F);
         func_021EF950(a, p, b);
         if (p[6] >= p[7]) {
             p[8] = 4;
             p[7] = 0x10;
             p[6] = 0;
             if (d == 0) {
-                func_021A2160(a, 0, 1);
-                func_021A2170(a, 0x1000, 0);
-                func_021A2180(a, 0x1000, 0);
+                func_021A2160((unsigned char *)a, 0, 1);
+                func_021A2170((unsigned char *)a, 0x1000, 0);
+                func_021A2180((unsigned char *)a, 0x1000, 0);
             }
         }
         break;
@@ -98,9 +99,9 @@ void func_021EF664(int a, s16 *p, int b, int d)
             p[7] = r % 400 + 0x3C;
             p[6] = 0;
             if (d == 0) {
-                func_021A2160(a, 1, 1);
-                func_021A2170(a, 0x800, 0);
-                func_021A2180(a, 0x1800, 0);
+                func_021A2160((unsigned char *)a, 1, 1);
+                func_021A2170((unsigned char *)a, 0x800, 0);
+                func_021A2180((unsigned char *)a, 0x1800, 0);
             }
         }
         break;

@@ -29,7 +29,8 @@ extern void func_02082BCC(void *p, int v, int n);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern int func_020457B0(int a, int b);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 void func_021BB1BC(W *p, int a, int b, int c, int d, u16 e)
 {
@@ -38,5 +39,5 @@ void func_021BB1BC(W *p, int a, int b, int c, int d, u16 e)
     p->f10 = d;
     p->fc = c;
     p->f0 = func_020450F0(a, 0, 0, 0x20, 0x18, 0xe, 0);
-    p->f4 = func_020457B0(0xff, e);
+    p->f4 = (int)func_020457B0(0xff, e);
 }

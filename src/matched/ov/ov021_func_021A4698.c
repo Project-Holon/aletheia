@@ -21,24 +21,24 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_0216D5F8(u32);
-extern u32 func_0216D4B4(u32);
+extern u16 func_0216D5F8(void *p);
+extern void func_0216D4B4(char *p);
 extern int func_0216D3CC(int a0);
-extern int func_021A4598(u32, u32, u32);
-extern int func_021A4544(u32, u32, u32);
+extern int func_021A4598(u8 *a, void *b, u8 *c);
+extern int func_021A4544(u8 *p, u32 r, u8 *q);
 
 int ov021_func_021A4698(u32 a, u32 b, u8 *c)
 {
-    u32 r = func_0216D5F8(b);
+    u32 r = func_0216D5F8((void *)b);
     if (*(u16 *)(c + 8) != 9 && *(u16 *)(c + 8) != r) {
-        func_0216D4B4(b);
-        return func_021A4598(a, b, (u32)c);
+        func_0216D4B4((char *)b);
+        return func_021A4598((u8 *)a, (void *)b, (u8 *)((u32)c));
     }
     if (func_0216D3CC(b) == 0) {
         return 0;
     }
     if (*(u16 *)(c + 8) == 9) {
-        return func_021A4544(a, b, (u32)c);
+        return func_021A4544((u8 *)a, b, (u8 *)((u32)c));
     }
-    return func_021A4598(a, b, (u32)c);
+    return func_021A4598((u8 *)a, (void *)b, (u8 *)((u32)c));
 }

@@ -24,38 +24,38 @@
  *   func_02163188  0x02163188  thumb  ov010
  */
 
-extern int func_0216DA20();
+extern int func_0216DA20(void *p, unsigned int v);
 extern void func_021630F4();
-extern void func_0216310C();
-extern void func_02163130();
+extern void func_0216310C(char *p);
+extern void func_02163130(char *p);
 extern int func_0216D57C();
 typedef unsigned int   u32;
 extern void func_02197EB4(u32 a);
-extern int func_0216DB10();
+extern int func_0216DB10(void *a0);
 extern int func_02163090();
 extern int func_0219B41C();
-extern void func_0216D708();
-extern void func_02163154();
-extern void func_02163188();
+extern void func_0216D708(void *a0);
+extern void func_02163154(char *p);
+extern void func_02163188(char *p);
 
 void func_02163028(int a)
 {
     int t = 2;
 
-    if (func_0216DA20(a, t) == 0) {
+    if (func_0216DA20((void *)a, t) == 0) {
         func_021630F4(a);
-        func_0216310C(a);
-        func_02163130(a);
+        func_0216310C((char *)a);
+        func_02163130((char *)a);
         if (func_0216D57C(a, t << 8) != 0) {
             func_02197EB4(a);
-        } else if (func_0216DB10(a) == 0) {
+        } else if (func_0216DB10((void *)a) == 0) {
             if (func_02163090(a) == 1) {
                 if (func_0219B41C(a) == 0) {
-                    func_0216D708(a);
+                    func_0216D708((void *)a);
                 }
             }
         }
-        func_02163154(a);
-        func_02163188(a);
+        func_02163154((char *)a);
+        func_02163188((char *)a);
     }
 }

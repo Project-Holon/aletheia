@@ -28,7 +28,8 @@ extern u8 func_021D5440(u8 *p);
 extern u8 func_021B8DDC(u32 x);
 extern void *func_021D5864(void *m);
 extern char *func_021B9AF8(char *p, int i);
-extern u32 func_021B9B94(void *p);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(void *p, u32 i);
 extern void *func_021D5844(void *m);
 
@@ -46,7 +47,7 @@ u8 *func_021B937C(int a, char *b, u8 *c)
         e = func_021B8DDC(func_021D5440(c));
         k = func_021D5864(c);
         g = func_021B9AF8(b, e);
-        n = func_021B9B94(g);
+        n = func_021B9B94((struct Q1 *)g);
         for (i = 0; i < n; i++) {
             t = func_021B9C00(g, (u8)i);
             v = func_021D5844(t);

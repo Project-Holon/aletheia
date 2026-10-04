@@ -39,11 +39,13 @@ struct S {
     u32 c;
 };
 
-extern u8 *func_02012AA0(u32 v);
+struct Rec44;
+struct Vec12;
+extern struct Vec12 *func_02012AA0(struct Rec44 *p);
 
 u32 func_0202B254(u8 *p)
 {
-    u32 *s = (u32 *)func_02012AA0(*(u32 *)(p + 8));
+    u32 *s = (u32 *)func_02012AA0((struct Rec44 *)(*(u32 *)(p + 8)));
     int differ;
 
     if (s[0] == *(u32 *)(p + 0xc) && s[1] == *(u32 *)(p + 0x10) &&

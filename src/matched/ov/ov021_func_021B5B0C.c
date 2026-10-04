@@ -29,7 +29,8 @@ typedef struct {
 
 extern u16 g_021EE724;
 extern void func_020307B0(void *);
-extern void func_02030EAC(int);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_021B5B0C(int a0, Ramp *p)
 {
@@ -38,6 +39,6 @@ void func_021B5B0C(int a0, Ramp *p)
     g_021EE724 = g_021EE724 + (u16)p->f0;
     if (p->f8 >= p->fc) {
         func_020307B0(p);
-        func_02030EAC(a0);
+        func_02030EAC((struct Node *)a0);
     }
 }

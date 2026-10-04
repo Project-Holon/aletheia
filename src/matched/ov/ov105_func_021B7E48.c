@@ -24,7 +24,8 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct StrObj;
 extern void *func_02045770(struct Descriptor *p); extern void func_02043B5C(void *,u8);
-extern void func_02045CAC(int,int,void *);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u8 func_02045738(struct Descriptor *p); extern u8 func_02045740(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b); extern unsigned func_0201D42C(void *,int);
 extern void func_0201C724(int,void *,s16,s16,void *,int,u16);
@@ -33,7 +34,7 @@ void func_021B7E48(u8 *p,void *a,int b)
  int bank; int font; int tag; u16 x,y;
  bank=func_021B7CA8(a); font=func_021B7CA4(a); tag=func_021B7CA0(a);
  func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10));
- func_02045CAC(bank,b,*(void **)(p+12));
+ func_02045CAC((struct MsgBank *)bank,b,*(void **)(p+12));
  x=func_02045738(*(void **)p)*4; y=func_02045740(*(void **)p)*4;
  x-= (u16)(func_0201D304(*(void **)(p+12),tag,0)/2);
  y-= (u16)(func_0201D42C(*(void **)(p+12),tag)/2);

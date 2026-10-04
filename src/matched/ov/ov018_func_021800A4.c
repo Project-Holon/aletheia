@@ -80,19 +80,19 @@ struct WordSet;
 void *func_020124E4(struct Obj *p);
 u32 func_02012138(const struct Ctx *p);
 void *func_020120F4(const struct Ctx *p);
-u8 *func_02158344(void *);
+int func_02158344(int a0);
 void func_0217553C(u8 *);
 void *func_02188C7C(u8 *p);
 void func_0216D9A0(void *);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
-int func_0216D3CC(void *);
+int func_0216D3CC(int a0);
 void func_0216D410(void *, int);
 int func_0216D480(char *p);
 int func_02174258(u8 *);
 int func_02175C40(void *p);
-int func_02173AE0(u8 *, int, int, int);
+int func_02173AE0(int a, int b, int c, int d);
 int func_0217F40C(Ov018Obj *p);
 int func_02175514(u8 *);
 int func_02173C04(int, int);
@@ -116,7 +116,7 @@ int func_021800A4(void *a, int *state, Outer *c)
     sub = func_020124E4(a);
     t = (void *)func_02012138(sub);
     w = func_020120F4(sub);
-    v = func_02158344(t);
+    v = (u8 *)func_02158344((int)t);
     if (v == 0) {
         if (func_0217F40C(&c->obj) == 0) {
             return 0;
@@ -136,7 +136,7 @@ int func_021800A4(void *a, int *state, Outer *c)
         (*state)++;
         break;
     case 1:
-        if (func_0216D3CC(c->f04) == 1) {
+        if (func_0216D3CC((int)c->f04) == 1) {
             k = *(u16 *)(v + c->f40 * 0x1C + 0x9C);
             if (k == 2) {
                 m = 3;
@@ -174,7 +174,7 @@ int func_021800A4(void *a, int *state, Outer *c)
         }
         break;
     case 5:
-        if (func_02173AE0(v, v[0x154], v[0x156], v[0x158]) == 1) {
+        if (func_02173AE0((int)v, v[0x154], v[0x156], v[0x158]) == 1) {
             (*state)++;
         }
         break;

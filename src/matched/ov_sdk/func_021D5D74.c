@@ -16,10 +16,14 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02068EA0(int, int, int, int, int, int);
+typedef signed char    s8;
+typedef unsigned short u16;
+struct Ctx;
+struct Fnt2;
+extern s8 func_02068EA0(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 code);
 
 int func_021D5D74(int a0, int a1, int a2, int a3, unsigned short s0, int s1)
 {
-    return func_02068EA0(a0, *(int *)0x021DE680 + s1 * 8, a1, a2, a3, s0);
+    return func_02068EA0((struct Ctx *)a0, (struct Fnt2 **)(*(int *)0x021DE680 + s1 * 8), a1, a2, a3, s0);
 }
 

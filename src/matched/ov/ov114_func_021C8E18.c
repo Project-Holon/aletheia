@@ -25,7 +25,7 @@ extern State d_021D3D2C;
 extern unsigned d_021CF538[], d_021CF6B8[], d_021D3D40[];
 extern void func_02087C6C(void *);
 extern void *func_02092344(void *, const void *, unsigned);
-extern void func_021C9EE4(void *, void *);
+extern void func_021C9EE4(int server, char *initdata);
 extern int func_021CA470(void *, unsigned, void *, unsigned, unsigned);
 extern void func_021CA1B4(void);
 void func_021C8E18(unsigned char *p, unsigned x)
@@ -33,7 +33,7 @@ void func_021C8E18(unsigned char *p, unsigned x)
     func_02087C6C(p + 0x1c);
     func_02092344(d_021D3D40, p, 100);
     d_021D3D2C.value = x;
-    func_021C9EE4(d_021D3D28, d_021CF538);
+    func_021C9EE4((int)d_021D3D28, (char *)d_021CF538);
     if (func_021CA470(d_021CF6B8, d_021D3D2C.words[2], d_021D3D40, 100, 0) == 0) {
         d_021D3D2C.words[0] = 22;
         return;

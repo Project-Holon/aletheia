@@ -46,7 +46,7 @@ extern void func_02088168(unsigned long *);
 extern void func_02162248(void *, unsigned long);
 extern void *func_0217EAB0(unsigned long);
 extern void *func_020923B0(void *, int, unsigned long);
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021C1668(int, void *, int);
 extern unsigned long g_021D3B44[8];
 extern char g_021CE7B0[];
@@ -72,13 +72,13 @@ CPSSslConnection *func_021C1804(char *url)
                 sslCon->f818 = rootCaList->count;
                 sslCon->f810 = func_021C1668;
             } else {
-                func_0217D254(8, 2, 2, g_021CEA74, g_021CE7B0, g_021CE678, 0x3fc);
+                func_0217D254(8, (char *)2, 2, g_021CEA74, g_021CE7B0, g_021CE678, 0x3fc);
             }
         } else {
-            func_0217D254(8, 2, 2, g_021CEAB4, g_021CE7B0, g_021CE678, 0x403);
+            func_0217D254(8, (char *)2, 2, g_021CEAB4, g_021CE7B0, g_021CE678, 0x403);
         }
     } else {
-        func_0217D254(8, 2, 2, g_021CEAB4, g_021CE7B0, g_021CE678, 0x40a);
+        func_0217D254(8, (char *)2, 2, g_021CEAB4, g_021CE7B0, g_021CE678, 0x40a);
     }
     return sslCon;
 }

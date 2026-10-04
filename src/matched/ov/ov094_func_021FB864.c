@@ -17,7 +17,7 @@
  *   func_02201DA0 0x02201DA0 thumb ov094
  */
 extern int func_0201134C(void *);
-extern void *func_021F86F0(void);
+extern int func_021F86F0(void);
 typedef unsigned int   u32;
 extern u32 func_02201DA0(char *p, int i, int v);
 
@@ -26,6 +26,6 @@ int func_021FB864(void *a, char *s)
     int i = func_0201134C(a);
     int x = func_0201134C(a);
 
-    func_02201DA0(func_021F86F0(), ((int *)(s + 0xcc))[i], x);
+    func_02201DA0((char *)func_021F86F0(), ((int *)(s + 0xcc))[i], x);
     return *(int *)(s + 0x23c);
 }

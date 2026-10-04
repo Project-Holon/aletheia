@@ -94,7 +94,7 @@ extern s16 g_020A1B38[];
 extern void func_020663D0(s32 x, s32 y, s32 z);
 extern void func_020664CC(s32 x, s32 y, s32 z);
 extern void func_02066620(s32 a, s32 b);
-extern void func_02065CE4(u32 a);
+extern void func_02065CE4(void *a0);
 extern void func_02065D4C(void *p);
 extern void func_02066080(void *p);
 
@@ -127,7 +127,7 @@ void func_0204CC6C(struct Obj *o)
     switch (o->unk_68) {
     case 0:
         if (o->unk_64_0 == 1) {
-            func_02065CE4(o->unk_a4);
+            func_02065CE4((void *)o->unk_a4);
         } else {
             func_02065D4C(o->unk_74);
         }

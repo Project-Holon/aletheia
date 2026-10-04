@@ -24,7 +24,7 @@ extern int func_021BA928(char *p, int v);
 extern void func_021BBE7C(char *p);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
-extern void func_021BBD0C(char *p, void *a, int b);
+extern void func_021BBD0C(char *p, int a, int b);
 
 int func_021BD15C(char *p, int v)
 {
@@ -33,7 +33,7 @@ int func_021BD15C(char *p, int v)
     }
     *(u8 *)(p + 0x1354) = 2;
     func_021BBE7C(p);
-    func_021BBD0C(p, func_02012934(*(void **)(p + 0xC4)), *(int *)(p + 0xCC));
+    func_021BBD0C(p, (int)func_02012934(*(void **)(p + 0xC4)), *(int *)(p + 0xCC));
     *(u32 *)(p + 0x1CC) = 0x66;
     return v;
 }

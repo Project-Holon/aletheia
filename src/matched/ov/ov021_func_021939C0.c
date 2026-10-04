@@ -29,7 +29,8 @@ typedef struct { u16 a; u16 b; u32 c; } Ent;
 
 extern int d_021D3F60[];
 extern int d_021DDA60;
-extern u32 func_020493D4(int h, int a);
+struct ArcFile;
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern Ent *func_02049250(int h, int a, u16 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
@@ -48,7 +49,7 @@ void func_021939C0(u8 *o, void *dst, int skip, u32 heap)
 
     if (skip != 0)
         return;
-    n = func_020493D4(*(int *)(o + 0x10), d_021D3F60[*o]);
+    n = func_020493D4((struct ArcFile *)(*(int *)(o + 0x10)), d_021D3F60[*o]);
     heap = (heap & 0x7FFF) | 0x8000;
     e = func_02049250(*(int *)(o + 0x10), d_021D3F60[*o], (u16)heap);
     n >>= 3;

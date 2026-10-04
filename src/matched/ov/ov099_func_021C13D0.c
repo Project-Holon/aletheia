@@ -22,7 +22,8 @@ extern int func_021BDD54(char *, void *);
 extern unsigned func_021BCBD8(char *, int);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 int func_021C13D0(char *p, int ret)
 {
     Request request;
@@ -35,7 +36,7 @@ int func_021C13D0(char *p, int ret)
         request.b = *((u8 *)*(void **)(p + 0x248) + 0x46);
     }
     request.c = func_021BCBD8(p, 1);
-    if (func_0203D3A8(func_020399A8(), 0xa03, 8, &request) != 0)
+    if (func_0203D3A8(func_020399A8(), 0xa03, 8, (u32)(&request)) != 0)
         *(int *)(p + 0x1cc) = 43;
     return ret;
 }

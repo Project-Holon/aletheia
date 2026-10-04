@@ -30,10 +30,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02013528(u32 p0, u32 p1, u32 id, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0203D1A4(u32 v);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4)
 {
-    u32 r = func_0203D1A4(p2);
+    u32 r = func_0203D1A4((struct Link *)p2);
 
     func_02013528(p0, p1, 0, 0, p2, p3, r, p4);
 }

@@ -94,9 +94,12 @@ extern void ov208_func_021C625C(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C5664(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C52F0(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C580C(u16 *heap, u8 *p, int key);
-extern void func_0204B688(u32 obj, u32 on);
-extern void func_02015EA0(u32 obj);
-extern void func_02015F50(u32 obj, u32 a, u32 b, s32 c, u32 d);
+struct Actor;
+struct Ctx;
+struct McssFade;
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_02015EA0(void *p);
+extern void func_02015F50(struct McssFade *w, u8 cur, u8 target, s32 step, u32 e);
 extern u32  ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs,
                                 u32 arc, u32 chr, u32 scr, u32 cell, u32 chrOfs);
 extern u32  ov208_func_021BC844(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);
@@ -104,7 +107,7 @@ extern void ov208_func_021BC758(u32 fade);
 extern void ov208_func_021BC718(u32 fade);
 extern void ov208_func_021BC4F4(int sub, u32 blend);
 extern void ov208_func_021C7E74(u16 *heap, u8 *p, int key);
-extern int  func_0201600C(u32 obj);
+extern int func_0201600C(void *p);
 extern void ov208_func_021BC6D8(u32 fade);
 extern int  ov208_func_021BDAD0(void *s);
 extern u16  ov208_func_021BC3BC(char *p);
@@ -118,7 +121,7 @@ extern void ov208_func_021BDC14(void *s, int b);
 extern int  ov208_func_021BE840(void *icon);
 extern void ov208_func_021BE82C(void *icon, int kind);
 extern void ov208_func_021BE844(void *icon);
-extern void func_02015EB0(u32 obj);
+extern void func_02015EB0(void *p);
 extern int  ov208_func_021BC6C8(u32 fade);
 extern void ov208_func_021BDBA0(void *s);
 extern void ov208_func_021C5D64(u16 *heap, u8 *p, int key);
@@ -130,8 +133,8 @@ extern void ov208_func_021BC508(int flag, int *p);
 extern void ov208_func_021C51A0(u8 *mdl, u32 sys);
 extern void ov208_func_021C4FDC(u16 *heap, u8 *p, int key);
 extern void ov208_func_021BCF6C(void *s);
-extern void func_02030D28(u32 a);
-extern void func_02014C08(u32 sys);
+extern void func_02030D28(struct Ctx *c);
+extern void func_02014C08(char *self);
 extern void ov208_func_021C5214(u8 *mdl);
 extern void ov208_func_021C692C(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C6E98(u16 *heap, u8 *p, int key);
@@ -185,12 +188,12 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ov208_func_021C5664(heap, p, key);
         ov208_func_021C52F0(heap, p, key);
         ov208_func_021C580C(heap, p, key);
-        func_0204B688(*(u32 *)(p + W(0x144) * 4 + 0x13c), 1);
-        func_02015EA0(W(0xc));
-        func_02015F50(W(0xc), 16, 16, 0, 0);
+        func_0204B688((struct Actor *)(*(u32 *)(p + W(0x144) * 4 + 0x13c)), 1);
+        func_02015EA0((void *)W(0xc));
+        func_02015F50((struct McssFade *)W(0xc), 16, 16, 0, 0);
         if (W(0x94) != 0) {
-            func_02015EA0(W(0x94));
-            func_02015F50(W(0x94), 16, 16, 0, 0);
+            func_02015EA0((void *)W(0x94));
+            func_02015F50((struct McssFade *)W(0x94), 16, 16, 0, 0);
         }
         W(0x5b4) = ov208_func_021BC9BC(0, *heap, 7, 1, 1, 0, 0x9f, 2, 12, 0x23, 0);
         W(0x5b8) = ov208_func_021BC844(*heap, 3, 3, 1, 2);
@@ -209,9 +212,9 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         break;
     case 3:
         done = 1;
-        if (func_0201600C(W(0xc)) != 0)
+        if (func_0201600C((void *)W(0xc)) != 0)
             done = 0;
-        if (W(0x94) != 0 && func_0201600C(W(0x94)) != 0)
+        if (W(0x94) != 0 && func_0201600C((void *)W(0x94)) != 0)
             done = 0;
         if (done) {
             *seq = 4;
@@ -228,19 +231,19 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
                 ov208_func_021BE82C(icon, 3);
                 ov208_func_021BE844(icon);
             }
-            func_02015EB0(W(0xc));
-            func_02015F50(W(0xc), 16, 0, -2, 0);
+            func_02015EB0((void *)W(0xc));
+            func_02015F50((struct McssFade *)W(0xc), 16, 0, -2, 0);
             if (W(0x94) != 0) {
-                func_02015EB0(W(0x94));
-                func_02015F50(W(0x94), 16, 0, -2, 0);
+                func_02015EB0((void *)W(0x94));
+                func_02015F50((struct McssFade *)W(0x94), 16, 0, -2, 0);
             }
         }
         break;
     case 4:
         done = 1;
-        if (func_0201600C(W(0xc)) != 0)
+        if (func_0201600C((void *)W(0xc)) != 0)
             done = 0;
-        if (W(0x94) != 0 && func_0201600C(W(0x94)) != 0)
+        if (W(0x94) != 0 && func_0201600C((void *)W(0x94)) != 0)
             done = 0;
         if (ov208_func_021BC6C8(W(0x6ac)) == 0 && ov208_func_021BDAD0(scene) == 2
             && ov208_func_021BE840(icon) == 2 && done) {
@@ -254,7 +257,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
             *seq = 6;
             for (i = 0; i < 4; i++) {
                 if (OBJ(i) != 0)
-                    func_02015F50(OBJ(i), 0, 0, 0, 0);
+                    func_02015F50((struct McssFade *)OBJ(i), 0, 0, 0, 0);
             }
         } else {
             ov208_func_021C5D64(heap, p, key);
@@ -263,7 +266,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
     case 6:
         settled = 1;
         for (i = 0; i < 4; i++) {
-            if (OBJ(i) != 0 && func_0201600C(OBJ(i)) != 0) {
+            if (OBJ(i) != 0 && func_0201600C((void *)OBJ(i)) != 0) {
                 settled = 0;
                 break;
             }
@@ -276,7 +279,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
                 ov208_func_021BDAE8(scene, 0);
             for (i = 0; i < 4; i++) {
                 if (OBJ(i) != 0)
-                    func_02015F50(OBJ(i), 0, 16, -2, 0);
+                    func_02015F50((struct McssFade *)OBJ(i), 0, 16, -2, 0);
             }
         }
         break;
@@ -284,7 +287,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ready = 0;
         idle = 1;
         for (i = 0; i < 4; i++) {
-            if (OBJ(i) != 0 && func_0201600C(OBJ(i)) != 0) {
+            if (OBJ(i) != 0 && func_0201600C((void *)OBJ(i)) != 0) {
                 idle = 0;
                 break;
             }
@@ -315,8 +318,8 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         return 1;
     }
     if (W(8) != 0) {
-        func_02030D28(W(0x120));
-        func_02014C08(W(8));
+        func_02030D28((struct Ctx *)W(0x120));
+        func_02014C08((char *)W(8));
         for (i = 0; i < 4; i++)
             ov208_func_021C5214(p + 0xc + i * 0x44);
     }

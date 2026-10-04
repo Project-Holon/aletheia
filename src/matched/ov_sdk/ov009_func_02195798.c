@@ -26,7 +26,7 @@ typedef struct Conn {
 	unsigned int timeout;
 } Conn;
 
-extern int func_02197BB8(Conn *c);
+extern void func_02197BB8(int *p);
 extern void func_021959D0(Conn *c);
 extern int func_0219500C(Conn *c, int result, unsigned char *msg, int len);
 
@@ -46,7 +46,7 @@ int func_02195798(Conn *c, unsigned int now)
 				timedOut = 1;
 		}
 		if (timedOut) {
-			func_02197BB8(c);
+			func_02197BB8((int *)c);
 			func_021959D0(c);
 			if (!func_0219500C(c, 6, 0, 0))
 				return 0;

@@ -54,8 +54,8 @@ extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
-extern void *func_02045730(void *);
-extern void func_020409B4(void *);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 int func_021DE248(void *window,int unused,u16 color,Context *p) {
     int player;
     void *format;

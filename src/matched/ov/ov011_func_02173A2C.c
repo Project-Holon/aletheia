@@ -20,7 +20,8 @@ int func_021736D8(void);
 void func_02082BCC(void *p, int v, int n);
 struct Entry;
 struct Entry *func_020399A8(void);
-int func_0203D3F8(int a, int b, int c, int d, void *e, int f, int g, int h);
+typedef unsigned int   u32;
+u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 typedef struct T {
     int w[13];
@@ -48,7 +49,7 @@ int func_02173A2C(unsigned char *p, int b, T *c, int d)
     buf.a = d;
     buf.t = *c;
     buf.b = p[0x944];
-    r = func_0203D3F8((int)func_020399A8(), (unsigned char)b, 0x207, 0x38, &buf, 0, 0, 0);
+    r = func_0203D3F8((int)func_020399A8(), (unsigned char)b, 0x207, 0x38, (u32)(&buf), 0, 0, 0);
     if (r == 1) {
         p[0x158] = p[0x944];
         p[0x159] = p[0x944];

@@ -21,14 +21,14 @@
 
 typedef unsigned char u8;
 
-extern void func_021CABC0(void *);
+extern void func_021CABC0(int a);
 extern void func_021CAAE8(void *);
 
 void func_021CAD6C(u8 *ctx)
 {
     int i;
     for (i = 0; i < 12; i++)
-        func_021CABC0(ctx + 4 + i * 20);
+        func_021CABC0((int)(ctx + 4 + i * 20));
     if (*(unsigned int *)(ctx + 0x108) & 1)
         func_021CAAE8(ctx);
 }

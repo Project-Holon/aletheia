@@ -20,7 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02043B5C(u32, u32);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 typedef unsigned short u16;
@@ -31,10 +32,10 @@ extern void func_021BEA54(u8 *p);
 void func_021BE9D4(u8 *p)
 {
     func_021BE49C(p + 0x14C);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154))), 0);
     func_021BE44C(p, 1, 6, 0, 4, 0x440, 0);
     func_021BE49C(p + 0x154);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1AC)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1AC))), 0);
     func_021BE44C(p, 0xC, 0xE, 0x28, 0, 0x3C40, 2);
     func_021BE49C(p + 0x1AC);
     func_021BEA54(p);

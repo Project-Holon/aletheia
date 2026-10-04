@@ -173,9 +173,10 @@ typedef struct GPIConnection {
 extern int func_0219329C(void **connection, char *input, int callErrorCallback);
 extern void func_0218FEF0(void **connection, int profileid);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern int func_020964E0(const char *s);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_020949F4(const char *a, const char *b, unsigned int n);
 extern int func_0218AC4C(void **connection, GPIConnectData *data);
 extern int func_0218A830(void **connection, GPIConnectData *data);
@@ -185,9 +186,9 @@ extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
 extern int func_020923F0(const void *a, const void *b, unsigned long n);
 extern GPIProfile *func_0218FCD8(void **connection, int id);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void func_02193734(int *p, int b);
 extern void *func_020923B0(void *dst, int c, unsigned long n);
-extern void func_0219327C(char *dest, char *src, unsigned long len);
+extern void func_0219327C(char *p, int b, int n);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation_s *operation, int type);
 extern void func_0218E240(void **connection, GPIOperation_s *operation);
 extern char g_021A499C[];
@@ -232,11 +233,11 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
             iconnection->profileid = 0;
         } else if (iconnection->errorCode == 0x201) {
             if (func_02193418(input, g_021A499C, buffer, sizeof(buffer)))
-                iconnection->profileid = func_020964E0(buffer);
+                iconnection->profileid = func_020964E0((u32)buffer);
         }
-        func_02193710(connection, iconnection->errorCode, iconnection->errorString);
+        func_02193710((int *)connection, iconnection->errorCode, (int)iconnection->errorString);
         __result__ = 4;
-        func_02189D78(connection, __result__, 1);
+        func_02189D78((int *)connection, __result__, 1);
         return __result__;
     }
 
@@ -245,15 +246,15 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
     switch (operation->state) {
     case 1:
         if (func_020949F4(input, g_021A49A4, 5) != 0) {
-            func_02193710(connection, 1, g_021A49AC);
+            func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
         if (!func_02193418(input, g_021A489C, data->serverChallenge, sizeof(data->serverChallenge))) {
-            func_02193710(connection, 1, g_021A49AC);
+            func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
         if (data->newuser) {
@@ -270,25 +271,25 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
         break;
     case 3:
         if (func_020949F4(input, g_021A49DC, 5) != 0) {
-            func_02193710(connection, 1, g_021A49AC);
+            func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
         if (!func_02193418(input, g_021A48D0, buffer, sizeof(buffer))) {
-            func_02193710(connection, 1, g_021A49E4);
+            func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->userid = func_020964E0(buffer);
+        iconnection->userid = func_020964E0((u32)buffer);
         if (!func_02193418(input, g_021A48DC, buffer, sizeof(buffer))) {
-            func_02193710(connection, 1, g_021A49E4);
+            func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->profileid = func_020964E0(buffer);
+        iconnection->profileid = func_020964E0((u32)buffer);
         __result__ = func_0218A830(connection, data);
         if (__result__ != 0)
             return __result__;
@@ -296,32 +297,32 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
         break;
     case 2:
         if (func_020949F4(input, g_021A4A14, 5) != 0) {
-            func_02193710(connection, 1, g_021A49AC);
+            func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
         if (!func_02193418(input, g_021A4A1C, buffer, sizeof(buffer))) {
-            func_02193710(connection, 1, g_021A49E4);
+            func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->sessKey = func_020964E0(buffer);
+        iconnection->sessKey = func_020964E0((u32)buffer);
         if (!func_02193418(input, g_021A48D0, buffer, sizeof(buffer))) {
-            func_02193710(connection, 1, g_021A49E4);
+            func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->userid = func_020964E0(buffer);
+        iconnection->userid = func_020964E0((u32)buffer);
         if (!func_02193418(input, g_021A48DC, buffer, sizeof(buffer))) {
-            func_02193710(connection, 1, g_021A49E4);
+            func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        iconnection->profileid = func_020964E0(buffer);
+        iconnection->profileid = func_020964E0((u32)buffer);
         if (!func_02193418(input, g_021A48B4, uniquenick, sizeof(uniquenick)))
             uniquenick[0] = '\0';
         if (!func_02193418(input, g_021A4A28, iconnection->loginTicket, sizeof(iconnection->loginTicket)))
@@ -347,15 +348,15 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
         func_021858A8((unsigned char *)buffer, func_0209477C(buffer), check);
 
         if (!func_02193418(input, g_021A4A30, buffer, sizeof(buffer))) {
-            func_02193710(connection, 1, g_021A49E4);
+            func_02193710((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
         if (func_020923F0(check, buffer, 32) != 0) {
-            func_02193710(connection, 0x108, g_021A4A38);
+            func_02193710((int *)connection, 0x108, (int)g_021A4A38);
             __result__ = 3;
-            func_02189D78(connection, __result__, 1);
+            func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
 
@@ -372,13 +373,13 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
             GPConnectResponseArg *arg;
             arg = (GPConnectResponseArg *)func_0217EAB0(sizeof(GPConnectResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A482C);
+                func_02193734((int *)connection, (int)g_021A482C);
                 return 1;
             }
             func_020923B0(arg, 0, sizeof(GPConnectResponseArg));
             arg->profile = iconnection->profileid;
             arg->result = 0;
-            func_0219327C(arg->uniquenick, uniquenick, 21);
+            func_0219327C(arg->uniquenick, (int)uniquenick, 21);
             __result__ = func_02189DFC(connection, callback, arg, operation, 0);
             if (__result__ != 0)
                 return __result__;

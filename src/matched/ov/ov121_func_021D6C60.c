@@ -16,14 +16,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02049F34(int,int,void **,int);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_0204ADEC(void *,void *,int);
 extern void func_020307B0(void *);
 void func_021D6C60(u8 *p,int heap)
 {
     void *out;
     void *raw;
-    raw=func_02049F34(34,8,&out,heap);
+    raw=func_02049F34(34,8,(u32)(&out),heap);
     func_0204ADEC(*(void **)p,out,7);
     func_020307B0(raw);
 }

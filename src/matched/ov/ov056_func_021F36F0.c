@@ -30,7 +30,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_020056A0(void (*cb)(void), void *ctx, int a);
 extern int func_021F3734(void *a0, int *state, struct Work *p);
-extern void func_021F36E4(void);
+extern void func_021F36E4(u8 *a, u8 *b);
 
 void *func_021F36F0(void *a, u8 *b, u32 c)
 {
@@ -43,6 +43,6 @@ void *func_021F36F0(void *a, u8 *b, u32 c)
     t[0] = (u32)b;
     t[1] = (u32)a;
     t[2] = c;
-    *(void **)((u8 *)t + 0xd0) = func_020056A0(func_021F36E4, t, 0);
+    *(void **)((u8 *)t + 0xd0) = func_020056A0((void (*)(void))func_021F36E4, t, 0);
     return r;
 }

@@ -51,7 +51,7 @@ extern void func_021C5D88(u8 *, u8 *, int);
 extern u32 func_021CC8D8(void *, int);
 extern int func_021D7D6C(int);
 extern void func_021C2BF0(u8 *, u8 *, u8 *, u32, u32);
-extern void func_021C2CA8(void *, int);
+extern void func_021C2CA8(u8 *p, u8 *a);
 extern void func_021C3FDC(u8 *, u8 *);
 extern void func_021C2C50(u8 *, u8 *, u8 *, u32);
 extern void func_021CC95C(void *, u32, int);
@@ -86,7 +86,7 @@ void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, S value, int f, int g, const s
     if (func_021D7D6C(kind)) {
         func_021C2BF0(p, a, b, kind, value.x);
     } else if (kind == 16) {
-        func_021C2CA8(p, (int)a);
+        func_021C2CA8(p, (u8 *)((int)a));
         if (func_021D59B4(a, 17) == 127) func_021C3FDC(p, a);
     } else func_021C2C50(p, a, b, kind);
     func_021CC95C(p + 0x1d74, lock, 7951);

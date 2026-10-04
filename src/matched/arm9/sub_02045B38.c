@@ -86,7 +86,9 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
 extern u32 func_02049578(struct ArcFile *arc, u32 member);
 extern struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId);
-extern u8 func_020461B8(const void *file);
+typedef signed int     s32;
+struct Header;
+extern s32 func_020461B8(struct Header *h);
 extern void func_02046110(struct MsgBank *bank);
 
 struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId)
@@ -101,7 +103,7 @@ struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId)
     bank->origin = origin;
     bank->resident = (u8)resident;
     bank->file = func_02046084(bank->stream, origin, bank->heapId);
-    bank->langIndex = func_020461B8(bank->file);
+    bank->langIndex = func_020461B8((struct Header *)bank->file);
 
     if (bank->resident != 0) {
         bank->base = sub_02030734(bank->heapId, bank->file->size, 0,

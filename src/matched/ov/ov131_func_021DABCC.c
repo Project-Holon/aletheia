@@ -49,7 +49,7 @@ struct Actor;
 struct Vec2 { s16 x,y; };
 extern void func_021D5A9C(char *,int);
 extern void func_021DBA78(u8 *,int);
-extern void func_021D9E30(void *,u8 *);
+extern void func_021D9E30(void *a, int b);
 extern void func_021DBA14(u8 *,u8 *);
 extern void *func_021D6064(u8 *);
 extern void func_021DBA54(u8 *,u8 *);
@@ -78,7 +78,7 @@ void func_021DABCC(u8 *a,u8 *b)
         func_0204B878(*(struct Obj **)(a+404),9);
         func_021DBA78(b+176+b[41]*24,0);
         func_0204B3DC(*(struct Obj **)(b+152),0);
-        func_021D9E30(a,b);
+        func_021D9E30(a,(int)b);
         if (*(int *)(b+20)==1) {
             func_021DBA78(b+176+b[42]*24,0);
             func_0204B3DC(*(struct Obj **)(b+156),0);

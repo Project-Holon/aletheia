@@ -35,10 +35,11 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void  func_0201C724(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02045808(struct U16Vec *vec);
-extern u32   func_020457B0(u32 a, u32 b);
+struct StrObj;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void  func_0201F250(void *a, u32 b, void *c);
-extern u32   func_0201D304(u32 a, u32 b, u32 c);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 func_02045738(struct Descriptor *p);
 
 void func_0220D090(char *p, int a1, int a2)
@@ -52,7 +53,7 @@ void func_0220D090(char *p, int a1, int a2)
         u32 f;
 
         t = func_02045EC0(*(void **)(p + 0x1ea0), 0x3c);
-        w = func_0201D304((u32)t, *(u32 *)(*(u32 *)p + 0xc), 0);
+        w = func_0201D304((struct StrObj *)((u32)t), *(u32 *)(*(u32 *)p + 0xc), 0);
         w = (func_02045738((void *)handle) << 3) - w;
         f = *(u32 *)(p + 0x1eac);
         func_0201C724(f,
@@ -68,10 +69,10 @@ void func_0220D090(char *p, int a1, int a2)
         u16 w2;
 
         t2 = func_02045EC0(*(void **)(p + 0x1ea0), 0x3e);
-        h = func_020457B0(8, *(u16 *)(*(u32 *)p + 0x10));
+        h = (u32)func_020457B0(8, *(u16 *)(*(u32 *)p + 0x10));
         func_0201EFA4(*(void **)(p + 0x1ea4), 0, a2, 3, 0, 1);
-        func_0201F250(*(void **)(p + 0x1ea4), h, t2);
-        w0 = func_0201D304(h, *(u32 *)(*(u32 *)p + 0xc), 0);
+        func_0201F250(*(void **)(p + 0x1ea4), (void *)h, t2);
+        w0 = func_0201D304((struct StrObj *)h, *(u32 *)(*(u32 *)p + 0xc), 0);
         w2 = (func_02045738((void *)handle) << 3) - w0;
         f = *(u32 *)(p + 0x1eac);
         func_0201C724(f,

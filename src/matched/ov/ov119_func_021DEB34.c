@@ -29,7 +29,7 @@ extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
 extern int func_02035C60(void);
 extern u8 func_020355C4(void);
-extern void func_021E68F4(void *,int);
+extern void func_021E68F4(int p, int i);
 extern void func_021E1098(char *p);
 extern void func_021D8980(char *p);
 extern void func_021D8E84(void *,int);
@@ -45,8 +45,8 @@ void func_021DEB34(void *p)
             if(v) func_020355D8(1);
             if(v==0) return;
         }
-        if(func_020355C4()) func_021E68F4(p,-1);
-        else func_021E68F4(p,0);
+        if(func_020355C4()) func_021E68F4((int)p,-1);
+        else func_021E68F4((int)p,0);
         func_021E1098(p);
         func_021D8980(p);
         func_021D8E84(p,(int)func_021DEA24);

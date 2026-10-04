@@ -23,7 +23,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern void func_021C27E0(void *);
 extern u8 func_021BDD48(char *, void *);
 extern int func_02156A3C(void);
@@ -39,7 +39,7 @@ int func_021BFA28(char *p, int ret)
 {
     void *s;
     unsigned v;
-    s = func_021C23B8(*(u16 *)(p + 0x242) - 1);
+    s = (void *)func_021C23B8(*(u16 *)(p + 0x242) - 1);
     func_021C27E0(s);
     v = func_021BDD48(p, s);
     *(int *)(p + 0x1c4) -= 1;

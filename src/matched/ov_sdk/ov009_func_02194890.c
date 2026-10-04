@@ -18,7 +18,7 @@
  *   d_021A590C     0x021A590C  data  a4
  */
 
-extern int func_021946F4(int a, int e);
+extern int func_021946F4(int *game, int tnum);
 extern void func_02084F40(char *buf, const char *fmt, int b, int n);
 extern void func_02194754(int a, char *buf, int c, int d, int e);
 extern char d_021A590C[];
@@ -26,6 +26,6 @@ extern char d_021A590C[];
 void func_02194890(int a, int b, int c, int d, int e)
 {
     char buf[0x40];
-    func_02084F40(buf, d_021A590C, b, func_021946F4(a, e));
+    func_02084F40(buf, d_021A590C, b, func_021946F4((int *)a, e));
     func_02194754(a, buf, c, d, e);
 }

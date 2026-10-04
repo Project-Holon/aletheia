@@ -80,13 +80,14 @@ extern const fx32 d_021D9B40[];
 extern const fx32 d_021D9B58[];
 extern const fx32 d_021D9B4C[];
 
-extern u32 func_02050080(u32 a);
-extern int func_0216D7A8(u32 a, int b);
-extern u32 func_021ABE14(u32 a);
-extern u16 func_02188C9C(u32 a);
+struct Manager0204F684;
+extern u32 func_02050080(u32 *p);
+extern int func_0216D7A8(void *p, unsigned int v);
+extern u32 func_021ABE14(u8 *p);
+extern u16 func_02188C9C(u8 *p);
 extern int func_020507D0(u32 a, u16 b);
-extern void func_020507A0(u32 a, u32 id, u32 x);
-extern void func_020507F0(u32 a, u32 id, u32 x);
+extern int func_020507A0(void *p, int idx, u32 x);
+extern void func_020507F0(void *p, int idx, u32 v);
 extern Info *func_0216E3C4(u32 a);
 struct Actor;
 struct VecFx32;
@@ -94,12 +95,12 @@ extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
 extern void func_0216D8B0(u32 a, Vec *v);
 extern int func_02163E58(u32 a, Vec *v, int *y);
 extern void func_0216D8D0(u32 a, Vec *v);
-extern u32 func_0216D7DC(u32 a);
+extern u32 func_0216D7DC(void *p);
 extern u16 func_021AB0F8(u32 attr);
 extern int func_021BC340(int a, int b);
 extern int func_021BC338(u32 a);
-extern u32 func_02188C58(u32 a);
-extern u32 func_0218EC2C(u32 a);
+extern void *func_02188C58(void *p);
+extern u32 func_0218EC2C(u8 *p);
 extern void func_02048B30(u32 cam, Vec *out);
 extern void func_0204F638(u32 h, u32 id, Vec *v);
 extern u32 func_020508C4(u32 a, u16 b);
@@ -107,10 +108,10 @@ extern void func_0204F5E4(u32 h, u32 i, s16 *v);
 extern void func_0204F604(u32 h, u32 i, s16 *v);
 extern void func_0204F654(u32 h, u32 i, s16 *v);
 extern void func_0204F66C(u32 h, u32 i, s16 *v);
-extern void func_0204F684(u32 h, u32 i, s16 *a, s16 *b);
-extern void func_0204F794(u32 h, u32 i, u32 *v);
-extern u32 func_0204F748(u32 h, u32 i);
-extern void func_0204F764(u32 h, u32 i, u32 *v);
+extern void func_0204F684(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14);
+extern void func_0204F794(void *p, u32 idx, u32 *val);
+extern u32 func_0204F748(u8 *a0, int i);
+extern void func_0204F764(void *p, u32 idx, u32 *val);
 
 void func_021BC138(u16 id, Param *p)
 {
@@ -131,15 +132,15 @@ void func_021BC138(u16 id, Param *p)
     u16 slot;
 
     h2 = p->f24;
-    h = func_02050080(h2);
-    idx = func_0216D7A8(p->f1C, 0);
+    h = func_02050080((u32 *)h2);
+    idx = func_0216D7A8((void *)p->f1C, 0);
     if (id == 0xFFFF) {
         return;
     }
-    kind = func_02188C9C(func_021ABE14(*p->f14));
+    kind = func_02188C9C((u8 *)func_021ABE14((u8 *)(*p->f14)));
     slot = func_020507D0(h2, idx);
-    func_020507A0(h2, id, slot);
-    func_020507F0(h2, id, 0);
+    func_020507A0((void *)h2, id, slot);
+    func_020507F0((void *)h2, id, 0);
     obj = p->f1C;
     info = func_0216E3C4(obj);
     func_0216D88C((const struct Actor *)obj, (struct VecFx32 *)&v);
@@ -157,14 +158,14 @@ void func_021BC138(u16 id, Param *p)
     v.z -= w.z;
     v.y += d_021D9B4C[info->f7];
     if (info->f7 == 2) {
-        if (func_021AB0F8(func_0216D7DC(obj)) & 0x40) {
+        if (func_021AB0F8(func_0216D7DC((void *)obj)) & 0x40) {
             v.y -= 0x3800;
         } else {
             v.y -= 0x8000;
         }
     }
     v.y += func_021BC340(kind, info->f7);
-    func_02048B30(func_0218EC2C(func_02188C58(func_021ABE14(*p->f14))), &u);
+    func_02048B30(func_0218EC2C(func_02188C58((void *)func_021ABE14((u8 *)(*p->f14)))), &u);
     v.x += (v.x / 4096 - u.x / 4096) * 298;
     func_0204F638(h, id, &v);
     flag = 1;
@@ -179,8 +180,8 @@ void func_021BC138(u16 id, Param *p)
     func_0204F604(h, i2, &rot[1]);
     func_0204F654(h, i1, &rot[0]);
     func_0204F66C(h, i2, &rot[0]);
-    func_0204F684(h, i2, &rot[3], &rot[2]);
-    func_0204F794(h, i2, &flag);
-    flag = func_0204F748(h, i1);
-    func_0204F764(h, i2, &flag);
+    func_0204F684((struct Manager0204F684 *)h, i2, &rot[3], &rot[2]);
+    func_0204F794((void *)h, i2, &flag);
+    flag = func_0204F748((u8 *)h, i1);
+    func_0204F764((void *)h, i2, &flag);
 }

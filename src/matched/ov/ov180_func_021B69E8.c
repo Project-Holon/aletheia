@@ -20,10 +20,10 @@
  *   func_02015E04  0x02015E04  thumb
  */
 
-extern void func_02015E04(int);
+extern void func_02015E04(void *p);
 
 void func_021B69E8(int *p)
 {
-    func_02015E04(*(int *)((char *)p + 0x1c));
+    func_02015E04((void *)(*(int *)((char *)p + 0x1c)));
     *(int *)((char *)p + 0x24) = 1;
 }

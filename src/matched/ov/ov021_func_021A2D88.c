@@ -27,10 +27,11 @@ typedef unsigned short u16;
 extern int d_021DDE90;
 
 void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
-int func_02188C84(int obj);
+typedef unsigned char  u8;
+u16 func_02188C84(u8 *p);
 void *func_02188CB4(unsigned char *p);
 void *func_021A3074(unsigned char *p);
-void func_0216D5E0(void *a, int b);
+void func_0216D5E0(int a0, int a1);
 typedef unsigned int   u32;
 void func_021A35E0(u32 *p, u32 heap);
 void *func_0216D888(void *a);
@@ -44,13 +45,13 @@ void func_021A2D88(int obj, int unused, int y)
     void *b;
     char *p;
 
-    h = func_02188C84(obj);
+    h = func_02188C84((u8 *)obj);
     p = (char *)func_02030734(h, 0x10, 1, (const char *)&d_021DDE90, 0x68);
     *(u16 *)p = h;
     *(int *)(p + 4) = obj;
     a = func_02188CB4((void *)obj);
     b = func_021A3074((void *)a);
-    func_0216D5E0(b, y);
+    func_0216D5E0((int)b, y);
     func_021A35E0(a, h);
     func_02188D40(obj, func_0216D888(b));
     func_02188CAC(obj, p);

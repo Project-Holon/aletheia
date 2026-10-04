@@ -39,7 +39,7 @@ struct t {
 
 struct v3 { u32 x, y, z; };
 
-extern void func_020140F8(struct t *p);
+extern void func_020140F8(int p0);
 extern int  func_02013C70(int id);
 extern void sub_02013B90(int id, struct v3 *out);
 extern void sub_02013B74(int id, struct v3 *out);
@@ -48,7 +48,7 @@ void func_02014204(struct t *p, int id)
 {
     struct v3 v;
 
-    func_020140F8(p);
+    func_020140F8((int)p);
     p->a = 1;
     p->b = id;
     p->c = -1;

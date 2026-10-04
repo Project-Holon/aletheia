@@ -39,23 +39,25 @@ typedef unsigned int u32;
 
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern int   func_02026454(int x);
+typedef unsigned char  u8;
+struct IcaAnime;
+extern u32 func_02026454(void *obj);
 typedef unsigned short u16;
 struct Evt;
 extern u16 func_02005C44(void);
 extern void func_02005E30(u32 a);
-extern void *func_020144DC(u32 a0, u32 a1);
+extern int func_020144DC(int a0, int a1);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern u32   func_020120F4(u32 a0);
-extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
-extern int   func_020120F0(u32 a0);
+extern void *func_020120F4(const struct Ctx *p);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
 extern void  func_02005D90(u32 a0, u32 a1);
 extern void func_02005DF8(u32 a);
-extern void *func_020145CC(u32 a0);
+extern void *func_020145CC(void *a0);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
-extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
-extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 extern char ov199_id[];
 extern char d_02213C4C[];
@@ -68,7 +70,7 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        if (func_02026454(func_02012138((const struct Ctx *)a0)) == 0) {
+        if (func_02026454((void *)func_02012138((const struct Ctx *)a0)) == 0) {
             args[0] = func_02005C44();
             func_02005E30(6);
             (*mode)++;
@@ -76,25 +78,25 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
         break;
     case 1:
         if (args[7])
-            func_02012374(obj, func_021BE8D4(a0, args[2], 0, 0));
+            func_02012374(obj, (struct Evt **)func_021BE8D4((void *)a0, args[2], 0, 0));
         (*mode)++;
         break;
     case 2:
-        func_02012374(obj, func_020144DC(a0, args[2]));
+        func_02012374(obj, (struct Evt **)func_020144DC(a0, args[2]));
         (*mode)++;
         break;
     case 3:
         p = func_02030734(4, 0x14, 1, d_02154460, 0x86);
         args[3] = (u32)p;
         p[2] = args[4];
-        p[0] = func_020120F4(a0);
+        p[0] = (u32)func_020120F4((const struct Ctx *)a0);
         p[1] = args[6];
         p[3] = args[5];
-        func_020120B4(a0, ov199_id, d_02213C4C, (void *)args[3]);
+        func_020120B4((struct IcaAnime *)a0, (u32)ov199_id, d_02213C4C, (void *)args[3]);
         (*mode)++;
         break;
     case 4:
-        if (func_020120F0(a0) == 0) {
+        if (func_020120F0((const struct Ctx *)a0) == 0) {
             func_020307B0((void *)args[3]);
             (*mode)++;
         }
@@ -103,14 +105,14 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
         (*mode)++;
         break;
     case 6:
-        func_02012374(obj, func_020145CC(a0));
+        func_02012374(obj, func_020145CC((void *)a0));
         func_02005D90(args[0], 0xFFFF);
         func_02005DF8(0x3C);
         (*mode)++;
         break;
     case 7:
         if (args[7])
-            func_02012374(obj, func_021BE92C(a0, args[2], 0, 0, 1, 0, 0));
+            func_02012374(obj, (struct Evt **)func_021BE92C((void *)a0, args[2], 0, 0, 1, 0, 0));
         (*mode)++;
         break;
     case 8:

@@ -23,10 +23,14 @@ typedef unsigned char u8;
 
 extern void func_021F0EA4(char *p, unsigned a);
 extern void func_021F0ED0(char *p, int a);
-extern void func_02043B5C(int a, int b);
-extern void func_020257D0(int a);
-extern void func_0204581C(int a);
-extern void func_02031194(int a);
+struct CharBuf;
+struct Obj;
+struct TcblNode;
+struct U16Vec;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_020257D0(struct Obj *o);
+extern void func_0204581C(struct U16Vec *vec);
+extern void func_02031194(struct TcblNode *n);
 
 void func_021F0EDC(char *p)
 {
@@ -34,19 +38,19 @@ void func_021F0EDC(char *p)
 
     func_021F0EA4(p, 0);
     func_021F0ED0(p, 0);
-    func_02043B5C(*(int *)(p + 0x1c), 0);
-    func_020257D0(*(int *)(p + 0x18));
-    func_0204581C(*(int *)(p + 0x24));
-    func_0204581C(*(int *)(p + 0x20));
+    func_02043B5C((struct CharBuf *)(*(int *)(p + 0x1c)), 0);
+    func_020257D0((struct Obj *)(*(int *)(p + 0x18)));
+    func_0204581C((struct U16Vec *)(*(int *)(p + 0x24)));
+    func_0204581C((struct U16Vec *)(*(int *)(p + 0x20)));
     *(u8 *)(p + 1) = 0xff;
     *(u8 *)(p + 2) = z;
     *(u8 *)(p + 3) = z;
     if (*(int *)(p + 0x2c) != 0) {
-        func_02031194(*(int *)(p + 0x2c));
+        func_02031194((struct TcblNode *)(*(int *)(p + 0x2c)));
         *(int *)(p + 0x2c) = z;
     }
     if (*(int *)(p + 0x30) != 0) {
-        func_02031194(*(int *)(p + 0x30));
+        func_02031194((struct TcblNode *)(*(int *)(p + 0x30)));
         *(int *)(p + 0x30) = 0;
     }
 }

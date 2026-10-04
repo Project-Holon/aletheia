@@ -24,7 +24,8 @@ typedef short          s16;
 typedef int            s32;
 
 extern void *ov208_func_021BC3B4(int key);
-extern int  func_0204B98C(u32 obj);
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204B878(u32 obj, u32 anim);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
@@ -51,7 +52,7 @@ void ov208_func_021C0A8C(u16 *heap, u8 *p, int key)
         next = 2;
         nextAnim = 2;
     }
-    if (sel != 7 && func_0204B98C(OBJ(sel)) == 0) {
+    if (sel != 7 && func_0204B98C((struct Actor *)OBJ(sel)) == 0) {
         func_0204B878(OBJ(p[0xd8]), anim);
         func_0204B92C((struct Obj *)OBJ(next), 1);
         func_0204B878(OBJ(next), nextAnim);

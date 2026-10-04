@@ -58,7 +58,7 @@ extern u32 func_0203D680(void);
 extern u32 func_02037258(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0203D6BC(void);
-extern void func_02036AF4(u8 *p, u32 n, u8 *q, u32 heap);
+extern void func_02036AF4(u8 *p, u32 n, u32 a, u32 b);
 extern void func_02037478(void);
 
 int func_02037288(u32 a0, u32 heap, u32 c)
@@ -88,9 +88,9 @@ int func_02037288(u32 a0, u32 heap, u32 c)
         lbl_021469D0->f08 = func_02030734(heap, m, 1, str_020A7A24, 0xee);
         lbl_021469D0->f0C = func_02030734(heap, m * 2, 1, str_020A7A24, 0xef);
         func_02036AF4((u8 *)lbl_021469D0 + 0xcc, 0x64,
-                      (u8 *)lbl_021469D0 + 0x1c, heap);
+                      (u32)((u8 *)lbl_021469D0 + 0x1c), heap);
         func_02036AF4((u8 *)lbl_021469D0 + 0xf4, 0xb4,
-                      (u8 *)lbl_021469D0 + 0x3c, heap);
+                      (u32)((u8 *)lbl_021469D0 + 0x3c), heap);
         lbl_021469D0->f1AC = 1;
         func_02037478();
     }

@@ -38,7 +38,8 @@ extern void func_02082BCC(void *p, int v, int n);
 extern void func_02087C6C(void *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(u32 v);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern void func_02183FB8(u8 *s, u8 *a, int idx, u8 *src);
 extern int func_02184114(u8 *s);
 extern void func_0218416C(u8 *s);
@@ -58,7 +59,7 @@ u8 *func_02183B60(u8 *a, int heap, int kind, Rec20 *src)
     func_02082BCC(buf, 0, 0x28);
     *(Rec20 *)buf = *src;
     func_02087C6C(buf + 0x20);
-    func_02183FB8(s, a, func_0203D1A4((u32)func_020399A8()), buf);
+    func_02183FB8(s, a, func_0203D1A4((struct Link *)((u32)func_020399A8())), buf);
     func_02184114(s);
     func_0218416C(s);
     return s;

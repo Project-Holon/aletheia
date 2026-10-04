@@ -77,17 +77,18 @@ extern Proc d_021712CC[];
 extern int func_02160A64(Callbacks *c);
 extern int func_02160A4C(Callbacks *c);
 extern int func_02160A7C(Callbacks *c);
-extern void *func_021BE8D4(void *a, void *b, u32 c, u32 d);
-extern void *func_021BE92C(void *a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g);
+struct IcaAnime;
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 struct Ctx;
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020144DC(void *a, void *b);
+extern int func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *a);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02188DA0(void *a);
 extern void func_02188DB0(u8 *a);
-extern void func_020120B4(void *a, void *b, void *c, void *d);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
 extern void func_020307B0(void *p);
 
@@ -143,13 +144,13 @@ int func_021607E0(void *evt, u32 *state, Task *t)
         }
         break;
     case 6:
-        func_02012374(evt, func_021BE8D4(t->owner->f00, t->owner->f04, 0, 0));
+        func_02012374(evt, (struct Evt **)func_021BE8D4(t->owner->f00, (int)t->owner->f04, 0, 0));
         *state = 7;
         break;
     case 7:
         if (func_02160A64(&t->cb) == 0)
             break;
-        func_02012374(evt, func_020144DC(t->owner->f00, t->owner->f04));
+        func_02012374(evt, (struct Evt **)func_020144DC((int)t->owner->f00, (int)t->owner->f04));
         *state = 11;
         break;
     case 8:
@@ -167,7 +168,7 @@ int func_021607E0(void *evt, u32 *state, Task *t)
     case 10:
         if (func_02160A4C(&t->cb) == 0)
             break;
-        func_02012374(evt, func_021BE92C(t->owner->f00, t->owner->f04, 0, 0, 0, 0, 0));
+        func_02012374(evt, (struct Evt **)func_021BE92C(t->owner->f00, (int)t->owner->f04, 0, 0, 0, 0, 0));
         *state = 1;
         break;
     case 11:
@@ -179,7 +180,7 @@ int func_021607E0(void *evt, u32 *state, Task *t)
         t->work = work;
         if (d_021712CC[t->proc].f04 == 0)
             break;
-        func_020120B4(t->owner->f00, d_021712CC[t->proc].f00, d_021712CC[t->proc].f04, work);
+        func_020120B4(t->owner->f00, (u32)d_021712CC[t->proc].f00, d_021712CC[t->proc].f04, work);
         *state = 12;
         break;
     case 12:

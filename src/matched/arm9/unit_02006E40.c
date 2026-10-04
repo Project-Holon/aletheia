@@ -74,7 +74,7 @@ extern const char sub_02006E40_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
-extern void  func_02048F74(void *p, u32 a, u32 b, u32 c, u32 d);
+extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 
 void sub_02006EA4(struct Sub02006E40Obj *obj, u32 heap);
 
@@ -112,14 +112,14 @@ void sub_02006EA4(struct Sub02006E40Obj *obj, u32 heap)
     int k;
 
     k = 0;
-    func_02048F74(obj, 0x57, 0, k, 1);
+    func_02048F74(obj, 0x57, 0, k, (u32 *)1);
     k++;
     obj->unk04 = func_02030734(heap, obj->count * 2, 0, sub_02006E40_File,
                                0xAF);
     obj->unk08 = func_02030734(heap, obj->count, 0, sub_02006E40_File, 0xB0);
     for (i = 0; i < obj->count; i++) {
-        func_02048F74(&obj->unk04[i], 0x57, 0, k, 2);
-        func_02048F74(&obj->unk08[i], 0x57, 0, k + 2, 1);
+        func_02048F74(&obj->unk04[i], 0x57, 0, k, (u32 *)2);
+        func_02048F74(&obj->unk08[i], 0x57, 0, k + 2, (u32 *)1);
         k += 3;
     }
 }

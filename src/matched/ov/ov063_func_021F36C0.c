@@ -46,18 +46,18 @@ typedef struct {
 extern const char d_021F3D80[];
 
 extern u32 func_02188C84(u32 a);
-extern int func_02188C5C(u32 a);
-extern int func_0219E348(int a);
-extern int func_02188CD0(u32 a);
-extern int func_02188C58(u32 a);
+extern u32 func_02188C5C(u8 *p);
+extern void *func_0219E348(void *a);
+extern u32 func_02188CD0(u8 *p);
+extern void *func_02188C58(void *p);
 extern void *func_02188CB4(unsigned char *p);
 typedef unsigned short u16;
 extern void func_021A2F6C(u32 *p);
 extern void func_0216DB4C(int a, int b);
 extern void func_0216DC98(int a, int b);
-extern void func_0216DAE0(int a, int b);
+extern void func_0216DAE0(unsigned int *p, unsigned int v);
 extern void func_0216DAF8(int a);
-extern u32 func_02188D30(u32 a);
+extern u32 func_02188D30(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030DA8(u32 owner, void *cb, void *arg, u32 n);
 extern void func_021F377C(void);
@@ -67,11 +67,11 @@ W *func_021F36C0(int unused, u32 sys, int c, int d)
     W *p;
 
     p = func_02030734(func_02188C84(sys), 0x84, 1, d_021F3D80, 0x80);
-    p->f4 = func_02188C5C(sys);
+    p->f4 = func_02188C5C((u8 *)sys);
     p->f10 = c;
-    p->f8 = func_0219E348(c);
-    p->f14 = func_02188CD0(sys);
-    p->f18 = func_02188C58(sys);
+    p->f8 = (int)func_0219E348((void *)c);
+    p->f14 = func_02188CD0((u8 *)sys);
+    p->f18 = (int)func_02188C58((void *)sys);
     if (d != 0) {
         p->fC = func_02188CB4((void *)sys);
         func_021A2F6C(p->fC);
@@ -80,8 +80,8 @@ W *func_021F36C0(int unused, u32 sys, int c, int d)
     }
     func_0216DB4C(p->f10, 1);
     func_0216DC98(p->f10, 1);
-    func_0216DAE0(p->f10, 0);
+    func_0216DAE0((unsigned int *)p->f10, 0);
     func_0216DAF8(p->f10);
-    p->f80 = func_02030DA8(func_02188D30(sys), (void *)func_021F377C, p, 0);
+    p->f80 = func_02030DA8(func_02188D30((u8 *)sys), (void *)func_021F377C, p, 0);
     return p;
 }

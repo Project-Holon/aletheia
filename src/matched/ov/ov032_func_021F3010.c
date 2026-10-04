@@ -24,8 +24,10 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
-extern void *func_02045730(void *);
-extern void func_020409B4(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 
 typedef struct {
     void *f0;

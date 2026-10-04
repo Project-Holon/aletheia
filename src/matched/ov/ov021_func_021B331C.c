@@ -16,14 +16,15 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_02045EC0(u32, u32);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void func_021B331C(u8 *w, int b)
 {
     if (b == 1) {
-        *(u32 *)(w + 0x194) = func_02045EC0(*(u32 *)(w + 0x188), 0xd);
+        *(u32 *)(w + 0x194) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0xd);
     } else {
-        *(u32 *)(w + 0x194) = func_02045EC0(*(u32 *)(w + 0x188), 0xc);
+        *(u32 *)(w + 0x194) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0xc);
     }
-    *(u32 *)(w + 0x1A0) = func_02045EC0(*(u32 *)(w + 0x188), 0xe);
+    *(u32 *)(w + 0x1A0) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0xe);
 }

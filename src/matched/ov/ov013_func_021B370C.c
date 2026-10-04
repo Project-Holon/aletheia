@@ -44,7 +44,9 @@ extern void func_02082BCC(void *dst, int c, int n);
 extern int  func_021B0508(void);
 extern int  func_021B22B4(Param *p);
 extern void func_021B23C8(void);
-extern int  func_021B2ED8(int a, int b);
+typedef unsigned int   u32;
+struct E;
+extern int func_021B2ED8(struct E *a, u32 b);
 extern void func_021B2F98(void);
 
 int func_021B370C(Param *p)
@@ -70,7 +72,7 @@ int func_021B370C(Param *p)
     if (p->fc >= 0x20)
         return 0;
     ((u8 *)d_021B60CC)[0xc] = p->fc;
-    if (func_021B2ED8(p->f10, p->f14) == 0) {
+    if (func_021B2ED8((struct E *)p->f10, p->f14) == 0) {
         func_021B2F98();
         return 0;
     }

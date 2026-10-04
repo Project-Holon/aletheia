@@ -67,7 +67,7 @@ extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B878(u32, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021F9A1C(void *p, int mode);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -112,9 +112,9 @@ int func_021F9A88(Obj *p, u8 *enable)
         func_020061E4(0x548);
         func_021F4FF4(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
         if (p->pos == 9) {
-            func_0204B878(p->cursor, 5);
+            func_0204B878((struct Obj *)p->cursor, 5);
         } else {
-            func_0204B878(p->cursor, 0x12);
+            func_0204B878((struct Obj *)p->cursor, 0x12);
         }
     }
     ret = -1;
@@ -122,10 +122,10 @@ int func_021F9A88(Obj *p, u8 *enable)
     if (r != ret) {
         func_021F4FF4(p->cursor, (tbl_022032C6[r].x + 0x10) * 8, tbl_022032C6[r].y * 8);
         if (r == 9) {
-            func_0204B878(p->cursor, 5);
+            func_0204B878((struct Obj *)p->cursor, 5);
         } else {
             p->pos = r;
-            func_0204B878(p->cursor, 0x12);
+            func_0204B878((struct Obj *)p->cursor, 0x12);
         }
         if (r == 9) {
             func_020061E4(0x551);
@@ -154,7 +154,7 @@ int func_021F9A88(Obj *p, u8 *enable)
         }
     } else if (func_020362DC() & 2) {
         func_020061E4(0x551);
-        func_0204B878(p->cursor, 5);
+        func_0204B878((struct Obj *)p->cursor, 5);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         return -2;
     }

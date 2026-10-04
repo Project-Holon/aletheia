@@ -20,15 +20,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
 typedef struct { u8 pad[0x10]; u8 f10; u8 f11; u8 f12; u8 f13; u32 f14; u32 f18; u32 f1C; u32 f20; u32 f24; u8 pad28[0xc]; u32 f34; u32 f38; } E;
-extern void func_0204762C(u32 h);
-extern void func_02047738(u32 h);
-extern void func_02047504(u32 h);
+struct Rec;
+extern void func_0204762C(struct Rec *p);
+extern void func_02047738(struct Rec *p);
+extern void func_02047504(struct Rec *p);
 void func_021C9164(void *task, E *e)
 {
-    func_0204762C(e->f1C);
-    func_0204762C(e->f20);
-    func_02047738(e->f18);
-    func_02047504(e->f24);
-    func_02047738(e->f34);
-    func_02047504(e->f38);
+    func_0204762C((struct Rec *)e->f1C);
+    func_0204762C((struct Rec *)e->f20);
+    func_02047738((struct Rec *)e->f18);
+    func_02047504((struct Rec *)e->f24);
+    func_02047738((struct Rec *)e->f34);
+    func_02047504((struct Rec *)e->f38);
 }

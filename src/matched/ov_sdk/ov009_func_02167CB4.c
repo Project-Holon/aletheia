@@ -41,7 +41,7 @@ typedef struct WCMWork {
 
 extern unsigned char g_021A1988[];
 extern unsigned char g_021A1990[];
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern unsigned long func_021656D0(unsigned long option);
 extern unsigned short func_02165918(unsigned short channel);
 extern unsigned short func_0208EFC4(void);
@@ -54,7 +54,7 @@ void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long opt
     unsigned short t;
     unsigned char *src;
 
-    wcmw = func_021657C8();
+    wcmw = (WCMWork *)func_021657C8();
     func_021656D0(option);
     wcmw->scanBufPtr = wcmw->scanBuf;
     wcmw->scanBufSize = 0x400;

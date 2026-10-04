@@ -38,7 +38,7 @@ extern u8 func_021BF6DC(u8 *);
 extern u16 func_021BF724(u8 *);
 extern void func_0204B528(struct Actor *, const struct Pt *);
 extern void func_0204B3DC(struct Obj *, u32);
-extern void func_021BF758(u8 *, u32, void *);
+extern void func_021BF758(u8 *p, u32 a, int b);
 extern void func_0201DD68(void);
 extern void *func_02045770(struct Descriptor *);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
@@ -62,7 +62,7 @@ void func_021BFF7C(u8 *p, u32 n, u32 y)
         func_0204B3DC(*(struct Obj **)(p + n), 1);
         return;
     }
-    func_021BF758(*(u8 **)(p + 4), n - 2, *(void **)(p + 72));
+    func_021BF758(*(u8 **)(p + 4), n - 2, (int)(*(void **)(p + 72)));
     func_0201DD68();
     if (y <= 240) {
         func_0201C7A4(func_02045770(*(struct Descriptor **)(p + 12)), 112 * ((n - 2) & 1), y, *(void **)(p + 72), (void *)font);

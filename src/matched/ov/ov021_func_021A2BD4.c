@@ -24,7 +24,8 @@ extern u32 data_021D88E0[];
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 void func_0204B3DC(struct Obj *h, unsigned int v);
-void func_0204BA20(u32 h, int v);
+struct Actor;
+void func_0204BA20(struct Actor *a, u32 v);
 
 typedef struct { u16 id; u16 x, y, z; } Q;
 void func_021A2BD4(u32 *p, u32 a, const Q *q, int b, u16 e)
@@ -32,5 +33,5 @@ void func_021A2BD4(u32 *p, u32 a, const Q *q, int b, u16 e)
     p[0] = a;
     p[1] = (u32)func_0204B294((void *)b, q->x, q->y, q->z, data_021D88E0, 0, e);
     func_0204B3DC((struct Obj *)p[1], 0);
-    func_0204BA20(p[1], 0);
+    func_0204BA20((struct Actor *)p[1], 0);
 }

@@ -30,10 +30,10 @@ extern void func_021BD868(u8 *);
 extern void func_020061E4(u32);
 extern void func_021B9BEC(u8 *,int);
 extern void func_021BF82C(u8 *);
-extern int func_021BAFAC(u8 *);
+extern int func_021BAFAC(u32 p);
 extern int func_021BD894(u8 *,void *);
 extern int func_021BEB44(u8 *);
-extern void func_021BAF7C(u8 *,int);
+extern void func_021BAF7C(unsigned p, int v);
 extern int func_021BEB60(u8 *);
 void func_021BE580(u8 *p,u32 *q)
 {
@@ -57,7 +57,7 @@ void func_021BE580(u8 *p,u32 *q)
         return;
     }
     if(*(u16 *)(p+0x34)&2) {
-        if(p[0x69]==1 && func_021BAFAC(*(u8 **)(p+0x1c))) {
+        if(p[0x69]==1 && func_021BAFAC((u32)(*(u8 **)(p+0x1c)))) {
             *(u16 *)(p+0x50)=*(u16 *)(p+0x4c);
             *q=1;
             if(*(u16 *)(p+0x4c)!=253) {
@@ -90,7 +90,7 @@ void func_021BE580(u8 *p,u32 *q)
             func_020061E4(1367);
             return;
         } else if(*(u16 *)(p+0x4c)==253) {
-            if(p[0x69]==1 && func_021BAFAC(*(u8 **)(p+0x1c))) {
+            if(p[0x69]==1 && func_021BAFAC((u32)(*(u8 **)(p+0x1c)))) {
                 *(u16 *)(p+0x50)=*(u16 *)(p+0x4c);
                 *q=1;
                 func_020061E4(1363);
@@ -117,7 +117,7 @@ void func_021BE580(u8 *p,u32 *q)
             func_020061E4(1367);
             return;
         } else {
-            func_021BAF7C(*(u8 **)(p+0x1c),*(u16 *)(p+0x4c));
+            func_021BAF7C((unsigned int)(*(u8 **)(p+0x1c)),*(u16 *)(p+0x4c));
             func_020061E4(1356);
             func_021BB054(*(u8 **)(p+0x1c));
             func_021B9BEC(*(u8 **)(p+0x14),30);

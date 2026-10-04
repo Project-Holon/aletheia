@@ -75,7 +75,8 @@ extern void func_021F8150(int, void *);
 extern int func_02006238(void);
 extern void func_021EA3B8(char *ctx, int a, int b);
 extern int func_021EA3D4(void *);
-extern void func_021EAF18(void *, int, int);
+struct L;
+extern void func_021EAF18(struct L *p, int kind, u16 id);
 extern void func_021EAF50(void *, int);
 extern void func_021EA614(void *, void *);
 extern int func_021EA720(void *);
@@ -152,7 +153,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         if (func_021EA3D4(*(void **)(p + 0x54))) *state = 6;
         break;
     case 6:
-        func_021EAF18(p + 0x58, 1, 0x3c);
+        func_021EAF18((struct L *)(p + 0x58), 1, 0x3c);
         func_021EAF50(p + 0x58, id);
         func_021EAF50(p + 0x58, d_021F3B64.result[0]);
         func_021EA614(*(void **)(p + 0x54), p + 0x58);

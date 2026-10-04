@@ -27,23 +27,25 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(u32);
-extern u32 func_02045808(u32);
-extern u32 func_02190538(u32);
+struct Slot;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02190538(struct Slot *s);
 extern int func_02190D48(u32 a);
-extern u32 func_021927E8(u32);
-extern u32 func_02192BC0(u32);
+extern void func_021927E8(u32 *p);
+extern void func_02192BC0(u8 *p);
 
 int func_02191008(u32 a)
 {
-func_02192BC0(*(u32 *)((u8 *)(a)));
+func_02192BC0((u8 *)(*(u32 *)((u8 *)(a))));
 if (*(u32 *)((u8 *)(a) + 4) != 0) {
     func_02190D48(*(u32 *)((u8 *)(a) + 4));
 }
 if (*(u32 *)((u8 *)(a) + 8) != 0) {
-    func_02190538(*(u32 *)((u8 *)(a) + 8));
+    func_02190538((struct Slot *)(*(u32 *)((u8 *)(a) + 8)));
 }
-func_02045808(*(u32 *)((u8 *)(a) + 16));
-func_021927E8((a + 24));
+func_02045808((struct U16Vec *)(*(u32 *)((u8 *)(a) + 16)));
+func_021927E8((u32 *)(a + 24));
 return func_020307B0(a);
 }
 

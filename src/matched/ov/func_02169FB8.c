@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern int func_020310C4();
 extern int func_020286C4();
-extern int func_02169F34();
+extern int func_02169F34(u8 *p);
 
 int func_02169FB8(int a0, int a1, int a2)
 {
@@ -39,7 +39,7 @@ a2 = *(int *)((char *)a2 + 8);
     a0 = func_020286C4(a0, a1, a2);
 loc_02169FD0:
 a0 = t4 + 0;
-    a0 = func_02169F34(a0);
+    a0 = func_02169F34((u8 *)a0);
 loc_02169FD6:
     if (a0 != 0) goto loc_02169FDE;
 loc_02169FDA:
@@ -57,6 +57,6 @@ a2 = *(int *)((char *)a2 + 8);
     a0 = func_020286C4(a0, a1, a2);
 loc_02169FF2:
 a0 = t4 + 0;
-    a0 = func_02169F34(a0);
+    a0 = func_02169F34((u8 *)a0);
 loc_02169FF8:
     return a0;}

@@ -43,11 +43,11 @@ typedef struct {
 extern GPIPeer *func_0218F0E8(void **connection, unsigned int ip, unsigned short port);
 extern GPIPeer *func_0218F150(void **connection, int profileid, int initiated);
 extern char *func_0215FA9C(struct SOCInAddr in);
-extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_0217EAC8(void *ptr, unsigned int size);
 extern void func_0217EAE0(void *ptr);
-extern void func_02193734(void **connection, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+extern void func_02193734(int *p, int b);
+extern int func_02189D78(int *connection, int a1, int a2);
 extern void *memcpy(void *, const void *, unsigned int);
 extern char g_021A5028[];
 extern char g_021A5070[];
@@ -74,7 +74,7 @@ void func_0218F65C(unsigned int ip, unsigned short port, unsigned char *message,
             aPeer->ip = ip;
             aPeer->port = port;
         } else {
-            func_0217D254(1, 2, 1, g_021A5028, func_0215FA9C(anAddr), port);
+            func_0217D254(1, (char *)2, 1, g_021A5028, func_0215FA9C(anAddr), port);
             return;
         }
     }
@@ -85,10 +85,10 @@ void func_0218F65C(unsigned int ip, unsigned short port, unsigned char *message,
         size = writePos + (messageLength < 0x4000 ? 0x4000 : messageLength);
         reallocedBuff = func_0217EAC8(buff, size + 1);
         if (reallocedBuff == 0) {
-            func_0217D254(1, 2, 1, g_021A5070, func_0215FA9C(anAddr), port);
+            func_0217D254(1, (char *)2, 1, g_021A5070, func_0215FA9C(anAddr), port);
             func_0217EAE0(buff);
-            func_02193734(connection, g_021A4F1C);
-            func_02189D78(connection, 1, 0);
+            func_02193734((int *)connection, (int)g_021A4F1C);
+            func_02189D78((int *)connection, 1, 0);
             return;
         }
         buff = reallocedBuff;

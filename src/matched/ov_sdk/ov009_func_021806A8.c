@@ -69,7 +69,7 @@ extern unsigned short func_02195E30(const unsigned short *p);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0218437C(void *array, int n);
+extern void func_0218437C(int a, int b);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
@@ -114,7 +114,7 @@ void func_021806A8(void *theConnection, int theResult)
         if (aRemotePeerIdx != -1) {
             func_0217D254(12, 0, 16, g_021A393C,
                 func_02198620(func_02195E28(theConnection), func_02195E30(theConnection), anAddr));
-            func_0218437C(aUdp->mRemotePeers, aRemotePeerIdx);
+            func_0218437C((int)aUdp->mRemotePeers, aRemotePeerIdx);
         }
     }
 
@@ -134,7 +134,7 @@ void func_021806A8(void *theConnection, int theResult)
                 aTempHandler->mConnected(func_02195E28(theConnection), func_02195E30(theConnection),
                     aCode, (theResult == 2) ? 1 : 0, aTempHandler->mUserData);
             }
-            func_0218437C(aTempHandler->mPendingConnections, aRemotePeerIdx);
+            func_0218437C((int)aTempHandler->mPendingConnections, aRemotePeerIdx);
             return;
         }
     }

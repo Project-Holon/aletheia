@@ -21,17 +21,18 @@ typedef unsigned char u8;
 extern u8 *g_021797A4;
 extern int func_02178E4C(void);
 extern int func_02179498(void);
-extern void func_0217727C(u8 *w, void (*fn)(u8 *));
+typedef unsigned int   u32;
+extern void func_0217727C(u32 *p, u32 v);
 extern void func_02177660(u8 *p);
 
 void func_02177614(u8 *p)
 {
     if (func_02178E4C() == 1 && func_02179498() != 0) {
         p[0xCF5] = 0xFF;
-        func_0217727C(g_021797A4, func_02177660);
+        func_0217727C((u32 *)g_021797A4, (u32)func_02177660);
     }
     if (func_02178E4C() == 9) {
         p[0xCF5] = 0xFF;
-        func_0217727C(g_021797A4, func_02177660);
+        func_0217727C((u32 *)g_021797A4, (u32)func_02177660);
     }
 }

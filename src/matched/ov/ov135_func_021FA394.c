@@ -53,7 +53,7 @@ extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021FA2B0(Menu *m, int dir);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B878(u32 v, int k);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021F9A1C(void *p, int mode);
 extern int func_021FA330(Menu *m, int key);
 
@@ -90,9 +90,9 @@ int func_021FA394(Menu *m)
         func_020061E4(0x548);
         func_021F4FF4(m->cursor, tbl_02203216[m->cur].x, tbl_02203216[m->cur].y);
         if (m->cur == 4) {
-            func_0204B878(m->cursor, 5);
+            func_0204B878((struct Obj *)m->cursor, 5);
         } else {
-            func_0204B878(m->cursor, 6);
+            func_0204B878((struct Obj *)m->cursor, 6);
         }
     }
     r = func_021F9A1C(m, 2);
@@ -100,10 +100,10 @@ int func_021FA394(Menu *m)
         if ((u32)r < 5) {
             func_021F4FF4(m->cursor, tbl_02203216[r].x, tbl_02203216[r].y);
             if (r == 4) {
-                func_0204B878(m->cursor, 5);
+                func_0204B878((struct Obj *)m->cursor, 5);
             } else {
                 m->cur = r;
-                func_0204B878(m->cursor, 6);
+                func_0204B878((struct Obj *)m->cursor, 6);
             }
         }
         r = func_021FA330(m, r);
@@ -118,7 +118,7 @@ int func_021FA394(Menu *m)
     }
     if (func_020362DC() & 2) {
         func_021F4FF4(m->cursor, 0xC0, 0x88);
-        func_0204B878(m->cursor, 5);
+        func_0204B878((struct Obj *)m->cursor, 5);
         func_020061E4(0x551);
         return -2;
     }

@@ -25,7 +25,7 @@
 
 extern void *func_021F3D6C(int a);
 extern int func_021F3724(int a);
-extern int *func_021F3718(int a);
+extern int func_021F3718(int a);
 extern void func_021F3D04(int a, int b);
 extern int func_021F3958(int a, int b, int c);
 extern void *func_02188CB4(unsigned char *p);
@@ -55,7 +55,7 @@ int func_021F38A4(int a, int b)
     x = (short)(((v[0] >> 4) / 4096));
     y = (short)(((v[2] >> 4) / 4096));
     n = func_021F3724(*r4);
-    p = func_021F3718(*r4);
+    p = (int *)func_021F3718(*r4);
     i = 0;
     if (i < n)
         for (; i < n; i++) {

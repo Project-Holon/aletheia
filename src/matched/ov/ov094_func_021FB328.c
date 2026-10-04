@@ -17,7 +17,7 @@
  */
 extern int func_0201134C(int a);
 extern int func_021F84D0(int a);
-extern void *func_021F8694(void);
+extern int func_021F8694(void);
 extern void func_021FF4C0(void *obj, int a, int b, int *c, int d, int e, int f);
 
 int func_021FB328(int a, char *b)
@@ -35,6 +35,6 @@ int func_021FB328(int a, char *b)
     t5 = func_0201134C(a);
     t6 = func_0201134C(a);
     t7 = func_0201134C(a);
-    func_021FF4C0(func_021F8694(), t0, t1, arr, t5, t6, t7);
+    func_021FF4C0((void *)func_021F8694(), t0, t1, arr, t5, t6, t7);
     return *(int *)(b + 0x23c);
 }

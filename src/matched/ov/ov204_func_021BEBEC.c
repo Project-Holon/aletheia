@@ -29,11 +29,12 @@ typedef unsigned char  u8;
 struct Obj;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_0204A6C8(void *,u32,u32,u32,u32);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void *func_0204ABF0(void *,u32,u32,u32,u32);
-extern void *func_0204AF28(void *,u32,u32,u32);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
-extern void *func_021BDD78(void *);
+extern unsigned func_021BDD78(char *p);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 int func_021BEBEC(char *p)
@@ -44,25 +45,25 @@ int func_021BEBEC(char *p)
     char *row;
     arc=func_020490F4(170,*(u16 *)p);
     if(func_02008550(**(void ***)(p+4))==0){
-        *(void **)(p+0x10b4)=func_0204A6C8(arc,6,0,0,*(u16 *)p);
+        *(void **)(p+0x10b4)=(void *)func_0204A6C8(arc,6,0,0,*(u16 *)p);
         *(void **)(p+0x10c0)=func_0204ABF0(arc,7,0,0,*(u16 *)p);
-        *(void **)(p+0x10cc)=func_0204AF28(arc,5,4,*(u16 *)p);
+        *(void **)(p+0x10cc)=(void *)func_0204AF28(arc,5,4,*(u16 *)p);
     }else{
-        *(void **)(p+0x10b4)=func_0204A6C8(arc,10,0,0,*(u16 *)p);
+        *(void **)(p+0x10b4)=(void *)func_0204A6C8(arc,10,0,0,*(u16 *)p);
         *(void **)(p+0x10c0)=func_0204ABF0(arc,11,0,0,*(u16 *)p);
-        *(void **)(p+0x10cc)=func_0204AF28(arc,9,8,*(u16 *)p);
+        *(void **)(p+0x10cc)=(void *)func_0204AF28(arc,9,8,*(u16 *)p);
     }
-    *(void **)(p+0x10b8)=func_0204A6C8(arc,17,0,0,*(u16 *)p);
+    *(void **)(p+0x10b8)=(void *)func_0204A6C8(arc,17,0,0,*(u16 *)p);
     *(void **)(p+0x10c4)=func_0204ABF0(arc,18,0,32,*(u16 *)p);
-    *(void **)(p+0x10d0)=func_0204AF28(arc,16,15,*(u16 *)p);
-    *(void **)(p+0x10bc)=func_0204A6C8(arc,21,0,0,*(u16 *)p);
+    *(void **)(p+0x10d0)=(void *)func_0204AF28(arc,16,15,*(u16 *)p);
+    *(void **)(p+0x10bc)=(void *)func_0204A6C8(arc,21,0,0,*(u16 *)p);
     *(void **)(p+0x10c8)=func_0204ABF0(arc,22,0,64,*(u16 *)p);
-    *(void **)(p+0x10d4)=func_0204AF28(arc,20,19,*(u16 *)p);
+    *(void **)(p+0x10d4)=(void *)func_0204AF28(arc,20,19,*(u16 *)p);
     func_02049238(arc);
     local=init;
     for(i=0;i<3;i++){
         row=p+i*4;
-        *(void **)(row+0x10a8)=func_0204B294(func_021BDD78(*(void **)(p+20)),(unsigned int)*(void **)(row+0x10b4),(unsigned int)*(void **)(row+0x10c0),(unsigned int)*(void **)(row+0x10cc),(char *)&local+i*8,0,*(u16 *)p);
+        *(void **)(row+0x10a8)=func_0204B294((void *)func_021BDD78(*(void **)(p+20)),(unsigned int)*(void **)(row+0x10b4),(unsigned int)*(void **)(row+0x10c0),(unsigned int)*(void **)(row+0x10cc),(char *)&local+i*8,0,*(u16 *)p);
         func_0204B3DC(*(void **)(row+0x10a8),0);
     }
     return 1;

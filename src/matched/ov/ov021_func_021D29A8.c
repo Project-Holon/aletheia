@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_021A0F30(u32 a, u32 b);
 extern int func_021A0F94(u32 link);
-extern void func_021A0FA8(u32 link);
+extern void func_021A0FA8(int *p);
 
 u32 func_021D29A8(u32 a, u32 *st, u32 *p)
 {
@@ -31,7 +31,7 @@ u32 func_021D29A8(u32 a, u32 *st, u32 *p)
         break;
     case 1:
         if (func_021A0F94(p[1]) == 14) {
-            func_021A0FA8(p[1]);
+            func_021A0FA8((int *)p[1]);
             st[0]++;
         }
         break;

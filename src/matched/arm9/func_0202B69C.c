@@ -10,9 +10,10 @@
  * status:   EXACT
  */
 
-extern void func_0202BEA4(int);
+typedef unsigned char  u8;
+extern void func_0202BEA4(u8 *p);
 void func_0202B69C(int a0)
 {
-    func_0202BEA4(*(int *)((char *)a0 + 28));
+    func_0202BEA4((u8 *)(*(int *)((char *)a0 + 28)));
     *(int *)((char *)a0 + 28) = 0;
 }

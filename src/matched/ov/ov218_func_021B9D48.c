@@ -30,7 +30,7 @@ extern Template d_021BB060;
 extern Template template_021BB060;
 extern int tbl_021BAC80[];
 extern void *func_021B7754(Template *,u32);
-extern void func_021B7A10(void *,void *,u32,u32,u32);
+extern void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index);
 struct MsgBank;
 struct Rec;
 extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
@@ -59,8 +59,8 @@ void func_021B9D48(char *p)
     }
     *(void **)(p+0x2c)=func_021B7754(&template_021BB060,*(u16 *)p);
     archive=func_020490F4(193,*(u16 *)p);
-    func_021B7A10(*(void **)(p+0x2c),archive,3,0,0);
-    func_021B7A10(*(void **)(p+0x2c),archive,4,0,1);
+    func_021B7A10(*(void **)(p+0x2c),(u32)archive,3,0,0);
+    func_021B7A10(*(void **)(p+0x2c),(u32)archive,4,0,1);
     func_021B7A4C(*(void **)(p+0x2c),archive,1,2,3);
     func_02049238(archive);
     bank=func_02045B38(0,2,229,*(u16 *)p);

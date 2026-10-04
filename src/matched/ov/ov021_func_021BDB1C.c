@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 
 extern int func_021BF644(int a, int b, int c);
 extern void func_021BDC80(u32 *);
-extern void func_02012374(u32, u32);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 u32 func_021BDB1C(u32 a, int *st, u32 *ctx)
 {
@@ -32,7 +33,7 @@ u32 func_021BDB1C(u32 a, int *st, u32 *ctx)
 
     switch (*st) {
     case 0:
-        func_02012374(a, func_021BF644(0, x, y));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BF644(0, x, y));
         (*st)++;
         break;
     case 1:

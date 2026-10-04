@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern u32 func_02047400(u32 a, u32 b, u32 c);
-extern u32 func_0204767C(u32 a, u32 b, u32 c);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 
 void func_0217FC64(char *self, u32 *out, u32 a2, u16 a3, int flag)
 {
@@ -38,6 +38,6 @@ void func_0217FC64(char *self, u32 *out, u32 a2, u16 a3, int flag)
     } else {
         q = (u32 *)(self + 0xcc);
     }
-    out[1] = func_02047400(*q, 0, *q);
-    out[3] = func_0204767C(*(volatile u32 *)&out[1], 0, 0);
+    out[1] = (u32)func_02047400((void *)(*q), 0, (void *)(*q));
+    out[3] = (u32)func_0204767C(*(volatile u32 *)&out[1], 0, 0);
 }

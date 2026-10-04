@@ -15,7 +15,8 @@
 struct PalAnmSlot;
 extern void *func_02021518(unsigned);
 extern void func_0202155C(struct PalAnmSlot *,unsigned,unsigned,unsigned);
-extern void func_020216D4(unsigned,int,int,int);
+typedef unsigned int   u32;
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 void func_021BC790(char *p)
 {
     *(void **)(p+12)=func_02021518(123);
@@ -23,8 +24,8 @@ void func_021BC790(char *p)
     func_0202155C(*(struct PalAnmSlot **)(p+12),1,512,123);
     func_0202155C(*(struct PalAnmSlot **)(p+12),2,512,123);
     func_0202155C(*(struct PalAnmSlot **)(p+12),3,512,123);
-    func_020216D4(*(unsigned *)(p+12),0,0,512);
-    func_020216D4(*(unsigned *)(p+12),1,0,512);
-    func_020216D4(*(unsigned *)(p+12),2,0,512);
-    func_020216D4(*(unsigned *)(p+12),3,0,512);
+    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p+12)),0,0,512);
+    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p+12)),1,0,512);
+    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p+12)),2,0,512);
+    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p+12)),3,0,512);
 }

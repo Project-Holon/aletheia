@@ -19,17 +19,18 @@
  */
 
 
-extern void func_0204B3B4(int);
-extern void func_021FC0C8(int, int);
-extern void func_021FD714(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
+extern void func_021FC0C8(char *p, unsigned i);
+extern void func_021FD714(void *p);
 extern void func_020307B0(void *p);
 
 void func_021FD820(char *r5)
 {
     int i;
     for (i = 0; i < 0xC; i++)
-        func_0204B3B4(*(int *)(r5 + 0x1F8 + i * 4));
-    func_021FC0C8(*(int *)(r5 + 0x14), *(int *)(r5 + 0xC) + 9);
-    func_021FD714(*(int *)(r5 + 0x10));
+        func_0204B3B4((struct Obj *)(*(int *)(r5 + 0x1F8 + i * 4)));
+    func_021FC0C8((char *)(*(int *)(r5 + 0x14)), *(int *)(r5 + 0xC) + 9);
+    func_021FD714((void *)(*(int *)(r5 + 0x10)));
     func_020307B0((int *)r5);
 }

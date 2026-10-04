@@ -31,13 +31,14 @@ typedef struct {
     V3 *pos;
 } R;
 
-extern void func_020115EC(u32 t, s32 v);
+struct IcaAnime;
+extern void func_020115EC(struct IcaAnime *p, s32 v);
 extern void func_021C4E34(R *r);
 
 void func_021C4E08(R *r, s32 frame)
 {
     if (r->task != 0) {
-        func_020115EC(r->task, frame);
+        func_020115EC((struct IcaAnime *)r->task, frame);
         func_021C4E34(r);
     }
 }

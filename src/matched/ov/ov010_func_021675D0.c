@@ -47,7 +47,7 @@ typedef struct Src {
     u16 f10;
 } Src;
 
-extern void func_02194300(void *obj, int idx, u16 a2, u16 *p10, Ent *e, u32 *p0c);
+extern void func_02194300(u16 *a, int b, int c, u16 *d, int e, int f);
 
 static inline void cpy(Blk12 *d, Blk12 *s)
 {
@@ -64,6 +64,6 @@ void func_021675D0(Work *w, int idx, u16 a2, Src *src)
         w->e[idx].pend = 0;
         w->e[idx].used = 1;
         w->e[idx].f18 = 0;
-        func_02194300(w->obj, idx, a2, &w->e[idx].f10, &w->e[idx], &w->e[idx].f0c);
+        func_02194300(w->obj, idx, a2, &w->e[idx].f10, (int)(&w->e[idx]), (int)(&w->e[idx].f0c));
     }
 }

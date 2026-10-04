@@ -27,34 +27,39 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
+struct Big;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sub02007AC8Entry;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021D1C8C(void *proc, int *seq, void *w);
-extern u32 *func_020124E8(u32 task);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_02007B44(u32 a);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02188CB4(unsigned char *p);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02188C54(u32 a);
+extern u32 func_02188C54(u8 *p);
 
 u32 func_021D1C24(u32 a, u32 b, u32 c)
 {
     u32 r;
     u32 *p;
 
-    r = func_020122C0(a, 0, func_021D1C8C, 0x58);
-    p = func_020124E8(r);
+    r = (u32)func_020122C0((void *)a, 0, func_021D1C8C, 0x58);
+    p = func_020124E8((struct Obj *)r);
     func_02082BCC(p, 0, 0x58);
     p[1] = a;
-    p[2] = func_020120F4(a);
-    p[0] = func_02007B44(func_02012EBC(p[2]));
+    p[2] = (u32)func_020120F4((const struct Ctx *)a);
+    p[0] = (u32)func_02007B44(func_02012EBC((struct Big *)p[2]));
     p[3] = b;
     p[4] = (u32)func_02188CB4((void *)b);
     p[5] = (u32)func_0201AB28(func_02012934((void *)p[2]), c);
-    p[7] = func_02188C54(p[3]);
+    p[7] = func_02188C54((u8 *)p[3]);
     *((u8 *)p + 0x4e) = c;
     p[0x15] = 0;
     return r;

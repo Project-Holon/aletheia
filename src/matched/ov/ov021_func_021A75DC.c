@@ -23,13 +23,13 @@ typedef unsigned int   u32;
 typedef struct T { u32 n; } T;
 typedef struct W { u8 a[0x400]; T *tbl; } W;
 
-extern T *func_0204A1BC(u32 a, u32 b, u32 c, u32 d);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void func_021A7678(u8 *a, T *b, u32 c, u32 d, u32 e);
 
 void func_021A75DC(W *w, u32 a, u32 b, u32 c, u32 heap)
 {
     u32 i;
-    w->tbl = func_0204A1BC(a, b, 0, heap);
+    w->tbl = (T *)func_0204A1BC(a, b, 0, heap);
     for (i = 0; i < w->tbl->n; i++)
         func_021A7678(&w->a[i * 64], w->tbl, i, c, heap);
 }

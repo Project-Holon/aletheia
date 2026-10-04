@@ -24,6 +24,6 @@ typedef signed char    s8;
 
 void func_02168848(void *p, int a, int b)
 {
-    void func_02168864(void *, int, int, int, int);
-    func_02168864(p, 0, 0, a, b);
+    unsigned char func_02168864(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);
+    func_02168864(p, 0, 0, (char *)a, (int *)b);
 }

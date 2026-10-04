@@ -16,9 +16,9 @@
 
 typedef unsigned int u32;
 
-extern void func_021EFF5C(u32);
+extern void func_021EFF5C(int *p);
 
 void func_021A1500(u32 *p)
 {
-    func_021EFF5C(p[8]);
+    func_021EFF5C((int *)p[8]);
 }

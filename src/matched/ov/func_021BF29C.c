@@ -26,7 +26,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021B98E4(char *p, void *v);
+extern void func_021B98E4(int a, u8 *b);
 
 void func_021BF29C(char *p)
 {
@@ -36,7 +36,7 @@ void func_021BF29C(char *p)
         void *v = *(void **)(p + i * 4 + 0x814);
 
         if (v != 0) {
-            func_021B98E4(p + 0x274, v);
+            func_021B98E4((int)(p + 0x274), v);
         }
     }
 }

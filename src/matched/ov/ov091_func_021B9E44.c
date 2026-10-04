@@ -31,32 +31,32 @@ typedef unsigned int   u32;
 #define W(o) (*(u32 *)(p + (o)))
 
 extern u32 func_021BA65C(u8 *p, u16 id);
-extern void func_021BB7A4(u8 *p, u32 obj);
+extern void func_021BB7A4(void *p, u32 *s);
 extern void func_021B7B98(u8 *p);
 extern void func_021BB97C(u8 *p, u32 obj);
-extern void func_021BB9AC(u8 *p, u32 obj, u32 a, u32 b);
-extern void func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
+extern void func_021BB9AC(int a, int b, int c, int d);
+extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021BB98C(void *p, u32 s);
 extern void func_021B9E3C();
-extern void func_021B9804(u8 *p, void (*cb)());
+extern void func_021B9804(u8 *p, int a1);
 extern void func_021B9EC0(u8 *p, u32 state);
 
 void func_021B9E44(u8 *p)
 {
     if (func_021BA65C(p, *(u16 *)(W(0x280) + 0x44))) {
-        func_021BB7A4(p, W(0x150));
+        func_021BB7A4(p, (u32 *)W(0x150));
         p[0xc] = 2;
         func_021B7B98(p);
         return;
     }
-    func_021BB7A4(p, W(0x150));
+    func_021BB7A4(p, (u32 *)W(0x150));
     func_021BB97C(p, W(0x150));
-    func_021BB9AC(p, W(0x150), 0, *(u16 *)(W(0x280) + 0x44));
-    func_021B9788(p, 0xb3, 1, func_021B9E3C);
+    func_021BB9AC((int)p, W(0x150), 0, *(u16 *)(W(0x280) + 0x44));
+    func_021B9788(p, 0xb3, 1, (int)func_021B9E3C);
     func_021BB98C(p, W(0x150));
 }
 
 void func_021B9EB0(u8 *p)
 {
-    func_021B9804(p, func_021B9EC0);
+    func_021B9804(p, (int)func_021B9EC0);
 }

@@ -20,8 +20,10 @@ typedef unsigned short u16;
 
 extern void func_02048DDC(void *dst, u32 a);
 extern void func_02078A80(void *p);
-extern void func_02078B44(void *p, u32 off, u32 v);
-extern void func_02078B70(void *p, void *dst, u32 n);
+typedef signed int     s32;
+struct FSFile;
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
 u32 func_02049030(u32 a)
 {
@@ -31,10 +33,10 @@ u32 func_02049030(u32 a)
 
     off = 0;
     func_02048DDC(buf, a);
-    func_02078B44(buf, 0xc, 0);
-    func_02078B70(buf, &off, 2);
-    func_02078B44(buf, off + 4, 0);
-    func_02078B70(buf, hdr, 6);
+    func_02078B44((struct FSFile *)buf, 0xc, 0);
+    func_02078B70((struct FSFile *)buf, &off, 2);
+    func_02078B44((struct FSFile *)buf, off + 4, 0);
+    func_02078B70((struct FSFile *)buf, hdr, 6);
     func_02078A80(buf);
     return hdr[2];
 }

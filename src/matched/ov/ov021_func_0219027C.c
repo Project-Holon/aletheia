@@ -24,11 +24,11 @@ typedef signed int     s32;
 
 extern void func_02192CF0(void *a, int b);
 extern void *func_020056A0(void (*fn)(void *, void *), void *arg, u32 pri);
-extern void func_02192EB8(void *t, void *a);
+extern void func_02192EB8(u32 a, u8 *b);
 
 void func_0219027C(u8 *a)
 {
     func_02192CF0(a, 0);
     if (*(void **)(a + 0x16c) == 0)
-        *(void **)(a + 0x16c) = func_020056A0(func_02192EB8, a, 0);
+        *(void **)(a + 0x16c) = func_020056A0((void (*)(void *, void *))func_02192EB8, a, 0);
 }

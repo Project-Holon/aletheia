@@ -33,7 +33,11 @@
  *   func_021BCB9C  0x021BCB9C  thumb  ov021
  */
 
-extern int func_021BCF88(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BgTemplate;
+struct S;
+extern void *func_021BCF88(int a);
 extern void func_021BCFA4(int a, int b);
 extern void func_021BD0E0(int a);
 extern void func_021BC810(int a);
@@ -41,25 +45,25 @@ extern void func_021BCFE0(int a);
 extern void func_021BCFF0(int a);
 extern void func_021BD008(int a);
 extern void func_021BD098(int a, int b);
-extern int func_021904AC(int a);
-extern void func_021BD09C(int a, int b);
+extern u32 func_021904AC(u8 *p);
+extern void func_021BD09C(u8 *p, u32 v);
 extern void func_021BC730(int a);
 extern void func_021BC75C(int a);
 extern void func_021BC794(int a);
 extern void func_021BC7BC(int a, int b);
 extern void func_021BC998(int a);
 extern void func_021BC7D4(int a);
-extern void func_0203FCA0(int a, int b, int c);
-extern void func_021BC664(int a);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_021BC664(struct S *p);
 extern void func_021BC6E8(int a);
 extern void func_021BD01C(int a);
-extern void func_021BCB9C(int a, int b);
+extern void func_021BCB9C(void *p, int keep);
 
 int func_021BC388(int a, int b, int c)
 {
     int r4;
 
-    r4 = func_021BCF88(b);
+    r4 = (int)func_021BCF88(b);
     func_021BCFA4(r4, a);
     func_021BD0E0(r4);
     func_021BC810(r4);
@@ -67,17 +71,17 @@ int func_021BC388(int a, int b, int c)
     func_021BCFF0(r4);
     func_021BD008(r4);
     func_021BD098(r4, b);
-    func_021BD09C(r4, func_021904AC(c));
+    func_021BD09C((u8 *)r4, func_021904AC((u8 *)c));
     func_021BC730(r4);
     func_021BC75C(r4);
     func_021BC794(r4);
     func_021BC7BC(r4, 0);
     func_021BC998(r4);
     func_021BC7D4(r4);
-    func_0203FCA0(3, 0x021DE334, 0);
-    func_021BC664(r4);
+    func_0203FCA0(3, (const struct BgTemplate *)0x021DE334, 0);
+    func_021BC664((struct S *)r4);
     func_021BC6E8(r4);
     func_021BD01C(r4);
-    func_021BCB9C(r4, 0);
+    func_021BCB9C((void *)r4, 0);
     return r4;
 }

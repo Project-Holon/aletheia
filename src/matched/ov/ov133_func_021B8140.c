@@ -32,7 +32,8 @@ typedef struct { int x,y,z; } Vec;
 typedef struct { u32 x,y; } Pair;
 typedef struct { short y,x; } Scale;
 extern const Vec d_021BA5B8;
-extern u8 *func_021BA20C(u8 *),*func_021BA218(u8 *);
+extern u32 func_021BA20C(u8 *p);
+extern u32 func_021BA218(u8 *p);
 extern u8 *func_021BA19C(u16,void *,u8 *,Vec *);
 extern void func_021BA100(void *,u8 *),func_021BA21C(u8 *,Pair *);
 extern u32 *func_021BA228(u8 *);
@@ -45,7 +46,7 @@ void func_021B8140(u8 *p)
     Scale old;
     u8 *q,*data,*s,*t;
     u32 *v;
-    data=func_021BA20C(*(u8 **)(p+0x38));
+    data=(u8 *)func_021BA20C(*(u8 **)(p+0x38));
     pos.x=*(u32 *)(p+0x1c);pos.y=*(u32 *)(p+0x20);
     if(pos.x!=0) scale.x=(int)(0.5f+(float)(pos.x<<12));
     else scale.x=(int)((float)(pos.x<<12)-0.5f);
@@ -54,7 +55,7 @@ void func_021B8140(u8 *p)
     q=func_021BA19C(*(u16 *)p,*(void **)(p+0x1884),data,&scale);
     func_021BA100(*(void **)(p+0x1820),q);
     func_021BA21C(q,&pos);
-    s=func_021BA218(*(u8 **)(p+0x38));t=func_021BA218(q);
+    s=(u8 *)func_021BA218(*(u8 **)(p+0x38));t=(u8 *)func_021BA218(q);
     func_021F4EC4(*(int *)(p+0x1884),(int)s,&old.x,&old.y);
     func_021F4EB4(*(int *)(p+0x1884),(int)t,old.x,old.y);
     func_021F4EE8(*(int *)(p+0x1884),(int)t,0);

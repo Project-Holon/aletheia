@@ -24,7 +24,7 @@ struct T {
     u32 f04;
 };
 
-extern void func_02028D54(void *p);
+extern void func_02028D54(int a0);
 extern void func_02029F4C(void *p);
 struct Fader;
 extern void func_0202878C(struct Fader *s);
@@ -33,7 +33,7 @@ extern u32  g_020A7518[];
 
 void func_02028A14(struct T *p)
 {
-    func_02028D54(p);
+    func_02028D54((int)p);
     ((void (*)(struct T *))g_020A7554[p->f04])(p);
     ((void (*)(struct T *))g_020A7518[p->f04])(p);
     func_02029F4C(*(void **)((char *)p + 0xa8));

@@ -15,5 +15,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern u32 func_021BADC4(u32 *);
-u32 func_021BAC94(char *p) { return func_021BADC4((u32 *)(p+4)); }
+extern void *func_021BADC4(void **p);
+u32 func_021BAC94(char *p) { return (u32)func_021BADC4((void **)((u32 *)(p+4))); }

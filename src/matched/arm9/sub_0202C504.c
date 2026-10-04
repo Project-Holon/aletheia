@@ -31,10 +31,11 @@
 
 typedef unsigned int u32;
 
-extern void *sub_0202C510(void *p, u32 idx);
+struct Arr0202C510;
+extern u32 sub_0202C510(struct Arr0202C510 *p, u32 idx);
 extern u32 sub_0202C558(void *w);
 
 u32 sub_0202C504(void *p, u32 idx)
 {
-    return sub_0202C558(sub_0202C510(p, idx));
+    return sub_0202C558((void *)sub_0202C510(p, idx));
 }

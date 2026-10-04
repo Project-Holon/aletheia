@@ -20,7 +20,7 @@
 extern void func_021DDF5C(char *, char *);
 extern void func_021DDDE8(char *, char *);
 extern void func_020409B4(unsigned int);
-extern void func_021FC0C8(int, int);
+extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FD820(char *);
 struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
@@ -33,7 +33,7 @@ int func_021DD3F8(struct S020315D4 *a, int unused, char *q, char *p)
     func_021DDDE8(p, q);
     func_020409B4(4);
     func_020409B4(1);
-    func_021FC0C8(*(int *)(q + 8), 13);
+    func_021FC0C8((char *)(*(int *)(q + 8)), 13);
     func_021FD820(*(char **)(p + 0x74));
     func_0201C4C0(*(void **)(p + 4));
     func_02025588(*(void **)p);

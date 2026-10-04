@@ -42,7 +42,8 @@ extern s32 func_021C86A8(void);
 extern void func_021F513C(u8 *p);
 extern void func_022022B8(u8 *p, u32 a, u32 b, s32 c);
 extern u32 func_0200ADB4(u32 a);
-extern u32 func_0200ADE0(u32 a);
+struct RegB;
+extern u16 func_0200ADE0(struct RegB *p);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
 extern void func_0203CA04(void);
@@ -63,7 +64,7 @@ int func_0220157C(u8 *p)
                 *(u32 *)(p + 0x28) = 0x1c;
             } else {
                 func_022022B8(p, func_0200ADB4(*(u32 *)(*(u32 *)p)),
-                              func_0200ADE0(*(u32 *)(*(u32 *)p)), v);
+                              func_0200ADE0((struct RegB *)(*(u32 *)(*(u32 *)p))), v);
                 *(u32 *)(p + 0x28) = 0x22;
             }
             break;

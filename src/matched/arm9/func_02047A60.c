@@ -39,8 +39,8 @@ extern struct Ctx *g_02146A5C;
 extern u32 g_02148B4C[];
 extern u32 g_02148C08[];
 
-extern void *func_02047788(void *p);
-extern void *func_0204755C(void *p);
+extern int func_02047788(int *p);
+extern int func_0204755C(int *p);
 struct P02047C8C;
 extern void func_02047C8C(struct P02047C8C *p);
 extern void  func_0206A9DC(void *p);
@@ -51,7 +51,7 @@ void func_02047A60(void *a0, struct Arg *a1)
 {
     void *r;
 
-    r = func_0204755C(func_02047788(a0));
+    r = (void *)func_0204755C((int *)func_02047788(a0));
     func_0206A9DC(a1);
     MI_Copy36B(&a1->m18, g_02148C08);
     g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;

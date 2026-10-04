@@ -43,8 +43,9 @@ extern void func_021CCCC4(Obj *p);
 extern void func_021CCB98(Obj *p);
 extern void func_021CC9A4(Obj *p);
 extern void func_021CCEE4(Obj *p);
-extern void func_0201D83C(u32 a);
-extern void func_0204B1CC(u32 a);
+struct Bank;
+extern void func_0201D83C(void *ptr);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *p);
 extern const char d_021DE5BC[];
 
@@ -60,8 +61,8 @@ u32 func_021CC7B4(Obj *p, u32 *out)
     func_021CCB98(p);
     func_021CC9A4(p);
     func_021CCEE4(p);
-    func_0201D83C(p->fB8);
-    func_0204B1CC(p->f18);
+    func_0201D83C((void *)p->fB8);
+    func_0204B1CC((struct Bank *)p->f18);
     func_020307B0(p);
     return r;
 }

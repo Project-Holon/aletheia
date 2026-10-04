@@ -36,21 +36,22 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_02169520(int o, u16 **out);
+struct S;
+extern int func_02169520(int a0, int a1);
 extern void func_0216959C(int o);
-extern void func_02169530(int o, int *out);
+extern void func_02169530(unsigned char *a, int *out);
 extern void func_021695BC(int o, int v);
-extern int func_02169620(int o);
-extern void func_02169528(int o, char **out);
-extern void func_02169540(int o, void *p);
+extern int func_02169620(struct S *p);
+extern void func_02169528(unsigned char *a, int *out);
+extern void func_02169540(unsigned char *a, unsigned int v);
 extern void func_02169580(int o);
-extern int func_02169560(int o);
-extern int func_02169578(int o);
+extern int func_02169560(unsigned char *a);
+extern int func_02169578(unsigned char *a);
 extern int func_02169598(int o);
 extern int func_0218DD04(int q);
 extern int func_0218DD08(int q);
 extern int func_0218DD0C(int q);
-extern u16 func_0218DD10(int q);
+extern u16 func_0218DD10(u8 *p);
 extern int func_0218B974(int a, int o, void *p, int n);
 extern int func_02193924(int a, void *p, int b, int o, int prev, int x, int y, u16 c);
 extern int func_0218DCF4(int q);
@@ -77,17 +78,17 @@ int func_02193628(int o, int q)
     int i;
     int x0;
 
-    func_0218DD10(q);
-    func_02169520(o, &st);
+    func_0218DD10((u8 *)q);
+    func_02169520(o, (int)(&st));
     switch (*st) {
     case 1:
         func_0216959C(o);
-        func_02169530(o, &x);
+        func_02169530((unsigned char *)o, &x);
         func_021695BC(o, x);
         *st = 2;
         break;
     case 2:
-        if (func_02169620(o) != 0)
+        if (func_02169620((struct S *)o) != 0)
             break;
         *(int *)((char *)st + 0x18) = 1;
         *(int *)((char *)st + 0x1c) = 1;
@@ -95,9 +96,9 @@ int func_02193628(int o, int q)
         *st = 3;
         break;
     case 3:
-        func_02169528(o, &h);
+        func_02169528((unsigned char *)o, (int *)(&h));
         p = h;
-        func_02169540(o, p + *(int *)(p + 4));
+        func_02169540((unsigned char *)o, (unsigned int)(p + *(int *)(p + 4)));
         off = *(int *)(p + 0xC);
         if (off != *(int *)(p + 0x10))
             r = func_0218B974(func_0218DD04(q), o, h + off + 4, *(int *)(h + off));
@@ -106,7 +107,7 @@ int func_02193628(int o, int q)
         boff = *(int *)(p + 8);
         n = func_0218DD0C(q);
         id = func_0218DD08(q);
-        c = func_0218DD10(q);
+        c = func_0218DD10((u8 *)q);
         x0 = (n % 2) * 4;
         y0 = (n / 2) * 4;
         for (j = 0; j < 4; j++) {
@@ -116,7 +117,7 @@ int func_02193628(int o, int q)
         }
         func_02169580(o);
         if (func_0218DCF4(q))
-            func_021A7410(func_0218DCFC(q), func_02169560(o), func_02169578(o), func_02169598(o));
+            func_021A7410(func_0218DCFC(q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
         *st = 4;
         break;
     case 4:

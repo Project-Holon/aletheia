@@ -35,9 +35,10 @@ typedef struct {
     Sub *s;
 } Work;
 
-extern u32 func_02012EBC(u32 a);
-extern u32 func_0200BAC8(u32 a);
-extern void func_0200BB58(u32 a, u32 b);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200BAC8(void *p);
+extern void func_0200BB58(u8 *a0, u8 *a1);
 extern void func_020307B0(void *a);
 
 void func_021B4D14(volatile Work *w)
@@ -47,7 +48,7 @@ void func_021B4D14(volatile Work *w)
     Sub *s;
 
     if (w->s->f24 == 4) {
-        func_0200BB58(func_0200BAC8(func_02012EBC(w->a)), w->s->f8);
+        func_0200BB58(func_0200BAC8(func_02012EBC((struct Big *)w->a)), (u8 *)w->s->f8);
     }
     s = w->s;
     if (s->f24 == 4) {

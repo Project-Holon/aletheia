@@ -43,7 +43,9 @@ struct B {
     struct H s20;
 };
 
-extern int func_02045874(int, int);
+typedef unsigned int   u32;
+struct U16Vec;
+extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern void func_02082D44(void *, void *, int);
 extern void func_02024570(struct H *, struct H *);
 extern void func_0202428C(void *obj);
@@ -56,7 +58,7 @@ void func_021B9E7C(struct A *p, struct B *src)
     if (src) {
         p->ha = src->f0;
         p->h8 = src->f4;
-        p->q = func_02045874(src->f14, 0x12);
+        p->q = (int)func_02045874((struct U16Vec *)src->f14, 0x12);
         p->c = src->f8;
         func_02082D44(src->b, p->h, 8);
         func_02024570(&p->s18, &src->s18);

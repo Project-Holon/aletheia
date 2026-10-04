@@ -30,8 +30,8 @@ extern void func_021D5CA8(int lcd);
 extern int func_021BD138(void);
 extern void func_021D6090(int lcd, int plane);
 extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E8C(void *param2, void *param3);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E8C(unsigned int a, unsigned int b);
+extern void func_021C0E40(unsigned int v);
 extern void func_021CD80C(void);
 
 void func_021CDC00(void)
@@ -45,6 +45,6 @@ void func_021CDC00(void)
     func_021D6090(1, 1);
     func_021D6090(0, 21);
     func_021C0E50(0, 0);
-    func_021C0E8C(0, (void *)2);
-    func_021C0E40(func_021CD80C);
+    func_021C0E8C(0, (unsigned int)((void *)2));
+    func_021C0E40((unsigned int)func_021CD80C);
 }

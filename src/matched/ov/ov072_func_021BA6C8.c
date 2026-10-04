@@ -24,7 +24,7 @@ typedef struct {
     int f10;
 } W;
 
-extern void func_021BA3BC(int a, int *b);
+extern void func_021BA3BC(char *p, int *q);
 extern int func_021BAA90(char *a, int *b, int *c);
 
 char *func_021BA6C8(W *p, int a)
@@ -32,7 +32,7 @@ char *func_021BA6C8(W *p, int a)
     int pt[2];
     u32 i;
 
-    func_021BA3BC(a, pt);
+    func_021BA3BC((char *)a, pt);
     for (i = 0; i < p->fc; i++) {
         if (func_021BAA90(p->f8 + i * 0x44, pt, &p->f10) != 0) {
             return p->f8 + i * 0x44;

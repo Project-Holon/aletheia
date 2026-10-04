@@ -20,8 +20,9 @@
 extern int func_021E4DBC(char *);
 extern int func_021D8AF4(int,char *);
 extern int func_021D8B0C(int,int);
-extern int func_021D8DD0(int,int,int,char *);
-extern int func_02017E88(int,int,int);
+typedef unsigned int   u32;
+extern void *func_021D8DD0(void *a, int b, int c, char *p);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021E4AA4(int,int);
 extern int func_021DB4B4(int);
 extern void func_021DB7AC(char *,int,int);
@@ -36,8 +37,8 @@ int func_021DB1BC(char *p,int kind)
         for(inner=0;inner<5;inner++) {
             int a=func_021D8AF4(index,p);
             int b=func_021D8B0C(index,inner);
-            int obj=func_021D8DD0(*(int *)(p+0x828),a,b,p);
-            if(obj && func_021E4AA4(func_02017E88(obj,0xab,0),kind) && !func_02017E88(obj,0x4c,0)) {
+            int obj=(int)func_021D8DD0((void *)(*(int *)(p+0x828)),a,b,p);
+            if(obj && func_021E4AA4(func_02017E88((void *)obj,0xab,0),kind) && !func_02017E88((void *)obj,0x4c,0)) {
                 *(short *)(p+0x1080)+=1;
                 *(short *)(p+0x107c)=func_021DB4B4(index)-0x20;
                 *(int *)(p+0x1084)=1;

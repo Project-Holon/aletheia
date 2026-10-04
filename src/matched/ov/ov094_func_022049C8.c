@@ -28,7 +28,7 @@ typedef struct Ctx {
 
 extern void func_02040618(u8 a, int b, int c);
 extern void func_02040588(int a, u8 b);
-extern void func_0220687C(void *p, int v);
+extern void func_0220687C(char *p, void *q);
 
 void func_022049C8(int a0, Ctx *c)
 {
@@ -48,5 +48,5 @@ void func_022049C8(int a0, Ctx *c)
     if (c->f1c != 2) {
         func_02040588(7, c->f1c);
     }
-    func_0220687C(c->main, a0);
+    func_0220687C(c->main, (void *)a0);
 }

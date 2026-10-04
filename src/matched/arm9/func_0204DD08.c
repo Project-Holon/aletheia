@@ -46,7 +46,7 @@ struct NitroFileHeader;
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern int  func_02062A98(void *p, struct Surf **out);
 extern void func_020637D4(struct Ent *ent);
-extern int  func_0204D9B4(void *p, int which);
+extern u32 func_0204D9B4(u32 a, u32 b);
 extern void func_02063E54(struct Surf *s, u32 size, int mode,
                          struct Ent *ent);
 extern u16 func_02080C34(void);
@@ -106,13 +106,13 @@ void func_0204DD08(struct Holder *h, int idx, void *src, void *sel,
         }
     }
 
-    if (func_0204D9B4(sel, 0)) {
+    if (func_0204D9B4((u32)sel, 0)) {
         saved = func_02080C34();
         if (flag) func_0208068C();
         func_02063E54(surf, size, 1, (struct Ent *)(ents + off));
         if (flag) func_020801F8(saved);
     }
-    if (func_0204D9B4(sel, 1)) {
+    if (func_0204D9B4((u32)sel, 1)) {
         saved = func_02080C74();
         if (flag) func_0208068C();
         func_02063E54(surf, size, 2, (struct Ent *)(ents + off));

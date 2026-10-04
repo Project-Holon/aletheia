@@ -30,11 +30,11 @@ extern unsigned int func_021B95A0(unsigned int, unsigned int);
 extern void func_021B95B0(int);
 extern int func_021B95C0(int, int, unsigned int *);
 extern u32 d_021CE284[];
-extern int func_021BE648(void *, void *, int);
+extern int func_021BE648(int a, int b, int c);
 extern int func_021BF04C(u32, u32, void *, int, void *, int);
 extern u32 func_021BE6AC(void);
 extern int func_021BE9C8(int, void *, int);
-extern int func_021BE79C(int, u32, u32);
+extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
 extern void func_02034714(const char *, u32, const char *);
 extern void func_02082BCC(int, int, int);
 extern char *func_0208CADC(char *, const char *);
@@ -42,7 +42,7 @@ int func_021B98F8(u8 *p)
 {
     int h;
     if (p == 0) return 0;
-    if (func_021BE648(func_021B95A0, func_021B95B0, 12) != 0) {
+    if (func_021BE648((int)func_021B95A0, (int)func_021B95B0, 12) != 0) {
         func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }
@@ -59,6 +59,6 @@ int func_021B98F8(u8 *p)
         func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }
-    func_021BE79C(h, *(u32 *)p, *(u32 *)(p+4));
+    func_021BE79C((void *)h, (void *)(*(u32 *)p), *(u32 *)(p+4));
     return 1;
 }

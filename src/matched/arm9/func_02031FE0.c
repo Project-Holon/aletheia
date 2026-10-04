@@ -76,7 +76,7 @@ extern void  func_020333F8(Save *self);
 static inline u16 cnt16(u8 *p){ return *(u16 *)p; }
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02031EAC(Save *self, u32 sel);
-extern int   func_020335E8(u32 src, void *dst, u32 size, u32 handle);
+extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 extern void  func_02033410(Save *self, u32 a);
 extern void  func_02082A7C(u32 v, void *dst, u32 size);
 extern void  func_020307B0(void *p);
@@ -115,8 +115,8 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
     func_020333F8(self);
     h = self->f34;
     buf = func_02030734((u16)heap, self->f30, 0, str_020A7848, 0x429);
-    okA = func_020335E8(func_02031EAC(self, 1), h, self->f30, g_02146994->unk204);
-    okB = func_020335E8(func_02031EAC(self, 2), buf, self->f30, g_02146994->unk204);
+    okA = func_020335E8(func_02031EAC(self, 1), (u32)h, self->f30, (void (*)(void))g_02146994->unk204);
+    okB = func_020335E8(func_02031EAC(self, 2), (u32)buf, self->f30, (void (*)(void))g_02146994->unk204);
     if (okA == 0 && okB == 0) {
         func_02033410(self, 1);
         func_02082A7C(0, h, self->f30);

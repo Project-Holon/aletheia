@@ -19,14 +19,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021D0B58(void *a, u8 *p, u32 idx);
+struct Big;
+extern void func_021D0B58(int a, struct Big *dst, int idx);
 extern void func_021D0AE4(u8 *p, u32 c);
 extern void func_021D0BCC(u8 *p);
 
 void func_021D0AC0(void *a, u8 *p, u32 c)
 {
     if (*(u32 *)(p + 0x130) != 0) {
-        func_021D0B58(a, p, c);
+        func_021D0B58((int)a, (struct Big *)p, c);
     } else {
         func_021D0AE4(p, c);
     }

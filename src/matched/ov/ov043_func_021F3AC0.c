@@ -79,20 +79,22 @@ extern E d_021F4490[];
 
 extern void *func_020124E4(void *a);
 extern void *func_0201210C(void *a);
-extern void *func_02188D2C(void *a);
+struct Big;
+struct Ctx;
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(void *a, int b);
-extern u32 func_02188C58(void *a);
-extern u32 func_02188C80(void *a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
+extern void *func_02188C58(void *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(u32 a, u32 b);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
 extern int func_0216DD1C(void *m, u32 *cur, int *it);
-extern int func_0216D83C(u32 o);
-extern int func_0216D86C(u32 o);
+extern int func_0216D83C(void *p);
+extern int func_0216D86C(void *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
@@ -102,9 +104,9 @@ extern void func_0216D89C(u32 o, Vec *v);
 extern int func_021F3EEC(u8 i, int x, int y);
 extern void func_021F41B8(u8 a0, int a1, int a2, u32 a3, void *s);
 extern int func_021F4210(void *s);
-extern void func_0218F0A8(u32 a);
-extern int func_0218F0E8(u32 a);
-extern void func_0218F05C(u32 a);
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
+extern void func_0218F05C(unsigned char *a);
 extern void func_020061E4(int id);
 extern int func_021F3ECC(int *p);
 extern int *func_021BE480(void *p, int i, u16 j);
@@ -112,9 +114,9 @@ extern void *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B0(void *p, int v);
 extern int func_021BE6BC(void *p);
 extern int func_021F3FBC(int *a, int i);
-extern void *func_02188C98(void *a);
-extern int func_0218CEE0(void *a);
-extern void func_021C06C0(u8 i, int v, int c);
+extern u32 func_02188C98(u8 *p);
+extern void *func_0218CEE0(void *p);
+extern void func_021C06C0(u8 i, int v, int *p);
 extern void func_021F3F38(int *a, void *b, int c);
 extern u32 func_02188C64(void *a);
 extern int func_021A0244(u32 a);
@@ -146,10 +148,10 @@ int func_021F3AC0(void *a, int *b)
 
     t = func_020124E4(a);
     s = func_0201210C(t);
-    r = func_02188D2C(s);
+    r = (void *)func_02188D2C(s);
     w = func_021897BC(s, 1);
-    h = func_02188C58(s);
-    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(s))), 7);
+    h = (u32)func_02188C58(s);
+    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 7);
     switch (*b) {
     case 0:
         n = 0;
@@ -160,8 +162,8 @@ int func_021F3AC0(void *a, int *b)
         }
         func_021A3038(func_02188CB4((void *)s), (struct VecFx32 *)&pos);
         while (func_0216DD1C(m, &cur, &it) == 1) {
-            x = func_0216D83C(cur);
-            y = func_0216D86C(cur);
+            x = func_0216D83C((void *)cur);
+            y = func_0216D86C((void *)cur);
             if (func_021F3EEC(w[0], x, y)) {
                 func_0216D88C((const struct Actor *)cur, (struct VecFx32 *)&vec);
                 if (pos.y - 0x10000 < vec.y && vec.y < pos.y + 0x10000 && n < 5) {
@@ -178,11 +180,11 @@ int func_021F3AC0(void *a, int *b)
         }
         break;
     case 2:
-        func_0218F0A8(h);
+        func_0218F0A8((u8 *)h);
         (*b)++;
         break;
     case 3:
-        if (func_0218F0E8(h) != 0) {
+        if (func_0218F0E8((u8 *)h) != 0) {
             break;
         }
         func_020061E4(0x6ca);
@@ -214,7 +216,7 @@ int func_021F3AC0(void *a, int *b)
         }
         break;
     case 6:
-        func_0218F05C(h);
+        func_0218F05C((unsigned char *)h);
         k = w[0];
         func_021BE6B0(func_021BE674(r, 0, k, func_021F3FBC(q, k)), 0);
         (*b)++;
@@ -232,8 +234,8 @@ int func_021F3AC0(void *a, int *b)
             q[w[0]] = 1;
             f = 1;
         }
-        c = func_0218CEE0(func_02188C98(s));
-        func_021C06C0(w[0] + 8, d_021F4490[w[0]].v[f], c);
+        c = (int)func_0218CEE0((void *)func_02188C98(s));
+        func_021C06C0(w[0] + 8, d_021F4490[w[0]].v[f], (int *)c);
         func_021F3F38(q, r, w[0]);
         if (w[0] != 5) {
             return 1;

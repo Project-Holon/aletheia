@@ -33,7 +33,8 @@ typedef struct {
 extern const char d_021E8DBC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, int, u32);
-extern void *func_0202DB0C(void *, int, void *, void *, int, int, u16);
+struct PmsDraw;
+extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 struct PmsDraw;
 extern void func_0202DE68(struct PmsDraw *p, u32 v);
 extern void func_0202DE5C(struct PmsDraw *p, u8 v);
@@ -58,7 +59,7 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
     func_02082BCC(w, 0, 0x9c);
     w->owner = owner;
     w->mode = mode;
-    w->menu = func_0202DB0C(a1, 0, a4, a3, 5, 1, heap);
+    w->menu = func_0202DB0C((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);
     func_0202DE68(w->menu, 1);
     func_0202DE5C(w->menu, 0);
     kind = func_021E7CF0(rec->f30, rec->f28, rec->f2c);

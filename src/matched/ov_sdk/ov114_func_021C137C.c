@@ -38,7 +38,7 @@ typedef struct GHTTPCertificateInfo {
 } GHTTPCertificateInfo;
 
 extern int func_020948E0(const char *, const char *);
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int, int, void (*)(void *));
 extern char *func_021C1020(char *);
 extern int func_021843E8(void *, void *, int (*)(void *, void *), int, int);
@@ -61,13 +61,13 @@ int func_021C137C(char *url, void *theRootCAList)
     GHTTPCertificateInfo *certInfoToUpdate;
 
     if (url == 0 || theRootCAList == 0 || func_020948E0(url, g_021CE758) == 0) {
-        func_0217D254(8, 4, 1, g_021CE75C, g_021CE7B0, g_021CE6E0, 0x345, url, theRootCAList);
+        func_0217D254(8, (char *)4, 1, g_021CE75C, g_021CE7B0, g_021CE6E0, 0x345, url, theRootCAList);
         return 0;
     }
     if (g_021D3B40 == 0) {
         g_021D3B40 = func_02184144(0x10, 1, func_021C135C);
         if (g_021D3B40 == 0) {
-            func_0217D254(8, 2, 1, g_021CE858, g_021CE7B0, g_021CE6E0, 0x354);
+            func_0217D254(8, (char *)2, 1, g_021CE858, g_021CE7B0, g_021CE6E0, 0x354);
             return 0;
         }
     }

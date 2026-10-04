@@ -43,7 +43,9 @@ extern int func_021E12AC(char *),func_02035C08(const void *);
 extern void func_021E6FD4(char *,int,int);
 extern int func_021DB1BC(char *,int);
 extern void func_020061E4(int),func_021D8E84(void *,int),func_021DB2E8(void *);
-extern void func_02045CAC(int,int,int),func_021E0EF4(void *,int,int,int,int,int);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021E0EF4(void *,int,int,int,int,int);
 struct S;
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *);
@@ -64,7 +66,7 @@ void func_021DB304(char *p)
                 func_021D8E84(p,(int)func_021DB2E8);
                 return;
             }
-            func_02045CAC(*(int *)(p+0x720),0x34,*(int *)(p+0x738));
+            func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),0x34,(void *)(*(int *)(p+0x738)));
             func_021E0EF4(p,1,1,1,0x1d,4);
             func_020061E4(0x557);
         }

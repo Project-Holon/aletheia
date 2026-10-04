@@ -25,9 +25,10 @@ typedef signed int     s32;
 
 struct Entry;
 extern struct Entry *sub_020399A8(void);
-extern u32 func_0203D1A4(u32 p);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 
 void func_021B8B5C(void)
 {
-    func_0203D1A4((u32)sub_020399A8());
+    func_0203D1A4((struct Link *)((u32)sub_020399A8()));
 }

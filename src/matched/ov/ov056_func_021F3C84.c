@@ -18,7 +18,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_021F36D4(u32 a);
-extern void func_0204784C(u32 h, u16 i, int *v);
+typedef signed int     s32;
+struct AnmCtl;
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 
 int func_021F3C84(u32 *p)
 {
@@ -35,7 +37,7 @@ int func_021F3C84(u32 *p)
         ret = 0;
         p[31] = lim;
     }
-    func_0204784C(p[7], 0, (int *)&p[31]);
-    func_0204784C(p[7], 1, (int *)&p[31]);
+    func_0204784C((struct AnmCtl *)p[7], 0, (int *)&p[31]);
+    func_0204784C((struct AnmCtl *)p[7], 1, (int *)&p[31]);
     return ret;
 }

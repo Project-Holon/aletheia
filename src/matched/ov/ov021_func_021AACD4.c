@@ -72,14 +72,14 @@ struct Enc {
 
 extern u32 func_02188C98(u8 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_0218D168(u32 m);
-extern int func_0218DBD4(u32 m, int i);
+extern int func_0218D168(char *p);
+extern int func_0218DBD4(char *p, int i);
 extern void func_021AABF4(void *ctx, struct Enc *e, struct Area *a);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
-extern int func_0218DBAC(u32 m, int i, Vec *v, struct Cell *c);
+extern int func_0218DBAC(u8 *a, int idx, u32 c, u8 *d);
 extern int func_021AB504(u32 attr);
 
 void func_021AACD4(void **ctx, struct Enc *e)
@@ -98,8 +98,8 @@ void func_021AACD4(void **ctx, struct Enc *e)
     m = func_02188C98(ctx[0]);
     func_02082BCC(&e->count, 0, 0x5B0);
     v.y = 0;
-    idx = func_0218D168(m);
-    if (func_0218DBD4(m, idx) == 0)
+    idx = func_0218D168((char *)m);
+    if (func_0218DBD4((char *)m, idx) == 0)
         return;
     func_021AABF4(ctx, e, &a);
     y = a.y0;
@@ -116,7 +116,7 @@ void func_021AACD4(void **ctx, struct Enc *e)
     for (; y <= a.y1; y++) {
         v.x = xs;
         for (x = a.x0; x <= a.x1; x++) {
-            func_0218DBAC(m, idx, &v, &c);
+            func_0218DBAC((u8 *)m, idx, (u32)(&v), (u8 *)(&c));
             k = func_021AB504(c.f08);
             if (k != 8) {
                 e->spots[e->count].kind = k;

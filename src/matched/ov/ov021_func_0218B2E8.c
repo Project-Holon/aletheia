@@ -19,10 +19,10 @@ typedef unsigned short u16;
 
 extern void *func_021625CC(char *p, unsigned i);
 extern u16 func_021626B0(void *b, void *q);
-extern int func_02185360(void *p, void *x, void *obj, int d);
+extern void *func_02185360(void *p, int u, int a, int b);
 
 int func_0218B2E8(char *p, void *x, int a, int *b)
 {
     void *obj = func_021625CC(*(void **)(p + 0xc), (u16)a);
-    return func_02185360(*(void **)(p + 4), x, obj, func_021626B0(obj, b));
+    return (int)func_02185360(*(void **)(p + 4), (int)x, (int)obj, func_021626B0(obj, b));
 }

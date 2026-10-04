@@ -21,7 +21,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void func_021BBD80(char *s);
 extern void func_021BBC0C(void *p);
-extern void *func_021BA8BC(void *p);
+extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *a);
 
@@ -30,7 +30,7 @@ void func_021BC0C4(char *p)
     if (*(void **)(p + 0x1A4) != 0) {
         func_021BBD80(p);
         func_021BBC0C(p);
-        *(void **)(p + 0x1A4) = func_021BA8BC(*(void **)(p + 0x1A4));
+        *(void **)(p + 0x1A4) = (void *)func_021BA8BC(*(void **)(p + 0x1A4));
         func_0202020C(*(void **)(p + 0xBC), 0, 0);
         func_0201F868(*(void **)(p + 0xB8));
         *(void **)(p + 0xB8) = 0;

@@ -42,15 +42,17 @@ typedef struct {
 } Obj;
 
 extern void func_021CD004(Obj *p);
-extern void func_02190788(u32 a);
+struct MsgBank;
+struct WordSet;
+extern void func_02190788(u8 *p);
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void func_02045CAC(u32 bank, u32 index, void *buf);
-extern void func_0201EFA4(u32 win, u32 slot, u32 v, u32 digits, u32 a, u32 b);
-extern void func_0201F250(u32 a, void *b, void *c);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02190764(u32 a, u16 b, u32 c, void *d, u16 e, u32 f);
 extern int func_02190740(u32 a, u16 b, u32 c, u32 d);
 extern void func_02045808(struct U16Vec *vec);
@@ -69,7 +71,7 @@ void func_021CD050(Obj *p, void *party)
     int x;
 
     func_021CD004(p);
-    func_02190788(p->fB4);
+    func_02190788((u8 *)p->fB4);
     buf1 = func_020457B0(0x40, p->heap);
     buf2 = func_020457B0(0x40, p->heap);
     n = func_0201AA18(party);
@@ -82,9 +84,9 @@ void func_021CD050(Obj *p, void *party)
         vad = func_02017E1C(mon, 0xad, 0);
         v9e = func_02017E1C(mon, 0x9e, 0);
         v6e = func_02017E1C(mon, 0x6e, 0);
-        func_02045CAC(p->fA8, 4, buf2);
-        func_0201EFA4(p->fA0, 0, v9e, 3, 0, 1);
-        func_0201F250(p->fA0, buf1, buf2);
+        func_02045CAC((struct MsgBank *)p->fA8, 4, buf2);
+        func_0201EFA4((struct WordSet *)p->fA0, 0, v9e, 3, 0, 1);
+        func_0201F250((struct WordSet *)p->fA0, buf1, buf2);
         x = i * 0x28;
         func_02190764(p->fB4, x, 0x20, buf1, 0x440, p->fB8);
         if (v6e == 2) {

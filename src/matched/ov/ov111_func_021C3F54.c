@@ -93,7 +93,7 @@ extern void func_021C5AEC(Work *p);
 extern int func_021C5F64(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void *src, u8 clip, u8 side);
 extern void func_021C3F18(Work *p, int speed);
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, int heap);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern int func_021C4B9C(Work *p);
 extern int func_021C4E0C(Work *p);
 extern void func_0204A600(void);
@@ -118,13 +118,13 @@ int func_021C3F54(void *proc, int *seq, int c, Work *p)
         break;
     case 2:
         if (func_0204B98C(p->f3108) == 0) {
-            func_0202208C(2, 4, 4, 0, 6, 1, p->heap);
+            func_0202208C((void *)2, 4, 4, 0, 6, 1, p->heap);
             *seq = 4;
         }
         break;
     case 3:
         if (func_0204B98C(p->f310C) == 0) {
-            func_0202208C(2, 4, 4, 0, 6, 1, p->heap);
+            func_0202208C((void *)2, 4, 4, 0, 6, 1, p->heap);
             *seq = 4;
         }
         break;
@@ -144,13 +144,13 @@ int func_021C3F54(void *proc, int *seq, int c, Work *p)
         }
         break;
     case 6:
-        func_0202208C(2, 4, 4, 0, 6, 1, p->heap);
+        func_0202208C((void *)2, 4, 4, 0, 6, 1, p->heap);
         p->args->fC = 1;
         *seq = 4;
         break;
     case 7:
         if (func_0204B98C(p->f3110) == 0) {
-            func_0202208C(2, 4, 4, 0, 6, 1, p->heap);
+            func_0202208C((void *)2, 4, 4, 0, 6, 1, p->heap);
             p->args->fC = 2;
             *seq = 4;
         }

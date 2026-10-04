@@ -12,10 +12,10 @@
  * The callee reads its incoming r0; legacy void prototypes omit it.
  */
 typedef unsigned char u8;
-extern u8 *func_02158344(void *);
+extern int func_02158344(int a0);
 void func_02158614(void *p)
 {
-    u8 *q = func_02158344(p);
+    u8 *q = (u8 *)func_02158344((int)p);
     if (q != 0)
         q[0x93F] |= 4;
 }

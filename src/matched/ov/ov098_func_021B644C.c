@@ -28,14 +28,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021B6B5C(int a);
-extern int func_021B6B68(int a);
+extern void func_021B6B5C(char *p);
+extern int func_021B6B68(char *p);
 extern void func_021F7EE8(void *m, int key);
 extern void func_021F7998(u32 a);
 extern void func_021B67A4(int a);
 extern int func_021F7EB4(void);
 extern void func_021B6910(int a, int b);
-extern int func_021B6A3C(int a);
+extern int func_021B6A3C(u8 *p);
 extern int func_021B6154(void *p);
 extern int func_021B6140(void *p);
 extern void func_021F8090(u32 a, u32 b, u32 c);
@@ -48,11 +48,11 @@ int func_021B644C(char *p)
 
     switch (*(int *)(p + 0x60)) {
     case 0:
-        func_021B6B5C(*(int *)(p + 0x14));
+        func_021B6B5C((char *)(*(int *)(p + 0x14)));
         *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
         break;
     case 1:
-        if (func_021B6B68(*(int *)(p + 0x14)) != 0) {
+        if (func_021B6B68((char *)(*(int *)(p + 0x14))) != 0) {
             func_021F7EE8(*(void **)(p + 4), 1);
             func_021F7998(0x231);
             func_021B67A4(2);
@@ -66,15 +66,15 @@ int func_021B644C(char *p)
         }
         break;
     case 3:
-        if (func_021B6A3C(*(int *)(p + 0x14)) != 0) {
+        if (func_021B6A3C((u8 *)(*(int *)(p + 0x14))) != 0) {
             r = func_021B6154(*(void **)p);
             func_021F8090(r, func_021B6140(*(void **)p), 1);
-            func_021B6B5C(*(int *)(p + 0x14));
+            func_021B6B5C((char *)(*(int *)(p + 0x14)));
             *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
         }
         break;
     case 4:
-        if (func_021B6B68(*(int *)(p + 0x14)) != 0) {
+        if (func_021B6B68((char *)(*(int *)(p + 0x14))) != 0) {
             func_021F7998(0x23e);
             *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
         }

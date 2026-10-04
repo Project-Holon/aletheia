@@ -34,10 +34,12 @@ extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02043678(u32 a, u32 b, u32 c, u32 d);
+struct Bmp;
+struct Cfg;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045374(u32 w);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *w);
 extern void func_02192264(u32 a, u32 b, u32 c, u32 d);
 extern void func_021922A4(u32 a, u32 b, u32 c);
@@ -53,11 +55,11 @@ u32 *func_02192570(u16 *a, u32 b, u32 c, u16 d, u16 e, u16 f)
     t = (u32 *)func_02030734(*a, 0x18, 1, d_021DDA50, 0x115D);
     t[2] = (u32)a;
     t[0] = func_020450F0((u8)a[1], (u8)c, (u8)d, (u8)e, (u8)f, 9, 1);
-    t[3] = func_02043678(1, 1, 0x20, *a);
+    t[3] = (u32)func_02043678(1, 1, 0x20, *a);
     func_02192264(t[3], b, *a, 9);
     func_021922A4((u32)func_02045770((struct Descriptor *)t[0]), b, *a);
     func_02192244(a[1], 9, *a);
-    func_02045374(t[0]);
+    func_02045374((struct Cfg *)t[0]);
     func_02045334((struct Descriptor *)t[0]);
     func_020409B4((u8)a[1]);
     func_021927C0(t + 4, a);

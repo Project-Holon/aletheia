@@ -25,15 +25,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int);
-extern int func_021C7D34(int, int);
+extern int func_021C7D34(char *p, int i);
 extern u8 func_021C7F68(int *, int, u8 *);
-extern void *func_021C7CF4(int, int);
+extern void *func_021C7CF4(int *p, int i);
 extern u8 *func_021C88A4(int, int, int);
 extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
-extern void func_021C88C8(int, u8 *);
+extern void func_021C88C8(void *a, void *b);
 extern int d_021F2634[];
 
 void func_021E7A78(int a, int b, int c)
@@ -46,19 +46,19 @@ void func_021E7A78(int a, int b, int c)
     u8 *p;
     if (c == func_021D775C(3)) {
         k = func_021D775C(4);
-        slot = func_021C7D34(b, k);
+        slot = func_021C7D34((char *)b, k);
         if (slot != 6) {
             n = func_021C7F68((int *)b, (u16)(0x900 | slot), list);
             for (i = 0; i < n; i++) {
                 if (list[i] != k) {
-                    x = func_021C7CF4(b, list[i]);
+                    x = func_021C7CF4((int *)b, list[i]);
                     p = func_021C88A4(b, 7, c);
                     p[6] = list[i];
                     *(u16 *)(p + 4) = func_021D7B74(x, 16);
                     ((struct Flag { u8 bit : 1; } *)(p + 7))->bit = 1;
                     func_021C8838(p + 12, 2, 0x451);
                     func_021C8860((struct S *)(p + 12), p[6]);
-                    func_021C88C8(b, p);
+                    func_021C88C8((void *)b, p);
                 }
             }
         }

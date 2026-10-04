@@ -21,10 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020437AC(u32 v);
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
 
 void func_021927E8(u32 *p)
 {
     *(u8 *)p = 0;
-    func_020437AC(p[1]);
+    func_020437AC((struct Obj020437AC *)p[1]);
 }

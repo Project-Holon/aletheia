@@ -39,7 +39,8 @@ struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sv);
 extern u16 func_02045A98(void);
-extern u16  *func_0200C1F4(u32 a0);
+struct Blk34;
+extern u16 *func_0200C1F4(struct Blk34 *p);
 
 void func_02027198(void)
 {
@@ -53,7 +54,7 @@ void func_02027198(void)
     in = &g->in;
     t = (u32)func_0200C0F0(func_02012EBC((void *)g->f00));
     v = func_02045A98();
-    q = func_0200C1F4(t);
+    q = func_0200C1F4((struct Blk34 *)t);
     for (i = 0; i < 8; i++) {
         in->arr[i] = q[i];
         if (q[i] == v) {

@@ -18,13 +18,14 @@ typedef signed int     s32;
 struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
 extern int func_0203D1B4(void *);
-extern int func_0203D3F8(void *,int,int,int,void *,int,int,int);
+typedef unsigned int   u32;
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 int func_021F1370(void *unused,void *p)
 {
     void *obj;
     obj=func_0203996C(255);
     if(func_0203D1B4(obj)<2) return 0;
-    return func_0203D3F8(obj,1,0x401,8,p,1,0,1);
+    return func_0203D3F8((u32)obj,1,0x401,8,(u32)p,1,0,1);
 }
 void func_021F13AC(int a,int b,int c,char *p)
 {

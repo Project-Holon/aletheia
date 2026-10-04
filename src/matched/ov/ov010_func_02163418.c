@@ -17,7 +17,7 @@
  */
 typedef struct { int x, y, z; } V;
 typedef struct { char pad[10]; unsigned short f; } S;
-extern int func_0216DC00(int);
+extern int func_0216DC00(void *a0);
 extern int func_021AB41C(unsigned short);
 extern void func_0216D900(int, const V *);
 extern V d_021714D0;
@@ -31,7 +31,7 @@ void func_02163418(int a, S *s)
 {
     V v;
     V *pz;
-    if (func_0216DC00(a) == 0 && func_021AB41C(s->f) != 0) {
+    if (func_0216DC00((void *)a) == 0 && func_021AB41C(s->f) != 0) {
         v = d_021714D0;
         func_0216D900(a, &v);
         return;

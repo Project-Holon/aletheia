@@ -15,7 +15,7 @@
  *   func_02180CC8 0x02180CC8 thumb ov018
  */
 typedef unsigned int u32;
-extern void func_0201232C(void *, void *, int);
+extern void func_0201232C(char *p, int a1, int a2);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(const void *, void *, u32);
@@ -23,7 +23,7 @@ extern int func_02180CC8(void *, int *, void *);
 void func_02180CA4(void *task, const void *src)
 {
     void *work;
-    func_0201232C(task, func_02180CC8, 0xA4);
+    func_0201232C(task, (int)func_02180CC8, 0xA4);
     work = func_020124E8(task);
     func_02082D44(src, work, 0x98);
 }

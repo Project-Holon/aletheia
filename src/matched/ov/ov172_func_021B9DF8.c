@@ -27,13 +27,13 @@ typedef signed int     s32;
 
 extern u32 func_021BE0D0(void *p);
 extern u32 func_021BDFE4(void *p);
-extern int func_021B80E4(void *p, int v);
+extern u32 func_021B80E4(int unused, char *p);
 extern u8 func_021BE054(void *p);
 
 int func_021B9DF8(void *p, int *out)
 {
     if (func_021BE0D0(p) == 1) {
-        int v = func_021B80E4(p, func_021BDFE4(p));
+        int v = func_021B80E4((int)p, (char *)func_021BDFE4(p));
 
         *out = (v == 5) ? 0x10 : 0xd;
         return 1;

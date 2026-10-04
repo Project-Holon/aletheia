@@ -29,7 +29,7 @@ extern void func_021BC490(void);
 extern int func_021BC4A0(void);
 extern void func_021BC50C(u8 *);
 extern unsigned func_021BC55C(unsigned);
-extern unsigned func_021C1038(unsigned, unsigned);
+extern void func_021C1038(u8 *p, u8 palette);
 extern void func_021BB91C(void *);
 extern void func_021BB910(u8 *, unsigned);
 void func_021BB69C(u8 *p)
@@ -49,7 +49,7 @@ void func_021BB69C(u8 *p)
         break;
     case 2:
         if (func_021BC55C((unsigned)p)) {
-            func_021C1038(*(unsigned *)(p + p[0x32] * 4 + 0xb4), 15);
+            func_021C1038((u8 *)(*(unsigned *)(p + p[0x32] * 4 + 0xb4)), 15);
             func_021BB91C(p);
             func_021BB910(p, 13);
         }

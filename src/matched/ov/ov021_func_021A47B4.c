@@ -25,7 +25,7 @@ extern int func_0216D3CC(int a0);
 extern int func_021A4768(u32, u32, u32);
 extern int func_021A569C(int a, int b, int c, int *d);
 extern int func_021AB11C(u32 attr);
-extern int func_021A53A4(u32, u32);
+extern void func_021A53A4(u32 *p, int on);
 
 int ov021_func_021A47B4(u32 a, u32 b, u8 *c)
 {
@@ -44,7 +44,7 @@ int ov021_func_021A47B4(u32 a, u32 b, u8 *c)
                 return 2;
             }
         } else if (func_021AB11C(sp) == 0) {
-            func_021A53A4(a, 1);
+            func_021A53A4((u32 *)a, 1);
             return 7;
         }
     }

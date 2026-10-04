@@ -14,11 +14,13 @@
  * Forward two biased halfword coordinates.
  */
 
-extern void func_0201AB8C(int, int, int, int);
+typedef unsigned int   u32;
+struct Party;
+extern u32 func_0201AB8C(struct Party *p, u32 i, u32 j, u32 heap);
 
 void func_021DD414(char **p, char *q)
 {
-    func_0201AB8C(*(int *)(*p + 8), *(unsigned short *)(q + 4) - 0x1e,
+    func_0201AB8C((struct Party *)(*(int *)(*p + 8)), *(unsigned short *)(q + 4) - 0x1e,
                   *(unsigned short *)(q + 2) - 0x1e, 0x4c);
 }
 

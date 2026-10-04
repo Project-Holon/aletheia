@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef short s16;
 
 extern int func_0216D854(void *p);
-extern int func_02163C04(void *p, int b, int d, int one);
+extern int func_02163C04(int a, int x, int y, int flag);
 
 int func_02194384(u16 *a, s16 b, int c, s16 d, int *e, unsigned *f)
 {
@@ -35,7 +35,7 @@ int func_02194384(u16 *a, s16 b, int c, s16 d, int *e, unsigned *f)
                 if (dlt < 0)
                     dlt = -dlt;
                 if (dlt < 1) {
-                    if (func_02163C04(*(void **)(q + 8), b, d, 1)) {
+                    if (func_02163C04((int)(*(void **)(q + 8)), b, d, 1)) {
                         *e = *(int *)q;
                         return 1;
                     }

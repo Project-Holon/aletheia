@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern u8 *func_0203159C(u32,u32,int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern u32 func_020124F4(int);
+extern void *func_020124F4(u16 heap);
 extern unsigned int func_0203630C(void);
 extern void func_021BD1AC(u8 *);
 extern u8 d_021C724C[];
@@ -35,7 +35,7 @@ int func_021BE364(u32 obj,int unused,u8 *arg)
     *(u16 *)p=109;
     if (arg==0) {
         *(u8 **)(p+0x1f8)=func_02030734(1,16,1,(const char *)d_021C724C,1357);
-        **(u32 **)(p+0x1f8)=func_020124F4(1);
+        **(u32 **)(p+0x1f8)=(u32)func_020124F4(1);
         *(u32 *)(*(u8 **)(p+0x1f8)+4)=0;
         if (func_0203630C() & 0x100) *(u32 *)(*(u8 **)(p+0x1f8)+4)=1;
         if (func_0203630C() & 0x400) *(u32 *)(*(u8 **)(p+0x1f8)+4)=2;

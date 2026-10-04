@@ -16,7 +16,7 @@
  *   func_021D54E8 0x021D54E8 thumb ov175
  *   func_021D6000 0x021D6000 thumb ov175
  */
-extern void func_021E8AA0(unsigned,void *);
+extern void func_021E8AA0(int *p, int v);
 extern void func_021DA36C(void *);
 typedef unsigned int   u32;
 extern void func_021D4608(u32 sys, int *state, u32 *p);
@@ -28,16 +28,16 @@ void func_021D458C(unsigned sys,int *state,int *p)
 {
     int *q=(int *)p[16];
     switch(q[3]) {
-    case 0: func_021E8AA0(sys,func_021D4608); break;
+    case 0: func_021E8AA0((int *)sys,(int)func_021D4608); break;
     case 2:
         func_021DA36C((void *)p[12]);
     case 1:
-        if(q[0]==0) func_021E8AA0(sys,func_021D51BC);
-        else if(q[0]==1) func_021E8AA0(sys,func_021D5E24);
+        if(q[0]==0) func_021E8AA0((int *)sys,(int)func_021D51BC);
+        else if(q[0]==1) func_021E8AA0((int *)sys,(int)func_021D5E24);
         break;
     case 3:
-        if(q[0]==0) func_021E8AA0(sys,func_021D54E8);
-        else if(q[0]==1) func_021E8AA0(sys,func_021D6000);
+        if(q[0]==0) func_021E8AA0((int *)sys,(int)func_021D54E8);
+        else if(q[0]==1) func_021E8AA0((int *)sys,(int)func_021D6000);
         break;
     }
 }

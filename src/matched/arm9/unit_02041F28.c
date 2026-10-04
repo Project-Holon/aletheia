@@ -60,8 +60,9 @@ struct Ctx {
 extern struct Ctx *g_02146A44;
 
 extern void func_02043228(void *slot, u32 op, u16 value);
-extern void func_02043264(void *slot, u32 op, u16 value);
-extern void func_020432E4(void *slot, u32 op, u16 value);
+struct Obj;
+extern void func_02043264(struct Obj *p, u32 op, u32 value);
+extern void func_020432E4(struct Obj *p, u32 op, u32 value);
 
 void func_02041F28(u32 which, u32 op, u16 value)
 {
@@ -71,12 +72,12 @@ void func_02041F28(u32 which, u32 op, u16 value)
 
 void func_02041F6C(u32 which, u32 op, u16 value)
 {
-    func_02043264(&g_02146A44->slots[which], op, value);
+    func_02043264((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
 void func_02041FB0(u32 which, u32 op, u16 value)
 {
-    func_020432E4(&g_02146A44->slots[which], op, value);
+    func_020432E4((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }

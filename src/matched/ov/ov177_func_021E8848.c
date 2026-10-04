@@ -24,9 +24,12 @@ typedef struct {
     int  f30;
 } S;
 
-extern void func_0202F038(int);
-extern void func_02045374(int);
-extern int  func_02045730(int);
+typedef unsigned char  u8;
+struct Cfg;
+struct Descriptor;
+extern void func_0202F038(u8 *p);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
@@ -34,9 +37,9 @@ void func_021E8848(S *p)
 {
     p->f30 = 1;
     if (p->f10 != 0) {
-        func_0202F038(p->f10);
+        func_0202F038((u8 *)p->f10);
         p->f10 = 0;
-        func_02045374(p->f14);
-        func_020409B4(func_02045730(p->f14));
+        func_02045374((struct Cfg *)p->f14);
+        func_020409B4(func_02045730((struct Descriptor *)p->f14));
     }
 }

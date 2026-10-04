@@ -28,8 +28,9 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32  func_0202B374(u32 desc, u32 id);
-extern u32  func_02012984(u32 a);
-extern void func_0202B2CC(u32 handle, u32 key);
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
+extern void func_0202B2CC(u8 *p, u32 idx);
 
 void func_0202B49C(u8 *p, u32 id)
 {
@@ -37,6 +38,6 @@ void func_0202B49C(u8 *p, u32 id)
 
     *(u32 *)(p + 0x18) = r;
     if (r != 0) {
-        func_0202B2CC(*(u32 *)(p + 0x18), func_02012984(*(u32 *)(p + 8)));
+        func_0202B2CC((u8 *)(*(u32 *)(p + 0x18)), func_02012984((const struct BigObj *)(*(u32 *)(p + 8))));
     }
 }

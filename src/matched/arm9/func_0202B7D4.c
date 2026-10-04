@@ -24,9 +24,9 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202BECC(u32 v, u32 key);
+extern void func_0202BECC(u8 *p, u32 key);
 
 void func_0202B7D4(u8 *p, u32 key)
 {
-    func_0202BECC(*(u32 *)(p + 0x1c), key);
+    func_0202BECC((u8 *)(*(u32 *)(p + 0x1c)), key);
 }

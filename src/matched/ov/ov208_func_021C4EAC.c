@@ -37,10 +37,12 @@ struct Ov208Menu {
     u32 state;
 };
 
-extern void func_0201C6EC(u32 print);
+struct CharBuf;
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(u32 bmp, u8 v);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *win);
 extern void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
                                 u32 *active, u16 idx);
@@ -48,8 +50,8 @@ extern void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, 
 void ov208_func_021C4EAC(u16 *heap, struct Ov208Menu *p, int key)
 {
     p->active[4] = 0;
-    func_0201C6EC(p->print[4]);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)p->win[4]), 0);
+    func_0201C6EC((struct PrintSys *)p->print[4]);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[4])), 0);
     switch (p->state) {
     case 0:
         func_02045334((struct Descriptor *)p->win[4]);

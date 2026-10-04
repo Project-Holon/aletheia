@@ -19,13 +19,13 @@
 typedef unsigned char u8;
 
 extern void func_021BECAC(int p, unsigned *b);
-extern void func_021BFA14(int p, int c, int d);
+extern void func_021BFA14(char *p, int y, int flag);
 extern void func_021BFB8C(int p, unsigned short a, int c, int d);
 
 void func_021C06C4(int p, unsigned a, unsigned *b, int c, int d)
 {
     func_021BECAC(p, b);
     if ((*(u8 **)(*(int **)p + 2))[6] == a)
-        func_021BFA14(p, c, d);
+        func_021BFA14((char *)p, c, d);
     func_021BFB8C(p, a, c, d);
 }

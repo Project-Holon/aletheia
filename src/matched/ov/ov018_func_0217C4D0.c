@@ -90,7 +90,7 @@ struct Evt;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern u32 func_02012138(const struct Ctx *p);
-extern u8 *func_02158344(void *);
+extern int func_02158344(int a0);
 extern void func_0217F528(void *, void *, int, int, int, int);
 extern void func_021762D8(Info *, void *, int, u16);
 extern void func_0217F574(void *, u16, int, int);
@@ -103,7 +103,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012B58(void *);
 extern void func_0217C658(Rec *, void *, int, u16, u8, u8);
 extern int func_0217C688(Rec *, void *);
-extern int func_02173FC0(u8 *, u8 *);
+extern int func_02173FC0(int a, u8 *b);
 extern int func_02175A24(u8 *);
 extern void func_0217F318(void *);
 extern void func_02174E14(u8 *, int);
@@ -116,7 +116,7 @@ int func_0217C4D0(void *task, int *state, Work *w)
     u8 t;
 
     sys = func_020124E4(task);
-    peer = func_02158344((void *)func_02012138(sys));
+    peer = (u8 *)func_02158344((int)((void *)func_02012138(sys)));
     if (peer == 0 && *state == 0)
         *state = 8;
 
@@ -159,7 +159,7 @@ int func_0217C4D0(void *task, int *state, Work *w)
         break;
     case 6:
         if (peer != 0) {
-            if (func_02173FC0(peer, peer + 0x1AC) == 1)
+            if (func_02173FC0((int)peer, peer + 0x1AC) == 1)
                 (*state)++;
         } else {
             (*state)++;

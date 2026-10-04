@@ -33,8 +33,8 @@ extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
-extern int func_0216B8B8(void *a0, unsigned short *a1);
-extern int func_0216B91C(void *a0, int a1, unsigned short *a2);
+extern int func_0216B8B8(int a0, u16 *a1);
+extern int func_0216B91C(int a0, int a1, u16 *a2);
 
 int func_0216B81C(int c, int vm)
 {
@@ -48,9 +48,9 @@ int func_0216B81C(int c, int vm)
     r5 = (u8)func_02159B10((void *)c, (void *)vm);
     r4 = func_02159AE8((void *)c, (void *)vm);
     if (r5 == func_0200C32C(t)) {
-        func_0216B8B8(r6, r4);
+        func_0216B8B8((int)r6, r4);
     } else {
-        func_0216B91C(r6, r5, r4);
+        func_0216B91C((int)r6, r5, r4);
     }
     return 0;
 }

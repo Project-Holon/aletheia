@@ -25,8 +25,8 @@ typedef struct Ent {
     int mode;
 } Ent;
 
-extern int func_02188D2C(int a);
-extern int *func_021BE480(int a, int b, int c);
+extern int func_02188D2C(int *p);
+extern int func_021BE480(char *p, unsigned i, int j);
 struct Mtx33;
 extern void func_020520FC(int a, int b, int c, struct Mtx33 *d);
 
@@ -37,7 +37,7 @@ void func_021F39E4(int *p)
     int r4;
 
     r4 = 0;
-    r3 = func_021BE480(func_02188D2C(p[1]), 1, 0);
+    r3 = (int *)func_021BE480((char *)func_02188D2C((int *)p[1]), 1, 0);
     e = (Ent *)p[7];
     r3[0] = e->x << 12;
     r3[1] = e->y << 12;

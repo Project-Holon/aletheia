@@ -28,7 +28,7 @@ extern u16 *func_0216D6BC(u32, u32);
 extern void func_02163E7C(int a, int b);
 extern int func_0216D60C(int a0, int a1);
 extern u32 func_0216D674(u32, u32);
-extern u32 func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 extern u32 func_0216D7CC(u32);
 
 void func_02198C08(u32 a, u32 b, u32 c, u32 d)
@@ -42,6 +42,6 @@ void func_02198C08(u32 a, u32 b, u32 c, u32 d)
     func_02163E7C(a, ((b << 16) >> 16));
     func_0216D60C(a, (u16)b);
     func_0216D674(a, d);
-    func_0216D568(a, 32);
+    func_0216D568((void *)a, 32);
     func_0216D7CC(a);
 }

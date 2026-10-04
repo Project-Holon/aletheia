@@ -15,11 +15,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204B1CC(int);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 
 void func_021C03D0(int *p)
 {
     int i;
     for (i = 0; i < 4; i++)
-        func_0204B1CC(p[i + 0xE1]);
+        func_0204B1CC((struct Bank *)p[i + 0xE1]);
 }

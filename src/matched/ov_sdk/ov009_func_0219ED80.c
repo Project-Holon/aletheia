@@ -35,7 +35,7 @@ typedef struct {
     int disconnectFlag;
 } ServerBrowser;
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void func_0219DEE8(ServerBrowser *engine, unsigned char keyid);
@@ -57,7 +57,7 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
     char *key;
 
     if (numBasicFields > 40) {
-        func_0217D254(4, 4, 2, g_021A81DC);
+        func_0217D254(4, (char *)4, 2, g_021A81DC);
         return 6;
     }
     sb->disconnectFlag = disconnectOnComplete;

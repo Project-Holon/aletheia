@@ -24,7 +24,7 @@ typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern u16 func_021C8114(u8 *p);
 extern int func_021E6F7C(int id);
-extern int func_021C8030(int a, int b, int c);
+extern int func_021C8030(u8 *p, int v, u16 k);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E6F3C(int x, int a, int c)
@@ -35,7 +35,7 @@ void func_021E6F3C(int x, int a, int c)
     if (c == func_021D775C(2)) {
         id = func_021C8114((u8 *)a);
         if (id != 0 && func_021E6F7C(id) == 0) {
-            r = func_021C8030(a, c, id);
+            r = func_021C8030((u8 *)a, c, id);
             func_021D76BC(0x12, id);
             func_021D76BC(0xd, r);
         }

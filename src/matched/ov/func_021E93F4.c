@@ -17,14 +17,14 @@
  */
 
 
-extern void func_021DE898(int);
-extern void func_021E8F90(int, int);
+extern void func_021DE898(int *q);
+extern int func_021E8F90(void *p, int a);
 void func_021E93F4(char *p)
 {
-    func_021DE898((int)p);
+    func_021DE898((int *)((int)p));
     *(unsigned char *)(*(int *)p + 0x2a) = *(unsigned char *)(p + 0x14);
     *(unsigned char *)(*(int *)p + 0x2b) = *(unsigned char *)(p + 0x16);
     *(int *)(p + 0x28) = 0x69;
-    func_021E8F90((int)p, 1);
+    func_021E8F90((void *)((int)p), 1);
 }
 

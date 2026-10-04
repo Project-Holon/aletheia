@@ -60,9 +60,12 @@ extern char d_020A1448[];
 extern Ent d_021BB704[];
 
 extern void func_02082BCC(void *p, int c, u32 n);
-extern void func_0204A48C(void *, void *, int);
-extern int func_0204B100(int, int, int);
-extern void func_0204B270(int bank);
+struct Bank;
+struct Cfg;
+struct Obj;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(u32 a, u32 b);
 typedef signed int     s32;
 extern void func_02043598(u32 mask, u32 enable);
@@ -74,7 +77,7 @@ extern void func_02049238(void *);
 extern int func_0204B294(int, int, int, int, Local *, int, int);
 struct Obj;
 extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B6F4(int, int, int);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern int func_0203CD98(void);
 extern void func_0203D34C(u32 a, u32 b);
 
@@ -85,9 +88,9 @@ void func_021B9E28(int *p, void *res, int heap)
     int i;
 
     func_02082BCC(p, 0, 0x54);
-    func_0204A48C(d_020A1448, res, heap);
-    p[0] = func_0204B100(0x80, 0, heap);
-    func_0204B270(p[0]);
+    func_0204A48C((const struct Cfg *)d_020A1448, (u32)res, heap);
+    p[0] = (int)func_0204B100(0x80, 0, heap);
+    func_0204B270((struct Bank *)p[0]);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
     h = func_020490F4(0x1b, heap);
@@ -112,7 +115,7 @@ void func_021B9E28(int *p, void *res, int heap)
     s.e = 2;
     s.d = 1;
     p[7] = func_0204B294(p[0], p[4], p[1], p[5], &s, 0, heap);
-    func_0204B6F4(p[7], 6, 1);
+    func_0204B6F4((struct Obj *)p[7], 6, 1);
     if (func_0203CD98())
         func_0203D34C(1, heap);
 }

@@ -32,10 +32,10 @@ typedef signed short s16;
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
 extern void func_0204B908(int a, u16 b);
-extern int *func_021A21B8(int);
+extern int *func_021A21B8(int *p);
 extern int func_021A21C8(int, int);
-extern int *func_021A2630(int);
-extern int func_021A2638(int);
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
 extern void func_021A2654(int, s16 *);
 extern const int d_021EEB68[];
 extern const int d_021EEB48[];
@@ -51,7 +51,7 @@ void func_021EEA04(int a, int n, int idx)
     int s;
     s16 pt[2];
 
-    w = func_021A21B8(a);
+    w = func_021A21B8((int *)a);
     w[1] = (w[1] + 1) % 320;
     k = w[1] / 40;
     for (i = 0; i < n; i++) {
@@ -59,8 +59,8 @@ void func_021EEA04(int a, int n, int idx)
         if (obj == 0) {
             return;
         }
-        e = func_021A2630(obj);
-        q = func_021A2638(obj);
+        e = (int *)func_021A2630((unsigned char *)obj);
+        q = func_021A2638((unsigned char *)obj);
         e[0] = 0;
         e[1] = func_020056EC(20) + 15;
         s = 3 - (e[1] - 15) / 6;

@@ -27,7 +27,8 @@
  */
 
 extern char *func_02193FD0(char *s, char *key);
-extern int func_020964E0(char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern int func_0219405C(int reqtype, int localid, int profileid);
 extern char *func_02094B20(const char *s, const char *sub);
 extern void func_0219451C(int reqindex, int success, long modified, char *data, int length);
@@ -49,14 +50,14 @@ void func_02194220(char *buf)
     long modified;
     char *data;
 
-    success = func_020964E0(func_02193FD0(buf, g_021A58B4));
-    lid = func_020964E0(func_02193FD0(buf, g_021A58A0));
-    pid = func_020964E0(func_02193FD0(buf, g_021A58BC));
-    modified = func_020964E0(func_02193FD0(buf, g_021A58C0));
+    success = func_020964E0((u32)func_02193FD0(buf, g_021A58B4));
+    lid = func_020964E0((u32)func_02193FD0(buf, g_021A58A0));
+    pid = func_020964E0((u32)func_02193FD0(buf, g_021A58BC));
+    modified = func_020964E0((u32)func_02193FD0(buf, g_021A58C0));
     reqindex = func_0219405C(1, lid, pid);
     if (reqindex == -1)
         return;
-    length = func_020964E0(func_02193FD0(buf, g_021A58C4));
+    length = func_020964E0((u32)func_02193FD0(buf, g_021A58C4));
     data = func_02094B20(buf, g_021A58CC);
     if (data == 0) {
         data = g_021A5890;

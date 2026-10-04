@@ -42,7 +42,7 @@ extern void func_021F81B4(u32 a, u32 b);
 extern int func_021FCA04(State *s, int id, int *out);
 extern void func_021F8198(int a, int b);
 extern int func_021F7F1C(int i);
-extern void *func_021F86B4(void);
+extern int func_021F86B4(void);
 extern void func_022079C0(char *p, int i, Pt *pt);
 
 int func_021FB91C(void *r, State *s)
@@ -114,7 +114,7 @@ int func_021FB91C(void *r, State *s)
                 pt.x = (a == 2) ? 0x80 : -0x10;
                 if (((int *)ids)[i] & 1)
                     pt.x *= -1;
-                func_022079C0(func_021F86B4(), ((int *)ids)[i], &pt);
+                func_022079C0((char *)func_021F86B4(), ((int *)ids)[i], &pt);
             }
         }
     }

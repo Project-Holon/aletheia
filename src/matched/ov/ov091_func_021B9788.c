@@ -17,8 +17,9 @@
 
 typedef unsigned char u8;
 
-extern void func_021BB714(u8 *p, int v, int n);
-extern void func_021BB860(u8 *p, int v, int a, int b);
+typedef unsigned int   u32;
+extern void func_021BB714(void *a, u32 *s, u32 k);
+extern void func_021BB860(u8 *a, u32 *s, u32 x, u32 y);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
@@ -29,8 +30,8 @@ void func_021B9788(u8 *p, int a1, int a2, int a3)
     p[0xc] = 7;
     W(0x144) = a2;
     W(0x148) = a3;
-    func_021BB714(p, W(0x150), 3);
-    func_021BB860(p, W(0x150), a1, a2);
+    func_021BB714(p, (u32 *)W(0x150), 3);
+    func_021BB860(p, (u32 *)W(0x150), a1, a2);
     func_0204B3DC((struct Obj *)W(0x1e0), 0);
     func_0204B3DC((struct Obj *)W(0x1e4), 0);
 }

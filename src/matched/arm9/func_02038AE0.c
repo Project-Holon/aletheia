@@ -72,7 +72,7 @@ struct Buf
     u16 len;
 };
 
-extern s32 func_02036A50(struct Conn *, struct Buf *);
+extern int func_02036A50(u32 list, u16 *info);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
@@ -111,7 +111,7 @@ body:
 
     buf.len = (u16)(len - 7);
     buf.ptr = &h->body[0];
-    if (func_02036A50(c, &buf) == 0)
+    if (func_02036A50((u32)c, (u16 *)(&buf)) == 0)
         c->f24 = 1;
 
     if (buf.len != 0xffff)

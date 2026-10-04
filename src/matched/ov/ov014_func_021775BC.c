@@ -27,7 +27,9 @@ extern void func_02177560(void);
 extern void func_0217933C(void *cb);
 extern int func_021775AC(int a, int b, int c);
 extern int func_02178E4C(void);
-extern int func_021785B4(int (*fn)(u8 *), int a, int b);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern int func_021785B4(u32 a, u16 *b, u32 c);
 extern int func_021773E0(u8 *p);
 
 int func_021775BC(int arg)
@@ -41,7 +43,7 @@ int func_021775BC(int arg)
         func_02177560();
     func_0217933C(func_021775AC);
     w[0xCE8] = 1;
-    if (func_02178E4C() == 1 && func_021785B4(func_021773E0, 0, 0) != 0)
+    if (func_02178E4C() == 1 && func_021785B4((u32)func_021773E0, 0, 0) != 0)
         return 1;
     return 0;
 }

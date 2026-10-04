@@ -21,8 +21,8 @@
  */
 
 
-extern int func_02183D3C(int);
-extern void func_02183D34(int, void *);
+extern unsigned int func_02183D3C(unsigned int *p);
+extern void func_02183D34(unsigned int *p, unsigned int v);
 typedef unsigned int   u32;
 extern void func_02183EC0(int *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -30,7 +30,7 @@ extern u32 func_020221A4(void);
 
 void func_02183E60(int a, int *state)
 {
-    int x = func_02183D3C(a);
+    int x = func_02183D3C((unsigned int *)a);
     switch (*state) {
     case 0:
         func_0202208C(0, 0, 0, 0, 6, 1, *(int *)(x + 0x14C));
@@ -41,7 +41,7 @@ void func_02183E60(int a, int *state)
             *state = 2;
         break;
     case 2:
-        func_02183D34(a, func_02183EC0);
+        func_02183D34((unsigned int *)a, (unsigned int)func_02183EC0);
         break;
     }
 }

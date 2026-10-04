@@ -20,7 +20,21 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_021BA640 0x021BA640 thumb ov100
  */
-extern void func_0201DD68(void),func_021BA5F4(int),func_02040DA8(int,int,int),func_0203FB44(int,unsigned short,unsigned short),func_020403F4(int),func_02045C04(int),func_0201D83C(int),func_02045808(int),func_02040588(int,int),func_02027FD8(int),func_021BA640(int);
+typedef unsigned int   u32;
+struct Rec;
+struct TaskMenuState;
+struct U16Vec;
+extern void func_0201DD68(void);
+extern void func_021BA5F4(int);
+extern void func_02040DA8(int,int,int);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void func_020403F4(int);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201D83C(void *ptr);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02040588(int,int);
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_021BA640(int);
 void func_021BAC08(int a) {
  func_0201DD68();
  func_021BA5F4(a);
@@ -31,11 +45,11 @@ void func_021BAC08(int a) {
   func_0203FB44(5,(unsigned short)v,(unsigned short)w);
  }
  func_020403F4(5);
- func_02045C04(*(int *)(a+0x288));
- func_0201D83C(*(int *)(a+0x290));
- func_02045808(*(int *)(a+0x294));
- func_02045808(*(int *)(a+0x298));
+ func_02045C04((struct Rec *)(*(int *)(a+0x288)));
+ func_0201D83C((void *)(*(int *)(a+0x290)));
+ func_02045808((struct U16Vec *)(*(int *)(a+0x294)));
+ func_02045808((struct U16Vec *)(*(int *)(a+0x298)));
  func_02040588(5,0);
- func_02027FD8(*(int *)(a+0xcc4));
+ func_02027FD8((struct TaskMenuState *)(*(int *)(a+0xcc4)));
  func_021BA640(a);
 }

@@ -21,12 +21,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern s16 FX_SinCosTable_[];
-extern void func_02048B80(u32 a, int v);
-extern void func_02048B94(u32 a, int v);
+struct Light;
+extern void func_02048B80(struct Light *l, u32 v);
+extern void func_02048B94(struct Light *l, u32 v);
 
 void func_0218ED64(u8 *a, u16 angle)
 {
     *(u16 *)(a + 0x80) = angle;
-    func_02048B80(*(u32 *)(a + 0xc), FX_SinCosTable_[(*(u16 *)(a + 0x80) >> 4) * 2]);
-    func_02048B94(*(u32 *)(a + 0xc), FX_SinCosTable_[(*(u16 *)(a + 0x80) >> 4) * 2 + 1]);
+    func_02048B80((struct Light *)(*(u32 *)(a + 0xc)), FX_SinCosTable_[(*(u16 *)(a + 0x80) >> 4) * 2]);
+    func_02048B94((struct Light *)(*(u32 *)(a + 0xc)), FX_SinCosTable_[(*(u16 *)(a + 0x80) >> 4) * 2 + 1]);
 }

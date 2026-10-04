@@ -28,7 +28,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021F88F4(void);
-extern int func_0201EC64(int a);
+typedef signed short   s16;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -36,11 +38,11 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201DE00(u8 *a, u8 *b, u8 *c);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_0201F250(int a, void *b, void *c);
-extern void func_02204C98(void *a, int b, int *c, int *d);
-extern void func_0201C7A4(int a, short b, int c, void *d, int e);
-extern void func_0201ED04(int a);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02204C98(int a, int b, int *outn, int *outq);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void func_0201ED04(struct WordSet *p);
 
 void func_02206728(char *s, char *b)
 {
@@ -53,17 +55,17 @@ void func_02206728(char *s, char *b)
 
     if (func_021F88F4() == 0)
         return;
-    h = func_0201EC64(*(u16 *)(s + 0x240));
+    h = (int)func_0201EC64(*(u16 *)(s + 0x240));
     v = func_020457B0(6, *(u16 *)(s + 0x240));
     w = func_02045EC0(*(void **)(s + 0x5c), 8);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 2, 0);
-    func_0201EFA4(h, 0, *(u8 *)(b + 0xc4), 2, 0, 1);
-    func_0201F250(h, v, w);
-    func_02204C98(v, *(int *)(s + 0x224), &v18, &v14);
-    func_0201C7A4(*(int *)(s + 0x234), 12 - v18 / 2, 0, v, *(int *)(s + 0x224));
+    func_0201EFA4((struct WordSet *)h, 0, *(u8 *)(b + 0xc4), 2, 0, 1);
+    func_0201F250((struct WordSet *)h, v, w);
+    func_02204C98((int)v, *(int *)(s + 0x224), &v18, &v14);
+    func_0201C7A4((void *)(*(int *)(s + 0x234)), 12 - v18 / 2, 0, v, (void *)(*(int *)(s + 0x224)));
     func_0201DD78(c[2], c[1], c[0]);
-    func_0201ED04(h);
+    func_0201ED04((struct WordSet *)h);
     func_02045808(w);
     func_02045808(v);
 }

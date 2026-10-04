@@ -27,11 +27,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0207D534(u32 reg, u32 value);
+typedef unsigned short u16;
+extern void func_0207D534(volatile u16 *reg, int brightness);
 
 void sub_0200F800(void)
 {
     u32 *g = (u32 *)0x0214617C;
-    func_0207D534(0x0400006C, *(u32 *)((u8 *)g + 0x14));
-    func_0207D534(0x0400106C, *(u32 *)((u8 *)g + 0x18));
+    func_0207D534((volatile u16 *)0x0400006C, *(u32 *)((u8 *)g + 0x14));
+    func_0207D534((volatile u16 *)0x0400106C, *(u32 *)((u8 *)g + 0x18));
 }

@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021BB920(int);
+extern void func_021BB920(u8 *p);
 extern void func_021D74E4(void);
 extern int func_021BC220(u8 *p, int a);
 extern u8 func_021BBFA8(u8 *p, u8 k);
@@ -33,7 +33,7 @@ int func_021BBD2C(u8 *p, int a)
     q[0] = 0;
     q[1] = 0;
     if (p[0x77c] == 0) {
-        func_021BB920(*(int *)p);
+        func_021BB920((u8 *)(*(int *)p));
         func_021D74E4();
         p[0x77d] = 0;
         p[0x77c] = 1;

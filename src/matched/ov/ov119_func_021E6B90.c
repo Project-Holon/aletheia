@@ -27,7 +27,7 @@ struct BgTemplate {
     u32 w[8];
 };
 extern const struct BgTemplate d_021E7E44;
-extern void *func_0201F5DC(int, u32, u32, u32);
+extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
@@ -42,7 +42,7 @@ void func_021E6B90(char *p)
 {
     void *h;
     struct BgTemplate t;
-    *(void **)(p + 0x644) = func_0201F5DC(6, 15, 0, *(u16 *)(p + 0x5f4));
+    *(void **)(p + 0x644) = func_0201F5DC((void *)6, 15, 0, *(u16 *)(p + 0x5f4));
     h = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
     *(u32 *)(p + 0x870) = func_02049740(h, 13, 5, 0, 0, *(u16 *)(p + 0x5f4));
     func_02049990(h, 7, 4, 0, (u16)*(u32 *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));

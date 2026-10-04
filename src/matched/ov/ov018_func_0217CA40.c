@@ -28,8 +28,9 @@ struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02012B8C(struct BigObj *p, u8 v);
 extern int func_02158344(int a0);
-extern void func_02175710();
-extern void func_0217CA1C();
+typedef unsigned int   u32;
+extern void func_02175710(u8 *o, u32 v);
+extern void *func_0217CA1C(void *p);
 
 void func_0217CA40(int a0)
 {
@@ -41,9 +42,9 @@ void func_0217CA40(int a0)
     c = func_020120F4((const struct Ctx *)a0);
     p = func_02158344(h);
     if (p != 0) {
-        func_02175710(p, func_02012B58(c));
+        func_02175710((u8 *)p, func_02012B58(c));
     } else {
         func_02012B8C(c, func_02012B58(c));
     }
-    func_0217CA1C(a0);
+    func_0217CA1C((void *)a0);
 }

@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02021FD8(u32 p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+struct Chan02021FD8;
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 struct TcblNode;
 extern void func_02031194(struct TcblNode *n);
 
@@ -29,14 +30,14 @@ void func_021F1F9C(void *task, u8 *s)
 
     if (c < 2) {
         if (s[1]++ >= s[2]) {
-            func_02021FD8(*(u32 *)(*(char **)(s + 0xc) + 0xac), 3, s[3], 0x10, (c % 2) << 2, 0x7fff);
+            func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(*(char **)(s + 0xc) + 0xac)), 3, s[3], 0x10, (c % 2) << 2, 0x7fff);
             s[0]++;
             s[1] = 0;
         }
     } else {
         int *r;
 
-        func_02021FD8(*(u32 *)(*(char **)(s + 0xc) + 0xac), 3, s[3], 0x10, 0, 0x7fff);
+        func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(*(char **)(s + 0xc) + 0xac)), 3, s[3], 0x10, 0, 0x7fff);
         r = *(int **)(s + 0x10);
         if (r != 0)
             (*r)--;

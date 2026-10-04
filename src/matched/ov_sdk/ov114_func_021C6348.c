@@ -62,7 +62,7 @@ extern char g_021D3C50[];
 extern char g_021D3BF5[];
 
 extern void func_021C79C0(char *macaddr);
-extern void func_021C6898(char *userAgent);
+extern void func_021C6898(int a);
 extern char *func_021C62FC(char *src);
 extern int func_021C60C8(char *encstr, char *srcbin, int length);
 extern int func_021C7908(void);
@@ -89,7 +89,7 @@ int func_021C6348(NdAlloc alloc, NdFree free, char *url, char *token, char *game
     g_021D3B9C.url = 0;
 
     func_021C79C0(g_021D3BE4);
-    func_021C6898(g_021D3C69);
+    func_021C6898((int)g_021D3C69);
 
     g_021D3B9C.url = func_021C62FC(url);
     if (g_021D3B9C.url == 0)

@@ -23,8 +23,8 @@ extern void func_021BF204(int c);
 extern int func_021BF214(int c);
 extern void func_021BF224(int c, int x);
 extern int func_021BF234(int c);
-extern int func_021D6D7C(int x);
-extern int func_0201BEB8(void *bag, int item);
+extern u32 func_021D6D7C(u8 *p);
+extern u32 func_0201BEB8(u16 id, u32 bit);
 
 void func_021BF1B4(int u, u16 *b, int s, int c, int e)
 {
@@ -32,7 +32,7 @@ void func_021BF1B4(int u, u16 *b, int s, int c, int e)
     func_021BF204(c);
     x = func_021BF214(c);
     while (x != 0) {
-        if (s != x && func_021D6D7C(x) != 0 && e == 0 && func_0201BEB8((void *)*b, 0xd) == 0)
+        if (s != x && func_021D6D7C((u8 *)x) != 0 && e == 0 && func_0201BEB8((u16)((void *)*b), 0xd) == 0)
             func_021BF224(c, x);
         x = func_021BF234(c);
     }

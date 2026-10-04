@@ -31,12 +31,12 @@ typedef struct {
     u16 species;
 } Work;
 
-extern int func_021F6DE8(void *handle);
+extern int func_021F6DE8(u32 handle);
 extern u32 func_0201AA18(void *p);
 
 int func_022024DC(Work *p, void *mon)
 {
-    if (func_021F6DE8(mon) != 0 && func_0201AA18(p->ctx->party) == 6) {
+    if (func_021F6DE8((u32)mon) != 0 && func_0201AA18(p->ctx->party) == 6) {
         return 2;
     }
     if (p->species == 0x2D0 && func_0201AA18(p->ctx->party) == 6) {

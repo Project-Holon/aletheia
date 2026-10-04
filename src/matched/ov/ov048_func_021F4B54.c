@@ -15,5 +15,6 @@
 typedef unsigned int   u32;
 struct G3dSys;
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern void func_02047804(unsigned int h,unsigned short i);
-void func_021F4B54(int *p) { if(p[1]!=1) { p[1]=1; p[2]=0; p[6]=0; func_020477A4((void *)p[4],*(unsigned short *)(p+5)); func_02047804(p[4],*(unsigned short *)(p+5)); } }
+struct AnmCtl;
+extern u32 func_02047804(struct AnmCtl *c, u32 idx);
+void func_021F4B54(int *p) { if(p[1]!=1) { p[1]=1; p[2]=0; p[6]=0; func_020477A4((void *)p[4],*(unsigned short *)(p+5)); func_02047804((struct AnmCtl *)p[4],*(unsigned short *)(p+5)); } }

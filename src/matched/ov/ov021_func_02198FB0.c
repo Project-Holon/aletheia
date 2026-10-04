@@ -29,14 +29,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
-extern u32 *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern u32 *d_021DDBD4;
 extern void func_0216D8C0(u32, Vec *);
 extern int func_0219BF48(u32 a);
 extern int func_021D04C4(u32 a);
 extern u32 func_021AC154(u32);
 extern void func_0219BF3C(int a, u32 v);
-extern u32 func_0216D568(u32, u32);
+extern void func_0216D568(void *p, u32 v);
 extern u32 func_0219BF54(u32);
 extern u32 func_0216D7CC(u32);
 
@@ -45,7 +45,7 @@ int func_02198FB0(u32 a)
     u32 *p;
     u32 r;
 
-    p = func_0216D6D4(a);
+    p = func_0216D6D4((void *)a);
     {
         Vec v = { 0, 0, 0 };
         v.y = d_021DDBD4[p[0]];
@@ -64,7 +64,7 @@ int func_02198FB0(u32 a)
         v.y = 0;
         func_0216D8C0(a, &v);
     }
-    func_0216D568(a, 1344);
+    func_0216D568((void *)a, 1344);
     func_0219BF54(a);
     func_0216D7CC(a);
     return 1;

@@ -17,14 +17,17 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_0202B57C(u32 v);
-extern void func_0202B914(u32 a, u32 b);
-extern void func_02028A58(u8 *p, u32 a, u32 b);
+typedef unsigned short u16;
+struct Obj;
+struct SoundSys;
+extern u32 func_0202B57C(void *obj);
+extern void func_0202B914(struct Obj *o, u32 v);
+extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 
 void func_02029DBC(u8 *a, u32 b)
 {
-    u32 r = func_0202B57C(b);
+    u32 r = func_0202B57C((void *)b);
 
-    func_0202B914(r, 0);
-    func_02028A58(a, 0x40, 6);
+    func_0202B914((struct Obj *)r, 0);
+    func_02028A58((struct SoundSys *)a, 0x40, 6);
 }

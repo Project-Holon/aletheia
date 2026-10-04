@@ -37,13 +37,14 @@ typedef struct W {
     u16 g[2];
 } W;
 
-extern u32 func_021ABE24(u32 a);
+typedef unsigned char  u8;
+extern u32 func_021ABE24(u8 *p);
 extern u32 func_021ABE18(u32 a);
-extern void func_021C6AE0(u32 *);
-extern void func_021C6AF0(u32 *, u32, u16);
+extern void func_021C6AE0(u32 a);
+extern int func_021C6AF0(u32 a, u32 b, u32 c);
 extern void func_021C6AF8(u32 *, u32);
 extern void func_021C6AFC(u32 *, u16);
-extern u16 func_021C6574(u32, u32 *, u32);
+extern int func_021C6574(u32 a, u32 b, u32 c);
 extern u16 func_021C6590(u32, u32, u32, u32);
 extern void func_021C67D8(u32, u32, u32);
 extern const T data_021DB92C[];
@@ -58,15 +59,15 @@ void func_021D03C4(W *p)
     u16 *hp = (u16 *)p;
     u16 *q;
 
-    k = func_021ABE24(p->f4);
+    k = func_021ABE24((u8 *)p->f4);
     h = func_021ABE18(p->f4);
     for (; i < 2; i++, t++) {
-        func_021C6AE0(buf);
-        func_021C6AF0(buf, k, t->a);
+        func_021C6AE0((u32)buf);
+        func_021C6AF0((u32)buf, k, t->a);
         func_021C6AF8(buf, k);
         func_021C6AFC(buf, t->b);
         q = hp + i;
-        hp[i] = func_021C6574(h, buf, 0);
+        hp[i] = func_021C6574(h, (u32)buf, 0);
         q[4] = func_021C6590(h, hp[i], 0, 0);
         func_021C67D8(h, q[4], 1);
     }

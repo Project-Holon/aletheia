@@ -13,7 +13,9 @@
  *   func_02061CA4 0x02061CA4 arm
  */
 typedef unsigned char u8; typedef unsigned short u16;
-extern void func_02061CA4(int,int,void *,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void func_021B8734(u16 *p,int n,u8 div,u8 offset,u8 index,u16 a,u16 b)
 {
  u8 r,g,blue; int dr,dg,db;
@@ -24,5 +26,5 @@ void func_021B8734(u16 *p,int n,u8 div,u8 offset,u8 index,u16 a,u16 b)
  dr=((u8)(b&31)-r)*n/div;
  dg=((u8)((b&0x3E0)>>5)-g)*n/div;
  *p=(u8)(r+dr)|((u8)(g+dg)<<5)|((u8)(blue+db)<<10);
- func_02061CA4(15,offset*32+index*2,p,2);
+ func_02061CA4((void *)15,offset*32+index*2,(u32)p,2);
 }

@@ -87,19 +87,26 @@ typedef struct { int f0; int f4; Dim *f8; } Img;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02045B38(u32 a, u16 b, u16 c, u32 d);
-extern u32 func_020457B0(u32 size, u32 heap);
-extern u32 func_02045EC0(u32 a, u32 b);
-extern void func_0201F250(u32 a0, u32 a1, u32 a2);
-extern void func_020307B0(u32 p);
-extern int func_0201D304(u32 a, u32 b, u32 c);
-extern u32 func_02047788(u32 a);
-extern int func_02047554(u32 a);
+struct AnmCtl;
+struct MsgBank;
+struct Owner;
+struct Rec;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_020307B0(void *p);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern int func_02047788(int *p);
+extern int func_02047554(int *p);
 extern int func_021875F4(int a0, int a1, int a2, u32 a3, u16 e0, u16 e1, u16 e2);
-extern void func_02045C04(u32 a);
-extern u32 func_02047790(u32 h, u16 i);
+extern void func_02045C04(struct Rec *rec);
+extern int func_02047790(int *p, int i);
 extern Img *func_02047674(u32 a);
-extern void func_020477D4(u32 h, u16 i);
-extern void func_02047804(u32 h, u16 i);
+extern int func_020477D4(struct Owner *owner, u32 index);
+extern u32 func_02047804(struct AnmCtl *c, u32 idx);
 extern char d_021F523C[];
 
 R *func_021F4948(P *p, const Q *q, int c)
@@ -118,18 +125,18 @@ R *func_021F4948(P *p, const Q *q, int c)
     r = func_02030734(p->h0, 0x24, 0, d_021F523C, 0x180);
     arc = func_02045B38(0, q->fC, q->f10, p->h0);
     if (q->f18 != 0) {
-        str = func_020457B0(0xC0, p->h0);
-        tmp = func_02045EC0(arc, q->f14);
-        func_0201F250(q->f18, str, tmp);
-        func_020307B0(tmp);
+        str = (u32)func_020457B0(0xC0, p->h0);
+        tmp = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);
+        func_0201F250((struct WordSet *)q->f18, (void *)str, (void *)tmp);
+        func_020307B0((void *)tmp);
     } else {
-        str = func_02045EC0(arc, q->f14);
+        str = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);
     }
-    width = func_0201D304(str, p->f14, 1);
-    r->fC = func_021875F4(func_02047554(func_02047788(p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
-    func_020307B0(str);
-    func_02045C04(arc);
-    w = func_02047674(func_02047790(p->f10, q->h0))->f8->h4 << 12;
+    width = func_0201D304((struct StrObj *)str, p->f14, 1);
+    r->fC = func_021875F4(func_02047554((int *)func_02047788((int *)p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
+    func_020307B0((void *)str);
+    func_02045C04((struct Rec *)arc);
+    w = func_02047674(func_02047790((int *)p->f10, q->h0))->f8->h4 << 12;
     m = p->b4 * 13;
     tot = m + width;
     a = tot - m;
@@ -144,7 +151,7 @@ R *func_021F4948(P *p, const Q *q, int c)
     r->f8 = 0;
     r->f10 = p->f10;
     r->h14 = q->h0;
-    func_020477D4(r->f10, r->h14);
-    func_02047804(r->f10, r->h14);
+    func_020477D4((struct Owner *)r->f10, r->h14);
+    func_02047804((struct AnmCtl *)r->f10, r->h14);
     return r;
 }

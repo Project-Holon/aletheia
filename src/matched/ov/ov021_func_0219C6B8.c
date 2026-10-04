@@ -46,17 +46,17 @@ typedef struct {
 } Desc;
 
 extern u16 d_021D75D0[][2];
-extern u8 *func_0216D520(u32);
+extern u32 func_0216D520(void *p);
 extern u32 func_02050340(u32, u32, Desc *, u32, u32);
 extern u32 *func_0219D3E4(u32);
-extern void func_02050804(u32, u32, u32, u32);
-extern void func_0205082C(u32, u32, u32);
-extern void func_020507F0(u32, u32, u32);
-extern void func_0219C9D0(void);
+extern void func_02050804(void *p, int idx, u32 v, u16 h);
+extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_020507F0(void *p, int idx, u32 v);
+extern void func_0219C9D0(u32 a, u32 b, u8 *p);
 
 u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e)
 {
-    u8 *m = func_0216D520(a);
+    u8 *m = (u8 *)func_0216D520((void *)a);
     Desc s;
     u32 r;
     u32 *q;
@@ -69,15 +69,15 @@ u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e)
     s.k = 0x1f;
     s.flag = 1;
     s.w = 1;
-    s.f1c = func_0219C9D0;
+    s.f1c = (void (*)(void))func_0219C9D0;
     s.f20 = (u32)m;
     r = func_02050340(*(u32 *)(m + 4), *(u16 *)(m + 8), &s, 1, 0);
     q = func_0219D3E4(d);
     if (q[0] != 0) {
-        func_02050804(*(u32 *)(m + 4), r, q[0], (u16)q[1]);
+        func_02050804((void *)(*(u32 *)(m + 4)), r, q[0], (u16)q[1]);
         h = *(u32 *)(m + 4);
-        func_0205082C(h, r, 0);
-        func_020507F0(h, r, 1);
+        func_0205082C((void *)h, r, 0);
+        func_020507F0((void *)h, r, 1);
     }
     return r;
 }

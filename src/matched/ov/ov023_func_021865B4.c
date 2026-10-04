@@ -33,8 +33,10 @@ typedef struct {
 } Ent;
 
 extern Ent d_02186ABC[];
-extern u32 func_02027F60(u32, u32, u32, u32, u32);
-extern u32 func_02045EC0(u32, u32);
+struct MsgBank;
+struct R;
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern int func_02027778(Arg *, u32);
 
 int func_021865B4(char *p)
@@ -45,10 +47,10 @@ int func_021865B4(char *p)
     Ent *t;
     Arg s;
 
-    *(u32 *)(p + 0x174) = func_02027F60(0, 2, *(u32 *)(p + 0xC), *(u32 *)(p + 0x168), 0x28);
+    *(u32 *)(p + 0x174) = (u32)func_02027F60(0, 2, *(u32 *)(p + 0xC), *(u32 *)(p + 0x168), 0x28);
     for (i = 0; i < 2; i++) {
         t = &d_02186ABC[i];
-        *(u32 *)(p + i * 12 + 0x17C) = func_02045EC0(*(u32 *)(p + 0x14), d_02186ABC[i].a);
+        *(u32 *)(p + i * 12 + 0x17C) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x14)), d_02186ABC[i].a);
         *(u16 *)(p + i * 12 + 0x180) = 0x39E3;
         *(u32 *)(p + i * 12 + 0x184) = t->b;
     }

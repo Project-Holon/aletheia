@@ -27,35 +27,35 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_021901E8(u32 *p);
-extern u32 func_02188CFC(u32 a);
-extern u32 func_02188C5C(u32 a);
+extern u32 func_021901E8(u8 *p);
+extern u32 func_02188CFC(u8 *p);
+extern u32 func_02188C5C(u8 *p);
 extern void func_021BB260(u32 a, u32 b);
-extern u32 func_0218EC5C(u32 a);
-extern void func_0218EC54(u32 a);
-extern u32 func_0218F1B4(u32 a);
-extern void func_0218F1AC(u32 a, u32 b);
-extern u32 func_02189A18(u32 a);
-extern void func_021AB75C(u32 a, u32 b);
+extern u32 func_0218EC5C(u8 *p);
+extern void func_0218EC54(u8 *p);
+extern u8 func_0218F1B4(u8 *p);
+extern void func_0218F1AC(u8 *p, u8 v);
+extern u32 func_02189A18(u8 *p);
+extern void func_021AB75C(u8 *p, u32 v);
 
 void func_0218FF78(u32 *p)
 {
     u32 a = p[0];
     u32 b = p[1];
-    u8 *r = func_021901E8(p);
-    if (func_02188CFC(a) == 1)
-        func_021BB260(func_02188C5C(a), 0);
+    u8 *r = (u8 *)func_021901E8((u8 *)p);
+    if (func_02188CFC((u8 *)a) == 1)
+        func_021BB260(func_02188C5C((u8 *)a), 0);
     if (*(u32 *)(r + 0x44) != 0) {
-        if (func_0218EC5C(p[1]) != 0) {
+        if (func_0218EC5C((u8 *)p[1]) != 0) {
             p[7] = 1;
-            p[6] = func_0218EC5C(b);
-            func_0218EC54(b);
+            p[6] = func_0218EC5C((u8 *)b);
+            func_0218EC54((u8 *)b);
         }
     }
     if (*(u32 *)(r + 0x48) != 0) {
-        p[5] = func_0218F1B4(b);
-        func_0218F1AC(b, 0);
+        p[5] = func_0218F1B4((u8 *)b);
+        func_0218F1AC((u8 *)b, 0);
     }
-    func_021AB75C(func_02189A18(a), 0);
+    func_021AB75C((u8 *)func_02189A18((u8 *)a), 0);
     p[3] = 1;
 }

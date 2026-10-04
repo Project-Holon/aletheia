@@ -34,7 +34,7 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int func_0217F1CC(int *p);
-extern void func_0217D254(int, int, unsigned char, const char *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021C02C8(GHIConnection *, char *, int);
 extern char g_021CF0F8[];
 extern char g_021CF114[];
@@ -43,7 +43,7 @@ void func_021C3E10(GHIConnection *connection)
 {
     connection->f1C = func_0217F1CC(connection->f1CC);
     if (connection->f1C == (unsigned int)-1) {
-        func_0217D254(8, 3, 1, g_021CF0F8);
+        func_0217D254(8, (char *)3, 1, g_021CF0F8);
         connection->f1CC = 0;
         connection->f124 = 1;
         connection->f40 = 4;
@@ -55,7 +55,7 @@ void func_021C3E10(GHIConnection *connection)
         return;
     }
     connection->f1CC = 0;
-    func_0217D254(8, 3, 16, g_021CF114);
+    func_0217D254(8, (char *)3, 16, g_021CF114);
     connection->f10 = 3;
     func_021C02C8(connection, 0, 0);
 }

@@ -79,7 +79,8 @@ struct BbActSys {
     u32 f20;
 };
 
-extern int  func_02033CA8(u32 pool, u32 n);
+struct AreaMan;
+extern s32 func_02033CA8(struct AreaMan *p, u32 len);
 extern void func_020500B8(struct BbActEntry *e);
 extern s32  func_0204F428(void *board, u32 id, s16 v12, s16 v14, const struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *board, u32 idx, const u32 *flag);
@@ -92,7 +93,7 @@ u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 c
     u32 i;
     s32 r;
 
-    idx = func_02033CA8(o->f20, count);
+    idx = func_02033CA8((struct AreaMan *)o->f20, count);
     if (idx == -1) {
         return 0xFFFF;
     }

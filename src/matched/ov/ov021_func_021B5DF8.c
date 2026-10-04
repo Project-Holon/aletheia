@@ -42,16 +42,17 @@ typedef unsigned int   u32;
 
 extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_0215A5CC(u32 a);
+struct Blk37;
+extern u16 func_0215A5CC(void *a0);
 extern void *func_0215A5E4(void *a0);
-extern u32 func_0200CA1C(void *a);
-extern u32 func_0200CA38(u32 a);
-extern u32 func_0200CF08(u32 a, u32 b);
-extern u32 func_0200D298(u32 a);
-extern u32 func_0200D0F8(u32 a, u32 b);
-extern u32 func_0200D2C4(u32 a, u32 b);
-extern u32 func_0200CF54(u32 a, u32 b);
-extern u32 func_0200D2B0(u32 a, u32 b);
+extern void *func_0200CA1C(void *a);
+extern u32 func_0200CA38(struct Blk37 *p);
+extern u16 func_0200CF08(struct Blk37 *p, u32 heap);
+extern int func_0200D298(void *a0);
+extern u16 func_0200D0F8(struct Blk37 *p, u32 heap);
+extern int func_0200D2C4(void *p, unsigned int heap);
+extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
+extern int func_0200D2B0(void *a0, int a1);
 extern u32 func_021B5DD0(u16 *t, u32 k);
 extern u16 d_021D98DC[];
 extern u16 d_021D9904[];
@@ -69,29 +70,29 @@ int func_021B5DF8(u32 a, u32 b)
     mode = func_02159B10((void *)a, (void *)b);
     o1 = func_02159AE8((void *)a, (void *)b);
     o2 = func_02159AE8((void *)a, (void *)b);
-    id = func_0215A5CC(b);
-    w = func_0200CA1C(func_0215A5E4((void *)b));
-    func_0200CA38(w);
+    id = func_0215A5CC((void *)b);
+    w = (u32)func_0200CA1C(func_0215A5E4((void *)b));
+    func_0200CA38((struct Blk37 *)w);
     *o1 = 5;
     *o2 = 0;
     switch (mode) {
     case 3:
-        x = func_0200CF54(w, id);
-        if (func_0200D2B0(w, id) == 1)
+        x = func_0200CF54((struct Blk37 *)w, id);
+        if (func_0200D2B0((void *)w, id) == 1)
             *o1 = 0x1e;
         else
             *o1 = func_021B5DD0(d_021D98DC, x);
         break;
     case 2:
-        x = func_0200D0F8(w, id);
-        if (func_0200D2C4(w, id) == 1)
+        x = func_0200D0F8((struct Blk37 *)w, id);
+        if (func_0200D2C4((void *)w, id) == 1)
             *o1 = 0xd;
         else
             *o1 = func_021B5DD0(d_021D9904, x);
         break;
     case 1:
-        x = func_0200CF08(w, id);
-        if (func_0200D298(w) == 1)
+        x = func_0200CF08((struct Blk37 *)w, id);
+        if (func_0200D298((void *)w) == 1)
             *o1 = 0x32;
         else
             *o1 = func_021B5DD0(d_021D992C, x);

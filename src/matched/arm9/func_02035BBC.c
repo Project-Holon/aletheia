@@ -23,9 +23,10 @@ extern void func_02035750(void *ctx);
 typedef unsigned short u16;
 struct Kind;
 extern u16 func_020357C0(struct Kind *p);
-extern void *func_02035760(void *ctx);
-extern void *func_02035780(void *ctx);
-extern int  func_02035ADC(void *param, void *a, void *b);
+struct R;
+extern u16 func_02035760(struct Kind *p);
+extern u16 func_02035780(struct Kind *p);
+extern int func_02035ADC(struct R *p, u32 x, u32 y);
 
 int func_02035BBC(void *ctx, void *param)
 {
@@ -37,8 +38,8 @@ int func_02035BBC(void *ctx, void *param)
         return -1;
     }
 
-    a = func_02035760(ctx);
-    b = func_02035780(ctx);
+    a = (void *)func_02035760(ctx);
+    b = (void *)func_02035780(ctx);
 
-    return func_02035ADC(param, a, b);
+    return func_02035ADC(param, (u32)a, (u32)b);
 }

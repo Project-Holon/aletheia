@@ -43,11 +43,11 @@ typedef struct UtilState {
 extern int OS_IsRunOnTwl(void);
 extern int func_021C0A2C(int lang, unsigned int param);
 extern char *func_02177ED8(void);
-extern void func_02177EC8(char *nasaddr);
+extern void func_02177EC8(int v);
 extern void func_021C0AA8(void);
 extern void func_021C0B7C(void);
 extern void func_021CFEBC(void);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021D656C();
 extern void func_021D75D0(int kind);
 extern void func_021D6BC8(void);
@@ -68,12 +68,12 @@ int func_021C0970(void *work, int language, int param)
     if (!func_021C0A2C(language, param))
         return -1;
     tempNasUrl = func_02177ED8();
-    func_02177EC8(g_021DB04C);
+    func_02177EC8((int)g_021DB04C);
     g_021DE56C.end = 0;
     func_021C0AA8();
     func_021C0B7C();
     func_021CFEBC();
-    func_021C0E40(func_021C16F4);
+    func_021C0E40((unsigned int)func_021C16F4);
     result = 0;
     do {
         func_021D656C();
@@ -84,6 +84,6 @@ int func_021C0970(void *work, int language, int param)
         func_02087AE4();
     } while (!g_021DE56C.end);
     func_021C0DE8();
-    func_02177EC8(tempNasUrl);
+    func_02177EC8((int)tempNasUrl);
     return result;
 }

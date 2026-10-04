@@ -29,7 +29,9 @@ extern int func_021BD1FC(int a);
 extern int func_021BD204(int a);
 extern int func_021BD1EC(int a);
 extern int func_021BD1F4(int a);
-extern void func_020439A0(int a, int b, int c, int d, u16 e, u16 f, u16 g, u16 h, int i);
+typedef unsigned int   u32;
+struct Bmp;
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
 void func_021BC9CC(char *p)
 {
@@ -45,7 +47,7 @@ void func_021BC9CC(char *p)
         d = func_021BD204(r4) - 8;
         e = func_021BD1EC(r4);
         f = func_021BD1F4(r4);
-        func_020439A0(a, b, 0, 0, c, d, e, f, 0);
+        func_020439A0((struct Bmp *)a, (struct Bmp *)b, 0, 0, c, d, e, f, 0);
     }
     (*(u8 *)(p + 0x14a))++;
 }

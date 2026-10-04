@@ -21,13 +21,13 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 struct Record { u8 a, b, c, d; int value; };
 extern const struct Record d_021E32A8[];
-extern void *func_021FD12C(int, int, int);
-extern void func_021FD170(void *, int, int);
-extern void func_021FB964(int, int, int);
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern void *func_021FC6A4(int, int, int, int, u8, u8, int, u16);
-extern void func_021FC754(void *, int, int, int, u16);
+extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
+extern void func_021FC754(char *p, void *a, void *b, void *font, unsigned short value);
 void func_021DD128(char *p, char *q)
 {
     if (!*(int *)(p + 0xe4)) {
@@ -36,16 +36,16 @@ void func_021DD128(char *p, char *q)
         char *slot;
         *(int *)(p + 0xe4) = 1;
         if (!*(void **)(p + 0x18))
-            *(void **)(p + 0x18) = func_021FD12C(*(int *)(q + 0x10), *(int *)(p + 4), *(u16 *)(p + 0xb4));
-        func_021FD170(*(void **)(p + 0x18), *(int *)(q + 0x10), 0x14f);
-        func_021FB964(*(int *)(q + 0x10), 30, *(u16 *)(p + 0xb4));
+            *(void **)(p + 0x18) = func_021FD12C(*(int *)(q + 0x10), (void *)(*(int *)(p + 4)), *(u16 *)(p + 0xb4));
+        func_021FD170(*(void **)(p + 0x18), (char *)(*(int *)(q + 0x10)), (void *)0x14f);
+        func_021FB964((void *)(*(int *)(q + 0x10)), 30, *(u16 *)(p + 0xb4));
         first = func_021FC20C(*(char **)(q + 0x10));
         second = func_021FC214(*(char **)(q + 0x10));
         for (i = 0; i < 2; i++) {
             rec = &d_021E32A8[i];
             slot = p + i * 4;
-            *(void **)(slot + 0x28) = func_021FC6A4(4, rec->a, rec->b, rec->c, rec->d, 14, *(int *)(p + 4), *(u16 *)(p + 0xb4));
-            func_021FC754(*(void **)(slot + 0x28), second, rec->value, first, 0x3da0);
+            *(void **)(slot + 0x28) = func_021FC6A4(4, rec->a, rec->b, rec->c, rec->d, 14, (void *)(*(int *)(p + 4)), *(u16 *)(p + 0xb4));
+            func_021FC754(*(void **)(slot + 0x28), (void *)second, (void *)rec->value, (void *)first, 0x3da0);
         }
     }
 }

@@ -22,9 +22,9 @@ typedef unsigned int u32;
 extern void func_021BF6CC(u8 *,u8,u8);
 extern void func_021B9BEC(u8 *p, int id);
 extern int func_021BAC0C(u8 *p);
-extern int func_021B9C74(void *);
+extern int func_021B9C74(unsigned int a);
 extern void func_021BD7A0(u8 *,void (*)(void));
-extern void func_021BF4C4(void);
+extern int func_021BF4C4(u8 *p, int *q);
 extern void func_021BF500(u8 *);
 void func_021BF608(u8 *p,u32 *q) {
     switch(*q) {
@@ -32,9 +32,9 @@ void func_021BF608(u8 *p,u32 *q) {
     case 1:
         switch(func_021BAC0C(*(void **)(p+20))) {
         case 0: func_021B9BEC(*(void **)(p+20),23); *q=2; break;
-        case 1: func_021BD7A0(p,func_021BF4C4); *q=2; break;
+        case 1: func_021BD7A0(p,(void (*)(void))func_021BF4C4); *q=2; break;
         }
         break;
-    case 2: if(func_021B9C74(*(void **)(p+20))) func_021BF500(p); break;
+    case 2: if(func_021B9C74((unsigned int)(*(void **)(p+20)))) func_021BF500(p); break;
     }
 }

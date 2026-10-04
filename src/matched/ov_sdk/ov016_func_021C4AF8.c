@@ -37,7 +37,7 @@ extern void func_021C4C14();
 extern void func_021C4C18();
 extern int func_021C0900();
 extern void func_021D7744(unsigned int idx, void *r4);
-extern void func_021C0E40();
+extern void func_021C0E40(unsigned int v);
 extern void func_021D0014();
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021CFFAC(unsigned int v);
@@ -60,7 +60,7 @@ void func_021C4AF8(void)
         g_021DE5CC.way = 1;
         func_021D7744(1, g_021DE5CC.task);
         g_021DE5CC.task = 0;
-        func_021C0E40(func_021C4E4C);
+        func_021C0E40((unsigned int)func_021C4E4C);
         return;
     case 2:
         if (g_021DE5CC.task == 0)
@@ -71,7 +71,7 @@ void func_021C4AF8(void)
         func_021BCB9C();
         func_021D7744(1, g_021DE5CC.task);
         g_021DE5CC.task = 0;
-        func_021C0E40(func_021C4E00);
+        func_021C0E40((unsigned int)func_021C4E00);
         return;
     }
 }

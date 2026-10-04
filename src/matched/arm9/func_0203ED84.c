@@ -18,19 +18,22 @@ struct S {
     unsigned int b : 30;
 };
 extern int *g_021469F4;
-extern int func_0203996C(int v);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_0203D4D0(int a0, int a1, int a2, int a3, void *a4, int a5, int a6, int a7);
+extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 void func_0203ED84(int a0)
 {
     struct S sv;
     int t;
     if (*(int *)((char *)g_021469F4 + 0x2c) == 1)
-        t = func_0203996C(0xff);
+        t = (int)func_0203996C(0xff);
     else
         t = (int)func_020399A8();
     sv.a = a0;
     sv.b = *(int *)((char *)g_021469F4 + 0x24);
-    func_0203D4D0(t, *(u8 *)((char *)g_021469F4 + 0x28), 0xf, 4, &sv, 0, 1, 0);
+    func_0203D4D0(t, *(u8 *)((char *)g_021469F4 + 0x28), 0xf, 4, (u32)(&sv), 0, 1, 0);
 }

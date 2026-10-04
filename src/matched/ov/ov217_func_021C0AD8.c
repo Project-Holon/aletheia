@@ -30,11 +30,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0204A48C();
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern u8 d_021C3F64[];
 extern u8 d_021C3F9C[];
 void func_021C0AD8(u32 a0)
 {
-    func_0204A48C(d_021C3F64, d_021C3F9C, *(u16*)(((u8*)a0 + 0)));
+    func_0204A48C((const struct Cfg *)d_021C3F64, (u32)d_021C3F9C, *(u16*)(((u8*)a0 + 0)));
 }
 

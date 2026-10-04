@@ -15,10 +15,10 @@
  *   func_0218402C  0x0218402C  arm
  */
 
-extern void func_0218402C(int d, int e);
+extern void func_0218402C(char *format, char *args);
 
 void func_0217D188(int a, int b, int c, int d, int e)
 {
-    func_0218402C(d, e);
+    func_0218402C((char *)d, (char *)e);
 }
 

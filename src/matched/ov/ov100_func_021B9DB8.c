@@ -16,11 +16,14 @@
  */
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_02039338(void);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u16 func_02039338(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
-extern void func_021B95B8(int,void (*)(void));
-extern void func_021B9D6C(void);
+extern void func_021B95B8(u8 *p, u32 v);
+extern void func_021B9D6C(int a);
 void func_021B9DB8(int a) {
  if(func_02039CB4((struct Link *)func_020399A8(),0x7c,12)!=0) {
   int i=func_02039338();
@@ -32,6 +35,6 @@ void func_021B9DB8(int a) {
    break;
   }
   }
-  func_021B95B8(a,func_021B9D6C);
+  func_021B95B8((u8 *)a,(u32)func_021B9D6C);
  }
 }

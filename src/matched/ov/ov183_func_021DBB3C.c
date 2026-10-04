@@ -31,9 +31,9 @@ struct PrintSys;
 extern void func_020409B4(u32 index);
 extern void func_021FD15C(void *,int);
 extern void func_021FD820(char *);
-extern void func_021FD714(int);
+extern void func_021FD714(void *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02025588(int);
+extern void func_02025588(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 int func_021DBB3C(int task,int b,char *q,char *p)
@@ -52,9 +52,9 @@ int func_021DBB3C(int task,int b,char *q,char *p)
         *(void **)(p+0x18)=0;
     }
     for(i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+0xc));
-    func_021FD714(*(int *)(p+8));
+    func_021FD714((void *)(*(int *)(p+8)));
     func_0201C4C0(*(void **)(p+4));
-    func_02025588(*(int *)p);
+    func_02025588((void *)(*(int *)p));
     func_020315D4((struct S020315D4 *)task);
     return 1;
 }

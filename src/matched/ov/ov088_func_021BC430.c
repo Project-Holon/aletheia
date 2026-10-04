@@ -56,7 +56,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 func_02008414(const struct Flags02008414 *p);
 extern void func_0200890C(void *, void *);
 extern void *func_02011EEC(u32, u16, Rec12 *, int);
-extern void func_020312F8(int, void *, void *);
+extern void func_020312F8(u32 a1, u32 a2, u32 a3);
 extern void func_02008450(struct Flags02008450 *p, int on);
 extern void func_0200C324(struct Blk34 *p, u8 v);
 struct S020315D4;
@@ -76,7 +76,7 @@ int func_021BC430(int a, int b, int c, u32 *q)
     func_020070C8(r);
     func_02008414((const struct Flags02008414 *)func_0200873C(r));
     func_0200890C(r, &s);
-    func_020312F8(-1, d_0209DF9C, func_02011EEC(1, s.f0, &s.rec, s.f18));
+    func_020312F8(-1, (u32)d_0209DF9C, (u32)func_02011EEC(1, s.f0, &s.rec, s.f18));
     func_02008450((void *)q[1], t);
     func_0200C324((void *)q[3], h);
     func_020315D4((struct S020315D4 *)a);

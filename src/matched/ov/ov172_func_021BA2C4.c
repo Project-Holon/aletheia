@@ -55,7 +55,8 @@ extern u32  func_021BE0B4(void *c);
 extern void func_021BE2E0(void *c);
 extern void func_021BB54C(void *c, u8 *p);
 extern void func_021BB65C(void *c, u8 *p, int k);
-extern void func_020498F4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+struct CharBuf;
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 a);
 extern void func_02040588(u32 a, u32 b);
 extern u32  func_020275E4(void);
@@ -73,7 +74,7 @@ extern void func_0204B3DC(struct Obj *o, unsigned int k);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
-extern void func_02043B5C(u32 a, u32 b);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02045808(struct U16Vec *vec);
@@ -90,7 +91,7 @@ void func_021BA2C4(void *a0, u8 *p)
     u32 t3;
 
     v = func_021BE00C(a0);
-    func_020498F4(func_021BE010(a0), 0x10, 7, 0, 0, 0, v);
+    func_020498F4((void *)func_021BE010(a0), 0x10, 7, 0, 0, 0, v);
     func_020409B4(7);
     func_02040588(5, 0);
     {
@@ -178,7 +179,7 @@ void func_021BA2C4(void *a0, u8 *p)
     s = (void *)func_021BE03C(a0);
     t3 = func_021BE044(a0);
     *(u32 *)(p + 0x4c) = (u32)func_020450F0(4, 3, 1, 0x1c, 2, 0xa, 1);
-    func_02043B5C((u32)func_02045770(*(void **)(p + 0x4c)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770(*(void **)(p + 0x4c))), 0);
     s = func_02045EC0(s, 0xb);
     func_0201C724(t3, (u32)func_02045770(*(void **)(p + 0x4c)), 1, 0, (u32)s, t1, 0x440);
     func_02045808(s);

@@ -14,12 +14,14 @@
  *   func_0207C9D0  0x0207C9D0  arm
  */
 
-void func_02169510(int h, int *buf);
+typedef unsigned char  u8;
+struct V3;
+void func_02169510(u8 *src, struct V3 *dst);
 void func_0207C9D0(unsigned char *a, int *buf, int b);
 
 void func_0218C6D0(int *p, int b)
 {
     int buf[3];
-    func_02169510(p[0], buf);
+    func_02169510((u8 *)p[0], (struct V3 *)buf);
     func_0207C9D0((unsigned char *)p[3] + 4, buf, b);
 }

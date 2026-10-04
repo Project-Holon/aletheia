@@ -51,28 +51,30 @@ typedef struct B {
     u16 f30;
 } B;
 
-extern u8 *func_021AC1AC(u32 a);
-extern int func_0216E1A4(u32 a, u16 *out);
+struct BbActDesc;
+struct BbActSys;
+extern int func_021AC1AC(u32 a);
+extern int func_0216E1A4(int a0, int a1);
 extern void func_021AC1CC(u32 a, u8 *b);
-extern u32 func_02050340(u32, u32, Desc *, u32, u32);
+extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 extern void func_021AC154(u32 a);
-extern void func_02050804(u32, u32, u32, u32);
-extern void func_0205082C(u32, u32, u32);
-extern void func_020507F0(u32, u32, u32);
+extern void func_02050804(void *p, int idx, u32 v, u16 h);
+extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_020507F0(void *p, int idx, u32 v);
 extern int func_021AC1A0(u32 a);
 extern void func_021AC178(u32 a);
 extern u32 d_021DE050[];
 
 void func_021AC810(u32 a, B *b)
 {
-    u8 *p = func_021AC1AC(a);
+    u8 *p = (u8 *)func_021AC1AC(a);
     Desc s;
     u16 idx;
     u32 h;
     u16 r;
 
     b->blk = *(Blk *)p;
-    func_0216E1A4(*(u32 *)(p + 4), b->f28);
+    func_0216E1A4(*(u32 *)(p + 4), (int)b->f28);
     func_021AC1CC(a, p + 0x14);
     idx = b->blk.w[8];
     s.slot = *(u16 *)(b->blk.w[0] + idx * 2 + 8);
@@ -85,15 +87,15 @@ void func_021AC810(u32 a, B *b)
     s.f1c = 0;
     s.f20 = (u32)b;
     h = *(u32 *)(b->blk.w[0] + 4);
-    b->f30 = func_02050340(h, 0, &s, 1, 0);
+    b->f30 = func_02050340((struct BbActSys *)h, 0, (const struct BbActDesc *)(&s), 1, 0);
     if (b->f30 == 0xFFFF) {
         func_021AC154(a);
         return;
     }
-    func_02050804(h, b->f30, d_021DE050[idx], 1);
+    func_02050804((void *)h, b->f30, d_021DE050[idx], 1);
     r = b->f30;
-    func_0205082C(h, r, 0);
-    func_020507F0(h, r, 1);
+    func_0205082C((void *)h, r, 0);
+    func_020507F0((void *)h, r, 1);
     if (func_021AC1A0(a) == 0)
         b->f0 = 1;
     func_021AC178(a);

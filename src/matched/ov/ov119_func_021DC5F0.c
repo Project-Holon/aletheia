@@ -10,10 +10,11 @@
  * symbols:
  *   func_020076A4 0x020076A4 thumb
  */
-extern int func_020076A4(int);
+typedef unsigned char  u8;
+extern u8 func_020076A4(void *save);
 void func_021DC5F0(char *p)
 {
-    int v = func_020076A4(*(int *)(p + 0x828));
+    int v = func_020076A4((void *)(*(int *)(p + 0x828)));
     *(int *)(p + 0x634) = v * 6 + 2;
     *(int *)(p + 0x630) = v;
     *(int *)(p + 0x638) = v * 0x14 + 0xC;

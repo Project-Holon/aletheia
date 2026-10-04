@@ -87,7 +87,7 @@ extern void func_02034A5C(int id);
 typedef unsigned short u16;
 struct State;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0203192C(void *p, int heap);
+extern u32 func_0203192C(void *a, void *b);
 extern int func_02031AE0(struct State *o, u32 a1);
 extern void func_020319C0(u8 *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -135,7 +135,7 @@ struct SaveCtrl *func_02006F20(int heap)
     c->unk01 = 0;
     c->unk04 = mode;
     c->unk05 = sub;
-    c->unk10 = func_0203192C(g_0209D938, heap);
+    c->unk10 = (void *)func_0203192C(g_0209D938, (void *)heap);
     r = func_02031AE0(c->unk10, 1);
     if ((u32)(r - 1) <= 1 && sub_02008754(c) == 1)
         r = 0;

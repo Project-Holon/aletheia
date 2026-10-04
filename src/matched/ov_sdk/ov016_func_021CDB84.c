@@ -21,12 +21,12 @@
  */
 
 extern int func_021D5580(int lcd);
-extern void func_021C0E40(void (*scene)(void));
+extern void func_021C0E40(unsigned int v);
 extern void func_021CDBA8(void);
 
 void func_021CDB84(void)
 {
     if (func_021D5580(0))
         return;
-    func_021C0E40(func_021CDBA8);
+    func_021C0E40((unsigned int)func_021CDBA8);
 }

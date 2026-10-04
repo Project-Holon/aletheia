@@ -26,7 +26,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8  func_02009584(void *a, u32 b, u32 c);
-extern int func_0200856C(u32 b);
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 struct Sub02009470Obj;
 extern u32 func_02009794(const struct Sub02009470Obj *obj, u32 n);
 
@@ -35,7 +36,7 @@ u8 func_02009590(void *a, u32 b, u32 c)
     u8 res = func_02009584(a, b, c);
 
     if (c == 0) {
-        int r = func_0200856C(b);
+        int r = func_0200856C((const struct Sub0200852CObj *)b);
         if (r == 0) {
             res = 0;
         } else if (func_02009794(a, r) && res != 0) {

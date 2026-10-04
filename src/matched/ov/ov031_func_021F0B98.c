@@ -27,7 +27,9 @@ struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern int func_02035C60(void);
-extern void func_0204B404(int, void *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 int func_021F0B98(char *o)
 {
@@ -52,7 +54,7 @@ int func_021F0B98(char *o)
         else if (y > 0x9C)
             y = 0x9C;
         buf[1] = y;
-        func_0204B404(*(int *)(o + 0x2C), buf, 1);
+        func_0204B404((struct Obj *)(*(int *)(o + 0x2C)), (const struct Vec2 *)buf, 1);
         return 1;
     }
     return 0;

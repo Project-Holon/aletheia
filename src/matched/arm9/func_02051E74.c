@@ -39,7 +39,7 @@ struct Mtx22 { s32 m[4]; };
 extern s16 tbl_020A1B38[];
 extern void MTX_Rot22_(struct Mtx22 *mtx, s32 sinVal, s32 cosVal);
 extern void MTX_ScaleApply22(const struct Mtx22 *src, struct Mtx22 *dst, s32 x, s32 y);
-extern s32 func_0207C778(const void *vec);
+extern long func_0207C778(long v);
 
 void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode)
 {
@@ -49,5 +49,5 @@ void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u
         ang = (u16)((ang * 0xFFFF) / 360);
 
     MTX_Rot22_(mtx, tbl_020A1B38[((s32)ang >> 4) * 2], tbl_020A1B38[((s32)ang >> 4) * 2 + 1]);
-    MTX_ScaleApply22(mtx, mtx, func_0207C778(v1), func_0207C778(v2));
+    MTX_ScaleApply22(mtx, mtx, func_0207C778((long int)v1), func_0207C778((long int)v2));
 }

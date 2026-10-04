@@ -18,7 +18,7 @@
  */
 
 extern void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A3718[];
 
 void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength)
@@ -35,7 +35,7 @@ void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuf
         if (n >= 16)
             n = 16;
         func_0217D280(aReadPos, aHexStr, n);
-        func_0217D254(theCat, theType, theLevel, g_021A3718, aHexStr);
+        func_0217D254(theCat, (char *)theType, theLevel, g_021A3718, aHexStr);
         aBytesLeft -= n;
         aReadPos += n;
     }

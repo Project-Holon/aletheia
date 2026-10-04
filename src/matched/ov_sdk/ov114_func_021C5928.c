@@ -58,11 +58,11 @@ extern void *func_021C569C(unsigned long size, int align);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern int func_02167FA8(char *svl, void *result);
-extern void func_021C56B4(void *ptr);
+extern void func_021C56B4(int a);
 extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *stack,
                           unsigned long stackSize, unsigned long prio);
 extern void func_02085868(void *thread);
-extern void func_021C5724(void *);
+extern void func_021C5724(void);
 
 extern NdState g_021D3B68;
 extern char g_021D3B84[];
@@ -96,11 +96,11 @@ int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd)
     strncpy(g_021D3B68.f18->gamecd, gamecd, 31);
     strncpy(g_021D3B68.f18->passwd, passwd, 31);
     if (func_02167FA8(g_021CF370, g_021D3B68.f18->svl) == 0) {
-        func_021C56B4(g_021D3B68.f18);
+        func_021C56B4((int)g_021D3B68.f18);
         g_021D3B68.f18 = 0;
         return 0;
     }
-    func_020853C0(g_021D3B68.f18->thread, func_021C5724, 0,
+    func_020853C0(g_021D3B68.f18->thread, (void (*)(void *))func_021C5724, 0,
                   g_021D3B68.f18->stack + sizeof(g_021D3B68.f18->stack), 0x800, 0x10);
     func_02085868(g_021D3B68.f18->thread);
     return 1;

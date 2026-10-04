@@ -39,7 +39,7 @@ typedef struct {
 
 extern void func_021D5250(void *cell, int idx, int *x, int *y);
 extern void func_021D1868(int y);
-extern void func_021D771C();
+extern void func_021D771C(char *p, unsigned int v);
 extern void func_021D1C04(void *task);
 extern void func_021D1C5C(void *task);
 extern MemWinT *g_021DE658;
@@ -55,7 +55,7 @@ void func_021D1B78(void *task)
     if (y < 192)
         return;
     if (g_021DE658->dark != 0)
-        func_021D771C(task, func_021D1C04);
+        func_021D771C(task, (unsigned int)func_021D1C04);
     else
-        func_021D771C(task, func_021D1C5C);
+        func_021D771C(task, (unsigned int)func_021D1C5C);
 }

@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern void *func_021BA184(char *p);
 extern int func_021BA25C(u8 *, int, int);
 extern u32 *func_021BA228(u8 *);
-extern u8 *func_021BA208(u8 *);
+extern u32 func_021BA208(u8 *p);
 extern void func_020061E4(u32);
 int func_021B7F00(u8 *p, void *q, u32 a)
 {
@@ -35,7 +35,7 @@ int func_021B7F00(u8 *p, void *q, u32 a)
             *(u32 *)(p + 0x48) = v[1];
             return 1;
         }
-        e = func_021BA208(e);
+        e = (u8 *)func_021BA208(e);
     }
     return 0;
 }

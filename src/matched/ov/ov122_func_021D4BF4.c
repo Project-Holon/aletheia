@@ -24,7 +24,7 @@ struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204BA00(void *, Params *);
 extern void func_0204B9A0(struct Actor *a);
-extern void func_021D4BDC(void);
+extern void func_021D4BDC(char *p);
 extern void func_021D4BF0(void);
 extern void func_021D4244(char *, void *, int);
 void func_021D4BF4(char *p)
@@ -35,7 +35,7 @@ void func_021D4BF4(char *p)
     i = *(int *)(p + 0x35c);
     args.f00 = 0;
     args.f04 = p;
-    args.f08 = func_021D4BDC;
+    args.f08 = (void (*)(void))func_021D4BDC;
     if (i == 3) i = 0;
     else if (i == 4) i = 1;
     base = (void **)(p + 0x390);

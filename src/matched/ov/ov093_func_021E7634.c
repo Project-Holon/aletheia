@@ -27,9 +27,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 extern int func_021D775C(int);
-extern void *func_021C7CF4(int, int);
-extern int func_021C8374(int, int);
-extern int func_021C8234(int, int);
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021C8374(u8 *p, int i);
+extern int func_021C8234(u8 *p, int i);
 struct Unk021D62A8;
 struct UtilWork;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
@@ -39,7 +39,7 @@ extern u8 *func_021C88A4(int, int, int);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
-extern void func_021C88C8(int, u8 *);
+extern void func_021C88C8(void *a, void *b);
 extern int d_021F274C[];
 void func_021E7634(int a, int b, int c)
 {
@@ -49,17 +49,17 @@ void func_021E7634(int a, int b, int c)
     u8 *p;
     if (c == func_021D775C(3)) {
         k = func_021D775C(6);
-        x = func_021C7CF4(b, k);
+        x = func_021C7CF4((int *)b, k);
         flag = 0;
-        if (func_021C8374(b, k) == 0) {
-            if (func_021C8234(b, k) != 0 && func_021D62C4(x, 0x21) == 0) {
+        if (func_021C8374((u8 *)b, k) == 0) {
+            if (func_021C8234((u8 *)b, k) != 0 && func_021D62C4(x, 0x21) == 0) {
                 p = func_021C88A4(b, 12, c);
                 p[15] = k;
                 *(int *)(p + 4) = 0x1f;
                 *(Word *)(p + 8) = func_021E89C0(0x1f);
                 func_021C8838(p + 20, 2, 0x468);
                 func_021C8860((struct S *)(p + 20), k);
-                func_021C88C8(b, p);
+                func_021C88C8((void *)b, p);
                 flag = 1;
                 if (func_021D62C4(x, 0x1e) != 0) {
                     p = func_021C88A4(b, 11, c);
@@ -67,7 +67,7 @@ void func_021E7634(int a, int b, int c)
                     p[8] = k;
                     p[21] = 1;
                     *(int *)(p + 4) = 0x1e;
-                    func_021C88C8(b, p);
+                    func_021C88C8((void *)b, p);
                 }
                 if (func_021D62C4(x, 0x20) != 0) {
                     p = func_021C88A4(b, 11, c);
@@ -75,7 +75,7 @@ void func_021E7634(int a, int b, int c)
                     p[8] = k;
                     p[21] = 1;
                     *(int *)(p + 4) = 0x20;
-                    func_021C88C8(b, p);
+                    func_021C88C8((void *)b, p);
                 }
             }
             if (func_021D5BDC(x, 3) != 0) {
@@ -86,7 +86,7 @@ void func_021E7634(int a, int b, int c)
                     func_021C8838(p + 12, 2, 0x468);
                     func_021C8860((struct S *)(p + 12), k);
                 }
-                func_021C88C8(b, p);
+                func_021C88C8((void *)b, p);
             }
         }
     }

@@ -29,10 +29,10 @@ typedef struct {
 
 extern u32 func_020056EC(u32 v);
 extern void func_0204B908(int, u16);
-extern int *func_021A21B8(int);
+extern int *func_021A21B8(int *p);
 extern int func_021A21C8(int, int);
-extern int *func_021A2630(int);
-extern int func_021A2638(int);
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
 extern void func_021A2654(int, Pt *);
 
 void func_021EEA34(int a, int n, int idx)
@@ -44,14 +44,14 @@ void func_021EEA34(int a, int n, int idx)
     int h;
     Pt pt;
 
-    q = func_021A21B8(a);
+    q = func_021A21B8((int *)a);
     for (i = 0; i < n; i++) {
         obj = func_021A21C8(a, idx);
         if (obj == 0) {
             return;
         }
-        e = func_021A2630(obj);
-        h = func_021A2638(obj);
+        e = (int *)func_021A2630((unsigned char *)obj);
+        h = func_021A2638((unsigned char *)obj);
         func_0204B908(h, func_020056EC(4));
         e[4] = 0;
         e[5] = 0;

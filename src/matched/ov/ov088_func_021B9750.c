@@ -51,7 +51,7 @@ extern void func_021B9C08(void *p);
 extern void func_021B99EC(void *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int  func_0204E804(void);
-extern void func_02005DAC(int a);
+extern void func_02005DAC(void *arg);
 extern u32  func_02006BD0(u32 a);
 extern void func_02005E30(u32 a);
 extern int  func_02005E50(void);
@@ -73,7 +73,7 @@ int func_021B9750(int a0, int a1, int a2, char *p)
         func_0204E720(3, 0x10, 0, 2);
         *(u32 *)(p + 0x8C) = 0;
         *(u16 *)p = 2;
-        func_02005DAC(0x3EF);
+        func_02005DAC((void *)0x3EF);
         break;
     case 2:
         if (func_0204E804() == 0) {

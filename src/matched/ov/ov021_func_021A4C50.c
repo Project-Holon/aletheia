@@ -21,17 +21,17 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_0216D5F8(u32);
-extern u32 func_0216D4B4(u32);
+extern u16 func_0216D5F8(void *p);
+extern void func_0216D4B4(char *p);
 extern int func_0216D3CC(int a0);
 extern int func_021A4B98(u32, u32, u32);
 extern int func_021A4B54(u32, u32, u32);
 
 int ov021_func_021A4C50(u32 a, u32 b, u8 *c)
 {
-    u32 r = func_0216D5F8(b);
+    u32 r = func_0216D5F8((void *)b);
     if (*(u16 *)(c + 8) != 9 && *(u16 *)(c + 8) != r) {
-        func_0216D4B4(b);
+        func_0216D4B4((char *)b);
         return func_021A4B98(a, b, (u32)c);
     }
     if (func_0216D3CC(b) == 0) {

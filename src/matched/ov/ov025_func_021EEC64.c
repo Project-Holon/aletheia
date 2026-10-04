@@ -17,8 +17,8 @@
  *   func_021A2248  0x021A2248  thumb  ov021
  */
 
-extern int *func_021A21B8(int);
-extern int func_021A2248(int, int);
+extern int *func_021A21B8(int *p);
+extern int func_021A2248(unsigned char *o, int arg);
 extern void func_021EEE04(int, int, int);
 extern void func_021EEEE0(int, int *);
 extern int d_021EF770[];
@@ -27,8 +27,8 @@ int func_021EEC64(int a, int b, int c)
 {
     int *p;
 
-    p = func_021A21B8(a);
-    if (func_021A2248(a, c) != 0) {
+    p = func_021A21B8((int *)a);
+    if (func_021A2248((unsigned char *)a, c) != 0) {
         if (d_021EF770[p[1] / 256] <= -8) {
             func_021EEE04(a, 1, c);
         }

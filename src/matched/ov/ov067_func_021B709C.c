@@ -21,9 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0204B3B4(u32 h);
+struct Descriptor;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_021B6284(void *p);
-extern void func_020452E8(u32 h);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020307B0(void *p);
 
@@ -33,11 +35,11 @@ void func_021B709C(u8 *p)
     u32 v;
 
     for (i = 0; i < 4; i++) {
-        func_0204B3B4(*(u32 *)(p + i * 4 + 0xa0));
+        func_0204B3B4((struct Obj *)(*(u32 *)(p + i * 4 + 0xa0)));
     }
     func_021B6284(p + 0xb0);
-    func_020452E8(*(u32 *)(p + 0x88));
-    func_020452E8(*(u32 *)(p + 0x8c));
+    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x88)));
+    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x8c)));
     v = *(u32 *)(p + 0x84);
     func_0203FB44(p[0x14], (u16)v, (u16)(v >> 16));
     func_020307B0(p);

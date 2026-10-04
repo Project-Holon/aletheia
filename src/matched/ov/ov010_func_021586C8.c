@@ -18,19 +18,22 @@
  *   func_02008500  0x02008500  thumb
  */
 
-extern char *func_02158344(int);
-extern int func_02026478(int);
+typedef unsigned int   u32;
+struct Rec44;
+struct Sub24;
+extern int func_02158344(int a0);
+extern u32 func_02026478(void *obj);
 extern int func_02175B14(void *);
 extern int func_02176230(void *, void *);
-extern int func_02012950(int, int);
-extern void func_02008500(int, int);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern void func_02008500(void *a, void *b);
 
 int func_021586C8(int a, int b)
 {
-    char *q = func_02158344(a);
-    int r = func_02026478(a);
+    char *q = (char *)func_02158344(a);
+    int r = func_02026478((void *)a);
     if (q == 0 || func_02175B14(q + 0x1AC) == 0)
         return 0;
-    func_02008500(func_02012950(r, func_02176230(q, q + 0x1AC)), b);
+    func_02008500(func_02012950((struct Sub24 *)r, func_02176230(q, q + 0x1AC)), (void *)b);
     return 1;
 }

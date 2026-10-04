@@ -22,13 +22,13 @@ extern void *func_0215A5F4(void *p);
 typedef unsigned char  u8;
 extern u32 func_02158F78(u8 *p);
 extern int func_0215A61C(int a0);
-extern u32 func_02191BE8(u32, u32);
+extern u32 func_02191BE8(u32 *p, u32 b);
 
 int func_021B1240(u32 a, u32 b)
 {
     u32 x = func_02158F78(func_0215A5F4((void *)b));
 
-    if (func_02191BE8(func_0215A61C(b), x) == 1) {
+    if (func_02191BE8((u32 *)func_0215A61C(b), x) == 1) {
         return 1;
     }
     return 0;

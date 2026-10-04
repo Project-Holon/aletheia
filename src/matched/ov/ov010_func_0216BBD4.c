@@ -33,7 +33,7 @@ extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_021F39B8();
-extern void func_0215897C();
+extern void func_0215897C(void *vm, void *task);
 
 int func_0216BBD4(int c, int vm)
 {
@@ -76,6 +76,6 @@ int func_0216BBD4(int c, int vm)
     if (r == 0) {
         return 1;
     }
-    func_0215897C(ws, r);
+    func_0215897C(ws, (void *)r);
     return 1;
 }

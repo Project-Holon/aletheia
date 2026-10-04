@@ -30,7 +30,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0216D69C();
+extern void *func_0216D69C(void *p);
 extern int func_0219EAB8();
 extern int func_0219EB18();
 extern int func_0219EB4C(u32 o);
@@ -44,7 +44,7 @@ extern int func_0219EF04();
 
 int func_0219E854(u32 o)
 {
-    return func_0219EAB8(func_0216D69C(o), o);
+    return func_0219EAB8(func_0216D69C((void *)o), o);
 }
 
 int func_0219E864(u32 o) { return func_0219EB18(o, 0); }

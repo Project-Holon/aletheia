@@ -29,7 +29,8 @@ extern void func_02209C18(P *p);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
-extern void func_0204B1CC(int h);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *p);
 
 void func_02209B30(P *p)
@@ -39,6 +40,6 @@ void func_02209B30(P *p)
     func_0204A8D4(p->fc);
     func_0204AFD8(p->f14);
     func_0204ADA4(p->f10);
-    func_0204B1CC(p->h0);
+    func_0204B1CC((struct Bank *)p->h0);
     func_020307B0(p);
 }

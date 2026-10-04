@@ -18,9 +18,9 @@
 
 typedef unsigned int u32;
 
-extern void func_021F0108(u32);
+extern void func_021F0108(int *p);
 
 void func_021A1548(u32 *p)
 {
-    func_021F0108(p[8]);
+    func_021F0108((int *)p[8]);
 }

@@ -13,9 +13,10 @@
  *   func_021B622C  0x021B622C  thumb  ov174
  */
 
-extern int func_021B622C(int);
+typedef unsigned char  u8;
+extern int func_021B622C(u8 *p);
 
 int func_021B6C5C(int a, int b, int c, int d)
 {
-    return func_021B622C(d) == 1;
+    return func_021B622C((u8 *)d) == 1;
 }

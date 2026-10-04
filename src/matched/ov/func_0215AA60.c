@@ -27,7 +27,7 @@ struct Sub02008700Obj;
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int func_020083E4();
+extern int func_020083E4(unsigned short *p);
 extern int func_020083EC();
 
 int func_0215AA60(int a0, int a1)
@@ -43,7 +43,7 @@ loc_0215AA68:
 loc_0215AA6C:
     t4 = func_0200873C(p);
 loc_0215AA70:
-    a0 = func_020083E4(t4);
+    a0 = func_020083E4((short unsigned int *)t4);
 loc_0215AA76:
 a1 = a0 + 0;
     if (a1 != 0) goto loc_0215AA7E;

@@ -19,20 +19,21 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_021C09AC(void *p);
-extern void *func_021BFA14(void *a);
+typedef unsigned int   u32;
+extern u32 func_021C09AC(void *p);
+extern u32 func_021BFA14(u32 a0);
 extern void func_021BFA30(char *p);
 extern void func_021BF74C(void *a, void *b);
-extern void func_021BF754(void *a, void *b);
+extern void func_021BF754(void *p, u32 v);
 
 void *func_021BD5F4(void *p)
 {
     void *r;
     void *a;
-    a = func_021C09AC(p);
-    r = func_021BFA14(a);
+    a = (void *)func_021C09AC(p);
+    r = (void *)func_021BFA14((u32)a);
     func_021BFA30(r);
     func_021BF74C(r, a);
-    func_021BF754(r, p);
+    func_021BF754(r, (u32)p);
     return r;
 }

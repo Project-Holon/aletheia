@@ -27,7 +27,7 @@ struct Obj;
 extern char *g_02146940;
 
 extern int  func_0203CD98(void);
-extern void *func_02012FCC(u32 game);
+extern int func_02012FCC(int p0);
 struct PlayTime;
 extern u16 func_0200864C(const struct PlayTime *p);
 extern void func_020272EC(s32 a);
@@ -47,7 +47,7 @@ void func_02026728(void)
         return;
     }
     if (*(u32 *)p != 0) {
-        v = func_0200864C(func_02012FCC(*(u32 *)p));
+        v = func_0200864C((const struct PlayTime *)func_02012FCC(*(u32 *)p));
         if (*(u16 *)(p + 0xbb0) != v) {
             switch (v) {
             case 0xa:

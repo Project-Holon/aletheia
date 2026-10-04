@@ -88,12 +88,14 @@ extern void func_020355D8(u8 v);
 extern void func_021FEAE0(Work *p, int i);
 extern int func_021FE9B0(Work *p);
 extern void *func_0201ADE4(u32 a, int b, u32 heap);
-extern u32 func_0201AE1C(u32 h, u32 k);
-extern void func_0201AE14(u32 h);
+struct Obj;
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern void func_0201AE14(void *p);
 extern int func_021F7B9C(Rec *p, u32 event);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B878(u32, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020061E4(u32 se);
 extern int func_021FF4D0(Rec *x, Rec *y, u32 m, u32 n);
 extern u32 func_020362DC(void);
@@ -112,19 +114,19 @@ int func_021FE338(Work *p)
         case 1:
             if (p->rec[0].a != 0) {
                 u32 h = (u32)func_0201ADE4((u16)p->rec[0].a, 0, 0x48);
-                u32 v = func_0201AE1C(h, 0x14);
-                func_0201AE14(h);
+                u32 v = func_0201AE1C((const struct Personal *)h, 0x14);
+                func_0201AE14((void *)h);
                 p->st->f20 = v;
                 if (func_021F7B9C(&p->rec[0], p->st->f20) != 0) {
                     func_0204B3DC((struct Obj *)p->cursor, 1);
-                    func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                    func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                     func_020061E4(0x557);
                     return 2;
                 }
             }
             func_0204B3DC((struct Obj *)p->cursor, 1);
             func_020061E4(0x54C);
-            func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
             p->next = 0x23;
             break;
         case 5:
@@ -134,18 +136,18 @@ int func_021FE338(Work *p)
                 func_020061E4(0x54C);
             }
             func_0204B3DC((struct Obj *)p->cursor, 1);
-            func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
             p->next = 0x23;
             break;
         case 4:
             if (p->fD0 != 0) {
                 func_0204B3DC((struct Obj *)p->cursor, 1);
                 func_020061E4(0x54C);
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 p->next = 0x23;
             } else {
                 func_0204B3DC((struct Obj *)p->cursor, 1);
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 func_020061E4(0x557);
                 p->next = 0x25;
             }
@@ -157,7 +159,7 @@ int func_021FE338(Work *p)
             } else {
                 func_020061E4(0x54C);
             }
-            func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
             p->next = 0x23;
             break;
         }
@@ -174,19 +176,19 @@ int func_021FE338(Work *p)
             case 1:
                 if (p->rec[0].a != 0) {
                     u32 h = (u32)func_0201ADE4((u16)p->rec[0].a, 0, 0x48);
-                    u32 v = func_0201AE1C(h, 0x14);
-                    func_0201AE14(h);
+                    u32 v = func_0201AE1C((const struct Personal *)h, 0x14);
+                    func_0201AE14((void *)h);
                     p->st->f20 = v;
                     if (func_021F7B9C(&p->rec[0], p->st->f20) != 0) {
                         func_0204B3DC((struct Obj *)p->cursor, 1);
-                        func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                        func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                         func_020061E4(0x557);
                         return 2;
                     }
                 }
                 func_0204B3DC((struct Obj *)p->cursor, 1);
                 func_020061E4(0x54C);
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 p->next = 0x23;
                 break;
             case 5:
@@ -195,17 +197,17 @@ int func_021FE338(Work *p)
                 } else {
                     func_020061E4(0x54C);
                 }
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 p->next = 0x23;
                 break;
             case 4:
                 if (p->fD0 != 0) {
                     func_020061E4(0x54C);
-                    func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                    func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                     p->next = 0x23;
                 } else {
                     func_0204B3DC((struct Obj *)p->cursor, 1);
-                    func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                    func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                     func_020061E4(0x557);
                     p->next = 0x25;
                 }
@@ -216,14 +218,14 @@ int func_021FE338(Work *p)
                 } else {
                     func_020061E4(0x54C);
                 }
-                func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 p->next = 0x23;
                 break;
             }
         } else if (func_020362DC() & 2) {
             p->st->page = 1;
             p->st->row1 = 2;
-            func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
             p->next = 0x24;
             func_020061E4(0x551);
         }

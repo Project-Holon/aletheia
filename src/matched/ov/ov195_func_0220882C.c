@@ -16,9 +16,9 @@
  */
 void func_0220882C(int *p)
 {
-    void func_02208A2C(int);
+    void func_02208A2C(char *p);
 
-    func_02208A2C(p[4]);
+    func_02208A2C((char *)p[4]);
     p[2] = 1;
     p[3] = 0x26c;
 }

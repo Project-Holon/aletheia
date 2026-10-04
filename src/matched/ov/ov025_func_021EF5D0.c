@@ -20,19 +20,20 @@
 
 typedef signed short s16;
 
-extern int *func_021A2630(int);
-extern int *func_021A2638(int);
+typedef unsigned int   u32;
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
-extern void func_021A21E0(int);
+extern void func_021A21E0(u32 *p);
 
 void func_021EF5D0(int a)
 {
     int *p;
     s16 v[2];
 
-    p = func_021A2630(a);
-    func_021A2638(a);
+    p = (int *)func_021A2630((unsigned char *)a);
+    func_021A2638((unsigned char *)a);
     func_021A2640((unsigned char *)a, (struct PtS *)v);
     *p = *p + 1;
     if (*p % p[4] == 0) {
@@ -42,6 +43,6 @@ void func_021EF5D0(int a)
         v[1] = v[1] + (s16)p[3];
     }
     if (*p >= p[1]) {
-        func_021A21E0(a);
+        func_021A21E0((u32 *)a);
     }
 }

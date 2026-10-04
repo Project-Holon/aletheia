@@ -63,8 +63,10 @@ extern const char func_02049250_Msg[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
-extern void func_02078B44(struct ArcFile *arc, u32 pos, u32 origin);
-extern void func_02078B70(struct ArcFile *arc, void *dst, u32 size);
+typedef signed int     s32;
+struct FSFile;
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
 void *func_02049250(struct ArcFile *arc, u32 member, u32 heap)
 {
@@ -76,13 +78,13 @@ void *func_02049250(struct ArcFile *arc, u32 member, u32 heap)
                       arc->count, member);
     }
 
-    func_02078B44(arc, arc->fatOffset + 0xc + member * 8, 0);
-    func_02078B70(arc, range, 8);
-    func_02078B44(arc, arc->imageBase + 8 + range[0], 0);
+    func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + member * 8, 0);
+    func_02078B70((struct FSFile *)arc, range, 8);
+    func_02078B44((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
 
     buf = func_02030734(heap, range[1] - range[0], 0, func_02049250_File, 619);
     if (buf != 0) {
-        func_02078B70(arc, buf, range[1] - range[0]);
+        func_02078B70((struct FSFile *)arc, buf, range[1] - range[0]);
     }
     return buf;
 }

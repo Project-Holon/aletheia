@@ -22,7 +22,8 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_021D67A8(void *);
+struct QL;
+extern u16 func_021D67A8(struct QL *p);
 
 void func_0218A324(u8 *p)
 {
@@ -32,10 +33,10 @@ void func_0218A324(u8 *p)
     s = func_0218A2FC(p, p[0x95]);
     for (i = 0; i < 4; i++) {
         h = *(u16 *)(p + p[0x95] * 8 + i * 2 + 0x4c);
-        if (h == func_021D67A8(s))
+        if (h == func_021D67A8((struct QL *)s))
             return;
         if (h == 0) {
-            *(u16 *)(p + p[0x95] * 8 + 0x4c + i * 2) =func_021D67A8(s);
+            *(u16 *)(p + p[0x95] * 8 + 0x4c + i * 2) =func_021D67A8((struct QL *)s);
             return;
         }
     }

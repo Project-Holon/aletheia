@@ -20,8 +20,8 @@
  *   func_021D56D4 0x021D56D4 thumb ov175
  *   func_021D5560 0x021D5560 thumb ov175
  */
-extern void func_021E8AA0(unsigned,void *);
-extern int func_021E8844(unsigned);
+extern void func_021E8AA0(int *p, int v);
+extern int func_021E8844(const int *p);
 extern void func_021E8AB8(unsigned);
 extern void func_021E8AB4(unsigned,unsigned);
 extern void func_021E8738(int *,int,int,int);
@@ -46,11 +46,11 @@ void func_021D5634(unsigned sys,int *state,int *p)
         if(result!=-1) {
             func_021D65C8((char *)p);
             switch(result) {
-            case 0: func_021DA36C((void *)p[12]); func_021E8AA0(sys,func_021D56D4); break;
-            case 1: func_021E8AA0(sys,func_021D5560); break;
+            case 0: func_021DA36C((void *)p[12]); func_021E8AA0((int *)sys,(int)func_021D56D4); break;
+            case 1: func_021E8AA0((int *)sys,(int)func_021D5560); break;
             }
         }
         break;
-    case 3: if(func_021E8844(p[9])) func_021E8AB8(sys); break;
+    case 3: if(func_021E8844((const int *)p[9])) func_021E8AB8(sys); break;
     }
 }

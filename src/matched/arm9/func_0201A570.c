@@ -29,8 +29,10 @@
 
 typedef unsigned int u32;
 
-extern void func_02045808(u32 a0);
-extern void func_02045C04(u32 a0);
+struct Rec;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *a0);
 
 void func_0201A570(void *a0)
@@ -38,9 +40,9 @@ void func_0201A570(void *a0)
     int i;
 
     for (i = 0; i < 6; i++) {
-        func_02045808(*(u32 *)((char *)a0 + i * 4 + 4));
-        func_02045808(*(u32 *)((char *)a0 + i * 4 + 0x1C));
+        func_02045808((struct U16Vec *)(*(u32 *)((char *)a0 + i * 4 + 4)));
+        func_02045808((struct U16Vec *)(*(u32 *)((char *)a0 + i * 4 + 0x1C)));
     }
-    func_02045C04(*(u32 *)a0);
+    func_02045C04((struct Rec *)(*(u32 *)a0));
     func_020307B0(a0);
 }

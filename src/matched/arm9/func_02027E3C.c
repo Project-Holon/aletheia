@@ -27,7 +27,8 @@ typedef unsigned int   u32;
 
 extern int  func_02035C08(const void *key);
 extern void func_020355D8(u8 v);
-extern void func_02027B30(u32 item, u32 sub, int self);
+struct S;
+extern void func_02027B30(u32 a0, struct S *s, int mode);
 extern void func_020061E4(u32 id);
 
 void func_02027E3C(u8 *m)
@@ -61,10 +62,10 @@ void func_02027E3C(u8 *m)
     }
     one = 1;
     func_020355D8(one);
-    func_02027B30(((u32 *)*(u32 **)(m + 0x18))[m[0]], *(u32 *)(m + 0x34), 0);
+    func_02027B30(((u32 *)*(u32 **)(m + 0x18))[m[0]], (struct S *)(*(u32 *)(m + 0x34)), 0);
     m[0] = (u8)hit;
     *(int *)(m + 0xC) = one;
-    func_02027B30(((u32 *)*(u32 **)(m + 0x18))[m[0]], *(u32 *)(m + 0x34), one);
+    func_02027B30(((u32 *)*(u32 **)(m + 0x18))[m[0]], (struct S *)(*(u32 *)(m + 0x34)), one);
     if (m[0] == 0) {
         func_020061E4(0x54C);
         return;

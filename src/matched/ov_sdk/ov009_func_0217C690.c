@@ -18,14 +18,14 @@
 
 struct SOCSockAddrIn { unsigned char len; unsigned char family; unsigned short port; unsigned long addr; };
 struct SOCHostEnt { char *name; char **aliases; short addrType; short length; unsigned char **addrList; };
-extern unsigned long func_0217ED38(char *name);
+extern int func_0217ED38(int a);
 extern struct SOCHostEnt *func_0215F650(char *name);
 int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
 {
     struct SOCHostEnt *host;
     saddr->family = 2;
     saddr->port = (unsigned short)((((unsigned short)port >> 8) & 0xff) | (((unsigned short)port << 8) & 0xff00));
-    saddr->addr = func_0217ED38(hostname);
+    saddr->addr = func_0217ED38((int)hostname);
     if (saddr->addr == 0xFFFFFFFF) {
         host = func_0215F650(hostname);
         if (host == 0) return 0;

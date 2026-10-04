@@ -105,15 +105,16 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200CA1C(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern u32 func_0200873C(void *p);
+struct Sub02008700Obj;
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 func_0201293C(const struct BigObj *p);
 extern void *func_02012934(const struct BigObj *p);
-extern u32 func_0201292C(void *p);
+extern void *func_0201292C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern void *func_0200BAC8(void *p);
-extern void *func_0200BAF4(void *p, int n);
+extern void *func_0200BAF4(int a0, int a1);
 extern u32 func_0200BBFC(struct Obj *p, u32 mask);
-extern void *func_02014840(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
+extern void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021B4D14(void);
 
@@ -143,21 +144,21 @@ int func_021B4D60(Work021B4D60 *c, void *vm)
     c->w = w;
     c->f04 = func_0201293C(w);
     c->f08 = func_02012934(w);
-    c->f0C = func_0201292C(w);
+    c->f0C = (u32)func_0201292C(w);
     c->f10 = func_02012944(w);
-    c->f18 = func_0200873C(x);
+    c->f18 = (u32)func_0200873C(x);
     c->f1C = func_0200CA38(y);
     c->kind = kind;
     c->f14 = 0;
     if (kind == 4) {
         s = func_0200BAC8(x);
-        c->f08 = func_0200BAF4(s, 4);
+        c->f08 = func_0200BAF4((int)s, 4);
         c->f14 = func_0200BBFC(s, 3);
     }
     h = func_02030734(4, 0xc, 0, d_021DE220, 0x90);
     h->w = w;
     h->name = r7;
     h->work = c;
-    func_0215897C(slot, func_02014840(sys, z, (u32)ov170_id, d_021EF78C, c, (void *)func_021B4D14, h));
+    func_0215897C(slot, func_02014840(sys, (int)z, (u32)ov170_id, (int)d_021EF78C, (int)c, (int)((void *)func_021B4D14), (int)h));
     return 1;
 }

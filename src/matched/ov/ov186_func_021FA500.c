@@ -38,8 +38,10 @@ extern int func_021FA0A8(u8 *,Record *);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_02200D18[];
-extern int func_021FB7B0(int,int),func_021FAFA0(void *,int);
-extern void func_021FACE0(void *),func_021FD73C(void *,void *);
+extern int func_021FB7B0(void *p, int i);
+extern int func_021FAFA0(void *,int);
+extern void func_021FACE0(void *);
+extern void func_021FD73C(int *p, int v);
 extern void func_021FA7FC(void *,int *,u8 *),func_021FA6A8(void *,int *,u8 *);
 void func_021FA500(void *p,int *state,u8 *ctx)
 {
@@ -56,22 +58,22 @@ void func_021FA500(void *p,int *state,u8 *ctx)
   func_02082BCC(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,0,0x44);
   pos[1]=-32;
   func_021FA0FC(ctx,section,pos);
-  func_021FD73C(p,func_021FA7FC);
+  func_021FD73C(p,(int)func_021FA7FC);
  }else if(*(unsigned *)(ctx+0x1c)==2){
   func_021FA210(*(void **)(ctx+0x5c));
   if(func_021FA0A8(ctx,&record)){
    section=func_021FAF24((char *)&record,4);
    if(!record.words[0])func_02034714(d_02200D18,0,d_02200D18);
-   other[0]=func_021FB7B0(record.words[3],0);
-   other[1]=func_021FB7B0(record.words[3],1);
+   other[0]=func_021FB7B0((void *)record.words[3],0);
+   other[1]=func_021FB7B0((void *)record.words[3],1);
    func_021FA0FC(ctx,section,other);
-   y=func_021FB7B0(record.words[3],1);
+   y=func_021FB7B0((void *)record.words[3],1);
    for(i=0;i<ctx[0x39];i++){
-    if(y==func_021FB7B0(*(int *)(*(char **)(ctx+0x40)+i*0x44+0xc),1))
+    if(y==func_021FB7B0((void *)(*(int *)(*(char **)(ctx+0x40)+i*0x44+0xc)),1))
      func_021FAFA0(*(char **)(ctx+0x40)+i*0x44,1);
    }
    func_021FACE0(&record);
-   func_021FD73C(p,func_021FA6A8);
+   func_021FD73C(p,(int)func_021FA6A8);
   }
  }else{
   func_021FA020(ctx,(int)(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44),1);
@@ -80,6 +82,6 @@ void func_021FA500(void *p,int *state,u8 *ctx)
   func_021FA1DC(*(void **)(ctx+0x5c),value,index);
   func_02082BCC(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,0,0x44);
   for(i=0;i<ctx[0x39];i++)func_021FACE0(*(char **)(ctx+0x40)+i*0x44);
-  func_021FD73C(p,func_021FA7FC);
+  func_021FD73C(p,(int)func_021FA7FC);
  }
 }

@@ -34,7 +34,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_0215A5CC();
+extern u16 func_0215A5CC(void *a0);
 extern u8 *func_021664CC();
 extern void func_0217C37C();
 extern void func_020307B0(void *p);
@@ -49,7 +49,7 @@ int func_0216AC40(int a0, int a1)
     w = func_0215A5DC((void *)a1);
     h = func_0201210C((void *)w);
     func_02012138(w);
-    e = func_021664CC(func_0215A5CC(a1), w, &key);
+    e = func_021664CC(func_0215A5CC((void *)a1), w, &key);
     if (e != 0) {
         func_0217C37C(h, key, e, ((Bits *)(e + 0x50))->lo, ((Bits *)(e + 0x50))->hi);
         func_020307B0(e);

@@ -25,7 +25,10 @@ struct Sound;
 struct Struct_02025D1C;
 extern u32 func_020260F0(struct Sound *obj);
 extern void func_021EE3CC(char **p);
-extern void *func_02025CD0(unsigned a0, unsigned a1, void *a2, int a3, unsigned char a4, unsigned short heapId);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Struct_02025CD0;
+extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void func_02025D1C(struct Struct_02025D1C *obj);
 extern void func_021EE408(char **p, int v);
 extern void func_021ED55C(char **p, int flag);
@@ -35,7 +38,7 @@ void func_021EE364(char **p, int idx, int v)
 {
     int r = func_020260F0(*(void **)(p[11] + 0x70));
     func_021EE3CC(p);
-    *(void **)(p[11] + 0x70) = func_02025CD0(d_021F02F0[idx].a, d_021F02F0[idx].b, p, r, v, 0x4C);
+    *(void **)(p[11] + 0x70) = func_02025CD0(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
     func_02025D1C(*(void **)(p[11] + 0x70));
     func_021EE408(p, v);
     func_021ED55C(p, r);

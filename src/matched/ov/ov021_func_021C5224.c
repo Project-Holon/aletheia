@@ -24,7 +24,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021C5334(char *p);
+extern int func_021C5334(u32 a);
 extern void func_020061E4(u32 se);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 typedef unsigned char  u8;
@@ -42,7 +42,7 @@ void func_021C5224(char *p)
     int r;
     int i;
 
-    if (func_021C5334(p) == 0) {
+    if (func_021C5334((u32)p) == 0) {
         return;
     }
     switch (*(u16 *)(p + 0x70)) {

@@ -15,10 +15,10 @@
  */
 
 extern void func_021B9C30(char *);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 
 void func_021B9D20(char *p)
 {
     func_021B9C30(p);
-    func_020307B0(*(int *)(p + 0x2d4));
+    func_020307B0((void *)(*(int *)(p + 0x2d4)));
 }

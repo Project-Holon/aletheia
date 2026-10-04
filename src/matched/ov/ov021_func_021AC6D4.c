@@ -27,24 +27,27 @@ typedef unsigned int   u32;
 
 typedef struct Arg { u32 a; u8 b4, b5, b6, b7; u32 c; } Arg;
 
-extern u32 func_021ABE24(u32 a);
-extern u32 func_021ABE14(u32 a);
-extern u32 func_02188C80(u32 a);
-extern u8 func_021ABE28(u32 a);
-extern u32 func_02046E24(u32 a, u32 b);
-extern void func_021AC1F0(u32 a, u32 b);
-extern u16 func_020500F0(u32 a, Arg *b, u32 c);
+struct BbActRec;
+struct BbActSys;
+struct X;
+extern u32 func_021ABE24(u8 *p);
+extern u32 func_021ABE14(u8 *p);
+extern void *func_02188C80(void *p);
+extern u8 func_021ABE28(u8 *p);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern void func_021AC1F0(struct X *x, void *b);
+extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
 extern u16 d_021D911C[];
 
 void func_021AC6D4(u32 *p)
 {
     Arg s;
     int i;
-    u32 r7 = func_021ABE24(p[0]);
+    u32 r7 = func_021ABE24((u8 *)p[0]);
     u16 *t;
     u32 lv;
-    func_02188C80(func_021ABE14(p[0]));
-    lv = func_021ABE28(p[0]);
+    func_02188C80((void *)func_021ABE14((u8 *)p[0]));
+    lv = func_021ABE28((u8 *)p[0]);
     s.b4 = 0;
     s.b5 = 0x24;
     s.b6 = 0x20;
@@ -52,8 +55,8 @@ void func_021AC6D4(u32 *p)
     s.c = 1;
     t = d_021D911C + lv;
     for (i = 0; i < 8; i++) {
-        s.a = func_02046E24(r7, t[i * 4]);
-        func_021AC1F0(p[0], s.a);
-        ((u16 *)p)[4 + i] = func_020500F0(p[1], &s, 1);
+        s.a = (u32)func_02046E24(r7, t[i * 4]);
+        func_021AC1F0((struct X *)p[0], (void *)s.a);
+        ((u16 *)p)[4 + i] = func_020500F0((struct BbActSys *)p[1], (const struct BbActRec *)(&s), 1);
     }
 }

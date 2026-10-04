@@ -23,8 +23,9 @@ struct Bits { u8 b0 : 1; u8 b1 : 1; u8 b2 : 1; };
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_0215A5D4(int);
-extern int func_0215A5D8(int);
+typedef unsigned int   u32;
+extern u32 func_0215A5D4(void *p);
+extern u32 func_0215A5D8(void *p);
 extern void func_02158DBC(void);
 extern struct Bits d_02170374[];
 
@@ -32,8 +33,8 @@ int func_02158DE8(int a, int b, int c, int idx)
 {
     int m, r;
     func_0201210C((void *)c);
-    func_0215A5D4(b);
-    m = func_0215A5D8(b);
+    func_0215A5D4((void *)b);
+    m = func_0215A5D8((void *)b);
     r = 0;
     switch (m) {
     case 0: r = d_02170374[idx].b0; break;

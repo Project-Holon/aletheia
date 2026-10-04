@@ -18,23 +18,27 @@
  *   func_0216CEAC  0x0216CEAC  thumb  ov010
  */
 
-int func_02012844(int a);
-int func_0201296C(int a);
-int func_02012964(int a);
-int func_02162744(int a);
-int func_02162740(int a);
-void func_0216CEAC(int a, int b, int c, int d, int e);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+u32 func_02012844(const struct BigObj *p);
+u32 func_0201296C(const struct BigObj *p);
+u32 func_02012964(const struct BigObj *p);
+u16 func_02162744(u8 *p);
+u32 func_02162740(u8 *p);
+void func_0216CEAC(u32 a, u8 *p, u32 b, u32 n, u32 c);
 
 void func_021858E4(int a, const short *p)
 {
-    int t = func_02012844(a);
-    int v = func_02162744(t);
+    int t = func_02012844((const struct BigObj *)a);
+    int v = func_02162744((u8 *)t);
 
     if (v != 0) {
-        int r6 = func_0201296C(a);
-        int r5 = func_02012964(a);
-        int r1 = func_02162740(t);
+        int r6 = func_0201296C((const struct BigObj *)a);
+        int r5 = func_02012964((const struct BigObj *)a);
+        int r1 = func_02162740((u8 *)t);
         int s = p[2];
-        func_0216CEAC(r5, r1, s, v, r6);
+        func_0216CEAC(r5, (u8 *)r1, s, v, r6);
     }
 }

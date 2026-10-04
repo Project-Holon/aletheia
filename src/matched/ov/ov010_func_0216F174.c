@@ -19,28 +19,28 @@
  *   func_0216F3B0  0x0216F3B0  thumb
  */
 
-extern int func_0216F244(int a, int b);
-extern int func_0216F288(int a);
-extern int func_0216F2B4(int a);
-extern int func_0216F2E0(int a);
+extern int func_0216F244(char *a, char *b);
+extern int func_0216F288(int *p);
+extern int func_0216F2B4(char *p);
+extern int func_0216F2E0(char *p);
 extern int func_0216F31C(int a);
 extern int func_0216F378(int a);
-extern int func_0216F3B0(int a);
+extern int func_0216F3B0(char *p);
 
 int func_0216F174(int a, int *b, int c, int d)
 {
     switch (*b) {
     case 0:
-        *b = func_0216F244(d, c);
+        *b = func_0216F244((char *)d, (char *)c);
         break;
     case 1:
-        *b = func_0216F288(d);
+        *b = func_0216F288((int *)d);
         break;
     case 2:
-        *b = func_0216F2B4(d);
+        *b = func_0216F2B4((char *)d);
         break;
     case 3:
-        *b = func_0216F2E0(d);
+        *b = func_0216F2E0((char *)d);
         break;
     case 4:
         *b = func_0216F31C(d);
@@ -49,7 +49,7 @@ int func_0216F174(int a, int *b, int c, int d)
         *b = func_0216F378(d);
         break;
     case 6:
-        *b = func_0216F3B0(d);
+        *b = func_0216F3B0((char *)d);
         break;
     case 7:
     default:

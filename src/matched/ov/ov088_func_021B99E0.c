@@ -13,9 +13,10 @@
  *   func_020310C4  0x020310C4  arm
  */
 
-void func_020310C4(int);
+struct Tcbl;
+void func_020310C4(struct Tcbl *p);
 
 void func_021B99E0(int *p)
 {
-    func_020310C4(p[0]);
+    func_020310C4((struct Tcbl *)p[0]);
 }

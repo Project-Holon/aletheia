@@ -67,7 +67,8 @@ typedef struct _SBQueryEngine {
 extern char *g_021A7C90[];
 extern char g_021A8104[];
 
-extern int func_020964E0(const char *s);
+typedef unsigned int   u32;
+extern int func_020964E0(u32 a0);
 extern void func_0219D544(_SBServerFIFO *fifo, _SBServer *server);
 extern void func_0219D5C4(_SBQueryEngine *engine, _SBServer *server);
 extern int func_0219F978(char *buf, int len);
@@ -90,7 +91,7 @@ void func_0219D9D8(_SBQueryEngine *engine, _SBServer *server, char *data, int le
     if (server->state & 0x80) {
         server->state &= (unsigned char)~0x80;
         if (len > 0) {
-            server->querychallenge = (unsigned int)func_020964E0(data);
+            server->querychallenge = (unsigned int)func_020964E0((u32)data);
             func_0219D544(&engine->querylist, server);
             func_0219D5C4(engine, server);
             engine->ListCallback(engine, 3, server, engine->instance);

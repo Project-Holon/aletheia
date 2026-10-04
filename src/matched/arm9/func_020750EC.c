@@ -64,10 +64,11 @@ extern struct ArcHdr d_0214EA54_hdr;
 
 extern u32   func_0207466C(u32 idx);
 extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
-extern void *func_0207482C(u32 *heap, u32 size, void (*cb)(void), u32 cookie, u32 arg);
-extern u32   func_020742FC(void);
-extern void  func_020752D4(void);
-extern void  func_02074694(u32 a, void *b);
+struct Global;
+extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
+extern struct Global *func_020742FC(void);
+extern void func_020752D4(int a, int b, int c, int d);
+extern void func_02074694(u32 idx, u32 val);
 extern void  MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void  DC_StoreRange(void *addr, u32 size);
@@ -90,10 +91,10 @@ u32 func_020750EC(u32 idx, u32 *heap, int flag)
         if (heap == 0)
             return 0;
         if (flag != 0)
-            cookie = func_020742FC();
+            cookie = (u32)func_020742FC();
         else
             cookie = 0;
-        p = func_0207482C(heap, total + 0x5c, func_020752D4, cookie, idx);
+        p = (struct ArcHdr *)func_0207482C(heap, total + 0x5c, (u32)func_020752D4, cookie, idx);
         if (p == 0)
             return 0;
         n = func_020745A4(idx, p, sz + 0x3c, 0);
@@ -103,7 +104,7 @@ u32 func_020750EC(u32 idx, u32 *heap, int flag)
         MI_CpuFill8(p->off, 0, sz);
         DC_StoreRange(p, total + 0x3c);
         if (flag != 0)
-            func_02074694(idx, p);
+            func_02074694(idx, (u32)p);
         r = (u32)p;
     }
     return r;

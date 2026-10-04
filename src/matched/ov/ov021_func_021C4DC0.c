@@ -25,12 +25,13 @@ typedef struct {
     u32 f14;
 } R;
 
-extern void func_02011558(u32 t);
-extern u32 func_02011510(u16 heap, u32 a, u32 b, u32 c);
+struct IcaAnime;
+extern void func_02011558(struct IcaAnime *p);
+extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
 
 void func_021C4DC0(R *r, u32 a, u32 b, u32 c)
 {
     if (r->task != 0)
-        func_02011558(r->task);
-    r->task = func_02011510(r->heap, a, b, c);
+        func_02011558((struct IcaAnime *)r->task);
+    r->task = (u32)func_02011510(r->heap, a, b, c);
 }

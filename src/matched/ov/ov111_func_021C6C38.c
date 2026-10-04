@@ -24,7 +24,8 @@ typedef unsigned int u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern u32 func_0201D304(void *a, void *b, u32 c);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 typedef struct {
     u8 pad0[0x31FC];
@@ -35,6 +36,6 @@ void func_021C6C38(Work *p, void *a, int x, int dx, int y, void *s)
 {
     u32 w;
 
-    w = func_0201D304(s, p->f31FC, 0);
+    w = func_0201D304(s, (u32)p->f31FC, 0);
     func_0201C7A4(func_02045770(a), x - (w + dx), y, s, p->f31FC);
 }

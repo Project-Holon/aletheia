@@ -18,7 +18,8 @@
 extern void func_021E7058(void *);
 typedef unsigned int   u32;
 extern void func_021E1CA8(char *p);
-extern void func_0204B3B4(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
@@ -29,7 +30,7 @@ void func_021E48E0(char *p)
     func_021E1CA8(p);
     for (i = 0; i < 10; i++) {
         if (*(int *)(p + i * 4 + 0xefc)) {
-            func_0204B3B4(*(int *)(p + i * 4 + 0xefc));
+            func_0204B3B4((struct Obj *)(*(int *)(p + i * 4 + 0xefc)));
             *(int *)(p + i * 4 + 0xefc) = 0;
         }
     }

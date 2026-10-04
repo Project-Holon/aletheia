@@ -17,9 +17,9 @@
  */
 
 void func_021C24BC(char *p);
-void func_020515CC(int a, int b, void *c, int d);
+int func_020515CC(int *p, int a, int b, int c);
 
 void func_021C24A8(char *p, int k)
 {
-    func_020515CC(*(int *)(p + 0x58), k, func_021C24BC, 0);
+    func_020515CC((int *)(*(int *)(p + 0x58)), k, (int)func_021C24BC, 0);
 }

@@ -26,7 +26,8 @@ typedef struct {
 } Snd021A2C98;
 
 int func_02005C64(void);
-void func_02028A7C(int a, u16 id);
+struct SoundSys2;
+void func_02028A7C(struct SoundSys2 *s, u32 id);
 void func_020061E4(u32 a);
 
 void func_021A2C98(Snd021A2C98 *p, int a)
@@ -34,7 +35,7 @@ void func_021A2C98(Snd021A2C98 *p, int a)
     if (p->state == 2 && func_02005C64() == 0) {
         p->state = 1;
         if (p->flag != 0)
-            func_02028A7C(a, p->id);
+            func_02028A7C((struct SoundSys2 *)a, p->id);
         else
             func_020061E4(p->id);
     }

@@ -40,14 +40,15 @@ typedef struct Cfg {
     int w;
 } Cfg;
 
-extern int func_02188C80(int a);
-extern u16 func_02188C84(int a);
-extern int func_02188D2C(int a);
-extern Obj *func_02189764(int a, int b, int c, int d);
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern u16 func_02188C84(u8 *p);
+extern int func_02188D2C(int *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void *func_021BE4C4(int a, int b, int c);
-extern int func_020120F4(int a);
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_021F4698(Cfg *c);
+extern void *func_021F4698(unsigned char *p);
 
 Obj *func_021F3880(int a)
 {
@@ -57,21 +58,21 @@ Obj *func_021F3880(int a)
     int v;
     Cfg c;
 
-    r5 = func_02188C84(a);
-    r7 = func_02188D2C(a);
-    o = func_02189764(a, 0, r5, 0x68);
+    r5 = func_02188C84((u8 *)a);
+    r7 = func_02188D2C((int *)a);
+    o = func_02189764((unsigned char *)a, 0, r5, 0x68);
     func_02082BCC(o, 0, 0x68);
     o->f00 = r5;
     o->f04 = a;
-    v = func_02188C80(a);
+    v = (int)func_02188C80((void *)a);
     o->f0C = v;
-    o->f08 = func_020120F4(v);
+    o->f08 = (int)func_020120F4((const struct Ctx *)v);
     o->f10 = 0;
     c.a = r5;
     c.b = 7;
     c.c = 8;
     c.d = 3;
     c.w = (int)func_021BE4C4(r7, 1, 0);
-    o->f14 = func_021F4698(&c);
+    o->f14 = (int)func_021F4698((unsigned char *)(&c));
     return o;
 }

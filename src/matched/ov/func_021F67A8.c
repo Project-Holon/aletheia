@@ -51,7 +51,7 @@ extern void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern u32 func_0202136C(u16 v);
-extern void func_0204B878(u32, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u32 arc, Info *info, IconRec *rec)
 {
@@ -78,9 +78,9 @@ void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u3
         if (item != 0) {
             func_0204B3DC((struct Obj *)item_spr, 1);
             if (func_0202136C(item) != 0) {
-                func_0204B878(item_spr, 0x29);
+                func_0204B878((struct Obj *)item_spr, 0x29);
             } else {
-                func_0204B878(item_spr, 0x28);
+                func_0204B878((struct Obj *)item_spr, 0x28);
             }
         } else {
             func_0204B3DC((struct Obj *)item_spr, 0);

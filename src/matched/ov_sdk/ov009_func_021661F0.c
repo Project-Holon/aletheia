@@ -52,13 +52,13 @@ typedef struct WCMWork {
     unsigned char deviceId;
 } WCMWork;
 
-extern WCMWork *func_021657C8(void);
+extern int func_021657C8(void);
 extern int OS_IsRunOnTwl(void);
 extern NWMInfoElements *func_02703250();
 
 WMGameInfo *func_021661F0(WCMBssDesc *bssDesc)
 {
-    WCMWork *w = func_021657C8();
+    WCMWork *w = (WCMWork *)func_021657C8();
     NWMInfoElements *elem;
     WMGameInfo *gameInfo;
     unsigned char tag[4] = { 0x00, 0x09, 0xBF, 0x00 };

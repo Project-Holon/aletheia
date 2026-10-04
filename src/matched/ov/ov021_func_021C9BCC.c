@@ -28,21 +28,22 @@ typedef struct {
     u16 hi  : 8;
 } Sel;
 
-extern void func_0200D914(u32 h, int id, void *val);
-extern void func_0200D868(u32 h, int v);
+struct Blk3C;
+extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
+extern void func_0200D868(struct Blk3C *p, u32 v);
 
 void func_021C9BCC(u8 *p)
 {
     u8 v = p[9];
 
-    func_0200D914(*(u32 *)(p + 0x70), 0, &v);
-    func_0200D914(*(u32 *)(p + 0x70), 5, p + 0x1e);
-    func_0200D914(*(u32 *)(p + 0x70), 8, p + 0x32);
-    func_0200D868(*(u32 *)(p + 0x70), 1);
+    func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 0, &v);
+    func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 5, p + 0x1e);
+    func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 8, p + 0x32);
+    func_0200D868((struct Blk3C *)(*(u32 *)(p + 0x70)), 1);
     if (p[9] == 2 || p[9] == 7) {
         v = ((Sel *)p)->sel;
-        func_0200D914(*(u32 *)(p + 0x70), 9, &v);
-        func_0200D914(*(u32 *)(p + 0x70), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
-        func_0200D914(*(u32 *)(p + 0x70), 7, p + 0x664 + ((Sel *)p)->sel);
+        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 9, &v);
+        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
+        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 7, p + 0x664 + ((Sel *)p)->sel);
     }
 }

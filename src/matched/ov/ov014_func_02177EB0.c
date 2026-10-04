@@ -17,9 +17,9 @@
  */
 
 extern unsigned char *g_021797A4;
-extern int func_02179570(int a);
+extern int func_02179570(void (*cb)(int));
 extern void func_0217727C(unsigned int *p, unsigned int v);
 extern void func_02177E9C(void);
-int func_02177EB0(int a) { if (func_02179570(a) != 0) { func_0217727C((unsigned int *)g_021797A4, (unsigned int)func_02177E9C); return 1; } return 0; }
+int func_02177EB0(int a) { if (func_02179570((void (*)(int))a) != 0) { func_0217727C((unsigned int *)g_021797A4, (unsigned int)func_02177E9C); return 1; } return 0; }
 int func_02177ED4(void) { return 1; }
 int func_02177ED8(void) { return 0; }

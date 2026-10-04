@@ -16,13 +16,13 @@
  *   func_021DC894  0x021DC894  thumb  ov119
  */
 
-extern int func_021DC854(void *a, int t);
-extern void func_021DC894(void *a, int b, int c, int d, int e);
+extern void *func_021DC854(void *a, int t);
+extern int func_021DC894(int a, int b, char *q, char *p, int n);
 
 void func_021DCA84(void *a, int b, int c)
 {
-    int r = func_021DC854(a, 0xc6000);
+    int r = (int)func_021DC854(a, 0xc6000);
 
-    func_021DC894(a, b, c, r, 2);
+    func_021DC894((int)a, b, (char *)c, (char *)r, 2);
 }
 

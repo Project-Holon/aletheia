@@ -67,9 +67,10 @@ struct BigObj;
 extern u32 func_0217F1EC(u8 *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02012934(const struct BigObj *p);
-extern int func_02012EBC(int a);
-extern int func_02012F2C(int a);
-extern void func_0217422C(u8 *a, int b, void *c);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_02012F2C(int *p);
+extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern void func_020307B0(void *p);
 extern u32 func_0200FB24(void);
@@ -112,15 +113,15 @@ int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
                 p = func_02030734(0x41, 8, 1, (const char *)d_021807E8, 0xB9A);
                 p[1] = (*(int **)a)[2];
                 *(int **)(a + 0x3558) = p;
-                func_0217422C(a, 3, p);
+                func_0217422C(a, 3, (int)p);
             } else {
                 p = func_02030734(0x41, 0x18, 1, (const char *)d_021807E8, 0xBA2);
                 p[1] = (*(int **)a)[2];
                 p[2] = (int)func_02012934((void *)(*(int **)a)[2]);
-                p[3] = func_02012EBC((*(int **)a)[2]);
-                p[4] = func_02012F2C((*(int **)a)[2]);
+                p[3] = (int)func_02012EBC((struct Big *)((*(int **)a)[2]));
+                p[4] = (int)func_02012F2C((int *)((*(int **)a)[2]));
                 *(int **)(a + 0x3558) = p;
-                func_0217422C(a, 4, p);
+                func_0217422C(a, 4, (int)p);
             }
             (*d)++;
         }

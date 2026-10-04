@@ -26,9 +26,9 @@ struct BgSys {
 };
 
 extern struct BgSys *g_02146A44;
-extern void func_02040B94(u32, void *, u32, u16);
+extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
 
 void func_020414C4(u32 idx)
 {
-    func_02040B94(idx, g_02146A44->unk_1b0[idx], 0, g_02146A44->heapId);
+    func_02040B94(idx, (u32)g_02146A44->unk_1b0[idx], 0, g_02146A44->heapId);
 }

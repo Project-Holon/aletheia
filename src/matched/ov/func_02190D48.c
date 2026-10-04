@@ -22,12 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201CE48(u32);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
 extern u32 func_020307B0(u32);
 
 int func_02190D48(u32 a)
 {
-func_0201CE48(*(u32 *)((u8 *)(a) + 4));
+func_0201CE48((struct Rec3 *)(*(u32 *)((u8 *)(a) + 4)));
 return func_020307B0(a);
 }
 

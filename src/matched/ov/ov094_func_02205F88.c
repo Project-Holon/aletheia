@@ -41,20 +41,21 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern int func_0201EC64(int);
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201EF34(int, int, int);
-extern void func_0201F250(int, void *, void *);
-extern void func_02204C98(void *a, void *b, int *w, int *h);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02204C98(int a, int b, int *outn, int *outq);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_0204B7C8(void *, Struct36 *);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(int);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_020437AC(struct Obj020437AC *p);
 
 void func_02205F88(char *p)
@@ -80,14 +81,14 @@ void func_02205F88(char *p)
     func_0204B878(*(void **)(p + 0x21c), 0x14);
     str = func_020457B0(0x10, *(u16 *)(p + 0x240));
     msg = func_02045EC0(*(void **)(p + 0x5c), 0);
-    font = func_0201EC64(*(u16 *)(p + 0x240));
+    font = (int)func_0201EC64(*(u16 *)(p + 0x240));
     bmp = func_02043678(0xe, 4, 0x20, *(u16 *)(p + 0x240));
     func_02043B5C(bmp, 0);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(0xe, 0xa, 0);
-    func_0201EF34(font, 0, 0xa5);
-    func_0201F250(font, str, msg);
-    func_02204C98(str, *(void **)(p + 0x224), &w, &h);
+    func_0201EF34((struct WordSet *)font, 0, 0xa5);
+    func_0201F250((struct WordSet *)font, str, msg);
+    func_02204C98((int)str, (int)(*(void **)(p + 0x224)), &w, &h);
     func_0201C7A4(bmp, 0x38 - w / 2, 8, str, *(void **)(p + 0x224));
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
@@ -100,6 +101,6 @@ void func_02205F88(char *p)
     }
     func_02045808(str);
     func_02045808(msg);
-    func_0201ED04(font);
+    func_0201ED04((struct WordSet *)font);
     func_020437AC(bmp);
 }

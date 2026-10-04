@@ -30,7 +30,7 @@ extern int func_0204AC18(void *, unsigned int, unsigned int, unsigned int, unsig
 extern int func_0204A6C8(void *, unsigned int, unsigned int, unsigned int, unsigned short);
 extern int func_0204AF28(void *, unsigned int, unsigned int, unsigned int);
 extern void func_02049238(void *);
-extern unsigned int func_021F64FC(unsigned int);
+extern int func_021F64FC(char *p);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
@@ -65,7 +65,7 @@ void func_021F5DAC(int unused, struct Context *p)
         tmp1 = tmp1 + (i * 4);
         out = (struct Context *)tmp1;
         tmp2 = (unsigned int)table[i];
-        o = (unsigned int)func_0204B294((void *)func_021F64FC(p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
+        o = (unsigned int)func_0204B294((void *)func_021F64FC((char *)p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
         out->objects[0] = o;
         func_0204B92C((struct Obj *)o, 0);
     }

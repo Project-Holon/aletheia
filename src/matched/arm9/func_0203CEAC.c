@@ -60,8 +60,8 @@ typedef unsigned int  u32;
 
 extern u8 *func_0203D788(int a0);
 extern void func_0203DA20(void);
-extern void func_0203C774(void *p);
-extern void func_0203BF9C(void *p);
+extern void func_0203C774(u32 v);
+extern void func_0203BF9C(u32 v);
 extern void func_020370C8(void);
 extern void func_0203CDD4(void);
 
@@ -76,9 +76,9 @@ int func_0203CEAC(int a0)
 
         *(int *)(p + 0x348) = a0;
         if (t == 1) {
-            func_0203C774(func_0203CDD4);
+            func_0203C774((u32)func_0203CDD4);
         } else {
-            func_0203BF9C(func_0203CDD4);
+            func_0203BF9C((u32)func_0203CDD4);
         }
         func_020370C8();
         return 1;

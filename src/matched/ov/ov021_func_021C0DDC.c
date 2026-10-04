@@ -27,12 +27,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_021C19B4(u32 a, u32 b);
-extern u16 func_0216D598(u32 p);
+extern u16 func_0216D598(void *p);
 extern int func_0216E5FC(u16 id);
-extern u32 func_021A5728(u32 a);
-extern u32 func_021A395C(u32 a);
-extern u32 func_02188C98(u32 a);
-extern u32 func_021C0D08(u32 a, u32 b, u32 c);
+extern u32 func_021A5728(u8 *p);
+extern u32 func_021A395C(u8 *p);
+extern u32 func_02188C98(u8 *p);
+extern int func_021C0D08(void *obj, u32 dir, void *map);
 extern u32 func_021639C0(u32 a, u32 b);
 extern int func_021C0E4C(u32 a, u32 b, u32 c, u32 d);
 
@@ -45,8 +45,8 @@ int func_021C0DDC(u32 a, u32 b, int c)
     if (c == 1) {
         r6 = func_021C19B4(a, b);
         if (r6 != 0) {
-            if (func_0216E5FC(func_0216D598(r6)) == 1) {
-                r4 = func_021C0D08(r6, b, func_02188C98(func_021A395C(func_021A5728(a))));
+            if (func_0216E5FC(func_0216D598((void *)r6)) == 1) {
+                r4 = func_021C0D08((void *)r6, b, (void *)func_02188C98((u8 *)func_021A395C((u8 *)func_021A5728((u8 *)a))));
                 f = func_021639C0(r6, b);
                 f &= ~1;
                 if ((f & 2) && r4 - 2 <= 1)

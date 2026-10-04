@@ -13,10 +13,11 @@
  *   func_02047A60  0x02047A60  arm
  */
 
-void func_02047A60(int a, unsigned char *b);
+struct Arg;
+void func_02047A60(void *a0, struct Arg *a1);
 
 void func_0218C934(unsigned char *p)
 {
     if (p != 0)
-        func_02047A60(*(int *)(p + 0xC), p + 0x24);
+        func_02047A60((void *)(*(int *)(p + 0xC)), (struct Arg *)(p + 0x24));
 }

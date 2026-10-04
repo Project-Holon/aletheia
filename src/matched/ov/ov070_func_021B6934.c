@@ -40,11 +40,13 @@ extern u32 func_0200D58C(struct Blk38 *p);
 extern u32   func_02020FE4(u16 a, u32 sel, u32 id);
 extern void func_0200D55C(struct Blk38 *p, u8 v);
 extern void  func_021B7D20(void *o, int x);
-extern void  func_02045CAC(u32 a0, u32 a1, u32 a2);
-extern void  func_0201F02C(u32 a0, u32 a1, u32 a2);
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_021B61F4(u8 *p, int a, unsigned int b);
-extern void  func_0201F250(u32 a0, u32 a1, u32 a2);
-extern void  func_021BACF0(void *o, int v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_021BACF0(int p, int mode);
 extern void  func_020061E4(u32 se);
 extern void  func_021B6100(void *obj, void *fn);
 extern void  func_021B6A14(u8 *p);
@@ -60,16 +62,16 @@ void func_021B6934(u8 *p)
             v = func_02020FE4(*(u32 *)(p + 0x84C), 2, *(u16 *)(p + 0x544));
             func_0200D55C(blk, v);
             func_021B7D20(p, 1);
-            func_02045CAC(*(u32 *)(p + 0x51C), 0x3F, *(u32 *)(p + 0x524));
-            func_0201F02C(*(u32 *)(p + 0x520), 0, *(u32 *)(p + 8));
+            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x3F, (void *)(*(u32 *)(p + 0x524)));
+            func_0201F02C((struct WordSet *)(*(u32 *)(p + 0x520)), 0, (void *)(*(u32 *)(p + 8)));
             func_021B61F4(p, 1, *(u32 *)(p + 0x84C));
-            func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
-            func_021BACF0(p, 1);
+            func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+            func_021BACF0((int)p, 1);
             func_020061E4(0x7CD);
         } else {
-            func_02045CAC(*(u32 *)(p + 0x51C), 0x40, *(u32 *)(p + 0x524));
-            func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
-            func_021BACF0(p, 1);
+            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x40, (void *)(*(u32 *)(p + 0x524)));
+            func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+            func_021BACF0((int)p, 1);
         }
         func_021B6100(p, (void *)func_021B6A14);
     }

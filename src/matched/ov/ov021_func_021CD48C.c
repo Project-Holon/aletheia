@@ -70,14 +70,17 @@ typedef struct {
     Disp *(*f18)(u32 a);
 } Sys;
 
-extern u32 func_02188C54(u32 a);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern u32 func_02188C54(u8 *p);
 extern void *func_02030734(u32 heap, u32 size, int a, const char *file, u16 line);
-extern u32 func_0201EC64(u32 heap);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern int func_021904B0(u32 a, u32 b);
 extern u32 func_02190F64(u32 a, u32 b);
-extern u32 func_020457B0(u32 n, u32 heap);
-extern u32 func_02045EC0(u32 a, u32 b);
-extern void func_02008494(u32 src, void *dst);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02008494(void *src, void *dst);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_0203D7BC(u32 a);
 extern void func_021CF164(Work *w);
@@ -91,20 +94,20 @@ Work *func_021CD48C(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u32 a6, vo
     Work *w;
     Sys *s;
 
-    t = func_02188C54(a1);
+    t = func_02188C54((u8 *)a1);
     w = func_02030734(heap, 0x580, 1, (const char *)d_021DE5E8, 0x179);
-    w->f4 = func_0201EC64(heap);
+    w->f4 = (u32)func_0201EC64(heap);
     w->f8 = func_021904B0(t, 0x1e);
     w->f14 = func_02190F64(t, w->f8);
-    w->f18 = func_020457B0(0x64, heap);
-    w->f1C = func_02045EC0(w->f8, 7);
-    w->f20 = func_020457B0(0x40, heap);
+    w->f18 = (u32)func_020457B0(0x64, heap);
+    w->f1C = (u32)func_02045EC0((struct MsgBank *)w->f8, 7);
+    w->f20 = (u32)func_020457B0(0x40, heap);
     if (a6 == 1) {
-        w->f24 = func_02045EC0(w->f8, 3);
+        w->f24 = (u32)func_02045EC0((struct MsgBank *)w->f8, 3);
     } else {
-        w->f24 = func_02045EC0(w->f8, 2);
+        w->f24 = (u32)func_02045EC0((struct MsgBank *)w->f8, 2);
     }
-    w->f28 = func_020457B0(0x20, heap);
+    w->f28 = (u32)func_020457B0(0x20, heap);
     w->f51C = a2;
     w->f51D = a3;
     w->f0 = a1;
@@ -113,7 +116,7 @@ Work *func_021CD48C(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u32 a6, vo
     w->f528 = heap;
     w->f572 = -1;
     w->f574 = 0xffff;
-    func_02008494(a0, w->f30);
+    func_02008494((void *)a0, w->f30);
     if (a7 != 0) {
         func_02082D44(a7, w->f554, 6);
     }

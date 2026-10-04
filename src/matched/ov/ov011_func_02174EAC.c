@@ -37,7 +37,7 @@ typedef struct Q {
 int func_02026478(int a);
 int func_02012950(int a, int b);
 int func_02008530(int a);
-void func_02008494(u8 *a, int b);
+void func_02008494(void *src, void *dst);
 int func_020127AC(int a, int b);
 void func_02082D44(u8 *a, int b, int c);
 void func_02012BA4(int a, int b, int c);
@@ -65,7 +65,7 @@ void func_02174EAC(u8 *p, int idx, u8 *q)
     }
     flag = 1;
 skip:
-    func_02008494(q, a);
+    func_02008494(q, (void *)a);
     func_02082D44(q + 0x20, func_020127AC(ctx, idx), 0x10);
     func_02012BA4(ctx, idx, ((Q *)(q + 0x4A))->hi);
     func_02174F54(p, idx, q + 0x30, 1);

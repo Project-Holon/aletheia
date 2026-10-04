@@ -29,8 +29,9 @@ struct SpritePos {
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *spr, unsigned int on);
-extern void func_0204B404(u32 spr, struct SpritePos *pos, int n);
-extern void func_0204B878(u32 spr, int anim);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BCE2C(void *ctx, char *list, char *cur, int idx)
 {
@@ -47,15 +48,15 @@ void func_021BCE2C(void *ctx, char *list, char *cur, int idx)
     if (y >= -32 && y <= 0xa0) {
         pos.x = 0x80;
         pos.y = y + 0x10;
-        func_0204B404(*(u32 *)(cur + 8), &pos, 1);
+        func_0204B404((struct Obj *)(*(u32 *)(cur + 8)), (const struct Vec2 *)(&pos), 1);
         func_0204B3DC((struct Obj *)*(u32 *)(cur + 8), 1);
         pos.x = 0x12;
-        func_0204B404(*(u32 *)(cur + 0xc), &pos, 1);
+        func_0204B404((struct Obj *)(*(u32 *)(cur + 0xc)), (const struct Vec2 *)(&pos), 1);
         func_0204B3DC((struct Obj *)*(u32 *)(cur + 0xc), 1);
         pos.x = 0xc8;
-        func_0204B404(*(u32 *)(cur + 0x10), &pos, 1);
+        func_0204B404((struct Obj *)(*(u32 *)(cur + 0x10)), (const struct Vec2 *)(&pos), 1);
         if (*(u32 *)(list + *(u8 *)(cur + 0x18) * 0x24 + 0x1f0) == 1) {
-            func_0204B878(*(u32 *)(list + idx * 0x1c + 0x50), 0x12);
+            func_0204B878((struct Obj *)(*(u32 *)(list + idx * 0x1c + 0x50)), 0x12);
             func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 1);
         } else {
             func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 0);

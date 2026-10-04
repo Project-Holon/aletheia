@@ -33,13 +33,13 @@ void func_02187860(char *p);
 u8 func_0202E8A4(s32 x);
 void func_0218794C(int a, int b);
 void func_02040588(u32 which, u32 enable);
-void func_0207D534(int a, int b);
+void func_0207D534(volatile u16 *reg, int brightness);
 void func_0207D658(u32 addr, int plane, int brightness);
 int func_02187D40(char *p);
 int func_02187D74(char *p);
 int func_02187D54(char *p);
 u32 func_02187D20(char *p);
-void func_02188DB0(int x);
+void func_02188DB0(u8 *a);
 void func_02187D94(void *o);
 
 void func_02187C20(char *o, int *p, int st)
@@ -55,7 +55,7 @@ void func_02187C20(char *o, int *p, int st)
     case 2:
         func_02040588(3, 1);
         func_02040588(0, 0);
-        func_0207D534(0x0400006C, 0);
+        func_0207D534((volatile u16 *)0x0400006C, 0);
         func_0207D658(0x04000050, 8, -16);
         *(int *)(o + 0x1c) = func_02187D40(o);
         break;
@@ -65,7 +65,7 @@ void func_02187C20(char *o, int *p, int st)
     case 4:
         *(int *)(o + 0x1c) = func_02187D54(o);
         if (func_02187D20(o) == 0 && *(u8 *)(o + 0x15) == *(u8 *)(o + 0x14)) {
-            func_02188DB0(*(int *)(o + 4));
+            func_02188DB0((u8 *)(*(int *)(o + 4)));
             func_02040588(3, 1);
             func_02187D94(o);
         }

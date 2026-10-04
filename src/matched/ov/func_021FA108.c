@@ -19,12 +19,12 @@
  */
 
 extern int  func_021F8684(void);
-extern void func_021F70F0(int a, char *b, char *c);
+extern void func_021F70F0(void **p, void *b, int c);
 
 int func_021FA108(int a, char *b)
 {
     *(int *)(b + 0x284) = 1;
-    func_021F70F0(func_021F8684(), b + 0x288, b + 0x294);
+    func_021F70F0((void **)func_021F8684(), b + 0x288, (int)(b + 0x294));
     return *(int *)(b + 0x23c);
 }
 

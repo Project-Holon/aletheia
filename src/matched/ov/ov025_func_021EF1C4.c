@@ -27,13 +27,14 @@ typedef struct {
     s16 y;
 } Pt;
 
-extern int *func_021A2630(int);
-extern int func_021A2638(int);
+typedef unsigned int   u32;
+extern unsigned char *func_021A2630(unsigned char *o);
+extern unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A2654(int, Pt *);
 extern void func_021A26C4(int, Pt *);
-extern void func_021A21E0(int);
+extern void func_021A21E0(u32 *p);
 extern void func_0204B908(int, u16);
 extern int func_0204B918(int);
 
@@ -43,8 +44,8 @@ void func_021EF1C4(int a)
     int h;
     Pt pt;
 
-    p = func_021A2630(a);
-    h = func_021A2638(a);
+    p = (int *)func_021A2630((unsigned char *)a);
+    h = func_021A2638((unsigned char *)a);
     func_021A2640((unsigned char *)a, (struct PtS *)&pt);
     switch (p[3]) {
     case 0:
@@ -81,7 +82,7 @@ void func_021EF1C4(int a)
         }
         break;
     case 2:
-        func_021A21E0(a);
+        func_021A21E0((u32 *)a);
         break;
     }
 }

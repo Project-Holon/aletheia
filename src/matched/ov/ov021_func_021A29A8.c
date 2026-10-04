@@ -38,14 +38,16 @@ typedef struct {
 
 int func_0204A6C8(int a, int b, int c, int d, int e);
 int func_0204AC18(int a, int b, int c, int d, int e, int f, int g);
-int func_0204AF28(int a, int b, int c, int d);
+typedef signed int     s32;
+typedef unsigned int   u32;
+s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 void func_021A29A8(Obj *o, Src *s, int heap)
 {
     if (s->f2 != 0) {
         o->f2 = func_0204A6C8(o->f10, s->f6, 0, 0, heap);
         o->f4 = func_0204AC18(o->f10, s->f8, 0, 0, 0, 1, heap);
-        o->f6 = func_0204AF28(o->f10, s->fa, s->fc, heap);
+        o->f6 = func_0204AF28((void *)o->f10, s->fa, s->fc, heap);
         o->f0 = 1;
     }
 }

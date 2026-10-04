@@ -27,14 +27,16 @@ typedef unsigned int u32;
 extern int func_02188D2C(int *);
 extern int *func_021897BC(char *, int);
 extern void func_021897A0(u8 *, int);
-extern u32 func_02188C80(u8 *);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
+struct Big;
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(u32, u32);
 extern void func_021BE418(u8 *, u16);
 extern void func_021BE580(void *);
 int func_021F37C8(u8 *p)
 {
     func_021897BC((char *)p, 1);
-    return *func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(p))), 3);
+    return *func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(p))), 3);
 }

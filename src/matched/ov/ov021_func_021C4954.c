@@ -24,13 +24,14 @@ typedef struct {
     u16 id;
 } S;
 
-extern int func_020508EC(u32 a, u32 id, void *out);
+typedef unsigned char  u8;
+extern u32 func_020508EC(u8 *p, int i, u16 *out);
 extern void func_021AC154(void *a);
 
 void func_021C4954(void *a, S *s)
 {
     u32 tmp;
 
-    if (func_020508EC(s->p[1], s->id, &tmp) != 0)
+    if (func_020508EC((u8 *)s->p[1], s->id, (u16 *)(&tmp)) != 0)
         func_021AC154(a);
 }

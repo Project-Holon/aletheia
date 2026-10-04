@@ -18,19 +18,21 @@
  *   func_021A2160 0x021A2160 thumb ov021
  */
 
-extern int *func_021A21B8(int);
-extern void func_021A2228(int, int, int, int, int);
-extern void func_021A25CC(int);
-extern void func_021A2390(int, int, int, int);
-extern void func_021A2160(int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int *func_021A21B8(int *p);
+extern void func_021A2228(u8 *p, int a, int b, int c, int d);
+extern void func_021A25CC(u8 *p);
+extern void func_021A2390(u32 *p, int a, int b, int c);
+extern void func_021A2160(unsigned char *o, unsigned int v, int i);
 
 int func_021EF134(int a, int b)
 {
-    func_021A21B8(a);
-    func_021A2228(a, 0, 4, 4, -1);
-    func_021A25CC(a);
-    func_021A2390(a, 0x7FDF, 0x32, b);
-    func_021A2160(a, 0, 0);
-    func_021A2160(a, 0, 1);
+    func_021A21B8((int *)a);
+    func_021A2228((u8 *)a, 0, 4, 4, -1);
+    func_021A25CC((u8 *)a);
+    func_021A2390((u32 *)a, 0x7FDF, 0x32, b);
+    func_021A2160((unsigned char *)a, 0, 0);
+    func_021A2160((unsigned char *)a, 0, 1);
     return 1;
 }

@@ -30,11 +30,13 @@ typedef int s32;
 typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0, fb4, fb8; u8 *fbc, *fc0; int fc4; } Obj;
 
 extern int func_0201134C(int);
-extern void func_020113B0(int, int);
-extern int func_021D5448(void *);
+struct Cur;
+struct QG;
+extern void func_020113B0(struct Cur *c, u32 v);
+extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(void *, u8);
 extern u8 func_021D5440(u8 *p);
-extern int func_021C7DAC(int, int, int, int);
+extern int func_021C7DAC(u8 *p, int a, int b, int c);
 
 int func_02189B78(int a, Obj *b) {
     int r;
@@ -43,12 +45,12 @@ int func_02189B78(int a, Obj *b) {
     int c7;
     int c2;
     r = func_0201134C(a);
-    for (i = 0; i < func_021D5448(b->fbc); i++) {
+    for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
         c6 = func_021D54C0(b->fbc, i);
         c7 = func_021D5440(b->fbc);
         c2 = func_021D5440(b->fc0);
-        if ((u32)(func_021C7DAC(b->fb4, c7, c2, c6) - 4) <= 1) {
-            func_020113B0(a, *(int *)(a + 0x14) + r);
+        if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
+            func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + r);
             break;
         }
     }

@@ -22,8 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0216D454();
-extern void func_0216D410(u32 a, u32 b);
-extern int func_021F42AC(u8 *a, u32 b, u32 *c, u16 d, u16 e);
+extern void func_0216D410(void *a0, u16 a1);
+extern int func_021F42AC(u8 *a, void *b, u32 *c, u16 d, u16 e);
 extern void func_021F3DD4(u8 *a, u32 b);
 extern void func_021F3DBC(u8 *a);
 
@@ -42,10 +42,10 @@ void func_021F4174(u8 *a, u32 b)
             a[1] = 2;
             return;
         }
-        if (func_021F42AC(a, b, &loc, 2, 0)) {
+        if (func_021F42AC(a, (void *)b, &loc, 2, 0)) {
             func_021F3DD4(a, loc);
         } else {
-            func_0216D410(*(u32 *)(a + 0xc), (u16)(*(u16 *)(a + 0xa) + a[3]));
+            func_0216D410((void *)(*(u32 *)(a + 0xc)), (u16)(*(u16 *)(a + 0xa) + a[3]));
             *(u16 *)(a + 4) = *(u16 *)(a + 4) - 1;
         }
         a[1] = 0;

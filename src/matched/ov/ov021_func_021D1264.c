@@ -38,9 +38,11 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } V;
 
 extern void *func_02188CB4(unsigned char *p);
-extern u32 func_02188C58(u32 a);
-extern u32 func_0218EC2C(u32 a);
-extern void func_02048AD0(u32 l);
+struct CharBuf;
+struct Light;
+extern void *func_02188C58(void *p);
+extern u32 func_0218EC2C(u8 *p);
+extern void func_02048AD0(struct Light *l);
 extern void func_02048B30(u32 l, V *out);
 extern void func_02048AE8(u32 l, V *out);
 extern void func_0207CA00(const V *a, const V *b, V *c);
@@ -53,7 +55,7 @@ extern void func_0206DF3C(V *a, int *x, int *y);
 extern u32 func_020450F0(u32 a, u8 b, u8 c, u32 d, u32 e, u32 f, u32 g);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(u32 a, u32 b);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_021D1430(u8 *p, u32 n);
 
@@ -72,8 +74,8 @@ void func_021D1264(u8 *p)
     u32 cam;
 
     o = func_02188CB4(*(void **)p);
-    cam = func_0218EC2C(func_02188C58(*(u32 *)p));
-    func_02048AD0(cam);
+    cam = func_0218EC2C(func_02188C58((void *)(*(u32 *)p)));
+    func_02048AD0((struct Light *)cam);
     func_02048B30(cam, &eye);
     func_02048AE8(cam, &at);
     func_0207CA00(&eye, &at, &d);
@@ -107,7 +109,7 @@ void func_021D1264(u8 *p)
         y = 0x18;
     }
     *(u32 *)(p + 4) = func_020450F0(3, x, y, 5, 5, 9, 1);
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 4)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 4))), 0);
     func_02045334((struct Descriptor *)*(u32 *)(p + 4));
     func_021D1430(p, 0);
 }

@@ -112,9 +112,10 @@ typedef struct {
     u16 ofsDict;
 } Tex;
 
-extern void *func_02048A0C(void *p, int i);
+typedef signed int     s32;
+extern u32 func_02048A0C(u8 *a0, int i);
 extern Tex *func_02047250(void *p);
-extern void func_02061CA4(int a, const void *src, void *dst, int size);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern const int d_021C8874[];
 
 static inline void *DictGetByIdx(const Dict *d, u32 idx)
@@ -144,7 +145,7 @@ void func_021C82C0(Work *p, int idx, int k)
         k = 2;
     }
     dst = p->f170[k]->fC;
-    tex = func_02047250(func_02048A0C(p->fF8, 0));
+    tex = func_02047250((void *)func_02048A0C(p->fF8, 0));
     e = TexGetPltt(tex, idx);
-    func_02061CA4(1, tex->plttData + *e * 8, dst + d_021C8874[idx] * 32, 0x20);
+    func_02061CA4((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
 }

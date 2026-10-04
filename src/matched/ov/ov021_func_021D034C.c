@@ -27,7 +27,8 @@ typedef struct V {
 extern const V data_021DB8F0;
 extern void func_0207ADC4(void *a);
 extern void func_021AC1B8(u32 a, V *v);
-extern void func_02047AC8(u32 a, V *v);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 
 void func_021D034C(u32 a, u8 *b)
 {
@@ -37,6 +38,6 @@ void func_021D034C(u32 a, u8 *b)
         v = data_021DB8F0;
         func_0207ADC4(&v.w[6]);
         func_021AC1B8(a, &v);
-        func_02047AC8(*(u32 *)(b + 0xc), &v);
+        func_02047AC8((void *)(*(u32 *)(b + 0xc)), (struct Arg *)(&v));
     }
 }

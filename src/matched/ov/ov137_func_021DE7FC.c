@@ -48,7 +48,7 @@ extern void *func_02012934(void *),*func_020490F4(u32,u16);
 extern void func_021DF800(u8 *),func_021E0640(u8 *),func_021E06E0(u8 *),func_021E04E0(u8 *);
 extern void func_021E0DE8(u8 *),func_021E0F20(u8 *),func_021E104C(u8 *),func_021E11B4(u8 *),func_021E13BC(u8 *),func_021E1488(u8 *);
 extern void *func_020056A0(void (*)(int,void *),void *,u32);
-extern void func_021DF7E8(int,void *);
+extern void func_021DF7E8(void *arg, char *p);
 extern void *func_02047CFC(u16,u16,u16);
 struct Ctx;
 extern u16 func_02039338(void);
@@ -74,7 +74,7 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     *(void **)(p+0x24)=func_02012934(*(void **)(*(u8 **)(*(u8 **)(p+0xd8)+0x14)+4));
     *(void **)(p+0xd58)=func_020490F4(183,114);
     func_021DF800(p);
-    *(void **)(p+0xd9c)=func_020056A0(func_021DF7E8,p,1);
+    *(void **)(p+0xd9c)=func_020056A0((void (*)(int,  void *))func_021DF7E8,p,1);
     *(void **)(p+0xaf4)=func_02047CFC(20,11,114);
     func_021E0640(p);func_021E06E0(p);func_021E04E0(p);
     n=0;

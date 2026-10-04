@@ -33,9 +33,9 @@ typedef unsigned char  u8;
 extern u32 func_02188C98(u8 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern u32 func_0218DC6C(u32);
-extern u32 func_0218C638(u32, u32, int *);
-extern void func_0218C69C(u32, u32, u32, u32);
+extern u32 func_0218DC6C(u8 *p);
+extern int func_0218C638(int a, int b, int c);
+extern void func_0218C69C(unsigned char *p, int b, int i, int c);
 
 int func_021C9854(u32 a, u32 *q, u32 *p)
 {
@@ -53,11 +53,11 @@ int func_021C9854(u32 a, u32 *q, u32 *p)
         box[1] = v[2] + 0x10000;
         box[2] = v[0] - 0x10000;
         box[3] = v[0] + 0x10000;
-        h = func_0218DC6C(func_02188C98((void *)p[1]));
-        r = func_0218C638(h, 4, box);
+        h = func_0218DC6C((u8 *)func_02188C98((void *)p[1]));
+        r = func_0218C638(h, 4, (int)box);
         if (r != 0) {
             p[2] = r;
-            func_0218C69C(h, r, 2, 0);
+            func_0218C69C((unsigned char *)h, r, 2, 0);
         }
         q[0]++;
         break;

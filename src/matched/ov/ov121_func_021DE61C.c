@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 extern void func_02043598(u32 mask, u32 enable);
 extern int func_0203CD98(void);
 extern void func_0203D34C(unsigned, unsigned);
-extern void *func_02010360(int, unsigned short);
+typedef unsigned char  u8;
+extern u8 *func_02010360(int idx, void *heap);
 extern void func_0203D010(void);
 extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE6F8(int, int, char *);
@@ -39,7 +40,7 @@ void func_021DE61C(void *a, int *state, char *p)
     case 1:
         if (func_0203CD98()) {
             func_0203D34C(1, *(unsigned short *)(p + 0x58));
-            *(void **)(p + 0x10) = func_02010360(4, *(unsigned short *)(p + 0x58));
+            *(void **)(p + 0x10) = func_02010360(4, (void *)(*(unsigned short *)(p + 0x58)));
             func_0203D010();
             *state = 2;
         }

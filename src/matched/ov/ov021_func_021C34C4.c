@@ -21,7 +21,8 @@ typedef unsigned char u8;
 
 extern void *func_0200BC2C(void *e, int i);
 extern int func_0200BCB8(void *e);
-extern int func_021C36EC(void *a, void *b);
+typedef unsigned int   u32;
+extern int func_021C36EC(u32 a, u32 b);
 
 u8 func_021C34C4(void **p)
 {
@@ -30,5 +31,5 @@ u8 func_021C34C4(void **p)
     if (func_0200BCB8(p[2]) < 2)
         return 0;
     a = func_0200BC2C(p[2], 0);
-    return func_021C36EC(a, func_0200BC2C(p[2], 1));
+    return func_021C36EC((u32)a, (u32)func_0200BC2C(p[2], 1));
 }

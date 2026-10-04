@@ -75,11 +75,11 @@ extern int func_021BD138(void);
 extern void func_021D4C68(void *file);
 extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern void func_021D6090(int lcd, int plane);
-extern void func_021C0E50(void *param0, void *param1);
+extern void func_021C0E50(unsigned int a, unsigned int b);
 extern SETTINGINFO *func_021CF404(void);
-extern void func_021C0E8C(void *param2, void *param3);
+extern void func_021C0E8C(unsigned int a, unsigned int b);
 extern void func_021CA5C0(unsigned char v);
-extern void func_021C0E40(void (*scene)());
+extern void func_021C0E40(unsigned int v);
 extern void func_021D6438(void **mem);
 extern void func_0207E51C(void *, u32, u32);
 extern void func_021C1984();
@@ -116,25 +116,25 @@ static void func_021CC2D0(void)
     func_021D6090(0, 0x14);
 
     if (g_021DE60C.MemSssa->mode == 2) {
-        func_021C0E50((void *)0, (void *)0);
-        func_021C0E40(func_021C1984);
+        func_021C0E50((unsigned int)((void *)0), (unsigned int)((void *)0));
+        func_021C0E40((unsigned int)func_021C1984);
     } else {
         switch (g_021DE60C.FocusPos) {
         case 0:
         case 1:
         case 2:
-            func_021C0E50((void *)2, (void *)0);
+            func_021C0E50((unsigned int)((void *)2), (unsigned int)((void *)0));
             if (func_021CF404()->e7 == 0xff) {
-                func_021C0E40(func_021CC998);
+                func_021C0E40((unsigned int)func_021CC998);
             } else {
-                func_021C0E8C((void *)0, (void *)0);
+                func_021C0E8C((unsigned int)((void *)0), (unsigned int)((void *)0));
                 func_021CA5C0(0);
-                func_021C0E40(func_021C82FC);
+                func_021C0E40((unsigned int)func_021C82FC);
             }
             break;
         case 3:
-            func_021C0E50((void *)2, (void *)1);
-            func_021C0E40(func_021CDCAC);
+            func_021C0E50((unsigned int)((void *)2), (unsigned int)((void *)1));
+            func_021C0E40((unsigned int)func_021CDCAC);
             break;
         }
     }

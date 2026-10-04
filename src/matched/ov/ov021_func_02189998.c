@@ -18,11 +18,11 @@
 typedef unsigned short u16;
 void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 void func_021C1AEC(void);
-void func_021C1C4C(int h);
+void func_021C1C4C(char *p);
 
 void func_02189998(unsigned char *p)
 {
     func_0207DD24(0, 0, 0x7FFF, 0, 0);
     func_021C1AEC();
-    func_021C1C4C(*(int *)(p + 0x124));
+    func_021C1C4C((char *)(*(int *)(p + 0x124)));
 }

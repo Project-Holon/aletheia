@@ -66,7 +66,10 @@ void *func_020124E4(void *);
 void *func_020120F4(void *);
 u32 func_02012138(const struct Ctx *p);
 int func_0217CA40(void *);
-void func_02012374(void *, int);
+typedef unsigned char  u8;
+struct BigObj;
+struct Evt;
+void func_02012374(struct Evt *evt, struct Evt **out);
 int func_0200FB24(void);
 int func_02026460(void *);
 int func_02026454(void *);
@@ -74,32 +77,32 @@ void func_02026400(void *);
 u32 func_02012114(const struct Ctx *p);
 void *func_0201210C(const struct Ctx *p);
 int func_02188BE8(void *);
-void *func_02188C54(void *);
-void *func_021904B0(void *, int);
+u32 func_02188C54(u8 *p);
+int func_021904B0(u32 a, u32 b);
 void *func_02190F64(void *, void *);
 int func_0202648C(void *);
 void func_02190E74(void *, int, int, int);
-int func_02029830(void *, int);
+void *func_02029830(void *a, u32 b);
 int func_02005F38(void);
-int func_02029620(void *, int, int);
+void *func_02029620(void *a, u16 b, u16 c);
 int func_02190EF0(void *);
 u32 func_020362DC(void);
-void func_02190E40(void *);
+int func_02190E40(u32 a);
 void func_02045C04(void *);
 void *func_02188CB4(void *p);
 int func_021A3238(void *);
 void func_0217C658(void *, void *, void *, int, int, int);
 int func_0217C688(void *, int);
-void *func_0201296C(void *);
+u32 func_0201296C(const struct BigObj *p);
 int func_020142E8(void *, int);
 void func_02158780(void *, u16, int, int, int);
-int func_02012B58(void *);
+u8 func_02012B58(const struct BigObj *p);
 int func_02012204(void *);
-int func_0201212C(void *);
+u8 func_0201212C(const struct Ctx *p);
 int func_021C06CC(void *, void *);
 void func_02026484(void *);
 void func_020264F4(void *);
-int func_02185214(void *);
+void *func_02185214(void *a);
 
 int func_0217CAFC(void *a, int *seq, Ov018Work *work)
 {
@@ -119,7 +122,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
     s1 = (void *)func_02012138(x);
     switch (*seq) {
     case 0:
-        func_02012374(a, func_0217CA40(x));
+        func_02012374(a, (struct Evt **)func_0217CA40(x));
         (*seq)++;
         break;
     case 1:
@@ -150,8 +153,8 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
         if (func_02188BE8(y) != 1) {
             break;
         }
-        z = func_02188C54(y);
-        work->f00 = t = func_021904B0(z, 0x2D);
+        z = (void *)func_02188C54(y);
+        work->f00 = t = (void *)func_021904B0((u32)z, 0x2D);
         work->f04 = func_02190F64(z, t);
         switch (work->f20) {
         case 1:
@@ -208,7 +211,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
         break;
     case 6:
         if (func_020362DC() & 0xF3) {
-            func_02190E40(work->f04);
+            func_02190E40((u32)work->f04);
             func_02045C04(work->f00);
             (*seq)++;
         }
@@ -234,7 +237,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
         }
         break;
     case 9:
-        if (func_020142E8(func_0201296C(s2), 0x980) == 0) {
+        if (func_020142E8((void *)func_0201296C(s2), 0x980) == 0) {
             r = func_0202648C(s1);
             v = 0;
             switch (r) {
@@ -257,7 +260,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
         break;
     case 10:
         if ((func_02012B58(s2) != 0 || func_02012204(x) == 1) && func_0201212C(x) == 1) {
-            func_02012374(a, func_021C06CC(x, func_0201210C(x)));
+            func_02012374(a, (struct Evt **)func_021C06CC(x, func_0201210C(x)));
         }
         (*seq)++;
         break;

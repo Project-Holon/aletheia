@@ -14,7 +14,9 @@
 typedef unsigned int   u32;
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02027F60(unsigned,unsigned,void *,void *,unsigned short);
+typedef unsigned short u16;
+struct R;
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 #define WORK(p) (*(char **)((p)+0x2c))
 #define PTR(p,n) (*(void **)(WORK(p)+(n)))
 #define HALF(p,n) (*(unsigned short *)(WORK(p)+(n)))
@@ -26,5 +28,5 @@ void func_021DCEC0(char *p)
     PTR(p,0x190)=func_02045EC0(PTR(p,0x80),0x6f);
     HALF(p,0x194)=0x39e3;
     PTR(p,0x198)=0;
-    PTR(p,0x19c)=func_02027F60(0,8,PTR(p,0x78),PTR(p,0x8c),0x4c);
+    PTR(p,0x19c)=func_02027F60(0,8,(u32)PTR(p,0x78),(u32)PTR(p,0x8c),0x4c);
 }

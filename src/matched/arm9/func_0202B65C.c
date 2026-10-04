@@ -23,9 +23,9 @@ typedef unsigned int   u32;
 
 struct Obj;
 
-extern u32 func_0202B894(u32 id);
+extern u8 *func_0202B894(u32 id);
 
 void func_0202B65C(struct Obj *o)
 {
-    *(u32 *)((u8 *)o + 0x24) = func_0202B894(*(u16 *)o);
+    *(u32 *)((u8 *)o + 0x24) = (u32)func_0202B894(*(u16 *)o);
 }

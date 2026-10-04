@@ -15,7 +15,7 @@
  *   func_021D6F2C 0x021D6F2C thumb ov118
  */
 extern void *func_021DC854(void *, int);
-extern int func_021DC894(void *, int, void *, void *, int);
+extern int func_021DC894(int a, int b, char *q, char *p, int n);
 extern void func_021DCBA4(char *a, char *p);
 extern void func_021D8E84(void *, int);
 extern void func_021D6F2C(unsigned char *);
@@ -25,7 +25,7 @@ int func_021DCCB8(void *a, int b, char *c)
     int r;
     p = func_021DC854(a, 0x96000);
     *(int *)(c + 0x14) = *(int *)(c + 0x30);
-    r = func_021DC894(a, b, c, p, 8);
+    r = func_021DC894((int)a, b, c, p, 8);
     func_021DCBA4(c, p);
     func_021D8E84(p, (int)func_021D6F2C);
     return r;

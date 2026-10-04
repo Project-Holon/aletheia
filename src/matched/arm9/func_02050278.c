@@ -40,7 +40,8 @@ struct BbActSys {
 typedef signed int     s32;
 struct AreaMan;
 extern void func_0204F150(u8 *a0, int i);
-extern void func_02046EFC(u32 v);
+struct Tagged;
+extern void func_02046EFC(struct Tagged *p);
 extern void func_02050088(struct BbActSlot *s);
 extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
 
@@ -53,7 +54,7 @@ void func_02050278(struct BbActSys *o, u32 first, u32 count)
             func_0204F150(o->f04, o->f0C[first + i].id);
         }
         if (o->f0C[first + i].val != 0) {
-            func_02046EFC(o->f0C[first + i].val);
+            func_02046EFC((struct Tagged *)o->f0C[first + i].val);
         }
         func_02050088(&o->f0C[first + i]);
     }

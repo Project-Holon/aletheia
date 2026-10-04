@@ -18,18 +18,18 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0215A5EC(u32);
+extern void *func_0215A5EC(void *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern u32 func_0216DE94(u32, u32);
-extern void func_0216DB80(u32, u32);
+extern void *func_0216DE94(void *map, u32 id);
+extern void func_0216DB80(unsigned int *p, unsigned int v);
 
 int func_021B1A20(u32 a, u32 b)
 {
     u32 x = func_02159B10((void *)a, (void *)b);
-    u32 o = func_0216DE94(func_0215A5EC(b), x);
+    u32 o = (u32)func_0216DE94(func_0215A5EC((void *)b), x);
 
     if (o != 0) {
-        func_0216DB80(o, 1);
+        func_0216DB80((unsigned int *)o, 1);
     }
     return 0;
 }

@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u16 func_021A3190(int i, int j);
-extern u32 func_021A398C(u32);
-extern u32 func_021A3D08(u32, u32);
+extern u32 func_021A398C(u8 *p);
+extern int func_021A3D08(u8 *p, u32 v);
 
 int func_021A3D50(u32 a, u32 b)
 {
-return func_021A3D08(a, func_021A3190(func_021A398C(a), b));
+return func_021A3D08((u8 *)a, func_021A3190(func_021A398C((u8 *)a), b));
 }
 

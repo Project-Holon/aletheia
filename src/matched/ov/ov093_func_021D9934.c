@@ -21,7 +21,8 @@
 typedef unsigned short u16;
 
 extern int func_021D775C(int);
-extern int func_021C8288(int);
+typedef unsigned char  u8;
+extern int func_021C8288(u8 *p);
 extern int func_0201C1E8(u16);
 typedef signed int     s32;
 extern void func_021D7704(int key, s32 m);
@@ -29,7 +30,7 @@ extern int d_021F0930[];
 
 void func_021D9934(int a, int b, int c)
 {
-    if (c == func_021D775C(3) && func_021C8288(b) == 1) {
+    if (c == func_021D775C(3) && func_021C8288((u8 *)b) == 1) {
         if (func_0201C1E8(func_021D775C(0x12)) == 2)
             func_021D7704(0x35, 0x1800);
     }

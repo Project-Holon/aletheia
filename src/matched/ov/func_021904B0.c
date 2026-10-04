@@ -21,10 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02045B38(u32, u32, u32, u32);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 int func_021904B0(u32 a, u32 b)
 {
-return func_02045B38(0, 2, ((b << 16) >> 16), *(u16 *)((u8 *)(a)));
+return (int)func_02045B38(0, 2, ((b << 16) >> 16), *(u16 *)((u8 *)(a)));
 }
 

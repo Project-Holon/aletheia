@@ -27,7 +27,9 @@ struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
 extern unsigned long long func_0200C37C(struct Blk34 *p);
 extern u64 func_0203F524();
-extern void func_020891E0();
+struct RTCDate;
+struct RTCTime;
+extern void func_020891E0(struct RTCDate *date, struct RTCTime *time, long long sec);
 
 int func_0216BB18(void *sys)
 {
@@ -40,7 +42,7 @@ int func_0216BB18(void *sys)
         return 0;
     }
     t = func_0200C37C(r4);
-    func_020891E0(a + 3, a, func_0203F524() - t);
+    func_020891E0((struct RTCDate *)(a + 3), (struct RTCTime *)a, func_0203F524() - t);
     if (a[3] != 0 || a[4] > 1 || a[5] > 1) {
         return 24;
     }

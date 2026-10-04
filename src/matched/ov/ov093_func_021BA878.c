@@ -27,8 +27,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_021BB964(void *);
-extern int func_021C8138(void *);
+struct Q1;
+struct Q5;
+struct Q7;
+extern u32 func_021BB964(struct Q5 *p);
+extern u16 func_021C8138(struct Q7 *p);
 extern u8 func_021C8140(void *, int);
 extern u16 func_021C7CBC(u8 *p);
 extern u16 func_021C7CC8(u8 *p);
@@ -36,7 +39,7 @@ extern u16 func_021C7CD4(void *);
 extern u16 func_021C7CDC(u8 *p);
 extern u16 func_021C7CE8(u8 *p);
 extern char *func_021B9AEC(char *, int);
-extern u32 func_021B9B94(void *);
+extern u8 func_021B9B94(struct Q1 *p);
 extern u8 func_021B9B98(char *);
 extern void *func_021B9BF0(void *, u8);
 extern u8 func_021D54B4(u8 *p);
@@ -54,9 +57,9 @@ void func_021BA878(u8 *p)
     void *item;
     if (*(void **)(p + 8) == 0)
         return;
-    a = func_021BB964(*(void **)(p + 8));
+    a = (u8 *)func_021BB964(*(void **)(p + 8));
     q = *(u8 **)p;
-    q[0xb6] = func_021C8138(a);
+    q[0xb6] = func_021C8138((struct Q7 *)a);
     q[0xb7] = func_021C8140(a, 0);
     q[0xb8] = func_021C7CBC(a);
     q[0xb9] = func_021C7CC8(a);
@@ -66,7 +69,7 @@ void func_021BA878(u8 *p)
     if (*(int *)(q + 0x8c) == 1)
         q[0xbd] = 1;
     list = func_021B9AEC((char *)p + 0x1b0, 0);
-    n = func_021B9B94(list);
+    n = func_021B9B94((struct Q1 *)list);
     count = func_021B9B98(list);
     for (i = 0; i < n; i++) {
         item = func_021B9BF0(list, i);
@@ -75,13 +78,13 @@ void func_021BA878(u8 *p)
     }
     q[0xbf] = n - count;
     list = func_021B9AEC((char *)p + 0x1b0, 1);
-    n = func_021B9B94(list);
+    n = func_021B9B94((struct Q1 *)list);
     count = func_021B9B98(list);
     q[0xbe] = n - count;
     if (func_021B8B9C(p, 3)) {
         list = func_021B9AEC((char *)p + 0x1b0, 3);
         if (list) {
-            n = func_021B9B94(list);
+            n = func_021B9B94((struct Q1 *)list);
             count = func_021B9B98(list);
             q[0xbe] += (u8)(n - count);
         }

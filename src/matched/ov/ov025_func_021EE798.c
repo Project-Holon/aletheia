@@ -20,12 +20,14 @@
  *   func_02014A10  0x02014A10  thumb
  */
 
-extern int *func_021A21B8(int);
-extern int func_021A223C(int, int);
-extern void func_021A232C(int, int, int, int, int);
+typedef signed int     s32;
+typedef unsigned char  u8;
+extern int *func_021A21B8(int *p);
+extern int func_021A223C(unsigned char *o, int arg);
+extern void func_021A232C(u8 *p, int a, int b, int c, int d);
 extern void func_021A2108(int, int, int);
 extern int func_021A23B0(int);
-extern void func_021A244C(int, int *, int *);
+extern void func_021A244C(u8 *o, s32 *outX, s32 *outY);
 extern void func_021A2564(int, int, int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,18 +40,18 @@ int func_021EE798(int a, int b, int c)
     int x;
     int y;
 
-    p = func_021A21B8(a);
-    t = func_021A223C(a, c);
+    p = func_021A21B8((int *)a);
+    t = func_021A223C((unsigned char *)a, c);
     if (*p > 0) {
         *p = *p - 1;
         if (*p == 0) {
-            func_021A232C(a, 8, 0x7F5F, 0x5A, b);
+            func_021A232C((u8 *)a, 8, 0x7F5F, 0x5A, b);
             func_021A2108(a, 0x3E, func_02014A10(1));
         }
     } else if (func_021A23B0(a) != 0 && t != 0) {
         return 1;
     }
-    func_021A244C(a, &x, &y);
+    func_021A244C((u8 *)a, &x, &y);
     func_021A2564(a, x, y);
     return 0;
 }

@@ -22,10 +22,10 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021BB7A4(u8 *p, int v);
+extern void func_021BB7A4(void *p, u32 *s);
 extern void func_021B9968(u8 *p);
 extern void func_021B8F68(u8 *p, int v);
-extern void func_021BAFA0(u8 *p, int v, int z);
+extern void func_021BAFA0(u8 *a, u8 *s, int k);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021B7B98(u8 *p);
@@ -35,7 +35,7 @@ extern void func_020061E4(u32 id);
 
 void func_021B86D8(u8 *p)
 {
-    func_021BB7A4(p, W(0x150));
+    func_021BB7A4(p, (u32 *)W(0x150));
     if (p[0xf] == 3 && W(0x2c) == W(0x30)) {
         p[0xf] = 1;
     }
@@ -47,7 +47,7 @@ void func_021B86D8(u8 *p)
         W(0x38) = 0;
         p[0xc] = 2;
         func_021B8F68(p, W(0x2c));
-        func_021BAFA0(p, *(int *)(p + W(0x30) * 4 + 0x160), 0);
+        func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x30) * 4 + 0x160)), 0);
         func_0204B3DC((struct Obj *)W(0x1dc), 0);
         W(0x30) = 9;
         *(int *)(W(0x280) + 0x3c) = W(0x2c);

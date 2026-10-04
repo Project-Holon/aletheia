@@ -21,8 +21,9 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_021ABE14(void *p);
-extern void *func_02188C88(void *p);
+typedef unsigned char  u8;
+extern u32 func_021ABE14(u8 *p);
+extern u32 func_02188C88(u8 *p);
 extern void func_021BBD0C(void *p);
 extern const char d_021DE30C[];
 
@@ -39,7 +40,7 @@ Obj *func_021BBCBC(void *owner, u32 heap)
 
     o = func_02030734(heap, 0x40, 1, d_021DE30C, 0x9d);
     o->owner = owner;
-    o->res = func_02188C88(func_021ABE14(owner));
+    o->res = (void *)func_02188C88((u8 *)func_021ABE14(owner));
     func_021BBD0C(o);
     o->f3c = 0x2000;
     return o;

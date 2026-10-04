@@ -34,11 +34,13 @@ typedef unsigned int u32;
 
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
-extern u32 func_02012944(u32 a);
-extern u32 func_0201293C(u32 a);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 *func_02012944(void *p);
+extern u32 func_0201293C(const struct BigObj *p);
 extern int func_02007698(void);
-extern u32 func_02008530(u32 a);
-extern u32 func_020079BC(u32 a, int b, int c, int d, int e);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 
 int func_021B6850(u32 a, u16 b, u16 *c, u16 *d)
 {
@@ -51,17 +53,17 @@ int func_021B6850(u32 a, u16 b, u16 *c, u16 *d)
     u32 r6;
 
     func_02012934((void *)a);
-    r4 = func_02012944(a);
-    r6 = func_0201293C(a);
+    r4 = (u32)func_02012944((void *)a);
+    r6 = func_0201293C((const struct BigObj *)a);
     base = func_02007698();
-    t10 = func_02008530(r4);
+    t10 = func_02008530((const struct Sub0200852CObj *)r4);
     for (i = 0; i < 24; i++) {
         m = (i + base) % 24;
         for (j = 0; j < 30; j++) {
-            if (func_020079BC(r6, m, j, 0xa9, 0) != 0
-                && t10 == func_020079BC(r6, m, j, 7, 0)
-                && b == func_020079BC(r6, m, j, 5, 0)
-                && func_020079BC(r6, m, j, 0x4c, 0) == 0) {
+            if (func_020079BC((void **)r6, m, j, 0xa9, 0) != 0
+                && t10 == func_020079BC((void **)r6, m, j, 7, 0)
+                && b == func_020079BC((void **)r6, m, j, 5, 0)
+                && func_020079BC((void **)r6, m, j, 0x4c, 0) == 0) {
                 *c = m;
                 *d = j;
                 return 1;

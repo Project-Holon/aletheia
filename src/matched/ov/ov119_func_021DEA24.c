@@ -32,7 +32,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct S S;
 struct MsgBank;
-extern void func_021B63D0(S *),func_021B6548(int,int,int);
+extern void func_021B63D0(S *);
+extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 extern int func_021B6448(u8 *),func_021B6470(u8 *);
 extern void func_02045CAC(struct MsgBank *,unsigned,void *),func_021E1024(void *),func_021DD09C(void *),func_021D8E84(void *,int),func_021DE9E8(void *);
 extern int func_02035C08(const void *);
@@ -49,7 +50,7 @@ void func_021DEA24(char *p)
     if(func_021B6448(*(u8 **)(p+0x9c0))==1) {
         func_02045CAC(*(struct MsgBank **)(p+0x720),148,*(void **)(p+0x738));
         func_021E1024(p);
-        func_021B6548(*(int *)(p+0x9c0),1,0);
+        func_021B6548((unsigned char *)(*(int *)(p+0x9c0)),1,0);
         func_021DD09C(p);
         func_021D8E84(p,(int)func_021DE9E8);
         return;

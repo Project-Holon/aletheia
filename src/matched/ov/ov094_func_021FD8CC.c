@@ -28,7 +28,7 @@ typedef signed short s16;
 typedef unsigned short u16;
 typedef struct { int x, y, z; } VecFx32;
 extern const s16 d_020A1B38[];
-extern int *func_02051A34(void *p);
+extern int func_02051A34(void *p);
 extern void func_0207BC08(const VecFx32 *a, const void *b, VecFx32 *out);
 extern void func_02051838(void *p, const VecFx32 *v);
 extern void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs);
@@ -40,7 +40,7 @@ void func_021FD8CC(void *p, int active)
     u16 b;
     int *s;
 
-    s = func_02051A34(p);
+    s = (int *)func_02051A34(p);
     if (s[18] == 0 || active == 0)
         return;
     if (s[19] == 3) {

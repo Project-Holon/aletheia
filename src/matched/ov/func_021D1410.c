@@ -55,7 +55,8 @@ extern u16 func_021BA004(char *p, int i);
 extern u32 func_021B919C(u8 *p);
 extern u32 func_021B9210(u8 *p);
 extern u32 func_021B9244(char *p);
-extern void func_021EAF18(void *msg, int a, int id);
+struct L;
+extern void func_021EAF18(struct L *p, int kind, u16 id);
 extern void func_021EAF50(void *msg, int v);
 extern void func_021EA614(void *win, void *msg);
 extern int func_021EA710(u32 *p);
@@ -76,10 +77,10 @@ int func_021D1410(BattleSeq *s, int *state)
             a = func_021B904C(s->battle, 0);
             b = func_021B904C(s->battle, 1);
             if (a == b) {
-                func_021EAF18(s->msg, 1, 44);
+                func_021EAF18((struct L *)s->msg, 1, 44);
                 func_021EAF50(s->msg, a);
             } else {
-                func_021EAF18(s->msg, 1, 45);
+                func_021EAF18((struct L *)s->msg, 1, 45);
                 func_021EAF50(s->msg, a);
                 func_021EAF50(s->msg, b);
             }
@@ -87,7 +88,7 @@ int func_021D1410(BattleSeq *s, int *state)
             *state = 1;
         } else if (func_021BA1A8(s->battle, 0x100) == 0) {
             a = func_021B8FF4(s->battle);
-            func_021EAF18(s->msg, 1, 54);
+            func_021EAF18((struct L *)s->msg, 1, 54);
             func_021EAF50(s->msg, a);
             func_021EAF50(s->msg, a);
             func_021EA614(s->msgWin, s->msg);
@@ -145,7 +146,7 @@ int func_021D1410(BattleSeq *s, int *state)
         a = func_021B919C(s->battle);
         if (a) {
             b = func_021B8FF4(s->battle);
-            func_021EAF18(s->msg, 1, 58);
+            func_021EAF18((struct L *)s->msg, 1, 58);
             func_021EAF50(s->msg, b);
             func_021EAF50(s->msg, a);
             func_021EA614(s->msgWin, s->msg);
@@ -160,7 +161,7 @@ int func_021D1410(BattleSeq *s, int *state)
             a = func_021B9210(s->battle);
             if (a) {
                 b = func_021B8FF4(s->battle);
-                func_021EAF18(s->msg, 1, 59);
+                func_021EAF18((struct L *)s->msg, 1, 59);
                 func_021EAF50(s->msg, b);
                 func_021EAF50(s->msg, a);
                 func_021EA614(s->msgWin, s->msg);
@@ -172,7 +173,7 @@ int func_021D1410(BattleSeq *s, int *state)
         if (func_021EA710(s->msgWin)) {
             a = func_021B9244(s->battle);
             if (a) {
-                func_021EAF18(s->msg, 1, 56);
+                func_021EAF18((struct L *)s->msg, 1, 56);
                 func_021EAF50(s->msg, s->unk1A6);
                 func_021EAF50(s->msg, a);
                 func_021EA614(s->msgWin, s->msg);
@@ -182,7 +183,7 @@ int func_021D1410(BattleSeq *s, int *state)
         break;
     case 10:
         if (func_021EA710(s->msgWin)) {
-            func_021EAF18(s->msg, 1, 57);
+            func_021EAF18((struct L *)s->msg, 1, 57);
             func_021EAF50(s->msg, s->unk1A6);
             func_021EA614(s->msgWin, s->msg);
             *state = 11;

@@ -29,13 +29,15 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_02028148(u32 p);
-extern int  func_020456F8(u32 p);
-extern int  func_02045730(u32 p);
+struct Descriptor;
+struct Obj;
+extern void func_02028148(u8 *p);
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void func_020452E8(u32 p);
-extern void func_0204B3B4(u32 p);
-extern void func_020307B0(u32 p);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0204B3B4(struct Obj *p);
+extern void func_020307B0(void *p);
 extern void func_020414EC(u32 i);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 
@@ -45,34 +47,34 @@ void func_021BBE5C(void *a0, char *a1)
     u8 i, j;
 
     if (*(void **)(a1 + 0x1c) != 0) {
-        func_02028148(*(u32 *)(a1 + 0x1c));
+        func_02028148((u8 *)(*(u32 *)(a1 + 0x1c)));
         *(u32 *)(a1 + 0x1c) = 0;
     }
 
     p = *(u32 *)(a1 + 0x2c);
-    func_020456F8(p);
-    func_020409B4(func_02045730(p));
-    func_020452E8(*(u32 *)(a1 + 0x2c));
+    func_020456F8((struct Descriptor *)p);
+    func_020409B4(func_02045730((struct Descriptor *)p));
+    func_020452E8((struct Descriptor *)(*(u32 *)(a1 + 0x2c)));
 
     p = *(u32 *)(a1 + 0x30);
-    func_020456F8(p);
-    func_020409B4(func_02045730(p));
-    func_020452E8(*(u32 *)(a1 + 0x30));
+    func_020456F8((struct Descriptor *)p);
+    func_020409B4(func_02045730((struct Descriptor *)p));
+    func_020452E8((struct Descriptor *)(*(u32 *)(a1 + 0x30)));
 
-    func_0204B3B4(*(u32 *)(a1 + 0x404));
-    func_0204B3B4(*(u32 *)(a1 + 0x400));
+    func_0204B3B4((struct Obj *)(*(u32 *)(a1 + 0x404)));
+    func_0204B3B4((struct Obj *)(*(u32 *)(a1 + 0x400)));
 
     for (i = 0; i < 0xf; i++) {
         char *q = a1 + i * 0x1c;
 
-        func_020452E8(*(u32 *)(q + 0x54));
-        func_0204B3B4(*(u32 *)(q + 0x50));
-        func_0204B3B4(*(u32 *)(q + 0x4c));
-        func_0204B3B4(*(u32 *)(q + 0x48));
+        func_020452E8((struct Descriptor *)(*(u32 *)(q + 0x54)));
+        func_0204B3B4((struct Obj *)(*(u32 *)(q + 0x50)));
+        func_0204B3B4((struct Obj *)(*(u32 *)(q + 0x4c)));
+        func_0204B3B4((struct Obj *)(*(u32 *)(q + 0x48)));
     }
 
     for (j = 0; j < 0xf; j++)
-        func_020307B0(*(u32 *)(a1 + j * 0x24 + 0x1f8));
+        func_020307B0((void *)(*(u32 *)(a1 + j * 0x24 + 0x1f8)));
 
     func_020414EC(6);
     func_020409B4(6);

@@ -25,9 +25,12 @@ u32 func_020362DC(void);
 int func_0215A61C(int a);
 void func_020061E4(u32 a);
 int func_02159190(int a);
-void func_02191134(int a);
-void func_02191794(int a);
-void func_021914CC(int a);
+struct P;
+struct R;
+struct S;
+void func_02191134(struct P *p);
+void func_02191794(struct R *r);
+void func_021914CC(struct S *s);
 
 int func_021B1550(int a, int b)
 {
@@ -41,11 +44,11 @@ int func_021B1550(int a, int b)
         return 1;
     }
     if (func_02159190(1)) {
-        func_02191134(r4);
+        func_02191134((struct P *)r4);
     } else if (func_02159190(3)) {
-        func_02191794(r4);
+        func_02191794((struct R *)r4);
     } else if (func_02159190(2)) {
-        func_021914CC(r4);
+        func_021914CC((struct S *)r4);
     } else {
         return 1;
     }

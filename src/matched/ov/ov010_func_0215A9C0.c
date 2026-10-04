@@ -23,25 +23,31 @@ typedef struct {
     int k[8];
 } Q;
 
-extern int func_02020D0C(int);
-extern void func_020202EC(int, unsigned short *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+struct P;
+struct Q;
+extern u32 func_02020D0C(u8 *p);
+extern void func_020202EC(struct Obj *obj, u16 *out);
 extern int func_02159190(int);
 extern int func_0215A61C(int);
-extern void func_02191164(int);
-extern void func_02191184(int, int, int, int);
+extern void func_02191164(struct P *p);
+extern void func_02191184(struct Q *q, u32 b, int c, u32 d);
 
 void func_0215A9C0(int a)
 {
     unsigned short h = 0;
-    int r = func_02020D0C(a);
+    int r = func_02020D0C((u8 *)a);
     Q *q = (Q *)(*(char **)(r + 0x20) + 0x34);
 
-    func_020202EC(a, &h);
+    func_020202EC((struct Obj *)a, &h);
     if (q->k[h] != 0) {
         if (func_02159190(1) != 0) {
             int t = func_0215A61C(r);
-            func_02191164(t);
-            func_02191184(t, 0, 0, q->k[h]);
+            func_02191164((struct P *)t);
+            func_02191184((struct Q *)t, 0, 0, q->k[h]);
         } else if (func_02159190(2) == 0) {
             func_02159190(3);
         }

@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_021AC1E0(void *a);
+extern int func_021AC1E0(u32 a);
 extern void func_020061E4(u32 a);
 extern int d_021DB934[];
 
@@ -32,7 +32,7 @@ void func_021D04A4(void *a)
     u8 *e;
 
     if (a != 0) {
-        e = func_021AC1E0(a);
+        e = (u8 *)func_021AC1E0((u32)a);
         *(u16 *)(e + 0x1a) = 1;
         func_020061E4(d_021DB934[*(u32 *)(e + 0xc)]);
     }
