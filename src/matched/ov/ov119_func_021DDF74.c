@@ -34,15 +34,17 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 h);
 struct MsgBank;
 struct WordSet;
 extern int func_021E12AC(char *p);
 extern int func_021DD140(char *p);
 extern int func_021D8A24(void *p);
-extern u32 func_02039CB4(u32 h, u32 a, u32 b);
-extern void func_02039C68(u32 h, u32 a, u32 b);
+struct Link;
+extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
+extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -59,11 +61,11 @@ extern void func_021DE8C0(char *p);
 void func_021DDF74(char *p)
 {
     int a, b, c, i, m;
-    a = func_0203D1A4(func_020399A8());
+    a = func_0203D1A4((u32)func_020399A8());
     b = 1 - a;
     if (func_021E12AC(p) == 0) return;
     if (func_021DD140(p) == 0) return;
-    if (func_021D8A24(p) != 0 && func_02039CB4(func_020399A8(), 0x1C, 8) == 0) {
+    if (func_021D8A24(p) != 0 && func_02039CB4((struct Link *)func_020399A8(), 0x1C, 8) == 0) {
         func_021DD24C(p);
         return;
     }
@@ -103,7 +105,7 @@ void func_021DDF74(char *p)
     p[0x11E0] = 0;
     p[0x11E1] = 0;
     if (func_021D8A24(p) != 0) {
-        func_02039C68(func_020399A8(), 0x19, 8);
+        func_02039C68((struct Link *)func_020399A8(), 0x19, 8);
     }
     *(int *)(p + 0xF2C) = 0;
     func_021D8E84(p, (int)func_021DE8C0);
