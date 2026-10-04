@@ -32,7 +32,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32   func_02045770(void *a);
+extern void *func_02045770(struct Descriptor *p);
 extern void  func_0201C724(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02045808(struct U16Vec *vec);
 extern u32   func_020457B0(u32 a, u32 b);
@@ -56,7 +56,7 @@ void func_0220D218(char *p, int a1, u32 a2)
         w = (func_02045738((void *)handle) << 3) - w;
         f = *(u32 *)(p + 0x1eac);
         func_0201C724(f,
-                      func_02045770((void *)*(u32 *)(p + 0x1f70 + a1 * 8)), w, 0,
+                      (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1f70 + a1 * 8)), w, 0,
                       (u32)t, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
         *(u8 *)(p + a1 * 8 + 0x1f74) = 1;
         func_02045808(t);
@@ -75,7 +75,7 @@ void func_0220D218(char *p, int a1, u32 a2)
         w2 = (func_02045738((void *)handle) << 3) - w0;
         f = *(u32 *)(p + 0x1eac);
         func_0201C724(f,
-                      func_02045770((void *)*(u32 *)(p + 0x1f70 + a1 * 8)), w2, 0,
+                      (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1f70 + a1 * 8)), w2, 0,
                       h, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
         *(u8 *)(p + a1 * 8 + 0x1f74) = 1;
         func_02045808(t2);

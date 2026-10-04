@@ -19,7 +19,8 @@ typedef unsigned int u32;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02045808(struct U16Vec *vec);
 void func_0220D034(char *p, int i)
@@ -28,7 +29,7 @@ void func_0220D034(char *p, int i)
     void *f;
     t = func_02045EC0(*(void **)(p + 0x1EA0), 0x3D);
     f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 0xC), 0x3DC0);
+    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 0xC), 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
     func_02045808(t);
 }
