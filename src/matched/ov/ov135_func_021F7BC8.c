@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern int func_021F99F0(void *);
 extern void func_0201F7A8(void *,u32);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
-extern u32 func_0201ADE4(u16,u16,u16);
+extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(u32,u32);
 extern void func_0201AE14(u32);
 extern int func_021F7B9C(u8 *p, int event);
@@ -50,7 +50,7 @@ int func_021F7BC8(u8 *p)
         break;
     default:
         *(short *)(p+0xB50)=result;
-        h=func_0201ADE4((u16)result,0,0x48);
+        h=(u32)func_0201ADE4((u16)result,0,0x48);
         v=func_0201AE1C(h,20);
         func_0201AE14(h);
         *(u32 *)(*(u8 **)(p+0xE00)+0x20)=v;

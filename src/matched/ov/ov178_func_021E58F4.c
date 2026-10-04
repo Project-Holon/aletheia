@@ -29,8 +29,9 @@ typedef unsigned long u32;
 extern int func_0203CD98(void),func_02157170(void *,void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_02039C68(void *,u32,u32);
-extern u32 func_02039CB4(void *,u32,u32);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned int,unsigned int);
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern char *func_021D9DC8(u32,void *,u32,u16);
@@ -47,20 +48,20 @@ int func_021E58F4(char **out,u32 *ctx,u32 *state)
         }
     }
     switch(*state) {
-    case 0:func_02039C68(func_020399A8(),16,36);++*state;break;
-    case 1:if(func_02039CB4(func_020399A8(),16,36))++*state;break;
+    case 0:func_02039C68((struct Link *)func_020399A8(),16,36);++*state;break;
+    case 1:if(func_02039CB4((struct Link *)func_020399A8(),16,36))++*state;break;
     case 2:func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);func_02034AC4((int)ov175_id);
         *out=func_021D9DC8(ctx[5],**(void ***)ctx,0,88);++*state;break;
-    case 3:func_02039C68(func_020399A8(),17,36);++*state;break;
-    case 4:if(func_02039CB4(func_020399A8(),17,36))++*state;break;
+    case 3:func_02039C68((struct Link *)func_020399A8(),17,36);++*state;break;
+    case 4:if(func_02039CB4((struct Link *)func_020399A8(),17,36))++*state;break;
     case 5:if(func_021DC200(*out,ctx[3]))++*state;break;
     case 6:if(func_021DC240(*out,ctx[4]))++*state;break;
-    case 7:func_02039C68(func_020399A8(),18,36);++*state;break;
-    case 8:if(func_02039CB4(func_020399A8(),18,36))++*state;break;
+    case 7:func_02039C68((struct Link *)func_020399A8(),18,36);++*state;break;
+    case 8:if(func_02039CB4((struct Link *)func_020399A8(),18,36))++*state;break;
     case 9:func_021D9EA0((u32)*out);*out=0;
         func_02034A5C((int)ov175_id);func_02034A5C((int)ov114_id);func_02034A5C((int)ov067_id);++*state;break;
-    case 10:func_02039C68(func_020399A8(),19,36);++*state;break;
-    case 11:if(func_02039CB4(func_020399A8(),19,36))return 1;break;
+    case 10:func_02039C68((struct Link *)func_020399A8(),19,36);++*state;break;
+    case 11:if(func_02039CB4((struct Link *)func_020399A8(),19,36))return 1;break;
     }
     return 0;
 }
