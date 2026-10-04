@@ -1,0 +1,91 @@
+/*
+ * function: func_021C2288
+ * address:  0x021C2288
+ * packet:   pkt_ov217_021C2288
+ * region:   ov217
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * note: DIFF vs 2026-10-04: 76 bytes differ, structure and all calls match (690 vs 692 bytes). Residue: register colours r5/r6 swapped (original a in r6, float f in r5; ours a in r5, f in r6) plus one store order in the half==0 tail (movs r1,#1 before adds r0,r0,r7). Tried declaration orders of f, i, j and a separate x local.
+ *
+ * symbols:
+ *   func_021C253C  0x021C253C  thumb  ov217
+ *   _ffixu  0x0209C4C8  arm
+ *   _fadd   0x0209C95C  arm
+ *   _fsub   0x0209CB8C  arm
+ *   _fmul   0x0209C77C  arm
+ *   _fdiv   0x0209CE10  arm
+ *   _fflt   0x0209BDBC  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_021C253C(void *p, u8 a, u8 b, u32 c, u32 d);
+
+void func_021C2288(u8 *p, int a, int b, int c, int d)
+{
+    float f = 0.0f;
+    int i = 0;
+    int j;
+    int yb;
+    int w = a - c;
+    int half = (w - 4) / 8;
+    int w2;
+    int half2;
+    int xx;
+    int y;
+    int r;
+
+    yb = b - 4;
+    a -= 8;
+
+    for (j = 0; j < half; j++) {
+        func_021C253C(p + 0x28 + i * 0x18, a, yb, (u32)f, 0);
+        a -= 8;
+        f = f + 1.0f;
+        i++;
+    }
+    if (half == 0) {
+        if (w - 4 > 0) {
+            func_021C253C(p + 0x28 + i * 0x18, a, yb, (u32)f, 0);
+            if (w - 4 < 4) {
+                *(u32 *)(p + i * 0x18 + 0x30) = 1;
+                *(u16 *)(p + i * 0x18 + 0x34) = 1;
+            }
+            f = f + (2.0f * (float)(w - 4) / 8.0f - 1.0f);
+            i++;
+        }
+    } else if ((w - 4) % 8 != 0) {
+        r = (w - 4) - half * 8;
+        f = f - (2.0f - 2.0f * (float)r / 8.0f);
+        func_021C253C(p + 0x28 + i * 0x18, c + 4, yb, (u32)f, 0);
+        f = f + 1.0f;
+        i++;
+    }
+    func_021C253C(p + 0x28 + i * 0x18, c - 4, b - 4, (u32)f, 2);
+    f = f + 1.0f;
+    i++;
+    w2 = d - b;
+    half2 = (w2 - 4) / 8;
+    xx = c - 4;
+    y = b + 4;
+    for (j = 0; j < half2; j++) {
+        func_021C253C(p + 0x28 + i * 0x18, xx, y, (u32)f, 1);
+        f = f + 1.0f;
+        y += 8;
+        i++;
+    }
+    if ((w2 - 4) % 8 != 0) {
+        r = (w2 - 4) - half2 * 8;
+        f = f - (2.0f - 2.0f * (float)r / 8.0f);
+        func_021C253C(p + 0x28 + i * 0x18, xx, d - 8, (u32)f, 1);
+        f = f + 1.0f;
+        i++;
+    }
+    func_021C253C(p + 0x28 + i * 0x18, c - 4, d - 4, (u32)f, 3);
+    p[0x298] = i + 1;
+}

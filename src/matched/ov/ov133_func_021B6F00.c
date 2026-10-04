@@ -1,0 +1,213 @@
+/*
+ * function: func_021B6F00
+ * address:  0x021B6F00
+ * packet:   pkt_ov133_021B6F00
+ * region:   ov133
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0200A644 0x0200A644 thumb
+ *   func_0200A680 0x0200A680 thumb
+ *   func_0200A628 0x0200A628 thumb
+ *   func_021F48C0 0x021F48C0 thumb ov112
+ *   func_021F4F10 0x021F4F10 thumb ov112
+ *   func_021F4B3C 0x021F4B3C thumb ov112
+ *   func_021F4B4C 0x021F4B4C thumb ov112
+ *   func_021F4F54 0x021F4F54 thumb ov112
+ *   func_021F4F70 0x021F4F70 thumb ov112
+ *   func_021F4EE8 0x021F4EE8 thumb ov112
+ *   func_021F4C1C 0x021F4C1C thumb ov112
+ *   func_021F4E6C 0x021F4E6C thumb ov112
+ *   func_021F4EB4 0x021F4EB4 thumb ov112
+ *   func_021F4DE0 0x021F4DE0 thumb ov112
+ *   func_02046FF8 0x02046FF8 arm
+ *   func_02047388 0x02047388 arm
+ *   func_020473B8 0x020473B8 arm
+ *   func_020473EC 0x020473EC arm
+ *   func_02046F48 0x02046F48 arm
+ *   func_02047250 0x02047250 arm
+ *   func_0206A124 0x0206A124 arm
+ *   func_0206A12C 0x0206A12C arm
+ *   func_020862F0 0x020862F0 arm
+ *   func_0204EDD0 0x0204EDD0 arm
+ *   func_0204F044 0x0204F044 arm
+ *   func_0204EFC8 0x0204EFC8 arm
+ *   func_0204F428 0x0204F428 arm
+ *   func_0204F720 0x0204F720 arm
+ *   func_021B9028 0x021B9028 thumb ov133
+ *   func_021BA0CC 0x021BA0CC thumb ov133
+ *   func_021BA19C 0x021BA19C thumb ov133
+ *   func_021BA100 0x021BA100 thumb ov133
+ *   func_021BA218 0x021BA218 thumb ov133
+ *   func_021B7368 0x021B7368 thumb ov133
+ *   func_021B7A18 0x021B7A18 thumb ov133
+ *   func_021B765C 0x021B765C thumb ov133
+ *   d_020A8148    0x020A8148 data
+ *   d_021BA3E0    0x021BA3E0 data ov133 a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+typedef struct Vec { int x, y, z; } Vec;
+extern u32 func_0200A644(void *sv, u8 i);
+extern u32 func_0200A680(void *sv, u8 i);
+extern u8 *func_0200A628(void *sv);
+extern u8 *func_021F48C0(void *owner, int count, u16 heap);
+extern u8 *func_021F4F10(u8 *);
+extern void *func_021F4B3C(int type);
+extern void func_021F4B4C(void *);
+extern u8 *func_021F4F54(u8 *, int);
+extern int func_021F4F70(int *);
+extern void func_021F4EE8(u8 *, u8 *, int);
+extern u8 *func_021F4C1C(u8 *, int, u32, Vec *);
+extern void func_021F4E6C(u8 *, u8 *, u32);
+extern void func_021F4EB4(u8 *, u8 *, s16, s16);
+extern void func_021F4DE0(u8 *, u8 *, void *);
+extern void func_02046FF8(void *);
+extern u32 func_02047388(void *);
+extern u32 func_020473B8(void *);
+extern u16 *func_020473EC(void *);
+extern u8 *func_02046F48(void *);
+extern void *func_02047250(void *);
+extern void func_0206A124(void *, u32);
+extern void func_0206A12C(void *, u32);
+extern void func_020862F0(void *, u32);
+extern void func_0204EDD0(int, u16 *, u16 *);
+extern int func_0204F044(void *, int, int, int, u32, u8, u8);
+extern u32 func_0204EFC8(void *, u32, u32, u32, u32, u32, u32);
+extern u32 func_0204F428(void *, u32, u16, u16, Vec *, u8, u32, u32);
+extern void func_0204F720(void *, u32, u32 *);
+extern void func_021B9028(u8 *, int, u16);
+extern u8 *func_021BA0CC(u16, int);
+extern u8 *func_021BA19C(u16, void *, u8 *, Vec *);
+extern void func_021BA100(void *, u8 *);
+extern u8 *func_021BA218(u8 *);
+extern void func_021B7368(u8 *p, u16 id);
+extern void func_021B7A18(u8 *);
+extern void func_021B765C(u8 *, u16, s16, int, u16);
+extern u32 (*d_020A8148)(u32, u32, u32);
+extern u32 d_021BA3E0[];
+
+void func_021B6F00(u8 *p)
+{
+    int i;
+    int j;
+    u32 zero;
+    u8 *table;
+    void *h;
+    int w;
+    u32 flags;
+    u32 vram;
+    u32 hgt;
+    u32 sz;
+    u16 sizes[2];
+    u16 dims[2];
+    u16 *pal;
+    u32 n;
+    u8 k;
+    u8 *buf;
+    void *res;
+    u8 *e;
+
+    *(u16 *)(p + 0xa8) = 0;
+    zero = 0;
+    for (i = 0; i < 250; i++) {
+        if (func_0200A644(*(void **)(*(u8 **)(p + 4) + 8), i) == 1) {
+            *(u16 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xac) = i;
+            *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xb8) = zero;
+            if (func_0200A680(*(void **)(*(u8 **)(p + 4) + 8), i) == 1)
+                *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = 1;
+            else
+                *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = zero;
+            (*(u16 *)(p + 0xa8))++;
+        }
+    }
+    for (j = 0; *(u16 *)(p + 0xa8) + j < 250; j++) {
+        *(u16 *)(p + (*(u16 *)(p + 0xa8) + j) * 0x14 + 0xac) = 0xff;
+        *(u32 *)(p + (*(u16 *)(p + 0xa8) + j) * 0x14 + 0xb8) = 0;
+        *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = 1;
+    }
+
+    *(u8 **)(p + 0x1884) = func_021F48C0(*(void **)(p + 0x188c), 0x98, *(u16 *)p);
+    table = func_021F4F10(*(u8 **)(p + 0x1884));
+
+    for (i = 0; i < *(u16 *)(p + 0xa8); i++) {
+        h = func_021F4B3C(*(u16 *)(p + i * 0x14 + 0xac));
+        func_02046FF8(h);
+        w = func_02047388(h);
+        hgt = func_020473B8(h);
+        sz = ((hgt & 0xFFFF0000) >> 16) << 3;
+        vram = d_020A8148(sz, 0, 0);
+        flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + i * 0x14 + 0xac)));
+        func_0204EDD0(flags, &sizes[1], &sizes[0]);
+        *(u32 *)(p + i * 0x14 + 0xb0) = func_0204F044(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
+        pal = func_020473EC(h);
+        n = sz >> 1;
+        for (k = 0; k < n; k++) {
+            u16 c = pal[k];
+            u32 b = (u32)(u8)((c & 0x7C00) >> 10) >> 3;
+            u32 r = (u32)(u8)(c & 0x1F) >> 3;
+            u32 g = (u32)(u8)((c & 0x3E0) >> 5) >> 3;
+            pal[k] = r | (g << 5) | (b << 10);
+        }
+        buf = func_02046F48(h);
+        res = func_02047250(h);
+        func_0206A124(res, vram);
+        func_020862F0(buf, *(u32 *)(buf + 8));
+        func_0206A12C(res, 1);
+        *(u32 *)(p + i * 0x14 + 0xb4) = func_0204F044(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
+        func_021F4B4C(h);
+    }
+
+    func_021B9028(p, 8, 0);
+    *(u8 **)(p + 0x181c) = func_021BA0CC(*(u16 *)p, 0xe);
+    *(u8 **)(p + 0x1820) = func_021BA0CC(*(u16 *)p, 0x80);
+    *(u8 **)(p + 0x1824) = func_021BA0CC(*(u16 *)p, 9);
+    *(u8 **)(p + 0x1828) = func_021BA0CC(*(u16 *)p, 4);
+
+    for (i = 0; i < 14; i++) {
+        Vec v = {0, 0, 0};
+        e = func_021BA19C(*(u16 *)p, *(void **)(p + 0x1884), p + 0xac + i * 0x14, &v);
+        func_021BA100(*(void **)(p + 0x181c), e);
+        func_021F4EE8(*(u8 **)(p + 0x1884), func_021BA218(e), 0);
+    }
+
+    {
+    Vec v2 = {0, 0, 0};
+    *(u16 *)(p + 0x50) = 0;
+    flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
+    func_0204EDD0(flags, &dims[1], &dims[0]);
+    h = func_021F4B3C(*(u16 *)(p + 0x50));
+    func_02046FF8(h);
+    w = func_02047388(h);
+    *(u32 *)(p + 0x54) = func_0204F044(*(void **)(p + 0x188c), w, func_020473B8(h), 0, flags, dims[1], dims[0]);
+    *(u8 **)(p + 0x4c) = func_021F4C1C(*(u8 **)(p + 0x1884), *(u16 *)(p + 0x50), *(u32 *)(p + 0x54), &v2);
+    func_021F4E6C(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0);
+    func_021F4EB4(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0x1000, 0x1000);
+    func_021F4DE0(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), h);
+    func_021F4B4C(h);
+    }
+
+    *(u32 *)(p + 0x58) = func_0204EFC8(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
+    for (k = 0; k < 14; k++) {
+        Vec v3 = {0, 0, 0};
+        n = func_0204F428(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, &v3, 0x1f, 0, 0);
+        *(u32 *)(p + k * 4 + 0x5c) = n;
+        func_0204F720(*(void **)(p + 0x188c), n, d_021BA3E0);
+    }
+
+    *(u16 *)(p + 0x94) = 0;
+    e = func_0200A628(*(void **)(*(u8 **)(p + 4) + 8));
+    for (k = 0; k < 8; k++) {
+        if (e[k * 6] != 10)
+            func_021B7368(p, *(u16 *)(e + k * 6 + 2));
+    }
+    func_021B7A18(p);
+    *(u32 *)(p + 0x1834) = *(u16 *)(p + 0xa8) * 0x1249 - 0x8000;
+    func_021B765C(p, 0, 0, 0x48, 0x30);
+}

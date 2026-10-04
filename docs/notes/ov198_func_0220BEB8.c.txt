@@ -1,0 +1,6 @@
+func_0220BEB8 (ov198, 536 bytes, Thumb), listing notes from wD3 lane 15 (2026-10-04). No C drafted (lane ran out of context).
+Signature seen: f(p=r0, idx=r1, a2=[sp,#0xc], a3=[sp,#0x10], stack arg at [sp,#0x78]); frame 0x60, push {r3-r7,lr}.
+Same text-draw family as ov198 func_0220D494 and ov097 func_021F6D70 (wD3, DIFF draft with 25 diff bytes): 02045778, 0x22110d4(p,a2)*0x4c record index,
+02045EC0 bank lookups, 0201EEF4, 0201F250, 02045770, 0201C724 draws with 0x3DC0, 02045808 frees, 02045738 width.
+Tests on a record byte: ldrb [rec,#0x16] bit7 and ldrb [rec,#0x17] bit7 (lsls 24; lsrs 31) skip, then (rec[0x17] & 7) == 0 / == 1 chains.
+Branches on a2-derived value == 9 (cmp r0,#9) choose pool constants for the draw flag. Listing past 0x0220C02A not read.

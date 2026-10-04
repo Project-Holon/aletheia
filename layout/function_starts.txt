@@ -2685,3 +2685,8 @@ overlay_099 0x021BDD98  thumb   # wave D2: EXACT src/matched/ov/ov099_func_021BD
 overlay_175 0x021DC5F8  thumb   # wave D2: EXACT src/matched/ov/ov175_func_021DC5F8.c; called from ov175_func_021D9DC8.c
 overlay_208 0x021BEF9C  thumb   # wave D2: EXACT src/matched/ov/ov208_func_021BEF9C.c; called from ov208_func_021BEA04.c
 overlay_208 0x021BF784  thumb   # wave D2: EXACT src/matched/ov/ov208_func_021BF784.c; called from ov110_func_021BA5C4.c, ov110_func_021BA9B4.c, ov110_func_021BABAC.c
+overlay_012 0x0217534C  thumb   # wave D3: bl from ov012 0x02174744 (+0x350); EXACT src/matched/ov/ov012_func_0217534C.c
+overlay_172 0x021B8B7C  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021B8B7C.c
+overlay_172 0x021B8C14  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021B8C14.c
+overlay_172 0x021B8C20  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021B8C20.c
+overlay_172 0x021BE0F0  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021BE0F0.c
