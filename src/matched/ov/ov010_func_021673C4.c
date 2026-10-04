@@ -19,14 +19,14 @@
 
 typedef unsigned char u8;
 
-extern void func_0200E06C(void *p);
+extern void func_0200E06C(char *p);
 extern void func_0200E024(void *p);
 
 u8 func_021673C4(u8 *p)
 {
     u8 v;
 
-    func_0200E06C(p);
+    func_0200E06C((char *)p);
     v = p[0x849];
     func_0200E024(p);
     return v;

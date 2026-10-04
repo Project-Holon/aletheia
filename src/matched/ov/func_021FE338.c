@@ -87,7 +87,7 @@ extern int func_021FE254(void);
 extern void func_020355D8(u8 v);
 extern void func_021FEAE0(Work *p, int i);
 extern int func_021FE9B0(Work *p);
-extern u32 func_0201ADE4(u16 a, u16 b, u16 heap);
+extern void *func_0201ADE4(u32 a, int b, u32 heap);
 extern u32 func_0201AE1C(u32 h, u32 k);
 extern void func_0201AE14(u32 h);
 extern int func_021F7B9C(Rec *p, u32 event);
@@ -110,7 +110,7 @@ int func_021FE338(Work *p)
         switch (sel) {
         case 1:
             if (p->rec[0].a != 0) {
-                u32 h = func_0201ADE4(p->rec[0].a, 0, 0x48);
+                u32 h = (u32)func_0201ADE4((u16)p->rec[0].a, 0, 0x48);
                 u32 v = func_0201AE1C(h, 0x14);
                 func_0201AE14(h);
                 p->st->f20 = v;
@@ -172,7 +172,7 @@ int func_021FE338(Work *p)
             switch (sel) {
             case 1:
                 if (p->rec[0].a != 0) {
-                    u32 h = func_0201ADE4(p->rec[0].a, 0, 0x48);
+                    u32 h = (u32)func_0201ADE4((u16)p->rec[0].a, 0, 0x48);
                     u32 v = func_0201AE1C(h, 0x14);
                     func_0201AE14(h);
                     p->st->f20 = v;

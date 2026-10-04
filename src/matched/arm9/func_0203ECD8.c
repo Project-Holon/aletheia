@@ -55,7 +55,8 @@ struct Ctx {
 extern struct Tbl *g_021469F4;
 
 extern void *func_0203D798(void);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 
 void func_0203ECD8(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
@@ -76,7 +77,7 @@ void func_0203ECD8(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
         return;
     }
 
-    if (func_020399A8() != who && ctx->unk_64 == 0) {
+    if ((u32)func_020399A8() != who && ctx->unk_64 == 0) {
         return;
     }
 
@@ -87,7 +88,7 @@ void func_0203ECD8(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
         return;
     }
 
-    if (idx != func_0203D1A4(func_020399A8())) {
+    if (idx != func_0203D1A4((u32)func_020399A8())) {
         g_021469F4->unk_40 = 1;
     }
 }
