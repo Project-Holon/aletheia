@@ -13,7 +13,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {short x,y,z; u8 a,b;} Point;
-extern unsigned func_0204B294(unsigned,unsigned,unsigned,unsigned,Point *,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 unsigned func_0220E684(char *p,const int *q)
 {
     Point point;
@@ -22,5 +23,5 @@ unsigned func_0220E684(char *p,const int *q)
     point.z=0;
     point.a=q[4];
     point.b=q[3];
-    return func_0204B294(*(unsigned *)(p+0x1eb8),*(unsigned *)(p+q[0]*4+0x24a4),*(unsigned *)(p+q[1]*4+0x250c),*(unsigned *)(p+q[2]*4+0x2524),&point,1,*(u16 *)(*(char **)p+0x10));
+    return (unsigned)func_0204B294((void *)*(unsigned *)(p+0x1eb8),*(unsigned *)(p+q[0]*4+0x24a4),*(unsigned *)(p+q[1]*4+0x250c),*(unsigned *)(p+q[2]*4+0x2524),&point,1,*(u16 *)(*(char **)p+0x10));
 }
