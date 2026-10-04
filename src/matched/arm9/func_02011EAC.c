@@ -31,11 +31,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02011FCC(u32 v);
+extern int func_02011FCC(char *p);
 
 u32 func_02011EAC(u32 a0, u32 a1, u32 a2, u32 a3)
 {
-    if (func_02011FCC(a3) != 0)
+    if (func_02011FCC((char *)a3) != 0)
         return 1;
     return 0;
 }
