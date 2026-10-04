@@ -68,7 +68,9 @@ struct Blk34;
 extern u16 func_02188C9C(u8 *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
-extern void func_0216D88C(void *a, s32 *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern int func_02159C48(void *a, int x, int z);
 extern int func_02159BD4(void *a, int x, int z);
 extern void *func_02012F08(int *p);
@@ -95,7 +97,7 @@ void func_021AA80C(struct Ctx *ctx)
     if (ctx->f00 == 0 || m == 0)
         return;
     id = func_02188C9C(ctx->f00);
-    func_0216D88C(func_021A3074(func_02188CB4(ctx->f00)), pos);
+    func_0216D88C(func_021A3074(func_02188CB4(ctx->f00)), (struct VecFx32 *)pos);
     if (func_02159C48(m, pos[0], pos[2]) == 0)
         return;
     r = func_02159BD4(m, pos[0], pos[2]);

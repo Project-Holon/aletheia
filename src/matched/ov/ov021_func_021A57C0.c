@@ -27,7 +27,9 @@ typedef struct Vec3 {
 } Vec3;
 
 extern void *func_021A3960(u8 *p);
-extern void func_0216D88C(u8 *a, Vec3 *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_02164208(int dir, Vec3 *p, int amt);
 extern int  func_02163E58(u8 *a, Vec3 *p, int *out);
 
@@ -39,7 +41,7 @@ int func_021A57C0(u8 *p, int dir)
     int lim;
 
     a = func_021A3960(*(u8 **)(p + 0xc));
-    func_0216D88C(a, &pos);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&pos);
     y = pos.y;
     func_02164208(dir, &pos, 0x10000);
     if (func_02163E58(a, &pos, &lim) == 1) {
