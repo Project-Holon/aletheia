@@ -30,7 +30,9 @@ extern int func_02159B10(u32, u32);
 extern u32 func_0215A5EC(u32);
 extern void *func_0215A5DC(void *a0);
 extern u32 func_0216DE94(u32, int);
-extern void func_0216D88C(u32, void *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern u32 func_02161AC0(void *, u32, void *, void *);
 extern void func_0215897C(void *, u32);
 
@@ -55,7 +57,7 @@ int func_021B1FB8(u32 a, u32 b)
     m = func_0215A5EC(b);
     w = func_0215A5DC((void *)b);
     o = func_0216DE94(m, i);
-    func_0216D88C(o, buf);
+    func_0216D88C((const struct Actor *)o, (struct VecFx32 *)buf);
     vec[0] = (x << 16) + 0x8000;
     vec[1] = y << 16;
     vec[2] = (z << 16) + 0x8000;

@@ -42,7 +42,9 @@ int func_021ABEA0(u32 a, u32 b);
 u16 func_0216D5F8(int a);
 u16 func_0216D5FC(int a);
 int func_021BBD84(int a, int n, int x, int y);
-void func_0216D88C(int a, Vec *out);
+struct Actor;
+struct VecFx32;
+void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 int func_0216D804(int a);
 int func_0216D81C(int a);
 void func_02164280(int a, int b, Vec *c);
@@ -62,7 +64,7 @@ void func_021BBDD4(int a, int b, int c)
     t = func_0216D5F8(a);
     u = func_0216D5FC(a);
     w = (u16)func_021BBD84(x, c, t, u);
-    func_0216D88C(a, &v);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
     t = func_0216D804(a);
     func_02164280(t, func_0216D81C(a), &v);
     if (c == 0 && (u16)(w + 0xFFFE) <= 1) {

@@ -26,7 +26,9 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } Vec;
 
-extern void func_0216D88C(void *obj, Vec *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *obj, struct VecFx32 *out);
 extern void func_02164208(u32 dir, Vec *pos, int step);
 extern u8 func_0216D91C(void *obj);
 extern u8 func_0216D924(void *obj);
@@ -48,7 +50,7 @@ int func_021C0D08(void *obj, u32 dir, void *map)
     u32 attr;
     u16 id;
 
-    func_0216D88C(obj, &pos);
+    func_0216D88C(obj, (struct VecFx32 *)&pos);
     func_02164208(dir, &pos, 0x10000);
     n = func_0216D91C(obj);
     m = func_0216D924(obj);

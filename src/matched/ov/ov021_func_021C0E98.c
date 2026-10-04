@@ -41,7 +41,9 @@ extern int func_02197E7C(int a, int b);
 extern void func_0216D410(u32 o, u32 a);
 extern void func_020061E4(u32 se);
 extern int func_0216D454(u32 o);
-extern void func_0216D88C(u32 o, Vec3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *o, struct VecFx32 *v);
 extern int func_02163E58(u32 o, Vec3 *v, int *out);
 extern u16 func_0216D598(u32 o);
 extern void func_0216DB4C(u32 o, u32 b);
@@ -77,7 +79,7 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
             *st = 4;
             break;
         }
-        func_0216D88C(*(u32 *)(p + 0x1c), &a);
+        func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&a);
         func_02163E58(*(u32 *)(p + 0x1c), &a, (int *)(p + 0xc));
         if (func_0216D598(*(u32 *)(p + 0x1c)) == 0x6d)
             *(int *)(p + 0xc) -= 14 << 12;
@@ -89,7 +91,7 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
         (*st)++;
         break;
     case 2:
-        func_0216D88C(*(u32 *)(p + 0x1c), &b);
+        func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&b);
         if (*(int *)(p + 0xc) < b.y) {
             b.y -= 0x4000;
             if (*(int *)(p + 0xc) > b.y)
@@ -116,7 +118,7 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
                 *(int *)(p + 0x14) -= 0x1000;
         }
         if (*(int *)(p + 0x14) == 0) {
-            func_0216D88C(*(u32 *)(p + 0x1c), &c);
+            func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&c);
             func_0216E014(*(u32 *)(p + 0x1c), &c, *(u16 *)(p + 4));
             func_0216D8E0(*(u32 *)(p + 0x1c), p + 0x10);
             func_0216E57C(*(u32 *)(p + 0x1c));

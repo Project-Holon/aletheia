@@ -22,7 +22,9 @@ typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V3;
 typedef struct { u32 f0, f4, f8, fC; u16 f10[10]; u32 f24; } X;
 extern int func_0216E1C4(u32 a, u16 *b);
-extern void func_0216D88C(u32 a, V3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
 extern void func_021BB808(X *x, V3 *v);
 extern void func_021AC1CC(u32 a, V3 *v);
 void func_021BB60C(u32 a, X *x)
@@ -32,7 +34,7 @@ void func_021BB60C(u32 a, X *x)
         x->f24 = 1;
         return;
     }
-    func_0216D88C(x->fC, &v);
+    func_0216D88C((const struct Actor *)x->fC, (struct VecFx32 *)&v);
     func_021BB808(x, &v);
     func_021AC1CC(a, &v);
 }

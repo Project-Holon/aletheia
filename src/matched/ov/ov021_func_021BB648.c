@@ -18,7 +18,9 @@
  */
 
 int func_0216E1C4(int a, int b);
-void func_0216D88C(int a, int *out);
+struct Actor;
+struct VecFx32;
+void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 void func_021AC154(int a);
 void func_021AC1CC(int a, int *b);
 void func_021BB808(int *a, int *b);
@@ -31,7 +33,7 @@ void func_021BB648(int a, int *b)
         func_021AC154(a);
         return;
     }
-    func_0216D88C(b[3], v);
+    func_0216D88C((const struct Actor *)b[3], (struct VecFx32 *)v);
     func_021BB808(b, v);
     func_021AC1CC(a, v);
 }

@@ -64,7 +64,9 @@ extern S *func_0215A63C(int);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216D88C(void *, V3 *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_021B0A40(void *, V3 *);
 extern void func_021B0B08(int, int);
 extern void func_021B0ADC(int, unsigned char *, int, V3 *, int, int, int);
@@ -103,7 +105,7 @@ int func_021B0EF4(void *a, int b)
     x = func_02188CB4(q[1]);
     y = (int)func_0215A5EC(b);
     z = func_021A3074((void *)x);
-    func_0216D88C(func_0216DE94((void *)y, s->id), &v);
+    func_0216D88C(func_0216DE94((void *)y, s->id), (struct VecFx32 *)&v);
     r = func_021B0A40(z, &v);
     if (r != 1) {
         flag = 1;
