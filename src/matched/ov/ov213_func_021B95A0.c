@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int complete(void);
 extern int overlayLoad(int);
-extern void heapCreate(void *,u32,u32);
+extern void heapCreate(u32,u32,u32);
 extern void *create(void *,u32,u32);
 extern void clear(void *,u32,u32);
 extern void initialize(u8 *);
@@ -61,7 +61,7 @@ int func_021B95A0(void *manager,int *state,struct Args *args)
     struct Obj *p;
     if(*state==1 && complete()==1) return 1;
     overlayLoad((int)ov067_id);
-    heapCreate((void *)1,116,0x80000);
+    heapCreate(1,116,0x80000);
     p=create(manager,0x49D8,116);
     clear(p,0,0x49D8);
     p->heap=116;

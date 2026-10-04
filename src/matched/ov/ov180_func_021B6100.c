@@ -12,13 +12,13 @@
  */
 typedef unsigned int u32;
 struct Obj0203159C;
-extern void func_0203064C(void *, u32, u32);
+extern void func_0203064C(u32, u32, u32);
 extern u32 *func_0203159C(struct Obj0203159C *, u32, u32);
 extern void func_02082BCC(void *, u32, u32);
 int func_021B6100(struct Obj0203159C *obj, void *unused, u32 value)
 {
     u32 *p;
-    func_0203064C((void *)1, 141, 0x60000);
+    func_0203064C(1, 141, 0x60000);
     p = func_0203159C(obj, 0x919C, 141);
     func_02082BCC(p, 0, 0x919C);
     *p = value;
