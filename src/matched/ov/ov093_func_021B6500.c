@@ -57,7 +57,7 @@ extern void func_02005CA4(int, u32);
 extern void func_02006740(void);
 extern void func_02029F6C(void);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int);
 extern void func_021E88F8(void);
 static inline int poll(u8 *p, u32 offset)
 {
@@ -126,9 +126,9 @@ int func_021B6500(int handle, u32 *state, int unused, u8 *p)
         func_02006740();
         if (((Flags *)p)->flag7) { func_02029F6C(); ((Flags *)p)->flag7 = 0; }
         func_020315D4((struct S020315D4 *)handle);
-        func_020306F0((void *)19);
-        func_020306F0((void *)20);
-        func_020306F0((void *)18);
+        func_020306F0(19);
+        func_020306F0(20);
+        func_020306F0(18);
         func_021E88F8();
         return 1;
     }

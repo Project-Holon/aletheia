@@ -31,7 +31,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u8 *func_020124E8(struct Desc *p);
 extern void func_02082BCC();
-extern int func_02012138();
+extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_021767A0();
 extern int func_0216B3EC();
 
@@ -50,7 +50,7 @@ struct Desc *func_0216B340(int a0, int a1, V12 *a2, int a3, int a4)
     *(u32 *)p = 0;
     p[0x16] = a4;
     *(int *)(p + 0x1c) = a1;
-    if (func_021767A0(func_02012138(a0), h) == 4)
+    if (func_021767A0((int)func_02012138((const struct Ctx *)a0), h) == 4)
         *(u32 *)(p + 0x20) = 1;
     return r;
 }

@@ -16,9 +16,9 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_020120D8(int a);
+extern int func_020120D8(char *a);
 
 int func_02189A2C(int *a)
 {
-    return func_020120D8(a[1]);
+    return func_020120D8((char *)a[1]);
 }

@@ -35,7 +35,8 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02012138(void *p);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *p);
 extern void func_02161CDC(void *a, void *b, u8 c, u8 d);
 extern void func_02161D18(void *a, void *b, u8 c, u8 d);
 extern void func_0216570C(void);
@@ -50,7 +51,7 @@ void *func_02161B90(void *p, void *a1, int kind, int sub, int flag)
     n = func_020124E8(h);
     func_02082BCC(n, 0, 0x24);
     n->f00 = p;
-    n->f04 = func_02012138(p);
+    n->f04 = (void *)func_02012138(p);
     if (flag != 0)
         func_02161CDC(n->f08, p, kind, sub);
     else

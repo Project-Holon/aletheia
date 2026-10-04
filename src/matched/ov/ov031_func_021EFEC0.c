@@ -40,7 +40,8 @@ typedef unsigned int   u32;
 extern char str_021F10C0[];
 extern u8 d_021F1038[];
 
-extern void *func_02012138(void *);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *);
 struct PmsDraw;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -72,7 +73,7 @@ u32 *func_021EFEC0(void *a)
     u32 i;
     u32 tmp;
 
-    s = func_02012138(a);
+    s = (void *)func_02012138(a);
     w = func_02030734(0x15, 0x80, 1, str_021F10C0, 0x10F);
     w[0] = (u32)a;
     h = func_020490F4(0x59, 0x15);

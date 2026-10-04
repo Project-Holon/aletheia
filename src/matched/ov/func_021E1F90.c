@@ -46,7 +46,7 @@ extern void func_021DCB48(void *p);
 extern void func_02036270(u32 a, u32 b);
 extern void func_02049238(u32 a);
 extern void func_020307B0(void *q);
-extern void func_020306F0(int a);
+extern void func_020306F0(unsigned int a);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
 extern void func_02034A5C(int a);

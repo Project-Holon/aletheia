@@ -31,7 +31,8 @@ typedef struct {
 extern int func_02188C80(int a);
 extern int func_020120F4(int a);
 extern int func_0201296C(int a);
-extern int func_02012A30(int a);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *a);
 extern u16 *func_020143CC(u32 a, int b);
 extern void func_02028A7C(int a, int b);
 
@@ -41,7 +42,7 @@ void func_021F3FB8(int a, int b, S3F30 *c)
 
     r5 = func_020120F4(func_02188C80(b));
     c->f8 = func_0201296C(r5);
-    c->fc = func_02012A30(r5);
+    c->fc = func_02012A30((const struct BigObj *)r5);
     c->f0 = func_020143CC(c->f8, 0x4001);
     if (*c->f0 == 0) {
         func_02028A7C(c->fc, 0x7ef);
