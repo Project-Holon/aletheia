@@ -39,7 +39,7 @@ typedef struct Ent {
 extern void  func_0203D0FC(int a);
 extern Ent  *func_02164E04(u8 *obj, int *out);
 extern void  func_02082BCC(void *dst, int v, int n);
-extern u8   *func_0203CF3C(int a);
+extern void *func_0203CF3C(u32 a);
 extern void  func_02026A60(void *a);
 extern void func_02177BF4(unsigned int idx);
 
@@ -68,7 +68,7 @@ u8 *func_02164D6C(u8 *obj, int *arg)
                 rec[0] = e->b0;
                 rec[1] = e->lo;
                 rec[2] = e->hi;
-                src = func_0203CF3C(*arg);
+                src = func_0203CF3C((u32)*arg);
                 for (i = 0; i < 6; i++) {
                     rec[3 + i] = src[i];
                 }
