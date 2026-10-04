@@ -46,7 +46,8 @@ extern void func_02045374(int a);
 extern int func_02045730(int a);
 extern void func_02041B6C(u32 bit);
 extern void func_0204B3DC(int a, int b);
-extern void func_0204B92C(int a, int b);
+struct Obj;
+extern void func_0204B92C(struct Obj *a, u32 b);
 
 void func_021B72DC(struct S *s)
 {
@@ -67,7 +68,7 @@ void func_021B72DC(struct S *s)
     func_02041B6C(func_02045730(p));
     for (i = 0; i < 4; i++) {
         func_0204B3DC((int)s->arrA0[i], 0);
-        func_0204B92C((int)s->arrA0[i], 0);
+        func_0204B92C(s->arrA0[i], 0);
     }
     s->f98 = 0;
 }
