@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_0204B294  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
@@ -28,7 +28,8 @@ extern int func_0204B294(int, int, int, int, S13Rec *, int, int);
 extern void func_0204B3DC(int, int);
 extern void func_0204B954(int, int);
 extern void func_0204B9A0(int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 
 void func_021F1B50(char *p)
 {
@@ -48,6 +49,6 @@ void func_021F1B50(char *p)
         func_0204B3DC(q[0x5c], 0);
         func_0204B954(q[0x5c], 0x2000);
         func_0204B9A0(q[0x5c]);
-        func_0204B92C(q[0x5c], 1);
+        func_0204B92C((struct Obj *)q[0x5c], 1);
     }
 }

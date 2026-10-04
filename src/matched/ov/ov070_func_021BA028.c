@@ -26,7 +26,8 @@ typedef struct {
 
 extern int func_0204B294(int, int, int, int, Rect *, int, u16);
 extern void func_0204B3DC(int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_021BA6A4(char *);
 
 void func_021BA028(char *p)
@@ -43,7 +44,7 @@ void func_021BA028(char *p)
     r1.c = 0;
     *(int *)(p + 0x6A8) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x560), *(int *)(p + 0x554), *(int *)(p + 0x568), &r1, 0, *(u16 *)(p + 0x544));
     func_0204B3DC(*(int *)(p + 0x6A8), 1);
-    func_0204B92C(*(int *)(p + 0x6A8), 1);
+    func_0204B92C((struct Obj *)*(int *)(p + 0x6A8), 1);
     func_021BA6A4(p);
     r2.a = 0x8c;
     r2.b = 0x30;
@@ -52,7 +53,7 @@ void func_021BA028(char *p)
     r2.c = 1;
     *(int *)(p + 0x6A4) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x560), *(int *)(p + 0x554), *(int *)(p + 0x568), &r2, 0, *(u16 *)(p + 0x544));
     func_0204B3DC(*(int *)(p + 0x6A4), 1);
-    func_0204B92C(*(int *)(p + 0x6A4), 1);
+    func_0204B92C((struct Obj *)*(int *)(p + 0x6A4), 1);
     for (i = 0; i < 8; i++) {
         r3.a = 0x8c;
         r3.b = i * 0x18;
