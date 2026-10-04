@@ -14,12 +14,13 @@
  *   func_020306F0  0x020306F0  arm
  */
 
-extern void func_020315D4(int a);
-extern void func_020306F0(int heap);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *a);
+extern void func_020306F0(unsigned int heap);
 
 int func_021BCCBC(int a0)
 {
-    func_020315D4(a0);
+    func_020315D4((struct S020315D4 *)a0);
     func_020306F0(0x16);
     return 1;
 }

@@ -45,7 +45,8 @@ extern void func_0201ED04(u32);
 extern void func_0201D83C(u32);
 extern int  func_02186558(u8 *);
 extern void func_02184B04(u8 *);
-extern void func_020315D4(u32);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
 
 int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
@@ -88,7 +89,7 @@ int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
         break;
     case 3:
         func_02184B04(d);
-        func_020315D4(a);
+        func_020315D4((struct S020315D4 *)a);
         func_020306F0(0x28);
         return 1;
     }

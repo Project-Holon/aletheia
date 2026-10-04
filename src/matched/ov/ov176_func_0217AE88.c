@@ -26,8 +26,9 @@ extern void func_0217AF9C(int *);
 extern void func_0217AF44(int *);
 extern void func_0217AF04(int *);
 extern void func_02034A5C(int);
-extern void func_020315D4(int);
-extern void func_020306F0(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *);
+extern void func_020306F0(unsigned int);
 extern char ov177_id[];
 extern char ov67_id[];
 
@@ -39,7 +40,7 @@ int func_0217AE88(int a, int b, int c, int *p)
     func_0217AF04(p);
     func_02034A5C((int)ov177_id);
     func_02034A5C((int)ov67_id);
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x4e);
     return 1;
 }

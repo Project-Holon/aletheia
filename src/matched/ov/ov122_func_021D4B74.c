@@ -22,7 +22,8 @@ typedef unsigned int u32;
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 struct Comm;
 extern void func_02178118(u32 callback, u32 value);
-extern void *func_02012138(void *);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *);
 extern u32 func_02026454(void *obj);
 extern void func_02026400(struct Comm *p);
 extern void func_021D4244(char *, void *, int);
@@ -32,8 +33,8 @@ void func_021D4B74(char *p)
     *(int *)(p + 0x38c) = 1;
     func_0202208C(0, 0, 0, 0, 6, 1, *(u16 *)(p + 0xc));
     func_02178118(0, 0);
-    if (*(int *)(p + 8) == 1 && func_02026454(func_02012138(*(void **)(p + 0x354))))
-        func_02026400(func_02012138(*(void **)(p + 0x354)));
+    if (*(int *)(p + 8) == 1 && func_02026454((void *)func_02012138(*(void **)(p + 0x354))))
+        func_02026400((struct Comm *)func_02012138(*(void **)(p + 0x354)));
     func_021D4244(p, func_021D4B30, 0x35e);
 }
 void func_021D4BDC(char *p)
