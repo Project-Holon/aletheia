@@ -28,7 +28,7 @@ extern void func_020307B0(void *);
 extern void func_02012704(u8 *p);
 extern void func_02087BCC(u32 parameter);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *);
+extern void func_020306F0(u32);
 extern void func_02005D28(void);
 int func_0221268C(void *sys, int unused, void *data, char *p)
 {
@@ -43,7 +43,7 @@ int func_0221268C(void *sys, int unused, void *data, char *p)
     if (*(int *)(p + 0xc) != 1) func_02087BCC(0);
     if (*(int *)(p + 0x14)) func_020307B0(data);
     func_020315D4(sys);
-    func_020306F0((void *)0x56);
+    func_020306F0(0x56);
     func_02005D28();
     return 1;
 }

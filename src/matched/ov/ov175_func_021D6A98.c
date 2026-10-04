@@ -48,7 +48,8 @@ extern void func_0201C4C0(u32);
 extern void func_0201D83C(u32);
 extern void func_021E5868(u32);
 extern void func_021E54E0(u32);
-extern void func_020315D4(u32);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32);
 extern void func_02034A5C(int);
 int func_021D6A98(u32 sys,u32 unused,u32 arg,char *p)
@@ -63,7 +64,7 @@ int func_021D6A98(u32 sys,u32 unused,u32 arg,char *p)
     func_0201ED04(((u32 *)p)[6]); func_02045C04(((u32 *)p)[5]);
     func_0201C4C0(((u32 *)p)[4]); func_0201D83C(((u32 *)p)[3]); func_0201D83C(((u32 *)p)[2]);
     func_021E5868(((u32 *)p)[1]); func_021E54E0(((u32 *)p)[0]);
-    func_020315D4(sys); func_020306F0(87);
+    func_020315D4((struct S020315D4 *)sys); func_020306F0(87);
     func_02034A5C((int)ov114_id); func_02034A5C((int)ov067_id);
     return 1;
 }
