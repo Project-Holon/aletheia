@@ -39,7 +39,7 @@ struct Big;
 struct BigObj;
 struct Party;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0203064C(void *, unsigned, unsigned);
+extern void func_0203064C(unsigned, unsigned, unsigned);
 extern void *func_0203159C(void *, unsigned, unsigned);
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
@@ -68,7 +68,7 @@ int func_02212560(void *a, int unused, u8 *arg)
     case 0: kind = 1; break;
     default: func_02034714(d_02213D00, 0, d_02213D00); break;
     }
-    func_0203064C((void *)kind, 0x56, 0x8000);
+    func_0203064C(kind, 0x56, 0x8000);
     p = func_0203159C(a, 0x8b0, 0x56);
     func_02082BCC(p, 0, 0x8b0);
     func_02082D44(arg, p + 4, 0x14);
