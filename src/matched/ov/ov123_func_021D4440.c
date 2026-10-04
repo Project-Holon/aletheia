@@ -16,7 +16,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 extern int func_0203CD98(void);
-extern void *func_02012138(void *);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 struct Comm;
 extern void func_02026400(struct Comm *p);
 extern void func_021D4244(char *, void *, int);
@@ -38,7 +39,7 @@ void func_021D4440(Object *p)
     case 2:
     case 3:
         if (func_0203CD98())
-            func_02026400(func_02012138(p->f264));
+            func_02026400((struct Comm *)func_02012138(p->f264));
         break;
     }
     func_021D4244((char *)p, func_021D4AB4, 0x1aa);

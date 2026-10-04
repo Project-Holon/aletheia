@@ -36,7 +36,7 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 extern void func_021B998C(char *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(u32 heap);
 int func_021B964C(void *task, int b, int c, char *p)
 {
     int i;
