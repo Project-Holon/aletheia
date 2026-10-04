@@ -38,7 +38,8 @@ extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32  func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u16 f, u16 heap);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
 extern void func_0204B688(u32 obj, u32 on);
@@ -59,7 +60,7 @@ u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 f
     pos.f7 = 0;
     *slot = func_0204A6C8(h, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
     obj = func_0204B294(res, *slot, a, b, &pos, 1, heap);
-    func_0204B92C(obj, 0);
+    func_0204B92C((struct Obj *)obj, 0);
     func_0204B6F4(obj, func_0201BB5C(species, form, gender, isEgg), 0);
     func_0204B688(obj, 0);
     func_02049238(h);

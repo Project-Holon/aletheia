@@ -25,7 +25,8 @@ typedef struct {
 } Local;
 
 extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
-extern void func_0204B92C(u32, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(u32, int);
 extern void func_0204B9A0(u32);
 
@@ -45,7 +46,7 @@ void func_021D434C(void *p)
                           *(u32 *)((char *)p + 0x88C),
                           *(u32 *)((char *)p + 0x8BC),
                           &s, 0, *(u16 *)((char *)p + 0x5F4));
-        func_0204B92C(*(u32 *)((char *)*(void **)((char *)p + 0xc) + 0xb0), 1);
+        func_0204B92C((struct Obj *)*(u32 *)((char *)*(void **)((char *)p + 0xc) + 0xb0), 1);
         func_0204B3DC(*(u32 *)((char *)*(void **)((char *)p + 0xc) + 0xb0), 1);
     } else {
         func_0204B9A0(v);
