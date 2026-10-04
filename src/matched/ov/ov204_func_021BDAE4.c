@@ -29,7 +29,7 @@ extern void func_0201D83C(void *);
 extern void func_021BEF74(char *);
 extern void func_021BDCF0(unsigned char *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int heap);
 typedef signed int     s32;
 extern void func_02034A5C(s32 handle);
 extern const char ov067_id[];
@@ -45,7 +45,7 @@ int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
     func_021BDCF0(*(unsigned char **)(p + 8));
     heap = *(unsigned short *)p;
     func_020315D4(owner);
-    func_020306F0((void *)(unsigned)heap);
+    func_020306F0((unsigned)heap);
     func_02034A5C((unsigned)ov067_id);
     return 1;
 }

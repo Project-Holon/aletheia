@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The listing extent (252 B) runs over the matched follower 0x021F2AB8;
  * the function is 224 B.  Case order 1/6, 5, 12/13, 7/11 is the table's
@@ -25,8 +25,8 @@
  *   func_021F2CD4  0x021F2CD4  thumb  ov029
  */
 
-extern int func_02012138(int a);
 struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_021F05B4(char *p);
 extern void func_020061E4(unsigned int id);
@@ -41,7 +41,7 @@ int func_021F29D8(char *p, int a)
     int r = 0;
     void *b;
 
-    func_02012138(*(int *)(p + 0x1c));
+    func_02012138((const struct Ctx *)*(int *)(p + 0x1c));
     b = func_0201210C(*(void **)(p + 0x1c));
     if (a == 0 || b == 0)
         return 0;
