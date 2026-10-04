@@ -74,7 +74,9 @@ extern int func_0215A61C(int a0);
 extern u32 func_02191348(u32, u32);
 extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_0215A654(u32);
-extern void func_0216D88C(u32, V3 *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_021B0A40(u32, V3 *);
 extern void func_021B09EC(int, int *, int *);
 extern void func_0215A660(u32, u8);
@@ -122,7 +124,7 @@ int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
         s->id = id;
         if (e == 0) {
             func_0215A654(b);
-            func_0216D88C(m1c, &v);
+            func_0216D88C((const struct Actor *)m1c, (struct VecFx32 *)&v);
             sel = func_021B0A40(m20, &v);
         }
         func_021B09EC(sel, &oa, &ob);

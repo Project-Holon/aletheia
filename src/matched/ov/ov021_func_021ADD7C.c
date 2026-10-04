@@ -26,7 +26,9 @@ typedef struct Arg { unsigned a; Vec3 v; } Arg;
 
 extern u8 d_021D9290[];
 
-extern void func_0216D88C(int a, Vec3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
 extern int func_021ABE8C(int a, int b);
 extern void func_021ABE30(int a, int *b, int c);
 typedef unsigned int   u32;
@@ -39,7 +41,7 @@ void func_021ADD7C(int a, int b)
     Arg s;
     int n;
 
-    func_0216D88C(a, &v);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
     v.y += 0x1000;
     v.z += 0xc000;
     if (func_021ABE8C(b, 10) == 0) {

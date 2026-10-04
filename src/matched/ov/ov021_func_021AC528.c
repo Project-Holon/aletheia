@@ -25,7 +25,9 @@ typedef int            s32;
 typedef struct Vec3 { s32 x, y, z; } Vec3;
 typedef struct Arg { u32 a; Vec3 v; } Arg;
 
-extern void func_0216D88C(u32 a, Vec3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
 extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
 extern u8 d_021D90AC[];
@@ -34,7 +36,7 @@ void func_021AC528(u32 a, u32 b)
 {
     Vec3 v;
     Arg s;
-    func_0216D88C(a, &v);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
     v.y += 0x1000;
     v.z += 0x6000;
     s.a = func_021ABEA0(b, 1);

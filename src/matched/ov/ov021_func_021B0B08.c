@@ -45,7 +45,9 @@ typedef unsigned char  u8;
 struct Ctx;
 extern void *func_0216DE94(void *map, u32 id);
 extern u16 func_0216D5F8(void *p);
-extern void func_0216D88C(void *, V3 *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188C58(void *);
@@ -61,7 +63,7 @@ void func_021B0B08(void *a, int b)
     V3 v;
     if (o != 0) {
         func_0216D5F8(o);
-        func_0216D88C(o, &v);
+        func_0216D88C(o, (struct VecFx32 *)&v);
         if (b == 1 || v.x != s->a.x || v.y != s->a.y || v.z != s->a.z) {
             int p, q;
             s->a = v;

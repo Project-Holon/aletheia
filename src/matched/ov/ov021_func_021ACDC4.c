@@ -68,7 +68,9 @@ extern void func_02197CCC(u32 a, V3 *v);
 extern void func_021AC1CC(u32 a, V3 *v);
 extern u32 func_021ABE18(u32 a);
 extern void func_021C66EC(u32 a, u32 b, u32 c);
-extern void func_0216D88C(u32 a, V3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
 extern s32 func_021ACC04(V3 *a, V3 *b, u32 dir);
 extern s32 func_021ACBE4(s32 d);
 
@@ -120,7 +122,7 @@ void func_021ACDC4(u32 a, B *b)
     } else {
         in = &b->in;
         func_021C66EC(func_021ABE18(*b->f1c), in->c, 0x1000);
-        func_0216D88C(b->f20, &u);
+        func_0216D88C((const struct Actor *)b->f20, (struct VecFx32 *)&u);
         if (b->fc != in->b) {
             in->b = b->fc;
             in->p4 = u;

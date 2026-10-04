@@ -22,14 +22,16 @@ typedef signed char    s8;
 typedef struct T { int a; int b; int c; } T;
 typedef struct Q { int f0; int f4; int f8; } Q;
 
-extern void func_0216D88C(u32 a, T *t);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *t);
 
 int func_021B0A40(u32 a, Q *q)
 {
     T t;
     int r = 2;
 
-    func_0216D88C(a, &t);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&t);
     if (q->f8 < t.c)
         r = 1;
     return r;
