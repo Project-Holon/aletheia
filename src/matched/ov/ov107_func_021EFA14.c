@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * extent: follower 021EFC10 already has its own matched source/shard.
  * ABI: 19E4 keeps the caller's visibly supplied r1. 0AE4 reads no incoming arguments.
  * symbols:
@@ -47,7 +47,8 @@ typedef unsigned int u32;
 extern u16 func_021F0D28(void);
 extern int func_02035C08(const void *),func_021F0A28(void),func_021F1B14(void *),func_021F19C8(void *),func_021F1A2C(void *);
 extern u32 func_020362DC(void);
-extern void func_0204B878(void *,u16),func_0204B92C(void *,u32),func_020061E4(u32);
+struct Obj;
+extern void func_0204B878(void *,u16),func_0204B92C(struct Obj *,u32),func_020061E4(u32);
 extern void func_021F0A64(void),func_021F0AE4(void),func_021F1898(void *),func_021F1628(void *,int);
 struct Sub0200852CObj;
 extern signed char func_02012FFC(void);

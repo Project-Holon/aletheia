@@ -44,7 +44,8 @@ extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32 obj, int on);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B878(u32 obj, u16 anim);
 extern int func_021F5F9C(int a, int b, int c);
 extern void func_021F68A4(Work *p, int box);
@@ -76,7 +77,7 @@ void func_021F5E44(Work *p)
         if (dir != p->slot) {
             if (dir == 0x63 || dir == 0x65) {
                 k = dir == 0x65 ? 0 : 1;
-                func_0204B92C(p->arrows[k], 1);
+                func_0204B92C((struct Obj *)p->arrows[k], 1);
                 func_0204B878(p->arrows[k], k + 0x26);
                 p->box = func_021F5F9C(p->box, p->boxes, dir - 0x64);
                 func_021F68A4(p, p->box);
