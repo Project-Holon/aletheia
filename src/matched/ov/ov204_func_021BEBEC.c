@@ -34,7 +34,7 @@ extern void *func_0204ABF0(void *,u32,u32,u32,u32);
 extern void *func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
 extern void *func_021BDD78(void *);
-extern void *func_0204B294(void *,void *,void *,void *,void *,u32,u32);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 int func_021BEBEC(char *p)
 {
@@ -62,7 +62,7 @@ int func_021BEBEC(char *p)
     local=init;
     for(i=0;i<3;i++){
         row=p+i*4;
-        *(void **)(row+0x10a8)=func_0204B294(func_021BDD78(*(void **)(p+20)),*(void **)(row+0x10b4),*(void **)(row+0x10c0),*(void **)(row+0x10cc),(char *)&local+i*8,0,*(u16 *)p);
+        *(void **)(row+0x10a8)=func_0204B294(func_021BDD78(*(void **)(p+20)),(unsigned int)*(void **)(row+0x10b4),(unsigned int)*(void **)(row+0x10c0),(unsigned int)*(void **)(row+0x10cc),(char *)&local+i*8,0,*(u16 *)p);
         func_0204B3DC(*(void **)(row+0x10a8),0);
     }
     return 1;

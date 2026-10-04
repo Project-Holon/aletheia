@@ -29,7 +29,7 @@ extern void *func_0204AC18(void *,u32,u32,u32,u32,u32,u16);
 extern void *func_0204A6C8(void *,u32,u32,u32,u16);
 extern void *func_0204AF28(void *,u32,u32,u16);
 extern void func_02049238(void *);
-extern void *func_0204B294(u32,void *,u32,u32,struct Point *,u16,u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D6D5C(u8 *p)
@@ -42,7 +42,7 @@ void func_021D6D5C(u8 *p)
     *(void **)(p+0x6c)=func_0204AF28(h,1,0,*(u16 *)(p+0x43c4));
     func_02049238(h);
     pt.x=156; pt.y=28; pt.f4=0; pt.f6=0; pt.f7=2;
-    *(void **)(p+0xb8)=func_0204B294(*(u32 *)(p+0xc),*(void **)(p+0x50),*(u32 *)(p+0x34),*(u32 *)(p+0x6c),&pt,0,*(u16 *)(p+0x43c4));
+    *(void **)(p+0xb8)=func_0204B294((void *)*(u32 *)(p+0xc),(unsigned int)*(void **)(p+0x50),*(u32 *)(p+0x34),*(u32 *)(p+0x6c),&pt,0,*(u16 *)(p+0x43c4));
     func_0204B92C(*(void **)(p+0xb8),0);
     func_0204B3DC(*(void **)(p+0xb8),0);
 }

@@ -78,7 +78,7 @@ typedef struct {
 extern const Pos tbl_022038A2[];
 
 extern void func_021FFC18(Obj *p);
-extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B84C(u32, int);
@@ -101,13 +101,13 @@ void func_021FF6A4(Obj *p)
     s.c = 0;
     s.d = 0;
     s.e = 0;
-    p->spr[0] = func_0204B294(p->res.f0, p->res.f1C, p->res.f20, p->res.f24, &s, 1, 0x48);
+    p->spr[0] = (u32)func_0204B294((void *)p->res.f0, p->res.f1C, p->res.f20, p->res.f24, &s, 1, 0x48);
     func_0204B92C((struct Obj *)p->spr[0], 1);
     func_0204B84C(p->spr[0], 2);
     func_0204B878(p->spr[0], 3);
     func_0204B3DC(p->spr[0], 1);
     for (i = 0; i < 7; i++) {
-        p->spr[i + 1] = func_0204B294(p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
+        p->spr[i + 1] = (u32)func_0204B294((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
         func_0204B92C((struct Obj *)p->spr[i + 1], 1);
         func_0204B878(p->spr[i + 1], i * 4 + 0xE);
         func_0204B3DC(p->spr[i + 1], 0);
@@ -115,13 +115,13 @@ void func_021FF6A4(Obj *p)
         func_0204B84C(p->spr[i + 1], 2);
         func_0204B6F4(p->spr[i + 1], (u8)(i + 2), 1);
     }
-    p->arrow = func_0204B294(p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
+    p->arrow = (u32)func_0204B294((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
     func_0204B92C((struct Obj *)p->arrow, 1);
     func_0204B878(p->arrow, 0x2b);
     func_0204B3DC(p->arrow, 0);
     func_021FFAEC(p->arrow, 0x80, 0x56);
     func_0204B84C(p->arrow, 1);
-    p->page = func_0204B294(p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
+    p->page = (u32)func_0204B294((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
     func_0204B92C((struct Obj *)p->page, 1);
     func_0204B878(p->page, 0x2a);
     func_021F4EA0(p->page, 0x37, p->pageNum + 0xa8);

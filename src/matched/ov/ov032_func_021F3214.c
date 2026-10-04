@@ -23,7 +23,7 @@ typedef struct {
     unsigned char h;
 } Rect;
 
-extern void *func_0204B294(unsigned, unsigned, unsigned, unsigned, Rect *, unsigned, unsigned);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
@@ -39,7 +39,7 @@ void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short 
     r.w = w;
     r.h = h;
     r.z = z;
-    res = func_0204B294(*(unsigned *)(p + 0x128), a, b, c, &r, 0, *(unsigned short *)(p + 0x94));
+    res = func_0204B294((void *)*(unsigned *)(p + 0x128), a, b, c, &r, 0, *(unsigned short *)(p + 0x94));
     func_0204B92C(res, 1);
     func_0204BA20(res, 0);
     return res;

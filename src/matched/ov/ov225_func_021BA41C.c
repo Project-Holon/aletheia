@@ -41,7 +41,7 @@ extern u32 func_02027620(u32);
 extern int func_0204AF28(u32,u32,u32,u32);
 extern void func_02049238(void *);
 extern u32 func_021B9A08(const u8 *p);
-extern struct Obj *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_0204B92C(struct Obj *,u32);
 void func_021BA41C(char *p)
@@ -58,7 +58,7 @@ void func_021BA41C(char *p)
     for(i=0;i<2;i++) {
         char *parent=*(char **)p;
         char *dest=p+i*4;
-        *(struct Obj **)(dest+0x38)=func_0204B294((u32)func_021B9A08(*(void **)(parent+8)),*(u32 *)(p+0x2c),*(u32 *)(p+0x30),*(u32 *)(p+0x34),(u32)&d_021BBF14[i*28],1,*(u16 *)(parent+4));
+        *(struct Obj **)(dest+0x38)=func_0204B294((void *)func_021B9A08(*(void **)(parent+8)),*(u32 *)(p+0x2c),*(u32 *)(p+0x30),*(u32 *)(p+0x34),&d_021BBF14[i*28],1,*(u16 *)(parent+4));
         func_0204B3DC(*(struct Obj **)(dest+0x38),0);
         func_0204B92C(*(struct Obj **)(dest+0x38),1);
     }

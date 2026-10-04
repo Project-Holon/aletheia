@@ -41,7 +41,7 @@ typedef unsigned char  u8;
 struct Actor;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_0204B294(void *, int, int, int, Quad *, int, u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B404(void *, Pos *, int);
 extern void func_0204B570(struct Actor *actor, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
