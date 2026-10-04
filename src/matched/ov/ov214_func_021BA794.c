@@ -54,7 +54,8 @@ typedef struct {
     int f08;
 } Obj;
 
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int, int);
 extern int func_02045EC0(int, int);
 extern void func_02045808(int);
@@ -91,19 +92,19 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
     }
 
     if (state != e->fBC) {
-        tmp = func_02045770(e->f94);
+        tmp = (int)func_02045770((struct Descriptor *)e->f94);
         func_02043B5C(tmp, 0);
-        tmp = func_02045770(e->f98);
+        tmp = (int)func_02045770((struct Descriptor *)e->f98);
         func_02043B5C(tmp, 0);
     } else if (v != e->fC0) {
-        tmp = func_02045770(e->f98);
+        tmp = (int)func_02045770((struct Descriptor *)e->f98);
         func_02043B5C(tmp, 0);
     }
 
     if (state != e->fBC) {
         func_0201C6EC(e->f14);
         h = func_02045EC0(e->f58, 0x10);
-        p = func_02045770(e->f94);
+        p = (int)func_02045770((struct Descriptor *)e->f94);
         func_0201C724(e->f14, p, 4, 1, h, e->f08, flag);
         e->fA4 = 0;
         func_02045808(h);
@@ -116,7 +117,7 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
         func_0201C6EC(e->f18);
         func_0201EFA4(x, 1, v, 2, 2, 1);
         func_0201F250(x, p2, h2);
-        q = func_02045770(e->f98);
+        q = (int)func_02045770((struct Descriptor *)e->f98);
         func_0201C724(e->f18, q, 2, 2, p2, e->f08, flag);
         e->fA8 = 0;
         func_02045808(p2);
