@@ -33,7 +33,8 @@ extern void func_020072CC(int a, int b, int c, void *d, int e);
 extern int func_020073D8(int a, int b, int c);
 extern int func_0200E5A0(int a);
 extern int func_0200E5CC(int a);
-extern void func_0200734C(int a, int b);
+struct Sub02007324Ctrl;
+extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
 extern void func_020307B0(void *p);
 
 void func_021D09D0(int a, char *out)
@@ -56,7 +57,7 @@ void func_021D09D0(int a, char *out)
             v = 2;
         }
     }
-    func_0200734C(h, 5);
+    func_0200734C((struct Sub02007324Ctrl *)h, 5);
     func_020307B0(buf);
     *(int *)(out + 0x150) = v;
 }

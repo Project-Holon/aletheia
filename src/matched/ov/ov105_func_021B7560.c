@@ -43,7 +43,7 @@ typedef unsigned int u32;
 typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; u8 low:4; u8 high:4; u8 tail[32]; } Data;
 typedef struct {u32 objects[3]; u16 current[3]; u16 bound[3]; int step[3]; u8 pad[12]; u8 digits[3];u8 pad1;int state[3];} Display;
 struct Task;
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(struct Task *,u32,u32);
 extern void func_02082BCC(void *,int,int);
 struct Ctx;
@@ -73,7 +73,7 @@ int func_021B7560(struct Task *a,void *b,u8 *context)
     u8 *p;
     u32 handle;
     int tag,font;
-    func_0203064C((void *)1,60,0x20000);
+    func_0203064C(1,60,0x20000);
     p=func_0203159C(a,0x1a8,60);
     func_02082BCC(p,0,0x1a8);
     *(u8 **)(p+0x1a4)=context;

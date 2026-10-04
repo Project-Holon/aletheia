@@ -47,7 +47,7 @@ struct Unit {
 };
 struct Slot14 { u16 f00; u16 f02; u8 f04; u8 f05; u8 f06; u8 f07; };
 
-extern void *func_0201ADE4(u16 a, u16 b, u16 c);
+extern void *func_0201ADE4(unsigned int a, int b, unsigned int c);
 extern u32 func_021A9D30(const struct Unit *u, void *src, struct Slot14 *s);
 struct Mon;
 struct Sub0200852CObj;

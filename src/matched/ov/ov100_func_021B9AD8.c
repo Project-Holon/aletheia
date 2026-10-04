@@ -16,8 +16,10 @@
  *   func_021B9A54 0x021B9A54 thumb ov100
  *   func_021B96B8 0x021B96B8 thumb ov100
  */
-extern int func_020399A8(void);
-extern int func_02039CB4(int,int,int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern void func_0201BA34(int);
 extern int func_021B9AB4(unsigned a);
 extern void func_021B95B8(int,void (*)(void));
@@ -25,7 +27,7 @@ extern void func_021B9A54(void);
 extern void func_021B96B8(void);
 void func_021B9AD8(int a)
 {
- if(func_02039CB4(func_020399A8(),0x7a,12)!=0) {
+ if(func_02039CB4((struct Link *)func_020399A8(),0x7a,12)!=0) {
   switch(*(unsigned *)(a+0x24c)) {
   case 7: func_021B95B8(a,func_021B9A54); return;
   case 1: case 2: case 3: case 4:
