@@ -64,7 +64,8 @@ extern u32 func_02045770(u32 win);
 extern void func_02043B5C(u32 a, u32 b);
 extern u32 func_020457B0(u32 len, u32 heap);
 extern u16 *func_0202E930(void *p);
-extern void func_02045994(u32 o, const u16 *src, u32 len);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *o, const u16 *src, unsigned int len);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
 extern void func_02045808(u32 v);
 extern u32 func_02045EC0(u32 a, u32 b);
@@ -109,9 +110,9 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         func_02043B5C(func_02045770(*(u32 *)(row + 0x14)), 0);
         str = func_020457B0(0x20, heap);
         if (*(u8 *)(e + 0x18) == 0x20)
-            func_02045994(str, func_0202E930(*(void **)(e + 0x14)), 8);
+            func_02045994((struct Strbuf *)str, func_0202E930(*(void **)(e + 0x14)), 8);
         else
-            func_02045994(str, (const u16 *)(*(char **)(e + 0x14) + 0x1a), 8);
+            func_02045994((struct Strbuf *)str, (const u16 *)(*(char **)(e + 0x14) + 0x1a), 8);
         func_0201C724(sys, func_02045770(*(u32 *)(row + 0x14)), 6, 0, str, font, 0x3c40);
         func_02045808(str);
         fmt = func_02045EC0(msgs, 0xe);
