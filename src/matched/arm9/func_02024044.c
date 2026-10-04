@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * pmsi_param.c's constructor (the __FILE__ anchor at 0x020A745C reads
  * "pmsi_param.c", line 0x56).  Allocates the 0x20-byte parameter object,

@@ -16,6 +16,10 @@
  * to r4 or makes the trailing call a tail `bx r3` with no frame.  A matching
  * source shape would be EXACT.
  *
+ * 2026-10-04 (wD1 lane18): tried callee returning int (ignored result) and `return;`: both still
+ * tail-call (ldr r3; bx r3). `int f(){...; return 0;}` gives the right push {r3,lr} + blx and
+ * differs only by one extra `movs r0,#0` before the pop. No source shape found that keeps the
+ * call non-tail without an extra instruction (unused pad local also still tail-called).
  * symbols:
  *   d_021F3B88     0x021F3B88  data
  *   func_0203D3A8  0x0203D3A8  arm

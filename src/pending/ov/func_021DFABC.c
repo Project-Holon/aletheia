@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH (parked)
+ * status:   DIFF
+ * note (2026-10-04): verdict is DIFF since the prototype cleanup (65e037443); it was MATCH (parked) before. Recheck the callee prototypes first.
  *
  * BLOCKER: 48 bytes: the (u8) truncation of func_021DCFF8(a,2) lands in r1 directly in the image (lsls r0,#0x18; lsrs r1,r0,#0x18) but mwcc copies r0 to r1 first (adds r1,r0,#0; lsls r1,r1,#0x18; lsrs r1,r1,#0x18), 2 bytes longer.  Probes: callee 2nd param declared u8, a u8 local for the cast -- both worse.
  *

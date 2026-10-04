@@ -23,6 +23,8 @@
  *   d_021C3350 0x021C3350 data a4
  *   d_021C349C 0x021C349C data a4
  *   func_020307B0 0x020307B0 arm
+ *
+ * Note 2026-10-04 (wD1 lane06): Retried: extern struct array d_021C349C[] with [0] access, extern int array cast to struct. Original loads the pool word before every field access (ldr r0,[pc]; ldr r1,[pc] for f20 and f24 adjacent); every spelling still CSEs the base. Same residue in the twin 021BD274 and in ov217 021C05B0.
  */
 typedef unsigned char u8;
 typedef short s16;

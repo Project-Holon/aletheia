@@ -33,6 +33,8 @@
  * spills buf[4] to sp+8. Opus lane to finish.
  *
  * Addresses are Black-image addresses.
+ *
+ * Note 2026-10-04 (wD1 lane06): Not retried (203 bytes, stack slot order only). No new finding.
  */
 
 typedef unsigned int u32;

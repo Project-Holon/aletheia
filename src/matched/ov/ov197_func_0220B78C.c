@@ -1,0 +1,47 @@
+/*
+ * function: func_0220B78C
+ * address: 0x0220B78C
+ * packet: pkt_ov197_0220B78C
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_0201EF40 0x0201EF40 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02045808 0x02045808 arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_02045EC0(void *, u32);
+extern void func_0201EF40(void *, u32, u32);
+extern void func_0201F250(void *, void *, void *);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *, u32);
+extern void func_0201C724(void *, void *, u32, u32, u32, u32, u32);
+extern void func_02045808(void *);
+
+void func_0220B78C(u8 *p, int idx)
+{
+    void *win = *(void **)(p + 0x120);
+    void *msg = func_02045EC0(*(void **)(p + 0xc), 9);
+    u8 sel = *(u8 *)(p + 0x533);
+    u8 *row = p + sel * 0x90;
+    void *w;
+    func_0201EF40(*(void **)(p + 0x10), 0, *(u16 *)(row + 0x150 + idx * 4));
+    func_0201F250(*(void **)(p + 0x10), *(void **)(p + 0x14), msg);
+    func_02043B5C(func_02045770(win), 0);
+    w = *(void **)(p + 0x18);
+    func_0201C724(w, func_02045770(*(void **)(p + 0x120)), 0, 0,
+                  *(u32 *)(p + 0x14), *(u32 *)(*(u8 **)p + 4), 0x3C40);
+    *(u8 *)(p + 0x124) = 1;
+    func_02045808(msg);
+}

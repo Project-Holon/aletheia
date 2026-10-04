@@ -32,6 +32,8 @@
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
  *   _fgr           0x0209BBB0  arm
+ *
+ * Note 2026-10-04 (wD1 lane06): Not retried (float loop, see note above).
  */
 
 typedef unsigned char u8;

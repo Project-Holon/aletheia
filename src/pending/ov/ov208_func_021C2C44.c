@@ -9,6 +9,9 @@
  * isa:      thumb
  * status:   DIFF
  * note:     2026-10-02 lane C2-02: only the placement of the hoisted 'add r7, sp, #0x10' differs (image computes it before the memset call; tried pointer local, u16 buf cast, declaration-time init).
+ * note:     2026-10-04 (D1-08): also tried `ObjPos *pp = &pos` assigned just before the memset with fields stored through pp
+ *            (86 bytes out: the call then passes r7 instead of a fresh `add r0, sp, #0x10`). The image passes a fresh
+ *            sp+0x10 at both the memset and the func_0204B294 call yet stores the fields through r7.
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm

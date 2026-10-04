@@ -19,6 +19,8 @@
  *   func_021C1B28  0x021C1B28  thumb  ov217
  *
  * Addresses are Black-image addresses.
+ *
+ * Note 2026-10-04 (wD1 lane06): Not retried (GX FIFO address spills, needs a long pass).
  */
 
 typedef unsigned char u8;

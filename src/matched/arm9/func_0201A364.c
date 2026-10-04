@@ -1,0 +1,23 @@
+/*
+ * function: func_0201A364
+ * address:  0x0201A364
+ * packet:   pkt_0201A364
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Unlabelled Thumb argument-shuffling tail-call thunk: func_02048F4C(b, 0x69, a).
+ *
+ * symbols:
+ *   func_02048F4C  0x02048F4C  arm
+ */
+
+extern void func_02048F4C(unsigned int b, unsigned int id, unsigned int a);
+
+void func_0201A364(unsigned int a, unsigned int b)
+{
+    func_02048F4C(b, 0x69, a);
+}

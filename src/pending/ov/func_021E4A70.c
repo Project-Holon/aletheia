@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH (parked)
+ * status:   DIFF
+ * note (2026-10-04): verdict is DIFF since the prototype cleanup (65e037443); it was MATCH (parked) before. Recheck the callee prototypes first.
  *
  * BLOCKER: 73 bytes: the -2 stored at +0xc is materialised in the image as subs r0,r0,#3 from the 1 already in r0 (and spilled to [sp]); mwcc folds the constant to movs r0,#0xfe and does not spill.  Everything else after that point is 2 bytes early.
  *

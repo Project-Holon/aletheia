@@ -23,6 +23,8 @@
  *   d_021C32D8 0x021C32D8 data a4
  *   d_021C34C8 0x021C34C8 data a4
  *   func_020307B0 0x020307B0 arm
+ *
+ * Note 2026-10-04 (wD1 lane06): Same residue as 021BD178: base address pool word is reloaded per field access in the original; not reproduced.
  */
 typedef unsigned char u8;
 typedef short s16;

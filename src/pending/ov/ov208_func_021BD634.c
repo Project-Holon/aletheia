@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-04 (D1-08): also tried `struct Ov208Pos pos = {0}` in a nested block (compiler zeroes with strh, not a memset call; 203 bytes out).
+ *
  * 2026-10-02 (lane C2-01): also tried a local `one = 1` shared by all three uses of 1, f4 store after
  * the pos memset, f4/f34 stores swapped: 8/16/12 bytes out, no better.
  * 8 bytes out: the store p->f4 = 1 (str r7, [r5, #4]) is scheduled after the

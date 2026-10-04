@@ -16,6 +16,10 @@
 
  *
  * Addresses are Black-image addresses.
+ *
+ * Note 2026-10-04 (wD1 lane06): raw-offset stores with locals declared z, y, x give the right colours
+ *   (y r4, x r3, z r2); residue is load order only (original y, x, z; ours y, z, x, 8 bytes). All 36 declaration/assignment
+ *   orders of x,y,z tried.
  */
 
 typedef unsigned char u8;
@@ -24,8 +28,10 @@ struct Pos { s16 x; s16 y; s16 z; };
 
 void func_021C1A64(u8 *p, struct Pos *v)
 {
-    struct Pos *d = (struct Pos *)(p + 0x1B4);
-    d->x = v->x;
-    d->y = v->y;
-    d->z = v->z;
+    s16 z = v->z;
+    s16 y = v->y;
+    s16 x = v->x;
+    *(s16 *)(p + 0x1B4) = x;
+    *(s16 *)(p + 0x1B6) = y;
+    *(s16 *)(p + 0x1B8) = z;
 }

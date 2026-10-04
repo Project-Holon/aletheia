@@ -2623,3 +2623,25 @@ overlay_094 0x021F853C  thumb   # bl from ov093 at 0x021EA366 (func_021EA354)
 overlay_136 0x021C4534  thumb   # pointer word 0x021C4535 at ov136 0x021C510C
 overlay_210 0x021BE314  thumb   # bl from ov210 at 0x021BD20E (func_021BD19C case body)
 arm9_main   0x02015F04  thumb   # bl from ov119 at 0x021E3520 (func_021E33FC)
+arm9_main   0x0200E714  thumb   # wave D1: ov010:02166E50 THM_CALL; EXACT src/matched/arm9/func_0200E714.c (follower inside func_0200E6FC extent)
+arm9_main   0x0200FB4C  thumb   # wave D1: ov009:02157170 THM_CALL +005C (also ov116:021D7200, ov135:022010BC); EXACT func_0200FB4C.c
+arm9_main   0x020071D8  thumb   # wave D1: ov123:021D8520 THM_CALL +001C (also 021D8D08, 021DA3A0); EXACT func_020071D8.c
+arm9_main   0x02010F94  thumb   # wave D1: ov083:021F5260 THM_CALL; EXACT func_02010F94.c
+arm9_main   0x02010FA0  thumb   # wave D1: ov083:021F5260 THM_CALL; EXACT func_02010FA0.c
+arm9_main   0x02012EF0  thumb   # wave D1: ov116:021D6660 THM_CALL +0078 (also ov010:0216F830, ov116:021D6CBC/6D40); EXACT func_02012EF0.c
+arm9_main   0x02012EFC  thumb   # wave D1: ov069:021B96D4 THM_CALL +0090 (also ov010:0216C7FC, ov116:021D6660/6CBC); EXACT func_02012EFC.c
+arm9_main   0x0201A364  thumb   # wave D1: ov010:02167EF4 THM_CALL; EXACT func_0201A364.c (follower inside func_0201A30C extent)
+arm9_main   0x0202411C  thumb   # wave D1: ov010:02166E50 THM_CALL; EXACT func_0202411C.c
+arm9_main   0x02024124  thumb   # wave D1: ov010:02166E50 THM_CALL; EXACT func_02024124.c
+arm9_main   0x02024128  thumb   # wave D1: ov010:02166E50 THM_CALL; EXACT func_02024128.c (needs __restrict out)
+arm9_main   0x02024134  thumb   # wave D1: ov010:02166E50 THM_CALL; EXACT func_02024134.c
+arm9_main   0x02024910  thumb   # wave D1: ov110:021C025C THM_CALL (7 callers in ov110); EXACT func_02024910.c
+arm9_main   0x02025358  thumb   # wave D1: ov071:021B68B4 THM_CALL; EXACT func_02025358.c
+arm9_main   0x0203C5EC  arm   # wave D1: ov099:021BEC60 THM_CALL (also 021C0F70, 021C11A0); EXACT func_0203C5EC.c
+arm9_main   0x0203C600  arm   # wave D1: ov099:021BEAEC THM_CALL (also 021BEB68, 021BEBE8, ov115:021D4360); EXACT func_0203C600.c
+arm9_main   0x0203C628  arm   # wave D1: ov099:021BEC60 THM_CALL (also 021BEE94); EXACT func_0203C628.c
+arm9_main   0x0203CADC  arm   # wave D1: ov099 10 callers (pool word 0x0203CADC in func_0203CB00 at 0203CB30); EXACT func_0203CADC.c
+arm9_main   0x0203CB00  arm   # wave D1: ov099:021BEAEC THM_CALL (11 callers); func_0203CB00.c MATCH until 0203CADC is seeded
+arm9_main   0x0203F5FC  arm   # wave D1: ov099:021BA2D4 THM_CALL (also 021BA36C, ov137:021E09C0/0FAC, ov168:02184780); EXACT func_0203F5FC.c
+arm9_main   0x0203F63C  arm   # wave D1: ov137:021E09C0 THM_CALL; EXACT func_0203F63C.c
+overlay_009 0x021956F8  arm     # real entry of the function labelled 0x021956FC (push {r0-r3} home area); SDK EXACT src/matched/ov_sdk/ov009_func_021956F8.c (gti2RejectConnection)

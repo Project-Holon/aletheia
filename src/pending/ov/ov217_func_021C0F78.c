@@ -23,6 +23,8 @@
  *   func_02041B6C  0x02041B6C  arm
  *
  * Addresses are Black-image addresses.
+ *
+ * Note 2026-10-04 (wD1 lane06): Retried: s16/int locals, direct call arguments (p[6] and font inline), assignment order. Original shifts y too (lsls/asrs 16) although y = p[6] is a u8 load: the value reaches the call with unknown range. 53 bytes differ.
  */
 
 typedef unsigned char u8;

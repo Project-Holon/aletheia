@@ -18,6 +18,8 @@
  *
  * symbols:
  *   func_021C2684  0x021C2684  thumb  ov217
+ *
+ * Note 2026-10-04 (wD1 lane06): Retried: e += n*0xd4 split, (u32) cast sum, e = n*0xd4 + (u32)(p+4), do-while with guard, typed Grp/Ent struct views, int/u8 count. Original does muls before adds r2,r5,#4 and reloads e[1] at the loop bottom; none of these spellings change either (26 bytes differ).
  */
 
 typedef unsigned char u8;

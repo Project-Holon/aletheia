@@ -9,6 +9,10 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-04 (D1-08): 16 bytes, one instruction moved. The image loads arg x0 (ldrb r1,[r4,r1]) after the
+ * y0 load (ldrb r2,[r3,#1]); ours hoists it right after the h load. Tried: local pointer q, locals
+ * h/pal/y0/x0 in image order. Scheduler order unchanged.
+ *
  * symbols:
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm

@@ -25,6 +25,8 @@
  *   _u32_div_f  0x0209C0A4  arm
  *
  * Addresses are Black-image addresses.
+ *
+ * Note 2026-10-04 (wD1 lane06): Same residue as 021BD178 (pool word 021C37D0 reloaded per access, no CSE); counters j/bmp spill order also differs.
  */
 
 typedef unsigned char u8;

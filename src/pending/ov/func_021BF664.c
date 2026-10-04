@@ -18,6 +18,10 @@
  * by two needs the (s16) narrowing-shift-pair (lsls #0xf / asrs #0x10), which
  * a `short ratio` reproduces; the block-2 clamp needs the `>=` polarity.
  *
+ * 2026-10-04 (D1-08): also tried y/x declaration order, function-top x/y, ternary store, y -= 0x10000 form
+ * for the f108 wrap (x lands in r3 not r2; ternary and y-form are worse), and the g-before-r result order.
+ * Image spills gA ([sp]) and keeps two 0x7c00 constants (ip and [sp,#4]); ours spills rA instead.
+ *
  * symbols:
  *   tbl_020A1B38  0x020A1B38  data
  *   func_0204B6F4  0x0204B6F4  arm

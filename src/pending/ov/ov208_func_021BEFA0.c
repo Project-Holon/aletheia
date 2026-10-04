@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note:     2026-10-04 (D1-08): f2c store fixed by raw `*(u32 *)((u8 *)st + st->cur * 0x14 + 0x2c) = 1`. Now 4 bytes: the two
+ *            bounds tests are `cmp x0,x; bhi` in the image (x0 in r1, x in r0) and `cmp x,x0; blo` here (same registers). Writing
+ *            `e->x0 > x` instead flips the registers (x0 in r0) but keeps the compare order; neither gives the image.
  * note:     2026-10-02 lane C2-02: two compare directions (image: cmp x0,x then bhi) and the f2c store constant order differ; tried x0<=x, !(x0>x), locals.
  *
  * symbols:
@@ -71,8 +74,8 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
         for (i = 0; i < 6; i++) {
             e = (struct E *)((u8 *)st + i * 0x14);
             if (func_0204B3F4(e->h1c) != 0
-                && x >= e->x0 && x < e->x0 + e->w
-                && y >= e->y0 && y < e->y0 + e->h) {
+                && !(x < e->x0 || x >= e->x0 + e->w)
+                && !(y < e->y0 || y >= e->y0 + e->h)) {
                 if (st->prev == i) break;
                 st->cur = i;
                 res = 1;
@@ -82,8 +85,7 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
     }
     if (res != 0) {
         ov208_func_021BF280(a0, (char *)st, obj, st->cur);
-        e = (struct E *)((u8 *)st + st->cur * 0x14);
-        e->f2c = 1;
+        *(u32 *)((u8 *)st + st->cur * 0x14 + 0x2c) = 1;
         e = (struct E *)((u8 *)st + st->cur * 0x14);
         func_0204B878(e->h1c, e->f26);
         func_020061E4(0x54a);

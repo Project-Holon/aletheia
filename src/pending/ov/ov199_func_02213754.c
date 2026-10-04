@@ -23,6 +23,12 @@
  *   is r0/r1 liveness at the dispatch, not a spelling; hoisting the switch
  *   value into a named local, casting it and a trailing return do not move it.
  *   The arms would have to leave r0 live across the dispatch to reach r1.
+ *
+ * 2026-10-04: the whole body is one register up (original uses r1/r2/r3 for arm
+ *   temporaries and never r0), so r0 is reserved for the whole function, not only at the
+ *   dispatch. Tried a `next` state local stored once after the switch (tail merge lost,
+ *   180 bytes, worse); the existing shape (store per arm, merged by the compiler) keeps
+ *   172 bytes. Still open: what keeps r0 reserved.
  */
 
 typedef struct S {

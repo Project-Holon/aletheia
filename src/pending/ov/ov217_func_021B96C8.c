@@ -21,6 +21,8 @@
  *   func_021B970C  0x021B970C  thumb  ov217
  *   func_021B9774  0x021B9774  thumb  ov217
  *   func_021C09BC  0x021C09BC  thumb  ov217
+ *
+ * Note 2026-10-04 (wD1 lane06): Retried: void-pointer, u32, u8, s16 and const types for p and c, local v = *p, if-chains, char* a. Still 5 bytes: p lands in r6 and c in r4 (original p r4, c r6).
  */
 
 extern void func_021B970C(void);

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02045C44
+ * function: func_02045C44, func_02045CAC
  * address:  0x02045C44
  * packet:   pkt_02045C44
  * region:   arm9

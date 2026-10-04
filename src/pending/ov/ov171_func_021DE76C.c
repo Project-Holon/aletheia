@@ -1,0 +1,43 @@
+/*
+ * function: func_021DE76C
+ * address: 0x021DE76C
+ * packet: pkt_ov171_021DE76C
+ * region: ov171
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * 2026-10-04 (wD1 lane18): body is correct, only the prologue order differs (20 bytes).
+ * Original: r4=0xC5C pool const, r3=r4+2, sel into r5 (ldrsb), str mode, mul, ldrh n,
+ * movs i=0, then ldrsb cur last. Tried: cur/i/n declaration orders, sel as int local,
+ * s8 *c base pointer (all worse: constant folds 0xC5C-2).
+ * symbols:
+ *   d_021DEC94 0x021DEC94 data
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef signed char s8;
+typedef unsigned char u8; typedef unsigned short u16; typedef signed char s8;
+extern u8 d_021DEC94[];
+
+void func_021DE76C(u8 *p, int mode)
+{
+    u16 cur = *(s8 *)(p + 0xC5C);
+    u16 i;
+    u16 n = *(u16 *)(p + *(s8 *)(p + 0xC5E) * 0xBC + 0xC4);
+    for (i = 0; i < n; ) {
+        if (mode == 1) {
+            u8 *q = p + cur;
+            q[0xB34] = *(u16 *)(d_021DEC94 + n * 0x18 + i * 4 - 0x16);
+            q[0xB3A] = q[0xB34];
+            cur++;
+            if (cur >= *(u16 *)(p + *(s8 *)(p + 0xC5E) * 0xBC + 0xC4))
+                cur = 0;
+        } else {
+            u8 *q = p + i;
+            q[0xB34] = 0;
+            q[0xB3A] = 0;
+        }
+        i++;
+        n = *(u16 *)(p + *(s8 *)(p + 0xC5E) * 0xBC + 0xC4);
+    }
+}
