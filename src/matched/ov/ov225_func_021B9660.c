@@ -27,7 +27,7 @@ extern void func_021BBAE8(char *p);
 extern void func_021B9DEC(char *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int heap);
 int func_021B9660(void *proc, void *a, void *b, char *work)
 {
     switch (*(unsigned int *)(work + 16)) {
@@ -39,6 +39,6 @@ int func_021B9660(void *proc, void *a, void *b, char *work)
     func_02030EAC(*(void **)(work + 12));
     func_021B9DEC(*(void **)(work + 8));
     func_020315D4(proc);
-    func_020306F0((void *)0x90);
+    func_020306F0(0x90);
     return 1;
 }

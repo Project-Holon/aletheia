@@ -29,7 +29,7 @@ extern void sub_02030EAC(struct Node *);
 extern void sub_020307B0(void *);
 extern void sub_02045808(struct U16Vec *);
 extern void sub_020315D4(struct S020315D4 *);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int heap);
 int func_02204098(struct S020315D4 *a, int unused, int b, int *p)
 {
     func_02204D5C(b, p);
@@ -39,6 +39,6 @@ int func_02204098(struct S020315D4 *a, int unused, int b, int *p)
     sub_020307B0(*(void **)((char *)p + 0x100));
     sub_02045808(*(struct U16Vec **)((char *)p + 0x14));
     sub_020315D4(a);
-    func_020306F0((void *)0x94);
+    func_020306F0(0x94);
     return 1;
 }
