@@ -13,13 +13,14 @@
  *   func_02045334 0x02045334 arm
  *   func_0220B1D4 0x0220B1D4 thumb ov197
  */
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int,int);
 extern void func_02045334(int);
 extern void func_0220B1D4(char *,int,int,int,unsigned short);
 void func_0220B6C4(char *p)
 {
-    func_02043B5C(func_02045770(*(int *)(p+0x110)),0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p+0x110)),0);
     if(*(int *)(*(char **)p+8)!=1) {
         switch(((unsigned char *)p)[0x533]) {
         case 0:func_0220B1D4(p,29,22,4,0x3c40);func_0220B1D4(p,29,23,20,0x3c40);break;

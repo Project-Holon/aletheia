@@ -28,7 +28,8 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32,u32,u16,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -44,7 +45,7 @@ void func_0220C0D0(u8 *p,int slot,int index,u16 value,u8 extra)
     func_0201EFA4(*(void **)(p+0x1EA4),0,((Bits *)(elem+0x16))->low,3,0,1);
     func_0201F250(*(void **)(p+0x1EA4),*(u32 *)(p+0x1EA8),text);
     context=*(u32 *)(p+0x1EAC);
-    surface=func_02045770(*(void **)(p+slot*8+0x1F70));
+    surface=(u32)func_02045770(*(void **)(p+slot*8+0x1F70));
     func_0201C724(context,surface,value,extra,*(u32 *)(p+0x1EA8),*(u32 *)(p+0x1E9C),0x3DC0);
     (p+slot*8)[0x1F74]=1;
     func_02045808(text);

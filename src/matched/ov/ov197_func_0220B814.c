@@ -19,7 +19,8 @@ typedef unsigned int   u32;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02020FB4(void *,unsigned,unsigned);
-extern unsigned func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern void func_02045808(struct U16Vec *vec);
 typedef struct { unsigned short entry[36][2]; } Row;
@@ -33,7 +34,7 @@ void func_0220B814(char *p,int n)
     row=(Row *)(p+0x150);
     func_02020FB4(buf,row[index].entry[n][0],*(unsigned short *)(*(char **)p+0xc));
     owner=*(void **)(p+0x18);
-    func_0201C724(owner,func_02045770(*(void **)(p+0x130)),4,0,(unsigned)buf,*(unsigned *)(*(char **)p+4),0x3c40);
+    func_0201C724(owner,(unsigned)func_02045770(*(void **)(p+0x130)),4,0,(unsigned)buf,*(unsigned *)(*(char **)p+4),0x3c40);
     *(unsigned char *)(p+0x134)=1;
     func_02045808(buf);
 }

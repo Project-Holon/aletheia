@@ -22,7 +22,8 @@ typedef unsigned int u32;
 extern int func_022110D4(u8 *,int);
 extern u8 func_0202D01C(u32,u32,u32);
 extern int func_0202D034(u32,u32);
-extern u32 func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043AF4(u32,u16,s16,u32,u8,u8);
 void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
 {
@@ -35,7 +36,7 @@ void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
     case 1: color=3; break;
     case 2: color=5; break;
     }
-    func_02043AF4(func_02045770(*(void **)(p+0x1F70+slot*8)),value,extra+3,width,1,color);
+    func_02043AF4((u32)func_02045770(*(void **)(p+0x1F70+slot*8)),value,extra+3,width,1,color);
     color++;
-    func_02043AF4(func_02045770(*(void **)(p+0x1F70+slot*8)),value,extra+4,width,1,color);
+    func_02043AF4((u32)func_02045770(*(void **)(p+0x1F70+slot*8)),value,extra+4,width,1,color);
 }

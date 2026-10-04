@@ -20,7 +20,8 @@ typedef short s16;
 extern int func_02045EC0(int,int);
 extern int func_0201D304(int,int,int);
 extern int func_02045738(int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(int,int,s16,s16,int,int,u16);
 extern void func_02045808(int);
 void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
@@ -30,7 +31,7 @@ void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
     int width=func_0201D304(text,*(int *)(*(char **)p+4),0);
     int x=(func_02045738(handle)*8-width)>>1;
     int font=*(int *)(p+0x18);
-    int surface=func_02045770(*(int *)(p+0x28+i*8));
+    int surface=(int)func_02045770((struct Descriptor *)*(int *)(p+0x28+i*8));
     func_0201C724(font,surface,x,y,text,*(int *)(*(char **)p+4),colour);
     (p+i*8)[0x2c]=1;
     func_02045808(text);

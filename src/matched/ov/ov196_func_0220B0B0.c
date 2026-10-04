@@ -16,7 +16,8 @@
  */
 typedef struct {int handle;unsigned char active;unsigned char pad[3];} Entry;
 extern void func_0201C4E4(int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(int,int);
 extern void func_02045334(int);
 void func_0220B0B0(Entry *p,int b,unsigned n)
@@ -24,7 +25,7 @@ void func_0220B0B0(Entry *p,int b,unsigned n)
     unsigned i;
     func_0201C4E4(b);
     for(i=0;i<n;i++) {
-        if(p[i].active && func_0201C6C4(b,func_02045770(p[i].handle))==0) {
+        if(p[i].active && func_0201C6C4(b,(int)func_02045770((struct Descriptor *)p[i].handle))==0) {
             func_02045334(p[i].handle);
             p[i].active=0;
         }
