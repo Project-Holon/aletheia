@@ -58,10 +58,11 @@ struct IcaAnime {
 
 extern void *func_02031324(u16 id);
 extern void *func_020124F4(u16 id);
-extern void *func_020261E4(u16 id, void *res);
-extern void *func_0202B4BC(void *a, u16 id);
+extern void *func_020261E4(unsigned int id, void *res);
+struct SaveBlock;
+extern void *func_0202B4BC(struct SaveBlock *a, unsigned int id);
 extern void  func_02012248(struct IcaAnime *p);
-extern void  func_020122A4(struct IcaAnime *p);
+extern void  func_020122A4(unsigned int arg);
 extern void func_020139B0(u32 heap);
 
 void func_02011F28(struct IcaAnime *p, u16 id, u32 a2)
@@ -81,6 +82,6 @@ void func_02011F28(struct IcaAnime *p, u16 id, u32 a2)
     p->f32 = 0;
     p->f33_0 = 0;
     func_02012248(p);
-    func_020122A4(p);
+    func_020122A4((unsigned int)p);
     func_020139B0(id);
 }
