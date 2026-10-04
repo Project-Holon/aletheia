@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Record { u16 x, y, z; u8 a, b; } Record;
-extern void *func_0204B294(u32, u32, u32, u32, Record *, u16, u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -28,7 +29,7 @@ void func_021D69A0(u8 *p)
 {
     Record r;
     r.x = 0; r.y = 0; r.z = 0; r.a = 0; r.b = 2;
-    *(void **)(p + 0x134) = func_0204B294(*(u32 *)(p + 0x10), *(u32 *)(p + 0x28), *(u32 *)(p + 0x18), *(u32 *)(p + 0x74), &r, 1, *(u16 *)(p + 0xf4));
+    *(void **)(p + 0x134) = func_0204B294((void *)*(u32 *)(p + 0x10), *(u32 *)(p + 0x28), *(u32 *)(p + 0x18), *(u32 *)(p + 0x74), &r, 1, *(u16 *)(p + 0xf4));
     func_0204B92C(*(void **)(p + 0x134), 1);
     func_0204B3DC(*(void **)(p + 0x134), 0);
     func_0204B688(*(void **)(p + 0x134), 1);

@@ -11,5 +11,6 @@
  *   func_0204B294 0x0204B294 arm
  */
 typedef struct {short x,y,z;unsigned char a,b;} Position;
-extern unsigned func_0204B294(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short,unsigned short);
-unsigned func_021BC614(unsigned short *p,unsigned manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag){Position pos;pos.x=x;pos.y=y;pos.z=z;pos.b=b;pos.a=a;return func_0204B294(manager,r[1],r[0],r[2],(unsigned)&pos,flag,*p);}
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+unsigned func_021BC614(unsigned short *p,unsigned manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag){Position pos;pos.x=x;pos.y=y;pos.z=z;pos.b=b;pos.a=a;return (unsigned)func_0204B294((void *)manager,r[1],r[0],r[2],&pos,flag,*p);}

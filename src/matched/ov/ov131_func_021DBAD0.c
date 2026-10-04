@@ -33,7 +33,8 @@ extern u16 func_020437E4(const struct Bmp *bmp);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_021DBEA4(u8 *,int,void *);
 extern void *func_0204A6C8(void *,u32,u32,u32,u16);
-extern void *func_0204B294(u32,u32,u32,u32,void *,u32,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(void *,u8,u32);
 extern void func_02049238(void *);
 extern const char d_021DC854[];
@@ -69,7 +70,7 @@ u8 *func_021DBAD0(u8 *a,const u8 *b)
             d.y=*(const s16 *)(b+6)+(i<<5);
             d.kind=b[0x10];
             d.flag=b[0x11];
-            *(void **)(e+4)=func_0204B294(*(u32 *)a,*(u32 *)(e+0x14),*(const u32 *)(b+8),*(u32 *)(a+8+mode*4),&d,*(const u16 *)(b+0x12),*(u16 *)(a+4));
+            *(void **)(e+4)=func_0204B294((void *)*(u32 *)a,*(u32 *)(e+0x14),*(const u32 *)(b+8),*(u32 *)(a+8+mode*4),&d,*(const u16 *)(b+0x12),*(u16 *)(a+4));
             func_0204B6F4(*(void **)(blk+(u32)j*4+4),*(const u32 *)(b+0xc),0);
         }
     }
