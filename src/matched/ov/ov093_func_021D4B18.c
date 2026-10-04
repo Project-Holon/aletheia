@@ -29,7 +29,8 @@ struct S {
 };
 
 extern struct S *d_021F3B88;
-extern int func_02039CB4(u32 a0, int a1, int a2);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
 extern void func_0203A424(char *p, int a, int b, int c);
 
 int func_021D4B18(int a)
@@ -39,7 +40,7 @@ int func_021D4B18(int a)
 
     if (p != 0) {
         if (p->f10 != 0) {
-            r = func_02039CB4((u32)p->f00, p->f0f, 1);
+            r = func_02039CB4((struct Link *)p->f00, p->f0f, 1);
             if (r != 0) {
                 d_021F3B88->f0f = 0;
                 d_021F3B88->f10 = 0;

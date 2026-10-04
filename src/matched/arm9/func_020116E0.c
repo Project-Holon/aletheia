@@ -34,7 +34,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *sub_020490F4(unsigned int id, unsigned int heap);
-extern void sub_0204944C(u32 a, u32 b, u32 c, u32 d, void *e);
+struct ArcFile;
+extern void sub_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
 
 void func_020116E0(u8 *p, u32 a1, u32 a2, u32 a3)
 {
@@ -44,10 +45,10 @@ void func_020116E0(u8 *p, u32 a1, u32 a2, u32 a3)
     *(u16 *)p = (u16)a3;
     *(void **)(p + 4) = sub_020490F4(a1, a3);
     *(u32 *)(p + 8) = a2;
-    sub_0204944C(*(u32 *)(p + 4), a2, 0, 4, p + 0xc);
-    sub_0204944C(*(u32 *)(p + 4), *(u32 *)(p + 8), 4, 1, buf + 2);
-    sub_0204944C(*(u32 *)(p + 4), *(u32 *)(p + 8), 5, 1, buf + 1);
-    sub_0204944C(*(u32 *)(p + 4), *(u32 *)(p + 8), 6, 1, buf);
+    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), a2, 0, 4, p + 0xc);
+    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), *(u32 *)(p + 8), 4, 1, buf + 2);
+    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), *(u32 *)(p + 8), 5, 1, buf + 1);
+    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), *(u32 *)(p + 8), 6, 1, buf);
     v = 1;
     if (buf[2] == 0) {
         v = 0;

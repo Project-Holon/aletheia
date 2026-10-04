@@ -46,7 +46,8 @@ extern void func_02169998(void *p);
 extern void func_02169550(void *p);
 extern void func_02169568(void *p);
 extern void func_02169880(void *p);
-extern void func_0204944C(u32 h, u32 b, u32 c, u32 d, u16 *out);
+struct ArcFile;
+extern void func_0204944C(struct ArcFile *h, u32 b, u32 c, u32 d, void *out);
 void func_02169470(u8 *p, u32 b)
 {
   u16 v;
@@ -58,7 +59,7 @@ void func_02169470(u8 *p, u32 b)
   func_02169568(p);
   func_02169880(p);
   *((u32 *) (p + 0x14)) = b;
-  func_0204944C(*((u32 *) (p + 0x10)), b, 0, 2, &v);
+  func_0204944C((struct ArcFile *)*((u32 *) (p + 0x10)), b, 0, 2, &v);
   tmp = *((E **) (p + 0x28));
   tbl = *((E **) (p + 0x28));
   i = Find(&v, tmp);

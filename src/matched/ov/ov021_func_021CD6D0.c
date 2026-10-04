@@ -114,7 +114,8 @@ extern void func_0203D01C(void);
 extern int func_020392B8(void);
 extern int func_02039ACC(void);
 extern u32 func_020362DC(void);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_020399B8(u32 a);
 extern int func_021CF1AC(void *a, int b, int c);
 extern void func_021CE36C(Work *p);
@@ -134,8 +135,9 @@ extern int func_0203D1C0(int a);
 extern u32 func_02080D24(int a);
 extern int func_021CF3B0(int a);
 extern int func_021CF378(int a);
-extern void func_02039C68(u32 a, int b, int c);
-extern int func_02039CB4(u32 a, int b, int c);
+struct Link;
+extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 extern Vtbl *func_0203D798(void);
 extern u32 func_0203D650(void);
 extern int func_02190EF0(u32 h);
@@ -182,7 +184,7 @@ int func_021CD6D0(Work *p)
         }
         break;
     case 3:
-        if (func_020399B8(func_020399A8()) == 1) {
+        if (func_020399B8((u32)func_020399A8()) == 1) {
             p->state = 4;
         }
         break;
@@ -213,7 +215,7 @@ int func_021CD6D0(Work *p)
     case 6:
         n = func_021CE52C(p);
         if (n == 1) {
-            func_0203D1E8(func_020399A8(), 0);
+            func_0203D1E8((u32)func_020399A8(), 0);
             p->state = 9;
         } else if (n == 2) {
             if (func_021CE73C(p) >= p->x51D) {
@@ -231,7 +233,7 @@ int func_021CD6D0(Work *p)
     case 7:
         n = func_021CE5AC(p);
         if (n == 1) {
-            func_0203D1E8(func_020399A8(), 0);
+            func_0203D1E8((u32)func_020399A8(), 0);
             p->state = 0xD;
         } else if (n == 2) {
             p->state = 5;
@@ -239,16 +241,16 @@ int func_021CD6D0(Work *p)
         break;
     case 9:
         if (func_021CF2F0(p->x51B) == 1) {
-            func_021CE6F0(p, func_0203D1A4(func_020399A8()));
+            func_021CE6F0(p, func_0203D1A4((u32)func_020399A8()));
             p->x526 = p->x514;
             func_0203D7BC(1);
             p->state = 10;
         }
         break;
     case 10:
-        mask = 1 << func_0203D1A4(func_020399A8());
+        mask = 1 << func_0203D1A4((u32)func_020399A8());
         for (i = 0; (i < 4) ? 1 : 0; i++) {
-            if (i != func_0203D1A4(func_020399A8()) && (p->x526 & (1u << i))) {
+            if (i != func_0203D1A4((u32)func_020399A8()) && (p->x526 & (1u << i))) {
                 if (func_0203D1C0(i) == 1) {
                     if (p->x578 & (1 << (u32)i)) {
                         mask |= (u8)(1 << i);
@@ -279,7 +281,7 @@ int func_021CD6D0(Work *p)
             p->x2C = 1;
             p->state = 8;
             p->x573 = func_02080D24(p->x578);
-            func_02039C68(func_020399A8(), 1, 0x27);
+            func_02039C68((struct Link *)func_020399A8(), 1, 0x27);
         }
         break;
     case 8:
@@ -289,7 +291,7 @@ int func_021CD6D0(Work *p)
                 p->x2C = 2;
                 p->state = 0xE;
             }
-        } else if (func_02039CB4(func_020399A8(), 1, 0x27) == 1) {
+        } else if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x27) == 1) {
             Vtbl *v;
 
             p->x2C = 1;

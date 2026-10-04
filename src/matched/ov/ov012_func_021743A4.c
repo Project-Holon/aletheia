@@ -112,9 +112,11 @@ extern int   func_02034AC4(signed int id);
 extern void  func_02034A5C(int id);
 extern u32   func_02012944(u32 a);
 extern void *func_02183B60(Self *self, int a, int b, u32 c);
-extern u32   func_020399A8(void);
-extern void  func_02039C68(u32 a0, int a1, int a2);
-extern int   func_02039CB4(u32 a0, int a1, int a2);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
+extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
 extern int   func_02173E1C(void);
 extern int   func_02183F84(void *p);
 extern int   func_02173EC8(void);
@@ -172,11 +174,11 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
             (*state)++;
         break;
     case 3:
-        func_02039C68(func_020399A8(), 9, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 9, 0x14);
         (*state)++;
         break;
     case 4:
-        if (func_02039CB4(func_020399A8(), 9, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 9, 0x14) == 1)
             *state = 7;
         break;
     case 5:
@@ -213,13 +215,13 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
             }
         } else {
             func_021736E0(l->f0);
-            func_02039C68(func_020399A8(), 10, 0x14);
+            func_02039C68((struct Link *)func_020399A8(), 10, 0x14);
             *state = 12;
         }
         break;
     case 12:
-        if (func_02039CB4(func_020399A8(), 10, 0x14) == 1) {
-            func_0203D1E8(func_020399A8(), 1);
+        if (func_02039CB4((struct Link *)func_020399A8(), 10, 0x14) == 1) {
+            func_0203D1E8((u32)func_020399A8(), 1);
             *state = 13;
         }
         break;
