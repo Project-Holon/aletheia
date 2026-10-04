@@ -60,7 +60,8 @@ typedef struct {
     ResSet res[2];
 } Anim;
 
-extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d, ObjPos *pos, u32 f, u32 heap);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -79,7 +80,7 @@ void func_021C6E8C(Anim *a)
         pos.y = tbl.t[i].y;
         pos.z = tbl.t[i].z;
         pos.pri = tbl.t[i].pri;
-        a->obj[i] = func_0204B294(a->f4, a->res[tbl.t[i].cell].a, a->res[tbl.t[i].chr].b, a->res[tbl.t[i].anm].c, &pos, 1, a->heap);
+        a->obj[i] = func_0204B294((void *)a->f4, a->res[tbl.t[i].cell].a, a->res[tbl.t[i].chr].b, a->res[tbl.t[i].anm].c, &pos, 1, a->heap);
         func_0204B3DC(a->obj[i], 1);
         func_0204B954(a->obj[i], 0x1000);
         func_0204B92C(a->obj[i], 1);

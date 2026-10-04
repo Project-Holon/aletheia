@@ -31,7 +31,8 @@ typedef struct {
 
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
 extern void func_0204B270(u32 bank);
-extern int func_0204B294(int a, int b, int c, int d, R *r, int f, u16 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(int a, int b);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -51,9 +52,9 @@ void func_021B709C(u8 *p)
     b.c = 0;
     b.d = 10;
     b.e = 3;
-    *(int *)(p + 0x1d8) = func_0204B294(*(int *)(p + 0x1d4), *(int *)(p + 0x198),
+    *(int *)(p + 0x1d8) = (int)func_0204B294((void *)*(int *)(p + 0x1d4), *(int *)(p + 0x198),
                                         *(int *)(p + 0x178), *(int *)(p + 0x1b4), &b, 0, *(u16 *)p);
-    *(int *)(p + 0x1dc) = func_0204B294(*(int *)(p + 0x1d4), *(int *)(p + 0x198),
+    *(int *)(p + 0x1dc) = (int)func_0204B294((void *)*(int *)(p + 0x1d4), *(int *)(p + 0x198),
                                         *(int *)(p + 0x178), *(int *)(p + 0x1b4), &b, 0, *(u16 *)p);
     func_0204B92C((struct Obj *)*(int *)(p + 0x1d8), 1);
     func_0204B92C((struct Obj *)*(int *)(p + 0x1dc), 1);
@@ -64,13 +65,13 @@ void func_021B709C(u8 *p)
     a.c = 1;
     a.d = 0;
     a.e = 0;
-    x = func_0204B294(*(int *)(p + 0x1d4), *(int *)(p + 0x1a0),
+    x = (int)func_0204B294((void *)*(int *)(p + 0x1d4), *(int *)(p + 0x1a0),
                       *(int *)(p + 0x17c), *(int *)(p + 0x1bc), &a, 0, *(u16 *)p);
     *(int *)(p + 0x1e0) = x;
     func_0204B92C((struct Obj *)x, 1);
     a.a = 0xc4;
     a.c = 0;
-    x = func_0204B294(*(int *)(p + 0x1d4), *(int *)(p + 0x1a0),
+    x = (int)func_0204B294((void *)*(int *)(p + 0x1d4), *(int *)(p + 0x1a0),
                       *(int *)(p + 0x17c), *(int *)(p + 0x1bc), &a, 0, *(u16 *)p);
     *(int *)(p + 0x1e4) = x;
     func_0204B92C((struct Obj *)x, 1);

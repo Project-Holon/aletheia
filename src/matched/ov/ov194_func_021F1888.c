@@ -26,7 +26,8 @@ extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
 extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,int);
-extern void *func_0204B294(unsigned,unsigned,unsigned,unsigned,void *,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(void *,unsigned);
 struct Obj;
 extern void func_0204B92C(struct Obj *,unsigned);
@@ -45,15 +46,15 @@ void func_021F1888(char *p,unsigned owner,u16 heap)
     pos[2]=0;
     zero=0;
     for(i=0;i<16;i++)
-        *(void **)(p+i*4+12)=func_0204B294(owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,zero,heap);
+        *(void **)(p+i*4+12)=func_0204B294((void *)owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,zero,heap);
     pos[2]=1;
-    *(void **)(p+0x50)=func_0204B294(owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,zero,heap);
+    *(void **)(p+0x50)=func_0204B294((void *)owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,zero,heap);
     func_0204B3DC(*(void **)(p+0x50),zero);
     for(i=18;i<20;i++) {
         pos[0]=-32;
         pos[1]=-32;
         pos[2]=i-15;
-        *(void **)(p+i*4+12)=func_0204B294(owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,0,heap);
+        *(void **)(p+i*4+12)=func_0204B294((void *)owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,0,heap);
         func_0204B92C(*(void **)(p+i*4+12),1);
         func_0204B3DC(*(void **)(p+i*4+12),0);
     }

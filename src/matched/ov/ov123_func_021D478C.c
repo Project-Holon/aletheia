@@ -24,7 +24,8 @@ typedef unsigned int u32;
 struct Point { u16 x, y, z; u8 a, b; };
 struct Triple { u8 v[3]; };
 extern const struct Triple d_021DA638, d_021DA634, d_021DA63C;
-extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -50,7 +51,7 @@ void func_021D478C(char *p)
     for (; i < 3; i++) {
         pt.x = x.v[i]; pt.y = y.v[i]; pt.z = z.v[i];
         pt.a = 0; pt.b = 2;
-        *(void **)(p + i * 4 + o4) = func_0204B294(*(u32 *)(p + 0x2ac), *(void **)(p + o1), *(u32 *)(p + o2), *(u32 *)(p + o3), &pt, 1, *(u16 *)(p + 12));
+        *(void **)(p + i * 4 + o4) = func_0204B294((void *)*(u32 *)(p + 0x2ac), (unsigned int)*(void **)(p + o1), *(u32 *)(p + o2), *(u32 *)(p + o3), &pt, 1, *(u16 *)(p + 12));
         func_0204B92C(*(void **)(p + i * 4 + o5), 0);
         func_0204B3DC(*(void **)(p + i * 4 + o6), 1);
         func_0204B688(*(void **)(p + i * 4 + o7), 1);
