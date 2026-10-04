@@ -29,7 +29,8 @@ struct Bmp;
 struct StrObj;
 struct U16Vec;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void *func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_0201C724(u32 a, void *b, s16 x, s16 y, void *e, u32 f, u16 g);
 extern void func_02045808(struct U16Vec *vec);
@@ -45,8 +46,8 @@ void func_021C1F50(u16 *heap, u8 *p, int key)
 
     str = func_02045EC0(W(0xc), p[0x78] + 0xbe);
     tw = func_0201D304(str, W(4), 0);
-    w = func_020437DC(func_02045770(W(0x1c)));
-    func_0201C724(W(0x3c), func_02045770(W(0x1c)), (u16)((int)(w - tw) / 2), 1, str, W(4), 0x3c40);
+    w = func_020437DC(func_02045770((struct Descriptor *)W(0x1c)));
+    func_0201C724(W(0x3c), func_02045770((struct Descriptor *)W(0x1c)), (u16)((int)(w - tw) / 2), 1, str, W(4), 0x3c40);
     func_02045808(str);
     W(0x2c) = 1;
     func_021C0740(heap, p, key, 2);

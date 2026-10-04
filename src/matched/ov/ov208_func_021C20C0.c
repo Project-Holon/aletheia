@@ -35,7 +35,8 @@ struct StrObj;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u32 func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern u16 func_020437DC(u32 win);
 extern void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
@@ -58,8 +59,8 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
 
             msg = func_02045EC0(*(void **)(st + 0xc), 0x80);
             w = (u16)sub_0201D304(msg, *(u32 *)(st + 4), 0);
-            h = func_020437DC(func_02045770(*(void **)(st + 0x20)));
-            t = func_02045770(*(void **)(st + 0x20));
+            h = func_020437DC((u32)func_02045770(*(void **)(st + 0x20)));
+            t = (u32)func_02045770(*(void **)(st + 0x20));
             d = h - w;
             sub_0201C724(*(void **)(st + 0x40), t, (s16)(u16)(d / 2), 1, (u32)msg, *(u32 *)(st + 4), 0x3c40);
             func_02045808(msg);

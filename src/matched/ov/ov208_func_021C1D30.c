@@ -36,7 +36,8 @@ typedef struct {
 } Pt;
 
 extern void func_0201C6EC(u32 a);
-extern void *func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 struct U16Vec;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -60,10 +61,10 @@ void func_021C1D30(u16 *heap, u8 *p, int key)
 
     W(0x28) = 0;
     func_0201C6EC(W(0x38));
-    func_02043B5C(func_02045770(W(0x18)), 0);
+    func_02043B5C(func_02045770((struct Descriptor *)W(0x18)), 0);
     if (p[0x79] != 0xff) {
         str = func_02045EC0(W(0x10), func_02013E4C(func_021BBB3C(W(0x3c8), p[0x79], 0)));
-        func_0201C724(W(0x38), func_02045770(W(0x18)), 0, 1, str, W(4), 0x3c40);
+        func_0201C724(W(0x38), func_02045770((struct Descriptor *)W(0x18)), 0, 1, str, W(4), 0x3c40);
         func_02045808(str);
         W(0x28) = 1;
         func_021C0740(heap, p, key, 1);

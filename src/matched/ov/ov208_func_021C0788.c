@@ -49,7 +49,8 @@ extern const struct WinCfg4 data_021C85A4;
 
 extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32  func_02045770(u32 win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *win);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 win);
 extern u32  func_02045B38(u32 resident, u32 arc, u32 file, u32 heap);
@@ -68,12 +69,12 @@ void ov208_func_021C0788(u16 *heap, u8 *p, int key)
     func_02049B90(0x17, 5, 0, 0, 0, 0x20, *heap);
     for (i = 0; i < 2; i++) {
         *(u32 *)(p + i * 4 + 0x44) = func_020450F0(a.e[i].bg, a.e[i].x, a.e[i].y, a.e[i].w, a.e[i].h, a.e[i].pal, a.e[i].base);
-        func_02043B5C(func_02045770(*(u32 *)(p + i * 4 + 0x44)), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x44)), 0);
         func_02045334(*(u32 *)(p + i * 4 + 0x44));
     }
     for (i = 0; i < 4; i++) {
         *(u32 *)(p + i * 4 + 0x14) = func_020450F0(b.e[i].bg, b.e[i].x, b.e[i].y, b.e[i].w, b.e[i].h, b.e[i].pal, b.e[i].base);
-        func_02043B5C(func_02045770(*(u32 *)(p + i * 4 + 0x14)), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x14)), 0);
         func_02045334(*(u32 *)(p + i * 4 + 0x14));
     }
     W(0xc) = func_02045B38(0, 2, 0xea, *heap);

@@ -38,7 +38,8 @@ typedef struct {
 
 extern void *func_021BC3B4(int key);
 extern void func_0201C6EC(u32 a);
-extern void *func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021C1F50(u16 *heap, u8 *p, int key);
@@ -69,7 +70,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
         W(0x90) = ((Entry *)W(0x94))[p[0x78]].f1 == 0;
     W(0x2c) = 0;
     func_0201C6EC(W(0x3c));
-    func_02043B5C(func_02045770(W(0x1c)), 0);
+    func_02043B5C(func_02045770((struct Descriptor *)W(0x1c)), 0);
     func_021C1F50(heap, p, key);
     if (dir) {
         p[0xd8] = 2;
