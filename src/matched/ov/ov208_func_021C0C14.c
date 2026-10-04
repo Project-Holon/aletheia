@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 
 extern int  ov208_func_021BC3A4(int key);
 extern u32  func_020127A4(int a);
-extern u32  func_02012AC8(u32 a);
+struct Rec44;
+extern u16  func_02012AC8(const struct Rec44 *a);
 extern u32  func_02166C7C(int a, u32 b);
 extern int func_021BBB48(int a0, int a1);
 
@@ -35,7 +36,7 @@ u8 ov208_func_021C0C14(u16 *heap, u8 *p, int key)
     u8 r;
 
     a = ov208_func_021BC3A4(key);
-    m = func_02012AC8(func_020127A4(a));
+    m = func_02012AC8((const struct Rec44 *)func_020127A4(a));
     r = 0xff;
     v = func_021BBB48(*(u32 *)(p + 0x3c8), func_02166C7C(a, m));
     if (v != 0xffff)

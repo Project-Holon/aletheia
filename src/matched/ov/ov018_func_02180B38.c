@@ -31,7 +31,8 @@ extern u16 d_02183848[];
 
 int func_020124E4(int x);
 int func_020120F4(int x);
-int func_02012138(int x);
+struct Ctx;
+unsigned int func_02012138(const struct Ctx *x);
 void *func_02158344(int x);
 int func_02012944(int a);
 void func_0201F02C(int a, int b, int c);
@@ -46,7 +47,7 @@ int func_02180B38(int x, int *st, u8 *obj)
     int v = func_020124E4(x);
     void *m;
 
-    m = func_02158344(func_02012138(v));
+    m = func_02158344(func_02012138((const struct Ctx *)v));
     switch (*st) {
     case 0:
         func_0201F02C(*(int *)(obj + 0x10), 0, (int)(obj + 0x78));

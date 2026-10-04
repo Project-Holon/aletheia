@@ -49,7 +49,7 @@ extern void func_0204A5AC(void);
 extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int);
 enum Offset { Words=0x28c };
 enum Zero { Clear=0 };
 enum PrintOffset { PrintBase=0xcb4 };
@@ -82,6 +82,6 @@ int func_021BB584(struct S020315D4 *a,int b,int c,u8 *p)
         clearNode(p,off,zero);
     }
     func_020315D4(a);
-    func_020306F0((void *)31);
+    func_020306F0(31);
     return 1;
 }
