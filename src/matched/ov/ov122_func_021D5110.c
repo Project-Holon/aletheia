@@ -53,7 +53,8 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02041B6C(u32 bit);
 extern void func_021D50B4(char *p, u32 n);
 extern void func_02045808(struct U16Vec *vec);
-extern void *func_02012A30(const void *);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *);
 extern void func_02028A64(struct SoundSys *sys);
 extern void func_02028A70(struct SoundSys *sys);
 extern u16 func_0204B898(struct Obj *p);
@@ -80,7 +81,7 @@ void func_021D5110(char *p)
             func_021D50B4(p, index);
         }
         func_02045808(text);
-        func_02028A64(func_02012A30(*(void **)(p + 0x350)));
+        func_02028A64((struct SoundSys *)func_02012A30(*(void **)(p + 0x350)));
         if (func_0204B898(*(void **)(p + 0x39c)) == 15)
             func_0204B878(*(void **)(p + 0x39c), 16);
         if (func_0204B898(*(void **)(p + 0x394)) == 11) {
@@ -88,7 +89,7 @@ void func_021D5110(char *p)
             func_0204B878(*(void **)(p + 0x394), 19);
         }
     } else {
-        func_02028A70(func_02012A30(*(void **)(p + 0x350)));
+        func_02028A70((struct SoundSys *)func_02012A30(*(void **)(p + 0x350)));
         func_0204B3DC(*(void **)(p + 0x3a0), 0);
         func_02043B5C(func_02045770(*(void **)(p + 0x3c)), 0);
         func_02045334(*(void **)(p + 0x3c));

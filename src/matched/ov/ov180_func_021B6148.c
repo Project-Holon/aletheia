@@ -16,7 +16,7 @@
 
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int);
 
 int func_021B6148(void *p)
 {
