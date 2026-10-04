@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   sub_020399A8  0x020399A8  arm
@@ -25,12 +25,14 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int sub_020399A8(void *v, int b);
-extern void sub_02039C68(int a, int b, int c);
+struct Entry;
+extern struct Entry *sub_020399A8(void);
+struct Link;
+extern void sub_02039C68(struct Link *a, unsigned int b, unsigned int c);
 
 int func_021BD994(void *v, int b)
 {
-    sub_02039C68(sub_020399A8(v, b), 0x1B, 0x0A);
+    sub_02039C68((struct Link *)sub_020399A8(), 0x1B, 0x0A);
     *(u32 *)((u8 *)v + 0x1CC) = 0x8B;
 
     return b;

@@ -15,14 +15,14 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0201ADE4(u16 a, u16 b, u32 heap);
+extern void *func_0201ADE4(u32 a, int b, u32 heap);
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *h);
 
 void func_021C3E38(u32 *p, u32 heap)
 {
-    void *h = func_0201ADE4(p[0], p[1], heap);
+    void *h = func_0201ADE4((u16)p[0], (u16)p[1], heap);
     u32 v = func_0201AE1C(h, 0x15);
 
     func_0201AE14(h);

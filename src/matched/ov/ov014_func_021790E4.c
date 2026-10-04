@@ -26,7 +26,7 @@ extern u8 *g_021797A8;
 extern char d_02179794[];
 
 extern BOOL func_021791A0(int a, int b);
-extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u32 line);
+extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
 extern void func_02082BCC(void *p, int v, u32 n);
 
 BOOL func_021790E4(u32 heap, int a, int b)
