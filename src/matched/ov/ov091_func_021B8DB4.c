@@ -48,7 +48,8 @@ extern int  func_021BB468(u8 *p, int v);
 extern void func_020061E4(u32 id);
 extern void func_021BAFA0(u8 *p, int v, int z);
 extern void func_021BBE5C(int h, int f);
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int  func_021B9A84(u8 *p);
 extern int  func_021B9AA0(u8 *p);
 extern int  func_021B9AB4(u8 *p);
@@ -92,7 +93,7 @@ void func_021B8DB4(u8 *p)
                 func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 1);
             } else {
                 func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
-                func_0204B3DC(W(0x1d8), 0);
+                func_0204B3DC((struct Obj *)W(0x1d8), 0);
             }
             p[0x100] = 0xc;
         }

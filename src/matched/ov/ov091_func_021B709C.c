@@ -33,7 +33,7 @@ extern u32 func_0204B100(u32 a, u32 b, u32 heap);
 extern void func_0204B270(u32 bank);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(int a, int b);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 
@@ -58,8 +58,8 @@ void func_021B709C(u8 *p)
                                         *(int *)(p + 0x178), *(int *)(p + 0x1b4), &b, 0, *(u16 *)p);
     func_0204B92C((struct Obj *)*(int *)(p + 0x1d8), 1);
     func_0204B92C((struct Obj *)*(int *)(p + 0x1dc), 1);
-    func_0204B3DC(*(int *)(p + 0x1d8), 0);
-    func_0204B3DC(*(int *)(p + 0x1dc), 0);
+    func_0204B3DC((struct Obj *)*(int *)(p + 0x1d8), 0);
+    func_0204B3DC((struct Obj *)*(int *)(p + 0x1dc), 0);
     a.a = 0xe0;
     a.b = 0xa8;
     a.c = 1;

@@ -29,7 +29,8 @@ extern void func_021FE444(int *,Pair *,const Pair *,int,int),func_021FE4D8(int *
 extern int func_021FE478(int *,Pair *,int),func_021FE54C(int *,Pair *);
 extern void func_021FE3B4(void *,void *,u16,u16,int);
 extern int func_021FE3E4(void *,Pair *,int);
-extern void func_0204B3DC(void *,unsigned),func_0204B404(void *,const ShortPair *,u16);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const ShortPair *,u16);
 void func_021FDBF4(int unused,int *state,Motion *p)
 {
     ShortPair pos;

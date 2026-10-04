@@ -22,7 +22,8 @@ typedef unsigned int u32;
 typedef int BOOL;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_02041B6C(u32 bit);
 extern void func_020355D8(int a);
 
@@ -74,8 +75,8 @@ void func_021B907C(u8 *p)
     G2_SetWnd0InsidePlane(0x1f, 0);
     G2_SetWndOutsidePlane(0x1f, 1);
     W(0x10) = 1;
-    func_0204B3DC(W(0x1e4), 0);
-    func_0204B3DC(W(0x1e0), 0);
+    func_0204B3DC((struct Obj *)W(0x1e4), 0);
+    func_0204B3DC((struct Obj *)W(0x1e0), 0);
     func_02041B6C(0);
     func_020355D8(W(8));
 }

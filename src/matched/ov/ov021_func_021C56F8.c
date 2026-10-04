@@ -24,7 +24,8 @@ extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(int a, int b);
 extern void func_02045334(int a);
 extern void func_021C577C(int a, int b, int c);
-extern void func_0204B3DC(int a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 int func_021C56F8(int *a)
 {
@@ -49,7 +50,7 @@ int func_021C56F8(int *a)
         }
         if (a[0x12] != 0) {
             for (i = 0; i < 3; i++) {
-                func_0204B3DC(a[0xa + i], 1);
+                func_0204B3DC((struct Obj *)a[0xa + i], 1);
             }
             a[0x12] = 0;
         }

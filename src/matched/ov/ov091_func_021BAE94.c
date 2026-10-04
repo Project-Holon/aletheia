@@ -30,7 +30,8 @@ extern u32 func_0202D01C(u32 a, u32 b, u32 c);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043AF4(u32 a, int b, int c, int d, int e, int f);
-extern void func_0204B3DC(int a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021BAE94(u8 *a, u8 *s)
 {
@@ -59,5 +60,5 @@ void func_021BAE94(u8 *a, u8 *s)
     }
     func_02043AF4(w, 0x3d, 0x1b, h, 1, x);
     func_02043AF4(w, 0x3d, 0x1c, h, 1, y);
-    func_0204B3DC(*(int *)(s + 0x38), 1);
+    func_0204B3DC((struct Obj *)*(int *)(s + 0x38), 1);
 }

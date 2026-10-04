@@ -33,7 +33,8 @@ extern void func_021C59BC(void *a, u8 *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_021C553C(char *p);
 extern int func_021C5768(char *p);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
 void func_021C5224(char *p)
@@ -78,7 +79,7 @@ void func_021C5224(char *p)
         break;
     case 4:
         for (i = 0; i < 3; i++) {
-            func_0204B3DC(*(u32 *)(p + 0x58 + i * 4), 0);
+            func_0204B3DC((struct Obj *)*(u32 *)(p + 0x58 + i * 4), 0);
         }
         *(u16 *)(p + 0x72) = 4;
         *(u16 *)(p + 0x70) = 5;

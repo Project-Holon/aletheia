@@ -54,7 +54,7 @@ extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, un
 extern int func_021F8710(void);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 void func_02207430(Work *p, int mode, int i)
 {
     int chr, pal, cell, cpal, j, n, side;
@@ -115,7 +115,7 @@ void func_02207430(Work *p, int mode, int i)
     func_0204B92C((struct Obj *)p->entries[i].f54, 1);
     cfg.pri = n;
     p->entries[i].f4c = (u32)func_0204B294((void *)p->f0, p->entries[i].f70, p->pal[j], p->entries[i].f74, &cfg, 0, p->heap);
-    func_0204B3DC(p->entries[i].f4c, 0);
+    func_0204B3DC((struct Obj *)p->entries[i].f4c, 0);
     if (side == 0 && mode != 2 && mode != 3)
         p->entries[i].f50 = (u32)func_0204B294((void *)p->f0, p->entries[i].f78, p->pal[j], p->entries[i].f7c, &cfg, 0, p->heap);
 }

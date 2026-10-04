@@ -31,7 +31,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern const Rect d_021D96E0;
 extern const Rect d_021D96E8;
 extern const Rect d_021D96F0;
@@ -51,7 +51,7 @@ void func_021B3DEC(char *w)
     func_0204B92C((struct Obj *)*(int *)(w + 0x1CC), 1);
     *(int *)(w + 0x1D0) = (int)func_0204B294((void *)*(int *)(w + 0x1BC), *(int *)(w + 0x1F0), *(int *)(w + 0x1EC),
                                         *(int *)(w + 0x1F4), &d_021D9700, 0, *(u16 *)(w + 4));
-    func_0204B3DC(*(int *)(w + 0x1C4), 0);
-    func_0204B3DC(*(int *)(w + 0x1C8), 0);
-    func_0204B3DC(*(int *)(w + 0x1CC), 0);
+    func_0204B3DC((struct Obj *)*(int *)(w + 0x1C4), 0);
+    func_0204B3DC((struct Obj *)*(int *)(w + 0x1C8), 0);
+    func_0204B3DC((struct Obj *)*(int *)(w + 0x1CC), 0);
 }

@@ -33,7 +33,8 @@ extern void func_02082BCC(void *,int,unsigned),func_02034714(const char *,int,co
 extern int func_021FD6D8(char *,void (*)(void),int),func_021FC124(char *,int,Triple *);
 extern void func_021FD964(void),func_021FBE54(char *,unsigned,unsigned);
 extern int func_0204B294(unsigned,unsigned,unsigned,unsigned,Pair *,unsigned short,int);
-extern void func_0204B3DC(int,int),func_0204B688(int,int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B688(int,int);
 extern const char d_02200D5C[],d_02200D68[];
 char *func_021FD760(unsigned owner,char *resources,int index,int heap)
 {
@@ -53,7 +54,7 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
     res=index;
     for(;i<12;i++) {
         ((Handles *)p)->handles[i]=func_0204B294(owner,triple.y,triple.z,triple.x,&pair,res,heap);
-        func_0204B3DC(((Handles *)p)->handles[i],0);
+        func_0204B3DC((struct Obj *)((Handles *)p)->handles[i],0);
         func_0204B688(((Handles *)p)->handles[i],1);
     }
     return p;

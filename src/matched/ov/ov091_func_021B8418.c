@@ -27,7 +27,8 @@ extern int func_021B9AB4(u8 *p);
 extern void func_021BBE5C(int h, int f);
 extern void func_021B8F68(u8 *p, int v);
 extern void func_021BAFA0(u8 *p, int v, int z);
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -48,7 +49,7 @@ void func_021B8418(u8 *p)
             func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
         }
     } else {
-        func_0204B3DC(W(0x1d8), 0);
+        func_0204B3DC((struct Obj *)W(0x1d8), 0);
         if (W(0x2c) <= 5) {
             if (p[0xc] == 3) {
                 func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 1);
@@ -59,10 +60,10 @@ void func_021B8418(u8 *p)
             func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 0);
         }
     }
-    func_0204B3DC(W(0x1e4), W(0x14));
+    func_0204B3DC((struct Obj *)W(0x1e4), W(0x14));
     if (func_021B9A84(p) == 1 || func_021B9AB4(p) == 0) {
-        func_0204B3DC(W(0x1e0), 0);
+        func_0204B3DC((struct Obj *)W(0x1e0), 0);
     } else {
-        func_0204B3DC(W(0x1e0), 1);
+        func_0204B3DC((struct Obj *)W(0x1e0), 1);
     }
 }

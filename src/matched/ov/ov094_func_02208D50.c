@@ -38,15 +38,16 @@ typedef struct {
     } flags;                /* 0x440 */
 } W;
 
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_02208D50(W *w, int i, int b)
 {
     if ((w->r[i].state == 2 || w->r[i].state == 3) && b == 1 && (i & 1) == 0) {
-        func_0204B3DC(w->r[i].h04, w->flags.b4);
-        func_0204B3DC(w->r[i].h08, w->flags.b4 ? 0 : 1);
+        func_0204B3DC((struct Obj *)w->r[i].h04, w->flags.b4);
+        func_0204B3DC((struct Obj *)w->r[i].h08, w->flags.b4 ? 0 : 1);
     } else {
-        func_0204B3DC(w->r[i].h04, b);
-        func_0204B3DC(w->r[i].h08, b);
+        func_0204B3DC((struct Obj *)w->r[i].h04, b);
+        func_0204B3DC((struct Obj *)w->r[i].h08, b);
     }
 }

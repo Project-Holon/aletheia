@@ -39,7 +39,7 @@ extern void func_02049238(void *);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021B9E14(char *p, int id)
 {
@@ -59,5 +59,5 @@ void func_021B9E14(char *p, int id)
     r.e = 0;
     *(int *)(p + 0x6A0) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x54C), *(int *)(p + 0x548), *(int *)(p + 0x550), &r, 1, *(unsigned short *)(p + 0x544));
     func_0204B92C((struct Obj *)*(int *)(p + 0x6A0), 1);
-    func_0204B3DC(*(int *)(p + 0x6A0), 1);
+    func_0204B3DC((struct Obj *)*(int *)(p + 0x6A0), 1);
 }

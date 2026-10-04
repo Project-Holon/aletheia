@@ -61,7 +61,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(u32, u16);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B84C(u32, int);
 extern void func_0204B800(u32, int);
 extern void func_020434DC(u32 mask, u32 enable);
@@ -84,7 +84,7 @@ void func_02184D30(Work *p)
         p->a60[i] = (u32)func_0204B294((void *)p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
         func_0204B92C((struct Obj *)p->a60[i], 1);
         func_0204B878(p->a60[i], i);
-        func_0204B3DC(p->a60[i], 0);
+        func_0204B3DC((struct Obj *)p->a60[i], 0);
     }
     for (j = 0; j < 12; j++) {
         pos.x = d_02186BEC[j].x;
@@ -104,14 +104,14 @@ void func_02184D30(Work *p)
         func_0204B92C((struct Obj *)p->a98[i], 1);
         func_0204B878(p->a98[i], i);
         func_0204B800(p->a98[i], 1);
-        func_0204B3DC(p->a98[i], 0);
+        func_0204B3DC((struct Obj *)p->a98[i], 0);
     }
     pos.x = 0xD4;
     pos.y = 0xA0;
     p->f100 = (u32)func_0204B294((void *)p->f38, p->f4C, p->f48, p->f50, &pos, 0, 0x28);
     func_0204B92C((struct Obj *)p->f100, 1);
     func_0204B878(p->f100, 1);
-    func_0204B3DC(p->f100, 1);
+    func_0204B3DC((struct Obj *)p->f100, 1);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

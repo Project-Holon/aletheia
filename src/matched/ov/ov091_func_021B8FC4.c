@@ -21,7 +21,8 @@ typedef unsigned char u8;
 
 extern void func_021BB3D4(u8 *p, int v, int *buf);
 extern void func_0204B404(int h, int *buf, int z);
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B84C(int h, int f);
 extern void func_0204B878(int h, int f);
 
@@ -33,7 +34,7 @@ void func_021B8FC4(u8 *p, int idx)
 
     func_021BB3D4(p, *(int *)(p + idx * 4 + 0x160), &buf);
     func_0204B404(W(0x1dc), &buf, 0);
-    func_0204B3DC(W(0x1dc), 1);
+    func_0204B3DC((struct Obj *)W(0x1dc), 1);
     func_0204B84C(W(0x1dc), 2);
     if (idx == 0) {
         func_0204B878(W(0x1dc), 2);

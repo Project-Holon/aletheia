@@ -39,7 +39,7 @@ extern void func_02043598(u32 mask, u32 enable);
 extern int func_02085D3C(void);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204BA20(int, int);
 extern void func_021F1910(char *p, int on);
 extern void func_021F1F80(char *p);
@@ -70,7 +70,7 @@ void func_021F1950(char *p)
         q = (int *)(p + i * 4);
         q[0x4b] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
                                 *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
-        func_0204B3DC(q[0x4b], 0);
+        func_0204B3DC((struct Obj *)q[0x4b], 0);
         func_0204BA20(q[0x4b], 0);
     }
     func_021F1910(p, 0);
@@ -83,7 +83,7 @@ void func_021F1950(char *p)
         q = (int *)(p + j * 4);
         q[0x56] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
                                 *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
-        func_0204B3DC(q[0x56], 0);
+        func_0204B3DC((struct Obj *)q[0x56], 0);
         func_0204BA20(q[0x56], 0);
     }
     func_021F1F80(p);

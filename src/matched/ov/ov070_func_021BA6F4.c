@@ -38,7 +38,7 @@ typedef struct {
 
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
 extern int func_021B811C(char *);
@@ -68,15 +68,15 @@ void func_021BA6F4(char *p)
             r.b += 4;
         }
         *(int *)(p + i * 4 + 0x710) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
-        func_0204B3DC(*(int *)(p + i * 4 + 0x710), 1);
+        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x710), 1);
     }
     func_0204B92C((struct Obj *)*(int *)(p + 0x710), 1);
     func_0204B92C((struct Obj *)*(int *)(p + 0x714), 1);
     if (func_021B811C(p) == 0) {
-        func_0204B3DC(*(int *)(p + 0x718), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + 0x718), 0);
     }
     if (*(int *)(p + 0x10) == 2) {
-        func_0204B3DC(*(int *)(p + 0x71C), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + 0x71C), 0);
     }
     t3 = d_021BBA68;
     t4 = d_021BBA64;
@@ -87,6 +87,6 @@ void func_021BA6F4(char *p)
         r.e = 0;
         *(int *)(p + (u8)(i + 5) * 4 + 0x710) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
         func_0204B92C((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
-        func_0204B3DC(*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
     }
 }

@@ -50,7 +50,7 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 extern void func_0204B6F4(u32,int,int);
 struct Obj;
 extern void func_0204B92C(struct Obj *p,u32 v);
-extern void func_0204B3DC(u32,int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern u32 func_0202136C(u16);
 extern void func_0204B878(u32,int);
 extern u32 func_020450F0(int,u8,u8,int,u8,u8,u8);
@@ -97,10 +97,10 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     b.a=x+32;b.b=y+16;b.c=0;b.d=8;b.e=2;
     s[5]=(u32)func_0204B294((void *)P(0x1ec),P(0x1a8),P(0x184),P(0x1c4),&b,1,*(u16 *)p);
     if(gender!=0) {
-        func_0204B3DC(s[5],1);
+        func_0204B3DC((struct Obj *)s[5],1);
         if(func_0202136C(gender)==1) func_0204B878(s[5],1);
         else func_0204B878(s[5],0);
-    } else func_0204B3DC(s[5],0);
+    } else func_0204B3DC((struct Obj *)s[5],0);
     special=func_02017E1C(mon,0x6e,0);
     rem=x%8;
     z=rem;

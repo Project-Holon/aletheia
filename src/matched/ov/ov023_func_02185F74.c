@@ -54,7 +54,8 @@ typedef struct {
 
 extern u16 func_02039338(void);
 extern int  func_02186170(W *p);
-extern void func_0204B3DC(u32 a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0201C6EC(u32 a);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
@@ -78,9 +79,9 @@ void func_02185F74(u32 *win, u16 color, W *p)
         return;
     for (i = 0; i < 5; i++) {
         if (p->e1c8[i].w == 0)
-            func_0204B3DC(p->arr98[i], 0);
+            func_0204B3DC((struct Obj *)p->arr98[i], 0);
         else
-            func_0204B3DC(p->arr98[i], 1);
+            func_0204B3DC((struct Obj *)p->arr98[i], 1);
     }
     func_0201C6EC(p->f164);
     for (i = 0; i < 5; i++)

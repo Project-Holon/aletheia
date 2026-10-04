@@ -35,7 +35,8 @@ typedef unsigned int   u32;
 #define W(o) (*(u32 *)(p + (o)))
 
 extern void func_021BAFA0(u8 *p, int v, int z);
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int  func_021BB43C(int p);
 extern int  func_02019E54(u32 a0, u32 a1, u32 a2);
 extern void func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
@@ -58,7 +59,7 @@ void func_021B892C(u8 *p)
     if (W(0x2c) != 6) {
         if ((int)W(0x2c) <= 5) {
             func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 0);
-            func_0204B3DC(W(0x1d8), 0);
+            func_0204B3DC((struct Obj *)W(0x1d8), 0);
         }
         W(0x2c) = 6;
     }

@@ -29,7 +29,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 extern void func_0204B92C(struct Obj *h, u32 f);
 extern void func_0204B878(int h, u16 f);
-extern void func_0204B3DC(int h, int f);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_02205E80(char *m)
 {
@@ -60,6 +60,6 @@ void func_02205E80(char *m)
                                          *(u32 *)(m + o2), d_0220A392, 1, *(u16 *)(m + 0x240));
         func_0204B92C((struct Obj *)*(int *)(p + o4), 1);
         func_0204B878(*(int *)(p + o5), q.v[j]);
-        func_0204B3DC(*(int *)(p + 0x180), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + 0x180), 0);
     }
 }

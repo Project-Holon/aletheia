@@ -34,7 +34,8 @@ extern void func_021BB7A4(u8 *p, int v);
 extern int func_021B9A84(u8 *p);
 extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern int func_021BB43C(int p);
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_020061E4(u32 id);
 extern void func_021B7CC4(u8 *p);
@@ -67,7 +68,7 @@ void func_021B8508(u8 *p)
     }
     switch (p[0xf]) {
     case 3:
-        func_0204B3DC(W(0x1d8), 0);
+        func_0204B3DC((struct Obj *)W(0x1d8), 0);
         W(0x38) = (int)func_0201AB28(*(void **)W(0x280), W(0x2c));
         *(int *)(W(0x280) + 0x3c) = W(0x2c);
         func_020061E4(0x54c);
@@ -86,7 +87,7 @@ void func_021B8508(u8 *p)
     case 1:
         if (W(0x2c) <= 5) {
             func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 0);
-            func_0204B3DC(W(0x1d8), 0);
+            func_0204B3DC((struct Obj *)W(0x1d8), 0);
         }
         if (func_021B9A84(p) == 1) {
             func_021BBE5C(W(0x108), 0);
@@ -105,7 +106,7 @@ void func_021B8508(u8 *p)
     case 2:
         if (W(0x2c) <= 5) {
             func_021BAFA0(p, *(int *)(p + W(0x2c) * 4 + 0x160), 0);
-            func_0204B3DC(W(0x1d8), 0);
+            func_0204B3DC((struct Obj *)W(0x1d8), 0);
         }
         p[0xc] = 0x13;
         *(int *)(W(0x280) + 0x3c) = 8;

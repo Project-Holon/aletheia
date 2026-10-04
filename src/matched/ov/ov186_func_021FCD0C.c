@@ -16,7 +16,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  */
 extern int func_021FCDA0(char *),func_021FCEDC(char *),func_02006254(int);
-extern void func_021FCE60(char *,int),func_020061E4(int),func_0204B3DC(int,int);
+struct Obj;
+extern void func_021FCE60(char *,int),func_020061E4(int),func_0204B3DC(struct Obj *,unsigned int);
 void func_021FCD0C(char *p)
 {
     if(func_021FCDA0(p)) {
@@ -27,10 +28,10 @@ void func_021FCD0C(char *p)
                 func_021FCE60(p,*(unsigned short *)(p+0x42));
             }
             if(*(unsigned char *)(p+0x4D)) {
-                if(*(unsigned short *)(p+0x42)==0) func_0204B3DC(*(int *)(p+0x28),0);
-                else func_0204B3DC(*(int *)(p+0x28),1);
-                if(*(unsigned *)(p+4)==*(unsigned short *)(p+0x42)+*(unsigned short *)(p+0x44)) func_0204B3DC(*(int *)(p+0x2C),0);
-                else func_0204B3DC(*(int *)(p+0x2C),1);
+                if(*(unsigned short *)(p+0x42)==0) func_0204B3DC((struct Obj *)*(int *)(p+0x28),0);
+                else func_0204B3DC((struct Obj *)*(int *)(p+0x28),1);
+                if(*(unsigned *)(p+4)==*(unsigned short *)(p+0x42)+*(unsigned short *)(p+0x44)) func_0204B3DC((struct Obj *)*(int *)(p+0x2C),0);
+                else func_0204B3DC((struct Obj *)*(int *)(p+0x2C),1);
             }
         }
     }

@@ -26,7 +26,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_020409B4(u32 index);
-extern void func_0204B3DC(int a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021BB714(void *a, u32 *s, u32 k);
 extern void func_021BB7E8(u8 *a, u32 *s, u32 x);
 extern void func_021BD4EC(u8 *p);
@@ -43,7 +44,7 @@ void func_021B7B98(u8 *p)
         break;
     case 1:
         func_021BD4EC(p);
-        func_0204B3DC(*(int *)(p + 0x1e0), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + 0x1e0), 0);
         *(int *)(p + 0x14) = 0;
         break;
     case 22:
@@ -84,7 +85,7 @@ void func_021B7B98(u8 *p)
     case 21:
         func_021BB714(p, *(u32 **)(p + 0x150), 0);
         func_021BB7E8(p, *(u32 **)(p + 0x150), 0xa3);
-        func_0204B3DC(*(int *)(p + 0x1e0), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + 0x1e0), 0);
         *(int *)(p + 0x14) = 0;
         break;
     }

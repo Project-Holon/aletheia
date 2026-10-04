@@ -53,7 +53,8 @@ extern void func_021B3258(u32 unused, char *a, u32 b, u32 c);
 extern void func_021B3470(char *p);
 extern void func_021B41AC(char *w, u16 b);
 extern void func_021B42D0(char *w, u32 a, u32 b);
-extern void func_0204B3DC(u32 a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_021B4AA4(char *w);
 extern void func_021B4BA4(int i);
 extern void func_02045374(u32 a);
@@ -98,7 +99,7 @@ int func_021B35A4(u32 a, char *p, u32 c, u32 d)
     case 2:
         func_021B41AC(p, *(u16 *)(p + 0x1FC));
         func_021B42D0(p, *(u16 *)(p + 0x208), *(u32 *)(p + 0x200));
-        func_0204B3DC(*(u32 *)(p + 0x1CC), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x1CC), 1);
         *(u8 *)p = 3;
         break;
     case 3:
@@ -109,14 +110,14 @@ int func_021B35A4(u32 a, char *p, u32 c, u32 d)
         func_02045374(*(u32 *)(p + 0x16C));
         func_02045374(*(u32 *)(p + 0x178));
         func_02041B6C(1);
-        func_0204B3DC(*(u32 *)(p + 0x1CC), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x1CC), 0);
         func_02020234(*(u32 *)(p + 0x1A4));
         *(u8 *)p = 1;
         break;
     case 5:
         func_021B4BA4(1);
         func_02045374(*(u32 *)(p + 0x16C));
-        func_0204B3DC(*(u32 *)(p + 0x1CC), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x1CC), 0);
         *(u32 *)(p + 0x184) = func_0201FDA0(d_021D9440, 1, 9, 0, *(u16 *)(p + 4));
         if (*(u8 *)(p + 0x162) != 1) {
             func_021B41AC(p, *(u16 *)(p + 0x1FC));
@@ -126,7 +127,7 @@ int func_021B35A4(u32 a, char *p, u32 c, u32 d)
     case 6:
         func_021B4BA4(1);
         func_02045374(*(u32 *)(p + 0x16C));
-        func_0204B3DC(*(u32 *)(p + 0x1CC), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x1CC), 0);
         *(u32 *)(p + 0x184) = func_0201FDA0(d_021D9440, 1, 9, 0, *(u16 *)(p + 4));
         *(u8 *)p = 7;
         break;

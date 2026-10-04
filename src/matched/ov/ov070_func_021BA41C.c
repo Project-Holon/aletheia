@@ -33,7 +33,8 @@ typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 extern void func_0202EB04(int);
 extern int func_021B61C8(char *);
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B908(int, int);
 
 void func_021BA41C(char *p)
@@ -47,7 +48,7 @@ void func_021BA41C(char *p)
         func_021BB398(p, 1);
     }
     func_0202EB04(*(int *)(p + 0x850));
-    func_0204B3DC(*(int *)(p + 0x6A8), func_021B61C8(p) >= 7);
+    func_0204B3DC((struct Obj *)*(int *)(p + 0x6A8), func_021B61C8(p) >= 7);
     func_0204B908(*(int *)(p + 0x6A4), 0);
     func_0204B908(*(int *)(p + 0x6A8), 0);
 }

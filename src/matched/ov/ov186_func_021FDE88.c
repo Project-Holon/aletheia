@@ -17,7 +17,8 @@
 typedef struct { int x,y; } Pair;
 typedef struct { short x,y; } ShortPair;
 typedef struct { int x,y;char pad8[4];int heap;char pad10[8];char record[6][32];char padD8[0x120];int handles[12];int timer; } Motion;
-extern void func_021FE3B4(void *,void *,unsigned short,unsigned short,int),func_0204B3DC(int,int),func_0204B404(int,ShortPair *,unsigned short),func_020061E4(int);
+struct Obj;
+extern void func_021FE3B4(void *,void *,unsigned short,unsigned short,int),func_0204B3DC(struct Obj *,unsigned int),func_0204B404(int,ShortPair *,unsigned short),func_020061E4(int);
 extern int func_021FE3E4(void *,Pair *,int);
 void func_021FDE88(int unused,int *state,Motion *p)
 {
@@ -29,7 +30,7 @@ void func_021FDE88(int unused,int *state,Motion *p)
         p->timer=0;
         for(i=0;i<6;i++) {
             func_021FE3B4(p->record[i],p,15,(i*0xFFFF)/6,90);
-            func_0204B3DC(p->handles[i],1);
+            func_0204B3DC((struct Obj *)p->handles[i],1);
         }
         func_020061E4(0x705);
         *state=1;

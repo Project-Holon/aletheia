@@ -28,7 +28,8 @@ extern u32 func_02049E74(u32 a, u32 b, u32 c, u32 *d, u32 e);
 extern void func_0204ADEC(u32 a, u32 b, u32 c);
 extern void func_0204A9D0(u32 a, u32 b);
 extern void func_020307B0(u32 a);
-extern void func_0204B3DC(u32 a, u32 b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021B3D60(char *w, u32 b)
 {
@@ -44,8 +45,8 @@ void func_021B3D60(char *w, u32 b)
         func_0204A9D0(*(u32 *)(w + 0x1F0), y);
         func_020307B0(p);
         func_020307B0(q);
-        func_0204B3DC(*(u32 *)(w + 0x1D0), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(w + 0x1D0), 1);
     } else {
-        func_0204B3DC(*(u32 *)(w + 0x1D0), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(w + 0x1D0), 0);
     }
 }

@@ -47,7 +47,7 @@ extern void func_020061E4(u32 se);
 extern u8 func_0200C480(void *a, int id, u8 pos);
 extern int func_021C59A8(char *p, u16 *a, u16 *b);
 extern void func_021C58CC(char *p, u16 a, u16 b, u32 heap);
-extern void func_0204B3DC(u32 obj, int on);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021C577C(void *list, int a, int b);
 extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
 
@@ -120,7 +120,7 @@ void func_021C553C(char *p)
         if (*(u32 *)(p + 0x24) == 0) {
             *(u32 *)(p + 0x40) = 0;
             for (i = 0; i < 3; i++) {
-                func_0204B3DC(*(u32 *)(p + 0x28 + i * 4), 0);
+                func_0204B3DC((struct Obj *)*(u32 *)(p + 0x28 + i * 4), 0);
             }
             func_021C577C(*(void **)(p + 4), 0, 0);
             return;

@@ -1,7 +1,7 @@
 /*
  * function: func_022005EC
  * address:  0x022005EC
- * packet:   pkt_022005EC
+ * packet:   pkt_ov135_022005EC
  * region:   ov135
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -47,7 +47,8 @@ extern const Pos tbl_022038E0[];
 extern int func_0220052C(void);
 extern void func_020061E4(u32 se);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B3DC(u32 v, int k);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B878(u32 v, int k);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
@@ -63,7 +64,7 @@ int func_022005EC(Work *p)
         p->sel = r;
         func_020061E4(0x548);
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
         func_0204B878(p->cursor, 1);
         p->state = 0xE;
         func_020355D8(1);
@@ -75,7 +76,7 @@ int func_022005EC(Work *p)
         return 2;
     }
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return 2;
@@ -83,12 +84,12 @@ int func_022005EC(Work *p)
     if (func_020362DC() & 2) {
         p->sel = 2;
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
         func_0204B878(p->cursor, 1);
         p->state = 0xE;
         func_020061E4(0x551);
     } else if (func_020362DC() & 1) {
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
         func_0204B878(p->cursor, 1);
         p->state = 0xE;
         func_020061E4(0x54C);
@@ -96,7 +97,7 @@ int func_022005EC(Work *p)
         if (p->sel != 0) {
             p->sel--;
             func_020061E4(0x548);
-            func_0204B3DC(p->cursor, 1);
+            func_0204B3DC((struct Obj *)p->cursor, 1);
             func_0204B9A0(p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
@@ -104,7 +105,7 @@ int func_022005EC(Work *p)
         if (p->sel < 2) {
             p->sel++;
             func_020061E4(0x548);
-            func_0204B3DC(p->cursor, 1);
+            func_0204B3DC((struct Obj *)p->cursor, 1);
             func_0204B9A0(p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }

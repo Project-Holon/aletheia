@@ -37,7 +37,8 @@ struct Entries { u32 species[6],form[6],gender[6]; };
 struct Sub { u8 pad[16]; u32 size,data; };
 extern u32 func_0204B3F4(void *),func_0204B714(void *);
 extern void func_0204B7C8(const char *,struct Rec *),func_0204B784(char *,const struct Rec *);
-extern void func_0204B6F4(void *,u32,u32),func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B6F4(void *,u32,u32),func_0204B3DC(struct Obj *,unsigned int);
 extern void *func_020490F4(u32,u16);
 extern void func_021DF838(int,char *);
 extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
@@ -63,8 +64,8 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
                     value=func_0204B714(src);
                     func_0204B784(dst,&forward);
                     func_0204B6F4(dst,value,0);
-                    func_0204B3DC(dst,1);
-                } else func_0204B3DC(dst,0);
+                    func_0204B3DC((struct Obj *)dst,1);
+                } else func_0204B3DC((struct Obj *)dst,0);
             } else if(step==-1 && i!=4) {
                 src=p->sprites[3-i][j]; dst=p->sprites[4-i][j];
                 if(func_0204B3F4(src)) {
@@ -72,8 +73,8 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
                     value=func_0204B714(src);
                     func_0204B784(dst,&back);
                     func_0204B6F4(dst,value,0);
-                    func_0204B3DC(dst,1);
-                } else func_0204B3DC(dst,0);
+                    func_0204B3DC((struct Obj *)dst,1);
+                } else func_0204B3DC((struct Obj *)dst,0);
             }
         }
     }
@@ -90,8 +91,8 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
             func_0204B784(p->sprites[i][j],&loaded);
             func_0204B6F4(p->sprites[i][j],func_0201BB5C(entries.species[j],entries.form[j],entries.gender[j],0),0);
             func_020307B0(handle);
-            func_0204B3DC(p->sprites[i][j],1);
-        } else func_0204B3DC(p->sprites[i][j],0);
+            func_0204B3DC((struct Obj *)p->sprites[i][j],1);
+        } else func_0204B3DC((struct Obj *)p->sprites[i][j],0);
     }
     if(step==1) { ++p->cursor; if(p->cursor>4) p->cursor=0; }
     func_02049238(archive);

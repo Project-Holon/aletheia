@@ -37,7 +37,8 @@ typedef struct T7 {
 } T7;
 
 extern T7 d_0220AAF0;
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B878(int h, u16 f);
 
 void func_02208814(O *obj, int k, int idx)
@@ -46,10 +47,10 @@ void func_02208814(O *obj, int k, int idx)
 
     if (obj->e[idx].h != 0) {
         if (k == 0) {
-            func_0204B3DC(obj->e[idx].h, 0);
+            func_0204B3DC((struct Obj *)obj->e[idx].h, 0);
             func_0204B878(obj->e[idx].h, 0);
         } else {
-            func_0204B3DC(obj->e[idx].h, 1);
+            func_0204B3DC((struct Obj *)obj->e[idx].h, 1);
             func_0204B878(obj->e[idx].h, t.w[k]);
         }
     }

@@ -26,7 +26,8 @@ extern void func_021BB7A4(u8 *p, int v);
 extern void func_021B9968(u8 *p);
 extern void func_021B8F68(u8 *p, int v);
 extern void func_021BAFA0(u8 *p, int v, int z);
-extern void func_0204B3DC(int h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021B7B98(u8 *p);
 extern void func_020061E4(u32 id);
 
@@ -47,7 +48,7 @@ void func_021B86D8(u8 *p)
         p[0xc] = 2;
         func_021B8F68(p, W(0x2c));
         func_021BAFA0(p, *(int *)(p + W(0x30) * 4 + 0x160), 0);
-        func_0204B3DC(W(0x1dc), 0);
+        func_0204B3DC((struct Obj *)W(0x1dc), 0);
         W(0x30) = 9;
         *(int *)(W(0x280) + 0x3c) = W(0x2c);
         func_021B7B98(p);

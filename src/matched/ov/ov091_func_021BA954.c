@@ -19,7 +19,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 struct Obj;
 extern void func_0204B92C(struct Obj *,unsigned int);
-extern void func_0204B3DC(int,int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 #define P(k) (*(int *)(p+(k)))
 #define S(k) (*(int *)(s+(k)))
 void func_021BA954(u8 *p,u8 *s)
@@ -38,9 +38,9 @@ void func_021BA954(u8 *p,u8 *s)
     c.a=32;c.b=24;c.c=0;c.d=0;c.e=2;
     x=(int)func_0204B294((void *)S(0x28),P(0x1a4),P(0x180),P(0x1c0),&c,0,*(u16 *)p);
     S(0x3c)=x;
-    func_0204B3DC(x,0);
+    func_0204B3DC((struct Obj *)x,0);
     d.a=32;d.b=42;d.c=0;d.d=0;d.e=2;
     x=(int)func_0204B294((void *)S(0x28),P(0x1ac),P(0x188),P(0x1c8),&d,0,*(u16 *)p);
     S(0x40)=x;
-    func_0204B3DC(x,0);
+    func_0204B3DC((struct Obj *)x,0);
 }

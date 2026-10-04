@@ -60,7 +60,7 @@ extern u8 func_02045730(u32);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B92C(struct Obj *,u32),func_0204B688(u32,u32),func_0204B3DC(u32,u32);
+extern void func_0204B92C(struct Obj *,u32),func_0204B688(u32,u32),func_0204B3DC(struct Obj *,unsigned int);
 struct Bmp;
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_02043B5C(void *,u8),func_0201C7D0(void *,short,short,void *,void *,u16);
@@ -128,7 +128,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         func_0204B92C((struct Obj *)p->handles[i],1);func_0204B688(p->handles[i],1);
     }
     i=0;
-    func_0204B3DC(p->handles[0],0);
+    func_0204B3DC((struct Obj *)p->handles[0],0);
     func_02082BCC(&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
     if(!func_021FC124(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
@@ -149,14 +149,14 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     }
     func_021FCE60((char *)p,p->start);
     if(cfg->count<p->visible) {
-        p->scroll=0;func_0204B3DC(p->handles[0],0);func_0204B3DC(p->handles[1],0);
+        p->scroll=0;func_0204B3DC((struct Obj *)p->handles[0],0);func_0204B3DC((struct Obj *)p->handles[1],0);
     } else {
         p->scroll=1;
         if(p->scroll) {
-            if(p->start==0) func_0204B3DC(p->handles[0],0);
-            else func_0204B3DC(p->handles[0],1);
-            if(p->cfg.count==p->start+p->visible) func_0204B3DC(p->handles[1],0);
-            else func_0204B3DC(p->handles[1],1);
+            if(p->start==0) func_0204B3DC((struct Obj *)p->handles[0],0);
+            else func_0204B3DC((struct Obj *)p->handles[0],1);
+            if(p->cfg.count==p->start+p->visible) func_0204B3DC((struct Obj *)p->handles[1],0);
+            else func_0204B3DC((struct Obj *)p->handles[1],1);
         }
     }
     if(func_021FCDA0((char *)p)) for(i=2;i<4;i++) func_0204B92C((struct Obj *)p->handles[i],1);

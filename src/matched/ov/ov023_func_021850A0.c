@@ -67,7 +67,8 @@ extern void func_02035CB8(int *a, int *b);
 extern int  func_02035C38(void);
 extern u16 func_02039338(void);
 extern void func_0204B878(u32 a, u16 b);
-extern void func_0204B3DC(u32 a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_020061E4(u32 a);
 extern void func_021852B4(u32 *p, int n);
 extern int  func_02186558(char *p);
@@ -155,11 +156,11 @@ void func_021850A0(char *p)
         }
     }
     r = func_02035BA4(d_02186AB4);
-    func_0204B3DC(*(u32 *)(p + 0x60 + func_02039338() * 4), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 0);
     if (r != -1) {
         func_02035CB8(&tx, &ty);
         func_0218506C(*(int *)(p + 0x60 + func_02039338() * 4), tx, ty);
-        func_0204B3DC(*(u32 *)(p + 0x60 + func_02039338() * 4), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 1);
     }
     x = 0;
     y = 0;

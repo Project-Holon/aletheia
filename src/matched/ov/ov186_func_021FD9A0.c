@@ -22,7 +22,8 @@ typedef struct { short x,y; } ShortPair;
 typedef struct { int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[6][32];char padD8[0x120];void *handles[12];int timer; } Motion;
 extern void func_021FE2BC(void *,void *,u16,u16,u16,u16,int);
 extern int func_021FE2F8(char *,int *,int);
-extern void func_0204B3DC(void *,unsigned),func_0204B404(void *,const ShortPair *,u16),func_021FD73C(int *,int),func_021FD964(void);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const ShortPair *,u16),func_021FD73C(int *,int),func_021FD964(void);
 void func_021FD9A0(int unused,int *state,Motion *p)
 {
     Pair full;

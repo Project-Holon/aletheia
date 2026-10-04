@@ -28,7 +28,8 @@ typedef struct { int x,y;char pad8[4];int heap;int *task;char pad14[4];char reco
 extern const Pair d_02200AD0,d_02200AE8;
 extern void func_021FE444(int *,Pair *,const Pair *,int,int),func_021FE4D8(int *,int,const int *,int);
 extern int func_021FE478(int *,Pair *,int),func_021FE54C(int *,Pair *);
-extern void func_0204B3DC(void *,unsigned),func_0204B404(void *,const ShortPair *,u16),func_021FD73C(int *,int),func_021FD964(void);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const ShortPair *,u16),func_021FD73C(int *,int),func_021FD964(void);
 void func_021FDA7C(int unused,int *state,Motion *p)
 {
     ShortPair pos;

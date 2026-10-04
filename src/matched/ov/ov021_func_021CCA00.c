@@ -58,7 +58,7 @@ extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 struct Obj;
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B6F4(u32 obj, u8 v, u32 flag);
-extern void func_0204B3DC(u32 obj, int on);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021CCA00(Obj *p)
 {
@@ -82,7 +82,7 @@ void func_021CCA00(Obj *p)
         e = (func_02017E1C(mon, 0xab, 0) == 0x28a) ? 1 : 0;
         r = func_0201BB5C(s, f, func_02017E1C(mon, 0x6e, 0), e);
         func_0204B6F4(p->f1C[i], r, 1);
-        func_0204B3DC(p->f1C[i], 0);
+        func_0204B3DC((struct Obj *)p->f1C[i], 0);
     }
     if (p->f8 != 0) {
         n2 = func_0201AA18(p->f8);
@@ -95,7 +95,7 @@ void func_021CCA00(Obj *p)
             e = (func_02017E1C(mon, 0xab, 0) == 0x28a) ? 1 : 0;
             r = func_0201BB5C(s, f, func_02017E1C(mon, 0x6e, 0), e);
             func_0204B6F4(p->f34[i], r, 1);
-            func_0204B3DC(p->f34[i], 0);
+            func_0204B3DC((struct Obj *)p->f34[i], 0);
         }
     }
 }

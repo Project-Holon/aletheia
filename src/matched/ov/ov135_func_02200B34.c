@@ -1,7 +1,7 @@
 /*
  * function: func_02200B34
  * address:  0x02200B34
- * packet:   pkt_02200B34
+ * packet:   pkt_ov135_02200B34
  * region:   ov135
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -29,7 +29,8 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_020499D4(void *h, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02049238(void *h);
-extern void func_0204B3DC(u32 v, int k);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_02200B34(u8 *p)
 {
@@ -42,5 +43,5 @@ void func_02200B34(u8 *p)
         func_020499D4(h, 0x22, 6, 0, 0, 0, 0, 0x48);
         func_02049238(h);
     }
-    func_0204B3DC(*(u32 *)(p + 0xd38), 1);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 1);
 }
