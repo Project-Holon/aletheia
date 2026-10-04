@@ -26,7 +26,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
 
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(int a, int b);
 extern void func_02045334(int);
 extern int func_020200CC(int);
@@ -42,7 +43,7 @@ int func_021BCA14(char *p, int v)
 
     q = *(int *)(p + 0x1B8);
     if (*(u8 *)(p + 0x1B0) != 0) {
-        if (func_0201C6C4(q, func_02045770(*(int *)(p + 0x1AC))) == 0) {
+        if (func_0201C6C4(q, (int)func_02045770((struct Descriptor *)*(int *)(p + 0x1AC))) == 0) {
             func_02045334(*(int *)(p + 0x1AC));
             *(u8 *)(p + 0x1B0) = 0;
         }

@@ -22,7 +22,9 @@
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_02045334 0x02045334 arm
  */
-extern int func_020450F0(int,int,int,int,unsigned char,unsigned char,unsigned char),func_02045770(int),func_0201283C(int),func_02009A34(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
+extern int func_020450F0(int,int,int,int,unsigned char,unsigned char,unsigned char),func_0201283C(int),func_02009A34(int);
 extern void func_02045374(int),func_0201F73C(int,int,unsigned short,int),func_02043B5C(int,int),func_02045CAC(int,int,int),func_0201EFA4(int,int,int,int,int,int),func_0201F250(int,int,int),func_0201C7A4(int,short,short,int,int),func_02045334(int);
 void func_021BA454(int text,int a) {
  if(*(int *)(a+0x280)==0) {
@@ -31,11 +33,11 @@ void func_021BA454(int text,int a) {
   func_02045374(v);
   func_0201F73C(*(int *)(a+0x280),0,*(int *)(a+0x304),14);
  }
- func_02043B5C(func_02045770(*(int *)(a+0x280)),255);
+ func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(a+0x280)),255);
  func_02045CAC(*(int *)(a+0x288),text,*(int *)(a+0x294));
  func_0201EFA4(*(int *)(a+0x28c),0,func_02009A34(func_0201283C(**(int **)(a+0x244))),2,1,1);
  func_0201EFA4(*(int *)(a+0x28c),1,32,2,1,1);
  func_0201F250(*(int *)(a+0x28c),*(int *)(a+0x298),*(int *)(a+0x294));
- func_0201C7A4(func_02045770(*(int *)(a+0x280)),0,2,*(int *)(a+0x298),*(int *)(a+0x290));
+ func_0201C7A4((int)func_02045770((struct Descriptor *)*(int *)(a+0x280)),0,2,*(int *)(a+0x298),*(int *)(a+0x290));
  func_02045334(*(int *)(a+0x280));
 }
