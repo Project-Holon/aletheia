@@ -32,7 +32,7 @@ extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *mon, u32 id, u32 v);
 extern u32 func_02018584(u16 a, u16 b, u16 c);
 extern void func_020185C4(void *mon);
-extern void func_0201ADD0(u16 a, u16 b, P *buf);
+extern void func_0201ADD0(unsigned int a, int b, void *buf);
 extern u32 func_021C3510(u32, u32);
 extern void func_021C360C(void *a, u32 b);
 
@@ -62,7 +62,7 @@ void func_021C3530(void *mon, u32 b)
     func_020185C4(mon);
     i = 0;
     newlv = func_02017E1C(mon, 0x9e, 0);
-    func_0201ADD0(species, form, buf);
+    func_0201ADD0((u16)species, (u16)form, buf);
     goto test;
 body:
     e = a;

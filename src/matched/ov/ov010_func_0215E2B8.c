@@ -28,7 +28,8 @@ struct R {
 extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_02013EC0(u32 id);
 extern u32 func_020493D4(int a, int b);
-extern void func_0204944C(int a, int b, int c, int d, void *e);
+struct ArcFile;
+extern void func_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
 
 int func_0215E2B8(struct R *r, int a, int b, int n)
 {
@@ -47,7 +48,7 @@ int func_0215E2B8(struct R *r, int a, int b, int n)
     if (q == 1) {
         n = 0;
     }
-    func_0204944C(a, v, n * 0xe8, 0xe8, r);
+    func_0204944C((struct ArcFile *)a, v, n * 0xe8, 0xe8, r);
     r->f7 |= 0x80;
     return 1;
 }
