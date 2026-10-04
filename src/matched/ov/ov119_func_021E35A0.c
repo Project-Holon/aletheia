@@ -37,7 +37,7 @@ typedef struct {
 extern const Vec data_021E7B00;
 extern const Table data_021E7B0C;
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void *func_0201ADE4(u16 a, u16 b, u16 heap);
+extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *h);

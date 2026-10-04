@@ -34,7 +34,8 @@ extern int func_021BCB70(int, int, int *);
 extern int func_021BCBBC(int, int, int *);
 extern void func_021BAAB8(char *, int, int);
 extern void *func_0203D798(void);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_0203D1E8(u32, void *);
 extern u32 func_0203D378(void);
 struct Link;
@@ -61,7 +62,7 @@ int func_021BDB30(char *p, int v)
         *(u32 *)(p + 0x1d0) = state;
         return 2;
     default:
-        func_0203D1E8(func_020399A8(), 0);
+        func_0203D1E8((u32)func_020399A8(), 0);
         if (func_0203D378()) {
             if (func_021BCB70(*(int *)(p + 0x1348), *(int *)(p + 0xc4), &out) &&
                 func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xcc), &out)) {

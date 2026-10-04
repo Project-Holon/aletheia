@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_021BD2F4(void *p);
-extern int func_02031330(u32 a);
+extern unsigned int func_02031330(void *p);
 extern void func_02031348(u32 h, void *id, void *proc, void *arg);
 extern u32 func_02008550(int);
 extern void func_021BC4A4(int a, int b, int c);
@@ -43,7 +43,7 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
     int busy;
 
     func_021BD2F4(*(void **)(w + 0x2c));
-    busy = func_02031330(*(u32 *)(w + 0x30));
+    busy = func_02031330((void *)*(u32 *)(w + 0x30));
     switch (*seq) {
     case 0:
         func_02031348(*(u32 *)(w + 0x30), ov204_id, d_021BFD24, w + 0x10);

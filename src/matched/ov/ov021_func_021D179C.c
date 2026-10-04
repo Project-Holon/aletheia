@@ -41,7 +41,8 @@ extern u32 func_02012F8C(u32 *p);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u16 *func_02009390(u32 a, u32 b);
 extern u32 func_020457B0(u32 a, u32 b);
-extern void func_02045994(u32 a, u16 *b, u32 c);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 extern void func_0201EE0C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_02045808(u32 a);
 
@@ -67,7 +68,7 @@ int func_021D179C(u32 a, u32 b)
     e = func_02009390(id, k1);
     if (e != 0 && e[0] != 0x7E && e[0] != 0) {
         h = func_020457B0(0xE, s8);
-        func_02045994(h, e + 1, 0xD);
+        func_02045994((struct Strbuf *)h, e + 1, 0xD);
         func_0201EE0C(s12, k0, h, 0, 0, 2);
         func_02045808(h);
     }
