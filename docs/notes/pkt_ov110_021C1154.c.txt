@@ -5,12 +5,18 @@
  * region: ov110
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 callee takes unsigned,void *,int * and returns int, show confirms; 2 no twin; 3 const no change, u16 counter worse, offset-after-index worse; 4 pointer-base and loop-index idioms inspected; 5 latest directory and ov110 neighbours re-read, no new twin. Next hypothesis: an explicit duplicate typed base local.
+ * status: EXACT
+ * checks: retry callee matched definition confirms unsigned,void *,int * and int return; explicit state base worsens 6-byte diff to 9; byte-pointer arithmetic gives EXACT and shard verification confirms it. Prior integer-address sums swapped r5/r6.
+ * lever: byte-pointer address arithmetic restores the r5 object/r6 state-base allocation.
  * symbols:
  *   func_021C1174 0x021C1174 thumb ov110
  */
 extern int func_021C1174(unsigned,void *,int *);
-#include "../../matched/include/Obj10286.h"
-void func_021C1154(struct Obj10286 *p) {int i;for(i=0;i<4;i++)func_021C1174((unsigned)p->f5C,*(void **)((unsigned)p+i*4+0x6c),(int *)((unsigned)p+0x7c+i*4));}
+void func_021C1154(char *p)
+{
+    int i;
+    for (i=0; i<4; i++)
+        func_021C1174(*(unsigned *)(p+0x5c), *(void **)(p+i*4+0x6c), (int *)(p+0x7c+i*4));
+}

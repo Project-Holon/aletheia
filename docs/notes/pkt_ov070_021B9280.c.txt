@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 02049B40 reads six arguments, final stack arg ldrh at 02049B4C; matched caller 02027F60 confirms u32 third arg; 2 ov070 021B9E14 and 021BA028 confirm Rect layout and loader prototypes, no resource-init twin; 3 enum cast/local and u8 zero leave 2 bytes, const p worsens to 88; 4 unsigned base+index+offset fixes frame and reduces 1224-byte mismatch to same-size 2 bytes; 5 refreshed idioms and neighbours, struct-local addressing now matches. Permuter once 300 types/jobs1: baseline and best DIFF 1240/1240, 2 bytes, no improvement; macro-free fixed one agrees.
- * residual: original 021B93DA movs r2,#0 versus compiled adds r2,r4,#0, all 70 relocations resolved. Manual iteration stopped after three nonshrinking changes; two scheduling variants used.
+ * checks: 1 retry show reconfirms 02049B40 reads six arguments, final stack arg ldrh at 02049B4C; matched 02027F60 confirms u32 third arg, matched definitions/callers retain prototypes; 2 retry ov070 021B9E14/021BA028 confirm Rect and loaders, no resource-init twin in ov07 matched/pending; 3 prior enum/u8 zero leave 2 bytes and const p worsens to 88, retry unsigned long/_Bool/short zero unchanged; 4 unsigned base+index+offset fixes frame, retry inline zero-defaulting helper unchanged, zero-web and struct-return idioms do not close residue; 5 refreshed directory and ov07 neighbours, declared-stack-struct idiom inspected, stack addressing already matches. Next hypothesis: independently typed inline zero parameter. Permuter once in wave79 300 types/jobs1: baseline and best DIFF 1240/1240, 2 bytes, no improvement; macro-free fixed one agrees, not repeated on retry.
+ * residual: original 021B93DA movs r2,#0 versus compiled adds r2,r4,#0, all 70 relocations resolved. Final retry stops after three nonshrinking changes; five one runs (baseline, three iteration, one width check), no new scheduling variants; best original C retained below.
  * volatile: hardware BLDCNT write at original 021B928C.
  * symbols:
  *   func_0203F8F4 0x0203F8F4 arm

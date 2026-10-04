@@ -1,0 +1,21 @@
+/*
+ * function: func_021C1154
+ * address: 0x021C1154
+ * packet: pkt_ov110_021C1154
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: byte-pointer address arithmetic restores the r5 object/r6 state-base allocation; unsigned-integer address sums swap those registers.
+ * symbols:
+ *   func_021C1174 0x021C1174 thumb ov110
+ */
+extern int func_021C1174(unsigned, void *, int *);
+void func_021C1154(char *p)
+{
+    int i;
+    for (i=0; i<4; i++)
+        func_021C1174(*(unsigned *)(p+0x5c), *(void **)(p+i*4+0x6c), (int *)(p+0x7c+i*4));
+}
