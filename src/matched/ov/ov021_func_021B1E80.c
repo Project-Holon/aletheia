@@ -51,7 +51,8 @@ struct BigObj;
 extern u32 func_02012844(const struct BigObj *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(void *, V *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_021627C8(u32, u32, V *, int);
 extern u16 func_021A3050(u8 *p);
 extern void *func_021618A0(void *p, int a1, int a2, void *a3);
@@ -81,7 +82,7 @@ int func_021B1E80(void *a, u32 b)
     h = func_02012844(e);
     f = func_0201296C(e);
     m = func_02188CB4((void *)q);
-    func_021A3038(m, &pos);
+    func_021A3038(m, (struct VecFx32 *)&pos);
     for (i = 0; i < 4; i++) {
         id = ids.v[i];
         if (func_021627C8(h, f, &pos, id) != 0) {

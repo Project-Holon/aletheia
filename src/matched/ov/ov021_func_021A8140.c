@@ -29,7 +29,8 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 extern void *func_02188CB4(u8 *p);
 extern u16 func_021A3050(u8 *p);
-extern void func_021A3038(void *p, V *out);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3484(void *p, int k, V *out);
 extern void func_0207CEE4(int a, V *b, V *c, V *d);
 extern void *func_021A3074(u8 *p);
@@ -46,7 +47,7 @@ void func_021A8140(void *a, V *out)
 
     ctx = func_02188CB4(a);
     k = func_021A3050(ctx);
-    func_021A3038(ctx, &v0);
+    func_021A3038(ctx, (struct VecFx32 *)&v0);
     func_021A3484(ctx, k, &v1);
     func_0207CEE4(0x10000, &v1, &v0, &v2);
     func_02163E58(func_021A3074(ctx), &v2, &t);

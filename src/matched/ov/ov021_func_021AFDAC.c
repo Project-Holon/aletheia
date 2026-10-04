@@ -46,7 +46,8 @@ extern u32 func_02012844(const struct BigObj *p);
 extern void *func_0201296C(void *p);
 extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188CD0(u8 *p);
-extern int func_021A3038();
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void *func_021A3074(unsigned char *p);
 extern struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode);
 extern int func_02162A6C();
@@ -77,7 +78,7 @@ int func_021AFDAC(int a0, int a1)
     e = func_020120F4(h);
     f = func_02012844(e);
     g = func_0201296C(e);
-    func_021A3038(func_02188CB4((void *)a), buf);
+    func_021A3038(func_02188CB4((void *)a), (struct VecFx32 *)buf);
     r = func_0216282C((struct Ctx *)f, (void *)g, buf, 9);
     if (r != 0)
         func_02162A6C(r, out);
