@@ -1,0 +1,132 @@
+/*
+ * function: func_021C9068
+ * address: 0x021C9068
+ * packet: pkt_ov093_021C9068
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own B9934/C5620/C56A8/C99A0 bodies rederived, original
+ *   B9934 narrowing and five-argument 9168 veneer setup preserved;
+ *   2 matched C8E58/C8FA4 bodies refreshed, no exact twin;
+ *   3 full-word unsigned-long veneer argument compiles unchanged at256/18;
+ *   4 long-index, loop-invariant and typed-address idioms read;
+ *   5 full idiom directory relisted, C8FA4 refreshed, Slot frame agrees.
+ * residual: 256/256 bytes,18 concrete bytes; 13/13 relocations resolve.
+ *   Entry arg spill +0c..14 and work-address/result-store +70..76 differ.
+ * retry: wave76 R8,4 compiles. Long arg and long i each retain18;
+ *   integer-spelled msg address hoists both addresses and regresses to73;
+ *   three nonshrinking changes stopped iteration; check 3 wide veneer
+ *   argument retains18. Pointer msg spelling restored in best C.
+ * permuter: prior once300 --types consumed; expand(work x3) improved64
+ *   to18 and match.py agreed. No search repeated. Prior inner work local,
+ *   enum arg and redundant work assignment gave65/18/64 respectively.
+ * proof: original passes the full fourth argument word; no narrowing,
+ *   volatile, invented defaults or altered control flow accepted.
+ * recoup 2026-10-05 (lane X6, no pending file existed; started from the
+ *   docs/notes draft, 18 B off, 12 compiles): callee return types checked,
+ *   all match the draft (B9934 u8*, 5A1C/5A34/5620 void, 56A8 int, 99A0 int,
+ *   8810 void, 195C void); 9168 is a veneer, no definition. Tried:
+ *   (1) arg as u16/u8 with u16 callee param: store of r2 moves to the top of
+ *   the entry (original has it after the first lsls), 18 B, other residue same;
+ *   arg as int: same as unsigned long, 18 B. (2) work address in a local w
+ *   (struct Msg *): compiler hoists msg and w to the for-body top, 64 B.
+ *   (3) result as int: 32 B (extra uxtb at return). (4) result = 1 before msg:
+ *   22 B. (5) const Ent *e, pragma scheduling off, opt_lifetimes off: 18 B
+ *   unchanged. opt_propagation off: 198 B. (6) callee B9934 declared (char *,
+ *   int): drops the u8 narrowing, 225 B. (7) idx in a u8 local: 18 B.
+ *   Residue: entry spill str r2,[sp,#8] sits after the first lsls in the
+ *   original, after the call args in ours; and the pool load + adds r7 for
+ *   p+0x1ae4 comes before movs #1/str result in the original, after it in ours.
+ *   Idioms read: a-later-parameters-width-reorders-the-entry-spill-stores,
+ *   a-copy-and-a-pointer-step-hoisted-above-a-call-are-written-before-it,
+ *   a-local-declared-at-its-first-use-schedules-its-store-there,
+ *   a-spilled-pointer-plus-constant-argument-is-the-sum-stored-in-the-local,
+ *   a-const-record-pointer-moves-the-outgoing-stack-store-below-the-register-copies.
+ * symbols:
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021C5A1C 0x021C5A1C thumb ov093
+ *   func_021C5A34 0x021C5A34 thumb ov093
+ *   func_021D5B7C 0x021D5B7C thumb ov093
+ *   func_021C56A8 0x021C56A8 thumb ov093
+ *   func_021C5620 0x021C5620 thumb ov093
+ *   func_021C9168 0x021C9168 thumb ov093
+ *   func_021C99A0 0x021C99A0 thumb ov093
+ *   func_021C8810 0x021C8810 thumb ov093
+ *   func_021C195C 0x021C195C thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Slot { u32 kind : 3; u32 rest : 29; };
+struct Msg {
+    u16 a; u16 kind : 8; u16 n : 7; u16 flag : 1;
+    u8 data[0x1c]; u32 w20;
+};
+typedef struct {
+    u32 pad : 8; u32 idx : 5; u32 mid : 10; u32 fl : 1; u32 top : 8;
+    int value;
+    u8 targets[12];
+    u8 count;
+    u8 flag;
+    u8 gap[2];
+    struct Msg msg;
+} Ent;
+struct Context {
+    u8 gap0[8];
+    char *base;
+    u8 gapc[0x1ae4 - 12];
+    struct Msg work;
+};
+extern u8 *func_021B9934(char *, u8);
+extern void func_021C5A1C(u8 *, u8 *);
+extern void func_021C5A34(u8 *, u8 *);
+extern int func_021D5B7C(void *);
+extern int func_021C56A8(u8 *, int *);
+extern void func_021C5620(u8 *, u8 *, int, struct Slot *);
+extern int func_021C9168(int, struct Slot, u8 *, unsigned long, struct Msg *);
+extern int func_021C99A0(void *, const struct Msg *);
+extern void func_021C8810(struct Msg *);
+extern void func_021C195C(u8 *, u8 *, u32);
+
+u8 func_021C9068(const struct Context *p, Ent *e, unsigned long arg)
+{
+    const struct Msg *msg;
+    u8 *first;
+    u8 result;
+    unsigned long i;
+    u8 *a;
+    int value;
+    int k;
+    struct Slot slot;
+    first = (u8 *)func_021B9934(p->base, e->idx);
+    result = 0;
+    if (e->fl) func_021C5A1C((u8 *)p, first);
+    for (i = 0; i < e->count; i++) {
+        a = (u8 *)func_021B9934(p->base, e->targets[i]);
+        if (func_021D5B7C(a)) {
+          value = e->value;
+          k = func_021C56A8(a, &value);
+          if (k) {
+          msg = &e->msg;
+          result = 1;
+          do {
+            func_021C5620((u8 *)p, a, k, &slot);
+            if (!e->flag) {
+                if (func_021C9168(k, slot, a, arg, (struct Msg *)&p->work)) {
+                    func_021C99A0((void *)p, &p->work);
+                    func_021C8810((struct Msg *)&p->work);
+                }
+            } else {
+                func_021C99A0((void *)p, msg);
+            }
+            if (k == 0x13) func_021C195C((u8 *)p, a, 0);
+            k = func_021C56A8(a, &value);
+          } while (k);
+          }
+        }
+    }
+    if (e->fl) func_021C5A34((u8 *)p, first);
+    return result;
+}
