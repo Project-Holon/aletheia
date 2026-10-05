@@ -22,6 +22,21 @@
  * effect: all six per-function pragmas, ret = 1 earlier, chained
  * d_021B3C50.f0 = ret = 1, inline ring-rms helper (worse).
  *
+ * note 2026-10-05 (wave P5 lane T4b, 16 compiles, still 17 B): same single
+ * residue. Tried without effect (all 17 B unless noted): sqrt result via a
+ * u32 local or an inline CP_GetSqrt32; `* 3 / 2`; ret = 1 before the stores
+ * (with d_021B3C50.f0 = ret); cfg pointer local at function top (260 B, all
+ * pool loads hoisted and registers shift), only at the store, all uses via
+ * cfg (378 B); VadState pointer local in the block; swapping the f0 and f4
+ * stores (27 B); cfg store first (235 B, shifts 4 B); cfg store between f0
+ * and f4 (23 B); second sqrt reusing i/sum (23 B); signed f0 fields.
+ * Reading: the original pool load of d_021B3C50 sits after the f0 store with
+ * the sqrt result in r1 (anti-dependence), so r1 was coloured for the result
+ * and the pool load scheduled after it. The compiler gives r1 to the pool
+ * address instead. Looks like a list-scheduler/colour tie
+ * (docs/idioms/a-pool-word-order-residue-is-a-list-scheduler-tie.md), no
+ * source shape found. Parked.
+ *
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
