@@ -7,20 +7,13 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  *
- * 2026-10-05 (wave P5 lane T1, pengy share): DIFF, 468 of 468 B, 2 B differ. The only residue
- * is the first instruction of the arm that clears nw: the original has movs r1,#0; str r1,[sp,#0x14]
- * (and rematerialises r1=0 for the call argument), the draft has r0. Size and every other
- * instruction match with #pragma opt_lifetimes off (per-function pragma, allowed). Without the
- * pragma 9 B differ (i and y swap colours in the second loop only). Levers that got here:
- * raw offsets, early locals qs = a + 4 and qo = c * 0x1c (stack slots), declaration order
- * qo, qs, list, n, v, nw, x, j, i, y, cnt, one counter pair per loop in the comma form
- * for (i = 0, y = x; i < n; i++, y++), loop-3 header j++, x++, e = func_0201AB28() as its own
- * statement (puts y*4 after the first call), explicit if (cnt > 0) around the for.
- * Tried without effect on the r1/r0 residue: passing nw as the index argument, u32 nw (worse),
- * block-scope u8 nw = 0 (slot shift). Callee func_021BA178 takes (b, c, mode) as in matched
- * ov093_func_021BA178.c. No callee has fewer parameters than the caller passes.
+ * 2026-10-05 (wave P5, pengy share): EXACT. Needs #pragma opt_lifetimes off (per-function
+ * pragma) and the clear of nw written AFTER the func_021BA178 call (l2 = f(...); nw = 0;).
+ * Written before the call, the zero took r0 instead of the original r1. Other levers: raw
+ * offsets, early locals qs = a + 4 and qo = c * 0x1c, declaration order qo, qs, list, n, v, nw,
+ * x, j, i, y, cnt, comma-form loop headers, e = func_0201AB28() as its own statement.
  * symbols:
  *   func_021BA178 0x021BA178 thumb ov093
  *   func_0201AA18 0x0201AA18 thumb
@@ -94,8 +87,8 @@ void func_021B9460(char *a, char *b, u8 c)
             if (func_021D5444(v) == 0x23B && func_021D59B4(v, 0x11) == 0x95) {
                 void *l2;
                 u8 m, q;
-                nw = 0;
                 l2 = func_021BA178(b, 0, *(u32 *)(a + 0xe4));
+                nw = 0;
                 m = func_0201AA18(l2);
                 for (q = 0; q < m; q++) {
                     u16 s = func_02017E1C(func_0201AB28(l2, q), 5, 0);
