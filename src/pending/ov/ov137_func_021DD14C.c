@@ -34,6 +34,12 @@
  * u8 * local (15 B); early-return form with the else first (56 B); else via v->counter += 1
  * (21 B, original uses the p base r1 so the raw p+32 access is right). Note: p+32 is the
  * same word as v->counter.
+ *
+ * G2L6 round 4 (3 more, 32 total): u8 n = table value 5; u8 index 70; i << 1 instead of i * 2 5.
+ * Widest grep (lsls #1 / ldrb [r,rA] / cmp, any registers, all overlays and arm9) hits only
+ * this function plus ov021 021AB580, ov093 021CC9AC, 021E3904, ov135 021FD3CC (all matched,
+ * all loops over a table; none has a field-loaded counter). Their forms (two u8 externs, u8
+ * index, Pair struct) were already tried here.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;

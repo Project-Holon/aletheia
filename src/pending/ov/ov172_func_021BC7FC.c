@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * final push 2026-10-05 G1R1 round 3: callee prototypes from matched callers tried one at a time (CF10 struct pointer, 02082D44 int n,
+ *   02008550/30 const void *, 021B8108(int, void *), 020084F4 void *, 02013D5C(u16) int, kind as u8, 021BD0A4 u32): all 2 B, residue unchanged.
+ * final push 2026-10-05 G1R1: still DIFF 2 bytes (+016C). Searched the listings (asm/overlays, asm/arm9) for movs rX,#1 + indexed store +
+ *   later str rX,[sp]: only ov177 021E5C6C (same-register stores, unrelated) and ov009 02156914 (other shape); no twin. Tried (new):
+ *   found = !(unseen = 0) (577 out, 920 B), register int found (2 B), found = 1; match = found (10 B), found = match + 0 (2 B,
+ *   folded to the load), literal found = 1 with a volatile probe store of 1 at match = 1 (585 out, found store still right after
+ *   its movs). Reading: the zeros share one vreg (r3) but the ones do not, so the image found is not a copy of a function-wide 1;
+ *   only a copy of match's reload keeps the store late, and RA cannot rematerialise a two-def match. Residue unchanged.
  * final push 2026-10-05 G1L1: still DIFF 2 bytes (+016C). Research first (idioms on constant rematerialisation, dead stores,
  *   declaration-point stores, return flags, const loads; no matched twin for the peer-list body). First use of the per-function
  *   pragmas on this draft (none was listed as tried), each on found = match (2 B base) and on literal found = 1 (10 B base):

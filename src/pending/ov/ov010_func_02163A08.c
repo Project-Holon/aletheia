@@ -18,6 +18,7 @@
  *   a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off (6 B); a-result-computed-in-a-dying-local-takes-that-locals-register
  *   (no dying local, n/a); a-field-read-into-its-own-local-before-a-getter-subtraction-sets-the-colour-order (6 B);
  *   array-bases-as-pointer-locals-reopen-a-flat-declaration-order (n/a). No twin: only 02163D04 and ov021 021C0D08 call both getters.
+ *   Round 4: mixed param types int x/s16 y and s16 x/int y (matching caller 02163AF0 passing s16 e as y) (6 each). Listing scan for small functions with the same copies and two calls plus strh stores: none.
  * symbols:
  *   func_0216D91C 0x0216D91C thumb ov010
  *   func_0216D924 0x0216D924 thumb ov010

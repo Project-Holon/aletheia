@@ -41,6 +41,19 @@
  *   Idioms read: statement-order-of-scratch-temporaries, colour-swap-opt_lifetimes,
  *   byte-locals-signedness, masked-locals-width, dying-pointer-loads-allocator-tie,
  *   byte-record-table-struct. No stand-in kept.
+ * final push 2026-10-05 G1R7: still 4 B (b r2 / a r1, original b r1 / a r2). 3 rounds, ~45 compiles.
+ *   The memcpy lead: matched twins (ov175 021E05AC, ov009 02198A0C, ov172 021C2DC8, main
+ *   0205EB30) are mwcc's inline memcpy loop; memcpy(d_021D3D40, p, 8) with libc string.h gives
+ *   the other shape (ldrb [r0], ldrb [r0,#1], separate add, 115 B off) for any pointer or
+ *   array typing of p; the post-inc shape with ascending temps appeared only when the memcpy
+ *   source is a stack-array address (not reachable here). Explicit loop is therefore the form.
+ *   Allocator (mwcc Coloring.c): nodes colored in descending vreg birth order, lowest free
+ *   register first, so the later-born temp gets r1. Fused post-inc form (p++ before the
+ *   stores) always births b first (b r2). Non-fused forms (p++ after stores) give b r1 / a r2
+ *   but load [r0] first and an unfused add (115 B). Also tried: decl order/scope/dead
+ *   initialisers, inline helpers and macro copy, named s/d pointers, (p++)->a, q[-1] forms,
+ *   while with end pointer, int temps. No stand-in kept. Matched-asm hits: 38 sites of the
+ *   loop; r1/r2 ones read: ov009 02198B2C, ov172 021C2DDC, ov175 021E06A8, main 0205EB48.
  * symbols:
  *   d_021D3D28   0x021D3D28  data  a4
  *   d_021D3D2C   0x021D3D2C  data  a4

@@ -267,6 +267,13 @@
  *   Lane 22's diagnostic (no head use of ents[j] gives the original order) fits a numbering reading: the head
  *   use makes j*8 a temp that is created before cos in ours.  No source form that creates cos(pr) before j*8
  *   without moving code was found (cos has no occurrence before the k body in the original listing).
+ * note (2026-10-05, final push G2L5, rounds 2 and 3): 16 more real compiles, all DIFF, none better than 5 B.  `u16 j`, `s16 j`
+ *   (94/93 B); rx and rz as one expression each with both products (836 B); `long j` with `int pr` at function scope
+ *   (18 B), with pr assigned at object level (1794 B), with `u16`/`s16`/`unsigned short` flag (11 B), plus opt_lifetimes
+ *   or scheduling off (9 B); head chain through a named `int id = pose.id` (723 B); second rotation rz before rx (652 B);
+ *   `Z * cos` operand order (5 B, same).  Also off: opt_unroll_loops, opt_vectorize_loops, opt_findoffsets (5 B).  mwcc
+ *   SpillCode.c: spill cost is use count times block weight; earlier lanes' extra-use diagnostics did not move the pair, so
+ *   slot order is not cost-driven.  Twin arm9 func_02014D2C re-read: no k-body pr rotation, nothing to borrow.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm

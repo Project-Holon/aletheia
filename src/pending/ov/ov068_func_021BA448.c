@@ -71,6 +71,17 @@
  * recoup 2026-10-05 (lane X5): 1 callee types re-read from matched definitions: 021BA190 int(const int*), 021BA9DC int, 021BA194 void(p,int,int*), 021B65A8 unsigned(u8*,unsigned), 020355C4 u8, 020355D8 void(u8), 02028218/0202822C void, 02012BE0 void; func_020061E4 is a veneer into arm9 020061A4 whose return is not used, so void stays; no void-return problem found. Calls and arities unchanged. 2 sound id as u32 (the width in matched callers): 504 bytes, 245 differ (cross-jumped bl). 3 declaration order: spill slots follow the draft already. 4 case 8 with flag and the stores written in each arm, fC==3 arm first: 508 bytes, 28 differ. 7 all six pragmas (opt_lifetimes, opt_propagation, opt_common_subs, opt_dead_assignments, scheduling, peephole, each off): all stay 508 / 5 differ. Residue unchanged: 5 bytes in case 8, the original keeps two un-merged bl func_020061E4 calls with no truncation pair. Only the second-name trick (EXACT*, see above) closes it. Idioms: a-flag-dispatch-four-bytes-short-is-the-front-end-tail-merging-the-arms.md (the 1.1p1 merge, no source lever).
  * recoup 2026-10-05 P29R7: case 8 respelled three ways, no lever beyond the second-name trick: if/else-if/else with 0x551 and 0x54c calls (504 bytes, 247 differ), fC==3 fixup then one ternary call through a local (508, 243 differ), flag and f10 stores before the arms (512, 259 differ). Baseline stays 508 / 5 differ. Callee types and pragmas not repeated (see X5 note).
  *
+ *   G2L3 rounds 2 and 3 (24 compiles total): int param with result assigned in arm 2 or both arms
+ *   (504, 245), fC==3 arm first with u16 (21 off) or int (251), if/else-if/else with three calls
+ *   (504, 240: all three bl merge), flag and f10 repeated in each arm with break, either order
+ *   (21 off for ==3 first, 5 off for !=3 first), u32 param (504, 245). Idioms read in full:
+ *   a-call-before-a-goto..., a-conditional-branch-onto-an-unconditional-b..., a-constant-argument-
+ *   selected-into-a-local..., a-dead-assignment-in-one-switch-arm..., a-return-at-the-end-of-an-if...,
+ *   a-shared-exit-block..., a-halfword-merged..., a-factored-tail..., a-boolean-argument-is-a-call...,
+ *   switch-arms-tail-merge, two-failure-returns-need-two-labels. Twin asm scan of bl pairs to one
+ *   callee (inst_index.txt): ov110 021BE580 and ov132 021F96D0 keep identical `ldr; bl; pop` apart
+ *   only because each arm returns; no twin keeps two identical `bl; movs; b` apart.
+ *
  * symbols:
  *   func_021BA190  0x021BA190  thumb  ov068
  *   func_021BA9DC  0x021BA9DC  thumb  ov068

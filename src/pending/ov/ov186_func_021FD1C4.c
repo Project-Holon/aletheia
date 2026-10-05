@@ -100,6 +100,24 @@
  * move, still pooled). Conclusion unchanged: store operand 1 followed by an
  * argument 1 in one block always merges; no human source form found.
  *
+ * final push 2026-10-05 G1R5: still 4 B (same icon-block residue). Control
+ * test: B688 argument 2 instead of 1 gives 1 B off (only the constant), so
+ * the merge is a plain value-number CSE of the two literal 1s, and with them
+ * apart the whole block matches. New tries, all 4 B (movs r7,#1 pooled) unless
+ * noted: Req stores and B294 in an inner block; function-level int vis=1 for
+ * the argument, and for both z and argument; goto/label, switch(1), for(;;)
+ * around B6F4+B688; z through a u16 *zp; B688 argument as (u8)1, (u16)1,
+ * (char)1, (short)1, 1u, 1L, (u32)1, (unsigned long)1; per-function pragmas
+ * opt_strength_reduction, opt_dead_code, opt_unroll_loops, opt_vectorize_loops,
+ * optimize_for_size off (no change), opt_loop_invariants off (948 B off);
+ * argument as B!=0, B>0, !!B, mode>=0 (real compares, 328+ B off); z stored
+ * after B294 (42 B off, registers shift). Matched-assembly search (strh of a
+ * fresh movs #1 followed later by a fresh movs #1 before a call): hits ov070
+ * 021B6A14, 021B7688, 021B7CD0 (p->f83E = 1 then B92C(..,1), BB3F4(p,1)), plus
+ * ov103/ov170/ov035 with no call-arg 1. ov070 021B6A14's C stores through a
+ * pointer member and does not merge; our store goes to an address-taken stack
+ * record and merges. No source form found that separates them.
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm

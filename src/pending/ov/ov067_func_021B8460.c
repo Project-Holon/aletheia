@@ -49,6 +49,18 @@
  *   keeps it unfolded (a named local) is hoisted above the `r != -1` compare. Residue unchanged.
  *   Idioms checked this pass: none new beyond the five listed above.
  *
+ *   round 2 (27 more compiles, 37 total, 5 bytes unless noted): different spellings on the two tests (995 off, 1332 B);
+ *   `(r<<1)+1` / `r<<1|1` / `r*2+1` u32 index forms (1332-1336 B, 1000 off); `q=(u8 *)f1c+4` assigned inside the first
+ *   test and reused (5); a DEAD `q=(u8 *)f1c+4` in the first test with the second test spelled
+ *   `*(u32 *)((u8 *)f1c + 4 + r*8)` gives 3 bytes (registers and lsls order match, only `adds r0,#4; ldr [r0,r1]`
+ *   vs `adds r0,r0,r1; ldr [r0,#4]` differs) but the dead q is a stand-in, not filed; off=r*8 local (5, 11 when set
+ *   before the -1 test); `(&f1c[r].f0)[1]`, `((const Ent *)((u8 *)f1c + r*8))->f4`, `*(&f1c->f4 + r*2)` (5);
+ *   static inline Rd(base,off) with the +4 in the caller or the callee, Fld() returning f1c+4, Free(const Ent *),
+ *   Free(const u32 *) (5 each); `*(const Ent *const *)&f1c` (5); u32 `f1c` field with `[r*2+1]` (1336 B); pragmas
+ *   opt_loop_invariants off and opt_strength_reduction off (5). Asm grep for `adds rN,#4; ldr [rN,rM]` with any shift
+ *   finds only this function (other hits are folded constant offsets). The original needs base+4 as an unfolded node;
+ *   mwcc folds a constant into the load offset unless the sum has another use, and no use of f1c+4 exists in this block.
+ *
  * symbols:
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02035BA4 0x02035BA4 arm
