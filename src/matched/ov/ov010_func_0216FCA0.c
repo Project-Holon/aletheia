@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  *
  * DIFF, 12 concrete bytes, 180/180 bytes, all 9 relocations resolved.
  * Tile-order copy: w, h in 8-pixel units, d = depth byte, t = (d<<13)>>16;
@@ -58,6 +58,11 @@
  *   func_02043994  0x02043994  arm
  *   func_020437D4  0x020437D4  arm
  *   _s32_div_f     0x0209C0A4  arm
+ *
+ * pass 2 2026-10-06 P2L24: EXACT (c99 and c). Fix: q = i / s as a named statement before r = i % s
+ * (quotient call first, as the original) together with (q / 8) * w instead of w * (q / 8): the operand
+ * order of that product decides which value the allocator spills, and with it the named-q form keeps
+ * the stride spilled. The unused `total` local is dropped (the loop bound is the inline product).
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -71,23 +76,23 @@ void func_0216FCA0(void *a, void *b)
 {
   u8 *src;
   u8 *dst;
-  int total;
   u16 w;
   u16 h;
   u8 d;
   u16 t;
   int i;
   int r;
+  int q;
   w = func_020437DC(a) / 8;
   h = func_020437E4(a) / 8;
   d = func_02043994(a);
   t = d / 8;
   src = func_020437D4(a);
   dst = func_020437D4(b);
-  total = (w * h) * d;
   for (i = 0; i < ((w * h) * d); i++)
   {
+    q = i / (w * t);
     r = i % (w * t);
-    dst[i] = src[((r / t) + w * ((i / (w * t)) / 8)) * d + ((i / (w * t)) % 8) * t + r % t];
+    dst[i] = src[((r / t) + (q / 8) * w) * d + (q % 8) * t + r % t];
   }
 }
