@@ -21,6 +21,11 @@
  *   symbols: d_021469DC 0x021469DC data; func_0203CADC 0x0203CADC arm.
  *   Leaf's unresolved site is ARM9 0x0203CADC. No overlay leaf filed.
  * note (2026-10-04, lane17): lane17 wave D2: leaf func_021BDD98 (16 bytes, range test) filed EXACT as src/matched/ov/ov099_func_021BDD98.c. The 0x021BDD98 relocation still reports no witness because it has no shard yet; re-run after the integrator registers the leaf. Body and other 10 relocations are byte-correct.
+ * note (2026-10-05, wD9r lane82): the enum-typed offset local (a stand-in) is removed. The real
+ *   form is a pointer local `st = p + 0x24c;` set as the first statement and passed to
+ *   func_021BDD48/func_021BDD54; the other uses are plain p + 0x274 and p + 0x1cc. mwcc keeps 0x24C
+ *   in r5 and derives 0x274/0x1CC from it, as in the image. EXACT in c99 and c. Writing the other
+ *   uses as st + 0x28 / st - 0x80 gives DIFF.
  *
  * symbols:
  *   func_0203CB00 0x0203CB00 arm
@@ -44,19 +49,19 @@ extern int func_021BDD54(char *,void *);
 extern void func_021BAD74(char *);
 extern int func_021BDD98(int);
 extern void func_021B9AE0(char *,void *);
-typedef enum { K24c=0x24c } Off;
 int func_021C0858(char *p,int ret) {
     void *q; unsigned r; int v;
-    Off o=K24c;
+    char *st;
+    st=p+0x24c;
     if(func_0203CB00()){func_021BE900(p);return ret;}
-    q=func_021BE2A8(p,func_021B97F4(p+(o+0x28)));
+    q=func_021BE2A8(p,func_021B97F4(p+0x274));
     if(!func_021BA928(p))return ret;
-    r=func_021BDD48(p,p+o);
-    v=func_021BDD54(p,p+o);
+    r=func_021BDD48(p,st);
+    v=func_021BDD54(p,st);
     switch(r) {
-    case 1: func_021BAD74(p); *(int *)(p+(o-0x80))=64;break;
+    case 1: func_021BAD74(p); *(int *)(p+0x1cc)=64;break;
     case 2: case 5:
-        if(func_021BDD98(v)){func_021BAD74(p);*(int *)(p+(o-0x80))=36;break;}
+        if(func_021BDD98(v)){func_021BAD74(p);*(int *)(p+0x1cc)=36;break;}
     case 0: case 3: case 4: default:
         func_021B9AE0(p+0x274,q);
         *(int *)(p+0x1cc)=113;

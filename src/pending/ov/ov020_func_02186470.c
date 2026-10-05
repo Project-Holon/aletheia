@@ -8,6 +8,57 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD9r lane96): still DIFF 13 bytes. Twin search by callees: only 021862A8 (02013DE0, 02186B2C,
+ *   02161E78) and the leaf loops 0218609C/021860B8 (p + 8 and p + 0xF8, 10 records of 0x18: q is a second
+ *   Item[10] history list, 02186B2C shifts it). Tried, all with a real compile: Box with Item hist[10] and
+ *   B2C(base->hist) or &hist[0] (13); Item list[2][10] with list[0][i] and list[1] (13); u8 items[10][0x18]
+ *   rows with u8 * prototypes, with and without (u8 *) on the rows (13 each); a different item address form
+ *   only in the ECC/BA8 calls (char * + 8 + i*0x18: 54, base->items + i: 13, + (i*0x18 + 8): 90); the twin
+ *   char * shape with items = base + 8 after i = 0 (18: classes right, {a0,items} {id,off}, but labels r5/r4
+ *   and items is a copy of r0, not the [sp] reload); items and q assigned inside the loop body (18, 30, 31);
+ *   goto loop (13); for (;;) with break (81); extra unused parameters (13); u32/int k = id copy at the loop top
+ *   (13); id & 0xFFFF with u16/int/u32 parameter (86-90); ok = ECC && BA8 local (91), nested continue (13),
+ *   ternary (102); static inline CanAdd(e, id) condition (105). Probes: the image needs items defined while
+ *   id is live (items an IV temp reloaded from [sp], before the shift). Explicit casts hoist first, implicit
+ *   argument conversion in a conditional block hoists before items, only a header-block conversion (DE0 first,
+ *   wrong logic) hoists after items. No real source form found that puts it there.
+ * 2026-10-05 (wD9r lane76): still DIFF 13 bytes. Tried real callee return types (02161E78/02161E60 int,
+ *   02186B2C void, 020127A4 u32 with 02012AC8(u32)): 13, same. Nested ifs instead of the && chain (13);
+ *   char *q = base->q as a block local in the if (13); u32 i (14); explicit (u16)id at the call (13).
+ *   Probe (wrong logic): with no items use in the ECC/BA8 calls the preheader is still q, shift, items, so
+ *   the order is not the block order of the first items use; only the DE0-first probe flips it.
+ * 2026-10-05 (wD9r lane63): still DIFF 13 bytes. Probe (wrong logic, not kept): with the 02013DE0(id)
+ *   test written FIRST in the && chain, the whole preheader matches the image (q, items, shift and
+ *   a0 r4 / id r5). So the image's LICM finds the (u16)id conversion before the items base. Tried for a
+ *   real form: static inline Step(u16 id, Box *base, Item *e) with id as the first parameter (13, the
+ *   parameter temp is propagated); a different address shape only in the 02186B2C/02161E78 calls
+ *   (base->items + i: 13; raw char * + 8 + i * 0x18: 54; Item *e local in the if: 15); q as
+ *   (char *)base + 0xF8 or (char *)&base->items[10] (13); !02013DE0(id) (13). Open lead: a source form
+ *   where the id conversion is seen before the first items use in the loop.
+ * 2026-10-05 (wD9r lane49): still DIFF 13 bytes. Tried: the item address as (char *)base + 8 + i * 0x18,
+ *   base + i * 0x18 + 8, base->items + i, &((Item *)((char *)base + 8))[i] (all 13; 0x18 + 8 order 92);
+ *   off = i * 0x18 at the loop top with (char *)base->items + off at each use (13); explicit q = base->q
+ *   and items = base->items locals before the loop (31); register on id or on a0 (13). Probes: with
+ *   base->q removed the preheader is shift then items, so the items temp is always placed after the
+ *   hoisted (u16)id shift, whatever the address form.
+ * 2026-10-05 (wD9r lane32): still DIFF 13 bytes. Tried: a reused pointer local (base = 020127A4(a0);
+ *   id = 02012AC8(base); base = 020127C4(a0)) and a reused id local for the 020127A4 pointer (13, same);
+ *   (base->items + i) at each use, while loop (13); static inline GetQ(base) for base->q and GetItem(base, i)
+ *   (13); static inline u16 GetId(a0) (88); base declared before id, i first (13). Residue unchanged:
+ *   a0 r5 / id r4 (image a0 r4 / id r5), shift scheduled before the items reload.
+ * 2026-10-05 (wD9r lane19): still DIFF 13 bytes. Tried: the matched sibling 021862A8 shape exactly (char * base,
+ *   i = 0; items = base + 8; for (; i < 10; ...) with base + 0xF8 inline: 18 B, items stays in a register and
+ *   is no longer reloaded from [sp]); int 02013DE0 parameter with an explicit (u16)id at the call (86, the
+ *   cast is placed before the loop); K&R 02013DE0 (79); Item *items = base->items as the first statement of
+ *   the loop body (18); continue-chain body, do-while loop, continue plus final if (all 13, same). The
+ *   implicit parameter conversion is the only form that is hoisted; its preheader slot stays before items.
+ * 2026-10-05 (wD9r lane01): still DIFF 13 bytes. Reading: the colours look ordered so that items (a LICM temp)
+ *   is coloured first; it takes r4 only when it is defined before the id shift (then id interferes with it and
+ *   a0 gets r4). So the residue is the preheader order q, shift, items (image q, items, shift). Tried: u16
+ *   return for 02012AC8 with u32 or int id (13, same); u16 k = id at the loop-body top (86, shift moves first);
+ *   static inline Setup(a0, &id) returning base, Body(id, base) and Body(base, id) inlines (13, same). Callees
+ *   020127A4, 020127C4 (tail to 020127D0, r0/r1 only), 02013DE0 rechecked: no hidden arguments.
+ * 2026-10-05 (wD9 lane17): still DIFF 13 bytes. New reading: the swap comes from the pre-allocation order of the hoisted items def and the (u16)id shift (image: items defined while id is live, so items shares a0's class). Tried: an explicit Item *items = base->items before the loop, at the top or right after the base call, with u32 id (21 B: classes now {a0,items} {id,off} as in the image but r4/r5 labels still swapped and items no longer reloaded from [sp]); a void *pp local for the 020127A4 result (13, same); a hoisted char *q = base->q local (20).
  * 2026-10-05 (wD8 lane04): still DIFF 13 bytes. Re-read: the classes are {a0, items} r4 and {id, off} r5 in the image, but {id, items} r4 and {a0, off} r5 here: the image defines items (ldr r4,[sp]) while id is still live, ours converts id first. Tried an explicit Item *items = base->items before a u16 key = id copy (88 B, worse). Callee heads rechecked: 02012AC8 is a bare ldrh (returns u16), 020127C4 is a tail jump with r1 = 1, no hidden arguments.
  * note: 2026-10-05 (wD7 lane14): still DIFF 13 bytes. Tried: char *items = base + 8 form as in the matched sibling 021862A8 (21 B, full a0/id + items/off swap), the loop body as a static inline Step(base, e, u16 id) (13, same), static inline GetId returning u32 (same) or u16 (88), u16 callee return with u16 id (79), Item *e = base->items + i and an explicit off local (15). Callee arities rechecked (02186BA8, 02186B2C, 02161ECC, 02161E78, 02161E60, 02013DE0): no hidden arguments. Residue unchanged: a0 r5 / id r4 (image a0 r4 / id r5).
  *

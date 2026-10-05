@@ -41,6 +41,39 @@
  *   then r7 = (p+0x1F74)+slot*8 held for the tail flag stores. Tried the sibling 0220C0D0/0220C4DC house shape
  *   (no tab/fl locals, `*(void **)(p + 0x1F70 + slot * 8)`, `*(u8 *)(p + slot * 8 + 0x1F74) = 1`, elem pointer,
  *   ctx in each k arm, calls in each tail arm): 453, the head if/else merges away and 0x1F70 stays in r4.
+ * 2026-10-05 (wD9 lane15): 450 -> 441 bytes (compiled 500 of 536). New reading: the image reads P->f1EAC BEFORE
+ *   the 02045770 call in every call block (head: into r7 after the empty `bne; b`; tails: into [sp,#0x30],
+ *   [sp,#0x2c], [sp,#0x28], [sp,#0x24], one slot per arm), and the font after it. mwcc evaluates a plain load
+ *   argument after a call argument, so the load is a local assigned before the call: head
+ *   `if (k == 9) ctx = P->f1EAC; else ctx = P->f1EAC;` then one call; tails a block local per arm
+ *   (`u32 c9 = P->f1EAC;` / `u32 cn = ...`) and a direct func_0201C724 call per arm (the put helper is gone).
+ *   The arm copies, the slots and the late font read now match the image shape. Left: 0x1F70 is still CSE'd into
+ *   r4 for the whole function (original: slot*8 r4, tab r6, base r7, 0x1F70 reloaded per head use, and a
+ *   separate 0x1EA0 base per tail spilled to [sp,#0x58]/[sp,#0x5c]); frame 0x54 vs 0x60. Also tried on this
+ *   shape: `c = 0x1EA0; ... c += 0xC; *(u32 *)(p + c)` in each tail (c folded, same 441); fl + slot as a head
+ *   pointer local for the tail flag stores (`fl = p + 0x1F74 + slot; *fl = 1;` 450 on the old shape, 445 here).
+ * 2026-10-05 (wD9r lane17): still DIFF (441). New reading: the tail `ldr [sp,#0x58]; adds #0xc; str [sp,#0x58]`
+ *   is the 0x1EA0 constant vreg derived in place (two definitions, so spilled to a slot, not reloaded); the head
+ *   K=0x1F70 is reloaded from the pool per use, so in the image K has one definition and no register (remat).
+ *   Ours derives the tail constants in place from K (`subs r4,#0xc4`), which makes K non-rematerialisable and it
+ *   takes r4, so base is spilled. The fix is a source form whose tails do not derive from K. Tried: head fields
+ *   tab-relative `*(void **)(tab - 0xD0)` (443, address built from tab), `p + 0x1F70 - 0xD0` (folded, 441),
+ *   tails with `volatile u32 c = 0x1EA0; c += 0xC` (390, slot r4 = slot*8 then matches, but volatile rereads and
+ *   is a stand-in: not adopted).
+ * 2026-10-05 (wD9r lane31): still DIFF (441). Tried: off = n * 0x4C before base = p + 4 (mul-first idiom;
+ *   no change, 441); the 0x1EA0..0x1EAC fields as a nested struct (`struct Sub { f0, f4, f8, fC }` at 0x1EA0,
+ *   head and tails) so the tail ctx is `(p + 0x1EA0) + 0xC`: offsets fold, same 441, the tails still derive
+ *   from the 0x1F70 constant in r4.
+ * 2026-10-05 (wD9r lane45): still DIFF (441). Tried the matched sibling 0220C0D0 prototype for 0201C724
+ *   (u32,u32,u16,u32,u32,u32,u16) with a u16 a3: 454, worse. The image keeps `lsls #0x10; asrs #0x10` on x
+ *   at the tail calls, so the s16 third parameter of this draft is right and the sibling's u16 is not
+ *   this call site's shape.
+ * 2026-10-05 (wD9r lane74): still DIFF (441). New reading: the tails take 0x1EA0 from their own pool word
+ *   (pool: 0x1F70, d_02211B68, 0x1EA0, 0x2960, 0x31A0), so in the image the tail constant pass does not see the
+ *   head K = 0x1F70; ours derives the tails from K (`subs r4,#0xc4`), which keeps K in r4. Tried the tails as
+ *   `switch (rec->b0) { case 0: ... break; case 1: ... break; }`: 428 bytes differ but the block order changes
+ *   (`beq` to case 0, `cmp #1; beq` to case 1, return block first) and the tails still derive from K in r4,
+ *   so not adopted. The if/else-if chain stays.
  * symbols:
  *   func_02045778 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198
@@ -85,11 +118,6 @@ extern u32 func_02045738(void *);
 extern u32 func_0201D304(void *, u32, u32);
 extern u32 d_02211B68[];
 
-static inline void put(u32 win, u32 sel, s16 x, s16 y, void *h, u32 fc, u32 color)
-{
-    func_0201C724(win, sel, x, y, h, fc, color);
-}
-
 void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
 {
     void *handle;
@@ -102,6 +130,7 @@ void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
     void *vec;
     void *msg;
     u8 ex;
+    u32 ctx;
     u8 *fl;
     void *m2;
     u32 w;
@@ -122,12 +151,13 @@ void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
     msg = func_02045EC0(P->f1EA0, d_02211B68[a2]);
     func_0201EEF4(P->f1EA4, 0, *(void **)(base + off));
     func_0201F250(P->f1EA4, vec, msg);
-    ex = extra;
     if (k == 9) {
-        func_0201C724(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), a3, ex, vec, P->hdr->font, 0x3DC0);
+        ctx = P->f1EAC;
     } else {
-        func_0201C724(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), a3, ex, vec, P->hdr->font, 0x3DC0);
+        ctx = P->f1EAC;
     }
+    ex = extra;
+    func_0201C724(ctx, (u32)func_02045770(*(void **)(tab + slot)), a3, ex, vec, P->hdr->font, 0x3DC0);
     fl = p + 0x1F74;
     fl[slot] = 1;
     func_02045808(msg);
@@ -139,9 +169,11 @@ void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
         w = func_02045738(handle);
         x = (u16)((w << 3) - func_0201D304(m2, P->hdr->font, 0));
         if (k == 9) {
-            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x2960);
+            u32 c9 = P->f1EAC;
+            func_0201C724(c9, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x2960);
         } else {
-            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x31A0);
+            u32 cn = P->f1EAC;
+            func_0201C724(cn, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x31A0);
         }
         fl[slot] = 1;
         func_02045808(m2);
@@ -150,9 +182,11 @@ void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
         w2 = func_02045738(handle);
         x2 = (u16)((w2 << 3) - func_0201D304(m3, P->hdr->font, 0));
         if (k == 9) {
-            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x2960);
+            u32 c9 = P->f1EAC;
+            func_0201C724(c9, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x2960);
         } else {
-            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x31A0);
+            u32 cn = P->f1EAC;
+            func_0201C724(cn, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x31A0);
         }
         fl[slot] = 1;
         func_02045808(m3);

@@ -48,11 +48,69 @@
  *   stores that may alias it; ours sinks the rx store below the load. n at [sp,#8] behaves the same way
  *   (store then reload). So base, rx, idx and n look like memory-resident variables in the original,
  *   not allocator spills; the source cause is still not found.
+ * 2026-10-05 (wD9 lane08): DIFF, residue unchanged. Tried: n as u32 (same as int: slots for n and ry
+ *   swap, multiply still reads the ldrh temp). Note: ry is also copied to a stack home ([sp,#0xC]) at the
+ *   loop guard, so base, rx, ry, idx and n all have stack homes; the prologue stores stay above the
+ *   first p+0x181C load in the original only.
  * 2026-10-05 (wave D8 lane 02): DIFF, residue unchanged (533 bytes). Tried: n as int (536; the slots
  *   for n and ry swap, 8 and 0xC, and the multiply still reads the ldrh temp, no reload). The
  *   original pattern (store at the definition, reload at every use, entry stores above the first
  *   load) is spill-everywhere for base, rx, idx and n; no source shape found yet that blocks the
  *   copy propagation of n = field into the multiply.
+ * 2026-10-05 (wD9r lane02): DIFF, residue unchanged (533 bytes). Tried: n defined inside the first loop
+ *   (`while (t < 0) { n = field; t += n * 0x1249; }`, 646, worse); the 0x1249 factor as a local
+ *   `unit = 0x1249` for `lim = n * unit` (533, no change); n read through a static inline getter (533,
+ *   no change). Reading: the prologue and the loop wrap use the same shape (ldrh, pool K, copy, muls), and
+ *   the image reloads n at the multiply, so the multiply reads n after a block boundary or n is not a
+ *   single-def copy there; no source form found.
+ * 2026-10-05 (wD9r lane20): DIFF, residue unchanged (533 bytes). New tries, each compiled: the whole body
+ *   as a static inline called from a wrapper (544, slots move, prologue order unchanged); sx, sy, old,
+ *   cur, spr, t, k, n and tp declared in the do-body block (533, no change). Probe: dsi/1.1 to 1.6sp2
+ *   all give 533, so the residue is source, not compiler build. Reading: the same shape as ov116
+ *   021D7D0C (store at the def, reload at the use, entry stores held above the first load) means the
+ *   image keeps base, rx, idx and n as memory variables, not register-allocator spills; no source
+ *   form found that does this without address-taking.
+ * 2026-10-05 (wD9r lane42): DIFF, 533 -> 521 bytes. The prologue store order is fixed: the callers
+ *   (021B7A70, 021B7CFC, 021B8930) declare (u8 *, u16, s16, int, u16) and pass 72, 48 for rx, ry, so
+ *   speed is s16 and rx is a narrow parameter like ry (u16; s16 gives the same code). A narrow rx pins
+ *   its home store above the first p+0x181C load (docs/idioms/a-narrow-parameter-pins-its-home-store-
+ *   to-the-front-of-the-prologue.md). The only residue left is the n store/reload at +013C (all later
+ *   bytes are the 2-byte shift). Probe: a second reaching def of n before the k compare (`if (t == 5)
+ *   n = 3;`, not a fix) gives the image's str/ldr/muls exactly, so in the image n has a second
+ *   definition that reaches the multiply or the k compare. A def that does not reach (prologue
+ *   `n = field; lim = 0x1249 * n;`, a dead `n = 0` at the loop end) changes nothing. Also tried, all 521:
+ *   `while (t >= (n = field) * 0x1249) t -= n * 0x1249;`, `while (t >= (lim = (n = field) * 0x1249))`,
+ *   `while (t >= (lim = n * 0x1249))`, `while (t >= n * 0x1249) t -= n * 0x1249;`, an explicit if guard
+ *   plus do-while, n read through a struct field `((Hdr *)p)->n` (also in the first loop).
+ *   More (all compiled): `lim = 0x1249; lim *= n;` after `n = field` (520: str moves above the muls,
+ *   still no reload, muls r1,r2,r1); `lim = 0x1249` before `n = field` (525); a `for (;;)` with break
+ *   (605); n as a 6th function parameter (probe only, 56 B: parameters are not copy-propagated, the
+ *   reload appears at [sp,#0x6c]); reusing the speed parameter for n (612/888). Inline helpers for the
+ *   tail (wrap loop, if, k, cur pick) with n as a helper parameter: with `u8 *cur = old;` inside the
+ *   helper (668) the image's `str r1,[sp,#8]; ldr r1,[sp,#8]; muls` appears, but the helper adds a
+ *   `ldr [sp,#0x14]; str [sp,#0x10]` copy for cur after the t loop (the image stores cur at the call,
+ *   +010A); with cur passed by pointer (`u8 **pcur`, 521) or with two returns (663) n is propagated
+ *   again. Reading: the image's n is a copy that mwcc does not propagate (a parameter-like variable),
+ *   and something sits between `n = field` and the multiply in the IR without code of its own.
+ * 2026-10-05 (wD9r lane86): DIFF, residue unchanged (521 bytes, only the n str/ldr at +013C). New
+ *   tries, each compiled, all 521 unless noted: k and the second wrap in an inline helper called before
+ *   the condition (the divide is not sunk into the if); `t = Wrap(t, n)` inline helper with an int
+ *   return; the whole f(e)..pick segment as an inline helper returning cur (523, old/cur stores swap);
+ *   `GetCount(p, &n)` inline out-parameter; `register u16 n`; block-local `const u16 n`; `int unit =
+ *   0x1249` at the top used in one, two or all three places; the wrap on a copy `f = t`; n reused for the
+ *   (u16)(0x6E00 - a) and (u16)(0x78E0 - a) temps; the frame index written into n (`if (k >= n) n = k -
+ *   n; else n = k;`, both orders); `lim = field * 0x1249` with `n = field` after the wrap; the n def
+ *   behind a goto label; `for (n = field; t >= n * 0x1249; )`; `int speed` reused for n (888).
+ *   Findings: (1) n = field written in both arms of `if (t < 0) { while (t < 0) ...; n = field; } else n
+ *   = field;` gets cross-jumped into one tail and gives the reload, but the inner while keeps a redundant
+ *   `cmp r0,#0; bge` (635), and the reload sits in the join block (str before the pool load, the image
+ *   has the pool load first); with a do-while in the arm (630) the arm's n is CSE'd with the loop's
+ *   hoisted load. (2) An intervening statement that needs a register between `n = field` and the
+ *   multiply (a memory store, a spilled-local copy) also gives the reload; a store of a callee-saved
+ *   value (`cur = spr`), a register copy, or a constant assignment does not. (3) A reaching second def
+ *   after the wrap (`if (t == 5) n = 3;`, probe) reproduces the image's exact order (pool load, str,
+ *   ldr, muls), so the image's n most likely has a second reaching def or is parameter-like; no natural
+ *   codeless form found.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
@@ -100,7 +158,7 @@ extern void func_020061E4(u32);
 extern void func_0204F638(int, int, Vec *);
 extern void func_0204F684(int, int, s16 *, s16 *);
 extern void func_0204F720(int, int, void *);
-void func_021B765C(u8 *p, u16 base, int speed, int rx, u16 ry)
+void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
 {
     Vec v;
     Vec w;

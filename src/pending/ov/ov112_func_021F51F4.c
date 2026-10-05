@@ -22,6 +22,11 @@
  *   r1, ours idx r1 and product r4). No change to that from: no idx local, mode -= 7, unsigned idx,
  *   idx declared at function scope, an else-if chain, a void * parameter cast to Big *, an inline
  *   SetSlot(p, idx, in), enabled stored last; a byte-offset form loses the copy shape.
+ * 2026-10-05 (D9 lane 02): still blocked by ov112 021F546C. Tried one more reading there: `Slot *s = &p->slots[mode - 7]` instead of the idx local (worse, 128 bytes differ).
+ * 2026-10-05 (D9r lane 45): bytes still identical; still blocked by ov112 021F546C, now DIFF 172/172 with
+ *   5 bytes (only the slot multiply colours), see that file.
+ * 2026-10-05 (D9r lane 74): bytes still identical; still blocked by ov112 021F546C (DIFF, 5 bytes, slot
+ *   multiply colours; new tries listed in that file).
  * symbols:
  *   func_021F546C 0x021F546C thumb ov112
  *   func_021F56BC 0x021F56BC thumb ov112

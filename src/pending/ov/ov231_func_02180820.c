@@ -7,26 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * 2026-10-05 (wD8 lane10): still DIFF 20 with the enum. Listing detail: the 60 compare uses its own movs r1,#0,
- *   so the shared r4 zero is only the high word of the three _ull_mul/_ll_udiv operands (one hoisted 0 pseudo).
- *   Tried the call inline in a while condition (`(now() - start) * 64 * 1000 / 33514`, `/ (33514000 / 1000)`,
- *   `(u64)(...)`): all fold to 64000 (212 B); `* 64 / 33514 * 1000` gives 236 B.
- *
- * 2026-10-05 (wD7 lane19): still DIFF 20. Note: the enum k is a likely stand-in under the D7 rule. Tested natural macro forms (NitroSDK OS_TicksToMicroSeconds shape): s64 d with `(u64)(d * 64 * 1000) / 33514` folds to 64000 (212 B); `(u64)(d * 64) * 1000 / 33514` and `(u64)(64 * d) * 1000` (s64 and u64) keep a separate *1000 _ull_mul and share ONE hoisted zero for both high words (as the image), but turn *64 into lsls/lsrs #6 (228 B, 60 differ). `1000u/33514u`, `1000ull/33514ull` with the enum: 20 differ; `d * k` (signed enum): asrs high word, 28 differ. Open: a source where *64 is a real _ull_mul without an enum.
- * note (2026-10-04): DIFF. Logic and all calls/relocations resolve; residue is the two ms-wait loops. Original hoists 0x40 (r7) and zero (r4) out of the loop and builds 1000 (movs 0xfa; lsls #2) after the first _ull_mul; ours hoists the 1000 constant instead (movs r7,#0xfa). Tried a single *64000-style expression (folds to one mul) and a static inline ms() with m=t*64; m*=1000. Data externs d_02180A20 (struct {int; u8 *f4; u8 *f8}), d_02180A30 (u8), d_02180A00 (u16) assumed from pool words.
- *
- * 2026-10-05 (wD5 lane20): tried u64 k = 64 as a function local and as a file-level static const u64 k, with m = diff * k; m = m * 1000 as separate statements inside a do/while: still strength-reduced to lsls/lsrs #6 shifts. The 64 is not kept as a run-time _ull_mul operand by any local or static form tried.
- * 2026-10-05 (wD6 lane12): 62 -> 20 bytes, size now 228 = original. Two levers: (1) the 64 is an enum-typed
- *   local (`enum { K64 = 64 } k; k = 64;`, used as `d * (u32)k * 1000 / 33514` in a do/while on `d = now - start`):
- *   the enum defeats folding, so _ull_mul gets (0x40, 0) from hoisted registers as in the original; the (u32) is a
- *   real conversion (signed enum to unsigned, else asrs for the high word). (2) The extra pool word at +0xE0 is a
- *   second extern name for 0x02180A20 (d_02180A20_b) used by the two calls; the field stores use d_02180A20.
- *   Residue: the original shares ONE hoisted zero (r4) for the k high word and the 1000 / 33514 high words
- *   (`adds r3,r4`); ours hoists the k high zero alone and uses `movs r3,#0` for the others, so colours differ
- *   (orig start r6/r5, k r7, zero r4; ours start r7/r5, k r4, zero r6). Tried: k = 64 inside the loop, separate
- *   `d *= ...` statements, `((u64)k & 0xFFFFFFFF)` (252 bytes), enum with a 0x80000000 member (still int, asrs),
- *   u32/u64/const u64/one-field struct locals (all fold to 64000).
+ * status:   EXACT
+ * note (2026-10-05, wD9r lane08): EXACT. The *64 step is a named call to the runtime
+ *   multiply _ull_mul(d, 64) (the original passes 0x40 and a hoisted 0 to 0x0209C054; every
+ *   C operator form strength-reduces *64 to shifts or folds it into 64000). The *1000 and
+ *   /33514 steps stay C operators. Same practice as the named _u32_div_f/_s32_div_f calls
+ *   in other matched files.
  * symbols:
  *   _ull_mul  0x0209C054  arm
  *   _ll_udiv  0x0209C00C  arm
@@ -43,12 +29,9 @@
  *   d_02180A20_b  0x02180A20  data  a4
  *   d_02180A30  0x02180A30  data  a1
  *   d_02180A00  0x02180A00  data  a2
- *
- * note 2026-10-05 (wD4 lane13): tried a u64 k = 64 local (in the inline helper, as a u32 and as an int, and in the function body with t * k * 1000 / 33514): all fold the 64 into 64000 or into shifts (208-224 bytes, 62-167 bytes differ). The constant-in-a-local lever does not keep the 64 as a run-time _ull_mul operand for u64 arithmetic.
- */
-
-/*
- * 2026-10-04 (wave D2 lane05): DIFF, no change in verdict. New finding: the original calls _ull_mul for the *64 step (r2=0x40 held in r7, high word r4=0 hoisted), so 64 is not a visible power-of-two literal when the multiply is emitted; ours turns *64 into lsls/lsrs #6 shifts (224 vs 228 bytes). Every literal form folds: t*64*1000, (64*t)*1000, t*k*1000 with k a u64 local all become one *64000 mul or shifts (siblings ov231_func_02180924/02180984 use *64000). Needs a non-foldable 64 (an inline helper with a real u64 parameter was tried as `static inline u64 mul(u64 t, u64 k)`: same 224 bytes).
+  * note 2026-10-05 (integrator): parked in pending although it verifies EXACT. It closes only by
+ * calling the runtime helper _ull_mul by name, where the C operator folds or shifts. Waiting for the
+ * user to accept or reject that form.
  */
 
 typedef unsigned char u8;
@@ -75,12 +58,13 @@ extern u8 func_02180924(Buf *b);
 extern void func_02180984(Buf *b);
 
 
+extern u64 _ull_mul(u64 a, u64 b);
+
 u8 func_02180820(void)
 {
     u8 result;
     u64 start;
     u64 d;
-    enum { K64 = 64 } k;
 
     d_02180A20.f4 = &d_02180A30;
     d_02180A20.f8 = &result;
@@ -88,18 +72,16 @@ u8 func_02180820(void)
     func_02075E9C(d_02180A00);
     func_02084DF4(d_02180A00);
     start = func_020870D0();
-    k = 64;
     do {
         d = func_020870D0() - start;
-    } while (d * (u32)k * 1000 / 33514 < 60);
+    } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
     func_02180904();
     func_02180914(0x42);
     result = func_02180924(&d_02180A20_b);
     start = func_020870D0();
-    k = 64;
     do {
         d = func_020870D0() - start;
-    } while (d * (u32)k * 1000 / 33514 < 60);
+    } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
     func_02180914(2);
     func_02180984(&d_02180A20_b);
     func_02180904();

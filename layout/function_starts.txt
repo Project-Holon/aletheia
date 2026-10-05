@@ -2745,3 +2745,8 @@ overlay_114 0x021C93D0  arm     # wD8: starts after pool_021C93CC; bl from ov116
 overlay_114 0x021C940C  arm     # wD8: starts after bx lr and a pool word; bl from ov116 0x021D70EC (pending, byte-correct)
 overlay_094 0x021F8524  thumb   # wD8: starts after pool_021F8520; bl from ov093 0x021CDDA0, 0x021CE08C (pending, byte-correct)
 overlay_094 0x021F7E94  thumb   # wD8: starts after pool_021F7E90; bl from ov093 0x021D2814 (pending, byte-correct)
+arm9_main   0x0200A908  thumb   # wD9: EXACT src/matched/arm9/func_0200A908.c; bl from ov106 0x021B8B9C (byte-correct)
+overlay_093 0x021C4B9C  thumb   # wD9: EXACT src/matched/ov/ov093_func_021C4B9C.c; Thumb pointer word 0x021C4B9D in the pool of ov093 func_021C4B8C (callback passed to the ov095 walker)
+overlay_093 0x021CC9AC  thumb   # wD9: EXACT src/matched/ov/ov093_func_021CC9AC.c; tail-call pool word from ov093 0x021C88A4 (byte-correct)
+overlay_132 0x021FD4F8  thumb   # wD9: EXACT src/matched/ov/ov132_func_021FD4F8.c; bl from ov010 0x02155FC8 and 0x02156530 (byte-correct; mid-function in ov094, ov135, ov186)
+overlay_230 0x02188A48  arm     # wD9: EXACT src/matched/ov/ov230_func_02188A48.c (../2.0/sp2); always-taken bne from ov230 0x021889B0; follows the bx lr at 0x02188A44 that ends func_02188A0C; starts with push {r4-sl,lr}

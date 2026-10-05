@@ -41,6 +41,32 @@
  *   SetSlot(p, idx, in); a byte-offset pointer form loses the copy shape. Tried for (b): x/y locals in
  *   both orders and both declaration orders, y-only local, stores y first (keeps store order, worse),
  *   {x,y} 8-byte struct copy, a Vec local assigned per field (adds a frame), inline SetT(p, i, x, y).
+ * 2026-10-05 (wave D9r lane 45): adopted the D8 nonconst variant (`Input *in`, y read first): 172/172,
+ *   5 bytes differ (was 27). Only residue: the slot multiply colours (original idx r4 and product r1, ours
+ *   idx r1 and product r4). Fresh finding: func_021F5450 (matched) is the getter `p + 0x14 + i * 0x38` for
+ *   this record and func_021F5204 (matched) gives the real types: p is a 0x22C scene slot {active, enabled,
+ *   object, primary, secondary, Track tracks[9] at 0x14, f524..f552}, so the 0x20C..0x228 words are
+ *   f524..f552. Tried (all real compiles): the getter as a static inline returning u8 * or &p->tracks[i],
+ *   once into a pointer local and once per statement (164 bytes, 128 differ: CSE makes a pointer and the
+ *   copy shape is lost); slots in a nested struct; `mode > 6`; idx defined before the if (gives idx r4 and
+ *   product r1 as in the original, but the sub moves above the cmp: 6 bytes); one shared local for idx and
+ *   y; mode as u8, u16, int (and `(unsigned)mode >= 7`); unsigned idx; function-scope y/idx in both
+ *   orders; `register` on idx or p; a switch for modes 4/5 (176 bytes); the slot path after a
+ *   `mode < 7` block (162 differ); natural field order a,b,c,d,e,f (174 bytes); an inline CopyVec(d, s)
+ *   for the Vec copies. Probe: with the mode 4/5 paths removed the colours are the same, so the residue
+ *   is inside the slot block; with only `enabled = 1` there is no copy at all (`muls r0,r1,r0`).
+ *   The original behaves as if idx were live across the compare. Not found.
+ * 2026-10-05 (wave D9r lane 74): still DIFF 172/172, 5 bytes (slot multiply colours). New tries, all real
+ *   compiles, none moves the colours: Slot {int enabled; Input d;} with `p->slots[idx].d.a = in->a`; Vec v[4]
+ *   arrays in Input and Slot (same 5 bytes; two 2-iteration copy loops: 178 bytes); `p->slots[idx = mode - 7]`
+ *   in the first store; an inline `SlotIndex(mode)` returning mode - 7; `const int idx`; a `first = 7` local
+ *   for the bound and the subtraction; a `one = 1` local for the enabled store; `int idx = 0;` at function
+ *   scope then `idx = mode - 7` in the block. Per-statement raw `*(T *)((u8 *)p + idx * 0x38 + K)` drops the
+ *   copy (`muls r0,r1,r0`, 157 differ); a `Slot *s` from a byte offset or a `Slot *s = p->slots` pointer
+ *   folds p+0x14 first (117 to 128 differ); a macro getter likewise (128). Finding: only array indexing
+ *   p->slots[idx] gives the `adds; muls` copy, and only an idx defined in the entry block (before the cmp)
+ *   gives the image colours (idx r4, product r1). The image has the sub after the branch, so idx is a
+ *   block-local value whose colouring order differs from ours for a reason not found in the source.
  * symbols:
  */
 typedef unsigned short u16;
@@ -48,7 +74,7 @@ typedef struct { int x,y,z; } Vec;
 typedef struct { Vec a,b,c,d; u16 e,f; } Input;
 typedef struct { int enabled; Vec a,b,c,d; u16 e,f; } Slot;
 typedef struct { int pad[5]; Slot slots[9]; Vec t[2]; int flag[2]; } Big;
-void func_021F546C(unsigned mode, const Input *in, Big *p)
+void func_021F546C(unsigned mode, Input *in, Big *p)
 {
     if (mode >= 7) {
         int idx = mode - 7;

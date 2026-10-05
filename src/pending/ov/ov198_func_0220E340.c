@@ -8,6 +8,47 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD9r lane102): still DIFF 9 bytes (arc r6 / arr r7), no code change. Logic rechecked block by block
+ *   against the listing: no wrong helper, reload, field or operand order. New probes: passing 0 for arc in ACEC
+ *   AND AF28 flips arc to r7 (either one alone, or the close call alone, does not), so arc outranks arr by two
+ *   post-loop uses' worth. Tried (all 9 B unless noted): the ov209 021BD9B4 twin shape (struct with a[26]/b[6]/c[6],
+ *   arr = p->a, pb = &p->b[0], pc = &p->c[0] before the loop: 192 B, pb/pc offsets spilled); one pointer
+ *   q = p + 0x250C with q[0]/q[6] (56 B); `i = 0;` before the arr assignment; `void *const arc` and `int *const arr`
+ *   C99 initialised; a u16 n = 6 loop bound; block-scoped int a/b temps for the AF28 arguments (ov097 twin shape);
+ *   the ov097 double definition `arr = (int *)p; arr = p + 0x24A4` (dead store dropped, 9 B; a stand-in anyway).
+ * 2026-10-05 (wD9r lane75): still DIFF 9 bytes (arc r6 / arr r7). No twin: ov097 021F6F88, ov209 021BD9B4 and
+ *   ov021 021CC8DC run the same open/icon-loop/close sequence but at different pressure (spills, hoisted 0x6b/0x71).
+ *   Tried (all 9 B, swap unchanged): p, arr and arc as u32 integers (ov097 shape); x as u16 with u16 callees; a
+ *   second parameter holding arc or arr (numbering probe: no effect, so not a tie on vreg order); copies of arc
+ *   (h = arc before or after the loop); the A6C8 call in each arm with one `arr[i] = r` after the join (the ov041
+ *   idiom shape); x selection alone in a static inline (if/return and if-set forms); i or x reused as the 0x250C
+ *   offset (`i = 0x250C; ... i += 0x18`); a u16 heap local and x/y locals for the post-loop calls. `off = 0x24A4`
+ *   with `p + off + i*4` (three spellings) folds to the 180 B raw form. Probes: dropping only the final close call
+ *   or the ACEC arc use does not move arc. The weight gap needs a real extra arr use in the loop; none found.
+ * 2026-10-05 (wD9r lane36): still DIFF 9 bytes (arc r6 / arr r7 swap), no code change. Tried: `do { } while (++i < 6)`
+ *   and `while (i < 6) { ...; i++; }` (9 B); a Ctx struct with `Rec recs[6]` at +4 and `int a[26]` at 0x24A4 used
+ *   inline (180 B: mwcc never hoists p + 0x24A4 itself, only the 0x4C constant, so arr must be a named pointer);
+ *   `arr = (int *)p; arr += 0x929;` (180 B); call and store in each if/else arm with x kept (9 B); a function-scope
+ *   record pointer e in each of the 5 declaration slots, and a loop-scoped `for (u16 i = 0; ...)` (all 9 B).
+ *   The ov041 021F3884 close (stores repeated in each arm raise a block value's rank) has no analogue here: no
+ *   store follows the x if/else except arr[i], and that adds equal uses to arc and arr.
+ * 2026-10-05 (wD9r lane29): still DIFF 9 bytes (arc r6 / arr r7). New probes: the colour follows a use-count
+ *   priority. arc not used in the loop, or arr given one more use in the loop, or four more uses of arr before the
+ *   loop, or all three post-loop arc uses removed: each gives arc r7 / arr r6 as in the image. One to three extra arr
+ *   uses do not. (The wD7 probe that one removed post-loop line moves arc does not reproduce on this draft.) So the
+ *   image source has arr weighted at least as high as arc. Tried with no change (9 B): the record pointer inline
+ *   (`p + i * 0x4C + 8/+4`, a CSE temp), arr from a static inline accessor Arr(p), the store in a static inline
+ *   Store(arr, i, v), x as a separate temp stored after the call, i declared first, `for (i = 0, arr = ...)` with
+ *   arr[i]. Worse: post-loop stores as arr[26]/arr[32] (172 B, 39), arr assigned inside the loop (143), dead
+ *   stores to arr[i] (stand-ins anyway). No real source found that adds an arr use without code.
+ * 2026-10-05 (wD9r lane05): still DIFF 9 bytes (arc r6 / arr r7 swap). Tried: the open call in a static inline
+ *   OpenArc(p, 7); the three post-loop lines in a static inline Finish(p, arc); arr as a u32 integer
+ *   (`arr = (u32)p + 0x24A4`, and `arr = 0x24A4; arr = (u32)(p + arr)`, the reuse form that closed ov197 0220BA2C);
+ *   the loop's x local reused for the BC78 result (all 9 B); i reused for it (51 B). Probe: an extra arr use after
+ *   the loop does not move arc, so arc's colour is not set by arr's use count.
+ * 2026-10-05 (wD9 lane06): still DIFF 9 bytes (same arc/arr r6/r7 swap). Tried: the loop body as a per-iteration
+ *   static inline `arr[i] = LoadOne(p, arc, i)` (record pointer, x selection and the A6C8 call inside), and arr as a
+ *   pointer to an `int[6]` array with C99 initialised declarations (arc first). Both 9 bytes, swap unchanged.
  * 2026-10-05 (wD8 lane05): still DIFF 9 bytes (arc r6 / arr r7, image arc r7 / arr r6). Tried: x declared in the loop
  *   block, the if/else arms swapped (`== 0` first, 32 B), raw `*(int *)(p + 0x24A4 + i * 4)` with a real Rec struct
  *   array for the records (180 B: LICM then hoists 0x4C into r7, not p + 0x24A4). Reading: arc gets r7 when its

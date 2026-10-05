@@ -1,0 +1,26 @@
+/*
+ * function: func_021C4B9C
+ * address: 0x021C4B9C
+ * packet: pkt_ov093_021C4B9C
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ *
+ * Callback adapter passed to the ov095 walker func_06898D54 by
+ * func_021C4B8C: swaps the first and third arguments and tail calls
+ * func_021C4BAC through r3. Filed as a witness for func_021C4B8C.
+ *
+ * symbols:
+ *   func_021C4BAC 0x021C4BAC thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern void func_021C4BAC(u8 *p, int k, int v);
+
+void func_021C4B9C(int v, int k, u8 *p)
+{
+    func_021C4BAC(p, k, v);
+}

@@ -4009,6 +4009,14 @@ OVERLAY_ID_CONSUMERS = {
     # "overlay_id: func_021CF564 ...").  Read 2026-10-02.
     0x021CF564: ("func_021CF564", 1, "src/matched/ov/ov021_func_021CF564.c",
                  "ov021"),
+    # src/matched/ov/ov010_func_0215C63C.c (EXACT): the proc launcher takes the
+    # overlay id as its third argument.  Bytes (ov010 0215C63C..0215C692):
+    # `adds r7, r2, #0` at +0x0A keeps r2, and `adds r1, r7, #0; bl 0x020120B4`
+    # at +0x42 passes it unchanged to func_020120B4's r1 (an entry above).
+    # Qualified to ov010 because other overlays span the address.  Read
+    # 2026-10-05 (wave D9).
+    0x0215C63C: ("func_0215C63C", 2, "src/matched/ov/ov010_func_0215C63C.c",
+                 "ov010"),
 }
 
 _OVERLAY_IDS = {}

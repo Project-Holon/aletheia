@@ -8,6 +8,40 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD9r lane83): still 4 bytes (440 vs 436). Callee prototypes from matched definitions:
+ *   func_021C5B80 (ov114) returns int, DWC_GdbShutdown (ov175 021E1340) returns int, func_020111E8 returns
+ *   u32; all three applied: same 440 B (kept the draft's void externs). Tried: `if (r == 0) goto tail;`
+ *   with case 4 ending `goto tail;` (both edges to one label): same bne/b. Scan of asm/overlays: 483 far
+ *   Thumb conditional branches land on a `b`; in matched code the reused `b` is always itself the kept
+ *   `bcc body; b far` form of another far branch (ov186 021FFC9C: beq and bhi reuse the else-if's b at
+ *   021FFD1A, not the earlier case-end b's; ov011 02172D70 0x2172DBE expands although a b is in range).
+ *   Probe with cases 1 and 2 deleted: the beq still expands, no join `b` after a call is reused. So the
+ *   original 02156022 b was not a plain join b at branch-fix time; source form still unknown.
+ * 2026-10-05 (wD9r lane65): still 4 bytes (440 vs 436). Twin search: no matched function with this
+ *   callee set (021552E8 and 02156690 call func_02059E38 but are different shapes). Tried: case 4 as
+ *   `if (out of range) break; DWC_GdbShutdown(); break;` and as two nested ifs (both 440 B, same bne/b);
+ *   a dead local store and `ret = ret` after the switch with case 4 last, as a probe for a non-empty
+ *   join block (both 440 B, same bne/b, so an early-emptied block is not the cause); `if (r == 0) goto L;`
+ *   with `L:` inside case 4's if-body followed by a written-out copy of the post-switch tail (probe):
+ *   the beq then lands at the right place (after the DWC call) and the range fails go to the main tail as
+ *   in the original, but mwcc does not cross-jump the multi-block tail copy (504 B with `return`, 464 B
+ *   with `goto out`). Not a real source form; reverted to the draft code.
+ * 2026-10-05 (wD9r lane52): still 4 bytes (440 vs 436). Tried: the callbacks and the switch in two
+ *   separate `if (r != 0)` blocks, so the first block's r == 0 edge reaches a second test that the
+ *   compiler could thread into a different block: 444 B, worse (case 4's DWC_GdbShutdown tail is
+ *   duplicated and r4/r5 swap). Reverted to the draft code.
+ * 2026-10-05 (wD9r lane25): still 4 bytes (440 vs 436). Tried: case 4 moved to the end of the switch with no break,
+ *   so that its call falls into the switch exit, which is also the exit of `if (r != 0)` (one shared join block):
+ *   same 440 B, the r == 0 edge still threads to end (bne/b).
+ * 2026-10-05 (wD9r lane09): still 4 bytes (bne/b, 440 vs 436). Tried: the switch result in a second variable
+ *   (`v = a; if (a == 0 || b == 1) v = r; switch ...; ret = v;` inside the r != 0 block) so that a copy sits
+ *   at the join: coalesced, same bne/b. Confirmed mwcc does no island reuse in our build (three `b end` are in
+ *   range of the r == 0 branch and none is used), so the original IR edge targets case 4's join block.
+ * 2026-10-05 (wD9 lane08): still 4 bytes. Reading: in range of the beq there are three `b end`
+ *   (02155FF0, 02156022, 02156028); only 02156022 (case 4 join) is a block that holds nothing but
+ *   the goto, so the r == 0 edge reached that block in the IR (or a tail merge of identical
+ *   [copy; goto end] blocks put it there). Our build has the same block at the same place and
+ *   still emits bne/b. No new source form tested closes it.
  * 2026-10-05 (wave D7 lane 18): still 4 bytes. Reading: the original beq lands on the `b end`
  *   that is the fall-through of case 4's DWC_GdbShutdown call (the bgt/blt range fails go straight
  *   to end), so the r == 0 edge targeted the block after that call. Tried: `if (r == 0) goto skip;`

@@ -54,7 +54,44 @@
  *  the then-arm, `tmp = f(id)` in the else-arm, hdr stored from tmp in each arm, `sz = tmp` after the join):
  *  identical 2 bytes, the call result is still coalesced with the size register r4.
  */
+/*
+ * 2026-10-05 (wave D9r lane10): DIFF, 2 bytes unchanged. Tried: a static inline Load(&sz, &hdr, id) that stores the
+ *  result through both pointers and returns it for the -1 test; `sz = f(id); hdr = sz; if (*(int *)&hdr == -1)`.
+ *  Both identical (2 B). The result is still coalesced with sz.
+ */
 typedef struct { int w[0x138 / 4]; } Blob;
+/*
+ * 2026-10-05 (wave D9 lane16): DIFF, 2 bytes unchanged. Reading only: the image uses the call result r0 for the
+ *  hdr store and the -1 compare the same way as the earlier `D(0x25c) = f(id); if (D(0x25c) == -1)`, so the
+ *  else-arm value was probably never a named local before the check. All forms of that (store to hdr, compare
+ *  hdr, copy to sz) are listed above as tried and give identical output. New tests: D(0x260) = x written in each
+ *  arm (221 B worse, the store is not merged up); result stored only into hdr, compared through hdr, and
+ *  `sz = *(int *)&hdr` at the end of the else arm (identical 2 B).
+ */
+/*
+ * 2026-10-05 (wD9r lane46): DIFF, 2 bytes unchanged. Tried: hdr as a plain int local (address taken only for the
+ *  byte copy) instead of the W4 struct: identical 2 B. Reading: the image pattern (mov r4,r0; then uses of r0)
+ *  needs the call result to interfere with sz; no source form tried so far makes it do that.
+ */
+/*
+ * 2026-10-05 (wD9r lane59): DIFF, 2 bytes unchanged. Tried: the call result and tmp as `long` (a non-int type,
+ *  to block the copy coalesce) and sz as a `long` parameter: identical 2 B. hdr written in both arms with no sz
+ *  update and `sz = *(int *)&hdr` once after the join: 209 B worse (reload from the stack). Reading: the else-arm
+ *  call result must interfere with sz to stay in r0; no natural use found that makes it interfere.
+ */
+/*
+ * 2026-10-05 (wD9r lane80): DIFF, 2 bytes unchanged in the draft. Tried: both -1 error paths through one shared
+ *  `err:` label (goto from the D(0x25c) check): 416 B, the error blocks merge and the base register changes, so the
+ *  image has two separate error copies. Reading: func_021D891C (matched) returns size + 0x140, so the then-arm
+ *  `sz + 0x140` and the else-arm call give the same quantity; the call result still coalesces with sz.
+ */
+/*
+ * 2026-10-05 (wD9r lane88): DIFF, 2 bytes unchanged. Callee prototypes checked against the matched definitions
+ *  (func_021D891C int(int), func_021D89EC int(int), func_021D7C7C void(int), func_021D7D30 returns its tail call):
+ *  no mismatch that matters here. Tried: one `tmp` local reused for both -1 checks (D(0x25c) = tmp and the else-arm
+ *  result, so tmp has two definitions and cannot be propagated); else-arm as `else if ((*(int *)&hdr = sz = f(id))
+ *  == -1)`; result stored only to hdr, tested as tmp, `sz = *(int *)&hdr` last. All identical (2 B, str/cmp on r4).
+ */
 typedef struct { unsigned char b[4]; } W4;
 extern void func_021D7CAC(void);
 extern void func_021D7CC0(void);

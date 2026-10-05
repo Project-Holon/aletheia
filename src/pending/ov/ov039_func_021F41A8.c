@@ -36,7 +36,40 @@
  *           2026-10-05 wave D8 lane 02: still 4 bytes. Checked: no branch targets the movs r1,#1
  *           at +01B4 (021F435C), so the strb and the movs are in one scheduled block; the residue
  *           is the scheduler tie-break only. Tried: func_021BE6B0 unprototyped (K&R call), same 4.
+ *           2026-10-05 wave D9 lane 15: still 4 bytes. Tried: s->hold = s->sel >> 1 (689, the shift is not
+ *           CSE'd with c), s->hold = j (688). No source form tried so far moves the strb above the movs.
  *
+ *           2026-10-05 wave D9r lane 17: still 4 bytes. Fresh reading: both the strb and the movs r1,#1 feed
+ *           only the bl, so a list scheduler with equal heights keeps IR order; ours must see the 1 before the
+ *           store. Tried: sel/hold as u32 bitfields (sel:8, pad:16, signed hold:8) to change the store node:
+ *           1092 (read-modify-write stores). No new source form found; left DIFF.
+ *           2026-10-05 wave D9r lane 31: still 4 bytes. Tried: a static inline Pick(s, p, c) that does
+ *           `s->hold = c; func_021BE6B0(p, 1);` (c as int and as s8 parameter): same 4, movs r1,#1 still above
+ *           the strb. Left DIFF.
+ *           2026-10-05 wave D9r lane 37: still 4 bytes. Tried: the store as `((u8 *)s)[7] = c` (the
+ *           matched caller ov039 021F404C writes s[7] = c on a u8 pointer): same 4; a label (and a goto to
+ *           it) between the store and the call, to test a block split: same 4 (mwcc merges the blocks).
+ *           Searched matched code for a twin with the same case-5 sequence (as ov177 021E5A30 closed from
+ *           its ov068 twin): ov039 021F4610 and 021F3A34 are siblings, but neither has this pair. Left DIFF.
+ *           2026-10-05 wave D9r lane 60: still 4 bytes. Reduced the residue to a 10-line test function
+ *           (call; s->hold = c; leaf(p, 1)): mwcc puts the argument setup above an independent register
+ *           strb in every form tried: a literal, a register argument, an enum or s8 or const callee
+ *           parameter, a function-pointer call, p typed u8 *, the callee returning u64, a pointer local
+ *           to the field, the store to a global. A computed value (c + 1) puts the store first only
+ *           because r1 is the temp. Full-function tries: a separate local for the 021A3074 result (same
+ *           4), k = s->sel + 1 assigned in case 5 and passed (same 4), the store before a nested
+ *           leaf(674(...), 1) (20). No real source form found; left DIFF.
+ *           2026-10-05 wave D9r lane 91: still 4 bytes. Checked callee prototypes against the matched
+ *           definitions: func_021BE674 and func_021BE6B0 agree with ov021 (void *, void). func_021F3DE4 is
+ *           really (void *, u8, u16); with that prototype the call site needs (u8)(s->sel + 1) (the
+ *           original truncates to 8 bits), now used here; same 4 bytes. func_021BE4C4 returning int:
+ *           same 4. New reading: mwcc never moves an independent store above the argument setup when
+ *           the store and the call are in one block (micro tests: __restrict s, stack object, global,
+ *           (u8)/(s8)/& 0xFF value, int-returning callee: all movs first). A game-wide scan found
+ *           store-before-argument only with a register dependence (ov091 021B62A2 base r1, ov021
+ *           021AD040 adds r1,r0) or when the call sits in a cross-jumped join block (matched ov135
+ *           021F9FF0: m->cur = r; f(m->cursor, 6) in an else arm). Case 5 has no branch into
+ *           +01B4/+01B6, so the original block structure here is still unexplained. Left DIFF.
  * symbols:
  *   func_020124E4 0x020124E4 thumb
  *   func_0201210C 0x0201210C thumb
@@ -137,7 +170,7 @@ extern int func_021BE6BC(int *p);
 extern void *func_021BE4C4(void *p, u32 i, int delta);
 extern int func_021BE748(void *p);
 extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
-extern int func_021F3DE4(int a, u8 b, u8 c);
+extern int func_021F3DE4(void *p, u8 delta, u16 i);
 extern void func_021F48C0(u8 *a, int idx, int x, Vec *out);
 extern u32 func_02011428(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
 extern void func_02011558(struct IcaAnime *p);
@@ -208,7 +241,7 @@ int func_021F41A8(void *a0, int *a1)
         *a1 = *a1 + 1;
         break;
     case 1:
-        if (func_021F3DE4(h, j, 0) < 0xF000) {
+        if (func_021F3DE4((void *)h, j, 0) < 0xF000) {
             break;
         }
         func_021BE6B0(o, 1);
@@ -258,7 +291,7 @@ int func_021F41A8(void *a0, int *a1)
         *a1 = *a1 + 1;
         break;
     case 6:
-        if (func_021F3DE4(h, j, 0) < 0xF000) {
+        if (func_021F3DE4((void *)h, j, 0) < 0xF000) {
             break;
         }
         func_021BE6B0(o, 1);
@@ -297,7 +330,7 @@ int func_021F41A8(void *a0, int *a1)
         return 1;
     }
     if ((u8)(s->sel + 0xFE) <= 3) {
-        f = func_021F3DE4(h, j, s->sel + 1);
+        f = func_021F3DE4((void *)h, j, (u8)(s->sel + 1));
         switch (s->sel) {
         case 2:
             if (f == 0xBF000) {
@@ -342,7 +375,7 @@ int func_021F41A8(void *a0, int *a1)
     q = func_021BE4C4((void *)h, 0, j);
     k = s->sel + 1;
     n = func_021BE748(func_021BE674((char *)h, 0, j, k));
-    f = func_021F3DE4(h, j, k);
+    f = func_021F3DE4((void *)h, j, k);
     f2 = f + 0x1000;
     if (f2 >= n) {
         f2 = 0;

@@ -21,6 +21,18 @@
  *   prototype from ov172_func_021B9E5C.c (s16 *tbl, int idx, u16 v) with (s16 *)v + 0x400,
  *   (s16 *)(v + 0x800), an s16 * local v; (u16 *)v + 0x400, (u32 *)v + 0x200; the func_021BA15C
  *   result in a local before the call. func_021BA15C is a leaf: (*p > 0x800) ? *p - 0x800 : 0.
+ * note 2026-10-05 (wD9r lane44): still 10 bytes, same residue. Tried: a static inline Wave(ctx, st, base, pos)
+ *   whose body adds 0x800 (10); the same inline with (pos, base) parameter order and both calls nested as its
+ *   arguments, so the right-to-left inline argument order calls 170 before 15C (10, same residue). Reading of
+ *   the scheduler order: the image IR has `movs r2,#2; lsls r2` before `str r0,[sp]`, ours after the 0xC000
+ *   store; no inline or argument form moves the 0x800 load without also moving the add.
+ * note 2026-10-05 (wD9r lane17): still 10 bytes, same residue. New tries: func_021BA15C declared returning u16
+ *   (10, same), u16 return plus the callee's 5th/6th parameters u16 (10, same), callee 4th parameter u8 (10),
+ *   callee unprototyped (10), callee 5th/6th u16 with u32 15C (349). Reading: in the image `movs r2,#2` has the
+ *   longer path to the bl, so the image IR has the 0x800 before the stack stores; ours has it after the 0xC000.
+ * note 2026-10-05 (wD9r lane31): still 10 bytes, same residue. Tried: the fifth argument as a one-field struct
+ *   by value (`typedef struct { u32 v; } W;` callee parameter W, `w.v = func_021BA15C(...)` in a block local): 24
+ *   (frame grows to 0x10, push r3; the constant order is unchanged). Left DIFF.
  * symbols:
  *   func_021B9F4C 0x021B9F4C thumb ov172
  *   func_021B9DF8 0x021B9DF8 thumb ov172
@@ -58,6 +70,29 @@
  *   field at +0x800 (`((struct { u8 a[0x800]; u8 b[0x800]; } *)v)->b`, also `&...->c` of a word field, also with the
  *   170 call nested). All unchanged. The matched caller ov172_func_021B9044 builds its table pointer as
  *   `(short *)(f() + 0x800)` in a local before other calls; that form was already tried here.
+ * note 2026-10-05 (wD9 lane15): still 10 bytes, same residue. Tried the untested wD5 idea: an inline helper
+ *   `static inline u32 WaveTable(u32 *f) { return func_021BA170(f) + 0x800; }`, both nested as the third
+ *   argument and assigned to v before the call: 16 bytes, the 0x800 is then built BEFORE the func_021BA15C call
+ *   (in r7, kept across it). This shows the IR position of the constant decides the order: the image has it after
+ *   the 15C call but before the fifth argument's stack store. Also tried: a block local `u32 half = 0x800`
+ *   (propagated, 10), `3 << 14` for the last argument (10), the 15C result in pos before the call (10).
+ * note 2026-10-05 (wD9r lane62): still 10 bytes, same residue. New tries: an add-only inline
+ *   `static inline u32 WaveTbl(u32 v) { return v + 0x800; }` as the third argument with v and pos both
+ *   assigned in statements before the call (10, same: the inline add is placed with the register arguments,
+ *   after the stack stores); a file-scope `static const u32 sHalf = 0x800` for the offset (10, propagated).
+ *   Reading of the diff: ours materialises 0xC000 (r0) before 0x800 (r2), the image the reverse, so the
+ *   0x800 load sits ahead of both stack arguments in the image IR, not only ahead of the fifth.
+ * note 2026-10-05 (wD9r lane77): still 10 bytes, same residue. New tries: the D3 constant-local lever for the
+ *   offset (`pos = 15C(); h = 2;` then `v + (h << 10)`, h an int local assigned after the call): 10, h is
+ *   propagated, the movs stays after the 0xC000; the table as `&blk[1]` of a `struct { u8 d[0x800]; } *`
+ *   from the 170 result: 10, same. Reading: the dependence graph is the same in both, so the image's
+ *   pick of `movs r2,#2` before `str r0,[sp]` comes from the IR order, which no tried source form changes.
+ * note 2026-10-05 (wD9r lane89): still 10 bytes, same residue. New tries: the 170 call and the 9E5C call written
+ *   in each arm of the func_021BA158 test (377, the arms are not tail merged); the real prototype widths
+ *   (int fifth, u16 sixth, (int)/(u16) at the call; also int v with a short * third parameter): 10. Probes (wrong
+ *   logic, not kept): sixth argument 0x40, 0xC000 + v, fourth 0x900, third a plain 0x800: in every form the
+ *   15C result store `str r0,[sp]` is the first instruction after the bl, so this build always puts the
+ *   stack store of a call-result argument ahead of every other argument constant. The image does not.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

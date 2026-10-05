@@ -93,6 +93,70 @@
  *   for z/y/x and r3 for the register base, the original r3/r2/r1 and r0. The rounding constant
  *   0x800 is derived from the halfword offset 2 held in r6 (`movs r6,#2; ldrsh r1,[r2,r6]` then
  *   `lsls r2,r6,#0xa`), ours does the same from r7. The k-loop past 021F5A5C was not re-checked.
+ * note (2026-10-05, wave D9 lane 04): six fixes from a fresh reading of the j/k loops (compiled 2064 vs
+ *   2080; on a register-blind instruction diff 94 lines differ, was 210).  (1) obj->f6C has one more
+ *   level: the record table is at obj->f6C->f4 (as in matched func_021F5EDC, struct H/E1/E2), both in
+ *   the j-loop test and for the entry reads.  (2) The sub-pose uses the same LoadPose switch: kind 0
+ *   also zeroes dz, by cross-jumping into the kind 2 tail (listing 021F5AE6 b 021F5B1A).  The entry
+ *   te and the part pt are not locals: j*8 and b*0x14 are spilled CSE values and every read is
+ *   written inline.  (3) The 0x1D write goes to 0x0400044C (MTX_STORE), not 0x04000450.  (4) Every
+ *   fixed-point product is a FxMul(s64 a, s64 b) static inline: it puts the vector in r0:r1 and the
+ *   scale in r2:r3 and spills fx/fz with s/c in r5/r6, as in the original.  psx/psy are s64 locals
+ *   assigned before the first product (the original sign-extends both before the first _ll_mul).
+ *   (5) obj->fEC bit 0 is a one-bit bitfield.  (6) Declaration order `fx, fz, c, s, X, c2, Z, s2`
+ *   gives the original registers in both rotations; the attr word is written right-nested
+ *   a7 | (0xF0000 | (a4 | (a3 | (a5 | a0 | 0x40000000)))) to get the original OR order.
+ *   Still open: frame 0x250 + push r3 vs 0x254. The original spills attr (obj+0x90) to sp+0x5C and
+ *   keeps &pos in r7 across the two func_021F660C calls; ours keeps attr in r5 and rematerialises
+ *   &pos.  Tried without effect: attr declaration position, block scope, a struct type, a PolyAttr
+ *   inline, a Persp inline and a `Vec *pp` local for the 660C calls.  A separate `int w` local (not
+ *   cb.w) gives the 0x254 frame but puts w at sp+0xB0, not 0xB4, so it is not the answer.  The k-loop
+ *   head schedules the fx/fz loads before `ang` (original: ang first); `ent->parts[k]` inline instead
+ *   of `b` is worse.  `j = 0` sits after the first scale product in the original; only an unnatural
+ *   split of the sy/sx block reproduces it.
+ * note (2026-10-05, wave D9r lane 22): 94 -> 0 instruction lines differ; 5 bytes left (two spill slots).
+ *   (1) The 0x040004A8 word is the SDK inline G3_TexImageParam with enum parameter types, as in the
+ *   matched sibling arm9 func_02014D2C (same renderer: same matrix calls, Pose switch, TexInfo record
+ *   at obj+0x90 with addr/s/t/fmt/pltt0 at 0/0xC/0x10/0x14/0x1C).  With it, attr spills to sp+0x5C and
+ *   &pos stays in r7 across the func_021F660C calls; the frame is 0x254 and the push has no r3.
+ *   (2) attr, srcs and a new ctrl (obj+0x28) are plain assignments in the order attr, ctrl, srcs (the
+ *   accessor inlines are gone; they made no difference once attr spills).  (3) Declaration order
+ *   ent, attr, i, j, srcs, k gives the original slots.  (4) for (j = 0; ...) without the early
+ *   j = 0 statement: the 0 is shared with the first FxMul high word, as in the original.  (5) ang is an int
+ *   (u16 cast at the assignment).  (6) X = te.x; X += pose.dx; (same for Z) gives the te.x-first load
+ *   order.  (7) c2 (the cos of pr) is written inline at both uses: the original spills it as a CSE
+ *   temp (lowest slot, reload with no copy).  (8) The obj+0x100 write is VEC_Set(v, x2, y2, 0), which
+ *   loads y2 before x2.
+ *   Residue: the CSE temps j*8 and c2 have swapped slots (original j*8 sp+0x34, c2 sp+0x30; ours the
+ *   reverse).  A diagnostic without the j-loop use of ents[j] gives the original order, so the j*8
+ *   temp is created later than c2 in ours.  Tried without effect: s2 inline too, c/s inline (worse),
+ *   an idx local, operand order of the c2 products, k-loop locals at function scope, a te local in
+ *   the k loop, src passed straight to LoadPose, named c2 in any scope (goes to the named slots).
+ * note (2026-10-05, wave D9r lane 53): residue unchanged at 5 bytes (j*8 CSE temp at sp+0x30, cos(pr) temp
+ *   at sp+0x34; original reverse).  One clean-up: the `one` local (0x1000 for the sub-pose LoadPose) is
+ *   gone; LoadPose(&sub, src, 0x1000) gives the same bytes (the 0x1000 reload from sp+0x64 is the
+ *   compiler's own hoisted constant).  Tried without effect on the slot pair (each a real compile): a TabEnt
+ *   pointer or a u16 h local for the head read; `int id = j` alias at head or in the k loop; the j loop and the
+ *   k loop as if/do-while; pose.rot inline (no pr local; same bytes); s2 load moved above the X/Z reads; X/Z
+ *   reads as (ents + j)->x, as a Cell() inline, or as byte offsets (j * 8 + 2) in both head and k loop
+ *   (byte offsets in the k loop only stop the j*8 CSE and LICM-hoist a second copy); cos(pr) spelled four
+ *   other ways (1 + idx, (T + idx)[1], &T[idx][1], idx << 1) and through a Cos() inline; RotX/RotZ inlines and
+ *   an FX_MUL-style macro for the second rotation (worse); a `const s16 *sc` pointer for s2/cos (worse);
+ *   k-loop declaration order.  The pair stays swapped in every variant, so its order is probably fixed by the
+ *   colouring tie-break, not by source position of the two expressions.
+ * note (2026-10-05, wave D9r lane 90): residue unchanged at 5 bytes (same slot pair).  Compared with the
+ *   matched twin arm9 func_02014D2C line by line and tested new forms, each a real compile.  Same 5 bytes:
+ *   outer i loop as the twin's `i = 0; if (n > 0) do { } while (++i < n);`; a typed MAnim/Frame chain
+ *   (`((Obj *)obj)->anim->frames[pose.id]`) instead of the raw obj+0x6C casts; the node as a 0x5C-byte
+ *   struct array (`&(*nodes)[idx]`, as the twin); a frame-cells pointer local at the head; a named int
+ *   node index at the head; SDK FX_SinIdx/FX_CosIdx inlines (int idx, fx16 return) for every table
+ *   read; the break test as `if (ent->parts[k] == 0xFF) break; b = ent->parts[k];`; the rotated vector
+ *   in vx/vz locals before the two FxMul calls.  Worse: the head index through a NodeIdx() inline
+ *   (loses the loop-condition entry pointer, 1056 B); the k loop as a static inline (not inlined,
+ *   1832 B); `k < 8 && parts[k] != 0xFF` in the for condition (744 B); X/Z as one expression each
+ *   (64 B).  Diagnostics (not candidates): a third use of the cos(pr) temp, X/Z reads moved to the top
+ *   of the k loop, and no Z read all keep ours order (j*8 below cos(pr), b*0x14 lowest), so the order
+ *   does not follow use count or program position of the k-loop reads.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
@@ -211,6 +275,10 @@ extern void func_021F5EDC(char *obj, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, P
 
 typedef struct { u32 b0 : 1; u32 rest : 31; } Bits;
 typedef struct { u32 b0 : 1; u32 b1 : 1; u32 b2 : 1; u32 rest : 29; } Bits3;
+static inline int FxMul(s64 a, s64 b)
+{
+    return (int)((a * b + 0x800) >> 12);
+}
 static inline int RoundF(int v)
 {
     return (int)(v > 0 ? (float)(v << 12) + 0.5f : (float)(v << 12) - 0.5f);
@@ -246,34 +314,25 @@ static inline void LoadPose(Pose *r, char *src, int one)
     }
 }
 
-/* the sub-pose loader leaves dz untouched for kind 0 (listing 021F5ACE..021F5AE6) */
-static inline void LoadSubPose(Pose *r, char *src, int one)
+typedef struct { u32 addr; u32 f04; u32 f08; u32 s; u32 t; u32 fmt; u32 f18; u32 pltt0; } TexInfo;
+typedef enum { GX_TEXFMT_NONE = 0, GX_TEXFMT_PLTT4 = 2 } GXTexFmt;
+typedef enum { GX_TEXGEN_NONE = 0, GX_TEXGEN_TEXCOORD = 1 } GXTexGen;
+typedef enum { GX_TEXSIZE_S8 = 0 } GXTexSizeS;
+typedef enum { GX_TEXSIZE_T8 = 0 } GXTexSizeT;
+typedef enum { GX_TEXREPEAT_NONE = 0, GX_TEXREPEAT_ST = 3 } GXTexRepeat;
+typedef enum { GX_TEXFLIP_NONE = 0, GX_TEXFLIP_ST = 3 } GXTexFlip;
+typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttColor0;
+static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS s, GXTexSizeT t, GXTexRepeat repeat, GXTexFlip flip, GXTexPlttColor0 pltt0, u32 addr)
 {
-    char *q = *(char **)src;
-    u32 kind = (u16)*(u32 *)(*(char **)(src + 0x1c) + 4);
-    if (kind == 0) {
-        s16 *s = *(s16 **)q;
-        r->id = s[0];
-        r->rot = 0;
-        r->sx = one;
-        r->sy = one;
-        r->dx = 0;
-    } else if (kind == 1) {
-        *r = **(Pose **)q;
-    } else if (kind == 2) {
-        s16 *s = *(s16 **)q;
-        r->id = s[0];
-        r->rot = 0;
-        r->sx = one;
-        r->sy = one;
-        r->dx = s[2];
-        r->dz = s[3];
-    }
+    REG(0x040004A8) = (u32)((addr >> 3) | (texFmt << 26) | (texGen << 30) | (s << 20) |
+                                  (t << 23) | (repeat << 16) | (flip << 18) | (pltt0 << 29));
 }
-
-static inline u32 *ObjAttr(char *o) { return (u32 *)(o + 0x90); }
-static inline char **ObjSrcs(char *o) { return (char **)(o + 0x68); }
-static inline char *ObjAnim(char *o) { return o + 0x28; }
+static inline void VEC_Set(Vec *a, int x, int y, int z)
+{
+    a->x = x;
+    a->y = y;
+    a->z = z;
+}
 static inline void G3_Translate(int x, int y, int z)
 {
     REG(0x04000470) = (u32)x;
@@ -298,15 +357,15 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
     Mtx44 proj;
     Mtx33 m5;
     CB cb;
+    Ent *ent;
+    TexInfo *attr;
     int i, j;
+    char **srcs;
     u8 k;
     char *obj;
-    u32 *attr;
-    char **srcs;
+    char *ctrl;
     int ox, oy;
     u8 flag;
-    int one;
-    Ent *ent;
 
     REG(0x04000444) = 0;
     REG(0x04000440) = 0;
@@ -327,10 +386,11 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             continue;
         REG(0x04000444) = 0;
         obj = ((char **)p[1])[i];
-        attr = ObjAttr(obj);
-        srcs = ObjSrcs(obj);
+        attr = (TexInfo *)(obj + 0x90);
+        ctrl = obj + 0x28;
+        srcs = (char **)(obj + 0x68);
         cb.z = 0;
-        LoadPose(&pose, ObjAnim(obj), 0x1000);
+        LoadPose(&pose, ctrl, 0x1000);
         pos.x = *(int *)(obj + 0xC8);
         pos.y = *(int *)(obj + 0xCC);
         pos.z = *(int *)(obj + 0xD0);
@@ -375,12 +435,11 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             u16 a = (flag & 1) ? 0x10000 - pose.rot : pose.rot;
             func_0207D888(-d_020A1B38[(a >> 4) * 2], d_020A1B38[(a >> 4) * 2 + 1]);
         }
-        j = 0;
+
         {
-            int sy = (int)(((s64)pose.sy * *(int *)(obj + 0xD8) + 0x800) >> 12);
-            int sx = (int)(((s64)pose.sx * *(int *)(obj + 0xD4) + 0x800) >> 12);
+            int sy = FxMul(pose.sy, *(int *)(obj + 0xD8));
+            int sx = FxMul(pose.sx, *(int *)(obj + 0xD4));
             G3_Scale(sx, sy, 0x1000);
-            one = 0x1000;
         }
         {
             u16 a = *(u16 *)(obj + 0xFC);
@@ -390,22 +449,18 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             *(int *)(obj + 0x10C) = func_0207C768(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
             *(int *)(obj + 0x110) = func_0207C768(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
         }
-        REG(0x04000450) = 0x1D;
+        REG(0x0400044C) = 0x1D;
         func_021F65EC();
         {
-            u32 *a = attr;
-            REG(0x040004A8) = (a[7] << 29) | (a[4] << 23) | (a[3] << 20) | 0xF0000 |
-                              (a[5] << 26) | (a[0] >> 3) | 0x40000000;
+            G3_TexImageParam(attr->fmt, GX_TEXGEN_TEXCOORD, attr->s, attr->t, GX_TEXREPEAT_ST, GX_TEXFLIP_ST, attr->pltt0, attr->addr);
         }
-        for (; j < (*(Tab **)(obj + 0x6C))[pose.id].count; j++) {
-            TabEnt *te;
+        for (j = 0; j < (*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].count; j++) {
             char *src;
-            te = &(*(Tab **)(obj + 0x6C))[pose.id].ents[j];
-            src = *srcs + ((te->h & 0xFF00) >> 8) * 0x5C;
-            LoadSubPose(&sub, src, one);
+            src = *srcs + (((*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].ents[j].h & 0xFF00) >> 8) * 0x5C;
+            LoadPose(&sub, src, 0x1000);
             ent = (Ent *)(*(char **)(obj + 0x20) + 4 + sub.id * 0x38);
             if (ent->f20 != 0) {
-                if (*(u32 *)(obj + 0xEC) & 1)
+                if (((Bits *)(obj + 0xEC))->b0)
                     func_021F5EDC(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
                                   ent->f2C + ent->f24, &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
                 else
@@ -416,44 +471,42 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
                           &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
             for (k = 0; k < 8; k++) {
                 u8 b = ent->parts[k];
-                Part *pt;
-                u16 pr, ang;
-                int s, c, s2, c2, fx, fz, X, Z, rx, rz;
+                int ang, fx, fz, c, s, X, Z, s2, rx, rz;
+                u16 pr;
+                s64 psx, psy;
                 if (b == 0xFF)
                     break;
                 pr = pose.rot;
                 ang = (u16)(pr + sub.rot);
-                pt = (Part *)(*(char **)(obj + 0x24) + b * 0x14);
-                fx = pt->x;
-                fz = pt->z;
+                fx = (*(Part **)(obj + 0x24))[b].x;
+                fz = (*(Part **)(obj + 0x24))[b].z;
                 s = d_020A1B38[(ang >> 4) * 2];
                 c = d_020A1B38[(ang >> 4) * 2 + 1];
-                rx = (int)(((s64)(fx * c - fz * s) *
-                            (int)(((s64)pose.sx * sub.sx + 0x800) >> 12) + 0x800) >> 12);
-                rz = (int)(((s64)(fx * s + fz * c) *
-                            (int)(((s64)pose.sy * sub.sy + 0x800) >> 12) + 0x800) >> 12);
-                X = te->x + pose.dx;
-                Z = te->z + pose.dz;
+                psx = pose.sx;
+                psy = pose.sy;
+                rx = FxMul(fx * c - fz * s, FxMul(psx, sub.sx));
+                rz = FxMul(fx * s + fz * c, FxMul(psy, sub.sy));
+                X = (*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].ents[j].x;
+                X += pose.dx;
+                Z = (*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].ents[j].z;
+                Z += pose.dz;
                 s2 = d_020A1B38[(pr >> 4) * 2];
-                c2 = d_020A1B38[(pr >> 4) * 2 + 1];
-                rx += (int)(((s64)(X * c2 - Z * s2) * pose.sx + 0x800) >> 12);
-                rz += (int)(((s64)(X * s2 + c2 * Z) * pose.sy + 0x800) >> 12);
+                rx += FxMul(X * d_020A1B38[(pr >> 4) * 2 + 1] - Z * s2, psx);
+                rz += FxMul(X * s2 + d_020A1B38[(pr >> 4) * 2 + 1] * Z, psy);
                 rx += RoundF(sub.dx);
                 rz += RoundF(sub.dz);
                 cb.pos = pos;
                 cb.pos.y = -cb.pos.y;
-                cb.x2 = (int)(((s64)rx * (*(int *)(obj + 0xD4) / 16) + 0x800) >> 12);
-                cb.y2 = (int)(((s64)rz * (*(int *)(obj + 0xD8) / 16) + 0x800) >> 12);
+                cb.x2 = FxMul(rx, *(int *)(obj + 0xD4) / 16);
+                cb.y2 = FxMul(rz, *(int *)(obj + 0xD8) / 16);
                 cb.z2 = cb.z;
                 cb.v100 = *(Vec *)(obj + 0x100);
                 cb.rot = *(u16 *)(obj + 0xFC);
                 cb.scale = *(Vec *)(obj + 0xD4);
-                cb.ang = (u16)(ang + (pt->f10 << 11));
-                arg((u8)pt->f4, &cb.pos, *(u32 *)(obj + 0xF8));
-                if (pt->f4 == 5) {
-                    *(int *)(obj + 0x100) = cb.x2;
-                    *(int *)(obj + 0x104) = cb.y2;
-                    *(int *)(obj + 0x108) = 0;
+                cb.ang = (u16)(ang + ((*(Part **)(obj + 0x24))[b].f10 << 11));
+                arg((u8)(*(Part **)(obj + 0x24))[b].f4, &cb.pos, *(u32 *)(obj + 0xF8));
+                if ((*(Part **)(obj + 0x24))[b].f4 == 5) {
+                    VEC_Set((Vec *)(obj + 0x100), cb.x2, cb.y2, 0);
                 }
             }
         }

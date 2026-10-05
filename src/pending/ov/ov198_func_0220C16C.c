@@ -8,6 +8,21 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD9r lane56): still 22 bytes. Tried: n as u16 (40, n >> 1 becomes asrs and slots shift); the
+ *   third x through `static inline s16 xsum(u8 a, u32 b) { return a + b; }` (22, the sum is still evaluated
+ *   before the outgoing stack stores). Reading: in this compiler a load does not pass an earlier store (see
+ *   ov194 021F3FBC entry), so the original evaluates the stack arguments of call 3 before the x sum and ours
+ *   evaluates the sum first; the argument evaluation order, not alias, is the residue.
+ * 2026-10-05 (wD9r lane43): still 22 bytes. Tried n declared u8 with the callee result assigned directly
+ *   (the narrow-parameter idiom applied to the spilled local): 40 bytes, slots shift and the n reload still hoists
+ *   above the stack stores. Compared with the EXACT sibling 0220D494: its third call `x + w1` has u32 x, here x0
+ *   is a u8 parameter; no source form found that blocks the hoist.
+ * 2026-10-05 (wD9r lane26): still 22 bytes. Tried int return types on 0201EFA4, 0201F250, 02045808 and 0201C724
+ *   (the lever that closed ov217 021B9920): same 22. In ov097 021F6D70 an early s16 local for the sum is sunk to
+ *   the call by mwcc, so the chain position is decided at the use, not by where the sum is written.
+ * 2026-10-05 (wD9r lane12): still 22 bytes. Tried: the 0201D304 result in a u32 local w, then n = (u8)w (two
+ *   variables, same 22); the third x through a pointer round trip (stand-in probe only, same 22). Same residue
+ *   as ov097 021F6D70: the n reload heads the r2 chain in ours and sits below the stack stores in the image.
  *
  * note: DIFF vs 2026-10-04: 22 bytes differ, only the last 201C724 call: original stores the three stack args first and loads n and adds x0+n late (ldr r2,[sp,#0x28] after the stack stores), ours hoists the n load and add before the stack stores. Everything else matches (declaration order sets slots; x0 param reassigned; ctx and A/B locals). Tried: (s16)(x0+n), n+x0, a y local assigned before the call.
  * note 2026-10-05 (wave D4 lane 10): still DIFF (22 bytes). Tried ctx3 inlined as P->f1EAC (115 bytes) and
@@ -32,6 +47,25 @@
  *   Open: what makes the original x chain depend on the stack stores.
  * 2026-10-05 (wD8 lane09): still 22 bytes. Same scheduler residue as ov116 021D7D0C (a spill reload kept
  *   below the outgoing stack stores in the image, hoisted in ours). No new form tested beyond the listing check.
+ * 2026-10-05 (wD9 lane20): still 22 bytes. Tested whether n lives in memory in the original (a reload that may alias
+ *   the outgoing stores): n as a one-field local struct `struct { u32 v; } n;` is still promoted to a register and
+ *   spilled; the reload still hoists above the stack stores (35 bytes, slots shift). Not a memory variable.
+ * 2026-10-05 (wD9r lane79): still 22 bytes. Tried the sum as a reassignment before the call: `n = x0 + n;`
+ *   then pass n (400 bytes, 99, n gets a new register and slot), and `x0 = x0 + n;` then pass x0 (23, adds a u8
+ *   truncation). Neither keeps the n reload below the outgoing stack stores.
+ * 2026-10-05 (wD9r lane87): still 22 bytes. Tried the house prototype of func_0201C724 with a u16 colour
+ *   (ov021 021905C8, arm9 0202E1F0), with and without a const text pointer: same 22. The n reload still
+ *   heads the x chain above the outgoing stack stores.
+ * 2026-10-05 (wD9r lane98): still 22 bytes. Reading: in both builds the direct-move reloads (y, ex, ctx) sit
+ *   below the outgoing stack stores and do not fill the `ldr; str [sp]` stalls, so reloads never pass those stores;
+ *   ours therefore has the n reload (the x0 + n add) before the stores in its IR. Tried: a block u32 x3 = x0 + n and
+ *   int x3 = n + x0 before ctx3 (22, sunk to the same place); the 02045770 result in a block local h3 with ctx3
+ *   before it (22) and with P->f1EAC inline as the first argument (115). No new source form found.
+ * 2026-10-05 (wD9r lane104): still 22 bytes. Tried the short idiom (ov116 021D7D0C): n as short or u16
+ *   (40, n >> 1 becomes asrs and slots shift, reload still hoists), func_0201D304 returning short (22),
+ *   x0 as a short parameter (24, the x0 truncation becomes 16-bit, reload still hoists), and the dead int
+ *   parameter `index` reused for n as short/u16/u8 (40) or int/u32 (376). None keeps the n reload below the
+ *   outgoing stack stores.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm

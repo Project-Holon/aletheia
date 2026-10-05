@@ -44,6 +44,50 @@
  *   passed unconverted as in the original, but p r5, b r6, t r7, and the 0x1EAC constant spills); font read inside
  *   put (no change); half as a CSE of `(u8)((w * 8 - t - a - b) / 2)` written at both uses with a w local (167:
  *   mwcc shares the /2, not the u8 value). Open: a source where half is known to fit in s16 while b keeps r7.
+ * 2026-10-05 (wD9 lane20): still DIFF 160. `b = 0;` in the msg2 == 0 arm gives the same code as `b = a;` (mwcc copies
+ *   the zero already in r5), so the natural form is used now. Finding: a u8 half still gets lsls/asrs at the first put
+ *   when the put x parameter is short, so the original first call has an int (or u32) x and only the second x is
+ *   narrowed. Tried: half declared after b (160); u8 half with an int put x and the short x callee prototype (160);
+ *   int-x helper for the first put only, short-x put in the arms, int or u8 half (279/278, frame 0x38 + push r3, the
+ *   0x1EAC constant spills). Open: the same split without the extra spill.
+ * 2026-10-05 (wD9r lane13): still DIFF 160. Tried: no put helper, sibling 0220D494 shape (ctx1..ctx3 locals,
+ *   direct func_0201C724 calls, (short) cast only on the second x): 279, p moves to r5. Finding: `short half`
+ *   (with the short-x put) passes half to the first call unconverted from its slot, as in the original, and
+ *   spills half; but then `a` spills (0x1c) instead of t, t takes r7, b r6, msg2 r4, p r5, and the 0x1EAC
+ *   constant spills to an extra slot 0x34 (frame 0x38, push r3): 280. short t/a/b on top and `b = a;` on top:
+ *   no change (280). Open: short half with the original colouring (t spilled, a in r5, b in r7, rec spilled
+ *   in the first round at 0x24).
+ * 2026-10-05 (wD9r lane23): still DIFF 160. Tried: a struct array `struct PP { void *f0; struct R recs[]; }`
+ *   (R 0x4c bytes, mon at +0) with `rec = &pp->recs[n]` and `pp->recs[n].mon`: rec now spills in the first round
+ *   at 0x24 and t at 0x1c as in the image, but n*0x4c stays in r7 (no base/off split), msg moves to 0x2c, b
+ *   spills to 0x18 and half takes r7 (178). The same records through a `struct R *base = p + 4` local give
+ *   the draft code again (160). Int-x put with `(short)` at the second call: 279 (as D9). Open: a source
+ *   that keeps base (p+4) in r7 and off spilled while rec spills in the first round.
+ * 2026-10-05 (wD9r lane46): still DIFF 160. Tried: the real return type u8 for func_02045738 (37 matched callers):
+ *   no change (160; also no change on the u8-half variants). p + 4 + off written without the base local: identical.
+ *   Sibling shape from 0220C4DC/0220D6DC (u32 x callee prototype, direct calls, ctx1..ctx3 locals read before each
+ *   call, explicit (short) only on the second x) with t/half as int/int (279), u8/u8 (280), int/u8 (280); the same
+ *   with the inline put and u32 x (279/280). Finding: in every form where half reaches the first call with no
+ *   conversion, t takes a register and the 0x1EAC constant spills (frame 0x38, push r3); with the conversion,
+ *   t spills and b spills instead of half. Open: the source that spills t and half together and keeps b and the
+ *   constant in r7/r5.
+ * 2026-10-05 (wD9r lane59): still DIFF 160. Tried: `a = 0;` moved into the msg2 == 0 arm with a literal 0 third
+ *   argument (the image's r5 = 0 before the first width call is mwcc's block constant, not a separate a = 0):
+ *   identical code (160), so this is the natural form but not the lever. The 0x1F74 flag through a struct field
+ *   or `p[0x1F74]`: identical (160). Flag store and free written in each msg2 arm (to keep r5 = 0x1EAC as the
+ *   base for +0xc4/+0xc8 as in the image): no cross-jump, 444 B, 272. Direct calls with ONE reused ctx local
+ *   (the D6DC sibling shape) and t/half/a/b int (279), t/half u8 (280), all four u8 (275): every direct form
+ *   moves p to r5, spills a (u8 slot 0x18) instead of t and spills the 0x1EAC constant (frame 0x38, push r3).
+ * 2026-10-05 (wD9r lane80): still DIFF 160. Tried: `b = 0;` before the first width call with only `b = 8` in the
+ *   msg2 arm (b now lives longer, as a test of whether a longer b range moves the spill to half): 420 B, 261 differ.
+ *   Int-x helper for both puts with an explicit (short) on the second x and a short-x callee prototype: 424 B, 234.
+ *   Reading: in the image b keeps r7 (the dead base register) for its whole range and half (shorter range) is
+ *   spilled; every source form so far spills the longer-lived b. Open: a use or type that raises b's spill cost.
+ * 2026-10-05 (wD9r lane88): still DIFF 160. Reading: the image slot order (msg 0x30, off, o, rec, vec, t, half 0x18,
+ *   then win temps 0x14/0x10/0xc) is the declaration order, so the image spilled exactly {msg..half} in one round and
+ *   kept msg2, a, b, base in registers; ours spills b instead of half and rec in a later round. Tried: half assigned
+ *   inside the first put argument (`put(..., half = (u8)(...), ...)`): short-x put 416 B, 231; int-x put with
+ *   (short) on the second x 428 B, 287. Open: a source that makes b costlier to spill than half.
  * symbols:
  *   func_022110D4  0x022110D4  thumb  ov198
  *   func_020457B0  0x020457B0  arm
@@ -126,7 +170,7 @@ void func_0220DA6C(u8 *p, u32 idx)
     a = 0;
     t = (u8)func_0201D304(vec, *(u32 *)(*(u8 **)p + 0xc), 0);
     if (msg2 == 0) {
-        b = a;
+        b = 0;
     } else {
         a = (u8)func_0201D304(msg2, *(u32 *)(*(u8 **)p + 0xc), a);
         b = 8;

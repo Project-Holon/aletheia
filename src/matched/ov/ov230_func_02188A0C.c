@@ -2,7 +2,7 @@
  * function: func_02188A0C
  * address: 0x02188A0C
  * packet: pkt_ov230_02188A0C
- * status: EXACT*
+ * status: EXACT
  * region: ov230
  * isa: arm
  * compiler: dsi/1.1p1

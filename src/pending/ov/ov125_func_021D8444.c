@@ -8,6 +8,26 @@
  * lang: c99
  * isa: arm
  * status: DIFF
+ * 2026-10-05 (wD9r lane93): DIFF, 18 bytes unchanged (src r5 / dst r3). Twin search: no game twin.
+ *   ov115 021D4B80/021D4BC4 call the same SVL pair but copy nothing; the other ARM byte-copy loops in
+ *   src/matched (ov016 021C519C, ov114 021C6704, arm9 02059FA8 strcpy) are SDK or local inits.
+ *   Probes (synthetic, same compiler): a plain struct assignment colours dst first (dst r3); the memcpy
+ *   intrinsic (house string.h) and the strcpy-literal expansion colour src first (src r3, as the image),
+ *   but memcpy inlines only for n <= 31 (301 is a call). A struct assignment also gets src r3 when a
+ *   second BYTE copy follows it (`G2 = D.sav = tok`, two T25/T22 inits); a following ldm/stm copy does
+ *   not. Tried in the draft: a for-loop byte copy and a while(n--) copy (209/214 B, mwcc does not form
+ *   the 2-byte unrolled loop), the r != 3 paths first with `continue` (copy last in source, src r5),
+ *   a different buffer for func_02167FA8 (src r5), func_021D8438 argument 0 or removed (src r5).
+ * 2026-10-05 (wD9r lane25): DIFF, 18 bytes unchanged. Tried: the 301-byte destination as its own extern
+ *   `extern Sav d_021D9E46;` (data symbol at d_021D9E40 + 6) while the 312-byte copy keeps Data d_021D9E40:
+ *   same pool word, same colours (src r5, dst r3).
+ * 2026-10-05 (wD9r lane09): DIFF, 18 bytes unchanged (src r5 / dst r3; image dst r5 / src r3). Tried: a block
+ *   temporary `Sav t = src; d_021D9E40.sav = t;`, block-local pointer pairs `Sav *d = ...; Sav *s = ...; *d = *s;`
+ *   in both assignment orders, the whole r == 3 store as a static inline Store(const u8 *buf) and as
+ *   Store(const Sav *src) (the source arrives as an inline parameter). All 18 bytes, same colours.
+ * 2026-10-05 (wD9r lane47): DIFF, 18 bytes unchanged. Tried: the `g + 0x138 = 1` store written before the
+ *   two copies (222 bytes, the store stays above the copies, so the original stores it last), and `int r`
+ *   declared first (18, same colours: src r5, dst r3).
  *
  * 2026-10-04 (wave D2 lane 14): DIFF, 23 bytes, structure right. Sav and Big are the two struct
  * copies (301 bytes by byte loop, 312 bytes by ldm/stm; Big must be a u32 array). Residue: in the
@@ -17,6 +37,11 @@
  * destination, struct-typed buf. The 312-byte copy source/destination go through d_021D9E40
  * directly (the original reloads the pool word into lr).
  *
+ * 2026-10-05 (wD9r lane64): DIFF, 18 bytes unchanged (src r5 / dst r3). Tried: a by-value inline
+ *   Put(Sav s) for the store, a by-value struct return GetSav(buf) as the source, a block pointer local
+ *   `Sav *d = &d_021D9E40.sav; *d = ...`, __builtin_memcpy (real call, 201 bytes). Diagnostic: with the
+ *   312-byte Data copy deleted the 301-byte loop keeps the same colours, so the swap is local to the
+ *   first copy and not driven by the second loop's r5 counter.
  * symbols:
  *   func_02167FA8 0x02167FA8 arm ov009
  *   func_02168040 0x02168040 arm ov009
@@ -64,6 +89,21 @@
  *  `*(Sav *)((u8 *)&d_021D9E40 + 6)` (pool word unchanged); destination and source through Data-typed member access
  *  (`(&d_021D9E40)->sav = ((Data *)(buf + 0x3f))->sav`). The struct-copy expansion colours src r5 / dst r3 in every
  *  spelling; the image has dst r5 / src r3.
+ */
+/*
+ * 2026-10-05 (wave D9 lane 13): DIFF, 18 bytes unchanged. Tried: the destination as a pointer local
+ *   `Sav *dst = &d_021D9E40.sav` set at entry, and the source as `Sav *src = buf + 0x45` set at entry
+ *   (both keep the value live across the loop: push {r3-r6}, worse). Instruction order of the copy is
+ *   already the image's (dst pool load, then src add); only the colour of the two differs.
+ */
+/*
+ * 2026-10-05 (wD9r lane78): DIFF, 18 bytes unchanged (src r5 / dst r3). Checked every callee's return type
+ *   and prototype in src/matched: 02167FA8, 02168040, 02059E38 return int (as declared); 021D7CAC, 021D7CC0
+ *   are void in all ov125 matched callers; 021D8438 is matched as void(u32). So the void-getter lever does
+ *   not apply. Tried: func_021D8438(u32) (its real parameter type, 18); the whole function through one real
+ *   global struct (Data at 0, f138, f250, f258 pointer, f268; `d_021D9E40.d.sav = ...`, no g char pointer,
+ *   18, identical code). Reading: buf is a DWCSvlResult (int status, svlhost[65], svltoken[301], 0x174 B),
+ *   so the 301-byte copy is the svl token.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

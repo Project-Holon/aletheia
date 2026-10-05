@@ -8,6 +8,43 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD9r lane99): DIFF, 96 -> 13 bytes. The 0x55F1 inner switch is now a static inline helper
+ *   that returns the result; cases 0..2 set r and break to `return r;`, case 3 returns its call directly
+ *   (the same return-versus-break lever that closed ov123 021D5AC0). Layout now matches the image: case 3
+ *   keeps its own `str r0,[sp,#8]; b end`. Residue: stack slots only. ret is at [sp] (image [sp,#8]),
+ *   base at [sp,#8] (image [sp,#4]), base2 at [sp,#4] (image [sp]). The inline return temp merges with ret
+ *   and takes the last slot. Tried: ret declared first/last, base/base2 swapped (moves base2/base only),
+ *   base/base2 block-local, helper with ret parameter, `r = helper(); ret = r;`, all 13 B or worse;
+ *   helper through `int *` (1132 B) and all-return helper (118 B) are worse.
+ * 2026-10-05 (wD9r lane84): DIFF, 96 bytes unchanged. Callee check: every callee is matched; their real
+ *   prototypes (021D8654/879C/87FC/885C/88BC/88F0 take int, 021D860C/8694 const pointers, 021B9800/98A0 int,
+ *   021B99F0 returns u8, 021B9A14 takes u32) give the same 1132 B and the same residue, so no prototype lever
+ *   here. Also tried case 3 as `ret |= f()` / `ret += f()` (ret is 0 on that path): not folded, 1136 B, case 3
+ *   adds `ldr r1,[sp,#8]; adds` and still cross-jumps its store into the set tail (89 B differ).
+ * 2026-10-05 (wD9r lane73): DIFF, 96 bytes unchanged. New tests (both 1132 B, case 3 still b 021D6F46):
+ *   case 3 as a chained `ret = r = func_021D87FC(...)`; case 3 through a one-line static inline helper
+ *   `c3(p)` that returns the call (inline return temp coalesced before the merge). Reading: the merge is
+ *   post-RA (0x5208 merges into the set block whose source copy is ret = r), so case 3 must carry an
+ *   instruction after its store that a later peephole removes, or a different branch target at merge
+ *   time; no real statement found that does this.
+ * 2026-10-05 (wD9r lane57): DIFF, 96 bytes unchanged. New tests (all 1132 B, case 3 still merged into the set tail):
+ *   probe with case 0x55F3 removed (still merged, so no predecessor-count limit in the cross-jumper);
+ *   case 3 as `r = f(); ret = r;` plus an inner `default: r = ret; break;` (r multiply defined, copy still
+ *   coalesced before the merge); case 3 through the live locals a, b and i (`a = f(); ret = a;`), all
+ *   coalesced; ret and the return type as u32. Reading: copies in case 3 are gone before cross-jumping,
+ *   so the image's case 3 block must end in a different instruction or branch at merge time.
+ * 2026-10-05 (wD9r lane38): DIFF, 96 bytes unchanged. Re-read: the 0x55F1 jump table is in case order 0..3
+ *   (6F20, 6F30, 6F3C, 6F4A), so case 3 is the last source block. No new form compiled: the one test run (case 3
+ *   with its own ret == 1 tail and return) repeats lane07 (1148 B). Hypothesis left for the next
+ *   lane: ov123 021D5AC0 shows that a block survives jump threading only when it holds a register copy that
+ *   coalescing removes later. Case 3 here may likewise hold a copy that differs at cross-jump time.
+ * 2026-10-05 (wD9r lane34): DIFF, 96 bytes unchanged. Tried: an empty `default: break;` as the FIRST
+ *   label of the 0x55F1 inner switch (96, case 3 still merged into the set tail); the outer default
+ *   (assert) as the first label of the outer switch (1009 B, worse).
+ * 2026-10-05 (wD9r lane07): DIFF, 96 bytes unchanged. Tried: 0x55F1 cases 0..2 as `ret = f(); goto end;`
+ *   with `end:` before the final ret == 1 test, case 3 plain break (782 B: all copies merge into the
+ *   0x5208 tail, so the jump label does not keep case 3 apart); case 3 with its own copy of the
+ *   ret == 1 tail and `return ret;` (1148 B, worse).
  * 2026-10-04 (D3-06): same size (1136 bytes); every block matches except the
  *   placement of the shared tail "str r0,[sp,#8]; b end" (ret = call; break).
  *   Original: all ret-setting cases branch to the tail inside case 0x55F1
@@ -94,6 +131,12 @@
  *  store). Reading: in the image the 0x55F1 case 3 copy is the one that is not cross-jumped, which would fit a block
  *  that falls through to the join at merge time; no source order found that gives this with the image layout.
  */
+/*
+ * 2026-10-05 (wave D9 lane10): DIFF, 96 bytes unchanged. Tried: an empty `default: break;` AFTER case 3
+ *  in the 0x55F1 inner switch (so case 3 no longer ends the switch); a signed (int) inner switch value.
+ *  Both 96 bytes, case 3 still merged into the set tail. Reading: the merge ignores what follows case 3
+ *  in the inner switch; the difference must be in case 3's own block at merge time.
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -140,6 +183,25 @@ extern void func_02045F5C(void *, u32, void *, u32);
 #define H(o) (*(u16 *)(p + (o)))
 #define B(o) (*(u8 *)(p + (o)))
 #define OBJ (*(u8 **)(p + 0x404))
+
+static inline int func_021D6B40_55f1(u8 *p)
+{
+    int r = 0;
+    switch (W(0x3e0)) {
+    case 0:
+        r = func_021D8754(p + 0x174, W(0x3ac));
+        break;
+    case 1:
+        r = func_021D879C(0x64, W(0x3ac));
+        break;
+    case 2:
+        r = func_021D885C(0x64, W(0x3ac));
+        break;
+    case 3:
+        return func_021D87FC(0x64, W(0x3ac));
+    }
+    return r;
+}
 
 int func_021D6B40(u8 *p, int *done)
 {
@@ -259,22 +321,7 @@ int func_021D6B40(u8 *p, int *done)
         }
         break;
     case 0x55f1:
-        switch (W(0x3e0)) {
-        case 0:
-            r = func_021D8754(p + 0x174, W(0x3ac));
-            goto set;
-        case 1:
-            r = func_021D879C(0x64, W(0x3ac));
-            goto set;
-        case 2:
-            r = func_021D885C(0x64, W(0x3ac));
-        set:
-            ret = r;
-            break;
-        case 3:
-            ret = func_021D87FC(0x64, W(0x3ac));
-            break;
-        }
+        ret = func_021D6B40_55f1(p);
         break;
     case 0x55f2:
         ret = func_021D88BC(W(0x3a4), W(0x3a8), 0x64, W(0x3ac));

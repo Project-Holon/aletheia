@@ -1,0 +1,116 @@
+/*
+ * function: func_021D7D0C
+ * address: 0x021D7D0C
+ * packet: pkt_ov116_021D7D0C
+ * region: ov116
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: 2026-10-05 (wD9r lane92): the heap parameter is a signed 16-bit value (`short heap`). With u32
+ *   heap the last call hoisted the heap reload above `str r6,[sp]` (10 bytes, waves D3 to D9r). The
+ *   image truncates heap only for func_02049F78 (u16 cast); the other callees take it unchanged.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049740 0x02049740 arm
+ *   func_02049990 0x02049990 arm
+ *   func_02049F78 0x02049F78 arm
+ *   func_02049238 0x02049238 arm
+ *   func_02049B40 0x02049B40 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02082D44 0x02082D44 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_020056A0 0x020056A0 thumb
+ *   func_020862F0 0x020862F0 arm
+ *   func_0207D63C 0x0207D63C arm
+ *   func_0203FA08 0x0203FA08 arm
+ *   func_0201F5DC 0x0201F5DC thumb
+ *   func_02021F64 0x02021F64 thumb
+ *   func_021D7F54 0x021D7F54 thumb ov116
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_020490F4(u32, u32);
+extern void func_02049B68(void *, int, int, int, int, u32);
+extern u32 func_02049740(void *, int, int, int, int, u32);
+extern void func_02049990(void *, int, int, int, u16, int, int, u32);
+extern void *func_02049F78(void *, u32, void *, u32);
+extern void func_02049238(void *);
+extern int func_02049B40(int, int, int, int, int, u32);
+extern void func_02082BCC(void *, int, u32);
+extern void func_02082D44(const void *, void *, u32);
+extern void func_020307B0(void *);
+extern void *func_020056A0(void *, void *, int);
+extern void func_020862F0(void *, u32);
+extern void func_0207D63C(void *, int, int, int, int);
+extern void func_0203FA08(int, int, int);
+extern void *func_0201F5DC(int, int, int, u32);
+extern void func_02021F64(void *, void *, u16, u8, u16);
+extern void func_021D7F54(void *);
+struct Arc { int f0; int f4; int f8; u8 *fC; };
+void func_021D7D0C(u8 *p, short heap) {
+    struct Arc *res;
+    u8 *pa;
+    u8 *pb;
+    void *arc;
+    int done;
+    int t;
+    int j;
+    int k;
+    u8 *q;
+    void *blk;
+    int m;
+    int n;
+    int sh;
+    u8 *a;
+    u8 *b;
+    arc = func_020490F4(0x91, heap);
+    j = 0;
+    func_02049B68(arc, 3, 4, 0, j, heap);
+    func_02049990(arc, 6, 4, 0, (u16)func_02049740(arc, 4, 4, 0, j, heap), j, j, heap);
+    func_02049B68(arc, 3, 0, 0, j, heap);
+    func_02049990(arc, 5, 0, 0, (u16)func_02049740(arc, 4, 0, 0, j, heap), j, j, heap);
+    func_02049990(arc, 7, 3, 0, (u16)func_02049740(arc, 4, 3, 0, j, heap), j, j, heap);
+    func_02082BCC(p + 0xc, 0, 0x970);
+    blk = func_02049F78(arc, 2, &res, (u16)heap);
+    func_02082D44(res->fC, p + 0x14, 0x1e0);
+    func_02082D44(res->fC, p + 0x1f4, 0x1e0);
+    func_020307B0(blk);
+    k = 0;
+    pa = p + 0x1f4;
+    pb = p;
+    pb += 0x14;
+    for (; k < 15; k++) {
+        n = k + 1;
+        if (n >= 15) n -= 15;
+        t = 0;
+        done = 0;
+        q = p + n * 32;
+        for (;;) {
+            a = pb + k * 32;
+            sh = t >> 8;
+            b = pa + j * 32;
+            for (m = 4; m < 11; m++) {
+                func_02021F64(a + m * 2, b + m * 2, 1, (u8)sh, *(u16 *)(q + 0x14 + m * 2));
+            }
+            j++;
+            if (done == 1) break;
+            t += 0x600;
+            if (t >= 0x1000) { t = 0x1000; done = 1; }
+        }
+    }
+    func_020862F0(p + 0x1f4, 0x780);
+    *(u32 *)(p + 0x10) = 1;
+    *(void **)(p + 0xc) = func_020056A0((void *)func_021D7F54, p + 0xc, 0x14);
+    func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
+    p[0x978] = 0;
+    func_02049238(arc);
+    func_0203FA08(1, 0x20, 0);
+    func_0203FA08(2, 0x20, 0);
+    *(void **)(p + 0x984) = func_0201F5DC(1, 0xd, 0, heap);
+    *(void **)(p + 0x988) = func_0201F5DC(2, 0xd, 0, heap);
+    func_02049B40(0x17, 5, 0, 0x180, 0x20, heap);
+}

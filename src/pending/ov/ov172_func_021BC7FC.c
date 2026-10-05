@@ -8,6 +8,57 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD9r lane97): still DIFF 2 bytes (+016C). Reading: the 0 for found = 0 in the kind arm is a copy of
+ *   the temp r3 made by the unseen = 0 store (value numbering), so the original found store at +0176 is a copy
+ *   found = T with T a constant-1 vreg rematerialised early; no store of 1 precedes it in the extended block, so T
+ *   may be a constant 1 hoisted out of the k loop (match = 1, found = 1, diff = 1 all remat as movs #1). No
+ *   source form found that makes mwcc hoist it. Tried: found, diff, refresh, changed and buf as one local struct
+ *   (all memory, 854 B: the spilled-vreg movs/str pairs at entry disappear, so they are not memory locals);
+ *   plain u8 found with found = 1 (18 B: def stays in source order, no early movs); const int on = 1 with
+ *   found = on (propagated, 10 B); diff = 1 before found = 0 with literal found (18 B, diff reloads found).
+ *   Also checked: no matched twin (func_0203CF3C/func_02177B80 users are unrelated); func_021BD0A4 really
+ *   returns func_02009D50's int (matched file declares void), prototype already int here.
+ * 2026-10-05 (wD9r lane85): still DIFF 2 bytes (+016C). Reading: the image looks like found = T with T a
+ *   compiler temp of value 1 (def movs r0,#1 early, copy plus spill store late), not a user variable: with
+ *   diff = 1 written before found = 0 in the kind arm (18 B) value numbering makes diff = 1 reuse found
+ *   (ldr r0,[sp,#0x28] at +0180), so a user variable holding 1 reloads, it is not rematerialised. Tried:
+ *   diff = 1 before found = 0 in one or both arms (18, 22 B), that order with found or diff as u8/u16/u32/
+ *   short/char (18-22 B), found = 1 above the unseen store (542 B: 1 then gets r7 as block constant),
+ *   found = diff = 0, diff = found = 0, diff = 0 before found = 0 at the loop top (10-12 B). Residue unchanged.
+ * 2026-10-05 (wD9r lane68): still DIFF 2 bytes (+016C). New tries, all from the narrow-flag idiom
+ *   (docs/idioms/a-narrow-flag-local-is-spilled-not-constant-propagated.md): u8 found with found = 1 (18 B: the
+ *   movs #1 and its store both move below the unseen store, and found = 0 moves above diff = 1 in the kind
+ *   arm); u8 found with found = match (538); u8 match with int found = match (8 B: the reload of match moves
+ *   below the unseen store, the original has movs r0,#1 above movs r3,#0); u8 match and u8 found (14);
+ *   u8 diff with found = 1 (10). Also the mac compare as a static inline SameMac returning an int flag
+ *   (20 B, spill slots of match and slot swap). Residue unchanged.
+ * 2026-10-05 (wD9r lane58): still DIFF 2 bytes (+016C). Reading: the image is a found = X copy whose source X
+ *   is a 1-valued vreg rematerialised early (movs r0,#1 hoisted by the post-RA scheduler, the copy store left
+ *   after the unseen store, as with the reload of match today). Tried: found as a real memory object, written
+ *   through int *pf = &found (26 B: frame grows to 0x40 and the store is still scheduled first, so a memory
+ *   found is not the answer); found = IsTrue() (static inline returning 1, 10 B, propagated); found returned by
+ *   a static inline that clears unseen and returns 1 (10 B). The copy source is still unknown.
+ * 2026-10-05 (wD9r lane39): still DIFF 2 bytes (+016C). Reading: with literal found = 1 the pre-RA scheduler
+ *   moves the found store above the unseen store (stack slot and list store are independent); the original
+ *   keeps it below, as if found were a memory (address-taken) variable aliased by the list store. Tried: &found
+ *   taken through an unused pointer (10), found = 1 through a static inline setter taking &found (10, the
+ *   inliner promotes found back to a register), found = 1 before the struct unseen store (542). No call in the
+ *   listing takes &found, so a real address-taken form was not found.
+ * 2026-10-05 (wD9r lane32): still DIFF 2 bytes (+016C). Tried: found = (kind == slots[k].kind) with the
+ *   arm test on kind or on found (568-578 B); found used as the match flag itself, no match local (565);
+ *   found = slots[k].active and raw *(u32 *)(e + 0x1e4) (543, adds a load). Residue unchanged.
+ * 2026-10-05 (wD9r lane19): still DIFF 2 bytes (+016C). Reading: found = 1 then found = 0 in the kind
+ *   mismatch arm looks like an if/else on the kind. Tried: if (kind == slots[k].kind) found = 1; else { found = 0;
+ *   diff = 1; ... } (542 B, code grows by 4 bytes, the 1 store moves into the arm). Residue unchanged.
+ * 2026-10-05 (wD9r lane01): still DIFF 2 bytes (+016C). Reading: in the image the found store is a copy
+ *   placed after the unseen store whose source vreg is rematerialised as movs #1 (a spilled vreg whose only
+ *   def is 1), the same way the 0 for found = 0 at +0184 is the block constant r3. Re-ran found = 1 (10 bytes,
+ *   spill store right after the movs) to confirm. No source form with a 1-only variable that copy propagation
+ *   keeps was found; not retried: the forms listed below.
+ * 2026-10-05 (wD9 lane07): still DIFF 2 bytes (+016C). Reading: the original movs r0,#1 is a def whose
+ *   store waits for the unseen store, so either found = V with V a spilled vreg that only holds 1 (remat at the
+ *   reload point) or found is a memory object that the scheduler orders after pointer stores. Tried: found and
+ *   diff as an int fl[2] array (scalar-replaced, slots move to sp+8/sp+0xc, 53 bytes, +016C unchanged).
  * 2026-10-05 (wD8 lane10): still DIFF 2 bytes. Tried found |= 1 (543), found = k < 15 (577), found = m == 6
  *   (574), all as late-folded 1 sources: worse. Residue unchanged at +016C.
  *

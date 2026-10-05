@@ -7,39 +7,21 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * 2026-10-05 (wD8 lane10): still DIFF 81 bytes. Tried `register u32 d` on the parameter: no change (d still
- *   reloaded from its home slot, t in r7). The u8 finding of wD7 stands: the residue is only that a word-sized
- *   stack parameter is treated as already spilled.
- *
- * note: 2026-10-05 (wD5 lane17): still DIFF 81 bytes. New tests: d copied into a local at entry; u32 *q = p + 0x2C with q[d] instead of p += 0x2C. Both compile identically (t in r7, d reloaded from [sp,#0x30]).
- * note (2026-10-04): DIFF, 81 bytes. Structure and calls match. Original has push {r4-r7,lr}, sub sp,#0x1c, loads d first (ldr r7,[sp,#0x30]) and spills t=0x83-d to [sp,#0x18], reloaded as the 3rd arg of func_0201EFA4, with a and b spilled to [sp,#0x10]/[sp,#0x14]. Compiled keeps t in r7 and pushes r3 (frame 0x18). Need t spilled while d stays in r7. Tried r/t declaration order and int d.
- *
- * note (2026-10-04, wD2 lane07): also tried no t variable (0x83 - d written twice, compiler CSEs it identically): same output.
- *   The compiler gives r7 to t and reloads d from [sp,#0x30]; the original keeps d in r7 and spills t to [sp,#0x18].
- *
- * note 2026-10-05 (D4-14): still DIFF (81 bytes). Tried: d <<= 2 reuse so the d*4 shift is in place (lsls r7,r7,#2 in the original), t as int, t declared after r.
- *   All three compile identically to before (t in r7, d reloaded from [sp,#0x30]). Original loads d into r7 as the first instruction and spills t to [sp,#0x18].
- *
- * note 2026-10-05 (wD6 lane15): still DIFF 81 bytes. Tried: the first three calls in a static inline
- *   helper with t as its parameter; the ternary as an if/else idx local; the 02045CAC call written in each
- *   arm (76 bytes, still t in r7); r passed as the 4th argument of the first 021B6AE4 call. Callee check:
- *   02045CAC, 0201F250, 0201D2C8 read no extra argument registers. Caller func_021B9C8C passes its u32 a as
- *   d, so d is a word. The residue is one spill choice (image spills t, keeps d in r7; ours spills d into
- *   its incoming slot and keeps t in r7).
- *
- * 2026-10-05 (wD7 lane17): still DIFF 81 bytes. Finding: declaring d as u8 gives the original
- *   allocation exactly (d in r7 loaded first, t spilled to [sp,#0x18], a/b stored after t, frame
- *   0x1c, push without r3); only the load differs (`add r0,sp,#0x30; ldrb r7,[r0]` versus
- *   `ldr r7,[sp,#0x30]`). So the original d is a fresh value, not the param in its home slot, and
- *   is word-sized. Also tried: u16 d (ldrh, same shape), s16 d, an enum-typed d, a one-field struct
- *   by value (no change), `*(u32 *)&d` (156 B), a copy `n = d` scaled in place (`n *= 4`, no change).
+ * status:   EXACT
+ * note 2026-10-05 (wD9r lane02): EXACT. The last two parameters are one u64 split across r3 and the
+ *   first stack word (old ATPCS does not align a doubleword argument). c is its low word, d its high word.
+ *   The high word is a fresh value, not a u32 parameter in its home slot, so mwcc keeps d in r7 and spills t.
+ *   Caller func_021B9C8C stores two separate words (r3 and [sp]), which fits this signature. r is declared
+ *   before t (that orders the t spill store after the two constants).
  * symbols:
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_021B6AE4 0x021B6AE4 thumb ov067
  *   func_0201D2C8 0x0201D2C8 thumb
+  * note 2026-10-05 (integrator): parked in pending although it verifies EXACT. It closes only with
+ * the last two parameters as one unsigned long long; the matched caller ov218 021B9C8C passes
+ * two separate words (a pointer and a u32). Waiting for the user to accept or reject that form.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,10 +31,11 @@ extern void func_0201EFA4(void *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(void *ws, void *dst, void *src);
 extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u32 func_0201D2C8(u32 v);
-void func_021B9AE4(u8 *p, u8 *a, u32 b, u32 c, u32 d)
+void func_021B9AE4(u8 *p, u8 *a, u32 b, unsigned long long cd)
 {
-    u32 t = 0x83 - d;
+    u32 c = (u32)cd; u32 d = (u32)(cd >> 32);
     u32 r = 12;
+    u32 t = 0x83 - d;
     func_02045CAC(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
     func_0201EFA4(*(void **)(p + 0x14), 2, t, 3, 0, 1);
     func_0201F250(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));

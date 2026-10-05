@@ -22,6 +22,12 @@
  *   as u8 and copied to an int local, value copied to a local before use; int x0 alone swaps the residue (str r2
  *   early, str r3 sunk). Reading: the image's initial order has the x0 spill store before the value load; ours
  *   puts the value load first, so the scheduler fills its stall with str r3 and sinks str r2.
+ * note 2026-10-05 (wD9r lane03): still 13 bytes. Tried the loop call through a static inline wrapper
+ *   with the parameters in a different order (value, y, x, p) and (p, value, x, y): unchanged, so the
+ *   entry spill order does not follow the order of use. Survey of the overlay asm: this is the only
+ *   function where the stack-parameter reload is not the first instruction while r0 is free; in every
+ *   other prologue the `ldr rN,[sp,#K]` goes first or right after the spill that frees rN. So the image
+ *   suggests that r0 is not free at entry (a0 live, or the value vreg ordered after the x0/p spills).
  * symbols:
  *   func_021B9B88 0x021B9B88 thumb ov172
  *   func_0209BDBC 0x0209BDBC arm
@@ -31,6 +37,46 @@
  *   func_0209C0A4 0x0209C0A4 arm
  * note 2026-10-05 (wD8 lane06): still 13 bytes. Tried: p copied to a local q used in the loop call; dx computed
  *   after the declarations; dy declared before dx. All unchanged (entry spill order only).
+ * note 2026-10-05 (wD9 lane11): still 13 bytes. Tried x0 as u32: the residue flips (str r2 first, x0 copied
+ *   to r0 and spilled after its first use), as int did. Only u8 x0 gives the reload-at-every-use shape; the
+ *   entry order str r3 / ldr value / str r2 / str value is not reached by any parameter type tried.
+ * note 2026-10-05 (wD9r lane24): still 13 bytes. Tried: `register` on value and on p (unchanged); long value
+ *   (154, worse); an old-style (K&R) definition so the u8 parameters are promoted (222 bytes, worse); plain
+ *   `yb = y0` without the address-taking read (entry order unchanged, 182 worse later). Reading kept: the
+ *   image pre-order has the x0 spill store before the value load (str r2 fills the load stall); ours emits
+ *   the value load first and str r2 fills the later x0 reload stall.
+ * note 2026-10-05 (wD9r lane51): still 13 bytes. Tried the NitroSDK macro shape for the whole body
+ *   (MATH_ABS, MATH_MAX, stepx = FX_F32_TO_FX32(x1 - x0) / n with int FX32_ONE, plain for loop, callee
+ *   with int x/y as in the matched func_021B9B88): 143 bytes, the ternary merges the _fadd/_fsub tails
+ *   differently and the entry order is unchanged. The draft's if/else rounding stays.
+ * note 2026-10-05 (wD9r lane55): still 13 bytes. Tried r0/r1 as one 8-byte parameter (u64, double,
+ *   two-int struct): unchanged. Tried `*(int *)&value` in the loop call: the entry ldr/str of value goes
+ *   away but the frame grows (0x18, 152 bytes worse), so value is a real vreg spilled to its own home.
+ *   int x0 gives `ldr value; str r2; str value; ... str r3` (still ldr first). Reading: the image keeps the
+ *   value load after the x0 spill store, as ov116 021D7D0C (closed, `short heap`) kept the heap reload after the [sp] argument
+ *   store; same residue kind in both, no source form found.
+ * note 2026-10-05 (wD9r lane67): still 13 bytes. Tried value as `void *` (callee prototype too):
+ *   unchanged. Tried the body as a static inline Line(p, x0, y0, x1, y1, value) under a one-line
+ *   wrapper: with `*(u8 *)&y0` inside the inline the entry gives the image order exactly (str r3; ldr
+ *   value; str r2; str value), but y0 then gets its own stack byte copy (push r3, 0x18 frame, 197 bytes);
+ *   with plain y0, int inline parameters, or a `const u8 *py = &y0` parameter the order reverts (182).
+ *   Reading: the image pre-order is x0 spill, value load, p spill; an extra entry memory copy reorders
+ *   them in ours, but no form without the extra slot was found.
+ * note 2026-10-05 (wD9r lane92): still 13 bytes. Tried the callee prototype from the matched definition
+ *   func_021B9B88(u8 *, int, int, int) with (u8) casts at the call (unchanged, the casts give the same
+ *   lsls/lsrs); value as short, signed char, unsigned short (154 to 196 bytes, frame grows to 0x18).
+ *   Note: ov116 021D7D0C (same residue kind) closed with a `short` heap parameter, so a parameter type
+ *   that changes the spill class is still the best lead here; x0/value types tried so far did not.
+ * note 2026-10-05 (wD9r lane106): still 13 bytes. Followed the ov116 021D7D0C `short` lead on the
+ *   parameters not tried before. The listing pins the stack widths: y0, x1, y1 are ldrb (u8; plain char
+ *   is signed here and gives ldrsb), value is a word ldr/str home copy. Tried: y0, x1 or y1 as short
+ *   (193 to 197 bytes, 210 long); y0 or y1 as u16 (14); x1 as u16 (13, unchanged); value as u8 (154,
+ *   frame 0x18, the entry ldr/str of value goes away); const int value (154, value hoisted to a new
+ *   slot); a0 or a1 as short, both as u8 (13, unchanged); u8 *const p, const u8 x0 (unchanged);
+ *   `*(u8 *)&x1` / `*(u8 *)&y1` / `*(u8 *)&y0` reads in the abs and difference (178 worse or
+ *   unchanged); yb as u8 (unchanged). No narrow parameter type moves the x0 home store ahead of the
+ *   value load. Reading: str r2 always fills the first load stall after the value copy in the image
+ *   and the x0 reload stall in ours, so the residue is the pre-schedule position of value's entry copy.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

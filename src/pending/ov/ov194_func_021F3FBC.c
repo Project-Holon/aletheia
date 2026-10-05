@@ -38,6 +38,43 @@
  *   heap load still after it); a2 and a3 both u16 (18); a3 int (12, asrs); mode u16/u8 (10); heap s16 (752
  *   bytes), heap u8 (10). The heap load stays after the a3 spill in every spelling: the original emits the
  *   a3 spill after the stack parameter load, the build before it.
+ * 2026-10-05 (wD9 lane19): still DIFF 10. Tried flagB declared first (before flagA): no change, the heap
+ *   load stays after the a3 spill.
+ * 2026-10-05 (wD9r lane13): still DIFF 10. Caller fact: ov194 021F1440 passes h (u16 args+4) as a2 and
+ *   *(u16 *)(args + 6) as a3, so a2/a3 are u16 values at the source. a3 u16 alone: 8 bytes, but the a3 spill
+ *   then moves to the top (before the h20 store) and the two `(a3 & 0xFF00) >> 8` become asrs (int promotion),
+ *   so the original computes them unsigned. The heap load stays after the spills in every form.
+ * 2026-10-05 (wD9r lane23): still DIFF 10. Tried: mode as u32 (10), a2 as int (11), o passed as void *
+ *   and copied to a u8 * local (10). Caller check: ov194 021F1440 passes heap as the literal 0x1E in a plain
+ *   stack slot, so the stack parameters are scalars (no by-value struct).
+ * 2026-10-05 (wD9r lane43): still DIFF 10. Tried heap as a one-field by-value struct `struct { u16 v; }`
+ *   (the caller stores the literal in a plain stack word): 692, heap is no longer register-allocated. Reading:
+ *   ours keeps the heap load below the a3 spill store, as if the stack-parameter load may alias it; the
+ *   original issues it before. No new source form found.
+ * 2026-10-05 (wD9r lane56): DIFF 6 (was 10). a3 is now u16 (the caller passes a u16, see lane13) and the
+ *   two byte extracts use an unsigned mask `(a3 & 0xFF00u) >> 8`, which keeps lsrs (the asrs came from int
+ *   promotion). Residue: entry only, ours `str r3 a3` sits before the h20 store and the heap load after the
+ *   o copy; the original has the heap load right after the h20 store and the a3 spill last. Also tried with
+ *   a3 u16: heap u32/int with every callee heap u32 (10, a3 spill moves back late), heap u8 (6), a2 and a3
+ *   both u16 (16); with a3 u32, memset prototype returning void * (no change), u32 local `heap = hp` after h20 (copy
+ *   propagated, 10). Reading: loads do not pass earlier stores in this scheduler, so the original IR has the
+ *   heap load before the a3 spill store; no source form found that orders them so.
+ * 2026-10-05 (wD9r lane79): still DIFF 6. Tried a3 as s16 (6, same entry order as u16: a3 spill before h20),
+ *   a3 as long and unsigned long (10, same as u32: a3 spill late but the heap load still after it). Reading:
+ *   with a 32-bit a3 the only residue is the heap load sitting after the a3 spill; with any 16-bit a3 the a3
+ *   spill also moves up. No new source form found.
+ * 2026-10-05 (wD9r lane87): still DIFF 6. Tried the u16-heap-callee idiom (ov096 02187F00): house u16 heap
+ *   parameters on func_020490F4, func_0204ACEC, func_0204AC18 (e and heap), func_0204A6C8 and func_0204B294 (g):
+ *   6 with a3 u16, 10 with a3 u32, entry order unchanged (u16 d on func_0204AC18 adds a mask, 744). Also
+ *   u16 locals `heap = hp; a3 = a3p;` after h20: copy propagated, 6. No new source form found.
+ * 2026-10-05 (wD9r lane98): still DIFF 6. Tried a2 and a3 as one by-value struct `struct { u32 a2; u32 a3; }`
+ *   (the adjacent slots 0x14/0x18 and the repeated a2 reloads suggested a memory object): 655, mwcc homes the struct
+ *   with push {r0-r3} and shifts every slot, so a2/a3 are scalar parameters. No new source form found.
+ * 2026-10-05 (wD9r lane104): still DIFF 6. Tried the short-parameter idiom (ov116 021D7D0C) on heap:
+ *   `short heap` with every callee heap u32 (func_021F51E4 too) moves the a3 spill to its image place (after
+ *   the o copy) but heap is then read with ldrsh at the first use, not ldr at entry (697); with the u16
+ *   func_021F51E4 prototype, 752 bytes. The image loads heap with a word ldr and never truncates it, so heap is
+ *   32-bit or u16, not short. No new source form found.
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb
@@ -110,7 +147,7 @@ extern const u8 d_021F5569[];
 
 typedef struct { u16 w; u16 h; u32 pad; } Dim8;
 
-void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
+void func_021F3FBC(u8 *o, int mode, u32 a2, u16 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
 {
     u32 flagA = 0;
     u32 v40;
@@ -148,7 +185,7 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         break;
     case 3:
         flagA = 1;
-        v1c = (a3 & 0xFF00) >> 8;
+        v1c = (a3 & 0xFF00u) >> 8;
         if (v1c == 2) {
             flagA = 0;
         }
@@ -204,7 +241,7 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         break;
     case 3:
         func_0204B878(*(void **)o, 1);
-        func_0204B6F4(*(void **)o, func_0201BB5C(a2, (u8)a3, (a3 & 0xFF00) >> 8, flagB), flagB);
+        func_0204B6F4(*(void **)o, func_0201BB5C(a2, (u8)a3, (a3 & 0xFF00u) >> 8, flagB), flagB);
         break;
     case 5:
         func_0204B878(*(void **)o, 5);

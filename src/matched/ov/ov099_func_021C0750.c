@@ -7,8 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: enum-based inline address helpers rematerialize 24c/274; evaluating
- *   the third input before the call keeps 274 out of a callee-saved register.
+ * lever: evaluating the third input before the call keeps 274 out of a callee-saved register.
+ * note (2026-10-05, wD9r lane82): the enum-typed inline address helpers (stand-ins) are removed.
+ *   The real form is a pointer local `st = p + 0x24c;` set as the first statement (before
+ *   selector = 0) and passed to func_021BDD48/func_021BDD54; the two 0x274 uses are plain p + 0x274.
+ *   Each use rebuilds `movs #0x93; lsls #2`, as in the image. EXACT in c99 and c. Writing the 0x274
+ *   uses as st + 0x28 gives DIFF (252 of 264 bytes), with st first or second.
  * prototype-evidence: B9A60 tail-forwards to ov127 C4A8C, returning its byte
  *   consumed as B9A70's third argument. BDD48/54 return bytes through their
  *   full getter bodies; caller explicitly narrows to u16 before comparisons.
@@ -35,9 +39,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct W; struct Work; struct Ent; struct S;
 typedef struct { int v[5]; } Messages;
-typedef enum { K24c = 0x24c } Off;
-static inline char *part(char *p) { Off t; t=K24c; t+=0x28; return p+t; }
-static inline struct S *state(char *p) { Off t; t=K24c; return (struct S *)(p+t); }
 extern Messages d_021C3804, d_021C3818;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -58,14 +59,16 @@ int func_021C0750(char *p, int ret)
     int selector, n, message, graphic;
     void *q;
     u16 kind, other;
+    char *st;
+    st = p + 0x24c;
     selector = 0;
     func_0203D1E8((u32)func_020399A8(), 0);
-    n = func_021B97F4((struct W *)part(p));
+    n = func_021B97F4((struct W *)(p + 0x274));
     q = func_021BE2A8(p, n);
     graphic = func_021B9A60(func_021BE2A8(p, 0));
-    func_021B9A70(part(p), q, graphic);
-    kind = (u16)func_021BDD48((int)p, state(p));
-    other = (u16)func_021BDD54((int)p, state(p));
+    func_021B9A70(p + 0x274, q, graphic);
+    kind = (u16)func_021BDD48((int)p, (struct S *)st);
+    other = (u16)func_021BDD54((int)p, (struct S *)st);
     func_021BA874((struct Work *)p, n - 1);
     if (other == 6) selector = 1;
     else if (other == 5) selector = 2;
