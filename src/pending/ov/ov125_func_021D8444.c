@@ -8,6 +8,24 @@
  * lang: c99
  * isa: arm
  * status: DIFF
+ * 2026-10-05 (final push G5L6): DIFF, 14 bytes (was 18). Found the lever: a named destination pointer under
+ *   `#pragma opt_propagation off` (the pragma alone, and every other per-function pragma alone, stay 18 B):
+ *   `Sav *t = &d_021D9E40.sav; *t = *(Sav *)(buf + 0x45);` keeps t as a user vreg older than the struct-copy
+ *   source temp, so the source gets r3 as in the image (confirms the later-born-gets-lower-register idiom). With
+ *   propagation on, t is folded and the order is the old one. Remaining residue: the destination colours ip
+ *   instead of r5 (so 14 B: ldr/strb x3 registers, and mov r5,#0x13 stays above the trailing strb). Diagnostic:
+ *   the Data copy's loop counter (mov r5,#0x13) is defined above the trailing strb in the compiled order, so the
+ *   destination (live to that strb) cannot take r5; with the Data copy shortened to an unrolled 24 or 40 bytes (no
+ *   counter) the destination does take r5. In the image the counter is defined after the strb. Tried on top of
+ *   the named t, all 14 B or worse: t named with a named const Sav *u (same), u declared before t (18, colours
+ *   revert), t declared at function top (14), t as char * g + 6 (320 B), t as u32 or register (14), t inside
+ *   an inline Put (18, params fold), the Data copy through named Data pointers (ds loaded early, 20 B), a named dp
+ *   after the first copy (dst lr, 20 B), d_021D9E46 as a separate extern object (14), the second copy as an inline
+ *   Publish (18), opt_lifetimes / opt_common_subs / peephole / opt_loop_invariants off on top (14), t defined in the
+ *   call block (47 B, r6 appears), the second copy as a user do-while over 16-byte quads (344 B, wrong code), `if
+ *   (t != 0)` (image colours but cmp/beq, 24 B shifted). Matched-assembly search for the 2-byte unrolled copy
+ *   (`ldrb r,[rA,#1]; ldrb r,[rA],#2; subs; strb [rB,#1]`): ov016, ov009, ov114, ov175 (021DD2A0, 021E06A8),
+ *   arm9 0205A090/0205A0C0, all in SDK or unmatched code, no matched twin to read.
  * 2026-10-05 (wD9r laneS5): DIFF, 18 bytes unchanged (src r5 / dst r3). The tree held lane174's note and code only (no
  *   code edit left behind; verdict re-checked, 18 B). Model from the mwcc reference (src/backend/Coloring.c, read
  *   2026-10-05; PowerPC build, same allocator shape): nodes are simplified in ascending vreg index and pushed on a
@@ -223,6 +241,7 @@ extern void func_021D8438(int);
 extern Data d_021D9E40;
 extern const char d_021D8D30[];
 
+#pragma opt_propagation off
 int func_021D8444(void)
 {
     char *g = (char *)&d_021D9E40;
@@ -239,7 +258,8 @@ int func_021D8444(void)
     for (;;) {
         r = func_02168040();
         if (r == 3) {
-            d_021D9E40.sav = *(Sav *)(buf + 0x45);
+            Sav *t = &d_021D9E40.sav;
+            *t = *(Sav *)(buf + 0x45);
             *(Data *)(*(char **)((char *)&d_021D9E40 + 0x258) + 8) = d_021D9E40;
             *(int *)(g + 0x138) = 1;
             return 1;
@@ -263,3 +283,4 @@ int func_021D8444(void)
         func_021D8438(1);
     }
 }
+#pragma opt_propagation reset
