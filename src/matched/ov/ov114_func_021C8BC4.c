@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: arm
- * status: DIFF
+ * status: EXACT
  * recoup 2026-10-05 (wave P15 D6): residue 4 B (loop byte temps r1/r2 swapped: original
  *   b in r1, a in r2; ours b in r2, a in r1). Callees ov114 siblings return int
  *   (func_021CA470 int; func_021C9EE4 void, int server arg): declared as in matched
@@ -54,6 +54,9 @@
  *   initialisers, inline helpers and macro copy, named s/d pointers, (p++)->a, q[-1] forms,
  *   while with end pointer, int temps. No stand-in kept. Matched-asm hits: 38 sites of the
  *   loop; r1/r2 ones read: ov009 02198B2C, ov172 021C2DDC, ov175 021E06A8, main 0205EB48.
+ * pass 2 2026-10-06 P2L05: the pair loop is mwcc's inline memcpy: memcpy(d_021D3D40, p, 8) with
+ *   string.h and a const void * source parameter. With a u8 * source the expansion differs
+ *   (104 B off with a u8 destination, 115 B with a word destination).
  * symbols:
  *   d_021D3D28   0x021D3D28  data  a4
  *   d_021D3D2C   0x021D3D2C  data  a4
@@ -64,7 +67,7 @@
  *   func_021CA470 0x021CA470  arm
  *   func_021CA1B4 0x021CA1B4  arm
  */
-typedef unsigned char u8;
+#include "../../matched/arm9_sdk/libc/string.h"
 extern unsigned int *d_021D3D28;
 extern unsigned int d_021D3D2C[];
 extern unsigned int d_021CF538[];
@@ -74,20 +77,10 @@ extern void func_021C9EE4(int server, char *initdata);
 extern int func_021CA470(void *, unsigned int, void *, unsigned int, unsigned int);
 extern void func_021CA1B4(void);
 
-typedef struct { u8 a, b; } Pair;
-void func_021C8BC4(Pair *p, unsigned int x)
+void func_021C8BC4(const void *p, unsigned int x)
 {
-    unsigned int i;
-    Pair *q = (Pair *)d_021D3D40;
     d_021D3D2C[0x72] = x;
-    for (i = 4; i != 0; i--) {
-        u8 b = p->b;
-        u8 a = p->a;
-        p++;
-        q->b = b;
-        q->a = a;
-        q++;
-    }
+    memcpy(d_021D3D40, p, 8);
     func_021C9EE4((int)d_021D3D28, (char *)d_021CF538);
     if (func_021CA470(d_021CF634, d_021D3D2C[2], d_021D3D40, 8, 0) == 0) {
         d_021D3D2C[0] = 14;
