@@ -21,6 +21,28 @@
  * but the image indexes src with offsets and adds 8 once); six per-function pragmas
  * (no gain). Idioms checked: a-pool-word-order-residue-is-a-list-scheduler-tie.md
  * (matches the diagnosis, no source lever found).
+ * 2026-10-05 (wave P3 R6b): DIFF, still 576 B, 323 B differ (about 16 compiles, none closes).
+ * Residue is only the preheader load order and the colours that follow it (image: step
+ * table r5, index table ip, -32768 r4, 32767 lr; ours index r2, step r4, lr, ip). Tried:
+ * macro ENCODE with a { } block (572 B, 463 differ, pool order unchanged); four hand-written
+ * bodies with shared function-level locals (564 B, 382, same order); table pointers as locals
+ * at function top (pool order flips to step first, but the loads move above the zero test,
+ * 402); table pointers as locals inside the loop or helper (step first or not, but spills,
+ * 556 to 565); s16 sample parameter (same 323); non-inlined helper (not inlined, 140 B);
+ * index update before the predictor update (430); stores in decoder order index then pred
+ * (321); sample pairs through a nested pair helper (596, 521); a = 0 then a |= (584, 483).
+ * Measured: with 1 sample body per iteration the index table loads first, with 2 bodies the
+ * step table loads first, with 4 bodies the index table again, so the order is not source
+ * statement order. The EXACT decoder twin 021AFFE4 also has index table before step table
+ * in its preheader, so the image encoder differs by something in IR creation order that no
+ * human-plausible spelling reached. No stand-in used. Idioms checked:
+ * a-pool-word-order-residue-is-a-list-scheduler-tie.md (diagnosis fits, no lever);
+ * inline-functions-allocate-differently-from-macros.md (macro 463 B, worse);
+ * two-live-pool-global-bases-swap-ip-and-lr.md (first-use order; step is already first in
+ * source, no change); a-table-load-hoisted-past-the-loop-guard-names-a-const-extern-table.md
+ * (tables already const, loads already in the preheader); a-hoisted-array-base-is-a-named-local-in-a-guarded-do-while.md
+ * (named base locals: spills); a-register-carried-index-means-the-arms-were-spelled-out.md
+ * (n/a, no register-carried index in the image).
  * symbols:
  *   d_021B3A00 0x021B3A00 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2
