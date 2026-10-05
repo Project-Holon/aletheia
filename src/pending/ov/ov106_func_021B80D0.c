@@ -21,6 +21,18 @@
  *   block-constant choice. Only an enum-typed zero would be a stand-in, not filed.
  *   Callee note: func_021B8AD0 is called with (p+8, s1, heap) and matches its 3-parameter definition;
  *   no callee has fewer parameters than the call passes.
+ * note 2026-10-05 (wave P3 lane R8b): 23 more compiles, all still 175 B or worse. Tried, no change (175 B):
+ *   enum constants POS_L=-40/POS_R=24; local struct {s16 x,y} copied to the fields; static inline
+ *   addpos(0,-40) (folds); width local w=0x20 for one or both stack/tile args; separate zero local z
+ *   (z - 40); positive local off=40 with -off; callee last parameter int/u16/u32 or c,d as int;
+ *   s16 field written as int. Different but worse: u16 or 0xFFD8 destination keeps r7=0x20 but loads
+ *   -40 from a pool word (160 B, 564 B size); field read-back (*(u16*)(p+0x556) - 40, 126 B) gives
+ *   r7=0x20 and movs/subs #0x28 but moves the zero stores; u16 m (130 B). Storing 24 before -40
+ *   gives 11 B (size 564): -40 is then derived from 0x18 (`movs r1,#0x18; subs r1,#0x40`), so the
+ *   source of the derivation follows the first constant the block sees. Reading: the image derives
+ *   -40 from a fresh literal 0 that is not the register-held m. Real source not recovered; the
+ *   only forms that fold the 0 are the banned enum-typed zero local. The 11 B variant swaps the
+ *   two field stores and is not the original order, so it is not filed.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021B8D8C 0x021B8D8C thumb ov106
