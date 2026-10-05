@@ -7,12 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 own ARM9/ov206/ov207 bodies and B428 show confirm live arity; 2 B048/B318/B260/B55C neighbours reread, no initializer twin; 3 unsigned flag and enum zero field compile unchanged6; 4 bool-store and enum-zero idioms read, two manual zero/flag changes worse76 or unchanged6; 5 full unfiltered idiom directory and matched neighbours refreshed, scalar frame. Final retry exhausted; prior once300 not repeated; best264B/DIFF6 retained.
- * residue: zero-field store and flag initialization schedule, six concrete bytes.
- * ABI: 0203159C leaves the allocated pointer in r0; this caller stores it although its matched declaration is void.
- * recoup 2026-10-05 (lane X7): callee types rechecked against matched definitions (0220B318, 0220B428, 0220B55C, 021B9DE0, 0203159C returns a pointer; no void-return problem). Residue 6 B: original keeps the hoisted zero in r6 for str [0x10]/[0x14], then re-materialises flag with movs r6,#0 after the reload of args[0]; ours stores [0x14] through a fresh r0. Tried, all worse or unchanged: zero store after flag=0 (76 B), p->zero=flag (76), flag as inline ternary in the call (76), flag zeroed after p->zero (76), zero via a separate local z (76), flag declared after p (6), flag u32 (6), all six per-function pragmas (6 each).
- * recoup 2026-10-05 P29R9: 17 compiles, none better than 6 B. New tries: if/else flag after zero (76), flag=(args[0]!=0)?1:0 statement (76), flag=0 right before the if (76), p->zero=flag=0 and flag=p->zero=0 (76 each), u8 flag (6), u32 zero field (6), flag initialised in declaration before p (45), zero store before enabled if (154), const u32 *args (41), enabled arms reversed (9), flag if(==0)/else (76). Whenever flag=0 is placed after the zero store, mwcc stops hoisting the zero constant (r6) and the 0x6a constant takes r7. Residue unchanged: original keeps the hoisted zero for [0x14] and re-materialises flag zero after the args[0] reload.
+ * status: EXACT
+ * ABI: 0203159C leaves the allocated pointer in r0; the struct pointer is declared as its return type.
+ * note: final push 2026-10-05 G3L2: the zero field store goes into both branches of the enabled test, flag zero set after; closed.
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
  *   overlay67 0x00000043 data
@@ -65,9 +62,8 @@ int func_0220AF40(void *owner,int unused,u32 *args)
     p->display=func_0220B318(1,p->heap);
     p->font=func_0201D7EC(0x17,0,0,0,p->heap);
     p->gfx=func_0201C440((void *)(u32)p->heap);
+    if(args[0]==0) { p->enabled=0; p->zero=0; } else { p->enabled=1; p->zero=0; }
     flag=0;
-    if(args[0]==0) p->enabled=0; else p->enabled=1;
-    p->zero=0;
     if(args[0]!=0) flag=1;
     p->mon=func_021B9DE0(p->heap,(void *)args[1],args[2],1,flag,0,0,func_0220B428(p->display),(u32)p->font,p->gfx,0,0,0);
     p->other=func_0220B55C(p->heap,args[1],args[3],args[4],args[5],func_0220B428(p->display),(u32)p->font,p->gfx,args[6]);
