@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * note 2026-10-05 (wave P22 lane 10): extent is 160 B (158 B code plus the
  *   trailing nop pad). Bytes equal to the listing in c99 and c. Only the two
  *   func_02190854 relocations lack a witness: filed the 12-byte ov021 leaf as
