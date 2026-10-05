@@ -16,6 +16,17 @@
  * opt_lifetimes/opt_common_subs/opt_dead_assignments/scheduling/peephole off (12 B),
  * opt_propagation off (113 B). Callee returns: 02012EBC void*, 0200873C pointer, 02034AC4 int.
  * Difference to the twin: here the second parameter stays live across the first call.
+ * final push 2026-10-05 G4L3: still DIFF 12/236 B (same swap), 40 compiles, 3 rounds. New tries, all 12 B:
+ * initializer decl for a, raw offsets for p, restrict out, party/mode/save locals, a via
+ * inline getter or AView struct view, p copy local (arg, block-scope, q), whole body or tail in a
+ * static inline, o as Args or const, u8* p with struct casts, a as u32 or const u8*, callee decls
+ * u32 (02012EBC/0200873C), do-while marks loop, default: break, -lang c, opt_strength_reduction,
+ * opt_loop_invariants, opt_unroll_loops off. Dead ends: no local a (78 B), b-before-a (18 B), int i (111 B).
+ * Finding: moving the three p reads (f10,f8,fC) before the switch (p dies earlier) gives the original
+ * colours (p r6, a r5) but changes the code (125 B), so the swap is p's live range / degree against
+ * the colouring threshold, not source order of p and a. mwcc Coloring.c (inspiredrobot/mwcc): nodes of
+ * degree >= K are chosen by spill_cost/degree and p wins the lower register here. The original p
+ * has the same live range in the listing, so the lever must change cost or degree without code.
  * symbols:
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
