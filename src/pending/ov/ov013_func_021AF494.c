@@ -22,6 +22,21 @@
  * differ; opt_propagation off 188 B but also changes code). The tail needs
  * lo | (u8)(hi << 4) to get the and/lsl/and; the late and on lo is still missing.
  *
+ * 2026-10-05 final push G9L8: still DIFF, 107 B differ of 404 (was 226). Two real levers found:
+ * (1) walk the source with `*src++` for both samples (not src[0], src[1], src += 2): 226 to 131;
+ * (2) store pred before index in the helper (the image does strh then strb): 126; (3) declare the
+ * helper locals step, pred, idx, diff, code, vp (vreg numbering follows declaration order): 107.
+ * Now only half is wrong: the image colours it last (r8, the one register no temp uses), we colour
+ * it second (r5), which shifts code/idx/pred/step down by one. Per mwcc Coloring.c, half must be
+ * pushed on the simplify stack before the temps, i.e. one more neighbour on the temps or one fewer
+ * on half; no source form found. Tried with no gain: macro ENCODE (203), half/i/lo/hi declaration
+ * order, n /= 2 and n/2 in the loop test (133, half lands in r2), do-while with guard, opt_propagation
+ * off (136), the other pragmas, int helper return, return dst, block-scoped lo/hi, for-init half,
+ * u32 lo/hi (size 396), reverse helper order (200), diff-first order (220). 37 compiles.
+ * No matched ARM twin: grep for `lsrs r8, r2, #1` and `lsrs rN, rM, #k` in asm/overlays finds only
+ * Thumb forms elsewhere. Idioms read: of-two-equal-temps-the-later-born-one-gets-the-lower-register.md,
+ * opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores.md.
+ *
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
@@ -42,9 +57,9 @@ extern const s16 d_021B3A1C[89];
 
 static inline u8 AdpcmEncodeSample(AdpcmState *st, int sample)
 {
+    int step;
     int pred;
     int idx;
-    int step;
     int diff;
     int code;
     int vp;
@@ -96,8 +111,8 @@ static inline u8 AdpcmEncodeSample(AdpcmState *st, int sample)
     } else if (idx > 88) {
         idx = 88;
     }
-    st->index = idx;
     st->pred = (s16)pred;
+    st->index = idx;
     return code;
 }
 
@@ -110,9 +125,8 @@ void func_021AF494(u8 *dst, const s16 *src, u32 n, AdpcmState *st)
 
     half = n / 2;
     for (i = 0; i < half; i++) {
-        lo = AdpcmEncodeSample(st, src[0]);
-        hi = AdpcmEncodeSample(st, src[1]);
-        src += 2;
+        lo = AdpcmEncodeSample(st, *src++);
+        hi = AdpcmEncodeSample(st, *src++);
         *dst++ = lo | (u8)(hi << 4);
     }
 }
