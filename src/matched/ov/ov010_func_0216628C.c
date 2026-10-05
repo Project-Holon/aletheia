@@ -7,7 +7,8 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
+ * status: EXACT
+ * closed 2026-10-05: the unlabelled leaves it calls are now matched files, so every relocation resolves.
  *
  * Maps the slot's kind (0..3, via the 0x0200E184 thunk) to a new kind,
  * asks func_0200E164 for a free slot, and moves the word at obj[slot]

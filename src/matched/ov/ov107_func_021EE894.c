@@ -6,7 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
+ * status: EXACT
+ * closed 2026-10-05: the unlabelled leaves it calls are now matched files, so every relocation resolves.
  * checks: 1 own overlay definitions and SDK bodies read; strict current rule conflicts with historical used-r0 declarations for own-void 021F15B0 and02078C28, and extra original zero to021F19E4. Original caller loads File* before78C28 and consumes r0 afterward; park owner definition/listing discrepancy, never diverge for a match. 2 fresh EF79C/EFFB0/EF444 flow/prototype neighbours. 3 long result unchanged1564/913. 4 boolean-arm, shared-goto, dense-switch, branch-range and declared72-byteFile idioms read. 5 unfiltered idiom directory and neighbours refreshed. Next: resolve own definitions before case9 call-in-each-arm hypothesis; scheduling cap consumed.
  * residual: W77 final retry: five fixed runs; 1564 compiled versus actual main1560 (+4), 913 concrete bytes. Handed1568 includes separately matched8-byte021EEEAC; no duplicate unit. Case9 select, default label, SDK declarations and long result unchanged; duplicate failure helper worsened997. 119/126 relocations resolve, 1008/1010/1040/1050/1064/EFE3C remain overlay wildcard sites. Prior permuter300 consumed and follower extent also excluded; no repeated search.
  * search: R3 first permuter300 spent; then-emitted macro-free baseline909 agreed one. Size-first best1568/1050 was worse and rejected; extent still includes the already matched 8-byte stub despite compiling only main. Search not repeated in W76.

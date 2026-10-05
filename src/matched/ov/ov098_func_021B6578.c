@@ -6,7 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
+ * status: EXACT
+ * closed 2026-10-05: the unlabelled leaves it calls are now matched files, so every relocation resolves.
  * checks: 1 full callee/forwarder and live-argument audit; 614C word getter, 025D8 explicit r1=1, no arity residue; 2 ov098 6504/6910 twins confirm switch and opaque inputs, no init twin; 3 signed-byte enum stores add truncation (+4 B), pointer copy fields unchanged 53 B; const P is invalid because this function mutates P; 4 enum/struct/zero/signed-byte idioms read, enum zero only helps word stores; 5 fresh idiom list and ov097/098/094 callers plus 6504/6910 neighbours reread, no new init lever.
  * residual: 472 B / 53 concrete mismatches at +0034..+0068 initialization scheduling; 9 iterations, three final nongains, manual order/extraction 2/2, C1 0/C2 0/C3 2/C4 0/C5 0 compiles; types permuter budget 300 no improvement.
  * blockers: potential overlay leaves 021B614C ov098, 022026FC ov094, 021B6B74 ov098; caller is DIFF, so no leaves filed. Parent cleared only conditional B74.
