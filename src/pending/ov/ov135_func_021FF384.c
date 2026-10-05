@@ -21,6 +21,19 @@
  *   call, one scratch string local, six pragmas (opt_lifetimes, opt_propagation, opt_common_subs, scheduling,
  *   peephole, opt_dead_assignments each off), static inline helpers (272 B). Enum color (stand-in) is 238 B
  *   with 19 B differing: the color is built at entry, not after the first call.
+ *   final push 2026-10-05 G8L10: best form is now 238 B with 8 B differing (was 248 B, 181 B). KEY: #pragma
+ *   opt_propagation off with a named u16 color local assigned right after the first bank lookup. The named local is
+ *   one vreg with 6 uses and it is born before the pooled stack zero (the literal 0 is shared by value in the front
+ *   end: named zero locals, 0u, enum zero, u8/ptr types all still merge with the other zeros), so color keeps r7 and
+ *   the zero is rematerialised, as in the image. Residue: block 1 only. Image order is movs r0,#0; movs r7,#0x11;
+ *   str r0,[sp]; lsls r7; draft has movs r7,#0x11; movs r0,#0; lsls r7; str r0,[sp]. Blocks 2 to 6 are exact. Cause:
+ *   the color li is emitted at its assignment (before the call lowering creates the first zero), so it comes first;
+ *   a named zero born before color (e = 0; color = 0x440;) makes the zero win r7 again (248 B). Scheduling off, peephole
+ *   off, opt_lifetimes off, opt_common_subs off on top: same 8 B. u32 color with u32 callee f, color declared before the
+ *   s locals, color assigned in a call argument or in every call, K&R callees, sibling prototypes (u8 pointer, u32 args): same.
+ *   Tried and worse: color at the top (extra lsls/lsrs for u16 truncation, 262 B), color via comma in arg 1 (18 B),
+ *   do-while(0) per call (248 B), if (win) per call (278 B). Needs a source form where the color vreg is born before the
+ *   first stack zero but its li is materialised after it (a lazily materialised shared constant).
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
@@ -40,30 +53,29 @@ extern void func_02045808(struct U16Vec *p);
 extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 extern int func_021F91DC(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
+#pragma opt_propagation off
 void func_021FF384(void **win, void **win2, void *bank, void *g)
 {
-    void *s1;
-    void *s2;
-    void *s3;
-    void *s4;
-    void *s5;
-    void *s6;
+    void *s1, *s2, *s3, *s4, *s5, *s6;
+    u16 color;
     s1 = func_02045EC0(bank, 0x43);
-    func_021F91A0(win[0], s1, 0, 0, 0, 0x440, g);
+    color = 0x440;
+    func_021F91A0(win[0], s1, 0, 0, 0, color, g);
     func_02045808(s1);
     s2 = func_02045EC0(bank, 0x45);
-    func_021F91A0(win[2], s2, 0, 0, 0, 0x440, g);
+    func_021F91A0(win[2], s2, 0, 0, 0, color, g);
     func_02045808(s2);
     s3 = func_02045EC0(bank, 0x47);
-    func_021F91A0(win[4], s3, 0, 0, 0, 0x440, g);
+    func_021F91A0(win[4], s3, 0, 0, 0, color, g);
     func_02045808(s3);
     s4 = func_02045EC0(bank, 0xB9);
-    func_021F91A0(win2[0], s4, 0, 0, 0, 0x440, g);
+    func_021F91A0(win2[0], s4, 0, 0, 0, color, g);
     func_02045808(s4);
     s5 = func_02045EC0(bank, 0x49);
-    func_021F91DC(win[6], s5, 0, 0, 0, 0x440, g);
+    func_021F91DC(win[6], s5, 0, 0, 0, color, g);
     func_02045808(s5);
     s6 = func_02045EC0(bank, 0xFC);
-    func_021F91DC(win[7], s6, 0, 0, 0, 0x440, g);
+    func_021F91DC(win[7], s6, 0, 0, 0, color, g);
     func_02045808(s6);
 }
+#pragma opt_propagation reset
