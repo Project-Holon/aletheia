@@ -35,6 +35,28 @@
  *   Idioms checked: signed-modulo-magic-reappears-when-the-source-divides-by-the-same-
  *   constant-twice (not applicable, divisor 3 is a real call here); matched twin ov217
  *   021BD178 has the divisions inside the loop only because its operands depend on i, j.
+ * note 2026-10-05 final push G10L1: DIFF, 53 of 1004 bytes off (was 470 of 1028 at the start of
+ *   the push). Size now equals the original. What closed most of the residue:
+ *   (1) the tail pos.x chain is `if (a) x = h2; else if (b) x = h2 - 0x100; else if (b == 0)
+ *   x = h2 + 0x100; else x = h2;` (the original tests a once; 1028 -> 1016 bytes);
+ *   (2) the cur block is `if (a == 0) { if (b) x -= 0x100; else if (b == 0) x += 0x100; }`
+ *   (1016 -> 1004); (3) `#pragma opt_loop_invariants off` keeps both /3 and %3 calls inside the
+ *   y loop (the old lane tried it only while the size was still wrong); (4) do-while loops with
+ *   `x = 0;` first in the y body and `y = 0;` before the loops give the original head order;
+ *   (5) a local for func_021DBF08's result puts that call before the idx*4 address work;
+ *   (6) declaration order off, tab, idx, y, y2, y3 (one counter per loop), m, src, k, ry, rx
+ *   gives the original spill slots for most locals; tab = p + 0x28 plain (no inline helper);
+ *   (7) dy = 0 before func_02082BCC.
+ *   Residue (53 bytes): rx and x swapped (original x r4, rx r5; mine rx r4, x r5; decl order of
+ *   x/rx did not move it, 2 compiles); index and ry slots swapped (original index sp+0x18, ry
+ *   sp+0x1c); obj and the p+0xb88 base temp slots swapped (original obj sp+0x48, temp sp+0x44);
+ *   `dx = 0` (movs r6) sits before the call to func_021DBF9C in mine, just before the blx of
+ *   func_0204A6C8 in the original.
+ *   Idioms checked: of-two-equal-temps-the-later-born-one-gets-the-lower-register (no source
+ *   order found that flips x/rx), a-separate-index-local-per-loop-reorders-spill-slots (y per
+ *   loop: moved y2/y3 next to y), function-scope-versus-block-scope-decides-spill-slot-order,
+ *   div-and-mod-are-two-calls, a-reloaded-loop-invariant-means-the-loop-was-not-rotated
+ *   (goto loops still hoist). Twin: ov121 021DB938 (same top condition and loops).
  * symbols:
  *   d_021DF86E 0x021DF86E data ov121 a2
  *   d_021DF86F 0x021DF86F data ov121 a1
@@ -102,19 +124,24 @@ extern int func_021DBFE4(void *);
 extern int func_021DC004(void *);
 extern int func_021DC024(void *);
 extern int func_021DC03C(void *);
-static inline char *ents(char *p) { return p + 0x28; }
+#pragma opt_loop_invariants off
 void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
 {
-    int k, y, x, yy, tile, rx, ry, m, idx, off;
-    s16 dx, dy;
-    char *tab;
-    const Rect *src;
     void *obj;
+    int off;
+    char *tab;
+    int idx;
+    int y, y2, y3;
+    int m;
+    const Rect *src;
+    int k, ry, rx, x, yy, tile;
+    s16 dx, dy;
+    void *dsc;
     Rect r;
     Pos pos;
     Cur cur;
     k = index + c * 4;
-    tab = ents(p);
+    tab = p + 0x28;
     off = k * 0xdc;
     idx = index;
     src = &d_021DF86E[index];
@@ -124,34 +151,50 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         r.b[0] += 32;
         r.b[2] += 32;
     }
-    rx = r.b[0];
+    y = 0;
     ry = r.b[1];
+    rx = r.b[0];
     m = (u8)k;
-    for (y = 0; y < 2; y++) {
+    do {
+        x = 0;
         yy = ry + y;
         tile = y * 32 + ((m % 3) * 64 + 0x58 + (m / 3) * 2);
-        for (x = 0; x < 2; x++)
+        do {
             func_02041300(3, (u16)(x + tile), (u8)(rx + x - 2), (u8)yy, 1, 1, 3);
-    }
+            x++;
+        } while (x < 2);
+        y++;
+    } while (y < 2);
     if (func_021DBF04(tab + off) == 0) {
-        for (y = 0; y < 7; y++) {
-            yy = ry + y;
-            tile = y * 32 + 384;
-            for (x = 0; x < 12; x++)
+        y2 = 0;
+        do {
+            x = 0;
+            yy = ry + y2;
+            tile = y2 * 32 + 384;
+            do {
                 func_02041300(3, (u16)(x + tile), (u8)(rx + x), (u8)yy, 1, 1, 3);
-        }
+                x++;
+            } while (x < 12);
+            y2++;
+        } while (y2 < 7);
         func_02043B5C(func_02045770(*(void **)(p + 0xb08 + idx * 4)), 0);
         func_02045334(*(void **)(p + 0xb08 + idx * 4));
         return;
     }
-    for (y = 0; y < 7; y++) {
-        yy = ry + y;
-        tile = y * 32 + 0x40;
-        for (x = 0; x < 12; x++)
+    y3 = 0;
+    do {
+        x = 0;
+        yy = ry + y3;
+        tile = y3 * 32 + 0x40;
+        do {
             func_02041300(3, (u16)(x + tile), (u8)(rx + x), (u8)yy, 1, 1, 5);
-    }
+            x++;
+        } while (x < 12);
+        y3++;
+    } while (y3 < 7);
     func_020413B0(3, r.b[0], r.b[1], 12, 7, (u8)func_021DC03C(tab + off));
-    func_02043814(func_021DBF08(tab + off), func_02045770(*(void **)(p + 0xb08 + idx * 4)));
+    dsc = func_021DBF08(tab + off);
+    func_02043814(dsc, func_02045770(*(void **)(p + 0xb08 + idx * 4)));
     func_02045334(*(void **)(p + 0xb08 + idx * 4));
     obj = func_021DBF10(tab + off, heap);
     if (func_021DC024(tab + off) != 1)
@@ -160,17 +203,19 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     dx = 0;
     *(int *)(p + 0xb48 + idx * 4) = func_0204A6C8(obj, func_021DBF9C(tab + off), 0, 0, heap);
     func_02049238(obj);
-    func_02082BCC(&pos, 0, 8);
     dy = 0;
+    func_02082BCC(&pos, 0, 8);
     pos.y = r.h[3];
     pos.flag = 1;
     if (func_021DC024(tab + off) == 2) {
         dx = 4;
         dy = 8;
     }
-    if (a == 0 && b)
+    if (a)
+        pos.x = r.h[2];
+    else if (b)
         pos.x = r.h[2] - 0x100;
-    else if (a == 0 && b == 0)
+    else if (b == 0)
         pos.x = r.h[2] + 0x100;
     else
         pos.x = r.h[2];
@@ -184,10 +229,14 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     if (*(u32 *)(p + 0xae0) && *(u16 *)(p + 0xade) == k) {
         cur.x = src->b[0] * 8 - 0x18;
         cur.y = d_021DF86F[index * 8] * 8 - 8;
-        if (a == 0 && b)
-            cur.x -= 0x100;
-        else if (a == 0 && b == 0)
-            cur.x += 0x100;
+        if (a == 0) {
+            if (b)
+                cur.x -= 0x100;
+            else if (b == 0)
+                cur.x += 0x100;
+        }
         func_0204B404(*(void **)(p + 0xaf0), &cur, 0);
     }
 }
+#pragma opt_loop_invariants reset
+#pragma opt_loop_invariants reset
