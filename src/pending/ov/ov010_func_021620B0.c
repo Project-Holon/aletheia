@@ -46,6 +46,17 @@
  * passes p+8 / p+0xF8. Idioms read: of-two-equal-temps, function-scope-vs-block-scope, a-spilled-local-assigned-twice,
  * an-inline-return-temp, a-redundant-second-assignment, a-two-word-region-as-a-struct, scaled-record-base-pointer,
  * spilled-value-below-cse-temps, a-loop-counter-zero-before-an-offset, constant-temp-reuses-first-assigned-slot.
+ * pass 2 2026-10-06 P2L14 (40 compiles, 3 rounds): still DIFF 7/92. Tried, all 7 unless noted: inline
+ * helper with o as parameter (both orders); inline int *pi helper; inline offset helper with a local;
+ * inline move helper; o assigned twice with both declaration orders; all six declaration orders; 0x18*i,
+ * 1+i, o+p, i += 1, i = i + 1, ++i; one-field struct carrier for i and for o; o = i; o *= 0x18;
+ * for (j = i; ++j < 10;); j = i; while (++j < 10); o assigned inside the call argument; named pointer
+ * under opt_propagation off; opt_lifetimes off; opt_propagation off with o first; inner while loop.
+ * Worse: inner search then if (j < 10) (77), optimization_level 3/2 (71/69), three pragmas off (72).
+ * Diagnostics: volatile i gives the image slots (i memory-homed above, o spill temp at sp+0, 10 B
+ * from one extra reload); o as a second parameter stays 7. Matched sub sp,#8 functions with a counter
+ * at sp+4 (ov119 021DD174/021E5164, ov183 021DF5B8, ov048 021F4590, ov194 021F4F7C, ov094 02209458)
+ * all have a spilled parameter at sp+0; no matched body temp below a counter. Notes: scratchpad wD9r/p2_P2L14.
  * symbols:
  *   func_02161ECC  0x02161ECC  thumb
  *   func_02161E78  0x02161E78  thumb
