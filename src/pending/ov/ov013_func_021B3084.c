@@ -51,6 +51,18 @@
  * a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer
  * (const not applicable, no pointer reads). Pragmas not retried (header).
  *
+ * final push 2026-10-05 G5L3 (39 compiles, 3 rounds, best stays 17 B): same single residue. Tried (all 17 B
+ * unless noted): named locals for result/threshold (c99 initialised too), ret = 1 first / after WaitSqrt /
+ * before the call, d_021B3C50.f0 = ret, flag local, chained ret forms, inline helpers (VadStart,
+ * VadThreshold, VadRead), (r*3)/2 and r + (r<<1) >> 1 (464 B, 236 off), ret as int/s32/u8, signed f0,
+ * 3C50 and 4C2C as arrays (alone and both), f0 store of 3C50 before the result read (235 off),
+ * ret and 3C50 store before the sqrt call (74 off), opt_propagation off with named locals
+ * (function-wide, breaks the loops: 401 off). Reading (mwcc docs/SCHEDULER.md pick rule: urgency,
+ * release count, height, textual order): the pool load beats mov lr on height here; the original picks
+ * mov lr, so its pool load had lower height or a predecessor edge. Same family as the pending ov013
+ * 021B3018 pool-slot residue. Matched-assembly search for ldr/mov lr,#1/add lsl #1/lsr: only this
+ * function. Parked.
+ *
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4

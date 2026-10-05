@@ -19,25 +19,44 @@
  *           opt_common_subs, opt_dead_assignments, peephole off. All keep 16 bytes off or worse. Callees checked:
  *           func_0217A8EC is void (u8 *, u8) in matched ov_sdk, OS_GetTick returns u64, no arity problem.
  *
+ *           final push 2026-10-05 G5L2 (40 compiles, 3 rounds): best form is the sibling's struct view (St as in matched
+ *           0217A1FC), 14 bytes off: ours str flag / mov r2 / add r0 / mov r1 / strb; original add r0 / mov r1 / str / mov r2 / strb.
+ *           Only the position of mov r2,#0x56 and the flag store differ. Raw-offset form is 16 off. Tried with no gain: inline
+ *           send(c) helpers (with and without the pointer and count as parameters), p = buf alias at top or in the block, named
+ *           locals n and p with opt_propagation off, u8 n, struct Pkt, u8 scalar local with &cmd, signed char 'V', unsigned
+ *           pointer types, callee prototypes (void *, u16 size, int return), nested ifs, early return, buf store before or after
+ *           the flag store, tick via u64 temp, brace initialiser in block (53 off), pragmas lifetimes/propagation/scheduling on
+ *           the struct form. scheduling off shows the IR already orders str, mov r2, add, mov r1, strb, so the original IR has
+ *           the const materialised late; no human source form found that does this.
+ *
  * symbols:
  *   func_0217A8EC  0x0217A8EC  arm    ov015
  *   OS_GetTick     0x020870D0  arm
  *   d_0217ABA8     0x0217ABA8  data   ov015
  */
 
-extern char d_0217ABA8[];
+typedef unsigned int u32;
+typedef unsigned long long u64;
+typedef struct {
+    int f0, f4, f8, fC, f10, f14, f18;
+    int f1C;
+    u32 f20;
+    int f24;
+    u64 tick;
+} St;
+extern St d_0217ABA8;
 extern void func_0217A8EC(unsigned char *data, unsigned char size);
-extern unsigned long long OS_GetTick(void);
+extern u64 OS_GetTick(void);
 
 void func_02179FC4(void)
 {
     unsigned char buf[1];
 
-    if (*(int *)(d_0217ABA8 + 0x24) == 0 && *(int *)(d_0217ABA8 + 0x1c) == 0) {
-        *(int *)(d_0217ABA8 + 0x1c) = 1;
+    if (d_0217ABA8.f24 == 0 && d_0217ABA8.f1C == 0) {
+        d_0217ABA8.f1C = 1;
         buf[0] = 0x56;
         func_0217A8EC(buf, 1);
-        *(int *)(d_0217ABA8 + 0x20) = 1;
-        *(unsigned long long *)(d_0217ABA8 + 0x28) = OS_GetTick();
+        d_0217ABA8.f20 = 1;
+        d_0217ABA8.tick = OS_GetTick();
     }
 }

@@ -21,6 +21,27 @@
  *   literal 1 sits in r0 and is stored first; here the 1 lives in r6 across the call and its
  *   first materialisation is placed after the lsls. Idioms checked: see lane report.
  *
+ * final push 2026-10-05 G4L7: still DIFF 14/256 (35 more compiles, 3 research rounds). Residue
+ *   unchanged: the original has `movs r6,#1; str r6,[sp]` first in the join block, ours puts
+ *   `lsls r2,r4,#24` first and `str r6,[sp]` last (after `ldr r1,[sp,#4]`). The order is the
+ *   same with `#pragma scheduling off`, and a single-use literal (no f70 store) gives the
+ *   matched 8DF0 shape (movs r0; lsls; str r0), so the second use of the constant (pooled in r6)
+ *   is what leaves the stack store last. Tried, all 14 B unless noted: opt_propagation off plus a
+ *   named local `one` (idiom opt-propagation-off-with-named-locals) used by the call and the f70
+ *   store; opt_lifetimes off plus the same local; u8/u16/int block-scope `one`; `ok = 1` also
+ *   returned; `return s->f70 = 1`; lim/func_021B841C as u32 (8DF0 twin); callee arg5 u8/u16/int,
+ *   arg4 int, arg3 int/u32 with `(u8)d` at the call; v as s8, u32, volatile (19 B), one-element
+ *   array; inline min helper in if-return and ternary forms (20 B); early `if (lim == 0) return 0`
+ *   layout (33 B); store of f70 before the call (store order changes, still not the image).
+ *   Matched-assembly search (movs rN,#k; str rN,[sp] then the same register stored to a field
+ *   after the call, 13 hits): ov018 8979, ov021 68209, ov101 1251, ov135 4425, ov137 021DE060,
+ *   ov183 021DB61C, ov048 021F3E6C, ov091 021BD634, ov093 021EF71C; all have only literal or
+ *   memory-load arguments and no `(u8)` conversion of a computed register in the same block, so
+ *   the store lands first there. No hit has the target's mix. Hypothesis left: the image's
+ *   `movs/str` pair sits in a block that ends before the `lsls` (scheduler cannot hoist across
+ *   it), as in docs/idioms/an-instruction-the-scheduler-will-not-hoist-sits-after-a-cross-jumped-join.md,
+ *   but no human source form giving that boundary was found.
+ *
  * symbols:
  *   func_021B841C  0x021B841C  thumb  ov067
  *   func_021B8434  0x021B8434  thumb  ov067
