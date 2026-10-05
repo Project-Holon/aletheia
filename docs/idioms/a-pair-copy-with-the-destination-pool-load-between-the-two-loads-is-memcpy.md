@@ -27,3 +27,7 @@ memcpy(d_dst, d_src, 8);
 Note: this corrects a-pool-word-order-residue-is-a-list-scheduler-tie.md, which said no C shape
 reaches this order for a pair copy. A memset of the same size does not give the equivalent order
 for zero stores (tried on ov013 021B3018).
+
+Source const or not: test both. In ov114 021C9530 the source had to be a non-const extern
+(`u32 d_021D4090[]`); a const source hoisted the source pool load and gave 38 bytes off. The
+two twins above match with a const source.
