@@ -52,6 +52,23 @@
  * caused by the strh of a constant before the call; no source spelling found
  * that keeps the store value apart from the later argument.
  *
+ * 2026-10-05 (wave P2, lane Q6c): still 4 B (same icon-block residue). New
+ * tries, all unchanged (movs r7,#1; strh r7; adds r1,r7,#0): z=1 inside a
+ * static inline SetPos(&r,x,y) (ov183 021DCBD8 shape); z and the B688 argument
+ * both as enum BOOL TRUE; z as 1u; z as (u16)1; z stored between x and y;
+ * B688 prototype unprototyped (K&R); object kept in a local `icon` (breaks
+ * the body: the original reloads [r4,#0x24]); B688 (alone, or with B6F4) moved
+ * into a second `if(B)` (the branch stays and B moves to r7, breaks layout);
+ * one function-level Req shared by both blocks (moves the slots); pragmas
+ * opt_lifetimes off and scheduling off on the current shape. z first moves the
+ * pooled 1 to the top (as before). Reading: docs/idioms/a-repeated-constant-
+ * pools-only-within-one-block-... says the pooler works per block, so the
+ * original probably has a block boundary between the strh and the B688 call
+ * that emits no branch; none found. In block 2 the same two 1s (both call
+ * arguments, precoloured r2 and r1) do not pool, so only a store operand 1
+ * followed by an argument 1 merges. Not tried: opt_common_subs off alone
+ * (breaks the body per Q6).
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
