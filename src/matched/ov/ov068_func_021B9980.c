@@ -7,15 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * note 2026-10-05 (wave P4 lane S7, pengy share): new draft, DIFF 10 B (5 halfwords), size exact (492 B).
- *   Residue: the original builds the literal zero register arguments after the 02049BDC call as
- *   `movs r2/r3,#0` (+FA, +10C, +120, +132, +144); the build copies them from the zero held in r5
- *   (`adds rN,r5,#0`). Stack zero stores and the last 020450F0 call use r5 in both. The calls
- *   before 02049BDC compile with movs in the build too. Tried: named zero z for the stack zeros
- *   (same bytes), u16 parameter types on the zero positions (same bytes), the six per-function
- *   pragmas (lifetimes, dead_assignments, scheduling, peephole: same 10 B; propagation and
- *   common_subs: far worse). The loop counter is int (blt). Idioms checked: see lane report.
+ * status:   EXACT
+ * note 2026-10-05 (recoup R14): func_02049658 returns u32 (as in ov210 021BC5DC); declared void it
+ *   made the build copy the zero from r5 (adds rN,r5,#0) for the register zero arguments after
+ *   02049BDC. EXACT in c99 and c with the u32 return.
  *
  *
  * symbols:
@@ -70,7 +65,7 @@ extern void func_020414AC(u8 id);
 extern void func_02040588(u8 which, u32 enable);
 extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049BDC(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);

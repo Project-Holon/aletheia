@@ -45,7 +45,7 @@ extern s32 func_02062A4C(void *buf, struct Res **out);
 extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
 extern void ENV_SetResourceSet(void *p);
 
-u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3)
+u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
 {
     struct Res *res;
 

@@ -7,7 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition
+ *   tail-returns sub_0204968C). With the void declaration the later register zeros were
+ *   copied from the pooled zero web; with the real return type they are fresh movs. EXACT
+ *   in c99 and c.
  * checks: 1 own 0203F8F4/45088 one, 3FC28 one, 3FCA0 three, 40588 two, 490F4 two, 49B68 six, 49658/498F4 seven, 49B40 six, 40C14 four; SDK82BCC three and49238 one confirmed by matched ov0729E38 caller; 2 same-region/sibling graphics callers refreshed; 3 enum register-zero prototype variants and unsigned-long u32 each compile328/68 flat; 4 enum-zero and sub-word parameter idioms read, no fresh improving lever; 5 full idiom directory and matched neighbours refreshed. Prior permuter300 remains spent. Next hypothesis: genuine palette request storage type for the tail zero web.
  * retry: Wave76 R18 final retry, three fixed one runs; original best328/68 retained, all22 relocations resolved.
  *
@@ -37,6 +41,17 @@
  * e parameter void *; d parameter void * on 0xf call; zero as local z; heap param u16 with u16
  * callees; tail pair and C14 in a static inline. Residue: the original treats the stack zeros
  * and the register zeros as different values, no human source form found.
+ *
+ * recoup 2026-10-05 (lane R7): all flat at 328 B / 68 differ: scratch t = 0 then t = 0x1c0 with
+ * t as the stack zeros of calls 5..0xf; the same with t in only the (6,5) and 0xf calls, in a
+ * block; z in all three zero slots of (6,5) or of 0xf; u32 heap with u32 callee heap (340 B, 200
+ * worse). Probe: with the B40 r2 zero and the C14 zeros changed to non-zero values, 0x20 and
+ * 0x1c0 land in r7/r6 as in the original, so only two residues are left: (a) at the 0xf call r3
+ * is `adds r3,r6,#0` where the original has `movs r3,#0`, (b) the heap store of the (6,5) call
+ * comes last instead of first. Every named zero is constant-propagated, so t/z do not make a
+ * separate value. Twin search: grep -l func_02049B40 src/matched/ov (ov111 021C72FC, ov209
+ * 021BC574, ov210 021BC5DC, ov018 0217D720, ov219 021849A4 share the call forms, none has the
+ * 6,5 / 0xf / B40 / C14 run); callees 02049658/020498F4 read in arm9 (no truncation of e, f).
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
@@ -79,7 +94,7 @@ extern void func_0203FCA0(u8 bg, void *tmpl, u8 mode);
 extern void func_02040588(u8 bg, int on);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(void *, u32, u32, u32, u32, u32, u16);
+extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040C14(int, int, int, int);
