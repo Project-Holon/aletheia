@@ -21,6 +21,13 @@
  * positions of mode, magic, hdr (8 to 28), if/else for off (8), int off (8), scheduling off (8),
  * peephole off (8), block-scoped locals (8), named tag pointer (8), mode > 1 (10), negated ternary (11),
  * ternary call argument (114+), const f1C or a const second extern name (23, 27).
+ * pass 2 2026-10-06 P2L17: no change, 8/268. 45 compiles, 3 rounds. Magic assigned before the ternary splits
+ * the ternary into its own blocks (f1C load then follows moveq) but the join schedules add hdr before str (16).
+ * No change (8): % 2, != 0, &base[off], inline helper for off or hdr, (mode >= 2) ? 1 : 0, do-while(0) or goto
+ * label after the store. Worse: u16 off (41 rows), pointer select (38), single call through dst (35), const view
+ * of the global after the store (23), inline copy helper (36 rows). 1.1p1 fills between movne/moveq elsewhere
+ * (ov016 021D0F7C); the original pattern is unique. Fits a block boundary between the store and the cmp;
+ * no human form found for it. Compiler pins 1.2/2.0 are far worse (235, 117).
  * permuter: first recorded budget-300 search and emitted 40-byte candidate consumed in prior pass; not repeated.
  * prior evidence: named guard and while loop improved 45 to 40; enum counter 48, u16 counter 276 bytes; const byte source and unsigned-long counter tested.
  * symbols:

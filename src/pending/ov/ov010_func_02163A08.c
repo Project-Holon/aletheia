@@ -19,6 +19,14 @@
  *   (no dying local, n/a); a-field-read-into-its-own-local-before-a-getter-subtraction-sets-the-colour-order (6 B);
  *   array-bases-as-pointer-locals-reopen-a-flat-declaration-order (n/a). No twin: only 02163D04 and ov021 021C0D08 call both getters.
  *   Round 4: mixed param types int x/s16 y and s16 x/int y (matching caller 02163AF0 passing s16 e as y) (6 each). Listing scan for small functions with the same copies and two calls plus strh stores: none.
+ *   pass 2 2026-10-06 P2L11: still 6 B. 40 compiles, 3 rounds. Diagnostics: the swap is positional (signature with y before x
+ *   gives r1 param r5 again); y lifetime shorter or x lifetime longer does not move it; y passed as an extra getter
+ *   argument flips the colours (one more use and phys neighbour for y) but adds a copy. Tried (bytes off): block per axis 6;
+ *   one shared local 6; getter returns s16/u16/u8 6; s16 params with s16 copies 6; int copies with init 6; pragmas
+ *   opt_dead_assignments, opt_strength_reduction, opt_dead_code off 6, optimization_level 3/2 6, 1 9; inline SetY, SetX,
+ *   both 6; opt_propagation off alone, with an int y copy, with inline SetY, plus opt_lifetimes off 6; struct-by-value x/y 44;
+ *   --w clamp 44; register y 6; unprototyped getters 6; K&R int params 6; K&R s16 params 49; inline SetY with s16 y 18.
+ *   Idioms checked: as above plus mwcc_ref Coloring.c (jam break by spill_cost/degree) and ALLOCATOR_CASEBOOK web numbering.
  * symbols:
  *   func_0216D91C 0x0216D91C thumb ov010
  *   func_0216D924 0x0216D924 thumb ov010
