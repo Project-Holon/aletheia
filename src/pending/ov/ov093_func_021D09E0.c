@@ -38,6 +38,12 @@
  * (17 B); cnt = count local before the call; n = count local before the sort loop; type as u16 (16 B); i declared before scores (12 B);
  * clamp of count (280 B); inline wrapper for func_021D57FC (16 B). func_021D57FC takes one argument (r1 is not read), so r1 live at
  * the call is only order's copy. Matched twins with r2 stored first use u32 params and no narrowing; none explains the order.
+ * pass 2 2026-10-06 P2L08: still 5 B. 38 compiles. The count home store goes to the front in every build where the
+ * first count read after the call comes before the spilled i = 0 store ('if (count > 0) { i = 0; do .. while }' gives
+ * the right entry but beq and i = 0 after the guard, 9 B; i = 0 before the call gives the right entry but moves the i
+ * store, 13 B). Also no change: num = count after the call, block-scoped or separate loop counters, scores[i] = j = 0,
+ * for-init comma with type, register count/i, u8 *const p, unprototyped func_021D57FC, struct view of p, K&R (288 B),
+ * target reused as mon (282 B), type u8/u16 (16 B), type declared later (12 B), opt_dead_code off, --lang c99.
  * symbols:
  *   func_0201C314 0x0201C314 thumb
  *   func_0201C1C8 0x0201C1C8 thumb
