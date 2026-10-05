@@ -32,6 +32,9 @@
  *           naming the table. The 40 bytes after the bne are that table
  *           (four {0x02189EC0+k*0x3C, 0x0218AFC4} pairs and a zero word pair),
  *           data rather than code.
+ * note 2026-10-05: re-verified MATCH*. The only wildcard is the bne to 0x02188A48, a 256 B ARM
+ * decoder (ov230, outside this lane). Needs that function matched first; not attempted here.
+ *
  * symbols:
  *   func_02188A48  0x02188A48  arm  ov230
  */

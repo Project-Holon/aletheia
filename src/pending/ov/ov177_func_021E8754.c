@@ -13,6 +13,12 @@
  *   explicit `b` onto the immediately following case 0 block (+2 bytes, 238 vs 240).
  *   Fallthrough case 2 -> case 0 emits no such branch. Tried default arm, goto, guarded if.
  *
+ * note 2026-10-05: orig layout is dispatch (cmp 0 beq A; cmp 1 beq B; cmp 2 bne end), case 2 block,
+ * `b .+2` (0xE7FF), case 0 block A, case 1 block B, join store. Tried: if/else chain with `goto L0` into A (240 B
+ * but A laid out first, wrong order); switch with case 2 first and `goto L0` before `case 0: L0:` (the
+ * goto to the next label is deleted, 236 B); case 0 body under `if (mode == 0 || mode == 2)` (244 B).
+ * None emits the branch to the next instruction. Still DIFF (residue is the 2-byte branch plus shifted offsets).
+ *
  * symbols:
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_02045770  0x02045770  arm

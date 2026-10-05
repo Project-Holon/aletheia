@@ -13,6 +13,11 @@
  *   after) and tail ldr r3/str order differ (10 lines). Tried u8 param, local copies,
  *   decl order, init-at-decl, heap types.
  *
+ * note 2026-10-05: re-checked the listing: c and d are spilled (str r2,[sp,#0xc]; str r3,[sp,#0x10]) BEFORE
+ * the heap load (ldr r5,[sp,#0x30]); ours spills r3 then r2 after the heap load, and loads r3 for the last call
+ * above the w->fc store (orig after). Both are scheduler order only, 20 bytes. No source form tried this
+ * round changed it (arguments are used in place, no stand-in casts). Still DIFF.
+ *
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm

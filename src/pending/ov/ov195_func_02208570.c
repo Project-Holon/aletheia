@@ -11,6 +11,16 @@
  *
  * One textured quad in immediate geometry: texture image and palette base,
  * push, polygon attributes, translate, scale, four vertices, pop.
+ *
+ * 2026-10-05 (D8): residue is only the z of the last vertex (v[3][2], offset
+ * 0x46, beyond the ldrh immediate range). Original: movs r5,#0x46; ldrsh r6,[r4,r5]
+ * then lsls/lsrs #16 before the store (sign load, explicit u16 truncation, not
+ * folded). Ours folds to adds/adds/ldrh and stores r6 directly (6 bytes
+ * shorter in that block, so the early skip branch differs only by length).
+ * Everything before it is byte-identical. Tried: fx16 local, s32 local for z,
+ * raw *(s16 *)((u8 *)p + 0x46). None changes the load form. The first three
+ * z values (offsets 0x3a, 0x40) fold to ldrh in the original, so the last one
+ * likely has a second signed use or a different source type; not found.
  */
 
 typedef unsigned char u8;

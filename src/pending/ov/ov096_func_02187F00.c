@@ -8,6 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane03): still DIFF 14 bytes. Tried `u16 heap` as in the matched siblings
+ *   ov021 0218E018 and ov093 021BA9C8 (they ldrh the stack argument; the image here uses a word ldr, 165 bytes,
+ *   rejected). The ov093 caller (021CD87E) passes a ldrh value for heap and a word (func_021B9FBC returns a word)
+ *   for d. Reading: our tag pool load goes first because its chain (ldr r0, str [sp], adds r0,r5, bl) is the
+ *   longest after the r0 reuse; the image order has no such hoist.
  * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (14 bytes, one scheduling difference: the 0x1D9 tag pool load is hoisted above 'str r3,[sp,#8]' in ours, after 'ldr r5,[sp,#0x20]' in the image). Also tried tag parameter as u32 and a 0x1D9u literal; no change.
  * note: 2026-10-04 Residue: one scheduling difference. Original loads the 0x1D9 tag pool word (ldr r0,[pc]) after 'ldr r5,[sp,#0x20]' and before the site-string ldr; ours loads it first. Everything else is byte-identical (176 bytes, same pool). Tried: decimal tag, u16 tag local, copy of heap.
  * note: 2026-10-05 (wD4 lane20): re-tested with a u32 heap copy local (h = heap) passed as the first argument; same 14 bytes, the 0x1D9 pool load still hoisted above the parameter spills. Residue unchanged: tag ldr r0 order only.

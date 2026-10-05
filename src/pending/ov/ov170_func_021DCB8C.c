@@ -36,6 +36,9 @@
  *   func_0204162C  0x0204162C  arm
  *   func_0201F5DC  0x0201F5DC  thumb
  *   func_02049B40  0x02049B40  arm
+ * note 2026-10-05 (wD8 lane06): still 14 bytes. Tried: the palette pair as a 2-step loop (src -= 0x20,
+ *   ofs += 0x20, or indexed): not unrolled, 548 bytes, worse; func_02040E78 first parameter typed u16; z as the r2
+ *   zero of the 0x3F call; the palette statements reordered (ofs before src, ofs += before src +=). Unchanged or worse.
  */
 
 /*

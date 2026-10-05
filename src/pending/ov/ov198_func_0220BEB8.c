@@ -35,6 +35,12 @@
  *   (ctx read before 02045770 as in the original): 446, c is folded and the tails still derive from the 0x1F70 in r4.
  *   The sibling 0220C0D0 address form `*(void **)(p + slot * 8 + 0x1F70)` / `(p + slot * 8)[0x1F74]` with no
  *   tab/fl locals: 462. The original keeps fl + slot in r7 for the tails (`adds r7,r1,r4` after the head store).
+ * 2026-10-05 (wD8 lane09): still DIFF (450). Fresh reading: the image head reloads the 0x1F70 pool word for
+ *   every use (BEBE, BEF4, BF06, BF16, BF28, BF5A) and never keeps it; tab = p+0x1F70 in r6; ctx = f1EAC goes
+ *   into r7 before the head 02045770 call (empty `bne; b` from `if (k == 9) ctx = f1EAC; else ctx = f1EAC;`);
+ *   then r7 = (p+0x1F74)+slot*8 held for the tail flag stores. Tried the sibling 0220C0D0/0220C4DC house shape
+ *   (no tab/fl locals, `*(void **)(p + 0x1F70 + slot * 8)`, `*(u8 *)(p + slot * 8 + 0x1F74) = 1`, elem pointer,
+ *   ctx in each k arm, calls in each tail arm): 453, the head if/else merges away and 0x1F70 stays in r4.
  * symbols:
  *   func_02045778 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198

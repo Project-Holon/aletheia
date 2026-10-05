@@ -8,6 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane05): still DIFF 5 bytes. Reading: both builds compute mul, row = p + c*0x90, idx, idx*4, e in the
+ *   same order; only the colour differs (image row r4 / idx r0, ours row r0 / idx r4), so the add operand order is
+ *   not the cause. Tried (all 5 B): `&(idx*4)[p + c*0x90]`, `&((u32 *)(p + c*0x90))[idx]`, `(u32 *)(row) + idx`, a
+ *   row local before q with the integer sum, `u32 off = c*0x90`, no q local with p[c + 0x535], an int sum `n*4 + row`
+ *   written at both stores. Tried (31 B, idx evaluated before the mul): `(u8 *)(idx*4) + (u32)row`, `e = idx*4; e += row`,
+ *   `(u32)q[0x535]*4 + ((u32)p + c*0x90)`. A struct S with ent[4][0x24] and cnt[4] gives 244 B.
  * 2026-10-05 (wD6 lane17): 48 -> 5 bytes. Second loop closed by writing the store in each arm
  *   (`if (v == 0) p[i+0x539] = 0; else p[i+0x539] = (v-1)/6;`, the join lever): 0x539 now takes r7 and
  *   0x535 is spilled, as in the original. Prologue closed by `i = 0;` after the func_02048F60 call.

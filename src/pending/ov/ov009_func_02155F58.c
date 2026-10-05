@@ -32,6 +32,10 @@
  *   case 4's tail). Tried: `do { if (r == 0) break; ... } while (0)` and again
  *   `goto skip` with `skip: break;` after case 4's if (both bne/b, 440 bytes).
  *
+ * 2026-10-05 (wD8 lane09): still 4 bytes. New reading of the jump table: [0]->end, 1->02155FD8, 2->02155FF2,
+ *   3,6->0215602A, 4->02156012, 5->02156024, 7->02156092. The beq target 02156022 is the join block of case 4's
+ *   range if (its range-fail edges go straight to end). Case 5's `b end` at 02156028 is also in range but is not
+ *   used, so the r == 0 edge targets that join block in the IR and is not an island reuse. No new form found.
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   func_02155374  0x02155374  thumb  ov009

@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD8 lane10): still DIFF 20 with the enum. Listing detail: the 60 compare uses its own movs r1,#0,
+ *   so the shared r4 zero is only the high word of the three _ull_mul/_ll_udiv operands (one hoisted 0 pseudo).
+ *   Tried the call inline in a while condition (`(now() - start) * 64 * 1000 / 33514`, `/ (33514000 / 1000)`,
+ *   `(u64)(...)`): all fold to 64000 (212 B); `* 64 / 33514 * 1000` gives 236 B.
  *
  * 2026-10-05 (wD7 lane19): still DIFF 20. Note: the enum k is a likely stand-in under the D7 rule. Tested natural macro forms (NitroSDK OS_TicksToMicroSeconds shape): s64 d with `(u64)(d * 64 * 1000) / 33514` folds to 64000 (212 B); `(u64)(d * 64) * 1000 / 33514` and `(u64)(64 * d) * 1000` (s64 and u64) keep a separate *1000 _ull_mul and share ONE hoisted zero for both high words (as the image), but turn *64 into lsls/lsrs #6 (228 B, 60 differ). `1000u/33514u`, `1000ull/33514ull` with the enum: 20 differ; `d * k` (signed enum): asrs high word, 28 differ. Open: a source where *64 is a real _ull_mul without an enum.
  * note (2026-10-04): DIFF. Logic and all calls/relocations resolve; residue is the two ms-wait loops. Original hoists 0x40 (r7) and zero (r4) out of the loop and builds 1000 (movs 0xfa; lsls #2) after the first _ull_mul; ours hoists the 1000 constant instead (movs r7,#0xfa). Tried a single *64000-style expression (folds to one mul) and a static inline ms() with m=t*64; m*=1000. Data externs d_02180A20 (struct {int; u8 *f4; u8 *f8}), d_02180A30 (u8), d_02180A00 (u16) assumed from pool words.

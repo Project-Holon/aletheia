@@ -69,6 +69,11 @@
  *   d_021F5569     0x021F5569  data ov194
  */
 
+/*
+ * 2026-10-05 (wave D8 lane08): still DIFF 10. Tried: u32 parameter hp with a u16 local `heap = hp`
+ *  declared first (692, worse); hp u32/int/u16 with a u32 or u16 local after h20 (328 to 698, worse). The heap
+ *  local forms all break the u16 callee arguments; only the plain u16 parameter keeps the body exact.
+ */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed short   s16;

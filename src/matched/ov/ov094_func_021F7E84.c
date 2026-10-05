@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Unlabelled tail-call stub, filed as a witness for the caller ov093 func_021EA354 (wave B3 lane 17).
  *

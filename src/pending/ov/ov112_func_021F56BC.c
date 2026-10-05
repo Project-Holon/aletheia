@@ -79,6 +79,20 @@
  *   ours; the 8 missing frame bytes are likely two more spilled locals. Also: the callback arg is
  *   ov112 func_021F546C (mode = (u8)pt->f4, in = &cb.pos, p = obj->fF8), see that draft for the
  *   0x38-byte slot layout of obj->fF8.
+ * note (2026-10-05, wave D8 lane 01): three local shape fixes from the listing at 021F58C4..021F591E.
+ *   (1) The pos and (ox, oy, 0) MTX_TRANS writes are a G3_Translate(x, y, z) static inline: the
+ *   original loads all three values before the three stores (ldr r3,[sp,#0x230]; ldr r2; ldr r1;
+ *   str; str; str); 0x0400046C writes are G3_Scale(sx, sy, 0x1000). (2) The flag increment is
+ *   `flag++` on the u8 local: the original reloads the spilled zero and does adds/lsls/lsrs, where
+ *   `flag = (u8)(flag + 1)` folds to movs #1. (3) The rotation ternary has no inner (u16) cast:
+ *   `u16 a = (flag & 1) ? 0x10000 - pose.rot : pose.rot;` truncates once after the join, as in the
+ *   original. Compiled 2012 vs 2080 (byte count is not comparable, every later offset shifts).
+ *   Still open: frame 0x24C vs 0x254. The original spill area is 8 bytes larger (struct locals start
+ *   at sp+0xB4 in the original, sp+0xAC in ours), so the original spills two more values; attr
+ *   (obj+0x90) is one of them (sp+0x5C, ours keeps it in r5). G3_Translate(pos) still takes r2/r1/r0
+ *   for z/y/x and r3 for the register base, the original r3/r2/r1 and r0. The rounding constant
+ *   0x800 is derived from the halfword offset 2 held in r6 (`movs r6,#2; ldrsh r1,[r2,r6]` then
+ *   `lsls r2,r6,#0xa`), ours does the same from r7. The k-loop past 021F5A5C was not re-checked.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
@@ -260,6 +274,18 @@ static inline void LoadSubPose(Pose *r, char *src, int one)
 static inline u32 *ObjAttr(char *o) { return (u32 *)(o + 0x90); }
 static inline char **ObjSrcs(char *o) { return (char **)(o + 0x68); }
 static inline char *ObjAnim(char *o) { return o + 0x28; }
+static inline void G3_Translate(int x, int y, int z)
+{
+    REG(0x04000470) = (u32)x;
+    REG(0x04000470) = (u32)y;
+    REG(0x04000470) = (u32)z;
+}
+static inline void G3_Scale(int x, int y, int z)
+{
+    REG(0x0400046C) = (u32)x;
+    REG(0x0400046C) = (u32)y;
+    REG(0x0400046C) = (u32)z;
+}
 void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
 {
     Pose pose;
@@ -340,26 +366,20 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
         pos.z = *(int *)(obj + 0xD0);
         flag = 0;
         if (*(int *)(obj + 0xD4) < 0)
-            flag = (u8)(flag + 1);
-        REG(0x04000470) = pos.x;
-        REG(0x04000470) = pos.y;
-        REG(0x04000470) = pos.z;
+            flag++;
+        G3_Translate(pos.x, pos.y, pos.z);
         if ((((Bits *)&p[2])->b0) == 0)
             func_0207D8FC(&m3);
-        REG(0x04000470) = ox;
-        REG(0x04000470) = oy;
-        REG(0x04000470) = 0;
+        G3_Translate(ox, oy, 0);
         {
-            u16 a = (flag & 1) ? (u16)(0x10000 - pose.rot) : pose.rot;
+            u16 a = (flag & 1) ? 0x10000 - pose.rot : pose.rot;
             func_0207D888(-d_020A1B38[(a >> 4) * 2], d_020A1B38[(a >> 4) * 2 + 1]);
         }
         j = 0;
         {
             int sy = (int)(((s64)pose.sy * *(int *)(obj + 0xD8) + 0x800) >> 12);
             int sx = (int)(((s64)pose.sx * *(int *)(obj + 0xD4) + 0x800) >> 12);
-            REG(0x0400046C) = sx;
-            REG(0x0400046C) = sy;
-            REG(0x0400046C) = 0x1000;
+            G3_Scale(sx, sy, 0x1000);
             one = 0x1000;
         }
         {

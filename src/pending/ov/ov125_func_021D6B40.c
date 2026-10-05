@@ -88,6 +88,12 @@
  *   call. Reading: the cross-jumper merges case 3 post-RA in every form; the image's case 3 must
  *   differ at merge time in a way no tried form reproduces.
  */
+/*
+ * 2026-10-05 (wave D8 lane08): DIFF, 96 bytes unchanged. Tried: all four 0x55F1 sub-cases set r and break, one
+ *  `ret = r;` after the inner switch, out-of-range `default: goto skip;` (115 bytes, worse: case 2 loses its own
+ *  store). Reading: in the image the 0x55F1 case 3 copy is the one that is not cross-jumped, which would fit a block
+ *  that falls through to the join at merge time; no source order found that gives this with the image layout.
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

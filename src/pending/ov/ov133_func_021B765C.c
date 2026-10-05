@@ -48,6 +48,11 @@
  *   stores that may alias it; ours sinks the rx store below the load. n at [sp,#8] behaves the same way
  *   (store then reload). So base, rx, idx and n look like memory-resident variables in the original,
  *   not allocator spills; the source cause is still not found.
+ * 2026-10-05 (wave D8 lane 02): DIFF, residue unchanged (533 bytes). Tried: n as int (536; the slots
+ *   for n and ry swap, 8 and 0xC, and the multiply still reads the ldrh temp, no reload). The
+ *   original pattern (store at the definition, reload at every use, entry stores above the first
+ *   load) is spill-everywhere for base, rx, idx and n; no source shape found yet that blocks the
+ *   copy propagation of n = field into the multiply.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133

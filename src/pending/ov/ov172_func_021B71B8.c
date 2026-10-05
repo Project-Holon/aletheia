@@ -67,6 +67,12 @@
  *   func_0207C778, `i = 0` written right after the m[3] store, s = 0 reused for the zeros, a separate u8 counter
  *   for the halve/double loop (declared before or after s). Worse: m[2] before m[1] (6), an inline scale22(m, x, y)
  *   helper (595).
+ * note 2026-10-05 (wD8 lane07): still DIFF, 4 bytes (same swap). Tried the NitroSDK inline shapes:
+ *   a static inline G2_SetBG2Affine(mtx, cx, cy, x1, y1) wrapper around func_0207D59C (same 4 B); an inline
+ *   MTX_Scale22(m, func_0207C778(s), func_0207C778(s)) with _00, _11, then zeros, with and without the
+ *   G2 wrapper (597 B: the first result is held in r6, so the original does not pass both calls as
+ *   arguments of one inline). Reading: the zero in r5 has no register dependency on the m[3] store, so a
+ *   block boundary or a different IR position of the shared zero/i is still the likely cause.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

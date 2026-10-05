@@ -44,6 +44,13 @@
  *   func_0204162C 0x0204162C arm
  *   func_02049B40 0x02049B40 arm
  */
+/*
+ * 2026-10-05 (wave D8 lane08): DIFF 67 kept. Finding: with `u32 i;` (no initialiser) and `for (i = 0; ...)`
+ *  the `movs r5,#0` lands after the first call as in the image (86 bytes; only the 0x807B/4 colouring and the
+ *  late r5 copies remain). On that form tried (all 86): a heap local u32/u16/int = 0x807B, const u16/u32 and
+ *  static const u16 heap locals, `heap | 0x8000` with heap = 0x7B for every 0x7B, func_020490F4 heap as
+ *  u32/int/unsigned short, `u32 base = 0x807B` reused for both opens. 0x807B is never CSE'd from the pool.
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

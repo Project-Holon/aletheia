@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD8 lane03): still DIFF 28 B. Tried: 020409B4 parameter as u16 and as signed char,
+ *   02041090 first parameter as u8 and u16 (prototype changes for one callee only, so the two 5s differ in
+ *   type): same 28. `int w = 0x20` for the two 0x20 stack arguments: same 28. Reading: the whole body is one
+ *   basic block; ours colours a CSE of the two 5s into the free r6, the image rematerialises them.
  * 2026-10-05 (wD7 lane18): still DIFF 28 B. Tried blocks 3 and 4 as a `for (j = 0; j < 2; j++)` loop
  *   (idx 0xb + j, bg 4 + j), on the idea that 0x20 in r7 is a loop-invariant hoist: mwcc does not
  *   unroll it (164 B loop), rejected. Note: by use count 0 and 4 outnumber 0x20, so the hoist choice is

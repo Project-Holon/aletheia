@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Recursive MATCH unblocker: the unlabelled ov014 setter that func_020103E4
  * (+001A) and sub_02010360 (+0056) call: store v into word +0x1E88 of the

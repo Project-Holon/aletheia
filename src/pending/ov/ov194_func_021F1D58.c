@@ -33,6 +33,15 @@
  *   tbl_020A1B38  0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm
  */
+/*
+ * 2026-10-05 (wave D8 lane08): still DIFF 167 (draft unchanged). Tried: second parameter as a struct pointer
+ *  with phase at offset 0 (`u16 *phase = &ps->v;` local, and direct `ps->v` uses): both 167, the pointer stays
+ *  in r1. Flat ov105 021B8734-style body (u8 r, g, blue; int dr, dg, db; lerp `* t >> 12`): t before g gives
+ *  208 bytes with the whole lerp body in the image shape and only the colours different (190: t r4, g r3, b r2;
+ *  image g r4, t r2, b r3); g before t gives 204 (the table chain is still scheduled before the a load).
+ *  Image reading: r7 = 0x1F with `lsls r7,#0xa` / `lsls r7,#5` masks, but g of a uses an immediate 0x3E0 and is
+ *  computed before the table chain, after a reload of *phase.
+ */
 typedef unsigned char u8;
 typedef short s16;
 typedef unsigned short u16;

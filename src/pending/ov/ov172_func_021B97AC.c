@@ -54,6 +54,10 @@
  *   the 170 call nested in the third argument with the 15C call as the fifth (unchanged); pos assigned in its own
  *   statement before the call (unchanged). Reading: the image evaluates the third argument's constant before the
  *   stack arguments, ours evaluates the stack arguments (5, 6) first; no source form tried so far moves it.
+ * note 2026-10-05 (wD8 lane06): still 10 bytes, same residue. Tried: the third argument as the address of a struct
+ *   field at +0x800 (`((struct { u8 a[0x800]; u8 b[0x800]; } *)v)->b`, also `&...->c` of a word field, also with the
+ *   170 call nested). All unchanged. The matched caller ov172_func_021B9044 builds its table pointer as
+ *   `(short *)(f() + 0x800)` in a local before other calls; that form was already tried here.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

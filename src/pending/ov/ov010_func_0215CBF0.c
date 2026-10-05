@@ -14,6 +14,8 @@
  *
  * MATCH, bytes exact. Blockers: ov223_id (0xDF) and d_021BC8C4 have no witness.
  *
+ * 2026-10-05 (wave D8): ov223_id and d_021BC8C4 are data with no witness; not fixable in C. Source re-read against the listing, unchanged.
+ *
  * symbols:
  *   func_02159AE8  0x02159AE8  thumb  ov010
  *   func_02030734  0x02030734  arm

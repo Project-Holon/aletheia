@@ -16,6 +16,8 @@
  *
  * MATCH, bytes exact. Blockers: func_0215C7C4 is an unlabelled leaf (no label class), ov136_id (0x88) and d_021C78A4 have no witness.
  *
+ * 2026-10-05 (wave D8): func_0215C7C4 (the callback) now has an EXACT witness src/matched/ov/ov010_func_0215C7C4.c; once its shard exists the first wildcard resolves. Remaining: ov136_id and d_021C78A4 (data, no witness).
+ *
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_0215A5DC  0x0215A5DC  thumb  ov010

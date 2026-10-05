@@ -42,6 +42,9 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
+ * note 2026-10-05 (wD8 lane06): still 8 bytes. Tried: `register int e` and g typed int (both unchanged).
+ *   Reading: e has no use in the entry block, so the list scheduler sinks its load to the last slot; the image
+ *   keeps the param-copy order. No source change to the entry block found.
  */
 typedef unsigned short u16;
 typedef unsigned int u32;

@@ -53,6 +53,11 @@
  *   Next: case 1 has `blt L; adds; subs; b L; L:` (an empty else arm), so the clamp is an if/else into a
  *   local, not a ternary; int c/t locals tried, registers still differ (image c r2, len r1, n r3, sum r0).
  *   Image low spill slots: a0 4, case 2 b0 8, r*2 0xC, i1+1 0x10, sel 0x14, tail m 0x18, case 2 r 0x1C, row 0x20.
+ * note (2026-10-05, wD8 lane 07): still DIFF (1652 vs 1632). Counted the image's s reloads: 13 loads of
+ *   [sp,#0x24], equal to the 13 uses of s in the draft, so s has no extra or missing uses. The image spills s
+ *   because each case keeps its own callee-saved value in r7 (case 1 0x708, case 4 0x6A0, case 6 the stack
+ *   argument 0, tail &base); in ours those are rematerialised and s keeps r7. The flip needs all of those
+ *   per-case values at the same time; single-case rewrites (D4) did not flip it. Not closed this wave.
  *
  * symbols:
  *   func_021F3F18  0x021F3F18  thumb  ov041

@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane04): still DIFF (76 vs 80 B). Image layout: case 3's `b end` stub is the FIRST case body (before case 6 and case 8). Tried: case 3 written first in the switch (76 B, still merged), case 3 with the two tail stores repeated plus break or return (cross-jumped fully, 76 B), a non-inline empty static function called in case 3 (inlined away, 76 B).
  * 2026-10-05 (wD7 lane19): still DIFF (76 vs 80 B). New tests in case 3: an empty static inline with a u32 parameter called as nop_arg(mode) (copy removed, 76 B); dead stores `*(d+0xB4) = mode` / `*(d+0xB0) = 1` (kept, 88 B); `mode = 3;` (80 B but emits movs r4,#3 + b). Conclusion: the stub needs a copy that lives until register coalescing (as the rejected `state = mode`); no natural source found.
  * note (2026-10-05, integrator): D6 lane 17 got EXACT only with a redundant `state = mode;` in case 3 (`u32 state = mode; ... case 3: state = mode; break;`). Rejected as a stand-in: a redundant statement needs line-table evidence, and game overlays have none. The real source of the case 3 `b end` stub is still unknown.
  * 2026-10-05 (wD5 lane19): no new variant beyond the D2/D4 list; case 3 still merges with the end label (76 B vs 80 B).

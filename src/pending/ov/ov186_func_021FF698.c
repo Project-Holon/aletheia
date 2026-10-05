@@ -19,6 +19,8 @@
  *   and dropping the `o` alias to store through `out` directly all still swap
  *   r4/r5 the same way.
  *
+ * 2026-10-05: tried a local k=0x5c4 reused as the call argument, pointer-typed value, u32 types, struct field access, early return for v==0, static inline getter, out alias inside the if. All still give out in r5 and value in r4 (original: out r4, value r5). Residue unchanged: 5 bytes, pure r4/r5 swap.
+ *
  * symbols:
  *   func_021D74D8  0x021D74D8  thumb  ov125
  */

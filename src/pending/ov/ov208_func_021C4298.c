@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane04): still DIFF. Tried ev as a one-field struct passed by value (struct Ev { int v; }, switch (ev.v)): ev is then read from memory at each switch, but the parameter-area address is CSE'd into r7 and the entry store-back is missing (1232 B, 1114 differ, worse). Image: `ldr r1,[r0,#4] ... str r1,[r0,#4]` at entry is a spilled int stack parameter written back to its home slot.
  * note (2026-10-03): the lane size 682 is wrong, the function is 1288 bytes (021C4298..021C47A0). Control
  *   flow and callees are decoded (3 switches on ev, two 0x400-byte bufs + two u16[5] out sets for
  *   021C53F4, sys at sp+0x1c, flag at sp+0x18), jump tables match. Open: the image keeps ev, flag

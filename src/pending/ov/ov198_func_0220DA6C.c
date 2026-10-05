@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD8 lane05): still DIFF 160. Reading: image slots are in declaration order (msg 0x30 .. half 0x18), so t
+ *   and half are spilled in the first round; ours spills rec only in a later round (slot 0xc) and b instead of half.
+ *   Tried: t and half both u8 (both lowest slots, as the image order allows): 424 B, 280 differ, p moves to r5.
  * 2026-10-04 (wave D3 lane 20): 384 of 408 bytes, 209 bytes differ. Structure is complete and
  * the prologue up to the first call group matches except register colours: the original has
  * p in r4, the 0x1F70 pool constant in r5, idx in r6, base (p+4) in r7; this draft swaps them.

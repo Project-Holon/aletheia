@@ -8,6 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane10): still DIFF 357. Tried static inline K for the first test only with the W(0xC320)
+ *   value passed in three ways: as a u32 value (374, eager load), as a const int pointer (289), with p (289).
+ *   All give tst r1,r4 with r4 reused, but lose the r3 copy of p and the ip CSE (frame push {r4-r7}).
  * note (2026-10-05, wD7 lane14): still DIFF 357 (408 vs 404), but the mode 1 x clamps now have the image block shape:
  *   `if (x + d1 < 0x3E00) W += d1; else W = 0x3E00;` and `if (x - d1 > -15872) W -= d1; else W = -15872;` (the image has
  *   `bge L; b add; L: b store`, the old >= / <= order gave blt / bgt). The tail now matches up to the 4-byte shift; the whole

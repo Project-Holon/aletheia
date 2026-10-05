@@ -1,0 +1,26 @@
+/*
+ * function: func_021B69F8
+ * address:  0x021B69F8
+ * packet:   pkt_ov180_021B69F8
+ * region:   ov180
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * 2026-10-05: the callee func_02015F2C takes four arguments; the caller passes a literal 0 as the fourth, which also feeds the store, so the call is a real bl.
+ *
+ * symbols:
+ *   func_02015F2C  0x02015F2C  thumb
+ *   func_021B69E8  0x021B69E8  thumb  ov180
+ */
+
+extern void func_02015F2C(int, void *, void *, int);
+extern void func_021B69E8(void);
+
+void func_021B69F8(char *p)
+{
+    *(int *)(p + 0x24) = 0;
+    func_02015F2C(*(int *)(p + 0x1c), p, (void *)func_021B69E8, 0);
+}

@@ -15,6 +15,13 @@
  * 2026-10-05 (wave D6 lane 01): bytes still identical; still blocked by ov112 021F546C (DIFF 170/172).
  * 2026-10-05 (wave D7 lane 01): still MATCH, blocked by ov112 021F546C, now DIFF 172/172 with 27 bytes
  *   (two register-order residues, see that file).
+ * 2026-10-05 (wave D8 lane 01): bytes still identical, still blocked by ov112 021F546C. Finding for
+ *   that draft (not in this lane, so not edited): dropping const from the input pointer
+ *   (`Input *in`) fixes its residue (b), the modes 4/5 y-before-x load order; with the y local kept
+ *   it is 172/172 with 5 bytes left, only the slot multiply colours (original idx r4 and product
+ *   r1, ours idx r1 and product r4). No change to that from: no idx local, mode -= 7, unsigned idx,
+ *   idx declared at function scope, an else-if chain, a void * parameter cast to Big *, an inline
+ *   SetSlot(p, idx, in), enabled stored last; a byte-offset form loses the copy shape.
  * symbols:
  *   func_021F546C 0x021F546C thumb ov112
  *   func_021F56BC 0x021F56BC thumb ov112

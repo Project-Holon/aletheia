@@ -15,6 +15,8 @@
  * window around tmp[1].  The scratch is a raw 4-byte buffer so the two reads
  * stay register-addressed off sp.
  *
+ * 2026-10-05: decoded the original as two unsigned range tests (u32)(v-lo) <= (u32)(hi-lo) with hi,lo unfolded: (a1-x) <= ((x+p5)-x) and (a2-(y-16)) <= ((y+16)-(y-16)), flag r7=0 set before the loads (its zero is reused as the ldrsh index). A static inline in_range(v,lo,hi) with s16 t[2] read at the use gives the unfolded second test but loads t[1] first and puts a2/a1 in the wrong registers; locals x,y fold the second test to cmp #0x20. Not closed.
+ *
  * symbols:
  *   func_0204B454  0x0204B454  arm
  *

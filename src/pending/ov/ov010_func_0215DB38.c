@@ -20,6 +20,8 @@
  * d_021BB6A4 is another overlay's proc data (same gap as func_02155478).
  * The empty `case 100: break;` is what leaves the lone `cmp r6, #0x64`.
  *
+ * 2026-10-05 (wave D8): Only d_021BB6A4 (ov100 process data) is unresolved; not fixable in C. Source unchanged.
+ *
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_0215A5DC  0x0215A5DC  thumb  ov010

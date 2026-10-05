@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT* only because the unlabelled function at 0x0215611C follows
  * (seed it into layout/function_starts.txt). The u8 local t is what puts the

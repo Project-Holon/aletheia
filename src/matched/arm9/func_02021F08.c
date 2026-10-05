@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * An unlabelled leaf (push {r3, r4} for alignment only, no lr save), newly
  * seeded as the follower of sub_02021EE4.  Arms the palette-animation

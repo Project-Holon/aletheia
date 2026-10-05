@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD8 lane07): still DIFF 25 B. Hypothesis: w8 is a memory variable, so its load may not move
+ *   above the stack-argument stores. Test: w8 as a one-element array w8a[0] (slot moves to [sp,#0x10], the
+ *   load is still hoisted first, 36 B). Not the answer. The chain stays early in every form so far; the image
+ *   behaves as if the r7 + w8 value is a simple argument whose computation is emitted at the call.
  * 2026-10-05 (wave D6 lane 19): still DIFF, 13 lines in block 3. Tried: the 3rd arg through a
  *   static inline `rx(l, w)`; y nested as the call argument; an int/u32/s16 local x3 = r7 + w8
  *   before or after the y call. All keep the w8 reload first. The image behaves as if the arg

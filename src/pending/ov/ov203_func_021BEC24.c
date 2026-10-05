@@ -17,6 +17,12 @@
  * a named `int z = 0` with `z - 1`, and a `c + 1` pointer local all reproduce
  * the same inversion; the comparison is symmetric so no operand order flips
  * it.  Addresses are Black-image addresses.
+ *
+ * 2026-10-05 (D8): also tried u32 *c with 0xFFFFFFFF, `int m = 0; m = ~m;`
+ * compared to c[1], `~c[1] == 0` (same 4-byte residue), `c[1] + 1 == 0` (15
+ * bytes differ), one-field-pair struct with ~0u, a static inline eq(v) with
+ * a zero-local `v == ~s`, `if (c[1] != -1) {} else call`, and a (int)
+ * 0xFFFFFFFF literal. All keep the value in r1, sentinel in r0. No fix.
  */
 
 typedef unsigned char  u8;

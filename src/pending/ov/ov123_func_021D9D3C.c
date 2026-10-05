@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane04): still DIFF, same residue (movs r5,#3 hoist). Tried u8 for the second and third parameters of 02049B68/02049658/020498F4 (no change, 441 differ). Matched callers use (void *, u32, u32, u32, u32, [u32,] u16).
  * 2026-10-05 (wD7 lane19): still DIFF (same 3-in-r5 residue). Replaced the redundant `base0 = p; base0 = p + 0x10;` with a static inline PalBase() accessor (D6 lever): it gives the image's str/adds/str double store at [sp,#0x2c] without a redundant statement. Tried `int j = 0;` as a declaration initialiser with j or literal 0 args (473 differ, j store moves above the open). Same late-call copies (r2 = r5, r3 = [sp,#0x18]) as ov210 021BC5DC from call 8 on.
  * note-2026-10-04: DIFF. Whole structure and every slot matches (declaration order base0, base1, h, done, k, j, i, cur reproduces slots 0x18..0x2c; j doubles as the zero args). Residue: compiler hoists constant 3 into r5 (movs r5,#3 after the first func_02049B68 call) and reuses it for the last func_020498F4 r2, so the last call also gets r3=[j slot] instead of movs r3,#0, and +2 bytes shift everything after. Original keeps literals. Also original loads heap into r5 before func_02082BCC (adds r3,r5 for 02049F78); an explicit u16 heap local did not remove the hoist. Tried param types u16 on 49B68/49658/498F4 arg2: no effect. Next: find what stops the const-3 hoist (different source of 3 in calls 1/4 or a call between).
  * note-2026-10-05 (wave D4 lane 06): still DIFF, same residue.  Findings: (1) with literal 0

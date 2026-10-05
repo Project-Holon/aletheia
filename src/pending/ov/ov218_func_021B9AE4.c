@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD8 lane10): still DIFF 81 bytes. Tried `register u32 d` on the parameter: no change (d still
+ *   reloaded from its home slot, t in r7). The u8 finding of wD7 stands: the residue is only that a word-sized
+ *   stack parameter is treated as already spilled.
  *
  * note: 2026-10-05 (wD5 lane17): still DIFF 81 bytes. New tests: d copied into a local at entry; u32 *q = p + 0x2C with q[d] instead of p += 0x2C. Both compile identically (t in r7, d reloaded from [sp,#0x30]).
  * note (2026-10-04): DIFF, 81 bytes. Structure and calls match. Original has push {r4-r7,lr}, sub sp,#0x1c, loads d first (ldr r7,[sp,#0x30]) and spills t=0x83-d to [sp,#0x18], reloaded as the 3rd arg of func_0201EFA4, with a and b spilled to [sp,#0x10]/[sp,#0x14]. Compiled keeps t in r7 and pushes r3 (frame 0x18). Need t spilled while d stays in r7. Tried r/t declaration order and int d.

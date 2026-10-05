@@ -8,6 +8,11 @@
  * isa: thumb
  * status: DIFF
  * note: 2026-10-02 lane07: DIFF, 172 bytes. Channel unpack/blend scheduling differs (orig reads c0 via add r1,sp,#0x18 before table load, builds 0x1f<<10 mask by reusing the 0x1f register, blend order B,R,G). Tried u8 locals, decl orders, shifted-mask forms.
+ * note 2026-10-05: orig packs `(g << 5) | r | (b << 10)` (orrs g5,r then b10); tried that order:
+ * the compiler then rebuilds 0x1f from a shifted register and the function shrinks to 156 B (orig 172).
+ * The original keeps c0 in r6 and c1 in r1 and builds each mask with its own movs/lsls; no source form
+ * found that reproduces this. Still DIFF.
+ *
  * symbols:
  *   FX_SinCosTable_  0x020A1B38  data
  *   func_02061CA4    0x02061CA4  arm

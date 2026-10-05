@@ -8,6 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note 2026-10-05 (wave D8 lane03): still DIFF 2 bytes (+0x15A `movs r2,#0` vs our `adds r2,r4,#0`).
+ *   New probes: in ours the arg zeros turn from movs into copies of r4 right after func_02049238(h)
+ *   (moving 0204B100 before 02049B40 makes 0204B100's zero the first copy); in the image the switch is one
+ *   call later, after 02049B40. It is not plain register pressure: after the 0x53 open (r4-r7 all busy) the
+ *   image still copies. Tried without change: an enum palette-location parameter for 02049B40 (PAL_MAIN_BG);
+ *   a `z = 0` variable for the zero arguments after 02049B40; `w = 0x20` for the 0x20 stack arguments;
+ *   `w = 0x60` with `w *= 4` / `w <<= 2` / `w = w * 4` for 0x180 (mwcc folds all); inline helpers
+ *   [02049B40..0x53 close] and [02049B40..020434DC]. Next: find which value the image keeps live until
+ *   02049B40 returns.
  * note (2026-10-04, wave D3 lane 08): DIFF, complete draft (1276 vs 1240 bytes).
  *   Logic is checked against the listing (every call, constant and pool word). Residue
  *   is register choice: after the func_02008550 if, the target keeps the 0x544 heap

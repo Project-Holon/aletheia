@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD8 lane03): still DIFF (166 bytes by match.py one). Tried: `while (i < n) { ...; i++; }`;
+ *   e as a block-local `u8 *e = ...` with i declared before n; the loop bound read as `p->c.cnt` in the
+ *   condition (248 B, reloads). None moves i to the stack. Slot reading: image n@0, i@4, r@8, then the
+ *   compiler temps, b@0x24: n and i are user locals that the allocator spilled.
  * 2026-10-05 (wD7 lane18): DIFF 91 B (was 198 B). The GX writes are now plain constant addresses
  *   (0x040004A4, 0x04000500, 0x04000480, 0x0400048C, 0x04000504) and the z word is the constant 0x4000:
  *   mwcc itself derives them from the 0x040004A4 pool word (r+0x5C, r-0x24, r-0x18, r>>12, r+0x60) and

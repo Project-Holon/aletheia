@@ -26,6 +26,9 @@
  *   swap comes from the long-lived local set, not from the first part.
  * note (2026-10-05, wD4 lane17): still DIFF, 28 bytes, register names only (p r5/a r4 vs original p r4/a r5). New tries: t0 and a merged into one local (no change); `r` loaded inside each arm (moves the ldr after the cmp as in the original, 26 bytes left, not applied here); if-else inverted on the 0x14 test (74 bytes, block order breaks). The remaining residue is the colour of p versus the first call result.
  *
+ * 2026-10-05 (wD8 lane09): still DIFF 26 bytes. Tried: x reassigned as t0 (`x = func_0216D5F8(x)`) with a
+ *   separate a: worse (88 bytes, x takes r4 and p r5, the parameter copy order changes). The a-web gets the
+ *   lower register in every form so far.
  * symbols:
  *   func_0216D5F8  0x0216D5F8  thumb  ov010
  *   func_0216D83C  0x0216D83C  thumb  ov010

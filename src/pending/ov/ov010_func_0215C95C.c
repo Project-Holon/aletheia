@@ -22,6 +22,8 @@
  * template) only reach an overlay loader through func_0215C63C, so no
  * class attests them.
  *
+ * 2026-10-05 (wave D8): Residue is evidence only: ov071_id and d_021BA758 (no witness); func_02175FB4 now resolves.
+ *
  * symbols:
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_02012138  0x02012138  thumb

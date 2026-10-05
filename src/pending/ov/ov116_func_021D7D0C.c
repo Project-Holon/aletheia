@@ -25,6 +25,9 @@
  *   (mwcc keeps 0x20 in r6 itself). Tried the last call through a static inline wrapper (heap parameter):
  *   same. Reading: the image picks str r6,[sp] before the heap reload; both become ready after the
  *   p+0x988 store; ours picks the load. No source form found.
+ * 2026-10-05 (wD8 lane09): still 10 bytes. Also note `movs r1,#5` sits between the heap reload and its
+ *   store in the image (ours puts it after `movs r0,#0x17`). Checked the house prototypes in matched callers
+ *   (unit_0201F554 u32 x6, ov102/ov209 u16 heap): u16 is already known to add lsls/lsrs. No new form found.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

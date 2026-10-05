@@ -14,6 +14,8 @@
  *
  * MATCH, bytes exact. Blockers: ov174_id (0xAE) and d_021B74A0 have no witness.
  *
+ * 2026-10-05 (wave D8): ov174_id and d_021B74A0 are data with no witness; not fixable in C. Source unchanged.
+ *
  * symbols:
  *   func_02159B10  0x02159B10  thumb  ov010
  *   func_02030734  0x02030734  arm

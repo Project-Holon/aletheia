@@ -46,6 +46,11 @@
  *   argument (no change). The note copy in docs/notes reaches 32 bytes only with an
  *   enum-typed zero local (a stand-in by the D7 rules); even there the copies start at call 9.
  *   Next: a source shape where the stack/struct zeros (r6) are not the int constant 0.
+ * 2026-10-05 (wave D8 lane 02): DIFF, residue unchanged (619 bytes). Tried: the r3 zero parameter (and the
+ *   r2 parameter of 02049B68) of the three loaders typed u8, u16 and s16 so the register zeros are a
+ *   different constant type from the u32 stack zeros (all three: 619, no change). So mwcc does not key the
+ *   constant CSE by parameter type. Also noted: in the original r7 is &cfg (add r7,sp,#0xc) for the
+ *   cfg field stores, so cfg is written through a pointer register.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

@@ -58,6 +58,13 @@
  *   (same 18), static inline accessors for the source (SavOf(buf)) and for the destination (DstOf()), both
  *   same 18. Open: what makes mwcc colour the struct-copy source before the destination.
  */
+/*
+ * 2026-10-05 (wave D8 lane08): DIFF, 18 bytes unchanged. Tried (all 18): `const Sav *` source cast; buf as a
+ *  struct { u8 pre[0x45]; Sav sav; ... } local with `d_021D9E40.sav = buf.sav`; destination as
+ *  `*(Sav *)((u8 *)&d_021D9E40 + 6)` (pool word unchanged); destination and source through Data-typed member access
+ *  (`(&d_021D9E40)->sav = ((Data *)(buf + 0x3f))->sav`). The struct-copy expansion colours src r5 / dst r3 in every
+ *  spelling; the image has dst r5 / src r3.
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

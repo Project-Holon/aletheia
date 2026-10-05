@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * status note: EXACT* -- the extent runs long because the unlabelled 8-byte
  *           thunk at 0x020182A0 follows without a label; never a byte

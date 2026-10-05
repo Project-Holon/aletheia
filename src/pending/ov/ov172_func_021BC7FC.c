@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD8 lane10): still DIFF 2 bytes. Tried found |= 1 (543), found = k < 15 (577), found = m == 6
+ *   (574), all as late-folded 1 sources: worse. Residue unchanged at +016C.
  *
  * symbols:
  *   func_021BDFE4  0x021BDFE4  thumb  ov172

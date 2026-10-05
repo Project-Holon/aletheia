@@ -29,6 +29,8 @@
  *   func_0209CB8C 0x0209CB8C arm
  *   func_0209C494 0x0209C494 arm
  *   func_0209C0A4 0x0209C0A4 arm
+ * note 2026-10-05 (wD8 lane06): still 13 bytes. Tried: p copied to a local q used in the loop call; dx computed
+ *   after the declarations; dy declared before dx. All unchanged (entry spill order only).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

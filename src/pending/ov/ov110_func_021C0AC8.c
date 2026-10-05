@@ -7,6 +7,15 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane07): still DIFF (69 B). New reading: the `adds r0,r1,#0` copy is a peephole on a
+ *   rematerialised `add r0,sp,#0xc` (r1 still holds &e from the loop), so the residue is only which register
+ *   the RA gives the target temp: r1 in the image (with 1 in r3, 3 in r2), r0 in ours. Finding: any order with
+ *   e[2].term = 1 before c.target = e loses the reuse (`add r0,sp,#0xc` fresh), so the image IR has target
+ *   before term. Tried: image emission order (term,size,target,...): fresh add r0; target after size with term
+ *   last, or term after target/flag/z: copy stays (73-75 B); an inline setup(&c, e, size) helper with and
+ *   without the term store inside (74 B); target as u32 `(u32)e` and as `&e[0].str` (73 B, copy stays).
+ *   Any constant store (mode, flag) before the target store also clobbers r1 and gives a fresh add (65-69 B).
+ *   An `n = 3` local for the loop bound, flag, w and e[n - 1] is fully propagated (no change).
  * 2026-10-05 (wD7 lane18): still DIFF (128 vs 124 B), store order now target, size, x, y, z, flag,
  *   e[2].term, mode, w. Finding: the original's `str r1,[sp,#0x38]` is the loop's last `add r1,sp,#0xc`
  *   (the frame address is rematerialised after the call in the loop and still sits in r1 at the exit).

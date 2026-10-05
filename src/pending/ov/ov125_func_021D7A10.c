@@ -49,6 +49,11 @@
  *   live across the call: 380 bytes worse (frame changes). Reading: mwcc coalesces the call
  *   result with sz in every source form; the image keeps it in r0. No source lever found.
  */
+/*
+ * 2026-10-05 (wave D8 lane08): DIFF, 2 bytes unchanged. Tried: one temp for both arms (`tmp = sz + 0x140` in
+ *  the then-arm, `tmp = f(id)` in the else-arm, hdr stored from tmp in each arm, `sz = tmp` after the join):
+ *  identical 2 bytes, the call result is still coalesced with the size register r4.
+ */
 typedef struct { int w[0x138 / 4]; } Blob;
 typedef struct { unsigned char b[4]; } W4;
 extern void func_021D7CAC(void);

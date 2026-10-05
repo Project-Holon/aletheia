@@ -15,6 +15,8 @@
  *   void func_0200A908(const Entry *p,u32 i,u16 *n,u8 *a,u8 *b,u8 *c) {
  *     *n=p[i].n; *a=p[i].a; *b=p[i].b; *c=p[i].c;
  *   }
+ * 2026-10-05: byte-identical; the wildcard is arm9 func_0200A930 (new matched/arm9 file, EXACT, this lane, bitfield read); needs its shard.
+ *
  * symbols:
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200A930 0x0200A930 thumb

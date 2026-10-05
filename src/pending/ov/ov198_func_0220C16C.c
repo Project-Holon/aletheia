@@ -30,6 +30,8 @@
  *   static inline adder, n used alone as x (no add), u8 n: the reload still hoists. A new u8 local x for
  *   x0 - (n >> 1) instead of reassigning x0: 328. No ex local, no tab local: no change; ctx1 inlined: 314.
  *   Open: what makes the original x chain depend on the stack stores.
+ * 2026-10-05 (wD8 lane09): still 22 bytes. Same scheduler residue as ov116 021D7D0C (a spill reload kept
+ *   below the outgoing stack stores in the image, hoisted in ours). No new form tested beyond the listing check.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm

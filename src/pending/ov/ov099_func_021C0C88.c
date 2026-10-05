@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note: 2026-10-05 (wD8 lane05): not changed, 203 bytes. Re-read the image: the 0xb, 0x71 (r4 == 6), 0x76 and 0x37 paths
+ *   share one `movs r0,#0x73; lsls; str r1,[r5,r0]` block; the r4 == 5 and DD60 paths have their own stores. No new
+ *   source shape found for a 0x24C that is not a CSE candidate. Tried: f24c as a one-word struct member passed
+ *   as `(char *)&p->f24c` (same 203 bytes).
  *
  * note: 2026-10-05 (wD7 lane09): not changed, still 203 bytes. New finding: the image never derives 0x1CC from 0x24C, and it rebuilds 0x274 after the shared f1cc store. A value local sel with goto store from the -2 and r4 == 6 paths and one store after the 0x76/0x37 if/else makes the tail rebuild 0x24C fresh (as in the image), but the r4 == 5 path still derives 0x1CC (subs r6,#0x80) and the r7 block derives 0x274 from 0x1CC (212 bytes, not kept). Diagnostic: with r6 forced busy the compiler spills the 0x24C constant to the stack, so it treats p + 0x24C and p + 0x1CC as one CSE family; the image does not. Also tried: DD54 call inside the switch default with break, a static inline accessor for p + 0x24C, an unused end: label, a switch on r4 for the 5/6 tests (234 bytes): no gain. Open question: what makes the DD54 argument 0x24C a non-CSE value in the image.
  *

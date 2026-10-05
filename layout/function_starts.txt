@@ -2706,3 +2706,42 @@ arm9_main   0x02027120  thumb   # wave D6: bl from ov219 0x02183D14; EXACT src/m
 overlay_219 0x021856CC  thumb   # wave D6: bl from ov219 0x02183D14; EXACT src/matched/ov/ov219_func_021856CC.c
 arm9_main   0x02060F18  arm     # wave D7: bl from ov009 0x02156E30; EXACT src/matched/arm9/func_02060F18.c
 overlay_172 0x021BBA94  thumb   # wave D7: bl from ov172 0x021BDCB8 (+0x6C); EXACT src/matched/ov/ov172_func_021BBA94.c (968 bytes; the listing also has a stale inner label at 0x021BBAD4)
+arm9_main   0x020071C0  thumb   # wD8: EXACT src/matched/arm9/func_020071C0.c; called from ov034_func_021F09BC.c
+arm9_main   0x0200837C  thumb   # wD8: EXACT src/matched/arm9/func_0200837C.c; called from ov068_func_021BAFA8.c
+arm9_main   0x02008398  thumb   # wD8: EXACT src/matched/arm9/func_02008398.c; called from ov068_func_021BAFA8.c
+arm9_main   0x020083AC  thumb   # wD8: EXACT src/matched/arm9/func_020083AC.c; called from ov068_func_021BAF5C.c, ov093_func_021B6100.c
+arm9_main   0x020083B4  thumb   # wD8: EXACT src/matched/arm9/func_020083B4.c; called from ov068_func_021BAFA8.c
+arm9_main   0x020083C8  thumb   # wD8: EXACT src/matched/arm9/func_020083C8.c; called from ov068_func_021BAF5C.c, ov093_func_021B6100.c, ov093_func_021B85A8.c
+arm9_main   0x020083D0  thumb   # wD8: EXACT src/matched/arm9/func_020083D0.c; called from ov068_func_021BAFA8.c
+arm9_main   0x02008430  thumb   # wD8: EXACT src/matched/arm9/func_02008430.c; called from ov068_func_021BAFA8.c
+arm9_main   0x0200A930  thumb   # wD8: EXACT src/matched/arm9/func_0200A930.c; called from unit_0200A864.c, ov106_func_021B8B9C.c
+arm9_main   0x02012798  thumb   # wD8: EXACT src/matched/arm9/func_02012798.c; called from ov018_func_0217B600.c
+arm9_main   0x02012FA4  thumb   # wD8: EXACT src/matched/arm9/func_02012FA4.c; called from ov010_func_0216B3EC.c
+arm9_main   0x0201313C  thumb   # wD8: EXACT src/matched/arm9/func_0201313C.c; called from ov010_func_0215E5B0.c, ov010_func_0216E68C.c, ov010_func_0216EE40.c
+arm9_main   0x02018238  thumb   # wD8: EXACT src/matched/arm9/func_02018238.c; called from ov091_func_021BA5B4.c
+arm9_main   0x020182A0  thumb   # wD8: EXACT src/matched/arm9/func_020182A0.c; called from ov091_func_021BA5E0.c
+arm9_main   0x02018480  thumb   # wD8: EXACT src/matched/arm9/func_02018480.c; called from ov093_func_021BCFAC.c
+arm9_main   0x0201F614  thumb   # wD8: EXACT src/matched/arm9/func_0201F614.c; called from ov035_func_021F0218.c, ov203_func_021BF470.c
+arm9_main   0x02021F3C  thumb   # wD8: EXACT src/matched/arm9/func_02021F3C.c; called from ov071_func_021B6C7C.c
+arm9_main   0x020267E4  thumb   # wD8: EXACT src/matched/arm9/func_020267E4.c; called from ov010_func_02164E8C.c
+arm9_main   0x0202E7E0  thumb   # wD8: EXACT src/matched/arm9/func_0202E7E0.c; called from ov011_func_02174514.c, ov093_func_021C4744.c
+arm9_main   0x0202E7E4  thumb   # wD8: EXACT src/matched/arm9/func_0202E7E4.c; called from ov093_func_021C4744.c
+arm9_main   0x0202E818  thumb   # wD8: EXACT src/matched/arm9/func_0202E818.c; called from ov010_func_0216E68C.c
+arm9_main   0x0202E82C  thumb   # wD8: EXACT src/matched/arm9/func_0202E82C.c; called from ov018_func_02181D8C.c
+arm9_main   0x0204EA4C  arm     # wD8: EXACT src/matched/arm9/func_0204EA4C.c; called from ov180_func_021B6704.c
+overlay_010 0x0215C7C4  thumb   # wD8: EXACT src/matched/ov/ov010_func_0215C7C4.c; called from ov010_func_0215C7E0.c
+overlay_099 0x021C2850  thumb   # wD8: EXACT src/matched/ov/ov099_func_021C2850.c; called from ov006_func_021544F0.c
+arm9_main   0x0200B98C  thumb   # wD8: starts after pool_0200B988; bl from ov183 021DD228, 021DD25C, 021DEE7C, 021E2C2C, 021DF838, 021DC228, 021DC4FC, 021DB940, 021DC8EC, 021DBD7C, 021DCBD8 (pending, byte-correct)
+arm9_main   0x0202E7C4  thumb   # wD8: starts after padding; bl from ov011 0x02174514 (pending, byte-correct)
+arm9_main   0x02026680  thumb   # wD8: push {r3-r6}, after padding; bl from ov011 0x021731C8 (pending, byte-correct)
+arm9_main   0x0200960C  thumb   # wD8: starts after pool_02009608; bl from ov135 0x021F8554 (pending, byte-correct)
+overlay_010 0x02161F68  thumb   # wD8: starts after pop {r4,pc} at 0x02161F66; bl from ov011 0x021731C8 (pending, byte-correct)
+overlay_010 0x0215611C  thumb   # wD8: push {r3-r7,lr} after pop at 0x0215611A; bl from ov010 0x02155C0C (pending, byte-correct)
+overlay_186 0x021FD1C4  thumb   # wD8: push {r3-r7,lr} after pool_021FD1C0; bl from ov185 0x021F8E90, ov183 0x021DCDD8 (pending, byte-correct)
+overlay_000 0x02154668  thumb   # wD8: ldr r3,[pc]; bx r3 stub after a pool; ABS32 from ov029 0x021F2F60 (pending, byte-correct)
+overlay_014 0x02179650  thumb   # wD8: starts after pool_0217964C; tail call from ov172 0x021B8448 (pending, byte-correct)
+overlay_013 0x021AF18C  thumb   # wD8: starts after pool_021AF188; bl from ov009 0x02156344 (pending, byte-correct)
+overlay_114 0x021C93D0  arm     # wD8: starts after pool_021C93CC; bl from ov116 0x021D7AA8, 0x021D70EC (pending, byte-correct)
+overlay_114 0x021C940C  arm     # wD8: starts after bx lr and a pool word; bl from ov116 0x021D70EC (pending, byte-correct)
+overlay_094 0x021F8524  thumb   # wD8: starts after pool_021F8520; bl from ov093 0x021CDDA0, 0x021CE08C (pending, byte-correct)
+overlay_094 0x021F7E94  thumb   # wD8: starts after pool_021F7E90; bl from ov093 0x021D2814 (pending, byte-correct)

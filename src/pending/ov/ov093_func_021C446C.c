@@ -30,6 +30,7 @@
  *  func_021D5440 0x021D5440 thumb ov093
  *  func_021C4614 0x021C4614 thumb ov093
  *  func_021D701C 0x021D701C thumb ov093
+  * note 2026-10-05 (D8 lane16): re-verified MATCH*. Callee 0x021C4B8C is a Thumb thunk to 0x06898D54 (veneer-like, outside every image region) and 021C45E4/F4/604 are veneers; not C.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;

@@ -6,7 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: DIFF
+ * note 2026-10-05 (integrator): the source no longer has the (int)(u32)r stand-in cast, so it is DIFF (the plain compare drops the reload of r). With the cast it verifies EXACT*: rejected as a stand-in.
+ * note 2026-10-05: witness src/matched/arm9/func_02018480.c filed (EXACT); the wildcard at +0x38 resolves after regeneration. The reload still needs the (int)(u32)r spelling, which is a no-op steering cast (stand-in, not accepted). Tried without it: u16 callee return type for func_021D78AC with plain compares, and an int local fed from the u16 return: both forward r0 and drop the ldr (200 bytes). Parked MATCH* because of the cast; reading: r is spilled for real (p,a,x,y fill r4..r7), so the original defines r with the store at the def and the reload at first use; no stand-in free source found.
  * evidence: every concrete byte matches (MATCH*, the trailing 021BD07E
  *   halfword is alignment padding). The one wildcard is +0x38, the bl to the
  *   ARM9 Thumb thunk func_02018480 (ldr r3,[pc]; bx r3; .word 0x02018489),
@@ -76,7 +78,7 @@ int func_021BCFAC(u8 *p, u8 *a)
                     if ((u16)func_021D78AC(x + y + 1) < y) return 0;
                     if (func_021D62C4(a, 2) != 0) return 4;
                     r = func_021D78AC(256);
-                    if ((int)(u32)r < x - y && func_021BD080(p, a) == 0) return 2;
+                    if (r < x - y && func_021BD080(p, a) == 0) return 2;
                     if ((u16)(r - (u16)(x - y)) < x - y) return 3;
                     return 4;
                 }

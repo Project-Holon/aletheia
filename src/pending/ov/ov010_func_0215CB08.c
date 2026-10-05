@@ -21,6 +21,8 @@
  * contested hints that resolve once the function loads those overlays
  * through an overlay_id site. d_021BA1A4 (ov221) already resolves.
  *
+ * 2026-10-05 (wave D8): Residue is evidence only: ov221_id, ov222_id, ov224_id and the contested hints d_021BA250 and d_021B9BF8; not fixable in C.
+ *
  * symbols:
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_020120F4  0x020120F4  thumb

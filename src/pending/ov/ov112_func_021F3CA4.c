@@ -58,6 +58,22 @@
  *   &a (sp+0x30), then h. Tested one variable for both (u32 one = 1; ... one = 0x04000060; register
  *   writes through it): byte-identical to the draft (524 bytes), the 1 is still propagated. Residue
  *   unchanged: head 3/1 in r7/r4, tail r3 = r6.
+ * note (2026-10-05, wave D8 lane 01): new reading, no fix. The head shape (3 in r7, 1 in r4, then
+ *   lsls from them) is the compiler's own constant derivation, and our source already reaches it
+ *   when the function is cut short: the same draft truncated after the camera call (or after the
+ *   first 02049BDC/02049658/020498F4 group) gives `movs r0,#3; movs r7,#3` and `lsls r1,r7,#0xe`,
+ *   `lsls r0,r6,#0x10`, `lsls r0,r6,#0xc` exactly. Bisection of the full body: the 3 web is lost
+ *   when the literal 3 of func_02049658(h, 8, 3, ...) is added (replacing only the late 3s of
+ *   02049658/020498F4/020409B4 by another value restores the derivation, replacing the earlier 3 of
+ *   func_021F3EAC does not); the 1 web is lost by the 1 of func_0207D63C(.., 8, 1, 0, 10). So mwcc
+ *   builds one web per constant over the whole branch-free body and drops it when it reaches too far.
+ *   In the original these late 3s and 1 are separate (fresh movs), and the zero in r6 also ends
+ *   before func_0207D63C (fresh movs r3,#0). The source therefore separates the late constants from
+ *   the head ones; not found yet. Tried this wave, no change to the head: literal constants without
+ *   locals, the 3D table copies in a block and in a static inline, the head in a static inline,
+ *   G3X_EdgeMarking/AntiAlias/AlphaBlend inlines with if/else, u8 prototypes for the late callees,
+ *   a SDK G2_SetBlendAlpha inline for func_0207D63C, a for loop for the two func_020409B4 calls
+ *   (not unrolled, but it also restores the 1 web).
  * symbols:
  *   func_02046440  0x02046440  arm
  *   func_0204044C  0x0204044C  arm

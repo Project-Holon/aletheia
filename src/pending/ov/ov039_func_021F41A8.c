@@ -33,6 +33,9 @@
  *           the comma on the second argument and p assigned in the first (20). Callee heads
  *           read no extra argument registers. The residue is only the order of two independent
  *           instructions after the bl; no source shape tried so far moves it.
+ *           2026-10-05 wave D8 lane 02: still 4 bytes. Checked: no branch targets the movs r1,#1
+ *           at +01B4 (021F435C), so the strb and the movs are in one scheduled block; the residue
+ *           is the scheduler tie-break only. Tried: func_021BE6B0 unprototyped (K&R call), same 4.
  *
  * symbols:
  *   func_020124E4 0x020124E4 thumb

@@ -8,6 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD8 lane10): EXACT found but parked as DIFF under the stand-in rule. Writing the two table
+ *   arguments in two different forms, `func_0201F878(..., t, d_02185F7C[i], tb(i), (u16)*(u32 *)p)` (or tb(i)
+ *   third and d_02185F7C[i] fourth), gives EXACT 120 bytes: the early CSE no longer merges the two reads, so the
+ *   stack argument is computed first and the late CSE shares the load. `d[i]` with `*(d + i)` does not (same
+ *   tree), and tb as `return d[i]` does not. The two-form trick only exists to defeat CSE, so the integrator or
+ *   the user must decide if it is acceptable. Source below is unchanged (17 bytes).
  * 2026-10-05 (wD7 lane14): still DIFF 17 bytes. Reading: the image computes the table address in r2/r3 because h (r0) and t (r1) are
  *   already live, so the table chain comes after the h load in the IR; ours computes the CSE'd table value first (temps r0/r1), so
  *   the scheduler cannot interleave. Tried: non-const extern table (same), u16 h local before the call (same, propagated),

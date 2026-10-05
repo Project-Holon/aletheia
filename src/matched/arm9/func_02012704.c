@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  * note:     wave 16: promoted.  0x0215E334 and 0x02159BBC are unlabelled ov010
  *           ENV_SetResourceSet thunks matched in src/matched/func_0215E334.c and
  *           func_02159BBC.c (`matched, overlay`); 0x021647D8, 0x0216CCB0 and
