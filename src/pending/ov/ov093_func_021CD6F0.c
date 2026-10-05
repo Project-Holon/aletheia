@@ -8,7 +8,22 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * note: 2026-10-05 (wave P4 lane S10, pengy share) 492 B vs 496 B (the extra 2 B are the
+ * note: final push 2026-10-05 G8L5: 496 B (same size as the original), 37 B differ, was 108 B
+ *   differing at 492 B. Fix found: the 4-iteration loop stores the constant 0, not i (the copy
+ *   adds r2,r3,#0 sits before the loop label; docs/idioms/a-copy-of-the-counter-before-the-loop-
+ *   label-is-a-stored-zero.md). Remaining residue is only the entry schedule (+0006..+0054):
+ *   the original puts the flag constant in r2 (movs r2,#1; str r2,[sp,#0xc]) so the heap
+ *   write-back str [sp,#0x40] sinks below it and idx is loaded early (ldr r7); ours puts the
+ *   constant in r0, which pins the write-back right after its load and moves ldr r7 last, and
+ *   ldr r3 (heap) above strb e. Tried with no change in the 37 B: flag as 3rd alloc arg, flag=1
+ *   inside the call args (3rd, 4th, 5th), decl initialiser, u8/u16/u32 flag, locals order,
+ *   one = flag = 1, named locals with opt_propagation off (do-while loop), all six pragmas,
+ *   halloc static inline, second extern name for the second alloc, u32 copy of heap, idx as
+ *   int/u32/u8, c/d as u32, const on h and on a/b. heap as int, const u32, u16 or u8 drops the
+ *   write-back or changes the frame (worse). Matched-assembly search for the same entry
+ *   sequence (str r3; movs r2,#1; str r2) hit only ov021 02199B38 (outgoing stack args, not
+ *   the same shape) and ov195 022083EC.
+ *   Earlier: 2026-10-05 (wave P4 lane S10, pengy share) 492 B vs 496 B (the extra 2 B are the
  *   pool-alignment nop). Body, calls, field offsets and the callee argument order match. Residue
  *   1: prologue schedule: original orders adds r6/ldr r7 idx/ldr r0 heap/adds r4/str r3/movs r2,1/
  *   str flag, then the heap write-back str [sp,#0x40] after the pool load; ours puts the heap
@@ -105,7 +120,7 @@ u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, in
         *(int *)(p + 0xf0) = 0;
     }
     for (i = 0; i < 4; i++)
-        p[0x112 + i] = i;
+        p[0x112 + i] = 0;
     if (p[0x1a7] == 0 && func_021B90F8(*(u8 **)p))
         *(void **)(p + 0x10) = func_021EE5E4(heap);
     else
