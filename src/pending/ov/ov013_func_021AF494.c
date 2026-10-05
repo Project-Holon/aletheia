@@ -37,6 +37,19 @@
  * Thumb forms elsewhere. Idioms read: of-two-equal-temps-the-later-born-one-gets-the-lower-register.md,
  * opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores.md.
  *
+ * 2026-10-05 final push G10L8: still DIFF, 68 B differ of 404 (was 107). Lever from the sibling
+ * encoder ov013 021B01FC: a separate new-predictor local `np = pred + vp` with the clamps on np and
+ * `st->pred = (s16)np`, plus a non-const `s16 *src` (107 to 68). The step local is kept here (the
+ * image reads the table once, unlike 021B01FC). Residue is still only half's colour: image half r8,
+ * ours r5 (everything else is the same shifted by one). 40 compiles, no gain below 68: half as int,
+ * long, n >> 1, n /= 2, const half, `i < n/2` (half hoisted into r2), while/do-while/guard forms,
+ * for(i=0,half=...), counter before bound, all 24-ish declaration orders of half/i/lo/hi (68 or 72),
+ * single-expression and `b |=` forms, s16/int sample parameter, int helper return, a shared-local
+ * macro (108+), each per-function pragma (lifetimes, common_subs, scheduling, peephole = 68;
+ * propagation 105; dead_assignments 78; propagation/lifetimes with do-while 342+). The decoder
+ * twins loop on n directly and the only other ARM `lsrs rN, rM, #1; mov r5, #0` hit, matched
+ * func_0203F328, has no register pressure, so neither shows the form.
+ *
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
@@ -63,6 +76,7 @@ static inline u8 AdpcmEncodeSample(AdpcmState *st, int sample)
     int diff;
     int code;
     int vp;
+    int np;
 
     idx = st->index;
     pred = st->pred;
@@ -98,12 +112,12 @@ static inline u8 AdpcmEncodeSample(AdpcmState *st, int sample)
     if (code & 8) {
         vp = -vp;
     }
-    pred += vp;
-    if (pred < -32768) {
-        pred = -32768;
+    np = pred + vp;
+    if (np < -32768) {
+        np = -32768;
     }
-    if (pred > 32767) {
-        pred = 32767;
+    if (np > 32767) {
+        np = 32767;
     }
     idx += d_021B3A0C[code];
     if (idx < 0) {
@@ -111,12 +125,12 @@ static inline u8 AdpcmEncodeSample(AdpcmState *st, int sample)
     } else if (idx > 88) {
         idx = 88;
     }
-    st->pred = (s16)pred;
+    st->pred = (s16)np;
     st->index = idx;
     return code;
 }
 
-void func_021AF494(u8 *dst, const s16 *src, u32 n, AdpcmState *st)
+void func_021AF494(u8 *dst, s16 *src, u32 n, AdpcmState *st)
 {
     u32 i;
     u32 half;
