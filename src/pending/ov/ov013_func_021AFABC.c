@@ -55,6 +55,29 @@
  * tables); two-live-pool-global-bases-swap-ip-and-lr.md (store order of first use: not
  * applicable, tables are loop-hoisted); a-clamp-with-both-stores-in-each-arm-...md (n/a);
  * a-data-pair-load-hoisted-into-locals-before-a-clamp.md (n/a).
+ * final push 2026-10-05 G10L3: DIFF, 1320 B, 383 B differ (was 627; 40 compiles). Applied the
+ * closed sibling 021B01FC forms: separate np local, non-const src read as *src++ in the
+ * call arguments (no src += 8), no named table-value temp for the delta. A named step
+ * local assigned first (before diff) is still needed: the whole first sample then matches
+ * the image byte for byte (idx r6, pred r7, step r8, diff sb); without the step local the
+ * pool order is right (3A1C first) but colours are off (691 B). Step read as
+ * step = d_021B3A1C[st->index] before idx and pred gives 383 (plain idx form 422). Residue:
+ * (1) pool order of the two hoisted table loads (image step table first; any step local
+ * puts the index table first; step assigned after the sign diamond gives the right order
+ * but wrong colours, 680 B); (2) from the second sample on, the image schedules
+ * strh, the a-byte mask, strb, the idx mask after the stores and loads pred and sample before the
+ * step load (subs before lsl); ours hoists the idx mask and the step load above the pred
+ * and sample loads, and the idx lands in r5 where the image uses sl. No effect: pred/idx
+ * read order, int/u32/u8/s16 spellings of sample, pred, code, return, accumulators
+ * (int or u32 accumulators 979 B), c0..c7 locals vs call-argument form, one accumulator
+ * reused, *dst++, one big OR expression (972 B), accumulate-then-store (1214 B), stores
+ * index then pred, idx clamp as two ifs (997 B), pred += delta (390 B), extern order,
+ * pragmas opt_lifetimes and opt_strength_reduction (same), opt_propagation and
+ * opt_common_subs (worse, 1144 and 1163 B).
+ * Idioms checked: of-two-equal-temps-the-later-born-one-gets-the-lower-register.md,
+ * opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores.md
+ * (propagation off is much worse here). Matched hits: 021B01FC (source of the forms),
+ * 021AFFE4, 021AF340, 021AF628 read.
  * symbols:
  *   d_021B3A04 0x021B3A04 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2
@@ -73,13 +96,14 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
 {
     int pred;
     int idx;
-    int step;
     int diff;
     int code;
     int delta;
+    int np;
+    int step;
+    step = d_021B3A1C[st->index];
     idx = st->index;
     pred = st->pred;
-    step = d_021B3A1C[idx];
     diff = sample - pred;
     if (diff < 0) {
         code = 4;
@@ -98,40 +122,32 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
     if (code & 2) delta += step;
     if (code & 1) delta += step >> 1;
     if (code & 4) delta = -delta;
-    pred += delta;
-    if (pred < -32768) pred = -32768;
-    if (pred > 32767) pred = 32767;
+    np = pred + delta;
+    if (np < -32768) np = -32768;
+    if (np > 32767) np = 32767;
     idx += d_021B3A04[code];
     if (idx < 0) idx = 0;
     else if (idx > 88) idx = 88;
-    st->pred = (s16)pred;
+    st->pred = (s16)np;
     st->index = idx;
     return code;
 }
-void func_021AFABC(u8 *dst, const s16 *src, u32 n, AdpcmState *st)
+void func_021AFABC(u8 *dst, s16 *src, u32 n, AdpcmState *st)
 {
     u32 i;
-    u8 c0, c1, c2, c3, c4, c5, c6, c7;
     u8 a, b, c;
+    u8 c2, c5;
     for (i = 0; i < n / 8; i++) {
-        c0 = Adpcm3EncodeSample(st, src[0]);
-        a = c0 << 5;
-        c1 = Adpcm3EncodeSample(st, src[1]);
-        a |= c1 << 2;
-        c2 = Adpcm3EncodeSample(st, src[2]);
-        dst[0] = a | (c2 >> 1);
-        c3 = Adpcm3EncodeSample(st, src[3]);
-        b = c3 << 4;
-        c4 = Adpcm3EncodeSample(st, src[4]);
-        b |= c4 << 1;
-        c5 = Adpcm3EncodeSample(st, src[5]);
-        dst[1] = b | (c2 << 7) | (c5 >> 2);
-        c6 = Adpcm3EncodeSample(st, src[6]);
-        c = c6 << 3;
-        c7 = Adpcm3EncodeSample(st, src[7]);
-        c |= c7;
-        dst[2] = c | (c5 << 6);
-        src += 8;
-        dst += 3;
+        a = Adpcm3EncodeSample(st, *src++) << 5;
+        a |= Adpcm3EncodeSample(st, *src++) << 2;
+        c2 = Adpcm3EncodeSample(st, *src++);
+        *dst++ = a | (c2 >> 1);
+        b = Adpcm3EncodeSample(st, *src++) << 4;
+        b |= Adpcm3EncodeSample(st, *src++) << 1;
+        c5 = Adpcm3EncodeSample(st, *src++);
+        *dst++ = b | (c2 << 7) | (c5 >> 2);
+        c = Adpcm3EncodeSample(st, *src++) << 3;
+        c |= Adpcm3EncodeSample(st, *src++);
+        *dst++ = c | (c5 << 6);
     }
 }
