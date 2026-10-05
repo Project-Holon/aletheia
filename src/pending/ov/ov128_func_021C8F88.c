@@ -20,6 +20,15 @@
  *   q+4 holds the save object; ctx+4 bank, +8 archive, +0x34 / +0x17c gfx args. Friend code
  *   screen: u64 key, 12 digits (u64 /10, %10), gap of 8 after every 4th digit.
  *   All callee prototypes already match the arity of the call sites.
+ *   recoup 2026-10-05 (lane R20): lever 2 closed the entry-prologue part: heap as u16 here AND
+ *   in func_020457B0 / func_02049EF4 prototypes (38 -> 22 B, the str r3 spill now comes first).
+ *   Remaining 22 B: pure colour swap, classes {10, i} and {2, text} swapped (orig r5/r4, build r4/r5).
+ *   Tried, no change: u8 heap, text/i decl order, w1 inline, x decl order, long i/x/n, six pragmas
+ *   (propagation worse), pal/gfx swap 28, t before call 98, w1 late 39, u32/u8 i 146/130, i<13 24.
+ *   Twin search: grep func_0205994C / func_021CA4B4 / func_02045AFC in src/matched/ov: no loop twin.
+ *   Idioms checked: two-long-lived-values-in-each-others-registers (no applicable form),
+ *   a-long-index-colours-apart-from-an-int (22), a-colour-swap-...-opt-lifetimes-off (22),
+ *   a-loop-counter-zero-before-an-offset-assignment (n/a).
  * symbols:
  *   func_021C63AC 0x021C63AC thumb ov128
  *   func_021B6AE4 0x021B6AE4 thumb ov067
@@ -47,7 +56,7 @@ extern const Tbl d_021CA674;
 extern void func_021C63AC(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
 extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void func_021CA4B4(char *p);
-extern void *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_020457B0(u32 capacity, u16 heapId);
 extern u32 func_0201283C(void *p);
 extern void *func_02009860(void *p);
 extern u64 func_0205994C(void *userdata);
@@ -56,12 +65,12 @@ extern u32 func_02045738(void *p);
 extern void func_0204581C(void *buf);
 extern void func_02045AFC(void *buf, u32 c);
 extern void func_02045808(void *p);
-extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u32 heap);
+extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u16 heap);
 static inline u8 *second(u8 *p)
 {
     return p + 8;
 }
-void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u32 heap)
+void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
 {
     u8 *w1;
     void *buf2;

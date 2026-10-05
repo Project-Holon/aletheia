@@ -37,6 +37,20 @@
  * (docs/idioms/a-pool-word-order-residue-is-a-list-scheduler-tie.md), no
  * source shape found. Parked.
  *
+ * recoup 2026-10-05 (R16, 13 compiles, best stays 17 B): same single residue
+ * (pool d_021B3C50 load scheduled before the *3 chain, result in ip). Tried:
+ * second result via root local (17), via sum2 reuse (17), via a block local
+ * (17), sum2 = result * 3 then >> 1 (17), ret = 1 before the f0 store with
+ * f0 = ret (17), f4 store before f0 (27), ret = 0 before the if with no else
+ * (452 B), failure-first polarity (96), ret = 1 at block top (464 B),
+ * declaration orders root,i,sum,ret (456 B) and sum,i,root,ret (21).
+ * Idioms checked: a-pool-word-order-residue-is-a-list-scheduler-tie (matches
+ * the symptom, no source lever), a-dying-pointer-loads-scratch-colour-can-be-
+ * an-allocator-tie, a-pool-address-takes-ip-only-when-the-low-scratch-is-
+ * reserved, a-width-stored-in-the-handle-temp-it-replaces (reuse, 17),
+ * a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer
+ * (const not applicable, no pointer reads). Pragmas not retried (header).
+ *
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4

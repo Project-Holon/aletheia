@@ -37,6 +37,18 @@
  *   Open: a source where base+4 is a value live only inside the block after the `r != -1` branch
  *   (a local read twice would stay unpropagated) without being live across later blocks.
  *
+ * recoup 2026-10-05 (R12, 15 compiles, all still 5 bytes unless noted): levers 1-2 n/a (callees and widths
+ *   already from matched callers; f4 is a plain u32). Lever 3 n/a (no spill slots, r is r4 in both). Lever 4:
+ *   table pointer local `t = s->f1c` set right after the call (10 bytes, ldr hoisted above the -1 compare);
+ *   `q = &f1c->f4` set in a comma expression, with opt_propagation / opt_lifetimes / opt_dead_assignments off
+ *   (15 each, q hoisted above the compare). Lever 5/6: `p = &f1c[r].f4` read once and reused (5);
+ *   `*(u32 *)((u8 *)f1c + (r<<3) + 4)`, `4 + (u8 *)f1c + r*8`, `(*(u32 (*)[2])(f1c+r))[1]` (5 each);
+ *   `((u32 *)f1c)[r*2+1]` on both tests (1332 B, lsls/adds/lsls form); q scoped inside `if(r!=-1)` with the
+ *   success path reached by goto (1328 B, 163 differ, still folds `adds r0,r1,r0; ldr [r0,#4]`).
+ *   Finding: every form that keeps base+4 as a tree node is folded into the load offset; every form that
+ *   keeps it unfolded (a named local) is hoisted above the `r != -1` compare. Residue unchanged.
+ *   Idioms checked this pass: none new beyond the five listed above.
+ *
  * symbols:
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02035BA4 0x02035BA4 arm

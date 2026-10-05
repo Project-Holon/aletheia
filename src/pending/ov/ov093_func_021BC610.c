@@ -33,6 +33,21 @@
  * Tried and no change: slot as one function-level variable shared by both loops
  * (262 B), slot declared before q (533 B), q held as u32 (same).
  *
+ * recoup 2026-10-05 (lane R17): still DIFF 612 B, 18 B differ (same residue, form unchanged).
+ * Twin search: grep func_021B9BF0 / func_021BB8B0 / func_021B9AB0 in src/matched/ov gave
+ * ov093 021BC220, 021BBB60, 021BD34C (same q-loop shape, no counter like ours). Levers, one
+ * compile each: (1) callee types: q as u8 * with *(void **)(q + 4), func_021B9BF0 returning
+ * u32 (both and combined), no change; (2) widths already u8; (3) spill slots already equal;
+ * (4) counter zero before the n call (31 B), in the for-init (18 B), continue guard (18 B);
+ * (5) counter as one function-level variable before/after q or shared with loop 2 (18 / 28 B).
+ * Finding: the counter takes r5 and q r6 (the original colours) exactly when the counter
+ * is DEFINED textually before the q call (the statement "u8 r5 = 0;" first in the i-loop body): the lower
+ * register goes to the web defined first. That form then keeps r5 as the zero for the
+ * j = 0 store and hoists movs r5 above the call (original: zero reloaded into r0, movs r5
+ * after the n call); opt_propagation off gives 624 B. Defining it between the q call and
+ * the if costs 4 B. Need: a first definition of the counter before the q call that does not
+ * propagate into j = 0 and leaves movs r5 after the n call.
+ *
  * symbols:
  *   func_021BB85C  0x021BB85C  thumb  ov093
  *   func_021BB8A8  0x021BB8A8  thumb  ov093

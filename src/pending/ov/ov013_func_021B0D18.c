@@ -19,6 +19,11 @@
  *   void pointer, nested if instead of &&, reset stores in either source order (scheduler output unchanged),
  *   each of opt_lifetimes, opt_propagation, opt_common_subs, opt_dead_assignments, scheduling, peephole off
  *   (all 10 bytes). No twin found. Header: status DIFF, 10 bytes.
+ * recoup 2026-10-05 (lane R13): no loop counter here, so the ov013 021B0614 opt_lifetimes shape does not apply. Levers 1-2 no change
+ *   (callee arities and widths already match matched callers). Lever 3/4/5: f8 block as nested if, store first, f5 = f5 | 0x80,
+ *   byte temp, else-if with empty then, negated condition, f5 through a u8 pointer local: all 10 B. Pointer local for d_021B3C84
+ *   (whole function 53 B, f8/f14 blocks only 362 B). Pragmas not repeated (header lists them). Residue unchanged: zero store
+ *   scheduled before orr in the f8 block only.
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   d_021B3C84  0x021B3C84  data  ov013  a4

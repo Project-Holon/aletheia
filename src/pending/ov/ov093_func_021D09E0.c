@@ -21,6 +21,12 @@
  * of count before the call, p as void *, func_021D57FC returning u32, pragmas scheduling
  * off and peephole off (5 B), opt_propagation off (275 B). The two trailing bytes of the
  * 304 B extent are padding (movs r0,r0), so size is exact (302 B).
+ * recoup 2026-10-05 R3: still 5 B (entry 'str r2,[sp,#4]' third). Tried, no gain: i = 0
+ * before the call (13 B); i/j declared first (12 B); j before i (12 B); count u32 (9 B),
+ * int (15 B), u16 (11 B); p as u32, target as u8 *, func_021D57FC returning u32, type
+ * cast (u16): 5 B; type u32/u16 (16 B); const count (5 B); count copied to a local
+ * (5 B); explicit if (count == 0) return (289 B); pragmas opt_lifetimes off (96 B),
+ * opt_common_subs off (267 B), opt_dead_assignments off (13 B). Spill slots already agree.
  * symbols:
  *   func_0201C314 0x0201C314 thumb
  *   func_0201C1C8 0x0201C1C8 thumb

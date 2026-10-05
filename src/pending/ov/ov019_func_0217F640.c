@@ -48,6 +48,21 @@
  * a-loop-invariant-buffer-read-through-the-field-colours-below-the-named-locals,
  * a-cast-row-argument-keeps-struct-plus-offset-as-the-loop-invariant (no fit).
  *
+ * recoup 2026-10-05 (lane R8, 13 compiles): the 8 missing bytes are not a
+ * statement: the original has two extra spill pairs (str/ldr of i*4 at sp+0x10
+ * and y at sp+0x1c, reloaded for both calls), frame 0x20 vs 0x1c. Twin search:
+ * grep -l func_02191674 src/matched/ov (only its own definition), plus
+ * 02191674/0201A4D4/0219161C by address (hits: ov019 0217F5E0, ov099
+ * 021BBEB4 sibling, which uses if/else flags, `flags <<= 6`, p->f1344[i+1]).
+ * Tried, all DIFF 99..121: if/else pal then <<=6 (99); u16/u8 pal (112);
+ * u16 y local (121); named y/off/pal in block with byte-offset reads (106),
+ * three statement orders (118, 113, 99 with pal declared first); named tile
+ * pointer locals per call (106); function-level declaration order y,pw,pt,off
+ * (106). Finding: the first-declared of y/off/pal is the value that gets
+ * spilled, but only one of them is ever spilled (the tile temp then lands in
+ * r3, not r6). The original needs two spilled and r6 as the tile temp; no
+ * source form tried makes the allocator spill both y and i*4.
+ *
  * symbols:
  *   func_02188C54  0x02188C54  thumb  ov021
  *   func_02034714  0x02034714  arm

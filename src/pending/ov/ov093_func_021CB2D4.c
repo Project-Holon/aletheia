@@ -43,6 +43,13 @@
  *   the original orders the spill store before the bound reload, which is what a may-alias memory
  *   access gives (bound or counter living in a struct or array on the stack); no human-plausible
  *   source for that was found, so the draft stays DIFF.
+ *   recoup 2026-10-05 lane R11: still 4 B (+0188/+018A), 9 compiles. Lever 1: callee types from matched
+ *   definitions (func_021D6E0C returns u8: 10 B, slots swap; func_021D6E04 returns u8: 4 B, same
+ *   bytes as int; func_021D5440 already u8). Lever 2/3: loop 3 reusing i (10 B) or j (10 B); inner
+ *   bound q < n2 without the n3 copy (6 B); q as u32 (267 B). Lever 5: counter reuse as above. No
+ *   twin found: grep of func_021D5440 / func_021D6E0C / func_021D6E04 in src/matched/ov hits only
+ *   unrelated one-callee functions (ov093_func_021CAFD8, 021C02CC). Pragmas already tried in header.
+ *   Verdict unchanged: DIFF, 4 B off.
  * symbols:
  *   func_021D7EB4 0x021D7EB4 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093

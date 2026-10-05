@@ -18,6 +18,15 @@
  *   two-long-lived-values-in-each-others-registers, a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie,
  *   a-later-parameters-width-reorders-the-entry-spill-stores, a-no-code-self-assignment-reorders-the-register-colouring
  *   (none applies). Callee arity: EB0 (p,int) void, 7ADC takes (p,u8,3) as in 7DA0; no void-return problem.
+ * recoup 2026-10-05 (R6): all 37 B, none closes it. Tried: 7ADC prototype (u8*,u32,int) (54 B, the original does
+ *   truncate row with lsls/lsrs 0x18 at the call, so keep u8); row param u8 (55 B, 268 B size), u16 (38 B), unsigned (38 B),
+ *   short and int-returning EB0 (37 B); row copied to a local, p copied to a local for the first call, p as u8 *, up local
+ *   (all propagate, 37 B); EB0 call through a static inline helper (37 B); compare computed before the call (37 B);
+ *   u8 sel local at the final call, (u8)row cast at the call (37 B); opt_strength_reduction off (37 B). Twin search:
+ *   grep of func_021B7EB0, func_021B7ADC, func_021B7FD0 callers in src/matched/ov: only 7DA0 (no top call) and
+ *   ov173 6348/8110/68C8 (different shape); the ov021 file at this address is another function.
+ *   Idioms read: two-long-lived-values-in-each-others-registers (its tests: extra row use after last p use would
+ *   fix it, not reachable here), plus the five listed above.
  * symbols:
  *   func_021B7EB0 0x021B7EB0 thumb ov173
  *   func_020061E4 0x020061E4 thumb

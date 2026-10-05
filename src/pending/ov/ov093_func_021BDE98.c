@@ -34,6 +34,21 @@
  *   (act moves into r7, id2 spilled, about 1000 B); dropping the else-branch `id2 = id` (same 12 B residue).
  *   Reading: all uses before the found branch use r6, so r7 = r6 is an early statement the compiler
  *   leaves late; a form that keeps it early without moving act into r7 is still unknown. 11 compiles.
+ * note (2026-10-05, recoup lane R15): still DIFF, same 12 B (copy + flag store swapped). Levers 1 to 7 on
+ *   the residue, 20 compiles, none better. 1 callee decls: all callees match their matched definitions (no change).
+ *   2/3 declaration order: id2 first, between m and id, last (all 12 B); spill slots already equal. 4 statement
+ *   position: id2 = id after flag, after sel, after o.c0, flag before/after o.c0, `o.c0 = flag = 0`,
+ *   flag = 0 before the first CD chk call or before the prev call, `int flag = 0` at the declaration (all 12 B, or
+ *   about 1000 B / 1188 B when id2 follows sel: the act->w reload CSE changes and the frame shifts). 6 const Action
+ *   *act (with const callee prototypes) and `Action *const act`: 12 B. u32 flag: 12 B; int sel: 8 B larger.
+ *   Reading: in the original the scheduler fills the ldr [act] latency slot with the copy and sinks the flag store
+ *   below the select store; ours does the reverse and puts the copy right before the first bl. Ordering the
+ *   source statements does not change that tie. 7 pragmas: header lists all six as tried, not repeated.
+ *   Idioms checked: a-pool-word-order-residue-is-a-list-scheduler-tie (same class, no C shape),
+ *   a-flag-set-after-the-call-that-consumes-its-input-shares-that-inputs-register (no change),
+ *   a-dead-store-between-a-temp-and-its-use-blocks-copy-propagation (not applicable, would drop the copy),
+ *   a-const-record-pointer-moves-the-outgoing-stack-store-below-the-register-copies and
+ *   a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer (const act: 12 B).
  * symbols:
  *   func_021D5C08 0x021D5C08 thumb ov093
  *   func_021BD1E0 0x021BD1E0 thumb ov093

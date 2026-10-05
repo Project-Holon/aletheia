@@ -69,6 +69,18 @@
  * followed by an argument 1 merges. Not tried: opt_common_subs off alone
  * (breaks the body per Q6).
  *
+ * recoup 2026-10-05 (lane R10): still 4 B, same icon-block residue
+ * (movs r7,#1; strh r7; adds r1,r7,#0 vs original movs r1,#1 twice). New
+ * tries, all unchanged or worse: tail B6F4+B688 as a static inline (1152 B,
+ * 326 off); opt_common_subs off alone (1176 B); z stored through
+ * *(u16 *)((char *)&r+4) (4 B); z as *(u32 *)&r.z (5 B); B688 argument as
+ * r.z (14 B); Req reached through a pointer rp (4 B); block locals declared
+ * Req first, or Req then hf,h,t (4 B each); B688 second parameter u16, short
+ * or char (4 B each). Matched twins read: ov183 021DF428 and 021DCBD8,
+ * ov208 021C0B6C, ov206 021BB304 and 021BB534 (none has a strh of 1 before a
+ * later literal 1 argument in one block). Reading: only a store operand 1
+ * followed by an argument 1 merges, and no real source form splits them.
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
