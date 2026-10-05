@@ -28,12 +28,14 @@
  *       --func sub_02035C60 --addr 0x02035C60 --cc 1.1p1 --arm
  */
 
+typedef unsigned short u16;
+
 struct Ctx;
 
 extern struct Ctx *func_02035224(void);
-extern void func_02035C48(struct Ctx *ctx);
+extern u16 func_02035C48(struct Ctx *ctx);
 
-void sub_02035C60(void)
+u16 sub_02035C60(void)
 {
-    func_02035C48(func_02035224());
+    return func_02035C48(func_02035224());
 }

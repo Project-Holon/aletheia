@@ -24,7 +24,7 @@ struct Sub0204A9D0;
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 extern void func_020307B0(void *);
-void func_021DE6EC(u8 *p, u8 *q, int i, int j)
+void func_021DE6EC(u8 *p, u8 *q, int i, int j, int unused)
 {
     void *r;
     int n;

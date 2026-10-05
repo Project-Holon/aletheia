@@ -35,8 +35,8 @@ typedef unsigned short u16;
 struct Kind;
 extern u16 func_020357C0(struct Kind *p);
 
-void func_02035C48(struct Ctx02035C48 *ctx)
+u16 func_02035C48(struct Ctx02035C48 *ctx)
 {
     func_02035750(ctx);
-    func_020357C0((struct Kind *)ctx);
+    return func_020357C0((struct Kind *)ctx);
 }
