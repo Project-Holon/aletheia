@@ -38,6 +38,22 @@
  *   Human-source note: st is longer lived than o (reloaded after the call) yet the original gives o the lower
  *   register; no source form tried reverses the colouring order. Unresolved.
  *
+ * final push 2026-10-05 G3L10 (34 compiles, 3 rounds; still DIFF 11/96, only the r5/r6 swap):
+ *   Mechanism found: mwcc pushes nodes by ascending vreg once degree < K; in ours st has one more
+ *   st-only temp neighbour than o (loaded o[3] value, -1 constant, the reload) so o is pushed first and
+ *   gets the higher register. Extending o's live range past the 020120B4 call (probe: `o[1] = 0;` after
+ *   `(*st)++`, not a valid form) flips the colouring to the original (o=r5, st=r6), so the original has o
+ *   live later or one fewer st-only temp. Per-arm loads of o[0] (no hoisted h; inline Setup(o) or o[0]
+ *   read in each arm) also give the original colours but move the ldr r7 below the dispatch (14 B).
+ *   Tried, all 11 B: const-free forms with st[0]/*st, u32 st, void **o, struct o (typed fields), copies of
+ *   o and st declared inside case 0 in all orders, local obj for o[2], q declared in-block, callee types
+ *   from the matched twin ov010 0216C978 (const struct Ctx *, struct IcaAnime *, u32 id, ~0), static inline
+ *   Setup(o, h) and Step(st), o[0] re-read in F4/F0 calls. Worse: q[5]=o[3] moved earlier 28-36 B,
+ *   o[0] re-read at the B4 call 73 B, one-struct &o->out form 74 B, per-arm h without hoist 14 B.
+ *   Matched-asm search for the exact prologue/arg sequence (adds r4,rN,#0; adds r0,r7,#0; adds r4,#imm):
+ *   only ov010 0216C978 (matched, st=r5 o=r6 natural, smaller body). Same prologue (r6=r1, r5=r2) in
+ *   matched ov010 021619B8, ov071 021B730C: o there is used in case 1 or has far more uses. Unresolved.
+ *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_020120B4  0x020120B4  thumb
