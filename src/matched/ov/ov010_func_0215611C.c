@@ -7,78 +7,20 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * 2026-10-05 (wave P2, lane Q7, pengy share): first full draft, 768 B
- * compiled against 772 (pad). Semantics read from the listing: party
- * select screen setup (alloc 0x14 and 0x1B0 B blocks, RTC date bits, four
- * member records with 8 entry slots, then a 4-element descending sort of
- * member totals that permutes the order bytes at +0x48). Residue is all
- * register colour: the original keeps w in r4, the zero (max) in r5, the
- * tag 0x312 in r6 and the file string in r7 across both allocations, then
- * puts d in r7 and rebuilds 0x1B0 (movs 0x1b; lsls 4; subs k) at each use.
- * Mine holds 0x1B0 in r7 (the 0x164, 0x1AE, 0x1AF offsets reuse it), so d
- * is spilled to [sp,#8] and w/zero swap to r5/r4. Without the three
- * derived-offset uses (text copy, bytes at 0x1AE/0x1AF) the prefix colours
- * as the original except w/zero. Tried, no change: max=0 first or before the
- * loop, max declared first or last, file/tag as locals, raw byte offsets for
- * the tail, a local h=0x1b0 for the offsets, int size parameter, no rec
- * pointer (796 B, worse), pragmas opt_lifetimes (772 B but same prefix),
- * opt_propagation (800 B), opt_common_subs, peephole, dead_assignments,
- * scheduling (no change). The original also uses base d+i*0x58 with
- * fields at +4 (mov ip copy), mine builds d+4 first; to be revisited once
- * the allocation is fixed. Left as DIFF.
+ * Party select screen setup: allocates the 0x14 and 0x1B0 B blocks, packs
+ * the RTC date bits, fills four member records with 8 entry slots, then
+ * sorts the member totals in descending order and permutes the order bytes
+ * at +0x48.
  *
- * 2026-10-05 (wave P2, lane Q7b): fields of the member records are now
- * written as d->recs[i].f (no rec pointer local). That form gives the
- * original's `mov ip, r0; strh r1,[r0,#4]`, `adds r2,d,#6` + `[r2,idx]`
- * for the bitfield halfword and `mov r0, ip; str r1,[r0,#8]` exactly, and it
- * also puts w in r4 and the zero/max in r5 as in the original (the old
- * rec pointer form built d+4 first and swapped w/zero). Size is 796 B now
- * (original 772) only because of the remaining residue below.
- * Remaining residue (one cause): the original does NOT pool 0x1b0. It
- * rebuilds it (movs 0x1b; lsls 4) for the alloc argument and again for the
- * text offset (subs 0x4c) and the bytes at 0x1AE/0x1AF (subs 2, subs 1), and
- * keeps tag 0x312 (r6) and the file string (r7) in callee-saved registers.
- * Ours pools 0x1b0 in r7 (4 uses beat the string's 2), the string is
- * reloaded from the pool per call, and d (r7 in the original for the whole
- * function) is spilled to [sp,#8]. With only the text use kept (the two byte
- * stores removed) 0x1b0 takes r6, the string keeps r7, but d is still
- * spilled (five values live at the call to func_02156914), so the pooling is
- * not the only pressure. Tried this lane, no change in the prefix (all
- * compiled against the old rec form unless noted): sizeof(Disp) as the alloc
- * size (identical bytes), int h = 0x1b0 used for the alloc and as `d + h - k`
- * and `d + (h - k)` (identical: the derived offsets come from the pooled
- * constant either way), opt_common_subs off with h (same), static inline
- * alloc wrapper taking size (propagated, same), d declared last (same),
- * `u32 max` (same), opt_lifetimes off (772 B with the old form, 800 B with
- * the new; prefix unchanged, d still spilled). Idiom reading: the pooler
- * pools a repeated constant only when its uses are in one block
- * (docs/idioms/a-repeated-constant-pools-only-within-one-block-...), so the
- * original likely has the four uses of 0x1b0 in different blocks, but the
- * listing shows no branch between them; no source form found that splits
- * them without adding code. Left as DIFF.
- *
- * final push 2026-10-05 G10L5 (24 compiles, 3 rounds): 772 B (size now equal),
- * 32 B off, was 748 B off at 796 B. Root cause of the whole-function shift:
- * the allocator's choice between pooling 0x1b0 (and spilling d) and
- * rematerialising it is decided by the LOOP-2 webs. The k-loop body as
- * `Ent *e = &d->recs[i].ent[idx]` hoisted a d+0x1c+off base web and tipped the
- * allocation; written as `u8 slot = m->recs[k].idx; d->recs[i].ent[slot].a/b/c`
- * (base+idx*8 then +0x1c/+0x1e/+0x20 immediates) the prefix, d in r7, the push
- * list, the 0x30 frame and loop 2 match. Sort loop: t = tmp[b]; u = tmp[b+1];
- * if (u > t) { tmp[b+1] = t; swap order bytes; tmp[b] = u; } makes `a` spill
- * to the stack as in the original. Remaining residue (32 B): (1) the spill
- * slots of the sort counter a and the loop-2 counter i are swapped
- * (original a=[sp,#4], i=[sp,#8]; ours i=4, a=8; declaration order of a, a
- * block-scoped sort block and a separate loop-2 counter all tried, no help);
- * (2) in the j/k loops the base d+off and the zero/k web are swapped (original
- * base r0, zero/k r1; ours the reverse; k=j=0 chain, k declared first, b store
- * first, k=0 before the j loop all worse or unchanged); (3) the order-swap
- * address adds in the sort body: original computes both f48 addresses before
- * the loads. Tried flat: inline PutByte, enum size local, opt_lifetimes,
- * opt_propagation, opt_common_subs (fixes push list only on the old form),
- * string local, h local.
+ * pass 2 2026-10-06 P2L42: EXACT (was 32 B off after G10L5). Three source
+ * facts close it: (1) the slot clear loop and the slot fill loop share one
+ * counter j (one variable, two webs), which swaps the base and zero/counter
+ * registers into place; (2) the fill loop of tmp/f48 uses the sort counter a,
+ * not i, which puts a at [sp,#4] and the record loop counter at [sp,#8];
+ * (3) in the swap, t2 = w->f48[b + 1] is read before the store
+ * tmp[b + 1] = t, so both f48 addresses are built before the loads.
  *
  * symbols:
  *   func_02030734  0x02030734  arm
@@ -222,7 +164,6 @@ void func_0215611C(Work *w)
     u8 tmp[4];
     u8 i;
     u8 j;
-    u8 k;
     u8 b;
     u8 max;
     u8 v;
@@ -290,21 +231,21 @@ void func_0215611C(Work *w)
             d->recs[i].ent[j].b = 0;
             d->recs[i].ent[j].c = 10;
         }
-        for (k = 0; k < 9; k++) {
-            if (m->recs[k].id != 0xFF) {
-                u8 slot = m->recs[k].idx;
+        for (j = 0; j < 9; j++) {
+            if (m->recs[j].id != 0xFF) {
+                u8 slot = m->recs[j].idx;
 
-                d->recs[i].ent[slot].a = m->recs[k].id;
-                d->recs[i].ent[slot].b = m->recs[k].f2;
-                d->recs[i].ent[slot].c = k;
+                d->recs[i].ent[slot].a = m->recs[j].id;
+                d->recs[i].ent[slot].b = m->recs[j].f2;
+                d->recs[i].ent[slot].c = j;
             }
         }
     }
     w->f34->f00 = 1;
     w->f34->f0c = func_0200A5F8(func_02012EBC(func_020120F4(w->f00)));
-    for (i = 0; i < 4; i++) {
-        tmp[i] = w->party->members[i]->total;
-        w->f48[i] = i;
+    for (a = 0; a < 4; a++) {
+        tmp[a] = w->party->members[a]->total;
+        w->f48[a] = a;
     }
     for (a = 0; a < 4; a++) {
         n = 4 - (a + 1);
@@ -312,8 +253,8 @@ void func_0215611C(Work *w)
             t = tmp[b];
             u = tmp[b + 1];
             if (u > t) {
-                tmp[b + 1] = t;
                 t2 = w->f48[b + 1];
+                tmp[b + 1] = t;
                 w->f48[b + 1] = w->f48[b];
                 tmp[b] = u;
                 w->f48[b] = t2;
