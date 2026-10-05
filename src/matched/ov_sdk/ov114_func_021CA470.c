@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021CA240(char *url, long pid, void *data, u32 size, int (*cb)(u32 *, int), int reuseHash);
 
-void func_021CA470(int a, int b, int c, int d, int e)
+int func_021CA470(int a, int b, int c, int d, int e)
 {
-    func_021CA240((char *)a, b, (void *)c, d, (int (*)(u32 *, int))e, 0);
+    return func_021CA240((char *)a, b, (void *)c, d, (int (*)(u32 *, int))e, 0);
 }
