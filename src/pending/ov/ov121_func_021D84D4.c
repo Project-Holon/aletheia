@@ -62,6 +62,22 @@
  *   an-inline-call-argument-is-scheduled-per-site-a-local-is-not (no change),
  *   a-jump-table-bounds-check-turns-into-bls-and-b-when-the-default-is-out-of-range (explains
  *   the default b stub being local).
+ * note 2026-10-05 (wave D9r lane P7c): 32 -> 14 concrete bytes differ (size 1864). Fixes from
+ *   the matched twins (ov010 02157E9C, ov121 021DD24C): (a) gender is u8, ability and selector
+ *   u32 (twin locals; cleared the whole 0186C8 arm residue, 14 B); (b) 020173F0 is called as
+ *   in 021DD24C with an explicit zero high word and a u16 level: proto (u16,u16,u32,u32,u32),
+ *   call f(species,level,otId,0,tag), with `id=otId;` just before it (the u64 copy is only for
+ *   02017588), and level and tag are u16 locals (this gave the original r2-before-r1 loads and
+ *   the slot order; a u32 level or the 4-arg u64 form load r1 first).
+ *   Remaining residue (one hunk, 2 instructions): `str r7,[sp]` (day) before the call to
+ *   0202F2AC sits right after the bl of 020185F0 here; the original (and the twin) emit it
+ *   last, after `adds r1,r6,#0`. Tried this lane (about 20 compiles, all no change unless
+ *   noted): place as ternary, place inline in the call, u16 place, int w = D(172) date word,
+ *   u32 day, day declared first, 0202F2AC proto with u8 day (same), proto u16,u16,u8,u8 (worse),
+ *   day inline as (u8)D(172) (worse, 47), place before the date block (worse), day after place
+ *   (worse), pragma scheduling off and peephole off (no change).
+ *   Idioms checked: a-spilled-constant-high-word-is-a-u32-copied-into-a-u64-before-the-call
+ *   (already applied: closed the id copy, and its twin gave the explicit-0 call form).
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_02049F34 0x02049F34 arm
@@ -127,7 +143,7 @@ extern void func_0204B6F4(void *,u8,u32);
 extern u32 func_020056EC(u32);
 extern void *func_02012944(void *);
 extern u32 func_02008530(const void *);
-extern void *func_020173F0(u16,u32,u64,u32);
+extern void *func_020173F0(u16,u16,u32,u32,u32);
 extern u32 func_020186C8(u32,u16,int,int,int,int);
 extern void func_02017588(void *,u16,u32,u64,u32,u64);
 extern void func_02017E40(void *,u32,u32);
@@ -174,14 +190,18 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     u32 palette;
     void *buf,*mon,*allocated,*str;
     u8 *base;
-    int i,selector;
+    int i;
+    u32 selector;
     Work work;
     u32 arc;
     u32 month;
     u16 year;
-    int ability,gender,clamp;
+    u32 ability;
+    u8 gender;
+    int clamp;
     u64 random;
-    u32 species,level,tag,otId;
+    u32 species,otId;
+    u16 level,tag;
     u64 id;
     u32 packed,j,place,value;
     u8 day;
@@ -209,7 +229,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         if(gender==255) gender=2;
         for(i=0;i<6;i++) if(work.iv[i]==255) work.iv[i]=func_020056EC(32);
         id=otId;
-        allocated=func_020173F0(species,level,id,tag);
+        allocated=func_020173F0(species,level,otId,0,tag);
         packed=(work.iv[0]&31)|((u32)work.iv[1]<<27>>22)|((u32)work.iv[2]<<27>>17)|
                ((u32)work.iv[3]<<27>>12)|((u32)work.iv[4]<<27>>7)|((u32)work.iv[5]<<27>>2);
         if(ability==4) ability=(u8)func_020056EC(3);
