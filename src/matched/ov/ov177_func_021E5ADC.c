@@ -7,9 +7,8 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * note 2026-10-05 (wP6 U10): DIFF 25 B, 322 B compiled vs 324 B listing, all residue is callee-saved colour (original: str r4, p r5, buf r6, x r7, &heap temp r6; ours: &heap r4, str r6, buf r7, x r4). Frame, stack slots and every instruction otherwise match. Callees: three message blocks (EC0 2, EC0 0 without word set, EC0 1), x = (u16)(f(*p) << 3) kept int, w u16 per width, third draw uses x - w (w spilled at sp+0x10). heap is re-read by ldrh from its stack slot: needs heap (plain u16 param copies it once, 302 B off). Tried without gain: each of six per-function pragmas, x declared first, x u32, w u32 with cast, separate e locals, `x -= w` in third block (94 B), one-field struct heap (299 B), pointer local to heap (299 B).
- * recoup 2026-10-05 (R19): still DIFF 25 B. Heap now a plain u16 parameter with u16 heap parameters on func_02045B38 (4th), func_0201EC64 and func_020457B0 (2nd): same bytes as the *(u16 *)&heap form, so the cast is gone (real source). Also tried, all 25 B: buf declared first, x declared first, e before buf, inline (u16) widths in blocks 1 and 2, extra scratch local, str as void * with pointer D304/C6FC prototypes, u32 handle locals and prototypes (ov222 021B9964 twin shape), p as a struct with field 4, six per-function pragmas on the new form; u8 c1/c2 gives 285 B. Residue is unchanged: original colours str r4, p r5, heap-arg-base temp and buf share r6, x r7; ours gives temp r4 (shared with x), str r6, buf r7.
+ * status: EXACT*
+ * note 2026-10-05 (final push G6L3): EXACT*. The three running x values are separate locals (x, x1 = x - w, x2 = x1 - w, third draw x2 - w), not one x updated in place; the separate values give each its own live range and the original colours (str r4, p r5, heap-base temp and buf r6, x r7). Earlier notes (all pragmas, declaration orders, inline helpers, u8/u16 widths) did not move the colours.
  * symbols:
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
@@ -56,7 +55,7 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     struct WordSet *ws;
     struct U16Vec *buf;
     void *e;
-    int x;
+    int x, x1, x2;
     u16 w;
 
     msg = func_02045B38(0, 2, 0xa3, heap);
@@ -68,15 +67,15 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     func_0201EFA4(ws, 0, c1, 8, 0, 1);
     func_0201F250(ws, buf, e);
     w = func_0201D304(buf, str, 0);
-    x -= w;
-    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)x, 0, buf, str);
+    x1 = x - w;
+    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)x1, 0, buf, str);
     ((u8 *)p)[4] = 1;
     func_02045808((struct U16Vec *)e);
 
     e = func_02045EC0(msg, 0);
     w = func_0201D304(e, str, 0);
-    x -= w;
-    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)x, 0, e, str);
+    x2 = x1 - w;
+    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)x2, 0, e, str);
     ((u8 *)p)[4] = 1;
     func_02045808((struct U16Vec *)e);
 
@@ -84,7 +83,7 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     func_0201EFA4(ws, 0, c2, 8, 0, 1);
     func_0201F250(ws, buf, e);
     w = func_0201D304(buf, str, 0);
-    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)(x - w), 0, buf, str);
+    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)(x2 - w), 0, buf, str);
     ((u8 *)p)[4] = 1;
     func_02045808((struct U16Vec *)e);
     func_02045808(buf);
