@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021C604C  0x021C604C  thumb  ov093
@@ -24,7 +24,7 @@ extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021CD63C(void *p, int v);
 extern void func_021C604C(u8 *p, u8 *a, int n);
 
-void func_021C5798(u8 *p, u16 *a, u32 n, int *arr, u8 **ptrs, u16 *vals)
+void func_021C5798(u8 *p, u16 *a, u32 n, int *arr, u8 **ptrs, u16 *vals, u8 *unused1, int unused2)
 {
     u32 i;
     u8 hi;
