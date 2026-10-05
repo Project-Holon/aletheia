@@ -16,6 +16,7 @@
  * permuter: prior 300 --types consumed (22 to 13); not repeated.
  * wave76: 4 runs; typed descriptor13, long scalar locals38, typed storage-order22, const typed descriptor13. Three nonshrinking iterations; original best13 retained.
  * recoup 2026-10-05 (P17L8): extent is 364 B (lane list said 108). Twin ov093_func_021D324C (same descriptor shape, matched) gives the same callee types; all callee return types checked against matched definitions, no change. Tried, bytes differing: assignment order u,v,x,y 22; u,y,v,x 18; u,v,y,x 20; y,u,v,x 20; u8/u16 and u32/u16 local widths 36/22/13; c as a struct of four words 13; non-const a 13 and 22; pragmas scheduling/opt_propagation/opt_lifetimes off 13 and 22 (no change). Residue unchanged: original loads c[0..3] in address order and the a[1] load sits after the c[3] load, before the c[3] truncation; every source order puts a[1] after the second assignment. Best stays 13 B (y,v,x,u order).
+ * recoup 2026-10-05 P30R3: 12 compiles, best stays 13 B (y,v,x,u). Tried, bytes differing: u,v,x,y order 22 (a[1] load hoisted two slots too early, above the c[1] truncation; original keeps it after the c[3] load); const c 22; decl order y,x,v,u 30 and y,u,v,x 37; scheduling/opt_propagation/opt_lifetimes off on the u,v,x,y form 22; u8,u8,u16,u16 locals 36; u16 y only 22; a[1] in a local h set after y 339; callee third parameter u8 330. Residue unchanged: scheduling of ldr a[1] relative to the c[3] truncation.
  * symbols:
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021B9934 0x021B9934 thumb ov093

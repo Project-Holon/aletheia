@@ -10,6 +10,7 @@
  * status: DIFF
  * checks: 1 own matrix/vec/invsqrt bodies and matched callers confirm signatures; original explicitly forwards heap in r1 to 08410; 2 06274/063E0/06604/0685C no complete motion twin; 3 Boolean first/second, Boolean done and _Bool smallH/smallV each DIFF597; after stop s16 first/second DIFF599; writable p retained; 4 case2 cursor cache DIFF600 and case3 shared done-zero DIFF597, scheduling cap used, branch/stack idioms read; 5 refreshed unfiltered idioms and matched neighbours, declared-stack-struct idiom read.
  * recoup 2026-10-05 (P17L3): extent is 2340 B (not 114 B); compiled 2364 (24 B over). First divergence at +0x94 in case 1: original stores one movs r1 to the flag slots [sp+0x84],[sp+0x80] with done in r5 and loop counters i1,j1 in the LOWEST slots [sp+0x20],[sp+0x18] (q at 0x58); ours puts i1,j1 just under the flags (0x78,0x74) and done in r4. Tried (4 compiles): flags declared before the s16 counters (597->596), counters declared last (594), counters as case-block locals (594, same), first=second=1 chain (597, worse). Slot order does not follow declaration order here; not closed. Best form kept (594 differ).
+ * recoup 2026-10-05 P30R8 (18 compiles, best 562 differ, was 594): instruction-aligned diff shows the code shape is the original's except 4 things. (1) Spill slots: original keeps the s16 counters in the LOWEST slots (j1 0x18, j3 0x1c, i1 0x20, i2 0x24, i3 0x28, below all compiler temps); ours puts named locals above temps, so ~540 of the differing bytes are slot numbers. Declaring `s16 i3,i2,i1,j3,j2,j1` reproduces the original relative order of the counters (not their absolute position). Block-local `char *q` per loop (594->567) and separate `first3,second3,done3` for case 3 (567->562; flags3 now at 0x78/0x74 like the original) are kept. (2) Original shares one `movs r,#1` for the two flag stores (str [0x84]; str [0x80]); ours emits two movs. Tried first=second=1, second=first=1, first=1;second=first, `int first=1,second=1`, u8 flags: all keep two movs. (3) smallV=0 in the original is `movs r2,#0; str r2,[sp,#0x7c]` before the pool load, a zero separate from smallH; ours shares r0. Tried smallH=smallV=0 and u8 smallV: no change. (4) add order at +04F8 (adds r4,r3,r4 / lsls r3,r2,#7 swapped). Per-function pragmas on the final form (opt_lifetimes, opt_propagation, opt_common_subs, opt_dead_assignments off: 1451 to 2225 differ; scheduling, peephole off: no change). Counters first-declared put them at the top (570); counters and flags as case-block locals 571.
  * residual: 2364 compiled/full extent; 597 concrete differences, 35/35 relocations resolved. Final retry exhausted: 7 one runs. Prior macro-free baseline-agreeing 300-candidate permuter not repeated; volatile winner rejected previously. Cached case2 cursor loads before guards and shared case3 done=0 improve prior705 to597.
  * extent: handed2340 ends at 0220818C before pop02208190; pools through022081A0; next genuine022081A4. Full extent2364 proved by explicit show.
  * symbols:
@@ -43,7 +44,6 @@ void func_02207868(char *p,u16 heap)
 {
     int first,second,done;
     int angle,dx,dy,dz,horiz,vert,inv,vx,vy,vz,smallH,smallV;
-    char *q;
     Vec goal;
     Matrix m1;
     Vec source1;
@@ -53,11 +53,12 @@ void func_02207868(char *p,u16 heap)
     Vec source3;
     Matrix m4;
     Vec source4;
-    s16 i,j,i1,j1,i2,j2,i3,j3;
+    int first3,second3,done3;
+    s16 i,j,i3,i2,i1,j3,j2,j1;
     G(0x68)+=G(0x6c);
     if((int)G(0x68)>=65536)G(0x68)-=65536;
     for(i=0;i<18;i++)for(j=0;j<18;j++){
-        q=p+0x74+i*0x900+j*0x80;
+        char *q=p+0x74+i*0x900+j*0x80;
         V(0x74)=V(0x68);
     }
     switch(G(0x64)){
@@ -66,7 +67,7 @@ void func_02207868(char *p,u16 heap)
     case 1:
         first=1;second=1;done=1;
         for(i1=0;i1<18;i1++)for(j1=0;j1<18;j1++){
-            q=p+0x74+i1*0x900+j1*0x80;
+            char *q=p+0x74+i1*0x900+j1*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
             func_0207B640(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source1.x=Q(0x50);source1.y=0;source1.z=0;
@@ -105,7 +106,7 @@ void func_02207868(char *p,u16 heap)
         if(G(0x70)<100)G(0x6c)+=32;
         if(G(0x70)>=200&&G(0x70)<240)G(0x6c)-=32;
         for(i2=0;i2<18;i2++)for(j2=0;j2<18;j2++){
-            q=p+0x74+i2*0x900+j2*0x80;
+            char *q=p+0x74+i2*0x900+j2*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
             func_0207B640(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source2.x=Q(0x50);source2.y=0;source2.z=0;
@@ -126,18 +127,18 @@ void func_02207868(char *p,u16 heap)
         if(H(0x5c)<0&&H(0x60)>=18&&G(0x70)>=240){G(0x64)=3;G(0x70)=0;return;}
         G(0x70)++;return;
     case 3:
-        first=1;second=1;done=1;
+        first3=1;second3=1;done3=1;
         for(i3=17;i3>=0;i3--)for(j3=17;j3>=0;j3--){
-            q=p+0x74+i3*0x900+j3*0x80;
+            char *q=p+0x74+i3*0x900+j3*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
             if(Q(0x64)==2){
-                if(first||second){Q(0x30)=0;Q(0x64)=3;if(first)first=0;else second=0;}
+                if(first3||second3){Q(0x30)=0;Q(0x64)=3;if(first3)first3=0;else second3=0;}
                 else{
                     func_0207B640(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source3.x=Q(0x50);source3.y=0;source3.z=0;
                     func_0207BC08(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
                 }
-                done=0;
+                done3=0;
             }else if(Q(0x64)==3){
                 if(Q(0x30)==0){
                     func_0207B640(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
@@ -158,10 +159,10 @@ void func_02207868(char *p,u16 heap)
                         Q(0x68)=add(Q(0x68),dx);Q(0x6c)=add(Q(0x6c),dy);Q(0x70)=add(Q(0x70),dz);
                     }
                 }
-                done=0;
+                done3=0;
             }
         }
-        if(done){G(0x64)=4;G(0x28)=4;}return;
+        if(done3){G(0x64)=4;G(0x28)=4;}return;
     case 4: return;
     }
 }

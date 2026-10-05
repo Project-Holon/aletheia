@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: MATCH
  * checks: 1 full callee/forwarder and live-argument audit; 614C word getter, 025D8 explicit r1=1, no arity residue; 2 ov098 6504/6910 twins confirm switch and opaque inputs, no init twin; 3 signed-byte enum stores add truncation (+4 B), pointer copy fields unchanged 53 B; const P is invalid because this function mutates P; 4 enum/struct/zero/signed-byte idioms read, enum zero only helps word stores; 5 fresh idiom list and ov097/098/094 callers plus 6504/6910 neighbours reread, no new init lever.
  * residual: 472 B / 53 concrete mismatches at +0034..+0068 initialization scheduling; 9 iterations, three final nongains, manual order/extraction 2/2, C1 0/C2 0/C3 2/C4 0/C5 0 compiles; types permuter budget 300 no improvement.
  * blockers: potential overlay leaves 021B614C ov098, 022026FC ov094, 021B6B74 ov098; caller is DIFF, so no leaves filed. Parent cleared only conditional B74.
@@ -52,6 +52,15 @@
  *   is declared int here (fine). The unresolved relocations are 021B614C, 022026FC,
  *   021B6B74 (no witness in this overlay). Still open: the loads need a base the
  *   scheduler cannot separate from the stores that still colours to r4.
+ * recoup 2026-10-05 P30R5: MATCH, 0 bytes differ (was 53 B). Fix: the case 0 source
+ *   order. The earlier drafts stored the zeros early; the original source stores
+ *   w1c, w38, w24, w20, h28 first and the zero stores (h32, w3c, b30, b31, b35),
+ *   then w48, w5c. The scheduler fills load-latency slots with the later zero
+ *   stores, which gave the original interleaving. The enum zero local is gone
+ *   (plain literal 0). Remaining relocations unresolved: 021B614C (tiny leaf, listed
+ *   in ov179 as a file; the ov098 copy needs a witness), 022026FC (ov094), 021B6B74
+ *   (ov098). Integrator: seed these labels, then the verdict becomes EXACT.
+ *
  * prototype: 0202142C result feeds setter at 021B672A; 02035C60 live return tested at 021B66F8.
  * symbols:
  *   ov196_id 0x000000C4 data
@@ -123,17 +132,15 @@ extern void func_02017E40(void *, u32, u32);
 int func_021B6578(struct P *p)
 {
     u32 t;
-    enum { ZERO = 0 } zero;
     switch (p->state) {
     case 0:
         p->b1c = func_021B614C(p->parent);
         p->w38 = p->w70;
-        zero = ZERO;
         p->w24 = 3;
-        p->h32 = zero;
         p->w20 = p->w08;
-        p->w3c = zero;
         p->h28 = p->heap;
+        p->h32 = 0;
+        p->w3c = 0;
         p->b30 = 0; p->b31 = 0; p->b35 = 0;
         p->w48 = p->workspace;
         p->w5c = 1;

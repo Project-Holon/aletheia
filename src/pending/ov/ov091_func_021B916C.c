@@ -10,6 +10,7 @@
  * status: DIFF
  * checks: 1 own callees/matched callers refreshed: scalar02017E1C three, BDC5C reads one but original caller sets r1 so two-word coerced call retained; removing second argument1508/244 worse; 2 matched BBE74/BE874 and HP getter unit refreshed; 3 getter party fieldA1 is u16; u16 n1512/274 worse, original wide n retained; 4 struct-return/frame idioms read; inline maximum/zero output helper1504/635 gives original frame but worsens other arms, maximum-only helper1508/122 flat; 5 full idiom directory and own/sibling neighbours refreshed. Prior permuter96 remains spent. Next hypothesis: genuine one-word inline aggregate return wrapper, within a future renewed budget.
  * note: 2026-10-05 P20L6 (real extent 1508 bytes, not 76; lane size was wrong). Residue: 122 bytes, all one cause in case 16..19 (the 0xa1/0xa0 getter arm): the image keeps 0 in r7 from before the first getter call and spills n to [sp,#4] (frame 0x28, push r3); the build keeps n in r7, rematerialises 0 and has frame 0x24. Callee check: all ov091 callees are void in matched files, no return or arity problem. Tried (13 compiles, all 122 bytes unless noted): plain int local for the zero instead of the enum stand-in (removed here, same bytes); zero set before the getters; zero passed as the getter third argument; u8 zero; zero set before the func_021B99E4 range test; u8 n (1512/274, worse); n,old declaration order swapped; compare written n/5 < old; pragmas opt_lifetimes, opt_dead_assignments, scheduling, peephole (122, no change), opt_propagation (1512/966), opt_common_subs (1504/950). Idioms read: the-block-constant-in-a-callee-saved-register-follows-the-order-of-the-stores, two-long-lived-values-in-each-others-registers, a-constant-loaded-at-entry-into-a-callee-saved-register-is-a-declaration-initialiser, a-constant-kept-in-a-register-after-a-switch-is-assigned-in-every-arm, a-flag-zeroed-after-a-nested-argument-call-frees-a-callee-saved-register..., a-dead-store-to-a-spilled-local-survives..., a-byte-count-local-preserves-word-spills-and-reloads, a-narrow-flag-local-is-spilled-not-constant-propagated. Open idea: the zero must be a real variable (not propagated) with higher weight than n; no human source form found.
+ * note: recoup 2026-10-05 P30R6 (10 compiles, all 122 B unless noted). Plain literals replace the zero local (same 122 B, so the local was a stand-in). Finding: the image has zero pooled in r7 at block A (movs r7,#0 after the first getter's r2 setup) and n in memory ([sp,#4], frame 0x28, a at sp+8). The compiler only pools that zero when n and old are not both live (v2: nested compare f(a0) > f(a1)/5 pools it, 1504/299, but evaluates a0 first; n named or inline helper Over5(cur,max) gives n in r7, no pool, 122). Tried: nested compare (1504/299); n named, old unnamed (122); static inline Over5(cur,max) both arg orders (1504/299 and 122); u8 n (1512/274, extra uxtb); one-field struct n and u32 n[1] (both scalarised to registers, 122); struct-returning getter alias for n (1504/663, zero pooled but 0xa0 not pooled and frame 0x2c); pragmas opt_loop_invariants and opt_strength_reduction off (122). Read mwcc Coloring.c: spill choice is min cost/degree, so n loses once the zero is pooled; the open question is why the original pools with 5 values live. No human source form found.
  * retry: Wave76 R18 final retry, four fixed one runs; original best1508/122 retained, all86 relocations resolved.
  * residual: R3 1508/1508,122 concrete bytes,86/86 relocs; n/zero register web and frame36 vs40 persist. Earlier permuter96 spent; no rerun.
  * renewed: Wave75 R30 4 fixed-flag runs, all 1508/1508 and122 concrete; original best retained. Prior permuter96 remains spent; no search repeated.
@@ -173,7 +174,6 @@ void func_021B916C(u8 *p)
     u32 flag;
     u8 i;
     u8 *q;
-    u32 zero;
     if (S[0x63] == 1) { p[0xc]=19; return; }
     switch (W(0x3c)) {
     case 6:
@@ -270,13 +270,12 @@ void func_021B916C(u8 *p)
             if (func_02013E04(H(0x30))==0) {
                 func_021B9788(p,0x50,1,(int)func_021B9E20); return;
             }
-            zero=0;
             n=func_02017E1C((void *)W(0x38),0xa1,0);
             old=func_02017E1C((void *)W(0x38),0xa0,0);
             if (old > n/5) {
                 func_021B8F68(p,W(0x2c)); func_021B8FC4(p,W(0x2c)); W(0x34)=W(0x2c);
-                p[0xc]=4; W(0x38)=zero; W(0x14)=zero;
-                func_021BB714(p,(u32 *)W(0x150),zero); func_021BB7E8(p,(u32 *)W(0x150),17);
+                p[0xc]=4; W(0x38)=0; W(0x14)=0;
+                func_021BB714(p,(u32 *)W(0x150),0); func_021BB7E8(p,(u32 *)W(0x150),17);
                 func_021B8418(p);
             } else func_021B9788(p,0x6b,1,(int)func_021B9E20);
             return;

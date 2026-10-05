@@ -41,6 +41,15 @@
  * load above unrelated store, compute operands before store: none moved it.
  * Callees: DWCi_EncSessionGetResponse is a matched ov_sdk definition; no arity or
  * void problem found.
+ * recoup 2026-10-05 P30R4: 40 -> 32 B. The last block (cases 3,5,7,9,11) now
+ * writes d_021D4084.state / .result directly instead of through ctx: closes the
+ * state-store-before-sub order (8 B). Remaining 32 B: header copy colours in cases
+ * 2, 6, 8, 10 (original b0,b1,pool = r1,r0,r2; ours r2,r1,r0) and case 2 len load
+ * placed between the byte loads. Tried, no change from 32 (or worse): direct global
+ * in every use (100), direct in header cases (32), resp local (40), field-by-field
+ * copy (40), byte-array Hdr (32), non-const source (32), dest as array element (32),
+ * GetResponse returning const Hdr * (32), opt_common_subs, opt_dead_assignments,
+ * opt_lifetimes, opt_propagation off (32 each). 17 compiles.
  * symbols:
  *   d_021D4084 0x021D4084 data a4
  *   d_021D421C 0x021D421C data a1
@@ -186,7 +195,7 @@ void func_021C8FA8(void)
         }
         return;
     case 3: case 5: case 7: case 9: case 11:
-        ctx->state=12; ctx->result=-4;
+        d_021D4084.state=12; d_021D4084.result=-4;
         DWCi_EncSessionShutdown(); return;
     case 0: case 1: case 12: break;
     }

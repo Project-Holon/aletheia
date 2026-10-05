@@ -25,6 +25,16 @@
  *   each of the six per-function pragmas (202 each). Callee types checked: all match their uses. No twin
  *   (grep of DWCi_EncSessionProcess/GetResponse hits only the SDK leaves).
  *
+ * recoup 2026-10-05 P30R7: baseline 202/2620 (five prologue webs rotate). Tried: cancel group
+ *   moved to the top of the switch (2074, layout changes); ctx declared last (202); ctx first
+ *   (202); constants fin/bad/zero as initialised locals in the order 24, ctx, hdr, -13, 0 plus
+ *   hdr pointer (2102, size 2616, constants fold to immediates); hdr pointer alone (313);
+ *   direct extern access gives ctx r4, hdr r5, -13 r6, 0 r7, 24 r8 (204: listing order) while
+ *   the image order is 24, ctx, hdr, -13, 0, so only 24 must be coloured first; local done = 24
+ *   in direct form (204, propagated); pragmas opt_loop_invariants, opt_strength_reduction,
+ *   opt_dead_code off (202 each). Callee types re-checked: no change. Open question: what makes
+ *   the constant 24 the first web (first def before the ctx load).
+ *
  * DWC encryption-session poll: a switch on the session state (0..24); every
  * even state 2..22 runs DWCi_EncSessionProcess and on 1 (error) or 8 (done)
  * moves to state 24 and maps the response to a result code; every odd state

@@ -6,13 +6,14 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: MATCH
  * checks: 1 own overlay definitions and SDK bodies read; strict current rule conflicts with historical used-r0 declarations for own-void 021F15B0 and02078C28, and extra original zero to021F19E4. Original caller loads File* before78C28 and consumes r0 afterward; park owner definition/listing discrepancy, never diverge for a match. 2 fresh EF79C/EFFB0/EF444 flow/prototype neighbours. 3 long result unchanged1564/913. 4 boolean-arm, shared-goto, dense-switch, branch-range and declared72-byteFile idioms read. 5 unfiltered idiom directory and neighbours refreshed. Next: resolve own definitions before case9 call-in-each-arm hypothesis; scheduling cap consumed.
  * residual: W77 final retry: five fixed runs; 1564 compiled versus actual main1560 (+4), 913 concrete bytes. Handed1568 includes separately matched8-byte021EEEAC; no duplicate unit. Case9 select, default label, SDK declarations and long result unchanged; duplicate failure helper worsened997. 119/126 relocations resolve, 1008/1010/1040/1050/1064/EFE3C remain overlay wildcard sites. Prior permuter300 consumed and follower extent also excluded; no repeated search.
  * search: R3 first permuter300 spent; then-emitted macro-free baseline909 agreed one. Size-first best1568/1050 was worse and rejected; extent still includes the already matched 8-byte stub despite compiling only main. Search not repeated in W76.
  * retry: Wave59 R3: 4 fixed-flag runs plus permuter300; single retry completed.
  * extent: 021EEEAC already matched separately by pkt_ov107_021EEEAC; file only main, no duplicate unit/stub. Unowned EEEB4 begins after handed1568 bytes.
  * note 2026-10-05 (P18L6): extent is 1560 B (not 98 B); the lane size was a label gap. Re-read: the 913 B residue is mostly branch-range fixup shape. Original default `bhi` shares the `beq L; b tail` stub after case 3; compiled emits `bls; b` at the dispatch (+4 B) and `bne island` in case 3. Case blocks from case 19 on are also ordered differently (cases 20..33 tail region). Tried: case 3 written `if(r!=1) break; return 1;` (913, unchanged); explicit `default: break;` (913, unchanged). Callee check: matched ov107 func_021F1060 returns a pointer (p->f0C) while this draft compares its result with ints and ov029 declares it int, a conflict not resolved; func_021F15B0 is matched void but its result feeds func_0204A600 (already noted). Not repeated: permuter, size-first. Status stays DIFF.
+ * note recoup 2026-10-05 P30R10: DIFF -> MATCH, 1560/1560 bytes, all code bytes equal; only relocation witnesses missing (callees 021F1008 and 021F1010 are Thumb veneers, 021F1040, 021F1050, 021F1064 and 021EFE3C are small ov107 leaves with no matched file). The old 913-byte residue was branch-island layout caused by real source differences, found by comparing mnemonic streams: (1) cases 25 and 26 sit after case 29 in the original block order (24, 27, 28, 29, 25, 26, 30); (2) case 27 jumps into the failure block tail: `if(f11F0(O,18,0)!=1)break;goto fail_tail;` with `fail_tail:` before `func_021F1028(O);W(32)=28;` (the `==1 goto` form leaves a dead `b`); (3) case 17 second arm had an extra func_021F1704(M,7,..) call in the draft, removed (cross-jumping hid it); (4) the three constant ternaries `W(32)=p[40]==0?a:b` (cases 1, 11, 29) are if/else with a store in each arm; (5) case 9 calls func_0203D34C(0,H(0)) and func_0203D34C(1,H(0)) in each arm; (6) case 23 keeps the func_02007774 result in a `u16 cnt` local (a (u16) cast at the call gave an extra adds). Tried without effect: explicit default after case 3 (913), all six per-function pragmas (913 each), `p[40]!=0` argument, u16 third parameter on func_021F11F0, u16 return type on func_02007774 (drops the truncation). Also MATCH with --lang c. Next: file ov107 witnesses for 021F1040 (p->f04==5), 021F1050 (p->f04<6), 021EFE3C (empty void), 021F1064 (flag clear) and veneers 021F1008/021F1010 via integrator label seeding.
  * symbols:
  *   func_021F0E6C 0x021F0E6C thumb ov107
  *   func_021EFC1C 0x021EFC1C thumb ov107
@@ -150,7 +151,7 @@ int func_021EE894(u8 *p) {
  case 0:func_0202208C(0,1,1,0,6,1,H(0));W(32)=1;break;
  case 1:
   if(func_020221A4()==1) {
-   if(func_0202EB44()==1)W(32)=p[40]==0?7:4;
+   if(func_0202EB44()==1){if(p[40]==0)W(32)=7;else W(32)=4;}
    else {func_021F1628(M,5);func_021F1A58(M,func_02012FFC());func_021F1B24(M,1);W(32)=33;}
   }break;
  case 2:
@@ -168,7 +169,7 @@ int func_021EE894(u8 *p) {
  case 8:if(func_021EF79C(p)==1)W(32)=9;break;
  case 9:
   func_021EF74C(p);
-  if(W(48)==1){W(32)=10;H(42)=0;func_021F0EFC(O);func_0203D34C(p[40]==0?0:1,H(0));}
+  if(W(48)==1){W(32)=10;H(42)=0;func_021F0EFC(O);if(p[40]==0)func_0203D34C(0,H(0));else func_0203D34C(1,H(0));}
   else W(32)=2;break;
  case 10:if(func_021F1008(O)==1){W(32)=11;func_021F1018(O);}break;
  case 11:
@@ -177,7 +178,7 @@ int func_021EE894(u8 *p) {
   else if(func_021F1050(O)==1){
    W(88)=func_02012FFC();p[94]=func_020461E4(W(88));
    if(p[40]==0)H(92)=func_0200C184(P(76));
-   if(func_021F1370(O,p+88)==1)W(32)=p[40]==0?12:32;
+   if(func_021F1370(O,p+88)==1){if(p[40]==0)W(32)=12;else W(32)=32;}
   }break;
  case 12:load_payload(p);break;
  case 13:W(32)=14;break;
@@ -194,7 +195,7 @@ int func_021EE894(u8 *p) {
   if(func_021F1060(O)==4){func_021F1184(O);func_021F1704(M,4,func_02012FFC());W(32)=17;}break;
  case 17:
   if(func_021F1060(O)==5){func_02008DF0(func_02012F2C(SAVE),120);H(58)++;W(32)=18;}
-  else if(func_021F1060(O)==8){func_02008DF0(func_02012F2C(SAVE),120);H(58)++;func_021EFC1C(p,2);func_021F1704(M,7,func_02012FFC());W(32)=23;}
+  else if(func_021F1060(O)==8){func_02008DF0(func_02012F2C(SAVE),120);H(58)++;func_021EFC1C(p,2);W(32)=23;}
   break;
  case 18:if(func_021F11BC(O)==1 && func_021F11F0(O,0,0)==1)W(32)=19;break;
  case 19:
@@ -202,7 +203,8 @@ int func_021EE894(u8 *p) {
    if(func_021F1060(O)==6)W(32)=20;
    else if(func_021F1060(O)==10){
     if(p[40]==0){
-failure:func_021EFC1C(p,3);func_021F1704(M,8,func_02012FFC());func_021F1028(O);W(32)=28;
+failure:func_021EFC1C(p,3);func_021F1704(M,8,func_02012FFC());
+fail_tail:func_021F1028(O);W(32)=28;
     }else {func_021F1704(M,38,func_02012FFC());func_021F1B24(M,1);W(32)=26;}
    }
   }break;
@@ -213,19 +215,19 @@ failure:func_021EFC1C(p,3);func_021F1704(M,8,func_02012FFC());func_021F1028(O);W
   if(p[40]==0){func_021F1704(M,7,func_02012FFC());W(32)=23;}
   else {func_021F1704(M,39,func_02012FFC());func_021F1B24(M,1);W(32)=27;}break;
  case 23:
-  if(func_021F1B14(M)==1 && func_021F11F0(O,5,(u16)func_02007774(func_0201293C(SAVE)))==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}break;
+  if(func_021F1B14(M)==1) {u16 cnt=func_02007774(func_0201293C(SAVE));if(func_021F11F0(O,5,cnt)==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}}break;
  case 24:
   if(func_021F1060(O)==2){func_021F1064(O);W(32)=14;}
   else if(func_021F1060(O)==9 || func_021F1060(O)==10){
    if(func_021F1060(O)==10)func_021EFC1C(p,3);
    func_021F1704(M,8,func_02012FFC());W(32)=27;
   }break;
+ case 27:if(func_021F11F0(O,18,0)!=1)break;goto fail_tail;
+ case 28:if(func_021F1B14(M)==1 && func_021F1040(O)==1){func_021F0FE8(O);W(32)=29;}break;
+ case 29:if(func_021F1010(O)==1){if(p[40]==0)W(32)=2;else W(32)=25;}break;
  case 25:
   if(func_021F1B14(M)==1){func_021F1898(M);func_021F1628(M,1);func_021F1704(M,35,func_02012FFC());func_021F1B24(M,1);W(32)=26;}break;
  case 26:if(func_021F1010(O)==1 && func_021F1B14(M)==1)W(32)=2;break;
- case 27:if(func_021F11F0(O,18,0)==1){func_021F1028(O);W(32)=28;}break;
- case 28:if(func_021F1B14(M)==1 && func_021F1040(O)==1){func_021F0FE8(O);W(32)=29;}break;
- case 29:if(func_021F1010(O)==1)W(32)=p[40]==0?2:25;break;
  case 30:func_021F1704(M,10,func_02012FFC());func_021F1B24(M,1);W(32)=31;func_021F0FE8(O);break;
  case 31:if(func_021F1B14(M)==1)W(32)=29;
  case 32:func_021EFFB0(p);break;

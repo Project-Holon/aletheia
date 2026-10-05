@@ -30,6 +30,14 @@
  *   func_021B7A08 (no witness) is the 12 B Thumb tail thunk at 0x021B7A08 inside the extent of
  *   func_021B79A0 (ldr r1,[r1,#8]; ldr r3,[pc,#4]; adds r0,#0x38; bx r3, target 0x02028485);
  *   not filed. Its call is a wildcard in the diff.
+ * note recoup 2026-10-05 P30R1: still 32 B (case 5 text copy colours). 23 compiles, no change:
+ *   callees re-checked (no void/arity issue); per-function pragmas opt_propagation off (401 B),
+ *   opt_dead_assignments off (44), scheduling off (32), peephole off (32); byte read into a u8 local
+ *   first (32); for-init src (32); do-while (32); while(i--) (389); indexed loop (862 / 388);
+ *   u16 temp local in loop (32); const src (32); separate counter t (389); f78 store via raw
+ *   *(u8 *)(d+0x78) (32); src before f78 (37); f78 before dst (38); declaration order of
+ *   dst/src/r/i in four positions (32 each, no effect). The colour order dst r0 / f0 r1 / byte r2
+ *   is stable under all source forms tried.
  * symbols:
  *   func_02012138 0x02012138 thumb
  *   func_02158344 0x02158344 thumb ov010
