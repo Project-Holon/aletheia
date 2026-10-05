@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * checks: 1 own B9934/C5620/C56A8/C99A0 bodies rederived, original
  *   B9934 narrowing and five-argument 9168 veneer setup preserved;
  *   2 matched C8E58/C8FA4 bodies refreshed, no exact twin;
@@ -58,6 +58,13 @@
  *   Matched-assembly search for ldr pool; adds rN,r5,r0; movs; str over ov093.s: only this function.
  *   Idioms read: of-two-equal-temps-the-later-born-one-gets-the-lower-register (no change),
  *   opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores (188 B).
+ * pass 2 2026-10-06 P2L18: EXACT (256/256). The work buffer passed to func_021C9168 is a named
+ *   local w assigned at the top of the do body and used only in that call; the two calls after it
+ *   spell p + 0x1ae4 again (they CSE onto w), and result = 1 is written after the if/else in the
+ *   body. Both named assignments are hoisted into the inner preheader in source order (w before
+ *   result), which gives the original pool load + adds r7 before movs #1/str. A w used in all three
+ *   calls is hoisted out of the outer for loop (54 B); the expression form puts the hoisted
+ *   address after result (8 B).
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021C5A1C 0x021C5A1C thumb ov093
@@ -108,6 +115,7 @@ u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
     int value;
     int k;
     struct Slot slot;
+    struct Msg *w;
     first = (u8 *)func_021B9934(*(char **)(p + 8), e->idx);
     result = 0;
     if (e->fl) func_021C5A1C(p, first);
@@ -118,17 +126,18 @@ u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
           k = func_021C56A8(a, &value);
           if (k) {
           msg = &e->msg;
-          result = 1;
           do {
+            w = (struct Msg *)(p + 0x1ae4);
             func_021C5620(p, a, k, &slot);
             if (!e->flag) {
-                if (func_021C9168(k, slot, a, arg, (struct Msg *)(p + 0x1ae4))) {
+                if (func_021C9168(k, slot, a, arg, w)) {
                     func_021C99A0(p, (struct Msg *)(p + 0x1ae4));
                     func_021C8810((struct Msg *)(p + 0x1ae4));
                 }
             } else {
                 func_021C99A0(p, msg);
             }
+            result = 1;
             if (k == 0x13) func_021C195C(p, a, 0);
             k = func_021C56A8(a, &value);
           } while (k);
