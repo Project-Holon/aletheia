@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * 0x4B and 0x4D are FS_OVERLAY_ID symbols: func_021CF564 forwards its r1
  * to func_02034AC4 (overlay_id class, ov021-qualified consumer entry,

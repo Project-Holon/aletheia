@@ -2692,3 +2692,4 @@ overlay_172 0x021B8C20  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src
 overlay_172 0x021BE0F0  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021BE0F0.c
 arm9_main   0x0200E47C  thumb   # wave D4: bl from ov217 0x021BFC60; EXACT src/matched/arm9/func_0200E47C.c
 arm9_main   0x02013DE0  thumb   # wave D4: bl from ov020 0x021862A8; EXACT src/matched/arm9/func_02013DE0.c
+overlay_021 0x021CF59C  thumb   # wave D4: bl from ov078 0x021F5620 and 0x021F565C; 12-byte tail thunk (ldr r1,[pc]; ldr r3,[pc]; bx r3) to func_021CF564 with r1 = 0x4B, printed as .word after func_021CF580's pool
