@@ -37,6 +37,16 @@
  *   opt_common_subs off (460 B), opt_dead_assignments off (99 B). Residue unchanged: stack-store vs
  *   register-argument order in the first func_021BA9C8 call and the two func_021CD6F0 calls (+0x5C, +0x86..+0xA0,
  *   +0x1C0..+0x1D8). Needs a different IR order for the arguments; no human form found.
+ *   final push 2026-10-05 G7L10: still 69 B (same residue, argument-setup order of f9C8 #1/#else and f6F0 idx calls; the
+ *   idx==2 arm calls already match). 38 compiles, no change or worse: local struct views for p (f8, fC, f468, f10[]) and q
+ *   (f1C/f20/f22) (69/477); named slots pointer (254); idx u16 (410), mode u16 (561); f6F0 prototype widths (idx u8, mode int,
+ *   idx int, flag/9th int, arg3 u8) and const params (69 each); f9C8 heap int, const b/c (69); f6818(u8 *) (69); BAACC with an
+ *   int 4th parameter as in its definition (202); result into a local before the slot store (452/463); zero locals (69);
+ *   0x1b0 as a 27-record index (69); volatile t probe (101); u32 t, u32 f6818 result (69); decl orders (69); swapped arms (479);
+ *   p[0x10] as add-order variants (69/477); mode via if/else (544); x int (268); early i = 0 (95); all-const q and callees (69).
+ *   scheduling off leaves the 69 B unchanged and opt_lifetimes off keeps the same order residue (plus r4/r5 swap), so the order
+ *   comes from IR emission, not the scheduler. Twins 021B8070/021B7CB4/021B81DC differ (idx in a register, no spilled k), and no
+ *   other ov093 function contains subs #0x7e, so no asm twin exists. No human form found.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
