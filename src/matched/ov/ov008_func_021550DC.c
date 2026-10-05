@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  * checks: 1 ARM9 unit020120F0 own pointer returns/const args and 020120B4 four-arg forwarder reread; 2 ov001/ov004 sibling interfaces and ov008 neighbours unchanged, no new twin; 3 full-word enum state and Bool return retain11, top-level const pointers retain11; 4 register-tie/front-end and typed-pointer idioms read; 5 fresh idiom directory/neighbours, no stack-object residue. Prior permuter300 consumed, not repeated.
  * wave75: 4 runs; swapped-signature inline wrapper, st=st, unsigned state, proper pointer-return prototypes and const table all retain DIFF11/96B. Both scheduling levers consumed.
  * wave76: 4 runs; parameter reuse worsens74, enum state11, Bool result11; stopped after three nonshrinking iterations; const-pointer check11. Retained previous best C.
@@ -54,6 +54,10 @@
  *   only ov010 0216C978 (matched, st=r5 o=r6 natural, smaller body). Same prologue (r6=r1, r5=r2) in
  *   matched ov010 021619B8, ov071 021B730C: o there is used in case 1 or has far more uses. Unresolved.
  *
+ * pass 2 2026-10-06 P2L23: EXACT in --lang c99 and --lang c. The fix is the source order of the two
+ *   copied fields: q[1] = o[1] before q[2] = o[2] (field order) instead of q[2] first. The final schedule
+ *   is the same (ldr o[2] still first), but the IR order changes the colouring so st takes r6 and o r5.
+ *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_020120B4  0x020120B4  thumb
@@ -75,8 +79,8 @@ int func_021550DC(int u, int *st, int *o)
     case 0:
         q = o + 4;
         o[4] = (int)func_020120F4(h);
-        q[2] = o[2];
         q[1] = o[1];
+        q[2] = o[2];
         q[3] = *(int *)(o[2] + 0x48);
         q[4] = *(int *)(o[2] + 0x4c);
         q[5] = o[3];
