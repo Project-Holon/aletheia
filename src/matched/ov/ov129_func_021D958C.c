@@ -7,19 +7,15 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * 2026-10-05 (wave P5 lane T3, pengy share, user-approved for this function only): first draft, no twin found.
  * Args (n, touch, p): touch screen button handler, Record layout of ov129 021D8FA0 (state, value, flag, handle).
- * 4 bytes differ of 468 (size exact): the original has `adds r1,r4,r7` BEFORE `str r0,[r4,r7]` (state store) at the
- * 021DA158 call; here the add comes after the store. Everything else matches.
- * What closed the rest: unsigned n (blo/bhi tests); first test written as early `if (x != 1) return;` and the touch
- * test as `if (touch == 0) { ... }` (gives the two separate beq/b trampolines); n - 12 kept in its own spilled slot
- * through a static inline `pos_of(n) { return n - 12; }` (docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-assignment-recomputes.md,
- * accessor form); state written as `((Record *)p)[idx].state = n - 11;` read back through a const Record pointer
- * (shape of 021D8FA0), which also fixed the idx copy chain.
- * Tried with no change on the 4 bytes: const and non-const r; pragma opt_lifetimes off, scheduling off (13 B shape then);
- * opt_common_subs off (much worse); opt_propagation off (recreates the m store pair but breaks the idx chain).
- * Not tried (25-compile cap): reading flag into a local before the store, record pointer local.
+ * 2026-10-05 (wave P5 lane T3b): EXACT. The residue was the const on the Record pointer: with a non-const
+ * `Record *r = (Record *)p;` the plain store `r[idx].state = n - 11;` gets `adds r1,r4,r7` before the store (the
+ * store can alias the later field loads, so the address is built first). The pos_of() accessor and roff() were not
+ * needed: plain `m = n - 12;` is also EXACT. Also EXACT: the sibling ov183 021E19EC form
+ * `func_021DA158(r[idx].state = n - 11, r[idx].flag)`. Earlier tries: unsigned n (blo/bhi); early `if (x != 1) return;`;
+ * `if (touch == 0)` shape.
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  *   func_0204B878 0x0204B878 arm
@@ -51,19 +47,9 @@ extern void func_021D9EE8(char *p, int i, int j);
 extern void func_021D9564(char *p, int n);
 extern int func_021DA158(int x, int flag);
 
-static inline int pos_of(int n)
-{
-    return n - 12;
-}
-
-static inline int roff(int i)
-{
-    return i * 28;
-}
-
 void func_021D958C(u32 n, int touch, char *p)
 {
-    const Record *r = (const Record *)p;
+    Record *r = (Record *)p;
     int idx, v, k;
     int m;
     if (*(int *)(p + 0x22C) != 1) return;
@@ -97,10 +83,10 @@ void func_021D958C(u32 n, int touch, char *p)
                 if (*(int *)(p + 0x240) == 0) return;
                 func_020061E4(1356);
                 idx = *(int *)(p + 0x188);
-                ((Record *)p)[idx].state = n - 11;
+                r[idx].state = n - 11;
                 func_0204B878(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
                 func_021D9E48(p, 1, 1);
-                m = pos_of(n);
+                m = n - 12;
                 func_021D9E98(p, m);
                 func_021D9E48(p, 1, 0);
                 func_021D9E48(p, 2, 1);
