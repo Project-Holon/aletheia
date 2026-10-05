@@ -32,6 +32,15 @@
  * the h spill. Tried without effect: const a, struct view of a, inline alloc helper, u16 heap
  * local, *(u16 *)&f, w local, wi/hi inline or reordered (wi before hi or h declared last
  * moves spill slots, 154 B), u32 heap callee param (117 B), five opt_ pragmas, peephole off.
+ * pass 2 2026-10-06 P2L15 (40 compiles, 3 rounds, no change to the form, still 7 B): cause found.
+ * The image's heap load waits for `str h` because that store goes to a memory OBJECT; a spill
+ * store never blocks a stack-parameter load. Diagnostic `func_020437AC(&h)` puts the f load at
+ * +0x20 exactly; `&vram, &buf, &h` with declarations vram, buf, h also gives the image frame
+ * (h 0x14, buf 0x18, vram 0x1c), so the original keeps h, buf and vram in memory. Every memory
+ * form tried (aggregate {h,buf,vram} with an address use, value temp, wi first, u32 c/d, u16 b)
+ * also flips the entry (str r1,[sp,#8] first, index in r1). Forms that do not keep h in memory:
+ * inline out-pointer helper, hp = &h, unused &w, union, one-member struct/array, nested blocks
+ * (all folded or scalarised). optimization_level 1 shows the f load is textually last.
  * symbols:
  *   d_021726A0     0x021726A0  data  ov010
  *   func_02043678  0x02043678  arm
