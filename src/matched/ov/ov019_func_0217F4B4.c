@@ -7,27 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * checks: 1 own 0217F310/02034714 bodies confirm 2/3 args; 2 fresh 0217F388 confirms const Ent; 3 const p remains 14, u16 counter worsens to 304/57; 4 split raw table access remains 300/14, repeated table access 304/22; 5 fresh unfiltered idiom listing and matched neighbours, no stack object/new twin.
- * Final retry R14: 4 runs; best 300 bytes / DIFF14 retained verbatim.
- * Earlier once-only permuter 300 consumed; baseline/emitted fixed one 14/300.
- * No repeated search and no further scheduling sweep proposed.
- *
- * DIFF, 14 concrete bytes at 300 B, all 7 relocations resolved.
- * The ternary loop condition fixes the formerly missing entry branch.
- * Remaining residue is case -2's st[3]/table/pair register allocation.
- * Separate pairs local and unsigned long key/counter did not close it.
- * Permuter budget 300 consumed; fixed-one emitted source confirms 14/300.
- * recoup 2026-10-05 (lane Z8, P11): callee types checked (func_0217F310 matched, returns int, 2 args;
- *   func_02034714 void, 3 args; no change). Twin search: grep -rl "func_0217F310" and "d_021805A4|d_021803A0"
- *   in src/matched/ov: only ov019 0217F380/0217F388/0217C88C (caller), no twin of this body. Idioms read in
- *   full: two-long-lived-values-in-each-others-registers, a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie,
- *   a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off, a-field-read-into-its-own-local-before-a-getter-subtraction-sets-the-colour-order,
- *   a-dead-parameter-reused-as-the-index-rotates-the-loop-registers. All six per-function pragmas: 14 B, 300 B, unchanged.
- *   Also 14 B: separate result local r with key = r and return r; no pairs local (key = e->p[e->b-1].f4);
- *   if (st[3] != 0) {...break;} return key; local t = st[3]; declaration order e/pairs before key; non-const Ent table.
- *   int key with case -1/-2: 304 B. Result local with switch on r and default: key = r: 308 B, 275 B off.
- *   Residue unchanged: case -2 holds st[3] in r2 (original r1, key dead), table base r1/pairs r0 swapped.
+ * status:   EXACT
+ * note: final push 2026-10-05 G4L6. Case -2 reads the entry table by byte offset (off = st[3] * 8,
+ *   set after the zero test) with opt_propagation off, so the table address stays one live value
+ *   for the pair-pointer load (indexed) and the count byte (+4). Struct-index forms and the
+ *   un-pragma'd forms propagate the address into each use (two pool words) or hoist the pool load.
  * symbols:
  *   func_0217F310  0x0217F310  thumb  ov019
  *   func_02034714  0x02034714  arm
@@ -62,11 +46,11 @@ extern const u32 d_0218050C[];
 extern const u32 d_021804B4[];
 extern u32 d_021807F8[];
 
+#pragma opt_propagation off
 int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
 {
     u32 key;
     u32 i;
-    const Ent *e;
     const Pair *pairs;
 
     *hit = 0;
@@ -75,13 +59,17 @@ int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
     switch (key) {
     case (u32)-1:
         return key;
-    case (u32)-2:
+    case (u32)-2: {
+        u32 off;
+        const u8 *base;
         if (st[3] == 0)
             return key;
-        e = &d_021805A4[st[3]];
-        pairs = e->p;
-        key = pairs[e->b - 1].f4;
+        off = st[3] * 8;
+        base = (const u8 *)d_021805A4;
+        pairs = *(const Pair * const *)(base + off);
+        key = pairs[*(base + off + 4) - 1].f4;
         break;
+    }
     case 0x64:
         return d_021803A0[st[0]][st[1]][st[2]];
     case 0x96:
@@ -141,3 +129,5 @@ int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
     func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     return 0;
 }
+#pragma opt_propagation reset
+#pragma opt_propagation reset
