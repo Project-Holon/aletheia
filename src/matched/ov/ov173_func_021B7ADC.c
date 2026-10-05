@@ -3,6 +3,7 @@
  * address:  0x021B7ADC
  * packet:   pkt_021B7ADC
  * region:   ov173
+ * isa:      thumb
  * status:   EXACT
  * symbols:
  *   func_0204B404  0x0204B404  arm
@@ -17,7 +18,7 @@ struct Vec2;
 void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_0204B8C4(struct Obj *p, u32 value);
 
-void func_021B7ADC(unsigned char *p, u32 idx)
+void func_021B7ADC(unsigned char *p, u32 idx, int unused)
 {
     u16 local[2];
 
