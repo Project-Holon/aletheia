@@ -7,18 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * notes:    2026-10-05 wave P10 lane Y8: first draft, DIFF 111 B of 592 (588 compiled). Real struct
- *           St for the state block at 0x0217ABA8 (raw-offset char* form hoists both bases and gives 417 B off;
- *           the struct form leaves only the packet base in r0 as the listing has it). Pragma opt_common_subs off
- *           reproduces the three separate loads of the packet command byte (first test, switch, default arm).
- *           Plain literal 0 for n=0 is the same bytes as a zero local. Residue: the 0xF8 arm. The listing keeps
- *           the stores 1/0/0 in r1 (mov r1,#1 / mov r1,#0) where this body uses the hoisted zero r4 (one insn
- *           shorter, 4 B), so every later branch offset shifts. Tried without effect: store order 14/1C/24,
- *           chained f1C = f14 = 0, opt_propagation off, opt_lifetimes off. func_0217A174 is an empty leaf (bx lr),
- *           filed as ov015_func_0217A174.c. Callee types: A7AC(u8 *) returns u32, A178(u32) int, A1FC() int,
- *           A280(u32) int, 020870D0 returns u64, A034 four ints; all return values used, no void problem.
+ * notes:    Packet handler of the libirc link (state block 0x0217ABA8). 2026-10-05 wave P10 lane Y8 first draft; final push
+ *           2026-10-05 G8L6 closed it. The 0xF8 residue was a hidden callee argument list: the onDone callback is called
+ *           as onDone(pk[1], 0), so r0 keeps the byte just stored to g_0217AAB0[1] and r1 keeps the zero used for the
+ *           f14/f1C stores, and the callback pointer lands in r2. The earlier draft called it with no arguments
+ *           (onDone is void (*)(u8, int)). The dead `n = 1` in the 0xFA arm was not needed (the literal 1 is pooled in r5
+ *           by itself) and was dropped. Pragma opt_common_subs off reproduces the three separate loads of the packet
+ *           command byte. Callee types: A7AC(u8 *) returns u32, A178(u32) int, A1FC() int, A280(u32) int, 020870D0
+ *           returns u64, A034 four ints. func_0217A174 is an empty leaf (bx lr), filed as ov015_func_0217A174.c.
  *
  * symbols:
  *   func_0217A7AC  0x0217A7AC  arm    ov015
@@ -47,7 +45,7 @@ typedef struct {
     int f4;
     void (*onData)(u8 *, u8, u8, u8);
     int fC;
-    void (*onDone)(void);
+    void (*onDone)(u8, int);
     int f14;
     int f18;
     int f1C;
@@ -115,7 +113,6 @@ int func_0217A334(void)
     case 0xFA:
         if (d_0217ABA8.f20 == 1) {
             d_0217ABA8.f20 = 3;
-            n = 1;
             d_0217ABA8.f18 = 1;
             g_0217AAB0[1] = pk[1];
             if (pk[1] == g_0217AAB0[0]) {
@@ -134,7 +131,7 @@ int func_0217A334(void)
             d_0217ABA8.f14 = 0;
             d_0217ABA8.f1C = 0;
             if (d_0217ABA8.onDone)
-                (d_0217ABA8.onDone)();
+                (d_0217ABA8.onDone)(pk[1], 0);
         }
         break;
     case 0xF6:
