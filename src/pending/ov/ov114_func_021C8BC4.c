@@ -23,6 +23,14 @@
  *   post-increment-of-a-field-spends-a-copy. 26 compiles, over cap; stopped.
  *   Twin grep: func_021C9EE4/func_021CA470/func_021CA1B4 callers in ov114 only
  *   (87FC, 8C68, 8DA0 etc.), none copies 2-byte records in a loop.
+ * recoup 2026-10-05 P29R4: still 4 B (b/a temps in r2/r1, original r1/r2). Tried (21 compiles):
+ *   no temps with p++/q++ or q++/p++ (13 B, loads and subs reorder), temps with stores
+ *   before p++ (115 B), do-while (4 B), while(i--) (134 B), for i<4 up-count (111 B),
+ *   a loaded before b in each store order (115 B, loop loses the countdown shape),
+ *   temps declared at function scope before/after q/i (10 B, 4 B), one `u8 a, b;` in the
+ *   block (4 B), b temp only with direct p->a at the store (13 B), p++->a / q++->a
+ *   post-increment forms (4 B), q = q + 1 (4 B). The callee declarations were
+ *   re-checked against matched ov114 callers: no change. No stand-in kept.
  * symbols:
  *   d_021D3D28   0x021D3D28  data  a4
  *   d_021D3D2C   0x021D3D2C  data  a4

@@ -16,6 +16,10 @@
  *   scheduling, peephole). Worse: struct copy (67 B), table pointer local at function top (37 B),
  *   x load hoisted above the if (52 B), separate y -= 0x40 statement (32 B, 80 B size). Callee
  *   func_02040618 is void (ends in pop, no result). Looks like a two-load colour tie.
+ * recoup 2026-10-05 P29R6: still DIFF 4/76 B (11 compiles). All 4 B each: s16 array extern d[0],d[1];
+ *   const s16 array (17 B, worse); s16 pos[2] array out param; u8 callee params; non-const Pt* callee param;
+ *   table pointer local set after the two calls; y read into int local first; unsigned Pt fields.
+ *   Worse: store p+0x44 before the final call (66 B), pos.y=0 extra (32 B). Callees checked: both void.
  * symbols:
  *   func_02040618 0x02040618 arm
  *   func_0204B404 0x0204B404 arm

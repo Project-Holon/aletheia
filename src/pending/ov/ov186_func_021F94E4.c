@@ -18,6 +18,14 @@
  *   and each per-function pragma (scheduling, opt_lifetimes, opt_common_subs, peephole: still 2;
  *   opt_propagation, opt_dead_assignments: 6) did not close it. Callee types match matched ov186
  *   siblings (func_021FC4DC returns u32, func_0200B570 returns u32).
+ *   recoup 2026-10-05 P29R2: still 2 bytes (case 7 ctx+0x10/0x14 load order). Callees re-checked against
+ *   matched definitions (func_021FC4DC u32, func_0200B570 u32, others void or pointer): no change. 17 compiles.
+ *   Tried: out[7]/out[2]/out[8] interleaved direct stores (12), out[7],out[8],out[2] (17), out[2] first with
+ *   direct stores (12), b read before a (2), out[12]=0 before the loads (8), out[8] stored before out[7] (6),
+ *   a/b read then out[7],out[2],out[8] in listing store order (10, both read orders), out[7]=a before
+ *   reading b (12), b-first interleaved (13), out[12]=0 then b,a,out[8],out[7] (10), const int *ctx
+ *   with array indexing (2), block-local const int *c (2), out[2]=5 last (16). The load pair stays
+ *   r3 then r2 whenever the colours match.
  * symbols:
  *   func_021FC4DC 0x021FC4DC thumb ov186
  *   func_02012EBC 0x02012EBC thumb

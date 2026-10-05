@@ -25,6 +25,15 @@
  * struct tables, pointer-form tables, six pragmas (lifetimes, propagation, common_subs,
  * dead_assignments, scheduling, peephole) on the i form. Callee func_0207E51C takes
  * three words (matched callers agree). No no-op cast closes it.
+ *
+ * recoup 2026-10-05 P29R8: still DIFF 5/88 (same index/counter colour swap). New tries, all
+ * 5 B unless noted: counter in a local c read after i; counter compare as table < counter
+ * (7 B); int index type; braces on the 255 test; first compare reading v->index directly;
+ * i = i + 1 then store and test through i; v declared after i; c local with table < c (7 B);
+ * struct-typed parameter with nested State (72 B); non-const tables (17 B); table through a
+ * u8 * local (15 B); early-return form with the else first (56 B); else via v->counter += 1
+ * (21 B, original uses the p base r1 so the raw p+32 access is right). Note: p+32 is the
+ * same word as v->counter.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;

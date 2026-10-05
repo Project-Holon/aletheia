@@ -12,6 +12,7 @@
  * residue: zero-field store and flag initialization schedule, six concrete bytes.
  * ABI: 0203159C leaves the allocated pointer in r0; this caller stores it although its matched declaration is void.
  * recoup 2026-10-05 (lane X7): callee types rechecked against matched definitions (0220B318, 0220B428, 0220B55C, 021B9DE0, 0203159C returns a pointer; no void-return problem). Residue 6 B: original keeps the hoisted zero in r6 for str [0x10]/[0x14], then re-materialises flag with movs r6,#0 after the reload of args[0]; ours stores [0x14] through a fresh r0. Tried, all worse or unchanged: zero store after flag=0 (76 B), p->zero=flag (76), flag as inline ternary in the call (76), flag zeroed after p->zero (76), zero via a separate local z (76), flag declared after p (6), flag u32 (6), all six per-function pragmas (6 each).
+ * recoup 2026-10-05 P29R9: 17 compiles, none better than 6 B. New tries: if/else flag after zero (76), flag=(args[0]!=0)?1:0 statement (76), flag=0 right before the if (76), p->zero=flag=0 and flag=p->zero=0 (76 each), u8 flag (6), u32 zero field (6), flag initialised in declaration before p (45), zero store before enabled if (154), const u32 *args (41), enabled arms reversed (9), flag if(==0)/else (76). Whenever flag=0 is placed after the zero store, mwcc stops hoisting the zero constant (r6) and the 0x6a constant takes r7. Residue unchanged: original keeps the hoisted zero for [0x14] and re-materialises flag zero after the args[0] reload.
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
  *   overlay67 0x00000043 data

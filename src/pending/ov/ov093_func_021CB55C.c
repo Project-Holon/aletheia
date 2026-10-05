@@ -32,6 +32,13 @@
  *   expression (5 B, r1/r2 colours swapped), Sq(x) helper for both blocks (28 B).
  *   Callee types checked: FX_Sqrt int, func_021D6B6C u32 (matched). Twin ov093_func_021CBB34
  *   has the same float conversion and FX_Sqrt but no product form.
+ * recoup 2026-10-05 P29R3: 12 compiles, all stay at 2 bytes (+76 dest r2 vs r1, +7A lsrs).
+ *   Tried: both blocks as plain t1/t2 locals (28 B, call order changes); t2 nested in the
+ *   division (5 B); tmp1 as int; n = a*t1 and d = Product as separate statements; inline
+ *   (tmp1*(y*y))>>12 without helper; tmp1 declared before tmp; t1 declared apart from its
+ *   assignment; d = tmp1*(y*y); d >>= 12; call nested in Product argument; r = a*t1 then
+ *   r = r / d + 1; yy = y*y local after the call; Product with a sq local. Callees checked
+ *   (FX_Sqrt int, func_021D6B6C u32). No new form closes it.
  * symbols:
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
