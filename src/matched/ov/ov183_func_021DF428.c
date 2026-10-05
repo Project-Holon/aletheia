@@ -7,21 +7,13 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * 2026-10-05 (wave P6 lane U1): new draft, no earlier source. Types from matched
- * ov183 021DF1DC (Menu: base at +0xD0) and 021DF620 (State layout: indices at
- * +0x18, cursor +0x54, sprites +0x58, source +0xD0, entry rows 0xC4 apart).
- * DIFF 24 B, only spill-slot residue. The original keeps the clamped count n
- * at [sp,#0x18], below the four loop temps (row, row2, j*4, &indices[i][j]) at
- * 0x1C..0x28; ours puts n at 0x28 and the temps at 0x18..0x24. The entry
- * stores also differ: original spills p, heap, then mgr; ours p, mgr, then heap.
- * Closed here: final call as if/else with a call in each arm (ternary hoisted
- * movs r1,#1), short y field (asrs), archive/i slots. Tried without effect:
- * n declared first or last, static inline clamp helper with and without a named
- * n, u8 n (126 B worse), block-scope n, inline helper in the loop test (374 B
- * worse), per-function pragmas opt_lifetimes, opt_propagation, opt_common_subs,
- * opt_dead_assignments, scheduling, peephole (24 B or much worse).
- * Unlabelled callees named by address; all 16 relocs resolve.
+ * status: EXACT
+ * 2026-10-05 (wave P6 lane U1b): EXACT. Types from matched ov183 021DF1DC (Menu: base
+ * at +0xD0) and 021DF620 (State layout). Two fixes closed the earlier 24 B residue:
+ * heap is a u16 parameter (it is only masked and passed to u16-style callees; the
+ * narrow type moves its home store before mgr's), and the clamp is a ternary
+ * `n = (n >= 5) ? 5 : n;` which gives n the lowest spill slot, under the loop temps.
+ * Final call is an if/else with a call in each arm.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_0201BC3C 0x0201BC3C thumb
@@ -56,7 +48,7 @@ extern u32 func_0204A6C8(void *,u32,u32,u32,u32);
 extern void *func_0204B294(u32,u32,u32,u32,struct Pos *,u32,u32);
 extern void func_0204B6F4(void *,u32,u32),func_0204B688(void *,u32),func_0204B3DC(void *,u32);
 extern void func_02049238(void *);
-void func_021DF428(struct State *p,u32 mgr,u32 heap)
+void func_021DF428(struct State *p,u32 mgr,u16 heap)
 {
     int i,j;
     void *archive;
@@ -65,7 +57,7 @@ void func_021DF428(struct State *p,u32 mgr,u32 heap)
     struct Entries e;
     struct Pos pos;
     n=*(int *)(p->source+0x1718);
-    if(n>=5) n=5;
+    n=(n>=5)?5:n;
     mode=(heap&0x7fff)|0x8000;
     archive=func_020490F4(7,mode);
     i=0;
