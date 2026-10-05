@@ -24,6 +24,17 @@
  *   both; with 3 stores before it, after the second. The original has it after the first store of
  *   two, which no source ordering tried reproduces. Only a dead extra store would shift it; that is
  *   a stand-in, not filed.
+ * note final push 2026-10-05 G2L8 (about 27 compiles): best form now 2 B off (was 6): 3C50 written
+ *   [1] then [0], which puts the pool load after the first 4C2C store as in the original but swaps the two
+ *   3C50 stores (original [0] then [1]). Source [0] then [1] always hoists the load above the first store (6 B).
+ *   Tried: struct views for 4C2C and 3C50 (6 B), 3C50 as long long (6 B), zero struct copy (80 B), chain
+ *   b=a=0 on 3C50 (2 B, same swap), chain on 4C2C (6 B), 3C50 stores before 4C2C (7 B), 3C50 stores split
+ *   around 4C2C[0] (8 B), 4C2C[2] moved earlier (10 B), 3C50 pointer local at top (51 B). Twin with the
+ *   same shape: ov013 021B22B4 (Stats f4=0; f0=0; then next global, load after first store). Load slot
+ *   follows whether the first 3C50 store has a nonzero offset; no human form found that keeps [0] first.
+ *   Round 2 (G2L8, 12 more compiles): block-scoped int * or struct * local for 3C50 between 4C2C stores
+ *   (6, 10, 11, 11 B), do-while loop (6 or 2 B following the 3C50 order), unsigned arrays (6 B). The 2 B form
+ *   is stable: the load slot follows the first 3C50 store offset. No other matched ov013 run of this shape.
  * symbols:
  *   d_021B4C38 0x021B4C38 data a4
  *   d_021B4C2C 0x021B4C2C data a4
@@ -38,7 +49,7 @@ void func_021B3018(void)
     for (i = 0; i < 4; i++) d_021B4C38[i] = 0x1000000;
     d_021B4C2C[1] = 0;
     d_021B4C2C[0] = 0;
-    d_021B3C50[0] = 0;
     d_021B3C50[1] = 0;
+    d_021B3C50[0] = 0;
     d_021B4C2C[2] = 0;
 }

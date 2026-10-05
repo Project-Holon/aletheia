@@ -27,6 +27,17 @@
  * cast (u16): 5 B; type u32/u16 (16 B); const count (5 B); count copied to a local
  * (5 B); explicit if (count == 0) return (289 B); pragmas opt_lifetimes off (96 B),
  * opt_common_subs off (267 B), opt_dead_assignments off (13 B). Spill slots already agree.
+ * final push 2026-10-05 G2L4: still 5 B (only the entry order: original str r0,[sp]; str r2,[sp,#4]; adds r0,r3; adds r7,r1).
+ * Matched entries with the same prologue (ov094 021F6B04, 021F94F8, ov021 021C9450, ov018 0217B4D8) all have u32/pointer
+ * params and no r3->r0 first-call argument copy; no matched twin has this shape. Tried, all 5 B unless noted: target as
+ * u32, int, u8 *, const void *, local copy; order as u32, u8 *const, local ord; p as const u8 *, u8 *const, u32, void *
+ * plus local; count char (11 B), u16 (11 B, signed branches), u32 (9 B); type u32 (16 B); func_021D57FC returning int and u8;
+ * count > i guard; while loop form; scores declared last; j as int (93 B). Store position does not depend on any
+ * parameter width, so it is not the narrow-parameter idiom. Left DIFF.
+ * round 4 (G2L4): also no change (5 B): pragmas opt_strength_reduction, opt_unroll_loops, opt_vectorize_loops off; opt_loop_invariants off
+ * (17 B); cnt = count local before the call; n = count local before the sort loop; type as u16 (16 B); i declared before scores (12 B);
+ * clamp of count (280 B); inline wrapper for func_021D57FC (16 B). func_021D57FC takes one argument (r1 is not read), so r1 live at
+ * the call is only order's copy. Matched twins with r2 stored first use u32 params and no narrowing; none explains the order.
  * symbols:
  *   func_0201C314 0x0201C314 thumb
  *   func_0201C1C8 0x0201C1C8 thumb

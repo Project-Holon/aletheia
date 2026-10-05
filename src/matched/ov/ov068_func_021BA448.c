@@ -8,7 +8,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * accepted 2026-10-05 by the user: case 8's ternary arm calls func_020061E4 under a second name
+ *   (func_020061E4_2, same address), a plausible original mistake (two declarations of one
+ *   sound routine); with two symbols mwcc does not cross-jump the two calls.
  * final retry: Wave76 R17, four fixed-flag one compiles, no sweeps/permuter.
  *   Stored-fC-dependent else sound gives 508/233; comma-expression flag
  *   arm retains 508/5; enum command 508/5; signed-short sound formal 508/5.
@@ -98,7 +101,8 @@
  *   func_021B6448  0x021B6448  thumb  ov067
  *   func_021B65A8  0x021B65A8  thumb  ov067
  *   func_02012BE0  0x02012BE0  thumb
- *   d_021BB550     0x021BB550  data  ov068  a4
+ *   d_021BB550     0x021BB550  data  a4
+ *   func_020061E4_2  0x020061E4  thumb
  *   d_021BB560     0x021BB560  data  ov068  a4
  */
 
@@ -124,7 +128,8 @@ extern int  func_021BA9DC(void *p);
 extern void func_021BA194(void *p, int which, int *out);
 extern int  func_021BB508(int *rect, void *b);
 extern void func_02040588(int a, int b);
-extern void func_020061E4(unsigned short id);
+extern void func_020061E4(int id);
+extern void func_020061E4_2(int id);
 extern int  func_020355C4(void);
 extern void func_020355D8(int v);
 extern void func_02028218(u32 a, u32 b);
@@ -203,7 +208,7 @@ void func_021BA448(W *p, void *obj, void *arg)
         break;
     case 8:
         if (p->fC != 3) {
-            func_020061E4(p->fC == 1 ? 0x551 : 0x54c);
+            func_020061E4_2(p->fC == 1 ? 0x551 : 0x54c);
         } else {
             p->fC = 0;
             func_020061E4(0x54c);
