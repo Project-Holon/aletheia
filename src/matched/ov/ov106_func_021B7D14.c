@@ -7,7 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns sub_0204968C); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
+ *   bytes are EXACT in c99 and c.
  * 2026-10-05 (lane S9, pengy share): twin shape is ov104 func_021B7994 (no exact twin
  * found). Loop, call order and all arguments are right. 508 B vs 492 B, residue:
  * the original pools the stack-argument zero in r4 (movs r4,#0 right after the
@@ -77,7 +79,7 @@ extern void func_020414AC(u8);
 extern void func_02040588(u8, u32);
 extern void *func_020490F4(unsigned int id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern unsigned int func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02040C14(u32, u32, u32, u32);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 flags);

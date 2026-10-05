@@ -7,7 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns sub_0204968C); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
+ *   bytes are EXACT in c99 and c.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -88,7 +90,7 @@ extern const Row data_021DF86E[];
 struct Obj;
 extern void *func_020490F4(int, int);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
-extern void func_02049658(void *, u32, u32, u32, u32, u32, u16);
+extern unsigned int func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02049238(void *);
 extern void func_020409B4(u32);

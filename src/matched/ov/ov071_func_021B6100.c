@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * closed 2026-10-05 (recoup integrator): func_021B652C and func_021B6540 return int (their matched definitions); with void declarations the 0x30 constant was copied from r4; with the real return type the
+ *   bytes are EXACT in c99 and c.
  * checks:   1 every callee's arity from its own ov071 file or a matched caller (func_0203159C/func_02082BCC from ov071_021B730C, func_020056A0 from ov071_021B8EE8, func_0207D63C from ov091_021B6F28, func_0207D534/02043534/020435F4 from ov088_021B98BC); 2 no twin with the 0xF1 byte store or the 0xF8/0xFC/0x100 self-links; ov088_021B98BC gives the register block; 3 o as int, as a Wk struct, 0x30 as an int local, the byte store through s8, 0x12Cu, the 0x12C/0x130 pair as an array: no change; 4 inline setter for the byte (u8 and int parameter) no change; permuter 300 --types found nothing below 2 B; 5 ls docs/idioms re-read, none fits
  * blocker:  ARM9 func_0204363C remains unresolved at THM_CALL +0x74;
  *   no current matched ARM9 source/unit shard witness. Ilias owns this leaf.
@@ -28,6 +30,27 @@
  *   or literal base plus an adds (0x13C = 0x61+0xDB, 0x130 = 0x61+0xCF, 0x100 = 0xA+0xF6,
  *   0x128 = r4+0xF8) and only 0x12C re-materialises its base instead of copying r4.
  *   Callee arities checked against matched callers: no mismatch found.
+ *
+ * recoup 2026-10-05 (lane R2): 2 B residue unchanged (336 B, 27/27 relocs, +0xF0
+ *   `adds r1,r4,#0` vs `movs r1,#0x30`). Twin search: no matched ov function has the
+ *   0xF1 byte store plus 0x12C/0x130 pair (grep of func_0203159C + func_02031324 +
+ *   func_020056A0 in src/matched/ov, same hits as before). Tried, all unchanged: (1) o as a
+ *   word array, ((int *)o)[0x4B]/[0x4C]/[0x4A]; (2) a real struct W with fields at 0x30,
+ *   0x34, 0xF0, 0xF1, 0xF8, 0xFC, 0x100, 0x128, 0x12C, 0x130 (prototypes take void *);
+ *   (3) k = 0x30 set just before the 0x128 call and used as o + k + 0xF8, byte store
+ *   literal; (4) 0x12C through a pointer local q = (int *)(o + 0x12C); (5) byte store
+ *   through b = o + 0xF1; (6) call results held in a local r and stored from it;
+ *   (7) one scratch int n reused: n = 0x13C (alloc and memset size), then n = 0x30 (byte
+ *   store), with and without o + n + 0xF8; (8) pragma pairs opt_common_subs+opt_propagation
+ *   off and opt_lifetimes+opt_common_subs off. Observation: the 0x30/0x61/0xA bases of the
+ *   split offsets are the smallest function constant with an encodable remainder; with the
+ *   byte store removed 0x12C becomes 0x61 + 0xCB, so the 0x30 base comes from that
+ *   store's constant and the backend copies it from r4 whenever r4 holds it. Idioms read:
+ *   a-repeated-small-constant-takes-a-callee-saved-register, a-small-constant-is-
+ *   rematerialised-off-a-zero-register-unless-an-argument-shares-it, a-constant-kept-in-a-
+ *   register-after-a-switch-is-assigned-in-every-arm, a-width-stored-in-the-handle-temp-it-
+ *   replaces-keeps-the-original-colours, a-compound-product-on-a-byte-offset-local-gives-
+ *   the-index-the-late-colour (none applies). 13 compiles.
  *
  * DIFF: 2 bytes at +0x00F0. The original builds the 0x12C offset for the
  * first func_02031324 store as `movs r1, #0x30; adds r1, #0xfc`; ours copies
@@ -84,8 +107,8 @@ extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_021B69AC(u8 *a, u8 *b);
 extern void func_021B64D0(void);
-extern void func_021B652C(void);
-extern void func_021B6540(int *p);
+extern unsigned int func_021B652C(void);
+extern unsigned int func_021B6540(int *p);
 extern void func_021B65B4(void);
 extern void func_021B6644(void *a, void *b);
 extern void func_021B6790(int *p);
