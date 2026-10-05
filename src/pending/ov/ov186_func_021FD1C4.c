@@ -81,6 +81,25 @@
  * later literal 1 argument in one block). Reading: only a store operand 1
  * followed by an argument 1 merges, and no real source form splits them.
  *
+ * final push 2026-10-05 G1L6: still 4 B (same icon-block residue). Research
+ * first (idioms: repeated-constant-pools-only-within-one-block, repeated-small-
+ * constant-takes-a-callee-saved-register, small-constant-is-rematerialised...,
+ * store-stays-above-the-argument-constant, pool-constant-kept-live-past-a-join,
+ * narrow-flag-local-is-spilled, sub-word-parameter-type..., one-element-array-
+ * initialiser; twins ov183 021DCBD8/021DF428, ov206, ov208, ov218 021BA328:
+ * none has a constant strh then a literal 1 argument in one block with a free
+ * register). New tries, bytes off: aggregate initialiser `Req r={0x4b,0x40,1,0}`
+ * (246 B: compiler copies the record from a pool table, no memset); do/while(0)
+ * around B6F4+B688 (4); mid-function `#pragma opt_common_subs off` before the
+ * if(B) (1093); B688 through a static inline SetVis(obj,v) or SetVis(obj) (4
+ * each); stores through a static inline SetReq(&r,x,y,z) with int or u16
+ * params (4 each); Req of short fields with B688 arg 1u (4); z as 1u with arg
+ * -1+2 (4); keeping h live past the stores (func_02049238 moved after B688)
+ * to test register pressure: still pooled (r6 instead of r7), so pressure is
+ * not the cause; the whole icon block as a static inline MakeIcon (11 B, slots
+ * move, still pooled). Conclusion unchanged: store operand 1 followed by an
+ * argument 1 in one block always merges; no human source form found.
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm

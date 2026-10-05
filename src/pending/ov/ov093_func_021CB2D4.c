@@ -50,6 +50,17 @@
  *   twin found: grep of func_021D5440 / func_021D6E0C / func_021D6E04 in src/matched/ov hits only
  *   unrelated one-callee functions (ov093_func_021CAFD8, 021C02CC). Pragmas already tried in header.
  *   Verdict unchanged: DIFF, 4 B off.
+ *   final push 2026-10-05 G1L7: still 4 B (+0188/+018A), 12 compiles. Research first: the loop-3 entry
+ *   already has the original order (str i3 then ldr n), only the bottom increment differs. Tried (4 B
+ *   unless noted): loop-3 bound through a u8 local copy (652 B, 355 B off) or u16 copy (656 B, 366 B
+ *   off); func_021B9B94 declared u8 as its matched definition (4 B, n u32) and with n u8 (35 B);
+ *   `i3 += 1`; const on n or on p/a (does not compile); pragmas opt_dead_code off (4 B),
+ *   opt_strength_reduction off (4 B), opt_loop_invariants off (10 B). Idioms read in full:
+ *   a-field-reload-after-a-sibling-store-cannot-be-forced, a-narrow-spilled-parameter-keeps-its-reload-below-a-store,
+ *   a-spilled-parameter-reload-scheduled-after-an-unrelated-store-is-a-narrow-parameter,
+ *   a-loop-counter-zero-before-an-offset-assignment-schedules-before-its-spill,
+ *   a-running-counter-bumped-in-the-body-colours-apart-from-a-comma-increment,
+ *   a-u8-stepped-counter-re-truncated-at-each-narrow-argument-is-a-32-bit-counter (none moved it).
  * symbols:
  *   func_021D7EB4 0x021D7EB4 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093

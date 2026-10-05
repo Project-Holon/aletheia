@@ -31,6 +31,16 @@
  *   block (4 B), b temp only with direct p->a at the store (13 B), p++->a / q++->a
  *   post-increment forms (4 B), q = q + 1 (4 B). The callee declarations were
  *   re-checked against matched ov114 callers: no change. No stand-in kept.
+ * final push 2026-10-05 G1L8: still 4 B (temps r2/r1, original r1/r2). Tried 8 compiles, new
+ *   forms only: 8-byte char-array struct copy `*(Key8 *)d = *(Key8 *)p` (the compiler's own
+ *   aggregate-copy loop, 168 B, loads [r0] before [r0,#1] plus a separate add, 115 B off);
+ *   same with u8 array, with Pair[4] struct, with named d/s pointer locals (all 115 B off);
+ *   char and unsigned short temps (4 B); q assigned after the x store (4 B); a block-local
+ *   Pair temp struct (4 B). The matched twins at ov114 021C99D0 and 021C9B64 use this loop
+ *   shape only for a 17-byte aggregate initialiser, not for a pointer-to-pointer copy.
+ *   Idioms read: statement-order-of-scratch-temporaries, colour-swap-opt_lifetimes,
+ *   byte-locals-signedness, masked-locals-width, dying-pointer-loads-allocator-tie,
+ *   byte-record-table-struct. No stand-in kept.
  * symbols:
  *   d_021D3D28   0x021D3D28  data  a4
  *   d_021D3D2C   0x021D3D2C  data  a4

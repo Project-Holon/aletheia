@@ -39,6 +39,16 @@
  *   assignment; d = tmp1*(y*y); d >>= 12; call nested in Product argument; r = a*t1 then
  *   r = r / d + 1; yy = y*y local after the call; Product with a sq local. Callees checked
  *   (FX_Sqrt int, func_021D6B6C u32). No new form closes it.
+ * final push 2026-10-05 G1L4: 13 compiles, best stays 146/148 (2 bytes, +76 muls dest r2 vs r1,
+ *   +7A lsrs r2 vs r1). Read idioms: a-thumb-multiply-into-the-reloaded-operand-is-a-compound-assignment,
+ *   a-product-kept-in-its-parameter-multiplies-in-place, commutative-operand-order-names-the-temporary,
+ *   the-accumulator-of-a-commutative-chain-is-its-second-operand, two FX_Mul idioms. Analysis: the
+ *   nested form (call inline in the product) puts the product in the call copy as the original does
+ *   but swaps colours (yy r1, call r2, 5 B); the named tmp1 form gets the colours right but the
+ *   product lands in yy. Tried, bytes off: yy local before tmp1 (148 B, 90 off), tmp1 *= yy local
+ *   (27), t2 as block-1 shape local (28), nested in division (5), tmp1 = (tmp1*(y*y))>>12 in place
+ *   (26), d = (y*y)*tmp1 split (2), Product with int params (2), tmp1 declared first (2),
+ *   Product(value, root) param swap (2), numerator t1*a (4), tmp inlined (2).
  * symbols:
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm

@@ -8,6 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * final push 2026-10-05 G1L1: still DIFF 2 bytes (+016C). Research first (idioms on constant rematerialisation, dead stores,
+ *   declaration-point stores, return flags, const loads; no matched twin for the peer-list body). First use of the per-function
+ *   pragmas on this draft (none was listed as tried), each on found = match (2 B base) and on literal found = 1 (10 B base):
+ *   opt_propagation off 948 B (889 / 886 out); opt_lifetimes off 206 / 210 out; opt_common_subs off 20 / 28 out;
+ *   opt_dead_assignments off 2 / 10 out; scheduling off 2 / 10 out; peephole off 2 / 10 out. Also found = ok (the call result,
+ *   nonzero on this path, 912 B, 757 out) and found++ (541 out). None moves the found store or the movs #1. Residue unchanged.
  * 2026-10-05 (wD9r laneS2): still DIFF 2 bytes (+016C). The draft left by the stopped lane held only notes (code equals
  *   HEAD, 908 B, 2 B diff); kept. Read the mwcc reference (inspiredrobot/mwcc, a PowerPC GC build): its docs list the
  *   copy/constant propagation passes and the allocator but give no rule for which source constructs stay unfolded
