@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT*
  * note 2026-10-05 (wave D9r lane P7): real extent is 0x744 bytes (1860); the 2004-byte
  *   listing extent includes the filed follower func_021D8C1C. Compiled size now equals
  *   the original (1860 bytes); 1055 concrete bytes still differ, almost all from two
@@ -78,6 +78,12 @@
  *   (worse), pragma scheduling off and peephole off (no change).
  *   Idioms checked: a-spilled-constant-high-word-is-a-u32-copied-into-a-u64-before-the-call
  *   (already applied: closed the id copy, and its twin gave the explicit-0 call form).
+ * note 2026-10-05 (wave D9r lane P7d): CLOSED, EXACT* (c99 and c). 14 -> 0 B. The date
+ *   year local is u32 (`u32 year;` with `year=(u16)((int)D(172)>>16)`), not u16: a spilled
+ *   narrow local keeps its reload below the outgoing stack-argument store, a spilled u32
+ *   local has its reload hoisted above it, so `str r7,[sp]` (day) now comes last, after
+ *   `adds r1,r6,#0`, as in the original (docs/idioms/a-reload-kept-below-outgoing-stack-
+ *   stores-is-a-narrow-local.md read the other way round). Compiles this lane: 3.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_02049F34 0x02049F34 arm
@@ -195,7 +201,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     Work work;
     u32 arc;
     u32 month;
-    u16 year;
+    u32 year;
     u32 ability;
     u8 gender;
     int clamp;
