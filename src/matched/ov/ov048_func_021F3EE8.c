@@ -13,6 +13,12 @@
  * spill slot (a dead store survives in a stack-homed local); f declared
  * before h1 puts its slot highest.
  *
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`sz = 4;` before `sz = 0x100;`). Game code has no line table, so these
+ * were stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_021F44D8  0x021F44D8  thumb  ov048
  *   func_0201EC74  0x0201EC74  thumb
@@ -81,7 +87,6 @@ void func_021F3EE8(int *p)
     void *buf;
 
     func_021F44D8(p, &s);
-    sz = 4;
     sz = 0x100;
     h1 = func_0201EC74(4, sz, ((struct Obj02413 *)p)->f0);
     a = (u32)func_02045B38(0, 2, 0x59, ((struct Obj02413 *)p)->f0);

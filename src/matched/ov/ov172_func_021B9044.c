@@ -120,7 +120,7 @@ extern void func_021B9C9C(void *p, S *s);
 extern void func_021B9D04(void *p, S *s);
 extern int func_021B9DF8(void *p, S *s);
 extern void func_021B9E3C(void *p, S *s);
-extern void func_021B9E5C(void *p, S *s, short *tbl, int b, u32 c, u16 d);
+extern void func_021B9E5C(void *p, S *s, short *tbl, u8 b, u32 c, u16 d);
 extern int func_021B9F4C(void *p, S *s, int v);
 extern void func_021BA050(void *t);
 extern int func_021BA244(void *t);

@@ -16,6 +16,12 @@
  *   slots are the loop-hoisted 0x31B8 address. `(e+0x60) & (q+0x14)` operand order,
  *   and the CRC result in a named local for `cmp r0, r1`.
  *
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`base = q;` before `base = q + 0x7C;`). Game code has no line table, so
+ * these were stand-ins. The plain single assignment gives EXACT in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02177B2C  0x02177B2C  thumb  ov014
  *   func_02177BAC  0x02177BAC  thumb  ov014
@@ -53,7 +59,6 @@ void func_02157760(u8 *q)
     int idx;
     u32 crc;
 
-    base = q;
     base = q + 0x7C;
 
     for (i = 0; i < 16; i++) {

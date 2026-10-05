@@ -7,6 +7,13 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ * note 2026-10-05 (wave D9r lane 131): removed the 4 dead first assignments
+ * (`sysOff=0x3B0;` before `sysOff=0x3A4;`; `outOff=0x3B0;` before
+ * `outOff=0x3A8;` and 2 more). Game code has no line table, so these were
+ * stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   d_021C377C 0x021C377C data a4
  *   func_021BF9F0 0x021BF9F0 thumb ov217
@@ -36,10 +43,10 @@ void func_021C06F0(u8 *p)
     int i;
     const struct Entry *q;
     u8 *dest;
-    sysOff=0x3B0; sysOff=0x3A4;
-    outOff=0x3B0; outOff=0x3A8;
-    callOff=0x3B0; callOff=0x3A8;
-    uploadOff=0x3B0; uploadOff=0x3A8;
+    sysOff=0x3A4;
+    outOff=0x3A8;
+    callOff=0x3A8;
+    uploadOff=0x3A8;
     for(i=0;i<2;i++) {
         dest=p+i*4;
         param.bmp=((struct Obj25967 *)dest)->f3B0;

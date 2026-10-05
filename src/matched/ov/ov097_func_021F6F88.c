@@ -8,8 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * lever: integer object base plus a separate twice-assigned destination
- * address recreates its spill and shared index; merged icon is u16.
+ * lever: integer object base; the icon array address comes from a static
+ * inline accessor of field fB4 (the inlined parameter and the result share
+ * one spill slot: str p; adds #0xb4; str); merged icon is u16.
+ * note 2026-10-05: replaced the stand-in `icons = p; icons = p + 0xb4;`
+ * with the accessor IconBase(p). EXACT in --lang c99 and --lang c. An
+ * accessor returning u32 * with icons[i] stores gives DIFF; one that copies
+ * into a local and adds (r = obj; r += 0xb4) gives DIFF.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_020185F4 0x020185F4 thumb
@@ -50,6 +55,10 @@ extern int func_0202775C(int);
 extern int func_02027758(void);
 extern int func_02027760(int);
 extern int func_02027764(int);
+static inline u32 IconBase(int obj)
+{
+    return (u32)&((struct Obj00410 *)obj)->fB4;
+}
 void func_021F6F88(int p)
 {
     u32 a, b;
@@ -58,8 +67,7 @@ void func_021F6F88(int p)
     u16 i, icon;
     u32 icons;
     h = func_020490F4(7, 0x8071);
-    icons = p;
-    icons = p + 0xb4;
+    icons = IconBase(p);
     for (i = 0; i < 6; i++) {
         if (*(void **)(p + i * 4 + 0xf8) != 0)
             icon = func_0201BA68(func_020185F4(*(void **)(p + i * 4 + 0xf8)));

@@ -11,6 +11,13 @@
  * lever: The explicit entry guard encloses a do-while; a for adds a second entry test (308 B DIFF to 306 B EXACT*).
  * trailing: 021E0A86..021E0A88 is two zero alignment bytes.
  * abi: 0204B294 caller uses returned r0 despite callee's void spelling; fifth payload remains its u32 address word.
+ * note 2026-10-05 (wave D9r lane 131): removed the 7 dead first assignments
+ * (`heapA=0x25c;` before `heapA=0x34c;`; `aA=0x25c;` before `aA=0x26c;` and
+ * 5 more). Game code has no line table, so these were stand-ins. The plain
+ * single assignment gives EXACT* in --lang c99 and --lang c: the output
+ * bytes do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ *
  * symbols:
  *   func_0204B294 0x0204B294 arm
  *   func_0204B688 0x0204B688 arm
@@ -38,16 +45,16 @@ void func_021E0954(char *p)
     params.a=normal;params.b=normal;params.c=normal;params.flag=10;params.pad=normal;
     special=0;i=0;
     if(*(int *)(p+base-0x20)+2>0) {
-        heapA=0x25c;heapA=0x34c;
-        aA=0x25c;aA=0x26c;
+        heapA=0x34c;
+        aA=0x26c;
         bA=0x260;
-        cA=0x25c;cA=0x284;
-        heapB=0x25c;heapB=0x34c;
-        aB=0x25c;aB=0x26c;
+        cA=0x284;
+        heapB=0x34c;
+        aB=0x26c;
         bB=0x260;
         cB=0x284;
-        countOffset=0x15c;countOffset=0x23c;
-        recordOffset=0x15c;recordOffset=0x150;
+        countOffset=0x23c;
+        recordOffset=0x150;
         do {
             char *q;
             q=p+special*28;

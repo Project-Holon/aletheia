@@ -8,6 +8,12 @@
  * isa: thumb
  * status: EXACT
  * lever: the boolean passed narrow is an int local; t declared after desc puts t at sp+0x1c.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`desc = p;` before `desc = p + 0xc8;`). Game code has no line table, so
+ * these were stand-ins. The plain single assignment gives EXACT in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_021B8B9C 0x021B8B9C thumb ov093
  *   func_021B8B78 0x021B8B78 thumb ov093
@@ -111,7 +117,6 @@ int func_021B6DD0(int unused, u8 *p)
     ((struct Obj00886 *)p)->f8 = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, ((struct Obj00886 *)p)->f468);
     p[0x46e] = 1;
     table = p + 0x3f0;
-    desc = p;
     desc = p + 0xc8;
     for (i = 0; i < 4; i++) {
         if (func_021B8B9C(p, i)) {

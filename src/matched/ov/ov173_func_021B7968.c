@@ -7,6 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`off = 0x114;` before `off = 0x1b8;`). Game code has no line table, so
+ * these were stand-ins. The plain single assignment gives EXACT in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
@@ -31,7 +37,6 @@ void func_021B7968(char *p)
     u32 off;
     u32 i;
     u32 value;
-    off = 0x114;
     off = 0x1b8;
     for (i = 0; i < 4; i++) {
         rect[0] = 0x2f;

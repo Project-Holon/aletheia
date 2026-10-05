@@ -8,6 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * note: Two zero padding bytes follow at 0x021C0DE2.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`a=t;` before `a=t+16;`). Game code has no line table, so these were
+ * stand-ins. The plain single assignment gives EXACT* in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_0204B560 0x0204B560 arm
@@ -30,7 +36,6 @@ void func_021C0D34(char *p,int force) {
     if(!force) {
         y=func_0204B560(((struct Obj05300 *)p)->f8,1);
         t=137*index/n;
-        a=t;
         a=t+16;
         b=137*(index+1)/n+16;
         if(index==0) { if(y<b) return; }

@@ -10,6 +10,12 @@
  * extent: two zero padding bytes follow the return, before 0x021B8B4C.
  * lever: allocation declared before table keeps allocation in ip and table spilled;
  * table assignments repeat the data source to retain both stores without a reload.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`table=(int)data;` before `table=(int)data+12;`). Game code has no line
+ * table, so these were stand-ins. The plain single assignment gives EXACT*
+ * in --lang c99 and --lang c: the output bytes do not change. Older text in
+ * this header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021B7F7C 0x021B7F7C thumb ov106
@@ -33,7 +39,6 @@ void func_021B8AD0(u8 *p,u8 *a,u16 b) {
     x=func_021B7F7C(a,1);
     y=func_021B7F7C(a,0);
     allocation=func_02049EB4(77,5,0,(u32)&data,b);
-    table=(int)data;
     table=(int)data+12;
     for(i=0;i<3;i++) {
         for(j=0;j<32;j++) {

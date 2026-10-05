@@ -8,6 +8,12 @@
  * isa: thumb
  * status: EXACT
  * lever: slot=a; slot=a-30; preserves the two stores to its stack home.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`slot=a;` before `slot=a-30;`). Game code has no line table, so these
+ * were stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_021DDEFC 0x021DDEFC thumb ov170
  */
@@ -25,7 +31,6 @@ void func_021DE5F8(unsigned char *p,unsigned a)
     unsigned i;
     unsigned slot;
     o=*(Obj * *)&((struct Obj23847 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
-    slot=a;
     slot=a-30;
     for(i=0;i<6;i++){
         o[i].idx=i+30;

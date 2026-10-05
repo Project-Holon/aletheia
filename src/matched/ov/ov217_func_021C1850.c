@@ -8,6 +8,12 @@
  * isa: thumb
  * status: EXACT
  * lever: declare base before total, preserve both base stores, guard do-loop.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`base=p;` before `base=p+0x1c;`). Game code has no line table, so these
+ * were stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_021C1AD4 0x021C1AD4 thumb ov217
  *   func_021C1AFC 0x021C1AFC thumb ov217
@@ -26,7 +32,6 @@ void func_021C1850(u8 *p)
     int i=0;
     int remaining;
     if (count>0) {
-        base=p;
         base=p+0x1c;
         do {
             u8 *record=base+i*20;

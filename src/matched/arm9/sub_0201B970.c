@@ -9,6 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  *
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`id = slot;` before `id = slot + 0x3A;`). Game code has no line table, so
+ * these were stand-ins. The plain single assignment gives EXACT* in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
@@ -53,7 +59,6 @@ u32 sub_0201B970(void *mon, u32 slot, u32 amount)
     if (move == 0) {
         return 0;
     }
-    id = slot;
     id = slot + 0x3A;
     pp = (u8)func_02017E1C(mon, id, 0);
     ppUp = func_02017E1C(mon, slot + 0x3E, 0);

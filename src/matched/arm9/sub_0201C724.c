@@ -53,7 +53,7 @@ struct PrintCtx;
 struct PrintSys;
 extern void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
 
-void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
+void sub_0201C724(void *owner, u32 a, short b, u32 c, u32 d, u32 e, u16 f)
 {
     sub_0201C808(&g_0214655C, e, a, b, c);
     sub_0201C8A4(&g_0214655C, f);

@@ -24,9 +24,12 @@
  * one live range (r4 in the image), so the counter is the one spilled to
  * [sp,#4].  With a u32 `unit` the compound form truncates `unit` as a loop
  * invariant (100 bytes).  The remaining slot order is the declaration order
- * start, buf, i, pos; `buf = ring; buf = ring + 0x18` is the two-store
- * idiom (docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-
- * second-assignment-recomputes.md).
+ * start, buf, i, pos.
+ *
+ * note 2026-10-05: removed the redundant first store `buf = ring;` (a
+ * stand-in: arm9 game code has no line table to prove it). The single
+ * `buf = (u8 *)ring + 0x18;` is EXACT in --lang c99 and --lang c; so is a
+ * static inline accessor RingData(ring), so the plain form is kept.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0201D768.c \
@@ -53,7 +56,6 @@ void *func_0201D768(struct Ring *ring, const u8 *src, u16 len, u16 unit)
     u16 pos;
 
     i = 0;
-    buf = (u8 *)ring;
     buf = (u8 *)ring + 0x18;
     start = ring->head;
     while (i < len) {

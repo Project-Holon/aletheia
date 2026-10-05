@@ -9,6 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`base = (u8 *)ps;` before `base = (u8 *)ps + 0x18;`). Game code has no
+ * line table, so these were stand-ins. The plain single assignment gives
+ * EXACT in --lang c99 and --lang c: the output bytes do not change. Older
+ * text in this header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_0201DE00  0x0201DE00  thumb
  *   func_0201DE18  0x0201DE18  thumb
@@ -120,7 +126,6 @@ u32 func_0201C4E4(struct PrintSys *ps)
     }
     t0 = func_020870D0();
     if (ps->unk10 != 0) {
-        base = (u8 *)ps;
         base = (u8 *)ps + 0x18;
         do {
             if (ps->unk10->kind == 1) {

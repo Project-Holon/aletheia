@@ -11,6 +11,13 @@
  * lever: duplicate literal assignments preserve the seven spilled offset homes.
  * ABI: 0204B294 fifth input is the request address, forwarded unchanged; r0 result is stored.
  * paired: Request* and u32 fifth-argument spellings both produce EXACT 524 bytes.
+ * note 2026-10-05 (wave D9r lane 131): removed the 7 dead first assignments
+ * (`a = 0x30c;` before `a = 0x37c;`; `b = 0x30c;` before `b = 0x378;` and 5
+ * more). Game code has no line table, so these were stand-ins. The plain
+ * single assignment gives EXACT in --lang c99 and --lang c: the output bytes
+ * do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ *
  * symbols:
  *   data_021D5708 0x021D5708 data a1
  *   data_021D5704 0x021D5704 data a1
@@ -41,13 +48,13 @@ void func_021D46CC(char *p)
     Request req;
     int i, a, b, c, d, e, f, g;
     i = 0;
-    a = 0x30c; a = 0x37c;
-    b = 0x30c; b = 0x378;
-    c = 0x30c; c = 0x380;
-    d = 0x30c; d = 0x390;
-    e = 0x30c; e = 0x390;
-    f = 0x30c; f = 0x390;
-    g = 0x30c; g = 0x390;
+    a = 0x37c;
+    b = 0x378;
+    c = 0x380;
+    d = 0x390;
+    e = 0x390;
+    f = 0x390;
+    g = 0x390;
     for (; i < 3; i++) {
         char *q;
         req.f00 = x.v[i]; req.f02 = y.v[i]; req.f04 = z.v[i];

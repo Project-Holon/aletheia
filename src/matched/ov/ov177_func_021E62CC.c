@@ -8,6 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
+ * note 2026-10-05 (wave D9r lane 131): removed the 3 dead first assignments
+ * (`layer1=0x240;` before `layer1=0x234;`; `layer2=0x240;` before
+ * `layer2=0x234;` and 1 more). Game code has no line table, so these were
+ * stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
@@ -55,9 +62,9 @@ void func_021E62CC(char *p,int mode,void *mgr,void *print,int font)
     base=0x240;
     func_021E6F20((Work *)p,*(void **)(p+base),*(void **)(p+base-8),*(u16 *)(p+base-4));
     x=32-func_020407E8(*(u8 *)(p+base-16));
-    layer1=0x240;layer1=0x234;
-    layer2=0x240;layer2=0x234;
-    secondary=0x240;secondary=0x1a8;
+    layer1=0x234;
+    layer2=0x234;
+    secondary=0x1a8;
     base=0x16c;
     for(;i<6;i++) {
         void *o;

@@ -13,6 +13,13 @@
  *   unsigned int func_020188AC(void *p, int n) { return func_020188B4(p, n); }
  * lever: u8 bit pins the prologue spill; explicit zero-initialized result
  *   locals keep the two final empty-slot tests zero-first.
+ * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments
+ * (`b = a;` before `b = a - 0x1f;`; `c = a;` before `c = a - 0x1e;`). Game
+ * code has no line table, so these were stand-ins. The plain single
+ * assignment gives EXACT in --lang c99 and --lang c: the output bytes do not
+ * change. Older text in this header that asks for the double assignment is
+ * superseded.
+ *
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202130C 0x0202130C thumb
@@ -34,9 +41,7 @@ int func_021B9AC8(u8 *p, void *mon, u8 bit)
         a = *(u16 *)(*(u8 **)(p + 0x280) + 0x46);
         if (a == 0xfffe) {
             a = 0x152;
-            b = a;
             b = a - 0x1f;
-            c = a;
             c = a - 0x1e;
         } else if (a == 0xfffd) {
             a = 0x280;

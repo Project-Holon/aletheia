@@ -38,16 +38,18 @@
  *    function's LAST epilogue through a branch island, as a `break` would
  *    (docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md).
  *  - The glyph loop is `i = 0; if (i < n) { ...; do { } while (i < n); }`
- *    with the dead-store pair `ctx = p; ctx = &p->ctx;` in the guarded
- *    preheader (docs/idioms/a-dead-store-to-a-spilled-local-survives-when-
- *    the-second-assignment-recomputes.md).  A `for` loop puts the stores
- *    before the guard and duplicates the test.
+ *    with `ctx = &p->ctx;` in the guarded preheader.  A `for` loop puts
+ *    the store before the guard and duplicates the test.
  *  - The dispatch is a switch on the loaded halfword, and the control-code
  *    helper takes that VALUE: its own `== 0xF000` test then reuses the
  *    switch's compare, which is the dead `bne` at 0x0201D01E.  Given the
  *    pointer it reloads the halfword and is eight bytes long.
  *  - `case 1: default:` share one arm in the inner mode switch, which is
  *    why the image has `cmp r0, #1` followed by an unconditional `b`.
+ *
+ * note 2026-10-05: removed the stand-in first store of the pair
+ * `ctx = (struct PrintCtx *)p; ctx = &p->ctx;`. The single
+ * `ctx = &p->ctx;` is EXACT in --lang c99 and --lang c.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -172,7 +174,6 @@ void func_0201CEE0(void *task, struct Rec *p)
             }
             i = 0;
             if (i < n) {
-                ctx = (struct PrintCtx *)p;
                 ctx = &p->ctx;
                 do {
                     c = *p->cur;

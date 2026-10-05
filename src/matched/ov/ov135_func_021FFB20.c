@@ -9,6 +9,13 @@
  * status: EXACT
  * lever: signed offset locals b then a, with two literal assignments each,
  * reproduce the dead stack stores; compound updates reverse the first pair.
+ * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments
+ * (`a = 0xE5C;` before `a = 0xEA0;`; `b = 0x302;` before `b = 0x32E;`). Game
+ * code has no line table, so these were stand-ins. The plain single
+ * assignment gives EXACT in --lang c99 and --lang c: the output bytes do not
+ * change. Older text in this header that asks for the double assignment is
+ * superseded.
+ *
  * symbols:
  *   func_021FFC8C 0x021FFC8C thumb ov135
  *   func_0204B878 0x0204B878 arm
@@ -28,9 +35,7 @@ void func_021FFB20(u8 *p, int count, int flag)
     int i;
     int b, a;
     if (count != 0 && flag == 1) func_020061E4(0x676);
-    a = 0xE5C;
     a = 0xEA0;
-    b = 0x302;
     b = 0x32E;
     for (i = 0; i < 7; i++) {
         if (i < count) {

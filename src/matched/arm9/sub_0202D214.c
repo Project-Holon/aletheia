@@ -19,13 +19,14 @@
  * forced on -- the id is spelled `(v & 0x7fff) | 0x8000`, and the 0x8000
  * arrives as `0x7fff + 1` because it is not a `movs` immediate.
  *
- * The stride local is written twice, and the second write recomputes off
- * the constant rather than the variable (`s = 0x100; s = 0x100 + 0x80;`),
- * which is the two-store shape of
- * docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-
- * assignment-recomputes.md; the loop addresses are then `base + off`
- * with `off` accumulated by hand, which is why the object base stays in
- * one register and the running pointer in another.
+ * The stride 0x180 is held in a local (`size = 0x180;`) and the loop
+ * addresses are `base + off` with `off` accumulated by hand, which is why
+ * the object base stays in one register and the running pointer in another.
+ *
+ * note 2026-10-05: removed the stand-in stores `size = 0x100;
+ * size = 0x100 + 0x80;` (written twice, before each pair of loops). One
+ * `size = 0x180;` before the first loop is EXACT in --lang c99 and
+ * --lang c; with no local at all the function is DIFF.
  *
  * symbols:
  *   str_020A77AC    0x020A77AC  data
@@ -56,8 +57,7 @@ void sub_0202D214(void *p, u32 v)
     buf = func_02030734((u16)((v & 0x7fff) | 0x8000), 0x1200, 1, str_020A77AC, 0x100);
     MIi_CpuCopyFast(base, buf, 0x1200);
 
-    size = 0x100;
-    size = 0x100 + 0x80;
+    size = 0x180;
     off = 0;
     for (i = 0; i < 8; i++) {
         MIi_CpuCopyFast(buf + off, base + i * size, 0x100);
@@ -68,8 +68,6 @@ void sub_0202D214(void *p, u32 v)
         off += 0x80;
     }
 
-    size = 0x100;
-    size = 0x100 + 0x80;
     for (i = 0; i < 4; i++) {
         MIi_CpuCopyFast(buf + off, base + (i * size + 0xc00), 0x100);
         off += 0x100;

@@ -8,6 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * extent: two trailing zero bytes are alignment padding before the next labelled function.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`base = x;` before `base = x + 20;`). Game code has no line table, so
+ * these were stand-ins. The plain single assignment gives EXACT* in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_0204B294 0x0204B294 arm
@@ -41,7 +47,6 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
     ((struct Obj14427 *)p)->f0 = func_0204B294(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
     func_0204B688(((struct Obj14427 *)p)->f0, 1);
     pos.z = 0;
-    base = x;
     base = x + 20;
     for (i = 0; i < 4; i++) {
         char *slot;

@@ -8,6 +8,13 @@
  * isa: thumb
  * status: EXACT
  * arithmetic: count additions wrap unsigned then compare signed results; indexed address uses typed word-pointer addition under valid-object preconditions; the guarded int counter never increments above INT_MAX.
+ * note 2026-10-05 (wave D9r lane 131): removed the 11 dead first assignments
+ * (`off1 = 0x5F4;` before `off1 = 0x6B8;`; `off3 = 0x828;` before `off3 =
+ * 0x730;` and 9 more). Game code has no line table, so these were stand-ins.
+ * The plain single assignment gives EXACT in --lang c99 and --lang c: the
+ * output bytes do not change. Older text in this header that asks for the
+ * double assignment is superseded.
+ *
  * symbols:
  *   func_02049B40 0x02049B40 arm
  *   func_020450F0 0x020450F0 arm
@@ -49,18 +56,18 @@ void func_021E4420(char *p)
     i = 0;
     if (i >= (int)((u32)*(int *)(p+off+0x3C)+1u)) goto done;
         zero = 0;
-        off1 = 0x5F4; off1 = 0x6B8;
+        off1 = 0x6B8;
         off = 0x630;
-        off3 = 0x828; off3 = 0x730;
-        off2 = 0x720; off2 = 0x730;
-        a = 0x720; a = 0x6B8;
-        b = 0x720; b = 0x6B8;
-        c = 0x720; c = 0x728;
-        d = 0x720; d = 0x730;
-        e = 0x720; e = 0x6B8;
-        f = 0x720; f = 0x6B8;
-        g = 0x720; g = 0x630;
-        h = 0x720; h = 0x6B8;
+        off3 = 0x730;
+        off2 = 0x730;
+        a = 0x6B8;
+        b = 0x6B8;
+        c = 0x728;
+        d = 0x730;
+        e = 0x6B8;
+        f = 0x6B8;
+        g = 0x630;
+        h = 0x6B8;
         do {
             q = (char *)((u32 *)p+i);
             if (*(u32 *)(q+h) == 0)

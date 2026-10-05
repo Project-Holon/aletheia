@@ -8,6 +8,13 @@
  * isa: thumb
  * status: EXACT
  * lever: equal declared before count fixes the two spilled counter slots; literal double assignments reproduce the lower-bound stores.
+ * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments
+ * (`lower1 = 0x30f4;` before `lower1 = 0x30a1;`; `lower2 = 0x30f4;` before
+ * `lower2 = 0x30a1;`). Game code has no line table, so these were stand-ins.
+ * The plain single assignment gives EXACT in --lang c99 and --lang c: the
+ * output bytes do not change. Older text in this header that asks for the
+ * double assignment is superseded.
+ *
  * symbols:
  *   func_021B7090 0x021B7090 thumb ov101
  *   func_02045A98 0x02045A98 arm
@@ -29,9 +36,7 @@ u32 func_021B6F9C(u16 *p, u16 *q)
     bits2 = func_021B7090(b, 8);
     count = 0;
     equal = 0;
-    lower1 = 0x30f4;
     lower1 = 0x30a1;
-    lower2 = 0x30f4;
     lower2 = 0x30a1;
     for (;;) {
         if (bits1 == 0) {

@@ -7,6 +7,13 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`windows = (void **)p;` before `windows = (void **)(p + 0x94);`). Game
+ * code has no line table, so these were stand-ins. The plain single
+ * assignment gives EXACT in --lang c99 and --lang c: the output bytes do not
+ * change. Older text in this header that asks for the double assignment is
+ * superseded.
+ *
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
@@ -38,7 +45,6 @@ void func_021EB208(char *p, Entry *e, int i)
     void **windows;
     unsigned j;
     void *bank;
-    windows = (void **)p;
     windows = (void **)(p + 0x94);
     func_02043B5C(func_02045770(windows[i * 2]), 0);
     j = 0;

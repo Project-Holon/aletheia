@@ -7,7 +7,35 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * 2026-10-05 (wD9r lane164): EXACT in both --lang c99 and --lang c. The steering cast `(u32)n >> 1` is gone:
+ *   the halving is a single-parameter helper `static inline u32 half(u32 w) { return w >> 1; }` (shape of
+ *   ov097 021F6D70 center_x), so the u32 parameter gives lsrs. Plain `x0 - (n >> 1)` is DIFF. Locals are
+ *   declared at the top in the same order (C89 form), assignments in place; same bytes.
+ * 2026-10-05 (wD9r lane156): EXACT. n is a u8 local (`u8 n = func_0201D304(...)`), widened to u32 for the
+ *   halving shift (`x0 - ((u32)n >> 1)`, keeps lsrs). mwcc keeps the reload of a spilled narrow local below the
+ *   outgoing stack stores (docs/idioms/a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md).
+ * 2026-10-05 (wD9r lane138): still 22 bytes. Tried the matched ov198 sibling prototype (0220C694, 0220D628:
+ *   `func_0201C724(void *, u32, u32, u32, u32, u32, u16)` with an (s16) cast at the call): 54, the ex reload
+ *   then hoists above the stack stores in all three calls. Also (u32, u32, int, int): 327 (frame grows, slot
+ *   spilled); (int, s16): 328; (s16, int): 54; (short, short): 22. Finding: with an s16 parameter the ex
+ *   reload stays below the outgoing stores, with u32 or int it hoists, so the s16 prototype is right and the
+ *   parameter type changes where a reload lands. The x0 + n add still heads the chain in every form.
+ * 2026-10-05 (wD9r lane127): still 22 bytes. Tried two new forms of the 'n lives in memory' idea:
+ *   n written through a static inline out-parameter helper `getw(text, font, &n)` (u32 and u8 n; mwcc
+ *   promotes the inlined address-taken local, same 22 or 29 lines); and `y = x0 + n;` reusing the call 2
+ *   s16 local for call 3 (same 22). Check of the hint: no register parameter here can be a homed narrow
+ *   parameter (all four are used in registers at entry, no entry store), and a homed slot would add bytes
+ *   (image is 396, ours 396). The 0xC slot is the narrow stack parameter `extra` copied to the frame.
+ * 2026-10-05 (wD9r lane111): still 22 bytes. New finding (diagnostic): a reassigned NARROW real parameter
+ *   (index declared u16, short or signed char, then `index = (u8)func_0201D304(...)` and `x0 + index` in call 3)
+ *   is memory-homed by mwcc, and call 3 then has the image order exactly (three stack stores, ldr r2 n,
+ *   ldr r0 ctx3, adds, lsls, ldr r3, asrs). But the home costs an entry store `str r2,[sp,#0xc]` and a reload
+ *   for the first call, and the slot is the lowest one (image: no entry store, n at 0x28), so not the source.
+ *   A u8 index is not homed (40, still hoisted). Also tried: the body after the 0201D304 call as a static
+ *   inline `rest(..., u32/u16/short n)` with n as an inline parameter (328, slot param spilled; the n reload
+ *   is still hoisted, inline parameters are not homed). So the image n has the alias class of a param home
+ *   or escaped local (ov097 lane95), but no source form with neither an entry store nor an `add rX,sp` found.
  * 2026-10-05 (wD9r lane56): still 22 bytes. Tried: n as u16 (40, n >> 1 becomes asrs and slots shift); the
  *   third x through `static inline s16 xsum(u8 a, u32 b) { return a + b; }` (22, the sum is still evaluated
  *   before the outgoing stack stores). Reading: in this compiler a load does not pass an earlier store (see
@@ -91,17 +119,17 @@ extern void func_02045808(void *);
 extern void func_0201EFA4(void *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(void *ws, void *dst, void *src);
 
+static inline u32 half(u32 w) { return w >> 1; }
+
 void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
 {
-    char *elem = (char *)(p + 4) + func_022110D4(p, index) * 0x4C;
-    void *text = func_02045EC0(P->f1EA0, 12);
-    u32 n = (u8)func_0201D304(text, P->f1E9C, 0);
-    x0 = x0 - (n >> 1);
-    u32 ctx1 = P->f1EAC;
-    u8 ex = extra;
-    slot = slot * 8;
-    u8 *tab = p + 0x1F70;
-    u8 *fl = p + 0x1F74;
+    char *elem;
+    void *text;
+    u8 n;
+    u32 ctx1;
+    u8 ex;
+    u8 *tab;
+    u8 *fl;
     void *text2;
     void *text3;
     u32 ctx2;
@@ -109,6 +137,15 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     u32 ctx3;
     u32 A;
     void *B;
+    elem = (char *)(p + 4) + func_022110D4(p, index) * 0x4C;
+    text = func_02045EC0(P->f1EA0, 12);
+    n = func_0201D304(text, P->f1E9C, 0);
+    x0 = x0 - half(n);
+    ctx1 = P->f1EAC;
+    ex = extra;
+    slot = slot * 8;
+    tab = p + 0x1F70;
+    fl = p + 0x1F74;
     func_0201C724(ctx1, (u32)func_02045770(*(void **)(tab + slot)), x0, ex, text, P->f1E9C, 0x3DC0);
     fl[slot] = 1;
     func_02045808(text);

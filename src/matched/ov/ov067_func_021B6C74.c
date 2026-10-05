@@ -13,6 +13,12 @@
  * reloaded for both calls (u16 gives the same bytes). The size is a spilled
  * local assigned twice, the second time recomputed from n.
  *
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`size = n * 4;` before `size = n * 4 + 8;`). Game code has no line table,
+ * so these were stand-ins. The plain single assignment gives EXACT in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
@@ -36,7 +42,6 @@ u32 *func_021B6C74(u32 *src, u32 n, u8 heap)
     u32 *o;
     u32 i;
 
-    size = n * 4;
     size = n * 4 + 8;
     o = func_02030734(heap, size, 0, d_021B9558, 0x40);
     i = 0;

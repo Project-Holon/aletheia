@@ -10,6 +10,13 @@
  * lever: retain q=bytes/32 then recompute bytes/32 as BB3F4's argument; safe expand(q x1), no intervening write or call.
  * volatile: hardware RMW at 021BB3A8/021BB3B6 (WININ), 021BB3BA/021BB3C4 (WINOUT), 021BB3D6/021BB3E0 (DISPCNT); WIN0H/WIN0V hardware writes.
  * prototype: 02049658's live r0 is consumed; 02040618's legacy fourth input is neither read nor forwarded by its full 02042360 target.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment (`q
+ * = bytes / 32;` before `q = (u32)func_021BB3F4(p, (u8 *)(bytes / 32));`).
+ * Game code has no line table, so these were stand-ins. The plain single
+ * assignment gives EXACT in --lang c99 and --lang c: the output bytes do not
+ * change. Older text in this header that asks for the double assignment is
+ * superseded.
+ *
  * symbols:
  *   func_020498F4 0x020498F4 arm
  *   func_02049658 0x02049658 arm
@@ -56,7 +63,6 @@ void func_021BB328(u8 *p, u32 data)
     u32 bytes, q;
     func_020498F4((void *)data, 27, 1, 0, 0, 0, 42);
     bytes = func_02049658(data, 15, 1, 0, 0, 0, 42);
-    q = bytes / 32;
     q = (u32)func_021BB3F4(p, (u8 *)(bytes / 32));
     q = (u32)func_021BB4F4(p, (u8 *)q);
     func_021BB5A0(p, (u8 *)q);

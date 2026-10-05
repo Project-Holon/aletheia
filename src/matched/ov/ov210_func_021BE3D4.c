@@ -9,6 +9,13 @@
  * status: EXACT
  * lever: each int offset is assigned 0x1DC, then its final literal;
  *        spilled locals retain both stores without a reload.
+ * note 2026-10-05 (wave D9r lane 131): removed the 4 dead first assignments
+ * (`release = 0x1dc;` before `release = 0x14c;`; `clear = 0x1dc;` before
+ * `clear = 0x150;` and 2 more). Game code has no line table, so these were
+ * stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_02045770 0x02045770 arm
@@ -28,10 +35,10 @@ void func_021BE3D4(u8 *p)
     int release, clear, get, flag;
     unsigned i;
     func_0201C4E4(*(struct PrintSys * *)&((struct Obj08413 *)p)->f1DC);
-    release = 0x1dc; release = 0x14c;
-    clear = 0x1dc; clear = 0x150;
-    get = 0x1dc; get = 0x14c;
-    flag = 0x1dc; flag = 0x150;
+    release = 0x14c;
+    clear = 0x150;
+    get = 0x14c;
+    flag = 0x150;
     for (i = 0; i < 16; i++) {
         struct PrintSys *ps = *(struct PrintSys * *)&((struct Obj08413 *)p)->f1DC;
         u8 *record = p + i * 8;

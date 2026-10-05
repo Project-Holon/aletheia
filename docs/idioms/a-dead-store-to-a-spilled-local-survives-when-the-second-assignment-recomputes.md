@@ -20,6 +20,28 @@ each of the three looks like this:
 020182BC  str  r1, [sp, #0xc]      /* ... and stored again */
 ```
 
+## Status (2026-10-05): the dead-store form is a stand-in
+
+The project rules count a redundant statement as a stand-in unless a vendor
+line table proves a code-less line there. Game code (arm9 game part and the
+overlays) has no line table, so `d = a; d = a + k;` must not be filed.
+
+- The accepted source for two stores to one slot is a `static inline`
+  accessor whose parameter copy and result share one stack slot:
+  `static inline u32 Field(int obj) { return (u32)&((struct S *)obj)->f; }`
+  and `d = Field(a);`. This closed ov097 021F6F88 (`IconBase(p)`) in both
+  `--lang c99` and `--lang c`.
+- First test the plain single assignment `d = a + k;`. The three arm9 files
+  that cited this idiom (func_0201CEE0, func_0201D768, sub_0202D214) are EXACT
+  with the plain form in both modes; their first store was never needed.
+- An audit of all matched game files (wave D9r lane 131) removed the first
+  store from 44 more files. All 44 keep their verdict with the plain single
+  assignment in both modes, ov094 02205E30 included: mwcc emits the
+  `str; adds; str` pair from `off = 0x14c;` alone. No file needs the
+  double assignment. Older header lines that ask for it are superseded.
+- The measurements below are kept as history. The "122 bytes, six short"
+  row did not hold in any file re-measured in the audit.
+
 Two stores to one slot with nothing in between that could read the first, three
 times over. The obvious reading is that the slot may not be optimised away, and
 that sends the search after a `volatile`, an aggregate whose address has

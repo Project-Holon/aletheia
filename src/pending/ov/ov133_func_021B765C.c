@@ -111,6 +111,47 @@
  *   after the wrap (`if (t == 5) n = 3;`, probe) reproduces the image's exact order (pool load, str,
  *   ldr, muls), so the image's n most likely has a second reaching def or is parameter-like; no natural
  *   codeless form found.
+ * 2026-10-05 (wD9r lane116): DIFF, residue unchanged (521 bytes, only the n str/ldr at +013C). Twin
+ *   search: 0x1249 appears only in ov133 021B6100 (frame pick as `m = F * 0x1249; if (t >= m) x = (t - m)
+ *   / 0x1249; else ...`, no n local) and 021B6F00 (init); no matched copy of this routine. New tries
+ *   (F = the u16 at p+0xA8), each compiled: n as a one-field local struct (521, scalarised); `while (t <
+ *   0) { n = F; t += n * 0x1249; } n = F;` (964/635: the +0134 block is now byte-exact, str/ldr/muls in the
+ *   image order, but hoisting the loop assignment adds a re-test `cmp r0,#0; bge` after the preheader);
+ *   the same with `(n = F)` in the loop expression and as a for loop (635); `if (t < 0) { n = F; do ...
+ *   while }` and `if (t < 0) do { n = F; ... } while` (521); `if (t < 0) { n = F; while ... }` (635,
+ *   re-test); `n = F` before the first loop (631, CSE); if/else arms with a for(;;)+break or do-while
+ *   loop and `n = F` in both arms (630, 632: CSE with the hoisted load); n re-read (`n = F`) inside the
+ *   condition block before or after k, or only there with `lim = F * 0x1249` (521, CSE'd away); no n and
+ *   F read at the k compare (521); a later def that reads n (`n += k` or `n = k - n` with a use after,
+ *   562/563, no reload); `else n = 3` after the k compare (no reload). Probes (not fixes): moving the
+ *   loop-top `sc = 0` (store to the address-taken sc) between `n = F` and the multiply gives the image's
+ *   str/ldr/muls (115 bytes left, all from the moved strh), so any memory store there blocks the load
+ *   forwarding into the multiply; a def of n inside the condition block before k (`if (t == 5) n = 3;`)
+ *   also gives it, a def after the k compare does not. Open: a codeless memory kill or a codeless
+ *   second def between +0138 and +0184; none of the image's stores fits.
+ * 2026-10-05 (wD9r lane153): DIFF, 521 bytes, but the only residue now is the n str/ldr at +013C
+ *   (the 2-byte shift). Finding: the earlier notes missed three compare-signedness differences that
+ *   the shift hid (the current draft had them too): `a >= h` (image blo), `a < (h >> 1)` (image bhs)
+ *   and the p+0x94 `< 45` test (image bge, signed). Fixed here, byte-neutral to the n residue:
+ *   h is `u32 h = 0x8000` (a u16 angle constant; unsigned compares on a), the w.y line uses the
+ *   literal 0x8000 (with u32 h it would divide unsigned), and the p+0x94 field is read through an
+ *   int-returning inline accessor GetTimer(p) (a plain u16 load against 45 compiles bhs; an int-typed
+ *   operand keeps bge; `int c` assigned in the condition and an (int) cast give the same bytes).
+ *   docs/idioms/a-halfword-compared-with-a-small-constant-branches-unsigned-unless-int-typed.md.
+ *   The n reload: with these fixes, `for (n = F; t >= n * 0x1249; n = F) t -= n * 0x1249;` (F = the
+ *   u16 at p+0xA8), or `n = F; while (t >= n * 0x1249) { t -= n * 0x1249; n = F; }`, is EXACT
+ *   (copy in scratchpad wD9r/l153/ov133_func_021B765C_exact_reread.c). Not filed: the in-loop
+ *   re-read of F assigns the same value and leaves no code (LICM merges it), so it is a redundant
+ *   statement under the stand-in rule. It works because a second live definition of n inside the
+ *   outer loop stops copy propagation of `n = F` into the multiply. Also tried, all compiled: n
+ *   defined in the first wrap loop (`while (t < 0) { n = F; t += n * K; }`, 635, re-test after the
+ *   preheader), the same as a do-while in an if (521, propagated), a for-loop def (635); `n = F` in
+ *   both arms of an if around a do-while with a second spelling of F (628, cross-jumped tail leaves
+ *   `b` to the next block); `for (;;)` with break and the multiply inside (605); do-while with the def
+ *   inside (520); a `while (t >= (n = F) * K)` condition (521); `n = F` before the loop with
+ *   `while (t >= n * K) t -= n * K` (521); inline helpers Span(n) (u16 and int param), Count(p),
+ *   FrameIndex(t, n) (u16 or int return), a tail helper Pick(p, e, t, F, a, old, cur) (58: cur copy,
+ *   no reload); a prologue def of n (521); n as int, u32, s16 with the re-read (524/524/532).
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
@@ -158,6 +199,7 @@ extern void func_020061E4(u32);
 extern void func_0204F638(int, int, Vec *);
 extern void func_0204F684(int, int, s16 *, s16 *);
 extern void func_0204F720(int, int, void *);
+static inline int GetTimer(u8 *p) { return *(u16 *)(p + 0x94); }
 void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
 {
     Vec v;
@@ -180,7 +222,7 @@ void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
     int lim;
     u16 n;
     const s16 *tp;
-    int h = 0x8000;
+    u32 h = 0x8000;
     int sh = 0xC0000;
 
     idx = 0;
@@ -256,9 +298,9 @@ void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
             func_021BA244(e, 0);
             sc = 0;
         }
-        if (*(int *)(cur + 0x10) == 1 && *(u16 *)(p + 0x94) < 45) {
+        if (*(int *)(cur + 0x10) == 1 && GetTimer(p) < 45) {
             w.x = v.x / 16;
-            w.y = (sh - (v.y + h)) / 16;
+            w.y = (sh - (v.y + 0x8000)) / 16;
             w.z = v.z + (sh >> 9);
             func_0204F638(*(int *)(p + 0x188C), *(int *)(p + idx * 4 + 0x5C), &w);
             func_0204F684(*(int *)(p + 0x188C), *(int *)(p + idx * 4 + 0x5C), &sc, &sc);

@@ -10,6 +10,12 @@
  * interface: x/y are u8 at 021E5ED6..021E5EE2; ov067's own u16 coordinate prototype is narrowed for this caller.
  * domain: side is 0/1 from 021E1E20/021E1E2C at call 021E1F14, or 2 at call 021E23B2 (r1 set 021E23AE).
  * initialization: both domain arms fill x, y, f0 and b1c; all remaining descriptor fields read by ov067 021B6208 are filled below.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment (`x
+ * = side*128;` before `x = side*128+16;`). Game code has no line table, so
+ * these were stand-ins. The plain single assignment gives EXACT in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B878 0x0204B878 arm
@@ -57,7 +63,7 @@ void func_021E5DFC(char *p, int side, void *mon)
     if (!species) return;
     switch (side) {
     case 0: case 1:
-        x = side*128; x = side*128+16; y = 132;
+        x = side*128+16; y = 132;
         in.f0 = 1; in.b1c = 12;
         break;
     case 2:

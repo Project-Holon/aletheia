@@ -8,6 +8,13 @@
  * isa: thumb
  * status: EXACT
  * calls: 0204B294 returns the handle read in r0; heap is not truncated.
+ * note 2026-10-05 (wave D9r lane 131): removed the 6 dead first assignments
+ * (`a=0x138;` before `a=0x148;`; `b=0x138;` before `b=0x150;` and 4 more).
+ * Game code has no line table, so these were stand-ins. The plain single
+ * assignment gives EXACT in --lang c99 and --lang c: the output bytes do not
+ * change. Older text in this header that asks for the double assignment is
+ * superseded.
+ *
  * symbols:
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
@@ -34,12 +41,12 @@ void func_021C6CB0(char *p,int heap)
     int a,b,c,d,e,f,i;
     char *q;
     void *handle;
-    a=0x138;a=0x148;
-    b=0x138;b=0x150;
-    c=0x138;c=0x158;
-    d=0x138;d=0x15c;
-    e=0x138;e=0x15c;
-    f=0x138;f=0x15c;
+    a=0x148;
+    b=0x150;
+    c=0x158;
+    d=0x15c;
+    e=0x15c;
+    f=0x15c;
     for(i=0;i<2;i++) {
         q=p+i*4;
         *(void **)(q+d)=func_0204B294(((struct Obj02481 *)p)->f138,*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&d_021CA800[i],0,heap);

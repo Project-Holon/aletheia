@@ -8,6 +8,13 @@
  * isa: thumb
  * status: EXACT
  * arithmetic: full-word index and scroll ADD/SUB/MUL use modulo-2^32 arithmetic; casts restore the original signed comparisons.
+ * note 2026-10-05 (wave D9r lane 131): removed the 3 dead first assignments
+ * (`off1 = 0x638;` before `off1 = 0x6B8;`; `off2 = 0x638;` before `off2 =
+ * 0x6B8;` and 1 more). Game code has no line table, so these were stand-ins.
+ * The plain single assignment gives EXACT in --lang c99 and --lang c: the
+ * output bytes do not change. Older text in this header that asks for the
+ * double assignment is superseded.
+ *
  * symbols:
  *   func_02042FB0 0x02042FB0 arm
  *   func_02045780 0x02045780 arm
@@ -38,9 +45,9 @@ void func_021E4598(char *p)
     if (((struct Obj00001 *)p)->f107C < 96) first = ((struct Obj00001 *)p)->f630;
     else first = (((struct Obj00001 *)p)->f107C - 96) / 160;
     i = 0;
-    off1 = 0x638; off1 = 0x6B8;
-    off2 = 0x638; off2 = 0x6B8;
-    bound = 0x638; bound = 0x630;
+    off1 = 0x6B8;
+    off2 = 0x6B8;
+    bound = 0x630;
     for (; i < 3; i++) {
         idx = (int)((u32)first+(u32)i);
         n = *(int *)(p + bound);

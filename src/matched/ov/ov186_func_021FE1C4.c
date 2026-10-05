@@ -10,6 +10,13 @@
  * status: EXACT
  * lever: Initialize i before the second start=p+18 assignment to interleave movs with the pointer adds (four bytes out to EXACT).
  * abi: B404 third parameter is u16 because the original truncates the loaded heap word immediately before blx.
+ * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments
+ * (`start=p;` before `start=p+0x18;`; `offset=0x228;` before
+ * `offset=0x1f8;`). Game code has no line table, so these were stand-ins.
+ * The plain single assignment gives EXACT in --lang c99 and --lang c: the
+ * output bytes do not change. Older text in this header that asks for the
+ * double assignment is superseded.
+ *
  * symbols:
  *   func_021FD940 0x021FD940 thumb ov186
  *   func_021FE2BC 0x021FE2BC thumb ov186
@@ -45,8 +52,8 @@ void func_021FE1C4(int *task,int *state,char *p)
         char *start;
         int offset;
         func_021FD940(p,0);
-        start=p;start=p+0x18;
-        offset=0x228;offset=0x1f8;
+        start=p+0x18;
+        offset=0x1f8;
         for(i=6;i<12;i++) {
             u16 angle;
             angle=*(u16 *)(p+i*32+0x2a)+((struct Obj06632 *)p)->f228/ *(int *)(p+i*32+0x2c);

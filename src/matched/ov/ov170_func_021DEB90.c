@@ -9,6 +9,12 @@
  * isa: thumb
  * status: EXACT
  * abi: Original truncates the tile column into r2 before both call kinds, so their column parameters are u8.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`data=(u32)sheet;` before `data=(u32)sheet+12;`). Game code has no line
+ * table, so these were stand-ins. The plain single assignment gives EXACT in
+ * --lang c99 and --lang c: the output bytes do not change. Older text in
+ * this header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02049EB4 0x02049EB4 arm
  *   func_02041090 0x02041090 arm
@@ -33,7 +39,7 @@ void func_021DEB90(void *unused, void *unused2, u32 x, u32 base, u32 pal)
     u32 cur,high;
     u8 col;
     handle=func_02049EB4(116,13,1,(u32)&sheet,76);
-    data=(u32)sheet;data=(u32)sheet+12;
+    data=(u32)sheet+12;
     row=0;
     high=pal<<12;
     do{

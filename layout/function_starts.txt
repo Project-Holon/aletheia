@@ -2750,3 +2750,7 @@ overlay_093 0x021C4B9C  thumb   # wD9: EXACT src/matched/ov/ov093_func_021C4B9C.
 overlay_093 0x021CC9AC  thumb   # wD9: EXACT src/matched/ov/ov093_func_021CC9AC.c; tail-call pool word from ov093 0x021C88A4 (byte-correct)
 overlay_132 0x021FD4F8  thumb   # wD9: EXACT src/matched/ov/ov132_func_021FD4F8.c; bl from ov010 0x02155FC8 and 0x02156530 (byte-correct; mid-function in ov094, ov135, ov186)
 overlay_230 0x02188A48  arm     # wD9: EXACT src/matched/ov/ov230_func_02188A48.c (../2.0/sp2); always-taken bne from ov230 0x021889B0; follows the bx lr at 0x02188A44 that ends func_02188A0C; starts with push {r4-sl,lr}
+# ov172 leaves called from ov172 021B97AC; each starts after a return, a pool or padding (wave D9r).
+overlay_172  0x021B69E0  thumb # after bx lr at 0x021B69DE
+overlay_172  0x021B8B74  thumb # after pool_021B8B70
+overlay_172  0x021B8C34  thumb # after padding at 0x021B8C32

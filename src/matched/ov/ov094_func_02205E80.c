@@ -8,6 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ * note 2026-10-05 (wave D9r lane 131): removed the 5 dead first assignments
+ * (`o0 = 0x240;` before `o0 = 0x17c;`; `o1 = 0x110;` before `o1 = 0x108;`
+ * and 3 more). Game code has no line table, so these were stand-ins. The
+ * plain single assignment gives EXACT in --lang c99 and --lang c: the output
+ * bytes do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ *
  * symbols:
  *   d_0220A580     0x0220A580  data   ov094  a4
  *   d_0220A392     0x0220A392  data   ov094  a2
@@ -45,16 +52,11 @@ void func_02205E80(char *m)
     char *p;
     int j;
 
-    o0 = 0x240;
     o0 = 0x17c;
-    o1 = 0x110;
     o1 = 0x108;
     o2 = 0x114;
-    o3 = 0x110;
     o3 = 0x180;
-    o4 = 0x110;
     o4 = 0x180;
-    o5 = 0x110;
     o5 = 0x180;
     for (j = 0; j < 6; j++) {
         p = m + j * 8;

@@ -9,6 +9,13 @@
  * isa: thumb
  * status: EXACT
  * lever: seven independent offset locals each receive 0x2ac then their final literal; both spill stores survive.
+ * note 2026-10-05 (wave D9r lane 131): removed the 7 dead first assignments
+ * (`o1 = 0x2ac;` before `o1 = 0x294;`; `o2 = 0x2ac;` before `o2 = 0x290;`
+ * and 5 more). Game code has no line table, so these were stand-ins. The
+ * plain single assignment gives EXACT in --lang c99 and --lang c: the output
+ * bytes do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ *
  * symbols:
  *   d_021DA638 0x021DA638 data a1
  *   d_021DA634 0x021DA634 data a1
@@ -42,13 +49,13 @@ void func_021D478C(char *p)
     y = d_021DA634;
     z = d_021DA63C;
     i = 0;
-    o1 = 0x2ac; o1 = 0x294;
-    o2 = 0x2ac; o2 = 0x290;
-    o3 = 0x2ac; o3 = 0x298;
-    o4 = 0x2ac; o4 = 0x2a0;
-    o5 = 0x2ac; o5 = 0x2a0;
-    o6 = 0x2ac; o6 = 0x2a0;
-    o7 = 0x2ac; o7 = 0x2a0;
+    o1 = 0x294;
+    o2 = 0x290;
+    o3 = 0x298;
+    o4 = 0x2a0;
+    o5 = 0x2a0;
+    o6 = 0x2a0;
+    o7 = 0x2a0;
     for (; i < 3; i++) {
         pt.x = x.v[i]; pt.y = y.v[i]; pt.z = z.v[i];
         pt.a = 0; pt.b = 2;

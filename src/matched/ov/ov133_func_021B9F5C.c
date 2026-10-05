@@ -9,6 +9,13 @@
  * isa: thumb
  * status: EXACT
  * lever: Pointer addition for timer stores and unsigned address addition for the guard preserve four independent offset homes and the decrement reload. Uniform integer addition gave 292 bytes; uniform pointer addition gave 304.
+ * note 2026-10-05 (wave D9r lane 131): removed the 5 dead first assignments
+ * (`a = 0x1890;` before `a = 0x18b8;`; `b = 0x1890;` before `b = 0x18b8;`
+ * and 3 more). Game code has no line table, so these were stand-ins. The
+ * plain single assignment gives EXACT in --lang c99 and --lang c: the output
+ * bytes do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ *
  * symbols:
  *   func_020416D4 0x020416D4 arm
  *   func_0204B84C 0x0204B84C arm
@@ -46,11 +53,11 @@ void func_021B9F5C(u8 *p)
     Pos pos;
     u8 i;
     u8 *q, *t;
-    a = 0x1890; a = 0x18b8;
-    b = 0x1890; b = 0x18b8;
-    delay = 0x100; delay = 0x190;
-    c = 0x1890; c = 0x18b8;
-    d = 0x1890; d = 0x18b8;
+    a = 0x18b8;
+    b = 0x18b8;
+    delay = 0x190;
+    c = 0x18b8;
+    d = 0x18b8;
     for (i = 0; i < 8; i++) {
         q = p + i * 4;
         func_0204B84C(((struct Obj06502 *)q)->f1890, func_020416D4(4));

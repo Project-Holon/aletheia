@@ -8,6 +8,70 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD9r lane161): still DIFF 17 bytes, source unchanged. Narrow-local angle (idiom
+ *   a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local), plain d[i] twice, all compiled:
+ *   (1) function-scope u16 h assigned at the loop top: 17; (2) same with the callee fifth parameter u32: 17;
+ *   (3) static inline Add(q, t, u32 v, u16 h) called with d[i] and the u16 h: 17; (4) a u8 table-value local
+ *   through that helper: 59 (adds a mask the image lacks, so the value is not narrow); (5) int h = (u16)..:
+ *   59; (6) h assigned in the loop condition by a comma expression: 26 (h moves to the loop bottom);
+ *   (7) helper with a u32 h parameter and a u16 h local: 59. The h load is not a spilled reload here, so
+ *   the narrow-local lever does not apply; the early CSE temp of the table read stays first.
+ * 2026-10-05 (wD9r lane154): still DIFF 17 bytes, source unchanged. Recheck: the setup calls match the matched
+ *   definitions (func_02184968 (const u8 *, int) -> u32, func_0201F81C (u32, u32), func_02045C04 (Rec *),
+ *   func_02184FC8 (char *, const Src *, unsigned)); setup, offsets, loop bound and tail are byte-identical, so no
+ *   logic or type error outside the loop body. New tries, all compiled: (1) unsigned long on one callee
+ *   parameter or on the table (u32/ulong, ulong/u32, ulong table with u32/u32 and u32/ulong, int table with
+ *   u32/ulong): 17 (a conversion over one load tree does not split the early CSE); (2) long loop counter: 17;
+ *   (3) two induction variables `i, j` with d[i], d[j] (hoping IV merging runs after the early CSE): 106, the
+ *   second counter survives in a register and a spill; (4) the fifth argument as a one-field u16 struct by
+ *   value: 46 (ldrh/strh instead of the word load and truncation). No real single-spelling form found.
+ * 2026-10-05 (wD9r lane147): still DIFF 17 bytes, source unchanged. Twin search: every matched caller of
+ *   func_0201F878/func_0201F898 in all overlays (ov021 021C58CC `u8 v = call; f(.., v, v, heap)`, ov173
+ *   021B7128 `u16 move` local, ov135 021FB26C/021F86A8 `list[i], list[i]` from a u16 pointer, ov099
+ *   021BAC24/021BAD74 pair tables, ov186 021FFFF8, ov219 021850EC) passes a local, a pointer parameter or a
+ *   two-field record; none reads a global u32 table twice in one call, so no twin shape exists. New tries,
+ *   all compiled with plain d[i] twice: loop counter u8 (55 plain cond, 52 ternary), u16 (55), short (55),
+ *   unsigned with the ternary (18); table as `struct { u32 id; } d[]` with `d[i].id` twice (17); an enum
+ *   type for the callee tag parameter (17). No real single-spelling form found.
+ * 2026-10-05 (wD9r lane137): still DIFF 17 bytes, source unchanged. Fresh angle: the two table arguments
+ *   from different expressions. (1) An inline getter `u32 GetMsg(u32 idx) { return d[idx]; }` for BOTH
+ *   arguments: 17 (inline parameter propagated, one tree). (2) `GetMsg(i)` third, plain `d_02185F7C[i]`
+ *   fourth: EXACT 120 bytes (the int-to-u32 parameter conversion makes a second tree; the late CSE shares
+ *   the load). (3) A wrapper `Add(l, t, u32 msg, u16 h)` calling f(l, t, msg, msg, h) with `d[(u32)i]`: 17;
+ *   `d[(u32)i]` twice: 17. No ov219 sibling has such a getter (grep of d_0218 externs and 0x82 users), so
+ *   (2) is a third form of the "two spellings of one read" stand-in; not filed. Variant: scratchpad
+ *   wD9r/l137/g2.c. Decision for the integrator/user: if a getter used for one argument is accepted as a
+ *   real source form, g2.c closes this function.
+ * 2026-10-05 (wD9r lane130): still DIFF 17 bytes, source unchanged. New tries, all compiled: (1) a walking
+ *   pointer `e = d; for (...; i++, e++) f(.., *e, *e, h)`: 43 (needs a register the image does not have; the image
+ *   rematerialises the pool word and scales i every iteration, so there is no walking pointer); (2) a copy
+ *   counter `j = i; f(.., d[i], d[j], h)`: 17 (copy propagation runs before the early CSE); (3) `d[i]` and
+ *   `i[d]`: 17; (4) a volatile read for the fifth argument: 17 (no barrier for the CSE); (5) an assignment in
+ *   the fifth argument `h = (u16)*p`: 17; (6) sized table with a sizeof bound: 46 (loop shape lost);
+ *   (7) `((u32 *)d)[i]` for one argument: 61 (two loads survive). Diagnostic: with one table read and a
+ *   literal fourth argument the h load comes first (10 bytes, schedule only), which confirms that the two
+ *   reads are merged by the early CSE in every same-tree spelling. No real source form found.
+ * 2026-10-05 (wD9r lane122): still DIFF 17 bytes, source unchanged. Data check: d_02185F7C is one u32
+ *   array of 0x82 message ids (0x01..0xE3, two out of order), followed by the overlay .sinit; no pair table, no
+ *   second symbol (one pool word), so both arguments really are one element. New tries: (1) pointer-typed callee
+ *   parameters (void * for the index or the tag, with the table as u32 or void *const): the early CSE ignores
+ *   the conversion, 17; (2) the table as a union of two same-typed members (msg/tag, also nested struct and
+ *   one-element array members), one member per argument: 17 (same tree); (3) a union {u32 msg; unsigned long
+ *   tag;} (or int/long), one member per argument: 4 bytes (only the lsls r3,r4,#2 / lsls r0,r0,#16 pair is
+ *   swapped); a union {u32; int;} gives 61 (two loads). Finding: the early CSE keys on the element type and
+ *   the address tree; any source that splits them is two spellings of one read (the D8 byte-offset form is
+ *   EXACT, the u32/unsigned long view is 4 bytes). Not filed under the stand-in rule.
+ * 2026-10-05 (wD9r lane113): still DIFF 17 bytes, source unchanged. New tries, all compiled: (1) loop body as a
+ *   static inline taking the index, `AddOne(p, t, i)` and `AddOne(p, t, tbl, i)` reading tbl[i] twice inside (17);
+ *   (2) the whole loop as a static inline `AddList(p, t, ids, n)` called with (d_02185F7C, 0x82): ternary bound 17,
+ *   plain int or unsigned bound 46; (3) inline `Add(l, t, i, h)` / `Add(h, l, t, i)` / `Add(l, t, tbl, i, h)` with
+ *   the table read inside the helper after the h parameter (u16 and u32 h): 17 (inline parameters are propagated, so
+ *   the helper is transparent to the early CSE); (4) inline `Add(p, t, const u32 *e)` called with `d + i` and
+ *   `&d[i]`, reading *e twice: 17; (5) one-word struct element copy `E e = tbl[i]; f(.., e.id, e.id, ..)`: 21;
+ *   (6) loop shapes: goto loop with bottom test 46, while(1)/break 30, do-while 46, call in the for increment
+ *   as a comma expression 17, `(void)` call and `if (1)` wrapper 17; (7) function-local static table
+ *   (const and non-const): 17. Diagnostic only: a struct-cast read for one argument and d[i] for the other gives
+ *   4 bytes (another two-spellings stand-in, not filed).
  * 2026-10-05 (wD9r lane66): still DIFF 17 bytes, source unchanged. Tried: (1) the table as a file
  *   static `static const u32 d_02185F7C[130]` defined in this unit: same CSE temp (and the data word
  *   has no witness); (2) the full shape of the matched twin ov219 021850EC (unsigned i, `(unsigned)bank`

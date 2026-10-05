@@ -9,6 +9,13 @@
  * isa: thumb
  * status: EXACT
  * abi: B294 leaves the forwarded result live in r0; request address is the unchanged fifth word.
+ * note 2026-10-05 (wave D9r lane 131): removed the 8 dead first assignments
+ * (`a=0x1848;` before `a=0x1860;`; `b=0x1848;` before `b=0x186c;` and 6
+ * more). Game code has no line table, so these were stand-ins. The plain
+ * single assignment gives EXACT in --lang c99 and --lang c: the output bytes
+ * do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ *
  * symbols:
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
@@ -33,14 +40,14 @@ void func_021B9DE8(u8 *p)
     int a,b,c,d,e,f,g,h;
     u8 i;
     i=0;
-    a=0x1848;a=0x1860;
-    b=0x1848;b=0x186c;
-    c=0x1848;c=0x1878;
-    d=0x1848;d=0x1890;
-    e=0x1848;e=0x1890;
-    f=0x1848;f=0x1890;
-    g=0x1848;g=0x1890;
-    h=0x1848;h=0x18b8;
+    a=0x1860;
+    b=0x186c;
+    c=0x1878;
+    d=0x1890;
+    e=0x1890;
+    f=0x1890;
+    g=0x1890;
+    h=0x18b8;
     do {
         configs[1].x=0;configs[1].y=0;configs[1].index=0;configs[1].a=0;configs[1].b=0;
         *(void **)(p+(unsigned)i*4+d)=func_0204B294((void *)((struct Obj01062 *)p)->f1848,*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&configs[1],1,((struct Obj01062 *)p)->f0);

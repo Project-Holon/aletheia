@@ -11,6 +11,13 @@
  * lever: Six ordinary int offsets each receive 0x19a then 0x112;
  * a cached row pointer preserves their distinct stack homes and r5 base.
  * Reverse declarations and a full-word k local restore the spill order.
+ * note 2026-10-05 (wave D9r lane 131): removed the 6 dead first assignments
+ * (`invalid=0x19a;` before `invalid=0x112;`; `ok3=0x19a;` before
+ * `ok3=0x112;` and 4 more). Game code has no line table, so these were
+ * stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_021B86B8 0x021B86B8 thumb ov093
  *   func_021B904C 0x021B904C thumb ov093
@@ -79,12 +86,12 @@ int func_021CE8F0(const u8 *p,u16 *out)
         }
     }
     result = -1;
-    invalid=0x19a; invalid=0x112;
-    ok3=0x19a; ok3=0x112;
-    ok2=0x19a; ok2=0x112;
-    ok1=0x19a; ok1=0x112;
-    ok0=0x19a; ok0=0x112;
-    skip=0x19a; skip=0x112;
+    invalid=0x112;
+    ok3=0x112;
+    ok2=0x112;
+    ok1=0x112;
+    ok0=0x112;
+    skip=0x112;
     for (i=0;i<4;i++) {
         row = (u8 *)p + i;
         if (!row[skip]) {

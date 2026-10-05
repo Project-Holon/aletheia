@@ -7,7 +7,55 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * 2026-10-05 (integrator): parked for a user decision. The goto into the case 4 if-body and the
+ *   copy that repeats `ret = v` on the DWC path may count as a stand-in.
+ * 2026-10-05 (wD9r lane158): EXACT. Shape: `ret` has no initialiser; `v = 0` at the top is the value of
+ *   the early callback return (`return v;`) and of the r == 0 path. `if (r == 0) goto L;` enters case 4,
+ *   where `L: ret = v;` follows the DWC_GdbShutdown call. The copy at L is needed on the r == 0 path (ret
+ *   has no other definition there), so it is not a redundant statement; on the DWC path it repeats the
+ *   `ret = v;` before the switch. This copy survives branch threading, so the r == 0 beq lands on case 4's
+ *   join `b` as in the original. Tried and not taken: the post-switch tail as a static inline
+ *   `finish(a, b, r, ret)` (432 B, same bne/b).
+ * 2026-10-05 (wD9r lane143): HIDDEN SECOND RESIDUE FOUND AND FIXED. The draft also had an extra lone `b` in the
+ *   case 3/6 inner switch (the 0x7A9 if-join jumped to the shared func_0205CC20 call; bne landed on that b).
+ *   The original falls through: the 0x7A9 arm has no func_0205CC20 call and no break, it falls into
+ *   `case 0: case 1: case 2: func_0205CC20(); break;`. Applied here (real source form). Now only the r == 0
+ *   bne/b remains (code 0x19C vs 0x19A; the size shows 436 because the original's 2-byte pad absorbs it).
+ *   Probes with the fall-through (scratchpad wD9r/l143): (1) w2.c = lane125's goto mechanism with
+ *   `ret = v;` BEFORE the switch, `if (r == 0) goto L;`, case 4 `if (range) { DWC_GdbShutdown(); L: ret = v;
+ *   goto out; }`: EXACT. Not filed: the case 4 `ret = v` repeats a value ret already holds on that path (a
+ *   redundant statement, stand-in rule) and the goto enters a case body. (2) w3.c = lane125's p3 (ret = v
+ *   after the switch, so the case 4 copy is not redundant) plus fall-through: 436 B, only residue is the
+ *   case 1/2 cross-jump flip (case 1 jumps into case 2's `movs r0,#6; bl` instead of the reverse); case
+ *   order swap moves the layout (worse), declaration order and `if (!range) break;` form of case 4 do not
+ *   change it. The flip comes from the post-switch `ret = v` join block. Open: a real form with a
+ *   non-redundant copy on the r == 0 edge and after the DWC call, with no copy at the main switch exit.
+ * 2026-10-05 (wD9r lane125): still 4 bytes (440 vs 436). Mechanism found by probe (scratchpad wD9r/l125/p3.c):
+ *   a register copy in case 4's join block survives branch threading and is removed only after colouring,
+ *   so a beq into that block stays a beq onto a lone `b end`. Probe: switch value in `v` (ret = 0, v = 0 at
+ *   the top), `ret = v;` after the switch, `if (r == 0) goto L;`, case 4 `if (range) { DWC_GdbShutdown();
+ *   L: ret = v; goto out; } break;`: 436 B, beq onto 02156022 exactly. Residue of the probe: two cross-jump
+ *   directions flip (case 1 jumps into case 2's `movs r0,#6; bl` tail instead of the reverse; the case 3/6
+ *   inner switch gets an extra `b` to the shared func_0205CC20 call). Not filed: goto into a case body is not
+ *   a natural form. Without the goto, an r == 0 copy block of its own is constant-folded (ret = v = 0 ->
+ *   movs r6,#0, 440 B). Inline tries: range test plus DWC call as a static inline in cases 2 and 4 (void,
+ *   int-returning, and early-return forms): 440 B, r5/r6 swap; switch and r test in a static inline
+ *   `handle(a, b, r)` with case 4 `return v;`: the r test is not threaded (two `cmp r5,#0`), 440 B.
+ *   Next: find a natural construct that puts the same non-constant copy on the r == 0 edge and after the
+ *   case 4 call (identical blocks would merge), and check which cross-jump order it keeps.
+ * 2026-10-05 (wD9r lane105): still 4 bytes (440 vs 436). Rescan with a fixed parser (scratchpad wD9r/l105/an.py,
+ *   reads match.py listings): 674 far Thumb cond branches land on a `b`: 468 on an expansion b, 110 on a b after
+ *   a b or pop, 88 on a b after an unrelated cond branch, 2 after a store or move, only 6 right after a call. The 5 matched ones are loop latches (backward, for
+ *   example ov093 021EC8C4 `bls` onto the `b loop` after a call); ov121 021DC734 shows the other real cause,
+ *   a suffix cross-jump that turns a join block into a lone `b` while the branch into it is kept. Ours is the
+ *   only forward after-call case in the game. Tried: `do { if (r == 0) continue; ... } while (0)` (same 440,
+ *   bne/b); r == 0 as the empty first arm of an if / else-if chain with the callback test (same 440);
+ *   probe: a goto into case 4 followed by a duplicated `if (g[0x79E])` test with gotos to the same arms
+ *   (beq does land on 02156022, but mwcc does not cross-jump blocks that end in a conditional, 448 B);
+ *   probe: the same dead store in the r == 0 path and after the DWC call (removed early, threaded, 440).
+ *   Open idea: an identical statement in the r == 0 path and after the DWC call that survives cross-jumping
+ *   and then vanishes (coalesced copy); no natural source found. Draft code unchanged.
  * 2026-10-05 (wD9r lane83): still 4 bytes (440 vs 436). Callee prototypes from matched definitions:
  *   func_021C5B80 (ov114) returns int, DWC_GdbShutdown (ov175 021E1340) returns int, func_020111E8 returns
  *   u32; all three applied: same 440 B (kept the draft's void externs). Tried: `if (r == 0) goto tail;`
@@ -104,75 +152,78 @@ u32 func_02155F58(void)
 {
     int a, b;
     int r;
-    u32 ret = 0;
+    u32 ret;
+    u32 v = 0;
     Cb cb;
 
     r = func_02059E38(&a, &b);
-    if (r != 0) {
-        cb = *(Cb *)(g_021A8264 + 0x294);
-        if (cb != 0) {
-            if (cb(*(u32 *)(g_021A8264 + 0x298), a, b, r) == 1)
-                return ret;
+    if (r == 0) goto L;
+    cb = *(Cb *)(g_021A8264 + 0x294);
+    if (cb != 0) {
+        if (cb(*(u32 *)(g_021A8264 + 0x298), a, b, r) == 1)
+            return v;
+    }
+    cb = *(Cb *)(g_021A8264 + 0x28C);
+    if (cb != 0)
+        cb(*(u32 *)(g_021A8264 + 0x290), a, b, r);
+    v = a;
+    if (a == 0 || b == 1)
+        v = r;
+    ret = v;
+    switch (b) {
+    case 1:
+        func_02059F18();
+        if (g_021A8264 != 0 && *(u32 *)(g_021A8264 + 0x754) == 0xE)
+            func_02155374(6);
+        break;
+    case 2:
+        if (a <= -40000 && a >= -41999)
+            DWC_GdbShutdown();
+        if (g_021A8264 != 0 && *(u32 *)(g_021A8264 + 0x754) == 0xE)
+            func_02155374(6);
+        break;
+    case 4:
+        if (a <= -40000 && a >= -41999) {
+            DWC_GdbShutdown();
+        L:
+            ret = v;
         }
-        cb = *(Cb *)(g_021A8264 + 0x28C);
-        if (cb != 0)
-            cb(*(u32 *)(g_021A8264 + 0x290), a, b, r);
-        ret = a;
-        if (a == 0 || b == 1)
-            ret = r;
-        switch (b) {
-        case 1:
-            func_02059F18();
-            if (g_021A8264 != 0 && *(u32 *)(g_021A8264 + 0x754) == 0xE)
-                func_02155374(6);
-            break;
-        case 2:
-            if (a <= -40000 && a >= -41999)
-                DWC_GdbShutdown();
-            if (g_021A8264 != 0 && *(u32 *)(g_021A8264 + 0x754) == 0xE)
-                func_02155374(6);
-            break;
-        case 4:
-            if (a <= -40000 && a >= -41999)
-                DWC_GdbShutdown();
-            break;
-        case 5:
-            func_021C5B80();
-            break;
-        case 3:
-        case 6:
-            if (g_021A8264 != 0) {
-                switch (*(u32 *)(g_021A8264 + 0x754)) {
-                case 3: case 6: case 7: case 8: case 9: case 10: case 11:
-                case 14: case 18: case 19: case 20:
-                    if (g_021A8264[0x7A9] == 1) {
-                        func_0216AD50();
-                        g_021A8264[0x7A9] = 0;
-                    }
-                    func_0205CC20();
-                    break;
-                case 0: case 1: case 2:
-                    func_0205CC20();
-                    break;
-                default:
-                    break;
+        break;
+    case 5:
+        func_021C5B80();
+        break;
+    case 3:
+    case 6:
+        if (g_021A8264 != 0) {
+            switch (*(u32 *)(g_021A8264 + 0x754)) {
+            case 3: case 6: case 7: case 8: case 9: case 10: case 11:
+            case 14: case 18: case 19: case 20:
+                if (g_021A8264[0x7A9] == 1) {
+                    func_0216AD50();
+                    g_021A8264[0x7A9] = 0;
                 }
+                /* fall through */
+            case 0: case 1: case 2:
+                func_0205CC20();
+                break;
+            default:
+                break;
             }
-            if (g_021A8264 != 0)
-                func_02155374(0x10);
-            break;
-        case 7:
-            if (g_021A8264 != 0) {
-                Cb f;
-                func_02155374(0x11);
-                f = *(Cb *)(g_021A8264 + 0x2A8);
-                if (f != 0)
-                    ((void (*)(int))f)(-a);
-            }
-            break;
-        default:
-            break;
         }
+        if (g_021A8264 != 0)
+            func_02155374(0x10);
+        break;
+    case 7:
+        if (g_021A8264 != 0) {
+            Cb f;
+            func_02155374(0x11);
+            f = *(Cb *)(g_021A8264 + 0x2A8);
+            if (f != 0)
+                ((void (*)(int))f)(-a);
+        }
+        break;
+    default:
+        break;
     }
     if (g_021A8264[0x79E] != 0) {
         ret = 0x3EE;

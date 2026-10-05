@@ -13,6 +13,12 @@
  * the top down); the tail loops' counter and table pointer are block locals
  * declared j before t, which puts j in r4 and t in r5.
  *
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment (`q
+ * = (Sub *)e;` before `q = &e->sub;`). Game code has no line table, so these
+ * were stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_02012844  0x02012844  thumb
@@ -157,7 +163,6 @@ int func_021D2750(u32 a)
     for (i = 0; i < n; i++) {
         e = &list[i];
         if (e->kind == 0) {
-            q = (Sub *)e;
             q = &e->sub;
             func_0216E2E8(x, e->f2, (struct Record *)&info);
             func_021A35FC(o, &pos.z, &pos.y, &pos.x);

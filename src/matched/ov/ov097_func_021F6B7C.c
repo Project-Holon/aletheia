@@ -9,6 +9,13 @@
  * isa: thumb
  * status: EXACT
  * lever: Named monster base/index and byte gender if/else retain the original scheduling; inline print helpers retain owner spills.
+ * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments
+ * (`windows = p;` before `windows = p + 0x20;`; `dirty = p;` before `dirty =
+ * p + 0x24;`). Game code has no line table, so these were stand-ins. The
+ * plain single assignment gives EXACT in --lang c99 and --lang c: the output
+ * bytes do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ *
  * symbols:
  *   func_020457B0 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -67,7 +74,6 @@ void func_021F6B7C(int p, int i)
     u32 windows, dirty, mons, mi;
     u8 gender;
     void *window, *t, *s;
-    windows = p;
     windows = p + 0x20;
     window = *(void **)(windows + i * 8);
     t = func_020457B0(0xc, 0x8071);
@@ -76,7 +82,6 @@ void func_021F6B7C(int p, int i)
     mi = i * 4;
     func_0201EEF4(((struct Obj05257 *)p)->f18, 0, *(void **)(mons + mi));
     func_0201F250(((struct Obj05257 *)p)->f18, t, s);
-    dirty = p;
     dirty = p + 0x24;
     print_text(p, windows, dirty, i, t, 0x20, 7, 0x3dc0);
     func_02045808(s);

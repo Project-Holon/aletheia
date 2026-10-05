@@ -20,6 +20,12 @@
  *   }
  * lever: u8 coordinate locals delay reloads until after stack arguments;
  *   enum selector keeps its comparison before the temporary offset stores.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment (`t
+ * = x;` before `t = x + 0x10;`). Game code has no line table, so these were
+ * stand-ins. The plain single assignment gives EXACT in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020410D0 0x020410D0 arm
@@ -83,7 +89,6 @@ u8 *func_021BA6A0(u8 *p, int k, void *mon)
     *(u16 *)(s+8) = *(u16 *)(s+6);
     if (k != 0) zero = 1;
     selector = k != 0;
-    t = x;
     t = x + 0x10;
     func_020410D0(2,t,y,0x10,6,*(u8 **)(p+0x15c)+0xc,
                  d_021BEC6C[selector*2],d_021BEC6D[zero*2],0x20,0x20);

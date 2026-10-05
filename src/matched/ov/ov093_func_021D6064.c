@@ -8,6 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * extent: Two bytes of zero alignment padding at 0x021D612E.
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`slots = p;` before `slots = p;`). Game code has no line table, so these
+ * were stand-ins. The plain single assignment gives EXACT* in --lang c99 and
+ * --lang c: the output bytes do not change. Older text in this header that
+ * asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_021E8AFC 0x021E8AFC thumb ov093
  *   func_021E8B80 0x021E8B80 thumb ov093
@@ -27,7 +33,6 @@ int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed)
     union Slot slot;
     u32 tmp;
     if (k == 2 || k == 6) return 0;
-    slots = p;
     slots = p;
     slots = slots + 0x1c;
     if (((union Slot *)(slots + k * 4))->s.kind != 0) {

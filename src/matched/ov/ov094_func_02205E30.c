@@ -8,6 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`off = 0x11c;` before `off = 0x14c;`). Game code has no line table, so
+ * these were stand-ins. The plain single assignment gives EXACT* in --lang
+ * c99 and --lang c: the output bytes do not change. Older text in this
+ * header that asks for the double assignment is superseded.
+ *
  * symbols:
  *   func_0204B3B4  0x0204B3B4  arm
  */
@@ -22,7 +28,6 @@ void func_02205E30(char *o)
     char *p;
 
     i = 0;
-    off = 0x11c;
     off = 0x14c;
     for (; i < 2; i++) {
         if (i != 0) {
