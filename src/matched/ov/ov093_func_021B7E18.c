@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * symbols:
  *   func_021B6818 0x021B6818 thumb ov093
  *   func_021D4270 0x021D4270 thumb ov093
@@ -47,12 +47,16 @@
  *   scheduling off leaves the 69 B unchanged and opt_lifetimes off keeps the same order residue (plus r4/r5 swap), so the order
  *   comes from IR emission, not the scheduler. Twins 021B8070/021B7CB4/021B81DC differ (idx in a register, no spilled k), and no
  *   other ov093 function contains subs #0x7e, so no asm twin exists. No human form found.
+ *   pass 2 2026-10-06 P2L49: EXACT. t is a u8 local and func_021B6818 is declared returning u8 (it returns
+ *   only 0 or 1, so the callee code is the same). mwcc keeps the reload of a spilled narrow local below the
+ *   outgoing stack stores (docs/idioms/a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md); with
+ *   int t it hoisted the reload and the argument setup order differed (69 B).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 pad[0x473]; u8 a:1; u8 b:1; } B;
-extern int func_021B6818(int *);
+extern u8 func_021B6818(int *);
 extern int func_021D4270(void);
 struct Copy24;
 struct QB;
@@ -71,7 +75,7 @@ int func_021B7E18(u8 *p)
     u8 *q;
     u8 idx;
     u8 mode;
-    int t;
+    u8 t;
     u32 i;
     u8 x;
     q = *(u8 **)p;
