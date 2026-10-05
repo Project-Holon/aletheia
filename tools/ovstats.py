@@ -127,18 +127,30 @@ VENEER_THUMB = re.compile(
 # The ARM long-branch veneer `ldr pc, [pc, #-4]; .word target` (04 F0 1F E5): it
 # only jumps to a far address (ov095 at 0x0689xxxx into arm9, ov172 into the TWL
 # region).  mwcc never loads pc from a pool word, so it is linker output and is
-# excluded like the Thumb form.  overlay_rows keeps only labels whose own code is
-# that one 4-byte instruction, so a label with more code behind it stays counted.
+# excluded like the Thumb form.  `ldr pc` is an unconditional jump, so a label
+# that starts with it has no other code of its own.
 VENEER_ARM = re.compile(
     r"^(?:func|sub)_([0-9A-F]{8}):[ \t]*\n[ \t]*ldr\tpc, pool_[0-9A-F]{8}[ \t]+/\*[ \t]*\1[ \t]+04 F0 1F E5[ \t]*\*/", re.M)
 
 
+# ov230's hand-written decryptor entries: `orr r0, pc, #0; adds r0, r0, #4; bne
+# decoder`, each followed by the descriptor table and ciphertext the decoder walks
+# (tools/ovcrypt.py).  No compiler emits `orr r0, pc, #0`; the code they unlock
+# is matched in the decrypted region ov230d.  They sit outside both sides of the
+# figure, like the veneers; their extents are table and ciphertext, not code.
+DECRYPT_THUNK = re.compile(
+    r"^(?:func|sub)_([0-9A-F]{8}):[ \t]*\n[ \t]*orr\tr0, pc, #0[ \t]+/\*[ \t]*\1[ \t]+00 00 8F E3[ \t]*\*/[ \t]*\n"
+    r"[ \t]*adds\tr0, r0, #4\b", re.M)
+
+
 def veneer_labels(path):
-    """Addresses of function labels in a listing that are linker veneers."""
+    """Addresses of function labels in a listing that are linker veneers or
+    hand-written decryptor entries (counted on neither side of the figure)."""
     with open(path, encoding="utf-8", errors="replace") as fh:
         text = fh.read().replace("\r\n", "\n")
     return ({int(m.group(1), 16) for m in VENEER_THUMB.finditer(text)}
-            | {int(m.group(1), 16) for m in VENEER_ARM.finditer(text)})
+            | {int(m.group(1), 16) for m in VENEER_ARM.finditer(text)}
+            | {int(m.group(1), 16) for m in DECRYPT_THUNK.finditer(text)})
 
 
 def listing_summary(path):
@@ -335,7 +347,7 @@ def overlay_rows(funcs_out=None):
         for a in sorted(set(addrs)):
             if a in sdk:
                 row["sdk_bytes"] += code[a]
-        veneers = {a for a in veneers if a not in sdk and a in set(addrs) and code[a] <= 4}
+        veneers = {a for a in veneers if a not in sdk and a in set(addrs)}
         for a in sorted(veneers):
             row["veneer_bytes"] += code[a]
             row["veneer_funcs"] += 1
