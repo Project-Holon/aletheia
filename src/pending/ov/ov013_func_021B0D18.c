@@ -32,6 +32,13 @@
  *   f5 as ((u8 *)f)[5], Frame data[] start moved to +6, f as u32 arithmetic, Frame fr[2] view (changes the whole function), reversed
  *   && operand order, opt_dead_code / opt_strength_reduction / opt_loop_invariants off. No twin in the listings (orrne #0x80 hits in
  *   ov114, arm9 are stack or different shapes). Open idea: the original f8 store is not provably independent of the strb at f+5.
+ * pass 2 2026-10-06 P2L22 (40 compiles, 3 rounds): still DIFF 10 B. New facts: the f8 store follows strb f5 only when mwcc
+ *   cannot prove f and d_021B3C84+8 apart. f from an extern pointer or a pointer select (cond ? &d : &d + 0x460) gives the
+ *   right order but a second base and addeq (479 B). Integer forms (u32 cast, off local, if/else, inline helper, u8 *buf with
+ *   opt_propagation off) keep the points-to. In a sized struct, accesses at +0x10 and up are treated as may-alias, below
+ *   0x10 as independent (also for a separate global); int[]/struct[] views make f14 independent too (20 B).
+ *   AdpcmState member at +0x10 with &d_021B3C84.st as the call argument also gives 10 B (pool word folds to 021B3C94).
+ *   Notes: scratchpad wD9r/p2_P2L22/research.md.
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   d_021B3C84  0x021B3C84  data  ov013  a4
