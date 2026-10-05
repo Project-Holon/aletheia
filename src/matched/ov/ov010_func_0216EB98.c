@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  * lever:    case 1's argument-less `bl func_02189A08` takes proc (the
  *           func_0201210C result) as its hidden r0 argument: the matched
  *           ov021 definition is int func_02189A08(unsigned char *p). That

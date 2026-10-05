@@ -1,0 +1,44 @@
+/*
+ * function: func_021FB5EC
+ * address: 0x021FB5EC
+ * packet: pkt_ov132_021FB5EC
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * note: func_021F80C8 is called with a u8 third parameter (its matched unit declares unsigned int; the narrowing is loop-invariant and hoisted).
+ * note: older draft in docs/notes/pkt_ov132_021FB5EC.c.txt (DIFF6) is superseded.
+ * symbols:
+ *   func_0201134C 0x0201134C thumb
+ *   func_021FB1F4 0x021FB1F4 thumb ov132
+ *   func_021F9DA0 0x021F9DA0 thumb ov132
+ *   func_021F9DA4 0x021F9DA4 thumb ov132
+ *   func_021F80C8 0x021F80C8 thumb ov112
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern int func_0201134C(void *);
+extern int func_021FB1F4(char *, int);
+extern void *func_021F9DA0(char *);
+extern void *func_021F9DA4(char *, u32);
+extern void func_021F80C8(int, void *, u8);
+int func_021FB5EC(int unused, char *p)
+{
+    char *obj;
+    int mask;
+    int value;
+    char *ctx;
+    u8 i;
+    obj = *(char **)p;
+    mask = func_021FB1F4(p, func_0201134C(*(void **)(p + 4)));
+    value = func_0201134C(*(void **)(p + 4));
+    ctx = func_021F9DA0(*(char **)(obj + 0x34));
+    for (i = 0; i < 4; i++) {
+        if ((1 << i) & mask) {
+            func_021F80C8((int)ctx, func_021F9DA4(*(char **)(obj + 0x34), i), value);
+        }
+    }
+    return 0;
+}
