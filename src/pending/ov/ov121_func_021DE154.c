@@ -1,0 +1,99 @@
+/*
+ * function: func_021DE154
+ * address: 0x021DE154
+ * packet: pkt_ov121_021DE154
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * prior-checks: 1 runtime quotient helpers take two full-word arguments; no residual call setup; 2 ov121 search found no interpolation twin; 3 const char table reduced 13 to 9 bytes, State mutable and widths decoded from loads; 4 aggregate/cast/struct-copy idioms did not resolve residue; 5 fresh directory and ov121/ov122 neighbours reread, no stack aggregate residue.
+ * budget: 8 iteration runs; first nonshrinking r3, 6 runs since, consecutive r6-r8=3; reorder/temporary cap 2/2; check 3 used 1/2; baseline emission check 1; once-only permuter 300 exhausted, no improvement.
+ * residual: 332/332 bytes, 9 concrete bytes differ in scheduling at +0036..0040; seven relocations resolved by fixed one.
+ * permuter: macro-free emitted baseline confirmed by fixed one; search best stayed 9 bytes, exit 1; no candidate accepted.
+ * wave77-runs: const Pair table cast 9/332; const signed-byte tables 9/332; direct target member assignment 9/332; check3 State *const 9/332. Three consecutive nonshrinking changes; four fixed one runs; prior 300 search not repeated.
+ * checks: 1 runtime helpers remain two word arguments; 2 DE308 and sibling table callers refreshed, no interpolation twin; 3 named u16 index and State *const compiled flat9; 4 long-index/coordinate-copy scheduling idioms read; 5 fresh full directory plus DE2F0/DE300 refreshed, no stack scratch-object residue. Next hypothesis: table-index shift scheduling tie, no sweep authorized.
+ * wave78: FINAL retry exhausted; named signed-long index, unsigned-long index, u16 index and State *const all flat9/332, four runs. Three nonshrinking changes; prior once300 consumed, not repeated. Best prior C retained.
+ * recoup 2026-10-05 (P21L9): 332 B real extent (lane size 60 was a label gap). Residue: only +0036..0040, the case-0 shift 'lsls r2,r0,#3' (index*8) is issued before 'ldr r1,[r4,#0x1c]' in ours, after 'ldrsb' direction in the original, so startx is in r2 instead of r1. Tried, all 9 B unless noted: six per-function pragmas (lifetimes, propagation, common_subs, dead_assignments, scheduling, peephole); const on the three small tables; __restrict on out/position; Pair-array extern with p->target = tbl[i] (13 B); Pair start struct copy p->start = p->target (17 B); target.x/.y as two table reads (16 B); non-const char table (13 B); source order startx,starty first (20 B) or direction,frames first (15 B); row pointer local with struct copy (9 B) or two field copies (22 B). Idioms read: a-load-scheduled-above-an-unrelated-store, a-const-source-pointer-pulls-field-loads-up, a-local-declared-at-its-first-use, a-data-pair-load-hoisted-into-locals, a-field-read-from-a-table-folds-the-field-offset. Twin search: grep -rl _s32_div_f src/matched/ov and grep -rl 021DF944 src/matched found no interpolation twin.
+ * symbols:
+ *   d_021DF858 0x021DF858 data a2
+ *   d_021DF822 0x021DF822 data a1
+ *   d_021DF82D 0x021DF82D data a1
+ *   d_021DF944 0x021DF944 data a4
+ *   _s32_div_f 0x0209C0A4 arm
+ *   _u32_div_f 0x0209C2B0 arm
+ * division: explicit runtime quotient preserves admitted zero-delta division.
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { int x, y; } Pair;
+typedef struct {
+    u16 value, previous, next;
+    s8 direction;
+    u8 state;
+    u16 index, count;
+    u32 frame, frames;
+    int startx, starty;
+    Pair target, current;
+} State;
+extern u16 d_021DF858[];
+extern s8 d_021DF822[], d_021DF82D[];
+extern const char d_021DF944[];
+extern int _s32_div_f(int, int);
+extern u32 _u32_div_f(u32, u32);
+int func_021DE154(State *p, u16 *out, Pair *position)
+{
+    int result = 0;
+    switch (p->state) {
+    case 0: {
+        p->frame = 0;
+        p->previous = p->next;
+        p->next = d_021DF858[p->index];
+        p->startx = p->target.x;
+        p->direction = d_021DF822[p->index];
+        p->frames = d_021DF82D[p->index];
+        p->starty = p->target.y;
+        *(Pair *)((char *)p + 0x1c) = ((Pair *)d_021DF944)[p->index];
+        if (p->direction > 0) {
+            p->previous = p->previous == 0xffff ? 0 : p->previous;
+            p->next = p->next == 0 ? 0xffff : p->next;
+        } else {
+            p->previous = p->previous == 0 ? 0xffff : p->previous;
+            p->next = p->next == 0xffff ? 0 : p->next;
+        }
+        p->state++;
+        break;
+    }
+    case 1: {
+        int x = p->startx;
+        int delta = p->target.x - x;
+        int sign = _s32_div_f(delta < 0 ? -delta : delta, delta);
+        int y, dy;
+        if (delta < 0) delta = -delta;
+        p->current.x = x + sign * _u32_div_f(p->frame * delta, p->frames);
+        y = p->starty;
+        dy = p->target.y - y;
+        if (dy < 0) dy = -dy;
+        p->current.y = y + sign * _u32_div_f(p->frame * dy, p->frames);
+        if (p->frame++ >= p->frames) {
+            p->value = p->next;
+            p->current = p->target;
+            p->state++;
+        }
+        break;
+    }
+    case 2:
+        p->index++;
+        if (p->index < p->count) p->state = 0;
+        else p->state++;
+        break;
+    case 3:
+        result = 1;
+        break;
+    }
+    if (out) *out = p->value;
+    if (position) *position = p->current;
+    return result;
+}
