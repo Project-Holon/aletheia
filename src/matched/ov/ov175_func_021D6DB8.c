@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * note: The listing stops at the epilogue label 021D76B8; the full body
  *       ends at 021D76D4 after its epilogue and pools, followed by our
  *       separately matched ov175_func_021D76D4.c.

@@ -290,17 +290,17 @@
    "index": 35,
    "file": "asm/arm9/src/035_020909C8.s",
    "base": 34146760,
-   "size": 52668,
+   "size": 52872,
    "functions": 180,
-   "code_bytes": 45714
+   "code_bytes": 45914
   },
   {
    "index": 36,
-   "file": "asm/arm9/src/036_0209D784.s",
-   "base": 34199428,
-   "size": 50940,
-   "functions": 4,
-   "code_bytes": 220
+   "file": "asm/arm9/src/036_0209D850.s",
+   "base": 34199632,
+   "size": 50736,
+   "functions": 1,
+   "code_bytes": 28
   }
  ]
 }

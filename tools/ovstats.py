@@ -111,10 +111,31 @@ def scan_listing(path):
     return "".join(head), out, insns
 
 
+# Thumb-entry linker veneers that carry a function label because a `bl` reaches
+# them.  The linker writes them to switch from Thumb to an ARM target; no C
+# produces `bx pc; nop` (C0 46), so they are not game code and their labels
+# count neither as game nor as SDK functions.  Only the exact form match.py
+# attests (the Thumb-entry `veneer` class) is recognised, compared whole:
+#   bx pc; nop; ldr ip, [pc]; bx ip; .word target
+# The ARM form `ldr ip, [pc]; bx ip; .word target` alone is NOT excluded: mwcc
+# emits it for an ARM tail call (ov009 func_0216F008.c is EXACT C).
+VENEER_THUMB = re.compile(
+    r"^(?:func|sub)_([0-9A-F]{8}):[ \t]*\n[ \t]*bx\tpc[ \t]+/\*[ \t]*\1[ \t]+78 47[ \t]*\*/[ \t]*\n[ \t]*\n"
+    r"[ \t]*\.org[ \t]+0x[0-9A-F]+[ \t]*\n[ \t]*\.byte\t0xC0, 0x46[ \t]*\n"
+    r"[ \t]*\.word\t0xE59FC000[^\n]*\n[ \t]*\.word\t0xE12FFF1C\b", re.M)
+
+
+def veneer_labels(path):
+    """Addresses of function labels in a listing that are linker veneers."""
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        text = fh.read().replace("\r\n", "\n")
+    return {int(m.group(1), 16) for m in VENEER_THUMB.finditer(text)}
+
+
 def listing_summary(path):
-    """(head, labels, {function address: instruction bytes}) for one listing."""
+    """(head, labels, {function address: instruction bytes}, veneer addresses) for one listing."""
     head, labels, insns = scan_listing(path)
-    return head, labels, code_bytes_from(insns, [a for a, _ in labels])
+    return head, labels, code_bytes_from(insns, [a for a, _ in labels]), veneer_labels(path)
 
 
 def listing_labels(path):
@@ -272,7 +293,7 @@ def overlay_rows(funcs_out=None):
         overlay = os.path.basename(path)[:-2]
         if not overlay.startswith("ov") or not overlay[2:].isdigit():
             continue
-        head, labels, code = summaries[path]
+        head, labels, code, veneers = summaries[path]
         m_range = HDR_RANGE.search(head)
         m_code = HDR_CODE.search(head)
         m_funcs = HDR_FUNCS.search(head)
@@ -289,6 +310,8 @@ def overlay_rows(funcs_out=None):
             "game_bytes": 0,
             "matched_sdk_bytes": 0,
             "matched_sdk_funcs": 0,
+            "veneer_bytes": 0,
+            "veneer_funcs": 0,
         }
         sdk = sdk_addrs(overlay)
         addrs = [a for a, _ in labels]
@@ -303,7 +326,11 @@ def overlay_rows(funcs_out=None):
         for a in sorted(set(addrs)):
             if a in sdk:
                 row["sdk_bytes"] += code[a]
-        row["game_bytes"] = row["insn_bytes"] - row["sdk_bytes"]
+        veneers = {a for a in veneers if a not in sdk and a in set(addrs)}
+        for a in sorted(veneers):
+            row["veneer_bytes"] += code[a]
+            row["veneer_funcs"] += 1
+        row["game_bytes"] = row["insn_bytes"] - row["sdk_bytes"] - row["veneer_bytes"]
         # Matched entries are keyed by address, and an address counts only when it is a
         # function label in this listing (matched_addresses), so every matched byte is
         # inside the denominator and a function listed twice counts once.
@@ -320,7 +347,7 @@ def overlay_rows(funcs_out=None):
         if funcs_out is not None:
             seen = set()
             for a, name in labels:
-                if a in seen or code[a] <= 0:
+                if a in seen or code[a] <= 0 or a in veneers:
                     continue
                 seen.add(a)
                 exact = a in matched
@@ -363,6 +390,8 @@ def main():
     ov_game = sum(r["game_bytes"] for r in rows)
     ov_matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
     ov_matched_sdk_funcs = sum(r["matched_sdk_funcs"] for r in rows)
+    ov_veneer = sum(r["veneer_bytes"] for r in rows)
+    ov_veneer_funcs = sum(r["veneer_funcs"] for r in rows)
     arm9 = arm9_summary()
     arm9_game = int(arm9.get("code_bytes_game", 0))
     arm9_matched = int(arm9.get("code_bytes_matched", 0))
@@ -393,6 +422,8 @@ def main():
                 "overlay_matched_funcs": ov_matched_funcs,
                 "overlay_matched_sdk_bytes": ov_matched_sdk,
                 "overlay_matched_sdk_funcs": ov_matched_sdk_funcs,
+                "overlay_veneer_bytes": ov_veneer,
+                "overlay_veneer_funcs": ov_veneer_funcs,
                 "arm9_game_bytes": arm9_game,
                 "arm9_matched_bytes": arm9_matched,
                 "arm9_matched_funcs": arm9_funcs,

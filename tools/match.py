@@ -7237,7 +7237,6 @@ OV_DATA_POOLED = 0x0216FEDC
 OV_EXT_THUMB2 = 0x0216FEAC
 OV_EXT_THUMB2_END = 0x0216FED8
 OV_EXT_ARM, OV_EXT_ARM_END = 0x02157280, 0x0215728C
-OV_EXT_BL, OV_EXT_BL_END = 0x021A3248, 0x021A3290
 OV_EXT_USER_LO, OV_EXT_USER_HI = 0x02155328, 0x02155478   # func_02155328
 OV_DATA_INTERIOR = 0x216fee8   # ov010 data, not a start, no pool referrer
 OV_DATA_POOLED_SITE = 0x02155470
@@ -8235,9 +8234,9 @@ def cmd_selftest(args):
     _check(res, "ov extent: an ARM function still ends 4 bytes after its "
                 "last instruction",
            _ext_end("ov009", OV_EXT_ARM), OV_EXT_ARM_END)
-    _check(res, "ov extent: a Thumb function ending in a 4-byte bl still "
-                "ends 4 bytes after it",
-           _ext_end("ov009", OV_EXT_BL), OV_EXT_BL_END)
+    # The Thumb-ends-in-bl case had one example, ov009 0x021A3248, which was
+    # an RSA modulus read as code (layout/data_objects.txt range row, wave D8).
+    # No overlay function ends in a bl, so the case has no example left.
     _check(res, "ov extent: the freed word is the first datum after code, "
                 "so the listing's block structure starts an object there",
            OV_EXT_THUMB2_END in overlay_data_structure("ov010")[2], True)

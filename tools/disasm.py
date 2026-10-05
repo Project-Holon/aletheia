@@ -158,6 +158,8 @@ UNK, CODE, DATA = 0, 1, 2
 # {r1-r3}, {r0-r3}): the first instruction of a variadic function, which spills
 # its register arguments next to the stacked ones before the lr-saving push.
 VARARG_PUSHES = frozenset([0xB408, 0xB40C, 0xB40E, 0xB40F])
+# The ARM form: stmfd sp!, {r3}, {r2-r3}, {r1-r3} or {r0-r3} (ov009 0x0217CE48).
+ARM_VARARG_PUSHES = frozenset([0xE92D0008, 0xE92D000C, 0xE92D000E, 0xE92D000F])
 
 # ARM condition suffixes, needed to tell a conditional call ("bllt") from a
 # plain branch ("blt"): both start with "bl".
@@ -552,7 +554,14 @@ class Analyser:
                 continue
             if self._has_prologue(off, False) and self.validate(
                     r.base + off, False):
-                self.add_seed(r.base + off, False, is_func=True)
+                # Variadic: the argument push comes first (see the Thumb
+                # case below); seed the function there.
+                entry = off
+                if off >= 4 and r.kind[off - 4] == UNK:
+                    prev = struct.unpack_from("<I", r.data, off - 4)[0]
+                    if prev in ARM_VARARG_PUSHES:
+                        entry = off - 4
+                self.add_seed(r.base + entry, False, is_func=True)
                 added += 1
                 self.trace()
         # Thumb prologues on halfword alignment.

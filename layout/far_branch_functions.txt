@@ -16,3 +16,10 @@
 # Thumb bl sites inside it target 51 points inside it, which the listing had
 # labelled as 51 separate functions (wave A1, lane 15).
 overlay_021  0x021CA5C4  0x021CB6D0   # bl at 0x021CAB22 -> 0x021CB6CA (shared epilogue), etc.
+
+# ov175: two switch-driven functions whose first case jumps to a far point of
+# its own body by Thumb bl (wave D8, 2026-10-05).  Each range runs from its
+# push {r4-r7,lr} to the end of its pool, and the bl target was the only label
+# inside it.
+overlay_175  0x021D6DB8  0x021D76D4   # bl at 0x021D6DD4 -> 0x021D76B8 (add sp,#0x2c; pop {r4-r7,pc}: the shared epilogue)
+overlay_175  0x021D7E18  0x021D8904   # bl at 0x021D7E6A -> 0x021D885C
