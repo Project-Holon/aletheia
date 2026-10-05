@@ -1,0 +1,114 @@
+/*
+ * function: func_021D32E0
+ * address: 0x021D32E0
+ * packet: pkt_ov093_021D32E0
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 364 bytes, thirteen concrete bytes differ at +0006..+0026;
+ * descriptor conversion scheduling only; body from +0028 agrees.
+ * checks: 1 B8D8C/B9934/B9A24 and EA768/778/7A8/7B8 own interfaces plus D324C/D3630 rederived; all21 sites resolve; 2 no state-machine twin; 3 typed descriptor unchanged13, long scalar locals38, typed descriptor const unchanged13; 4 masked/truncated-load and const-descriptor idioms read; 5 fresh idiom directory and D324C/D3630 reread; scalar homes only.
+ * wave75: six runs; stopped after three nonshrinking changes;
+ * init-order and inline descriptor loader were the two scheduling variants.
+ * Best y/v/x/u initializer order retained with pointer prototypes.
+ * permuter: prior 300 --types consumed (22 to 13); not repeated.
+ * wave76: 4 runs; typed descriptor13, long scalar locals38, typed storage-order22, const typed descriptor13. Three nonshrinking iterations; original best13 retained.
+ * recoup 2026-10-05 (P17L8): extent is 364 B (lane list said 108). Twin ov093_func_021D324C (same descriptor shape, matched) gives the same callee types; all callee return types checked against matched definitions, no change. Tried, bytes differing: assignment order u,v,x,y 22; u,y,v,x 18; u,v,y,x 20; y,u,v,x 20; u8/u16 and u32/u16 local widths 36/22/13; c as a struct of four words 13; non-const a 13 and 22; pragmas scheduling/opt_propagation/opt_lifetimes off 13 and 22 (no change). Residue unchanged: original loads c[0..3] in address order and the a[1] load sits after the c[3] load, before the c[3] truncation; every source order puts a[1] after the second assignment. Best stays 13 B (y,v,x,u order).
+ * symbols:
+ *   func_021B8D8C 0x021B8D8C thumb ov093
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021B9A24 0x021B9A24 thumb ov093
+ *   func_021CD9E0 0x021CD9E0 thumb ov093
+ *   func_021D66D0 0x021D66D0 thumb ov093
+ *   func_021EA768 0x021EA768 thumb ov093
+ *   func_021EA778 0x021EA778 thumb ov093
+ *   func_021EA7A8 0x021EA7A8 thumb ov093
+ *   func_021EA7B8 0x021EA7B8 thumb ov093
+ *   d_021F3B64 0x021F3B64 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_021B8D8C(void *, void *, u32);
+extern u8 *func_021B9934(char *, int);
+extern int func_021B9A24(u32, u32);
+extern u32 func_021CD9E0(u8 *);
+extern void func_021D66D0(void *, u32);
+extern void func_021EA768(u32, int, int);
+extern int func_021EA778(u32, int);
+extern void func_021EA7A8(u32, int);
+extern int func_021EA7B8(u32, int);
+extern u32 d_021F3B64[];
+int func_021D32E0(const u32 *a, int *b, u32 *c)
+{
+    u32 u, v, x, y;
+    int s, t;
+    u8 *p, *q;
+    y = (u16)c[3];
+    v = (u8)c[1];
+    x = (u16)c[2];
+    u = (u8)c[0];
+    s = func_021B8D8C((void *)a[0], (void *)a[1], u);
+    t = func_021B8D8C((void *)a[0], (void *)a[1], v);
+    p = func_021B9934((char *)a[1], (u32)u);
+    q = func_021B9934((char *)a[1], v);
+    switch (*b) {
+    case 0:
+        if (func_021CD9E0((u8 *)a)) {
+            func_021D66D0(p, x);
+            func_021D66D0(q, y);
+            return 1;
+        }
+        if (func_021B9A24(u, v)) {
+            func_021D66D0(p, x);
+            func_021D66D0(q, y);
+            return 1;
+        }
+        func_021EA768((int)a[21], s, 0);
+        d_021F3B64[1] = 8;
+        (*b)++;
+        break;
+    case 1:
+        func_021EA778(a[21], s);
+        if (d_021F3B64[1]) d_021F3B64[1]--;
+        else {
+            func_021EA768(a[21], t, 0);
+            (*b)++;
+        }
+        break;
+    case 2: {
+        u8 r, z;
+        r = func_021EA778(a[21], s);
+        z = func_021EA778(a[21], t);
+        if (r && z) (*b)++;
+        break;
+    }
+    case 3:
+        func_021D66D0(p, x);
+        func_021D66D0(q, y);
+        d_021F3B64[1] = 0;
+        (*b)++;
+        break;
+    case 4:
+        d_021F3B64[1]++;
+        if (d_021F3B64[1] > 8) {
+            func_021EA7A8(a[21], s);
+            (*b)++;
+        }
+        break;
+    case 5:
+        if (func_021EA7B8(a[21], s)) {
+            func_021EA7A8(a[21], t);
+            (*b)++;
+        }
+        break;
+    case 6:
+        if (func_021EA7B8(a[21], t)) (*b)++;
+        break;
+    default:
+        return 1;
+    }
+    do { return 0; } while (0);
+}
