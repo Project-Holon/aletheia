@@ -8,10 +8,19 @@
  * lang: c99
  * isa: arm
  * status: DIFF
- * residual: DIFF 268/268 bytes, 34 concrete bytes differ; all six relocations resolved.
+ * residual: DIFF 8/268 bytes, one pair swapped (see final push note); all six relocations resolved.
  * evidence: separate byte divisor improves 40 to 37; unsigned promotion in u64 division removes sign-word ASR and improves to 34. Inline search gave 264/217; self-copy flag tied 40. Separate address locals and unsigned-long divisor tied 34; frame-selector inline gave 39.
  * checks: 1 own EXACT memcpy and tick bodies/shards read, arities 3/0, observed unsigned n and u64 return retained; 2 fresh 0904 shares globals and callees but is not a builder twin; 3 _Bool found on unsigned-divisor best tied 34; 4 byte-signedness, flag identity and inline-allocation idioms read; 5 full idiom directory and fresh ov013 neighbours reread, no addressed stack aggregate; next hypothesis an independently evidenced frame-offset enum, no repeat scheduling sweep.
  * recoup 2026-10-05: DIFF 34 bytes, colours only (front through +0x70 and all pool words match). Original: base pool word in r4, offset r5 (found's register), hdr = r5, divisor r4; ours: base in ip, offset and hdr in r4, divisor r5. Callee types checked: func_020870D0 returns u64 (OS_GetTick, matched arm9 user), func_02082B0C is MIi_CpuCopyFast(src, dst, n), no void-return problem. Tried: named base local (CSEs with the field address, 264 B, base r4 but offset r5/hdr r4, 132 B off); named off local with inline address (same 34 B); u32 scratch reused for base and divisor (138); one scratch for found and offset (139); packet array struct buf[2] (mul by 0x460, 140); u8 array extern with raw offsets (48); u8 divisor constant (folds to shifts, 197); all six per-function pragmas (lifetimes, common_subs, scheduling, peephole tie 34; propagation 245, dead_assignments 214). Open: why base takes r4 while staying a separate (non-CSE) pool load.
+ * final push 2026-10-05 G7L4: 34 to 8 bytes. All colours now match. Cause of the colour swap: the
+ * original keeps the `(i < 3) ? 1 : 0` while loop (entry branch) and the packet header work under
+ * opt_propagation off, with the divisor as a named local set before its store (divisor = 0x40;
+ * hdr->f4 = divisor). Residue: the scheduler puts the f1C load between movne and moveq, the original
+ * after moveq. Tried for it: mode read before the magic store (needed to hoist the load above the
+ * store; without it the load stays below the store, 23 bytes), magic as a local (needed, else 26),
+ * positions of mode, magic, hdr (8 to 28), if/else for off (8), int off (8), scheduling off (8),
+ * peephole off (8), block-scoped locals (8), named tag pointer (8), mode > 1 (10), negated ternary (11),
+ * ternary call argument (114+), const f1C or a const second extern name (23, 27).
  * permuter: first recorded budget-300 search and emitted 40-byte candidate consumed in prior pass; not repeated.
  * prior evidence: named guard and while loop improved 45 to 40; enum counter 48, u16 counter 276 bytes; const byte source and unsigned-long counter tested.
  * symbols:
@@ -63,22 +72,19 @@ extern Req * const d_021B3CB0[3];
 extern Ctx42C0 d_021B42C0;
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern u64 func_020870D0(void);
+#pragma opt_propagation off
 int func_021B07F8(const u8 *src, u32 n)
 {
   PacketHeader *hdr;
   u32 i;
   u8 divisor;
   u32 off;
-  enum
-  {
-    NotFound = 0,
-    Found = 1
-  } found;
+  u8 found;
   u16 seq;
-  int tmp;
-  tmp = n != d_021B3C84.f24;
-  found = NotFound;
-  if (tmp)
+  int mode;
+  u32 magic;
+  found = 0;
+  if (n != d_021B3C84.f24)
   {
     return 0;
   }
@@ -86,27 +92,26 @@ int func_021B07F8(const u8 *src, u32 n)
   {
     return 0;
   }
+  i = 0;
+  while ((i < 3) ? (1) : (0))
   {
-    i = 0;
-    while ((i < 3) ? (1) : (0))
+    if ((0 != d_021B3CB0[i]) && (d_021B3CB0[i]->fC == 2))
     {
-      if ((0 != d_021B3CB0[i]) && (d_021B3CB0[i]->fC == 2))
-      {
-        found = Found;
-        break;
-      }
-      i++;
+      found = 1;
+      break;
     }
-
+    i++;
   }
-  if (found == NotFound)
+  if (found == 0)
   {
     return 0;
   }
   off = (d_021B42C0.f8C4 & 1) ? 0 : 0x460;
   hdr = (PacketHeader *) ((u8 *) &d_021B42C0 + off);
-  hdr->magic = 0x5F564354;
-  if (d_021B3C84.f1C >= 2)
+  magic = 0x5F564354;
+  mode = d_021B3C84.f1C;
+  hdr->magic = magic;
+  if (mode >= 2)
   {
     func_02082B0C(src, ((u8 *) hdr) + 0x10, n);
   }
@@ -114,8 +119,8 @@ int func_021B07F8(const u8 *src, u32 n)
   {
     func_02082B0C(src, ((u8 *) hdr) + 0xC, n);
   }
-  hdr->f4 = 0x40;
-  divisor = hdr->f4;
+  divisor = 0x40;
+  hdr->f4 = divisor;
   seq = d_021B3C84.f0;
   d_021B3C84.f0 = d_021B3C84.f0 + 1;
   hdr->f6 = seq;
@@ -123,3 +128,4 @@ int func_021B07F8(const u8 *src, u32 n)
   d_021B42C0.f8C4++;
   return 1;
 }
+#pragma opt_propagation reset
