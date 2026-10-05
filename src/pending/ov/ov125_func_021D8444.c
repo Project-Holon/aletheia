@@ -8,6 +8,15 @@
  * lang: c99
  * isa: arm
  * status: DIFF
+ * 2026-10-06 (pass 2 2026-10-06 P2L29): DIFF, 14 bytes unchanged (dst ip, image r5). Mechanism: the Data copy
+ *   counter `mov #0x13` is scheduled pre-RA into the latency slot of the trailing ldrb, before the trailing strb,
+ *   so it interferes with the Sav dst and dst cannot take r5. Any extra filler there moves the counter below the
+ *   strb and gives the image colours: `ok = 1;` between the copies (ok then lives in r6, 175 B) and
+ *   `*(Data *)... = *(Data *)g` (visible mov lr, r4, 178 B). The image needs a filler that leaves no code (a
+ *   coalesced copy); not found. Also 14 B: t = t, *(t = ...), t reassigned to &d, one u8 *p for both copies,
+ *   named Data *s / const Data *s / h-then-s copy chain, const Sav source, Sav *const t, 0x258 load through g,
+ *   pragmas scheduling / dead_assignments / strength_reduction / unroll_loops off, a preceding function.
+ *   Worse: inline Pub for the Data copy (20), user quad loop (344 B), optimize_for_size (276 B).
  * 2026-10-05 (final push G5L6): DIFF, 14 bytes (was 18). Found the lever: a named destination pointer under
  *   `#pragma opt_propagation off` (the pragma alone, and every other per-function pragma alone, stay 18 B):
  *   `Sav *t = &d_021D9E40.sav; *t = *(Sav *)(buf + 0x45);` keeps t as a user vreg older than the struct-copy

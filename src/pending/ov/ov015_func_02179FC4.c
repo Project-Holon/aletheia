@@ -29,6 +29,14 @@
  *           the struct form. scheduling off shows the IR already orders str, mov r2, add, mov r1, strb, so the original IR has
  *           the const materialised late; no human source form found that does this.
  *
+ *           pass 2 2026-10-06 P2L27 (40 compiles, 3 rounds): no gain, best stays 14/80. Found: when the flag store is the last
+ *           store before the call (buf first, or flag assigned in the size argument) it sinks below add r0 / mov r1, but mov #0x56
+ *           and strb then go to the top (20 off). A pointer local St *p = &d (any placement where it is not propagated) sinks both
+ *           stores below the argument setup as in the original, but hoists mov #0x56 above it and swaps r4/r5 (24 off). Inert:
+ *           irc.o file statics as in ov_sdk 02179F74, const u8 * callee parameter, nested-block u8 cmd = 0x56, inline helper with
+ *           the flag assignment as argument, block-scoped buf, &buf[0], sizeof(buf), volatile flag field, pragmas
+ *           lifetimes/propagation/common_subs/dead_assignments/optimize_for_size, int *flag pointer (62), q = buf (38).
+ *
  * symbols:
  *   func_0217A8EC  0x0217A8EC  arm    ov015
  *   OS_GetTick     0x020870D0  arm
