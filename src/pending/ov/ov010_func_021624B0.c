@@ -40,6 +40,18 @@
  * pointer-sum-with-a-far-offset-associates-differently (h as named pointer local: no change),
  * raw-field-offsets-can-share-a-constant-without-an-enum-local (raw: 102 B, frame lost; enum: 73 B, better),
  * a-pool-address-takes-ip-only-when-the-low-scratch-is-reserved (rotation of roles, same class of residue).
+ *
+ * final push 2026-10-05 G8L2: DIFF 54/126 (was 73). New lever: group the far offset as (size_offset + 4) for BOTH the
+ * header pointer and the first-byte read (`(char *)o + (size_offset + 4)`), so the offset sum is built before the base add
+ * as the listing shows (`adds r0,r4,#4; adds r3,r5,r0`); bytes 0x00..0x29 now match exactly, push r7 frame kept.
+ * Residue: colours of h (orig r3, compiled r1), d (r2/r0), size (r0/r2), sum (r1/r3) and the 0x14 constant (orig r7,
+ * compiled r2); n0 and n2 are read twice (orig once) and k+4 is shared (orig recomputes it before the far byte read).
+ * Tried, worse: n0..n3 locals (62/122, k+4 CSE'd), u8/int locals, statement order off-before-store (62, 69),
+ * plain struct members o->size/&o->hdr (102, k+4 recomputed as in orig but no r7 frame), off0..off3 separate locals
+ * (87 or 102), 4 declaration orders (102), all six per-function pragmas on the plain-member form (102 each),
+ * n0 read before h (63). Matched-assembly regex search for `adds rA,rK,#4; adds rB,r5,rA; ldr [rB,rK]`: this function only.
+ * Idioms read: of-two-equal-temps-the-later-born-one-gets-the-lower-register,
+ * opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores (no loops here; no change).
  * symbols:
  *   func_02013ECC  0x02013ECC  thumb
  *   func_020493D4  0x020493D4  arm
@@ -96,10 +108,10 @@ void func_021624B0(O *o, int x)
     size_offset = SIZE_OFFSET;
     func_0204944C(o->f4, a, 0, r, (char *)o + size_offset);
     off = 0;
-    h = (const H *)((char *)o + size_offset + 4);
+    h = (const H *)((char *)o + (size_offset + 4));
     d = (unsigned)h + 4;
     o->p120 = (char *)h + *(int *)((char *)o + size_offset);
-    o->c12 = *((u8 *)o + size_offset + 4);
+    o->c12 = *((u8 *)o + (size_offset + 4));
     off += h->n[0] * 0x14;
     o->p1C = (char *)d;
     o->p20 = (char *)(d + off);
