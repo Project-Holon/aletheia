@@ -7,13 +7,8 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 own callees/matched callers refreshed: scalar02017E1C three, BDC5C reads one but original caller sets r1 so two-word coerced call retained; removing second argument1508/244 worse; 2 matched BBE74/BE874 and HP getter unit refreshed; 3 getter party fieldA1 is u16; u16 n1512/274 worse, original wide n retained; 4 struct-return/frame idioms read; inline maximum/zero output helper1504/635 gives original frame but worsens other arms, maximum-only helper1508/122 flat; 5 full idiom directory and own/sibling neighbours refreshed. Prior permuter96 remains spent. Next hypothesis: genuine one-word inline aggregate return wrapper, within a future renewed budget.
- * note: 2026-10-05 P20L6 (real extent 1508 bytes, not 76; lane size was wrong). Residue: 122 bytes, all one cause in case 16..19 (the 0xa1/0xa0 getter arm): the image keeps 0 in r7 from before the first getter call and spills n to [sp,#4] (frame 0x28, push r3); the build keeps n in r7, rematerialises 0 and has frame 0x24. Callee check: all ov091 callees are void in matched files, no return or arity problem. Tried (13 compiles, all 122 bytes unless noted): plain int local for the zero instead of the enum stand-in (removed here, same bytes); zero set before the getters; zero passed as the getter third argument; u8 zero; zero set before the func_021B99E4 range test; u8 n (1512/274, worse); n,old declaration order swapped; compare written n/5 < old; pragmas opt_lifetimes, opt_dead_assignments, scheduling, peephole (122, no change), opt_propagation (1512/966), opt_common_subs (1504/950). Idioms read: the-block-constant-in-a-callee-saved-register-follows-the-order-of-the-stores, two-long-lived-values-in-each-others-registers, a-constant-loaded-at-entry-into-a-callee-saved-register-is-a-declaration-initialiser, a-constant-kept-in-a-register-after-a-switch-is-assigned-in-every-arm, a-flag-zeroed-after-a-nested-argument-call-frees-a-callee-saved-register..., a-dead-store-to-a-spilled-local-survives..., a-byte-count-local-preserves-word-spills-and-reloads, a-narrow-flag-local-is-spilled-not-constant-propagated. Open idea: the zero must be a real variable (not propagated) with higher weight than n; no human source form found.
- * note: recoup 2026-10-05 P30R6 (10 compiles, all 122 B unless noted). Plain literals replace the zero local (same 122 B, so the local was a stand-in). Finding: the image has zero pooled in r7 at block A (movs r7,#0 after the first getter's r2 setup) and n in memory ([sp,#4], frame 0x28, a at sp+8). The compiler only pools that zero when n and old are not both live (v2: nested compare f(a0) > f(a1)/5 pools it, 1504/299, but evaluates a0 first; n named or inline helper Over5(cur,max) gives n in r7, no pool, 122). Tried: nested compare (1504/299); n named, old unnamed (122); static inline Over5(cur,max) both arg orders (1504/299 and 122); u8 n (1512/274, extra uxtb); one-field struct n and u32 n[1] (both scalarised to registers, 122); struct-returning getter alias for n (1504/663, zero pooled but 0xa0 not pooled and frame 0x2c); pragmas opt_loop_invariants and opt_strength_reduction off (122). Read mwcc Coloring.c: spill choice is min cost/degree, so n loses once the zero is pooled; the open question is why the original pools with 5 values live. No human source form found.
- * retry: Wave76 R18 final retry, four fixed one runs; original best1508/122 retained, all86 relocations resolved.
- * residual: R3 1508/1508,122 concrete bytes,86/86 relocs; n/zero register web and frame36 vs40 persist. Earlier permuter96 spent; no rerun.
- * renewed: Wave75 R30 4 fixed-flag runs, all 1508/1508 and122 concrete; original best retained. Prior permuter96 remains spent; no search repeated.
+ * status: EXACT
+ * note: final push 2026-10-05 G8L7. The only residue of the old draft was the 0xa1/0xa0 getter arm (case 16..19): the image keeps n (the 0xa1 getter result) in a stack word at [sp,#4] below the two item tables and keeps the pooled zero in r7, frame 0x28. With n as a plain local the allocator rematerialised the zero instead and kept n in r7 (frame 0x24, 122 bytes off). A local aggregate that holds n together with the two item tables (tables address-taken for func_021BBAF8) keeps n in memory at that place with no other change: EXACT in c99 and c. A volatile n and a one-field struct n give EXACT and the old residue respectively; the aggregate is the form kept. The original may have used another aggregate that holds one count next to the lists; the layout shows only that one word sits below table b. Held for integrator review of the form.
  * symbols:
  *   func_021B8F68 0x021B8F68 thumb ov091
  *   func_021B8FC4 0x021B8FC4 thumb ov091
@@ -168,8 +163,8 @@ extern const Four d_021BEC0C,d_021BEC1C;
 #define A (*(int **)((p+W(0x2c)*4)+0x160))
 void func_021B916C(u8 *p)
 {
-    Four a,b;
-    u32 old,n;
+    struct { u32 n; Four b; Four a; } L;
+    u32 old;
     int r,level;
     u32 flag;
     u8 i;
@@ -184,15 +179,15 @@ void func_021B916C(u8 *p)
         func_021BB714(p,(u32 *)W(0x150),0); func_021BB7E8(p,(u32 *)W(0x150),11);
         func_021B8418(p); return;
     case 4:
-        a=d_021BEC0C;
+        L.a=d_021BEC0C;
         func_021B907C(p); func_021BB714(p,(u32 *)W(0x150),2);
         func_021BB7E8(p,(u32 *)W(0x150),19);
-        func_021BBAF8(p,(u8 *)W(0x154),a.v); func_020409B4(0); return;
+        func_021BBAF8(p,(u8 *)W(0x154),L.a.v); func_020409B4(0); return;
     case 5:
-        b=d_021BEC1C;
+        L.b=d_021BEC1C;
         func_021B907C(p); func_021BB714(p,(u32 *)W(0x150),2);
         func_021BB7E8(p,(u32 *)W(0x150),19);
-        func_021BBAF8(p,(u8 *)W(0x154),b.v); func_020409B4(0); return;
+        func_021BBAF8(p,(u8 *)W(0x154),L.b.v); func_020409B4(0); return;
     case 0:
         p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=1; return;
     case 20:
@@ -270,9 +265,9 @@ void func_021B916C(u8 *p)
             if (func_02013E04(H(0x30))==0) {
                 func_021B9788(p,0x50,1,(int)func_021B9E20); return;
             }
-            n=func_02017E1C((void *)W(0x38),0xa1,0);
+            L.n=func_02017E1C((void *)W(0x38),0xa1,0);
             old=func_02017E1C((void *)W(0x38),0xa0,0);
-            if (old > n/5) {
+            if (old > L.n/5) {
                 func_021B8F68(p,W(0x2c)); func_021B8FC4(p,W(0x2c)); W(0x34)=W(0x2c);
                 p[0xc]=4; W(0x38)=0; W(0x14)=0;
                 func_021BB714(p,(u32 *)W(0x150),0); func_021BB7E8(p,(u32 *)W(0x150),17);

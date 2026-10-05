@@ -7,32 +7,12 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * note 2026-10-05 (wave P3 lane R8, pengy share): first draft. 175 B differ, all one residue:
- *   the post-loop block keeps 1 in r7 and builds the s16 store of -40 as `subs r7,#0x29`;
- *   the image keeps 0x20 in r7 (movs r7,#0x20; str r7,[sp] for both func_020450F0 calls) and builds
- *   -40 as `movs r1,#0; subs r1,#0x28` (from the zero held in r6). The compiled code is 4 B short
- *   (560 vs 564 incl. 2 B pad); the pool displacement shifts by 4 only because of that.
- *   The prologue spill order is exact with u8 a2 and u8 a3 (u32 gave a swapped str order).
- *   Tried: literal -40, 0 - 40, m - 40 with int and s16 zero local (all fold, same bytes), u32 versus
- *   u8 callee prototype for func_020450F0, pragmas peephole / opt_propagation / opt_common_subs /
- *   opt_lifetimes / opt_dead_assignments / scheduling (none changes the r7 choice; common_subs off
- *   breaks the loop). Cause: the extra use of 1 as derivation source for -40 beats 0x20 in the
- *   block-constant choice. Only an enum-typed zero would be a stand-in, not filed.
- *   Callee note: func_021B8AD0 is called with (p+8, s1, heap) and matches its 3-parameter definition;
- *   no callee has fewer parameters than the call passes.
- * note 2026-10-05 (wave P3 lane R8b): 23 more compiles, all still 175 B or worse. Tried, no change (175 B):
- *   enum constants POS_L=-40/POS_R=24; local struct {s16 x,y} copied to the fields; static inline
- *   addpos(0,-40) (folds); width local w=0x20 for one or both stack/tile args; separate zero local z
- *   (z - 40); positive local off=40 with -off; callee last parameter int/u16/u32 or c,d as int;
- *   s16 field written as int. Different but worse: u16 or 0xFFD8 destination keeps r7=0x20 but loads
- *   -40 from a pool word (160 B, 564 B size); field read-back (*(u16*)(p+0x556) - 40, 126 B) gives
- *   r7=0x20 and movs/subs #0x28 but moves the zero stores; u16 m (130 B). Storing 24 before -40
- *   gives 11 B (size 564): -40 is then derived from 0x18 (`movs r1,#0x18; subs r1,#0x40`), so the
- *   source of the derivation follows the first constant the block sees. Reading: the image derives
- *   -40 from a fresh literal 0 that is not the register-held m. Real source not recovered; the
- *   only forms that fold the 0 are the banned enum-typed zero local. The 11 B variant swaps the
- *   two field stores and is not the original order, so it is not filed.
+ * status: EXACT
+ * note 2026-10-05 (final push G8L9): closed. The two zero stores at +0x556/+0x558 are written with
+ *   literal 0 and `m = 0;` comes after them, just before the clamp. With `m = 0;` before the calls the
+ *   zero joins the clamp's phi web, so -40 was derived from the held 1 (`subs r7,#0x29`) and 1 won the
+ *   block-constant register over 0x20. With the literal zero stores the zero stays a plain constant
+ *   and -40 is built fresh (`movs r1,#0; subs r1,#0x28`) while 0x20 keeps r7.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021B8D8C 0x021B8D8C thumb ov106
@@ -97,7 +77,6 @@ void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s
     for (i = 0; i < func_021B8D8C(s4); i++) {
         func_021B87B0(p+0x188+i*32,s4+4+i*16,s2,*(u32 *)p,*(u32 *)(p+4),*(void **)(p+0x574),*(u32 *)(p+0x570),*(void **)(p+0x588),p+8,i*24+0x52,i*24-0x70,heap);
     }
-    m = 0;
     *(u32 *)(p+0x568) = func_020450F0(a2,0,0,0x20,0x20,14,1);
     *(u32 *)(p+0x56C) = func_020450F0(s0,0,0,0x20,0x20,14,1);
     *(s16 *)(p+0x564) = -40;
@@ -106,8 +85,9 @@ void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s
     func_02040618(*(u8 *)(p+0x549),3,*(s16 *)(p+0x564));
     func_02040618(*(u8 *)(p+0x54A),3,*(s16 *)(p+0x566));
     func_02040618(*(u8 *)(p+0x54B),3,*(s16 *)(p+0x566));
-    *(u16 *)(p+0x556) = m;
-    *(u16 *)(p+0x558) = m;
+    *(u16 *)(p+0x556) = 0;
+    *(u16 *)(p+0x558) = 0;
+    m = 0;
     *(u16 *)(p+0x55A) = *(u16 *)(p+0x554) * 24 - 0x120;
     if (*(s16 *)(p+0x55A) > 0) m = *(s16 *)(p+0x55A);
     *(u16 *)(p+0x55A) = m;
