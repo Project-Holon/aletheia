@@ -28,6 +28,23 @@
  * frame 0x34, a stand-in form so not filed). Also the original zero is one
  * u8 (r4 = i) copied into n (r6); chained n = i = 0 gives a separate n zero.
  *
+ * 2026-10-05 (wave P6 lane U9b): DIFF. Closest forms are in wD9r/u9b_8.c
+ * (328 B, frame 0x3c, 254 B differ; explicit per-use Ent copy locals t1..t7
+ * declared in the original slot order, `#pragma opt_dead_assignments off`,
+ * `i = 0; n = i;` (gives the original prologue: zero in r4, n copied to r6),
+ * `for (; i < 4; i++)`). dead_assignments off is the lever that keeps the
+ * dead t2.move half-copy and gives 8 distinct Ent slots, same relative layout
+ * as the original. Tried without result: block-local `Ent x = e;` copies
+ * (320 B, copies merge), the four untried pragmas on the helper form
+ * (common_subs 296, scheduling 296, peephole 296, dead_assignments 308 B),
+ * dead_assignments off on the explicit forms (328 B), function-level or
+ * block-local cur pointer (propagated, or spills everything at 0x44),
+ * declaration order tbl/out, opt_propagation off on top (348 B).
+ * Remaining residue: the original hoists &cur into r7 for the fill loop
+ * (mon in r5, i in r4) and spills tbl to [sp,#0x14] with j in ip; ours keeps
+ * mon in r7, recomputes the cur address after the call and keeps tbl in r7.
+ * One extra live value in the original loops (cur base) was not reproduced.
+ *
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
