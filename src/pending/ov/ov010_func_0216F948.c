@@ -45,6 +45,34 @@
  * mon in r7, recomputes the cur address after the call and keeps tbl in r7.
  * One extra live value in the original loops (cur base) was not reproduced.
  *
+ * 2026-10-05 final push G9L7: DIFF, 340 B vs 344 B, 156 B differ (was 225 B
+ * differ at 296 B). Best form: the explicit per-use Ent copy locals of U9b
+ * (declared in the original slot order) under `#pragma opt_propagation off`,
+ * with do-while loops for the fill and k loops (no entry guard, as in the
+ * original; for loops gain a `cmp rN,#4; bhs` guard under the pragma). The
+ * pragma explains three things the earlier forms missed: the original's
+ * second-level copy t4 = t3 is reloaded from t3 (not forwarded), the k and m
+ * loops reread t4.move / t6.move each iteration, and the fill loop hoists
+ * `add r7,sp,#0x38`. The fill loop and the whole k section now match the
+ * original instruction for instruction (register names aside). Without the
+ * pragma the t3->t4 and t5->t6 copies collapse (v13, 320 B).
+ * Remaining residue: (1) the original is propagation-on for constants: its m
+ * loop guard is `movs r5,#0; cmp r6,#0; bls` (m = 0 folded, copies t5/t6 sit
+ * after the guard) where ours compares m with n (`cmp r2,r5; bhs`); `if (n > 0)`
+ * gives `beq` instead of `bls`; copies inside the loop body stay in the loop.
+ * (2) the original spills tbl to [sp,#0x14] and keeps j in ip (frame 0x40,
+ * push {r3..}); ours keeps both in registers (frame 0x3c). (3) `n = i` is
+ * `adds r6,r4,#0` in the original (zero args then read r6) but `movs r5,#0`
+ * here. Diagnostic only, not filed: `t4 = *(Ent *)&t3;` with propagation ON
+ * also gives the non-forwarded reload and the right m guard (336 B, 256 off),
+ * so the original's temps are probably reached through a type-punned or
+ * pointer access; no human form for that was found (pointer-taking or
+ * by-value inline helpers, named pointer local, member-wise copies, memcpy,
+ * Ent[8], u16[2] temps all either collapse the temps or add spills).
+ * Also tried: nested inline Find wrappers, static (non-inline) helpers (emits
+ * calls), opt_common_subs/opt_loop_invariants/opt_lifetimes off, j = 0, named
+ * cur pointer, passing n as the zero argument (344 B but 273 off).
+ *
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
@@ -68,32 +96,7 @@ extern void func_0201ADD0(unsigned int a, int b, void *buf);
 extern void func_020307B0(void *p);
 extern const char d_02173B74[];
 
-static inline int IsEnd(Ent e)
-{
-    return e.move == 0xFFFF && e.level == 0xFFFF;
-}
-static inline int LevelOf(Ent e)
-{
-    return e.level;
-}
-static inline u16 MoveOf(Ent e) { return e.move; }
-static inline u8 FindCur(const u16 *cur, Ent e)
-{
-    u8 k;
-    for (k = 0; k < 4; k++)
-        if (cur[k] == MoveOf(e))
-            break;
-    return k;
-}
-static inline u8 FindOut(const u16 *out, u8 n, Ent e)
-{
-    u8 m;
-    for (m = 0; m < n; m++)
-        if (out[m] == MoveOf(e))
-            break;
-    return m;
-}
-
+#pragma opt_propagation off
 u16 *func_0216F948(void *mon, u32 heap)
 {
     u16 cur[4];
@@ -103,33 +106,57 @@ u16 *func_0216F948(void *mon, u32 heap)
     u8 i;
     u8 n;
     u8 j;
+    u8 k;
+    u8 m;
     Ent *tbl;
     u16 *out;
+    Ent t1, t2, t4, t6, t7, t5, t3, e;
 
-    n = i = 0;
+    i = 0;
     species = func_02017E1C(mon, 5, 0);
     form = func_02017E1C(mon, 0x6F, 0);
     level = func_02017E1C(mon, 0x9E, 0);
-    for (i = 0; i < 4; i++)
+    n = i;
+    do {
         cur[i] = func_02017E1C(mon, 0x36 + i, 0);
+        i++;
+    } while (i < 4);
     tbl = (Ent *)func_02030734(heap, 0x68, 0, d_02173B74, 0x55);
     out = (u16 *)func_02030734(heap, 0x34, 0, d_02173B74, 0x56);
     func_0201ADD0(species, form, tbl);
     for (j = n; j < 26; j++) {
-        Ent e = tbl[j];
-        if (IsEnd(e)) {
+        e = tbl[j];
+        t1 = e;
+        if (t1.move == 0xFFFF && t1.level == 0xFFFF) {
             out[n] = 0xFFFF;
             break;
         }
-        if (LevelOf(e) > level)
+        t2 = e;
+        if (t2.level > level)
             continue;
-        if (FindCur(cur, e) != 4)
+        t3 = e;
+        t4 = t3;
+        k = 0;
+        do {
+            if (cur[k] == t4.move)
+                break;
+            k++;
+        } while (k < 4);
+        if (k != 4)
             continue;
-        if (FindOut(out, n, e) != n)
+        t5 = e;
+        t6 = t5;
+        for (m = 0; m < n; m++)
+            if (out[m] == t6.move)
+                break;
+        if (m != n)
             continue;
-        out[n] = MoveOf(e);
+        t7 = e;
+        out[n] = t7.move;
         n++;
     }
     func_020307B0(tbl);
     return out;
 }
+
+#pragma opt_propagation reset
