@@ -21,6 +21,18 @@
  * Tried and worse: raw byte-offset second read (620 B), ternary argument (q spilled),
  * a local arg x (cnt moves to r6).
  *
+ * 2026-10-05 (wave P4 lane S1b): DIFF, 612 B (size now equals the original), 18 B differ.
+ * Only residue: first loop, q is r5 and the counter r6 (original q r6, counter r5).
+ * New: the second e[l].b.kind read of the original is a real reload; it comes out
+ * when the second read goes through a second 16-byte struct view E2 ((E2 *)e)[l]
+ * (4 other spellings merge: element pointer, inline helper, copy of b, switch).
+ * E2 is a duplicate struct type: integrator decides if that is a human form or a
+ * stand-in. Also the final or-chain written (k & m) | ((m + 1) | (sub part | slot part)).
+ * Pragmas (all six, on the 612 B draft): none closes the colour swap; opt_lifetimes off
+ * gives 152 B differ at 620 B, scheduling off and peephole off change nothing.
+ * Tried and no change: slot as one function-level variable shared by both loops
+ * (262 B), slot declared before q (533 B), q held as u32 (same).
+ *
  * symbols:
  *   func_021BB85C  0x021BB85C  thumb  ov093
  *   func_021BB8A8  0x021BB8A8  thumb  ov093
@@ -44,6 +56,7 @@ typedef struct { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 rest : 9; } B;
 typedef struct { u32 lo : 13; u32 f : 3; u32 g : 6; u32 h : 3; u32 rest : 7; } C;
 typedef struct { u8 *a; B b; u32 c; u8 d; u8 e; u8 f; } E;
 typedef struct { u32 x; void *m; } Q;
+typedef struct { u8 *a; B b; u32 c; u8 d; u8 e; u8 f; } E2;
 typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[6]; } S;
 
 extern Q *func_021BB85C(u32 p, u8 i);
@@ -154,8 +167,8 @@ u8 func_021BC610(S *p, u8 *o, E *e)
         }
         if (r->b.kind == 1) {
             u16 id;
-            if (e[l].b.kind == 1)
-                id = e[l].b.id;
+            if (((E2 *)e)[l].b.kind == 1)
+                id = ((E2 *)e)[l].b.id;
             else
                 id = 0;
             sub = func_021BC8EC((u8 *)p, id, a);
@@ -166,7 +179,7 @@ u8 func_021BC610(S *p, u8 *o, E *e)
         }
         k = func_021BC948((u8 *)p, a, 1);
         func_021CC95C((u8 *)p + 0x1d74, lock, 0x678);
-        r->c = (k & m) | (m + 1) | ((sub & 0x3f) << 16) | ((r5 & 7) << 22);
+        r->c = (k & m) | ((m + 1) | (((sub & 0x3f) << 16) | ((r5 & 7) << 22)));
     }
     func_021BC874(e, cnt);
     if (flag == 0) {
