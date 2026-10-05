@@ -1,0 +1,143 @@
+/*
+ * function: func_0217F4B4
+ * address:  0x0217F4B4
+ * packet:   pkt_ov019_0217F4B4
+ * region:   ov019
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 own 0217F310/02034714 bodies confirm 2/3 args; 2 fresh 0217F388 confirms const Ent; 3 const p remains 14, u16 counter worsens to 304/57; 4 split raw table access remains 300/14, repeated table access 304/22; 5 fresh unfiltered idiom listing and matched neighbours, no stack object/new twin.
+ * Final retry R14: 4 runs; best 300 bytes / DIFF14 retained verbatim.
+ * Earlier once-only permuter 300 consumed; baseline/emitted fixed one 14/300.
+ * No repeated search and no further scheduling sweep proposed.
+ *
+ * DIFF, 14 concrete bytes at 300 B, all 7 relocations resolved.
+ * The ternary loop condition fixes the formerly missing entry branch.
+ * Remaining residue is case -2's st[3]/table/pair register allocation.
+ * Separate pairs local and unsigned long key/counter did not close it.
+ * Permuter budget 300 consumed; fixed-one emitted source confirms 14/300.
+ * recoup 2026-10-05 (lane Z8, P11): callee types checked (func_0217F310 matched, returns int, 2 args;
+ *   func_02034714 void, 3 args; no change). Twin search: grep -rl "func_0217F310" and "d_021805A4|d_021803A0"
+ *   in src/matched/ov: only ov019 0217F380/0217F388/0217C88C (caller), no twin of this body. Idioms read in
+ *   full: two-long-lived-values-in-each-others-registers, a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie,
+ *   a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off, a-field-read-into-its-own-local-before-a-getter-subtraction-sets-the-colour-order,
+ *   a-dead-parameter-reused-as-the-index-rotates-the-loop-registers. All six per-function pragmas: 14 B, 300 B, unchanged.
+ *   Also 14 B: separate result local r with key = r and return r; no pairs local (key = e->p[e->b-1].f4);
+ *   if (st[3] != 0) {...break;} return key; local t = st[3]; declaration order e/pairs before key; non-const Ent table.
+ *   int key with case -1/-2: 304 B. Result local with switch on r and default: key = r: 308 B, 275 B off.
+ *   Residue unchanged: case -2 holds st[3] in r2 (original r1, key dead), table base r1/pairs r0 swapped.
+ * symbols:
+ *   func_0217F310  0x0217F310  thumb  ov019
+ *   func_02034714  0x02034714  arm
+ *   d_021805A4     0x021805A4  data  ov019  a4
+ *   d_021803A0     0x021803A0  data  ov019  a1
+ *   d_0218050C     0x0218050C  data  ov019  a4
+ *   d_021804B4     0x021804B4  data  ov019  a4
+ *   d_021807F8     0x021807F8  data  ov019  a4
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct Pair {
+    u32 f0;
+    u32 f4;
+} Pair;
+
+typedef struct Ent {
+    Pair *p;
+    u8    b;
+    u8    pad5[3];
+} Ent;
+
+extern int  func_0217F310(char *p, u32 a1);
+extern void func_02034714(const char *a, u32 b, const char *c);
+
+extern const Ent d_021805A4[];
+extern const u8  d_021803A0[][2][2];
+extern const u32 d_0218050C[];
+extern const u32 d_021804B4[];
+extern u32 d_021807F8[];
+
+int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
+{
+    u32 key;
+    u32 i;
+    const Ent *e;
+    const Pair *pairs;
+
+    *hit = 0;
+    *flag = 0;
+    key = func_0217F310(p, a4);
+    switch (key) {
+    case (u32)-1:
+        return key;
+    case (u32)-2:
+        if (st[3] == 0)
+            return key;
+        e = &d_021805A4[st[3]];
+        pairs = e->p;
+        key = pairs[e->b - 1].f4;
+        break;
+    case 0x64:
+        return d_021803A0[st[0]][st[1]][st[2]];
+    case 0x96:
+        *flag = 1;
+        return d_021803A0[st[0]][st[1]][st[2]];
+    }
+
+    if (st[3] == 0) {
+        if (key == (u32)d_0218050C) {
+            if (st[0] == 4)
+                st[0] = 0;
+        } else if (key == (u32)d_021804B4) {
+            st[0] = 4;
+        }
+    }
+
+    for (i = 0; (i < 8) ? 1 : 0; i++) {
+        if (d_021805A4[i].p == (const Pair *)key) {
+            *hit = 1;
+            return i;
+        }
+        switch (st[3]) {
+        case 0:
+        case 1:
+            break;
+        case 2:
+            if (key < 5) {
+                st[0] = key;
+                *hit = 1;
+                return 1;
+            }
+            break;
+        case 3:
+        case 6:
+            if (key < 2) {
+                st[1] = key;
+                *hit = 1;
+                if (st[3] == 6)
+                    return 5;
+                return 1;
+            }
+            break;
+        case 4:
+        case 7:
+            if (key < 2) {
+                st[2] = key;
+                *hit = 1;
+                if (st[3] == 7)
+                    return 5;
+                return 1;
+            }
+            break;
+        case 5:
+            break;
+        }
+    }
+    func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+    return 0;
+}
