@@ -37,6 +37,18 @@
  *   handle `a` to [sp,#0x10]; ours gives r7 to the 0x7FC chain and then to `a`, and reloads 0x544 at each
  *   use. Tried without change: `a` declared last, a temp for the 020275E4 id, a struct array field for
  *   0x7FC..0x808, a struct field for the heap id (all 1037 bytes, identical output).
+ * note 2026-10-05 (wave D7 lane 12): still DIFF, but 2 bytes from EXACT (1240 vs 1240 bytes, was 1037).
+ *   Fixes: (1) rects declared in use order (r2, r1, r0) give the image slots 0x5C/0x54/0x4C; (2) the
+ *   third-file block (open by func_020275E4, the 0x5E0/0x5E4 calls, both loops, close) is a static inline
+ *   helper LoadIcons(p). Probes showed the `a` use in the 17-entry loop was what made `a` take r7 and
+ *   pushed the 0x544 CSE out; the inline parameter/local split makes `a` spill to [sp,#0x10] and 0x544
+ *   stay in r7, as in the image. Whole body then matches. Residue: +0x15A, the third argument (0) of
+ *   func_02049B40 is `movs r2,#0` in the image and `adds r2,r4,#0` (copy of the kept zero) in ours.
+ *   Probe: keeping `h` live across that call (close after it) turns it into movs, so the image has one
+ *   more live value there. Tried without change: 02049B40 third param as u16, int, void *, unprototyped;
+ *   0204B100 as (int, u8, u32); `k = 0x53` moved before the call; `w = 0x60` with `w * 4` for 0x180;
+ *   a `z` zero variable for 0204B100; separate handle variable for the 0x53 file; inline helpers around
+ *   02049B40 alone, [first open..02049B40], [first open..0204B100], [02049B40..020434DC], and one per file.
  * symbols:
  *   func_021B8F98  0x021B8F98  thumb  ov070
  *   func_021B9178  0x021B9178  thumb  ov070
@@ -99,19 +111,35 @@ extern void func_0204B3DC(u32, u32);
 extern void func_0204B92C(u32, u32);
 extern void func_021BB5A4(u8 *);
 
-void func_021B9280(u8 *p)
+static inline void LoadIcons(u8 *p)
 {
-    Tbl16 t;
-    Rect r0;
-    Rect r1;
-    Rect r2;
-    void *h;
     void *a;
-    u32 v;
-    u32 k;
     u32 m;
     u32 i;
     u32 z;
+
+    a = func_020490F4(func_020275E4(), *(u16 *)(p + 0x544));
+    *(u32 *)(p + 0x5E0) = func_0204AC18(a, func_020275E8(), 1, 0x80, 0, 3, *(u16 *)(p + 0x544));
+    m = func_020275FC(2);
+    *(u32 *)(p + 0x5E4) = func_0204AF28(a, m, func_02027600(2), *(u16 *)(p + 0x544));
+    z = 0;
+    for (i = 0; i < 3; i++)
+        *(u32 *)(p + i * 4 + 0x5E8) = func_0204A6C8(a, func_02027610((u8)i), z, 1, *(u16 *)(p + 0x544));
+    for (i = 0; i < 17; i++)
+        *(u32 *)(p + i * 4 + 0x59C) = func_0204A6C8(a, func_020275F8((u8)i), 0, 1, *(u16 *)(p + 0x544));
+    func_02049238(a);
+}
+
+void func_021B9280(u8 *p)
+{
+    Tbl16 t;
+    Rect r2;
+    Rect r1;
+    Rect r0;
+    void *h;
+    u32 v;
+    u32 k;
+    u32 i;
 
     *(volatile u16 *)0x04000050 = 0;
     func_0203F8F4(*(u16 *)(p + 0x544));
@@ -158,16 +186,7 @@ void func_021B9280(u8 *p)
     *(u32 *)(p + 0x570) = func_0204AF28(h, 0x17, 0x1A, *(u16 *)(p + 0x544));
     func_02049238(h);
     func_021BA6F4(p);
-    a = func_020490F4(func_020275E4(), *(u16 *)(p + 0x544));
-    *(u32 *)(p + 0x5E0) = func_0204AC18(a, func_020275E8(), 1, 0x80, 0, 3, *(u16 *)(p + 0x544));
-    m = func_020275FC(2);
-    *(u32 *)(p + 0x5E4) = func_0204AF28(a, m, func_02027600(2), *(u16 *)(p + 0x544));
-    z = 0;
-    for (i = 0; i < 3; i++)
-        *(u32 *)(p + i * 4 + 0x5E8) = func_0204A6C8(a, func_02027610((u8)i), z, 1, *(u16 *)(p + 0x544));
-    for (i = 0; i < 17; i++)
-        *(u32 *)(p + i * 4 + 0x59C) = func_0204A6C8(a, func_020275F8((u8)i), 0, 1, *(u16 *)(p + 0x544));
-    func_02049238(a);
+    LoadIcons(p);
     r2.x = 0x50;
     r2.y = 0xB8;
     r2.a = 1;

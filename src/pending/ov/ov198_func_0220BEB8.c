@@ -29,6 +29,12 @@
  *   add 0xC to a spilled 0x1EA0 and store it back. Wrote `k = 0x1F70` with p + (k - 0xD0) etc. and a block local
  *   `c = 0x1EA0; ... c += 0xC;` in each arm: mwcc still CSEs 0x1F70 into r4 and spills base. Next: find what
  *   raises pressure in the original so the 0x1F70 constant is rematerialised (slot*8 r4, tab r6, base r7).
+ * 2026-10-05 (wD7 lane10): still DIFF (450). New reading of the slots: the tail constants live in the HIGHEST
+ *   slots (0x58, 0x5c), one per tail block, above handle/off/rec. Tried plain P-> constants in the head with a
+ *   tail-only `c = 0x1EA0; m = f(*(void **)(p + c), 0x16); ... c += 0xC; ctx = *(u32 *)(p + c);` in each arm
+ *   (ctx read before 02045770 as in the original): 446, c is folded and the tails still derive from the 0x1F70 in r4.
+ *   The sibling 0220C0D0 address form `*(void **)(p + slot * 8 + 0x1F70)` / `(p + slot * 8)[0x1F74]` with no
+ *   tab/fl locals: 462. The original keeps fl + slot in r7 for the tails (`adds r7,r1,r4` after the head store).
  * symbols:
  *   func_02045778 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198

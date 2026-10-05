@@ -13,6 +13,16 @@
  * 2026-10-05 (wD6 lane07): still 9 bytes (arc/arr r6/r7 swap). Tried: the 0204A6C8 call and arr[i] store written in
  *   each if/else arm (rule 2 of the register-order idiom), a real Rec struct array for the p + i*0x4C records (closed
  *   0220D884), and a Ctx struct with int arr[6] at 0x24A4 (180 bytes, worse). No callee reads a missing argument.
+ * 2026-10-05 (wD7 lane13): still 9 bytes (arc r6 / arr r7, the original has arc r7 / arr r6). Probes: with the
+ *   final func_02049238(arc) removed, or either post-loop line removed, arc goes to r7 as in the original, so
+ *   arc's later uses push it to the lower register; the BC78 hold (j3) does not matter. No real source moved it:
+ *   the x selection and the A6C8 call in a static inline, a Heap(p) inline accessor, the loop in a static inline
+ *   (p, arc) and (p, arc, arr) (arr param 180 B), the ACEC/AF28 lines in a static inline, arr in an inner block,
+ *   x as a ternary or nested in the call, temps for the BC78/BCEC/BC3C results, an off = 0x250C local (+0x18 or
+ *   off += 0x18), a Ctx struct with a[26]/b[6]/c[6] at 0x24A4/0x250C/0x2524 (the arrays that siblings 0220E2F8
+ *   and 0220E684 use) with arr = p->a, arc as u32, arr as u32 *, int *const / register arr, one u32 local reused
+ *   for arr and the BC78 result, arr assigned before the open call (35 B). Raw `p + i * 4 + 0x24A4` (sibling form)
+ *   gives 180 B with 0x4C hoisted into r7 instead.
  * symbols:
  *   func_0220E340  0x0220E340  thumb  ov198
  *   func_020490F4  0x020490F4  arm

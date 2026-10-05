@@ -9,6 +9,8 @@
  * isa: thumb
  * status: DIFF
  *
+ * note: 2026-10-05 (wD7 lane16): still 13 bytes (slots). Tried: off declared last (after text), and the two off
+ *   assignments after `x = 0` (26 bytes). The enum local itself is a stand-in under the D7 rule.
  * note: 2026-10-05 (wD6 lane13): DIFF 13 bytes, size now 232 (was 224). off is an enum-typed local: off = k; off = off + 0xC; this keeps the image copy, add and two stores to the spill slot. Residue: stack slots only (image x 0xC, words 0x10, text 0x14, off 0x18; ours off 0xC, x 0x10, words 0x14, text 0x18). Declaration order does not move them. Hypothesis: in the image 0x24C is a compiler-derived temp from 0x240 (temps take the last slot), so the source has a plain 0x24C literal; the plain literal form here (224 B) does not derive it. If the enum type is judged a stand-in, revert to the literal form.
  *
  * note: 2026-10-05 (wD5 lane17): not changed. Re-read: the image stores a copy of 0x240 to [sp,#0x18], adds 0xC and stores again, so off is a non-foldable variable; every k/off spelling tried so far folds it. No new compile beat 224 bytes.

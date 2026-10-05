@@ -17,6 +17,11 @@
  *   declaration order of accumulators, u8 callee params. None changed the allocation.
  * 2026-10-05 (wD5 lane20): 131 -> 27 bytes. Levers: y0 and y1 copied into locals `by = y1; ay = y0;` assigned AFTER the dx abs (original keeps y1 in r4, y0 in r5 across the float calls; declare ay before by, assign by first), and the loop-invariant read of the stack u8 `*(u8 *)&y0` written inline in the loop call so it hoists after the n>0 guard. Declaring stepy before stepx gives 27. Residue: (1) x0 is a pure memory spill in the original (str r3,[sp,#4] first, x0 reloaded at every use: `ldr r0,[sp,#4]` before `subs r2,r0,r1`); ours copies r3 to r1 first, so dx and d use r1/r0 swapped; (2) spill slot order of stepx/stepy/hoisted y temp (original 0x10/0xc/8, ours 8/0xc/0x10). Not tried: anything that forces x0 into memory without an address-taking cast.
  * note 2026-10-05 (wD6 lane06): 27 -> 13 bytes. Levers: x0 typed u8 (the image spills it whole and reloads it at each use; int x0 is copied to r1 first), abs written as a static inline ternary `a < 0 ? -a : a` (sets x1 in r1 and the dy temp in r0 as in the image; the if-negate form does not), and the y0 read placed before the loop body inside an explicit `if (n > 0)` guard with a do/while (fixes the stepx/stepy/yb slot order 0x10/0xc/8). Residue: only the entry spill order: image `str r3,[sp,#4]; ldr r0,[sp,#0x34]; str r2,[sp]; str r0,[sp,#0x34]`, ours `ldr r0,[sp,#0x34]; str r3,[sp,#4]; str r0,[sp,#0x34]` with `str r2,[sp]` sunk below the x0 reload. Tried without effect: x0 as u16/s8/short, p as void *, value u32, for-in-if loop (worse), plain y0 instead of the ay/by copies (worse).
+ * note 2026-10-05 (wD7 lane03): still 13 bytes, same entry-order residue. Tried, all unchanged: a0/a1 as void *,
+ *   value as u16 (worse, 0x18 frame), p received as void * / u32 / u16 * and copied to a u8 * local, x0 received
+ *   as u8 and copied to an int local, value copied to a local before use; int x0 alone swaps the residue (str r2
+ *   early, str r3 sunk). Reading: the image's initial order has the x0 spill store before the value load; ours
+ *   puts the value load first, so the scheduler fills its stall with str r3 and sinks str r2.
  * symbols:
  *   func_021B9B88 0x021B9B88 thumb ov172
  *   func_0209BDBC 0x0209BDBC arm

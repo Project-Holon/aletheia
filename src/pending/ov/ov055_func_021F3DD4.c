@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD7 lane14): still DIFF 26 bytes. Tried: the second part (from the 021641E8 call to the end) as a static inline
+ *   Fin(p, a, xx, y0) (same 26, p/a swap stays). Same residue shape as ov020 02186470 (parameter copied first gets r5, first
+ *   long-lived call result gets r4).
  * 2026-10-05 (wave D6 lane 19): still DIFF, 26 bytes, p/a swap. Callee listings checked
  *   (rule 1): all six ov010 callees read r0 only, no hidden argument. Tried: the first part as a
  *   static inline returning a (same 26); the a <= 1 bound test as one ternary condition (worse, 188

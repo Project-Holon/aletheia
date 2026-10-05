@@ -34,6 +34,13 @@
  *   rec spills to [sp,#0xc] (original 0x24). Tried on top: u8 half (first put then passes half unconverted as in the
  *   original, but a spills and the frame grows to 0x38: 280), short half (280), u32 put x with a (short) cast in the
  *   arms (279), half computed in each arm (289), msg2/a/b declared first or after vec (279).
+ * 2026-10-05 (wD7 lane10): still DIFF (160). The original passes half to the first put with no s16 conversion and
+ *   is 4 bytes shorter than ours (412 vs 408): the conversion is the only size difference. Tried: half, t, a, b all
+ *   u8 with literal `b = 0` and a literal 0 third argument (280, frame 0x38); the same with an int put x and a
+ *   (short) cast in the arms (277); int half with an int put x and (short) in the arms (279: half now spills and is
+ *   passed unconverted as in the original, but p r5, b r6, t r7, and the 0x1EAC constant spills); font read inside
+ *   put (no change); half as a CSE of `(u8)((w * 8 - t - a - b) / 2)` written at both uses with a w local (167:
+ *   mwcc shares the /2, not the u8 value). Open: a source where half is known to fit in s16 while b keeps r7.
  * symbols:
  *   func_022110D4  0x022110D4  thumb  ov198
  *   func_020457B0  0x020457B0  arm

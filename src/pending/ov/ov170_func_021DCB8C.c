@@ -11,6 +11,12 @@
  *
  * note: DIFF vs 2026-10-04: 15 bytes differ, all in register-argument zeros. Original uses movs rN,#0 for a zero register argument at 7 places (2049B68 call with 0x3F r2, both 02040E78 r0, the four r3 zeros in the 2049658/20498F4/2049B68 calls after the palette block), ours emits adds rN,r5,#0 there. Loop counter must be u32 (blo). Tried: variable z vs literal 0 for stack zeros (no change).
  *
+ * 2026-10-05 (wD7 lane17): still DIFF 14 bytes. Reading: the image uses the zero register only for
+ *   stack stores up to func_02049238(arc), and for register zeros only after arc (r6) and the 1 (r7)
+ *   are dead, when arc2 takes r7. The same holds for 1 (stack r7, register movs) and 0x4c. The zero
+ *   register is also the loop counter i (no i = 0 before the loop). Tried: one handle variable
+ *   (arc reused for the second archive, no arc2): same 7 places. Open lead: the image
+ *   rematerialises register zeros while four callee-saved values are live.
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm

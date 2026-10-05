@@ -16,6 +16,10 @@
  *   bytes), the stores through a `struct Pt *` local, xv/yv as separate locals, idx copied into a one-field local
  *   struct (scalar-replaced, same), idx as a one-field struct parameter (push {r0-r3}, worse), a goto label between
  *   the copies and the call (removed), *(volatile u32 *)&idx at the third call (worse).
+ * 2026-10-05 (wave D7 lane 11): still DIFF, 36 bytes. Tried: the third call plus func_02008510 as a static
+ *   inline helper get_h(a, idx) (same 36 bytes). Reading: the original treats the [sp] reload like a memory
+ *   load that the rc byte stores may alias (it never passes them), so idx may be a real memory local in the
+ *   original; no legal source reason for that was found (address-taking idx is a stand-in).
  * symbols:
  *   func_021BE05C 0x021BE05C thumb ov172
  *   func_021B8BA4 0x021B8BA4 thumb ov172

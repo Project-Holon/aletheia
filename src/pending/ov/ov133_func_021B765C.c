@@ -41,6 +41,13 @@
  *   Tried: `u16 n = 0` initialiser (no change), `lim = n; lim *= 0x1249` (no change), the second loop
  *   with the field re-read in the condition and body plus n kept for k (no change). Next: find where a
  *   second def of n can sit without a store in the listing (sp+8 is only written at +0x13C).
+ * 2026-10-05 (wave D7 lane 04): DIFF, residue unchanged (533 bytes: prologue store order and the n
+ *   reload at +013C). Tried: a second def of n in the prologue (`n = field; lim = 0x1249 * n;`, no change:
+ *   n is still copy-propagated in the loop). Reading: in the original the three entry stores (base [sp],
+ *   rx [sp,#4], idx [sp,#0x2c]) all stay above the first p+0x181C load, as if they were memory-variable
+ *   stores that may alias it; ours sinks the rx store below the load. n at [sp,#8] behaves the same way
+ *   (store then reload). So base, rx, idx and n look like memory-resident variables in the original,
+ *   not allocator spills; the source cause is still not found.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133

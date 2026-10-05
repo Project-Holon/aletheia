@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD7 lane19): still DIFF (76 vs 80 B). New tests in case 3: an empty static inline with a u32 parameter called as nop_arg(mode) (copy removed, 76 B); dead stores `*(d+0xB4) = mode` / `*(d+0xB0) = 1` (kept, 88 B); `mode = 3;` (80 B but emits movs r4,#3 + b). Conclusion: the stub needs a copy that lives until register coalescing (as the rejected `state = mode`); no natural source found.
  * note (2026-10-05, integrator): D6 lane 17 got EXACT only with a redundant `state = mode;` in case 3 (`u32 state = mode; ... case 3: state = mode; break;`). Rejected as a stand-in: a redundant statement needs line-table evidence, and game overlays have none. The real source of the case 3 `b end` stub is still unknown.
  * 2026-10-05 (wD5 lane19): no new variant beyond the D2/D4 list; case 3 still merges with the end label (76 B vs 80 B).
  * 2026-10-05 (wD4 lane16): also tried empty static inline call, `if (mode == 100) {}`, `{ u32 t = mode; (void)t; }`, `for (;;) { break; }` in case 3: all 76 bytes, case 3 still merges with the end label. Residue unchanged.

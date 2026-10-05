@@ -7,22 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * 2026-10-05 (wave D5 lane 02): first full draft from the listing, DIFF (788 bytes differ, same 956-byte size,
- * all 49 call sites resolve). Structure follows ov172_func_021BA2C4: fifteen-object loop (stride 0x1c, three
- * objects each), objects at +0x400/+0x404, a 15-row loop with stride 0x24 (offsets 0x14A+n kept as locals),
- * 15 text windows, three 0xFF bytes, state clears. Residue is register colouring: original keeps a0 in r5,
- * p in r6, the heap id in r7 and the owner in r4; this draft puts a0 in r4, spills the heap id and hoists the
- * constants 0 and 1 into r7 and r5. Declaration order changes did not move it. Not a witness yet.
- * note 2026-10-05 (wD6 lane06): still DIFF (788 bytes). Listing facts for the next lane: i is a u8 spilled
- *   as a word at [sp,#0x18]; j at [sp,#0x14] is the same variable as the 0 stored to d.a/d.b (reloaded for
- *   each); the 0x400 slot is addressed as `lsls r1,r4,#0xa` from a 1 held in r4 that is also the space
- *   argument of the 0x400 and 0x404 objects (a local `one = 1`, D3 lever), while 0x404 is a pool word; the
- *   end test re-derives 0x400 as `movs #1; lsls #0xa`; the seven 0x14A offsets share one pool word.
- *   Main residue: the image keeps a0 r5, p r6, v r7, owner/row r4 and rematerialises 0 and 1 in loop 1;
- *   our build hoists 1 (seven uses in loop 1: the 018 index, the space argument, func_0204B92C) into r5
- *   and spills v. Tried: the `one` local (862 bytes, worse), v as u32 with u32 heap prototypes, v declared
- *   first or last, MK as a static inline function, row removed (inline p + i*0x1c + K). None stops the hoist.
+ * status:   EXACT
+ * Scene setup: fifteen rows of three sprite objects (stride 0x1c), the objects at +0x400 and
+ * +0x404, fifteen 0x24-byte entries with text buffers, fifteen windows, then state clears.
+ * note 2026-10-05 (wD7 lane03): EXACT. Closing levers: the d.z choice as an if/else (the ternary
+ * gave the inverted branch layout and changed the whole colouring), the missing `d.a = 0x10` in
+ * the third object of each row (logic error in the draft), row computed after the descriptor
+ * stores, and separate pointer locals for loop 2 and loop 3 (spill slots 0x10 and 0xc).
  *
  * symbols:
  *   func_021BE00C  0x021BE00C  thumb  ov172
@@ -89,6 +80,8 @@ void func_021BBA94(void *a0, u8 *p)
     u8 k;
     u8 z;
     u8 *row;
+    u8 *ent;
+    u8 *slot;
     u32 owner;
     int o1, o2, o3, o4, o5, o6, o7;
 
@@ -102,11 +95,11 @@ void func_021BBA94(void *a0, u8 *p)
     }
     d.b = 3;
     for (i = 0; i < 15; i++) {
-        row = p + i * 0x1c;
         d.x = 0x80;
         d.y = i * 32 + 0x10;
         d.z = 8;
         d.a = 0x20;
+        row = p + i * 0x1c;
         *(u32 *)(row + 0x48) = (u32)MK(a0, p, 5, 1, 9, 1);
         func_0204B3DC((struct Obj *)*(u32 *)(row + 0x48), 0);
         func_0204B92C((struct Obj *)*(u32 *)(row + 0x48), 1);
@@ -117,12 +110,16 @@ void func_021BBA94(void *a0, u8 *p)
         func_0204B3DC((struct Obj *)*(u32 *)(row + 0x4c), 0);
         d.x = 0xc8;
         d.z = 0x12;
+        d.a = 0x10;
         *(u32 *)(row + 0x50) = (u32)MK(a0, p, 5, 1, 9, 1);
         func_0204B3DC((struct Obj *)*(u32 *)(row + 0x50), 0);
     }
     d.x = 0xe0;
     d.y = 0xa8;
-    d.z = (func_021BE0EC(a0) == 0) ? 1 : 0xf;
+    if (func_021BE0EC(a0) == 0)
+        d.z = 1;
+    else
+        d.z = 0xf;
     j = 0;
     d.a = j;
     d.b = j;
@@ -149,21 +146,21 @@ void func_021BBA94(void *a0, u8 *p)
     o7 = 0x14A;
     o7 += 0xb9;
     for (j = 0; j < 15; j++) {
-        row = p + j * 0x24;
-        *(u32 *)(row + o1) = 0;
-        *(u32 *)(row + o2) = 0;
-        *(u32 *)(row + o3) = 0;
-        *(u32 *)(row + o4) = 0;
-        *(u8 *)(row + o5) = 0xff;
-        *(u32 *)(row + o6) = (u32)func_02030734(v, 0x64, 1, d_021C7234, 0xff + 0x4b);
-        *(u8 *)(row + o7) = 0;
+        ent = p + j * 0x24;
+        *(u32 *)(ent + o1) = 0;
+        *(u32 *)(ent + o2) = 0;
+        *(u32 *)(ent + o3) = 0;
+        *(u32 *)(ent + o4) = 0;
+        *(u8 *)(ent + o5) = 0xff;
+        *(u32 *)(ent + o6) = (u32)func_02030734(v, 0x64, 1, d_021C7234, 0xff + 0x4b);
+        *(u8 *)(ent + o7) = 0;
     }
     for (k = 0; k < 15; k++) {
-        row = p + k * 0x1c;
-        *(u32 *)(row + 0x40) = 0;
-        *(u32 *)(row + 0x44) = 0;
-        *(u8 *)(row + 0x58) = 0xff;
-        *(u32 *)(row + 0x54) = func_020450F0(6, 3, (u8)(k * 4 + 1), 0x19, 2, 0xa, 1);
+        slot = p + k * 0x1c;
+        *(u32 *)(slot + 0x40) = 0;
+        *(u32 *)(slot + 0x44) = 0;
+        *(u8 *)(slot + 0x58) = 0xff;
+        *(u32 *)(slot + 0x54) = func_020450F0(6, 3, (u8)(k * 4 + 1), 0x19, 2, 0xa, 1);
     }
     *(u32 *)(p + 0x2c) = func_020450F0(4, 1, 0x15, 0x15, 2, 0xa, 1);
     *(u32 *)(p + 0x30) = func_020450F0(4, 2, 9, 0x1c, 2, 0xa, 1);

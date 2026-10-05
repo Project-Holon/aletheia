@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ *
+ * note: 2026-10-05 (wD7 lane09): EXACT. The heap/off colour swap was the store order: p+0x14 = a6, then p+4 = heap, then p+0x18 = a7 (the image schedules them a6, a7, heap).
  *
  * note: 2026-10-05 (wD6 lane08): still DIFF 18 bytes, same heap/off swap (image heap r4, 0x588 offset r6). Changes kept: func_021BA810 returns the WH struct (t = func_021BA810(n), no raw/s copy), and plain literal offsets 0x588/0x58C/0x594/0x59C/0x574 (the compiler derives them from one 0x588 temp by itself; byte-identical to the off local). Tried with no change: ternary n, n = 0 after the memset, n declared before t, n = a4 - 1; n >>= 3, heap store moved first (worse, 26 bytes), off local declared first plus a heap copy local declared after it (both assigned at entry and late). Callees checked: func_021B9E04 is an empty bx lr, func_021B9DC0 passes r0..r2 through; no hidden argument found.
  *
@@ -58,8 +60,8 @@ void func_021B95A0(char *p, u32 heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u3
     func_02082BCC(p, 0, 0x5A0);
     if (a4 != 0) n = (a4 - 1) >> 3;
     *(u32 *)(p + 0x14) = a6;
-    *(u32 *)(p + 0x18) = a7;
     *(u32 *)(p + 4) = heap;
+    *(u32 *)(p + 0x18) = a7;
     func_021B9DC0(p + 0x14, heap, x2);
     func_021B9E04(*(void **)(p + 0x10), heap);
     t = func_021BA810(n);

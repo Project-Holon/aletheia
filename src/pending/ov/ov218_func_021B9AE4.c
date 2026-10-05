@@ -25,6 +25,12 @@
  *   d, so d is a word. The residue is one spill choice (image spills t, keeps d in r7; ours spills d into
  *   its incoming slot and keeps t in r7).
  *
+ * 2026-10-05 (wD7 lane17): still DIFF 81 bytes. Finding: declaring d as u8 gives the original
+ *   allocation exactly (d in r7 loaded first, t spilled to [sp,#0x18], a/b stored after t, frame
+ *   0x1c, push without r3); only the load differs (`add r0,sp,#0x30; ldrb r7,[r0]` versus
+ *   `ldr r7,[sp,#0x30]`). So the original d is a fresh value, not the param in its home slot, and
+ *   is word-sized. Also tried: u16 d (ldrh, same shape), s16 d, an enum-typed d, a one-field struct
+ *   by value (no change), `*(u32 *)&d` (156 B), a copy `n = d` scaled in place (`n *= 4`, no change).
  * symbols:
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EFA4 0x0201EFA4 thumb

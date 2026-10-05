@@ -27,6 +27,12 @@
  *           2026-10-05 wave D6 lane 15: still 4 bytes. Tried: volatile s8 hold (same 4),
  *           the 1 held in a local n set after the store (same 4), c as u32 (same 4), c as u8 (882),
  *           c as s8 (1024). The scheduler always puts movs r1,#1 above the strb.
+ *           2026-10-05 wave D7 lane 13: still 4 bytes. Tried: n = 1 set before the
+ *           func_021BE674 call and passed as the argument (same 4), the store through a raw
+ *           `*(s8 *)((u8 *)s + 7) = c` (same 4), the whole case-5 pair as one nested call with
+ *           the comma on the second argument and p assigned in the first (20). Callee heads
+ *           read no extra argument registers. The residue is only the order of two independent
+ *           instructions after the bl; no source shape tried so far moves it.
  *
  * symbols:
  *   func_020124E4 0x020124E4 thumb

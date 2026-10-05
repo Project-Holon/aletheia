@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD7 lane19): still DIFF 67. Probe: changing one 4 (call 9 r2) to 9 still CSEs 4 into r7, so 4 does not win r7 by use count over 0x807B. The ours-only copies (r2/r3 = r5/r7) start at call 8, the same point as in ov123 021D9D3C (late calls copy hoisted constants). Image: r4 0x7B, r5 0 (i), r6 h, r7 0x807B, no free callee-saved register for 4. Open: why 0x807B is not CSE'd from the pool.
  * 2026-10-05 (wave D6 lane18): DIFF 67. New reading: r7 is 0x807B only until the second open; after
  *   func_02049740 r7 is `base` (the loop uses (u16)r7). In region 1 the image CSEs only the stack-argument
  *   constants (0x7B r4, 0 r5) and 0x807B (pool); ours CSEs 4 (three register uses) into r7, and then all

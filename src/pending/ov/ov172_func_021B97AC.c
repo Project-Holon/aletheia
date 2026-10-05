@@ -49,6 +49,11 @@
  *   the IR order puts the third argument's constant before the fifth argument's stack store. Not retried:
  *   forms listed above. Untested idea: the 0x800 offset belongs to an inline helper returning the table pointer.
  * note 2026-10-05 (wD6 lane06): still 10 bytes, same residue. Tried: pos and the +0x800 sum as two locals assigned after the func_021BA15C call (`pos = 15C(); v = v + 0x800;` then the call); the 3rd argument as `(short *)((char *)func_021BA170(f10) + 0x800)` inline with the callee prototype (short *, int, int, unsigned short) as in ov172_func_021B9044.c; a static inline wrapper `DrawWave(ctx, st, v + 0x800, func_021BA15C(f10))` holding the 9 and 0xC000. None moves `movs r2,#2` above `str r0,[sp]`.
+ * note 2026-10-05 (wD7 lane03): still 10 bytes, same residue. Tried: a static inline Wave(ctx, st, base, off, pos)
+ *   with 0x800 passed as an inline parameter (unchanged; with the 170 call nested in the Wave call: 350 bytes);
+ *   the 170 call nested in the third argument with the 15C call as the fifth (unchanged); pos assigned in its own
+ *   statement before the call (unchanged). Reading: the image evaluates the third argument's constant before the
+ *   stack arguments, ours evaluates the stack arguments (5, 6) first; no source form tried so far moves it.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

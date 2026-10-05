@@ -49,6 +49,15 @@
  *   r == 3 path as "break" with the copies after the loop (worse). All callees checked: no hidden
  *   arguments (021D7CAC/021D7CC0/021D8438 are thunks that load their own r0).
  */
+/*
+ * 2026-10-05 (wave D7 lane15): DIFF, 18 bytes, unchanged. Residue: the 301-byte byte-copy loop has the
+ *   destination (&d_021D9E40.sav) in r3 and the stack source in r5; the original has dst r5, src r3, then
+ *   `mov r5,#0x13` after the trailing strb. Checked callees again: 02168040 and 02167FA8 take no hidden
+ *   arguments, 021D8438 is a veneer to 0x02085A38. No value merges at a join in the r == 3 block. Tried:
+ *   the r chain as a switch on the call result (332 bytes, worse), `int one = 1` for the 021D8438 argument
+ *   (same 18), static inline accessors for the source (SavOf(buf)) and for the destination (DstOf()), both
+ *   same 18. Open: what makes mwcc colour the struct-copy source before the destination.
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

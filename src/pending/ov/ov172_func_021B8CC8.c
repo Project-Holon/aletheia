@@ -69,6 +69,16 @@
  *   for the 1 parameters. A compound literal for the group-5 rect flips r7 but copies from a pool (worse).
  *   Next: find which zero store is not a literal in the original (a field set from another value, a store
  *   inside a callee, or a 1 hidden in a call argument).
+ * note 2026-10-05 (wD7 lane02): still DIFF, 417 bytes. New probes (not fixes): one extra non-register store of
+ *   the constant 1 (for example p+0xAC = 1 after the 0xA8 store) flips r7 to 1 and leaves 156 bytes; changing the
+ *   0x38 store from u8 to u32 (drops its adds r1,#0x38 address temp) also flips it and the whole body then matches
+ *   up to that store (70 bytes). Register-argument constants do not count (removing the 0 of func_02043B5C or
+ *   adding func_020409B4(1) changes nothing). So the score is uses plus address temps, not a plain use count.
+ *   Tried with no change: int/void * types for the word zero stores, s8 for the 0x38 byte, chained stores for the
+ *   0x80/0x84/0x28 and 0xA4/0/8 groups, a real struct type for p (fields at every offset), short x,y,z in the rect
+ *   (as in the matched ov216 caller), u8/int local for the 021B8B68 result, a void * first parameter for 021B8B68.
+ *   Worse: rc.a = rc.b = 0 chains (422), func_0204B3DC(p->x = func_0204B294(...), 1) (509).
+ *   Next: look for an address temp or store in the tail that the original does not have as a separate IR node.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;

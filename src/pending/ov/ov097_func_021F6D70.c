@@ -29,6 +29,12 @@
  *   prototype). The matched sibling ov198 func_0220D494 schedules its x + w1 chain early, as ours does;
  *   here the original evaluates the chain last, after the stack stores.
  *
+ * 2026-10-05 (wD7 lane17): still DIFF 25 bytes. Reading: blocks 1 and 2 schedule the arg-3 value
+ *   early; in block 3 the image keeps the w8 reload and add after the three stack stores, as a load
+ *   the scheduler may not move above stores. Ours treats the w8 reload as a spill and hoists the chain.
+ *   Tried: block-3 call through a static inline draw3(f, y, x, b, h) with x = r7 + w8 (same 25 B),
+ *   (s16)(w8 + r7) (same), volatile w8 (380 B, the volatile reload still goes first). The image
+ *   order (stack stores, r3, then r2 chain, then r0) looks like a simple arg-3 value in the IR.
  * symbols:
  *
  * symbols:

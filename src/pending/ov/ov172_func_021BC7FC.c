@@ -58,6 +58,11 @@
  *   operand at scheduling time (a copy of a variable that was later rematerialised as 1). Tried: `int one = 1;` at
  *   function top with found = one (propagated, 10 bytes), the same with an enum-typed one (10 bytes), found as an
  *   enum-typed local with found = 1 (10 bytes), found = 1 before the struct unseen store (542 bytes).
+ * 2026-10-05 (wave D7 lane 11): DIFF, still 2 bytes. Reading: the original store of found waits for the
+ *   unseen store (str r3,[r7,r1]) although its movs r0,#1 is ready at +016C, as if found were a memory
+ *   variable ordered after that store. Tried: kind field read into a local before found = 1 (10 bytes, the
+ *   store still follows its movs), found and diff as one local struct with found = 1 (scalar-replaced,
+ *   60 bytes, slots shift), a static inline wrapper is not applicable. Residue unchanged: +016C.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

@@ -30,48 +30,50 @@
  *   ((Slot *)p)[mode-7] writes; Big{pad[5]; Slot slots[]} with a pointer local gives the copy+mul
  *   shape but adds p+0x14 first (164/128, product reused). Modes 4/5: x/y source order, x read inline,
  *   a {x,y} struct copy (stores) and a {x,y} local (186/101), inline SetT(tgt, i, x, y): no change.
+ * 2026-10-05 (wave D7 lane 01): rewritten with a real struct: Big {int pad[5]; Slot slots[9]; Vec t[2];
+ *   int flag[2]} with Slot {enabled; Vec a,b,c,d; u16 e,f} (0x38 bytes), per-field writes through
+ *   p->slots[mode - 7] (array indexing gives the original `adds rX,idx,#0; muls` copy shape) and
+ *   p->t[i] / p->flag[i] for modes 4/5 with y read into a local first. Now 172/172 bytes, 27 differ
+ *   (was 170/153). Two residues left: (a) slot index in r1 and product in r4, the original has idx in
+ *   r4 and product in r1; (b) modes 4/5 load x (ldr r0,[r3,#0xc]) before y (ldr r4,[r3,#0x10]), the
+ *   original loads y first. Tried for (a): named/unnamed index, mode -= 7, unsigned idx, u8/u16/int
+ *   mode, a void * third parameter, the index in a shared function-scope local, an inline
+ *   SetSlot(p, idx, in); a byte-offset pointer form loses the copy shape. Tried for (b): x/y locals in
+ *   both orders and both declaration orders, y-only local, stores y first (keeps store order, worse),
+ *   {x,y} 8-byte struct copy, a Vec local assigned per field (adds a frame), inline SetT(p, i, x, y).
  * symbols:
  */
-
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 typedef struct { Vec a,b,c,d; u16 e,f; } Input;
-typedef struct { int pad[5]; int enabled; Vec a,b,c,d; u16 e,f; } Slot;
-typedef enum { M0=0, Mmax=0xffffffff } Mode;
-void func_021F546C(unsigned mode, const Input *in, char *p)
+typedef struct { int enabled; Vec a,b,c,d; u16 e,f; } Slot;
+typedef struct { int pad[5]; Slot slots[9]; Vec t[2]; int flag[2]; } Big;
+void func_021F546C(unsigned mode, const Input *in, Big *p)
 {
-    long index;
-    int x,y;
-    Slot *s;
     if (mode >= 7) {
-        index = mode-7;
-        p += index*56;
-        s = (Slot *)p;
-        s->enabled=1;
-        s->a=in->a;
-        s->b=in->b;
-        s->e=in->e;
-        s->f=in->f;
-        s->c=in->c;
-        s->d=in->d;
+        int idx = mode - 7;
+        p->slots[idx].enabled = 1;
+        p->slots[idx].a = in->a;
+        p->slots[idx].b = in->b;
+        p->slots[idx].e = in->e;
+        p->slots[idx].f = in->f;
+        p->slots[idx].c = in->c;
+        p->slots[idx].d = in->d;
         return;
     }
     if (mode == 4) {
-        y=in->b.y;
-        x=in->b.x;
-        *(int *)(p+524)=x;
-        *(int *)(p+528)=y;
-        *(int *)(p+532)=0;
-        *(int *)(p+548)=1;
+        int y = in->b.y;
+        p->t[0].x = in->b.x;
+        p->t[0].y = y;
+        p->t[0].z = 0;
+        p->flag[0] = 1;
         return;
     }
     if (mode == 5) {
-        y=in->b.y;
-        x=in->b.x;
-        *(int *)(p+536)=x;
-        *(int *)(p+540)=y;
-        *(int *)(p+544)=0;
-        *(int *)(p+552)=1;
+        int y = in->b.y;
+        p->t[1].x = in->b.x;
+        p->t[1].y = y;
+        p->t[1].z = 0;
+        p->flag[1] = 1;
     }
 }
-

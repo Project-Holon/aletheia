@@ -78,6 +78,16 @@
  *   its block must differ from the others (other jump target or other last statement); no source
  *   form found that gives this.
  */
+/*
+ * 2026-10-05 (wave D7 lane07): DIFF, 96 bytes unchanged. Listing re-read: 0x55F2 and 0x55F3 reach
+ *   the shared store at 021D6F46 by BACKWARD branches, 0x5208/0x5209/0x55F0 sub-case 3 by forward
+ *   ones; nothing else targets 021D6F54 (case 3's own copy). Tried (all 96 bytes): case 3 with a
+ *   block-local u32 temp (`t = f(); ret = t;`); all plain `ret = f(); break;` with only case 3 via a
+ *   temp (782, survivor moves to 0x5208); `default: break;` before case 3; case 3 `goto out` with
+ *   `out:` after the inner switch; case 3 `goto out` with `out:` after the outer default's assert
+ *   call. Reading: the cross-jumper merges case 3 post-RA in every form; the image's case 3 must
+ *   differ at merge time in a way no tried form reproduces.
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

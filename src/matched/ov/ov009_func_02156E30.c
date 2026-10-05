@@ -7,7 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ * 2026-10-05 (wave D7 lane 18): the blocker func_02060F18 is now EXACT in
+ *   src/matched/arm9/func_02060F18.c (old bit read first, two stores through a u16 pointer local).
+ *   This file stays MATCH only until the integrator regenerates the matched-label layout; then the
+ *   0x02060F18 relocation resolves and this file can be filed EXACT unchanged.
  * 2026-10-05 (wave D6 lane 19): still MATCH, blocked only by arm9 func_02060F18 (DIFF). New finding on
  *   that leaf: a u16 (or u8) RETURN type with `u32 old = *(u16 *)(p + 0x36); ... return old & 1;` stops the
  *   and-sink (gives `and; ...; mov r0,rX` as in the image), but the colours move (old in ip, v&1 in r2;

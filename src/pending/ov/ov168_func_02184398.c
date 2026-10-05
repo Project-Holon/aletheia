@@ -7,6 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * note 2026-10-05 (wD7 lane16): still 18 bytes (heap/size swap). Tried: `register u32 size` (folds, 108 B), a
+ *   one-field struct local for size (folds), a file `static const u32` size (folds), stores in field order
+ *   0..0x1c (116 B) and the size store moved before the aligned-pointer store (same 18). The enum local is
+ *   still the only form that keeps 0x120 live; by the D7 rule it counts as a stand-in.
  * note 2026-10-05 (wD5 lane18): tried `*(p+8) = size - 0x20` without the in-place decrement (same 18 bytes) and size assigned between the two calls (29 bytes). The colouring order is size > p > heap > b in ours, heap > p > size > b in the original; no source use of heap beyond the two (u16) casts is visible. Unchanged.
  * note (2026-10-05, wD4 lane17): still DIFF, 18 bytes, same heap/size colour swap. New tries: u16 heap parameter (96 bytes, worse), int heap, size assigned before the first call (39 bytes), size declared before buf, with the enum local kept. No change in the swap.
  * 2026-10-05 (wD6 lane20): still 18 bytes (heap/size colour swap). Re-checked: no callee reads a

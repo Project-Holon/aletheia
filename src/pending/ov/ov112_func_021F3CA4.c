@@ -53,6 +53,11 @@
  *   1<<16, 1<<12) that the allocator re-materialised for the argument copy; ours never CSEs them. The
  *   matched func_02048A24 callers (ov103 021B7C68, ov131 021D46EC) pass literal shifts and do not show
  *   this shape, so no witness for the source form yet.
+ * note (2026-10-05, wave D7 lane 01): fresh reading: r4 holds 1 in the head and later 0x04000060
+ *   (the DISP3DCNT base, reused as 0x04000050 = r4-0x10 and 0x0400004A = r4-0x16); r7 holds 3, then
+ *   &a (sp+0x30), then h. Tested one variable for both (u32 one = 1; ... one = 0x04000060; register
+ *   writes through it): byte-identical to the draft (524 bytes), the 1 is still propagated. Residue
+ *   unchanged: head 3/1 in r7/r4, tail r3 = r6.
  * symbols:
  *   func_02046440  0x02046440  arm
  *   func_0204044C  0x0204044C  arm

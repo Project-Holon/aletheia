@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note: 2026-10-05 (wD7 lane14): still DIFF 18 bytes. Tried: the v.x update written in both arms of the e != 0 test (123). Matched siblings 02185534/02185458 (same 020122C0/020124E8/02184CEC/020142A4/02014184 chain) give no new lever: they pass a parameter to 020142A4, here it is a literal 0. Residue unchanged: owner/r colour swap and the asrs/ldr order at the 02014184 call.
  *
  * note: 2026-10-05 (wD6 lane13): not improved, 18 bytes. Checked callee arities (020124E8, 02012B58, 020142A4, 02012138, 02013D5C, 02184CEC, 02158344, 020120F4): no hidden arguments. Tried: literal 0 instead of z (same), s16 return for 020142A4 (44 B), an s16 count local (42 B), int count parameter (same), r = 0 in an else arm (same), v.x update in each arm (123 B), the e/r block as a static inline helper (same).
  *

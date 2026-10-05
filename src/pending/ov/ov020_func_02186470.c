@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note: 2026-10-05 (wD7 lane14): still DIFF 13 bytes. Tried: char *items = base + 8 form as in the matched sibling 021862A8 (21 B, full a0/id + items/off swap), the loop body as a static inline Step(base, e, u16 id) (13, same), static inline GetId returning u32 (same) or u16 (88), u16 callee return with u16 id (79), Item *e = base->items + i and an explicit off local (15). Callee arities rechecked (02186BA8, 02186B2C, 02161ECC, 02161E78, 02161E60, 02013DE0): no hidden arguments. Residue unchanged: a0 r5 / id r4 (image a0 r4 / id r5).
  *
  * note: 2026-10-05 (wD6 lane13): DIFF 13 bytes (was 15). The first call is nested: id = func_02012AC8(func_020127A4(a0)) (020127A4 returns a0 + 0x114, 02012AC8 reads a u16 through it). The item array is a struct field (Box: 8-byte header, Item items[10] of 0x18 bytes, q at 0xF8 = 8 + 10*0x18); this gives the base/[sp,#4] double store and items/off in r4/r5 as in the image. Residue: a0 r5 / id r4 (image a0 r4 / id r5), because the hoisted (u16)id is placed before the items load. Tried: u32 callee + explicit (u16) cast (86 B), a key local before the loop (86-90 B), an Item *e local (15 B), continue form, void * a0: no change.
  *

@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wave D7 lane 18): still 4 bytes. Reading: the original beq lands on the `b end`
+ *   that is the fall-through of case 4's DWC_GdbShutdown call (the bgt/blt range fails go straight
+ *   to end), so the r == 0 edge targeted the block after that call. Tried: `if (r == 0) goto skip;`
+ *   with `skip:` inside case 4's if-body right after the call (threaded to end, same bne/b, 440 B).
  * 2026-10-05 (wave D6 lane 19): still 4 bytes (bne/b instead of beq onto case 4's `b end`).
  *   Tried: `if (r == 0) { } else { ... }` (empty then-arm, same bne/b). The r == 0 target is
  *   threaded to the tail before range fixing in every form so far.

@@ -38,6 +38,14 @@
  *   021C2A70 style), u16 id/cur, int k, u8/u16/short ev, bufA/sA declared first, volatile ev+flag+sys
  *   (wrong: caches &ev, reloads flag twice), `W(0x6d4) = W(0x698) = flag` (image reloads flag once for
  *   both stores; ours reloads per store, int flag forwards the 0).
+ * note (2026-10-05, wave D7 lane 08): still 1248 vs 1288, ev in r7, frame 0x85c vs 0x834. The image frame
+ *   holds exactly four spill slots (0x10 id2, 0x14 cur, 0x18 flag, 0x1c sys) above 0x10 bytes of outgoing args,
+ *   then sel at 0x20 and the bufs; ours has ten slots (each id web its own slot). Tried without effect on the
+ *   allocation: id and k as one local (webs are split anyway); sel[2]/buf[2] arrays with case 0xd on [0]
+ *   (both forms read count through a common sp base, no evidence either way); `W(0x6d4) = W(0x698) = flag`
+ *   and `W(0x6b4) = flag = 1` (copy propagation removes the temp, two reloads stay); flag and sys as fields of
+ *   one local struct (puts them at 0x18/0x1c as in the image, flag forwarded, ev still r7); switches 1 and 2
+ *   in a static inline helper taking ev and returning flag (no change).
  * symbols:
  *   ov208_func_021BC3B4 0x021BC3B4 thumb ov208
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208

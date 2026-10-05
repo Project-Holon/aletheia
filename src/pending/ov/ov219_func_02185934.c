@@ -8,6 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note (2026-10-05, wD7 lane14): still DIFF 357 (408 vs 404), but the mode 1 x clamps now have the image block shape:
+ *   `if (x + d1 < 0x3E00) W += d1; else W = 0x3E00;` and `if (x - d1 > -15872) W -= d1; else W = -15872;` (the image has
+ *   `bge L; b add; L: b store`, the old >= / <= order gave blt / bgt). The tail now matches up to the 4-byte shift; the whole
+ *   residue is the first part (W(0xC320) loaded into r4, 1 rematerialised in r1 and for 0x200). Also tried: an inline
+ *   Wm(p, m) = W(0xC320) & m for the first test, and for the first and 0x20 tests (same 357); the toggle as !H or a
+ *   ternary (different block shape, rejected).
  * note (2026-10-05, wD6 lane16): still DIFF (357, 408 vs 404). Tried: one static inline K(p, k, m) for all five key
  *   tests (295, worse: frame changes); `if (a & 1) {body} if (W & 1) {body}` and the else-if form (444); `!= 0` tests (same);
  *   a mask variable m = 1 reused for both masks and m << 9 (propagated, same). Reading: r4 = 1 in the image survives to
@@ -104,10 +110,10 @@ mul:
     }
     if ((b & 0x40) || (W(0xC320) & 0x40)) {
         if (H(0xC31C) == 1) {
-            if (x + d1 >= 0x3E00)
-                W(0xC2F4) = 0x3E00;
-            else
+            if (x + d1 < 0x3E00)
                 W(0xC2F4) += d1;
+            else
+                W(0xC2F4) = 0x3E00;
         } else if (x < 0x2020) {
             W(0xC2F4) += d1;
         }
@@ -115,10 +121,10 @@ mul:
     }
     if ((b & 0x80) || (W(0xC320) & 0x80)) {
         if (H(0xC31C) == 1) {
-            if (x - d1 <= -15872)
-                W(0xC2F4) = -15872;
-            else
+            if (x - d1 > -15872)
                 W(0xC2F4) -= d1;
+            else
+                W(0xC2F4) = -15872;
         } else if (x > 0x1300) {
             W(0xC2F4) -= d1;
         }

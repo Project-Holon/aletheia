@@ -33,6 +33,11 @@
  * note 2026-10-05 (wD6 lane10): still DIFF 10. heap is loaded with ldr (a u16 stack param in this
  *   compiler loads with ldrh elsewhere, for example ov194 021F1D58), so tried heap as u32 with every callee
  *   heap parameter u32 (func_021F51E4 too): same 10 bytes. Same family as 021F1E28 (entry move order).
+ * note 2026-10-05 (wD7 lane05): still DIFF 10. Parameter types move the entry spill stores (the lever that
+ *   closed 021F1E28): a2 u16 or u8 moves the a2 spill to the top (18); a3 u16 moves the a3 spill up (8,
+ *   heap load still after it); a2 and a3 both u16 (18); a3 int (12, asrs); mode u16/u8 (10); heap s16 (752
+ *   bytes), heap u8 (10). The heap load stays after the a3 spill in every spelling: the original emits the
+ *   a3 spill after the stack parameter load, the build before it.
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb

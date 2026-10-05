@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note (2026-10-05, wD7 lane16): still 8 bytes. Callee prototypes compared with the matched callers (no
+ *   u16/int clue). The e load sinks to the last slot before the call in ours; no new form tried changed it.
  * note (2026-10-05, wD6 lane20): still 8 bytes. Tried: a3/e as one by-value struct {x, y} split over
  *   r3 and the stack (192 bytes worse, the struct is spilled with push {r0-r3}). Observation: the e load
  *   always sits just before the first call, as if it had no use before the call; the original

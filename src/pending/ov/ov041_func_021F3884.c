@@ -40,6 +40,19 @@
  *   (case5 r 0x38, case4 r 0x34, case3 i4 0x30, i1 0x2C, ctx 0x28, s 0x24, row 0x20, case2 r 0x1C, sel 0x14, i1+1 0x10,
  *   r*2 0xC, case2 b0 8). The tail holds b0 in r5 (state dead) and &base in r7. Tried: s and ctx as a two-element
  *   array h[2] (scalar-replaced, no change), volatile s (1620 bytes, worse). Residue unchanged: s owns r7 in ours.
+ * note (2026-10-05, wD7 lane 06): still DIFF (1652 vs 1632 bytes). Fixed two logic errors from the listing:
+ *   the Anim byte fields are at +4 (F218F900 third argument, pool 0x021F419C), +5 and +6 (case 1 c/len,
+ *   pools 0x021F419D/0x021F419E); the draft read +4/+5 in case 1 and +6 in case 2. Case 1 now uses
+ *   row = w[0] before the F3F44 call, a fresh w[0] for .id and row for .k (matches the listing). The tail
+ *   loads w[0] into a row local before its F3F44 call (ldrb r5 before bl).
+ *   Allocator probe (not a fix): replacing the 4 uses of s in cases 3 and 6 with ctx makes mwcc spill s to
+ *   [sp,#0x24]; frame becomes 0xE8 and size 1632, with 0x708 in r7 in case 1 as in the image. Removing only 1
+ *   or 2 uses does not flip it. So the image ranks s below the per-case r7 values; a real source shape that
+ *   lowers s's rank is still missing. Tried without effect on s: distinct named locals per case (b, r, v,
+ *   idx, m, row), b0 as u8/int/u32, inline pair helpers taking s and b (BE700/BE6CC/BE674+BE6B0).
+ *   Next: case 1 has `blt L; adds; subs; b L; L:` (an empty else arm), so the clamp is an if/else into a
+ *   local, not a ternary; int c/t locals tried, registers still differ (image c r2, len r1, n r3, sum r0).
+ *   Image low spill slots: a0 4, case 2 b0 8, r*2 0xC, i1+1 0x10, sel 0x14, tail m 0x18, case 2 r 0x1C, row 0x20.
  *
  * symbols:
  *   func_021F3F18  0x021F3F18  thumb  ov041
@@ -108,7 +121,7 @@ typedef unsigned int u32;
 
 typedef struct { int x, y, z; } Vec;
 typedef struct { int id; int x, y, z; int k; } Ent;
-typedef struct { u16 a; u16 b; u8 c; u8 d; u8 e; u8 f; } Anim;
+typedef struct { u16 a; u16 b; u8 e; u8 c; u8 d; u8 f; } Anim;
 typedef struct { u16 a; u16 pad; u16 b; } E6;
 typedef struct { u8 pad[0x24]; u16 a; u16 b; u8 pad2[8]; int c; int d; int e; int f; int g; u8 pad3[4]; } Req;
 typedef struct { int a, b, c, d, e, f; } Six;
@@ -217,13 +230,13 @@ int func_021F3884(void *a0, int *state)
         if (func_0218F0E8(obj) != 0)
             break;
         row = w[0];
-        sel = func_021F3F44(w[1]) * 0x14;
-        v = *(int *)((u8 *)d_021F4320[row] + sel);
+        sel = func_021F3F44(w[1]);
+        v = d_021F4320[w[0]][sel].id;
         if (v == -1)
             return 1;
         *(u32 *)(w + 0x714) = func_02011428(0x8015, 0x79, v, w + 4, 0x708);
         *(u16 *)(w + 0x71A) = func_02011608(*(u32 *)(w + 0x714));
-        idx = (u16)*(int *)((u8 *)&d_021F4320[row][0].k + sel);
+        idx = (u16)d_021F4320[row][sel].k;
         n = *(u16 *)(w + 0x71A);
         len = d_021F4198[idx].d;
         *(u16 *)(w + 0x71C) = (d_021F4198[idx].c + len >= n) ? n - (len + 1) : d_021F4198[idx].c;
@@ -366,7 +379,8 @@ int func_021F3884(void *a0, int *state)
         func_0218F9C4(obj, &fin, *(u16 *)(w + 0x71E));
         w[3] = 1;
     }
-    idx = (u16)d_021F4320[w[0]][func_021F3F44(w[1])].k;
+    row = w[0];
+    idx = (u16)d_021F4320[row][func_021F3F44(w[1])].k;
     m = func_021A3074(func_02188CB4(ctx));
     if (*(u16 *)(w + 0x718) == *(u16 *)(w + 0x71A) - 1 - d_021F40B4[idx] && idx != 11) {
         func_0216D570(m, 0x8000);

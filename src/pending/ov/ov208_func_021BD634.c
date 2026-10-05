@@ -31,6 +31,13 @@
  *   copy does not let it sink), a block-local `struct Ov208Pos *pp = &pos;` set before the f4 store
  *   (same 8 bytes). The four instructions are pure ALU plus one store with no memory conflict, so
  *   only the scheduler's tie order differs; the D6 const-table lever (021C2238) does not apply here.
+ *
+ * 2026-10-05 (D7-08): still 8 bytes. Tried: the clear + desc copy + f34 store as a static inline ObjInit(p, desc)
+ *   with f4 after it (8 bytes); f34 and f4 stores in a static inline ObjFlags(p) (8 bytes); f4 before f34 in
+ *   source: the scheduler still emits str f34 first (needed to free r0) and then str f4 before the argument
+ *   moves (12 bytes, movs r7/movs r0 swap). The image puts the store after the three argument moves; mwcc keeps
+ *   source order among ready instructions, so the store must have been later in the IR than the argument setup,
+ *   which no plain C statement order before the call gives.
 
  * symbols:
  *   func_02082BCC  0x02082BCC  arm

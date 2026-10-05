@@ -22,6 +22,14 @@
  *   without `y = x0 + n` and B3/A3 locals for the stack arguments placed after it (no change: the scheduler, not the
  *   source order, places the n reload); volatile n (337); int prototype for x with (s16) casts (327). In the original
  *   the n reload is not moved above the outgoing stack stores; ours is.
+ * 2026-10-05 (wD7 lane10): still DIFF, 22 bytes. Read the scheduling: in the original, every spill reload before
+ *   the three 0201C724 calls stays below the outgoing stack stores (call 2 leaves the `ldr r0,[sp,#0x10]; str r0,[sp]`
+ *   stall open), so the n reload is blocked by a dependence, not by priority. In ours the n reload heads a 5-instruction
+ *   chain and fills the stalls. Tests: an int y in call 2 (needs a conversion) also hoists its reload above the
+ *   stores, so chain length drives the hoist in our build. n as a one-element array, n passed by address to a
+ *   static inline adder, n used alone as x (no add), u8 n: the reload still hoists. A new u8 local x for
+ *   x0 - (n >> 1) instead of reassigning x0: 328. No ex local, no tab local: no change; ctx1 inlined: 314.
+ *   Open: what makes the original x chain depend on the stack stores.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm

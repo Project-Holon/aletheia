@@ -8,6 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD7 lane14): still DIFF 17 bytes. Reading: the image computes the table address in r2/r3 because h (r0) and t (r1) are
+ *   already live, so the table chain comes after the h load in the IR; ours computes the CSE'd table value first (temps r0/r1), so
+ *   the scheduler cannot interleave. Tried: non-const extern table (same), u16 h local before the call (same, propagated),
+ *   f(q, t, v, v = tb(i), h) (same), static inline Add(q, t, i, u16 h / int h) (same). The arm9 callee func_0201F878 reads only
+ *   four arguments (the fifth is a dead stack argument, kept as in the matched sibling 02184EC0).
  * 2026-10-05 (wD6 lane16): still DIFF 17 bytes. Tried: static inline wrappers W(a, t, v, h) and W(h, a, t, v) calling
  *   f(a, t, v, v, h); Add(p, t, id) reading p inside; `v = d[i]` as the third argument with v as the fourth; a block
  *   with u16 h then u32 v locals. All keep the table load (CSE temp) before the stack argument.

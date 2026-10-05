@@ -21,6 +21,14 @@
  *   before t (204), argument order (p, a, b, n) (190), phase update as an inline adv(u16 *), phase as
  *   &s->v of a struct param, everything in one helper: the phase pointer stays in r1 (original copies
  *   it to r0 first). The draft below is still the closest by count (167); the inline form is in the note.
+ * note 2026-10-05 (wD7 lane05): still DIFF 167 (draft unchanged). Tried: the ov105 021B8734 body as one
+ *   static inline (lerp plus the func_02061CA4 call, n passed in): row lands in ip as in the original, but
+ *   190 differ; n computed inside the helper after g (204 bytes); statement order g, r, blue before the
+ *   table read (no change: the compiler always schedules the *phase reload and table chain first, the
+ *   original loads a first); param `step` reused for the sum and for t (t should be r2, 190); phase
+ *   update as a ternary or `ph -= 0x10000; *phase = ph;` (worse); phase as `void *` param copied to a
+ *   u16 pointer (no copy). Residue: phase pointer r0/value r1 at entry, and a (r5), g (r4), b (r3), t (r2)
+ *   with a loaded before the table chain.
  * symbols:
  *   tbl_020A1B38  0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm

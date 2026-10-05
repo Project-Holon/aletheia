@@ -7,24 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * 2026-10-05 (wD4 lane16): original stores the next state through one shared `str r0,[r5]` (arms do `movs r0,#2; b end`), and the v==4 / v==0xFFFF test ends with a `b` to the next instruction. Tried `if (v==4||v==0xFFFF){*state=2;break;}*state=3;`, inverted nested ifs, goto s2/s3 and an empty then-arm: all 248 bytes (4 short), so the extra branch is not reproduced. Case 2 r1 load untouched.
- * note: 2026-10-04 Residue: 12 bytes plus the shift they cause. (1) Original compiles the v==4 || v==0xFFFF test as 'beq L2; ldr pool; cmp; bne L3; b L2' with a branch to the next instruction; ours (else-if form kept here) emits 'bne X; b L2; X:' and the || and switch forms drop the extra b (2 bytes short). (2) Case 2: original loads ctx->10 into r1 ('ldr r1,[r4,#0x10]; ldrh r0,[r1]'), ours uses r0. Tried: ||, ternary, switch (several layouts), nested if, u32/int/u16 v, pointer locals. Case 4 matches with a local h = ctx->8 read after q.
- *   2026-10-04 (D2): goto form (if (v==4) goto s2; if (v==0xFFFF) goto s2; else goto s3; s2/s3 blocks after) gives the
- *   original beq L2 / ldr / cmp / bne L3 order but drops the trailing b-to-next, so the function is 2 bytes short.
- *   Local q/w pointer for case 2 did not move the r1 load. Both residues stay open.
- * 2026-10-05 (wD5 lane16): the extra `b` to the next instruction is closed: case 1 is
- *   `if (v != 4) { if (v == 0xFFFF) *state = 2; else goto s3; } else *state = 2; break; s3: *state = 3;`
- *   (the inner store 2 is cross-jumped onto the outer one and leaves the `b`). 252 bytes, only the case 2
- *   residue is left: original `ldr r1,[r4,#0x10]; ldrh r0,[r1]`, ours uses r0. Tried for it: function-scope v,
- *   function-scope pointer p shared with case 1, `r = 0` default then set 1, ternary with comma calls, the value read
- *   into `ret` (r0 holder), one pointer local shared with the case 4 strh base (r1 there), the case 2 body as a static
- *   inline `Finish(msg, ptr)` helper. None move it.
- * 2026-10-05 (wD6 lane12): still DIFF, 2 bytes (case 2 `ldr r1,[r4,#0x10]; ldrh r0,[r1]`, ours r0/r0). For r1 the
- *   pointer must interfere with a value in r0 there; nothing in our case 2 is live in r0 (ret is dead). Tried: the
- *   *(msg+2) store written in each arm (rule 2), an inner switch on the halfword with case 4 / default, the
- *   halfword read as `*(u16 *)*(u32 *)(ctx + 0x10)`, *msg in a local returned at the end (wrong logic, moves *msg to
- *   r5 only). None move the pointer to r1.
+ * status: EXACT
+ * note 2026-10-05 (wD7 lane15): closed. func_021C414C takes a second argument (u8 *p, its matched
+ *   definition reads r1), so case 2 keeps the ctx+0x10 pointer in r1 for that call.
  * symbols:
  *   func_02031330 0x02031330 arm
  *   func_02031348 0x02031348 arm
@@ -51,11 +36,11 @@ extern int func_02034AC4(int handle);
 extern void func_02034A5C(int handle);
 extern int func_0202411C(void *a);
 extern void func_02024134(void *a, void *b);
-extern u16 func_02024124(void);
+extern u16 func_02024124(u16 *p);
 extern void func_020240FC(void *a);
 extern void *func_02008C58(void *sys);
 extern u32 func_02008DF0(void *obj, int i);
-extern void func_021C414C(void *a);
+extern void func_021C414C(void *a, u8 *p);
 extern void func_021C3FC8(void *a, void *b);
 extern u8 ov136_id[];
 extern u8 D_021C7750[];
@@ -90,8 +75,9 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
     case 2:
         if (*msg == 1) {
             u32 r;
-            if (**(u16 **)(ctx + 0x10) == 4) {
-                func_021C414C(*(void **)(msg + 10));
+            u8 *p = *(u8 **)(ctx + 0x10);
+            if (*(u16 *)p == 4) {
+                func_021C414C(*(void **)(msg + 10), p);
                 func_02008DF0(func_02008C58(*(void **)(msg + 8)), 0x1D);
                 r = 1;
             } else {
@@ -115,7 +101,7 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
             if (q[2] < 3)
                 func_02024134(h, q + 0x16 + q[2] * 8);
             else
-                *(u16 *)(*(u8 **)(ctx + 0x10) + 0x32) = func_02024124();
+                *(u16 *)(*(u8 **)(ctx + 0x10) + 0x32) = func_02024124(*(u16 **)(ctx + 8));
         }
         func_020240FC(*(void **)(ctx + 8));
         func_02034A5C((int)ov136_id);

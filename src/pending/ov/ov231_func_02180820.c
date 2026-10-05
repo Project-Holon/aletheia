@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-05 (wD7 lane19): still DIFF 20. Note: the enum k is a likely stand-in under the D7 rule. Tested natural macro forms (NitroSDK OS_TicksToMicroSeconds shape): s64 d with `(u64)(d * 64 * 1000) / 33514` folds to 64000 (212 B); `(u64)(d * 64) * 1000 / 33514` and `(u64)(64 * d) * 1000` (s64 and u64) keep a separate *1000 _ull_mul and share ONE hoisted zero for both high words (as the image), but turn *64 into lsls/lsrs #6 (228 B, 60 differ). `1000u/33514u`, `1000ull/33514ull` with the enum: 20 differ; `d * k` (signed enum): asrs high word, 28 differ. Open: a source where *64 is a real _ull_mul without an enum.
  * note (2026-10-04): DIFF. Logic and all calls/relocations resolve; residue is the two ms-wait loops. Original hoists 0x40 (r7) and zero (r4) out of the loop and builds 1000 (movs 0xfa; lsls #2) after the first _ull_mul; ours hoists the 1000 constant instead (movs r7,#0xfa). Tried a single *64000-style expression (folds to one mul) and a static inline ms() with m=t*64; m*=1000. Data externs d_02180A20 (struct {int; u8 *f4; u8 *f8}), d_02180A30 (u8), d_02180A00 (u16) assumed from pool words.
  *
  * 2026-10-05 (wD5 lane20): tried u64 k = 64 as a function local and as a file-level static const u64 k, with m = diff * k; m = m * 1000 as separate statements inside a do/while: still strength-reduced to lsls/lsrs #6 shifts. The 64 is not kept as a run-time _ull_mul operand by any local or static form tried.

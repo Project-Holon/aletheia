@@ -60,6 +60,13 @@
  *   0 in r5 is shared with the loop counter i (i = 0 of the next loop). Tried: a struct {_00,_01,_10,_11} with
  *   _00, _11 then zeros (same 4 bytes), _01/_10 before _11 (worse, the zeros move before the call), an
  *   aggregate initialiser {f(s), 0, 0, f(s)} (worse).
+ * note 2026-10-05 (wD7 lane02): still DIFF, 4 bytes (same swap). Probe: with the next loop starting at 1 the zero
+ *   goes to r0 and `movs r0,#0` lands after `str r0,[sp,#0x44]` as in the original; only the r5 zero shared with
+ *   i is scheduled first. Tried with no change: long/u32 m, const int * and u32 address prototypes for
+ *   func_0207D59C, u32 zero parameters, m declared in the inner block, a struct {a,b,c,d}, long/u32 return of
+ *   func_0207C778, `i = 0` written right after the m[3] store, s = 0 reused for the zeros, a separate u8 counter
+ *   for the halve/double loop (declared before or after s). Worse: m[2] before m[1] (6), an inline scale22(m, x, y)
+ *   helper (595).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

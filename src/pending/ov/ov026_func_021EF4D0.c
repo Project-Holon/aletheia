@@ -8,6 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD7 lane18): still DIFF 190 vs 188. Tried `c[0] = c[0] + (c[4] = c[2] + b16)` (chained
+ *   store of the delta, hoping the scheduler sinks the c[4]/c[5] stores): 166 B, c[4]/c[5] reloaded and
+ *   the tails cross-jump, worse. Open point: the original CSEs index 2 into r7 (callee-saved) but
+ *   rematerialises index 0; ours keeps both 0 and 2 in scratch registers.
  * note 2026-10-04: DIFF, 190 bytes vs 188. Semantics settled: c is an s16[6] record (pos x,y at 0,1;
  *   velocity pair at 2,3; last delta pair at 4,5); q+0x16/+0x18 are s16 deltas; pt = pos/8; off-screen
  *   (x >= 0x100 or y >= 0xC0) calls func_021A21E0 else func_021A26C4. Residue: original pushes r7 and keeps

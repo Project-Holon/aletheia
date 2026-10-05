@@ -26,6 +26,12 @@
  *
  * 2026-10-05 (D4-18): still DIFF, 48 bytes. Tried: int o = 0x539 as loop-local and function-scope local with p[i + o - 4] for the 0x535 read (same output: the compiler hoists o-4 into r7 and reloads the 0x539 pool word per use, the original does the opposite and spills o-4 to [sp,#0x14]); first loop with no q/e locals (raw p[c + 0x535] repeated, 252 bytes, worse); second loop with *(u8 **)p repeated instead of s (no change). The original has one extra live value in the second loop (frame 0x18) that the source has not yet been found to supply.
  *
+ * 2026-10-05 (wD7 lane17): still DIFF 5 bytes. The pointer forms all put p + c*0x90 first in the
+ *   final add. An integer sum `(u8 *)(q[0x535] * 4 + (u32)(p + c * 0x90))` gives the original add
+ *   order (idx*4 first) but evaluates c*0x90 after the idx load and shifts r/k to r3/r4 (22 lines).
+ *   Also tried: `u32 *e` with `e += idx`, `e + n + 0x150` with n local, u16 element pointer at +0x150,
+ *   Ent struct array at +0x150, `(Ent (*)[0x24])(p + 0x150)` 2D form (244 B), c as u8/u32, a row
+ *   pointer or a `u32 off = c * 0x90` local with the integer sum (same 22 lines).
  * symbols:
  *   func_02048F60 0x02048F60 arm
  *   func_020081DC 0x020081DC thumb

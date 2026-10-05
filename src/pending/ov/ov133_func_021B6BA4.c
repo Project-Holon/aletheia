@@ -36,6 +36,16 @@
  *   the r3 zero parameter of the three loaders, every loader call wrapped in do { } while (0), one
  *   static inline helper holding calls 2..12 (all no change). The original never copies a constant into
  *   an argument register over about 25 calls, so its zeros for r2/r3 are not one value with the r6 zero.
+ * 2026-10-05 (wave D7 lane 04): DIFF, residue unchanged (619 bytes). New finding: the switch from fresh
+ *   movs #0 to adds rN,r6,#0 copies at the 8th loader call is real compiler behaviour, not a draft error:
+ *   the ORIGINAL of ov131 func_021D4964 (same loader sequence, EXACT* there) starts its adds r3,r4,#0
+ *   copies at its 8th loader call. So this original differs in source structure: its register zeros are
+ *   never in one class with the r6 zero. Tried: a plain `u32 z = 0` local for the stack zeros (fully
+ *   propagated, no change); static inline loaders that hold only the r3 zero and take the stack zeros as
+ *   parameters (transparent, no change); an enum-typed compressed-flag parameter with an enum constant
+ *   argument (no change). The note copy in docs/notes reaches 32 bytes only with an
+ *   enum-typed zero local (a stand-in by the D7 rules); even there the copies start at call 9.
+ *   Next: a source shape where the stack/struct zeros (r6) are not the int constant 0.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

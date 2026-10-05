@@ -21,6 +21,10 @@
  *   for the 0x978/0x984/0x988 fields, u8 c20, const and volatile heap parameter (volatile homes r0-r3, worse),
  *   *(u32 *)&heap at the last call (worse), variadic prototypes (int,int,int,int,...) and (...,int,...),
  *   returning the call result. None moves the load.
+ * 2026-10-05 (wD7 lane20): DIFF, same 10 bytes. Replaced the c20 = 0x20 local with literals: identical output
+ *   (mwcc keeps 0x20 in r6 itself). Tried the last call through a static inline wrapper (heap parameter):
+ *   same. Reading: the image picks str r6,[sp] before the heap reload; both become ready after the
+ *   p+0x988 store; ours picks the load. No source form found.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -75,7 +79,6 @@ void func_021D7D0C(u8 *p, u32 heap) {
     int m;
     int n;
     int sh;
-    int c20;
     u8 *a;
     u8 *b;
     arc = func_020490F4(0x91, heap);
@@ -119,10 +122,9 @@ void func_021D7D0C(u8 *p, u32 heap) {
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     p[0x978] = 0;
     func_02049238(arc);
-    c20 = 0x20;
-    func_0203FA08(1, c20, 0);
-    func_0203FA08(2, c20, 0);
+    func_0203FA08(1, 0x20, 0);
+    func_0203FA08(2, 0x20, 0);
     *(void **)(p + 0x984) = func_0201F5DC(1, 0xd, 0, heap);
     *(void **)(p + 0x988) = func_0201F5DC(2, 0xd, 0, heap);
-    func_02049B40(0x17, 5, 0, 0x180, c20, heap);
+    func_02049B40(0x17, 5, 0, 0x180, 0x20, heap);
 }

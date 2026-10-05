@@ -18,6 +18,11 @@
  *   c u16 pins str r2 to the very front. Not adopted: the ov093 caller (021CD87E) passes an int
  *   (func_021B9FBC result) for d, so the parameter is word. The image order a, d, b, c, heap, tag, site
  *   looks like an unscheduled prologue; no source form found that keeps the tag load below the heap load.
+ * 2026-10-05 (wD7 lane20): still DIFF 14 bytes. Tried: a dead label before the alloc call (no block split,
+ *   same 14); c and d as one 8-byte struct parameter (homes r0-r3, 156 bytes); the tag as the address of a
+ *   data symbol at 0x1D9 with a u32 callee parameter (same 14: pool loads are hoisted either way). The image
+ *   keeps both pool loads (tag, site) below the parameter homing and the heap load, as if the homing code
+ *   were scheduled apart from the body.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm

@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD7 lane18): DIFF 91 B (was 198 B). The GX writes are now plain constant addresses
+ *   (0x040004A4, 0x04000500, 0x04000480, 0x0400048C, 0x04000504) and the z word is the constant 0x4000:
+ *   mwcc itself derives them from the 0x040004A4 pool word (r+0x5C, r-0x24, r-0x18, r>>12, r+0x60) and
+ *   spills the base exactly as the original (pool order and preheader now match up to slot numbers).
+ *   px, x, py, y are now read in listing order (px; x = px + q.x; py; y = py + q.y).
+ *   Residue: the original spills i and n ([sp,#4], [sp]) and keeps e (then y) in r7; ours keeps i in r7
+ *   and spills e and y, so the frame is 0x2c with push {r4-r7}. Tried: declaration orders, e declared in
+ *   the loop, while loop, u8 n, u8 i/n, an inline vtx16 helper with re-read p->c.x (worse, 280 B).
  * 2026-10-05 (wD5 lane19): still DIFF 198 B. Tried: u32 i/n, const base pointer through the whole chain (callee prototypes const), const callee prototypes only: allocation unchanged (orig keeps i and n on the stack, e in r7).
  *
  * Note 2026-10-04 (wD2 lane12): decoded. Original is the same GX writes with every hoisted address kept on the stack by the allocator (copy then add spill pairs). p offsets 0x1b4/0x1b6/0x1ba/0x1bc are 0x1ac (spilled const) + 8/0xa/0xe/0x10: model p as struct Big { u8 pad[0x1AC]; struct Cam c; } with c = {u8 cnt; pad[7]; s16 x,y,z; Ent t[]} so each field gets its own hoisted offset (this draft, 252 bytes; original 244, frame 0x28). Keep (u32)r +- K arithmetic for the GX regs (r[0x17] index form folds the constant, wrong). Open: q = p + b*6 then ldrsh [q, 0x1ba]; hoisted-offset count and slot order.
@@ -54,36 +62,35 @@ extern void func_021C1B28(u8 *e, u8 *a, u8 *b);
 void func_021C13E8(struct Big *p)
 {
     u8 b[2];
-    volatile u32 *r;
     u8 *e;
     int n;
     int i;
 
     if (func_021C1D28((u8 *)p) == 0) {
-        r = (volatile u32 *)0x040004A4;
-        *r = 0x001F00C0;
+        *(volatile u32 *)0x040004A4 = 0x001F00C0;
         n = p->c.cnt;
         for (i = 0; i < n; i++) {
             e = func_021C1AB4((u8 *)p, i);
             func_021C1B28(e, &b[1], &b[0]);
             if (e[8] >= 3) {
                 struct Big *q = (struct Big *)((u8 *)p + b[1] * 6);
-                s16 px = p->c.x;
-                s16 py = p->c.y;
-                s16 x = px + q->c.t[0].x;
-                s16 y = py + q->c.t[0].y;
+                s16 px, py, x, y;
+                px = p->c.x;
+                x = px + q->c.t[0].x;
+                py = p->c.y;
+                y = py + q->c.t[0].y;
                 u32 va, vb;
-                *(volatile u32 *)((u32)r + 0x5C) = 0;
-                *(volatile u32 *)((u32)r - 0x24) = 0;
+                *(volatile u32 *)0x04000500 = 0;
+                *(volatile u32 *)0x04000480 = 0;
                 va = ((u32)(u16)py << 16) | (u16)px;
                 vb = ((u32)(u16)y << 16) | (u16)x;
-                *(volatile u32 *)((u32)r - 0x18) = va;
-                *(volatile u32 *)((u32)r - 0x18) = (u32)r >> 12;
-                *(volatile u32 *)((u32)r - 0x18) = va;
-                *(volatile u32 *)((u32)r - 0x18) = (u32)r >> 12;
-                *(volatile u32 *)((u32)r - 0x18) = vb;
-                *(volatile u32 *)((u32)r - 0x18) = (u32)r >> 12;
-                *(volatile u32 *)((u32)r + 0x60) = 0;
+                *(volatile u32 *)0x0400048C = va;
+                *(volatile u32 *)0x0400048C = 0x4000;
+                *(volatile u32 *)0x0400048C = va;
+                *(volatile u32 *)0x0400048C = 0x4000;
+                *(volatile u32 *)0x0400048C = vb;
+                *(volatile u32 *)0x0400048C = 0x4000;
+                *(volatile u32 *)0x04000504 = 0;
             }
         }
     }

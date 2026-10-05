@@ -39,6 +39,16 @@
  *   (h = &sz: the parameter goes to the stack, 365 bytes worse; hdr is a separate local at [sp]).
  *   Reading: the result temp is coalesced with sz in every form; the original coalesces it with r0.
  */
+/*
+ * 2026-10-05 (wave D7 lane07): DIFF, 2 bytes unchanged (+CC str, +D0 cmp use r4, image r0).
+ *   Tried (all identical, 2 bytes): if/else polarity swapped (`if (sz == -1)` first: 54 bytes worse,
+ *   so the then-arm is sz != -1); tmp declared in the inner block; tmp declared last; the call
+ *   through a static inline helper (returning the value, or also storing hdr through a W4 pointer);
+ *   the dead parameter x reused as the result temp; sz = f(id) with the check read through
+ *   `*(int *)&hdr`. Comparing the result against the old sz (== -1 in that arm) makes the old sz
+ *   live across the call: 380 bytes worse (frame changes). Reading: mwcc coalesces the call
+ *   result with sz in every source form; the image keeps it in r0. No source lever found.
+ */
 typedef struct { int w[0x138 / 4]; } Blob;
 typedef struct { unsigned char b[4]; } W4;
 extern void func_021D7CAC(void);

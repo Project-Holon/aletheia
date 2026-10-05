@@ -73,6 +73,12 @@
  *   Open: frame 0x24C vs 0x254 (8 bytes of locals missing, every sp offset is 8 low), attr (obj+0x90)
  *   stays in r5 where the original spills it to sp+0x5C, the zero/kind registers in the obj head
  *   (original zero r2, kind r3; ours zero r3, kind r1), and everything after 021F57BC not re-checked.
+ * note (2026-10-05, wave D7 lane 01): read only, no new build. The original spills attr (obj+0x90) to
+ *   sp+0x5C and reloads it three times for the attr word (021F59EE, 021F59F0, 021F5A00); r5 is a
+ *   short-lived temp there (0x10C offset at 021F59A6). So the original has more long-lived values than
+ *   ours; the 8 missing frame bytes are likely two more spilled locals. Also: the callback arg is
+ *   ov112 func_021F546C (mode = (u8)pt->f4, in = &cb.pos, p = obj->fF8), see that draft for the
+ *   0x38-byte slot layout of obj->fF8.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
