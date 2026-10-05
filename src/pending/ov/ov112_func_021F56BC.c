@@ -274,6 +274,22 @@
  *   `Z * cos` operand order (5 B, same).  Also off: opt_unroll_loops, opt_vectorize_loops, opt_findoffsets (5 B).  mwcc
  *   SpillCode.c: spill cost is use count times block weight; earlier lanes' extra-use diagnostics did not move the pair, so
  *   slot order is not cost-driven.  Twin arm9 func_02014D2C re-read: no k-body pr rotation, nothing to borrow.
+ * note (pass 2 2026-10-06 P2L09): residue unchanged at 5 bytes; the body is unchanged.  40 real compiles.
+ *   Slots low to high of the triple j*8 / cos(pr) / pr (flag 0x3C in all rows unless said):
+ *   - `#pragma opt_strength_reduction off`: cos 30, pr 34, j*8 38 (6 B), the same as `long j`.  So strength
+ *     reduction is what ranks j*8 below cos.  Under SR off: pose.rot for pr everywhere, pr at j-body or function
+ *     scope (3 positions), u16 pr with an int/u32 `pi = pr >> 4` index, `(pr = pose.rot) + sub.rot`: SR-off row
+ *     (6 to 7 B); int or u32 pr: cos 30, j*8 34 (correct), flag 38, pr 3C (9 to 10 B); pose.rot in ang only:
+ *     pr 30, cos 34, j*8 38 (8 B).  SR off plus opt_loop_invariants off: 1501 B; plus opt_lifetimes off: SR-off row.
+ *   - SR on, pose.rot spelled in ang only (pr kept for s2 and both cos reads): pr 30, j*8 34 (correct), cos 38,
+ *     5 B.  In that form, same 5 B and same slots: ang before `pr = pose.rot`, pr declared at function scope,
+ *     j-body scope or first in the k body, pr assigned right before s2, SinA/CosA(u16) inlines on pr.  Back to
+ *     the base order (5 B): int pr, an int `pi = pr >> 4` or `pi = pose.rot >> 4` index, SinA/CosA(pose.rot).
+ *     u32 pr 6 B; plus long j 8 B.  pose.rot in rz cos only 653 B, rx cos only 505 B, both cos or s2 only 10 B.
+ *   - j*8 written as `(char *)ents + (j << 3)` at all three uses: base slots, 6 B (add operand byte); at the head
+ *     only or the k loop only: 1040 B (CSE lost).  opt_loop_invariants plus opt_lifetimes off: 5 B (base).
+ *   Four orders of the triple are reachable (j8<cos<pr, cos<pr<j8, pr<j8<cos, cos<j8 with pr above flag); the
+ *   original cos<j8<pr<flag was not produced.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
