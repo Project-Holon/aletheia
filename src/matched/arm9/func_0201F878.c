@@ -38,7 +38,7 @@ extern struct Slot *func_0201F8B8(struct Slot *s, u32 *tag_out);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag)
+void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap)
 {
     struct Slot *slot;
     u32          unused;
