@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (push {r3, r4} with no lr), reached through the ov010
  * tail-call thunk func_02162A64.  Blocker of ov061 func_021F388C.

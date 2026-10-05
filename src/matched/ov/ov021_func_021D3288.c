@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled 10-byte leaf (movs/strh/str/str/bx lr) between labelled code;
  * called from func_021C622C.

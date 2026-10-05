@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Cleanup helper. The +0xDC word is freed and cleared only when non-NULL;
  * the six blx sites are ARM func_020307B0. The 0x5A<<2 (0x168) field is a

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The DWC copy of WH_Initialize's WM start: WM_Initialize (0208F370) or, when
  * the flag is set, WM_InitializeForListening (0208F380), on the work block

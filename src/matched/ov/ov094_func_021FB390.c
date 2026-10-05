@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Script command: when func_0220041C(x, y) reports 1, calls func_02200468(x).
  *

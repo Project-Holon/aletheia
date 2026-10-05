@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * A constructor: sets a flag word and clears three u16 fields, no
  * relocations. disasm.py's extent for this address runs to

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * note:     EXACT* only for the two bytes of alignment padding at
  *           0x0202ED5E.  Closed in wave 16 (the residue since wave 12 was
  *           the ldm/stm base order of the record copy): the copy goes

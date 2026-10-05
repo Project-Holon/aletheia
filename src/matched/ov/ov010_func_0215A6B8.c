@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf: stores b at offset 0x108 of the block a[0x20] points to.
  *

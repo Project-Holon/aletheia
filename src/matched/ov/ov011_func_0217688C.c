@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Recursive MATCH unblocker: callee of func_0216AF3C (ov010) at +0032. The
  * address is Thumb code in ov011 (ARM/data in the overlapping ov009), so the

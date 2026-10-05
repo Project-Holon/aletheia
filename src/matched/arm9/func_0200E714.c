@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf that follows func_0200E6FC: copy one 8-byte record to dst[idx].
  *

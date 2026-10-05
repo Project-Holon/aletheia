@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Classifies table entry idx (12-byte records) against a position:
  * 0 = inside, 1 = within three steps on one axis, 2 = out of reach or

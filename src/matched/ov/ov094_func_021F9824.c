@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Returns flag bit 6 of the owner's work when the handle at 0x1e8 is set, else -1.
  *

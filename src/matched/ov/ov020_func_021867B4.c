@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (saves nothing, so disasm.py prints it as .word data);
  * filed as the blocker of func_02186D48 (ov020).

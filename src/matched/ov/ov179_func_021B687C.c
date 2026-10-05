@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Entry of the ov179 command table (pool word 0x021B687D at 0x021B6A74).
  *

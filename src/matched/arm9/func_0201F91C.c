@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Counts the occupied entries of the same eight-byte-stride table
  * func_0201F8B8 claims from, stopping at the 0xFFFFFFFF terminator.  An empty

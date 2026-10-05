@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The "caught" half of the musical-distribution form bookkeeping in
  * "musical_dist_save.c": it sets one bit of one of the two nine-byte form

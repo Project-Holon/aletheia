@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf in the ARM9 module: word array at +0xDC, index i.
  * Filed by wave D4 lane 12 (blocked ov217 func_021BFC60).

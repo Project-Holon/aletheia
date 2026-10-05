@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Calls func_02198B4C(its own argument 1, 0x2, 0x0) and returns 0x0.
  *

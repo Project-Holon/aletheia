@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * When the object is idle, marks it started, clears its +4 value and
  * refreshes it through func_0202B2BC.

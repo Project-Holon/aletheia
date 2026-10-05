@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Counts the slots below n that are occupied: without a link object every
  * slot but 0, otherwise the slots for which func_021FCE28 returns 0.

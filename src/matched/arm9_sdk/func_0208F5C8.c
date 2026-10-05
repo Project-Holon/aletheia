@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      WMi_StartParentEx (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024

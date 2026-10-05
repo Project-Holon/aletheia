@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * blink_palanm.c: resets the fade phase word at +0x10 of the blink context
  * (the word func_0202EA40 advances by 0x400 per frame).  An unlabelled leaf

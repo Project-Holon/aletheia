@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Bit set in the 128-bit field at +0x28, ignoring out-of-range indices.
  * Region ov021 for the same reason as func_021D1058 (wave A1 witness).

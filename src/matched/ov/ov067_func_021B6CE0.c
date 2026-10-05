@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * lever: struct bank array; explicit top-of-loop break preserves both guards.
  * ownership: Wave37 B7 conditional leaf cleared by parent after source/unit/SDK audit.
  * extent: two zero alignment bytes at 0x021B6D6E precede labelled 0x021B6D70.

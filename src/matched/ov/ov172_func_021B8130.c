@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * When bit 1 of a1[0x2d] is set, hands the two sub-objects (a1+0xc and
  * a0+0xa) to func_021B85D0; otherwise there is nothing to do and it returns 1.

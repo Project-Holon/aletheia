@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Stops every live sound slot of the owner's work (six words at 0x26c, -1 = free).
  *

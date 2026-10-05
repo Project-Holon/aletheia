@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Blocker: byte-correct but capped at MATCH* (one unlabelled follower byte
  * pair makes the inferred extent run long).  The THM_CALL at +0xA to

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * note:     the listing extent (136 B) runs past this 92-byte body into the
  *           next function's leaf and pool words; every compiled byte matches.

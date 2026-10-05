@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
 void func_021BB520(int v, unsigned short *a, unsigned short *b, unsigned short *c)

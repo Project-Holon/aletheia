@@ -9,7 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * All 30 concrete bytes are right; the call to func_0202EB9C is the only open
  * site and it is blocked on `label`: the sole branch to 0x0202EB9C image-wide

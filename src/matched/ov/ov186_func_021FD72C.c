@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * Blocker leaf for ov183 021E1D48 and 021E20F8, parent cleared.
  */
 int func_021FD72C(int *p)

@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unpacks a party mon into the nine-argument sprite request of
  * func_0202D760: species (5), form (0x6F), gender (0x6E), the shiny

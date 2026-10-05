@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Guard/forward wrapper: returns the follower's result only when the predicate
  * holds, otherwise zero.

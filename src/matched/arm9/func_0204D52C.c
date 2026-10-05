@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  */
 
 extern void func_020643A4(void *p);

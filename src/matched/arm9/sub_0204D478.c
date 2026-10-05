@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   gUnk_020A1394  0x020A1394  data

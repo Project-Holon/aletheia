@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unless flag bit 0 at 0x68 is set, applies the vector at 0x1c to the handle at 0x18.
  *

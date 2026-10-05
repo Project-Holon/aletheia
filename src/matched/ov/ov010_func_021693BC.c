@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
  * called from ov021 func_0218D05C.

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (a `.word` run in the listing); filed as the witness for
  * the tail-call stub func_021CF36C in ov021_func_021CF32C.c.

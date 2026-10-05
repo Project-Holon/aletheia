@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * interface: caller 021D44C8 loads r0=context,r1=child; complete leaf
  *   021D7B48 is bx lr, consumes neither input and supplies no return value.
  */

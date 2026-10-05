@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Setter for the +0x1c flag word of the ov195 scene object driven by
  * func_022040E0.  Unlabelled in the listing (a leaf that saves no lr, so it

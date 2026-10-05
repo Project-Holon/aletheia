@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The one relocation site's pool word is 0x02027B31, i.e. 0x02027B30 with the
  * Thumb bit set - the header used to declare 0x02077B30, an ARM address, which

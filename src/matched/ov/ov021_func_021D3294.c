@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf (a .word in ov021.s), blocker of ov032 func_021F0208.
  * Storing the u16 tag first is what makes the compiler save r3/r4 and keep

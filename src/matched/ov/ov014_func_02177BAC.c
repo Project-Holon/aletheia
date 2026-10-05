@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf: clears halfword idx of the table at +0xC40 of the
  * object pointed to by the global at 0x021797A4. Blocks func_02177BF4.

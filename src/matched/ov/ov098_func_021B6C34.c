@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The handed extent runs on into the unlabelled leaf func_021B6C60
  * (filed as ov098_func_021B6C60.c).

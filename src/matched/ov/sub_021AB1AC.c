@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for id 0xd7.

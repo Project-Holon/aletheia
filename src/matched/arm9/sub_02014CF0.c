@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Two consecutive word stores through the object pointer - a plain field
  * pair setter with no prologue, so no label, attested by the pool word

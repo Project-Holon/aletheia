@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * note:     EXACT* not EXACT: the label following this function in the
  *           listing is the veneer block at 0x0209AC04 (0x0209ABEC/0x0209ABF8
  *           are unlabelled), so the printed extent is 120 against a compiled

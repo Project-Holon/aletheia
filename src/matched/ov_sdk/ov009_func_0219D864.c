@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * Brings up the socket layer, then initialises the two FIFOs, the update
  * budget, the query version, the key buffer and the completion callback.

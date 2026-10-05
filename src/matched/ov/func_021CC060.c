@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Follows the pointer at +0x8, then loads the 32-bit word at +0x5c of its target.
  */

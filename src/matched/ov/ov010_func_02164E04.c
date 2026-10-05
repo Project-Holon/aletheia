@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Scans 16 slots for the best usable entry, stores its index through *out
  * and returns its record; 0 when none.

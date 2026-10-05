@@ -9,7 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * Filed as manifest kind `runtime` (tools/match.py): each function is
  * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the

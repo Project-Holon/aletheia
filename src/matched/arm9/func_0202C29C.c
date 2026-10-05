@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Looks the caller's second argument up with func_0202C268; if the result
  * differs from the object's current +0xc field, installs it there and reports

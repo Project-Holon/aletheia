@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Leaf of the func_022040E0 dependency tree: true when the scene object's
  * state word +0x30 is 2.  Unlabelled in the listing (a leaf that saves no

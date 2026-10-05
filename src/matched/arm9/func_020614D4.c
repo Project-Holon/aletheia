@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   g_020A8150  0x020A8150  data
  *   g_020A8158  0x020A8158  data

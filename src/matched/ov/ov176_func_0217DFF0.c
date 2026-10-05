@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Extent runs long: 0x0217E000 is an unlabelled follower leaf, so EXACT*.
  *

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Empty leaf (bx lr) that saves nothing, so disasm.py does not label it.
  *

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s): stores the two
  * callbacks and their argument at 0xf4/0xf8/0xfc (the fields

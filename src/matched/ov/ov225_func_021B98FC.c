@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  *
  * Parent cleared ownership after full SDK/source/unit/shard audit.
  * ov22595A0 places Thumb pointer021B98FD in task-registration argument r0.

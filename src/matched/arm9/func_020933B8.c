@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * MSL printf back end: the decimal rounding / odometer carry on the digit
  * buffer `__num2dec`-style control block.  Rounds the ASCII digit string in

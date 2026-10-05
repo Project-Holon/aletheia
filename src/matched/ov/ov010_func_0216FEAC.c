@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Counts the 48 table records func_0216FE2C classifies as reachable.
  * The listing extent (2960 bytes) runs over the unit's rodata; the

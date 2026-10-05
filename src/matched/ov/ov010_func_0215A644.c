@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (setter through the pointer at +0x20), filed as a blocker
  * of ov021 func_021C459C / func_021C4628.

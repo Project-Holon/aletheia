@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * `done:` return path matches as a goto; the extent reads EXACT* because
  * the unlabelled follower at 0x021C1210 is a 4-byte veneer pair, not part

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Read one cell of the matrix object's zone grid: the u16 array at +0x14,
  * row-major over the object's own width at +0x08.  Leaf, no relocations.

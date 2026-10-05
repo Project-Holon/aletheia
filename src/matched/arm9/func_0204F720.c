@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * Set or clear bit 9 of the record's u16 at +0x18 depending on whether the
  * caller's word is 1.  Both arms are conditional instructions and there is no

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Recursive MATCH unblocker: callee of func_0217FF78 (ov019) +0024. Only ov012
  * has a function start here (ov011 holds the interior of a larger function,

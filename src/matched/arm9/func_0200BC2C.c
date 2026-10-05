@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C3490 and func_021C34C4
  * (wave A1, lane 13).

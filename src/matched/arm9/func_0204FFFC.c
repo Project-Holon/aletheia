@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   func_0204F5A8  0x0204F5A8  arm
  *   func_0204ED24  0x0204ED24  arm

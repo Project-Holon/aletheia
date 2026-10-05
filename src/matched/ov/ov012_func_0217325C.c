@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Fills the 0x64-byte record that func_021730F8 files into its table
  * (same bitfield at byte 7 bit 4, MAC at +0x64 of a table entry).

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * blocking: unresolved: 0200F520 (thumb, from header) has no witness outside 0200F594..0200F
  *

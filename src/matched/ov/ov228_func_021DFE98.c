@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf in ov228: 1 when the word at +0x374 of the work object
  * is 3, else 0.  Integrator: seed ov228 0x021DFE98.

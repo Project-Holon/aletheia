@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Tail-call forwarder: (p) -> func_021C5944(p, 1, p->u16 at +0xA).
  * Blocker of ov099 func_021B99F4 / func_021B9A70.

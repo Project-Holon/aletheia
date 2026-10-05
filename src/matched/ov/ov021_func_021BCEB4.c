@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   func_0207D63C  0x0207D63C  arm
  *   _ffltu         0x0209BE04  arm

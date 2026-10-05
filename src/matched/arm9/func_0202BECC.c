@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Guarded one-argument forward: only when the node's first word is set does
  * func_0202BF90 get called with the node itself.

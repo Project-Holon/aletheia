@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_021F2B9C  0x021F2B9C  thumb  ov029
  *   func_021F2BB8  0x021F2BB8  thumb  ov029

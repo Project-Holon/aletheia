@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      endScene2 (sceneoptmovuser.o), TwlDWC libdwcutil.TWL.HYB.a
  *           EXACT*: the inferred extent runs to 0x021C44EC (next label),

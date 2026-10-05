@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  * function: func_0202744C
  *
  * Sets the low byte of the halfword at +0x48 of its argument to the

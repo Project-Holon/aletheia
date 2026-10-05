@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   g_020A86B4 0x020A86B4 data

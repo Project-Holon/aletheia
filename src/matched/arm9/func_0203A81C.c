@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0203A748  0x0203A748  arm

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * 1 when 0x0202EB0C returns 1 and 0x0202EB14 returns 0.
  *

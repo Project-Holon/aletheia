@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_0209D778  0x0209D778  arm
  *   func_0209D774  0x0209D774  arm

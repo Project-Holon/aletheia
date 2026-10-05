@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * A four-byte setter for the halfword at +0x12.  Unlabelled in the listing
  * (it saves nothing and is chased by a linker thunk at 0x0202B424), absent

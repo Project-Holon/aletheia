@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      OS_ReleaseLockID (os_spinlock.o)
  * asm:      hand-written in the object: the subprogram has no DW_TAG_variable

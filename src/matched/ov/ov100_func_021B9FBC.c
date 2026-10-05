@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * extent: larger state-store follower 0x021B9FF4 is filed separately.
  * symbols:
  *   func_0203D378 0x0203D378 arm

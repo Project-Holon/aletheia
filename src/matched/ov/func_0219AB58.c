@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Calls func_0219AA38(its own argument 1, 0x2, 0x0, 0x1d) and returns nothing.
  *

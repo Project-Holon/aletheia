@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      OS_YieldThread__ (libcps.TWL.HYB.a network.o)
  * symbols:

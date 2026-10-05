@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Clears the flag at +0x110 that func_021F00BC sets.
  * Region ov034: of the ten overlays mapped here, ov034 holds a Thumb leaf at

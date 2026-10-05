@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Clears the object's first word when it is non-zero.  Unlabelled in the
  * listing (no lr save) and absent from the worklist; filed from the bytes.

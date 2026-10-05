@@ -6,6 +6,6 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  */
 void func_021EEA54(void) { }

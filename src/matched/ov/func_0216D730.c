@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Indirect call through the entry the object's vtable pointer
  * holds, skipped when the slot is empty.

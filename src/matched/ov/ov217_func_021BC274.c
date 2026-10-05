@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Set +0x4c to the difference of the two u32 fields at +0x34 and +0x38.
  *

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Dispatches on the state word returned by func_0202ABF8 over a three-way
  * state machine.  One `switch` on the call result is what puts the result

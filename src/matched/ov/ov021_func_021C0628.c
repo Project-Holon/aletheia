@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf of ov043 func_021F36C0: fills slot i of a table of
  * 0x1C-byte entries when it is in range and not yet in use.

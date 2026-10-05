@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * extent: Twenty-two code bytes plus two zero padding bytes at 021D3FC2;
  * the approved separate 021D3FC4 leaf and existing 021D3FD0 follow.
  */

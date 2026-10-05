@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * A four-store teardown of one record: release the object at +0x2c, the one
  * at +0x138 unconditionally, the one at +0x34 only when the byte at +0x1d is

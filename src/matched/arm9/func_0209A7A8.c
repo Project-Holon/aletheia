@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * note:     EXACT* not EXACT: the next function's own home-area push
  *           (0x0209AA08, sin's `push {r0, r1, r2, r3}`, already covered by
  *           src/matched/unit_0209AA08.c) carries no label of its own, so the

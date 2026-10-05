@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Extent runs long: 0x021FC230 is an unlabelled follower leaf (a plain
  * `p[0x3e] = v` setter), so this is EXACT*.

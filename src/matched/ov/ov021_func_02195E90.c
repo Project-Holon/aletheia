@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Clears the one-tile frame around a window (tile 0 on all eight edges),
  * skipping any edge that touches the 32x24 screen border. The erase

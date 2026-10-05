@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Nine-state connection sequence; returns 1 when the sequence has ended.
  * EXACT* because the listing extent runs over the unlabelled followers

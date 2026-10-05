@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * note:     EXACT* not EXACT: scan_listing puts the next label 4 bytes past
  *           this function's real end (0x0209A390, a pool-adjacent follower),
  *           so the printed extent is 44 against a compiled 40.  Bytes all

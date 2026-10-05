@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (no lr save, prints as .word data in the listing),
  * filed as a blocker of ov021 func_0219912C.

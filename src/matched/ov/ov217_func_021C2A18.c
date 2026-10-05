@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled 14-byte ov217 leaf in a .word run; target of the veneer at
  * 0x021C29F8 and the bottom of the func_021BA31C blocker chain.  Store order

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Unlabelled Thumb function in the ARM9 module (mcss.c). Starts the
  * +0x134 fade: sets bit 12 of the +0x140 flag word, stores the current

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * extent: empty callback followed by zero alignment padding then labelled 021DE61C.
  */
 void func_021DE618(void) {}

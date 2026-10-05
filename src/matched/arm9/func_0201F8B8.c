@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Claims a slot in the same eight-byte-stride table func_0201F8F4 walks: it
  * scans for the first empty entry, gives up if the 0xFFFFFFFF terminator

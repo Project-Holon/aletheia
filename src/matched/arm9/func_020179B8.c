@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * A "select and apply" pair, structurally the sibling of func_02017900.
  * The value at selector 5 is compared against a1; when they already agree

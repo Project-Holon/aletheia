@@ -9,7 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * closed:   blocker func_02028D54.c is now a manifest entry (matched class)
  * symbols:
  *   func_02028F18  0x02028F18  thumb

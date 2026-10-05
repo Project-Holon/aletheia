@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT*: the listing extent runs 60 bytes to the next label; only the
  * first 24 bytes belong to this function (the follower at 0x02027174 is

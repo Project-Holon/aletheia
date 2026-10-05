@@ -11,7 +11,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Original (6 bytes, leaf, no relocations):
  *   movs r0, #0x1e

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled empty callback (bx lr) hidden in a .word run; witness for the
  * function pointer taken in func_021579B0.

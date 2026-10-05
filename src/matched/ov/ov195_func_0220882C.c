@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Move the ov195 scene object to state 1 with a 0x26c timer.  Labelled leaf.
  *

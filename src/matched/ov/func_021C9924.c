@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * 
  * Blocking site: the bl to func_02012EE4 at +0008 of this function.
  * 

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Tail-call forwarding thunk: passes *(p+0xb0) and the two pinned addresses
  * to func_02202DC4 (ov094).  The compiler emits the `ldr r3,pool; bx r3` form

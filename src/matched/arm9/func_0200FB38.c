@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf accessor: if the u32 at +0x2c of the object at
  * g_0214617C is 1, set it to 2.

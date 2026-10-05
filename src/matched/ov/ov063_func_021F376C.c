@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * True when the state word at +0 is 9 (done). Region ov063: its caller ov021
  * func_021C4788 frees the handle through ov063 func_021F3758 (EXACT, the

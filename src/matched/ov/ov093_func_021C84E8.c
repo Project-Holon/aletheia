@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Extent 0x021C84E8..0x021C84F4 (8 bytes of code plus one pool word); the
  * handed size 76 also spans the already-matched leaf func_021C84F4.

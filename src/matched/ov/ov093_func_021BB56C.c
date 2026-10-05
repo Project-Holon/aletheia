@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * Sole overlay blocker of pkt_ov093_021BACAC; empty return with padding.
  */
 void func_021BB56C(void *p)

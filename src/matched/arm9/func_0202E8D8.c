@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Six-byte record matcher against a three-slot table at a0+0x22 (six bytes
  * apart).  Both loop counters are `unsigned char` - the lsls 0x18 / lsrs 0x18

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Recursive MATCH unblocker: dependency of func_0217C294 (ov018 tail-call
  * thunk), which unblocks func_0216AC90 and func_0216ACCC.

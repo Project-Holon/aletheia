@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (word run in the listing), blocker of func_0219B13C and
  * func_0219BA6C (ov021).  Direction code 0..3 from a point pair.

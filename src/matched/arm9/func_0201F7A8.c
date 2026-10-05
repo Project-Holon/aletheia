@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The sibling of func_0201F73C: the same five ARM byte accessors on the same
  * descriptor, but the four geometry bytes are adjusted before the call, the

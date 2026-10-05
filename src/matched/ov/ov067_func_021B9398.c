@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * trailing: 2-byte alignment padding; separate existing functions follow
  */
 #include "../include/Obj20628.h"

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * note: handed label 021F80D6 follows the parameter-home push.
  * symbols:
  *   func_021F5374 0x021F5374 thumb ov112

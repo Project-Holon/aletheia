@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * If the low 14 bits of the u16 at the record field are not already all ones,
  * set them and leave the top two bits alone.  The 14-bit width only survives to

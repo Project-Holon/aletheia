@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * note:     gx_vramcnt.o GX_GetBankForTex.
  *
  * symbols:

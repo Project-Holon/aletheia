@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Recursive MATCH unblocker: ABS32 target of func_021D0BCC (ov021) +0008.
  * Coherent Thumb code in ov010 (ARM data in ov009), so the ov010 shard makes

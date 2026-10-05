@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Normalises a queried mode: 5 maps to 0, and a zero mode with the predicate
  * set maps to 0x14.

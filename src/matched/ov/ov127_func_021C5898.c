@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled: forwards a by-value {s16 x, y} pair to func_021C428C with the
  * pointer at +4.  Blocker of ov099 func_021BA2D4 / func_021BA36C.

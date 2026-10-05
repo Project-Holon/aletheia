@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * note:     MSL printf.c `__pformatter`, the vfprintf core.  REAL entry:
  *           0x02093BDC is the home-area push {r0,r1,r2,r3} (forced by &arg);

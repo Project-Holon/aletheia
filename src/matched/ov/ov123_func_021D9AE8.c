@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * BG-layer init, same shape as func_021D6100 (ov120) with its own template
  * table at 0x021DA8A8 (index order 1,4,3,7,5,0,6,2) and slight per-layer

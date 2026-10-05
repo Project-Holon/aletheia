@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Per-frame poll for the dual-screen text cluster at 0x021467A4: while the
  * cluster is live (the u16 at +0x14C non-zero) it steps both sub-objects and,

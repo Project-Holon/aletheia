@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      G2x_SetBlendBrightnessExt_ (libgx.TWL.HYB.a g2.o)
  *

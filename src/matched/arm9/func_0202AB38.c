@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * closed:   blocker func_0202AB7C.c is now a manifest entry (matched class)
  *
  * When func_0202ACC8 reports non-zero, runs func_0202ACCC.

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Disasm reads its bytes as `.word` because it saves no lr; it is the
  * callee of the thunk at 0x0218DCF4.

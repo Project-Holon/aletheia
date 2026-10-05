@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Stores a 0x14-byte
  * record (word, 12 bytes, halfword) into entry idx of the table at +0x9C.

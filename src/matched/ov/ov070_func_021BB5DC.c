@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * symbols:
  *   func_021BB368  0x021BB368  thumb  ov070

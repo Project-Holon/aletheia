@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocker:  021DFDC0 - overlay call with no branch anywhere in the image outside this range (ov228 carries a func_021DFDC0 label, so the region hint is satisfiable, but part 3 of attest_overlay_label has no site).  All 30 bytes right.
  * symbols:
  *   func_021DFDC0    0x021DFDC0  thumb

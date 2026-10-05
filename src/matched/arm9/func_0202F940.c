@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT* -- the inferred extent (184 bytes) runs 4 bytes past this
  * function's own 180, over the unlabelled 4-byte leaf at 0x0202F9F4

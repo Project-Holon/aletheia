@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      WM_GetNextTgid (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024

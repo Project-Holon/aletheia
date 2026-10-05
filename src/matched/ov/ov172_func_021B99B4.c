@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Translates the +0xa4 state into a +0xa0 buffer code, doing nothing when the
  * state already equals the +0xa8 one.

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  *
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   g_021469E0  0x021469E0  data

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The record's arm9 handle and the caller's second argument are the two
  * operands of the arm9 pair call.

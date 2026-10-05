@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf after func_02157450's pool: store v into *p only while
  * *p still holds the unset sentinel 0x29, so the first call wins.

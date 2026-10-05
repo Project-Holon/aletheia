@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT*, not EXACT: the listing extent runs 12 bytes long because what
  * follows at 0x0204B0F4 is not code from this file at all, it is a linker

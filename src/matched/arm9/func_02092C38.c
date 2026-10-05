@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * note:     MSL printf.c `longlong2str`, the 64-bit twin of func_020929E8
  *           (same source template over long long).  This is the REAL entry:

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Rebuilds the +0x1dc record from the +0x1d8 source, retiring the old one first.
  *

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Set bit 0 of the word at +0x144: read, clear, set, write back.  The two
  * `movs r1, #1` are the two separate constants of the `& ~1` / `| 1` pair

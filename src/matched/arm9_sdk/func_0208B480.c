@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
  *            micWork (28 bytes) at 0x02152FE4; the object reaches both through one pool word.
  *

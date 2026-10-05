@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Leaf of the func_022040E0 dependency tree: when the scene object sits in
  * state 5 or in state 8/9, run the cue trio and drop it into state 4.

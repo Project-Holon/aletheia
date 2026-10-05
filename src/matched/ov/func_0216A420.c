@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocked:  listing 32 compiled 30 wild=4
  *
  * Overlay index, then the record's handle and one arm9 probe go to the

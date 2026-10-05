@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf following func_021B8B74 (inside its handed extent), called
  * by func_021B806C. The f54 value is a local read before the f70 store:

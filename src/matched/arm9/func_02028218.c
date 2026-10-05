@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * A tail call that clears the u16 at offset 0x14 and forwards two of the
  * object's own fields plus the caller's argument.

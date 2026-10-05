@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  */
 typedef unsigned int u32;
 struct S { unsigned a:3; unsigned b:6; unsigned c:16; unsigned d:7; };

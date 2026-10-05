@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Scans an array of 0x100-byte records starting at *idxptr, looking for one
  * whose leading word has bit 0 set. obj+4 holds a u16 record count and

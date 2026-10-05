@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Store the result of functional call func_0204B100(0x1a, 0, p->h0) into p->w4.
  *

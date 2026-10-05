@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * Unlabelled thumb leaf (push {r4} only), reached through the pool word
  * 0x021C24BD in func_021C24A8. Char-pointer offsets give the same bytes
  * scheduled differently (34 differ); the struct-typed accesses keep the

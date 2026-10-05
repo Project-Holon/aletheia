@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf (prints as .word data in ov010.s), the sole blocker
  * of ov011 func_02173368 +00CA: returns the top five bits of the second

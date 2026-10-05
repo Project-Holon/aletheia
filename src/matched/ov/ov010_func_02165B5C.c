@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Range check of a packed record: returns 1 (invalid) on the first field
  * out of range, else the verdict of the per-kind checker picked from

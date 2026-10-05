@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Empty callback (bx lr). Region ov021: ov021 has Thumb code here and its
  * caller func_021CC390 is the next function in ov021; ov016 is ARM at this

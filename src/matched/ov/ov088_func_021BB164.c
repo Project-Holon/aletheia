@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Releases the fourteen 8-byte-stride handles at +0x80 created by
  * func_021BAD08, then the shared resource.

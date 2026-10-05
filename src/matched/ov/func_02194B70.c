@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Untraced .word blob in ov021 (only reached by an r3 tail call): stores 2
  * into the u16 at offset 0.  Listing bytes 02 21 01 80 70 47.

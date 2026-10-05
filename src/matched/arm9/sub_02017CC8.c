@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * verdict:  EXACT* (match.py: compiled 102, listing extent 104).  The two
  *           trailing bytes at 0x02017D2E are `00 00` padding after the `pop`
  *           and the follower at 0x02017D30 carries no label, so the inferred

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The stage slot b is a u8 (as wide as either callee's parameter); a u32
  * or int b is reloaded from its spill one instruction early. The u32 is

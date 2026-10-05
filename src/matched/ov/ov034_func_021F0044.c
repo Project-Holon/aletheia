@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * True when the state word at +0x128 is 3.
  * Region ov034: of the ten overlays mapped here, ov034 holds a Thumb leaf at

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * A getter on the module-wide object at 0x0214617C (the same object
  * unit_0200F7C0.c names sub_0200F7C0_Obj): returns field +0x5c when field

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Leaf of the func_022040E0 dependency tree: on a positive func_0220673C
  * probe it sets the +0x40 word and the +0x14 state word of the scene object

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Blocked: the THM_CALL at +000A targets 0x0202B8F4, a four-byte Thumb linker
  * veneer (`00 4b 18 47` + its target word, the head of the identical run

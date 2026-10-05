@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT*: extent runs long; the follower holds three unlabelled tail-call
  * stubs at 0x021BC0E4, 0x021BC0FC, 0x021BC114 (function_starts seeds).

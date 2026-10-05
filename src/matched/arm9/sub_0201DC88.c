@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * gf_font.c streamed-glyph lookup: classify glyph `id` through a
  * 2-bit-per-glyph table, fall back to a 9-bit hash, then walk a run of

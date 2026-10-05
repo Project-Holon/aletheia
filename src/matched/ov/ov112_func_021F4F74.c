@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  */
 typedef unsigned short u16;
 int func_021F4F74(u16 *p, int mode)

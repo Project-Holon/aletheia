@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * note:     spi/ARM9/pm.o PM_AppendPostSleepCallback.  Pool word is 0x02153004
  *           (distinct from PM_PrependPostSleepCallback's 0x0215301C); libmatch
  *           may have swapped the two list names.

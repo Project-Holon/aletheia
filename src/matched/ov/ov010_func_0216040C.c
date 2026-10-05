@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled (inside func_0216025C's listing extent): maps a 25-way status
  * code to (kind, detail) at +0xC/+0x10, or to a next state at +0x28

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * evidence: sole callback blocker of 021F6720; parent SDK/ownership audit.
  * extent: bx lr at 021F6AB4, zero padding at 6AB6; 6AB8 begins next function.
  */

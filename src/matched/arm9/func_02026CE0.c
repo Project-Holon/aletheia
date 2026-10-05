@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Clears bit `n` of the ring live mask at +0xba4 of the game beacon block.
  * The earlier MATCH park read the pool word as 0x02021440; the word at

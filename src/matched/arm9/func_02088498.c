@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  * blocker:  ABS32 func_020884A4 at +0x08: the callee is the next function and nothing outside branches to it
  */
 

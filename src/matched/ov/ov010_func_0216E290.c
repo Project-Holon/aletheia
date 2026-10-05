@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Forwards the pointer at +0x14 to the arm9 routine at 0x02049238.
  *

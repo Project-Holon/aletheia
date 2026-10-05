@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Recursive MATCH unblocker: the unlabelled ov014 leaf that the arm9
  * wih_dwc.c pollers call (sub_020107FC +001E, func_0201058C +005C).  Reads

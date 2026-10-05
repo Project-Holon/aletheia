@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  *
- * status:   EXACT
+ * status:   EXACT*
  *
  * Closed by the `matched` class: 0x0202B9F0 became an EXACT shard entry
  * (pkt_0202B9F0) in this wave.  The listing extent runs to 0x0202BAF4

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * trailing: 64 bytes are existing matched func_021BEAB8, pkt_ov203_021BEAB8.
  * symbols:
  *   func_0207D4B0 0x0207D4B0 arm

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * ARM leaf, seeded 2026-09-27 from the ov195 call sites 0x02208B3E and
  * 0x02208B48 (func_02208AB0). Looks up slot idx of the table at +8; a

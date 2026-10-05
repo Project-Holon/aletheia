@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * match-note: Clearing the unsigned-char bitfield emits bics #0x10;
  * raw p[2] &= ~0x10 emits ands #0xef and was four bytes out.
  * extent: Ten bytes of code, two zero padding bytes at 021D3FCE, then

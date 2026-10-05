@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf; the function thunk func_021B995C tail-calls.
  * lsls r1,#2 / ldr r0,[r0,r1] / bx lr.

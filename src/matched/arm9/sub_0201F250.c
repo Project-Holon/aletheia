@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * wordset.c's message expander, 204 bytes.  It walks the source message a
  * halfword at a time and rewrites it into the destination buffer: an ordinary

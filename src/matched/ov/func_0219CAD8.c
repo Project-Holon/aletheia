@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
  * func_0216D4F8 (0x0216D4F8) is a matched manifest entry, so the `matched`

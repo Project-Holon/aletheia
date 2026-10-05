@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Camera-state predicate on the ov195 scene object's +8/+0xc words:
  * state 4 with +0xc <= 1, or state 5.  Unlabelled leaf.

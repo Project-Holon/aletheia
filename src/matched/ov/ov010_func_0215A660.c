@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Setter: byte at +0x104 of the object whose pointer sits at +0x20.
  * Unlabelled leaf (leaf of func_021B03E4).

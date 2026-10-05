@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * mcss.c, the two-pass nibble fill over a0->f2c's 0x30-byte records.
  * EXACT* (870 bytes; the 872-byte listing extent carries 2 pad bytes).

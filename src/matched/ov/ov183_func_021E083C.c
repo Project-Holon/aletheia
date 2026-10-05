@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * leaf: empty callback solely blocks owned constructor 021E06D0; parent cleared.
  * extent: bx lr at 083C; 083E alignment; existing owned 0840 follows.
  */

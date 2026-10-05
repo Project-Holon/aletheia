@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb tail-call thunk: sub_02024570(b, a + 0x10), where sub_02024570 copies a halfword pair.
  *

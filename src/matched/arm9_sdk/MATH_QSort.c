@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * TwlSDK libmath qsort.o (.comment stamp 4.0.0.1024, dsi/1.1p1).  An asm
  * function in the vendor object (clz, swp/swpb, a stack that grows by a

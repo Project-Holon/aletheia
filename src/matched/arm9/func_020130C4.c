@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020130C4.c \

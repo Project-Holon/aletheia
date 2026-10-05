@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Unlabelled ARM predicate: the card task object exists and its callback at +8 is func_0203CADC.
  * MATCH only because 0x0203CADC (func_0203CADC.c, EXACT) is not yet a labelled

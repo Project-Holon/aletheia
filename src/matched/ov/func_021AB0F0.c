@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Terrain-attribute accessor: the low half of the 32-bit attribute word a
  * map tile's 8-byte grid record carries at byte offset 4 (see

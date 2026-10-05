@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * iss_3ds_sys.c: resets the 0x10 entries (record +0x24 stride 0x1c) and the
  * two parallel word arrays at +0x1e4 and +0x224.  EXACT* (the listing extent

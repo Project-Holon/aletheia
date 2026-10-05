@@ -10,7 +10,7 @@
  *
  * Blocked: call target func_0202AF34 is unlabelled and unmatched (it lives in
  * another lane's packet, pkt_0202AF34). Every concrete byte reproduces.
- * status:   EXACT
+ * status:   EXACT*
  */
 #include "../include/Obj15818.h"
 

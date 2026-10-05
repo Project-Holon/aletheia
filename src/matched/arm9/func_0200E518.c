@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Folds two arrays of pending increments into their saturating totals and
  * clears the increments: 30 u16 into u32 totals capped at 999999, then 150

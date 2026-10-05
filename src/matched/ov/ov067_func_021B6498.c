@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * extent: getter ends 0x021B64A6, two zero padding bytes, larger follower 0x021B64A8.
  */
 #include "../include/Obj20600.h"

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (no lr save, so disasm.py never labels it); its address
  * is taken as a completion callback by func_021AEB7C.

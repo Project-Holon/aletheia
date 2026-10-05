@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * A four-byte tail-call thunk to func_0202BF54: one PROGBITS section per
  * function means this compiler cannot encode a displacement to another

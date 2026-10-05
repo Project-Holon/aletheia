@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Witness leaf for ov071 func_021B6C7C (tiny unlabelled arm9 leaf).
  */

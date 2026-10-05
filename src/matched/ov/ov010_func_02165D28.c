@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * Parent-cleared leaf for ov216 021BCE04. ov010 coherent Thumb accessor;
  * overlapping ov009 address is interior ARM code, as explicit shows prove.
  */

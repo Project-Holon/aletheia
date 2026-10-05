@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the s16 at
  * +0xA of the table the word at +0x2C points to; sibling of

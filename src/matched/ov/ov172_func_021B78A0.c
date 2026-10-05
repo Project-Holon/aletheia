@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Store the four u16 arguments at +0x14..+0x1a and the word 1 at +0.
  *

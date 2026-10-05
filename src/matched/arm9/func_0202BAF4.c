@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * iss_3ds_sys.c per-frame step: returns when +0x04 is zero, then runs the
  * four per-entry steps over every live entry of the 0x10-slot table.

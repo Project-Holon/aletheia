@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * start: corrected from second label at initial push plus two bytes.
  * symbols:
  *   func_021C4B7C 0x021C4B7C thumb ov127

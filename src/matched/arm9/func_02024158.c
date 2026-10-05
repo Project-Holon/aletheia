@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf in the ARM9 module: extracts bit 2 of the byte at
  * +3. Pairs with func_02024160, which extracts bit 3.

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * cap: the only call site of func_02023AF4 (0x02023AF4) inside the image is at
  *      0x02023ADA, which is inside this function, so the `label` class refuses

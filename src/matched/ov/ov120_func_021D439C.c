@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * follower: handed caller 021D43BC.
  */
 #include "../include/Obj01150.h"

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Element field: u8 at +0x3d of record 0xd4 bytes, selected by the u8 at +0x2b8.
  *

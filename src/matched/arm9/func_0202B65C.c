@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * closed:   blocker func_0202B59C.c is now a manifest entry (matched class)
  *
  * Builds the +0x24 sub-object from the object's u16 id.

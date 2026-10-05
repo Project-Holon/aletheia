@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * A pass-through onto func_0201F93C: the four register arguments are never
  * touched and only the two stacked ones are copied down into the new frame.

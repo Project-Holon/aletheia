@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      SCFGi_CommonCallback (libscfg.TWL.HYB.a scfg_proc.o)
  *

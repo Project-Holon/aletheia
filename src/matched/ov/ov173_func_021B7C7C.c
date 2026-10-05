@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * blocker:  every concrete byte reproduces; the single call to
  *   func_02025D14 (0x02025D14) stays wildcarded because the target is an

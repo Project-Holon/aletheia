@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * Same as func_0204F764 one bit up: the caller's word goes into bit 11.
  *

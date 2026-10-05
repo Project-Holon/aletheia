@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf: widens three signed bytes at p + 0x7e..0x80 to fixed
  * point (<< 12) and stores them into q[0..2].

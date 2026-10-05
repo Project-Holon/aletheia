@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The do-nothing default handler the two-entry callback table in
  * func_02022458 is initialised with: a single `bx lr` plus two bytes of

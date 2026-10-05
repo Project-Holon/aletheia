@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Recursive MATCH unblocker: callee of func_0217FF78 (ov019) +005C.  An
  * unlabelled Thumb leaf inside ov010: `disasm.py` emitted its body as the

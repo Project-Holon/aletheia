@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Named by the parked ov093 files (func_021D85F4 / func_021DF0C4 /
  * func_021DFABC / func_021E4A70 / func_021E7388).  EXACT*: both calls resolve

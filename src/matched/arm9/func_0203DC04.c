@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * Verified EXACT* - every byte compares equal; the extent runs long only
  * because the follower at 0x0203DC48 carries no `func_` label (it saves no

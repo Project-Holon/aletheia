@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Six-entry dispatch on the halfword at +0x0C: selectors 0, 3 and 4 answer true.
  */

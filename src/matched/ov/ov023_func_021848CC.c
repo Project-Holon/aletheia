@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled empty callback (a lone bx lr after func_021848A8's pool);
  * func_02184674 hands its address to ov022 func_021840FC. Blocker of

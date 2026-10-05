@@ -6,7 +6,7 @@
  * compiler: 1.1p1
  * flags:    -O4,p
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * The seek (fseek shape) of the buffered-stdio object documented in
  * docs/families/cluster_02091588.h and cluster_02091AE8.h.  The real entry is

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * SDK provenance: sciReportBeginNewPlayer (TwlDWC/libdwcgssc.TWL.HYB.a,
  * scireport.o), ov175.  Close the previous player block and start a new one

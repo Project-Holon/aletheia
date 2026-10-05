@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Two overlay lookups on the second argument, the second of them classified
  * by an arm9 call, then submitted together.

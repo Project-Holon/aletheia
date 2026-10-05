@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Closed: func_0202C384 became an EXACT manifest entry, so the matched class attests the call at 0x0202C2F0.
  */

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (saves no lr) after func_021C5DF4's pool; its only caller
  * is func_021C5DF4.  Frame counter at +0x60: true once it passes n, then

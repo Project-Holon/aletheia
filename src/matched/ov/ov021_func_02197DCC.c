@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Byte-correct (2026-10-01).  Sole blocker: the ABS32 pool word for the
  * ov021 table is a data start that another overlay mapped over the same

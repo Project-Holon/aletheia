@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Picks one of three record types and writes selector 0xa.  `mask` is a
  * bit test against the byte returned by selector 0, and which bit it is

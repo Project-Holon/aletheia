@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Releases the +0x264 field through the matched heap release func_020307B0,
  * then tears the object down through func_0202B944.

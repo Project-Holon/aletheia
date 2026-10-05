@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      RTC_GetDateTime (catalog: RTC_GetAlarmParam) (librtc.TWL.HYB.a external.o)
  *

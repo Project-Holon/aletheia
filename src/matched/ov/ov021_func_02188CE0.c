@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf getter at +0x98 (between func_02188CD8 and
  * func_02188CE8); sole blocker of ov019 func_0217B264's call.

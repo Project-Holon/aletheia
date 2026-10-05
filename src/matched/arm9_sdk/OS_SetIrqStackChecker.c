@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT* (listing extent runs on into an unlabelled 12-byte leaf at 0x02084A28)
+ * status:   EXACT (listing extent runs on into an unlabelled 12-byte leaf at 0x02084A28)
  *
  * TwlSDK libos os_interrupt.o (.comment stamp 4.0.0.1024, dsi/1.1p1).
  *

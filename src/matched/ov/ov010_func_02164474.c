@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (saves no lr, so disasm.py prints it as .word data):
  * a tail call through a pool word, the sole blocker of ov020 func_02183DE4.

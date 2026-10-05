@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (blocker of ov021 func_0218C724).  Copies the 12 bytes
  * at src+4 to dst.

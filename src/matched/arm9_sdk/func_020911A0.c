@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      CTRDG_DummyInit (libctrdg.TWL.HYB.a ctrdg_proc.o)
  *

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Empty body: the original is a bare `bx lr`.  disasm.py labels it only
  * because something branches to it.

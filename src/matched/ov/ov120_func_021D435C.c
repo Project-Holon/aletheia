@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * follower: separately filed 021D437C.
  */
 #include "../include/Obj06431.h"

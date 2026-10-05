@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Find the 0xd4-byte record whose byte +4 equals the argument; its index or zero.
  *

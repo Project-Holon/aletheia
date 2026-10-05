@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT*: the inferred extent ran to 0x02021F64 because the next function,
  * at 0x02021F08, saves no lr and so carries no label.  0x02021F08 is an

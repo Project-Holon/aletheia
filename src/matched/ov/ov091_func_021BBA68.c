@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled store-and-return leaf (listed as .word at 0x021BBA68) called
  * from func_021B68F0 with (p, *(p + 0x150)).

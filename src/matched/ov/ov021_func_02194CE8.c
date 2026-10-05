@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The callee 0x02194D1C is src/matched/ov/ov021_func_02194D1C.c. EXACT* only
  * because that callee is the unlabelled follower.

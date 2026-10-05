@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * note:     EXACT* not EXACT: scan_listing finds no func_ label between
  *           0x0209D850 and 0x020A8FE6, so target_extent reports 46998 bytes
  *           while the compiled function is 32.  The next real label after

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * PROMOTED from src/pending/ with no change to the C (lane r5c, 2026-09-19):
  * the park's only blocker was the PC24 at +0x34, and 0x02094B8C is now a

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      disableBankForX_ (libgx.TWL.HYB.a gx_vramcnt.o)
  *

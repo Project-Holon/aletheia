@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf: an empty function (`bx lr` plus two bytes of padding)
  * after func_0218606C.  ov020 func_021841C0 passes its address as the end

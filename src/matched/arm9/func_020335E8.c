@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT* rather than EXACT: the follower at 0x020336A4 (20 bytes, an
  * unlabelled leaf holding a two-instruction store and `bx lr` between the

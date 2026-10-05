@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Releases each of the p[0x14] handles (EXACT*: unlabelled follower at 0x021C09A8).
  *

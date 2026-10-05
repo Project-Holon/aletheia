@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      G3X_GetVectorMtx (libgx.TWL.HYB.a g3x.o)
  *

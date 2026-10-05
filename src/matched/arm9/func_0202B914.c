@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Clamps the second argument to 0x7f and stores it in the +8 byte.  No
  * relocations; pure.

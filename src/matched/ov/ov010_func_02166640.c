@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (sole blocker of ov018 func_0217C37C): true when the
  * argument plus one, truncated to a byte, is 2, 3 or 4. Twin of

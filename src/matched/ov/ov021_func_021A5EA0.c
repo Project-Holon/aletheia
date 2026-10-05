@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (a bare `bx lr` in a .word run): the empty arm-0 handler
  * called from func_021A5BC0's dispatch.

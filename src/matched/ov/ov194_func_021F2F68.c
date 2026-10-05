@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  */
 int func_021F2F68(const int *p,int *out) {
  if(p[1]<5) {if(out) {out[1]=p[1];out[0]=p[0];}return 1;}

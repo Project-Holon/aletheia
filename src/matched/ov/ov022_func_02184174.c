@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s): sets the word at
  * 0x20. Blocker of ov023 func_02184674.

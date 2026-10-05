@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * A three-state step machine over a descriptor `a2`.  State 0 forwards five
  * of the descriptor's leading words (four in registers, the fifth on the

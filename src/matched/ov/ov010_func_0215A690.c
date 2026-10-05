@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Recursive MATCH unblocker: dependency of func_02159254 (tail-call pool word
  * 0x0215A691), which in turn unblocks func_02159260.

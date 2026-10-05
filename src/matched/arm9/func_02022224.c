@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * A two-instruction forwarder (fan-in 22) that pins the first argument of
  * func_02023B48 to zero and passes the caller's window pointer through as the

@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The forwarding shim in front of func_0202E1F0: it copies four of the
  * object's own fields into the callee's five stack arguments and clears

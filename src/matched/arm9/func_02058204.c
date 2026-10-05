@@ -7,7 +7,7 @@
  * flags:    -O4,p -proc arm946e
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   _s32_div_f     0x0209C0A4  arm
  *   g_02146A8C     0x02146A8C  data

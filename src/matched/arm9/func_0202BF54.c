@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Selects the record func_0202BFC4 matches for the caller's key and latches
  * it into the object: +0xc keeps the index, +0xe and +0x10 take the record's

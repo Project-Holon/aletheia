@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocker:  02031BB4 (arm) reached only by the `blx` inside this function; also EXACT* -> the follower at 0x020071A8 carries no label
  *
  * symbols:

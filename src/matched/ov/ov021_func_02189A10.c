@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf accessor (prints as .word in the listing): returns the pointer at +0xA0.
  * Sole blocker of ov010 func_0215ECBC's MATCH.

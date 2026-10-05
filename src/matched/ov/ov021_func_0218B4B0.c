@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Reads the object's grid position, and when the tile attribute in front
  * allows it (func_021AB194) steps it one tile in its facing direction, then

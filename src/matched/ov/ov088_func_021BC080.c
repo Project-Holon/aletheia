@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT*: extent runs long; the follower at 0x021BC0AC is an unlabelled leaf
  * (function_starts seed).

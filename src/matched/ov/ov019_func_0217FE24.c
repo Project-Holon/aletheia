@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * note:     unlabelled leaf (prints as .word in ov019.s); called from
  *           func_0217E440.
  */

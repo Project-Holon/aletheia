@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Element field: u32 at +0x4c of a 12-byte sub-record of record 0xd4.
  *

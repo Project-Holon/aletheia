@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * note:     the trailing star is the two unlabelled leaves that follow in the
  *           word run -- func_02096578 (0x02096578) and func_02096594

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * When the object is active and its +0x10 and +0x12 halfwords differ,
  * latches the new value and re-resolves the current record.

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * Verified with:
  *   python tools/match.py one --src src/pending/func_020178D8.c \
  *       --func func_020178D8 --addr 0x020178D8 --cc 1.1p1 --thumb

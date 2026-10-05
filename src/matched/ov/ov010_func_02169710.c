@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Draws each placed model of a list: for every 0x14-byte entry at +0x9C
  * (count u16 at +0xA4) whose index is valid in the resource table at +0x98,

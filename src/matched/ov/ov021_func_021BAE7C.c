@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * EXACT*: 406 bytes compiled against a 408-byte extent (trailing pad).
  * The result vector is written through the SDK's inline VEC_Set, whose

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      GetWLanSetElement (libdwcutil.TWL.HYB.a(atermset.o))
  *

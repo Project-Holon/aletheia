@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * One-shot state test: only when the mode word is 1, the arm9 predicate
  * agrees and the flag is clear does the flag get set.

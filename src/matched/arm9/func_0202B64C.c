@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Blocked: the only site, the THM_CALL at +0006 to func_0202C070, has no
  * manifest entry.  0x0202C070 is byte-correct but capped in turn on 0x0202C148,

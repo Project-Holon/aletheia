@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled arm9 leaf: element idx of a five-entry array of 0x120 byte
  * records, the base itself when idx is out of range. Filed as the relocation

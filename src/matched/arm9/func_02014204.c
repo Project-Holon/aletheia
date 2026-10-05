@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocker:  matched - 0x02013C70's only call site image-wide is the one
  *           inside this function, and src/pending/func_02013C70.c is itself
  *           only MATCH (its pool word for tbl_0209E010 has no outside

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The duplicate/accept scan over the receive ring.  Closed 2026-09-23 by
  * writing the ring walk as the plain two-case shape: `if (lo <= hi)` one

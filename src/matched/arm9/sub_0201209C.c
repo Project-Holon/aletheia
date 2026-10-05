@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The word pair setter that follows func_02012088's epilogue at 0x0201209A:
  * two words at +0x10 and +0x14, no prologue, no label.

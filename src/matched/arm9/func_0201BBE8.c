@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT* note: the 84 byte body reproduces exactly; the inferred extent runs to
  * the next label because of 4-byte `movs r0, #0; bx lr` leaf with no prologue at 0x0201BC3C (unlabelled).

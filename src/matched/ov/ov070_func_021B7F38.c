@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf: MATH_QSort comparator over 8-byte entries, ordering by
  * the unsigned key word at +4. Its only reference is the pool word

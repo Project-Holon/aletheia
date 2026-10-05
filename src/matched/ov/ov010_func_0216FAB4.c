@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Look up a texture and a palette by name in a G3D texture resource,
  * derive their formats from the 7-entry d_021726A0 table, and load them

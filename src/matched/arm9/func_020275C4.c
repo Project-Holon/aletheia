@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled arm9 leaf reading the word at +0xB08. Filed as the relocation
  * witness for ov021 func_021CD3A4 (wave A1).

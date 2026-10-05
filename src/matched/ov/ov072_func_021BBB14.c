@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf in a .word run:
  *   lsls r1,r1,#2; ldr r0,[r0,r1]; bx lr

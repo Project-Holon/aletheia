@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled empty callback (bx lr), printed as a pool word; its only
  * referrer is the pool word in func_021F29D8, which it blocks.

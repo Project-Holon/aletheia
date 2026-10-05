@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   PENDING
+ * status:   EXACT*
  *
  * symbols:
  *   func_021B9B6C  0x021B9B6C  thumb  ov224

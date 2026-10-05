@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * An unlabelled leaf, six bytes padded to eight, sitting between
  * sub_0202C5B4's trailing padding and func_0202C5CC's label

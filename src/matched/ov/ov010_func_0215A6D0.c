@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf, blocker of ov021 func_021B6AE0: stores the word at +0x10C of the record held at +0x20.
  * (Also compiled inside the ov010_func_0215A684 unit, whose header names only its first function.)

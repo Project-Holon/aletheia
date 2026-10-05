@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * note: unlabelled getter witnessing ov112 021F6CE0.
  */
 #include "../include/Obj23221.h"

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * blocker:  every concrete byte reproduces; the single call to
  *   func_02012F98 (0x02012F98) stays wildcarded because the target is an

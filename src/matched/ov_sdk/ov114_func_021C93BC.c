@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * SDK: TwlSDK/libext.TWL.HYB.a(ext_scrntest.o).  decl_line 215.  Duplicate
  * body of 0x021C8658 over a different counter datum.

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * extent: 2-byte zero alignment follows bx lr.
  */
 void func_021B9784(void)

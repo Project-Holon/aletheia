@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * TwlDWC libdwcgsgp gpipeer.o: frees the buffer the message owns and clears
  * the message's pointer (gsifree is func_021C7DE0 here).

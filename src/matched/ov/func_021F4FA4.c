@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  * blocker resolved: 0x020056BC was matched in arm9 (src/matched/
  * func_020056BC.c, shard pkt_020056BC); the call now attests as `matched`.
  * All 32 bytes are right.

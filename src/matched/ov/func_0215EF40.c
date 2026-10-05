@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Stamp the fixed id on the record, then hand three of the record's own
  * fields to the overlay pair call.

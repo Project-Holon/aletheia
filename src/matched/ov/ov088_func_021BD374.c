@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf in a .word run at ov088:021BD374.  The caller
  * func_021BE6E8 lives in ov204 (0x021BDA40..), which does not overlap ov088

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The stores through a 12-byte element struct (P/Ent) versus the byte-offset
  * reads keep two separate i*12 multiplies, as in the original.

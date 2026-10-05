@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * Two halfword field stores, +0x36 and +0x38, from the two value
  * parameters.

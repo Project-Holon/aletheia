@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * PROMOTED from src/pending/func_02050984.c 2026-09-21 (wave 4, billboard_act).
  * The C is UNCHANGED: it was parked at MATCH* because three of its four ABS32

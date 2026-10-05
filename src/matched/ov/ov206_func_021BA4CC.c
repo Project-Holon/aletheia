@@ -7,7 +7,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * symbols:
  *   func_021BAF50 0x021BAF50 thumb ov206
  *   func_021BA934 0x021BA934 thumb ov206

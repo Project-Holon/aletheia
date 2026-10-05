@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * closed:   blocker func_02029488.c is now a manifest entry (matched class)
  *
  * Two-state stepper, kind 2 variant: state 0 emits the descriptor with the

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf, blocker of ov021 func_021B50D0: byte table lookup, 0xFF maps to 1.
  * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,

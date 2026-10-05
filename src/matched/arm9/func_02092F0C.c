@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * note:     MSL printf.c `double2hex`, the `%a`/`%A` formatter.  REAL
  *           entry: 0x02092F0C is the home-area push {r0,r1,r2,r3}; the

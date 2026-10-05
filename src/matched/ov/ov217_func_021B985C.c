@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Reset the object: marker u16 at +0, value at +4, six u32 fields zeroed.
  *

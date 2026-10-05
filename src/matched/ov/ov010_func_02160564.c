@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled (inside func_0216025C's listing extent): translates a
  * connection state into a menu index; *err is set for unknown states.

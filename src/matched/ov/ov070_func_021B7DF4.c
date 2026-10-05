@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Quantity selector input: touch buttons (hit table d_021BB960, with
  * auto-repeat accelerating after 120 frames) or the d-pad step the count at

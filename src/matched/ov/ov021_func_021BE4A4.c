@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf: store v into slot j (stride 0x44) of the array whose
  * pointer sits at +0xC of element i (stride 0x10).

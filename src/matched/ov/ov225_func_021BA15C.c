@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * leaf: parent-cleared empty callback of concrete-correct 021B9F24 MATCH.
  * body: 021BA15C bx lr; 021BA15E zero alignment; 021BA160 owned function.
  * Entry is a Thumb pointer 021BA15D in constructor pool 021B9F88.

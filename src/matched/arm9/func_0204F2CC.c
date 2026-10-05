@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  */
 #include "../include/Obj16128.h"
 #include "../include/Obj16129.h"

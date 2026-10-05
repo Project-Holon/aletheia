@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
  *

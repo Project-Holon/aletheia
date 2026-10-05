@@ -9,7 +9,7 @@
  * isa:      thumb
  *
  * Blocked: 0202AE9C (thumb, from name) has no witness outside 0202AE68..0202AE9A. Every concrete byte reproduces.
- * status:   EXACT
+ * status:   EXACT*
  */
 
 typedef unsigned int u32;

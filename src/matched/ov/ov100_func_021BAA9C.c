@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * extent: larger predicate follower 0x021BAAEC is filed separately.
  * symbols:
  *   func_0204E804 0x0204E804 arm

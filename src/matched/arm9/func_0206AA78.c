@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  * blocker:  ABS32 g_02148BF4 at +0x10: the address appears in no other literal pool in the image and no outside branch reaches it
  *
  * symbols:

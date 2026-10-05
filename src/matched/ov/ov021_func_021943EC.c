@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf (push {r4, r5} saves no lr): finds the record whose
  * key equals the argument among n 12-byte records and returns its +8 field,

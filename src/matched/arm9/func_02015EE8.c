@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Returns the address
  * of the embedded renderer sub-object at +0x34.

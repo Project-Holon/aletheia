@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * extent: lead ends 021B973C; the following null-safe getter already has
  * src/matched/ov/ov114_func_021B973C.c and pkt_ov114_021B973C.json coverage.
  * lever: two-word Pair entries preserve the table's format/mode stride.

@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * Byte-counting strlen over an unsigned char string.  The loop is written
  * as an unconditional one with the test and the return inside it, which is

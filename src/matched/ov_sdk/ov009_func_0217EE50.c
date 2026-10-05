@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * SetSockBlocking: read the socket's fcntl flags (SOC_Fcntl cmd 3), set or
  * clear the non-blocking bit (4), write them back (cmd 4), and log the

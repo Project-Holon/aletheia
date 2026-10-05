@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Byte-for-byte the twin of func_02014758 (same 86-byte shape, same three
  * states) with func_020146F8 replaced by func_02014728.  The only other

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * extent: bx lr followed by two bytes zero alignment and existing labelled 021E7E0C.
  */
 void func_021E7E08(int p) {}

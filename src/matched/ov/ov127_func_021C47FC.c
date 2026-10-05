@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Leaf: ldrh r0,[r0,#2]; bx lr.  Blocker of ov099 func_021BA0F8.
  */

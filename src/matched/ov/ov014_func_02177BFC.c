@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled Thumb leaf (prints as .word data in ov014.s), the sole blocker
  * of ov011 func_02173368 +004A: writes the byte at +0x54 through its second

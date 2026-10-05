@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * sdk:      MI_CpuComp8 (libmi.TWL.HYB.a mi_memory.o)
  */

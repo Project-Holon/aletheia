@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The walk/collision test: a tile blocks movement when its attribute word
  * is absent (func_021AB100) or when bit 0 of the flag half is set.

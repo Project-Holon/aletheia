@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
  * Returns the word at offset 0x20. Filed as the witness for ov094 func_021FA458.
  */

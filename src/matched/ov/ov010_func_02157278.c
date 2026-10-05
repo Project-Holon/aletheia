@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT* because the listing folds the unlabelled 24-bit reader at
  * 0x02157298 into this extent.

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Promoted from src/pending/sub_0201F094.c: every concrete byte was
  * already reproduced, and the one relocation, the call to

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Draws six distinct values from 0..0x33 (random pick among the ones not
  * yet taken) and writes each plus 0x37 to six script-variable slots.

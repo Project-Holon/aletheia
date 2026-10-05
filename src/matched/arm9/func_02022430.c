@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The eleven-argument screen descriptor builder func_0202208C runs twice, once
  * per screen: a pure field-by-field copy of the argument list into the 0x26

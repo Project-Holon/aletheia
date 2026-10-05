@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Completion callback: writes 1 through its second argument.  Referenced
  * only by address from func_021D1C8C's literal pool.

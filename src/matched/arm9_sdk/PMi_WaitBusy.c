@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * TwlSDK libspi pm.o (.comment stamp 4.0.0.1024, dsi/1.1p1).
  *

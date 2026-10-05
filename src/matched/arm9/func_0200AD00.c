@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   (none - no relocations; the two pool words at 0x0200AD64 (0xFFFE007F)
  *    and 0x0200AD68 (999) are the bitfield mask and the clamp, both plain

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * Resolve one animation entry out of the nested cell/attribute tables and,
  * if it is not already marked done (flags bit 0 at +3), hand it plus the

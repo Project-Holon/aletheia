@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * leaf: sole unresolved callback of concrete-correct BB2B4; parent ownership clearance obtained. Thumb bx lr, then two zero alignment bytes.
  */
 void func_021BB3FC(void *p)

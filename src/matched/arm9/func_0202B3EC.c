@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Runs the destructor chain: func_0202B42C, then releases the +0x14
  * sub-object and the object itself.
