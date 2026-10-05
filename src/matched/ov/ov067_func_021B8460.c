@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  * 2026-10-05 (wD9r P4): 5 bytes differ, size equal (1328), 27 of 27 relocations resolved. Residue: the
  *   second f1c table read (offsets 0134..013A, the `r != -1 && table[r].f4 == 0 && ready == 1 && table[r].f4 == 0`
  *   test) is `ldr r0,[f1c]; lsls r1,r4,#3; adds r0,r0,#4; ldr r1,[r0,r1]` in the original (base+4 added
@@ -61,6 +61,11 @@
  *   finds only this function (other hits are folded constant offsets). The original needs base+4 as an unfolded node;
  *   mwcc folds a constant into the load offset unless the sum has another use, and no use of f1c+4 exists in this block.
  *
+ * pass 2 2026-10-06 P2L07: EXACT. Closed with `#pragma opt_propagation off` and two named locals set in
+ *   the second test after the `r != -1` compare: a byte offset `o = r*8` assigned first, then a byte pointer
+ *   `q = (const u8 *)s->f1c + 4`, and both reads spelled `*(u32 *)(q + o)`. The named pointer keeps base+4 as
+ *   its own value (register-offset load); assigning the offset first gives the original `lsls` before `adds #4`.
+ *   Without the offset local (q only) 3 bytes differ (adds/lsls order swapped). EXACT in --lang c99 and --lang c.
  * symbols:
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02035BA4 0x02035BA4 arm
@@ -107,9 +112,10 @@ extern void func_021B9228(struct S *,int,s8);
 extern void func_020061E4(u32);
 extern void func_02041EE4(u32,u32,int);
 extern const u8 d_021B94F8[];
+#pragma opt_propagation off
 int func_021B8460(struct S *s)
 {
- int r,n,v,a;
+ int r,n,v,a; const u8 *q; int o;
  if(func_0201C6B4(s->f34)==0) return 1;
  if(s->f50==3 && s->f70==1) {
   r=func_02035BA4(s->f2c);
@@ -136,7 +142,7 @@ int func_021B8460(struct S *s)
  if(s->f69==0) {
   if(s->f68==0) {
    r=func_02035BA4(s->f2c);
-   if(r!=-1 && s->f1c[r].f4==0 && s->ready==1 && s->f1c[r].f4==0 &&
+   if(r!=-1 && (o=r*8, q=(const u8 *)s->f1c+4, *(u32 *)(q+o)==0) && s->ready==1 && *(u32 *)(q+o)==0 &&
      ((s->f85<0 && s->f87<r)||(s->f85>0 && s->f87>r))) {
     s->ready=0;
     n=func_021B841C(s,s->f67);
@@ -231,3 +237,4 @@ int func_021B8460(struct S *s)
  s->f69--;
  return 1;
 }
+#pragma opt_propagation reset
