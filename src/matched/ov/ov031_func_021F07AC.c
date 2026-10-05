@@ -1,33 +1,17 @@
 /*
  * function: func_021F07AC
- * address: 0x021F07AC
- * packet: pkt_ov031_021F07AC
- * region: ov031
+ * address:  0x021F07AC
+ * packet:   pkt_ov031_021F07AC
+ * region:   ov031
  * compiler: dsi/1.1p1
- * flags: -O4,p
- * lang: c99
- * isa: thumb
- * status: DIFF
- * residual: 500/500 bytes, 28 concrete mismatches, all27 sites resolved.
- * W76 final retry: eight runs. Inline paletteFlag return branch reduces29
- * to28, retained; long c, enum helper/c, long offset and wide k unchanged;
- * proven-range u16 offset expands504/DIFF459. Three later nonshrinks stop.
- * checks: 1 own 1C724(7), 2DC60(5), 413B0(6), 2DCC4(2), other own/shared
- * signatures re-read; corrected wide413B0 index and unsigned2DCC4 index
- * unchanged28; preserve narrow1C724 arguments for observed truncation;
- * 2 own0054/0680/09A0/0AA0 prove layout/byte k, no full twin;
- * 3 u32 k unchanged28 and existing const e retained; u8 k best restored;
- * 4 enum-return/flag, masked-width and shared register idioms read;
- * 5 recent directory/neighbours reviewed, pair/frame offsets agree.
- * Keep per-arm b[k] store, case0 aftercase5, w40 local before firstprint.
- * Both old types-permuter300 searches consumed, not repeated.
- * Next: inline palette-copy binding with halfword offset before flag branch.
- * 2026-10-05 (wave P6 U7): size is 500 B (lane list said 342). Residue 28 B is one
- * register swap: original k=r6, flag c=r5 (c and k*4 share r5); build k=r5, c/k*4=r6.
- * Tried: c as inline 'c = 0; if (e[0x20]) c = 2;' (29 B), no off local (39 B), k as int
- * (29 B), c declared first (29 B), each of opt_lifetimes/opt_propagation/opt_common_subs/
- * opt_dead_assignments/scheduling/peephole off (28, 364, 424, 364, 28, 28). No twin in other
- * overlays (ov029 021F07AC is a different function). Callee arities all agree with callers.
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * note: 2026-10-05 (wave P6 U7b) closed from 28 B. The palette row offset is a byte
+ * offset written (k * 0xE0) << 1 (the 0x1C0 byte length is the same row size), and the
+ * flag helper tests e[0x20] == 0 first. The offset form fixed the k/c register swap
+ * and the early shift; the helper polarity fixed bne vs beq.
  * symbols:
  *   func_0204162C  0x0204162C  arm
  *   func_02082D44  0x02082D44  arm
@@ -94,8 +78,8 @@ extern void func_02045924(void *dst, const void *src);
 extern const Pair d_021F1040;
 static inline int paletteFlag(const u8 *e)
 {
-    if (e[0x20] != 0) return 2;
-    return 0;
+    if (e[0x20] == 0) return 0;
+    return 2;
 }
 
 void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
@@ -109,9 +93,9 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
     int off;
 
     pal = func_0204162C(6);
-    off = k * 0xE0;
+    off = (k * 0xE0) << 1;
     c = paletteFlag(e);
-    func_02082D44(pal, pal + off, 0x1C0);
+    func_02082D44(pal, (u8 *)pal + off, 0x1C0);
     func_020413B0(6, 0, k * 7, 0x20, 7, c);
     func_02041B6C(6);
     t = d_021F1040;
