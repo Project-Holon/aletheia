@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ * accepted 2026-10-05 by the user: the held form (see the notes below) is accepted as plausible original source.
  * review 2026-10-05: parked for the user. EXACT* in c99 and c, but only with the cmpid() inline that
  *   returns a one-field struct to open an 8-byte frame hole; this may be a stand-in.
  * note:     2026-10-05 wave P14 C3. Older draft (docs/notes/pkt_ov095_068996D4.c.txt) was DIFF 18/172.

@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
+ * accepted 2026-10-05 by the user: the held form (see the notes below) is accepted as plausible original source.
  *
  * 2026-10-05 (wave P7 lane V9): byte-exact in c99 and c, but two casts are unsure
  * human forms, parked for the integrator. (1) `(u8)col` in the first call: col is only 0 or 4,

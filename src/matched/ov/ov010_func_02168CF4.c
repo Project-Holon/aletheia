@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
+ * accepted 2026-10-05 by the user: the held form (see the notes below) is accepted as plausible original source.
  * recoup 2026-10-05 (P21L10): extent 60 B includes a 2-byte pad (movs r0,r0); code is 58 B.
  * The old draft (12 B off, only the ldr r2 position and the lsls/adds r6 order) closed by
  * dropping const from the record pointer and the byte-pointer casts: EXACT* in c99 and c.
