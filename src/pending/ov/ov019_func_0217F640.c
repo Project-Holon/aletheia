@@ -63,6 +63,22 @@
  * r3, not r6). The original needs two spilled and r6 as the tile temp; no
  * source form tried makes the allocator spill both y and i*4.
  *
+ *
+ * final push 2026-10-05 G8L4 (40 compiles, 3 rounds): the loop now matches the listing except
+ * register colours (340 B, 34 B off, no size or instruction difference). Loop form (as in
+ * ov099 021BBEB4): `int pal; if (mask & (1 << i)) pal = 0x41; else pal = 0x11; pal <<= 6;`
+ * inside the loop, calls read self->f2818 / self->f3530 directly (pw/pt locals are not needed:
+ * mwcc hoists the two field addresses itself and keeps them in sp+0x18/sp+0x14).
+ * Residue: original self r5, h r7, flag r6, pal r7; here self r7, h r6, flag r5, pal r5.
+ * From mwcc Coloring.c: self is pushed first (lowest spill_cost/degree), so it gets r7; the
+ * original has pal lowest. Any change that spills pal (ternary pal, `pal << 6` at each call,
+ * u32/long/u16 pal, pal as a1 or h-as-u32, tile_pal inline, do-while) gives prologue colours
+ * identical to the original but 332 B / DIFF 99 (pal spilled, y r6, off r7). With `int h`
+ * shared with pal it equals this file. Also no change: i int/u32, u8 flag, int mask, pal at
+ * function top (40), pal as flag (34), as msg (321), mode (39), i as mode (45), named y (121),
+ * declaration order, default-then-override pal (144), six pragmas (34,168,102,34,34,34),
+ * opt_lifetimes off with shared h (48). Left DIFF.
+ *
  * symbols:
  *   func_02188C54  0x02188C54  thumb  ov021
  *   func_02034714  0x02034714  arm
@@ -116,8 +132,6 @@ void func_0217F640(Self *self, u32 a1, u32 mask, int mode, int msg)
     void *s;
     long i;
     int flag;
-    void **pw;
-    Tiles **pt;
 
     if (self->win2804 == 0)
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
@@ -141,11 +155,11 @@ void func_0217F640(Self *self, u32 a1, u32 mask, int mode, int msg)
         func_0219161C(self->f2818, 0, 0, msg == 1 ? 0x14f : 0x150);
     }
 
-    pw = &self->f2818;
-    pt = &self->f3530;
     for (i = 0; i < 6; i++) {
-        int pal = ((mask & (1 << i)) ? 0x41 : 0x11) << 6;
-        func_02191674(*pw, 0, (i * 2 + 4) * 8, (*pt)->a[i], pal);
+        int pal;
+        if (mask & (1 << i)) pal = 0x41; else pal = 0x11;
+        pal <<= 6;
+        func_02191674(self->f2818, 0, (i * 2 + 4) * 8, self->f3530->a[i], pal);
         func_02191674(self->f2818, 0x70, (i * 2 + 4) * 8, self->f3530->b[i], pal);
     }
 }
