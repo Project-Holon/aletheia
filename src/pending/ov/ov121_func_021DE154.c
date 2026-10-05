@@ -16,6 +16,7 @@
  * wave78: FINAL retry exhausted; named signed-long index, unsigned-long index, u16 index and State *const all flat9/332, four runs. Three nonshrinking changes; prior once300 consumed, not repeated. Best prior C retained.
  * recoup 2026-10-05 (P21L9): 332 B real extent (lane size 60 was a label gap). Residue: only +0036..0040, the case-0 shift 'lsls r2,r0,#3' (index*8) is issued before 'ldr r1,[r4,#0x1c]' in ours, after 'ldrsb' direction in the original, so startx is in r2 instead of r1. Tried, all 9 B unless noted: six per-function pragmas (lifetimes, propagation, common_subs, dead_assignments, scheduling, peephole); const on the three small tables; __restrict on out/position; Pair-array extern with p->target = tbl[i] (13 B); Pair start struct copy p->start = p->target (17 B); target.x/.y as two table reads (16 B); non-const char table (13 B); source order startx,starty first (20 B) or direction,frames first (15 B); row pointer local with struct copy (9 B) or two field copies (22 B). Idioms read: a-load-scheduled-above-an-unrelated-store, a-const-source-pointer-pulls-field-loads-up, a-local-declared-at-its-first-use, a-data-pair-load-hoisted-into-locals, a-field-read-from-a-table-folds-the-field-offset. Twin search: grep -rl _s32_div_f src/matched/ov and grep -rl 021DF944 src/matched found no interpolation twin.
  * recoup 2026-10-05 P30R2: callees (_s32_div_f, _u32_div_f) are runtime helpers, no void/arity issue. Residue unchanged, 9 B at +0036..0040 (shift index*8 issued before ldr target.x). Tried, 11 compiles: byte-offset index (d + (index << 3)) with struct copy 9 B; two int-word reads 252 B; u64 copy 31 B; copy placed before direction/frames 33 B, between direction and frames 34 B, last with starty early 20 B; frame = 0 moved after the copy 29 B or after next 21 B; startx read into a local at case start 17 B, both start locals 40 B. Best honest form kept (9 B). Idioms read again: a-load-scheduled-above-an-unrelated-store, a-local-declared-at-its-first-use. Twin search: grep -rl _s32_div_f src/matched/ov (no interpolation twin).
+ * final push 2026-10-05 G3L6: 33 compiles, still 9 B (+0036..0040). New: table as 'extern const Pair' with p->target = tbl[p->index] is 9 B and replaces the char cast; non-const int/u32/u8/u16/Pair tables 13 B (final two stores swap); memcpy for the pair 340 B; inline helpers (copy, whole case 0, row accessor) 9 B; Pair start member 9 B; p->start = p->target 19 B; row pointer or local Pair at case start 259-274 B; target pointer local 270 B. Finding: shift index*8 goes late only when startx/starty stores follow the dir/frames stores (p->start = p->target), which then moves str startx late; orig has str startx at +003C and shift after the dir load, so no source order tried gives both. Pre-RA scheduler (docs/SCHEDULER.md in inspiredrobot/mwcc): shift wins on height over the target.x load in ours. Matched-asm search for the adds/ldr[r,r]/ldr[r,#4] pair plus shift and ldrsb: no twin in any listing.
  * symbols:
  *   d_021DF858 0x021DF858 data a2
  *   d_021DF822 0x021DF822 data a1
@@ -41,7 +42,7 @@ typedef struct {
 } State;
 extern u16 d_021DF858[];
 extern s8 d_021DF822[], d_021DF82D[];
-extern const char d_021DF944[];
+extern const Pair d_021DF944[];
 extern int _s32_div_f(int, int);
 extern u32 _u32_div_f(u32, u32);
 int func_021DE154(State *p, u16 *out, Pair *position)
@@ -56,7 +57,7 @@ int func_021DE154(State *p, u16 *out, Pair *position)
         p->direction = d_021DF822[p->index];
         p->frames = d_021DF82D[p->index];
         p->starty = p->target.y;
-        *(Pair *)((char *)p + 0x1c) = ((Pair *)d_021DF944)[p->index];
+        p->target = d_021DF944[p->index];
         if (p->direction > 0) {
             p->previous = p->previous == 0xffff ? 0 : p->previous;
             p->next = p->next == 0 ? 0xffff : p->next;

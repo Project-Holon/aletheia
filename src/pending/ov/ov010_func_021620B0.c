@@ -30,6 +30,22 @@
  * per-loop, scaled-record-base-pointer, redundant-second-assignment, spilled-value-below-cse-temps,
  * narrow-flag-local. Twin search: grep of func_02161ECC/02161E78/02082D44 in src/matched/ov found only
  * ov010 siblings 02161D98, 021621E8, 0216220C (no compacting twin).
+ *
+ * final push 2026-10-05 G3L3 (40 compiles, 3 rounds): still DIFF 7/92 B, spill slots of i and o exchanged.
+ * Model: slot order low to high is inline locals, named locals (last declared lowest), compiler temps;
+ * o = i*0x18 folds to a temp, so it sits above named i; the image has o below i. Tried, all DIFF 7:
+ * no o local; o=0 before i=0; callee decls const void pointer with u32, unsigned char*, T* (bitfield struct);
+ * o declared first; i*0x18 at one use only (two forms); inline int offset helper (assigned and at each
+ * site); whole-body inline helper; inline pointer helper; block-scoped o/j; C99 for-init locals;
+ * continue-style loop; E[0x18] struct array with &p[i]; register int i; const int o; one-struct cursor
+ * {off,idx} (both field orders); o reassigned before the memcpy; declaration initialisers; while (++i < 10);
+ * named src/dst offsets (both orders); param copy local; unsigned i (8 B); unsigned char o (96 B, extension code);
+ * pragmas opt_strength_reduction, opt_loop_invariants, opt_vectorize_loops, opt_dead_code, opt_unroll_loops,
+ * opt_cse_calls off. Matched-asm search for `ldr [sp,#4]; muls; str [sp]` found no twin (only this function);
+ * 22 generic `muls; str [sp]` sites spill the offset with the counter in a register. Caller func_02161E60
+ * passes p+8 / p+0xF8. Idioms read: of-two-equal-temps, function-scope-vs-block-scope, a-spilled-local-assigned-twice,
+ * an-inline-return-temp, a-redundant-second-assignment, a-two-word-region-as-a-struct, scaled-record-base-pointer,
+ * spilled-value-below-cse-temps, a-loop-counter-zero-before-an-offset, constant-temp-reuses-first-assigned-slot.
  * symbols:
  *   func_02161ECC  0x02161ECC  thumb
  *   func_02161E78  0x02161E78  thumb

@@ -8,6 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * final push 2026-10-05 G3L7: still DIFF 9 bytes (arc r6 / arr r7), no code change. New material, 20 compiles, all 9 B unless
+ *   noted. Pragmas (none tried before): opt_lifetimes, opt_common_subs, opt_dead_assignments, scheduling, peephole,
+ *   opt_loop_invariants, opt_strength_reduction, opt_dead_code, opt_unroll_loops each off: 9 B (identical code);
+ *   opt_propagation off: 139 B. Heap read into a u16 local inside the loop: 9 B. `u8 *const p`, `*(arr + i)`, `s32 x`,
+ *   `++i`, `p + 0x4C * i`: 9 B. `e[8] | e[9]` for the u16 test: 136 B. Call and store written in both if/else arms (spend
+ *   check of docs/idioms/a-goto-join... and an-if-else-store-counts...): 9 B, so the arms are merged before colouring and the
+ *   duplicated uses do not count. Probe (not a form): heap held in a local across the post-loop calls: 154 B. mwcc
+ *   Coloring.c/SpillCode.c read again: colours pop in reverse push order, cost = weight * (2 uses + defs), score = cost /
+ *   degree on the coalesce root; nothing in the source alters arc's degree or arr's cost without changing code. Matched-asm
+ *   search for `lsls r1,rI,#2; str r0,[r6|r7,r1]` over asm/overlays and asm/arm9 (main 0201D33C, ov039 021F3D1C, ov194
+ *   021F5004, ov209 021BD9B4, ov096, ov173, ov097 021F6F88): none has the handle in r7 and a p-derived base in r6 with
+ *   this pressure; matched loops of the same family (ov034 021F0724, ov097 021F6F88, ov099 021BBC34) give no new form.
+ *   Round 3: arc is never stored or re-read in the image (open result goes straight to r7), so a field or getter re-read adds code;
+ *   Slot(p, i) helper with no named arr: 180 B (143 differ); Finish(p, arc) helper: 9 B; i, x, arr in a block around the loop: 9 B.
  * 2026-10-05 (wD9r laneS1): still DIFF 9 bytes (arc r6 / arr r7), no code change; the half-edited state left by a
  *   stopped lane held only notes (code identical to HEAD, same 9 B verdict). Allocator model read from the mwcc
  *   source (src/backend/Coloring.c, SpillCode.c): interference nodes are pushed on a stack when degree < colours, in
