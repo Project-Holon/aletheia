@@ -1,0 +1,209 @@
+/*
+ * function: func_021B8460
+ * address:  0x021B8460
+ * packet:   pkt_ov067_021B8460
+ * region:   ov067
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * 2026-10-05 (wD9r P4): 5 bytes differ, size equal (1328), 27 of 27 relocations resolved. Residue: the
+ *   second f1c table read (offsets 0134..013A, the `r != -1 && table[r].f4 == 0 && ready == 1 && table[r].f4 == 0`
+ *   test) is `ldr r0,[f1c]; lsls r1,r4,#3; adds r0,r0,#4; ldr r1,[r0,r1]` in the original (base+4 added
+ *   first, register-offset load); we emit `ldr r1,[f1c]; lsls r0,r4,#3; adds r0,r1,r0; ldr r1,[r0,#4]`.
+ *   The earlier draft (docs/notes/pkt_ov067_021B8460.c.txt) used an inline `second()` helper and
+ *   `count += (u8)1`; both were dropped here (plain `s->f1c[r].f4` and `count++` give the same 5 bytes).
+ *   Tried (25 compiles): plain f1c[r].f4 twice; struct Ent pointer at +4; header struct with Ent e[1];
+ *   integer base `(u32)f1c + 4 + r*8` and `+ r*8 + 4`; u8 * base; `&f1c->f4 + r*8` and
+ *   `(&f1c->f4)[r*2]`; u8 * field type; a local q = f1c+4 set before the test (gives the original
+ *   `adds #4` + register-offset form, but q is hoisted above the `r != -1` compare, so 15 bytes differ),
+ *   q set in a comma expression (propagated, 5), q set under `if (r != -1)` (966, q takes r6);
+ *   all six per-function pragmas (lifetimes, propagation, dead_assignments, scheduling, peephole: 5;
+ *   common_subs: 971); --lang c (5). Idioms checked: indexed-field-stays-inline-or-base-and-index-swap
+ *   (5), pointer-sum-with-a-far-offset-associates-differently (5), a-loop-indexes-the-base-and-leaves-
+ *   the-field-offset-in-place (5), an-integer-table-base-multiplies-into-a-copy-of-the-index (5),
+ *   a-far-offset-before-the-index-keeps-base-and-index-separate-across-calls (5).
+ * 2026-10-05 (wD9r P4b, 25 more compiles, all still 5 bytes unless noted): the differing read at 0134 is the ONLY
+ *   table read in this block; the original reuses r1 for the second `cmp r1,#0` at 014E, so the two tests share one
+ *   load (our CSE does the same). Tried: u32 (*f1c)[2] with f1c[r][1]; static inline IsFree(t,r) for one or both
+ *   tests; (&f1c->f4)[r*2] and ((u32 *)f1c + 1 + r*2) on both tests (5), on one test only (915, second read not
+ *   CSE'd); inline F4(const u32 *p,int r){return p[r*2];} on &f1c->f4 for both/one test; a second struct Ent2 at
+ *   f1c+4 indexed [r].a through a cast or an inline helper; u32 local `t` assigned in the condition
+ *   `(t = ...) == 0 && ready == 1 && t == 0`; the condition split into two nested ifs with a `goto fail` into the
+ *   else block; f1c without const (5); volatile f4 (996, and a stand-in). Observation: with the pointer-sum form on a
+ *   single uncached read, the base/index registers match (r0/r1) but the add is `adds r1,r0,r1; ldr [r1,#4]`;
+ *   with a CSE'd read they swap (r1/r0). The original has base+4 as a separate node plus the shifted index.
+ *   Open: a source where base+4 is a value live only inside the block after the `r != -1` branch
+ *   (a local read twice would stay unpropagated) without being live across later blocks.
+ *
+ * symbols:
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_02035BA4 0x02035BA4 arm
+ *   func_021B841C 0x021B841C thumb ov067
+ *   func_021B92F0 0x021B92F0 thumb ov067
+ *   func_021B8EA0 0x021B8EA0 thumb ov067
+ *   func_021B8404 0x021B8404 thumb ov067
+ *   func_021B9190 0x021B9190 thumb ov067
+ *   func_021B91D0 0x021B91D0 thumb ov067
+ *   func_021B91BC 0x021B91BC thumb ov067
+ *   func_021B9228 0x021B9228 thumb ov067
+ *   func_020061E4 0x020061E4 thumb
+ *   func_02041EE4 0x02041EE4 arm
+ *   d_021B94F8 0x021B94F8 data a1
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+struct Ent {u32 f0,f4;};
+struct Ops { void (*a)(void); void (*b)(void *,int,int); void (*c)(void *,int); };
+struct S {
+ u8 f0,f1,pad2[0x1c-2];
+ const struct Ent *f1c; struct Ops *f20; void *f24; u32 f28; void *f2c; u32 f30; int f34;
+ u8 pad38[0x46-0x38]; s8 f46,f47,f48,f49,f4a; u8 f4b;
+ u16 f4c,f4e,f50,f52; u32 f54;
+ u8 pad58[4]; s16 f5c; u8 pad5e[4]; s16 f62; u16 f64;
+ s8 f66,f67; u8 f68,f69; u16 f6a; u32 f6c,f70;
+ u8 pad74[0x85-0x74]; s8 f85;
+ u8 count:5; u8 ready:1; u8 drag:1; u8 trigger:1;
+ u8 f87,f88,f89; u16 f8a; u32 f8c,f90;
+};
+extern int func_0201C6B4(int);
+extern int func_02035BA4(void *);
+extern int func_021B841C(struct S *,int);
+extern void func_021B92F0(struct S *,u32,u32);
+extern int func_021B8EA0(struct S *);
+extern u8 func_021B8404(struct S *,int);
+extern s8 func_021B9190(const s8 *,int);
+extern void func_021B91D0(struct S *,int,int);
+extern s8 func_021B91BC(s8,s8,int);
+extern void func_021B9228(struct S *,int,s8);
+extern void func_020061E4(u32);
+extern void func_02041EE4(u32,u32,int);
+extern const u8 d_021B94F8[];
+int func_021B8460(struct S *s)
+{
+ int r,n,v,a;
+ if(func_0201C6B4(s->f34)==0) return 1;
+ if(s->f50==3 && s->f70==1) {
+  r=func_02035BA4(s->f2c);
+  if(s->drag==1) {
+   if(s->trigger==0) {
+    if(r==-1) {
+     s->f85=s->f90-s->f8c;
+     a=s->f85;
+     if(a<0) a=-a;
+     if(a>=16) { s->count=0; s->drag=0; s->trigger=1; }
+    } else if(s->count!=3) {
+     s->f8c=s->f54;
+     s->count++;
+    }
+   }
+  } else if(r!=-1 && s->f1c[r].f4==0) {
+   s->f5c=r;
+   s->drag=1;
+   s->count=0;
+   s->f8c=s->f54;
+   s->f90=s->f54;
+  }
+ }
+ if(s->f69==0) {
+  if(s->f68==0) {
+   r=func_02035BA4(s->f2c);
+   if(r!=-1 && s->f1c[r].f4==0 && s->ready==1 && s->f1c[r].f4==0 &&
+     ((s->f85<0 && s->f87<r)||(s->f85>0 && s->f87>r))) {
+    s->ready=0;
+    n=func_021B841C(s,s->f67);
+    if(n!=0) {
+     v=s->f87-r;
+     if(v<0) v=-v;
+     s->f68=v;
+     if(s->f68>(u32)n) s->f68=n;
+     s->f87=r;
+    } else {
+     s->f8c=s->f54;
+     s->f90=s->f54;
+     s->drag=0;
+     func_021B92F0(s,(u16)s->f5c,255);
+     s->f4e=s->f50;
+     return 0;
+    }
+   } else {
+    s->f8c=s->f54;
+    s->f90=s->f54;
+    s->ready=0;
+    s->drag=0;
+    func_021B92F0(s,(u16)s->f5c,255);
+    s->f4e=s->f50;
+    return 0;
+   }
+  }
+  func_021B92F0(s,255,(u16)s->f5c);
+  if(s->f50==3) {
+   if(s->f70==0) {
+    if(s->f67<0) s->f5c++;
+    else s->f5c--;
+   } else {
+    if(s->trigger==1) {
+     if(func_021B8EA0(s)==1) s->count=0;
+     s->trigger=0;
+    }
+    if(s->drag==1 && s->count==3) {
+     r=func_02035BA4(s->f2c);
+     if(r!=-1 && s->f1c[r].f4==0) s->f5c=r;
+     s->f70=0;
+     s->f87=s->f5c;
+     s->drag=0;
+     s->count=0;
+     s->f8c=s->f54;
+     s->f90=s->f54;
+     s->f20->b(s->f24,s->f5c+s->f62,1);
+     s->f4e=s->f50;
+     return 0;
+    }
+    if(s->f68==1) {
+     n=func_021B841C(s,s->f67);
+     s->f89++;
+     if(s->f89!=6) {
+      if(s->f67<0) s->f67=-*((u8 *)s+s->f89+11);
+      else s->f67=*((u8 *)s+s->f89+11);
+      s->f68=d_021B94F8[s->f89];
+     }
+     if(s->f68>(u32)n) s->f68=n;
+    }
+   }
+  }
+  s->f69=func_021B8404(s,s->f67);
+  s->f68--;
+  if(s->f67<0) {
+   s->f62--;
+   v=func_021B9190((s8 *)s,-1);
+   func_021B91D0(s,s->f62,v);
+   s->f46=func_021B91BC(s->f46,s->f48,-1);
+   v=func_021B9190((s8 *)s,-1);
+   func_021B9228(s,s->f62-(u8)s->f49,s->f4a+v);
+   s->f47=func_021B91BC(s->f47,s->f49,-1);
+  } else {
+   s->f62++;
+   v=func_021B9190((s8 *)s,1);
+   func_021B91D0(s,s->f62+((u8)s->f48-1),v);
+   s->f46=func_021B91BC(s->f46,s->f48,1);
+   v=func_021B9190((s8 *)s,1);
+   func_021B9228(s,s->f62-1,s->f4a+v);
+   s->f47=func_021B91BC(s->f47,s->f49,1);
+  }
+  s->f20->b(s->f24,s->f5c+s->f62,1);
+  if(s->f6c==1) {
+   if((u16)(s->f50+0xfffe)<=1) func_020061E4(0x645);
+   else func_020061E4(0x548);
+  }
+ }
+ s->f66=s->f66+s->f67;
+ func_02041EE4(s->f0,3,s->f66);
+ if(s->f1!=255) func_02041EE4(s->f1,3,s->f66);
+ s->f20->c(s->f24,s->f67);
+ s->f69--;
+ return 1;
+}
