@@ -23,3 +23,5 @@ overlay_021  0x021CA5C4  0x021CB6D0   # bl at 0x021CAB22 -> 0x021CB6CA (shared e
 # inside it.
 overlay_175  0x021D6DB8  0x021D76D4   # bl at 0x021D6DD4 -> 0x021D76B8 (add sp,#0x2c; pop {r4-r7,pc}: the shared epilogue)
 overlay_175  0x021D7E18  0x021D8904   # bl at 0x021D7E6A -> 0x021D885C
+overlay_195  0x022040E0  0x02204C24   # bl at 0x02204102 -> 0x02204BB2 (own tail), 2026-10-05, matched ov195_func_022040E0.c ends at 0x02204C24
+overlay_195  0x02207868  0x02208194   # bl at 0x022078CA -> 0x0220818C (shared epilogue add sp/pop), 2026-10-05

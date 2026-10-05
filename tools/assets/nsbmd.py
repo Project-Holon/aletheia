@@ -1192,11 +1192,11 @@ def gx_decode(data, start, soft_limit=None, hard_limit=None):
                 cy = _s16(params[0] & 0xFFFF) / 4096.0
                 cz = _s16((params[0] >> 16) & 0xFFFF) / 4096.0
                 emit()
-            elif op == 0x28:  # VTX_DIFF: 3x signed relative, 1.0.9 fixed
+            elif op == 0x28:  # VTX_DIFF: 3x s10 relative, in the vertex's 4.12 units (+-1/8)
                 v = params[0]
-                cx += _s10(v & 0x3FF) / 512.0
-                cy += _s10((v >> 10) & 0x3FF) / 512.0
-                cz += _s10((v >> 20) & 0x3FF) / 512.0
+                cx += _s10(v & 0x3FF) / 4096.0
+                cy += _s10((v >> 10) & 0x3FF) / 4096.0
+                cz += _s10((v >> 20) & 0x3FF) / 4096.0
                 emit()
             elif op == 0x40:  # BEGIN_VTXS
                 cur_mode = params[0] & 0x3

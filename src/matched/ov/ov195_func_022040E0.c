@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * note: 2026-10-05 wave P23 closed EXACT*. Case 34 also calls func_02204FD4(a,s) after func_02205384 (same as case 18), so the tails cross-jump into case 18's copy; case 39 reads W(0x90) into a local once for both func_022055BC arguments (ldr before the s+0x1c add). Older 5-byte DIFF came from those two points.
  * checks: 1 fresh own callee definitions and same-overlay callers confirm arities; unit355C4 setteru8 widened tou32 because caller sends only0/1 without truncation; caller-loaded forwarder args and272A4 wide-r1 payload preserved; 2 matched03FA0/05384/055BC/056E8 and loader twins read; 3 u16 keys (only bit2 used) regresses699, a/s writable so no const; 4 Boolean call/inline-wrapper and flag-ternary idioms read; 5 fresh unfiltered idioms and04DE0/04FC4/math neighbours.
  * extent: 02204B66 and 02204BB2 are internal shared tails; true end 02204C24 (2884B).
