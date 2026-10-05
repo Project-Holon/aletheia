@@ -35,6 +35,13 @@
  *   Round 2 (G2L8, 12 more compiles): block-scoped int * or struct * local for 3C50 between 4C2C stores
  *   (6, 10, 11, 11 B), do-while loop (6 or 2 B following the 3C50 order), unsigned arrays (6 B). The 2 B form
  *   is stable: the load slot follows the first 3C50 store offset. No other matched ov013 run of this shape.
+ *
+ * final push 2026-10-05 G10L10 (about 38 compiles shared with 021B3084, best stays 2 B off with the form
+ * below): one-object model ruled out (a struct over 3C50 + 4C2C + 4C38 folds all field offsets into one pool
+ * word, 68 B; the original keeps three words). Also tried without effect (6 B unless noted): zero in a local
+ * int z (function-wide and block-scoped), 3C50 written from the 4C2C fields, 3C50 as a tentative definition
+ * or static in the file, incomplete extern arrays (one, two or all three; 8 B once for 3C50[] alone),
+ * opt_common_subs off. Parked.
  * symbols:
  *   d_021B4C38 0x021B4C38 data a4
  *   d_021B4C2C 0x021B4C2C data a4

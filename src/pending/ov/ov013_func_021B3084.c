@@ -63,6 +63,18 @@
  * 021B3018 pool-slot residue. Matched-assembly search for ldr/mov lr,#1/add lsl #1/lsr: only this
  * function. Parked.
  *
+ *
+ * final push 2026-10-05 G10L10 (about 38 compiles shared with 021B3018, 3 rounds, best stays 17 B): same
+ * single residue. One-object model checked first and ruled out: d_021B3C50, d_021B4C2C and d_021B4C38 lie at
+ * 3C50, 4C2C, 4C38 (ring directly after the state, 12 B apart); modelled as one struct, ARM folds the field
+ * offsets into one pool word (the original has separate words 323C, 3240, 324C), so they are separate objects
+ * (33F8 only kept sym+0x484 as a pool word because of the large offset). Tried (all 17 B unless noted):
+ * all pairs of per-function pragmas (common_subs, lifetimes, dead_assignments, peephole, scheduling; any pair
+ * with lifetimes 200 B); ret = 1 first with d_021B3C50.f0 = ret (235 B, f0/f4 become an stm); 3C50 store
+ * first (235 B); ret=1 before the f0 store with the 3C50 store last; a block-local u32 one = 1 used for both
+ * stores; ret read back from d_021B3C50.f0; chained d_021B3C50.f0 = ret = 1 (17 or 23 B); block-scoped
+ * VadState and VadCfg pointer locals in either declaration order. Cross-check: the original has no stm
+ * between the f0 and f4 stores only because the 3C50 pool load sits between them. Parked.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
