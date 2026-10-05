@@ -13,8 +13,8 @@
  *   3 full-word unsigned-long veneer argument compiles unchanged at256/18;
  *   4 long-index, loop-invariant and typed-address idioms read;
  *   5 full idiom directory relisted, C8FA4 refreshed, Slot frame agrees.
- * residual: 256/256 bytes,18 concrete bytes; 13/13 relocations resolve.
- *   Entry arg spill +0c..14 and work-address/result-store +70..76 differ.
+ * residual: 256/256 bytes, 8 concrete bytes; 13/13 relocations resolve.
+ *   Only the pool load + adds r7 (p+0x1ae4) versus movs #1/str result order at +70..76 differs.
  * retry: wave76 R8,4 compiles. Long arg and long i each retain18;
  *   integer-spelled msg address hoists both addresses and regresses to73;
  *   three nonshrinking changes stopped iteration; check 3 wide veneer
@@ -44,6 +44,20 @@
  *   a-local-declared-at-its-first-use-schedules-its-store-there,
  *   a-spilled-pointer-plus-constant-argument-is-the-sum-stored-in-the-local,
  *   a-const-record-pointer-moves-the-outgoing-stack-store-below-the-register-copies.
+ * final push 2026-10-05 G5L5 (37 compiles, 3 rounds, 18 B -> 8 B): the entry spill residue is closed
+ *   by the shape of matched func_021C9250 (same prologue): p as u8 * with raw offsets
+ *   (*(char **)(p + 8), p + 0x1ae4), const Ent *e, u16 arg with the callee still taking unsigned long.
+ *   Any one of the three alone keeps 18 B (struct p with const e and u16 arg: 18 B; u16 arg without const e: 18 B).
+ *   Remaining: the original computes the work address (ldr pool; adds r7) before movs #1/str result;
+ *   ours emits the loop-invariant store first. Tried with no change (8 B): result = 1 at the top, the end,
+ *   after func_021C5620 or inside the do body (the store is hoisted to the same place); a named work
+ *   local (u8 *w = p; w += 0x1ae4 before result) is propagated, a typed Msg * local hoists the msg and
+ *   work setup to the top of the for body (54 to 64 B); &p[0x1ae4] and a struct view; callee 9168 with const
+ *   Msg *; pragmas scheduling, opt_lifetimes, opt_common_subs off (8 B each); opt_propagation off (188 B);
+ *   while (k) form instead of if + do-while (146 to 154 B); int result with return (u8) (22 B).
+ *   Matched-assembly search for ldr pool; adds rN,r5,r0; movs; str over ov093.s: only this function.
+ *   Idioms read: of-two-equal-temps-the-later-born-one-gets-the-lower-register (no change),
+ *   opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores (188 B).
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021C5A1C 0x021C5A1C thumb ov093
@@ -73,12 +87,6 @@ typedef struct {
     u8 gap[2];
     struct Msg msg;
 } Ent;
-struct Context {
-    u8 gap0[8];
-    char *base;
-    u8 gapc[0x1ae4 - 12];
-    struct Msg work;
-};
 extern u8 *func_021B9934(char *, u8);
 extern void func_021C5A1C(u8 *, u8 *);
 extern void func_021C5A34(u8 *, u8 *);
@@ -90,7 +98,7 @@ extern int func_021C99A0(void *, const struct Msg *);
 extern void func_021C8810(struct Msg *);
 extern void func_021C195C(u8 *, u8 *, u32);
 
-u8 func_021C9068(const struct Context *p, Ent *e, unsigned long arg)
+u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
 {
     const struct Msg *msg;
     u8 *first;
@@ -100,11 +108,11 @@ u8 func_021C9068(const struct Context *p, Ent *e, unsigned long arg)
     int value;
     int k;
     struct Slot slot;
-    first = (u8 *)func_021B9934(p->base, e->idx);
+    first = (u8 *)func_021B9934(*(char **)(p + 8), e->idx);
     result = 0;
-    if (e->fl) func_021C5A1C((u8 *)p, first);
+    if (e->fl) func_021C5A1C(p, first);
     for (i = 0; i < e->count; i++) {
-        a = (u8 *)func_021B9934(p->base, e->targets[i]);
+        a = (u8 *)func_021B9934(*(char **)(p + 8), e->targets[i]);
         if (func_021D5B7C(a)) {
           value = e->value;
           k = func_021C56A8(a, &value);
@@ -112,21 +120,21 @@ u8 func_021C9068(const struct Context *p, Ent *e, unsigned long arg)
           msg = &e->msg;
           result = 1;
           do {
-            func_021C5620((u8 *)p, a, k, &slot);
+            func_021C5620(p, a, k, &slot);
             if (!e->flag) {
-                if (func_021C9168(k, slot, a, arg, (struct Msg *)&p->work)) {
-                    func_021C99A0((void *)p, &p->work);
-                    func_021C8810((struct Msg *)&p->work);
+                if (func_021C9168(k, slot, a, arg, (struct Msg *)(p + 0x1ae4))) {
+                    func_021C99A0(p, (struct Msg *)(p + 0x1ae4));
+                    func_021C8810((struct Msg *)(p + 0x1ae4));
                 }
             } else {
-                func_021C99A0((void *)p, msg);
+                func_021C99A0(p, msg);
             }
-            if (k == 0x13) func_021C195C((u8 *)p, a, 0);
+            if (k == 0x13) func_021C195C(p, a, 0);
             k = func_021C56A8(a, &value);
           } while (k);
           }
         }
     }
-    if (e->fl) func_021C5A34((u8 *)p, first);
+    if (e->fl) func_021C5A34(p, first);
     return result;
 }
