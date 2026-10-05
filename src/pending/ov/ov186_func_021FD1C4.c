@@ -118,6 +118,19 @@
  * pointer member and does not merge; our store goes to an address-taken stack
  * record and merges. No source form found that separates them.
  *
+ * pass 2 2026-10-06 P2L06: still 4 B (same icon-block residue), form unchanged.
+ * 40 compiles. Findings: compiler pins dsi/1.2 and 1.3 give the same 4 B, 1.6sp2
+ * 7 lines, 2.0 1188 B. opt_common_subs off and optimization_level 3 keep the
+ * merge (it is backend, not IRO CSE). Diagnostics: replacing BB5C(B,C,D,A) by
+ * constants (or the B6F4 argument by 5) removes the merge, so it appears only
+ * while the spilled A..D stay live across the icon tail; tiny repros never merge
+ * the 1. Stores through a walking or indexed u16 pointer from &r.x also remove
+ * the merge but use r6 as the base instead of sp+0x70 (60 lines off). Tried, all
+ * 4 B: A..D as a local struct, a u32 info[4] array, an array with a call
+ * initialiser, BB5C result in a local, one function-level h, declaration orders
+ * of A..D and of the icon-block locals, z first, B294 stack arg changes.
+ * Open lead: a form that keeps A..D in real memory (not spilled registers).
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
