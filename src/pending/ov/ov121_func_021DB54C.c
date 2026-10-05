@@ -57,6 +57,15 @@
  *   loop: moved y2/y3 next to y), function-scope-versus-block-scope-decides-spill-slot-order,
  *   div-and-mod-are-two-calls, a-reloaded-loop-invariant-means-the-loop-was-not-rotated
  *   (goto loops still hoist). Twin: ov121 021DB938 (same top condition and loops).
+ * note 2026-10-05 final push G10L1 round 2: DIFF, 28 of 1004 bytes off. `dx = 0;` moved to just
+ *   after the func_0204A6C8 statement (53 -> 28; this also fixed the obj/temp slot swap).
+ *   Remaining: x in r5 and rx in r4 (original x r4, rx r5), and the index/ry spill slots swapped
+ *   (original index sp+0x18, ry sp+0x1c). Tried without effect: dx = 0 as a call argument (251),
+ *   u8 rx/ry, a y=x=0 head, separate x2/x3 per loop, decl order of x/rx/tile; opt_propagation off
+ *   (91), opt_common_subs off (758), opt_lifetimes off (25 but x r4, rx r6, tile r5, index/ry swap
+ *   stays); callee prototypes re-grepped in src/matched (all match the draft). Without the
+ *   pragma and with direct r.b[0]/r.b[1] reads (like matched 021DB938) the slots all match but
+ *   both /3 and %3 are hoisted (84); `(u8)k` inline, `cols = 3` local did not stop the hoist.
  * symbols:
  *   d_021DF86E 0x021DF86E data ov121 a2
  *   d_021DF86F 0x021DF86F data ov121 a1
@@ -200,8 +209,8 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     if (func_021DC024(tab + off) != 1)
         *(int *)(p + 0xb88 + idx * 4) = func_0204AC18(obj, func_021DBF40(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
     *(int *)(p + 0xb68 + idx * 4) = func_0204AF28(obj, func_021DBFE4(tab + off), func_021DC004(tab + off), heap);
-    dx = 0;
     *(int *)(p + 0xb48 + idx * 4) = func_0204A6C8(obj, func_021DBF9C(tab + off), 0, 0, heap);
+    dx = 0;
     func_02049238(obj);
     dy = 0;
     func_02082BCC(&pos, 0, 8);
