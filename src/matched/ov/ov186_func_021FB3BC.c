@@ -1,0 +1,66 @@
+/*
+ * function: func_021FB3BC
+ * address: 0x021FB3BC
+ * packet: pkt_ov186_021FB3BC
+ * region: ov186
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: parameter a declared u16 (u8 also EXACT); a narrow parameter pins its home store to the front of the prologue, see docs/idioms/a-narrow-parameter-pins-its-home-store-to-the-front-of-the-prologue.md. 2026-10-05 wave P12 lane A5: the older draft (docs/notes/pkt_ov186_021FB3BC.c.txt) was only wrong here.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B688 0x0204B688 arm
+ *   func_02043678 0x02043678 arm
+ *   func_0201C7D0 0x0201C7D0 thumb
+ *   func_020255A0 0x020255A0 thumb
+ *   func_020257D0 0x020257D0 thumb
+ *   func_0202597C 0x0202597C thumb
+ *   d_02200D1C 0x02200D1C data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+typedef struct { s16 x,y;u16 f4;u8 f6,f7; } Point;
+typedef struct { void *bmp;s16 x,y;u32 f8,fc;u8 f10,f11;u16 f12;u32 f14; } Param;
+typedef struct { void *actor,*grid,*bmp;u32 fC,b,a; } Obj;
+typedef struct { u32 x,y,z; } Triple;
+extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void func_02082BCC(void *,int,u32);
+extern void *func_0204B294(u32,u32,u32,u32,const Point *,u16,u16);
+extern void func_0204B688(void *,u32);
+extern void *func_02043678(u32,u32,u32,u16);
+extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
+extern void *func_020255A0(void *,const Param *);
+extern void func_020257D0(void *);
+extern void func_0202597C(u8 *,u32);
+extern const char d_02200D1C[];
+Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void *font,const Triple *triple,u16 heap)
+{
+    Param param;
+    const Triple *config;
+    u32 value;
+    Obj *p;
+    value=b;config=triple;
+    p=func_02030734(heap,24,0,d_02200D1C,0xA3B);
+    func_02082BCC(p,0,24);
+    p->a=a;p->b=value;
+    p->actor=func_0204B294(c,config->y,config->z,config->x,pt,value,heap);
+    func_0204B688(p->actor,1);
+    p->bmp=func_02043678(p->a>>3,2,32,heap);
+    func_0201C7D0(p->bmp,1,0,data,font,0x3DA0);
+    func_02082BCC(&param,0,24);
+    param.bmp=p->bmp;
+    param.x=pt->x+32;param.y=pt->y-8;
+    param.f8=config->z;param.f10=pt->f6-1;param.f12=value;
+    param.f14=value;param.f11=pt->f7;param.fc=1;
+    p->grid=func_020255A0(owner,&param);
+    func_020257D0(p->grid);
+    func_0202597C(p->grid,1);
+    return p;
+}
+
