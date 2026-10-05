@@ -1,0 +1,87 @@
+/*
+ * function: func_021B61E8
+ * address: 0x021B61E8
+ * packet: pkt_ov098_021B61E8
+ * region: ov098
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * note: 2026-10-05 EXACT. heap is a u8 parameter (func_0203101C takes it as u16 with no
+ *   narrowing). func_02202058 (ov094) returns its callee's pointer, but ov094_func_02202058.c
+ *   declares it void; this file declares it int. Owner file needs the return fixed.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_021B636C 0x021B636C thumb ov098
+ *   func_0201D7EC 0x0201D7EC thumb
+ *   func_021B6144 0x021B6144 thumb ov098
+ *   func_021F73F0 0x021F73F0 thumb ov094
+ *   func_021F7544 0x021F7544 thumb ov094
+ *   func_020307B0 0x020307B0 arm
+ *   func_021B613C 0x021B613C thumb ov098
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_02202058 0x02202058 thumb ov094
+ *   func_0203101C 0x0203101C arm
+ *   func_021B6140 0x021B6140 thumb ov098
+ *   func_021B6150 0x021B6150 thumb ov098
+ *   func_021B67D4 0x021B67D4 thumb ov098
+ *   func_02008254 0x02008254 thumb
+ *   func_021B6364 0x021B6364 thumb ov098
+ *   d_021B6E68 0x021B6E68 data a1
+ *   d_021B6D80 0x021B6D80 data a2
+ *   func_021B644C 0x021B644C thumb ov098
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct GfFont;
+struct Tcbl;
+struct Halves { u16 a,b,c,d; };
+extern const char d_021B6E68[];
+extern const struct Halves d_021B6D80;
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void func_021B636C(u16);
+extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
+extern int func_021B6144(void *);
+extern void *func_021F73F0(int,int,void *,int,u16 *,int,int,u16);
+extern void func_021F7544(void *,int,u16);
+extern void func_020307B0(void *);
+extern int func_021B613C(void *);
+extern int func_021F86E0(void);
+extern int func_02202058(int,int,int,int,int,u16);
+extern struct Tcbl *func_0203101C(u32,u16,u32,u32);
+extern int func_021B6140(void *);
+extern u32 func_021B6150(u8 *);
+extern u8 *func_021B67D4(void *,void *,void *,u32);
+extern void *func_02008254(u32);
+extern void func_021B6364(u8 *,u32);
+extern void func_021B644C(u8 *);
+#define P(k) (*(void **)(p+(k)))
+#define H(k) (*(u16 *)(p+(k)))
+u8 *func_021B61E8(void *input,u8 heap)
+{
+    u8 *p;
+    struct Halves h;
+    void *q;
+    int ctx;
+    p=func_02030734(heap,0x78,1,d_021B6E68,0x5e);
+    H(0x6c)=heap;
+    P(0)=input;
+    func_021B636C(H(0x6c));
+    P(8)=func_0201D7EC(23,0,0,0,H(0x6c));
+    P(12)=func_0201D7EC(23,2,0,0,H(0x6c));
+    *(u32 *)(p+0x60)=0;
+    h=d_021B6D80;
+    q=func_021F73F0(0,0,(void *)func_021B6144(input),0,(u16 *)&h,0,0,H(0x6c));
+    func_021F7544(q,(int)P(12),H(0x6c));
+    func_020307B0(q);
+    ctx=func_021B613C(input);
+    P(16)=(void *)func_02202058(ctx,0,func_021F86E0(),(int)P(8),(int)(p+0x74),H(0x6c));
+    P(24)=func_0203101C(heap,heap,64,128);
+    *(int *)(p+4)=func_021B6140(input);
+    P(20)=func_021B67D4(P(8),(void *)func_021B6150(input),P(24),H(0x6c));
+    P(0x70)=func_02008254(H(0x6c));
+    func_021B6364(p,(u32)func_021B644C);
+    return p;
+}
