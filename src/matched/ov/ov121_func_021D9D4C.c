@@ -7,17 +7,12 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * 2026-10-05 (wave P13 lane B7): 14 of 184 bytes differ, size equal. Only residue: the entry block. Original
- *   str r3; adds r7,r1; str r2; ldr r5,[sp,#0x28]; ldr r0,=0x1ae; ldr r3,=site; str r0,[sp].
- *   Build hoists ldr r0,=0x1ae above str r3. Body is byte-equal after that.
- *   Needs 0203101C tag parameter declared u32 here (u16 gives an lsls/lsrs pair; heap u8 gives ldrb; heap u16 188 B).
- *   Tried: heap u32/int/local copy; inline allocate wrapper; tag in a u16 local; p declared at first use; a/b widths
- *   (u8 a, u32 b both worse); c,d as u32 or const void *; 02030734 tag u32 or heap u16 (167 B); the six per-function
- *   pragmas (no change). Twin search: grep func_0203101C( in src/matched/ov (ov035 021F0168, ov223 021BAE00, ov111,
- *   ov116 021D7B70 pass heap, heap with int or u16 tag, all EXACT/EXACT*). Callee types: all non-void as matched.
- *   Idioms read: heap-id-passed-unnarrowed (u8 not usable: ldrb), later-parameters-width-reorders-entry-spill-stores,
- *   forwarder-copies-stack-argument, two-long-lived-values, callee-declared-void.
+ * status: EXACT
+ * lever: final push 2026-10-05 G4L9. heap is a u16 parameter and every heap-taking callee
+ *   (func_02030734 first parameter, func_020457B0 second, func_0203101C first two) declares it u16.
+ *   The stack heap then loads as a word and the entry block keeps the original order. See
+ *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
+ *   Twin: ov121 func_021D9CA4.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
@@ -39,9 +34,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor; struct CharBuf; struct Cfg; struct Tcbl; struct U16Vec;
 extern const char d_021DFBA0[];
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u16 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *func_020457B0(u32 capacity, u16 heapId);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -49,9 +44,9 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern struct Tcbl *func_0203101C(u32 heap, u32 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_02028470(u8 *p, u32 v);
-void *func_021D9D4C(u32 a, u8 b, void *c, void *d, u32 heap)
+void *func_021D9D4C(u32 a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
     struct Descriptor *q;

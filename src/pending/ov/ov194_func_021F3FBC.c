@@ -153,6 +153,18 @@
  *   after-the-register-spills-is-a-narrow-pass-through-parameter (copy-to-home form, ours is a register load: n/a),
  *   a-heap-id-passed-unnarrowed-to-both-s16-and-u16-callee-parameters-is-a-u8-parameter (u8 heap: 6, tried before).
  *   3 compiles.
+ * final push 2026-10-05 G3L1: still DIFF 6 (a3 u16 form kept; a3 u32 is 10). 23 compiles. Matched-assembly search over all of
+ *   asm/overlays and asm/arm9: no function has a stack-argument ldr into r4-r7 before a `str r3` spill (every matched function,
+ *   e.g. ov072 021B9E38, ov177 021E88B0, ov186 021FD1C4, puts it after the register spills), and this is the only entry block
+ *   with `ldr [sp,#big]` directly before `movs r1,#0` and a call. So the image order has no matched twin. New tries, none
+ *   closes: all six per-function pragmas (opt_lifetimes, opt_propagation 744, opt_common_subs, opt_dead_assignments,
+ *   scheduling, peephole) with a3 u16 and u32: unchanged 6/10 except propagation 744; func_020490F4 called in each switch arm
+ *   (144, slots move); memset through a static inline ClearBytes(p, n) wrapper (6/10); o as a u32 parameter with casts (10);
+ *   an address-taken heap probe (folded away, 10); house callee declarations from matched callers (int returns, u16 heap and
+ *   flags on 0204ACEC/AC18/A6C8, u16 g on 0204B294): 744/748, the u16 params add masks. Reading: ours has the ldr tied with the
+ *   free entry instructions (adds r4, str r3, movs r6) and the opcode tie break puts it after them; the image ldr outranks even
+ *   the call feeders (movs r1, movs r2), so it has an in-block successor, most likely a memory edge to the call or the a3 spill.
+ *   Param-area loads carry no such edge in ours. No human source form that creates it was found.
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb
