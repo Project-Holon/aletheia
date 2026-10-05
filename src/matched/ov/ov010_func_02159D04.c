@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * symbols:
  *   func_02082A48  0x02082A48  arm
@@ -19,23 +19,10 @@
  * into the u32 grid at +0x71C. Block two is narrowed into the u16 grid at
  * +0x14; without it the u16 grid is filled with the caller's zone id.
  *
- * recoup 2026-10-05 (lane P18L7, 21 compiles, no EXACT): DIFF 11/100 bytes,
- * only registers. Original: zone_id r7, src+8 r6, pooled 0x71C r4. Compiled:
- * zone_id r4, src+8 r7, pool r6. Twin search: grep of func_02082A90 and
- * func_02082A48 across src/matched/ov finds no function with both calls.
- * Callee types: both are void copy/fill helpers, no caller uses a result.
- * Tried, all 11 B unless noted: the six per-function pragmas (opt_propagation
- * 14 B, others 11); u32 and unsigned long zone_id; unsigned long n; matrix_id
- * as unsigned long; named per-element pointers in the loop; early map_grid
- * pointer local; (char *)dst + 0x71C in the call; i = 0 split from the for;
- * non-const src (96 B); zone_grid bound only in the loop arm (50 B); count
- * cached in a local (40 B); second = cells + n (88 B); cells[count + i] with
- * no second local (47 B). Idioms checked: a-colour-swap-no-source-form-fixes-
- * can-be-opt-lifetimes-off (11), a-long-index-colours-apart-from-an-int (11),
- * two-long-lived-values-in-each-others-registers (no missing arg, no join
- * local), a-named-per-element-pointer-settles-thumb-loop-register-colours
- * (11), a-global-base-pointer-colours-above-a-plain-loop-index (n/a). Older
- * note: docs/notes/pkt_ov010_02159D04.c.txt (120 declaration orders, permuter).
+ * final push 2026-10-05 G4L1: closed by storing zone_id first (dst->zone_id =
+ * zone_id before the matrix_id store). That gives the parameter the earliest
+ * birth, so it takes r7 (the later-born cells and pool take r6 and r4). EXACT
+ * in c99 and c.
  */
 
 typedef unsigned short u16;
@@ -74,12 +61,12 @@ void func_02159D04(struct MapMatrix *dst, const struct MatrixFile *src,
     u32 i;
     u16 *zone_grid;
 
+    dst->zone_id = zone_id;
     dst->matrix_id = matrix_id;
     n = src->width * src->height;
     dst->height = src->height;
     dst->count = n;
     dst->mode = src->mode;
-    dst->zone_id = zone_id;
     dst->width = src->width;
     cells = src->cells;
     func_02082A90(cells, dst->map_grid, n * 4);
