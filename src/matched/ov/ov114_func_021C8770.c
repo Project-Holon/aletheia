@@ -6,7 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: arm
- * status: DIFF
+ * status: EXACT
+ * closed 2026-10-05 (integrator): the pair copy is memcpy(d_021D3D40, d_021D3D38, 8), the form that closed the sibling ov114 021C8D14 (lane G2L9).
  * residual: 8 concrete bytes, first copy/store scheduling; original best restored.
  * retry: wave24 R1, 3 targeted changes (bound object, const global pointer,
  *   typed destination Pair) did not shrink 8; one --budget 300 --types
@@ -43,12 +44,12 @@ extern unsigned int d_021D3D2C[], d_021CF538[], d_021D3D40[];
 extern void func_021C9EE4(void *, void *);
 extern int func_021CA470(void *, unsigned int, void *, unsigned int, unsigned int);
 extern void func_021CA1B4(void);
-extern unsigned int d_021D3D38[];
+#include "../../matched/arm9_sdk/libc/string.h"
+extern const unsigned int d_021D3D38[];
 extern unsigned int d_021CF594[];
 void func_021C8770(void)
 {
-    d_021D3D40[0] = d_021D3D38[0];
-    d_021D3D40[1] = d_021D3D38[1];
+    memcpy(d_021D3D40, d_021D3D38, 8);
     func_021C9EE4(d_021D3D28, d_021CF538);
     if (func_021CA470(d_021CF594, d_021D3D2C[2], d_021D3D40, 8, 0) == 0) {
         d_021D3D2C[0] = 4;
