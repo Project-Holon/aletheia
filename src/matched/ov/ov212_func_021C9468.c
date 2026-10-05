@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * note 2026-10-05 (P24L1): rewritten from the listing, bytes equal (772/772). Only relocation
  *   without a witness is finalTest 0x021C9918; the leaf is filed as src/matched/ov/ov212_func_021C9918.c
  *   (EXACT c99 and c), so a manifest refresh should resolve it and promote this file to EXACT.
@@ -62,7 +62,6 @@ extern const char site[];
 int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out)
 {
   u32 unused1, unused2, outForm;
-  u32 mask;
   u16 end, i, j, used, species, form;
   u16 count;
   u16 *result;
@@ -89,10 +88,9 @@ int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out)
     end = i + 7;
     if (end > n) end = n;
     p->index = end;
-    mask = 1023;
     for (; i < end; i++) {
       u32 v = p->ids[i];
-      species = v & mask;
+      species = v & 1023;
       form = (v & 0xFC00) >> 10;
       if (!known(p->save, species)) { p->reject[i] = 1; continue; }
       properties(p->save, species, &unused1, &unused2, &outForm, heap);

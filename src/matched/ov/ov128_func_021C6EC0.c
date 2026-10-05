@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * note: 2026-10-05 lane P24L6. Bytes equal to the original (632 B function, 640 B listing
  * extent includes the 8 B stub func_021C7138). Only the two func_021C7138 relocations
  * lack a witness: the stub is now filed as src/matched/ov/ov128_func_021C7138.c (EXACT),
