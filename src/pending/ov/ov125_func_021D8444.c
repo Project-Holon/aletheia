@@ -8,6 +8,59 @@
  * lang: c99
  * isa: arm
  * status: DIFF
+ * 2026-10-05 (wD9r laneS5): DIFF, 18 bytes unchanged (src r5 / dst r3). The tree held lane174's note and code only (no
+ *   code edit left behind; verdict re-checked, 18 B). Model from the mwcc reference (src/backend/Coloring.c, read
+ *   2026-10-05; PowerPC build, same allocator shape): nodes are simplified in ascending vreg index and pushed on a
+ *   stack, so the HIGHEST-index low-degree node is coloured first and takes the lowest free register (r3 here,
+ *   after the byte temps took r0 to r2); the next node gets r5 (r4 holds g). Degree cannot decide it: src and dst
+ *   have only a handful of neighbours, far below the colour count, so both go in the first pass. The colour swap is
+ *   therefore a vreg-index order: the image has idx(src) > idx(dst), ours has idx(dst) > idx(src), which matches
+ *   lane108's finding that the struct-assignment expansion creates the source temp first. Only a destination vreg
+ *   created before the expansion (loaded pointer, phi, loop-header def) gives the image order, and each of those
+ *   adds code or hoists. New probe (18): one-field wrapper struct around Sav (`typedef struct { Sav0 s; } Sav`), a
+ *   nested aggregate copy; the expansion is unchanged. No source form with an older, code-less destination found.
+ * 2026-10-05 (wD9r lane174): DIFF, 18 bytes unchanged (src r5 / dst r3). Control flow re-derived from the
+ *   listing: header (bl 02168040; cmp #3; bne) falls into the copy block, the 4, 5 and poll arms follow in
+ *   source order, the back edge goes to the call, the 1 is hoisted into r5, the dead epilogue at +0x130 is
+ *   the fall-off after for (;;). The draft already has this exact block layout. CF probes, all real compiles:
+ *   r != 3 arms first with the copy as the final else (316 B, layout follows source); switch with case 3 first
+ *   (332 B, compare chain); break out of the loop with the copy after it (316 B, copy laid out last); do { }
+ *   while (1) (18, same); def block and copy block split by `if (r == 3) t = ...; else { others; continue; }`
+ *   with t alone and with t and s (316 B, the def block is if-converted to ldreq and the copy goes last);
+ *   `r == 3 && (t = &d.sav) != 0` and `r == 3 ? (t = ...) != 0 : 0` (extra cmp, 332/364 B);
+ *   `(t = ..., 1)` in the && (folded, 18). Mechanism check: a redundant second `if (r == 3)` around the copy
+ *   gives the image colours (dst r5, src r3) plus a cmp/bne: mwcc keeps the branch (no jump threading), so
+ *   any surviving block boundary between the dst def and the copy flips the colours, but no natural source
+ *   form leaves a boundary with no code. Other probes (18): inline Dst() returning &d.sav into a local,
+ *   inline Put with an inner pointer local, `Sav *const` block local, struct-returning inline GetSav (also
+ *   with a named temp), a one-iteration index loop (folded). The struct-copy expansion builds the source
+ *   address first in every form (also with a Sav local or a second global as the other operand). All
+ *   mwcc versions 1.1 to 1.6sp2 give the same 18 bytes, so this is not a compiler-version residue.
+ * 2026-10-05 (wD9r lane165): DIFF, 18 bytes unchanged (src r5 / dst r3). Twin search again: only the
+ *   ov114 SDK DWC_SVLProcess caller (021C5724, different token handling) and the ov125 siblings, which use
+ *   raw u32 arrays for d_021D9E40 (no token type). New probes, all 18 unless stated: the matched
+ *   prototype func_02167FA8(char *, void *) with a non-const d_021D8D30; `static Sav *const` file
+ *   pointer (not folded: extra ldr, 214 B); `*(t = &d.sav) = tok` and `*t++ = tok` (LHS side effects do
+ *   not change the order); one char *p reused as both copy destinations; `*(Sav *)&buf[0x45]` and
+ *   `(&d.sav)[0] = ((Sav *)...)[0]`; __builtin__copy/__copy/__builtin_memcpy (calls, 201 B); the
+ *   Data copy source as `(u8 *)t - 6` (t not propagated, but the copy takes a `mov r3, ip` temp, dst
+ *   still r3, 225 B); a while ((r = f()) != 3) loop with the copy after it (221 B). Finding: copy
+ *   propagation is block-local. `if (r == 3) t = &d.sav; else { others; continue; } *t = tok;` keeps t
+ *   in a register from another block and the copy then colours src r3 as the image, but the copy block
+ *   is laid out after the else part (ldreq lr; beq, 211 B). With the copy written next to the def
+ *   (goto other / goto join forms) the blocks merge first and t is propagated again (18). So the image
+ *   needs a destination value from an earlier block that is laid out directly before the copy; no
+ *   source form found that gives that without extra code.
+ * 2026-10-05 (wD9r lane142): DIFF, 18 bytes unchanged (src r5 / dst r3). New probes in the real function:
+ *   `Sav *t = &d_021D9E40.sav; if (t != 0) *t = tok;` (and the same null test inside an inline Put) gives
+ *   EXACTLY the image colours (ldr r5 dst, add r3 src) but adds cmp r5,#0 / beq: so the image needs the
+ *   destination as a register value made in an earlier block. Splits that fold away do not keep it:
+ *   `if (ok)` with `int ok = 1`, do { } while (0), an inline null test on the stack source, t with a
+ *   second dead definition (r == 5 block or at entry), register t, a Work struct pointer for all
+ *   accesses (dst becomes r4 + 6). Also 18: buf as u32[], buf as a DWCSvlResult-like struct with
+ *   svltoken, file-static Data, the source pointer defined in the loop header (53 B, not hoisted), an
+ *   unrelated byte struct copy in another block or after the Data copy (no flip in the real function).
+ *   Hand index loops are not unrolled by 2 (50 B and more). switch (r) changes the layout (221 B).
  * 2026-10-05 (wD9r lane93): DIFF, 18 bytes unchanged (src r5 / dst r3). Twin search: no game twin.
  *   ov115 021D4B80/021D4BC4 call the same SVL pair but copy nothing; the other ARM byte-copy loops in
  *   src/matched (ov016 021C519C, ov114 021C6704, arm9 02059FA8 strcpy) are SDK or local inits.
@@ -25,6 +78,20 @@
  *   temporary `Sav t = src; d_021D9E40.sav = t;`, block-local pointer pairs `Sav *d = ...; Sav *s = ...; *d = *s;`
  *   in both assignment orders, the whole r == 3 store as a static inline Store(const u8 *buf) and as
  *   Store(const Sav *src) (the source arrives as an inline parameter). All 18 bytes, same colours.
+ * 2026-10-05 (wD9r lane108): DIFF, 18 bytes unchanged (src r5 / dst r3). Mechanism found by synthetic
+ *   compiles: mwcc colours the HIGHER-numbered pointer temp first (it gets r3). A struct assignment makes the
+ *   source address temp before the destination temp, so dst wins r3 in every spelling (25 synthetic forms:
+ *   member/array/inline/by-value/volatile/const/comma/u32 casts, all dst r3). The image order appears only
+ *   when the destination is an older value: a loaded pointer (`*Gp = tok`), a pointer local with two
+ *   definitions (phi), or a pointer local defined in the loop header (`t = &d_021D9E40.sav;` after the
+ *   02168040 call, then `*t = tok` in the r == 3 block): that gives src r3 / dst r5 exactly, but loop
+ *   invariant motion hoists the pool load out of the loop (pointer held in r5, the 1 moves to r6, 47 B).
+ *   Also tried (all 18 or worse): memcpy for n = 32..512 (always a call, only n <= 31 inlines), dst via
+ *   `(u32)&d + 6` and a char * local, a goto label between the def and the copy (propagated), a goto loop
+ *   instead of for (same hoist), the copy after the loop via break (218 B), an inline GetToken(r, dst, res)
+ *   wrapper (321 B), the copy chained into the Data copy by a comma. Following byte copies flip the colours
+ *   (`G = tok; H1 = H2;`), word copies do not. Open: a source form whose destination temp is older than the
+ *   source temp but is loaded in the r == 3 block.
  * 2026-10-05 (wD9r lane47): DIFF, 18 bytes unchanged. Tried: the `g + 0x138 = 1` store written before the
  *   two copies (222 bytes, the store stays above the copies, so the original stores it last), and `int r`
  *   declared first (18, same colours: src r5, dst r3).
@@ -42,6 +109,18 @@
  *   `Sav *d = &d_021D9E40.sav; *d = ...`, __builtin_memcpy (real call, 201 bytes). Diagnostic: with the
  *   312-byte Data copy deleted the 301-byte loop keeps the same colours, so the swap is local to the
  *   first copy and not driven by the second loop's r5 counter.
+ * 2026-10-05 (wD9r lane197): DIFF, 18 bytes unchanged (src r5 / dst r3). Copy-form probes, all 18 B:
+ *   both sides as one-element array subscripts `((Sav *)(g + 6))[0] = ((Sav *)(buf + 0x45))[0]`; buf as a
+ *   stack struct { int st; u8 host[65]; Sav tok; } whose address goes to func_02167FA8, copy `d.sav = buf.tok`;
+ *   a block pointer to Data (`dd->sav = ...`); Sav spelled as u8[7][43], two members (150 + 151), u8 + u8[300],
+ *   char[301] (the loop expansion and colours do not depend on the element layout); an inline Save(Data *g,
+ *   const Res *res) holding both copies (res a struct with a token member, g = &d_021D9E40); an inline
+ *   Save2(Data *g, const Sav *s) for the first copy only. Idioms read: struct-assignment-copy-is-ldm-stm-with-
+ *   spilled-pointers, const-source-pointer-schedules-the-block-load-first (only reorders ldm vs address, no
+ *   effect on this byte loop), a-twelve-byte-aggregate-copy-pins-the-destination-first (struct form already
+ *   used), hoisted-stack-address-is-a-block-local-byte-pointer (hand byte copies are not the 2-byte unrolled
+ *   struct expansion). Reading: the unrolled loop is mwcc's own struct-copy expansion, so the swap is the
+ *   temp creation order (source temp first), not a source spelling of the copy itself.
  * symbols:
  *   func_02167FA8 0x02167FA8 arm ov009
  *   func_02168040 0x02168040 arm ov009
@@ -104,6 +183,31 @@
  *   global struct (Data at 0, f138, f250, f258 pointer, f268; `d_021D9E40.d.sav = ...`, no g char pointer,
  *   18, identical code). Reading: buf is a DWCSvlResult (int status, svlhost[65], svltoken[301], 0x174 B),
  *   so the 301-byte copy is the svl token.
+ */
+/*
+ * 2026-10-05 (wD9r lane207): DIFF, 18 bytes unchanged (src r5 / dst r3). Listing store map: the only stores to
+ *   d_021D9E40 are +0x250 (arms), the sav copy, the Data copy to *(d+0x258)+8 and +0x138 last; none sits before
+ *   the sav copy, so no real earlier dst value exists. Probes: a dead store before the copy (`.sav.b[0] = 0`,
+ *   `.tail[0] = 0`: not removed, 336 B, frame changes), `.w0 = .w0` (folded, 18), a named `const Sav *src` in
+ *   the block (propagated, 18), `Sav *dst` plus `const Sav *src` locals (18), sav as `Sav sav[1]` with `*d.sav =`
+ *   (18), a static inline cp(Sav *__restrict, const Sav *__restrict) (18), the Data-copy destination pointer
+ *   `dp` loaded before the sav copy (328 B, 211 differ). Idioms read: a-dead-store-between-a-temp-and-its-use-
+ *   blocks-copy-propagation (only blocks propagation of a temp; here it keeps the store, wrong frame),
+ *   a-two-word-struct-copy-from-a-returned-record-recolours-the-destination-pointer (needs a value from a call),
+ *   a-two-word-copy-between-different-bases-is-a-struct-assignment (struct form already used).
+ */
+/*
+ * 2026-10-05 (wD9r lane212): DIFF, 18 bytes unchanged (src r5 / dst r3). Whole-function check against the
+ *   listing: every instruction outside the copy block is byte-identical (same value use counts, same operands,
+ *   same sp offsets: buf at sp+8, a at sp, b at sp+4, frame 0x17c), so no source operation is missing or extra
+ *   and no local has a different type or size. The diff is only the two colours and the later mov r5,#0x13 /
+ *   strb order that follows from them. New probe: 300-byte struct copy plus a separate trailing byte
+ *   statement (`sav = *(Sav *)(buf+0x45); last = buf[0x45+300];`): the trailing byte is no longer the
+ *   post-incremented pointer (ldrb [sp,#0x179], strb [lr,#0x132]), 20 B differ, colours still swapped.
+ *   Idioms read: a-word-copy-loop-that-loads-the-destination-base-first-is-a-one-word-struct-assignment (a
+ *   Thumb word loop; here the copy is already a struct assignment, no change), big-struct-assignment-is-an-
+ *   ldm-stm-loop (byte loop = align-1 type, already used), an-eight-byte-pair-copy-loads-both-words-first
+ *   (word pair, n/a), a-const-source-pointer-hoists-the-last-load... (const source tried by earlier lanes).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

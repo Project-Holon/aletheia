@@ -8,6 +8,32 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD9r laneS6): still DIFF 26 bytes (p/a swap). Draft code checked against HEAD (only notes differ, same 26 B).
+ *   Read the mwcc source model (Coloring.c, SpillCode.c, ALLOCATOR_CASEBOOK.md; PPC build, same colour engine): webs
+ *   with degree below K are pushed in ascending vreg order and the last pushed colours first; webs at or above K are
+ *   pushed by minimum spill_cost/degree (def weight 2, use weight 1, times block weight), the lowest score colours
+ *   last. The four long-lived webs here (p, a, xx, y0) all sit above K in Thumb (r4-r7 only), so the order is
+ *   cost/degree, not declaration order. Test: locals declared xx, yy, y0, r, then a, t0 (a gets the lowest decl slot): 26,
+ *   same swap, which agrees with the cost model (decl order inert). Model: p needs a higher cost/degree than a. a already
+ *   has six defs (weight 2 each) that the image has too, and earlier extra p uses did not flip it, so the parameter-copy
+ *   web seems to be ranked by a rule other than plain cost (a load-defined p is an ordinary web and wins). No further
+ *   source form follows from the model; left DIFF.
+ * 2026-10-05 (wD9r lane141): still DIFF 26 bytes (p/a swap). New try: p as an int parameter cast to u8 * at
+ *   every use (no local copy, so no second vreg for p): 26, same code. The parameter's type and spelling do
+ *   not move the colour order.
+ * 2026-10-05 (wD9r lane134): still DIFF 26 bytes (p/a swap). New try: p as a const u8 * parameter (reads
+ *   through const, the two end stores cast to u8 *): 26, same. Reading: the a-web has 16 uses against 12 for
+ *   p; if this build colours the heavier web first, the image needs a split a-web that is not coalesced,
+ *   which the separate t0/a/n locals already tried do not give.
+ * 2026-10-05 (wD9r lane123): still DIFF 26 bytes (p/a swap). New tries, each a real compile: the bound result
+ *   in a separate local n (`n = a; if (out) n = func_021642A4(a);`, n used by D410 and the 0x16 store): 26; the
+ *   rect pointer read inline at each of the four bound reads (no r local, more p uses): 26; the end stores
+ *   through a block-local `u16 *c = (u16 *)(p + 0x14)` (36, the add is kept); c set at the top and used for all
+ *   0x14/0x16 accesses (174). Use count of p and a split of the last a-web do not move the colour order.
+ * 2026-10-05 (wD9r lane103): still DIFF 26 bytes (p/a swap). New tries: the D410 call and both stores as a
+ *   static inline SetCur(u32 a, u8 *p) with a first (26); the whole body as a static inline Body(u32 x, u8 *p)
+ *   called from the real function, and as Body(u8 *p, u32 x) (26, both). Inline parameter order does not move
+ *   the colour order.
  * 2026-10-05 (wD9r lane89): still DIFF 26 bytes (p/a swap). New tries: int t0 and a with the u32 prototypes (27);
  *   the final stores as ((u16 *)p)[10] / [11] (26); a third local d for the first-part result with a = d before
  *   the rect test, and with `else a = d` in each arm (26, both). Probes (stand-ins, not kept): `p = p;` at entry,
@@ -65,6 +91,63 @@
  * 2026-10-05 (wD8 lane09): still DIFF 26 bytes. Tried: x reassigned as t0 (`x = func_0216D5F8(x)`) with a
  *   separate a: worse (88 bytes, x takes r4 and p r5, the parameter copy order changes). The a-web gets the
  *   lower register in every form so far.
+ * 2026-10-05 (wD9r lane148): still DIFF 26 bytes (p/a swap). New tries from the callee listings: real return
+ *   types (021641E8/F8 return s16, `lsls/asrs`; 021642A4 and 0216D5F8 return u16) with u16 parameters, u16 t0/a
+ *   and a u16 D410 parameter: 26, same swap (u32 t0/a with these prototypes: worse). A K&R definition
+ *   `void func_021F3DD4(p, x) u8 *p; u32 x;`: 26, same. Block-by-block recheck of the logic against the listing
+ *   found no difference.
+ * 2026-10-05 (wD9r lane159): still DIFF 26 bytes (p/a swap). New tries from the narrow-local idiom: u16 a and
+ *   t0 with u16 callee prototypes and the widening done through a static inline helper at each arithmetic use
+ *   (`Add(u32 v, u32 k)` for t0 + 2 and for the 0xa field + a): 26, same; the helper with a u16 parameter: 26;
+ *   u16 a with u32 t0: 178 B; u32 a with u16 t0: 182 B; u16 locals with u32 returns: 178 B. Narrow width of
+ *   the cursor value does not move the colour order. Model finding (reduced model and the matched ov019
+ *   0217F310): in a small function the parameter gets r4 when a register-offset access through p exists
+ *   (`*(p + 0x400)` or `p + 0x2810`, pool offset) or when a constant store through p follows the last use of a;
+ *   in this full function none of these flips it (extra p-only temps, 8 or 16 extra p stores, p + 0x400 at
+ *   the top or end: all keep p r5). Of 79 game functions with the image shape (param r4, first call result r5),
+ *   this one and ov019 0217F310 are the only ones whose first call does not read the parameter.
+ * 2026-10-05 (wD9r lane173): still DIFF 26 bytes (p/a swap). Checked for a shared logic or type error: no
+ *   matched twin calls 021641E8 with 021642A4 or 020056EC; callee bodies (42A4 table u16, 41E8 s16, 5F8 u16 field,
+ *   83C int field, D410 (void *, u16)) agree with the draft; every result is used; p fields are read in listing
+ *   order. New tries: t0 as a block-scope local of the first part only (26, same); the end stores through a
+ *   block-local `u16 *c = (u16 *)p` as c[0xa] / c[0xb] (26, same).
+ * 2026-10-05 (wD9r lane182): still DIFF 26 bytes (p/a swap). New tries from the colour idioms: `unsigned long`
+ *   for a, for t0 and a, for xx/yy/y0 (long-colours-apart-from-int idiom): 26 each; p as a distinct local copy
+ *   of a renamed parameter with a unsigned long (second-same-typed-local idiom): 26; static inline u16 field
+ *   getter/setter H(p,k)/SH(p,k,v) for the 0x14/0x16 accesses: 26. Dying-local idiom: no dying local exists
+ *   (x is dead after the first call but reusing it was tried by earlier lanes: 167 to 178 B).
+ * 2026-10-05 (wD9r lane188): still DIFF 26 bytes (p/a swap). Read ov019 0217F310 in full (matched twin of the
+ *   image shape): its parameter keeps r4 with FEWER uses than the first call result, so the colour order is not a plain
+ *   use count there; its p accesses are register-offset (`ldr r0,[r4,r0]`), which this function does not have. New
+ *   tries: the 0x16 field read into its own block local before `a = q` (idiom a-field-read-into-its-own-local-...):
+ *   26; a pointer copy `pp = p` at entry used for both end stores: 26. Idioms read, no new form:
+ *   a-call-between-a-buffer-handle-and-its-first-read-keeps-it-in-a-register,
+ *   a-flag-set-after-the-call-that-consumes-its-input-shares-that-inputs-register.
+ * 2026-10-05 (wD9r lane201): still DIFF 26 bytes (p/a swap). New tries: part 1 (the 0x14 test and the else chain)
+ *   wrapped in `do { } while (0)` to raise block weight, and the whole pre-call part in it: both fold away in the
+ *   front end, 26, same code. Use counts: p has about 12 uses, a about 16 (all in straight-line code, no loop in the
+ *   listing, so no source change can give p a loop weight). Read the matched ov021 0219A8C0 (params r6/r5, call result
+ *   r4: the most-used web takes r4, the later-defined local first), which agrees with a-first in our build; the image
+ *   needs p first. Idioms read: a-derived-wide-local-keeps-a-coordinate-update-before-its-first-call (fresh local vs
+ *   reuse: lanes 34/89 did it), a-pos-accumulation-settles-a-callee-saved-rotation (no accumulator here),
+ *   a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie, a-spilled-pointer-parameter-tie-is-the-front-ends.
+ *   No new form.
+ * 2026-10-05 (wD9r lane208): still DIFF 26 bytes (p/a swap). Diagnostic: with the parameter changed to `u8 **pp` and
+ *   `u8 *p = *pp;` as the first local (p defined by a load, not a parameter copy), the rest of the function matches:
+ *   1 byte differs (`ldr r4,[r0]` for `adds r4,r0,#0`). So the body, order and all of a/t0 are right; only the colour
+ *   of a parameter-copy web against the first call result differs. A load-defined p takes r4, a parameter copy takes
+ *   r5. This is a probe, not a source form (the image copies the parameter). Idioms: two-long-lived-values-in-each-
+ *   others-registers, a-derived-wide-local-keeps-a-coordinate-update-before-its-first-call, a-pos-accumulation-settles-
+ *   a-callee-saved-rotation: no new form.
+ * 2026-10-05 (wD9r lane213): still DIFF 26 bytes (p/a swap). Forms that make p a copy created like a different kind
+ *   of web, each a real compile, all 26: static inline accessor `Obj(void *o)` called at entry; parameter `struct X *`
+ *   with `u8 *p = (u8 *)o;`; `void *` parameter with p assigned after the first call; C99 `u8 *p = o;` first in the
+ *   body; `u16 *q = o` with byte offsets cast from q; `u8 *const p = o;`; a pass-through `Self(o, x)` inline. One-field
+ *   struct parameter by value (179 B, worse). Idioms read: two-long-lived-values-in-each-others-registers,
+ *   a-field-read-into-its-own-local-before-a-getter-subtraction-sets-the-colour-order,
+ *   a-result-computed-in-a-dying-local-takes-that-locals-register, const-on-a-read-only-source-parameter-settles-a-register-tie,
+ *   a-long-loop-counter-keeps-its-copy-of-a-parameter-out-of-the-entry-guard: no new form. A parameter copy is
+ *   coalesced with the incoming r0 whatever its source spelling, so only a load-defined p (lane208 probe) changes it.
  * symbols:
  *   func_0216D5F8  0x0216D5F8  thumb  ov010
  *   func_0216D83C  0x0216D83C  thumb  ov010

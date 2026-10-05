@@ -33,6 +33,70 @@
  * note 2026-10-05 (wD9r lane31): still 10 bytes, same residue. Tried: the fifth argument as a one-field struct
  *   by value (`typedef struct { u32 v; } W;` callee parameter W, `w.v = func_021BA15C(...)` in a block local): 24
  *   (frame grows to 0x10, push r3; the constant order is unchanged). Left DIFF.
+ * note 2026-10-05 (wD9r lane123): still 10 bytes, same residue. New try: a static inline
+ *   Draw(ctx, st, u32 base) whose body is the whole 9E5C call (base + 0x800, 15C call inside), called as
+ *   Draw(ctx, st, func_021BA170(st->f10)) so 170 is an inline argument and 15C stays in the body: 10, same.
+ *   Reading of the image case 2 (func_021BA174 call): there the 0x800 register argument is built early
+ *   (`movs r3,#2` right after the 170 bl, lsls later), so the scheduler does lift a register-argument
+ *   constant when nothing ties it; in case 1 our DAG ranks `str r0,[sp]` above `movs r2,#2` (the WAR on r0
+ *   with the 0xC000 build gives the store the longer path). The image must have the same DAG with a
+ *   different tie, or the 0xC000 in another register before allocation. Not found in source.
+ * note 2026-10-05 (wD9r lane141): still 10 bytes, same residue. New try: the sixth argument as an inline getter
+ *   `static inline u32 Mask(void) { return 0xC000; }` (an inline call in another argument, with the 170 result
+ *   in v from its own statement and 15C nested as the fifth): 10, same order. An inline call in the sixth
+ *   argument does not switch the argument lowering to the whole-expression right-to-left order.
+ * note 2026-10-05 (wD9r lane148): still 10 bytes, same residue. New try: func_021BA170 declared with a real
+ *   pointer return `s16 *func_021BA170(u32 *)`, v an s16 * local, the call as `v + 0x400` into an s16 * third
+ *   parameter (pointer arithmetic in the IR, no u32 cast): 10, same order. Checked: 15C/170 bodies (u32 leafs in
+ *   ov172_func_021BA120.c) and the 9E5C prototype match the draft; no logic or width difference found.
+ * note 2026-10-05 (wD9r lane159): still 10 bytes, same residue. New tries from the narrow-local idiom: the 0x800
+ *   offset as a narrow u16 parameter of a static inline Wave(ctx, st, u32 base, u16 off) that holds the 9E5C
+ *   call (10, same); a block-local `u16 off = 0x800` added to v at the argument (10, propagated). A narrow
+ *   operand does not move the 0x800 build above the stack stores.
+ * note 2026-10-05 (wD9r lane173): still 10 bytes, same residue. New try from the narrow pass-through idiom
+ *   (021B9AB8 closed with a narrow stack parameter): in func_021B9E5C the fourth parameter a3 only passes through to
+ *   021B9AB8's last (now u8) parameter. Narrowed a3 to u8 in a scratch copy of ov172_func_021B9E5C.c with the
+ *   021B9AB8 prototype's last parameter u8: 9E5C stays EXACT (not filed, no gain here). With the 9E5C prototype
+ *   here (u32, u8, u32, u32), (u32, u8, int, u16) and (short *, u8, int, u16): 10, same order. Also
+ *   `v = func_021BA170(f10) + 0x800;` as a plain statement: 16 (0x800 built before the 15C call, as the inline).
+ * note 2026-10-05 (wD9r lane182): still 10 bytes, same residue. Prototype now the real definition's
+ *   (int, char *, s16 *tbl, u8 a3, int idx, u16 v) per the integrator, with (s16 *)(v + 0x800) and
+ *   (s16 *)v + 0x400: 10, same. New tries from idioms: const u32 * on f10 and all callee prototypes taking it
+ *   (const-record-pointer idiom): 10; func_021BA15C as u16 with a u16 local p5 assigned before the call
+ *   (u16-accessor idiom), also 170 as u16: 10. Idioms read, no fit: scalar-halfword stack argument, live
+ *   tail-call argument, inline-wrapper argument binding, inline-call per site.
+ * note 2026-10-05 (wD9r lane188): still 10 bytes, same residue. New directions, no source change. Scanned every
+ *   overlay and arm9 listing in asm/ for a bl followed by `movs r1..r3,#N` then `str r0,[sp,#k]` (call result stored
+ *   as a stack argument after a register-argument constant): this function is the only hit in the game, so there is no
+ *   matched twin. The nearest 6-argument shape (ov175 021D51BC case 2, `movs r2,#2` before `str r0,[sp]`) has r0 from a
+ *   load, not a call, and its C is plain (`f(p30, 1, 2, q8[1], q2c, q12 == 2)`), so it gives no lever. Idioms read:
+ *   a-const-record-pointer-moves-the-outgoing-stack-store-below-the-register-copies (const done by lane182),
+ *   a-flag-argument-written-as-a-ternary-statement-keeps-left-to-right-argument-loads,
+ *   an-assignment-inside-a-call-argument-pins-the-load-in-a-callee-saved-register (pos = 15C() inside the fifth
+ *   argument done by lane103). No new compile: every form they give is already in the notes above.
+ * note 2026-10-05 (wD9r lane201): still 10 bytes, same residue. New tries: 9E5C declared returning int (10), result kept
+ *   in a local (u32, 10), sixth parameter int instead of u16 (10). Checked: 3 is a real literal (0xC000 = `movs r0,#3;
+ *   lsls r0,#0xe`, a u16 argument), so there is no variable to break the WAR chain on r0 with, and the argument roles
+ *   match the 9E5C definition (ctx, st, tbl, 9, 15C result, 0xC000). Reading of the scheduler: after the bl, the ready set
+ *   is {str r0,[sp]; movs r2,#2}; with the WAR edge on r0 the str has the longest path (5 against 4), so any source that
+ *   leaves 0xC000 in r0 gives our order; the image needs the pre-schedule IR order `movs r2` before the str, which
+ *   only a third argument lowered before the stack stores gives, and that form also moves the 170/15C call order.
+ *   Idioms read: a-live-tail-call-argument-moves-the-offset-constant-to-r2 (hidden live argument: none here, r1 is
+ *   the live st), a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it (no shared literal
+ *   2 in this block), a-sentinel-assigned-before-the-calls-keeps-a-mask-constant-in-a-scratch-register (statement order
+ *   of the 9 sentinel: already after), a-pos-accumulation (not applicable). No fit.
+ * note 2026-10-05 (wD9r lane208): still 10 bytes, same residue. New tries on the sixth argument (0xC000 = movs r0,#3; lsls r0,#0xe):
+ *   `(u16)-0x4000`, `(short)0xC000`, `-0x4000` (u16 parameter), `0x3 << 14`, an anonymous enum constant, a file-scope
+ *   `static const u16` (propagated), a block-local `u16 m = 0xC000`: all 10, same order. The parameter as s16 with -0x4000:
+ *   524 B (sign-extension added, wrong). The matched caller ov172_func_021B9044 passes its sixth argument as `w` (a
+ *   variable, u16 parameter), so 0xC000 here is the only literal sixth argument seen. The fifth argument in a block
+ *   local before the call: 10. The constant spelling does not change the front end's folded value.
+ * note 2026-10-05 (wD9r laneS9): still 10 bytes, same residue. Start check: the draft left by the stopped lane has only the
+ *   real 9E5C prototype (int, char *, s16 *, u8, int, u16) and casts; it compiles to 10 bytes, the same as the committed
+ *   version, so it was kept. Image order: movs r2,#2; str r0,[sp]; movs r0,#3; lsls r2,#0xa; lsls r0,#0xe; str r0,[sp,#4].
+ *   Source check: github.com/inspiredrobot/mwcc is a PowerPC (Melee) allocator reference only; it has no ARM/Thumb
+ *   argument lowering or scheduler code, so it gives no lever for this order. New try: a function-scope `int sz = 0x800;`
+ *   shared by the 9E5C third argument (v + sz) and the case 2 174 call (sz): propagated, 10, same order. Left DIFF.
  * symbols:
  *   func_021B9F4C 0x021B9F4C thumb ov172
  *   func_021B9DF8 0x021B9DF8 thumb ov172
@@ -93,6 +157,23 @@
  *   logic, not kept): sixth argument 0x40, 0xC000 + v, fourth 0x900, third a plain 0x800: in every form the
  *   15C result store `str r0,[sp]` is the first instruction after the bl, so this build always puts the
  *   stack store of a call-result argument ahead of every other argument constant. The image does not.
+ * note 2026-10-05 (wD9r lane103): still 10 bytes, same residue. New tries: the callee declared varargs
+ *   (10); a const block local for the 170 result (10); both results in block locals (10); a (u16) cast on the
+ *   0xC000 (10); `v += 0x800` as the argument (10); an inline Pos() for the 15C call with v + 0x800, Add(v) or
+ *   Id(v) + 0x800 as the third argument (10); `pos = 15C()` inside the fifth argument (10). Findings from probes
+ *   (wrong logic, not kept): a register argument without a call is always lowered after the stack stores (a
+ *   plain 0x800 third argument too). The image has the 0x800 between the 15C bl and the stack stores, the shape
+ *   this build gives only for a third argument that CONTAINS a call when another argument has a side effect or
+ *   an inline call (`(v = 170()) + 0x800`, or 170 nested with `pos = 15C()` as the fifth): then the arguments
+ *   are evaluated right to left as whole expressions and the 15C call comes before the 170 call (350). So the
+ *   image needs the 170 call before 15C and the third argument evaluated as a whole after 15C; no source form
+ *   found gives both.
+ * note 2026-10-05 (wD9r lane134): still 10 bytes, same residue. New tries: the 170 result in a reused
+ *   multi-definition local instead of a fresh one (mode, pos, id; mode shares r6 in the image): 10, same.
+ *   Witnesses: the three unresolved callees are real ov172 function starts (after a `bx lr` or a pool):
+ *   021B69E0 (clear +4 h / +6 b of d_021C88E4), 021B8B74 (word at +0x194), 021B8C34 (word at +0x3C8).
+ *   Filed EXACT as src/matched/ov/ov172_func_021B69E0.c, ov172_func_021B8B74.c, ov172_func_021B8C34.c.
+ *   They resolve here once the integrator adds them to the manifest (match.py reads layout/matched).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -134,7 +215,8 @@ extern int func_021BA120(u32 *p);
 extern u32 func_021BA158(u32 *p);
 extern u32 func_021BA170(u32 *p);
 extern u32 func_021BA15C(u32 *p);
-extern void func_021B9E5C(void *ctx, struct St *st, u32 a, int b, u32 c, u32 d);
+typedef short s16;
+extern void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v);
 extern u32 func_021BDFE4(void *ctx);
 extern int func_021B8C34(void *ctx, u32 id);
 extern int func_021B8B74(void *ctx, u32 id);
@@ -177,7 +259,7 @@ void func_021B97AC(void *ctx, struct St *st)
             st->fa4 = 2;
         }
         v = func_021BA170(st->f10);
-        func_021B9E5C(ctx, st, v + 0x800, 9, func_021BA15C(st->f10), 0xC000);
+        func_021B9E5C((int)ctx, (char *)st, (s16 *)(v + 0x800), 9, func_021BA15C(st->f10), 0xC000);
     case 2:
         id = func_021BDFE4(ctx);
         if (func_021B8C34(ctx, id) != 1)

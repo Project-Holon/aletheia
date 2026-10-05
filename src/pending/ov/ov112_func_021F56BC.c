@@ -157,6 +157,116 @@
  *   (64 B).  Diagnostics (not candidates): a third use of the cos(pr) temp, X/Z reads moved to the top
  *   of the k loop, and no Z read all keep ours order (j*8 below cos(pr), b*0x14 lowest), so the order
  *   does not follow use count or program position of the k-loop reads.
+ * note (2026-10-05, wave D9r lane 107): residue unchanged at 5 bytes (j*8 temp sp+0x30, cos(pr) temp sp+0x34;
+ *   original reverse).  New tries, each a real compile: FxMul with int (fx32) parameters as in the twin's
+ *   FX_MUL, with s64 or int psx/psy (89 B, worse); cos(pr) as an int-typed value ((int) cast at both uses,
+ *   or an int-returning CosI() inline; same 5 B); 5EDC prototype and Ent fields as int, as in the matched
+ *   func_021F5EDC, and 660C with its matched const int / u32 parameters (same 5 B); `int b` for the part
+ *   byte (same 5 B); s16 (fx16) locals for s2, for c/s, or for all three (508 to 728 B, worse); named c2 in
+ *   three placements (430+ B, adds a copy); mixed spellings for the X/Z reads (index for one, byte offset
+ *   for the other: 870 B; `(ents + j)->x` for X only: same 5 B).  Diagnostics: `int pr` swaps the pr and
+ *   flag slots (0x38/0x3C), so local width moves slot order; an extra k-loop use of ents[j] does not move
+ *   j*8 off sp+0x30.  The slot order of the two CSE temps does not follow use count or type.
+ * note (2026-10-05, wave D9r lane 124): residue unchanged at 5 bytes (j*8 temp sp+0x30, cos(pr) temp
+ *   sp+0x34; original reverse).  Tested the inline-return-temp idiom (ov125 021D6B40) on every helper in
+ *   the j/k loops, each a real compile: LoadPose hand-expanded for sub, and for both pose and sub (output
+ *   identical to the draft, byte for byte); RoundF hand-expanded as a plain ternary and with a block-local
+ *   `int v` (identical); the two second-rotation FxMul calls hand-expanded with a block-local s64 operand
+ *   (identical) or as one expression (2084 B, worse); a Cell() inline returning &ents[j] at all three
+ *   uses, head included (1056 B).  So the inlines are transparent here; no inline temp sets this pair.
+ *   Also tried: the head .h read as a byte offset (j*8+6: 1040 B) or as (ents + j) cast to char * (same
+ *   5 B); an index local for s2/cos(pr) as u32, int (same 5 B) or u16 (483 B).  Diagnostics: `u32 j`
+ *   and a branch between the two cos(pr) uses keep ours order.
+ * note (2026-10-05, wave D9r lane 135): residue unchanged at 5 bytes (j*8 temp sp+0x30, cos(pr) temp
+ *   sp+0x34; original reverse).  New head-of-j-loop forms, each a real compile, all give the same 5 B
+ *   (the front end normalises them to one tree): a `Tab *tab` assigned in the loop condition
+ *   (`j < (tab = &T[pose.id])->count`) and read at the head as tab->ents[j].h, also through a TabEnt
+ *   pointer local taken from tab (te = tab->ents; te[j].h, or te = &tab->ents[j]); entries as a u16/s16
+ *   halfword array at all three uses (`((u16 *)ents)[j * 4 + 3]`, x/z at j * 4 + 1 / + 2); getters that
+ *   take the already-computed ents (or &T[pose.id]) plus j: EntH(e, j), EntAt(e, j)->h, EntIdx(e, j),
+ *   TabEntAt(t, j)->h (head only: same 5 B; also at the X/Z reads: 6 B, add operand swap); src at
+ *   function scope.  Worse: a struct copy `TabEnt e = ents[j]` at the head (1100 B); h as an 8-bit
+ *   bitfield pair (u16, s16 or u32 fields: 998 to 1056 B, lsls/lsrs instead of and/asr); the u16 head
+ *   read only (X/Z left as fields: 1040 B); tab also used at the X/Z reads (1136 B, tab held in a register).
+ *   Off the head, also same 5 B: a non-const `s16` table (as in the twin), the table named
+ *   FX_SinCosTable_, s2 and the second rotation in a nested block.  Diagnostics: without cos(pr) as a CSE
+ *   (second use replaced) j*8 stays at sp+0x30, so it is the cos(pr) temp that lands above j*8; without
+ *   the head use j*8 becomes a LICM temp at sp+0x3C (above the narrow pr/flag locals) and cos(pr) drops
+ *   to sp+0x30.  No head spelling reached changes the temp order.
+ * note (2026-10-05, wave D9r lane 152): residue unchanged at 5 bytes; the file body is unchanged.
+ *   New tries, each a real compile.  The slot order of the late group (flag, pr, j*8, cos(pr), b*0x14)
+ *   moves with the declared TYPE of j, not with any spelling of the expressions:
+ *   - `long j` (or s32/unsigned long): j*8 goes to sp+0x38, above pr (pr 0x34, cos 0x30 correct, b*0x14
+ *     0x2c correct): 6 B.  `unsigned int j` keeps ours order (7 B).  The type of i, of the k-loop
+ *     locals (long/fx32), of b (int), of u32 (unsigned long), and fx32 struct fields do not move it.
+ *   - `long j` plus `int pr` (or long pr): j*8 0x34 and cos 0x30 are correct, but pr and flag swap
+ *     (pr 0x3C, flag 0x38): 9 B.  So the original needs u16 pr with j*8 between pr and cos; no type
+ *     pair of (j, pr) gives that.
+ *   - reusing the first-rotation `c` (or `s` and `c`) for the second rotation: j*8 goes to 0x34, but
+ *     the second web of c gets the lowest slot (0x2C, below b*0x14) and the rz product gains a copy
+ *     (431 B).  A named s16 c2 also adds the copy and stays at 0x34.
+ *   - pose.rot spelled in place of pr in ang, s2, or one/both cos reads: j*8 goes to 0x34, but pr
+ *     takes a late slot (0x30) and cos moves to 0x38 (5 to 10 B; split spellings also break the
+ *     shared T+idx address).
+ *   - same 5 B: cos and sin as a {sin, cos} struct table (cast or extern), five mixed spellings of one
+ *     cos read (1 + idx, (T + idx)[1], *(&T[i] + 1), (idx << 1) + 1, (&T[i])[1]), FX_SinIdx/FX_CosIdx
+ *     with int or long idx (with long j), pr declared with an initialiser in a block, pr at function
+ *     scope reused for the G3 rotation angles (with long j: still 6 B), b assigned after its
+ *     declaration, an unreferenced label between the products, byte-offset j * sizeof(TabEnt) reads.
+ *   Worse: RotA/RotB inlines taking cos as a parameter (432 B, rz product copy); a `const s16 *sc`
+ *   pointer (432 B); a 5EDC prototype with a long j parameter (j itself moves to the late group).
+ *   Reading of the pattern: the late slots look like spill temporaries in the order the allocator
+ *   spills them (round by round, then by definition order).  cos(pr) is in the first round in every
+ *   variant; the original needs it in a later round than pr.  No natural source change found that
+ *   does this without moving another slot.
+ * note (2026-10-05, wave D9r lane 198): residue unchanged at 5 bytes; the file body is unchanged.  Lane 152's
+ *   suggestion (long j or s32 plus a way to push pr back above j*8 with pr still u16) tested as a table; every row a
+ *   real compile.  Slots low to high (b*0x14 is 0x2C in every row):
+ *   original                     cos 30, j*8 34, pr 38, flag 3C
+ *   base (int j)                 j*8 30, cos 34, pr 38, flag 3C: 5 B
+ *   long j / unsigned long j     cos 30, pr 34, j*8 38, flag 3C: 6 B (8 B for unsigned long: extra loop-test byte)
+ *   unsigned int / size_t j      as base, 7 B (loop-test byte differs)
+ *   named `int jo = j * 8;` (head, X and Z read through ((TabEnt *)((char *)ents + jo))), int or u32, any
+ *   declaration order of {jo, pr, flag} at function scope (6 orders), jo at function or j-body scope:
+ *                                cos 30, pr 34, jo 38, flag 3C: 7 B (the X/Z add operand order also changes)
+ *   named jo plus a redundant second `jo = j * 8;` BEFORE the last use (idiom a-redundant-second-assignment...;
+ *   after the loadpose, before the 5EDC calls, before the k loop, first or after the break test in the k body):
+ *                                jo 30, cos 34, pr 38, flag 3C: 6 B.  A second assignment after the last use
+ *                                (after cb.pos or at the end of the k body) is dead and gives the single-assign row.
+ *   jo declared long or as a char * / void *: long moves it to a high named slot (22 B); a pointer is the base row.
+ *   jo split into jh (head) and jk (k loop): as the double-assign row.
+ *   So j*8 only ever lands at one of two places: below cos (temp) or above pr (named, or long-typed); the original
+ *   needs the slot between them.  Declaration order and scope of jo, pr and flag never moved any slot.
+ *   pr changes with long j: `int`, `long`, `u32` or `unsigned long` pr give j*8 34 and cos 30 (correct) but pr 3C and
+ *   flag 38 (5 B differ); flag as u16, s16 (same 5 B), int, u32, long with `flag = (flag + 1) & 0xFF` (1429 to 1462 B);
+ *   pr s16 or u8 (740 B); pr at function scope as int (14 to 43 B, pr 0x48).  pr read earlier (at the top of the j
+ *   body, 1034 B; before the k loop, 309 B; first statement of the k body or declared with an initialiser before
+ *   the break test, 19 B: the load schedule changes), later (just before the s2 read: 1780 B).  pr declared at j
+ *   body scope: same as base (5 B) or, with long j, 6 B.
+ *   The angle through u16 helpers SinA(u16)/CosA(u16): with pr passed or with pose.rot passed directly, no pr local
+ *   used at the reads: same slots as base (5 B) or as long j (6 B).  j as an enum type: 1091 B; signed char j: 91 B.
+ *   Diagnostic only: a third pr use does not give a comparable build (frame changes).
+ *   Reading: the slot order is a ranking, not a source position: with j*8 a CSE temp it ranks below cos(pr), with
+ *   j*8 named (or long) it ranks above pr, and the original has it between.  No natural form found for the middle rank.
+ * note (2026-10-05, wave D9r lane S8): residue unchanged at 5 bytes; the file body is unchanged (the earlier
+ *   lane left only notes, body identical to HEAD).  Slot facts measured with a Thumb decode of the compiled
+ *   bytes (7 real compiles, none repeating a lane 152 or 198 row):
+ *   - the compound byte-offset idiom of the sibling 021F546C (`u32 jo = j; jo *= 8;`, head, X and Z read
+ *     through (TabEnt *)((char *)ents + jo)): b 2C, cos 30, pr 34, jo 38, flag 3C (7 B).  j*8 is not a named
+ *     byte offset: any named local lands above pr, the original has j*8 below pr.
+ *   - named locals order by first assignment in the code, not by declaration: with `u16 pr;` declared in the
+ *     j body BEFORE jo, pr still lands below jo (pr 34, jo 38).  So declaration order cannot place jo.
+ *   - the spilled CSE temps (b*0x14, cos, j*8) always sit below every named local.  The original j*8 (0x34)
+ *     is in the temp band, above cos, which is the only pair left swapped.
+ *   - statement order tests (second rotation before the first; fz read after the Z read) change the frame
+ *     and schedule (836 and 842 B), so they cannot show the pair order.
+ *   mwcc source (inspiredrobot/mwcc): Coloring_SelectColors flags a web Spilled in select-stack order and
+ *   SpillCode_00531800 (slot assignment, not reconstructed there) runs per retry round; Coloring_SimplifyGraph
+ *   picks potential spills by min spill_cost / degree.  Our listing and the original are instruction identical,
+ *   so cost and degree of j*8 and cos are equal in both builds; only the web numbering or tie order differs.
+ *   Lane 22's diagnostic (no head use of ents[j] gives the original order) fits a numbering reading: the head
+ *   use makes j*8 a temp that is created before cos in ours.  No source form that creates cos(pr) before j*8
+ *   without moving code was found (cos has no occurrence before the k body in the original listing).
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm

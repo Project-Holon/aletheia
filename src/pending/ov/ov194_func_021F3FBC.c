@@ -75,6 +75,84 @@
  *   the o copy) but heap is then read with ldrsh at the first use, not ldr at entry (697); with the u16
  *   func_021F51E4 prototype, 752 bytes. The image loads heap with a word ldr and never truncates it, so heap is
  *   32-bit or u16, not short. No new source form found.
+ * 2026-10-05 (wD9r lane111): still DIFF 6. Reading of the two variants: with u32 a3 the image and ours
+ *   agree except the heap ldr, which in ours sits after `adds r4,r0` and the a3 spill; with u16 a3 the a3
+ *   store becomes an entry home store (narrow register params are memory-homed by mwcc, confirmed on ov198
+ *   0220C16C) and moves to the top, while the heap ldr stays after the o copy. So the heap ldr follows the
+ *   o copy in our IR (param order), and the image has it before the memset argument setup. A u16 a3 is a
+ *   home store, the image a3 store is a plain late spill, so the image a3 is 32-bit and the residue is the
+ *   heap load position alone. No new source form found.
+ * 2026-10-05 (wD9r lane127): still DIFF 6 (a3 u16 form kept). With u32 a3 the only residue is the heap ldr
+ *   position (10). Tried a declared-initialized copy `u32 heap = hp;` (hp u32 parameter, u32 callees) placed
+ *   right after h20 or first among the locals: the copy is propagated and the heap ldr stays after the o copy
+ *   and the a3 spill (same 10). Source position of the heap copy has no effect; the ldr is placed by the
+ *   parameter setup, not by a statement. Note: case 3 of the second switch reloads a3 from 0x18 twice in one
+ *   block, the same in both builds. No new source form found.
+ * 2026-10-05 (wD9r lane138): still DIFF 6. Tried: o as a typed struct with real fields (+0 obj, +8 chr,
+ *   +0xC pal, +0x10 cell, +0x24..+0x38) in place of raw offsets: same 6, entry unchanged. With u32 a3, a
+ *   local copy `u32 a3 = a3p;` declared last (after flagB) from a u32 or u16 parameter: propagated, 10 / 6.
+ *   Matched callers of the same callee set (ov106 021B87B0, ov183 021DCBD8, ov177 021E7E3C) are not twins.
+ *   Reading: the image order needs the heap load before the a3 spill store in the IR; no source form found.
+ * 2026-10-05 (wD9r lane156): still DIFF 6. Reading with the narrow-local rule (ov097 021F6D70, ov198 0220C16C):
+ *   the image heap ldr sits after the h20 and a2 stores and before the a3 spill, so in the original IR the
+ *   heap load follows the local initialisers and precedes the a3 spill. Tried both as initialised copies in
+ *   the declaration list after h20 (`u16 heap = hp; u32 a3 = a3p;`, u32 a3p, u16 hp): both copies are
+ *   propagated, 10 bytes, entry order unchanged. No new source form found.
+ * 2026-10-05 (wD9r lane163): still DIFF 6 (a3 u16 form kept). Tried: every heap callee u16 (adds
+ *   func_0204AF28 and func_02043678 to the lane87 set) with a3 u16 (6) and u32 (10); heap s16 with every
+ *   callee heap s16 (the ov168 idiom, 10/6); K&R definition (u16 heap gives a mask and pulls the ld to the
+ *   top, u32 heap same as prototype); whole body as a static inline called by a wrapper (copies
+ *   propagated); a2/a3 as a plain or volatile local struct initialised from the parameters (plain: same
+ *   10; volatile: memory stores but the heap ld still sinks after the o copy); register on heap, a3, o
+ *   and mode (10); flagB = 0 as a statement after the memset (hoisted back, same). Reading: the heap ld
+ *   has no use in the entry block and mwcc always sinks it to just before the flagB init when the block
+ *   holds the memset call (ov010 0216EAB0 does the same); in blocks without a call (ov029 021F2AEC, ov055
+ *   021F42AC) the stack ld stays first. Only a dependent of the ld (K&R mask) moved it. No new source
+ *   form found.
+ * 2026-10-05 (wD9r lane176): still DIFF 6. New tries, all unchanged entry order (a3 spill before h20, heap ldr after the o copy):
+ *   w24/h20 as one local struct `{u32 h; u32 w;} wh = {0x14,0x22}` (pool-loaded aggregate init, 744 bytes, worse);
+ *   all of o, mode, a2, a3, heap const-qualified (6); only heap const (6); `u32 flagB; flagB = 0;` as the first
+ *   statement before the memset (6). No entry-block use of heap exists in the image (memset takes o, 0, 0x3c only),
+ *   so no real use was added; a dummy use would be a stand-in. Reading unchanged: the image order needs the heap load
+ *   before the a3 spill store in the IR.
+ * 2026-10-05 (wD9r lane181): still DIFF 6 (a3 u16 form kept). Idiom pass first (stack-parameter-load-sunk, u16-heap-with-u16-callees,
+ *   later-parameters-width, stack-argument-copy, narrow-home-store, const-pointer-load idioms: all already covered above or
+ *   not applicable). New measurements: (1) the heap ldr position follows the NARROWNESS of the entry locals. With a3 u32:
+ *   flagA u16/u8 puts the ldr at the very top (18); h20 u16/u8/s16 puts it after the a2 spill but before h20's
+ *   movs/str pair (8, residue = that pair sunk below the ldr); w24 u16 (11); w24+h20 u16 (11). Narrow locals sink their
+ *   init pair below the ldr; u32 locals leave the ldr below the memset argument moves. The image needs the ldr below all
+ *   three pairs and above the memset args, no spelling gives that. flagB u8/u16/int, flagA int, w24/h20 int: unchanged.
+ *   (2) s1, s2 (and s4) u16 with u16 callee params: ldrh through add r6,sp,#0x80, 38 and 92 bytes (the image loads them
+ *   as words). (3) typed pointer copy `w = o` after the memset (ov177 021E6118 idiom): propagated, 6. (4) memset
+ *   prototype u8 fill or u16 length, narrow constant length local: unchanged.
+ * 2026-10-05 (wD9r lane194): still DIFF 6 (a3 u16 form kept). Idioms read first: a-later-parameters-width-reorders-the-entry-spill-stores,
+ *   a-narrow-parameter-pins-its-home-store-to-the-front-of-the-prologue, a-narrow-spilled-parameter-keeps-its-reload-below-a-store,
+ *   a-spilled-parameter-reload-scheduled-after-an-unrelated-store-is-a-narrow-parameter (all covered by earlier notes). New measurement,
+ *   a table of all 384 combinations: a3 in {u16,u32} x flagA,w24,h20 each in {u32,u16} x every order of the three locals and every
+ *   split point between "before the v40..h block" and "after it" (24 orders). Best per width combo (a3:flagA:w24:h20 -> bytes, always
+ *   with flagA first and w24,h20 after the block, the draft order): u16:u32:u32:u32 6; u32:u32:u32:u16 8; u32:u32:u32:u32 10;
+ *   u32:u32:u16:u32 11; u32:u32:u16:u16 11; u32:u16:u32:u32 17; u32:u16:u16:u16 18; u16:u32:u32:u16 22; u16 with flagA u16 23;
+ *   u16:u32:u16:x 25. No other order of the three locals beats 12 in any combination (next best u16:u32:u32:u32 A|HW 12), so the draft
+ *   order and widths are the optimum of the family. Struct form: the entry locals (and then all of v1c..flagA) as fields of one
+ *   local struct (slots 0x1c..0x44 are one contiguous region in the image, no `add rX,sp,#N` points into it; the only address-taken
+ *   locals are dim at 0x48 and st at 0x50): 45 bytes (three fields) and 46 (all eleven), the slots move (flagA lands at 0x28) so it
+ *   is worse. Entry order unchanged in every case: heap ldr after the a3 spill.
+ * 2026-10-05 (wD9r laneS3): still DIFF 6 (code is the committed form; a previous lane left only notes). Read the mwcc
+ *   source reference (docs/SCHEDULER.md, PPC model, so only the shape of the rule transfers): the list scheduler picks by
+ *   urgency, release count, height, then a fixed per-opcode byte (mr 0 < str/cmp 1 < add 2 < ldr 3 < li 4), earlier text
+ *   wins ties; loads/stores order by memory edges (load -> later store, store -> later load). Test of that reading: the
+ *   free instructions of the entry block (adds r4,r0 / str r3 / ldr r5 / movs r6) come out in exactly that byte order in
+ *   ours (u32 a3 and u32 heap with u32 callees both give the same listing, 10 bytes), so ours has all four tied. The image
+ *   order ldr, adds, str r3, movs r6 means its ldr has MORE height than the others, i.e. a successor edge, most likely a
+ *   memory edge ldr -> `str r3,[sp,#0x18]`, so in the image IR the heap load precedes the a3 spill store (a2 spill and the
+ *   three local stores precede the ldr in both). Probe (not a candidate): all a3 uses replaced by a constant (no a3 spill at
+ *   all): the ldr still sinks below `adds r4,r0` (700 bytes), so the a3 store does not push the ldr down; the ldr simply has
+ *   no height of its own, as lane163 measured with the K&R mask (a consumer pulls it up). So the image ldr has a successor
+ *   in the entry block that our source lacks, and no real source construct that creates one was found: the only edges
+ *   available are a consumer of heap (a stand-in) or a spill ordered by the front end. Idioms re-read: a-stack-argument-copy-
+ *   after-the-register-spills-is-a-narrow-pass-through-parameter (copy-to-home form, ours is a register load: n/a),
+ *   a-heap-id-passed-unnarrowed-to-both-s16-and-u16-callee-parameters-is-a-u8-parameter (u8 heap: 6, tried before).
+ *   3 compiles.
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb

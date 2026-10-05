@@ -8,6 +8,99 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD9r laneS2): still DIFF 2 bytes (+016C). The draft left by the stopped lane held only notes (code equals
+ *   HEAD, 908 B, 2 B diff); kept. Read the mwcc reference (inspiredrobot/mwcc, a PowerPC GC build): its docs list the
+ *   copy/constant propagation passes and the allocator but give no rule for which source constructs stay unfolded
+ *   or for ARM rematerialisation, so no construct could be derived from it. Re-read the listing: found=1 at +0968 is
+ *   a hoisted movs whose store (+0972) follows the unseen store (+096E) and the +0x14 add; diff=1 at +097C and the
+ *   list[3] arm each re-issue movs #1 (r0 was clobbered), so the 1 behind them is a rematerialised single-def vreg,
+ *   not a user variable. Every form that gives such a vreg (see the notes above) is folded to the literal or reloads.
+ *   No new compile run; no untried justified hypothesis remained. Residue unchanged.
+ * 2026-10-05 (wD9r lane206): still DIFF 2 bytes (+016C). Scanned every constant 1 in the original: only loop 1's
+ *   hoisted `movs r2,#1` (preheader, store of unseen), match = 1 at +013A, diff/refresh 1 (all after +016C). The
+ *   function is void; changed/refresh are 0 at entry (two separate movs #0). No single-def 1 variable exists
+ *   between the k head and +016C except loop 1's hoisted constant. Tried (new): one = 1 before loop 1, used as the
+ *   loop-1 store value and as found = one (10 B, folded to the literal, no CSE with the preheader constant);
+ *   found = (ok != 0), ((int)mode >= 5), (p != 0), (j < 16), (list != 0): each emits a real compare (+12 to +16 B).
+ *   Residue unchanged.
+ * 2026-10-05 (wD9r lane199): still DIFF 2 bytes (+016C). Re-derived slot sp+0x10 from the listing: it is only match
+ *   (movs/str #1 at +013C, str 0 at +014C, one ldr at +015A for cmp #1, no other access anywhere). So the image
+ *   movs r0,#1 at +016C is NOT a reload of match's slot; the found store copies a separate single-def constant-1
+ *   vreg, and match (two defs) can never be it. Tried (new, from the match side): found = (match == 1) (920 B, 581 out);
+ *   found = match written before the unseen store (904 B, 543 out); found = 1 and match = 1 set together at the k
+ *   head with found = 0 on the mismatch break and no copy (908 B, 54 out). Residue unchanged.
+ * 2026-10-05 (wD9r lane193): still DIFF 2 bytes (+016C). Tried constant-1 sources the front end might not fold, all
+ *   at `found = X` after the unseen store: found = (kind >= 0), (e[0] >= 0), (m >= 0), (mode >= 0) with unsigned
+ *   operands (10 B each, folded to the literal); static inline Ok(v) with an if and both paths returning 1 (10 B);
+ *   static inline Hit(v) { r = 0; if (v == 1) r = 1; return r; } (581 B out, 920 B); function-scope static const
+ *   table element kT[1] read directly (798 B out) and through a const int local (875 B out); local struct
+ *   {0, 1} field (898 B out). Residue unchanged.
+ * 2026-10-05 (wD9r lane187): still DIFF 2 bytes (+016C). Reading: matched ov021 0219F990 has `ok = 1 ... ff = ok` and
+ *   compiles the copy as `adds r7,r4,#0` (a two-def register variable is not folded), so a copy of a spilled
+ *   two-def variable is a reload, never movs. Tried (new): found assigned in the if condition,
+ *   `if ((found = match) == 1)` (544 B out, 904 B); found = match placed before the if (544 B out);
+ *   u32 match with found = match (2 B, same residue); `on` set to 1 at two places (j top and k head), found = on
+ *   (10 B, two defs of the same constant still fold); hit = 1 then found = hit (10 B, folded). Searched src/matched
+ *   for `x = ok/match/same` copy forms: only ov021 0219F990 and sub_02018E34 (register cases). Residue unchanged.
+ * 2026-10-05 (wD9r lane183): still DIFF 2 bytes (+016C). Reading: the original reload of a spilled vreg whose only
+ *   definition is constant 1 is rematerialised as movs at register allocation, while the pre-RA schedule keeps the
+ *   found store after the unseen store (the reload is a load with latency). So the copy source is a single-def,
+ *   not-folded constant vreg; match has two defs (1 and 0) and cannot be it. Idioms read in full: the
+ *   remat/zero-register, constant-compared-from-a-register, narrow-flag, dead-store, s8-local reload, spilled-local-twice
+ *   and logical-store-order files (list in report). New tries: found = (match != 0) and !!match (920 B, 581 B out);
+ *   found = ok != 0 (924 B); uninitialised `on` set to 1 in both kind arms, found = on (916 B, spilled, 748 out);
+ *   match declared in the k-block (20 B out); match declared before found (38 B out). Residue unchanged.
+ * 2026-10-05 (wD9r lane172): still DIFF 2 bytes (+016C). Reading: post-RA the stores keep their pre-RA
+ *   order (stack and [r7,r1] stores are not reordered), only the movs/ldr is hoisted. So the image found
+ *   store is a copy found = V placed after the unseen store pre-RA, with V a spilled single-def 1 that the
+ *   RA rematerialises; with the literal, found = 1 is placed above the unseen store pre-RA. Tried (new):
+ *   _Bool found with literal (18 B), _Bool match with literal (10 B) and with found = match (8 B);
+ *   match as the m-loop control (for (m = 0; match == 1 && m < 6; m++), both orders, 647-648 B);
+ *   act = active loaded into a local, if (act == 1), found = act (615 B); match = on = 1 chained at the
+ *   k head with literal found (10 B, no copy); volatile match (59 / 52 B, memory slot at sp+0x38, found
+ *   store still first); probes with a memory store of 1 before the mode read, at the j head, and at the
+ *   k head (all keep the found store above the unseen store, so value numbering of the 1 is not
+ *   dominator-scoped in this build). Residue unchanged.
+ * 2026-10-05 (wD9r lane162): still DIFF 2 bytes (+016C). Reading: value numbering for constants is
+ *   dominator-scoped, not EBB-local: a probe memory store of 1 in the k-loop head (before the mac loop) makes
+ *   the literal found = 1 a copy of that 1, and its store then stays after the unseen store; a dead local
+ *   store (match = 1 before the unseen store) does not. But the copy form puts movs #1 late (just before the
+ *   store), while the image hoists it to +016C like a reload, so the image looks like a reload of a spilled
+ *   1-only variable that is rematerialised. Tried (new): match as u8, u16, signed char, short with literal
+ *   found = 1 (10 B each); static inline Claim helpers that widen: u8 return of 1 with the unseen clear
+ *   inside (by slot pointer and by list, k), int return of a u8 parameter v = 1, void helper storing 1
+ *   through int *found (10 B each, all propagated to the literal); u8 found recheck (18 B: stores in source
+ *   order, movs not hoisted, kind-arm order flips, slots unchanged). Residue unchanged.
+ * 2026-10-05 (wD9r lane140): still DIFF 2 bytes (+016C). Reading: a literal found = 1 is folded by
+ *   constant propagation before value numbering (found = match = 1, ok = 1 then found = ok, found = ok = 1
+ *   all give the literal, 10 B); store-to-load forwarding works (found = unseen + 1 gives r3+1, 10 B, not
+ *   folded). So the copy source needs a 1 operand that value numbering sees, and none is in the image EBB.
+ *   Tried: match as u32 or u8 with literal found = 1 (10 B each); if (match) / if (match != 0) (12 B,
+ *   compare changes); always-true nested ifs: if (match == 1) found = 1 (548), if (active == 1) found = 1
+ *   (552), if (k < 15) found = 1 (542), none folded; found = (unseen == 0) and !unseen after the clear
+ *   (577); found and diff declared in the j-loop body (59-60 B, slot shifts, +016C unchanged); first-loop
+ *   store as int or struct field with found int or u32 (10 B, no global CSE with its hoisted 1); file
+ *   static const kOne (10 B, folded), file static int kOne (537). Residue unchanged.
+ * 2026-10-05 (wD9r lane129): still DIFF 2 bytes (+016C). Rechecked: every other byte matches, so no logic
+ *   error elsewhere. Reading: with int found the found = 0 in the kind arm is a value-numbered copy of r3 and
+ *   is placed after diff = 1; the image found = 1 behaves the same way (late copy, its movs #1 hoisted), so
+ *   the source of the copy is a 1-valued vreg that the front end did not fold. Tried: found = slots[k].active
+ *   before or after the unseen store and raw *(u32 *)(e + 0x1e4) before it (542-619 B); found as u8, u16,
+ *   short, char, signed char with found = 1 (18 B each: stores keep source order, movs is not hoisted);
+ *   volatile found (770 B, memory locals go to the top of the frame, so found is not a memory local); an
+ *   uninitialised int on with on = 1 at the j loop top or before the mode read and found = on (10 B, folded,
+ *   per docs/idioms/a-constant-compared-from-a-register-is-a-variable-assigned-in-another-arm.md), on = 1
+ *   in the first loop (842 B, spilled, not rematerialised; also not semantically safe). Residue unchanged.
+ * 2026-10-05 (wD9r lane110): still DIFF 2 bytes (+016C). Tested the inline-helper idea (ov123 021D5AC0):
+ *   whole matched-slot block as a static inline returning a helper-local found (60 B: the helper local takes
+ *   the lowest slot sp+8 and its literal 1 store is still scheduled above the unseen store); mac compare as a
+ *   static inline with a flag local, called as `if (same() == 1)` with found = 1 (28 B) and as match = same()
+ *   with found = match (20 B, helper flag at sp+8, +016C unchanged); mac compare helper with early returns
+ *   (579-593 B, the match slot disappears, so the image flag is a real function local); unseen clear inside a
+ *   helper that returns its int parameter, found = claim(list, k, 1) (10 B, parameter propagated); identity
+ *   helper on(1) / on(match) (10 / 2 B). Block-constant idiom with literal found = 1: kind arm in image order
+ *   diff, found, slot (18 B) or slot, diff, found (18 B); second arm diff first (14 B). With found = 1 above
+ *   the unseen store, value numbering shares r7 = 1 between diff and refresh, not the image. Residue unchanged.
  * 2026-10-05 (wD9r lane97): still DIFF 2 bytes (+016C). Reading: the 0 for found = 0 in the kind arm is a copy of
  *   the temp r3 made by the unseen = 0 store (value numbering), so the original found store at +0176 is a copy
  *   found = T with T a constant-1 vreg rematerialised early; no store of 1 precedes it in the extended block, so T
