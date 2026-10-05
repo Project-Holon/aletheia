@@ -30,6 +30,19 @@
  *   function-scope-versus-block-scope, constant-temp-reuses-first-assigned-slot,
  *   a-separate-index-local-per-loop-reorders-spill-slots (the winning lever),
  *   a-narrow-spilled-parameter-keeps-its-reload-below-a-store, a-byte-count-local-preserves-word-spills.
+ *   2026-10-05 wave P3 lane R2c: still 4 B (+0188/+018A), 18 compiles, none moved it. Tried
+ *   (all 4 B unless noted): for (i3 = 0; i3 < n; ) with i3++ as the last body statement; `continue`
+ *   guard instead of the nested if; ++i3 and i3 = i3 + 1; loop-3 bound read from a copy n1 of n; n3 = n2
+ *   hoisted above loop 3; block-local t, block-local q; do-while with an explicit if (n) guard, both
+ *   with trailing i3++ and with while (++i3 < n) (5 B: guard becomes beq instead of bls); n as u16
+ *   (613 B), n as int (14 B, signed branches), volatile n (267 B, diagnostic only), rec pointer
+ *   local r3 = rec + i3 in the body (25 B). Idioms read in full:
+ *   logical-result-store-order-hoists-a-spilled-reload (acquisition-order stores; no multi-store
+ *   here, nothing to reorder), a-spilled-local-assigned-twice-occupies-two-stack-slots (i3 is
+ *   assigned once per iteration and the slots already match). Hypothesis left for the integrator:
+ *   the original orders the spill store before the bound reload, which is what a may-alias memory
+ *   access gives (bound or counter living in a struct or array on the stack); no human-plausible
+ *   source for that was found, so the draft stays DIFF.
  * symbols:
  *   func_021D7EB4 0x021D7EB4 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
