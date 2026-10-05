@@ -7,8 +7,8 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
- * note final push 2026-10-05 G7L1: MATCH, 0 of 1160 bytes differ (c99 and c); verdict is MATCH, not
+ * status: EXACT
+ * note final push 2026-10-05 G7L1: EXACT once the witness leaf 021B7A08 was matched; was MATCH, not
  *   EXACT, only because func_021B7A08 and three data symbols have no witness outside the extent.
  *   Two changes from 32 B off:
  *   1 case 4 calls func_020355D8x, a second extern name for 0x020355D8 (listed in symbols). With
