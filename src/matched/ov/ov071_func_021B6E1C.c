@@ -7,18 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * 2026-10-05 (wave P12 lane A3): 208 B (size right), 36 B differ. Twin ov071 021B6A0C
- *   (same grid/bmp/string-print tail, template at 0x021BA82C). Callee types from matched
- *   definitions (02043678 returns Bmp *, 020255A0 Grid *, 02045EC0 void *, 020457B0 U16Vec *).
- *   Residue: original computes x first and keeps the bitmap in r3 (adds r3,r0,#0) with
- *   the param pointer rematerialised in r0 (add r0,sp,#8 twice); ours with y written first
- *   gets the r3 copy but schedules the y strh first and keeps the flag as movs/beq instead
- *   of the bne diamond; x first leaves the bitmap in r0 and the param pointer in r7 (150+ B).
- *   Tried: x/y order (4 spellings), b->bmp store position, chained b->bmp = param.bmp,
- *   const Ctx *a, flag as int/Bool/if-else/inverted/chained, plain literals (kept),
- *   opt_propagation off, opt_common_subs off (all worse).
+ * The 0/1 flag is written in each if/else arm (param.f14 and param.f12 stores), so the
+ * param address stays in r0 across the diamond and tail merging rebuilds the join. Callee
+ * types from matched definitions (02043678 returns Bmp *, 020255A0 Grid *, 02045EC0 void *,
+ * 020457B0 U16Vec *). Twin ov071 021B6A0C. final push 2026-10-05 G7L5.
  * symbols:
  *   func_02043678  0x02043678  arm
  *   func_020255A0  0x020255A0  thumb
@@ -34,8 +28,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-
-typedef enum { B_FALSE, B_TRUE } Bool;
 
 struct Param {
     void *bmp;
@@ -96,17 +88,20 @@ void func_021B6E1C(Ctx *a, Out *b, int c, int x, int y, int w, int h, int g, voi
     void *bmp;
     void *s;
     void *t;
-    Bool f;
 
     bmp = func_02043678(w, h, 0x20, 0x61);
     b->bmp = bmp;
-    param.y = y - (h / 2) * 8;
     param.x = x - (w / 2) * 8;
+    param.y = y - (h / 2) * 8;
     param.bmp = bmp;
     param.f8 = a->res[c].f4c;
-    f = c == 0 ? B_FALSE : B_TRUE;
-    param.f14 = f;
-    param.f12 = f;
+    if (c == 0) {
+        param.f14 = 0;
+        param.f12 = 0;
+    } else {
+        param.f14 = 1;
+        param.f12 = 1;
+    }
     b->grid = func_020255A0(a->f2c, &param);
     s = func_02045EC0(a->f28, g);
     if (ws) {
