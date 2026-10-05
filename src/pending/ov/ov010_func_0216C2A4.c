@@ -36,6 +36,19 @@
  * a-self-recompute-pins-an-operand, a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie
  * (this residue fits the last one: loads dying before any call or join).
  *
+ * final push 2026-10-05 G6L9: 25 of 88 bytes differ (was 27). New lever:
+ * #pragma opt_propagation off with a named bias local k = 0x20000 set after
+ * the three loads and z = z + k keeps 2<<16 shared with >>2 with plain signed
+ * types and no (unsigned) casts. K now lands in r2 as in the image. Left:
+ * x raw in r5 (image r3), y in r3 (image r5), x>>12 in r5 (image r4), movs r2
+ * after the first load (image first). k set before the loads gives 28; load
+ * order in source, local declaration order, x/z/y read inline, a SetCell inline
+ * helper (43), gx/gz locals (42), struct copy (72), int-returning callee
+ * with cast, non-const pos, u32 y, z store before x store, and pragmas
+ * opt_lifetimes/common_subs/dead_assignments/peephole off on top: all 25 to 43.
+ * Residue is the colour pair x/y (x born first gets the higher register here,
+ * the image has y higher). 40 compiles used.
+ *
  * Snap the actor's position to the 16-unit grid (z biased by 32) and
  * write it to the ov021 map object. Size-exact, 27 bytes out: the image
  * loads x, z, y in that order and stores x, z, y; hoisting the call into
@@ -70,6 +83,7 @@ extern VecFx32 *func_021BE480(void *p, int a, int b);
 extern void *func_02188CB4(void *field);
 extern void func_021A3044(void *q, const VecFx32 *pos);
 
+#pragma opt_propagation off
 void func_0216C2A4(Work *w)
 {
     VecFx32 v;
@@ -78,15 +92,18 @@ void func_0216C2A4(Work *w)
     fx32 x;
     fx32 y;
     fx32 z;
+    fx32 k;
 
     pos = func_021BE480(func_02188D2C(w->field), 0, 0);
     q = func_02188CB4(w->field);
-    y = pos->y;
-    z = pos->z;
     x = pos->x;
-    z = (int)((unsigned)z + 0x20000u);
-    v.x = ((unsigned)((x >> 12) / 16) << 16) + 0x8000;
-    v.z = ((unsigned)((z >> 12) / 16) << 16) + 0x8000;
+    z = pos->z;
+    y = pos->y;
+    k = 0x20000;
+    z = z + k;
+    v.x = (((x >> 12) / 16) << 16) + 0x8000;
+    v.z = (((z >> 12) / 16) << 16) + 0x8000;
     v.y = y;
     func_021A3044(q, &v);
 }
+#pragma opt_propagation reset
