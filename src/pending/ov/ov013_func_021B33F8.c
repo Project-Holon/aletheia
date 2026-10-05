@@ -27,6 +27,29 @@
  *   Idea left: e, w and the dead word look like memory-resident locals (address
  *   taken by an inline helper with out parameters).
  *
+ *
+ * note (2026-10-05, wave P4 lane S4b, pengy share):
+ *   Now 512 bytes against 524 (was 472). Two source changes found:
+ *   (1) the ring write index is read once into a local (v = state[3]) and reused
+ *   for the ring store and for state[3] = (v + 1) & 0x7FF; the original keeps it
+ *   in r7 across the whole tap chain and never re-reads it. That alone puts e in
+ *   [sp] memory (a spill) and removes fp.
+ *   (2) the sqrt start is an inline helper CP_SetSqrt32(u32 param) called with
+ *   reg_CP_DIV_RESULT_L as the argument, so the result load comes before the
+ *   SQRTCNT store and the pool word is 0x040002A0 as in the original. The whole
+ *   tail after the loop now matches except for register numbers.
+ *   Residue: the original spills three webs (e at sp+8, w=state[2] at sp, the
+ *   delay value d4 at sp+4, never reloaded; frame 0x10, no fp, state in ip, mask
+ *   in lr, i in r8). Ours spills e plus one coefficient and keeps w in a register
+ *   (frame 0xc plus an r3 pad). The original therefore has about three more live
+ *   values in the tap chain than ours; none found.
+ *   Tried (17 compiles, none better than 512): struct local for e/w/d5 (scalar
+ *   replaced, same bytes), inline AddSq(&e) helper (inlined, same bytes), the six
+ *   per-function pragmas on the 512 form (opt_lifetimes, opt_propagation,
+ *   opt_common_subs, opt_dead_assignments, scheduling, peephole: all >= 508 and
+ *   worse), declaration order of v/w (first, last), u32 v/w, pointer locals
+ *   c = state + 5 and d = state + 11 (552, worse: pointers stay live).
+ *
  * symbols:
  *   d_021B4C48  0x021B4C48  data  a4
  *   d_021B50CC  0x021B50CC  data  a2
@@ -47,6 +70,12 @@ typedef unsigned long long u64;
 #define reg_CP_SQRT_RESULT  (*(volatile u32 *)0x040002B4)
 #define reg_CP_SQRT_PARAM   (*(u32 *)0x040002B8)
 
+static inline void CP_SetSqrt32(u32 param)
+{
+    reg_CP_SQRTCNT = 0;
+    reg_CP_SQRT_PARAM = param;
+}
+
 extern s32 d_021B4C48[];
 extern s16 d_021B50CC[];
 
@@ -57,13 +86,15 @@ void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
     u32 rms;
     s32 acc;
     s32 w;
+    s32 v;
     s32 r;
     s32 d0, d1, d2, d3, d4, d5;
 
     e = 0;
     n >>= 1;
     for (i = 0; i < n; i++) {
-        d_021B50CC[d_021B4C48[3]] = b[i];
+        v = d_021B4C48[3];
+        d_021B50CC[v] = b[i];
         w = d_021B4C48[2];
         d_021B4C48[11] = d_021B50CC[w];
         d4 = d_021B4C48[15];
@@ -87,7 +118,7 @@ void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
             acc = 0x3FFF8000;
         else if (acc < (s32)0xC0000000)
             acc = (s32)0xC0000000;
-        d_021B4C48[3] = (d_021B4C48[3] + 1) & (0x3FFF8000 >> 19);
+        d_021B4C48[3] = (v + 1) & (0x3FFF8000 >> 19);
         d_021B4C48[2] = (w + 1) & (0x3FFF8000 >> 19);
         b[i] = acc >> 15;
         r = b[i];
@@ -99,8 +130,7 @@ void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
     reg_CP_DIV_DENOM = n;
     while (reg_CP_DIVCNT & 0x8000) {
     }
-    reg_CP_SQRTCNT = 0;
-    reg_CP_SQRT_PARAM = reg_CP_DIV_RESULT_L;
+    CP_SetSqrt32(reg_CP_DIV_RESULT_L);
     while (reg_CP_SQRTCNT & 0x8000) {
     }
     rms = reg_CP_SQRT_RESULT;
