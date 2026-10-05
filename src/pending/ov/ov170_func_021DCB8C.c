@@ -31,6 +31,10 @@
  *   func_0201F5DC  0x0201F5DC  thumb
  *   func_02049B40  0x02049B40  arm
  */
+
+/*
+ * 2026-10-05 (wave D4 lane07): DIFF, unchanged 15 bytes. Finding: the zero in r5 is the compiler's own CSE of the constant 0 (all-literal source without z gives the same code), and the original r5 is later the loop counter i. From the 0x3F call onward this build substitutes r5 for every literal register zero; the original does that only from the arc2 block on (arc2 args, 020413B0 r0/r1, 02041B6C, 0204162C). Tried: no z (all literal 0), i = 0 at the top and used as the loop start, z only in the arc2-block positions, the first part (up to func_02049238(arc)) as a static inline helper: all identical or worse.
+ */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;

@@ -20,6 +20,13 @@
  *   `u8 j` before `int h`, storing ids2[0] before n in the second tie loop.
  *   Callees func_021B8DE4 and func_021B8CE8 are unresolved (12 overlays overlap 0x021B8xxx; ov067 is a guess, the tool rejects the hint); the overlay that holds them needs a witness.
  *
+ * note (2026-10-05, wD4 lane05): 17 bytes, one site left. Closed: func_021D5B68 takes one argument, b->fc0
+ *   (keeps r0 live, fixes the opp/side compare); func_021B8DE4 and func_021B8CE8 resolve with the ov093 hint
+ *   (ov093 sits beside ov096). Residue: first draw_below site (+0x1AE), original makes the u64 hi zero in r1 and
+ *   copies it to r3 for n, result in r0; ours makes r3 = 0 first and the result lands in r1. An explicit block
+ *   with signed n gives the right registers but adds asrs r3,r6,#0x1f; with (u32)n it is back to the inline result.
+ *   Also tried (no change): n as u32 or int, the draw result in i or v before the index, (u32)n * random.
+ *
  * symbols:
  *   func_0218A2FC 0x0218A2FC thumb ov096
  *   func_0218A310 0x0218A310 thumb ov096
@@ -31,8 +38,8 @@
  *   func_021D54C0 0x021D54C0 thumb ov093
  *   func_021D5B68 0x021D5B68 thumb ov093
  *   func_021B9A6C 0x021B9A6C thumb ov093
- *   func_021B8DE4 0x021B8DE4 thumb ov067
- *   func_021B8CE8 0x021B8CE8 thumb ov067
+ *   func_021B8DE4 0x021B8DE4 thumb ov093
+ *   func_021B8CE8 0x021B8CE8 thumb ov093
  *   func_020870D0 0x020870D0 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
@@ -71,7 +78,7 @@ extern int func_0218A384(Obj *, int, int);
 extern void func_021885BC(int, u8 *);
 extern u8 func_021D5448(u8 *);
 extern u16 func_021D54C0(u8 *p, int i);
-extern int func_021D5B68(void);
+extern int func_021D5B68(u8 *);
 extern int func_021B9A6C(int, u32);
 extern int func_021B8DE4(int, u8);
 extern int func_021B8CE8(int, int, int);
@@ -107,7 +114,7 @@ int func_02188284(int a, Obj *b)
                 b->h24[b->opp] = -1;
                 goto next;
             }
-            if (b->opp == b->side || func_021D5B68() == 1) {
+            if (b->opp == b->side || func_021D5B68(b->fc0) == 1) {
                 b->s30[b->opp] = -1;
                 b->h24[b->opp] = -1;
                 goto next;

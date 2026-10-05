@@ -20,6 +20,11 @@
  *   whatever its declaration position; ca/cb follow reverse declaration order); original is cb 8, ca 0xc, g 0x10, ra 0x14, so g must
  *   not be the first spilled local. (3) branch A flag `ra == 0 ? 1 : 0`: original `ldr r0,[sp,#0x14]; cmp; beq; movs 0; b; movs 1`,
  *   mine `bne; movs 1; movs 0`. The `fl = 0; if (ra == 0) fl = 1;` form (as in branch B) grows the code (extra movs) and is worse here.
+ * note 2026-10-05 (wave D4 lane 10): still DIFF (24 bytes). `int g` (was u16) also gives 24 but adds a
+ *   scheduling change at +0x190 (data arg load moves), so the draft keeps u16. Flag in branch A: ternary
+ *   `(ra != 0) ? 0 : 1`, `!ra`, if/else into a local (both orders), `fl = 1; if (ra) fl = 0;` all give
+ *   `bne; movs 1; b; movs 0` or worse; a store in each arm gives 257 bytes. Swapping the arm order in
+ *   source moves the blocks (329). Residue unchanged: slots (cb 8, g 0x10) and the beq/movs 0 flag order.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb

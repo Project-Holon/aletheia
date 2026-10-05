@@ -13,6 +13,9 @@
  * ARM setter, bit 0 of the halfword at +0x36) is parked DIFF in
  * src/pending/arm9/func_02060F18.c (13 bytes: and-sink scheduling). Bytes here are correct.
  *
+ * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Only open reloc is THM_CALL func_02060F18 (arm9 setter, parked DIFF in
+ * src/pending/arm9/func_02060F18.c); it needs that arm9 leaf filed EXACT.
+ *
  * symbols:
  *   d_021A8268  0x021A8268  data  ov009  a4
  *   d_021A1C78  0x021A1C78  data  ov009  a1

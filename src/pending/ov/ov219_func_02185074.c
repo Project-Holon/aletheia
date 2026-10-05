@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane19): still DIFF 17 bytes, no new hypothesis beyond the 2026-10-04 notes closed it.
  * note 2026-10-04: DIFF, 17 bytes, loop body only. Original loads the u16 stack argument ((u16)*p) first,
  *   then the table pool address into r2 and indexes in r2; here the table base goes to r0 and the table
  *   load comes before the *p load. Everything else matches (u32 param c with (u16) casts in the call, loop

@@ -11,6 +11,7 @@
  *
  * note (2026-10-04): lane17 wave D2: 208 bytes, 18 differing bytes, all one register swap: original heap (r1) in r4 and the 0x588 pool offset in r6; ours heap r6, offset r4. Callee func_021B9DC0 (20 bytes) is an unlabelled ov099 function with no matched file; the MATCH step needs it filed. Shape matched: WH t, s declared in that order, s.w = raw; s.h = raw >> 16; t = s; a4 is u32 (lsrs). Tried int heap, enum offset local (worse), n declaration order.
  *
+ * note: 2026-10-05 (wD4 lane20): constant-in-a-local lever applied: int off = 0x588; p+off, p+off+4, p+off+0xC, p+off+0x14. Instruction forms now match the image (adds r1,r6,#4 style and the in-place add of 0x14) and the byte count is unchanged; only the heap/off colour swap remains (heap r6, off r4; image heap r4, off r6). Tried off declared first, assigned late, u32 off: no change.
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_021B9DC0  0x021B9DC0  thumb  ov099
@@ -51,6 +52,7 @@ void func_021B95A0(char *p, u32 heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u3
     WH t, s;
     u32 raw;
     u32 n = 0;
+    int off = 0x588;
     func_02082BCC(p, 0, 0x5A0);
     if (a4 != 0) n = (a4 - 1) >> 3;
     *(u32 *)(p + 0x14) = a6;
@@ -62,14 +64,14 @@ void func_021B95A0(char *p, u32 heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u3
     s.w = raw;
     s.h = raw >> 16;
     t = s;
-    *(void **)(p + 0x588) = func_021C47A0(t.w, t.h, heap);
-    func_021C4800(*(void **)(p + 0x588), func_021BA81C(n));
-    *(void **)(p + 0x58C) = func_021C4880(0x30, heap);
+    *(void **)(p + off) = func_021C47A0(t.w, t.h, heap);
+    func_021C4800(*(void **)(p + off), func_021BA81C(n));
+    *(void **)(p + off + 4) = func_021C4880(0x30, heap);
     func_021B9D30(p, x3, heap);
-    func_021C59D0(p + 0x594);
+    func_021C59D0(p + off + 0xC);
     func_021B9D6C(p, heap, x2, n);
     func_021B9E0C(*(void **)(p + 0x10), heap, x2, a5);
     func_021BA60C(p, p + 0x574, x2, a5);
-    *(void **)(p + 0x59C) = func_021C5EEC(0x80, heap);
+    *(void **)(p + off + 0x14) = func_021C5EEC(0x80, heap);
     *(u32 *)p = 1;
 }

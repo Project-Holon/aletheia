@@ -2690,3 +2690,5 @@ overlay_172 0x021B8B7C  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src
 overlay_172 0x021B8C14  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021B8C14.c
 overlay_172 0x021B8C20  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021B8C20.c
 overlay_172 0x021BE0F0  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src/matched/ov/ov172_func_021BE0F0.c
+arm9_main   0x0200E47C  thumb   # wave D4: bl from ov217 0x021BFC60; EXACT src/matched/arm9/func_0200E47C.c
+arm9_main   0x02013DE0  thumb   # wave D4: bl from ov020 0x021862A8; EXACT src/matched/arm9/func_02013DE0.c

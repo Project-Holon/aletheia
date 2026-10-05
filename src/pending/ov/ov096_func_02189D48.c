@@ -9,6 +9,7 @@
  * isa: thumb
  * status: DIFF
  * 2026-10-04 (wave D2 lane 08): first draft, DIFF (8 bytes, size 294 vs 296). Control flow, slots and registers match; only the argument-register order of the two func_021C7E14 calls differs: image 'adds r1,r4' (x) before the field load and 'ldr r2,[sp,#0x10]' (y) last, ours loads y first. Stack slots follow declaration order t,g,j,sel,y,best,n. Tried u32/u8 types for x and y and swapped declaration order.
+ * note: 2026-10-05 (wD4 lane20): not changed; same family as func_0218A390 and func_02188D5C (func_021C7E14 argument-register order). No new variant beyond those lanes' notes.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021B8DE4 0x021B8DE4 thumb ov093

@@ -17,6 +17,13 @@
  * 2026-10-04 (wD2 lane19): original temps by slot (low to high): d(p+0xC+r) @0, e(p+i*0xBC) @4, o @8, c @0xc, j @0x10.
  *   Declaring j,c,o,e,d,i,k at function scope reorders e/o/c but the d temp stays at 0xC; hoisting d before the k loop or
  *   `(u8*)((u32)(p+0xB4)+(u32)r)` grows the frame to 0x18 (worse). Residue: d temp slot and (p+0xB4)+r operand order.
+ * 2026-10-05 (wD4 lane 08): DIFF, size now right (352 bytes), 49 diff lines. Found: the inner k loop has an explicit
+ *   guard `if (count != 0) { for (...) ...; p[0xC5F]++; }` (original cmp r0,#0; beq past the ++, then the for guard).
+ *   Residue: (1) stack slots (original d@0 i@4 o@8 c@0xc j@0x10, draft c@0 o@4 i@8 d@0xc); (2) the original forms
+ *   (p+0xB4)+r and (p+0xC)+r (d computed once after the guard), the draft forms p+r first; p+0xB4+r spelling hoists both
+ *   out of the j loop (364 bytes); (3) the original loads the 0xC5F pool word once for the ++, the draft twice.
+ *   Tried: a Row struct array at p+0xC (stride 0xBC; ents[6] of 0x1c, hdr at +0xA8, cnt +0xB8): one pool load for the
+ *   ++ but j*0xBC is computed twice (364 bytes); all accesses through the Row struct is worse (171 lines).
  * symbols:
  *   func_020457B0 0x020457B0 arm
  *   func_02012F68 0x02012F68 thumb
@@ -84,11 +91,13 @@ void func_021DCCC8(u8 *p)
                     *(u16 *)(p + r + 0xC4) = func_0200ECD0(o, j);
                     *(u16 *)(p + r + 0xC6) = func_0200ECC4(o, j);
                     func_0200ED14(o, j, p + r + 0xB4);
-                    for (k = 0; k < *(u16 *)(p + r + 0xC4); k++) {
-                        d = p + r + 0xC;
-                        func_0200ECF0(o, j, k, d + k * 0x1c);
+                    if (*(u16 *)(p + r + 0xC4) != 0) {
+                        for (k = 0; k < *(u16 *)(p + r + 0xC4); k++) {
+                            d = p + r + 0xC;
+                            func_0200ECF0(o, j, k, d + k * 0x1c);
+                        }
+                        p[0xC5F]++;
                     }
-                    p[0xC5F]++;
                 }
             }
         }

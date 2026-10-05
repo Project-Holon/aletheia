@@ -15,6 +15,12 @@
  * declaration order, no q local, a struct with a[8] and b[8][2] arrays (identical output).
  * Zero stack arguments come from i = 0 (ldr from the i slot), kept. y = (i % 4) * 6.
  *
+ * 2026-10-05 (wave D4 lane 04): DIFF, 313 bytes. func_020450F0 third parameter is u8 here (the
+ * original truncates y + 1 with lsls/lsrs #0x18 in both calls and hoists the inner (u8)(y + 1) to
+ * [sp,#0x24]); x written inline as ((i >> 1) / 4 << 4) (a CSE temp in r5, as in the original); q and r
+ * locals removed. i is now at [sp,#0x20] as in the original. Residue: y = (i % 4) * 6 spilled to
+ * [sp,#0x1c]; the original keeps y in r7 and spills p + i*4 to [sp,#0x14]; size still 596 vs 600.
+ * Tried: y inline too (y + 1 then CSEs, wrong), y declared first or last, register y.
  * symbols:
  *   func_02049B68  0x02049B68  arm
  *   func_02049740  0x02049740  arm
@@ -41,7 +47,7 @@ extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a
 extern void *func_02049EF4(void *h, u32 a1, u32 a2, void **out, u16 heap);
 extern void func_021C1FE8(u16 *p, u16 d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
-extern void *func_020450F0(int, u8, int, int, u8, u8, u8);
+extern void *func_020450F0(int, u8, u8, int, u8, u8, u8);
 extern void *func_02045770(void *p);
 extern void func_02043B5C(void *buf, u8 value);
 extern void func_02045334(void *d);
@@ -70,16 +76,15 @@ void func_021C1D1C(u8 *p, void *a, u32 heap)
     func_02049B40(0x17, 5, 4, 0xf << 5, 0x20, heap);
     for (i = 0; i < 8; i++) {
         y = (i % 4) * 6;
-        x = (i >> 1) / 4 << 4;
-        q = p + i * 4;
-        *(void **)(q + 0x8F8) = func_020450F0(7, x + 4, y + 1, 9, 3, 0xf, 1);
-        func_02043B5C(func_02045770(*(void **)(q + 0x8F8)), 0);
-        func_02045334(*(void **)(q + 0x8F8));
-        r = p + i * 8;
+
+        *(void **)(p + i * 4 + 0x8F8) = func_020450F0(7, ((i >> 1) / 4 << 4) + 4, y + 1, 9, 3, 0xf, 1);
+        func_02043B5C(func_02045770(*(void **)(p + i * 4 + 0x8F8)), 0);
+        func_02045334(*(void **)(p + i * 4 + 0x8F8));
+
         for (j = 0; j < 2; j++) {
-            *(void **)(r + j * 4 + 0x918) = func_020450F0(5, x + 1 + j * 12, y + 1, 2, 3, 0xf, 1);
-            func_02043B5C(func_02045770(*(void **)(r + j * 4 + 0x918)), 0);
-            func_02045334(*(void **)(r + j * 4 + 0x918));
+            *(void **)(p + i * 8 + j * 4 + 0x918) = func_020450F0(5, ((i >> 1) / 4 << 4) + 1 + j * 12, y + 1, 2, 3, 0xf, 1);
+            func_02043B5C(func_02045770(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
+            func_02045334(*(void **)(p + i * 8 + j * 4 + 0x918));
         }
     }
     *(void **)(p + 0x958) = func_020450F0(7, 1, 1, 0x1e, 2, 0xf, 1);

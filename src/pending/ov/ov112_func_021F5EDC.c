@@ -13,6 +13,7 @@
  * Residue: original loads the pa pointer (sp+0x50) before the 0x040004A4 store, and keeps e2 in r0 (a9*8 in r0, arr in r2). Compiled keeps e2 in r1 with a movs r2,#2 hoisted.
  * Tried: one expression, split e1/e2, raw offsets, struct chain, i1/i2 locals, hdr local, q = pa copy early. All give the same 21 lines.
  * Original frame: ang sp28, x sp24, y sp20 (declare ang, x, y); pk(v) = (u16)((v<<8)>>16) with no extra s16 cast; texcoord s0/s1/t0/t1 locals.
+ * 2026-10-05 wD4 lane09: DIFF, 28 bytes (was 29). `y = -(e2->f4 + s->fE) << 8` fixes the final adds operand order (+0098). Residue: compiled hoists `movs r2,#2` (ldrsh offset of e2->f2) into the slot at +0068 where the original loads pa (ldr r2,[sp,#0x50]) above the TexPlttBase and 0x4A4 stores; the rest is the colour swap that follows (e2 in r1 not r0). Tried: x as e2->f2 + s->fC (worse, 33), e1 line before the 0x4A4 store (pa hoists but the p+0x6C loads also move up, 32), e1 before TexPlttBase (427).
  * symbols:
  *   func_0207D760 0x0207D760 arm
  *   func_0207D888 0x0207D888 arm
@@ -97,7 +98,7 @@ void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, stru
     e1 = &(*(struct H **)(p + 0x6C))->tbl[*pa];
     e2 = &e1->arr[a9];
     x = (s->fC + e2->f2) << 8;
-    y = -(s->fE + e2->f4) << 8;
+    y = -(e2->f4 + s->fE) << 8;
     if (mode == 0) {
         ang = *(u16 *)(p + 0xFC);
     } else if ((mode & 1) != 0) {

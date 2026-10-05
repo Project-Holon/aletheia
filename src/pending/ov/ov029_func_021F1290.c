@@ -20,6 +20,11 @@
  * xx=x/i=0 above pal (57/67), a k local for the 0C70 result (116), operand
  * order of the final or, for-with-comma form.
  *
+ * 2026-10-05 (wD4 lane 15): tried a k local for the func_021F0C70 result with xx = x; i = 0 after the call and before pal
+ * (176 B, v spills), the same with pal computed inside the outer loop so LICM hoists it (176 B). The extra local
+ * costs 4 bytes and spills v. Residue unchanged at 29 bytes: original has x loaded to ip and i=0 stored before the pal
+ * arithmetic, and `orrs r1,r6` uses pal<<12 in place (ours copies it with an extra adds).
+ *
  * symbols:
  *   func_021F0D14  0x021F0D14  thumb  ov029
  *   func_021F0C70  0x021F0C70  thumb  ov029

@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD4 lane16): also tried a do/while with u32 counter declared after the pointer, and a u8 counter with break: both worse (17 and 27 bytes). Residue unchanged (rec=r4/counter=r2 in image).
  * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (8 bytes): image rec=r4, counter=r2; ours rec=r2, counter=r4. Colouring looks priority ordered (counter gets the callee-saved register in ours); no source form found that lowers the pointer's priority.
  *
  * 2026-10-02: 44 bytes, size exact, one relocation resolved.  Only the colours

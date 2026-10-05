@@ -10,6 +10,10 @@
  * status: DIFF
  *
  * note: DIFF vs 2026-10-04: 22 bytes differ, only the last 201C724 call: original stores the three stack args first and loads n and adds x0+n late (ldr r2,[sp,#0x28] after the stack stores), ours hoists the n load and add before the stack stores. Everything else matches (declaration order sets slots; x0 param reassigned; ctx and A/B locals). Tried: (s16)(x0+n), n+x0, a y local assigned before the call.
+ * note 2026-10-05 (wave D4 lane 10): still DIFF (22 bytes). Tried ctx3 inlined as P->f1EAC (115 bytes) and
+ *   A/B locals for the third call as in the second (no change). The sibling 0220D494 (EXACT this wave)
+ *   computes its x+w1 early like ours, so the late `ldr r2,[sp,#0x28]; adds` here hints the third x is a
+ *   different expression or variable in the original; not found.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm

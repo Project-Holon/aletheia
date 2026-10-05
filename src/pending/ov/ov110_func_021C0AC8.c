@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane19): still DIFF 74 bytes. Tried an Entry *ep alias for the loop and c.target = &e[0]: no change. Orig reuses r1 (add r1,sp,#0xC from the loop body) as c.target and keeps constant 1 in r3; ours rematerialises the address.
  * note: 2026-10-04 (wD1 lane17): DIFF. Layout right: 3 entries {void *str; u16 flag=0x39E3; u32 term} at sp+0xC, Config{size,flag,target,mode,x,y,z,w} at sp+0x30, e[2].term=1 stored at [sp,#0x2C]. Residue: orig keeps r3=1 for e[2].term and Config.mode and r1 (left over from the loop's `add r1,sp,#0xC`) as Config.target; ours rematerialises. Decl order Config then Entry, u32 loop counter, store order size,target,x,y,z,flag,mode,w. Tried several store orders.
  * symbols:
  *   func_02045EC0 0x02045EC0 arm

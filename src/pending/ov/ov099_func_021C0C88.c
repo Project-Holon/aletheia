@@ -11,6 +11,10 @@
  *
  * note: DIFF vs 2026-10-04: skeleton matches (switch(r6){case -1 return; case -2 ...} layout, func_021BE2A8(p, index) hidden arg, r6=-2 when func_021BF050 true). Residue ~104 bytes: original rebuilds 0x24C (0x93<<2) and 0x1CC (0x73<<2) constants fresh at each use, ours CSEs them into r6 (subs r6,#0x80) and moves the 0x93 constant into r6 instead of r1. Size 468 vs 472. Tried: struct fields for 0x1CC/0x24C (no change).
  *
+ * 2026-10-05 (wave D4 lane 04): DIFF, unchanged. Tried: raw p + 0x24c as the func_021BDD54 argument
+ * with the struct f1cc store: no change. Ours puts the 0x24C call-argument constant in r6 (free after
+ * the switch) and derives 0x1CC as r6 - 0x80 in the r4 == 5 path; the original builds 0x24C in r1 and
+ * rebuilds 0x1CC. r6 is dead there in both, so this is a constant-CSE decision, not a colour swap.
  * symbols:
  *   func_020200CC  0x020200CC  thumb
  *   func_021BF050  0x021BF050  thumb  ov099

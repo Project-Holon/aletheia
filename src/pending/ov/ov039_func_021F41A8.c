@@ -16,6 +16,10 @@
  *           for the call result. Levers that closed other residues here: q declared before j
  *           (stack slots 8/0xc), f2 declared before k (r4/r5), u8 vol, a u8 index local in
  *           case 6, the range test written (u8)(s->sel + 0xFE) <= 3.
+ *           2026-10-05 wave D4 lane 12: still the same 4 bytes. Tried: hold as u8 instead of s8
+ *           (worse, recolours r4/r6 from +0x86). The store and the movs r1,#1 are independent;
+ *           the original keeps source order there. Also tried a static inline helper that
+ *           does the 674 call and the store and returns p (same 4 bytes).
  *
  * symbols:
  *   func_020124E4 0x020124E4 thumb

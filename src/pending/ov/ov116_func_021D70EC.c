@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH
+ * 2026-10-05 (wD4 lane19): still MATCH. Blocked by ov114 ARM 0x021C93D0 and 0x021C940C (pengy overlay, no witness).
  * blocker: ov114 ARM 0x021C940C is SDK union code, owned by Ilias.
  * Also unresolved: ov114 ARM 0x021C93D0, unlabelled state query leaf.
  * No overlay leaves filed because the SDK blocker persists; parent requested park.

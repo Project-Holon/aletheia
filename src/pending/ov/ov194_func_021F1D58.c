@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note (2026-10-05, wD4 lane17): still DIFF, 185 bytes. Tried: green channel of a computed before the table lookup, lerp statement order blue/red/green (the original lerps in that order), local copy of the phase pointer (propagated away). Original keeps the phase pointer in r0 and the value in r1 (copy `adds r0,r1,#0` first); ours keeps the pointer in r1. Original also holds a (r5) and b (r3) in registers across the lerps.
  *
  * note (2026-10-04): lane17 wave D2: 204 bytes vs 208, first draft. Logic: phase += step with wrap at 0x10000 (signed int compare), t = (s16)((tbl_020A1B38[(phase >> 4) * 2 + 1] + 0x1000) / 2), per-channel RGB555 lerp (a + ((b - a) * t >> 12)), write u16, call func_02061CA4(0xF, row * 32 + idx * 2, out, 2), return *out == b. Residue: original copies the phase pointer to r0 first (adds r0,r1,#0; ldrh r1,[r0]) and reads the stack colour args a (r5) and b (r3) before the table lookup; ours loads a/b after t. Try computing the channels of a before t and keeping phase in a local pointer.
  *

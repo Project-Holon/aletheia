@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH
+ * 2026-10-05 (wD4 lane19): still MATCH. Blocked by arm9 0x0200DD28 (no label); not re-tested further.
  * blocker: ARM9 0x0200DD28 has no outside code witness. Blocker C attempted
  * in scratch blocker-DD28.c; best run DD28-r3.log is DIFF (102 bytes vs 100).
  * The existing ARM9 unit_0200DD10.c also records this function's near miss.

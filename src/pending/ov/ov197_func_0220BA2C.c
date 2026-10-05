@@ -17,6 +17,8 @@
  * this build adds first. Tried without effect: q = p + i locals, c/l pointer locals, explicit n,
  * row/e split, u32 add order, ternary vs if for the divide.
  *
+ * 2026-10-05 (D4-18): still DIFF, 48 bytes. Tried: int o = 0x539 as loop-local and function-scope local with p[i + o - 4] for the 0x535 read (same output: the compiler hoists o-4 into r7 and reloads the 0x539 pool word per use, the original does the opposite and spills o-4 to [sp,#0x14]); first loop with no q/e locals (raw p[c + 0x535] repeated, 252 bytes, worse); second loop with *(u8 **)p repeated instead of s (no change). The original has one extra live value in the second loop (frame 0x18) that the source has not yet been found to supply.
+ *
  * symbols:
  *   func_02048F60 0x02048F60 arm
  *   func_020081DC 0x020081DC thumb

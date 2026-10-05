@@ -32,6 +32,10 @@
  *   func_02082A48  0x02082A48  arm
  */
 
+/*
+ * 2026-10-05 (wave D4 lane07): DIFF, unchanged 7 instructions (ty/v slot swap). Frame map of the original: a 0, box 4, dest 8, v 0xC, ty 0x10, y*6 temp 0x14, tx 0x18, x 0x1C, y 0x20, sv 0x24, e 0x28. Tried: ty as int (308 bytes, worse), ty as u16 (312, worse), v as int with a u16 cast at the assignment (no change), fill value inline in the call (worse). The narrow-local lever does not apply here: v width does not move the slots.
+ */
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

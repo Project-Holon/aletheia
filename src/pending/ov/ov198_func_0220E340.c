@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD4 lane16): also tried arr = (int *)p + 0x929, int loop counter (much worse), arc/arr/x declaration orders, and a temp for the call result before arr[i]: all 9 bytes, r6/r7 swap unchanged.
  * symbols:
  *   func_0220E340  0x0220E340  thumb  ov198
  *   func_020490F4  0x020490F4  arm

@@ -11,6 +11,10 @@
  * note 2026-10-04: DIFF, 8 bytes short. Original computes the offset 0x24C early as an integer (r4=0x240; r0=r4+0xc spilled to
  *   [sp,#0x18], reloaded for the final `str r6,[r5,r0]`) and keeps r4 as shared 0x240 (0x234 = r4-0xc). Constant-folded here whatever
  *   `off`/`k` locals were tried, so the hoisted spill slot and the pushed r3 are missing. Body logic is believed correct.
+ * 2026-10-05 (wD4 lane 15): tried int k with `off = k; off += 0xC;` (two statements), `off = k; off = off + 0xC;`, a separate j = k - 0xC,
+ * u16 k, `(u16)(k + 0xC)`, and k = k - 0xC after off = k. All still 224 B: off folds to a late `movs #0x93; lsls #2`.
+ * The original stores r4 copy (0x240) to [sp,#0x18], adds 0xC, stores again, and decrements r4 itself in place for p[k-0xC].
+ *
  * symbols:
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm

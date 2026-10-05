@@ -25,6 +25,8 @@
  * for the f108 wrap (x lands in r3 not r2; ternary and y-form are worse), and the g-before-r result order.
  * Image spills gA ([sp]) and keeps two 0x7c00 constants (ip and [sp,#4]); ours spills rA instead.
  *
+ * 2026-10-05 (D4-18): still DIFF (148 bytes). Tried for the f108 wrap: y = 0x400 + x, y declared first and assigned later, y declared after x (x stays in r3, original r2). Loop untouched this pass.
+ *
  * symbols:
  *   tbl_020A1B38  0x020A1B38  data
  *   func_0204B6F4  0x0204B6F4  arm

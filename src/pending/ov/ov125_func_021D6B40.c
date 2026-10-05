@@ -57,6 +57,10 @@
  *   d_021D8D28  0x021D8D28  data a4
  *   d_020A7370  0x020A7370  data
  */
+
+/*
+ * 2026-10-05 (wave D4 lane07): DIFF, unchanged. Tried inner 0x55F1 switch in source order 2,0,1,3: layout follows source order and the shared tail still goes to the first case (0x5208), so the order is not the lever. Original: every ret-setting case except 0x55F1 sub-case 3 branches to the store at the end of sub-case 2 (sub-case 2 falls into it). Untried idea: the ret-setting cases in another form (ret assigned through a common label/goto, or the 0x55F1 sub-switch in a static inline helper that returns the call result).
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

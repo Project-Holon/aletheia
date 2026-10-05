@@ -25,6 +25,8 @@
  *   func_021C09BC  0x021C09BC  thumb  ov217
  *
  * Note 2026-10-04 (wD1 lane06): Retried: void-pointer, u32, u8, s16 and const types for p and c, local v = *p, if-chains, char* a. Still 5 bytes: p lands in r6 and c in r4 (original p r4, c r6).
+ *
+ * note 2026-10-05 (wD4 lane13): tried c as void * with a void * callee parameter, a q = p alias, and locals a/p/c copied from the parameters in three declaration orders (h1-h3). All give the same 5 bytes. Observation: the original colours c, a, p in that order into r6, r5, r4; ours colours p, a, c into r6, r5, r4 (exact reverse).
  */
 
 extern void func_021B970C(void);

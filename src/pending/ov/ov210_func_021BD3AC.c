@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD4 lane16): re-read; still the single r1/r0 load at the 0x79 test after func_021C9460. No change tried that moved it (callee arity cannot explain it: the load is after the call).
  * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (2 bytes: ldrb r1/cmp r1,#0x79 in the image, r0 in ours). Also tried the 0x79 test through a u32 local and p[0x2BB]++ for the tail; no change. Lesson from func_021BE010 (same overlay): a callee that takes the byte as a second argument with r0 untouched explains an r1 load, but no call here does.
  *
  * 2026-10-02 (wave C2 lane 03): re-checked, still the same two bytes at

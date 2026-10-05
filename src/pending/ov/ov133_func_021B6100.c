@@ -17,6 +17,12 @@
  *   2026-10-04 (D2): also tried x/k as u16/u32 block locals (m = x * k; t / k): same output. Note the original has a
  *   no-op `b` to the next instruction (+00FC) where the reload would sit: the join may come from an if/else whose
  *   else arm is empty or whose arms both end at the call.
+ * 2026-10-05 (wave D4 lane 01): DIFF, residue unchanged (23 bytes at +00F2..+0108). Tried: k = 0x1249
+ *   local for both the multiply and the divide (with if and with ternary), n and k both locals
+ *   (`m = n * k`, the "separate product local" shape), a new result local `u = (t >= m) ? t - m : t`,
+ *   the ternary nested in the divide, and `if (t < m) {} else t -= m;`. All give `muls r1,r2,r1` and a
+ *   reload of 0x1249. The original copies n (adds r3,r2) before the multiply, so n is still live
+ *   after it in the original IR, and the no-op `b` marks an empty else block. Neither is explained yet.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021B69AC 0x021B69AC thumb ov133

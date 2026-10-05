@@ -39,6 +39,15 @@
  * kk = k is a separate u8 (gives the double truncation), top-level declaration
  * order pos, h, best, bestK, bestN, first, snd, h2 sets the other slots, and
  * the d_021F4CA0 symbols line needs "data a4" (an ov039 token is contested).
+ *
+ * note (2026-10-05, wave D4 lane 12): still 6 bytes. Tried: int n = (u8)(...) with
+ * int-width prototypes for func_021BE674/021F3DE4/02047790 (the loop then matches
+ * byte for byte, q at sp+8 and n at sp+0xC, but the second block loses its per-call
+ * u16 truncations of bestK/bestN); adding explicit (u16) casts there gets CSE'd once
+ * and adds a stack word. So the loop wants a wide n and the second block wants u16
+ * parameters. Next: find a source where n is a wide local but the calls keep u16
+ * prototypes without re-truncating n (for example n passed through a u16 helper or
+ * the second block reading bestK/bestN through u16 stack locals).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH
+ * 2026-10-05 (wD4 lane16): re-checked, bytes identical; MATCH only because func_021F546C (ov112) has no EXACT witness (ov194 has a pending file at the same address, 9 overlays overlap). Needs the callback matched in ov112.
  * blocker: callback ov112 021F546C has no outside witness; final retry exhausted in docs/notes/pkt_ov112_021F546C.c.txt (170 vs 172 bytes).
  * symbols:
  *   func_021F546C 0x021F546C thumb ov112

@@ -21,6 +21,12 @@
  *   sh>>9 at run time, so they are variables, not literals); sx = tp[0]*rx and
  *   sy = tp[1]*ry operand order; cur = old = f() store order; offy written with "* -8";
  *   case a < h>>1 passes h>>3 directly (not sc) so it is not tail-merged.
+ * 2026-10-05 (wave D4 lane 01): DIFF, residue unchanged. Tried: `lim = (n = ...) * 0x1249`; `int idx = 0`
+ *   at the declaration; an offset local o = 0x181C for the first access and for p + (o + 0x18) in the first
+ *   0x1834 lines (no change: the pool load still schedules first); base as int or u32 (moves the base
+ *   store, never to +0004). In the original, base, rx, idx and n are all stored at their definition and
+ *   reloaded before use (spill everywhere); ours keeps the value in the register and the scheduler sinks the
+ *   store. A fifth live value in the original (more register pressure) is the likely cause; not found.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133

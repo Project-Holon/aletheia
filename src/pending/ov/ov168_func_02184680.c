@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note (2026-10-05, wD4 lane17): still DIFF, 4 lines (stack arg e load placed after the pool ldr and movs r3). Not repeated: the earlier tries. Observation: the original emits the param copies in colour order r7,r6,r5,r4; ours defers the e load. No source lever found.
  *
  *
  * 2026-10-04 note (wave D2 lane 15): DIFF, 4 mismatching lines, the whole function body is

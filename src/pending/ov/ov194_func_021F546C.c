@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note (2026-10-05, wD4 lane17): still DIFF, 10 bytes. Tried: int n with (u32)(n << 10) >> 16, cnt declared before i, while loop with i++, int cnt and int i, pointer-walk do/while (27 bytes). Hypothesis: the original computes cnt before the param copies of a and d, so the stack load takes r1 (r0 still holds a); ours copies a and d first so the load takes r0.
  * note (2026-10-04): DIFF, 10 bytes. Listing matches except the prologue schedule: original loads the stack arg first (ldr r1,[sp,#0x18]; adds r7,r0; lsls r1,#10; lsrs r5,r1,#16; adds r6,r3), compiled loads into r0 after adds r7 and uses r0. Count is (n<<10)>>16 (bits 6..21). Tried u16/int/u32 locals, declaration order, for vs while, split shift into two statements.
  *
  * note (2026-10-04, lane17): also tried a bitfield struct parameter (u32 lo:6, cnt:16, hi:10), `(n >> 6) & 0xFFFF` with do/while and for/return forms (worse, 15 bytes), and `u32 i = 0` at declaration. Same 10 bytes: original loads the stack arg into r1 before `adds r7,r0`.

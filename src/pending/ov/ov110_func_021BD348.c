@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane19): still DIFF. Orig keeps i*2 in r7 and spills bh (blue lerp already shifted) to [sp,#8]; ours spills i*2. No new test closed it; the first hypothesis this wave (checking mask constants) shows the 0x7C00/0x3E0 mask spills already match.
  * note: 2026-10-04 (wD1 lane17): DIFF. Angle update, table lookup and t=(tbl[2*j+1]+0x1000)/2 as s16 match (field read as raw *(int*)(p+0xB8) each time). Residue is in the 5-iteration RGB555 lerp loop: orig keeps i*2 in r7 and addresses p+r7+0x98/0xA2/0xAC, ours spills it to [sp,#8]; blue is `(c&0x7C00)>>10` on signed int (asrs), result bh=(u8)lerp<<10 spilled to [sp,#8]. Tried: char *q = p+i*2, int o=i*2, bh local, extraction order.
  * symbols:
  *   func_02061CA4 0x02061CA4 arm

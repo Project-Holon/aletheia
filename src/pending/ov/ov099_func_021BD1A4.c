@@ -16,6 +16,9 @@
  * declared before x[2]). Tried: five declared first or last, u32 five, five = 0 before the
  * q load, u32 r (breaks the negative cases, 213 bytes).
  *
+ * 2026-10-05 (wave D4 lane 04): DIFF, 20 bytes, unchanged. Tried: 0x1b8 held in a local (0x1b0/0x1ac
+ * written as off - 8 / off - 0xc), the same local reused as the switch value r, u8 five: all give the
+ * same r5/r6 swap.
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb

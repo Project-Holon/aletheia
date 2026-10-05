@@ -19,6 +19,14 @@
  *   of func_0201BABC. Tried: u32 heap local (constant propagated away), z = i = 0 chained,
  *   separate k counter for the -1 loops, int *arr base pointers for the loop stores (these
  *   fixed the store shape). Next: find what makes mwcc CSE 0x6b into a register for stack args.
+ * 2026-10-05 (wave D4 lane 01): DIFF, residue unchanged. Listing reading: the original keeps 0xBF0 in a
+ *   spilled slot [sp,#8] and derives every later offset from it at run time (0xC08 = +0x18, 0xC20 = +0x30,
+ *   0xB64 = -0x8c, 0xBF4 = +4, 0xC0C = +0x1c), then loads 0xBA4 and derives 0xBF8 (+0x54) and 0xC10 (+0x6c);
+ *   so the source holds an offset in a local (D3 lever). Tried: off = 0xBF0 local with `p + (off + K)` (the
+ *   adds appear, but off takes r4 and the 0x6b CSE into r7 is lost); `z = i = 0` moved after the first
+ *   func_020490F4 call (fixes the early movs r6,#0); a heap local 0x6b (propagated); explicit ob/oc locals
+ *   per group (propagated and folded); chr/pl/ce pointer locals (worse). Next: find why off spills while
+ *   0x6b stays CSE'd in r7 (five live values: h r4, p r5, i r6, 0x6b r7, off on the stack).
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049238 0x02049238 arm

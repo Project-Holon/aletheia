@@ -39,9 +39,14 @@
  * is right but the value comes from ldr r0,[sp,#0x10]. Tried: found = 1 before
  * the store, before the row computation, found++, int store type, a temp for
  * row[0x1fc], volatile found, found and diff in one local struct. All worse
- * or the same. Levers that closed the rest: (u32)k and (int)slot casts stop the
- * CSE of list + k*0x24 (the original recomputes it), a separate u8 for the
- * final row walk, store orders found=0; diff=1; slot=k and i--; changed=1.
+ * or the same.
+ * 2026-10-05 (wave D4 lane 03): DIFF, still 2 bytes (+016C movs r0,#1 vs ldr r0,[sp,#0x10]),
+ * but the stand-in casts are gone. The slots are now a real struct (struct Slot, 0x24 bytes at
+ * list+0x1e4) used for the match-block and new-slot-arm accesses, and slot is a u8 local (the
+ * listing keeps it in the lowest spill slot sp+0xc); together these give the original recomputed
+ * list + k*0x24 and slot*0x24 without (u32)k / (int)slot. found = 1 literal: 10 bytes (store
+ * scheduled above the unseen store). Tried: found = 1 before the unseen store, a Slot pointer
+ * local for the match block (both 540+ bytes), a constant local on = 1 (10 bytes).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -97,6 +102,23 @@ extern void func_02082D44(const void *src, void *dst, u32 n);
 extern void func_021BCB88(void *ctx, u8 *list);
 extern void func_021BCEF8(void *ctx, u8 *list);
 
+struct Slot {
+    u32 active;
+    u32 unseen;
+    u32 f8;
+    u8 padC[8];
+    u8 *buf;
+    u8 kind;
+    u8 mac[6];
+    u8 pad1f;
+    u8 row;
+    u8 pad21[3];
+};
+struct List {
+    u8 pad[0x1e4];
+    struct Slot slots[15];
+};
+
 void func_021BC7FC(void *ctx, u8 *list)
 {
     int changed;
@@ -108,7 +130,7 @@ void func_021BC7FC(void *ctx, u8 *list)
     u32 a;
     u32 c;
     int match;
-    u32 slot;
+    u8 slot;
     int j;
     int i;
     u8 k;
@@ -169,10 +191,9 @@ void func_021BC7FC(void *ctx, u8 *list)
                         }
                     }
                     if (match == 1) {
-                        row = list + (u32)k * 0x24;
-                        *(u32 *)(row + 0x1e8) = 0;
+                        ((struct List *)list)->slots[k].unseen = 0;
                         found = match;
-                        if (kind != row[0x1fc]) {
+                        if (kind != ((struct List *)list)->slots[k].kind) {
                             found = 0;
                             diff = 1;
                             slot = k;
@@ -207,13 +228,11 @@ void func_021BC7FC(void *ctx, u8 *list)
             for (m = 0; m < 6; m++)
                 e[m + 0x1fd] = mac[m];
             if (kind == 0x20) {
-                row = list + (int)slot * 0x24;
-                row[0x1fc] = 0x20;
-                func_02082D44(p, *(void **)(row + 0x1f8), 0x34);
+                ((struct List *)list)->slots[slot].kind = 0x20;
+                func_02082D44(p, ((struct List *)list)->slots[slot].buf, 0x34);
             } else {
-                row = list + (int)slot * 0x24;
-                row[0x1fc] = 3;
-                func_02082D44(p, *(void **)(row + 0x1f8), 0x64);
+                ((struct List *)list)->slots[slot].kind = 3;
+                func_02082D44(p, ((struct List *)list)->slots[slot].buf, 0x64);
             }
             if (diff == 0) {
                 for (r = 0; r < 15; r++) {

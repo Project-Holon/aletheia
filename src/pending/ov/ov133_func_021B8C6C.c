@@ -9,6 +9,10 @@
  * isa: thumb
  * status: DIFF
  * note-2026-10-04: DIFF, 8 bytes in 4 places (full structure, frame size, slots and all calls match). Residue: in each of the four lerp blocks the original computes `subs r1,r1,r0` (diff dest = B0 reg) then `ldr r0,[w slot]` before `muls r0,r1,r0`; ours gives `subs r0,r1,r0; ldr r1,[w]`. Tried: w*(d) vs (d)*w, d local, a0 local vs A[0] CSE (shifts slots). Wins: real struct fields (f1820 f1824 f1828 f1884 in a local struct) give the hoisted offset slots; separate Vec and separate a0/w/a1 locals per part, declared in reverse slot order; int n (signed div); s16 sx local for the first EB4 call; FX rounding via (int)(0.5f + (float)(x<<12)) / -0.5f.
+ * 2026-10-05 (wave D4 lane 01): DIFF, residue unchanged (8 bytes). Tried: `(B[0] - a0) * w` in all four
+ *   lerps, w inlined as `(10 - (u16)n)` (worse, w loses its slot), a static inline lerp(a, b, w) helper, and
+ *   u32 w with an int cast on the product. The multiply result always ties to the subtraction (r0), the
+ *   original ties it to the w reload.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA218 0x021BA218 thumb ov133

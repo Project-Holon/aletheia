@@ -22,6 +22,8 @@
  * Note 2026-10-04 (wD1 lane06): raw-offset stores with locals declared z, y, x give the right colours
  *   (y r4, x r3, z r2); residue is load order only (original y, x, z; ours y, z, x, 8 bytes). All 36 declaration/assignment
  *   orders of x,y,z tried.
+ *
+ * note 2026-10-05 (wD4 lane13): tried the struct Cam view (p->x, p->y, p->z at 0x1B4) with locals z,y,x loaded in y,x,z order: 13 bytes differ (worse than the raw-offset form, 8 bytes). Residue unchanged: load order y,z,x versus the original y,x,z.
  */
 
 typedef unsigned char u8;

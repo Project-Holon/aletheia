@@ -18,6 +18,15 @@
  *   ctx in [sp,#0x28]); case 1 reads the table as base + row*0x50 then [sel + that] and
  *   keeps 0x708 in r7 (0x714/0x71A/0x71C/0x71E derived from it); the tail keeps 0x718
  *   in [sp,#0x3C] and derives 0x697 (= 0x718 - 0x81) and 0x6A1 from it.
+ * note (2026-10-05, D4-11): still DIFF (1245 bytes). Main residue: ours keeps s in r7 for the
+ *   whole function; the image spills s ([sp,#0x24]) and ctx ([sp,#0x28]) and uses r7 per case
+ *   (0x708 in case 1, b0 in the others). Tried: all per-case locals declared inside case
+ *   blocks (no change at all); case 1 rewritten from the listing (row = w[0] before the
+ *   F3F44 call, v = d_021F4320[w[0]][i].id with a fresh w[0] load, idx = d_021F4320[row][i].k,
+ *   `k = 0x708` local for the 0x714/0x71A/0x71C/0x71E fields, i1 + 1 held in an int local):
+ *   frame 0x104, 1298 bytes, worse while s still owns r7, so not kept. Re-apply it once s
+ *   is spilled. The image also stores i1 + 1 in an int slot ([sp,#0x10]) and truncates it
+ *   at each u16 use.
  *
  * symbols:
  *   func_021F3F18  0x021F3F18  thumb  ov041

@@ -13,6 +13,7 @@
  *
  * note (2026-10-04, lane17): lane17 wave D2: now 80 bytes, 9 differing bytes. Shape that gets there: enum Off o=0x135C assigned after the two calls, `s = *(int *)(p + o); switch (s)`, case 2: r=0x97; goto store; case 4: r=0x90; store: *(u8 *)(p + (o - 9)) = r; r = 0x8A. Residue: original keeps the 0x135C pool offset in r0 and the switch value in r1 (subs r0,#9; strb r1,[r5,r0]); ours has them swapped (offset r1, value r0). Tried: separate t local, unified r, int/u32 switch local, declaration order, pointer local q (worse).
  *
+ * note: 2026-10-05 (wD4 lane20): tried int/u32 offset local (offset folded and reloaded, 10 bytes), switch directly on the load, load before the offset assignment, u32 switch local, u8 result local, declaration order: all give the same 9-byte swap (image offset r0, value r1; ours offset r1, value r0).
  * symbols:
  *   func_021BC06C  0x021BC06C  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099

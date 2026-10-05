@@ -26,6 +26,8 @@
  *   d_02180A20  0x02180A20  data  a4
  *   d_02180A30  0x02180A30  data  a1
  *   d_02180A00  0x02180A00  data  a2
+ *
+ * note 2026-10-05 (wD4 lane13): tried a u64 k = 64 local (in the inline helper, as a u32 and as an int, and in the function body with t * k * 1000 / 33514): all fold the 64 into 64000 or into shifts (208-224 bytes, 62-167 bytes differ). The constant-in-a-local lever does not keep the 64 as a run-time _ull_mul operand for u64 arithmetic.
  */
 
 /*

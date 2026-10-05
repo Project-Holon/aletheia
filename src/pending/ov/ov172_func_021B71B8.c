@@ -38,6 +38,14 @@
  * (w - ew) * 2 + (dst + rows * 2); the draft loads ent.w first. Writing
  * (w - ew) first fixes the second argument order but not the first. 2 bytes
  * shorter there, so branch targets after +0x34 shift by 2.
+ *
+ * note (2026-10-05, wD4 lane05): 103 bytes, almost all the 2-byte shift after the copy loop. Closed: the scale
+ *   is `s = q->f20 == 1 ? 0x2000 : 0x1000` (tail merge shares the lsls; built in r5 directly); second copy argument
+ *   now matches with arg1 written dst + (w - ew) + (j + (h - eh)) * w and arg2 (j + y) * 0x200 + x * 2.
+ *   Residue: (1) arg1 order: original loads eh, h, ew(r3), computes j + (h - eh), copies it to r2 before muls,
+ *   then w - ew, then (w - ew) * 2 + (dst + A * 2); ours computes w - ew first (2 bytes shorter, no copy).
+ *   Tried dst + A + B, (B) + (dst + A), &dst[A] + B, dst + (A + B). (2) m[3] store and `movs r5,#0` swap
+ *   (tried m[2] = m[1] = 0 and m[1], m[2] before m[3]: no gain).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -150,8 +158,7 @@ void func_021B71B8(void *p, Q *q)
             if (q->f20 != func_021BE078(p)) {
                 int s;
                 q->f20 = func_021BE078(p);
-                s = q->f20 == 1 ? 2 : 1;
-                s <<= 12;
+                s = q->f20 == 1 ? 0x2000 : 0x1000;
                 m[0] = func_0207C778(s);
                 m[3] = func_0207C778(s);
                 m[1] = 0;
@@ -220,8 +227,8 @@ void func_021B71B8(void *p, Q *q)
                     }
                 }
                 for (j = 0; j < q->ent[i].h; j++) {
-                    func_0207ECF0(dst + (j + (h - q->ent[i].h)) * w + (w - q->ent[i].w),
-                                  q->ent[i].x * 2 + (j + q->ent[i].y) * 0x200,
+                    func_0207ECF0(dst + (w - q->ent[i].w) + (j + (h - q->ent[i].h)) * w,
+                                  (j + q->ent[i].y) * 0x200 + q->ent[i].x * 2,
                                   q->ent[i].w * 2);
                 }
             }

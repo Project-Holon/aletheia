@@ -14,6 +14,11 @@
  * this draft computes it first. Blocks 1 and 2 are exact, slots exact (f1,f2,x,f3,h declared at top in that order).
  * Tried: (s16)(r7+w8) inline, local x before or after the y call, w8+r7, callee param s16/u32/int.
  * Siblings with the same text-draw shape: ov198 func_0220D494, ov223 func_021BB18C.
+ * 2026-10-05 (wD4 lane 08): DIFF, 376 bytes, 13 diff lines, all in the third draw call argument setup. Fixed the
+ *   operand order: (s16)(r7 + w8) now gives adds r2,r7,r2 as in the original. Residue is scheduling only: the original
+ *   emits the r2 computation (ldr r2,[sp,#0x24]; adds; lsls/asrs) after the stack stores and r3=0x20, the draft emits it
+ *   first. Tried: plain r7 + w8 with no cast (same), reuse of the block-2 local x assigned before or after the y call
+ *   (same), w8 as u8 (worse) or int (same), r7 as int with (u8) at the assignment (worse).
  *
  * symbols:
  *   func_020457B0  0x020457B0  arm
@@ -90,7 +95,7 @@ void func_021F6D70(char *p, int idx)
         u32 y;
         f3 = *(u32 *)(p + 0x1c);
         y = func_02045770(*(u32 *)(p + 0x20 + idx * 8));
-        func_0201C724(f3, y, (s16)(w8 + r7), 0x20, buf, *(u32 *)(p + 0x10), 0x3dc0);
+        func_0201C724(f3, y, (s16)(r7 + w8), 0x20, buf, *(u32 *)(p + 0x10), 0x3dc0);
     }
     *(u8 *)(p + 0x24 + idx * 8) = 1;
     func_02045808(t3);

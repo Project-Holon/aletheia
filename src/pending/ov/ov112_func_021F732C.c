@@ -14,6 +14,7 @@
  * Residue 3: else arm of func_021F4B24: original loads k, then q+0x20, then selects 0xA000 or 0x5000, adds r0=r1+r0; compiled loads q+0x20 after the select and adds reversed.
  * Tried: E/EA as macros re-read per use (matches the original), hide call in else arm (matches layout), declaration order of Vec/Mtx/ints (matches slots), explicit off local, t declared first, z0 temp (worse).
  * FX round macro (x>0 ? x*4096+0.5f : x*4096-0.5f) with x = u16 at self+0x434 matches.
+ * 2026-10-05 wD4 lane09: DIFF, 36 bytes (was 54). Residues 2 and 3 closed: the else arm of func_021F4B24 is `zz = q+0x20; if (k - 7 <= 1u) zz += 0xA000; else zz += 0x5000; v3.z = zz - (EA[4] << 11);` (tail merge of the two adds gives the shared `adds r0,r1,r0`, and the constant slots now match). Residue: only the whole-body r4/r6 swap (off=i*4 in r6, t in r4; original off r4, t r6). Tried: i*4 in the E/EA macros with no off local, t declared before off, off declared last, t as a block-scoped initialised local: no change.
  * symbols:
  *   func_021F5450 0x021F5450 thumb ov112
  *   func_021F545C 0x021F545C thumb ov112
@@ -72,6 +73,7 @@ void func_021F732C(u8 *self, u8 *q)
     int neg;
     u8 *t;
     u16 h;
+    int zz;
 
     for (i = 0; i < 9; i++) {
         k = i;
@@ -112,7 +114,13 @@ void func_021F732C(u8 *self, u8 *q)
                     if (func_021F4B24(E) == 1) {
                         v3.z = *(int *)(q + 0x20) - 0x14000;
                     } else {
-                        v3.z = *(int *)(q + 0x20) + ((k - 7 <= 1u) ? 0xA000 : 0x5000) - (*(u8 *)(EA + 4) << 11);
+                        zz = *(int *)(q + 0x20);
+                        if (k - 7 <= 1u) {
+                            zz += 0xA000;
+                        } else {
+                            zz += 0x5000;
+                        }
+                        v3.z = zz - (*(u8 *)(EA + 4) << 11);
                     }
                     func_021F4E8C(*(u32 *)(self + 0x10), E, &v3);
                     func_021F4ED4(*(u32 *)(self + 0x10), E, (u16)(ang2 - ang0));

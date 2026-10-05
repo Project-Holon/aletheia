@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane19): nested form with 'else if (w != 0xdc) S1 else ZERO' gives 24 bytes (was 25), same layout residue. Or-form (h==0 || (w!=0 && w!=0xdc)) and goto form give 140 bytes, worse.
  * note 2026-10-04 (D2): DIFF, 25 bytes, branch layout of the flag block only; prologue, calls, pool words match.
  *   Original: h==0 test is 'bne X; b S1' (ours 'beq S1'); w==0xdc test is 'bne S1; b ZERO' with one shared S1 block
  *   and S1 stored as 'movs r0,#1; subs r4,#0x60; strh r0,[r5,r4]' (ours reloads the pool offset). Nested if / ||

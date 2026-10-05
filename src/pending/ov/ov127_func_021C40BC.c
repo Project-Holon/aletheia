@@ -15,6 +15,8 @@
  *   push has r3; original rematerialises `movs r1,#6` before each pos[3] read and uses frame 0x1c; (2) owner/idx colours swapped (original owner r7, idx r6);
  *   (3) original computes row = owner + idx*0x14 once into ip and copies it to r1/r2/r6 for the f14/f18/f188 loads. Aggregate initialiser for Pos is worse.
  *
+ * 2026-10-05 (D4-18): still DIFF (240-248 vs 256). Tried: second pos[3] read as *(s16 *)((u8 *)pos + 6) (no change, constant 6 still spilled to [sp,#0x10]); row as u8 * (owner + idx*0x14) shared by the f14/f18/f188/f20 loads (240 bytes, 193 out, the 0x20 read now uses the pointer and owner/idx stay swapped). Residue unchanged: original rematerialises movs r1,#6 and keeps only the row offset in [sp,#0x10], recomputing owner+off after the call.
+ *
  * symbols:
  *   func_021C4604  0x021C4604  thumb ov127
  *   func_021C4354  0x021C4354  thumb ov127

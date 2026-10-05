@@ -17,6 +17,8 @@
  *   handle local, int/u32/u8 first-arg prototypes.
  *
  * Note 2026-10-04 (wD1 lane06): Retried: u8 prototypes for the first argument of 2041090/20409B4, (unsigned char)5, 4+1, local bg, a static inline block helper for blocks 3 and 4. All keep hoisting movs r6,#5 (28 bytes differ). Likely because r6 is free in block 4 (handle lives in r5); block 3 cannot hoist 4 since r6 and r7 are busy.
+ *
+ * note 2026-10-05 (wD4 lane13): tried a shared int bg local assigned 4 then 5 for both blocks: same 28 bytes (5 hoisted into r6). Original keeps 0x20 in r7 across both blocks (hoisted) but rematerialises 4 and 5 per use, 0x18 per use; our block 4 hoists the 5 into the free r6.
  */
 
 typedef unsigned int u32;

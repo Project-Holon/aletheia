@@ -13,6 +13,8 @@
  *   (x >= 0x100 or y >= 0xC0) calls func_021A21E0 else func_021A26C4. Residue: original pushes r7 and keeps
  *   the index constant 2 in r7 (ldrsh [c,r7]), frame is push {r3-r7,lr} with no sub sp; ours uses five regs
  *   plus sub sp,#4, loads c[0] before c[2], and hoists 0x18. Tried: s16 array vs struct C, int dx/dy (worse, 182 B).
+ * 2026-10-05 (D4-18): still DIFF 190 vs 188. Tried: int k = 2 local with c[1] read as *(s16 *)((char *)c + k); c[0] = c[0] + (dx = ...) as one expression; int x0 = c[0] read before dx; += forms; dy computed before the c[0] store (worse, 84 vs 90 bytes only by shape). Compiler output unchanged by the first three. Residue: original frame is push {r3-r7,lr} with pt in the r3 slot, dx in r3 and the constant 2 in r7; ours uses five regs plus sub sp,#4 and loads c[0] after dx.
+ *
  * symbols:
  *   func_021A2640 0x021A2640 thumb ov021
  *   func_021A21E0 0x021A21E0 thumb ov021

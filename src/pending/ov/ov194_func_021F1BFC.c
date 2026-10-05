@@ -16,6 +16,11 @@
  *   Levers that mattered: explicit `case 0: break;`, `d` declared before `c`, `(*(u16 *)(p+0x80))++ > 10`
  *   (two loads), `a = (u16 *)p; a += 0x20;` (reproduces the dead spill pair).
  *   Callee func_021F1D58 (ov194, 208 bytes) has no source yet: prototype guessed from the call.
+ * note 2026-10-05 (wD4 lane09): still DIFF 33. The original keeps &v in r7 across both func_0204B404
+ *   calls (a CSE'd value, so callee-saved r4..r7 are all busy and the final mode 0 is a fresh movs r1,#0);
+ *   ours rematerialises add r1,sp,#0x18 and caches the constant 0 in r7 instead. Tried: `struct Vec2 *vp = &v;`
+ *   as an initialised declaration with vp only as the call argument, and `vp = &v;` just before the v.x store:
+ *   both copy-propagate to the same 33 bytes.
  * symbols:
  *   func_021F1A1C 0x021F1A1C thumb ov194
  *   func_021F1D58 0x021F1D58 thumb ov194

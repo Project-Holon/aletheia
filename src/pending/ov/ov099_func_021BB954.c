@@ -11,6 +11,7 @@
  *
  * note (2026-10-04): lane17 wave D2: 116 bytes, original keeps the data base in r2 across the join (ldr in each arm, one shared 0x70 store) with temps in r1 and t in r3. Best form: g assigned per arm (g = d_021C3A70 in both arms), g[0x18]/g[0x1A]/g[0x1C] stores; residue is g r1 vs r2 (full swap of r1/r2 temps). Tried global at each use (reloads g after the join), g before the if (hoisted load), a/b temps before g, char* vs u32* g, declaration order.
  *
+ * note: 2026-10-05 (wD4 lane20): not changed; no new hypothesis beyond the 2026-10-04 note (g r1 vs r2 temp swap).
  * symbols:
  *   d_021C3A70  0x021C3A70  data  a4
  *   d_021C3B68  0x021C3B68  data  a4

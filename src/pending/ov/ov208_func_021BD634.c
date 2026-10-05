@@ -18,6 +18,8 @@
  * 8 bytes out: the store p->f4 = 1 (str r7, [r5, #4]) is scheduled after the
  * memset argument setup in the image, before it in every spelling tried.
  *
+ * 2026-10-05 (D4-18): still 8 bytes. Tried: p->f4 as a raw *(u32 *)((u8 *)p + 4) = 1 (same 8 bytes); p->f4 after the pos memset call (16 bytes, r7=1 then lands after the call). Image has movs r7,#1 before the f34 store and the f4 store between the memset argument moves and the blx; no honest statement order produces that.
+ *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020416D4  0x020416D4  arm

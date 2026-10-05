@@ -16,6 +16,11 @@
  *   inline call arguments. Levers that mattered: failure paths `break` (switch default becomes `bhi island`),
  *   success paths `return` (inline epilogue), entry test as `if (r == 1) return;`, and
  *   `(u8 *)func_021BA170() + (b18 << 11)` for the add operand order in case 2.
+ * note 2026-10-05 wD4 lane03: still 10 bytes, same residue. Tried: constant locals (off = 0x800 for
+ *   the add, off = 0xC000 for the last argument, both propagated, no change); the callee's real
+ *   prototype from ov172_func_021B9E5C.c (s16 *tbl, int idx, u16 v) with (s16 *)v + 0x400,
+ *   (s16 *)(v + 0x800), an s16 * local v; (u16 *)v + 0x400, (u32 *)v + 0x200; the func_021BA15C
+ *   result in a local before the call. func_021BA15C is a leaf: (*p > 0x800) ? *p - 0x800 : 0.
  * symbols:
  *   func_021B9F4C 0x021B9F4C thumb ov172
  *   func_021B9DF8 0x021B9DF8 thumb ov172

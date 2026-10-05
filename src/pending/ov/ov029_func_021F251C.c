@@ -34,6 +34,8 @@
  * slot and 0x1C0 in r7; p is u8 * (ldrb of 0x45A); func_021F3144's second
  * argument is int here (no narrowing before the call).
  *
+ * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Open: unlabelled arm9 02035010 and 02035040 (no source change possible here).
+ *
  * symbols:
  *   func_0201214C  0x0201214C  thumb
  *   func_020490F4  0x020490F4  arm

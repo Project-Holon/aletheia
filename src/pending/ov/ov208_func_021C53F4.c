@@ -8,13 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * blocker:  codegen, 20 bytes: spill slots of species (0x34) and i (0x14) swapped;
- *           every other byte matches. See docs/notes/pkt_ov208_021C53F4.c.txt.
+ * blocker:  codegen, 10 bytes: the species reload for func_0200CC40 and func_0200D144
+ *           is scheduled first (before the r2/r3 address setup) instead of last.
  *
  * note (2026-10-04): still 20 bytes (species/i slot swap). Retried: i declared inside the
  *   en-block, i as for-init local, i declared last (after t), h declared after ratio, i as int
  *   (same 20), u16/u8 (-8 bytes, wrong code). Moving i off the top of the list shifts every
  *   spill slot by one (44 bytes), so the slot order is not plain declaration order here.
+ * note (2026-10-05, D4-11): 20 -> 10 bytes. species declared u32 (callee still returns
+ *   u16) with u32 id parameters on func_0201ADE4 (u32,int,u32), func_0200CC40 (u32 id), and
+ *   i declared last: all spill slots now match. Residue: `ldr r1,[sp,#0x34]` (species) comes
+ *   before `add r2/r3,sp` at both call sites; image loads it last. int species takes the
+ *   lowest slot (worse).
  *
  * symbols:
  *   func_021BC3C0  0x021BC3C0  thumb
@@ -44,11 +49,11 @@ typedef struct
 extern u16 func_021BC3C0(int key);
 extern int func_021BC3A4(int key);
 extern void *func_0200CA1C(int a);
-extern u32 func_0201ADE4(u16 a, u16 b, u16 heap);
+extern u32 func_0201ADE4(u32 a, int b, u32 heap);
 extern u32 func_0201AE1C(u32 h, u32 k);
 extern void func_0201AE14(u32 h);
 extern u16 func_0200CC20(u32 id);
-extern void func_0200CC40(void *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 heap);
+extern void func_0200CC40(void *p, u32 id, u32 *out1, u32 *out2, u32 *outForm, u16 heap);
 extern u32 func_0200D144(void *p, u32 id, u32 sel, u32 alt, u32 form);
 extern const Ov208Gender3 data_021C8810;
 extern const Ov208Shiny2 data_021C87FC;
@@ -56,8 +61,7 @@ void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u
 {
   Ov208Gender3 genders = data_021C8810;
   Ov208Shiny2 shinies = data_021C87FC;
-  u32 i;
-  u16 species = func_021BC3C0(key);
+  u32 species = func_021BC3C0(key);
   void *pd = func_0200CA1C(func_021BC3A4(key));
   u32 h = func_0201ADE4(species, 0, *heap);
   u32 ratio;
@@ -75,6 +79,7 @@ void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u
   u8 m;
   u16 prev;
   u32 t;
+  u32 i;
   func_0201AE1C(h, 0x20);
   ratio = func_0201AE1C(h, 0x14);
   func_0201AE14(h);

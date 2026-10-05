@@ -33,6 +33,10 @@
 
 /*
  * 2026-10-04 (wave D2 lane05): DIFF, one residue: 338 compiled bytes plus the 2-byte pad at 0x021F1F7A equal the 340-byte extent; every instruction matches except the two entry spills, which the original stores as str r2,[sp,#0x10] then str r1,[sp,#0xc] (b before a) and this build stores in order a, b. Slots are identical. Tried param types for a and b (int, u32, u16). Prototype notes: func_021F4DBC is called with 2 arguments (declared with 2 here, the matched file has 3); func_020409B4 takes no visible argument; params are (p, a, b u16, c, d, e, f); pos[2] is a u16 stack array passed to func_0204B404.
+ *
+ * 2026-10-05 (wD4 lane09): still DIFF, the same 4 bytes (entry spill order b then a). Tried: a copied into a
+ * local `int a = a0;` (declared first or last), b copied into a u16 local, param types u8/u16/int for a and
+ * int for b: no change. The order is not the first-use order (c is used first but spilled last).
  */
 
 typedef unsigned char u8;

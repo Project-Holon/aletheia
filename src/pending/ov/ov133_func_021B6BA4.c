@@ -18,6 +18,10 @@
  *   once (the r2=4 of the 0x10 call at +00A2, third r2=4 use); that then turns every later movs rN,#0 into
  *   adds rN,r6,#0. The original never hoists 4 (every use is a fresh movs) and only loads r7=0xd just before
  *   the 0xd call. Untried here: nothing new; hoist threshold seems to follow the count of equal constants.
+ * 2026-10-05 (wave D4 lane 01): DIFF, residue unchanged (619 bytes from the hoisted 4 in r7). Tried:
+ *   static inline wrappers for the 0x020498F4 / 0x02049658 / 0x02049B68 calls (zero args and H inside the
+ *   helper): the 4 hoist goes away but the shared zero in r6 is lost too (521 bytes, worse). So the hoist
+ *   and the r6 zero share one CSE region in the original; the 4 uses must be split from it some other way.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

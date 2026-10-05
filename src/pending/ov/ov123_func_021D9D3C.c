@@ -9,6 +9,15 @@
  * isa: thumb
  * status: DIFF
  * note-2026-10-04: DIFF. Whole structure and every slot matches (declaration order base0, base1, h, done, k, j, i, cur reproduces slots 0x18..0x2c; j doubles as the zero args). Residue: compiler hoists constant 3 into r5 (movs r5,#3 after the first func_02049B68 call) and reuses it for the last func_020498F4 r2, so the last call also gets r3=[j slot] instead of movs r3,#0, and +2 bytes shift everything after. Original keeps literals. Also original loads heap into r5 before func_02082BCC (adds r3,r5 for 02049F78); an explicit u16 heap local did not remove the hoist. Tried param types u16 on 49B68/49658/498F4 arg2: no effect. Next: find what stops the const-3 hoist (different source of 3 in calls 1/4 or a call between).
+ * note-2026-10-05 (wave D4 lane 06): still DIFF, same residue.  Findings: (1) with literal 0
+ *   for every zero argument the compiler still reloads the stack zeros from j's slot [sp,#0x18]
+ *   (it value-numbers 0 with j), even with j = 0 moved to just before the loop; so "j doubles as
+ *   the zero args" is the compiler's choice, not a source statement.  (2) the movs r5,#3 hoist
+ *   exists only while the eighth call (func_020498F4(h, 7, 3, ...)) is present; changing the 3
+ *   of call 1 does not remove it; it also brings r3 = [sp,#0x18] in call 8 and r1 = [sp,#0x18]
+ *   for func_02082BCC.  Removing the heap local (expression inline) does not change it.  The
+ *   same late-call constant reuse shows in ov112 021F3CA4 (r3 = r6 in its last calls).
+ *   Not tried: inline helpers per bg-load group, a different source for the 3 in call 8.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

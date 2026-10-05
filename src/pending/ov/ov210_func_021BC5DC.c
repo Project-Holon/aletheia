@@ -12,6 +12,10 @@
  *   0x807B in r7 (ldr r7 at entry, adds r1,r7 for both opens) and loads reg-arg zeros and 4s
  *   as immediates. This draft reloads 0x807B from the pool, CSEs 4 into r7 and copies r5 (zero)
  *   into r2/r3. Tried: heap local (u16/u32/enum), heap reused as base, int protos, loop shapes.
+ * 2026-10-05 (wave D4 lane 04): DIFF, 67 bytes. Callee prototypes switched to the house forms (u16
+ * heap as last parameter, u16 heap for func_020490F4): same output. Tried: for (i = 0; ...) with i not
+ * initialised at its declaration (86 bytes). Residue unchanged: the original CSEs 0x807B in r7 and
+ * uses immediates for the 4/0 register arguments; ours CSEs 4 in r7 and copies zeros from r5.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -31,11 +35,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, u32 heap);
-extern void func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_02049740(void *h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void func_02049658(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u32);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *h);
 extern u32 func_020275E4(void);
 extern u32 func_02027628(void);
@@ -44,7 +48,7 @@ extern u32 func_0202762C(void);
 extern void func_020413B0(u32, u32, u32, u32, u32, u32);
 extern void func_02041B6C(u32 layer);
 extern u32 func_0204162C(int channel);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021BC5DC(void)
 {

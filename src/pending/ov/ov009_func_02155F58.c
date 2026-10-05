@@ -15,6 +15,10 @@
  *   Everything after matches instruction for instruction modulo that shift.
  *   Tried: `if (r == 0) goto tail;` plus a tail label (same output).
  *   Idea left: find what makes mwcc retarget a far beq to an existing b-trampoline.
+ * note (2026-10-05, D4-11): still 4 bytes (beq onto case 4's `b end`). Tried: `goto skip`
+ *   with the label inside case 4 before its break (threaded to end, same output); the
+ *   post-switch tail written out in the r == 0 arm (504 bytes, no cross-jump); an
+ *   `else { ret = 0; }` / `else { ret = r; }` arm (still bne/b, worse).
  *
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4

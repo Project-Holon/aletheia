@@ -14,6 +14,10 @@
  *   and sys in memory (every use reloads, ev is stored back to its home slot once at entry) and gives
  *   r7 to `id`; compiled gives r7 to ev (1236 vs 1288 bytes). Tried: volatile ev/flag, register id,
  *   u32 ev, address-taken ev (folded away).
+ * note (2026-10-05, wave D4 lane 02): in the image r7 holds `id` in all four id webs (cases 0xc/0xd, both
+ *   W(0x6b8) arms) and the 0x548 base in cases 0x1c/0x1d; cur/id2 spill to [sp,#0x14]/[sp,#0x10]. Ours
+ *   spills the id webs to [sp,#0x28]/[sp,#0x2c] and gives r7 to ev. Tried: one `cur` for both cases
+ *   (no change, 1098 bytes differ). Still 1236 vs 1288 bytes.
  * symbols:
  *   ov208_func_021BC3B4 0x021BC3B4 thumb ov208
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208

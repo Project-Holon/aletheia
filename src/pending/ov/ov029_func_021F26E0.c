@@ -16,6 +16,8 @@
  * wrappers per sdk_class.json) have no witness outside this range; both are Ilias's.
  * Byte-correct otherwise.
  *
+ * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Open: unlabelled arm9 02035010 and 02035040.
+ *
  * symbols:
  *   func_02012138  0x02012138  thumb
  *   func_021585E0  0x021585E0  thumb

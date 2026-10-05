@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane16): original stores the next state through one shared `str r0,[r5]` (arms do `movs r0,#2; b end`), and the v==4 / v==0xFFFF test ends with a `b` to the next instruction. Tried `if (v==4||v==0xFFFF){*state=2;break;}*state=3;`, inverted nested ifs, goto s2/s3 and an empty then-arm: all 248 bytes (4 short), so the extra branch is not reproduced. Case 2 r1 load untouched.
  * note: 2026-10-04 Residue: 12 bytes plus the shift they cause. (1) Original compiles the v==4 || v==0xFFFF test as 'beq L2; ldr pool; cmp; bne L3; b L2' with a branch to the next instruction; ours (else-if form kept here) emits 'bne X; b L2; X:' and the || and switch forms drop the extra b (2 bytes short). (2) Case 2: original loads ctx->10 into r1 ('ldr r1,[r4,#0x10]; ldrh r0,[r1]'), ours uses r0. Tried: ||, ternary, switch (several layouts), nested if, u32/int/u16 v, pointer locals. Case 4 matches with a local h = ctx->8 read after q.
  *   2026-10-04 (D2): goto form (if (v==4) goto s2; if (v==0xFFFF) goto s2; else goto s3; s2/s3 blocks after) gives the
  *   original beq L2 / ldr / cmp / bne L3 order but drops the trailing b-to-next, so the function is 2 bytes short.

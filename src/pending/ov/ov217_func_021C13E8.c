@@ -23,6 +23,8 @@
  * Addresses are Black-image addresses.
  *
  * Note 2026-10-04 (wD1 lane06): Not retried (GX FIFO address spills, needs a long pass).
+ *
+ * note 2026-10-05 (wD4 lane13): read p->c.x and p->c.y once into s16 locals px/py (original loads each once and reuses them for the vertex word): size now 244 bytes, equal to the original. Residue: allocator choice. Original spills i and n to the stack ([sp,#4], [sp]) and keeps the call result e in r7, p in r5, GX vertex address in r4, r>>12 in r6; ours keeps i in r7 and spills e. Five declaration orders of b/r/e/n/i give the same code.
  */
 
 typedef unsigned char u8;
@@ -60,12 +62,14 @@ void func_021C13E8(struct Big *p)
             func_021C1B28(e, &b[1], &b[0]);
             if (e[8] >= 3) {
                 struct Big *q = (struct Big *)((u8 *)p + b[1] * 6);
-                s16 x = p->c.x + q->c.t[0].x;
-                s16 y = p->c.y + q->c.t[0].y;
+                s16 px = p->c.x;
+                s16 py = p->c.y;
+                s16 x = px + q->c.t[0].x;
+                s16 y = py + q->c.t[0].y;
                 u32 va, vb;
                 *(volatile u32 *)((u32)r + 0x5C) = 0;
                 *(volatile u32 *)((u32)r - 0x24) = 0;
-                va = ((u32)(u16)p->c.y << 16) | (u16)p->c.x;
+                va = ((u32)(u16)py << 16) | (u16)px;
                 vb = ((u32)(u16)y << 16) | (u16)x;
                 *(volatile u32 *)((u32)r - 0x18) = va;
                 *(volatile u32 *)((u32)r - 0x18) = (u32)r >> 12;

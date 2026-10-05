@@ -28,6 +28,10 @@
  *   d_021D9E46 0x021D9E46 data a4
  *   d_021D8D30 0x021D8D30 data a4
  */
+
+/*
+ * 2026-10-05 (wave D4 lane07): DIFF, unchanged 23 bytes. Re-read: the 301-byte copy uses r5 (the register that holds the constant 1 for func_021D8438(1)) for the destination d_021D9E46 and r3 for the stack source; the build swaps them, and the trailing byte schedules ldr lr first. No new form found beyond the earlier list; next idea: write the Big copy and the Sav copy through one struct type whose field order puts Sav first, or derive the 1 for func_021D8438 from a local.
+ */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 b[301]; } Sav;

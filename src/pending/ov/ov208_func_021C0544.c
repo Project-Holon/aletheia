@@ -13,6 +13,12 @@
  *           result to r1 and loads 0xffff into r0 (adds r1, r0, #0; ldr r0, =0xffff;
  *           cmp r1, r0); the draft compares r0 against r1. Everything after it is the
  *           same code shifted by 2 bytes. See docs/notes/pkt_ov208_021C0544.c.txt.
+ * note: 2026-10-05 (wave D4 lane 02): residue unchanged (sentinel test at the loop head). Tried:
+ *         `int r = f(); if (r != 0xffff)`, a local `int none = 0xffff` in the loop body, kind as int
+ *         with an int callee (344 bytes again), the assignment inside the condition
+ *         `(kind = f(..0x10)) != 0xffff`, `!(f() == 0xffff)`, inline helpers (Has, Get). All keep
+ *         `ldr r1, =0xffff; cmp r0, r1`. The cue from 021C4F78 (a result copied to r1 is a later
+ *         second argument) does not apply here: r1 is dead after the compare.
  *
  * symbols:
  *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208

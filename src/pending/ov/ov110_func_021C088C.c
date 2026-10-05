@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane19): still DIFF 116 bytes. Tried r = recs + i and an o = out + i pointer local used for store and call: no change / worse. Orig holds the record pointer in r7 and i*2 in ip, ours spills the record pointer.
  * note: 2026-10-04 (wD1 lane17): DIFF. Sibling of 021BD348 (same lerp). Params (u16 *ang, u16 *out, struct{u16 x,y,c,d} *recs, u8 count) and the head up to the loop match. In the loop orig holds the record pointer in r7 (recs+i*8) and i*2 in ip; ours keeps i*2 in r7 and rebuilds the record pointer in r0. Combine order is bh | ((g<<5)|r) with blue, red, green lerps in that order. Tried: extraction order, combine order, u8 count/i.
  * symbols:
  *   func_02061CA4 0x02061CA4 arm

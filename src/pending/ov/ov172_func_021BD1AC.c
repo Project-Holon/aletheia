@@ -9,6 +9,14 @@
  * isa: thumb
  * status: DIFF
  * note 2026-10-04 wD3 lane14: complete draft, 75 bytes differ but only colours/tail: (1) original keeps r6=2 (the shared stack argument of the four func_020450F0 calls) and r7=0x6E base const, ours swaps r6/r7; (2) after the func_02045770/func_02043B5C loop the original stores the last loop index (kept in r6 = copy of i made before the callee, passed unmodified as the u8 arg) to B(0x1b4) and B(0x1b5); ours folds it to i-1 (adds r5,#0xff). int last with int callee param keeps the copy but then truncates at the strb. Params struct on stack is {u16 heap; u8 kind,pad; u16 count,a,b,c,d}.
+ * note 2026-10-05 wD4 lane03: still DIFF 75 (this file unchanged). The r6/r7 swap is a side effect of
+ *   the loop copy: with int last the colours become right (66 bytes) and the copy last = i survives,
+ *   but then the u8 callee argument and the two strb get a lsls/lsrs truncation (int last plus an int
+ *   callee param: 46; plus B(0x1b5) = B(0x1b4) = last: 40, but that reloads 0x1b4). With u8 last the
+ *   compiler rewrites last as i - 1 after the loop (adds r5,#0xff). Tried: last declared before i,
+ *   last = i after the call, last = i inside the call argument, do/while loop, last = 0 before the
+ *   loop, i passed and last used in the address, last in both. Next: a source shape where last is a u8 that is not
+ *   a plain copy of the loop counter (the listing copies i before the address computation).
  * symbols:
  *   func_021BD5D8 0x021BD5D8 thumb ov172
  *   func_021BD844 0x021BD844 thumb ov172

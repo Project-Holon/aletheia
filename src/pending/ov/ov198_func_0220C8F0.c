@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD4 lane16): tried declaration orders (v,val,tmp first / last / after p): 15 bytes, slots do not move. Same residue as before.
  *
  * Near miss, 14 of 256 bytes.  Every instruction and constant reproduces; the
  * only differences are two register-allocator artefacts: the a0->f1eac

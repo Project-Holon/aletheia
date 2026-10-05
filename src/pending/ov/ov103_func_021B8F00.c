@@ -15,6 +15,8 @@
  *   differently (136 bytes differ). Tried declaration orders of ax/ay/bx/by/sum/i, for-init forms, u32/u16/int types.
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
+ *
+ * note 2026-10-05 (wD4 lane13): tried a[i].x via *(int *)((u8 *)a + i*8) with a[i].y struct (160 bytes, 145 differ, more spills), both fields raw (152), y raw only (160, 145 differ). Original reloads a before each of the two address forms and keeps sum in r3 (our sum lands in r0, ours addresses a+i*8 from the first reload). Still open: sum colour r3 and the double reload of a.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH*
+ * 2026-10-05 (wD4 lane19): still MATCH*. Blocked by arm9 0x0202B93C (parked MATCH in src/pending/arm9, no label).
  *
  * 2026-10-04 (wave D2 lane 14): re-checked, still MATCH. func_0202B93C is parked as MATCH in
  * src/pending/arm9/func_0202B93C.c; its callee func_0202BA9C (Thumb, 30 bytes, copies two 3-word

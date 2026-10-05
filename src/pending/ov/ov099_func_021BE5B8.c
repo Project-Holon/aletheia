@@ -13,6 +13,7 @@
  *
  * note (2026-10-04, lane17): lane17 wave D2: also tried a struct with fields at 0x110/0x114 (p->a, p->b) and a temp; same 18 bytes. Residue is the copy adds r1,r0,#0 before the 0x114 store.
  *
+ * note: 2026-10-05 (wD4 lane20): constant-in-a-local lever applied: int k = 0x64 used as the count argument and in p + k + 0xAC / p + k + 0xB0 (reproduces movs r1,#0x64; adds r1,#0xac and the live r4 = 0x64 for the final load). Remaining 18 bytes: the original copies the second call result with 'adds r1,r0,#0' and builds the 0xB4 offset in r0; ours keeps the result in r0 and the offset in r1. Tried inline store, int/u32/char* result locals, add operand orders, t declared at top, result locals for both calls.
  * symbols:
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
@@ -34,9 +35,10 @@ extern void func_0204B258(void *bank);
 
 void func_021BE5B8(char *p)
 {
+    int k = 0x64;
     func_0204A48C(d_021C3740, d_021C3AA0, 0x21);
-    *(void **)(p + 0x110) = func_0204B100(0x64, 0, 0x21);
+    *(void **)(p + k + 0xAC) = func_0204B100(k, 0, 0x21);
     void *t = func_0204B034(d_021C375C, 2, 0x21);
-    *(void **)(p + 0x114) = t;
-    func_0204B258(*(void **)(p + 0x110));
+    *(void **)(p + k + 0xB0) = t;
+    func_0204B258(*(void **)(p + k + 0xAC));
 }

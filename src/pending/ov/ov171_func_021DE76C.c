@@ -15,6 +15,7 @@
  * 2026-10-04 (wD2 lane19): tried statement order n, i=0, cur last with separate declarations (both orders): pool 0xC5C is then
  *   not shared (ldr + subs #2, frame grows to push r3). The shared-0xC5C form needs cur initialised at declaration; only the
  *   scheduling of the first ldrsb (cur before the mul here, after `movs i` in the original) differs. Unresolved.
+ * note: 2026-10-05 (wD4 lane20): tried int off = 0xC5C / int b = 0xB34 locals (mwcc folds off+2 to a 0xC5E pool word and derives off by subs #2: worse, 139 bytes), an int copy of mode, and cur/i assigned after n. Draft stays; residue is the prologue order (sel in r5 with temp r3 in the image).
  * symbols:
  *   d_021DEC94 0x021DEC94 data
  */

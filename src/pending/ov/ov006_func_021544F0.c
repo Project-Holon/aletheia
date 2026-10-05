@@ -27,6 +27,8 @@
  * incl. data, no matched witness exists) and six single-use overlay-id words (ov008 0x8,
  * ov119 0x77, ov127 0x7f, ov134 0x86, ov172 0xac, ov195 0xc3) with no witness outside this
  * function. Nothing left to change in the C.
+ * 2026-10-05 note (D4-14): re-run, still MATCH (1484 bytes, 111 of 112 relocations resolve; the open one is func_021C2850, a Thumb veneer in ov099). No change possible in C.
+ *
  * symbols:
  *   func_02012138 0x02012138 thumb
  *   func_02026454 0x02026454 thumb

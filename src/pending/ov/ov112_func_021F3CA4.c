@@ -21,6 +21,18 @@
  *   d_021F81AC and d_021F81C4 are contested between overlays (need a witness or a
  *   region token), the other six have no witness outside this function.
  *
+ * note (2026-10-05, wave D4 lane 06): WINOUT tail rewritten with the SDK inlines
+ *   G2_SetWndOBJInsidePlane(0x17, 1) and G2_SetWndOutsidePlane(0x1F, 1) (as in ov206
+ *   021B9E68): the tail now matches the listing (two separate orrs per register).  Everything
+ *   from 021F3CFE to the end matches modulo a +4 shift, except that our last calls
+ *   (second func_02049658/020498F4 group and func_0207D63C) take r3 = r6 (the hoisted 0)
+ *   where the original has movs r3,#0.  The head residue is unchanged: the original keeps
+ *   3 in r7 and 1 in r4 (constant CSE into callee-saved registers) for 3<<14, 1<<16, 1<<12.
+ *   Tried this wave: u8/u16/u32/short locals, plain literals 0xC000/0x10000/0x1000,
+ *   an inline helper taking (p, 3, 1), assignment inside the call argument
+ *   (func_0204044C(three = 3)): all give the same 512/524-byte code.  The head and tail
+ *   r3 residues look like the same constant-hoisting heuristic (see ov123 021D9D3C).
+ *
  * symbols:
  *   func_02046440  0x02046440  arm
  *   func_0204044C  0x0204044C  arm
@@ -85,6 +97,21 @@ extern const char d_021F8214[];
 extern const char d_021F81D4[];
 extern const char d_021F81F4[];
 
+static inline void G2_SetWndOBJInsidePlane(int wnd, int effect)
+{
+    u32 tmp;
+    tmp = (*(volatile u16 *)0x0400004A & ~0x3F00u) | ((u32)wnd << 8);
+    if (effect) tmp |= 0x2000;
+    *(volatile u16 *)0x0400004A = (u16)tmp;
+}
+static inline void G2_SetWndOutsidePlane(int wnd, int effect)
+{
+    u32 tmp;
+    tmp = (*(volatile u16 *)0x0400004A & ~63u) | (u32)wnd;
+    if (effect) tmp |= 32;
+    *(volatile u16 *)0x0400004A = (u16)tmp;
+}
+
 void func_021F3CA4(char *p)
 {
     int three = 3;
@@ -126,6 +153,6 @@ void func_021F3CA4(char *p)
     func_02049238(h);
     func_0207D63C(0x04000050, 8, 1, 0, 0xA);
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | 0x8000;
-    *(volatile u16 *)0x0400004A = (*(volatile u16 *)0x0400004A & ~0x3F00) | 0x1700 | 0x2000;
-    *(volatile u16 *)0x0400004A = (*(volatile u16 *)0x0400004A & ~0x3F) | 0x1F | 0x20;
+    G2_SetWndOBJInsidePlane(0x17, 1);
+    G2_SetWndOutsidePlane(0x1F, 1);
 }

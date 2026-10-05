@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note (2026-10-05, wD4 lane17): still DIFF, 159 bytes, 212 vs 208. Tried k as int, declaration order of all locals reversed: no change. Listing facts: original frame has 4 slots (idx [sp], h [sp+4], v as (x<<24) [sp+8], rc at sp+0xC); idx is spilled and k lives in r7, v is spilled. Ours keeps idx in r7, spills k, keeps v in r7. Needs a way to make idx the spilled value.
  * symbols:
  *   func_021BE05C 0x021BE05C thumb ov172
  *   func_021B8BA4 0x021B8BA4 thumb ov172

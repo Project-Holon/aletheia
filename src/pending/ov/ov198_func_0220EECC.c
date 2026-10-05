@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane16): same colouring residue as the twin func_0220ED54 (see its note); the local-constant spelling was not re-tried here after it changed nothing there.
  * 2026-10-04: DIFF, 260 vs 268 bytes. Twin of func_0220EE44 (same Table1/Pair shape, Pair at +0x20 here).
  * Semantics from the listing: i = func_022110D4(p, (*p)[0x20]); rec = p+4+i*0x4C; three calls as in 0220EE44,
  * then two E7CC calls on bit 6 / bit 7 of the byte at p+0x2175 (index (*p)[0x4B]+0x22/+0x1D, then 0x1F58/0x1F5C

@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: MATCH
+ * 2026-10-05 (wD4 lane19): still MATCH. Blocked by ov114 ARM 0x021C93D0 (pengy overlay, no witness).
  * blocker: ov114 ARM 021C93D0 has no outside code-start witness. It is vendor/Ilias-owned: adjacent SDK EXT_TestResetCounter at 021C93BC (libext/ext_scrntest.o) uses same datum 021D4084; no SDK row exists for query leaf. TU/split cannot produce a viable partition.
  * symbols:
  *   func_021C93D0 0x021C93D0 arm ov114

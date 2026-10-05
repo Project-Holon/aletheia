@@ -13,6 +13,9 @@
  * note (2026-10-04, wD2 lane07): also tried no t variable (0x83 - d written twice, compiler CSEs it identically): same output.
  *   The compiler gives r7 to t and reloads d from [sp,#0x30]; the original keeps d in r7 and spills t to [sp,#0x18].
  *
+ * note 2026-10-05 (D4-14): still DIFF (81 bytes). Tried: d <<= 2 reuse so the d*4 shift is in place (lsls r7,r7,#2 in the original), t as int, t declared after r.
+ *   All three compile identically to before (t in r7, d reloaded from [sp,#0x30]). Original loads d into r7 as the first instruction and spills t to [sp,#0x18].
+ *
  * symbols:
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EFA4 0x0201EFA4 thumb

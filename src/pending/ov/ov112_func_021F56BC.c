@@ -35,6 +35,12 @@
  *   at sp+0x68..0x74, sub-pose rec at sp+0x234, 0x5C-byte source records).
  *   Siblings: func_021F5EDC (callee, 13 args, see 021F5B6A..021F5BCC for the stack layout).
  *
+ * note (2026-10-05, wave D4 lane 06): p->f8 bit 0 is now read through a one-bit bitfield
+ *   (Bits.b0): the camera pick now gives the original lsls #0x1f; lsrs #0x1f test (1623 -> 1611
+ *   bytes differ, compiled 1684 vs 2080).  Still open: the frame (0x254 vs 0x198, push without
+ *   r3), the zero local stored at [sp] at entry, the spilled invariants, and the innermost k-loop
+ *   which still needs re-deriving from the listing (021F5BD4..021F5E8C).
+ *
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
@@ -122,6 +128,7 @@ extern void func_021F65EC(void);
 extern void func_021F5EDC(char *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, Pose *q, Pose *r,
                           int j, int flag, void *w, int h);
 
+typedef struct { u32 b0 : 1; u32 rest : 31; } Bits;
 static inline int RoundF(int v)
 {
     return (int)(v > 0 ? (float)(v << 12) + 0.5f : (float)(v << 12) - 0.5f);
@@ -177,7 +184,7 @@ void func_021F56BC(int *p, int arg)
     REG(0x04000440) = 3;
     REG(0x04000454) = 0;
     REG(0x04000440) = 2;
-    if ((p[2] & 1) == 0)
+    if ((((Bits *)&p[2])->b0) == 0)
         func_0207D7C4(&d_02148D8C, &d_02148D98, &d_02148DA4, 1);
     else
         func_0207D7C4(&d_021F8310, &d_021F831C, &d_021F8304, 1);
@@ -195,7 +202,7 @@ void func_021F56BC(int *p, int arg)
         pos.x = *(int *)(obj + 0xC8);
         pos.y = *(int *)(obj + 0xCC);
         pos.z = *(int *)(obj + 0xD0);
-        if ((p[2] & 1) == 0) {
+        if ((((Bits *)&p[2])->b0) == 0) {
             ox = pose.dx << 8;
             oy = -pose.dz << 8;
         } else {
@@ -215,7 +222,7 @@ void func_021F56BC(int *p, int arg)
         REG(0x04000470) = pos.x;
         REG(0x04000470) = pos.y;
         REG(0x04000470) = pos.z;
-        if ((p[2] & 1) == 0)
+        if ((((Bits *)&p[2])->b0) == 0)
             func_0207D8FC(m3);
         REG(0x04000470) = ox;
         REG(0x04000470) = oy;
@@ -259,13 +266,13 @@ void func_021F56BC(int *p, int arg)
                 if (ent->f20 != 0) {
                     if (*(u32 *)(obj + 0xEC) & 1)
                         func_021F5EDC((char *)p, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
-                                      ent->f2C + ent->f24, &sub, &pose, j, p[2] & 1, m1, flag);
+                                      ent->f2C + ent->f24, &sub, &pose, j, ((Bits *)&p[2])->b0, m1, flag);
                     else
                         func_021F5EDC((char *)p, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
-                                      ent->f2C, &sub, &pose, j, p[2] & 1, m1, flag);
+                                      ent->f2C, &sub, &pose, j, ((Bits *)&p[2])->b0, m1, flag);
                 }
                 func_021F5EDC((char *)p, ent->f0, ent->f4, ent->f8, ent->fC, ent->f10, ent->f14,
-                              &sub, &pose, j, p[2] & 1, m1, flag);
+                              &sub, &pose, j, ((Bits *)&p[2])->b0, m1, flag);
                 for (k = 0; k < 8; k++) {
                     u8 b = ent->parts[k];
                     Part *pt;

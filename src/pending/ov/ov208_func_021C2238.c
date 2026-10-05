@@ -14,6 +14,8 @@
  * y0 load (ldrb r2,[r3,#1]); ours hoists it right after the h load. Tried: local pointer q, locals
  * h/pal/y0/x0 in image order. Scheduler order unchanged.
  *
+ * 2026-10-05 (D4-18): not re-run beyond reading: the one-instruction move (x0 load after y0 load) is the same as the D2 note; no new variant was found that follows from the listing.
+ *
  * symbols:
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm

@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * note (2026-10-05, wD4 lane17): still DIFF, 18 bytes, same heap/size colour swap. New tries: u16 heap parameter (96 bytes, worse), int heap, size assigned before the first call (39 bytes), size declared before buf, with the enum local kept. No change in the swap.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02006CBC 0x02006CBC thumb

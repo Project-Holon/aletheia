@@ -30,6 +30,11 @@
  * by: struct Pair, u64 Pair, x/y reuse of the parameters, ret assigned
  * after x, declaration order of ret and the temps (63..132).
  *
+ * 2026-10-05 (wD4 lane 15): tried (all no gain, 63 bytes or worse): one-field `const struct Pair` tables copied by value
+ * (144 B, stack copy changes), ret declared last and assigned before x with `return ret` (144 B), a local copy of the
+ * c pointer (63), x computed before the table loads (144), `x - (x/2)*2` for the modulo (136, 109 differ). Residue unchanged:
+ * original moves a to r4 early, keeps b in r2 and ret in r1, and runs both ldm through r3/r5.
+ *
  * symbols:
  *   func_021F020C  0x021F020C  thumb  ov029
  *   func_021F2B9C  0x021F2B9C  thumb  ov029

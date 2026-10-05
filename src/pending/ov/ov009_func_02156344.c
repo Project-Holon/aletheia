@@ -23,6 +23,9 @@
  * func_021562EC, func_0215631C, func_02156330 (shard needs regen by the integrator).
  * The remaining blocker is 0x021AF18C in ov013 (pengy's overlay, not touched).
  *
+ * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Only open reloc is THM_CALL func_021AF18C (ov013, pengy's overlay,
+ * unlabelled Thumb setter `ldr r1,=A; ldr r2,[r1]; ldr r1,=B; str r0,[r2,r1]; bx lr`, mis-listed as ARM by show). Not filed here.
+ *
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   func_0215631C  0x0215631C  thumb  ov009

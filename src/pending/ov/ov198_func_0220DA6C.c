@@ -18,6 +18,11 @@
  * window temp gave 420 bytes (too big); removed. Next: find the declaration order that gives
  * these slots and r4=p.
  *
+ * 2026-10-05 (wave D4 lane 10): still DIFF, draft code unchanged (209 bytes). Tried the sibling 0220D494
+ *   shape (EXACT this wave): struct P fields, per-arm `ctxN = P->f1EAC` locals (the original spills ctx to
+ *   0x14/0x10/0xc, one slot per call), `a = 0; b = 0; if (msg2) {...}`: 269-278 bytes, frame 0x38 + push r3.
+ *   A `k = 0x1EAC` offset local for the tail is propagated (no change). Residue is colouring: original
+ *   p r4, 0x1F70/0x1EAC in r5, idx/msg2 r6, base/b r7, t and half spilled; ours spills a and the 0x1EAC base.
  * symbols:
  *   func_022110D4  0x022110D4  thumb  ov198
  *   func_020457B0  0x020457B0  arm

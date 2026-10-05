@@ -13,6 +13,7 @@
  *
  * note (2026-10-04, lane17): lane17 wave D2: re-read, no new change. Same residue as the note above (0x242 pool offset kept in r5 to the join; pushes r3-r7).
  *
+ * note: 2026-10-05 (wD4 lane20): constant-in-a-local lever applied: int off = 0x242 assigned in each arm, join is off -= 0x76; p[off] = r. Down from 50 to 14 differing bytes, same size, r4-r7 push set now matches, offset kept live to the join. Residue: p/off colour swap only (image p r4, off r5; ours p r5, off r4). Tried declaration orders of z/r/off, off initialised at the top (loses the r7 zero), off -= inside the index expression.
  * symbols:
  *   func_020399A8  0x020399A8  arm
  *   func_0203D1E8  0x0203D1E8  arm
@@ -38,21 +39,25 @@ int func_021BC14C(char *p, int v)
 {
     int z;
     int r;
+    int off;
     func_0203D1E8(func_020399A8(), 0);
     z = 0;
     if (func_0203D378() == 0) {
         *(int *)(p + 0x135C) = 3;
-        func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+        off = 0x242;
+        func_021BA874(p, *(u16 *)(p + off) - 1);
         func_021BAAB8(p, 0x5F, z);
         r = 0x42;
     } else {
         *(int *)(p + 0x135C) = 4;
-        func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+        off = 0x242;
+        func_021BA874(p, *(u16 *)(p + off) - 1);
         func_021BAAB8(p, 0x7E, z);
         func_021BC090(p);
         func_02039C68(func_020399A8(), 0x1B, 0xA);
         r = 0x49;
     }
-    *(int *)(p + 0x1CC) = r;
+    off -= 0x76;
+    *(int *)(p + off) = r;
     return v;
 }

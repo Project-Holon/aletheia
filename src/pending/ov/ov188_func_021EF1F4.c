@@ -16,6 +16,7 @@
  *   compiled materialises it at the end in r1. Tried moving `f = 1;` to every statement
  *   position, int and u8 f: none gives the original colouring (best is 18 bytes off).
  *
+ * note: 2026-10-05 (wD4 lane20): moved 'f = 1;' to just before the 16-bit store at +48 (after the Bits51 mid store): 77 -> 25 differing bytes. Residue: the image holds the flag in r4 from 'movs r4,#1' (after 'movs r1,#0x70') and uses r1 for the mask/temps; ours puts the flag in r1 and the temps in r4. Tried f before mid, before high, u8/u16/u32 f, initialiser at declaration (worse).
  * symbols:
  *   func_02008314  0x02008314  thumb
  */
@@ -39,9 +40,9 @@ int func_021EF1F4(const u8 *a, u8 *b)
     ((Bits50 *)(b + 50))->low = *(const u32 *)a;
     ((Bits51 *)(b + 51))->low = *(const u32 *)(a + 4);
     ((Bits51 *)(b + 51))->mid = a[34];
+    f = 1;
     *(u16 *)(b + 48) = *(const u16 *)(a + 134);
     ((Bits50 *)(b + 50))->high = a[33];
-    f = 1;
     if (a[127] == 0)
         f = 0;
     ((Bits51 *)(b + 51))->high = f;

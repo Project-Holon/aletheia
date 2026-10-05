@@ -10,6 +10,7 @@
  * status: DIFF
  * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (10 bytes). Whole-body swap: image p=r4 q=r5, ours p=r5 q=r4. Allocation looks priority-ordered by reference count (q has four references, p four); no source tie-break found without changing the bytes.
  * note: 2026-10-04 Residue: whole-body register swap (original p in r4, q in r5; ours p in r5, q in r4); branch layout and instructions match otherwise. First param is unused (original uses r1 as p). Tried: ternary, early store, v-first, int v, copy of p, hoisted field pointer, struct p, split index locals, || vs && with Y-first.
+ * note: 2026-10-05 (wD4 lane20): tried swapped declaration order of q and v, and the nested call chain split into three statements (a = f(x); a = g(p,a); q = h(p,a)); p stays r5, q r4. Residue unchanged: whole-body p/q colour swap (10 bytes).
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_0218A160 0x0218A160 thumb ov096

@@ -20,6 +20,11 @@
  *   this function (unresolved relocations). Next: try struct-field accesses for the
  *   0x7FC..0x808 group (an array p->a[4]) and for the heap field.
  *
+ * note 2026-10-05 (wave D4 lane 10): still DIFF (1037 bytes, 1276 vs 1240). Constant-in-local lever
+ *   tried: `o = 0x7FC` with p+o, o+4, o+8, o+0xC and `hp = 0x544` for every heap read (from the top and
+ *   from after the 02008550 if): output identical, mwcc propagates both. The listing shows the 0x544 value
+ *   and 0x7FC/0x69C/0x53 bases stored back after `adds` (o += 8 at the 0x804 store, k += 0xED, 0x69C-0xB4
+ *   stored back as the loop base), which looks like compiler induction on spilled values, not source.
  * symbols:
  *   func_021B8F98  0x021B8F98  thumb  ov070
  *   func_021B9178  0x021B9178  thumb  ov070

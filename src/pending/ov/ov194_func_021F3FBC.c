@@ -17,6 +17,17 @@
  * case 2 and case 0/1 blocks or a shared store). Mode 2 test written as if (a2 >= 8) v1c = 1 else 0 (blo target right).
  * Offsets: o+0 Obj, +8 +0xC +0x10 handles, +0x24 +0x28 +0x2C +0x30 +0x34 +0x38 text part, 0x3C bytes cleared.
  *
+ * 2026-10-05 (wD4 lane09): DIFF, 10 bytes (was 354), size now 740. Fixed: case 2 `v1c = (a2 >= 8) ? 1 : flagB;`
+ * (the tail merge now keeps the case 2 store); heap is a u16 parameter used directly (no local, and the
+ * u16 callee param gets it unmasked); case 1 falls through into case 2; case 5 written before case 4;
+ * the flagA struct sets its zero fields explicitly after the memset (order +0x10, +0x12, +0x14, +0x11, +0xC);
+ * the if/else sets idx (0x11/0x10) and r as the folded constants 0xC80/0x14C0 (tail merge gives the shared
+ * lsls), then one func_02045EC0(s3, idx) call; func_0201C724 last param u32. Residue: only the entry,
+ * original loads heap (ldr r5,[sp,#0x94]) before the memset args, compiled loads it after the a3 spill.
+ * Tried: local `u16 heap = hp` after h20, `u32 heap = hp` first or after h20 (ldrh, worse), u8 heap param,
+ * static inline wrapper for the memset, a3 copied to a local (first or last), a3 as int (12). a3 as u16 gives 8
+ * bytes (the a3 spill moves up, heap load still late) but changes the parameter type, so it is not kept.
+ *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb
@@ -79,14 +90,13 @@ extern void *func_02043678(u32 a, u32 b, u32 c, u32 heap);
 extern void *func_020255A0(u32 a, const void *b);
 extern void *func_02045EC0(void *bank, u32 index);
 extern void func_02043B5C(void *buf, u8 v);
-extern void func_0201C724(u32 a, void *b, s16 c, u32 d, void *e, u32 f, u16 g);
+extern void func_0201C724(u32 a, void *b, s16 c, u32 d, void *e, u32 f, u32 g);
 extern const u8 d_021F5569[];
 
 typedef struct { u16 w; u16 h; u32 pad; } Dim8;
 
-void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u32 hp)
+void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
 {
-    u32 heap = hp;
     u32 flagA = 0;
     u32 v40;
     u32 v3c;
@@ -119,11 +129,7 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         v38 = a2 + 0x31;
         v34 = 0x41;
         v30 = 0x42;
-        if (a2 >= 8) {
-            v1c = 1;
-        } else {
-            v1c = 0;
-        }
+        v1c = (a2 >= 8) ? 1 : flagB;
         break;
     case 3:
         flagA = 1;
@@ -178,8 +184,6 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         break;
     case 1:
         func_021F51E4(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
-        func_0204B6F4(*(void **)o, 0, 1);
-        break;
     case 2:
         func_0204B6F4(*(void **)o, 0, 1);
         break;
@@ -187,18 +191,19 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         func_0204B878(*(void **)o, 1);
         func_0204B6F4(*(void **)o, func_0201BB5C(a2, (u8)a3, (a3 & 0xFF00) >> 8, flagB), flagB);
         break;
-    case 4:
-        func_0204B878(*(void **)o, 2);
-        func_0204B6F4(*(void **)o, flagB, 1);
-        break;
     case 5:
         func_0204B878(*(void **)o, 5);
+        func_0204B6F4(*(void **)o, flagB, 1);
+        break;
+    case 4:
+        func_0204B878(*(void **)o, 2);
         func_0204B6F4(*(void **)o, flagB, 1);
         break;
     }
     if (flagA != 0) {
         void *h2;
         u32 r;
+        u32 idx;
         u8 st[0x18];
         h2 = func_020490F4(0x17, heap);
         *(void **)(o + 0x30) = func_02043678(2, 2, 0x20, heap);
@@ -209,15 +214,20 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         *(u16 *)(st + 4) = 0x2e;
         *(u16 *)(st + 6) = 0x14;
         *(void **)(st + 8) = *(void **)(o + 0x24);
+        *(u8 *)(st + 0x10) = 0;
+        *(u16 *)(st + 0x12) = 0;
+        *(u32 *)(st + 0x14) = 0;
+        *(u8 *)(st + 0x11) = 0;
+        *(u32 *)(st + 0xC) = 0;
         *(void **)(o + 0x2C) = func_020255A0(s4, st);
         if (v1c == 1) {
-            r = 0x32;
-            *(void **)(o + 0x28) = func_02045EC0(s3, 0x11);
+            idx = 0x11;
+            r = 0xC80;
         } else {
-            r = 0x53;
-            *(void **)(o + 0x28) = func_02045EC0(s3, 0x10);
+            idx = 0x10;
+            r = 0x14C0;
         }
-        r = r << 6;
+        *(void **)(o + 0x28) = func_02045EC0(s3, idx);
         func_02043B5C(*(void **)(o + 0x30), 0);
         func_0201C724(s2, *(void **)(o + 0x30), 0, 0, *(void **)(o + 0x28), s1, r);
         *(u32 *)(o + 0x38) = s2;

@@ -20,6 +20,10 @@
  */
 
 /*
+ * 2026-10-05 (wave D4 lane07): DIFF, no change (404 vs 396). The 0x8000 is derived by the compiler itself (adds r0,r6,#1 from 0x7FFF), and 0x11C as 0x11A+2 is the same constant-derivation: both are literals (likely __LINE__ 282/284). Tried `int line = 0x11A;` with line and line + 2 (constant-in-a-local lever): identical output. Residue unchanged: 0x11A stays live in r6 across the first alloc call, so sum spills to [sp,#0x14] (push r3, frame 0x18); the original rematerialises 0x11A and keeps sum in r4.
+ */
+
+/*
  * 2026-10-04 (wave D2 lane05): DIFF, no change. Reading of the listing: the pool word 0x11A is loaded twice (ldr r0,[pc]) and the second use adds #2, and 0x7FFF sits in r6 for both heap-id builds. So the original does not CSE 0x11A across the first call, while this build keeps it in r6 (hence 0x7FFF in r4 and sum spilled). Needs a source form where 0x11A and 0x11C are not the same constant family, not tried beyond the variants above.
  */
 

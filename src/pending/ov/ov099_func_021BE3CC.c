@@ -13,6 +13,7 @@
  *
  * note (2026-10-04, lane17): lane17 wave D2: re-read, no new change. Same residue (colouring p/base swap, early b,c stack stores).
  *
+ * note: 2026-10-05 (wD4 lane20): not changed; no new hypothesis beyond the 2026-10-04 notes.
  * symbols:
  *   func_021BE4EC  0x021BE4EC  thumb  ov099
  *   func_02042FB0  0x02042FB0  arm

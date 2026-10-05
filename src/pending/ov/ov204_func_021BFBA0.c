@@ -17,6 +17,8 @@
  *   adds r0,r4,#0 before the bl (24 bytes differ). Unprototyped form kept: 6 bytes differ.
  * symbols:
  *   func_021BFBC8 0x021BFBC8 thumb ov204
+ *
+ * note 2026-10-05 (wD4 lane13): tried f(p, p[10]) and f(p, b) with b a local holding the new p[10] (24 bytes differ: p[7] load goes to r0 and adds r0,r4,#0 appears before the bl), f(p) with int/struct views and a/b locals (25-27 bytes). The unprototyped form stays the closest (6 bytes). Original keeps p live in r0 across the temporaries (they use r1), not reproduced.
  */
 
 extern void func_021BFBC8();

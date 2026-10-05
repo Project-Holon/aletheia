@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane16): constant-in-a-local lever: `int off = 0x1ed8;` with off, (off-0x1c) and `off-0x1c` spellings gives byte-identical output (125 differ). Compiler already keeps the in-place sub; the original keeps r4 live and recomputes off-0x1c per use (no CSE of the second 0x1ebc load) and colours rec=r6, i*4=r7.
  * 2026-10-04 (wave D2 lane03): DIFF, right size (240 bytes), logic read from the listing and all
  * 13 relocations resolve. Residue is allocator colouring only: original colours pool 0x1ED8=r4, rec=r6,
  * i*4=r7 and does `adds r1,r4,#0; subs r1,#0x1c` per use (the 0x1ebc loads), mine gives the twin

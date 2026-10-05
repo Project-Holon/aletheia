@@ -20,6 +20,16 @@
  *   explicit `off = j * 4` (this recolours owner to r4, worse).  Not tried: making the
  *   count a struct field or a different parameter order.
  *
+ * note (2026-10-05, wave D4 lane 06): 197 -> 43 bytes differ.  The owner is now a struct
+ *   (Own: heap +0xC, obj[4] +0x10, res +0x20, bank +0x24, font +0x30, str +0x38, n +0x25C), the slot-clear loop stores a
+ *   literal 0 and j is set in the for-init: the slot-clear loop and the whole tail now match.
+ *   Residue: (1) prologue: original spills count to [sp,#0xc] first and reloads it for the
+ *   +0x25C store (count behaves as a memory-resident variable); ours copies r0 to r1.
+ *   (2) record loop scheduling: original computes j*4 (r6) and slot r7 = owner + r6 early and
+ *   issues the three stack-argument stores before the recs reload; ours loads recs.a/b/c first.
+ *   Tried: void **slot local before the call, recs[j].x directly instead of a Rec pointer, u8
+ *   record fields, raw ((u32 *)(owner + 0x10))[j] (worse, 229), func_0201DD68(owner->n).
+ *
  * symbols:
  *   func_0201DD68  0x0201DD68  thumb
  *   func_020456F8  0x020456F8  arm
@@ -67,48 +77,59 @@ extern void func_02045374(void *d);
 extern void func_02051C6C(void *p);
 extern void func_020409B4(u32 index);
 
-void func_021D45F4(int count, u32 *tbl, char *owner, const Rec *recs, u32 *xs, u32 *ys)
+typedef struct {
+    u8 pad0[0xC];
+    u16 heap;
+    u8 pad1[2];
+    void *obj[4];
+    void *res;
+    void *bank;
+    u8 pad2[8];
+    void *font;
+    u8 pad3[4];
+    void *str;
+    u8 pad4[0x25C - 0x3C];
+    int n;
+} Own;
+
+void func_021D45F4(int count, u32 *tbl, Own *owner, const Rec *recs, u32 *xs, u32 *ys)
 {
     int i;
-    int j = 0;
-    s16 px;
+    int j;
     int a;
     int b;
 
-    *(u32 *)(owner + 0x25C) = count;
+    owner->n = count;
     func_0201DD68(count);
     for (i = 0; i < 4; i++) {
-        char *slot = owner + i * 4;
-        if (*(u32 *)(slot + 0x10) != 0) {
-            func_020456F8(*(void **)(slot + 0x10));
-            func_0201F7A8(*(void **)(slot + 0x10), 2);
-            func_020452E8(*(void **)(slot + 0x10));
+        if (owner->obj[i] != 0) {
+            func_020456F8(owner->obj[i]);
+            func_0201F7A8(owner->obj[i], 2);
+            func_020452E8(owner->obj[i]);
         }
-        *(u32 *)(slot + 0x10) = j;
+        owner->obj[i] = 0;
     }
-    func_02049B40(0x17, 5, 4, 0x100, 0x20, *(u16 *)(owner + 0xC));
-    for (; j < count; j++) {
+    func_02049B40(0x17, 5, 4, 0x100, 0x20, owner->heap);
+    for (j = 0; j < count; j++) {
         const Rec *r = &recs[j];
-        *(u32 *)(owner + j * 4 + 0x10) =
-            func_020450F0(7, (u8)r->a, (u8)r->b, (u8)r->c, (u8)r->d, 8, 0);
-        func_02043B5C(func_02045770(*(void **)(owner + j * 4 + 0x10)), 0);
-        func_02045CAC(*(void **)(owner + 0x24), tbl[j], *(void **)(owner + 0x38));
+        owner->obj[j] = (void *)func_020450F0(7, (u8)r->a, (u8)r->b, (u8)r->c, (u8)r->d, 8, 0);
+        func_02043B5C(func_02045770(owner->obj[j]), 0);
+        func_02045CAC(owner->bank, tbl[j], owner->str);
         func_0201DD78(0xF, 2, 0);
         if (xs != 0)
-            a = xs[j] - func_0201D304(*(void **)(owner + 0x38), *(u32 *)(owner + 0x30), 0) / 2;
+            a = xs[j] - func_0201D304(owner->str, (u32)owner->font, 0) / 2;
         else
             a = 0;
         if (ys != 0)
-            b = ys[j] - func_0201D42C(*(void **)(owner + 0x38), *(void **)(owner + 0x30)) / 2;
+            b = ys[j] - func_0201D42C(owner->str, owner->font) / 2;
         else
             b = 0;
-        func_0201C7A4(func_02045770(*(void **)(owner + j * 4 + 0x10)), (s16)a, (s16)b,
-                      *(void **)(owner + 0x38), *(void **)(owner + 0x30));
-        func_02045334(*(void **)(owner + j * 4 + 0x10));
-        func_02045374(*(void **)(owner + j * 4 + 0x10));
+        func_0201C7A4(func_02045770(owner->obj[j]), (s16)a, (s16)b, owner->str, owner->font);
+        func_02045334(owner->obj[j]);
+        func_02045374(owner->obj[j]);
     }
-    if (*(u32 *)(owner + 0x20) != 0)
-        func_02051C6C(*(void **)(owner + 0x20));
-    *(u32 *)(owner + 0x20) = 0;
+    if (owner->res != 0)
+        func_02051C6C(owner->res);
+    owner->res = 0;
     func_020409B4(7);
 }

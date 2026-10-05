@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD4 lane19): still DIFF 18 bytes. Tried t-local for the lo-minus-getter chain (4 bytes worse), z shared with r init, r declared first, ctx/node/x assigned after declarations: no change or worse. Residue stays the owner/r colour swap (r4/r5) plus the asrs/ldr order at the 02014184 call.
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb

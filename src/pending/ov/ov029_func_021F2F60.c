@@ -23,6 +23,9 @@
  *     `void *func_02154668(void *p) { return func_02154670(p); }`.
  *   abs_id_0 resolves through the func_020124AC overlay-id consumer.
  *
+ * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Open: ABS32 func_02154668, an ov000 Thumb veneer (`ldr r3,[pc]; bx r3`), so no C witness is possible;
+ * ov001 and ov006 also overlap that address.
+ *
  * symbols:
  *   func_0201210C  0x0201210C  thumb
  *   func_021F009C  0x021F009C  thumb  ov029

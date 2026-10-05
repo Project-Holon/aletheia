@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note (2026-10-05, wD4 lane17): DIFF, 186 -> 131 bytes. Lever: y0 is read in the loop pre-header as `yb = *(u8 *)&y0;` (stack u8 argument re-read from its home, address-taking is fine for stack args). The prologue now matches except x0/p: original stores r3,r2 to [sp,#4],[sp] first and reloads x0 for every use (ours copies x0 to r1), and holds y0 in r5 across the float calls. Slot order of stepx, stepy, yb also differs (original yb lowest). Tried yb declared first, stepy before stepx (132-133 bytes).
  * note 2026-10-04 wD2 lane01: still 186 bytes. Original spills r3 (x0) and r2 (p) first at entry and re-reads x0 from [sp,#4] at every use; ours copies x0 to r1. Tried `*(int *)&x0` at each use: forces a `push {r0-r3}` prologue (107 bytes diff, 214 bytes), so x0 is an allocator spill, not address-taken. Also `*(u8 **)&p` (worse).
  * note (2026-10-04): draft is logic-correct (186 byte diff, 206 vs 208 bytes). Residue: original keeps x0 and p
  *   purely on the stack (str r3,[sp,#4] first; x0 reloaded each use) and holds y1,y0 in r4,r5 across the
@@ -40,6 +41,7 @@ void func_021B9AB8(int a0, int a1, u8 *p, int x0, u8 y0, u8 x1, u8 y1, int value
     int stepx, stepy;
     int accx, accy;
     int d, r;
+    int yb;
     if (dx < 0)
         dx = -dx;
     dy = y0 - y1;
@@ -60,10 +62,11 @@ void func_021B9AB8(int a0, int a1, u8 *p, int x0, u8 y0, u8 x1, u8 y1, int value
     else
         r = func_0209CB8C(func_0209BDBC(d << 12), 0x3f000000);
     stepy = func_0209C0A4(func_0209C494(r), n);
+    yb = *(u8 *)&y0;
     accx = 0;
     accy = 0;
     for (i = 0; i < n; i++) {
-        func_021B9B88(p, x0 + (accx >> 12), y0 + (accy >> 12), value);
+        func_021B9B88(p, x0 + (accx >> 12), yb + (accy >> 12), value);
         accx += stepx;
         accy += stepy;
     }

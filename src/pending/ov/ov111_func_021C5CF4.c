@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane16): moving idx = ... BEFORE `c = src[n]` (the original computes idx first, then loads src and picks v) removes the dst+yo hoist and puts sel in r7: 190 bytes, 140 differ (was 196/158). Still open: original colours n=r4,k=r3,xx=r2,yy=r6 (ours n=r2,k=r1,xx=r4,yy=r3) and uses `bge ok; b skip` stubs. Tried: inline in-range helper (206 bytes, worse), yy/yb/yo declared in the outer loop (same colours), u8/u32 counters.
  * symbols:
  *
  * note 2026-10-04: DIFF, 158 bytes. Semantics settled (4x4 tile blit into 8x8-tile
@@ -35,11 +36,11 @@ void func_021C5CF4(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode,
             int idx;
             if (xx < 0 || yy < 0 || xx >= w || yy >= h) continue;
             if (mode == 1 && ((sel == 0 && xx >= 0x60) || (sel == 1 && xx <= 0x5f))) continue;
+            idx = xx % 8 + ((yy % 8) * 8 + ((yy / 8) * 24 + xx / 8) * 64);
             c = src[n];
             if (c == 1) v = 7;
             else if (c == 2) v = 0;
             else continue;
-            idx = xx % 8 + ((yy % 8) * 8 + ((yy / 8) * 24 + xx / 8) * 64);
             dst[idx] = v;
         }
     }

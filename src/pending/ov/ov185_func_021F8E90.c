@@ -12,6 +12,8 @@
  * has a seven-case resource loop, nested branches, stack aggregates and
  * many calls; no mechanical whole-body lever. W29 S24 evidence agrees.
  * tu --suggest-split confirms no viable partition; no speculative leaf C.
+ * note 2026-10-05 (D4-14): re-run, still MATCH, only func_021FD1C4 (ov186, pengy split) unresolved. No change.
+ *
  * symbols:
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186

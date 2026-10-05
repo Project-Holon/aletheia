@@ -22,6 +22,13 @@
  *           func_0201FEBC result cast to u32 in cases 6 and 15, case 19 written before
  *           case 18 (original block order), stack locals ids, count, tmp, old (int).
  *           d_02185xxx data words are sole references (MATCH at best once bytes agree).
+ *           2026-10-05 wave D4 lane 08: still DIFF (84 lines, the draft above is unchanged). The original keeps
+ *           ONE copy of `str r0,[r5]; ldr =0x54C; bl SE; b end` in case 12 (0x218400C) and every other 0x54C, 0x551,
+ *           0x648, 0x649 tail jumps into it (case 17 to 0x218400E, 0x648/0x649 and case 9's 0x551 to the bl at
+ *           0x2184010); case 9's arms join at a hop (0x2183F8A b 0x218400C), so case 9 had its own copy at threading
+ *           time and lost it to cross-jumping later. Tried: case 9 arms `*state = X; goto se54c` (per arm, or one goto
+ *           after the if) with a label on the SE call in case 12: case 12's label block then merges into case 17's
+ *           copy instead (530 lines, worse). The survivor rule seems to drop the multi-predecessor label block.
  *
  * symbols:
  *   func_020362DC 0x020362DC arm

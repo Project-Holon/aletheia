@@ -19,6 +19,10 @@
  * before the call, tx/ty locals read before the call, callee parameters declared u32, const g, a G{x,y} struct.
  * All give the same order (ty, e->a, e->b, tx). The original loads tx before e->a and e->b.
  *
+ * 2026-10-05 (wD4 lane 15): also tried direct d_021F0188[0], [1] with no g local (52 B, pool word loaded per branch), t0/t1 locals
+ * assigned before the if (60 B, spill), t0/t1 locals assigned after the if in both orders (56 B, same 6-byte residue).
+ * Original loads g[0] into r3 before `str r1,[sp]`; ours always puts that load last.
+ *
  * symbols:
  *   func_021EEFA4  0x021EEFA4  thumb
  *   d_021F0188  0x021F0188  data

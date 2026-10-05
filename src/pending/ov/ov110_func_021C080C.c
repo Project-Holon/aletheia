@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD4 lane19): still DIFF 28 bytes. Tried callee a2/a3 as u8 params with raw args, and idx = idx*6+1 into a local: no change / worse (47). Orig stores idx to [sp,#0x1c] as first insn and computes idx*6+1 after movs r0,#2.
  * note: 2026-10-04 (wD1 lane17): DIFF, scheduling only. Sibling of matched ov110 021C09E8. Params (p, idx, pal, flag): if (flag) pal = 5; same palette-patch loop; call 0x020410D0(2,0,(u8)(idx*6+1),(u8)w,6,data,0,0,(u8)w,(u8)h). Decl order `int i; int n; hdr; data; w; h` gives the right registers. Orig stores idx to [sp,#0x1c] as first insn, loads r1=0 for arg a1 before the w/h math and computes idx*6+1 last; ours schedules these later. Tried: u32 idx, u32 pal, multiply order.
  * symbols:
  *   func_020410D0 0x020410D0 arm

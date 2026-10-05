@@ -11,6 +11,11 @@
  *
  * note (2026-10-04): lane17 wave D2: 320 bytes, same size; first draft with guessed all-u32 prototypes. Residue: original prologue push {r4-r7,lr} sub sp,#0x1c keeps a1 in r6 and the flag in r7 (a3 spilled to [sp,#0x18]); ours spills a1 and keeps a3 in r7. The original holds 0xFF in r6 (call arg and 0x1BC = 0xFF+0xBD) and 0xE in r7 (call arg and 0xE<<5 = 0x1C0); plain int locals k, e were folded back to literals, so try enum-typed locals. Callee prototypes (020450F0, 0201CCE4, 0201C7A4) are guesses from register use.
  *
+ * 2026-10-05 (wave D4 lane 04): DIFF, 139 bytes. func_0201CCE4 takes a 10th stack argument 0xF
+ * ([sp,#0x14] in the listing); added. Residue: parameter colouring (original a1 in r6, a2 in r7, a3
+ * spilled to [sp,#0x18]; ours spills a1), and e = 0xE is rematerialised (movs #0xe; lsls #5) instead
+ * of kept in r7, likely because r6/r7 are taken by a2/a3 in ours. Tried: e as u16/u32/enum, e * 0x20,
+ * a3 as u8/u16, a1 as u8 (no change).
  * symbols:
  *   func_02012FFC  0x02012FFC  thumb
  *   func_021BA8D4  0x021BA8D4  thumb  ov099
@@ -46,7 +51,7 @@ extern u32 func_02045770(u32 a);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_0201F73C(u32 a, u32 b, u16 c, u32 d);
 extern void func_0201C7A4(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_0201CCE4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i);
+extern u32 func_0201CCE4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 j);
 extern void func_02028470(char *a, u32 b);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
@@ -77,7 +82,7 @@ void func_021BA978(char *p, u32 a1, int a2, int a3)
         func_0201C7A4(func_02045770(*(u32 *)(p + 0x190)), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8));
     } else {
         u32 t = func_02012FFC();
-        *(u32 *)(p + (k + 0xBD)) = func_0201CCE4(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + (e << 5)), 2, 0x21);
+        *(u32 *)(p + (k + 0xBD)) = func_0201CCE4(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + e * 0x20), 2, 0x21, 0xF);
     }
     func_02028470(p + 0x26C, 2);
     func_02045334(*(u32 *)(p + 0x190));

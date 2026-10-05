@@ -45,6 +45,16 @@
  * the first rc store, still used by strh [r7,#4] after the 021BE0B4 call) so the temp must spill.
  * Tried: rc through a pointer local (struct Rect *rp = &rc), no change. Also tried rc stores
  * through a u8 * base local (611 bytes differ, worse). Untried: rc as a field of a larger local struct.
+ * note 2026-10-05 (wD4 lane03): DIFF, 417 bytes differ (was 487). Fixed: the 0x15/0x16 store is an
+ * if/else (rc.z = 0x15 / rc.z = 0x16), which makes the compiler hold &rc in r7 for the first block and
+ * spill group 1's first temp exactly as the listing does.
+ * (An array t[15] for the leading call results gives the same code as the nested calls.) Residue: from group 2 on, the original keeps
+ * the constant 1 in r7 (movs r7,#1 after the second func_021BE018 call, then str r7,[sp,#4], strh r7
+ * rc.z=1, str r7,[sp,#8] for func_020450F0) and spills every group's first temp to its own slot
+ * (frame 0x50, rc at sp+0x48); ours keeps groups 2-4 first temp in r7 and later CSEs 0 into r7
+ * (frame 0x4c). Tried: rc through a pointer local for the first block (propagated, no change);
+ * a constant local one = 1 for the later groups, rc.z and the func_020450F0 argument (propagated,
+ * no change); u32 for the u16/u8 parameters that receive the 1 (no change).
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -95,7 +105,10 @@ void func_021B8CC8(void *a, char *p)
     rc.b = 2;
     *(struct Obj **)(p + 0x90) = func_0204B294((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
     func_0204B3DC(*(struct Obj **)(p + 0x90), 1);
-    rc.z = (func_021BE0B4(a) == 1) ? 0x15 : 0x16;
+    if (func_021BE0B4(a) == 1)
+        rc.z = 0x15;
+    else
+        rc.z = 0x16;
     *(struct Obj **)(p + 0x94) = func_0204B294((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
     func_0204B3DC(*(struct Obj **)(p + 0x94), 1);
     rc.z = 0x14;

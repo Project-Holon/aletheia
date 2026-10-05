@@ -10,6 +10,7 @@
  * status: DIFF
  * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (4 bytes). Loop call func_021C7E14 schedules 'adds r0,r5' before 'str r6,[sp,#4]'; the image stores t first, as the first call does. Also tried r declared before c; no change. Same family as func_02189D48 (stack-argument store versus argument-0 address order).
  * note: 2026-10-04 Residue: second call of func_021C7E14 in the loop schedules 'adds r0,r5' before 'str r6,[sp,#4]'; original stores t first (as in the first call). Rest is identical. Tried: and/continue forms, u32/u16 c, int/u32 t and best, static inline helper for either call, fused nested call.
+ * note: 2026-10-05 (wD4 lane20): tried an int copy of t used only by the loop call (t2 = t); same 4 bytes ('adds r0,r5' before 'str r6,[sp,#4]' in the loop call). Residue unchanged.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021D5440 0x021D5440 thumb ov093
@@ -39,7 +40,7 @@ u32 func_02188D5C(int a, u8 *p)
         for (i = 0; i < func_021D5448(*(u8 **)(p + 0xBC)); i++) {
             u16 c = func_021D54C0(*(u8 **)(p + 0xBC), i);
             if (i != p[1]) {
-                u32 r = func_021C7E14(*(u8 **)(p + 0xB4), x, y, c, 1, t);
+                int t2 = t; u32 r = func_021C7E14(*(u8 **)(p + 0xB4), x, y, c, 1, t2);
                 if (r > best) {
                     *(u32 *)(p + 0x38) = 1;
                     break;

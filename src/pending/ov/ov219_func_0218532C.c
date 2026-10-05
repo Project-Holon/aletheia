@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD4 lane19): still DIFF 163 bytes. Tried the constant in a local (int off = 0xC2F4; p[off], p[off+4], and for the reload): mwcc folds it, no change.
  * 2026-10-04 (wD2 lane 09): 284 vs 288 bytes, 163 bytes differ, same frame.
  * Semantics read from the listing (x,y at +0xC2F4/+0xC2F8, count at +0x14,
  * 0x30-byte records, s16 fields +0x18/+0x1a, u16 flag +0x40). Residue: the
