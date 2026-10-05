@@ -7,48 +7,11 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * note (2026-10-05, wave D9r lane P5): first source for this function. DIFF, 12 bytes
- *   (6 halfwords) from EXACT, size 1184 equals the listing extent. Residue: at 021BDEFE..021BDF1C the
- *   original puts `adds r7, r6, #0` (copy of the move id into the second callee-saved register)
- *   right after `ldr r0, [r0]`, before the select-field shifts, and stores the zero flag
- *   (`str r1, [sp, #0x28]`) after the select store. The draft sinks the copy to just before
- *   the first func_021D62C4 call and hoists the flag store. Everything else matches, including frame
- *   0x4c and all spill slots.
- *   Closed by: CD4B0 call written through a static inline wrapper (arguments evaluated last to first,
- *   docs/idioms/an-inline-wrappers-arguments-are-evaluated-last-to-first.md), func_021D5778 declared u8 with a u8 local
- *   (drops the reload hoist above the outgoing store at the three func_021C07AC calls).
- *   Tried without effect on the residue: id2 assigned before/after sel, flag and o.c0
- *   (after sel makes act live in r7, 1000+ bytes off), id2 declared before id, id2 as int
- *   (1196 B), const on func_021C07AC pointer parameter, void return of func_021C07AC, inline wrapper
- *   for func_021C07AC, six per-function pragmas (lifetimes, propagation, common_subs,
- *   dead_assignments, scheduling, peephole: no change or worse). 25 compiles used.
- *   Structure notes: the move id is bits 7..22 of *act, select bits 4..6. func_021D5C08 is read first
- *   and again near the end. Callees 021BE338..021BE398 are linker veneers.
- * note (2026-10-05, lane P5b): still DIFF, same 12 bytes. func_021BE550 fixed: its matched definition now
- *   takes a fourth (unused) parameter, because the original caller loads r3 above the branch and the
- *   4-argument call is needed for that hoist (3 arguments: 267 bytes off); definition is EXACT in c99 and c.
- *   New tries on the copy/flag residue (all worse): id2 = id before the pr call or chained
- *   `id2 = id = act->full.move` (colour flip, id in r7, 61 B); id2 = id after sel or between sel and flag,
- *   `Action w = *act` local with the copy between load and shifts, `id2 = act->full.move` second read
- *   (act moves into r7, id2 spilled, about 1000 B); dropping the else-branch `id2 = id` (same 12 B residue).
- *   Reading: all uses before the found branch use r6, so r7 = r6 is an early statement the compiler
- *   leaves late; a form that keeps it early without moving act into r7 is still unknown. 11 compiles.
- * note (2026-10-05, recoup lane R15): still DIFF, same 12 B (copy + flag store swapped). Levers 1 to 7 on
- *   the residue, 20 compiles, none better. 1 callee decls: all callees match their matched definitions (no change).
- *   2/3 declaration order: id2 first, between m and id, last (all 12 B); spill slots already equal. 4 statement
- *   position: id2 = id after flag, after sel, after o.c0, flag before/after o.c0, `o.c0 = flag = 0`,
- *   flag = 0 before the first CD chk call or before the prev call, `int flag = 0` at the declaration (all 12 B, or
- *   about 1000 B / 1188 B when id2 follows sel: the act->w reload CSE changes and the frame shifts). 6 const Action
- *   *act (with const callee prototypes) and `Action *const act`: 12 B. u32 flag: 12 B; int sel: 8 B larger.
- *   Reading: in the original the scheduler fills the ldr [act] latency slot with the copy and sinks the flag store
- *   below the select store; ours does the reverse and puts the copy right before the first bl. Ordering the
- *   source statements does not change that tie. 7 pragmas: header lists all six as tried, not repeated.
- *   Idioms checked: a-pool-word-order-residue-is-a-list-scheduler-tie (same class, no C shape),
- *   a-flag-set-after-the-call-that-consumes-its-input-shares-that-inputs-register (no change),
- *   a-dead-store-between-a-temp-and-its-use-blocks-copy-propagation (not applicable, would drop the copy),
- *   a-const-record-pointer-moves-the-outgoing-stack-store-below-the-register-copies and
- *   a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer (const act: 12 B).
+ * status: EXACT
+ * note (2026-10-05, final push G4L2): EXACT in c99 and c. The zero flag is a u8 local: a narrow local
+ *   keeps its spill store below the select store and lets the id copy schedule right after the act load
+ *   (u32 and int flags sink the copy to the last slot before the first func_021D62C4 call, 12 bytes off).
+ *   Callee check: no declaration problems (021BE338..021BE398 are veneers, 021BE620 and 021BFE60 are void).
  * symbols:
  *   func_021D5C08 0x021D5C08 thumb ov093
  *   func_021BD1E0 0x021BD1E0 thumb ov093
@@ -175,7 +138,7 @@ void func_021BDE98(u8 *p, u8 *a, Action *act, u32 key)
     u32 prev;
     int chk1, chk2;
     int found;
-    int flag;
+    u8 flag;
     u8 pr;
     u16 m;
     u16 id;
