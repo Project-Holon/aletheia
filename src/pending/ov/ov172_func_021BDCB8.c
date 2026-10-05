@@ -11,6 +11,8 @@
  * d_021C7234 at 0x021BBE50). A first full draft is parked as src/pending/ov/ov172_func_021BBA94.c, DIFF, so this stays MATCH*.
  * note (2026-10-05, wD4 lane17): still MATCH*, only func_021BBA94 (ov172, no witness, no matched file) is unresolved; it needs its own ov172 file.
  * note 2026-10-04 wD2 lane01: still MATCH*. The only unresolved site is func_021BBA94 (+006C): its extent is larger than 021BBA94..021BBAD4 (64 bytes shown, stale inner label) and needs its own ov172 witness file. Not in lane 01; a lane that owns 021BBA94 closes this.
+ * 2026-10-05 (wD6 lane12): still MATCH*, re-run: 10 of 11 relocations resolve, only func_021BBA94 (+006C) is open.
+ *   Its draft src/pending/ov/ov172_func_021BBA94.c is DIFF (not in this lane); this file closes when that one is filed.
  * blocker: func_021BBA94 ov172 lacks an outside witness; larger body
  * extends past stale inner label 021BBAD4. No split frees the only call.
  * Extent remainder: zero alignment halfword at 021BDD6A.

@@ -10,6 +10,9 @@
  * status:   DIFF
  * note 2026-10-05 (wD5 lane18): tried arr only at the use site (`((int *)(p+0x24A4))[i]`, 180 B, 143 differ), arr assigned inside the loop, and `for (i = 0, arr = ...)` with `*arr++` (176 B, 75 differ). The r6/r7 swap of arc and arr stays only in the 9-byte form.
  * 2026-10-05 (wD4 lane16): also tried arr = (int *)p + 0x929, int loop counter (much worse), arc/arr/x declaration orders, and a temp for the call result before arr[i]: all 9 bytes, r6/r7 swap unchanged.
+ * 2026-10-05 (wD6 lane07): still 9 bytes (arc/arr r6/r7 swap). Tried: the 0204A6C8 call and arr[i] store written in
+ *   each if/else arm (rule 2 of the register-order idiom), a real Rec struct array for the p + i*0x4C records (closed
+ *   0220D884), and a Ctx struct with int arr[6] at 0x24A4 (180 bytes, worse). No callee reads a missing argument.
  * symbols:
  *   func_0220E340  0x0220E340  thumb  ov198
  *   func_020490F4  0x020490F4  arm

@@ -61,6 +61,18 @@
  *   (0x5C vs 0x58), mid-pool placement (original after the attr word at 021F5A20), LoadPose
  *   register shape (original keeps src = obj+0x28 in r0), the eight spilled 0x800 rounding
  *   words at sp+0x80..0x94/0x9C/0xA0 and the 0x100/0x10C offsets at sp+0x98/0xA4..0xAC.
+ * note (2026-10-05, wave D6 lane 01): three fixes from a fresh reading of the head and the pose loader.
+ *   (1) func_0207D7C4 takes a fifth argument (NULL, as in the matched callers): the zero stored at [sp]
+ *   at entry is that stack argument, written once before the camera-pick branch. The prologue now
+ *   matches to 021F56F8 apart from the frame size. (2) LoadPose is a switch on the u16 kind with a
+ *   compare chain (beq 0, cmp 1, cmp 2, b out), and the id is a u16 read (ldrh) through a
+ *   {u16 id; u16 pad; s16 dx; s16 dz} source record. (3) obj+0x90, obj+0x68 and obj+0x28 come from
+ *   static inline accessors (ObjAttr, ObjSrcs, ObjAnim): the parameter copy gives the original
+ *   `adds r0,r4,#0; str [sp,#K]; adds r0,#0x90; str [sp,#K]` double store for srcs and keeps src =
+ *   obj+0x28 in r0 for the kind load (`ldr r3,[r0,#0x1c]`). Compiled 2008 vs 2080 (was 1996).
+ *   Open: frame 0x24C vs 0x254 (8 bytes of locals missing, every sp offset is 8 low), attr (obj+0x90)
+ *   stays in r5 where the original spills it to sp+0x5C, the zero/kind registers in the obj head
+ *   (original zero r2, kind r3; ours zero r3, kind r1), and everything after 021F57BC not re-checked.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
@@ -160,7 +172,7 @@ extern const Vec d_021F8310, d_021F831C, d_021F8304;
 extern const Mtx43 d_02148B98;
 extern const Mtx44 d_02148B54;
 
-extern void func_0207D7C4(const Vec *a, const Vec *b, const Vec *c, int d);
+extern void func_0207D7C4(const Vec *a, const Vec *b, const Vec *c, int d, void *e);
 extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
 extern void func_02082B60(Mtx43 *a, Mtx33 *b);
 extern void func_0207ADE8(Mtx33 *a, Mtx44 *b);
@@ -184,28 +196,33 @@ static inline int RoundF(int v)
     return (int)(v > 0 ? (float)(v << 12) + 0.5f : (float)(v << 12) - 0.5f);
 }
 
+typedef struct { u16 id; u16 pad; s16 dx; s16 dz; } PoseSrc;
 static inline void LoadPose(Pose *r, char *src, int one)
 {
-    char *q = *(char **)src;
-    u32 kind = (u16)*(u32 *)(*(char **)(src + 0x1c) + 4);
-    if (kind == 0) {
-        s16 *s = *(s16 **)q;
-        r->id = s[0];
+    switch ((u16)*(u32 *)(*(char **)(src + 0x1c) + 4)) {
+    case 0: {
+        const PoseSrc *s = **(PoseSrc ***)src;
+        r->id = s->id;
         r->rot = 0;
         r->sx = one;
         r->sy = one;
         r->dx = 0;
         r->dz = 0;
-    } else if (kind == 1) {
-        *r = **(Pose **)q;
-    } else if (kind == 2) {
-        s16 *s = *(s16 **)q;
-        r->id = s[0];
+        break;
+    }
+    case 1:
+        *r = ***(Pose ***)src;
+        break;
+    case 2: {
+        const PoseSrc *s = **(PoseSrc ***)src;
+        r->id = s->id;
         r->rot = 0;
         r->sx = one;
         r->sy = one;
-        r->dx = s[2];
-        r->dz = s[3];
+        r->dx = s->dx;
+        r->dz = s->dz;
+        break;
+    }
     }
 }
 
@@ -234,6 +251,9 @@ static inline void LoadSubPose(Pose *r, char *src, int one)
     }
 }
 
+static inline u32 *ObjAttr(char *o) { return (u32 *)(o + 0x90); }
+static inline char **ObjSrcs(char *o) { return (char **)(o + 0x68); }
+static inline char *ObjAnim(char *o) { return o + 0x28; }
 void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
 {
     Pose pose;
@@ -263,9 +283,9 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
     REG(0x04000454) = 0;
     REG(0x04000440) = 2;
     if ((((Bits *)&p[2])->b0) == 0)
-        func_0207D7C4(&d_02148D8C, &d_02148D98, &d_02148DA4, 1);
+        func_0207D7C4(&d_02148D8C, &d_02148D98, &d_02148DA4, 1, 0);
     else
-        func_0207D7C4(&d_021F8310, &d_021F831C, &d_021F8304, 1);
+        func_0207D7C4(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
     func_0207B67C(&d_02148B98, &m1);
     func_02082B60(&m1, &m2);
     func_0207ADE8(&m2, &m3);
@@ -275,10 +295,10 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             continue;
         REG(0x04000444) = 0;
         obj = ((char **)p[1])[i];
-        attr = (u32 *)(obj + 0x90);
-        srcs = (char **)(obj + 0x68);
+        attr = ObjAttr(obj);
+        srcs = ObjSrcs(obj);
         cb.z = 0;
-        LoadPose(&pose, obj + 0x28, 0x1000);
+        LoadPose(&pose, ObjAnim(obj), 0x1000);
         pos.x = *(int *)(obj + 0xC8);
         pos.y = *(int *)(obj + 0xCC);
         pos.z = *(int *)(obj + 0xD0);

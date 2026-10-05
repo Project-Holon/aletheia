@@ -26,6 +26,11 @@
  *   ours rematerialises add r1,sp,#0x18 and caches the constant 0 in r7 instead. Tried: `struct Vec2 *vp = &v;`
  *   as an initialised declaration with vp only as the call argument, and `vp = &v;` just before the v.x store:
  *   both copy-propagate to the same 33 bytes.
+ * note 2026-10-05 (wD6 lane10): still DIFF 33. Tried: v as a one-element struct array passed as v
+ *   (17 lines, same), v in two block scopes (separate slots, 145), the two position updates as a
+ *   static inline place(obj, x, y) with its own Vec2 (352 bytes, the last mode 0 becomes movs r1,#0 but
+ *   frame grows), u16 third param of func_0204B404 and u8 mode of func_021F1A1C (33), the last if/else
+ *   inverted (35). Callees func_02040804/func_020355C4 read no extra args. Residue unchanged.
  * symbols:
  *   func_021F1A1C 0x021F1A1C thumb ov194
  *   func_021F1D58 0x021F1D58 thumb ov194

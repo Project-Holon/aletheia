@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * note: 2026-10-05 (wD6 lane13): DIFF 203 bytes, size now 472 (was 468). The f1cc store is written in each arm (no sel local, rule 2); tail merging rebuilds the shared str and the tail no longer derives 0x274 from 0x1CC. Residue: the r4 == 5 path still derives 0x1CC from 0x24C kept in r6 (image: 0x24C in r1, 0x1CC rebuilt). Tried on top: nested ifs for the 5 path, raw offsets, goto to a shared return (146 B worse layout), a static inline store helper, a static inline wrapper for func_021BDD54, a value local in the 5 path: no change.
+ *
  * note: DIFF vs 2026-10-04: skeleton matches (switch(r6){case -1 return; case -2 ...} layout, func_021BE2A8(p, index) hidden arg, r6=-2 when func_021BF050 true). Residue ~104 bytes: original rebuilds 0x24C (0x93<<2) and 0x1CC (0x73<<2) constants fresh at each use, ours CSEs them into r6 (subs r6,#0x80) and moves the 0x93 constant into r6 instead of r1. Size 468 vs 472. Tried: struct fields for 0x1CC/0x24C (no change).
  *
  * 2026-10-05 (wave D4 lane 04): DIFF, unchanged. Tried: raw p + 0x24c as the func_021BDD54 argument
@@ -75,7 +77,6 @@ int func_021C0C88(char *p, int v)
     int r6;
     int r4;
     int r7;
-    int sel;
 
     r6 = func_020200CC(*(u32 *)(p + 0xbc));
     if (func_021BF050(p)) {
@@ -105,7 +106,7 @@ int func_021C0C88(char *p, int v)
         return v;
     case -2:
         func_020061E4(0x551);
-        sel = 0xb;
+        ((struct P *)p)->f1cc = 0xb;
         goto end;
     }
     func_020061E4(0x54c);
@@ -117,7 +118,7 @@ int func_021C0C88(char *p, int v)
     }
     if (r4 == 6 && !func_021BDDD0(p)) {
         func_021BAAB8(p, 0x79, 0);
-        sel = 0x71;
+        ((struct P *)p)->f1cc = 0x71;
         goto end;
     }
     if (func_021BDD60(r4)) {
@@ -132,17 +133,16 @@ int func_021C0C88(char *p, int v)
     *(u32 *)(p + 0x135c) = 2;
     r4 = func_021C27E0(((struct P *)p)->f24c);
     if (r4 == func_021C27E0(*(void **)(p + 8))) {
-        sel = 0x76;
+        ((struct P *)p)->f1cc = 0x76;
     } else {
         if (func_021C27E0(*(void **)(p + 8))) {
             func_021BAAB8(p, 0x49, 0);
         } else {
             func_021BAAB8(p, 0x48, 0);
         }
-        sel = 0x37;
+        ((struct P *)p)->f1cc = 0x37;
     }
 end:
-    ((struct P *)p)->f1cc = sel;
     if (r7) {
         func_021B9AE0(p + 0x274, r7);
     }

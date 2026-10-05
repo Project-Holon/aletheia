@@ -52,6 +52,14 @@
  *   Residue: (1) the loop body loads ent.w (0x44) first and adds dst + (w - ew) before the r*w term; the original
  *   loads eh, h, computes r, then ew, and adds (w - ew)*2 + (dst + r*w*2). Tried dst + r*w + (w - ew) with and
  *   without an ew local (54 bytes, ew load still first). (2) m[3] store and `movs r5,#0` swap (unchanged).
+*
+ * note (2026-10-05, wD6 lane05): 4 bytes (was 47). Fixes: dst as a u32 byte address (assigned from q->f4/f8/fC
+ *   with a u32 cast), arg1 written (void *)((w - ew) * 2 + (dst + r * w * 2)) (int arithmetic keeps the
+ *   original operand order; the u16 pointer form canonicalises dst first), arg2 written x * 2 + (j + y) * 0x200.
+ *   Residue: only `str r0,[sp,#0x44]` (m[3]) and `movs r5,#0` swapped after the second func_0207C778 call. The
+ *   0 in r5 is shared with the loop counter i (i = 0 of the next loop). Tried: a struct {_00,_01,_10,_11} with
+ *   _00, _11 then zeros (same 4 bytes), _01/_10 before _11 (worse, the zeros move before the call), an
+ *   aggregate initialiser {f(s), 0, 0, f(s)} (worse).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -109,7 +117,7 @@ void func_021B71B8(void *p, Q *q)
     int sub;
     u32 wide;
     u32 base;
-    u16 *dst;
+    u32 dst;
     int h;
     int bit;
     u8 i;
@@ -201,8 +209,7 @@ void func_021B71B8(void *p, Q *q)
             if (func_021B8B8C(p, base, i) == 1) {
                 u32 idx = i;
                 int w;
-                u32 size;
-                int j;
+                            int j;
                 if (sub == 1 && idx != 0)
                     idx = 1;
                 if (wide == 0) {
@@ -213,29 +220,29 @@ void func_021B71B8(void *p, Q *q)
                     h = (u16)(sub == 1 ? 0x60 : 0x30);
                 }
                 if (func_021B8BAC(p, base, i) == 1 && func_0202EB14() == 0) {
-                    dst = (u16 *)(q->f4 + idx * (w * h * 2));
-                    func_020862F0(dst, w * h * 2);
+                    dst = (u32)(q->f4 + idx * (w * h * 2));
+                    func_020862F0((void *)dst, w * h * 2);
                 } else if (wide == 0) {
                     if (sub == 1) {
-                        dst = (u16 *)q->f8;
-                        func_020862F0(dst, 0xC000);
+                        dst = (u32)q->f8;
+                        func_020862F0((void *)dst, 0xC000);
                     } else {
-                        dst = (u16 *)(q->f8 + 0x3000);
-                        func_020862F0(dst, 0x6000);
+                        dst = (u32)(q->f8 + 0x3000);
+                        func_020862F0((void *)dst, 0x6000);
                     }
                 } else {
                     if (sub == 1) {
-                        dst = (u16 *)q->fC;
-                        func_020862F0(dst, 0x3000);
+                        dst = (u32)q->fC;
+                        func_020862F0((void *)dst, 0x3000);
                     } else {
-                        dst = (u16 *)(q->fC + 0xC00);
-                        func_020862F0(dst, 0x1800);
+                        dst = (u32)(q->fC + 0xC00);
+                        func_020862F0((void *)dst, 0x1800);
                     }
                 }
                 for (j = 0; j < q->ent[i].h; j++) {
                     int r = j + (h - q->ent[i].h);
-                    func_0207ECF0(dst + (w - q->ent[i].w) + r * w,
-                                  (j + q->ent[i].y) * 0x200 + q->ent[i].x * 2,
+                    func_0207ECF0((void *)((w - q->ent[i].w) * 2 + (dst + r * w * 2)),
+                                  q->ent[i].x * 2 + (j + q->ent[i].y) * 0x200,
                                   q->ent[i].w * 2);
                 }
             }

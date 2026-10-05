@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wave D6 lane 19): still DIFF, 13 lines in block 3. Tried: the 3rd arg through a
+ *   static inline `rx(l, w)`; y nested as the call argument; an int/u32/s16 local x3 = r7 + w8
+ *   before or after the y call. All keep the w8 reload first. The image behaves as if the arg
+ *   chain is evaluated after the stack stores (as a simple variable would be in blocks 1 and 2).
  *
  * 2026-10-04 (wD3 lane 15): DIFF, 376 bytes (right size), 25 diff bytes, all in the third draw call (block 3). The
  * original loads p+0x10 and sets r3=0x20 first and computes r7+w8 (reload of w8 from [sp,#0x24], add, lsls/asrs) last;

@@ -19,6 +19,17 @@
  * &((Slot *)p)[mode-7], int and long and unsigned index, index declared before the if, a copy of mode, Slot *
  * parameter. All give 153 differing bytes (one shifted copy). Everything after the multiply is the same shape.
  *
+ * 2026-10-05 (wave D6 lane 01): still DIFF 170/172, 153 bytes, same two residues. (a) the slot
+ *   multiply: the original computes idx in r4 and multiplies a copy (`adds r1,r4,#0; muls r1,r0,r1`,
+ *   constant as the right operand); ours multiplies into the constant register. (b) modes 4/5 load y
+ *   (`ldr r4,[r3,#0x10]`) before x; ours loads x first whatever the source order. Fresh finding: the
+ *   slot is a 0x38-byte record {enabled; Vec a,b,c,d; u16 e,f} at p+0x14 (sizeof the draft Slot is
+ *   0x4C). Tried, all 170/153 unless noted: `mode -= 7` in place, 56*idx and idx*56, an int local
+ *   holding 56, the index in the y local, inline GetSlot(p, idx) (int, and with a separate idx local,
+ *   and the -7 inside), inline SetSlot(p, idx, in), a char[56] record array index, per-field
+ *   ((Slot *)p)[mode-7] writes; Big{pad[5]; Slot slots[]} with a pointer local gives the copy+mul
+ *   shape but adds p+0x14 first (164/128, product reused). Modes 4/5: x/y source order, x read inline,
+ *   a {x,y} struct copy (stores) and a {x,y} local (186/101), inline SetT(tgt, i, x, y): no change.
  * symbols:
  */
 

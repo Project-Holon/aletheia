@@ -12,6 +12,8 @@
  *   (0x22) before the c store (0x34): the c spill moves after the memset arguments but a stays before b
  *   (15 bytes), so the spill order does not follow store order. Not a register or slot problem.
  *
+ * note 2026-10-05 (wD6 lane10): still DIFF 4 (entry spill order). Tried param types int/short b,
+ *   short/u16 a with u16 b, int/int: no change. Spill store order is not param order, not first-use order.
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020450F0  0x020450F0  arm

@@ -32,6 +32,13 @@
  *   add r5,sp,#0 pointer), a separate `size` local for both arms (identical). Next: find a use that
  *   makes the result temp interfere with sz (old sz live after the call).
  */
+/*
+ * 2026-10-05 (wave D6 lane02): DIFF, 2 bytes unchanged. Callee check: func_021D891C(int n) takes one
+ *   argument (matched), so no hidden argument. Tried: the copy to sz after the -1 check (sz = tmp
+ *   at the end of the else arm, identical), sz as the address-taken source of the 4-byte copy
+ *   (h = &sz: the parameter goes to the stack, 365 bytes worse; hdr is a separate local at [sp]).
+ *   Reading: the result temp is coalesced with sz in every form; the original coalesces it with r0.
+ */
 typedef struct { int w[0x138 / 4]; } Blob;
 typedef struct { unsigned char b[4]; } W4;
 extern void func_021D7CAC(void);

@@ -26,6 +26,11 @@
  *   wrapper for both clears, one `int one` shared by the f4 store and the 021BD56C argument only,
  *   f4 store in its own block after f34, f34 before the desc copy with f4 after it (23 bytes).
  *   Arguments and callee arities all agree with the image.
+ *
+ * 2026-10-05 (D6-04): still 8 bytes. Tried: f4 store before the desc struct copy (23 bytes, the
+ *   copy does not let it sink), a block-local `struct Ov208Pos *pp = &pos;` set before the f4 store
+ *   (same 8 bytes). The four instructions are pure ALU plus one store with no memory conflict, so
+ *   only the scheduler's tie order differs; the D6 const-table lever (021C2238) does not apply here.
 
  * symbols:
  *   func_02082BCC  0x02082BCC  arm

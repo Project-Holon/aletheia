@@ -70,6 +70,14 @@
  *   Tried for sub-case 3: no break, goto end, return types u32/short/u8 for func_021D87FC, all other
  *   cases through goto set; the 0x55F1 switch as an inline helper (void with int *ret, or int return).
  */
+/*
+ * 2026-10-05 (wave D6 lane02): DIFF, 96 bytes unchanged. Tried: sub-case 3 of 0x55F1 as
+ *   "r = func_021D87FC(...); ret = r; break;" (identical, still merged into the set tail). Listing
+ *   re-read: the 0x55F0 sub-case 3 (021D8694) and the 0x5208/0x5209/0x55F2/0x55F3 cases all branch
+ *   to 021D6F46; only 0x55F1 sub-case 3 keeps "str r0,[sp,#8]; b 021D6F90". So at tail-merge time
+ *   its block must differ from the others (other jump target or other last statement); no source
+ *   form found that gives this.
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

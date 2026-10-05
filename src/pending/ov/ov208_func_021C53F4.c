@@ -26,6 +26,9 @@
  *   func_021BC3C0 returning u32 (same 10). Next: find why species ranks above pd in the
  *   argument order (an inline helper parameter or a differently typed pd are untested).
  *
+ * note (2026-10-05, wD6 lane20): still 10 bytes. Tried pd typed u32 (func_0200CA1C returning u32,
+ *   u32 first parameter on 0200CC40/0200D144): same. Observation: original argument order at both calls is
+ *   r2, r3, then reloads r0 (pd) and r1 (species); ours hoists the species reload above everything.
  * symbols:
  *   func_021BC3C0  0x021BC3C0  thumb
  *   func_021BC3A4  0x021BC3A4  thumb

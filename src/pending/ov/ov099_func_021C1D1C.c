@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * note: 2026-10-05 (wD6 lane13): not improved, 284 bytes (size 600 matches now). Tried: q = p + i*4 first in the body (330 B), q inline with x and y locals (284 B), x inline (293 B). y stays the spilled value; the image spills q. The 0x8F8 offset is held in r6 and 0x918 copies are derived from it in both builds.
  * 2026-10-04 (wave D3 lane 20): 596 of 600 bytes. Everything up to the loop matches. In the loop
  * body the original keeps x = ((i >> 1) / 4) << 4 in r5 and spills q = p + i*4 to sp+0x14;
  * this draft does the reverse (x spilled to sp+0x18, q in r5). i sits at sp+0x20 in the

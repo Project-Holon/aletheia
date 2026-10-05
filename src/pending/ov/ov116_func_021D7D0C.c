@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wave D6 lane18): DIFF, same 5 lines. Tried `*(u32 *)&heap` at the last call only: heap becomes
+ *   address-taken, the parameters are homed (push {r0-r3}), 588 bytes. Reading: the original keeps the heap
+ *   reload after `str r6,[sp]` as if it could alias the outgoing-argument store; no source form found.
  * note: 2026-10-04 wave D3 lane19: DIFF, 5 listing lines. Whole body matches except the last call func_02049B40(0x17,5,0,0x180,0x20,heap): original stores the 0x20 stack arg (r6, shared with the two func_0203FA08 r1 args) first and loads heap from [sp,#0x14] after it; ours loads heap first. Tried: 6-int and u32-heap prototypes, unprototyped, literal 0x20 vs c20 local, u32 c20, int heap param. Stack slots follow decl order: res,pa,pb,arc,done,t,j,k,q (pb=p;pb+=0x14 and pa=p+0x1f4 assigned after k=0). sh=t>>8 hoisted before a/b.
  * 2026-10-05 (wave D4 lane 04): DIFF, 10 bytes, unchanged. Tried: house prototype func_02049B40(u32
  * x5, u16 f) (adds a lsls/lsrs of heap, 40 bytes); a u16 heap parameter (352 bytes). Residue: the

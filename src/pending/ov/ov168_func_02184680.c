@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note (2026-10-05, wD6 lane20): still 8 bytes. Tried: a3/e as one by-value struct {x, y} split over
+ *   r3 and the stack (192 bytes worse, the struct is spilled with push {r0-r3}). Observation: the e load
+ *   always sits just before the first call, as if it had no use before the call; the original
+ *   keeps it in the param-copy order r7, r6, r5, r4.
  * note (2026-10-05, wave D5 lane 13): still DIFF, same 4 lines (stack arg e load after the pool
  *   ldr). Tried: the two conversions through a static inline toFx(int) helper; the task store
  *   nested as the argument of func_02030EE8; a2 as a struct pointer with a task field at

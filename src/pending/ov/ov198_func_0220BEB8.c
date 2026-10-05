@@ -24,6 +24,11 @@
  *   0201C724's font read inside put (480 bytes, arms merge), func_02045770 inside put (446 bytes, frame 0x50: the win
  *   load then lands in the freed constant register r4 instead of a slot). Core residue is the allocator keeping the
  *   0x1F70 constant in r4 where the original keeps slot*8 there.
+ * 2026-10-05 (wD6 lane07): new reading, not adopted (464 bytes, worse than 450): the original derives 0x1EA4,
+ *   0x1EAC and 0x1F74 from a reloaded 0x1F70 pool word (`subs #0xd0/#0xcc/#0xc4`, `adds #4`), and the tail blocks
+ *   add 0xC to a spilled 0x1EA0 and store it back. Wrote `k = 0x1F70` with p + (k - 0xD0) etc. and a block local
+ *   `c = 0x1EA0; ... c += 0xC;` in each arm: mwcc still CSEs 0x1F70 into r4 and spills base. Next: find what
+ *   raises pressure in the original so the 0x1F70 constant is rematerialised (slot*8 r4, tab r6, base r7).
  * symbols:
  *   func_02045778 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198

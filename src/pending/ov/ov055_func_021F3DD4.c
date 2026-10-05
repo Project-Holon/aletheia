@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wave D6 lane 19): still DIFF, 26 bytes, p/a swap. Callee listings checked
+ *   (rule 1): all six ov010 callees read r0 only, no hidden argument. Tried: the first part as a
+ *   static inline returning a (same 26); the a <= 1 bound test as one ternary condition (worse, 188
+ *   bytes); `goto out` with the tail written in both paths (79, swap stays); x reused as t0/a (167).
  * note (2026-10-05, wD5 lane01): now 26 bytes: r is loaded inside each arm of the a <= 1 test
  *   (the compiler hoists both loads to just after the cmp, as in the image). Residue: p/a colour
  *   swap only (image p r4, a r5; ours p r5, a r4). Tried, all inert: store order 0x16/0x14, u16

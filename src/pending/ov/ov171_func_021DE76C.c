@@ -18,6 +18,11 @@
  *   not shared (ldr + subs #2, frame grows to push r3). The shared-0xC5C form needs cur initialised at declaration; only the
  *   scheduling of the first ldrsb (cur before the mul here, after `movs i` in the original) differs. Unresolved.
  * note: 2026-10-05 (wD4 lane20): tried int off = 0xC5C / int b = 0xB34 locals (mwcc folds off+2 to a 0xC5E pool word and derives off by subs #2: worse, 139 bytes), an int copy of mode, and cur/i assigned after n. Draft stays; residue is the prologue order (sel in r5 with temp r3 in the image).
+ * note: 2026-10-05 (wD6 lane11): still DIFF (20 bytes, prologue only). Reading: the image keeps mode live in r1 until after n
+ *   (temps r3/r5, store scheduled late); ours spills mode at entry and reuses r1 as the address temp. Tried: n through a static
+ *   inline helper (and a helper with sel as parameter), an int copy of mode assigned after n, n in the for-init (all no change);
+ *   cur in the for-init (mode goes to lr, pool word becomes 0xC5E, 152 bytes, worse). Next: find a source form where mode's
+ *   register copy stays live past the n load.
  * symbols:
  *   d_021DEC94 0x021DEC94 data
  */

@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * note: 2026-10-05 (wD6 lane08): still DIFF 18 bytes, same heap/off swap (image heap r4, 0x588 offset r6). Changes kept: func_021BA810 returns the WH struct (t = func_021BA810(n), no raw/s copy), and plain literal offsets 0x588/0x58C/0x594/0x59C/0x574 (the compiler derives them from one 0x588 temp by itself; byte-identical to the off local). Tried with no change: ternary n, n = 0 after the memset, n declared before t, n = a4 - 1; n >>= 3, heap store moved first (worse, 26 bytes), off local declared first plus a heap copy local declared after it (both assigned at entry and late). Callees checked: func_021B9E04 is an empty bx lr, func_021B9DC0 passes r0..r2 through; no hidden argument found.
+ *
  * note: 2026-10-05 (wD5 lane17): still DIFF 18 bytes. New test: heap copied to a local u32 hp at entry and used everywhere (no change). Residue is still the heap/off colour swap (heap r4, off r6 in the image).
  *
  * note (2026-10-04): lane17 wave D2: 208 bytes, 18 differing bytes, all one register swap: original heap (r1) in r4 and the 0x588 pool offset in r6; ours heap r6, offset r4. Callee func_021B9DC0 (20 bytes) is an unlabelled ov099 function with no matched file; the MATCH step needs it filed. Shape matched: WH t, s declared in that order, s.w = raw; s.h = raw >> 16; t = s; a4 is u32 (lsrs). Tried int heap, enum offset local (worse), n declaration order.
@@ -37,7 +39,7 @@ typedef struct { u16 w, h; } WH;
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_021B9DC0(char *a, u32 heap, u32 x);
 extern void func_021B9E04(void *a, u32 heap);
-extern u32 func_021BA810(int i);
+extern WH func_021BA810(int i);
 extern u32 func_021BA81C(int i);
 extern void *func_021C47A0(u32 w, u32 h, u32 heap);
 extern void func_021C4800(void *g, u32 out);
@@ -51,10 +53,8 @@ extern void *func_021C5EEC(int n, int heap);
 
 void func_021B95A0(char *p, u32 heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u32 a7)
 {
-    WH t, s;
-    u32 raw;
+    WH t;
     u32 n = 0;
-    int off = 0x588;
     func_02082BCC(p, 0, 0x5A0);
     if (a4 != 0) n = (a4 - 1) >> 3;
     *(u32 *)(p + 0x14) = a6;
@@ -62,18 +62,15 @@ void func_021B95A0(char *p, u32 heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u3
     *(u32 *)(p + 4) = heap;
     func_021B9DC0(p + 0x14, heap, x2);
     func_021B9E04(*(void **)(p + 0x10), heap);
-    raw = func_021BA810(n);
-    s.w = raw;
-    s.h = raw >> 16;
-    t = s;
-    *(void **)(p + off) = func_021C47A0(t.w, t.h, heap);
-    func_021C4800(*(void **)(p + off), func_021BA81C(n));
-    *(void **)(p + off + 4) = func_021C4880(0x30, heap);
+    t = func_021BA810(n);
+    *(void **)(p + 0x588) = func_021C47A0(t.w, t.h, heap);
+    func_021C4800(*(void **)(p + 0x588), func_021BA81C(n));
+    *(void **)(p + 0x58C) = func_021C4880(0x30, heap);
     func_021B9D30(p, x3, heap);
-    func_021C59D0(p + off + 0xC);
+    func_021C59D0(p + 0x594);
     func_021B9D6C(p, heap, x2, n);
     func_021B9E0C(*(void **)(p + 0x10), heap, x2, a5);
     func_021BA60C(p, p + 0x574, x2, a5);
-    *(void **)(p + off + 0x14) = func_021C5EEC(0x80, heap);
+    *(void **)(p + 0x59C) = func_021C5EEC(0x80, heap);
     *(u32 *)p = 1;
 }

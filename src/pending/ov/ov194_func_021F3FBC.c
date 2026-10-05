@@ -30,6 +30,9 @@
  * static inline wrapper for the memset, a3 copied to a local (first or last), a3 as int (12). a3 as u16 gives 8
  * bytes (the a3 spill moves up, heap load still late) but changes the parameter type, so it is not kept.
  *
+ * note 2026-10-05 (wD6 lane10): still DIFF 10. heap is loaded with ldr (a u16 stack param in this
+ *   compiler loads with ldrh elsewhere, for example ov194 021F1D58), so tried heap as u32 with every callee
+ *   heap parameter u32 (func_021F51E4 too): same 10 bytes. Same family as 021F1E28 (entry move order).
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb

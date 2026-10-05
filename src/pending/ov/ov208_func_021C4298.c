@@ -27,6 +27,17 @@
  *   and bufs as `u8 buf[2][0x400]` (the image addresses sA.count as sp+0x20+0x12): no change.
  *   Hint from 021BEB18 (closed to MATCH this wave): its "parameter in home slot" residue was a wrong
  *   argument (a constant 0 that the image keeps in r7), so re-check every call argument here.
+ * note (2026-10-05, wave D6 lane 04): two listing-backed changes kept. (1) Cases 0x1c/0x1d hold 0x548 in
+ *   a local `k` (image: `ldr r7,=0x548`, then `adds r0,r7,#0; adds r0,#8` per access, final `adds r7,#8`),
+ *   written as H(k), H(k + 6), H(k + 8). (2) flag is u8: the image stores 0 to [sp,#0x18] and reloads it for
+ *   the W(0x698)/W(0x6d4)/W(0x6b4) stores (an int flag forwards the 0). Now 1248 vs 1288, 1121 differ.
+ *   Residue is still ev in r7. Probe (test only, not a fix): with ONE fewer ev read (switch 1 or switch 4
+ *   on another value) ev spills, the frame becomes 0x834 as in the image and id takes r7. So ev sits just
+ *   above the spill threshold: the original has one less ev use, or more weight on the id/k webs.
+ *   Tried without effect: separate id/k locals per web, block-scoped u16 old/cur per case (sibling
+ *   021C2A70 style), u16 id/cur, int k, u8/u16/short ev, bufA/sA declared first, volatile ev+flag+sys
+ *   (wrong: caches &ev, reloads flag twice), `W(0x6d4) = W(0x698) = flag` (image reloads flag once for
+ *   both stores; ours reloads per store, int flag forwards the 0).
  * symbols:
  *   ov208_func_021BC3B4 0x021BC3B4 thumb ov208
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
@@ -81,10 +92,11 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, u8 *p, int key, int ev
     struct Ov208Sel sA;
     u32 id;
     u32 id2;
-    int flag;
+    u8 flag;
     void *sys;
     u32 cur;
     u32 n;
+    u32 k;
     if (p == 0)
         return;
     sys = ov208_func_021BC3B4(key);
@@ -160,14 +172,14 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, u8 *p, int key, int ev
         }
         break;
     case 0x1c:
-        n = H(0x548);
+        k = 0x548;
+        n = H(k);
         if (n >= 3) {
-            H(0x550) = H(0x550) + 1;
-            H(0x550) = H(0x550) % n;
-            if (H(0x54e) == H(0x550)) {
-                n = H(0x548);
-                H(0x550) = H(0x550) + 1;
-                H(0x550) = H(0x550) % n;
+            H(k + 8) = H(k + 8) + 1;
+            H(k + 8) = H(k + 8) % n;
+            if (H(k + 6) == H(k + 8)) {
+                H(k + 8) = H(k + 8) + 1;
+                H(k + 8) = H(k + 8) % H(k);
             }
             ov208_func_021C5C64(heap, p, key);
             W(0x698) = 1;
@@ -175,14 +187,15 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, u8 *p, int key, int ev
         }
         break;
     case 0x1d:
-        n = H(0x548);
+        k = 0x548;
+        n = H(k);
         if (n >= 3) {
-            H(0x550) = H(0x550) + (u16)(n - 1);
-            H(0x550) = H(0x550) % n;
-            if (H(0x54e) == H(0x550)) {
-                n = H(0x548);
-                H(0x550) = H(0x550) + (u16)(n - 1);
-                H(0x550) = H(0x550) % n;
+            H(k + 8) = H(k + 8) + (u16)(n - 1);
+            H(k + 8) = H(k + 8) % n;
+            if (H(k + 6) == H(k + 8)) {
+                n = H(k);
+                H(k + 8) = H(k + 8) + (u16)(n - 1);
+                H(k + 8) = H(k + 8) % n;
             }
             ov208_func_021C5C64(heap, p, key);
             W(0x698) = 1;

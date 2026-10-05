@@ -2700,3 +2700,7 @@ arm9_main   0x02035010  arm     # wave D5: bl from ov029 0x021F251C and 0x021F26
 arm9_main   0x02035034  arm     # wave D5: tail call from arm9 0x02035040; EXACT src/matched/arm9/func_02035034.c
 arm9_main   0x02035040  arm     # wave D5: bl from ov029 0x021F251C and 0x021F26E0; EXACT src/matched/arm9/func_02035040.c
 overlay_041 0x021F3F18  thumb   # wave D5: bl from ov041 0x021F3884; EXACT src/matched/ov/ov041_func_021F3F18.c
+arm9_main   0x0200DD28  thumb   # wave D6: bl from ov116 0x021D6AF0; EXACT src/matched/arm9/func_0200DD28.c
+arm9_main   0x02025BE8  thumb   # wave D6: bl from ov219 0x02183D14; EXACT src/matched/arm9/func_02025BE8.c
+arm9_main   0x02027120  thumb   # wave D6: bl from ov219 0x02183D14; EXACT src/matched/arm9/func_02027120.c
+overlay_219 0x021856CC  thumb   # wave D6: bl from ov219 0x02183D14; EXACT src/matched/ov/ov219_func_021856CC.c

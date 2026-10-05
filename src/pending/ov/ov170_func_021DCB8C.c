@@ -44,6 +44,12 @@
  *   same copies. Idea left: the r5 zero is a coalesced temp; find a source shape that gives
  *   the palette-region literals their own value (not the 0 CSE temp).
  */
+/*
+ * 2026-10-05 (wD6 lane20): still 14 bytes, same 7 places. Tried: the palette block (02049F34 ..
+ *   020307B0) as a static inline helper with its own locals; int instead of u32 for the zero
+ *   parameters of 02049658/020498F4 (4th), 02049B68 (3rd), 02040E78 (1st) so the register zeros have
+ *   another type than the u32 stack zero. Both identical.
+ */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;

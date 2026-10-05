@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * 2026-10-05 (wave D6 lane 19): still MATCH, blocked only by arm9 func_02060F18 (DIFF). New finding on
+ *   that leaf: a u16 (or u8) RETURN type with `u32 old = *(u16 *)(p + 0x36); ... return old & 1;` stops the
+ *   and-sink (gives `and; ...; mov r0,rX` as in the image), but the colours move (old in ip, v&1 in r2;
+ *   image old r3, v&1 in r1). Early `old = x & 1` with u32 return still sinks. Compound `&= ~1` / `|=`
+ *   on a u16 lvalue gives a 0xFFFE pool mask and lsl/lsr. Not filed.
  * 2026-10-05 (wave D5 lane 02): re-verified MATCH; the only open site is func_02060F18 (arm9), still DIFF by 13 bytes (see src/pending/arm9/func_02060F18.c).
  * blocker:  relocation witness (label/sole-ref): callee 0x02060F18 has no outside witness
  * 2026-10-04: 0x02060F40 now EXACT in src/matched/arm9/func_02060F40.c. 0x02060F18 (an

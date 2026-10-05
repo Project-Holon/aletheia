@@ -10,6 +10,12 @@
  * status: DIFF
  * note (2026-10-05, wD4 lane17): still DIFF, 159 bytes, 212 vs 208. Tried k as int, declaration order of all locals reversed: no change. Listing facts: original frame has 4 slots (idx [sp], h [sp+4], v as (x<<24) [sp+8], rc at sp+0xC); idx is spilled and k lives in r7, v is spilled. Ours keeps idx in r7, spills k, keeps v in r7. Needs a way to make idx the spilled value.
  * 2026-10-05 (wD5 lane20): 159 -> 36 bytes (the residue is one load placement plus a 2 byte shift). Levers: `k = idx;` written BEFORE `if (a[8] == 3) return;` (the original loads r7 from the idx spill before the compare; this makes idx the spilled value and k the r7 value, prologue now matches), and `u32 xk = rc.xv.b[k]; rc.x = xk + (v >> 1);` (loads xv[k] before the v shift). Residue: ours reloads idx (`ldr r2,[sp]`) for the third call (func_021B8B94) hoisted above the xv/yv byte copies; the original reloads it right before the call like the first two. Tried: operand swap in rc.x, u32 k as the parameter with idx a copy (65 bytes, k in r6).
+ * 2026-10-05 (wD6 lane12): still DIFF, 36 bytes (one instruction placement). The move of idx into r2 for the third
+ *   call is scheduled before register allocation and hoisted into the stall after the first ldrb of the xv copy; the
+ *   original keeps it after `ldr r1,[r5,r4]`. Tried: element-wise byte copies, memcpy with the house string.h (212
+ *   bytes), the stores through a `struct Pt *` local, xv/yv as separate locals, idx copied into a one-field local
+ *   struct (scalar-replaced, same), idx as a one-field struct parameter (push {r0-r3}, worse), a goto label between
+ *   the copies and the call (removed), *(volatile u32 *)&idx at the third call (worse).
  * symbols:
  *   func_021BE05C 0x021BE05C thumb ov172
  *   func_021B8BA4 0x021B8BA4 thumb ov172

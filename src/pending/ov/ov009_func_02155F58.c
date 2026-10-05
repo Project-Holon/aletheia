@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wave D6 lane 19): still 4 bytes (bne/b instead of beq onto case 4's `b end`).
+ *   Tried: `if (r == 0) { } else { ... }` (empty then-arm, same bne/b). The r == 0 target is
+ *   threaded to the tail before range fixing in every form so far.
  *
  * note (2026-10-04, wave D3 lane 13): complete draft, only residue is the first
  *   branch after func_02059E38: original is `beq 0x2156022` (a short branch to the

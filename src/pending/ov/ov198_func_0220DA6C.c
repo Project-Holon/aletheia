@@ -28,6 +28,12 @@
  *   Residue: a/b colours swapped (ours a r7, b r5), the 0x1EAC constant spills to an extra slot [sp,#0x30] (orig keeps it
  *   in r5), half is converted to short at the first put (orig passes it unconverted from slot 0x18), rec slot 0xc.
  *   Tried: u8 half (235), int x param with (short) casts in the arms (236, push r3), b before a (no change).
+ * 2026-10-05 (wD6 lane07): 160 bytes (was 192), compiled 412 of 408. New: `b = a;` in the msg2 == 0 arm (the original
+ *   `adds r7,r5,#0` copies a), which keeps the 0x1EAC base in r5 for the tail as in the original. Residue: b spills
+ *   to [sp,#0x1c] and half takes r7 (original: b r7, t at 0x1c, half at 0x18 passed unconverted to the first put);
+ *   rec spills to [sp,#0xc] (original 0x24). Tried on top: u8 half (first put then passes half unconverted as in the
+ *   original, but a spills and the frame grows to 0x38: 280), short half (280), u32 put x with a (short) cast in the
+ *   arms (279), half computed in each arm (289), msg2/a/b declared first or after vec (279).
  * symbols:
  *   func_022110D4  0x022110D4  thumb  ov198
  *   func_020457B0  0x020457B0  arm
@@ -110,8 +116,7 @@ void func_0220DA6C(u8 *p, u32 idx)
     a = 0;
     t = (u8)func_0201D304(vec, *(u32 *)(*(u8 **)p + 0xc), 0);
     if (msg2 == 0) {
-        b = 0;
-        a = 0;
+        b = a;
     } else {
         a = (u8)func_0201D304(msg2, *(u32 *)(*(u8 **)p + 0xc), a);
         b = 8;

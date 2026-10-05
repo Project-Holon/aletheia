@@ -25,7 +25,6 @@
  *   func_021D7CC0 0x021D7CC0 arm ov125
  *   func_021D8438 0x021D8438 arm ov125
  *   d_021D9E40 0x021D9E40 data a4
- *   d_021D9E46 0x021D9E46 data a4
  *   d_021D8D30 0x021D8D30 data a4
  */
 
@@ -39,23 +38,34 @@
  *   static inline cp(Sav *d, const Sav *s) helper (identical). Finding: the source pointer gets r5 in
  *   every form, whichever operand is computed first; the original gives r5 to the destination.
  */
+/*
+ * 2026-10-05 (wave D6 lane02): DIFF, 18 bytes (was 23). New form: d_021D9E40 is one struct Data
+ *   (312 bytes: u32, u16, Sav at +6, 5 tail bytes) and the copies are "d_021D9E40.sav = ..." and
+ *   "*(Data *)(ptr + 8) = d_021D9E40". The pool word 021D9E46 is now &d_021D9E40.sav (no extra
+ *   symbol) and the trailing byte of the 301-byte copy now schedules before the Big copy, as in the
+ *   original. Residue: only the r3/r5 swap (original dst r5, src r3) and the "mov r5,#0x13" that
+ *   follows from it. Tried with no effect: Buf struct local with a Sav member at 0x45, the copy in
+ *   an inline cp(src, dst) helper, pointer locals for dst/src in both declaration orders, the
+ *   r == 3 path as "break" with the copies after the loop (worse). All callees checked: no hidden
+ *   arguments (021D7CAC/021D7CC0/021D8438 are thunks that load their own r0).
+ */
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 b[301]; } Sav;
-typedef struct { u32 w[78]; } Big;
+typedef struct { u32 w0; u16 h4; Sav sav; u8 tail[5]; } Data;
 extern int func_02167FA8(const char *, void *);
 extern int func_02168040(void);
 extern int func_02059E38(int *, int *);
 extern void func_021D7CAC(void);
 extern void func_021D7CC0(void);
 extern void func_021D8438(int);
-extern char d_021D9E40[];
-extern char d_021D9E46[];
+extern Data d_021D9E40;
 extern const char d_021D8D30[];
 
 int func_021D8444(void)
 {
-    char *g = d_021D9E40;
+    char *g = (char *)&d_021D9E40;
     u8 buf[0x174];
     int b, a;
     int r;
@@ -69,8 +79,8 @@ int func_021D8444(void)
     for (;;) {
         r = func_02168040();
         if (r == 3) {
-            *(Sav *)d_021D9E46 = *(Sav *)(buf + 0x45);
-            *(Big *)(*(char **)(d_021D9E40 + 0x258) + 8) = *(Big *)d_021D9E40;
+            d_021D9E40.sav = *(Sav *)(buf + 0x45);
+            *(Data *)(*(char **)((char *)&d_021D9E40 + 0x258) + 8) = d_021D9E40;
             *(int *)(g + 0x138) = 1;
             return 1;
         }

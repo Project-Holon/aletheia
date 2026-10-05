@@ -14,6 +14,15 @@
  * 15 text windows, three 0xFF bytes, state clears. Residue is register colouring: original keeps a0 in r5,
  * p in r6, the heap id in r7 and the owner in r4; this draft puts a0 in r4, spills the heap id and hoists the
  * constants 0 and 1 into r7 and r5. Declaration order changes did not move it. Not a witness yet.
+ * note 2026-10-05 (wD6 lane06): still DIFF (788 bytes). Listing facts for the next lane: i is a u8 spilled
+ *   as a word at [sp,#0x18]; j at [sp,#0x14] is the same variable as the 0 stored to d.a/d.b (reloaded for
+ *   each); the 0x400 slot is addressed as `lsls r1,r4,#0xa` from a 1 held in r4 that is also the space
+ *   argument of the 0x400 and 0x404 objects (a local `one = 1`, D3 lever), while 0x404 is a pool word; the
+ *   end test re-derives 0x400 as `movs #1; lsls #0xa`; the seven 0x14A offsets share one pool word.
+ *   Main residue: the image keeps a0 r5, p r6, v r7, owner/row r4 and rematerialises 0 and 1 in loop 1;
+ *   our build hoists 1 (seven uses in loop 1: the 018 index, the space argument, func_0204B92C) into r5
+ *   and spills v. Tried: the `one` local (862 bytes, worse), v as u32 with u32 heap prototypes, v declared
+ *   first or last, MK as a static inline function, row removed (inline p + i*0x1c + K). None stops the hoist.
  *
  * symbols:
  *   func_021BE00C  0x021BE00C  thumb  ov172

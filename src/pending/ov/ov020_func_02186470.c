@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * note: 2026-10-05 (wD6 lane13): DIFF 13 bytes (was 15). The first call is nested: id = func_02012AC8(func_020127A4(a0)) (020127A4 returns a0 + 0x114, 02012AC8 reads a u16 through it). The item array is a struct field (Box: 8-byte header, Item items[10] of 0x18 bytes, q at 0xF8 = 8 + 10*0x18); this gives the base/[sp,#4] double store and items/off in r4/r5 as in the image. Residue: a0 r5 / id r4 (image a0 r4 / id r5), because the hoisted (u16)id is placed before the items load. Tried: u32 callee + explicit (u16) cast (86 B), a key local before the loop (86-90 B), an Item *e local (15 B), continue form, void * a0: no change.
+ *
  * note: 2026-10-05 (wD5 lane17): still DIFF 15 bytes. New test: u32 a0 parameter and u32 callee prototype for func_020127C4 (no change). Colour classes {a0,items} and {id,off} still swapped.
  * 2026-10-05 (wD4 lane19): still DIFF 15 bytes. Tried signed id, an explicit int h = (u16)id local before the loop, a copy of a0: no change. Colour classes match ({a0,items} and {id,off}); only their register labels are swapped (orig a0/items r4, id/off r5).
  *
@@ -37,34 +39,31 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020127A4(void);
-extern u32 func_02012AC8(void);
-extern char *func_020127C4(int a);
-extern int func_02161ECC(char *p);
-extern int func_02186BA8(u8 *p);
-extern int func_02013DE0(u32 id);
-extern char *func_02186B2C(char *p, char *src);
-extern void func_02161E78(char *p);
-extern void func_02161E60(char *p, int a);
+typedef struct Item { char d[0x18]; } Item;
+typedef struct Box { u32 h[2]; Item items[10]; char q[4]; } Box;
+
+extern void *func_020127A4(int a);
+extern u32 func_02012AC8(void *p);
+extern Box *func_020127C4(int a);
+extern int func_02161ECC(Item *p);
+extern int func_02186BA8(Item *p);
+extern int func_02013DE0(u16 id);
+extern char *func_02186B2C(char *p, Item *src);
+extern void func_02161E78(Item *p);
+extern void func_02161E60(Box *p, int a);
 
 void func_02186470(int a0)
 {
-    char *q;
-    char *base;
-    char *items;
-    int i;
     u32 id;
+    Box *base;
+    int i;
 
-    func_020127A4();
-    id = func_02012AC8();
+    id = func_02012AC8(func_020127A4(a0));
     base = func_020127C4(a0);
-    q = base + 0xF8;
-    items = base + 8;
     for (i = 0; i < 10; i++) {
-        char *e = items + i * 0x18;
-        if (func_02161ECC(e) != 0 && func_02186BA8((u8 *)e) != 0 && func_02013DE0((u16)id) == 0) {
-            func_02186B2C(q, e);
-            func_02161E78(e);
+        if (func_02161ECC(&base->items[i]) != 0 && func_02186BA8(&base->items[i]) != 0 && func_02013DE0(id) == 0) {
+            func_02186B2C(base->q, &base->items[i]);
+            func_02161E78(&base->items[i]);
         }
     }
     func_02161E60(base, 0);

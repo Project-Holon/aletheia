@@ -34,6 +34,13 @@
  *   as a probe (not a fix: changes the frame, still no reload). The listing has real back edges, so both
  *   while loops are real. The reload means the multiply reads n's home, not the ldrh temp: find what
  *   blocks copy propagation of `n = field` in the original.
+ * 2026-10-05 (wave D6 lane 09): DIFF, residue unchanged. Finding: the same str/ldr pair appears in our
+ *   build for cur at +0x198 (str r0,[sp,#0x10]; ldr r1,[sp,#0x10]) because cur has two definitions
+ *   (cur = old and cur = table), so copy propagation does not replace it. The n reload at +0x13C thus
+ *   says that n also has a second definition (or is otherwise not copy-propagated) in the original.
+ *   Tried: `u16 n = 0` initialiser (no change), `lim = n; lim *= 0x1249` (no change), the second loop
+ *   with the field re-read in the condition and body plus n kept for k (no change). Next: find where a
+ *   second def of n can sit without a store in the listing (sp+8 is only written at +0x13C).
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133

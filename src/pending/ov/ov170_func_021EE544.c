@@ -24,6 +24,10 @@
  * Original loads g[0] into r3 before `str r1,[sp]`; ours always puts that load last.
  *
  * 2026-10-05 (wD5 lane20): same 6-byte residue (g[0] load order). The original materialises g[1] in r1 and g[0] in r3 before the stack store while e->a/e->b load after; no new source form tried beyond the earlier notes.
+ * 2026-10-05 (wD6 lane20): still 6 bytes. Tried: the call written in each if/else arm with direct
+ *   table indexing (92 B, no tail merge), the table base chosen in the arms and e[i] indexed after the join
+ *   (8 bytes, a loads as ldrb [r4,r2]), the call through a static inline helper taking e and g (92 B).
+ *   The g[0] load stays last in every form.
  * symbols:
  *   func_021EEFA4  0x021EEFA4  thumb
  *   d_021F0188  0x021F0188  data

@@ -48,6 +48,7 @@
  *   func_021BA15C result). Re-read: the callee's real prototype is (int, char *, s16 *tbl, int, int idx, u16 v);
  *   the IR order puts the third argument's constant before the fifth argument's stack store. Not retried:
  *   forms listed above. Untested idea: the 0x800 offset belongs to an inline helper returning the table pointer.
+ * note 2026-10-05 (wD6 lane06): still 10 bytes, same residue. Tried: pos and the +0x800 sum as two locals assigned after the func_021BA15C call (`pos = 15C(); v = v + 0x800;` then the call); the 3rd argument as `(short *)((char *)func_021BA170(f10) + 0x800)` inline with the callee prototype (short *, int, int, unsigned short) as in ov172_func_021B9044.c; a static inline wrapper `DrawWave(ctx, st, v + 0x800, func_021BA15C(f10))` holding the 9 and 0xC000. None moves `movs r2,#2` above `str r0,[sp]`.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

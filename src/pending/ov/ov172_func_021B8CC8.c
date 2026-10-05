@@ -60,6 +60,15 @@
  *   and CSEs 4 into r6 for the func_020450F0 pair; ours instead CSEs 0 into r7 for the 0xA4/0/8 stores and keeps
  *   group 2-4 first temps in r7. So the original 1-vreg won r7 over the group temps. Tried: one static inline
  *   helper for the whole group (mk(a, x, y, z, &rc, h)), same 417 bytes.
+ * note 2026-10-05 (wD6 lane05): still DIFF, 417 bytes. Root cause found: mwcc keeps one constant in r7 for the
+ *   join block, chosen by use count, and 0 has one use too many against 1. Probes (not fixes): deleting any ONE
+ *   zero store (for example p+0x80) makes 1 take r7 and the rest of the function (groups 2-5, all slot
+ *   layout, frame 0x50) match exactly; deleting rc.a/rc.b in group 5 also flips it. So the original source has
+ *   one fewer constant 0 (or one more constant 1) in the block after the 0x15/0x16 if/else. Tried with no
+ *   change: void * (NULL) types for the zero fields, chained zero stores (x = y = 0, same count), u32/u16 types
+ *   for the 1 parameters. A compound literal for the group-5 rect flips r7 but copies from a pool (worse).
+ *   Next: find which zero store is not a literal in the original (a field set from another value, a store
+ *   inside a callee, or a 1 hidden in a call argument).
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;

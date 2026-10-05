@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * blocker: ARM9 02048C4C is the non-C veneer ldr ip,[pc]; bx ip; .word 020307B0 (show 02048C4C..02048C58). All concrete bytes match, but the veneer call has no outside witness. Ilias owns ARM9; no overlay follower filed.
  * extent: lead ends 021856CC; unlabelled initialization follower 021856CC..02185728 is omitted while ARM9 blocks the caller.
  * symbols:

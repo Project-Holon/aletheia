@@ -8,6 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wave D6 lane 19): still DIFF, 36 bytes, r4/r6 swap (off vs t). Callees checked: 5450, 545C,
+ *   4B24/4B30 read r0 (and pass r1/r2 through, but the image sets none); 4E6C is variadic (push {r0-r3}),
+ *   a `...` prototype changes nothing. Tried: a real struct for the arrays at 0x84/0xA8/0xCC with
+ *   q->e[i] (no off local; same 36); off/t declared inside the loop body (same); the else arm of
+ *   func_021F4B24 as one ternary (worse: constant slots swap).
  * 2026-10-04 wave D3 lane 18: DIFF, same size (628 bytes), frame 0x6c and all slot offsets match.
  * Residue 1: t (call result of func_021F5450) is in r4 and i*4 in r6; original has t in r6 and i*4 in r4 (whole-body r4/r6 swap).
  * Residue 2: hoisted constants 0x80000, 0xA000, 0x14000 land in slots 0x20, 0x1c, ? instead of original 0x18, 0x20, 0x1c (original store order 0x80000, 0xA000, 0x14000).

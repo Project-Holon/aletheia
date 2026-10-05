@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note 2026-10-05 (wD6 lane14): 29 -> 2 bytes. The call result is kept as a
+ * plain index (pal = func_021F0C70(...)) and the table read is written inside the
+ * inner store: `(d_021F323C + v * 5)[pal] << 12`. LICM then hoists it after the
+ * loop init (x to ip, i=0 first), as in the original. Residue: `adds r0,r0,r4`
+ * (t.w[c] + o) comes out `adds r0,r4,r0`. Tried without gain: every operand order
+ * of t.w[c], o, j; unsigned o; o declared outside the loop (15); i << 5 inline
+ * (15); a tw pointer local; Tab assigned after declaration.
+ *
  * note 2026-10-05 (wD5 lane18): tried k = call result as a local with `for (i = 0, xx = x; ...)` and pal computed inside the outer body (LICM preheader order is what the original shows: x to ip, i=0, then v*5): 176 B, 116 differ, v spilled to [sp,#0x10]. xx/i before v (64), xx/i after v (67), still no gain. Residue unchanged: original schedules `ldr x; mov ip; i=0` before the v*5 arithmetic.
  *
  * 2026-10-04 (wD1 lane 11): 29 of 172 bytes differ, pure scheduling and
@@ -56,7 +64,7 @@ void func_021F1290(void *q, int a, int b, int c)
     buf = func_0204162C(4);
     func_021F0D14(a, b, &y, &x);
     v = d_021F31D4[c];
-    pal = (d_021F323C + v * 5)[func_021F0C70(q, v, a, b)];
+    pal = func_021F0C70(q, v, a, b);
     xx = x;
     for (i = 0; i < 4; i++) {
         int o = i * 32;
@@ -64,7 +72,7 @@ void func_021F1290(void *q, int a, int b, int c)
         yy = y;
         for (j = 0; j < 4; j++) {
             if (yy >= 0 && yy < 0x20)
-                row[yy] = (t.w[c] + o + j) | (pal << 12);
+                row[yy] = (t.w[c] + o + j) | ((d_021F323C + v * 5)[pal] << 12);
             yy++;
         }
         xx++;

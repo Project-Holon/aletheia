@@ -20,6 +20,11 @@
  *   function-scope pointer p shared with case 1, `r = 0` default then set 1, ternary with comma calls, the value read
  *   into `ret` (r0 holder), one pointer local shared with the case 4 strh base (r1 there), the case 2 body as a static
  *   inline `Finish(msg, ptr)` helper. None move it.
+ * 2026-10-05 (wD6 lane12): still DIFF, 2 bytes (case 2 `ldr r1,[r4,#0x10]; ldrh r0,[r1]`, ours r0/r0). For r1 the
+ *   pointer must interfere with a value in r0 there; nothing in our case 2 is live in r0 (ret is dead). Tried: the
+ *   *(msg+2) store written in each arm (rule 2), an inner switch on the halfword with case 4 / default, the
+ *   halfword read as `*(u16 *)*(u32 *)(ctx + 0x10)`, *msg in a local returned at the end (wrong logic, moves *msg to
+ *   r5 only). None move the pointer to r1.
  * symbols:
  *   func_02031330 0x02031330 arm
  *   func_02031348 0x02031348 arm

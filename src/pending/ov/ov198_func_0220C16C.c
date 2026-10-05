@@ -18,6 +18,10 @@
  *   (s16 x: no change; int x: 334 bytes), the helper on the third call only with int x (122), u8/int/s16 n (23-40),
  *   `y = x0 + n` before or after ctx3 (no change). The original treats the n reload as if it may alias the outgoing
  *   stack stores; ours hoists it above them.
+ * 2026-10-05 (wD6 lane07): still 22 bytes. Tried: the 02045770 result in a block local before the call, with and
+ *   without `y = x0 + n` and B3/A3 locals for the stack arguments placed after it (no change: the scheduler, not the
+ *   source order, places the n reload); volatile n (337); int prototype for x with (s16) casts (327). In the original
+ *   the n reload is not moved above the outgoing stack stores; ours is.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm

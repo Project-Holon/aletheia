@@ -45,6 +45,14 @@
  *   still miss the head, so the plain expressions stay.  Conclusion: every constant local is
  *   copy-propagated before allocation; the original holds 3 and 1 as live values, so their
  *   source is something not yet modelled (not a plain local, enum, register or inline param).
+ * note (2026-10-05, wave D6 lane 01): still DIFF, same residue. Checked the callee arities (rule 1):
+ *   func_0204044C(u32) and func_02046BE0(u32,u32) match the matched callers, so no hidden argument
+ *   explains r7/r4. func_0207D63C as (void *, int, int, int, int) (the common matched prototype): no
+ *   change to the tail r3 = r6. Reading: the original `movs r0,#3; movs r7,#3` and `movs r1,#1` beside
+ *   `movs r4,#1` look like one CSE'd constant (3 for the call and for 3<<14; 1 for the call and for
+ *   1<<16, 1<<12) that the allocator re-materialised for the argument copy; ours never CSEs them. The
+ *   matched func_02048A24 callers (ov103 021B7C68, ov131 021D46EC) pass literal shifts and do not show
+ *   this shape, so no witness for the source form yet.
  * symbols:
  *   func_02046440  0x02046440  arm
  *   func_0204044C  0x0204044C  arm

@@ -53,6 +53,11 @@
  * allocator rematerialises as 1), not a literal (a literal store follows its movs at once).
  * Tried: u32 found = 1 (5 lines), found = 1 before the unseen store with the raw e+0x1e8 store
  * (276), found = (match == 1) (314), found = !diff (folds to the literal, 5 lines).
+ * 2026-10-05 (wave D6 lane 12): DIFF, still 2 bytes. Reading: with the literal the movs r0,#1 is already at
+ *   +016C as in the original; only the found store moves above the unseen store. So the original store had a late
+ *   operand at scheduling time (a copy of a variable that was later rematerialised as 1). Tried: `int one = 1;` at
+ *   function top with found = one (propagated, 10 bytes), the same with an enum-typed one (10 bytes), found as an
+ *   enum-typed local with found = 1 (10 bytes), found = 1 before the struct unseen store (542 bytes).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

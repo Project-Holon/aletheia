@@ -32,6 +32,11 @@
  *   at the 02008550 join (0 r7->r4, 0x544 r4->r7) and spills the 0x7FC derivation chain to
  *   [sp,#0x18]; ours keeps 0x7FC in r7 and rematerialises 0x544 at each use. A spill-priority
  *   residue; the source shape that changes it is not found.
+ * note 2026-10-05 (wave D6 lane 14): still DIFF (1037 bytes). New reading: the original keeps the
+ *   0x544 CSE in r7 from 0xA4 to the end (it also derives 0x55C/0x564/0x570 from it) and spills the second
+ *   handle `a` to [sp,#0x10]; ours gives r7 to the 0x7FC chain and then to `a`, and reloads 0x544 at each
+ *   use. Tried without change: `a` declared last, a temp for the 020275E4 id, a struct array field for
+ *   0x7FC..0x808, a struct field for the heap id (all 1037 bytes, identical output).
  * symbols:
  *   func_021B8F98  0x021B8F98  thumb  ov070
  *   func_021B9178  0x021B9178  thumb  ov070

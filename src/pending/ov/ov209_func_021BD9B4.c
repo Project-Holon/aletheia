@@ -8,6 +8,18 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wave D6 lane18): DIFF (476 vs 500, 307 bytes differ, was 357). Body now uses a real struct
+ *   (int a[0x24] at 0xB64, b[6] at 0xBF4, c[6] at 0xC0C), as in the matched sibling ov210 021BEEC4: group 1 now
+ *   matches the image (0x6b in r7, h r4, 0xBF0 spilled to [sp,#8]) except one swapped pair (str r7,[sp] /
+ *   movs r6,#0). Open: group 2. The image hoists p+0xB64 ([sp,#4]), 0xBF4 ([sp,#0xc]) and 0xC0C ([sp,#8])
+ *   derived from the spilled 0xBF0 before the first 16-loop, and 0xBA4 (pool), +0x54, +0x6c before the second;
+ *   ours computes them after the loops. An `arr = p->a` pointer local (function scope or block-local per
+ *   loop) brings back the old group-1 residue (0xBF0 in r4, 0x6b rematerialised, 357). A 2-D row layout
+ *   `int a[2][16]; int e[4];` gives the same 307 output.
+ *   Earlier attempt this lane: moved `z = i = 0;` to just after the first func_020490F4
+ *   call: movs r6,#0 lands in the group-1 call setup as in the image, but 0x6b is still rematerialised and
+ *   0xBF0 stays in r4 (h r7). Same family as ov210 021BC5DC: the image gives the heap-id constant a
+ *   callee-saved register and drops another CSE candidate (here 0xBF0 is spilled to [sp,#8]).
  * note (2026-10-04, wave D3 lane 17): DIFF. Structure and all callees/constants decoded
  *   (3 init loops of -1 at p+0xB64 x0x24, p+0xBF4 x6, p+0xC0C x6; handle 0x9f group; handle 7
  *   group with two 16-iteration loops at p+0xB64 and p+0xBA4; handle func_020275E4 group).
@@ -75,46 +87,44 @@ extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 
-void func_021BD9B4(u8 *p)
+struct R { u8 pad[0xB64]; int a[0x24]; int b[6]; int c[6]; };
+void func_021BD9B4(struct R *p)
 {
     int h, h2, h3;
     u32 i;
     u32 k;
     u32 z;
     u32 a;
-    int *arr;
 
-    for (k = 0; k < 0x24; k++) *(int *)(p + k * 4 + 0xB64) = -1;
-    for (k = 0; k < 6; k++) *(int *)(p + k * 4 + 0xBF4) = -1;
-    for (k = 0; k < 6; k++) *(int *)(p + k * 4 + 0xC0C) = -1;
+    for (k = 0; k < 0x24; k++) p->a[k] = -1;
+    for (k = 0; k < 6; k++) p->b[k] = -1;
+    for (k = 0; k < 6; k++) p->c[k] = -1;
 
     h = func_020490F4(0x9f, 0x806B);
-    *(int *)(p + 0xBF0) = func_0204A6C8(h, 0x37, 0, 0, 0x6b);
-    *(int *)(p + 0xC08) = func_0204ABF0(h, 0x33, 0, 0, 0x6b);
-    *(int *)(p + 0xC20) = func_0204AF28(h, 0x3d, 0x47, 0x6b);
+    z = i = 0;
+    p->a[0x23] = func_0204A6C8(h, 0x37, 0, 0, 0x6b);
+    p->b[5] = func_0204ABF0(h, 0x33, 0, 0, 0x6b);
+    p->c[5] = func_0204AF28(h, 0x3d, 0x47, 0x6b);
     func_02049238(h);
 
-    z = i = 0;
     h2 = func_020490F4(7, 0x806B);
-    arr = (int *)(p + 0xB64);
     for (; i < 0x10; i++)
-        arr[i] = func_0204A6C8(h2, func_0201BABC(z, z, z, z), z, z, 0x6b);
-    *(int *)(p + 0xBF4) = func_0204ACEC(h2, func_0201BC3C(), z, 0x80, 0x6b);
+        p->a[i] = func_0204A6C8(h2, func_0201BABC(z, z, z, z), z, z, 0x6b);
+    p->b[0] = func_0204ACEC(h2, func_0201BC3C(), z, 0x80, 0x6b);
     a = func_0201BC40();
-    *(int *)(p + 0xC0C) = func_0204AF28(h2, a, func_0201BCB4(), 0x6b);
+    p->c[0] = func_0204AF28(h2, a, func_0201BCB4(), 0x6b);
 
-    arr = (int *)(p + 0xBA4);
     for (i = 0; i < 0x10; i++)
-        arr[i] = func_0204A6C8(h2, func_0201BABC(0, 0, 0, 0), 0, 1, 0x6b);
-    *(int *)(p + 0xBF8) = func_0204ACEC(h2, func_0201BC3C(), 1, 0, 0x6b);
+        p->a[i + 0x10] = func_0204A6C8(h2, func_0201BABC(0, 0, 0, 0), 0, 1, 0x6b);
+    p->b[1] = func_0204ACEC(h2, func_0201BC3C(), 1, 0, 0x6b);
     a = func_0201BC78();
-    *(int *)(p + 0xC10) = func_0204AF28(h2, a, func_0201BCEC(), 0x6b);
+    p->c[1] = func_0204AF28(h2, a, func_0201BCEC(), 0x6b);
     func_02049238(h2);
 
     h3 = func_020490F4(func_020275E4(), 0x806B);
-    *(int *)(p + 0xBEC) = func_0204A6C8(h3, func_02027618(), 0, 0, 0x6b);
-    *(int *)(p + 0xC04) = func_0204ABF0(h3, func_02027614(), 0, 0xe0, 0x6b);
+    p->a[0x22] = func_0204A6C8(h3, func_02027618(), 0, 0, 0x6b);
+    p->b[4] = func_0204ABF0(h3, func_02027614(), 0, 0xe0, 0x6b);
     a = func_0202761C(2);
-    *(int *)(p + 0xC1C) = func_0204AF28(h3, a, func_02027620(2), 0x6b);
+    p->c[4] = func_0204AF28(h3, a, func_02027620(2), 0x6b);
     func_02049238(h3);
 }

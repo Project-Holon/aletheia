@@ -29,6 +29,13 @@
  *   0xd and -128 instead of v (hoist stays), int types for the register zero params, int types for the
  *   stack zero params (no change, so the zero CSE is not split by parameter type). Untried: a source shape
  *   that keeps r7 busy (a value live from the start to the 0xd call) so the 4 cannot take a register.
+ * 2026-10-05 (wave D6 lane 09): DIFF, residue unchanged (movs r7,#4 hoist, then adds rN,r6 zero copies).
+ *   New finding: the switch from fresh movs to register copies is a call count, not a position: with
+ *   calls 2..4 deleted the copies still start at the 8th 02049xxx call, and with H replaced by a
+ *   constant or the tail after 02041EE4 deleted they also start at the 8th call. Tried: void * type for
+ *   the r3 zero parameter of the three loaders, every loader call wrapped in do { } while (0), one
+ *   static inline helper holding calls 2..12 (all no change). The original never copies a constant into
+ *   an argument register over about 25 calls, so its zeros for r2/r3 are not one value with the r6 zero.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

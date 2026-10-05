@@ -16,6 +16,7 @@
  *   spills y0 to [sp,#8] early. Tried: u8 vs one-field struct stack params, struct x0, ternary max,
  *   declaration order of accumulators, u8 callee params. None changed the allocation.
  * 2026-10-05 (wD5 lane20): 131 -> 27 bytes. Levers: y0 and y1 copied into locals `by = y1; ay = y0;` assigned AFTER the dx abs (original keeps y1 in r4, y0 in r5 across the float calls; declare ay before by, assign by first), and the loop-invariant read of the stack u8 `*(u8 *)&y0` written inline in the loop call so it hoists after the n>0 guard. Declaring stepy before stepx gives 27. Residue: (1) x0 is a pure memory spill in the original (str r3,[sp,#4] first, x0 reloaded at every use: `ldr r0,[sp,#4]` before `subs r2,r0,r1`); ours copies r3 to r1 first, so dx and d use r1/r0 swapped; (2) spill slot order of stepx/stepy/hoisted y temp (original 0x10/0xc/8, ours 8/0xc/0x10). Not tried: anything that forces x0 into memory without an address-taking cast.
+ * note 2026-10-05 (wD6 lane06): 27 -> 13 bytes. Levers: x0 typed u8 (the image spills it whole and reloads it at each use; int x0 is copied to r1 first), abs written as a static inline ternary `a < 0 ? -a : a` (sets x1 in r1 and the dy temp in r0 as in the image; the if-negate form does not), and the y0 read placed before the loop body inside an explicit `if (n > 0)` guard with a do/while (fixes the stepx/stepy/yb slot order 0x10/0xc/8). Residue: only the entry spill order: image `str r3,[sp,#4]; ldr r0,[sp,#0x34]; str r2,[sp]; str r0,[sp,#0x34]`, ours `ldr r0,[sp,#0x34]; str r3,[sp,#4]; str r0,[sp,#0x34]` with `str r2,[sp]` sunk below the x0 reload. Tried without effect: x0 as u16/s8/short, p as void *, value u32, for-in-if loop (worse), plain y0 instead of the ay/by copies (worse).
  * symbols:
  *   func_021B9B88 0x021B9B88 thumb ov172
  *   func_0209BDBC 0x0209BDBC arm
@@ -34,20 +35,21 @@ extern int func_0209C494(int a);
 extern int func_0209C0A4(int a, int b);
 extern void func_021B9B88(u8 *p, u8 x, u8 y, int value);
 
-void func_021B9AB8(int a0, int a1, u8 *p, int x0, u8 y0, u8 x1, u8 y1, int value)
+static inline int Abs(int a)
 {
-    int dx = x0 - x1;
+    return a < 0 ? -a : a;
+}
+
+void func_021B9AB8(int a0, int a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, int value)
+{
+    int stepx, stepy;
+    int dx = Abs(x0 - x1);
     int dy;
     int n, i;
-    int stepy, stepx;
     int accx, accy;
     int d, r;
-    int yb; int ay; int by;
-    if (dx < 0)
-        dx = -dx;
-    by = y1; ay = y0; dy = ay - by;
-    if (dy < 0)
-        dy = -dy;
+    int ay; int by; int yb;
+    by = y1; ay = y0; dy = Abs(ay - by);
     if (dx <= dy)
         dx = dy;
     n = dx + 1;
@@ -65,10 +67,14 @@ void func_021B9AB8(int a0, int a1, u8 *p, int x0, u8 y0, u8 x1, u8 y1, int value
     stepy = func_0209C0A4(func_0209C494(r), n);
     accx = 0;
     accy = 0;
-    for (i = 0; i < n; i++) {
+    i = 0;
+    if (n > 0) {
         yb = *(u8 *)&y0;
-        func_021B9B88(p, x0 + (accx >> 12), yb + (accy >> 12), value);
-        accx += stepx;
-        accy += stepy;
+        do {
+            func_021B9B88(p, x0 + (accx >> 12), yb + (accy >> 12), value);
+            accx += stepx;
+            accy += stepy;
+            i++;
+        } while (i < n);
     }
 }

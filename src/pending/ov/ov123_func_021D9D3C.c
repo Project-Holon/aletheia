@@ -25,6 +25,11 @@
  *   (same), int params on func_02049658 (same). Also the later i = 0 store comes out as a
  *   copy of j ([sp,#0x18]); the original stores a literal 0, so the original compiler did not
  *   treat j as the constant 0 after the calls.
+ * note-2026-10-05 (wD6 lane17): still DIFF, same residue. Checked all callee prototypes against matched
+ *   callers (02049B68/02049658/020498F4 as used, 02082BCC (void *, int, int)): no missing or extra argument.
+ *   The original keeps every outer-loop local in memory ([sp,#0x14] i, 0x18 j, 0x1c k, 0x20 done) and
+ *   loads the stack-argument zeros from j's slot, so j = 0 before the eight calls is right. Open: why the
+ *   original does not CSE the four 3s into the free r5.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

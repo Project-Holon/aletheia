@@ -8,6 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD6 lane16): still DIFF 17 bytes. Tried: static inline wrappers W(a, t, v, h) and W(h, a, t, v) calling
+ *   f(a, t, v, v, h); Add(p, t, id) reading p inside; `v = d[i]` as the third argument with v as the fourth; a block
+ *   with u16 h then u32 v locals. All keep the table load (CSE temp) before the stack argument.
  * 2026-10-05 (wD4 lane19): still DIFF 17 bytes, no new hypothesis beyond the 2026-10-04 notes closed it.
  * note 2026-10-04: DIFF, 17 bytes, loop body only. Original loads the u16 stack argument ((u16)*p) first,
  *   then the table pool address into r2 and indexes in r2; here the table base goes to r0 and the table

@@ -35,6 +35,11 @@
  *   in a local, D3 lever); case 5 zero-inits pos through `add r1,sp,#0x94` (block-local {0,0,0} form) and
  *   shares 0x8000 in r1; case 6 holds the stack-argument 0 in r7 and reuses r4/r5 (w and state dead);
  *   cases 3, 4, 5 each spill their own r/i value to 0x30, 0x34, 0x38; case 2 spills b0 to [sp,#8].
+ * note (2026-10-05, wD6 lane 11): still DIFF (1271 concrete bytes, 1644 vs 1632). Frame layout of the image decoded:
+ *   fin 0x40, path 0x58, start 0x70, end 0x7C, base 0x88, pos 0x94, req 0xA0 (all match ours); spill area 0..0x3C
+ *   (case5 r 0x38, case4 r 0x34, case3 i4 0x30, i1 0x2C, ctx 0x28, s 0x24, row 0x20, case2 r 0x1C, sel 0x14, i1+1 0x10,
+ *   r*2 0xC, case2 b0 8). The tail holds b0 in r5 (state dead) and &base in r7. Tried: s and ctx as a two-element
+ *   array h[2] (scalar-replaced, no change), volatile s (1620 bytes, worse). Residue unchanged: s owns r7 in ours.
  *
  * symbols:
  *   func_021F3F18  0x021F3F18  thumb  ov041

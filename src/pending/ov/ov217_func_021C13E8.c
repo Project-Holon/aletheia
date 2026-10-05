@@ -26,6 +26,11 @@
  * Note 2026-10-04 (wD1 lane06): Not retried (GX FIFO address spills, needs a long pass).
  *
  * note 2026-10-05 (wD4 lane13): read p->c.x and p->c.y once into s16 locals px/py (original loads each once and reuses them for the vertex word): size now 244 bytes, equal to the original. Residue: allocator choice. Original spills i and n to the stack ([sp,#4], [sp]) and keeps the call result e in r7, p in r5, GX vertex address in r4, r>>12 in r6; ours keeps i in r7 and spills e. Five declaration orders of b/r/e/n/i give the same code.
+ * 2026-10-05 (wD6 lane17): still DIFF 198 B. Callee definitions checked (021C1AB4(p, u32 n),
+ *   021C1B28(u8 *, u8 *, u8 *), no hidden arguments). Tried the sibling 021C18F8 `struct Range { u8 max, min; }`
+ *   for b: same. New finding: the pool order differs (the original references 0x040004A4 before 0x001F00C0
+ *   and spills r to [sp,#8] at once), so in the original r is a memory-resident variable from the start;
+ *   in ours the address constant stays in r0 for the derived values.
  */
 
 typedef unsigned char u8;

@@ -18,6 +18,13 @@
  * note 2026-10-05 (D4-14): still DIFF (81 bytes). Tried: d <<= 2 reuse so the d*4 shift is in place (lsls r7,r7,#2 in the original), t as int, t declared after r.
  *   All three compile identically to before (t in r7, d reloaded from [sp,#0x30]). Original loads d into r7 as the first instruction and spills t to [sp,#0x18].
  *
+ * note 2026-10-05 (wD6 lane15): still DIFF 81 bytes. Tried: the first three calls in a static inline
+ *   helper with t as its parameter; the ternary as an if/else idx local; the 02045CAC call written in each
+ *   arm (76 bytes, still t in r7); r passed as the 4th argument of the first 021B6AE4 call. Callee check:
+ *   02045CAC, 0201F250, 0201D2C8 read no extra argument registers. Caller func_021B9C8C passes its u32 a as
+ *   d, so d is a word. The residue is one spill choice (image spills t, keeps d in r7; ours spills d into
+ *   its incoming slot and keeps t in r7).
+ *
  * symbols:
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EFA4 0x0201EFA4 thumb

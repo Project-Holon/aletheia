@@ -7,6 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wave D6 lane18): DIFF 67. New reading: r7 is 0x807B only until the second open; after
+ *   func_02049740 r7 is `base` (the loop uses (u16)r7). In region 1 the image CSEs only the stack-argument
+ *   constants (0x7B r4, 0 r5) and 0x807B (pool); ours CSEs 4 (three register uses) into r7, and then all
+ *   register zeros are copies of r5. The sibling ov209 021BC574 (all literals, one 4 in region 1) keeps
+ *   immediates. Tried: func_020490F4 heap as u32 and int (67); `for (i = 0; ...)` with i uninitialised (86,
+ *   r5 zero still copied into register arguments).
  * 2026-10-05 (wD5 lane14): still DIFF 67. Reading: r5 is the loop counter i (0) and the image
  *   stores it for stack zeros, but uses immediates for register zeros and 4s; r7 holds 0x807B. Tried:
  *   `u32 heap = 0x807B;` local, the whole body as a static inline helper with a heap parameter, i = 0

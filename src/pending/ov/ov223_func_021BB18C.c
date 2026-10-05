@@ -9,6 +9,8 @@
  * isa: thumb
  * status: DIFF
  *
+ * note: 2026-10-05 (wD6 lane13): DIFF 13 bytes, size now 232 (was 224). off is an enum-typed local: off = k; off = off + 0xC; this keeps the image copy, add and two stores to the spill slot. Residue: stack slots only (image x 0xC, words 0x10, text 0x14, off 0x18; ours off 0xC, x 0x10, words 0x14, text 0x18). Declaration order does not move them. Hypothesis: in the image 0x24C is a compiler-derived temp from 0x240 (temps take the last slot), so the source has a plain 0x24C literal; the plain literal form here (224 B) does not derive it. If the enum type is judged a stand-in, revert to the literal form.
+ *
  * note: 2026-10-05 (wD5 lane17): not changed. Re-read: the image stores a copy of 0x240 to [sp,#0x18], adds 0xC and stores again, so off is a non-foldable variable; every k/off spelling tried so far folds it. No new compile beat 224 bytes.
  * note 2026-10-04: DIFF, 8 bytes short. Original computes the offset 0x24C early as an integer (r4=0x240; r0=r4+0xc spilled to
  *   [sp,#0x18], reloaded for the final `str r6,[r5,r0]`) and keeps r4 as shared 0x240 (0x234 = r4-0xc). Constant-folded here whatever
@@ -70,12 +72,19 @@ extern void func_0201C724(void *, unsigned, unsigned, unsigned, unsigned, unsign
 extern int func_021BAF48(char *);
 void func_021BB18C(char *p, int idx)
 {
-    unsigned k = 0x240;
-    unsigned off = k + 0xC;
-    struct Descriptor *desc = *(struct Descriptor **)(p + k);
-    u16 x = 0;
-    void *words = func_0201EC64(*(u16 *)p);
-    void *text = func_02045EC0(*(struct MsgBank **)(p + k - 0xC), d_021BC730[idx]);
+    int k;
+    enum Off { OFF_0 } off;
+    struct Descriptor *desc;
+    u16 x;
+    void *words;
+    void *text;
+    k = 0x240;
+    off = k;
+    off = off + 0xC;
+    desc = *(struct Descriptor **)(p + k);
+    x = 0;
+    words = func_0201EC64(*(u16 *)p);
+    text = func_02045EC0(*(struct MsgBank **)(p + k - 0xC), d_021BC730[idx]);
     struct StrObj *buf = func_020457B0(0x40, *(u16 *)p);
     u16 height;
     unsigned h;

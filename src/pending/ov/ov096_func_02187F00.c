@@ -12,6 +12,12 @@
  * note: 2026-10-04 Residue: one scheduling difference. Original loads the 0x1D9 tag pool word (ldr r0,[pc]) after 'ldr r5,[sp,#0x20]' and before the site-string ldr; ours loads it first. Everything else is byte-identical (176 bytes, same pool). Tried: decimal tag, u16 tag local, copy of heap.
  * note: 2026-10-05 (wD4 lane20): re-tested with a u32 heap copy local (h = heap) passed as the first argument; same 14 bytes, the 0x1D9 pool load still hoisted above the parameter spills. Residue unchanged: tag ldr r0 order only.
  * 2026-10-05 (wD5 lane20): tried the callee tag parameter as int and the clear/tag parameters as u32 (same 14 bytes, the 0x1D9 pool load stays first). The image order is spills, ldr r5 (heap), tag pool word, site pool word; ours emits the tag pool load before the spills.
+ * 2026-10-05 (wD6 lane15): still DIFF 14 bytes (tag pool load hoisted to +0006). Tried: alloc in a
+ *   static inline helper (heap only, and heap/size/site/line parameters), int heap, a block-local heap copy:
+ *   same 14. Test only: d as u16 pins the d home store first (12 bytes, tag then lands after str r3);
+ *   c u16 pins str r2 to the very front. Not adopted: the ov093 caller (021CD87E) passes an int
+ *   (func_021B9FBC result) for d, so the parameter is word. The image order a, d, b, c, heap, tag, site
+ *   looks like an unscheduled prologue; no source form found that keeps the tag load below the heap load.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm

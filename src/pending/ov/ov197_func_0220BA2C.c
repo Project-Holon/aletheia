@@ -8,6 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD6 lane17): 48 -> 5 bytes. Second loop closed by writing the store in each arm
+ *   (`if (v == 0) p[i+0x539] = 0; else p[i+0x539] = (v-1)/6;`, the join lever): 0x539 now takes r7 and
+ *   0x535 is spilled, as in the original. Prologue closed by `i = 0;` after the func_02048F60 call.
+ *   Residue: first loop only, `ldrb r0,[q,r7]; adds r4,p,r4` (idx*4 in r0, p + c*0x90 in r4) versus ours
+ *   `adds r0,p,r4; ldrb r4,[q,r7]`. Tried: idx*4 first in the sum, `e += idx*4`, an int idx local read
+ *   first, u16 * element form, Ent row/2D struct arrays (worse, 244-252 B).
  * 2026-10-05 (wD5 lane19): still DIFF 48 B. Tried: `q[0x535] * 4 + (p + c * 0x90)` and `(q[0x535] * 4) + p + c * 0x90` for the first-loop add order (no change / worse), `int o = 0x539` with p[i + o - 4], `int o = 0x535` with p[i + o + 4], base pointer b = p + 0x539 with b[i - 4]: all give the same 48 B or worse. Orig second loop: r7 = 0x539 pool word, 0x535 = r7 - 4 spilled to [sp,#0x14] and reloaded.
  *
  * 2026-10-04 (wave D2 lane 14): DIFF, 48 bytes, shape right. Done: u8 pointers (blo, ldrb), r and the
@@ -43,8 +49,8 @@ void func_0220BA2C(u8 *p)
     u16 *r;
     u32 i, j, k;
 
-    i = 0;
     tbl = func_02048F60(0xE8, 0, *(u16 *)(*(u8 **)p + 0xC));
+    i = 0;
     do {
         j = 0;
         for (;;) {
@@ -71,9 +77,11 @@ void func_0220BA2C(u8 *p)
     func_020307B0(tbl);
     for (i = 0; i < 4; i++) {
         u8 v = p[i + 0x535];
-        int n = (v == 0) ? 0 : (v - 1) / 6;
         u8 *s;
-        p[i + 0x539] = n;
+        if (v == 0)
+            p[i + 0x539] = 0;
+        else
+            p[i + 0x539] = (v - 1) / 6;
         s = *(u8 **)p + i * 2;
         if (p[i + 0x539] < *(s16 *)(s + 0x38))
             *(s16 *)(s + 0x38) = p[i + 0x539];

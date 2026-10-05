@@ -8,6 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note (2026-10-05, wD6 lane16): still DIFF (357, 408 vs 404). Tried: one static inline K(p, k, m) for all five key
+ *   tests (295, worse: frame changes); `if (a & 1) {body} if (W & 1) {body}` and the else-if form (444); `!= 0` tests (same);
+ *   a mask variable m = 1 reused for both masks and m << 9 (propagated, same). Reading: r4 = 1 in the image survives to
+ *   the 0x200 block (lsls r0,r4,#9), so only the W(0xC320) load register (r1 vs r4) differs.
  * note (2026-10-04, wave D3 lane 17): DIFF, size 404 matches, no relocations. Semantics decoded
  *   from the listing: p+0xC2F4 / +0xC2F8 are x / y (short in a word), +0xC31C u16 mode,
  *   +0xC30C u16 toggle, +0xC320 key word, +0xC330 / +0xC334 stick words, step d0/d1 by

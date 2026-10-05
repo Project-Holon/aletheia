@@ -12,6 +12,16 @@
  * note (2026-10-04): DIFF. Logic and all calls/relocations resolve; residue is the two ms-wait loops. Original hoists 0x40 (r7) and zero (r4) out of the loop and builds 1000 (movs 0xfa; lsls #2) after the first _ull_mul; ours hoists the 1000 constant instead (movs r7,#0xfa). Tried a single *64000-style expression (folds to one mul) and a static inline ms() with m=t*64; m*=1000. Data externs d_02180A20 (struct {int; u8 *f4; u8 *f8}), d_02180A30 (u8), d_02180A00 (u16) assumed from pool words.
  *
  * 2026-10-05 (wD5 lane20): tried u64 k = 64 as a function local and as a file-level static const u64 k, with m = diff * k; m = m * 1000 as separate statements inside a do/while: still strength-reduced to lsls/lsrs #6 shifts. The 64 is not kept as a run-time _ull_mul operand by any local or static form tried.
+ * 2026-10-05 (wD6 lane12): 62 -> 20 bytes, size now 228 = original. Two levers: (1) the 64 is an enum-typed
+ *   local (`enum { K64 = 64 } k; k = 64;`, used as `d * (u32)k * 1000 / 33514` in a do/while on `d = now - start`):
+ *   the enum defeats folding, so _ull_mul gets (0x40, 0) from hoisted registers as in the original; the (u32) is a
+ *   real conversion (signed enum to unsigned, else asrs for the high word). (2) The extra pool word at +0xE0 is a
+ *   second extern name for 0x02180A20 (d_02180A20_b) used by the two calls; the field stores use d_02180A20.
+ *   Residue: the original shares ONE hoisted zero (r4) for the k high word and the 1000 / 33514 high words
+ *   (`adds r3,r4`); ours hoists the k high zero alone and uses `movs r3,#0` for the others, so colours differ
+ *   (orig start r6/r5, k r7, zero r4; ours start r7/r5, k r4, zero r6). Tried: k = 64 inside the loop, separate
+ *   `d *= ...` statements, `((u64)k & 0xFFFFFFFF)` (252 bytes), enum with a 0x80000000 member (still int, asrs),
+ *   u32/u64/const u64/one-field struct locals (all fold to 64000).
  * symbols:
  *   _ull_mul  0x0209C054  arm
  *   _ll_udiv  0x0209C00C  arm
@@ -25,6 +35,7 @@
  *   func_02180924  0x02180924  thumb  ov231
  *   func_02180984  0x02180984  thumb  ov231
  *   d_02180A20  0x02180A20  data  a4
+ *   d_02180A20_b  0x02180A20  data  a4
  *   d_02180A30  0x02180A30  data  a1
  *   d_02180A00  0x02180A00  data  a2
  *
@@ -37,6 +48,7 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {
     int f0;
@@ -44,6 +56,7 @@ typedef struct {
     u8 *f8;
 } Buf;
 extern Buf d_02180A20;
+extern Buf d_02180A20_b;
 extern u8 d_02180A30;
 extern u16 d_02180A00;
 extern u64 func_020870D0(void);
@@ -56,17 +69,13 @@ extern void func_02180914(u16 v);
 extern u8 func_02180924(Buf *b);
 extern void func_02180984(Buf *b);
 
-static inline u64 ms(u64 t)
-{
-    u64 m = t * 64;
-    m *= 1000;
-    return m / 33514;
-}
 
 u8 func_02180820(void)
 {
     u8 result;
     u64 start;
+    u64 d;
+    enum { K64 = 64 } k;
 
     d_02180A20.f4 = &d_02180A30;
     d_02180A20.f8 = &result;
@@ -74,16 +83,20 @@ u8 func_02180820(void)
     func_02075E9C(d_02180A00);
     func_02084DF4(d_02180A00);
     start = func_020870D0();
-    while (ms(func_020870D0() - start) < 60)
-        ;
+    k = 64;
+    do {
+        d = func_020870D0() - start;
+    } while (d * (u32)k * 1000 / 33514 < 60);
     func_02180904();
     func_02180914(0x42);
-    result = func_02180924(&d_02180A20);
+    result = func_02180924(&d_02180A20_b);
     start = func_020870D0();
-    while (ms(func_020870D0() - start) < 60)
-        ;
+    k = 64;
+    do {
+        d = func_020870D0() - start;
+    } while (d * (u32)k * 1000 / 33514 < 60);
     func_02180914(2);
-    func_02180984(&d_02180A20);
+    func_02180984(&d_02180A20_b);
     func_02180904();
     func_02084E2C(d_02180A00);
     func_02075EAC(d_02180A00);
