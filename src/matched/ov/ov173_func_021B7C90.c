@@ -7,26 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * residual: 272/272 bytes, 37 concrete bytes differ; only p/row colour swap (original row r4, p r5; build p r4, row r5).
- * 2026-10-05 (wave P8 W10): sibling ov173 021B7DA0 (same menu, char *p, int i) gets i r4, p r5 with
- *   the same S() macro shape, so the swap comes from the top call EB0(p,0): with that call removed the build gives
- *   row r4, p r5. Tried: 7DA0 shape (char *p, S macro), plain literal -2 instead of the zero local
- *   (same 37 B, so the local is dropped), six per-function pragmas (opt_lifetimes, propagation,
- *   common_subs, dead_assignments, scheduling, peephole: all 37 B), final call 7ADC repeated in each arm
- *   (no tail merge, 312 B). Idioms read: a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off,
- *   two-long-lived-values-in-each-others-registers, a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie,
- *   a-later-parameters-width-reorders-the-entry-spill-stores, a-no-code-self-assignment-reorders-the-register-colouring
- *   (none applies). Callee arity: EB0 (p,int) void, 7ADC takes (p,u8,3) as in 7DA0; no void-return problem.
- * recoup 2026-10-05 (R6): all 37 B, none closes it. Tried: 7ADC prototype (u8*,u32,int) (54 B, the original does
- *   truncate row with lsls/lsrs 0x18 at the call, so keep u8); row param u8 (55 B, 268 B size), u16 (38 B), unsigned (38 B),
- *   short and int-returning EB0 (37 B); row copied to a local, p copied to a local for the first call, p as u8 *, up local
- *   (all propagate, 37 B); EB0 call through a static inline helper (37 B); compare computed before the call (37 B);
- *   u8 sel local at the final call, (u8)row cast at the call (37 B); opt_strength_reduction off (37 B). Twin search:
- *   grep of func_021B7EB0, func_021B7ADC, func_021B7FD0 callers in src/matched/ov: only 7DA0 (no top call) and
- *   ov173 6348/8110/68C8 (different shape); the ov021 file at this address is another function.
- *   Idioms read: two-long-lived-values-in-each-others-registers (its tests: extra row use after last p use would
- *   fix it, not reachable here), plus the five listed above.
+ * status: EXACT
+ * note 2026-10-05 (final push G7L6): the row=3 in the old==3 arm is written as the call argument,
+ *   func_020260E4(obj, row=3). As a separate statement before the call the colours of p and row swap
+ *   (37 B); the argument form keeps the def of row after the p+0x1C8 load, as the original does.
  * symbols:
  *   func_021B7EB0 0x021B7EB0 thumb ov173
  *   func_020061E4 0x020061E4 thumb
@@ -63,8 +47,7 @@ void func_021B7C90(char *p,int row,int old)
     } else if(row==6) {
         if(old==3 && *(u16 *)(S(p)+0x16)+4<*(u8 *)(p+0x1B8)) {
             func_020061E4(0x54C);
-            func_020260E4(*(void **)(p+0x1C8),3);
-            row=3;
+            func_020260E4(*(void **)(p+0x1C8),row=3);
             (*(u16 *)(S(p)+0x16))++;
             func_021B70D8(p);
             func_021B71C4(p,func_021B7438((char **)p));
