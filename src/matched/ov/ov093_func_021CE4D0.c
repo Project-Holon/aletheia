@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * note 2026-10-05 (wave P26 lane 2): byte-identical to the original except that two call
  * relocations have no witness in the current index: func_021E979C and func_021E9954. Both
  * leaves are now filed (src/matched/ov/ov093_func_021E979C.c, ov093_func_021E9954.c, EXACT);
