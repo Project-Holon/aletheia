@@ -6,18 +6,14 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * lang: c99
- * residue: 8 of 168 bytes differ. Size equal. Only the order differs: the original has
- *   movs r0,#0x61; str r3,[sp,#0x10]; adds r7,r1,#0; str r2,[sp,#0xc]; ldr r5,[sp,#0x28]; lsls r0,r0,#2; str r0,[sp]
- *   and the build puts `lsls r0,r0,#2` right after the `movs`.
- * recoup 2026-10-05 (lane C8, wave P14): 0203101C declared (u32,u32,u32,u32) and heap u32 (the old u16 form
- *   added a shift pair, 164 B off): 168 B, 8 B off. Same 8 B with: direct call instead of inline helper,
- *   int heap, u32 a, u16 or int line local, u32 line parameter of 02030734, heap copied to a local, local
- *   order p/q swapped, pragmas scheduling, peephole, opt_propagation, opt_lifetimes, opt_common_subs,
- *   opt_dead_assignments off. c/d copied to locals: 148 B off. u8 a: 120 B off. Const c/d: compile error.
- *   Callee return types (matched definitions): 02030734 void*, 0203101C void*, 020450F0 u32, 020457B0 void*,
- *   02045730 int in most callers (u8 here, unchanged), 02045770 void*. No void-return problem.
+ * lever: final push 2026-10-05 G3L5. heap is a u16 parameter and every heap-taking callee
+ *   (func_02030734 first parameter, func_020457B0 second, func_0203101C first two) declares it u16.
+ *   The stack heap then loads as a word and the entry block keeps the original order
+ *   (lsls of the line constant after the heap load). See
+ *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
+ *   Twin: ov177 func_021E8568.
  *
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -37,9 +33,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_021DFBA0[];
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void func_02082BCC(void *, int, u32);
-extern void *func_020457B0(u32, u32);
+extern void *func_020457B0(u32, u16);
 extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void *func_02045770(void *);
 extern void func_02043B5C(void *, u8);
@@ -47,12 +43,12 @@ extern void func_02045334(void *);
 extern void func_02045374(void *);
 extern u8 func_02045730(void *);
 extern void func_020409B4(u32);
-extern void *func_0203101C(u32, u32, u32, u32);
-static inline void *allocate(u32 heap, u32 size, const char *site, u16 line)
+extern void *func_0203101C(u16, u16, u32, u32);
+static inline void *allocate(u16 heap, u32 size, const char *site, u16 line)
 {
     return func_02030734(heap, size, 0, site, line);
 }
-void *func_021D9CA4(int a, u8 b, void *c, void *d, u32 heap)
+void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
     void *q;
