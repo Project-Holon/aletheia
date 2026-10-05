@@ -25,6 +25,13 @@
  * a-clamp-with-both-stores-in-each-arm... (stores already in the arm), a-store-stays-above-the-argument-
  * constant-only-when-the-call-result-is-stored (no change), two-long-lived-values-in-each-others-registers,
  * a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off (pragmas no change).
+ * final push 2026-10-05 G8L3 (40 compiles, 3 rounds): still 76 B off in the filed call-result form. Every literal form
+ * (flag as int/u8/enum, chained, flag first or store first, s[0x907] = flag, named one = 1 local, with and without
+ * opt_propagation/opt_common_subs/scheduling off, callee return u8/u32) compiles two separate movs of 1 (224 B, 87-88 off).
+ * mwcc rematerialises a single-def constant at every store, so the shared register 1 of the original needs a non-constant
+ * web, and only the call result is one (no movs, 220 B). volatile flag gives 220 B but 117 off and is banned. Matched
+ * assembly search (ldr pool; movs 1; str [sp]; strb same reg): only this function; ov021 021B9FC8 shares a 1 between a loop
+ * counter spill and a byte store but with an immediate offset. Callee func_02176424 returns int 0/1 (matched). No callee problems.
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
