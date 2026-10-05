@@ -19,6 +19,17 @@
  *   assigning an int local before one func_021D7B10 call (not two calls), v24/v28/save as
  *   block locals of the final loop, a copy n3 of n2 (original compares n2 signed in the
  *   first loop and unsigned in the second).
+ *   2026-10-05 wave P3 lane R2b: 10 B -> 4 B. A separate u16 counter i3 for loop 3 (i stays
+ *   the loop-1 counter, declared after id) fixes both spill slots (i3 at [sp,#0x10], id at
+ *   [sp,#0xc]). Residue now: the loop-3 increment store `str r1,[sp,#0x10]` comes before
+ *   `ldr r0,[sp,#0x1c]` (n) in the original, after it in ours (+0188/+018A). Tried, no change
+ *   (4 B): i3 declared before id or last, block-local i3 or id, i3 shared with m, i3 as u32
+ *   with (u16)(i3+1), while loop with trailing i3++, n copied to a local, scheduling off,
+ *   peephole off, opt_dead_assignments off. Worse: id as u32 (10 B, slots swap again), `n > i3`
+ *   (11 B), n as u8 (35 B), opt_lifetimes/propagation/common_subs off. Idioms read:
+ *   function-scope-versus-block-scope, constant-temp-reuses-first-assigned-slot,
+ *   a-separate-index-local-per-loop-reorders-spill-slots (the winning lever),
+ *   a-narrow-spilled-parameter-keeps-its-reload-below-a-store, a-byte-count-local-preserves-word-spills.
  * symbols:
  *   func_021D7EB4 0x021D7EB4 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
@@ -85,6 +96,7 @@ void func_021CB2D4(u8 *p, u8 *a, u32 b, Rec *rec)
   u32 k;
   u16 i;
   u8 id;
+  u16 i3;
   u32 half;
   u16 cnt;
   u32 avg;
@@ -133,9 +145,9 @@ void func_021CB2D4(u8 *p, u8 *a, u32 b, Rec *rec)
   share = scale / cnt2;
   if (share == 0)
     share = 1;
-  for (i = 0; i < n; i++)
+  for (i3 = 0; i3 < n; i3++)
   {
-    t = func_021B9C00(a, (u8) i);
+    t = func_021B9C00(a, (u8) i3);
     if (func_021D5B68(t) == 0)
     {
       id = func_021D5440(t);
@@ -143,7 +155,7 @@ void func_021CB2D4(u8 *p, u8 *a, u32 b, Rec *rec)
       for (q = 0; q < n3; q++)
       {
         if (id == func_021D6E0C(b, q))
-          rec[i].value += share;
+          rec[i3].value += share;
       }
     }
   }
