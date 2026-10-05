@@ -124,12 +124,21 @@ VENEER_THUMB = re.compile(
     r"[ \t]*\.org[ \t]+0x[0-9A-F]+[ \t]*\n[ \t]*\.byte\t0xC0, 0x46[ \t]*\n"
     r"[ \t]*\.word\t0xE59FC000[^\n]*\n[ \t]*\.word\t0xE12FFF1C\b", re.M)
 
+# The ARM long-branch veneer `ldr pc, [pc, #-4]; .word target` (04 F0 1F E5): it
+# only jumps to a far address (ov095 at 0x0689xxxx into arm9, ov172 into the TWL
+# region).  mwcc never loads pc from a pool word, so it is linker output and is
+# excluded like the Thumb form.  overlay_rows keeps only labels whose own code is
+# that one 4-byte instruction, so a label with more code behind it stays counted.
+VENEER_ARM = re.compile(
+    r"^(?:func|sub)_([0-9A-F]{8}):[ \t]*\n[ \t]*ldr\tpc, pool_[0-9A-F]{8}[ \t]+/\*[ \t]*\1[ \t]+04 F0 1F E5[ \t]*\*/", re.M)
+
 
 def veneer_labels(path):
     """Addresses of function labels in a listing that are linker veneers."""
     with open(path, encoding="utf-8", errors="replace") as fh:
         text = fh.read().replace("\r\n", "\n")
-    return {int(m.group(1), 16) for m in VENEER_THUMB.finditer(text)}
+    return ({int(m.group(1), 16) for m in VENEER_THUMB.finditer(text)}
+            | {int(m.group(1), 16) for m in VENEER_ARM.finditer(text)})
 
 
 def listing_summary(path):
@@ -326,7 +335,7 @@ def overlay_rows(funcs_out=None):
         for a in sorted(set(addrs)):
             if a in sdk:
                 row["sdk_bytes"] += code[a]
-        veneers = {a for a in veneers if a not in sdk and a in set(addrs)}
+        veneers = {a for a in veneers if a not in sdk and a in set(addrs) and code[a] <= 4}
         for a in sorted(veneers):
             row["veneer_bytes"] += code[a]
             row["veneer_funcs"] += 1
@@ -338,6 +347,8 @@ def overlay_rows(funcs_out=None):
         row["uncounted"] = ["0x%08X %s" % (k, st) if isinstance(k, int) else "%s %s" % (k, st)
                             for k, st in uncounted]
         for a in sorted(matched):
+            if a in veneers:
+                continue          # linker veneers sit outside both sides of the figure
             if a in sdk:
                 row["matched_sdk_bytes"] += code[a]
                 row["matched_sdk_funcs"] += 1
