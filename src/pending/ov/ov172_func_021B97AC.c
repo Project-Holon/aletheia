@@ -223,7 +223,7 @@ extern int func_021B8B74(void *ctx, u32 id);
 extern int func_021BA174(u32 *a, u8 *b, void *c, u32 n);
 extern int func_021B891C(void *ctx, u32 id, struct Rec *r);
 extern int func_021B8740(void *ctx, u32 id, u8 c, u32 d);
-extern u32 func_021BDFEC(void *ctx);
+extern int func_021BDFEC(void *ctx);
 extern u32 func_021BA244(u32 v);
 extern void *func_02045770(void *p);
 extern void func_02043B5C(void *p, int v);

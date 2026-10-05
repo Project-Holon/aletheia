@@ -31,7 +31,7 @@ typedef signed int     s32;
 
 extern int func_021B9F98(int unused, int *p);
 
-void func_021BDFEC(void *p)
+int func_021BDFEC(void *p)
 {
-    func_021B9F98((int)p, (int *)(((struct Obj24109 *)p)->f1E8));
+    return func_021B9F98((int)p, (int *)(((struct Obj24109 *)p)->f1E8));
 }

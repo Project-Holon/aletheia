@@ -25,7 +25,7 @@ extern u32 func_021BE004(void *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern int func_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id, u32 kind, u32 *out);
 
-void func_021BD0A4(void *ctx, u32 unused, u32 a, u32 b, u32 c)
+int func_021BD0A4(void *ctx, u32 unused, u32 a, u32 b, u32 c)
 {
-    func_02009D50((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(*((u32 *)func_021BE004(ctx)))), (const void *)a, b, c, 0);
+    return func_02009D50((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(*((u32 *)func_021BE004(ctx)))), (const void *)a, b, c, 0);
 }

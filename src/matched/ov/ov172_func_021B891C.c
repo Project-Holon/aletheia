@@ -18,10 +18,13 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
-void func_021B891C(int a, char *q, u16 *p)
+int func_021B891C(int a, char *q, u16 *p)
 {
     u32 entry;
+    int r;
     entry = (u32)func_020399A8();
-    if (func_0203D3F8(entry, 255, 0x2001, *p + 8, (u32)p, 1, 0, 1) != 0)
+    r = func_0203D3F8(entry, 255, 0x2001, *p + 8, (u32)p, 1, 0, 1);
+    if (r != 0)
         ((struct Obj24084 *)q)->f194 = 1;
+    return r;
 }

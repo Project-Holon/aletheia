@@ -95,8 +95,9 @@ void sub_020084E4(u16 *out, struct U16Vec *vec)
     sub_02045A38(vec, out, 8);
 }
 
-void sub_020084F4(void)
+const void *sub_020084F4(const void *p)
 {
+    return p;
 }
 
 u32 sub_020084F8(void *dst, u32 value, u32 size)

@@ -8,11 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ * 2026-10-05 (user decision): the named _ull_mul call is accepted as real source (55 matched game files call runtime helpers by name).
  * note (2026-10-05, wD9r lane08): EXACT. The *64 step is a named call to the runtime
  *   multiply _ull_mul(d, 64) (the original passes 0x40 and a hoisted 0 to 0x0209C054; every
  *   C operator form strength-reduces *64 to shifts or folds it into 64000). The *1000 and
  *   /33514 steps stay C operators. Same practice as the named _u32_div_f/_s32_div_f calls
  *   in other matched files.
+ * note 2026-10-05 (wD9r lane ov231): natural spellings tried, all DIFF in c99 and c (the compiler
+ *   folds *64*1000 into 64000, 212 B, or shifts, 228 B; the original keeps 0x40/0 in r7/r4 and calls
+ *   0x0209C054 twice): d*64*1000/33514; (d*64)*1000/33514; 64ULL/1000ULL/33514ULL literals;
+ *   (d<<6)*1000/33514 (228 B); (u64)(d) cast macro; static inline and static non-inline helper
+ *   TUS(t); d*64/33514*1000; u64 local k1=64; signed long long d. No operator form keeps the
+ *   multiply by 64. File stays here with the _ull_mul call form.
  * symbols:
  *   _ull_mul  0x0209C054  arm
  *   _ll_udiv  0x0209C00C  arm

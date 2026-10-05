@@ -7,7 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * 2026-10-05 (wFlags): EXACT (176 B, c99 and c) with `#pragma opt_lifetimes off` above the function (lifetime splitting off,
+ *   per-function pragma, approved form). Plain -O4,p gave the 26 B p/a register swap; the other compiler versions and
+ *   flags tried (wFlags) did not change it.
  * 2026-10-05 (wD9r laneS6): still DIFF 26 bytes (p/a swap). Draft code checked against HEAD (only notes differ, same 26 B).
  *   Read the mwcc source model (Coloring.c, SpillCode.c, ALLOCATOR_CASEBOOK.md; PPC build, same colour engine): webs
  *   with degree below K are pushed in ascending vreg order and the last pushed colours first; webs at or above K are
@@ -176,6 +179,7 @@ extern int func_021641E8(u32);
 extern int func_021641F8(u32);
 extern void func_0216D410(void *, u32);
 extern u32 func_020056EC(u32);
+#pragma opt_lifetimes off
 void func_021F3DD4(u8 *p, u32 x)
 {
     u32 a;
@@ -217,3 +221,5 @@ void func_021F3DD4(u8 *p, u32 x)
     *(u16 *)(p + 0x14) = 1;
     *(u16 *)(p + 0x16) = a;
 }
+
+#pragma opt_lifetimes reset

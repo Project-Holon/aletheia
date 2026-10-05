@@ -646,8 +646,8 @@ def add_protos(stmt, protos):
     name, ret, ptxt = d
     if "=" in ret or not _HAS_LETTER.search(ret):
         return
-    cnt, var, _names, _t = parse_params(ptxt)
-    protos[name] = dict(n=cnt, var=var, void=is_void_ret(ret), ret=ret.strip())
+    cnt, var, _names, texts = parse_params(ptxt)
+    protos[name] = dict(n=cnt, var=var, void=is_void_ret(ret), ret=ret.strip(), ptexts=texts)
 
 
 CALL_RE = re.compile(r"([A-Za-z_]\w*)\s*\(")
@@ -2057,7 +2057,14 @@ def broad_rows(ix, sc, scope, thunks, callers_of):
                     lay = cd["layout"]
                     supplied = sum(w for _f, w in lay[:c["k"]]) + max(0, c["k"] - len(lay))
                 else:
-                    supplied = c["k"]
+                    # no matched definition: take argument widths from the caller's own
+                    # prototype, so a u64 argument counts as two registers (r0:r1, r2:r3)
+                    pr = fi["protos"].get(c["name"])
+                    if pr and pr.get("ptexts") is not None and not pr["var"]:
+                        lay, _u = layout(pr["ptexts"], fi["types"])
+                        supplied = sum(w for _f, w in lay[:c["k"]]) + max(0, c["k"] - len(lay))
+                    else:
+                        supplied = c["k"]
                 for r in sorted(creads):
                     w = int(r[1:])
                     if w < supplied or w < declared:
