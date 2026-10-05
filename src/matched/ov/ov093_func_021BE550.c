@@ -39,7 +39,7 @@ extern int func_021D59B4(u8 *p, int k);
 extern int func_021E02DC(u8 *, u16, u32);
 extern int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d);
 extern void func_021E03D8(u8 *a, int b);
-void func_021BE550(u8 *p, u8 *b, u16 c)
+void func_021BE550(u8 *p, u8 *b, u16 c, void *unused)
 {
     u8 *a;
     u32 lock;
