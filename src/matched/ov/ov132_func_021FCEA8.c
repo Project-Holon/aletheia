@@ -19,4 +19,4 @@ struct Entry;
 struct Request {u8 kind;u32 value;};
 extern struct Entry *func_0203996C(int);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
-void func_021FCEA8(int unused,int kind,u32 value,u32 id) {struct Entry *e;struct Request request;e=func_0203996C(255);request.kind=kind;request.value=value;func_0203D3F8((u32)e,id,0x1100,8,(u32)&request,1,0,0);}
+u32 func_021FCEA8(int unused,int kind,u32 value,u32 id) {struct Entry *e;struct Request request;e=func_0203996C(255);request.kind=kind;request.value=value;return func_0203D3F8((u32)e,id,0x1100,8,(u32)&request,1,0,0);}

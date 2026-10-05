@@ -17,14 +17,14 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern u32 func_0203F0A8(void);
-extern void func_021FCEA8(int unused, int kind, u32 value, u32 id);
+extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
 static inline u8 random4(void)
 {
     u32 draw;
     draw = func_0203F0A8();
     return ((u64)draw * 4) >> 32;
 }
-void func_021FD84C(u8 *p)
+u32 func_021FD84C(u8 *p)
 {
     u8 slots[4];
     u8 i, j, n;
@@ -40,5 +40,5 @@ void func_021FD84C(u8 *p)
         }
     }
     for (i = 0; i < 4; i++) result += slots[i] << (i * 4);
-    func_021FCEA8((int)p, 1, result, 255);
+    return func_021FCEA8((int)p, 1, result, 255);
 }

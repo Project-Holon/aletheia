@@ -28,7 +28,7 @@ extern void func_02082D44(void *,void *,u32);
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern const char d_021FDE5C[];
-void func_021FD350(char *p,char *src)
+u32 func_021FD350(char *p,char *src)
 {
     char *q;
     void *h;
@@ -45,5 +45,5 @@ void func_021FD350(char *p,char *src)
     func_02082D44(((struct Obj23284 *)src)->f4,q,n);
     h=func_020399A8();
     n=func_020173EC();
-    func_0203D3F8((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct Obj06494 *)p)->f124),1,zero,1);
+    return func_0203D3F8((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct Obj06494 *)p)->f124),1,zero,1);
 }
