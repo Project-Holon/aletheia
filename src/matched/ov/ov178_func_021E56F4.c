@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  *  * note 2026-10-05 (wave P12 A7): DIFF 12/236 B, one residue: src and the record pointer
  * swap callee-saved registers (original src r6, record r5; build src r5, record r6).
  * Twin: ov134 021DCB48 (same typed Args/Output shape, matched; there src r5, record r6 is correct).
@@ -27,6 +27,9 @@
  * the colouring threshold, not source order of p and a. mwcc Coloring.c (inspiredrobot/mwcc): nodes of
  * degree >= K are chosen by spill_cost/degree and p wins the lower register here. The original p
  * has the same live range in the listing, so the lever must change cost or degree without code.
+ * pass 2 2026-10-06 P2L25: EXACT. The p/a colour swap was the source order of the stores after the
+ * second call: out->f10 then out->a before out->f34 and out->f30 (code order is unchanged; the earlier
+ * pcode position of the a store gives a the higher spill score, so a takes r5 and p r6).
  * symbols:
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
@@ -76,9 +79,9 @@ void func_021E56F4(Args *p, Other *o, Output *out)
     out->f4 = 0;
     out->f8 = 0;
     out->fC = (u32)func_0200873C(b);
-    out->f34 = 26;
     out->f10 = 0;
     out->a = a;
+    out->f34 = 26;
     out->f30 = 0;
     switch (a[0xba]) {
     case 0: out->f38 = 0; out->f64 = 1; break;
