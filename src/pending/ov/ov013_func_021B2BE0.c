@@ -44,6 +44,23 @@
  * opt_lifetimes/propagation off (same), opt_common_subs off (372 B but 80 B
  * differ, rematerialises pkt->f8). Open: what makes the default exit a live hop.
  *
+ * note 2026-10-05 final push G9L2 (38 compiles, 3 rounds, still DIFF 199/368 B off; listing 372):
+ * CORRECTION: the U4b "reload fixed" claim is wrong. The global fc store gives `ldr r1,[pool]`
+ * (address rematerialised), not an ev->type reload; the original stores `str r4,[r5,#0xc]` through
+ * the node register and reloads ev->type (`ldr r0,[r7]`). A store through n (`n->fc = r`, also
+ * ev->node->fc, int or unsigned fields) gives 364 B and no reload; a store through an unrelated
+ * pointer (`pkt->fc = r`) does reload (368), so the original store base is not a known constant.
+ * Earliest residue: zero in r6/result in r4 (ours swapped) and the lone `b tail` hop at +0x88.
+ * Tried without effect: tail written in both arms (440 B, copies do not cross-jump), result phi
+ * copy t then r = t (also with opt_propagation/opt_lifetimes off), no default, goto done/tail
+ * from default or after the switch, if-chain with goto (360 B), dead statements after the arm-1
+ * switch (r=r, n=n, ev=ev, label, empty block), named zero int/pointer local (with propagation
+ * off the -3 compare chain rebases on it and 7 registers are used: 372 B, 208 off), no n local
+ * (360 B), local Event aggregate copy (stack, 400 B), second Event view for the compare, switch
+ * (r = f(...)) form, state != 2 first (376 B). Idea left: mwcc runs IRO_DoJumpChaining last, so
+ * the hop means the switch-end label block was not jump-only at chaining time; and the zero must
+ * be born before n and the result.
+ *
  * symbols:
  *   g_021B4BE0     0x021B4BE0  data  a4
  *   d_021B4C0C     0x021B4C0C  data  a4
