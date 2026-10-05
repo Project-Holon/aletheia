@@ -46,6 +46,29 @@
  * original order, so the real 8-parameter prototype (flag as int) gives identical bytes. Tried: flag as `a7 & 1` on a
  * u32 a7 (344 B, worse). Residue unchanged: slot swap (original: i*4 temp at 0x1c between cnt2 and cnt3, m index at
  * 0x14 last; ours: m 0x1c, temp 0x14) and the 5798/5840/59C4 argument order. Idioms checked: none new.
+ * final push 2026-10-05 G7L9: still 47 B of 704 (3 research rounds, 40 compiles). Residue unchanged: (1) spill-slot order, image
+ * ktemp(k*4) 0x1c > cnt3 0x18 > m 0x14, ours m 0x1c > cnt3 0x18 > ktemp 0x14 (slot order follows spill-candidate order, cost/degree);
+ * (2) 5798/5840/59C4 argument setup: image stores the stack arguments first and reloads cnt3 after them, loads array A into r3
+ * as the first filler; ours reloads cnt3 first and stores the flag last. Tried, all 47 B or worse: u8 flag local (391); function-scope
+ * named `off = k*4` between cnt2 and cnt3 or declared last, used by byte-offset casts (47, still a temp); loop B2 index shared with m or
+ * k (47); u8 cnt3 (47); u8 cnt3 with u8 count params on the three calls (47); callee pointer types from the matched files (47); opt_propagation
+ * off alone (69, only loop guards) and with do-while plus explicit guards (47) plus a named array pointer or a copy of cnt3 before the
+ * call (47); opt_lifetimes off with that form (47), opt_common_subs off (676 B); inline wrappers for the three calls (47); flag
+ * computed before 1788 (68) or before the st[1] update (115); inline helper for loop C and loop B bodies (47); m declared before cnt3,
+ * k before cnt3 (47); unprototyped callees 5798/5840/59C4 (57, moves cnt3 to 0x1c); u16 return on 021C0CE8 with u16 or int cnt3 (47);
+ * local pointer alias for d_021F3B38 in loop C (47); m,k as u32 (61, unsigned compares), k alone (49), m alone (59); s16 m,k (712 B);
+ * `cnt3 > m` and `m = m + 1` loop spellings (47); const on array externs needs const callee parameters (compile error, not filed).
+ * Idioms read in full: of-two-equal-temps-the-later-born-one-gets-the-lower-register, opt-propagation-off-with-named-locals-pins-argument-
+ * constants-against-stack-stores, a-const-record-pointer-moves-the-outgoing-stack-store-below-the-register-copies, a-const-table-load-moves-above-
+ * the-outgoing-stack-store, a-table-load-kept-below-stack-argument-stores-is-a-non-const-extern, a-load-scheduled-above-an-unrelated-store-reads-
+ * through-a-const-pointer, an-argument-bound-through-an-inline-wrapper, a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local,
+ * a-narrow-spilled-parameter-keeps-its-reload-below-a-store, a-u16-accessor-result-held-in-a-u16-local, a-redundant-second-assignment-keeps-an-
+ * offset-local-out-of-the-temp-slots, a-separate-index-local-per-loop, a-spilled-local-assigned-twice, local-declaration-order-is-stack-order,
+ * u8-locals-to-u8-callee-parameters, a-byte-count-local-preserves-word-spills (all 47 B or inert here). Matched-assembly search: no other function
+ * has `str rN,[sp]; ldr r1,[sp,#K]; ldr r2,[pc]`; the spilled-index loop pattern occurs in func_0200EA3C, ov094 022057CC, ov120 021D6328,
+ * ov183 021DF428, ov194 021F513C (all matched, read: no shape that transfers). Facts for the next try: the six tables are one
+ * 0x24-byte object at 0x021F3B20 (a[3], b[3], c[3] u16, d[3] u32, e[3] ptr); the +0xC read is d[0]. Source forms that move slot order
+ * (unsigned m/k, unprototyped callees) permute all three slots, so a legit cost change exists but was not found.
  *
  * symbols:
  *   func_021D5440  0x021D5440  thumb  ov093
