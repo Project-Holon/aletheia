@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 #include "../include/Obj24978.h"
 
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_02208410(char *p)
+int func_02208410(char *p, u32 heap)
 {
     return ((struct Obj24978 *)p)->f28 == 3;
 }
