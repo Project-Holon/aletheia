@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * note: 2026-10-05 (wD5 lane17): tried one unified int s for load, result and store value (still 9 bytes: webs split anyway, the 0x97/0x90 webs take r0 because the offset is live). The image gives the 0x135C offset the lower colour than the loaded switch value; nothing source-side flipped that.
+ *
  * note (2026-10-04): DIFF, 80 bytes, all else equal. Original block order is case3, case2 (movs 0x97; b J), case4 (movs 0x90), J: subs r0,#9; strb; movs 0x8a, i.e. a shared byte store with value in r1 and the pool offset kept in r0. Per-arm stores (this file) give case2 with its own store and case4 jumping back. goto-shared-tail forms give 84 bytes (offset constant reloaded, switch value in r0). if-chain forms differ in block order.
  *
  * note (2026-10-04, lane17): lane17 wave D2: now 80 bytes, 9 differing bytes. Shape that gets there: enum Off o=0x135C assigned after the two calls, `s = *(int *)(p + o); switch (s)`, case 2: r=0x97; goto store; case 4: r=0x90; store: *(u8 *)(p + (o - 9)) = r; r = 0x8A. Residue: original keeps the 0x135C pool offset in r0 and the switch value in r1 (subs r0,#9; strb r1,[r5,r0]); ours has them swapped (offset r1, value r0). Tried: separate t local, unified r, int/u32 switch local, declaration order, pointer local q (worse).

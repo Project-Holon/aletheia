@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note 2026-10-05 (wD5 lane18): re-read only; no new source form found for keeping the 0x4C product live in r7 with q spilled. Unchanged 148 bytes.
  * 2026-10-05 (wD4 lane16): tried the record fields as p+m+K with no e local: identical 148 bytes. The original spills q (p+i*8) and gives m r7, so m is live across a call in the original; no source use of m after a call is visible in the listing.
  * symbols:
  *   func_0220D884  0x0220D884  thumb  ov198

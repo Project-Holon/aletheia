@@ -17,6 +17,10 @@
  * 0x24). Tried: int flags; a named y declared first (flags then in r7, but y at [sp,#0x14] and i*4 in
  * r6, 127 bytes); flags <<= 6 as a statement; house prototype of func_0201C7D0 (its u16 last parameter
  * adds a lsls/lsrs the original does not have).
+ * 2026-10-05 (wave D5 lane 08): DIFF, 116 bytes, unchanged. Reading: the original spills BOTH i*4 and y
+ *   while r6 stays free in the loop (r6 only takes the per-call p->f1344 load), so its interference
+ *   graph has more loop nodes than ours. Tried: a void **tbl local assigned p->f1344 before each call
+ *   (propagated away, identical output), tbl plus a named y declared first (127 bytes, as D4).
  * symbols:
  *   func_021BA8BC 0x021BA8BC thumb ov099
  *   func_020450F0 0x020450F0 arm

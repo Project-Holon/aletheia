@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-05 (wD5 lane18): the new body keeps the a[i].x struct access and writes only y raw (`*(int *)((u8 *)a + i*8 + 4)`, same for b): 158 bytes (original 160), 94 differ (was 136). The original reload shape of a for the y access now appears. Residue: original spills a,b,ay,bx to [sp],[sp,4],[sp,8],[sp,0xc] and keeps by in r7, sum r3, i r1; ours keeps b in r7, spills by, sum in r1, i in r6.
  * note 2026-10-04 wD2 lane01: still 136 bytes. Also tried iabs() inline helper form with pa->x re-read in the loop (119 bytes, code 142 vs 160) and ax..by locals with iabs (122); a[i] via byte offset `off = i*8` (same as draft). Original is 8 bytes longer than any variant: it copies sum with `movs r3,#0` ... `adds r0,r3,#0` before the divide and loads a from [sp] twice in the loop.
  * note 2026-10-04: structure matches (four diffs computed before the abs tests, unsigned d1/d2 compare,
  *   u16 d, weights 100/80/50/30, _u32_div_f by 9). Residue is colouring only: original keeps sum in r3,
@@ -22,7 +23,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pt { int x, y; };
-static inline int iabs(int v) { return v < 0 ? -v : v; }
 u8 func_021B8F00(struct Pt *pa, struct Pt *a, struct Pt *pb, struct Pt *b)
 {
     int ax, ay, bx, by;
@@ -32,9 +32,9 @@ u8 func_021B8F00(struct Pt *pa, struct Pt *a, struct Pt *pb, struct Pt *b)
     sum = 0;
     for (i = 1; i < 10; i++) {
         int dx1 = a[i].x - ax;
-        int dy1 = a[i].y - ay;
+        int dy1 = *(int *)((u8 *)a + i * 8 + 4) - ay;
         int dx2 = b[i].x - bx;
-        int dy2 = b[i].y - by;
+        int dy2 = *(int *)((u8 *)b + i * 8 + 4) - by;
         u32 d1, d2;
         if (dy1 < 0) dy1 = -dy1;
         if (dx1 < 0) dx1 = -dx1;

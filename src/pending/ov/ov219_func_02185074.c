@@ -15,6 +15,7 @@
  *   as (i < 0x82) ? 1 : 0). Tried: locals k/w in both orders, static inline table reader, byte-offset read.
  *   2026-10-04 (D2): also tried plain d_02185F7C[i] twice, k local, callee last param u16 with u32 arg, local
  *   table pointer (59 bytes worse: hoists the pool load). Still 17 bytes: u16 stack arg must load before the table pool word.
+ * 2026-10-05 (wD5 lane20): no new hypothesis closed it; the 17 byte residue is unchanged.
  * symbols:
  *   d_02185F7C 0x02185F7C data a4
  *   func_02184968 0x02184968 thumb ov219

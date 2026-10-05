@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note (2026-10-05, wave D5 lane 13): still DIFF, same 4 lines (stack arg e load after the pool
+ *   ldr). Tried: the two conversions through a static inline toFx(int) helper; the task store
+ *   nested as the argument of func_02030EE8; a2 as a struct pointer with a task field at
+ *   +0x2C (void * arg). No change in any. The prologue order r7, r6, r5(e), pool, r4(a2)
+ *   is a scheduler order; no source shape found that raises the e load above the pool load.
  * note (2026-10-05, wD4 lane17): still DIFF, 4 lines (stack arg e load placed after the pool ldr and movs r3). Not repeated: the earlier tries. Observation: the original emits the param copies in colour order r7,r6,r5,r4; ours defers the e load. No source lever found.
  *
  *

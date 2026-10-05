@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * note: 2026-10-05 (wD5 lane17): not changed. Re-read the listing: the image stores b and c to [sp],[sp,#4] before copying p to r4, and a to [sp,#0x18] after copying it to r0; p is r4 and base r5 (ours the reverse). No new compile tried beyond the earlier declaration-order variants.
+ *
  * note (2026-10-04): DIFF, 120 vs 124 bytes, same instruction mix. Semantics and the four spill slots (x=sp+8, ptr=sp+0xc, stride=sp+0x10, row=sp+0x14, set by reverse declaration order) now match. Residue: register colouring (original p=r4, base=r5, ours p=r5, base=r4), original stores b,c to the stack before loading base, and uses r2/r1 temps instead of r0 for the row/stride math. Declaration-order variants of i/j did not change it.
  *
  * note (2026-10-04, lane17): lane17 wave D2: re-read, no new change. Same residue (colouring p/base swap, early b,c stack stores).

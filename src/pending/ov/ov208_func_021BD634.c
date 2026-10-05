@@ -20,6 +20,13 @@
  *
  * 2026-10-05 (D4-18): still 8 bytes. Tried: p->f4 as a raw *(u32 *)((u8 *)p + 4) = 1 (same 8 bytes); p->f4 after the pos memset call (16 bytes, r7=1 then lands after the call). Image has movs r7,#1 before the f34 store and the f4 store between the memset argument moves and the blx; no honest statement order produces that.
  *
+ * 2026-10-05 (D5-03): still 8 bytes. Re-read: the r7 = 1 is also the second argument of
+ *   func_021BD56C(res, 1) (`adds r1, r7, #0`), so it is one value live across the calls; ours has
+ *   the same colouring, only the store schedule differs. Tried: MI_CpuClear8-style static inline
+ *   wrapper for both clears, one `int one` shared by the f4 store and the 021BD56C argument only,
+ *   f4 store in its own block after f34, f34 before the desc copy with f4 after it (23 bytes).
+ *   Arguments and callee arities all agree with the image.
+
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020416D4  0x020416D4  arm

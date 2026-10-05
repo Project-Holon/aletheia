@@ -15,6 +15,7 @@
  *   plus sub sp,#4, loads c[0] before c[2], and hoists 0x18. Tried: s16 array vs struct C, int dx/dy (worse, 182 B).
  * 2026-10-05 (D4-18): still DIFF 190 vs 188. Tried: int k = 2 local with c[1] read as *(s16 *)((char *)c + k); c[0] = c[0] + (dx = ...) as one expression; int x0 = c[0] read before dx; += forms; dy computed before the c[0] store (worse, 84 vs 90 bytes only by shape). Compiler output unchanged by the first three. Residue: original frame is push {r3-r7,lr} with pt in the r3 slot, dx in r3 and the constant 2 in r7; ours uses five regs plus sub sp,#4 and loads c[0] after dx.
  *
+ * 2026-10-05 (wD5 lane20): re-read the listing: the original loads c[2] then c[0] BEFORE the add that builds dx (ldrsh c2; ldrsh c0; adds), and c[3], b[0x18], c[1] before the dy add, so dx stays live in r3 while c[1] is loaded and the index constant 2 spills to r7 (frame push r3-r7, no sub sp). Tried: s16 x0/y0 locals read after dx and before the store (same 90 bytes), c[0] += (dx = ...) compound form (same). Ours loads c[0]/c[1] after the dx/dy add. No change; the load hoisting above the sign extension is not reproduced.
  * symbols:
  *   func_021A2640 0x021A2640 thumb ov021
  *   func_021A21E0 0x021A21E0 thumb ov021

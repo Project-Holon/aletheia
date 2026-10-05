@@ -8,6 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note (2026-10-05, wD5 lane01): now 26 bytes: r is loaded inside each arm of the a <= 1 test
+ *   (the compiler hoists both loads to just after the cmp, as in the image). Residue: p/a colour
+ *   swap only (image p r4, a r5; ours p r5, a r4). Tried, all inert: store order 0x16/0x14, u16
+ *   returns for func_0216D5F8/func_021642A4 with u16 t0 and a, x0/xx and y0/yy split or merged,
+ *   r as inline expression or two locals, declaration order of all locals (two orders), a copy of p.
+ *   Worse: x reused as t0/a (167), the whole tail repeated per first-part arm (385), a join
+ *   argument local for the shared func_021642A4 call (108). Model tests show that extra
+ *   callee-saved locals (xx, y0) move p from r4 to r5 even when the first part matches, so the
+ *   swap comes from the long-lived local set, not from the first part.
  * note (2026-10-05, wD4 lane17): still DIFF, 28 bytes, register names only (p r5/a r4 vs original p r4/a r5). New tries: t0 and a merged into one local (no change); `r` loaded inside each arm (moves the ldr after the cmp as in the original, 26 bytes left, not applied here); if-else inverted on the 0x14 test (74 bytes, block order breaks). The remaining residue is the colour of p versus the first call result.
  *
  * symbols:
@@ -64,12 +73,13 @@ void func_021F3DD4(u8 *p, u32 x)
     }
     xx = (s16)(xx + func_021641E8(a));
     yy = (s16)(y0 + func_021641F8(a));
-    r = *(struct R **)(p + 0x10);
     if (a <= 1) {
+        r = *(struct R **)(p + 0x10);
         if (yy < r->h0 || yy > r->h2) {
             a = func_021642A4(a);
         }
     } else {
+        r = *(struct R **)(p + 0x10);
         if (xx < r->h4 || xx > r->h6) {
             a = func_021642A4(a);
         }

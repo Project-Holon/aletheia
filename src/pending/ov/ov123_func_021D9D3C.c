@@ -18,6 +18,13 @@
  *   for func_02082BCC.  Removing the heap local (expression inline) does not change it.  The
  *   same late-call constant reuse shows in ov112 021F3CA4 (r3 = r6 in its last calls).
  *   Not tried: inline helpers per bg-load group, a different source for the 3 in call 8.
+ * note-2026-10-05 (wave D5 lane 13): still DIFF, same residue. Findings: removing call 7
+ *   (func_02049658(h, 4, 3, ...)) removes the movs r5,#3 hoist; adding a call after call 8 keeps
+ *   it. So the hoist needs the two adjacent calls with 3 in r2. Tried: calls 7 and 8 through a
+ *   static inline helper (hoist moves to r6), literal 0 for all zero args (same), j as u32
+ *   (same), int params on func_02049658 (same). Also the later i = 0 store comes out as a
+ *   copy of j ([sp,#0x18]); the original stores a literal 0, so the original compiler did not
+ *   treat j as the constant 0 after the calls.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

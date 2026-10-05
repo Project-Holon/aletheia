@@ -24,6 +24,14 @@
 /*
  * 2026-10-05 (wave D4 lane07): DIFF, unchanged 2 bytes (+CC/+D0, str/cmp use r4 instead of the call result r0). Tried (all identical output): chained `*(int *)&hdr = sz = f(id)`, `sz = *(int *)&hdr = f(id)`, `hdr = tmp = f(); sz = tmp`, `sz = tmp = f(); hdr = tmp`, assignment inside the if condition, tmp unsigned, callee returning unsigned, sz parameter unsigned, hdr stored first and compared through hdr then copied to sz (before or after the check). The same str r0/cmp r0 shape appears for the global store D(0x25c) = f(); if (D(0x25c) == -1) in this function, so the original probably compared a value the compiler did not merge with sz.
  */
+/*
+ * 2026-10-05 (wave D5 lane09): DIFF, 2 bytes unchanged. Reading: the original keeps the call result in
+ *   r0 for the hdr store and the -1 compare and copies it to r4, so the result temp is NOT coalesced
+ *   with sz (it is coalesced with r0); in every draft form it is coalesced with sz. Tried: hdr as a
+ *   union {u8 b[4]; int i;} with member stores/compare (no address-of; worse, byte copy loses the
+ *   add r5,sp,#0 pointer), a separate `size` local for both arms (identical). Next: find a use that
+ *   makes the result temp interfere with sz (old sz live after the call).
+ */
 typedef struct { int w[0x138 / 4]; } Blob;
 typedef struct { unsigned char b[4]; } W4;
 extern void func_021D7CAC(void);

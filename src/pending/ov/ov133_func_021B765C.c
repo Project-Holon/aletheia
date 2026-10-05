@@ -27,6 +27,13 @@
  *   store, never to +0004). In the original, base, rx, idx and n are all stored at their definition and
  *   reloaded before use (spill everywhere); ours keeps the value in the register and the scheduler sinks the
  *   store. A fifth live value in the original (more register pressure) is the likely cause; not found.
+ * 2026-10-05 (wave D5 lane 04): DIFF, residue unchanged (prologue store order and the n store/reload at
+ *   +013C). Tried: n as a block-local u16 in the do body; `lim = (n = field) * 0x1249`; the multiply in the
+ *   loop condition `while (t >= (lim = n * 0x1249))` and `while (t >= n * 0x1249) t -= n * 0x1249`; a
+ *   static inline wrap(t, n) helper for the second loop; `idx = 0` after the first call (worse); volatile n
+ *   as a probe (not a fix: changes the frame, still no reload). The listing has real back edges, so both
+ *   while loops are real. The reload means the multiply reads n's home, not the ldrh temp: find what
+ *   blocks copy propagation of `n = field` in the original.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133

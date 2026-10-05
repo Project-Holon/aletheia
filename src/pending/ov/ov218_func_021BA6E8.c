@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * note: 2026-10-05 (wD5 lane17): still DIFF. New tests: p + off written inline in the call argument, u8/char * p with a (u32) cast, a block-local copy of base in the loop, a guarded do-while loop, and both off and space as ternaries with n = 7 declared (54 bytes, but the add still sinks into the loop and p is held in r7). The join add of the image is never kept as a hoisted base.
  * note (2026-10-04): DIFF, 44 bytes. Original keeps p in r0 until the join and does adds r7,r0,r1 (offset in r1 from movs/lsls in each arm, space in r6 per arm, y spilled with str r2,[sp] and reloaded per call, bound 7 in r5). Compiled copies p to r7 at entry. Tried per-arm base, off+join, u8* types, bound as local n, ternary base.
  *
  * note (2026-10-04, wD2 lane07): n assigned 7 in BOTH arms (not after them) keeps the bound in r5 with the

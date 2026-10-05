@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD5 lane19): still DIFF 16 B. Tried: R struct {x,y,w,h} table with direct and pointer access, const u8 *p, `((const u8 *)tbl)[i * 4]` for x0, locals h/pal/w/y0 before x0: same load order (x0 loaded right after h).
  * 2026-10-04 (D2-16): image arg-load order is h, on[i], pal, y0, x0, w (x0 after y0). Ours loads x0 right after h. Same 16 bytes; no new variant found.
  *
  * 2026-10-04 (D1-08): 16 bytes, one instruction moved. The image loads arg x0 (ldrb r1,[r4,r1]) after the

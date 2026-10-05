@@ -13,6 +13,13 @@
  *   2026-10-04 (D2): goto form (if (v==4) goto s2; if (v==0xFFFF) goto s2; else goto s3; s2/s3 blocks after) gives the
  *   original beq L2 / ldr / cmp / bne L3 order but drops the trailing b-to-next, so the function is 2 bytes short.
  *   Local q/w pointer for case 2 did not move the r1 load. Both residues stay open.
+ * 2026-10-05 (wD5 lane16): the extra `b` to the next instruction is closed: case 1 is
+ *   `if (v != 4) { if (v == 0xFFFF) *state = 2; else goto s3; } else *state = 2; break; s3: *state = 3;`
+ *   (the inner store 2 is cross-jumped onto the outer one and leaves the `b`). 252 bytes, only the case 2
+ *   residue is left: original `ldr r1,[r4,#0x10]; ldrh r0,[r1]`, ours uses r0. Tried for it: function-scope v,
+ *   function-scope pointer p shared with case 1, `r = 0` default then set 1, ternary with comma calls, the value read
+ *   into `ret` (r0 holder), one pointer local shared with the case 4 strh base (r1 there), the case 2 body as a static
+ *   inline `Finish(msg, ptr)` helper. None move it.
  * symbols:
  *   func_02031330 0x02031330 arm
  *   func_02031348 0x02031348 arm
@@ -62,12 +69,17 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
         if (ret == 1)
             break;
         v = **(u16 **)(ctx + 0x10);
-        if (v == 4)
+        if (v != 4) {
+            if (v == 0xFFFF)
+                *state = 2;
+            else
+                goto s3;
+        } else
             *state = 2;
-        else if (v == 0xFFFF)
-            *state = 2;
-        else
-            *state = 3;
+        break;
+    s3:
+        *state = 3;
+
         break;
     }
     case 2:

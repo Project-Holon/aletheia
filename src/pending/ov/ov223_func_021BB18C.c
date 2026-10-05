@@ -8,6 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ *
+ * note: 2026-10-05 (wD5 lane17): not changed. Re-read: the image stores a copy of 0x240 to [sp,#0x18], adds 0xC and stores again, so off is a non-foldable variable; every k/off spelling tried so far folds it. No new compile beat 224 bytes.
  * note 2026-10-04: DIFF, 8 bytes short. Original computes the offset 0x24C early as an integer (r4=0x240; r0=r4+0xc spilled to
  *   [sp,#0x18], reloaded for the final `str r6,[r5,r0]`) and keeps r4 as shared 0x240 (0x234 = r4-0xc). Constant-folded here whatever
  *   `off`/`k` locals were tried, so the hoisted spill slot and the pushed r3 are missing. Body logic is believed correct.

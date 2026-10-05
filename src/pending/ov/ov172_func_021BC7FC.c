@@ -47,6 +47,12 @@
  * list + k*0x24 and slot*0x24 without (u32)k / (int)slot. found = 1 literal: 10 bytes (store
  * scheduled above the unseen store). Tried: found = 1 before the unseen store, a Slot pointer
  * local for the match block (both 540+ bytes), a constant local on = 1 (10 bytes).
+ * 2026-10-05 (wave D5 lane 12): DIFF, still 2 bytes. Reading: the original movs r0,#1 sits
+ * where our ldr of match sits, and the found store stays after str r3,[r7,r1] and adds r1,#0x14,
+ * so found was defined late from a value that was in r0 early (a copy of a variable that the
+ * allocator rematerialises as 1), not a literal (a literal store follows its movs at once).
+ * Tried: u32 found = 1 (5 lines), found = 1 before the unseen store with the raw e+0x1e8 store
+ * (276), found = (match == 1) (314), found = !diff (folds to the literal, 5 lines).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

@@ -29,6 +29,16 @@
  *   then d0/d1/x registers rotate (orig d0 r0, d1 r1, x r2). Tried: c = W(0xC320) assigned in the condition (same),
  *   a reused for it (worse), u32 k = 1 for the masks and k << 9 (same, propagated), u16 a/b (same), the constant 0xC2F4
  *   in a local o (worse).
+ * note (2026-10-05, wave D5 lane 05): unchanged DIFF (357 bytes, 408 vs 404). Re-read: the whole residue
+ *   is one choice: the original loads +0xC320 into r1 (a's dead register) and keeps the first 1 in r4,
+ *   which codegen then reuses for the second tst and for 0x200 (lsls r0,r4,#9); r4 later holds m and
+ *   W(0xC330) stays in r1. Ours loads +0xC320 into r4 and rematerialises 1 in r1, so m/W330 swap too.
+ *   Tried (all no change): +0xC320 read as u32, a/b as int, `1 & W(...)`, `int one = 1` for both
+ *   masks and `one << 9`, m as int/u16, named u32 c (declared first or after y) assigned in the
+ *   condition and reused for the 0x20 test. A static inline helper `(a & m) || (W(0xC320) & m)` for
+ *   the first test does give the r1 load and the reused r4 (tst r1,r4), but it ends the CSE with the
+ *   0x20 test (no ip copy), so the prologue and the rest change (295 bytes). Next idea: something
+ *   that keeps the W(0xC320) value live to the 0x20 test while the first test stays an expression.
  * symbols:
  */
 typedef unsigned char u8;

@@ -7,6 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH*
+ * 2026-10-05 (wave D5 lane 02): real extent of func_021BBA94 is 0x021BBA94..0x021BBE50 (956 bytes, pool 0x404, 0x14A,
+ * d_021C7234 at 0x021BBE50). A first full draft is parked as src/pending/ov/ov172_func_021BBA94.c, DIFF, so this stays MATCH*.
  * note (2026-10-05, wD4 lane17): still MATCH*, only func_021BBA94 (ov172, no witness, no matched file) is unresolved; it needs its own ov172 file.
  * note 2026-10-04 wD2 lane01: still MATCH*. The only unresolved site is func_021BBA94 (+006C): its extent is larger than 021BBA94..021BBAD4 (64 bytes shown, stale inner label) and needs its own ov172 witness file. Not in lane 01; a lane that owns 021BBA94 closes this.
  * blocker: func_021BBA94 ov172 lacks an outside witness; larger body

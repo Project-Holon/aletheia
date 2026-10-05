@@ -15,6 +15,15 @@
  *   mwcc propagates our `c = 0x1EA0; c += 0xC` (u32 and u16 tried) and derives it from 0x1F74; (2) colours:
  *   original p r5, slot r4, tab r6, base r7 and reloads 0x1F70 from the pool; ours keeps 0x1F70 in r6 and
  *   spills base; moving the tab declaration and dropping the tab local changed nothing. Frame 0x60 vs 0x50.
+ * 2026-10-05 (wD5 lane10): still DIFF, 450 bytes (was 477), compiled 496 of 536. Each 0201C724 call in the two
+ *   tail blocks goes through a static inline put(win, sel, x, y, h, fc, color) helper (the sibling 0220C8F0 closed this
+ *   way); the c/ctx locals are gone and the frame is now 0x60 as in the original. Residue: the original keeps tab (p+0x1F70)
+ *   in r6, slot*8 in r4 and base in r7 and reloads 0x1F70 from the pool; ours keeps the 0x1F70 constant in r4 and spills
+ *   base. The original 0x1EA0-in-a-slot `adds #0xc` is compiler constant reuse on a spilled constant, not source.
+ *   Also tried: the tail blocks as one inline title(p, tab, fl, slot, handle, k, ex, id) helper (identical output),
+ *   0201C724's font read inside put (480 bytes, arms merge), func_02045770 inside put (446 bytes, frame 0x50: the win
+ *   load then lands in the freed constant register r4 instead of a slot). Core residue is the allocator keeping the
+ *   0x1F70 constant in r4 where the original keeps slot*8 there.
  * symbols:
  *   func_02045778 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198
@@ -59,6 +68,11 @@ extern u32 func_02045738(void *);
 extern u32 func_0201D304(void *, u32, u32);
 extern u32 d_02211B68[];
 
+static inline void put(u32 win, u32 sel, s16 x, s16 y, void *h, u32 fc, u32 color)
+{
+    func_0201C724(win, sel, x, y, h, fc, color);
+}
+
 void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
 {
     void *handle;
@@ -70,22 +84,14 @@ void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
     u8 *tab;
     void *vec;
     void *msg;
-    u32 ctx;
-    u32 ctx1;
     u8 ex;
     u8 *fl;
-    u32 c;
     void *m2;
     u32 w;
     u32 x;
-    u32 ctx2;
-    u32 ctx3;
-    u32 c2;
     void *m3;
     u32 w2;
     u32 x2;
-    u32 ctx4;
-    u32 ctx5;
 
     slot = slot * 8;
     tab = p + 0x1F70;
@@ -101,11 +107,9 @@ void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
     func_0201F250(P->f1EA4, vec, msg);
     ex = extra;
     if (k == 9) {
-        ctx = P->f1EAC;
-        func_0201C724(ctx, (u32)func_02045770(*(void **)(tab + slot)), a3, ex, vec, P->hdr->font, 0x3DC0);
+        func_0201C724(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), a3, ex, vec, P->hdr->font, 0x3DC0);
     } else {
-        ctx1 = P->f1EAC;
-        func_0201C724(ctx1, (u32)func_02045770(*(void **)(tab + slot)), a3, ex, vec, P->hdr->font, 0x3DC0);
+        func_0201C724(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), a3, ex, vec, P->hdr->font, 0x3DC0);
     }
     fl = p + 0x1F74;
     fl[slot] = 1;
@@ -114,34 +118,24 @@ void func_0220BEB8(u8 *p, int slot, int a2, s16 a3, u8 extra)
     if (rec->a1 || rec->b2)
         return;
     if (rec->b0 == 0) {
-        c = 0x1EA0;
-        m2 = func_02045EC0(*(void **)(p + c), 0x16);
+        m2 = func_02045EC0(P->f1EA0, 0x16);
         w = func_02045738(handle);
         x = (u16)((w << 3) - func_0201D304(m2, P->hdr->font, 0));
         if (k == 9) {
-            c += 0xC;
-            ctx2 = *(u32 *)(p + c);
-            func_0201C724(ctx2, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x2960);
+            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x2960);
         } else {
-            c += 0xC;
-            ctx3 = *(u32 *)(p + c);
-            func_0201C724(ctx3, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x31A0);
+            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x31A0);
         }
         fl[slot] = 1;
         func_02045808(m2);
     } else if (rec->b0 == 1) {
-        c2 = 0x1EA0;
-        m3 = func_02045EC0(*(void **)(p + c2), 0x17);
+        m3 = func_02045EC0(P->f1EA0, 0x17);
         w2 = func_02045738(handle);
         x2 = (u16)((w2 << 3) - func_0201D304(m3, P->hdr->font, 0));
         if (k == 9) {
-            c2 += 0xC;
-            ctx4 = *(u32 *)(p + c2);
-            func_0201C724(ctx4, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x2960);
+            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x2960);
         } else {
-            c2 += 0xC;
-            ctx5 = *(u32 *)(p + c2);
-            func_0201C724(ctx5, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x31A0);
+            put(P->f1EAC, (u32)func_02045770(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x31A0);
         }
         fl[slot] = 1;
         func_02045808(m3);

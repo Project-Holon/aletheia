@@ -44,6 +44,10 @@
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
+ * note 2026-10-05 wD5 lane07: still 10 bytes, same residue (0x800 built before the str r0,[sp] of the
+ *   func_021BA15C result). Re-read: the callee's real prototype is (int, char *, s16 *tbl, int, int idx, u16 v);
+ *   the IR order puts the third argument's constant before the fifth argument's stack store. Not retried:
+ *   forms listed above. Untested idea: the 0x800 offset belongs to an inline helper returning the table pointer.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

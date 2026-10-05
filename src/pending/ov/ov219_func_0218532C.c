@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD5 lane05): DIFF 91 bytes (was 163). Fixes: no e record pointer local (each
+ *   field read as *(T *)(p + i * 0x30 + K), loop colours now exact); no cx/cy locals; every use reads
+ *   *(int *)(p + 0xC2F4/0xC2F8) directly (CSE gives the original load order; prologue now exact up to
+ *   +0x3A). Residue: yhi takes r6 and lo2 is spilled to [sp,#0xc]; the original has lo2 in r6 and yhi
+ *   in [sp,#0xc] (a pure swap of the two, all else follows). No change from: lo2 assigned directly
+ *   (no y16 temp), declaring lo2 last or before yhi, `yhi = ylo = t`, the ternary as an if/else on
+ *   ylo, a struct Ent array for the 0x30 records (worse, hoists p+0x18). lo2/hi2 set before the if
+ *   (no else) does give lo2 r6 but loses the else block (257).
  * 2026-10-05 (wD4 lane19): still DIFF 163 bytes. Tried the constant in a local (int off = 0xC2F4; p[off], p[off+4], and for the reload): mwcc folds it, no change.
  * 2026-10-04 (wD2 lane 09): 284 vs 288 bytes, 163 bytes differ, same frame.
  * Semantics read from the listing (x,y at +0xC2F4/+0xC2F8, count at +0x14,
@@ -38,49 +46,44 @@ int func_0218532C(char *p, u32 *out)
     u32 best;
     u32 bestd;
     int cur[2];
-    int cx, cy;
 
-    cx = *(int *)(p + 0xC2F4);
-    cy = *(int *)(p + 0xC2F8);
-    xlo = (s16)(cx - 0x80);
-    xhi = (s16)(cx + 0x80);
-    ylo = (s16)(cy - 0x80);
-    yhi = (s16)(cy + 0x80);
+    xlo = (s16)(*(int *)(p + 0xC2F4) - 0x80);
+    xhi = (s16)(*(int *)(p + 0xC2F4) + 0x80);
+    ylo = (s16)(*(int *)(p + 0xC2F8) - 0x80);
+    yhi = (s16)(*(int *)(p + 0xC2F8) + 0x80);
     best = *(u32 *)(p + 0x14);
     bestd = 0x100;
-    cur[0] = cx;
-    cur[1] = cy;
+    cur[0] = *(int *)(p + 0xC2F4);
+    cur[1] = *(int *)(p + 0xC2F8);
     func_02185D08(cur);
     {
         int d = yhi - ylo;
         if (d < 0) d = -d;
         if (d > 0x100) {
-            int y16 = (s16)*(int *)(p + 0xC2F8);
             int t;
-            lo2 = y16;
-            hi2 = y16;
-            t = (y16 > 0) ? y16 - 0x10000 : y16 + 0x10000;
+            lo2 = (s16)*(int *)(p + 0xC2F8);
+            hi2 = lo2;
+            t = (lo2 > 0) ? lo2 - 0x10000 : lo2 + 0x10000;
             ylo = yhi = t;
             lo2 -= 0x80;
             hi2 += 0x80;
             ylo -= 0x80;
             yhi += 0x80;
         } else {
-            lo2 = ylo;
             hi2 = yhi;
+            lo2 = ylo;
         }
     }
     for (i = 0; i < *(u32 *)(p + 0x14); i++) {
-        char *e = p + i * 0x30;
-        int ex = *(s16 *)(e + 0x18);
+        int ex = *(s16 *)(p + i * 0x30 + 0x18);
         if (ex > xlo && ex < xhi) {
-            int ey = *(s16 *)(e + 0x1a);
+            int ey = *(s16 *)(p + i * 0x30 + 0x1a);
             if ((ey > ylo && ey < yhi) || (ey > lo2 && ey < hi2)) {
-                if (*(u16 *)(e + 0x40) != 0) {
+                if (*(u16 *)(p + i * 0x30 + 0x40) != 0) {
                     int pt[2];
                     u32 dd;
                     pt[0] = ex;
-                    pt[1] = *(s16 *)(e + 0x1a);
+                    pt[1] = *(s16 *)(p + i * 0x30 + 0x1a);
                     func_02185D08(pt);
                     dd = func_02185D64(cur, pt);
                     if (dd < bestd) {

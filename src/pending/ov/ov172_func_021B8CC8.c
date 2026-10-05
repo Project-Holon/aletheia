@@ -55,6 +55,11 @@
  * (frame 0x4c). Tried: rc through a pointer local for the first block (propagated, no change);
  * a constant local one = 1 for the later groups, rc.z and the func_020450F0 argument (propagated,
  * no change); u32 for the u16/u8 parameters that receive the 1 (no change).
+ * note 2026-10-05 (wD5 lane07): still DIFF, 417 bytes. Re-read: the original CSEs the constant 1 into r7 from
+ *   the second func_021BE018(a, 1) call to the second func_020450F0 call (stack args [sp,#4], [sp,#8], rc.z = 1)
+ *   and CSEs 4 into r6 for the func_020450F0 pair; ours instead CSEs 0 into r7 for the 0xA4/0/8 stores and keeps
+ *   group 2-4 first temps in r7. So the original 1-vreg won r7 over the group temps. Tried: one static inline
+ *   helper for the whole group (mk(a, x, y, z, &rc, h)), same 417 bytes.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;

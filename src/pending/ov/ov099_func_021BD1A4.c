@@ -19,6 +19,9 @@
  * 2026-10-05 (wave D4 lane 04): DIFF, 20 bytes, unchanged. Tried: 0x1b8 held in a local (0x1b0/0x1ac
  * written as off - 8 / off - 0xc), the same local reused as the switch value r, u8 five: all give the
  * same r5/r6 swap.
+ * 2026-10-05 (wave D5 lane 08): DIFF, 18 bytes. Fixed the jump table: case -1 is written before case -2
+ *   (the original lays the -1 return first). Residue is only the r5/r6 colour swap (five vs the
+ *   0x1b8/0x248 offset temps and r). Tried: the 0x1b0 store written as = five (no change).
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
@@ -93,9 +96,9 @@ int func_021BD1A4(char *p, int v)
         five = 1;
     }
     switch (r) {
-    case -2:
-        return v;
     case -1:
+        return v;
+    case -2:
         return v;
     case 0:
         if (func_021BCB70(*(void **)(p + 0x1348), *(void **)(p + 0xc4), &out) != 0) {

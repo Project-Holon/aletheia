@@ -15,6 +15,7 @@
  *   original is f(p, v) with v and the p[7] test both in r1 and r0 never clobbered. Prototyped f(p,v) variants
  *   (v local, p[10] reload, q=p alias, raw char* offsets, v reused for p[7]) all load p[7] into r0 and emit
  *   adds r0,r4,#0 before the bl (24 bytes differ). Unprototyped form kept: 6 bytes differ.
+ * 2026-10-05 (wD5 lane20): retried prototyped f(int *, int) with a local v = p[10] updated in both arms then stored and passed (24 bytes). The unprototyped form stays closest. Original keeps the incoming r0 live to the call so the temporaries use r1; not reproduced.
  * symbols:
  *   func_021BFBC8 0x021BFBC8 thumb ov204
  *

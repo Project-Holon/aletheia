@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * 2026-10-05 (wave D5 lane 02): re-verified MATCH; the only open site is func_02060F18 (arm9), still DIFF by 13 bytes (see src/pending/arm9/func_02060F18.c).
  * blocker:  relocation witness (label/sole-ref): callee 0x02060F18 has no outside witness
  * 2026-10-04: 0x02060F40 now EXACT in src/matched/arm9/func_02060F40.c. 0x02060F18 (an
  * ARM setter, bit 0 of the halfword at +0x36) is parked DIFF in

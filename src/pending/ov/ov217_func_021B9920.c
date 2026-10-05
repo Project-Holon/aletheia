@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD5 lane19): still DIFF 28 B. Tried: const char * on the second callee argument, u8 first parameter on 020409B4, a ternary-wrapped second 5 (stand-in, not usable). The 5 is still hoisted into the free r6 for block 4.
  *
  * Note 2026-10-04 (wD2 lane12): re-read the listing. Original block 4 loads movs r0,#5 twice (before the 2041090 call after ldr r1,[sp,#8], and again before 20409B4) and keeps 0x20 in r7. We CSE the 5 into r6. No new spelling tried beyond the D1 list; next idea: make the two 5s distinct expressions (different callee parameter types, one callee taking a one-field struct or u16).
  *

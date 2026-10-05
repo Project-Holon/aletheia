@@ -35,6 +35,15 @@
 /*
  * 2026-10-05 (wave D4 lane07): DIFF, unchanged 15 bytes. Finding: the zero in r5 is the compiler's own CSE of the constant 0 (all-literal source without z gives the same code), and the original r5 is later the loop counter i. From the 0x3F call onward this build substitutes r5 for every literal register zero; the original does that only from the arc2 block on (arc2 args, 020413B0 r0/r1, 02041B6C, 0204162C). Tried: no z (all literal 0), i = 0 at the top and used as the loop start, z only in the arc2-block positions, the first part (up to func_02049238(arc)) as a static inline helper: all identical or worse.
  */
+/*
+ * 2026-10-05 (wave D5 lane15): DIFF, 14 bytes with all-literal zeros (z removed), same 7
+ *   places. Experiments on the mechanism: with the 0x3E call deleted the first copy moves
+ *   one use later (0x3F r2 becomes movs, the 02040E78 r0 copies), so the movs-vs-copy choice
+ *   depends on code before the use, not on the use count or the previous r5 use. Tried: the
+ *   arc2 block through the loop as a static inline helper (literal zeros inside): r4/r5 swap,
+ *   same copies. Idea left: the r5 zero is a coalesced temp; find a source shape that gives
+ *   the palette-region literals their own value (not the 0 CSE temp).
+ */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;

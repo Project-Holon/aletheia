@@ -15,6 +15,7 @@
  *   float-round calls, re-reading y0 from the stack arg in the loop pre-header; mine copies x0 to r1 and
  *   spills y0 to [sp,#8] early. Tried: u8 vs one-field struct stack params, struct x0, ternary max,
  *   declaration order of accumulators, u8 callee params. None changed the allocation.
+ * 2026-10-05 (wD5 lane20): 131 -> 27 bytes. Levers: y0 and y1 copied into locals `by = y1; ay = y0;` assigned AFTER the dx abs (original keeps y1 in r4, y0 in r5 across the float calls; declare ay before by, assign by first), and the loop-invariant read of the stack u8 `*(u8 *)&y0` written inline in the loop call so it hoists after the n>0 guard. Declaring stepy before stepx gives 27. Residue: (1) x0 is a pure memory spill in the original (str r3,[sp,#4] first, x0 reloaded at every use: `ldr r0,[sp,#4]` before `subs r2,r0,r1`); ours copies r3 to r1 first, so dx and d use r1/r0 swapped; (2) spill slot order of stepx/stepy/hoisted y temp (original 0x10/0xc/8, ours 8/0xc/0x10). Not tried: anything that forces x0 into memory without an address-taking cast.
  * symbols:
  *   func_021B9B88 0x021B9B88 thumb ov172
  *   func_0209BDBC 0x0209BDBC arm
@@ -38,13 +39,13 @@ void func_021B9AB8(int a0, int a1, u8 *p, int x0, u8 y0, u8 x1, u8 y1, int value
     int dx = x0 - x1;
     int dy;
     int n, i;
-    int stepx, stepy;
+    int stepy, stepx;
     int accx, accy;
     int d, r;
-    int yb;
+    int yb; int ay; int by;
     if (dx < 0)
         dx = -dx;
-    dy = y0 - y1;
+    by = y1; ay = y0; dy = ay - by;
     if (dy < 0)
         dy = -dy;
     if (dx <= dy)
@@ -56,16 +57,16 @@ void func_021B9AB8(int a0, int a1, u8 *p, int x0, u8 y0, u8 x1, u8 y1, int value
     else
         r = func_0209CB8C(func_0209BDBC(d << 12), 0x3f000000);
     stepx = func_0209C0A4(func_0209C494(r), n);
-    d = y1 - y0;
+    d = by - ay;
     if (d > 0)
         r = func_0209C95C(0x3f000000, func_0209BDBC(d << 12));
     else
         r = func_0209CB8C(func_0209BDBC(d << 12), 0x3f000000);
     stepy = func_0209C0A4(func_0209C494(r), n);
-    yb = *(u8 *)&y0;
     accx = 0;
     accy = 0;
     for (i = 0; i < n; i++) {
+        yb = *(u8 *)&y0;
         func_021B9B88(p, x0 + (accx >> 12), yb + (accy >> 12), value);
         accx += stepx;
         accy += stepy;

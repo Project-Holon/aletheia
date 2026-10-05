@@ -20,6 +20,10 @@
  *           (worse, recolours r4/r6 from +0x86). The store and the movs r1,#1 are independent;
  *           the original keeps source order there. Also tried a static inline helper that
  *           does the 674 call and the store and returns p (same 4 bytes).
+ *           2026-10-05 wave D5 lane 13: still 4 bytes. Tried: the store as a comma
+ *           expression on either argument of func_021BE6B0 (same 4), the whole call nested
+ *           with the comma on the second argument (20), s->hold = j (688), u8/u32/short as
+ *           the func_021BE6B0 second parameter (same 4).
  *
  * symbols:
  *   func_020124E4 0x020124E4 thumb

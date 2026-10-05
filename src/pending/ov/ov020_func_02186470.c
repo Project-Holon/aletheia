@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * note: 2026-10-05 (wD5 lane17): still DIFF 15 bytes. New test: u32 a0 parameter and u32 callee prototype for func_020127C4 (no change). Colour classes {a0,items} and {id,off} still swapped.
  * 2026-10-05 (wD4 lane19): still DIFF 15 bytes. Tried signed id, an explicit int h = (u16)id local before the loop, a copy of a0: no change. Colour classes match ({a0,items} and {id,off}); only their register labels are swapped (orig a0/items r4, id/off r5).
  *
  * 2026-10-04 (wD2 lane 02): same residue, 15 bytes (pure r4/r5 colour swap of a0 and id, plus the 02013DE0 leaf

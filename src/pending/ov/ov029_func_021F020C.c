@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status: DIFF
+ * note 2026-10-05 (wD5 lane18): re-read the listing. Original keeps b in r2 (never copied) and runs both table ldm through r3/r5 after `adds r7,r3,#0` (c) comes first; ours copies b to r5 and loads through r2/r4, so the scratch choice for the ldm decides it, not the order of statements. No new source form found; unchanged 63 bytes.
  * residual: 140/140 bytes, 63 concrete mismatches; ascending-register LDM
  * pair copies agree in shape, argument/result register colouring remains.
  * W76 final retry: six runs. Direct u64/word union emits STM pairs

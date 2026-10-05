@@ -14,6 +14,7 @@
  *   and S1 stored as 'movs r0,#1; subs r4,#0x60; strh r0,[r5,r4]' (ours reloads the pool offset). Nested if / ||
  *   / goto-to-s1 / goto-to-zero variants tried: the nested if/else-if form kept here is closest (the goto forms
  *   lose the shared zero in r6 and the prologue).
+ * 2026-10-05 (wD5 lane20): derived the semantics as: store 0 when h != 0 and (w == 0 or w == 0xdc), else store 1, with the zero shared in r6. Tried the direct form if (h != 0 && (w == 0 || w == 0xdc)) 0 else 1 (73 bytes), the nested if with || in the else-arm form (43 and 32 bytes). The existing nested if / else-if form stays closest (24 bytes).
  * symbols:
  *   func_02048AFC 0x02048AFC arm
  *   func_02048B44 0x02048B44 arm

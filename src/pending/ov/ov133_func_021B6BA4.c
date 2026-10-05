@@ -22,6 +22,13 @@
  *   static inline wrappers for the 0x020498F4 / 0x02049658 / 0x02049B68 calls (zero args and H inside the
  *   helper): the 4 hoist goes away but the shared zero in r6 is lost too (521 bytes, worse). So the hoist
  *   and the r6 zero share one CSE region in the original; the 4 uses must be split from it some other way.
+ * 2026-10-05 (wave D5 lane 04): DIFF, residue unchanged. New finding: the switch from fresh `movs rN,#0`
+ *   to `adds rN,r6,#0` copies starts at the 0x10 call even when that call's 4 is changed to 5 (then the 4
+ *   hoist goes away but the zero copies stay). So the 4 hoist is a symptom; the cause is that the CSE'd
+ *   constants (0 in r6, 4 in r7) stop being rematerialised from the 8th 02049xxx call on. Tried: literal
+ *   0xd and -128 instead of v (hoist stays), int types for the register zero params, int types for the
+ *   stack zero params (no change, so the zero CSE is not split by parameter type). Untried: a source shape
+ *   that keeps r7 busy (a value live from the start to the 0xd call) so the 4 cannot take a register.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

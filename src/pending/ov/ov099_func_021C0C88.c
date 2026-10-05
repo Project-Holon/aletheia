@@ -15,6 +15,11 @@
  * with the struct f1cc store: no change. Ours puts the 0x24C call-argument constant in r6 (free after
  * the switch) and derives 0x1CC as r6 - 0x80 in the r4 == 5 path; the original builds 0x24C in r1 and
  * rebuilds 0x1CC. r6 is dead there in both, so this is a constant-CSE decision, not a colour swap.
+ * 2026-10-05 (wave D5 lane 08): DIFF, 212 bytes (4-byte size shift). Fixed the k/2, k%2 registers:
+ *   (r4 - 7) written inline in both stores (a named k swapped r1/r2). Residue: the original rebuilds
+ *   0x1CC in the r4 == 5 path and 0x274 in the tail; ours keeps 0x24C in r6 and derives both. Tried: all
+ *   struct accesses raw, a local off = 0x274 for the top block, the post-switch code as default:, a
+ *   switch on r4 for the 5/6 tests (81 bytes but the wrong compare layout): none stops the derivation.
  * symbols:
  *   func_020200CC  0x020200CC  thumb
  *   func_021BF050  0x021BF050  thumb  ov099
@@ -116,9 +121,8 @@ int func_021C0C88(char *p, int v)
         goto end;
     }
     if (func_021BDD60(r4)) {
-        int k = r4 - 7;
-        *(u16 *)(p + 0x134c) = k / 2;
-        *(u16 *)(p + 0x134e) = k % 2;
+        *(u16 *)(p + 0x134c) = (r4 - 7) / 2;
+        *(u16 *)(p + 0x134e) = (r4 - 7) % 2;
         func_021BCC4C(p);
         if (!func_021BDDF4(p)) {
             func_021BAAB8(p, 0x68, 0);

@@ -8,6 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-05 (wD5 lane14): still DIFF 33. The original holds &v in r7 for both calls and
+ *   uses movs r1,#0 in the last call; ours makes the constant 0 the r7 candidate. Tried: the two calls as
+ *   a 2-iteration loop (not unrolled, 124 bytes), separate v/w locals (they get separate slots, 145),
+ *   field access through ((s16 *)&v)[k], which as int, mode as u32, a static inline redraw helper for
+ *   both func_020355C4/func_021F1A1C pairs: all 33 bytes.
  * note 2026-10-04: DIFF, 33 bytes, size equal (348). Everything matches except the Vec2 temp at
  *   the tail. Original computes `add r4,sp,#0x18` (field accesses) and a second copy `add r7,sp,#0x18`
  *   (kept live in r7, passed as 2nd arg of both func_0204B404 calls, 3rd arg 0 in r2). Ours keeps

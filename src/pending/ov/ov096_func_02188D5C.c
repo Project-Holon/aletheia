@@ -11,6 +11,7 @@
  * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (4 bytes). Loop call func_021C7E14 schedules 'adds r0,r5' before 'str r6,[sp,#4]'; the image stores t first, as the first call does. Also tried r declared before c; no change. Same family as func_02189D48 (stack-argument store versus argument-0 address order).
  * note: 2026-10-04 Residue: second call of func_021C7E14 in the loop schedules 'adds r0,r5' before 'str r6,[sp,#4]'; original stores t first (as in the first call). Rest is identical. Tried: and/continue forms, u32/u16 c, int/u32 t and best, static inline helper for either call, fused nested call.
  * note: 2026-10-05 (wD4 lane20): tried an int copy of t used only by the loop call (t2 = t); same 4 bytes ('adds r0,r5' before 'str r6,[sp,#4]' in the loop call). Residue unchanged.
+ * 2026-10-05 (wD5 lane20): 4 bytes, the same store-versus-chain order in the loop call only (the call before the loop gets the original order). Not closed; the only difference between the two calls is that the loop call has c in r3 from a prior call and sits under the i != p[1] test. No new variant tried beyond the earlier notes.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021D5440 0x021D5440 thumb ov093

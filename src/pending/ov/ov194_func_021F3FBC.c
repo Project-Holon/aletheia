@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD5 lane14): still DIFF 10 (entry order: heap load after the a3 spill). Tried: u32 heap
+ *   parameter (masks every u16 use, 328), house string.h memset (inlines the 8-byte clear, 384).
  *
  * 2026-10-04 (wD3 lane 15): DIFF, full draft, 748 vs 740 bytes (extra bytes only from the two residues below,
  * everything else matches incl. both jump tables, slots, calls, pool). Residue 1: the original loads the stack

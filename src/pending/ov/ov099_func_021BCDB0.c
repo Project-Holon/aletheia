@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * note: 2026-10-05 (wD5 lane17): same 9-byte offset/value swap as func_021BCE30; see its note for the new tests.
+ *
  * note (2026-10-04): lane17 wave D2: 128 bytes, 9 differing bytes, same residue as ov099_func_021BCE30 (switch value/offset register swap in the 0x135C arm). The rest (0xCC branch, 021BCBBC/021BBEB4 calls) is byte-correct.
  *
  * note: 2026-10-05 (wD4 lane20): not changed; same residue as func_021BCE30 (see its note). int o instead of the enum folds the offset into a reload of the pool word (worse).

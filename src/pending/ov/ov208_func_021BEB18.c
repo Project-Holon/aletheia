@@ -7,7 +7,12 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: MATCH
+ * 2026-10-05 (D5-03): MATCH. Byte-correct except the five calls to the ov093 callees 0x021B9E68,
+ *   0x021BA7C8, 0x021BA374 (no witness label; ov093 below 0x021D4000, pengy). Fixes: the colour loop
+ *   calls are func_02040618(i, 0, 0) and (i, 3, 0) (the draft passed i; the image keeps the 0 in r7, which
+ *   is why ctx left r7), the first 9E68 call passes (2, 0, 1), locals v54 before v50 before w, the
+ *   021BDAD0 test written `!= 2` first, and case 4 writes `*state = 5` in both arms.
  * 2026-10-04 (wD2 lane19): also tried ctx as a one-field struct by value and as u32 with casts: no change (frame 0x74/0x78 vs 0x70,
  *   ctx still in r7). Residue unchanged: image stores ctx back to [sp,#0x88] at entry and keeps state at [sp,#0x34], r7 free.
  * 2026-10-05 (wave D4 lane 02): frame layout check: image has v40 at sp+0x40, v44 0x44, w 0x48, v50 0x50,
@@ -128,9 +133,9 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
     void *icon = func_021BC3B8(ctx);
     int v40;
     int v44;
-    u16 w[4];
-    u32 v50;
     u32 v54;
+    u32 v50;
+    u16 w[4];
     u32 tbl[6];
     u8 i;
     int t;
@@ -143,16 +148,16 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
         p->msg2 = func_02045B38(1, 2, 0x10c, h->heap);
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                func_02040618(i, i, i);
-                func_02040618(i, 3, i);
+                func_02040618(i, 0, 0);
+                func_02040618(i, 3, 0);
                 func_020414AC(i);
             }
         }
-        if (func_021BDAD0(scn) == 2) {
-            func_021BDBB8(scn, 0);
-        } else {
+        if (func_021BDAD0(scn) != 2) {
             func_021BDAAC(scn, 0, 0, func_021BC3BC(ctx) > 1);
             func_021BDAD4(scn, 0);
+        } else {
+            func_021BDBB8(scn, 0);
         }
         func_021BDC48(scn, 0);
         func_021BDC14(scn, func_02012BF8(func_021BC3A4(ctx), 0x11));
@@ -165,7 +170,7 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
         v40 = func_021BCF4C(func_021BC3A8(ctx));
         v44 = func_0200CA70((void *)t);
         func_021BF4FC(h, p, ctx, &w[3], &w[2], &w[1], &w[0], &v54, &v50, tbl);
-        p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 0, v40, (u32)p->font, func_021BC3B0(ctx), p->msg0, p->msg1, p->msg2);
+        p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 1, v40, (u32)p->font, func_021BC3B0(ctx), p->msg0, p->msg1, p->msg2);
         p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, func_021BC3B0(ctx), p->msg0, p->msg1, p->msg2);
         func_021BA7C8(p->f8);
         func_021BF4C4(h, p, ctx, tbl);
@@ -200,10 +205,11 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
     case 4:
         if (func_021BC4C8(p->fc) == 0 && func_021BC4C8(p->f10) == 0 && func_021BE840(icon) == 0) {
             if (p->f14 == 2) {
-                if (func_021BDAD0(scn) != 0)
-                    break;
+                if (func_021BDAD0(scn) == 0)
+                    *state = 5;
+            } else {
+                *state = 5;
             }
-            *state = 5;
         }
         break;
     case 5:

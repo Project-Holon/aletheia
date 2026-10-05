@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD5 lane14): still DIFF, same 4 bytes (entry spills b then a). Tried: the b store
+ *   (0x22) before the c store (0x34): the c spill moves after the memset arguments but a stays before b
+ *   (15 bytes), so the spill order does not follow store order. Not a register or slot problem.
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm

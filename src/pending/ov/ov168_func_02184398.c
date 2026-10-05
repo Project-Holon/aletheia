@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * note 2026-10-05 (wD5 lane18): tried `*(p+8) = size - 0x20` without the in-place decrement (same 18 bytes) and size assigned between the two calls (29 bytes). The colouring order is size > p > heap > b in ours, heap > p > size > b in the original; no source use of heap beyond the two (u16) casts is visible. Unchanged.
  * note (2026-10-05, wD4 lane17): still DIFF, 18 bytes, same heap/size colour swap. New tries: u16 heap parameter (96 bytes, worse), int heap, size assigned before the first call (39 bytes), size declared before buf, with the enum local kept. No change in the swap.
  * symbols:
  *   func_02030734 0x02030734 arm

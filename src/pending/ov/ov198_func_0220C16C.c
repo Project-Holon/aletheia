@@ -14,6 +14,10 @@
  *   A/B locals for the third call as in the second (no change). The sibling 0220D494 (EXACT this wave)
  *   computes its x+w1 early like ours, so the late `ldr r2,[sp,#0x28]; adds` here hints the third x is a
  *   different expression or variable in the original; not found.
+ * note 2026-10-05 (wave D5 lane 10): still DIFF (22 bytes). Tried: a static inline put helper for all three calls
+ *   (s16 x: no change; int x: 334 bytes), the helper on the third call only with int x (122), u8/int/s16 n (23-40),
+ *   `y = x0 + n` before or after ctx3 (no change). The original treats the n reload as if it may alias the outgoing
+ *   stack stores; ours hoists it above them.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm

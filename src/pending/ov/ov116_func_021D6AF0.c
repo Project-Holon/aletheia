@@ -7,6 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH
+ * 2026-10-05 (wave D5 lane 02): fresh tries on arm9 0x0200DD28, all DIFF (98..102 bytes vs 104): mask as u8 local
+ * initialised before the guards (movs r3,#1 at the top), u32 mask with (u8) cast at the OR, bit-set via mask <<=,
+ * index as named u8, slot as u32 with (u16) cast, stamp as u32[4] and as a struct, first OR operands swapped.
+ * Residue: the original saves only r4..r6 (push {r3,r4,r5,r6} is alignment padding) and keeps p in r0; every
+ * spelling saves four registers and moves p to r4 because the pack expression uses r0 as scratch. Not filed.
  * 2026-10-05 (wD4 lane19): still MATCH. Blocked by arm9 0x0200DD28 (no label); not re-tested further.
  * blocker: ARM9 0x0200DD28 has no outside code witness. Blocker C attempted
  * in scratch blocker-DD28.c; best run DD28-r3.log is DIFF (102 bytes vs 100).

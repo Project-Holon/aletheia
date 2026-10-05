@@ -61,6 +61,15 @@
 /*
  * 2026-10-05 (wave D4 lane07): DIFF, unchanged. Tried inner 0x55F1 switch in source order 2,0,1,3: layout follows source order and the shared tail still goes to the first case (0x5208), so the order is not the lever. Original: every ret-setting case except 0x55F1 sub-case 3 branches to the store at the end of sub-case 2 (sub-case 2 falls into it). Untried idea: the ret-setting cases in another form (ret assigned through a common label/goto, or the 0x55F1 sub-switch in a static inline helper that returns the call result).
  */
+/*
+ * 2026-10-05 (wave D5 lane09): DIFF, 96 bytes (was 782 with this tool run). New form: the 0x55F1
+ *   sub-cases 0 and 1 compute r and `goto set`, sub-case 2 falls into `set: ret = r; break;`. The shared
+ *   tail "str r0,[sp,#8]; b end" now sits after sub-case 2 as in the original, and every other
+ *   ret-setting case branches there. Residue: sub-case 3 is also merged into that tail (b 021D6F46);
+ *   the original keeps its own `str r0,[sp,#8]; b end` copy, so everything after it is 4 bytes short.
+ *   Tried for sub-case 3: no break, goto end, return types u32/short/u8 for func_021D87FC, all other
+ *   cases through goto set; the 0x55F1 switch as an inline helper (void with int *ret, or int return).
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -114,6 +123,7 @@ int func_021D6B40(u8 *p, int *done)
     int idx, sub;
     int n2, m2;
     int ret;
+    int r;
     char *base;
     char *base2;
     int i;
@@ -227,13 +237,15 @@ int func_021D6B40(u8 *p, int *done)
     case 0x55f1:
         switch (W(0x3e0)) {
         case 0:
-            ret = func_021D8754(p + 0x174, W(0x3ac));
-            break;
+            r = func_021D8754(p + 0x174, W(0x3ac));
+            goto set;
         case 1:
-            ret = func_021D879C(0x64, W(0x3ac));
-            break;
+            r = func_021D879C(0x64, W(0x3ac));
+            goto set;
         case 2:
-            ret = func_021D885C(0x64, W(0x3ac));
+            r = func_021D885C(0x64, W(0x3ac));
+        set:
+            ret = r;
             break;
         case 3:
             ret = func_021D87FC(0x64, W(0x3ac));

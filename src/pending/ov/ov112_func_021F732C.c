@@ -15,6 +15,10 @@
  * Tried: E/EA as macros re-read per use (matches the original), hide call in else arm (matches layout), declaration order of Vec/Mtx/ints (matches slots), explicit off local, t declared first, z0 temp (worse).
  * FX round macro (x>0 ? x*4096+0.5f : x*4096-0.5f) with x = u16 at self+0x434 matches.
  * 2026-10-05 wD4 lane09: DIFF, 36 bytes (was 54). Residues 2 and 3 closed: the else arm of func_021F4B24 is `zz = q+0x20; if (k - 7 <= 1u) zz += 0xA000; else zz += 0x5000; v3.z = zz - (EA[4] << 11);` (tail merge of the two adds gives the shared `adds r0,r1,r0`, and the constant slots now match). Residue: only the whole-body r4/r6 swap (off=i*4 in r6, t in r4; original off r4, t r6). Tried: i*4 in the E/EA macros with no off local, t declared before off, off declared last, t as a block-scoped initialised local: no change.
+ * 2026-10-05 wD5 lane16: DIFF, 36 bytes, same r4/r6 swap (original off=i*4 in r4, t in r6). Tried: t assigned inside the
+ *   `if (*(int *)(t = ...) == 1)` test, off assigned before the k chain (worse, 46), `off = i << 2`, `off = i; off *= 4;`,
+ *   u32 off, u32 i (37), E/EA/0xCC as `((u8 **)(q + 0x84))[i]` array reads (572) and as `q + i * 4 + K` (36),
+ *   t through a static inline getter. None moves the colours.
  * symbols:
  *   func_021F5450 0x021F5450 thumb ov112
  *   func_021F545C 0x021F545C thumb ov112

@@ -32,6 +32,13 @@
 /*
  * 2026-10-05 (wave D4 lane07): DIFF, unchanged 23 bytes. Re-read: the 301-byte copy uses r5 (the register that holds the constant 1 for func_021D8438(1)) for the destination d_021D9E46 and r3 for the stack source; the build swaps them, and the trailing byte schedules ldr lr first. No new form found beyond the earlier list; next idea: write the Big copy and the Sav copy through one struct type whose field order puts Sav first, or derive the 1 for func_021D8438 from a local.
  */
+/*
+ * 2026-10-05 (wave D5 lane09): DIFF, 23 bytes (21 with the g + 6 form). Tried: destination written as
+ *   `*(Sav *)(g + 6)` (pool word folds to r4 + 6: no; but the trailing ldrb then schedules before the
+ *   Big copy as in the original), memcpy through the house string.h (real call, no), the copy in a
+ *   static inline cp(Sav *d, const Sav *s) helper (identical). Finding: the source pointer gets r5 in
+ *   every form, whichever operand is computed first; the original gives r5 to the destination.
+ */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 b[301]; } Sav;

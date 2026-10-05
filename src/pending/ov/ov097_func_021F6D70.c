@@ -19,6 +19,13 @@
  *   emits the r2 computation (ldr r2,[sp,#0x24]; adds; lsls/asrs) after the stack stores and r3=0x20, the draft emits it
  *   first. Tried: plain r7 + w8 with no cast (same), reuse of the block-2 local x assigned before or after the y call
  *   (same), w8 as u8 (worse) or int (same), r7 as int with (u8) at the assignment (worse).
+ * 2026-10-05 (wave D5 lane 08): DIFF, 25 bytes, unchanged. Tried: a static inline draw helper for the
+ *   three blocks (worse, 203), volatile w8 (no change in the block-3 order), a new s16 local x3 = r7 + w8
+ *   before or after the y call, plain r7 + w8, the 4th callee parameter as s16 (ov198 sibling
+ *   prototype). The matched sibling ov198 func_0220D494 schedules its x + w1 chain early, as ours does;
+ *   here the original evaluates the chain last, after the stack stores.
+ *
+ * symbols:
  *
  * symbols:
  *   func_020457B0  0x020457B0  arm

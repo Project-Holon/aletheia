@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-05 (wD5 lane18): the off lever with the right shape: `int off = 0x1ed8;` and uses `p + i*4 + off`, `+ (off+0x18)`, `+ (off-0x1c)` (also with an i4 local and via `(u8**)p + i`): 236 B, 168 differ (worse than 125). The original recomputes p+i*4 per use and keeps i*4 (r7) plus off (r4) live, while ours CSEs p+i*4 into one register. Needs a form where p+i*4 is not shared; not found.
  * 2026-10-05 (wD4 lane16): constant-in-a-local lever: `int off = 0x1ed8;` with off, (off-0x1c) and `off-0x1c` spellings gives byte-identical output (125 differ). Compiler already keeps the in-place sub; the original keeps r4 live and recomputes off-0x1c per use (no CSE of the second 0x1ebc load) and colours rec=r6, i*4=r7.
  * 2026-10-04 (wave D2 lane03): DIFF, right size (240 bytes), logic read from the listing and all
  * 13 relocations resolve. Residue is allocator colouring only: original colours pool 0x1ED8=r4, rec=r6,

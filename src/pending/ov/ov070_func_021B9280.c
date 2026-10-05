@@ -25,6 +25,13 @@
  *   from after the 02008550 if): output identical, mwcc propagates both. The listing shows the 0x544 value
  *   and 0x7FC/0x69C/0x53 bases stored back after `adds` (o += 8 at the 0x804 store, k += 0xED, 0x69C-0xB4
  *   stored back as the loop base), which looks like compiler induction on spilled values, not source.
+ * note 2026-10-05 (wave D5 lane 15): still DIFF (1276 vs 1240, 1037 bytes). Tried the stored-back
+ *   shape as source variables: `o = 0x7FC` with o, o+4, o+0xC then `o += 8` for 0x804, and
+ *   `q = 0x69C` with q-0xBC, q-0xB8, `q -= 0xB4` as the 0x5E8 loop base: output identical to
+ *   the literal form (mwcc folds them). Reading: the target splits the 0x544 and zero CSE temps
+ *   at the 02008550 join (0 r7->r4, 0x544 r4->r7) and spills the 0x7FC derivation chain to
+ *   [sp,#0x18]; ours keeps 0x7FC in r7 and rematerialises 0x544 at each use. A spill-priority
+ *   residue; the source shape that changes it is not found.
  * symbols:
  *   func_021B8F98  0x021B8F98  thumb  ov070
  *   func_021B9178  0x021B9178  thumb  ov070

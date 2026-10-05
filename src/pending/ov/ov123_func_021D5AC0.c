@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD5 lane19): no new variant beyond the D2/D4 list; case 3 still merges with the end label (76 B vs 80 B).
  * 2026-10-05 (wD4 lane16): also tried empty static inline call, `if (mode == 100) {}`, `{ u32 t = mode; (void)t; }`, `for (;;) { break; }` in case 3: all 76 bytes, case 3 still merges with the end label. Residue unchanged.
  * note 2026-10-04: DIFF, 4 bytes short. Dense jump table matches once cases 0,1,2,4,5,7 are explicit. Original case 3
  *   (table entry 0x10) targets its own `b end` at +0x26, i.e. an arm with an empty body that is not merged with the end label;

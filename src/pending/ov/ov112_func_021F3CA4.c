@@ -33,6 +33,18 @@
  *   (func_0204044C(three = 3)): all give the same 512/524-byte code.  The head and tail
  *   r3 residues look like the same constant-hoisting heuristic (see ov123 021D9D3C).
  *
+ * note (2026-10-05, wave D5 lane 06): still DIFF, same residue (head: 3 and 1 held in r7/r4
+ *   for 3<<14, 1<<16, 1<<12; tail: r3 = r6 for the last 02049658/020498F4/0207D63C calls).
+ *   Tried this wave, all byte-identical to the draft (524 bytes): literal 3/1 in the calls with
+ *   the locals only in the shifts; the locals used in every later 3/1 argument; enum locals
+ *   assigned right before the calls; `register` locals; u32 locals with the matched u32
+ *   prototype of func_02048A24; FX32_CONST float macros for the camera words; int vs u32
+ *   prototypes for the r3 and stack parameters (no change to the r3 = r6 reuse); an SDK-style
+ *   G2_SetBlendAlpha inline (int and enum plane types).  SDK G3X_EdgeMarking/AntiAlias/
+ *   AlphaBlend inlines with if/else give 520 bytes but reorder the DISP3DCNT mask loads and
+ *   still miss the head, so the plain expressions stay.  Conclusion: every constant local is
+ *   copy-propagated before allocation; the original holds 3 and 1 as live values, so their
+ *   source is something not yet modelled (not a plain local, enum, register or inline param).
  * symbols:
  *   func_02046440  0x02046440  arm
  *   func_0204044C  0x0204044C  arm

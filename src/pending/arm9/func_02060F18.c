@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * 2026-10-05 (wave D5 lane 02): still DIFF, same 13 bytes. New tries: result copied early into a
+ * separate local (u32 and u8), old & 1 held in a local assigned between the two stores, compound
+ * |= with the early copy, named u16 pointer for the halfword, inline getter. All keep `and r0,r3,#1`
+ * after the final strh; the original does `and r3,r3,#1` before the orr and ends with `mov r0,r3`.
  *
  * Setter: replaces bit 0 of the halfword at +0x36 and returns the old bit 0.
  *

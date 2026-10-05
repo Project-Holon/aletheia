@@ -25,6 +25,13 @@
  *   `(ra != 0) ? 0 : 1`, `!ra`, if/else into a local (both orders), `fl = 1; if (ra) fl = 0;` all give
  *   `bne; movs 1; b; movs 0` or worse; a store in each arm gives 257 bytes. Swapping the arm order in
  *   source moves the blocks (329). Residue unchanged: slots (cb 8, g 0x10) and the beq/movs 0 flag order.
+ * note 2026-10-05 (wave D5 lane 12): still DIFF (17 lines). u32 g fixes nothing (g still at sp+8
+ *   whatever the declaration order, also as a block-local u16/u32 in arm A, also with all three int
+ *   or u32: then ca/cb move). The tail residue (+0x190, `ldr r1,[sp,#4]` for data hoisted above the
+ *   f14/f16 stores) is present in the u16 draft too, it is not caused by int g. Flag: if/else with
+ *   the store in each arm keeps the right beq polarity but is not tail-merged (456 bytes); a value
+ *   select always normalises to bne/movs 1 (tried ra != 0 ? 0 : 1 into ra, if/else into ra,
+ *   u32 ra with ra > 0 ? 0 : 1).
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb

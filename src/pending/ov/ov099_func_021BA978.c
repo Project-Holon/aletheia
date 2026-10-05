@@ -16,6 +16,12 @@
  * spilled to [sp,#0x18]; ours spills a1), and e = 0xE is rematerialised (movs #0xe; lsls #5) instead
  * of kept in r7, likely because r6/r7 are taken by a2/a3 in ours. Tried: e as u16/u32/enum, e * 0x20,
  * a3 as u8/u16, a1 as u8 (no change).
+ * 2026-10-05 (wave D5 lane 08): DIFF, 138 bytes. Logic fix: func_02028470(p + 0x26C, 2) belongs in
+ *   the a3 != 0 arm only (the original's a3 == 0 arm branches past it to the 0x190 reload). Body now
+ *   matches in shape; residue is the entry spill choice only: original keeps a1 in r6, a2 in r7 and
+ *   spills a3 to [sp,#0x18], then reuses r6 for k = 0xFF and r7 for e = 0xE; ours spills a1, keeps a2
+ *   in r6 and a3 in r7, and rematerialises e. Tried: k and e as reassigned a1 and a2, k as plain
+ *   literals (a1 still spilled, so the spill does not depend on k/e), local declaration orders.
  * symbols:
  *   func_02012FFC  0x02012FFC  thumb
  *   func_021BA8D4  0x021BA8D4  thumb  ov099
@@ -83,8 +89,8 @@ void func_021BA978(char *p, u32 a1, int a2, int a3)
     } else {
         u32 t = func_02012FFC();
         *(u32 *)(p + (k + 0xBD)) = func_0201CCE4(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + e * 0x20), 2, 0x21, 0xF);
+        func_02028470(p + 0x26C, 2);
     }
-    func_02028470(p + 0x26C, 2);
     func_02045334(*(u32 *)(p + 0x190));
     func_02045374(*(u32 *)(p + 0x190));
     func_02041B6C(2);

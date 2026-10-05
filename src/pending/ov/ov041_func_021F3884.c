@@ -27,6 +27,14 @@
  *   frame 0x104, 1298 bytes, worse while s still owns r7, so not kept. Re-apply it once s
  *   is spilled. The image also stores i1 + 1 in an int slot ([sp,#0x10]) and truncates it
  *   at each u16 use.
+ * note (2026-10-05, wD5 lane 11): still DIFF (648 differing listing lines). Filed the unlabelled callee
+ *   func_021F3F18 EXACT as src/matched/ov/ov041_func_021F3F18.c (switch 0..3 -> 0,2,4,6), so that relocation
+ *   resolves once its shard exists. Tried for the s/ctx spill: s and ctx as members of one local struct
+ *   (mwcc scalar-replaces it, no change); s declared last, ctx and s declared last (no change, s keeps r7).
+ *   Listing facts for the next try: case 4 builds 0x6A0 in r7 and derives 0x718 as r7 + 0x78 (constant held
+ *   in a local, D3 lever); case 5 zero-inits pos through `add r1,sp,#0x94` (block-local {0,0,0} form) and
+ *   shares 0x8000 in r1; case 6 holds the stack-argument 0 in r7 and reuses r4/r5 (w and state dead);
+ *   cases 3, 4, 5 each spill their own r/i value to 0x30, 0x34, 0x38; case 2 spills b0 to [sp,#8].
  *
  * symbols:
  *   func_021F3F18  0x021F3F18  thumb  ov041

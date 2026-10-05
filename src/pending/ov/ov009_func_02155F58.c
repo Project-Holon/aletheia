@@ -19,6 +19,11 @@
  *   with the label inside case 4 before its break (threaded to end, same output); the
  *   post-switch tail written out in the r == 0 arm (504 bytes, no cross-jump); an
  *   `else { ret = 0; }` / `else { ret = r; }` arm (still bne/b, worse).
+ * note (2026-10-05, D5-15): still 4 bytes. mwcc threads the branch to `end` without
+ *   checking range, so the original beq target must have held code at threading time
+ *   that a later pass removed (or a cross-jump merged a separate `b end` block into
+ *   case 4's tail). Tried: `do { if (r == 0) break; ... } while (0)` and again
+ *   `goto skip` with `skip: break;` after case 4's if (both bne/b, 440 bytes).
  *
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4

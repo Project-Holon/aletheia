@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-05 (wD5 lane19): still DIFF 18 B. Tried: ternary `f = (mode == 2) ? 1 : 0` with literal zero stores, u16 z shared and passed directly, u16 f as the zero, `f = (u16)z`, callee parameter u32 vs u16, const on p and r. Orig narrows (lsls/lsrs) eagerly into r4 from the shared r1; ours coalesces f with z and narrows at the call. Needs a source form where the copy to f is a real op.
  * note (2026-10-05, D4 lane 19): shared zero `int z` gives the right size (100 B); residue 18 B: the original narrows the flag to u16 right after the merge (z in r1, f in r4 across OS_DisableInterrupts), ours narrows at the call.
  * note: 2026-10-04 (wD1 lane17): DIFF, 8 bytes of schedule/colour residue. Orig keeps the zero for pos.b/pos.z in r1 and folds the ternary flag (mode==2 ? 1 : 0) into the same r1 with the u16 narrowing (lsls/lsrs 16) before OS_DisableInterrupts, flag lives in r4. Ours keeps zero in r4 and narrows at the call. Tried: u16 f, int f + (u16) cast, int z shared zero, ternary, stores before/after, u32 a for the stack byte (that part is fixed).
  * symbols:

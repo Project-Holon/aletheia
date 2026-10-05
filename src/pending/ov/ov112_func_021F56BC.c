@@ -41,6 +41,26 @@
  *   r3), the zero local stored at [sp] at entry, the spilled invariants, and the innermost k-loop
  *   which still needs re-deriving from the listing (021F5BD4..021F5E8C).
  *
+ * note (2026-10-05, wave D5 lane 06): body rewritten from a fresh reading of the listing
+ *   (the code after the mid pool needs `show --addr 0x021F5A5C --size 0x480 --thumb`, the
+ *   default show desyncs at 021F5A44).  Fixes: r4 is obj for the whole loop, so the j/k loops
+ *   read obj+0x6C/0x68/0x20/0x24/0xF8, func_021F5EDC takes obj (not p) and &cb.z (sp+0xB8,
+ *   zeroed per object), and the indirect call goes through the second parameter `arg`
+ *   (`arg((u8)pt->f4, &cb.pos, obj->fF8)`); a 0x3C-byte callback record at sp+0xB4 (w out
+ *   word, z, pos with y negated, x2/y2 scaled by obj->fD4/16 and fD8/16, z, obj+0xD4 vec,
+ *   obj+0x100 vec, obj->fFC, ang + (pt->f10 << 11)); on pt->f4 == 5 the result goes to
+ *   obj+0x100/0x104/0x108.  k loop: two rotations (part by pose.rot + sub.rot scaled by the
+ *   pose*sub scale, then the table entry (x, z at +2/+4) plus pose.dx/dz by pose.rot scaled by
+ *   pose.sx/sy), operand order (s64)vec * scale.  Else-branch: a local 4x4 matrix filled with
+ *   constants at sp+0x114, func_0207B5C0(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
+ *   &m4), second func_021F660C uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
+ *   test reads p[1][i] twice and bit 2 of obj->fEC as a bitfield; obj+0x90 and obj+0x68 are
+ *   loop-level pointer locals (sp+0x5C, sp+0x50).  Result: compiled 1996 vs 2080 (was 1684),
+ *   frame 0x248 vs 0x254, prologue and the obj test now line up modulo slot numbers.
+ *   Open: the zero stored at [sp] at entry (push without r3 in the original), the i slot
+ *   (0x5C vs 0x58), mid-pool placement (original after the attr word at 021F5A20), LoadPose
+ *   register shape (original keeps src = obj+0x28 in r0), the eight spilled 0x800 rounding
+ *   words at sp+0x80..0x94/0x9C/0xA0 and the 0x100/0x10C offsets at sp+0x98/0xA4..0xAC.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
@@ -70,6 +90,7 @@
  *   d_021F8304 0x021F8304 data ov112
  *   d_02148B98 0x02148B98 data
  *   d_020A1B38 0x020A1B38 data
+ *   d_02148B54 0x02148B54 data
  */
 
 typedef unsigned char  u8;
@@ -77,7 +98,6 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 typedef long long      s64;
-
 #define REG(a) (*(volatile u32 *)(a))
 
 typedef struct { int x, y, z; } Vec;
@@ -97,38 +117,68 @@ typedef struct {
 } Ent;
 
 typedef struct {
-    u32 f0, f4;
-    u32 x, z;
+    u32 f0;
+    u32 f4;
+    int x;
+    int z;
     u32 f10;
 } Part;
 
 typedef struct {
-    s16 v[0x38];
-} Big;
+    u16 f0;
+    s16 x;
+    s16 z;
+    u16 h;
+} TabEnt;
+
+typedef struct {
+    u16 count;
+    u16 pad;
+    TabEnt *ents;
+} Tab;
+
+typedef struct {
+    int w;
+    int z;
+    Vec pos;
+    int x2;
+    int y2;
+    int z2;
+    Vec scale;
+    Vec v100;
+    u16 rot;
+    u16 ang;
+} CB;
+
+typedef struct { int m[12]; } Mtx43;
+typedef struct { int m[16]; } Mtx44;
+typedef struct { int m[9]; } Mtx33;
 
 extern const s16 d_020A1B38[];
 extern const Vec d_02148D8C, d_02148D98, d_02148DA4;
 extern const Vec d_021F8310, d_021F831C, d_021F8304;
-extern const u8 d_02148B98[];
+extern const Mtx43 d_02148B98;
+extern const Mtx44 d_02148B54;
 
 extern void func_0207D7C4(const Vec *a, const Vec *b, const Vec *c, int d);
-extern void func_0207B67C(const void *a, void *m);
-extern void func_02082B60(void *a, void *b);
-extern void func_0207ADE8(void *a, void *b);
-extern void func_0207B5C0(void *m);
-extern void func_0207BE14(const void *a, void *b, void *c);
+extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
+extern void func_02082B60(Mtx43 *a, Mtx33 *b);
+extern void func_0207ADE8(Mtx33 *a, Mtx44 *b);
+extern void func_0207B5C0(const Mtx43 *src, Mtx44 *dst);
+extern void func_0207BE14(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
 extern int func_0207C768(int a, int b);
-extern void func_0207D8FC(void *m);
+extern void func_0207D8FC(Mtx44 *m);
 extern void func_0207D888(int s, int c);
-extern void func_0207AF38(void *m, int s, int c);
-extern void func_0207B51C(void *v, void *m, void *out);
+extern void func_0207AF38(Mtx33 *m, int s, int c);
+extern void func_0207B51C(void *v, Mtx33 *m, void *out);
 extern void func_0207CA00(void *a, void *b, void *c);
-extern void func_021F660C(const int *p, const int *m, u32 *out, u32 *w);
+extern void func_021F660C(Vec *p, void *m, Vec *out, int *w);
 extern void func_021F65EC(void);
-extern void func_021F5EDC(char *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, Pose *q, Pose *r,
-                          int j, int flag, void *w, int h);
+extern void func_021F5EDC(char *obj, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, Pose *q, Pose *r,
+                          int j, int flag, int *w, int h);
 
 typedef struct { u32 b0 : 1; u32 rest : 31; } Bits;
+typedef struct { u32 b0 : 1; u32 b1 : 1; u32 b2 : 1; u32 rest : 29; } Bits3;
 static inline int RoundF(int v)
 {
     return (int)(v > 0 ? (float)(v << 12) + 0.5f : (float)(v << 12) - 0.5f);
@@ -159,20 +209,48 @@ static inline void LoadPose(Pose *r, char *src, int one)
     }
 }
 
-void func_021F56BC(int *p, int arg)
+/* the sub-pose loader leaves dz untouched for kind 0 (listing 021F5ACE..021F5AE6) */
+static inline void LoadSubPose(Pose *r, char *src, int one)
 {
-    u8 m1[0x24];
-    u8 m2[0x30];
-    u8 m3[0x40];
-    u8 m4[0x30];
-    u8 m5[0x24];
-    Vec pos;
-    Vec tv;
+    char *q = *(char **)src;
+    u32 kind = (u16)*(u32 *)(*(char **)(src + 0x1c) + 4);
+    if (kind == 0) {
+        s16 *s = *(s16 **)q;
+        r->id = s[0];
+        r->rot = 0;
+        r->sx = one;
+        r->sy = one;
+        r->dx = 0;
+    } else if (kind == 1) {
+        *r = **(Pose **)q;
+    } else if (kind == 2) {
+        s16 *s = *(s16 **)q;
+        r->id = s[0];
+        r->rot = 0;
+        r->sx = one;
+        r->sy = one;
+        r->dx = s[2];
+        r->dz = s[3];
+    }
+}
+
+void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
+{
     Pose pose;
     Pose sub;
-    u32 w[2];
-    int i, j, k;
+    Vec pos;
+    Mtx44 m3;
+    Mtx43 m1;
+    Mtx33 m2;
+    Mtx44 m4;
+    Mtx44 proj;
+    Mtx33 m5;
+    CB cb;
+    int i, j;
+    u8 k;
     char *obj;
+    u32 *attr;
+    char **srcs;
     int ox, oy;
     u8 flag;
     int one;
@@ -188,16 +266,18 @@ void func_021F56BC(int *p, int arg)
         func_0207D7C4(&d_02148D8C, &d_02148D98, &d_02148DA4, 1);
     else
         func_0207D7C4(&d_021F8310, &d_021F831C, &d_021F8304, 1);
-    func_0207B67C(d_02148B98, m1);
-    func_02082B60(m1, m2);
-    func_0207ADE8(m2, m3);
+    func_0207B67C(&d_02148B98, &m1);
+    func_02082B60(&m1, &m2);
+    func_0207ADE8(&m2, &m3);
 
     for (i = 0; i < p[0]; i++) {
-        obj = ((char **)p[1])[i];
-        if (obj == 0 || ((*(u32 *)(obj + 0xEC) >> 2) & 1))
+        if (((char **)p[1])[i] == 0 || ((Bits3 *)(((char **)p[1])[i] + 0xEC))->b2)
             continue;
         REG(0x04000444) = 0;
-        w[0] = 0;
+        obj = ((char **)p[1])[i];
+        attr = (u32 *)(obj + 0x90);
+        srcs = (char **)(obj + 0x68);
+        cb.z = 0;
         LoadPose(&pose, obj + 0x28, 0x1000);
         pos.x = *(int *)(obj + 0xC8);
         pos.y = *(int *)(obj + 0xCC);
@@ -206,12 +286,28 @@ void func_021F56BC(int *p, int arg)
             ox = pose.dx << 8;
             oy = -pose.dz << 8;
         } else {
-            func_0207B5C0(m4);
-            func_0207BE14(m4, m4, m4);
-            func_021F660C(&pos.x, (int *)m4, (u32 *)&pos, w);
-            pos.x = func_0207C768(pos.x, w[0]);
-            pos.y = func_0207C768(pos.y, w[0]);
-            func_021F660C(&pos.x, (int *)m5, (u32 *)&pos, w);
+            proj.m[0] = 0x80000;
+            proj.m[1] = 0;
+            proj.m[2] = 0;
+            proj.m[3] = 0x80000;
+            proj.m[4] = 0;
+            proj.m[5] = 0x60000;
+            proj.m[6] = 0;
+            proj.m[7] = (int)0xFFFA0000;
+            proj.m[8] = 0;
+            proj.m[9] = 0;
+            proj.m[10] = (int)0xFFFFF000;
+            proj.m[11] = 0x1000;
+            proj.m[12] = 0;
+            proj.m[13] = 0;
+            proj.m[14] = 0;
+            proj.m[15] = (int)0xFFFFF000;
+            func_0207B5C0(&d_02148B98, &m4);
+            func_0207BE14(&m4, &d_02148B54, &m4);
+            func_021F660C(&pos, &m4, &pos, &cb.w);
+            pos.x = func_0207C768(pos.x, cb.w);
+            pos.y = func_0207C768(pos.y, cb.w);
+            func_021F660C(&pos, &proj, &pos, &cb.w);
             ox = RoundF(pose.dx);
             oy = RoundF(-pose.dz);
         }
@@ -223,7 +319,7 @@ void func_021F56BC(int *p, int arg)
         REG(0x04000470) = pos.y;
         REG(0x04000470) = pos.z;
         if ((((Bits *)&p[2])->b0) == 0)
-            func_0207D8FC(m3);
+            func_0207D8FC(&m3);
         REG(0x04000470) = ox;
         REG(0x04000470) = oy;
         REG(0x04000470) = 0;
@@ -231,6 +327,7 @@ void func_021F56BC(int *p, int arg)
             u16 a = (flag & 1) ? (u16)(0x10000 - pose.rot) : pose.rot;
             func_0207D888(-d_020A1B38[(a >> 4) * 2], d_020A1B38[(a >> 4) * 2 + 1]);
         }
+        j = 0;
         {
             int sy = (int)(((s64)pose.sy * *(int *)(obj + 0xD8) + 0x800) >> 12);
             int sx = (int)(((s64)pose.sx * *(int *)(obj + 0xD4) + 0x800) >> 12);
@@ -241,8 +338,8 @@ void func_021F56BC(int *p, int arg)
         }
         {
             u16 a = *(u16 *)(obj + 0xFC);
-            func_0207AF38(m5, -d_020A1B38[(a >> 4) * 2], d_020A1B38[(a >> 4) * 2 + 1]);
-            func_0207B51C(obj + 0x100, m5, obj + 0x10C);
+            func_0207AF38(&m5, -d_020A1B38[(a >> 4) * 2], d_020A1B38[(a >> 4) * 2 + 1]);
+            func_0207B51C(obj + 0x100, &m5, obj + 0x10C);
             func_0207CA00(obj + 0x100, obj + 0x10C, obj + 0x10C);
             *(int *)(obj + 0x10C) = func_0207C768(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
             *(int *)(obj + 0x110) = func_0207C768(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
@@ -250,53 +347,67 @@ void func_021F56BC(int *p, int arg)
         REG(0x04000450) = 0x1D;
         func_021F65EC();
         {
-            u32 *a = (u32 *)(obj + 0x90);
+            u32 *a = attr;
             REG(0x040004A8) = (a[7] << 29) | (a[4] << 23) | (a[3] << 20) | 0xF0000 |
                               (a[5] << 26) | (a[0] >> 3) | 0x40000000;
         }
-        {
-            u16 *list = *(u16 **)(*(char **)(p[0x1B] + 4) + pose.id * 8 + 0);
-            char *tab = *(char **)(*(char **)(p[0x1B] + 4) + pose.id * 8 + 4);
-            (void)list;
-            for (j = 0; j < *(u16 *)(*(char **)(p[0x1B] + 4) + pose.id * 8); j++) {
-                u16 h = *(u16 *)(tab + j * 8 + 6);
-                char *src = *(char **)(obj + 0x68) + ((h & 0xFF00) >> 8) * 0x5C;
-                LoadPose(&sub, src, one);
-                ent = (Ent *)(p[8] + 4 + sub.id * 0x38);
-                if (ent->f20 != 0) {
-                    if (*(u32 *)(obj + 0xEC) & 1)
-                        func_021F5EDC((char *)p, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
-                                      ent->f2C + ent->f24, &sub, &pose, j, ((Bits *)&p[2])->b0, m1, flag);
-                    else
-                        func_021F5EDC((char *)p, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
-                                      ent->f2C, &sub, &pose, j, ((Bits *)&p[2])->b0, m1, flag);
-                }
-                func_021F5EDC((char *)p, ent->f0, ent->f4, ent->f8, ent->fC, ent->f10, ent->f14,
-                              &sub, &pose, j, ((Bits *)&p[2])->b0, m1, flag);
-                for (k = 0; k < 8; k++) {
-                    u8 b = ent->parts[k];
-                    Part *pt;
-                    u16 ang;
-                    int s, c, fx, fz, rx, rz;
-                    if (b == 0xFF)
-                        break;
-                    ang = (u16)(pose.rot + sub.rot);
-                    pt = (Part *)(p[9] + b * 0x14);
-                    s = d_020A1B38[(ang >> 4) * 2];
-                    c = d_020A1B38[(ang >> 4) * 2 + 1];
-                    fx = (int)(((s64)pose.sx * sub.sx + 0x800) >> 12);
-                    fz = (int)(((s64)pose.sy * sub.sy + 0x800) >> 12);
-                    rx = (int)(((s64)fx * (int)(pt->x * c - pt->z * s) + 0x800) >> 12);
-                    rz = (int)(((s64)fz * (int)(pt->x * s + pt->z * c) + 0x800) >> 12);
-                    tv.x = *(int *)(obj + 0xC8) + rx + RoundF(sub.dx);
-                    tv.y = *(int *)(obj + 0xCC) - rz + RoundF(sub.dz);
-                    tv.z = *(int *)(obj + 0xD0);
-                    ((void (*)(u8, Vec *, int))p[0x3E])((u8)pt->f4, &tv, arg);
-                    if (pt->f4 == 5) {
-                        *(int *)(obj + 0x10C) = tv.x;
-                        *(int *)(obj + 0x110) = tv.y;
-                        *(int *)(obj + 0x114) = 0;
-                    }
+        for (; j < (*(Tab **)(obj + 0x6C))[pose.id].count; j++) {
+            TabEnt *te;
+            char *src;
+            te = &(*(Tab **)(obj + 0x6C))[pose.id].ents[j];
+            src = *srcs + ((te->h & 0xFF00) >> 8) * 0x5C;
+            LoadSubPose(&sub, src, one);
+            ent = (Ent *)(*(char **)(obj + 0x20) + 4 + sub.id * 0x38);
+            if (ent->f20 != 0) {
+                if (*(u32 *)(obj + 0xEC) & 1)
+                    func_021F5EDC(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
+                                  ent->f2C + ent->f24, &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
+                else
+                    func_021F5EDC(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
+                                  ent->f2C, &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
+            }
+            func_021F5EDC(obj, ent->f0, ent->f4, ent->f8, ent->fC, ent->f10, ent->f14,
+                          &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
+            for (k = 0; k < 8; k++) {
+                u8 b = ent->parts[k];
+                Part *pt;
+                u16 pr, ang;
+                int s, c, s2, c2, fx, fz, X, Z, rx, rz;
+                if (b == 0xFF)
+                    break;
+                pr = pose.rot;
+                ang = (u16)(pr + sub.rot);
+                pt = (Part *)(*(char **)(obj + 0x24) + b * 0x14);
+                fx = pt->x;
+                fz = pt->z;
+                s = d_020A1B38[(ang >> 4) * 2];
+                c = d_020A1B38[(ang >> 4) * 2 + 1];
+                rx = (int)(((s64)(fx * c - fz * s) *
+                            (int)(((s64)pose.sx * sub.sx + 0x800) >> 12) + 0x800) >> 12);
+                rz = (int)(((s64)(fx * s + fz * c) *
+                            (int)(((s64)pose.sy * sub.sy + 0x800) >> 12) + 0x800) >> 12);
+                X = te->x + pose.dx;
+                Z = te->z + pose.dz;
+                s2 = d_020A1B38[(pr >> 4) * 2];
+                c2 = d_020A1B38[(pr >> 4) * 2 + 1];
+                rx += (int)(((s64)(X * c2 - Z * s2) * pose.sx + 0x800) >> 12);
+                rz += (int)(((s64)(X * s2 + c2 * Z) * pose.sy + 0x800) >> 12);
+                rx += RoundF(sub.dx);
+                rz += RoundF(sub.dz);
+                cb.pos = pos;
+                cb.pos.y = -cb.pos.y;
+                cb.x2 = (int)(((s64)rx * (*(int *)(obj + 0xD4) / 16) + 0x800) >> 12);
+                cb.y2 = (int)(((s64)rz * (*(int *)(obj + 0xD8) / 16) + 0x800) >> 12);
+                cb.z2 = cb.z;
+                cb.v100 = *(Vec *)(obj + 0x100);
+                cb.rot = *(u16 *)(obj + 0xFC);
+                cb.scale = *(Vec *)(obj + 0xD4);
+                cb.ang = (u16)(ang + (pt->f10 << 11));
+                arg((u8)pt->f4, &cb.pos, *(u32 *)(obj + 0xF8));
+                if (pt->f4 == 5) {
+                    *(int *)(obj + 0x100) = cb.x2;
+                    *(int *)(obj + 0x104) = cb.y2;
+                    *(int *)(obj + 0x108) = 0;
                 }
             }
         }

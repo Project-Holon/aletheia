@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note 2026-10-05 (wD5 lane18): tried k = call result as a local with `for (i = 0, xx = x; ...)` and pal computed inside the outer body (LICM preheader order is what the original shows: x to ip, i=0, then v*5): 176 B, 116 differ, v spilled to [sp,#0x10]. xx/i before v (64), xx/i after v (67), still no gain. Residue unchanged: original schedules `ldr x; mov ip; i=0` before the v*5 arithmetic.
  *
  * 2026-10-04 (wD1 lane 11): 29 of 172 bytes differ, pure scheduling and
  * colouring, same length and same stack frame. The original loads x ([sp,#0x10])

@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH
+ * 2026-10-05 (wave D5 lane 02): ov112 0x021F546C is a different function from the ov194 one (a 172-byte slot
+ * writer: mode >= 7 copies an input record into slot mode-7, modes 4 and 5 write four words). Parked as
+ * src/pending/ov/ov112_func_021F546C.c, DIFF. Still blocks this MATCH.
  * 2026-10-05 (wD4 lane16): re-checked, bytes identical; MATCH only because func_021F546C (ov112) has no EXACT witness (ov194 has a pending file at the same address, 9 overlays overlap). Needs the callback matched in ov112.
  * blocker: callback ov112 021F546C has no outside witness; final retry exhausted in docs/notes/pkt_ov112_021F546C.c.txt (170 vs 172 bytes).
  * symbols:

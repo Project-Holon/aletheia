@@ -20,6 +20,11 @@
  *   i declared last: all spill slots now match. Residue: `ldr r1,[sp,#0x34]` (species) comes
  *   before `add r2/r3,sp` at both call sites; image loads it last. int species takes the
  *   lowest slot (worse).
+ * note (2026-10-05, D5-12): still 10 bytes. The species reload goes first at both calls even
+ *   when species is volatile, so it is argument order, not memory scheduling. Tried: const u32
+ *   species (slots move), u16 id parameters on func_0200CC40/func_0200D144 (worse, frame grows),
+ *   func_021BC3C0 returning u32 (same 10). Next: find why species ranks above pd in the
+ *   argument order (an inline helper parameter or a differently typed pd are untested).
  *
  * symbols:
  *   func_021BC3C0  0x021BC3C0  thumb

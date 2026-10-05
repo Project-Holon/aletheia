@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note 2026-10-05 (wD5 lane18): channel order a-green, then table, then a/b blue, red, b-green with the lerp order blue, red, green: 208 bytes (original 208), 167 differ (was 185). Residue: original makes the phase pointer r0 and ph r1 (`adds r0,r1,#0; ldrh r1,[r0]`), ours keeps the pointer in r1 and ph in r0.
  * note (2026-10-05, wD4 lane17): still DIFF, 185 bytes. Tried: green channel of a computed before the table lookup, lerp statement order blue/red/green (the original lerps in that order), local copy of the phase pointer (propagated away). Original keeps the phase pointer in r0 and the value in r1 (copy `adds r0,r1,#0` first); ours keeps the pointer in r1. Original also holds a (r5) and b (r3) in registers across the lerps.
  *
  * note (2026-10-04): lane17 wave D2: 204 bytes vs 208, first draft. Logic: phase += step with wrap at 0x10000 (signed int compare), t = (s16)((tbl_020A1B38[(phase >> 4) * 2 + 1] + 0x1000) / 2), per-channel RGB555 lerp (a + ((b - a) * t >> 12)), write u16, call func_02061CA4(0xF, row * 32 + idx * 2, out, 2), return *out == b. Residue: original copies the phase pointer to r0 first (adds r0,r1,#0; ldrh r1,[r0]) and reads the stack colour args a (r5) and b (r3) before the table lookup; ours loads a/b after t. Try computing the channels of a before t and keeping phase in a local pointer.
@@ -22,7 +23,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern s16 tbl_020A1B38[];
 extern int func_02061CA4(u32 ch, u32 off, u16 *src, u32 size);
-
 int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b)
 {
     int ph = *phase + step;
@@ -30,16 +30,16 @@ int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b)
     u32 r0, g0, b0, r1, g1, b1;
     if (ph >= 0x10000) *phase = ph - 0x10000;
     else *phase = ph;
-    t = (s16)((tbl_020A1B38[(*phase >> 4) * 2 + 1] + 0x1000) / 2);
-    r0 = (u8)(a & 0x1F);
     g0 = (u8)((a & 0x3E0) >> 5);
+    t = (s16)((tbl_020A1B38[(*phase >> 4) * 2 + 1] + 0x1000) / 2);
     b0 = (u8)((a & 0x7C00) >> 10);
+    b1 = (u8)((b & 0x7C00) >> 10);
+    r0 = (u8)(a & 0x1F);
     r1 = (u8)(b & 0x1F);
     g1 = (u8)((b & 0x3E0) >> 5);
-    b1 = (u8)((b & 0x7C00) >> 10);
+    b0 = (u8)(b0 + (((int)(b1 - b0) * t) >> 12));
     r0 = (u8)(r0 + (((int)(r1 - r0) * t) >> 12));
     g0 = (u8)(g0 + (((int)(g1 - g0) * t) >> 12));
-    b0 = (u8)(b0 + (((int)(b1 - b0) * t) >> 12));
     *out = (u16)(r0 | (g0 << 5) | (b0 << 10));
     func_02061CA4(0xF, row * 32 + idx * 2, out, 2);
     return *out == b;

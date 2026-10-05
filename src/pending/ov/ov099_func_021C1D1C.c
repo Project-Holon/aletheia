@@ -17,10 +17,15 @@
  *
  * 2026-10-05 (wave D4 lane 04): DIFF, 313 bytes. func_020450F0 third parameter is u8 here (the
  * original truncates y + 1 with lsls/lsrs #0x18 in both calls and hoists the inner (u8)(y + 1) to
- * [sp,#0x24]); x written inline as ((i >> 1) / 4 << 4) (a CSE temp in r5, as in the original); q and r
+ * [sp,#0x24]); x written inline as (i / 4 << 4) (a CSE temp in r5, as in the original); q and r
  * locals removed. i is now at [sp,#0x20] as in the original. Residue: y = (i % 4) * 6 spilled to
  * [sp,#0x1c]; the original keeps y in r7 and spills p + i*4 to [sp,#0x14]; size still 596 vs 600.
  * Tried: y inline too (y + 1 then CSEs, wrong), y declared first or last, register y.
+ * 2026-10-05 (wave D5 lane 08): DIFF, 284 bytes (size still 596 vs 600). Logic fix: the original computes
+ *   x = (i / 4) << 4 (asrs #1; lsrs #0x1e; adds; asrs #2 is the signed /4 idiom), not (i >> 1) / 4.
+ *   Named locals x and q = p + i*4 now give the original order (u8)(y + 1), x, q. Residue: y spilled to
+ *   [sp,#0x18] with x in r7 and q in r5; the original keeps y in r7, x in r5 and spills q to [sp,#0x14]
+ *   (i at [sp,#0x20]). With x and q inline (no locals) x is in r5 and i at [sp,#0x20] but y is spilled.
  * symbols:
  *   func_02049B68  0x02049B68  arm
  *   func_02049740  0x02049740  arm
@@ -76,13 +81,14 @@ void func_021C1D1C(u8 *p, void *a, u32 heap)
     func_02049B40(0x17, 5, 4, 0xf << 5, 0x20, heap);
     for (i = 0; i < 8; i++) {
         y = (i % 4) * 6;
-
-        *(void **)(p + i * 4 + 0x8F8) = func_020450F0(7, ((i >> 1) / 4 << 4) + 4, y + 1, 9, 3, 0xf, 1);
-        func_02043B5C(func_02045770(*(void **)(p + i * 4 + 0x8F8)), 0);
-        func_02045334(*(void **)(p + i * 4 + 0x8F8));
+        x = i / 4 << 4;
+        q = p + i * 4;
+        *(void **)(q + 0x8F8) = func_020450F0(7, x + 4, y + 1, 9, 3, 0xf, 1);
+        func_02043B5C(func_02045770(*(void **)(q + 0x8F8)), 0);
+        func_02045334(*(void **)(q + 0x8F8));
 
         for (j = 0; j < 2; j++) {
-            *(void **)(p + i * 8 + j * 4 + 0x918) = func_020450F0(5, ((i >> 1) / 4 << 4) + 1 + j * 12, y + 1, 2, 3, 0xf, 1);
+            *(void **)(p + i * 8 + j * 4 + 0x918) = func_020450F0(5, x + 1 + j * 12, y + 1, 2, 3, 0xf, 1);
             func_02043B5C(func_02045770(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
             func_02045334(*(void **)(p + i * 8 + j * 4 + 0x918));
         }

@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * note: 2026-10-05 (wD5 lane17): still DIFF 18 bytes. New tests: count as an int local with (s16) cast (worse, 168 bytes), r declared inside the if block (same 18 bytes: the movs r5,#0 is hoisted regardless). Residue unchanged: owner/r colour swap plus asrs/ldr order at the 02014184 call.
  * 2026-10-05 (wD4 lane19): still DIFF 18 bytes. Tried t-local for the lo-minus-getter chain (4 bytes worse), z shared with r init, r declared first, ctx/node/x assigned after declarations: no change or worse. Residue stays the owner/r colour swap (r4/r5) plus the asrs/ldr order at the 02014184 call.
  *
  * symbols:

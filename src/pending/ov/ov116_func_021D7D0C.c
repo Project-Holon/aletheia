@@ -11,6 +11,13 @@
  * 2026-10-05 (wave D4 lane 04): DIFF, 10 bytes, unchanged. Tried: house prototype func_02049B40(u32
  * x5, u16 f) (adds a lsls/lsrs of heap, 40 bytes); a u16 heap parameter (352 bytes). Residue: the
  * original stores the 0x20 stack argument (r6) before it reloads heap from [sp,#0x14].
+ * 2026-10-05 (wD5 lane 11): DIFF, still the same 5 lines (last call setup only). The region after the
+ *   last func_0201F5DC call is identical up to the p+0x988 store; the original then keeps the heap reload
+ *   after the str r6,[sp] (as if the load had a memory dependence on the outgoing-argument store), ours
+ *   hoists it. Tried: offset local `off = 0x1f4` with `off - 0x74` for the 0x180 argument, `k = 0x978` local
+ *   for the 0x978/0x984/0x988 fields, u8 c20, const and volatile heap parameter (volatile homes r0-r3, worse),
+ *   *(u32 *)&heap at the last call (worse), variadic prototypes (int,int,int,int,...) and (...,int,...),
+ *   returning the call result. None moves the load.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

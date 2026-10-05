@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-05 (wD5 lane19): still DIFF 198 B. Tried: u32 i/n, const base pointer through the whole chain (callee prototypes const), const callee prototypes only: allocation unchanged (orig keeps i and n on the stack, e in r7).
  *
  * Note 2026-10-04 (wD2 lane12): decoded. Original is the same GX writes with every hoisted address kept on the stack by the allocator (copy then add spill pairs). p offsets 0x1b4/0x1b6/0x1ba/0x1bc are 0x1ac (spilled const) + 8/0xa/0xe/0x10: model p as struct Big { u8 pad[0x1AC]; struct Cam c; } with c = {u8 cnt; pad[7]; s16 x,y,z; Ent t[]} so each field gets its own hoisted offset (this draft, 252 bytes; original 244, frame 0x28). Keep (u32)r +- K arithmetic for the GX regs (r[0x17] index form folds the constant, wrong). Open: q = p + b*6 then ldrsh [q, 0x1ba]; hoisted-offset count and slot order.
  *

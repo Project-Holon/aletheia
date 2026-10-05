@@ -9,6 +9,7 @@
  * isa: thumb
  * status: DIFF
  * note (2026-10-05, wD4 lane17): still DIFF, 159 bytes, 212 vs 208. Tried k as int, declaration order of all locals reversed: no change. Listing facts: original frame has 4 slots (idx [sp], h [sp+4], v as (x<<24) [sp+8], rc at sp+0xC); idx is spilled and k lives in r7, v is spilled. Ours keeps idx in r7, spills k, keeps v in r7. Needs a way to make idx the spilled value.
+ * 2026-10-05 (wD5 lane20): 159 -> 36 bytes (the residue is one load placement plus a 2 byte shift). Levers: `k = idx;` written BEFORE `if (a[8] == 3) return;` (the original loads r7 from the idx spill before the compare; this makes idx the spilled value and k the r7 value, prologue now matches), and `u32 xk = rc.xv.b[k]; rc.x = xk + (v >> 1);` (loads xv[k] before the v shift). Residue: ours reloads idx (`ldr r2,[sp]`) for the third call (func_021B8B94) hoisted above the xv/yv byte copies; the original reloads it right before the call like the first two. Tried: operand swap in rc.x, u32 k as the parameter with idx a copy (65 bytes, k in r6).
  * symbols:
  *   func_021BE05C 0x021BE05C thumb ov172
  *   func_021B8BA4 0x021B8BA4 thumb ov172
@@ -57,8 +58,8 @@ void func_021BE210(char *a, u32 idx)
     int mode;
     u32 k;
     mode = func_021BE05C(a);
-    if (*(int *)(a + 8) == 3) return;
     k = idx;
+    if (*(int *)(a + 8) == 3) return;
     if (mode == 1) k = (k == 0) ? 2 : 3;
     if (func_021B8BA4((int)a, *(char **)(a + 0x1E4), idx) != 1) return;
     if (func_021B8B8C((int)a, *(char **)(a + 0x1E4), idx) != 1) return;
@@ -67,7 +68,7 @@ void func_021BE210(char *a, u32 idx)
     h = func_02008510(func_021B8B94((int)a, *(char **)(a + 0x1E4), idx), *(u16 *)a);
     v = (u8)func_0201D304(h, *(u32 *)(a + 0x1C8), 0);
     func_02045808(h);
-    rc.x = rc.xv.b[k] + (v >> 1);
+    { u32 xk = rc.xv.b[k]; rc.x = xk + (v >> 1); }
     rc.y = rc.yv.b[k];
     func_0204B404(*(void **)(a + 0x1B0), &rc, 0);
     func_0204B3DC(*(void **)(a + 0x1B0), 1);

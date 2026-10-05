@@ -27,6 +27,14 @@
  *   func_020490F4 call (fixes the early movs r6,#0); a heap local 0x6b (propagated); explicit ob/oc locals
  *   per group (propagated and folded); chr/pl/ce pointer locals (worse). Next: find why off spills while
  *   0x6b stays CSE'd in r7 (five live values: h r4, p r5, i r6, 0x6b r7, off on the stack).
+ * 2026-10-05 (wave D5 lane09): DIFF, residue unchanged (472 vs 500 bytes). New reading: the derived
+ *   offsets (+0x18, +0x30, -0x8c, +4, +0x1c, 0xBA4+0x54/+0x6c, 0xBEC+0x18/+0x30) are mwcc's own Thumb
+ *   constant derivation (this draft emits them too). The real gap is the 0x6b in r7 for the first two
+ *   stack arguments of the 0x9f group: in the 0x7 and func_020275E4 groups the original rematerialises
+ *   0x6b even when r7 is free, so the r7 copy is a source value, not a compiler CSE. Tried: one handle
+ *   variable for all three groups (identical output); the 0x9f group as a static inline helper with a
+ *   u32 heap parameter and `heap | 0x8000` (propagated, identical). Next: find a source value equal to
+ *   0x6b that survives propagation for the two stack arguments only.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049238 0x02049238 arm

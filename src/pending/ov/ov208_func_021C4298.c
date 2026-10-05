@@ -18,6 +18,15 @@
  *   W(0x6b8) arms) and the 0x548 base in cases 0x1c/0x1d; cur/id2 spill to [sp,#0x14]/[sp,#0x10]. Ours
  *   spills the id webs to [sp,#0x28]/[sp,#0x2c] and gives r7 to ev. Tried: one `cur` for both cases
  *   (no change, 1098 bytes differ). Still 1236 vs 1288 bytes.
+ * note (2026-10-05, wave D5 lane 03): logic fix: the image calls _u32_div_f (0x0209C2B0), not
+ *   _s32_div_f, in cases 0x1c/0x1d; the count H(0x548) is a u32 local `n`, loaded once for the `>= 3`
+ *   test and the first `%`, and reloaded (`n = H(0x548)`) in the inner if (image reloads into r2).
+ *   Now 1244 vs 1288 bytes, 1106 bytes differ. Residue is still the allocator: image spills ev (13
+ *   reloads via `ldr rX,=K; add rX,sp; ldr [rX,#4]`), flag and sys, and keeps id / the 0x548 base in r7;
+ *   ours keeps ev in r7 and spills the 0x548 base and id. Also tried sB/sA as `struct Ov208Sel sel[2]`
+ *   and bufs as `u8 buf[2][0x400]` (the image addresses sA.count as sp+0x20+0x12): no change.
+ *   Hint from 021BEB18 (closed to MATCH this wave): its "parameter in home slot" residue was a wrong
+ *   argument (a constant 0 that the image keeps in r7), so re-check every call argument here.
  * symbols:
  *   ov208_func_021BC3B4 0x021BC3B4 thumb ov208
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
@@ -75,6 +84,7 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, u8 *p, int key, int ev
     int flag;
     void *sys;
     u32 cur;
+    u32 n;
     if (p == 0)
         return;
     sys = ov208_func_021BC3B4(key);
@@ -150,12 +160,14 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, u8 *p, int key, int ev
         }
         break;
     case 0x1c:
-        if (H(0x548) >= 3) {
+        n = H(0x548);
+        if (n >= 3) {
             H(0x550) = H(0x550) + 1;
-            H(0x550) = H(0x550) % H(0x548);
+            H(0x550) = H(0x550) % n;
             if (H(0x54e) == H(0x550)) {
+                n = H(0x548);
                 H(0x550) = H(0x550) + 1;
-                H(0x550) = H(0x550) % H(0x548);
+                H(0x550) = H(0x550) % n;
             }
             ov208_func_021C5C64(heap, p, key);
             W(0x698) = 1;
@@ -163,12 +175,14 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, u8 *p, int key, int ev
         }
         break;
     case 0x1d:
-        if (H(0x548) >= 3) {
-            H(0x550) = H(0x550) + (u16)(H(0x548) - 1);
-            H(0x550) = H(0x550) % H(0x548);
+        n = H(0x548);
+        if (n >= 3) {
+            H(0x550) = H(0x550) + (u16)(n - 1);
+            H(0x550) = H(0x550) % n;
             if (H(0x54e) == H(0x550)) {
-                H(0x550) = H(0x550) + (u16)(H(0x548) - 1);
-                H(0x550) = H(0x550) % H(0x548);
+                n = H(0x548);
+                H(0x550) = H(0x550) + (u16)(n - 1);
+                H(0x550) = H(0x550) % n;
             }
             ov208_func_021C5C64(heap, p, key);
             W(0x698) = 1;

@@ -8,6 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ *
+ * note: 2026-10-05 (wD5 lane17): tried the image statement order (sel as an int local, then n, then i = 0, then cur initialised last): the pool word folds to 0xC5E (152 bytes, 140 differ), worse. Draft kept.
  * 2026-10-04 (wD1 lane18): body is correct, only the prologue order differs (20 bytes).
  * Original: r4=0xC5C pool const, r3=r4+2, sel into r5 (ldrsb), str mode, mul, ldrh n,
  * movs i=0, then ldrsb cur last. Tried: cur/i/n declaration orders, sel as int local,

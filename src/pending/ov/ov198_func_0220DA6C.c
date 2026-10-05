@@ -23,6 +23,11 @@
  *   0x14/0x10/0xc, one slot per call), `a = 0; b = 0; if (msg2) {...}`: 269-278 bytes, frame 0x38 + push r3.
  *   A `k = 0x1EAC` offset local for the tail is propagated (no change). Residue is colouring: original
  *   p r4, 0x1F70/0x1EAC in r5, idx/msg2 r6, base/b r7, t and half spilled; ours spills a and the 0x1EAC base.
+ * 2026-10-05 (wD5 lane10, later): 192 bytes (compiled 420 of 408). func_02045770 now runs INSIDE put (as in the
+ *   EXACT sibling 0220C8F0): p r4, idx/msg2 r6, base r7 and the 0x1F70 constant r5 now match the original up to +0xBC.
+ *   Residue: a/b colours swapped (ours a r7, b r5), the 0x1EAC constant spills to an extra slot [sp,#0x30] (orig keeps it
+ *   in r5), half is converted to short at the first put (orig passes it unconverted from slot 0x18), rec slot 0xc.
+ *   Tried: u8 half (235), int x param with (short) casts in the arms (236, push r3), b before a (no change).
  * symbols:
  *   func_022110D4  0x022110D4  thumb  ov198
  *   func_020457B0  0x020457B0  arm
@@ -64,19 +69,24 @@ extern u32 func_02045770(void *);
 extern void func_0201C724(void *, u32, u32, u32, void *, u32, u16);
 extern u32 d_02211B68[];
 
+static inline void put(void *win, void *sel, short x, u32 y, void *h, u32 fc, u16 color)
+{
+    func_0201C724(win, func_02045770(sel), x, y, h, fc, color);
+}
+
 void func_0220DA6C(u8 *p, u32 idx)
 {
-    struct R *rec;
-    void *vec;
     void *msg;
-    void *msg2;
-    int t;
-    int a;
-    int b;
-    int half;
-    u8 *base;
     u32 off;
     void *o;
+    struct R *rec;
+    void *vec;
+    int t;
+    int half;
+    void *msg2;
+    int a;
+    int b;
+    u8 *base;
     int n;
 
     o = *(void **)(p + 0x1F70);
@@ -107,17 +117,17 @@ void func_0220DA6C(u8 *p, u32 idx)
         b = 8;
     }
     half = (u8)((func_02045738(o) * 8 - t - a - b) / 2);
-    func_0201C724(*(void **)(p + 0x1EAC), func_02045770(*(void **)(p + 0x1F70)), half, 7, vec,
-                  *(u32 *)(*(u8 **)p + 0xc), 0x3DC0);
+    put(*(void **)(p + 0x1EAC), *(void **)(p + 0x1F70), half, 7, vec,
+        *(u32 *)(*(u8 **)p + 0xc), 0x3DC0);
     *(u8 *)(p + 0x1F74) = 1;
     func_02045808(vec);
     if (msg2 != 0) {
         if (rec->b0 == 0) {
-            func_0201C724(*(void **)(p + 0x1EAC), func_02045770(*(void **)(p + 0x1F70)), (short)(b + (half + t)), 8, msg2,
-                          *(u32 *)(*(u8 **)p + 0xc), 0x2960);
+            put(*(void **)(p + 0x1EAC), *(void **)(p + 0x1F70), b + (half + t), 8, msg2,
+                *(u32 *)(*(u8 **)p + 0xc), 0x2960);
         } else {
-            func_0201C724(*(void **)(p + 0x1EAC), func_02045770(*(void **)(p + 0x1F70)), (short)(b + (half + t)), 8, msg2,
-                          *(u32 *)(*(u8 **)p + 0xc), 0x31A0);
+            put(*(void **)(p + 0x1EAC), *(void **)(p + 0x1F70), b + (half + t), 8, msg2,
+                *(u32 *)(*(u8 **)p + 0xc), 0x31A0);
         }
         *(u8 *)(p + 0x1F74) = 1;
         func_02045808(msg2);

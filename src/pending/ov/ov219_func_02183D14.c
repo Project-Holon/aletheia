@@ -29,6 +29,13 @@
  *           time and lost it to cross-jumping later. Tried: case 9 arms `*state = X; goto se54c` (per arm, or one goto
  *           after the if) with a label on the SE call in case 12: case 12's label block then merges into case 17's
  *           copy instead (530 lines, worse). The survivor rule seems to drop the multi-predecessor label block.
+ *           2026-10-05 wave D5 lane 05: unchanged DIFF (154 bytes, 84 lines). The original keeps case 12's
+ *           copy for EVERY shared tail (0x54C store+call, the case 9 0x551 call, case 17), i.e. the LAST copy in
+ *           source order, while every form here keeps the first. Tried: case 9 as an inner switch (default
+ *           arm, case 0xFFFFFFFE arm): byte-identical output; fully natural C (no gotos): case 4 copies survive
+ *           (381 bytes); case 9 arms `*state = X; goto se54c` plus case 17 `goto se54c` with se54c on the SE
+ *           call in case 12: case 12 survives for 0x54C but case 9 arms skip the hop and case 12's call merges
+ *           into case 9's 0x551 copy (291 bytes); case 9 arms `n = X; goto snd54c`: 6 bytes short (1004).
  *
  * symbols:
  *   func_020362DC 0x020362DC arm

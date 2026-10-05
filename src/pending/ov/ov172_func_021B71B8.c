@@ -46,6 +46,12 @@
  *   then w - ew, then (w - ew) * 2 + (dst + A * 2); ours computes w - ew first (2 bytes shorter, no copy).
  *   Tried dst + A + B, (B) + (dst + A), &dst[A] + B, dst + (A + B). (2) m[3] store and `movs r5,#0` swap
  *   (tried m[2] = m[1] = 0 and m[1], m[2] before m[3]: no gain).
+ *
+ * note (2026-10-05, wD5 lane07): 47 bytes (was 103), size and all branch targets now match. Fix: the row term as a
+ *   named loop-body local `int r = j + (h - q->ent[i].h);` (gives the original's `adds r2,r1,#0` copy before muls).
+ *   Residue: (1) the loop body loads ent.w (0x44) first and adds dst + (w - ew) before the r*w term; the original
+ *   loads eh, h, computes r, then ew, and adds (w - ew)*2 + (dst + r*w*2). Tried dst + r*w + (w - ew) with and
+ *   without an ew local (54 bytes, ew load still first). (2) m[3] store and `movs r5,#0` swap (unchanged).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -227,7 +233,8 @@ void func_021B71B8(void *p, Q *q)
                     }
                 }
                 for (j = 0; j < q->ent[i].h; j++) {
-                    func_0207ECF0(dst + (w - q->ent[i].w) + (j + (h - q->ent[i].h)) * w,
+                    int r = j + (h - q->ent[i].h);
+                    func_0207ECF0(dst + (w - q->ent[i].w) + r * w,
                                   (j + q->ent[i].y) * 0x200 + q->ent[i].x * 2,
                                   q->ent[i].w * 2);
                 }

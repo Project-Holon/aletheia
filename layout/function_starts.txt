@@ -2693,3 +2693,10 @@ overlay_172 0x021BE0F0  thumb   # wave D3: call from ov172 0x021BBF2C; EXACT src
 arm9_main   0x0200E47C  thumb   # wave D4: bl from ov217 0x021BFC60; EXACT src/matched/arm9/func_0200E47C.c
 arm9_main   0x02013DE0  thumb   # wave D4: bl from ov020 0x021862A8; EXACT src/matched/arm9/func_02013DE0.c
 overlay_021 0x021CF59C  thumb   # wave D4: bl from ov078 0x021F5620 and 0x021F565C; 12-byte tail thunk (ldr r1,[pc]; ldr r3,[pc]; bx r3) to func_021CF564 with r1 = 0x4B, printed as .word after func_021CF580's pool
+arm9_main   0x0200ED14  thumb   # wave D5: bl from ov171 0x021DCCC8; EXACT src/matched/arm9/func_0200ED14.c
+arm9_main   0x0202B93C  thumb   # wave D5: bl from ov054 0x021F373C; EXACT src/matched/arm9/func_0202B93C.c
+arm9_main   0x02035004  arm     # wave D5: tail call from arm9 0x02035010; EXACT src/matched/arm9/func_02035004.c
+arm9_main   0x02035010  arm     # wave D5: bl from ov029 0x021F251C and 0x021F26E0; EXACT src/matched/arm9/func_02035010.c
+arm9_main   0x02035034  arm     # wave D5: tail call from arm9 0x02035040; EXACT src/matched/arm9/func_02035034.c
+arm9_main   0x02035040  arm     # wave D5: bl from ov029 0x021F251C and 0x021F26E0; EXACT src/matched/arm9/func_02035040.c
+overlay_041 0x021F3F18  thumb   # wave D5: bl from ov041 0x021F3884; EXACT src/matched/ov/ov041_func_021F3F18.c

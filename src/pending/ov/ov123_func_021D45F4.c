@@ -30,6 +30,15 @@
  *   Tried: void **slot local before the call, recs[j].x directly instead of a Rec pointer, u8
  *   record fields, raw ((u32 *)(owner + 0x10))[j] (worse, 229), func_0201DD68(owner->n).
  *
+ * note (2026-10-05, wave D5 lane 13): still 43 bytes. Tried: count as u8/u16/s8/short with
+ *   int, u8 and u16 func_0201DD68 parameters (narrow types reload count from [sp,#0xc] for the
+ *   store but keep r0 for the call, same 43), func_0201DD68(owner->n = count), the call before
+ *   the store (55), a local copy of count, u8 parameters on func_020450F0 instead of the
+ *   explicit casts, recs[j].a in place of r->a, d loaded into a local first. The record loop
+ *   schedule (j*4 and owner+j*4 early, a/b/c loads after the three stack stores) did not move.
+ *   Both residues look like the original keeping memory order (count reload, loads after the
+ *   stack stores); no source shape found yet.
+ *
  * symbols:
  *   func_0201DD68  0x0201DD68  thumb
  *   func_020456F8  0x020456F8  arm
