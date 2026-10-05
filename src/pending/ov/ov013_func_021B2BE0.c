@@ -29,6 +29,21 @@
  * int *ev (no reload); node pointer assigned in each arm (needed for the single
  * ldr r5 per arm). Tail merging of r at the join is the open idea.
  *
+ * note 2026-10-05 (wave P6 lane U4b): ev->type reload FIXED (4 B): the node
+ * field store is written through the global (`d_021B4C0C.fc = r;`), which may
+ * alias the event pointer, so ev->type is read back (368 B now, 4 B short).
+ * Residue: (1) r in r4 / zero in r6 still swapped; (2) the original has a lone
+ * `b join` at +0x88 that the switch default branches to (an unthreaded hop,
+ * idiom a-conditional-branch-onto-an-unconditional-b); ours threads the default
+ * straight to the join and drops the hop. Tried without effect: Node.fc int,
+ * Event.type unsigned, result local t, ev->node->fc store, ev_is() inline, node
+ * store order, no n local (360 B, worse), the tail written in each arm (436-440 B:
+ * the tail ends in a conditional so cross-jump cannot merge it, so the original
+ * has ONE tail), goto tail from default, no default / if-chain in arm 1 (356 B),
+ * dead local ok = 1 after the switch, int r = 0, r before n, unsigned r,
+ * opt_lifetimes/propagation off (same), opt_common_subs off (372 B but 80 B
+ * differ, rematerialises pkt->f8). Open: what makes the default exit a live hop.
+ *
  * symbols:
  *   g_021B4BE0     0x021B4BE0  data  a4
  *   d_021B4C0C     0x021B4C0C  data  a4
@@ -134,7 +149,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
     }
     ev->type = func_021B279C(pkt, n);
     ev->node = n;
-    n->fc = r;
+    d_021B4C0C.fc = r;
     if (ev->type == 10) {
         func_021B26DC(1);
         g_021B4BD0.f8 = func_020870D0();
