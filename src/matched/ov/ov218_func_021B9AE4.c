@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ * 2026-10-05 (user decision): the u64 parameter is accepted as real source (a 64-bit value passed in r2:r3).
  * note 2026-10-05 (wD9r lane02): EXACT. The last two parameters are one u64 split across r3 and the
  *   first stack word (old ATPCS does not align a doubleword argument). c is its low word, d its high word.
  *   The high word is a fresh value, not a u32 parameter in its home slot, so mwcc keeps d in r7 and spills t.

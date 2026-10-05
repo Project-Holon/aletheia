@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ * 2026-10-05 (user decision): the u32 return in the func_02049BDC declaration (void definition) is accepted as a real mismatched declaration.
  * note (2026-10-05, wave D9r lane 70): closed from 422 differing bytes. The residue (3 and 1 held
  *   in r7/r4 in the head, late r3 zeros copied from r6) came from the return type of
  *   func_02049BDC: declared u32 instead of void, the head constant webs and the fresh late zeros
@@ -103,6 +104,9 @@ void func_021F3CA4(char *p)
 {
     void *h;
     void *cam;
+    T28 a;
+    T12 b;
+    T12 *pb;
 
     func_02046440(0, 2, 0, 4, 0, *(u16 *)p, 0);
     func_0204044C(3);
@@ -116,9 +120,9 @@ void func_021F3CA4(char *p)
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x10;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 8;
     func_02046BE0(0, 0);
-    T28 a = d_021F8274;
-    T12 b = d_021F8258;
-    T12 *pb = &b;
+    a = d_021F8274;
+    b = d_021F8258;
+    pb = &b;
     h = func_0204EBD4(&a, *(u16 *)p);
     *(void **)(p + 0x1C) = h;
     func_0204ED70(h, pb);

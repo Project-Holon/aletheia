@@ -7,7 +7,8 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * 2026-10-05 (user decision): the field re-read in the loop (for (n = F; t >= n * K; n = F)) is accepted as a real source quirk.
  * note (2026-10-04, wave D3 lane 08): DIFF, same length as the target. Body matches
  *   instruction for instruction except two spots. (1) Prologue order: the target stores
  *   r1 (base) to [sp] before the 0x181C pool load and stores r3 before idx; ours
@@ -129,29 +130,6 @@
  *   forwarding into the multiply; a def of n inside the condition block before k (`if (t == 5) n = 3;`)
  *   also gives it, a def after the k compare does not. Open: a codeless memory kill or a codeless
  *   second def between +0138 and +0184; none of the image's stores fits.
- * 2026-10-05 (wD9r lane153): DIFF, 521 bytes, but the only residue now is the n str/ldr at +013C
- *   (the 2-byte shift). Finding: the earlier notes missed three compare-signedness differences that
- *   the shift hid (the current draft had them too): `a >= h` (image blo), `a < (h >> 1)` (image bhs)
- *   and the p+0x94 `< 45` test (image bge, signed). Fixed here, byte-neutral to the n residue:
- *   h is `u32 h = 0x8000` (a u16 angle constant; unsigned compares on a), the w.y line uses the
- *   literal 0x8000 (with u32 h it would divide unsigned), and the p+0x94 field is read through an
- *   int-returning inline accessor GetTimer(p) (a plain u16 load against 45 compiles bhs; an int-typed
- *   operand keeps bge; `int c` assigned in the condition and an (int) cast give the same bytes).
- *   docs/idioms/a-halfword-compared-with-a-small-constant-branches-unsigned-unless-int-typed.md.
- *   The n reload: with these fixes, `for (n = F; t >= n * 0x1249; n = F) t -= n * 0x1249;` (F = the
- *   u16 at p+0xA8), or `n = F; while (t >= n * 0x1249) { t -= n * 0x1249; n = F; }`, is EXACT
- *   (copy in scratchpad wD9r/l153/ov133_func_021B765C_exact_reread.c). Not filed: the in-loop
- *   re-read of F assigns the same value and leaves no code (LICM merges it), so it is a redundant
- *   statement under the stand-in rule. It works because a second live definition of n inside the
- *   outer loop stops copy propagation of `n = F` into the multiply. Also tried, all compiled: n
- *   defined in the first wrap loop (`while (t < 0) { n = F; t += n * K; }`, 635, re-test after the
- *   preheader), the same as a do-while in an if (521, propagated), a for-loop def (635); `n = F` in
- *   both arms of an if around a do-while with a second spelling of F (628, cross-jumped tail leaves
- *   `b` to the next block); `for (;;)` with break and the multiply inside (605); do-while with the def
- *   inside (520); a `while (t >= (n = F) * K)` condition (521); `n = F` before the loop with
- *   `while (t >= n * K) t -= n * K` (521); inline helpers Span(n) (u16 and int param), Count(p),
- *   FrameIndex(t, n) (u16 or int return), a tail helper Pick(p, e, t, F, a, old, cur) (58: cur copy,
- *   no reload); a prologue def of n (521); n as int, u32, s16 with the re-read (524/524/532).
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
@@ -255,10 +233,8 @@ void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
         t = *(int *)(p + 0x1834) + (a + 0x8000) % 0x10000;
         while (t < 0)
             t += *(u16 *)(p + 0xA8) * 0x1249;
-        n = *(u16 *)(p + 0xA8);
-        lim = n * 0x1249;
-        while (t >= lim)
-            t -= lim;
+        for (n = *(u16 *)(p + 0xA8); t >= n * 0x1249; n = *(u16 *)(p + 0xA8))
+            t -= n * 0x1249;
         if (*(int *)(p + 0x98) == 0 || *(u32 *)(p + 0x9C) > (u32)((0x18000 - a) % 0x10000)) {
             k = (u16)((t + 0x924) / 0x1249);
             if (k >= n)

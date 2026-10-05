@@ -8,8 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * 2026-10-05 (integrator): parked for a user decision. The goto into the case 4 if-body and the
- *   copy that repeats `ret = v` on the DWC path may count as a stand-in.
+ * 2026-10-05 (user decision): the goto into the case 4 if-body is accepted as real source.
  * 2026-10-05 (wD9r lane158): EXACT. Shape: `ret` has no initialiser; `v = 0` at the top is the value of
  *   the early callback return (`return v;`) and of the r == 0 path. `if (r == 0) goto L;` enters case 4,
  *   where `L: ret = v;` follows the DWC_GdbShutdown call. The copy at L is needed on the r == 0 path (ret
