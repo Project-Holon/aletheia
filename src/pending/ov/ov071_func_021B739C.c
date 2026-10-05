@@ -7,7 +7,18 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: MATCH
+ * note final push 2026-10-05 G7L1: MATCH, 0 of 1160 bytes differ (c99 and c); verdict is MATCH, not
+ *   EXACT, only because func_021B7A08 and three data symbols have no witness outside the extent.
+ *   Two changes from 32 B off:
+ *   1 case 4 calls func_020355D8x, a second extern name for 0x020355D8 (listed in symbols). With
+ *     one name, mwcc tail-merged case 4's `movs r0,#0; blx 20355d8; ...` into case 3's copy and
+ *     the res compare reloaded from the case 3 stack slot (spill); the original keeps its own
+ *     blx and branches to the shared `ldr 0x551` tail. Case 4 also uses block-local keys4/res4
+ *     (res in r0, no spill). 32 -> 10 B.
+ *   2 case 5: f78 byte store before `dst = d->text;` and a braced copy body `{*dst=*src;dst++;src++;}`
+ *     (10 -> 0 B). Earlier notes tried f78-before-dst alone (38 B) under the old case 4.
+ *   The alias is the integrator's call: if a single-name form exists it must keep the separate blx.
  * note 2026-10-05 (wave P18 lane 1): 1160 of 1160 bytes, 32 bytes differ (from 1156/706).
  *   Real extent is 1160 B (jump-table state machine), not the 104 B label gap.
  *   Forms that closed most of the gap, in order:
@@ -55,6 +66,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C08 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
+ *   func_020355D8x 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_02175B14 0x02175B14 thumb ov011
  *   func_02175B4C 0x02175B4C thumb ov011
@@ -92,6 +104,7 @@ extern int func_02035C60(void);
 extern u32 func_020362DC(void);
 extern int func_02035C08(const void *);
 extern void func_020355D8(int);
+extern void func_020355D8x(int);
 extern void func_020061E4(u32);
 extern int func_02175B14(u8 *);
 extern void func_02175B4C(u8 *,u8 *);
@@ -162,16 +175,18 @@ int func_021B739C(int a,int *state,C *c,D *d)
    func_021B7108((u8 *)d+0x24);func_020355D8(res==7);func_020061E4(0x551);*state=11;
   }
   break;
- case 4:
-  keys=func_020362DC();res=func_02035C08(d_021BA87C);
-  if(res==7 || (keys&2)) {func_020355D8(res==7);func_020061E4(0x551);*state=11;}
-  break;
+ case 4: {
+  int keys4,res4;
+  keys4=func_020362DC();res4=func_02035C08(d_021BA87C);
+  if(res4==7 || (keys4&2)) {func_020355D8x(res4==7);func_020061E4(0x551);*state=11;}
+  break;}
+
  case 5:
   d->rec=*(Record *)(c->f4+0x60+d_021BAA4C[*c->f8]*24);
-  dst=d->text;
   d->f78=((u8 *)c->f0)[0x15];
+  dst=d->text;
   src=(u16 *)((u8 *)c->f0+0x18);
-  for(i=10;i!=0;i--) *dst++=*src++;
+  for(i=10;i!=0;i--) {*dst=*src;dst++;src++;}
   if(r!=0 && func_02173E2C(r,&d->rec)!=1) break;
   *state=6;break;
  case 6:

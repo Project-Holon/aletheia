@@ -19,6 +19,16 @@
  *   pointer, long/unsigned key, long i/j; pragmas opt_lifetimes off (67), opt_propagation off (184),
  *   opt_common_subs off (190), opt_dead_assignments off (184), scheduling off (33), peephole off (33).
  *   No callees.
+ * note 2026-10-05 (final push G7L3): 33 to 26 of 208 bytes differ. Lever: initialised declarations
+ *   in the order count, table, base (long count=p->count; const u16 *table=d_021E1FDC; base=p+0x1a0):
+ *   count now takes lr and the key ip as in the original. Residue: the original loads the table pool
+ *   word into r4 before the movs #10 of count*10; ours loads it into r1 after (also moves the first
+ *   loop's i/r3 and the inner loop's value register). Tried after that, no gain: table declared first (26),
+ *   raw unsigned table (26), direct extern use (26), index local first (26), scheduling off (26),
+ *   peephole off (26), opt_lifetimes off (66), opt_common_subs off (194), opt_propagation off (188),
+ *   inline helper (182), named row (181-182), pointer-typed row arithmetic (181), operand orders of the
+ *   sum (47-53), angle before count (54), block-scoped key/value (70), base declared first (58).
+ *   scheduling off leaves the same bytes: the table load is placed by IR order, not the scheduler.
  * symbols:
  *   d_021E1FDC 0x021E1FDC data a2
  */
@@ -29,12 +39,10 @@ typedef struct {u8 pad[0x2c]; int index,count;} Obj;
 void *func_021E0A44(Obj *p)
 {
     int distance[5],indices[5];
-    long count;
     int angle,i,j,key,value,delta;
-    const u8 *base;
+    long count=p->count;
     const u16 *table=d_021E1FDC;
-    count=p->count;
-    base=(const u8 *)p+0x1a0;
+    const u8 *base=(const u8 *)p+0x1a0;
     angle=*(const u16 *)((unsigned)table+count*10+p->index*2)<<12;
     i=0;
     do {indices[i]=i;distance[i]=65535;i++;} while(i<count);
