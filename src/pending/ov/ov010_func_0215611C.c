@@ -59,6 +59,27 @@
  * listing shows no branch between them; no source form found that splits
  * them without adding code. Left as DIFF.
  *
+ * final push 2026-10-05 G10L5 (24 compiles, 3 rounds): 772 B (size now equal),
+ * 32 B off, was 748 B off at 796 B. Root cause of the whole-function shift:
+ * the allocator's choice between pooling 0x1b0 (and spilling d) and
+ * rematerialising it is decided by the LOOP-2 webs. The k-loop body as
+ * `Ent *e = &d->recs[i].ent[idx]` hoisted a d+0x1c+off base web and tipped the
+ * allocation; written as `u8 slot = m->recs[k].idx; d->recs[i].ent[slot].a/b/c`
+ * (base+idx*8 then +0x1c/+0x1e/+0x20 immediates) the prefix, d in r7, the push
+ * list, the 0x30 frame and loop 2 match. Sort loop: t = tmp[b]; u = tmp[b+1];
+ * if (u > t) { tmp[b+1] = t; swap order bytes; tmp[b] = u; } makes `a` spill
+ * to the stack as in the original. Remaining residue (32 B): (1) the spill
+ * slots of the sort counter a and the loop-2 counter i are swapped
+ * (original a=[sp,#4], i=[sp,#8]; ours i=4, a=8; declaration order of a, a
+ * block-scoped sort block and a separate loop-2 counter all tried, no help);
+ * (2) in the j/k loops the base d+off and the zero/k web are swapped (original
+ * base r0, zero/k r1; ours the reverse; k=j=0 chain, k declared first, b store
+ * first, k=0 before the j loop all worse or unchanged); (3) the order-swap
+ * address adds in the sort body: original computes both f48 addresses before
+ * the loads. Tried flat: inline PutByte, enum size local, opt_lifetimes,
+ * opt_propagation, opt_common_subs (fixes push list only on the old form),
+ * string local, h local.
+ *
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_0203F4E4  0x0203F4E4  arm
@@ -202,7 +223,6 @@ void func_0215611C(Work *w)
     u8 i;
     u8 j;
     u8 k;
-    u8 a;
     u8 b;
     u8 max;
     u8 v;
@@ -212,6 +232,8 @@ void func_0215611C(Work *w)
     void *bank;
     u8 t;
     u8 t2;
+    u8 u;
+    u8 a;
 
     w->f34 = func_02030734(4, 0x14, 0, d_02172714, 0x312);
     w->f34->f08 = func_02030734(4, 0x1b0, 1, d_02172714, 0x313);
@@ -270,11 +292,11 @@ void func_0215611C(Work *w)
         }
         for (k = 0; k < 9; k++) {
             if (m->recs[k].id != 0xFF) {
-                Ent *e = &d->recs[i].ent[m->recs[k].idx];
+                u8 slot = m->recs[k].idx;
 
-                e->a = m->recs[k].id;
-                e->b = m->recs[k].f2;
-                e->c = k;
+                d->recs[i].ent[slot].a = m->recs[k].id;
+                d->recs[i].ent[slot].b = m->recs[k].f2;
+                d->recs[i].ent[slot].c = k;
             }
         }
     }
@@ -287,12 +309,13 @@ void func_0215611C(Work *w)
     for (a = 0; a < 4; a++) {
         n = 4 - (a + 1);
         for (b = 0; b < n; b++) {
-            if (tmp[b + 1] > tmp[b]) {
-                t = tmp[b];
-                tmp[b] = tmp[b + 1];
+            t = tmp[b];
+            u = tmp[b + 1];
+            if (u > t) {
                 tmp[b + 1] = t;
                 t2 = w->f48[b + 1];
                 w->f48[b + 1] = w->f48[b];
+                tmp[b] = u;
                 w->f48[b] = t2;
             }
         }
