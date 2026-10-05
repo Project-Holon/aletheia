@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * residual: 202 concrete bytes differ, same-size 2620; five prologue webs rotate.
+ * residual: 26 concrete bytes differ, same-size 2620 (was 202; see the final push note below).
  * retry: renewed wave77 R11; named completed 204, ctx pointer improves to 202;
  *   const response, long fields, long len retain 202; iteration stopped after
  *   three nongains. Own-definition API correction and unsigned ctx retain 202.
@@ -35,6 +35,24 @@
  *   opt_dead_code off (202 each). Callee types re-checked: no change. Open question: what makes
  *   the constant 24 the first web (first def before the ctx load).
  *
+ * final push 2026-10-05 G9L3: 202 to 26 B. The five prologue webs now colour as the original
+ *   (24 r4, ctx r5, hdr r6, -13 r7, 0 r8) once the FIRST header copy (case 2) is
+ *   memcpy(&d_021D3EF0, DWCi_EncSessionGetResponse(&len), 2) with the callee returning
+ *   const void *. The same colours come from opt_propagation off plus a named Hdr pointer set at
+ *   that one site; memcpy at all six sites gives 125 (colours right, but the load of ctx->hdr.code
+ *   is then hoisted above the two byte stores at every site); memcpy only at a later site gives
+ *   220. Residue 26 B: (1) at that first site the ldrb of ctx->hdr.code (ldrb [r5,#0x1c4]) is
+ *   scheduled before the source loads, original has it after the two stores (the store through a
+ *   register-held destination does not order against the symbol-based load; the sibling 021C8FA8
+ *   fixes it only with a fixed-address ctx, which is not accepted); (2) the shared cancel block
+ *   at +0A18 stores state after the sub that derives -12 from 24, the original stores state first.
+ *   Tried without gain on the hoist: unsized array and u32 base casts for ctx, inline getter,
+ *   inline copyHdr helper, five per-function pragmas (scheduling off has no effect), resp or
+ *   Hdr-pointer locals, result stored before state (27). Per-site struct-copy variants at the
+ *   first site (resp local, Hdr pointer, field copy, named dest pointer without the pragma): 202
+ *   to 207. Header copy as one named hp for all sites under opt_propagation off: 313.
+ *   Matched-assembly search for the ldrb/ldrb/strb/strb/ldrb word sequence: only this function.
+ *
  * DWC encryption-session poll: a switch on the session state (0..24); every
  * even state 2..22 runs DWCi_EncSessionProcess and on 1 (error) or 8 (done)
  * moves to state 24 and maps the response to a result code; every odd state
@@ -53,6 +71,7 @@
  *   func_02092344               0x02092344  arm
  */
 
+#include "../../matched/arm9_sdk/libc/string.h"
 typedef unsigned char u8;
 typedef unsigned long u32;
 
@@ -75,7 +94,7 @@ extern Hdr d_021D3EF0;
 
 extern int DWCi_EncSessionProcess(void);
 extern void DWCi_EncSessionShutdown(void);
-extern u32 DWCi_EncSessionGetResponse(u32 *len);
+extern const void *DWCi_EncSessionGetResponse(u32 *len);
 extern int DWC_GetLastErrorEx(int *code, int *type);
 extern int func_021C8EB4(unsigned int type);
 extern void *func_02092344(void *dst, const void *src, unsigned int n);
@@ -85,7 +104,7 @@ void func_021C7C1C(void)
     u32 len;
     int code;
     int type;
-    u8 *resp;
+    const u8 *resp;
     Ctx *ctx = &d_021D3D2C;
 
     switch (ctx->state) {
@@ -99,7 +118,7 @@ void func_021C7C1C(void)
             return;
         case 8:
             ctx->state = 24;
-            d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
+            memcpy(&d_021D3EF0, DWCi_EncSessionGetResponse(&len), 2);
             switch (ctx->hdr.code) {
             case 1: ctx->result = 0; break;
             case 2: ctx->result = -5; break;
@@ -151,7 +170,7 @@ void func_021C7C1C(void)
             return;
         case 8:
             ctx->state = 24;
-            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
             func_02092344(ctx->buf, resp, 0x128);
             if (len == 0x128) {
                 ctx->result = 0;
@@ -177,7 +196,7 @@ void func_021C7C1C(void)
             return;
         case 8:
             ctx->state = 24;
-            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
             func_02092344(ctx->buf, resp, 0x128);
             if (len == 0x128) {
                 ctx->result = 1;
@@ -249,7 +268,7 @@ void func_021C7C1C(void)
             return;
         case 8:
             ctx->state = 24;
-            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
             *(Hdr *)ctx->buf = *(Hdr *)resp;
             switch (ctx->buf[0]) {
             case 1:
@@ -277,7 +296,7 @@ void func_021C7C1C(void)
             return;
         case 8:
             ctx->state = 24;
-            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
             func_02092344(ctx->buf, resp, 0x128);
             if (len == 0x128) {
                 ctx->result = 0;
@@ -350,7 +369,7 @@ void func_021C7C1C(void)
             return;
         case 8:
             ctx->state = 24;
-            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
             *(Hdr *)ctx->buf = *(Hdr *)resp;
             if (len == 8) {
                 ctx->result = 0;
