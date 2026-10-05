@@ -29,6 +29,23 @@
  *   Idioms checked: two-long-lived-values-in-each-others-registers (no applicable form),
  *   a-long-index-colours-apart-from-an-int (22), a-colour-swap-...-opt-lifetimes-off (22),
  *   a-loop-counter-zero-before-an-offset-assignment (n/a).
+ *   final push 2026-10-05 G5L9 (40 compiles, all 22 B, same pure swap): the (u16) cast on the
+ *   third blit argument is dropped (callee takes u16; same bytes, now plain). Tried, no change:
+ *   block-scoped t/x/i, declarations at the point of use, u8* text, key decl first/last, i/x
+ *   first, func_02045AFC u16 value, func_021C63AC with u8 fourth parameter, func_02045738 as u8
+ *   (same bytes) with n u32/int/u8, named constants ten/two (int, u8; with opt_propagation off 449 B),
+ *   constants as locals in both orders, text/buf2/key as declaration initialisers (30 B, only slot
+ *   order moves), inline put()/blit() helpers, struct view of p (two windows), i++ as body statement
+ *   (while, for with empty step; i++ before key= is 27 B), pragma pairs (lifetimes+common_subs,
+ *   lifetimes+dead_assignments, common_subs+dead_assignments, lifetimes+peephole,
+ *   lifetimes+scheduling, common_subs+peephole, dead_assignments+peephole). Reading of mwcc
+ *   Coloring.c: nodes with degree >= K are pushed by lowest spill_cost/degree, popped last-first and
+ *   take the lowest free colour. Both colourings are legal; in the build i is coloured before text
+ *   (i takes r4, then text r5, v10 shares r4 with i, v2 shares r5 with text); the original colours
+ *   text first. So the lever is i's cost/degree versus text's, not a declaration order. No human
+ *   source form found that lowers i's cost or raises text's without changing the code.
+ *   Matched-assembly search: halfword copy loops with a counter (asm/overlays, asm/arm9): only
+ *   ov021 021CFB1C, ov093 021D54F4 (leaf copies) share the counter shape; neither shows the rule.
  * symbols:
  *   func_021C63AC 0x021C63AC thumb ov128
  *   func_021B6AE4 0x021B6AE4 thumb ov067
@@ -100,7 +117,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
         for (i = 1; i <= 12; i++) {
             func_0204581C(text);
             func_02045AFC(text, t.v[key % 10]);
-            func_021B6AE4(w1, gfx, (u16)((n - i) * 8 - x + 1), 0, (u32)text, pal, 0x3c40, 0);
+            func_021B6AE4(w1, gfx, (n - i) * 8 - x + 1, 0, (u32)text, pal, 0x3c40, 0);
             if (i % 4 == 0)
                 x += 8;
             key = key / 10;
