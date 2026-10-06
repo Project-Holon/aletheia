@@ -73,7 +73,7 @@ static inline void G3_Vtx(u32 xy, u32 z)
     *(volatile u32 *)0x0400048C = z;
 }
 
-void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, struct S *s, u16 *pa, int a9, int flag, int *pz, int mode)
+void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, struct S *s, u16 *pa, int a9, int flag, int *pz, u8 mode)
 {
     u16 ang;
     int x;
