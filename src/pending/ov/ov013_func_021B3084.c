@@ -86,6 +86,18 @@
  * register) for mov lr,#1; not a human form, not filed. Constant right-hand sides (ret = 1 first,
  * chains, one-locals, inline helpers returning 1, propagation off) all keep the mov below the pool
  * load. Lead: the original needs the #1 materialised textually before the 3C50 address load.
+ *
+ * pass 3 2026-10-06 P3L15 (3 rounds, 40 compiles, best stays 15 B, c99 and c): same single residue.
+ * Tried (15 B unless noted): ret as enum VadResult (also enum f0 field and enum return type); ret
+ * u8/u16/s32/register assigned before the stores; inline setter with enum or u32 parameter (also
+ * under opt_propagation off); ret = 1 in the earlier block under opt_propagation off (59); a cfg
+ * pointer for the top store, the test and the success store (377); `u32 ret = 0` initialiser with
+ * `f0 = ++ret` (377); ret = 0 before the inner if (295); ring update and ret in each arm (175);
+ * ++ret under opt_propagation off or opt_common_subs off (2 B, still add lr,r3,#1: the zero reuse is
+ * a backend constant tracker); inline helpers returning ++st or writing through &ret.
+ * Matched-assembly search: a constant materialised before its own pool base in one statement occurs
+ * once in all listings (a phi value), the reverse order 122 times; a constant right-hand side is
+ * always placed after the base. Notes: scratchpad wD9r/p3_P3L15/research.md.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
