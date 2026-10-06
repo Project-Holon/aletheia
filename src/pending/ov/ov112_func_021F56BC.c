@@ -290,6 +290,21 @@
  *     only or the k loop only: 1040 B (CSE lost).  opt_loop_invariants plus opt_lifetimes off: 5 B (base).
  *   Four orders of the triple are reachable (j8<cos<pr, cos<pr<j8, pr<j8<cos, cos<j8 with pr above flag); the
  *   original cos<j8<pr<flag was not produced.
+ * note (pass 3 2026-10-06 P3L04): residue unchanged at 5 bytes; the body is unchanged.  40 real compiles.
+ *   New regime: the second-rotation cos stored in the first-rotation `c` with `rz += FxMul(X * s2 + Z * c, psy)`
+ *   (operand order Z * c removes lane 152's extra copy): 7 B, j*8 0x34 and pr 0x38 now correct, but the c web
+ *   takes 0x2C and b*0x14 moves to 0x30 (original b*0x14 0x2C, cos 0x30).  In that regime, same 7 B: s also
+ *   reused for s2, s or fx reused for cos, int/u32 b, the assignment inside the rx argument, opt_loop_invariants
+ *   off.  Worse: `c * X` (18 B), plus pose.rot in ang (13 B), plus SR off (13 B), plus opt_lifetimes off (546 B),
+ *   c at function scope (684 B), c and s2 moved above the X/Z reads (851 B), CosA/SinA(u16) inlines (14 B).
+ *   Same 5 B base slots: s reused for s2 only; an int idx index local for s2 only; RotX/RotZ inlines reading the
+ *   table; a named TabEnt *e for the k-loop reads; rx/rz as a local struct; c assigned from one read with the other
+ *   read inline (either order); opt_strength_reduction_strict on.  Worse: idx local in some cos reads only
+ *   (508 B / 9 B), a const s16 *sc pair pointer for one cos read (502/508 B), named c2 with Z * c2 at three
+ *   declaration places (14/23/64 B), separate x1/z1/x2/z2 running locals (898 B); SR off plus an `int id = j`
+ *   alias at the head or in the k loop gives the SR-off row (6 B).  Reading: a reused variable's second web ranks
+ *   below every optimizer temp, a first named web ranks in the named band, so cos in the original is a temp made
+ *   after the SR-created j*8 web and before b*0x14; no source form found that delays the cos CSE that way.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
