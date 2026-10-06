@@ -52,6 +52,15 @@
  * u8 kind, static function, block-scoped body locals, (u32)/(u16) casts in the guard, extra call arguments, inline helper
  * for loop 1 (16 B), const int type (16 B), call in both arms (101 B), opt_propagation off with copies or do-while (275 B),
  * scheduling off (inert), ipa off and K&R after a prototype (CCERR).
+ * pass 4 2026-10-06 P4L02: still 5 B, 40 compiles, 3 rounds. Probes confirm the flags model: with the right-entry
+ * form plus one statement after the call, a load-only statement keeps the early count store and a movs statement
+ * loses it. So the image's zero for i between the call and the guard must be flag-free in the pre-RA block (a
+ * rematerialised copy). Copies of a zero are folded in every form tried (j = 0 then i = j, decl-init sources,
+ * tempid, sort counter as source). 'i = 0; if (i < count) { i = 0; do .. }' gives right entry and bls, but the i
+ * store after the guard (9 B). Also no change (5 B unless noted): count passed to calls, if (count) {} and
+ * (void) uses, dead later def of a count copy, type before scores, while and goto loops, restrict on params,
+ * int counter (11 B), u16 type (16 B, slots), pragmas optimization_level 3 / optimize_for_size (306/272 B),
+ * --cc 1.2. Probes only: volatile or &count give push {r0-r3}.
  * symbols:
  *   func_0201C314 0x0201C314 thumb
  *   func_0201C1C8 0x0201C1C8 thumb
