@@ -133,6 +133,21 @@
  * a-byte-locals-signedness-flips-its-callee-saved-colour.md, a-long-index-colours-apart-from-an-int.md,
  * an-arithmetic-loop-carried-definition-colours-last-unless-it-goes-through-a-copy.md, mwcc_ref casebook
  * (grCastle cluster model). Asm search: movgt rX, #0x58 only in ov013 (ADPCM family).
+ * pass 5 2026-10-06 P5L10: DIFF, 1320 B, 352 B differ (unchanged; 40 compiles, form kept). New: the join form
+ * (step = d[idx] after the sign if/else) with decl diff,step,pred,idx,code,delta,np gives sample 0 byte-exact with
+ * the right schedule and the right pool order (606 B; the steady samples differ: its step is a propagated temp).
+ * Removing the named delta local from that form (delta in diff, or in an inline Adpcm3Delta(step, code) helper)
+ * gives 467 B with a r7, code r8, step and np r6 as in the image; then the diff web pops first (r5) and pred last
+ * (sl). Arm form plus Adpcm3Delta helper with decl idx,diff,code,np,step,pred: 592 (only a out of place, r5).
+ * No gain: field pointer parameters (352), np in the sample parameter (352), src[k]/dst[k] caller (455), caller
+ * decl orders and per-call code locals (inert), one accumulator (642), a = 0 first (size), code set before step in
+ * the arms (size, two predicated loads), code ternary before the arms (size), block-scoped diff (434-655),
+ * opt_lifetimes off (same). mwcc_ref Coloring.c: each node takes the lowest register free of coloured neighbours,
+ * callee-saved registers are claimed in order r4, r5, ... so the image pop order is pred, step, a, code, diff, idx.
+ * Idioms checked: a-result-computed-in-a-dying-local-takes-that-locals-register.md,
+ * an-abs-written-as-a-ternary-on-the-difference-sets-the-operand-colours.md, a-dead-parameter-reused-as-the-index-
+ * rotates-the-loop-registers.md (name). Asm hits: 021B01FC (matched, step temp in r2), 021AF494 (index table not
+ * hoisted). Open lead: a delta-free form where the quantize diff web does not pop first.
  * symbols:
  *   d_021B3A04 0x021B3A04 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2
