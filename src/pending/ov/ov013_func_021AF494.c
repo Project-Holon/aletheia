@@ -50,6 +50,18 @@
  * twins loop on n directly and the only other ARM `lsrs rN, rM, #1; mov r5, #0` hit, matched
  * func_0203F328, has no register pressure, so neither shows the form.
  *
+ * pass 2 2026-10-06 P2L48: still DIFF 68 of 404, form unchanged. Colour order (preference r0-r3,
+ * ip, lr, then r4 up) is 32767 r2, -32768 ip, table lr, i r4, half r5, code1, idx1, pred1, step1;
+ * the image puts half after pred1 (r8). Outer named locals always colour before the inline core;
+ * every lever found only promotes the bound above the constants (r2, 94): `i < n / 2`, `n /= 2`,
+ * `half = n; half /= 2`, half as a one-field struct, `unsigned long i`, an inline wrapper for the
+ * loop. Loop-body code (021B1588 form) with shared locals 114, block locals 133, separate outer
+ * locals per sample 200 (half then lands below idx1, but the body webs scramble). No gain from: int
+ * i, u8 ret local, new index local (97), dst[i] (70), helper param order, `register`, for-scope i
+ * (72), `u32 half = n / 2`, half in an inner block, named dst/src copies, counter-tested do-while,
+ * `code = 0` first (84), index update before the predictor clamp (275), opt_strength_reduction /
+ * opt_loop_invariants off (68), opt_lifetimes off on the shared-local form (246). 39 compiles.
+ *
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
