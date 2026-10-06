@@ -142,6 +142,16 @@
  * str f4 -> str 3C50 (both lat 1) works, so str f4 must alias both f0 fields; no k1 object can.
  * Tried: p at outer-block top (309), p at function scope (313), local aggregate for f0/f4 (430).
  * Notes: scratchpad wD9r/p6_P6L09/research.md.
+ * pass 6 2026-10-06 P6L11 (3 rounds, 13 compiler runs, best stays 6 B): mwccdbg sched/sched-replay on
+ * pre block 16 confirms the pick order 0 4 1 6 2 3 9 8 5 7 10 11. Edits that fix it: str thr -> 3C50
+ * load or -> mov #1 (lat 0), str thr -> 3C50 store with lat 2, the f4 store aliasing both f0 stores,
+ * or a new node fed only by str thr. New rule found: a pool address load keeps the AO of the IR
+ * address it was made for, and each access adds its own offset again (0x574CB0), so a direct
+ * field access falls back to the unknown set when 2*off + size > object size (why every f8 access
+ * here is kind 2). The f4 store would need a base AO offset >= 5 or an 8-byte object; neither fits
+ * the 12-byte d_021B4C2C. Also ruled out: register-pressure pick mode (limit 14, peak 6), block
+ * skip flags (set only after the pre pass), VadState.f4 as s32 (6), f4 direct (15).
+ * Notes: scratchpad wD9r/p6_P6L11/research.md.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4

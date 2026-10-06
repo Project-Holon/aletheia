@@ -150,6 +150,18 @@ the compiler take the decision by itself.
   write nothing. The hidden `opt_*` pragmas (ids 0x10000230..0x10000276) are accepted;
   those tried had no effect on the tested functions.
 
+### Alias objects of direct field accesses
+
+A pool address load keeps the alias object of the IR address it was made for (object plus
+offset). Each memory access is then refined from its base's alias object by the refine
+routine at 0x574CB0, which adds the instruction's offset again, so a direct field access
+counts its offset twice. When 2 * offset + size exceeds the object's size, the access
+falls back to the unknown-memory set G (kind 2), which aliases every other G member.
+Measured: 12-byte object, field at 8 -> G, field at 4 -> object; 16-byte object, off 8 ->
+G; 32-byte object, off 8 -> object, off 20 -> G; 8-byte object, off 4 -> G; incomplete
+array -> whole object with size 0. Word spills of narrow (u8/u16) variables and
+non-const pointees are also in G; const pointees and int/pointer spills are not.
+
 ## Addresses and layouts (dsi/1.1p1, image base 0x400000)
 
 ### CodeGen
