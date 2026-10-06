@@ -65,6 +65,20 @@
  * non-const pos 20; pragma scheduling off: no change; a tall dummy function
  * earlier in the TU: no change. 40 compiles.
  *
+ * pass 3 2026-10-06 P3L16: no better form, best stays 20 of 88. Under the
+ * pragma the first computed chain (textually) gets its load hoisted; other
+ * loads keep source order. Named-local copies coalesce and add no height.
+ * Near forms (bytes off): loads z,y,x then gx = (x >> 12) / 16, gz =
+ * ((z + k) >> 12) / 16, field-order stores: 35, head, tail and r4/r5
+ * colours as image, but the z chain interleaves into the x snap and k/x
+ * take r3/r2. Same with v.x written before gz: 38, middle as image but
+ * loads stay z,y,x. Loads x,z,y with v.x before gz and v.y last: 29
+ * (ldr x, movs, asrs x). Without the pragma, gz computed before the first
+ * 0x8000 use keeps the 0x20000 base (88 B) but the z chain goes first
+ * (41-48). Stores x,z,y with direct snaps: 25. gx in two statements: no
+ * change. A vx temp before gz with v.y last: 30, schedule nearly the
+ * image's (stand-in temp, not kept). 40 compiles.
+ *
  * Snap the actor's position to the 16-unit grid (z biased by 32) and
  * write it to the ov021 map object. Size-exact, 27 bytes out: the image
  * loads x, z, y in that order and stores x, z, y; hoisting the call into
