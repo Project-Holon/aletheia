@@ -10,5 +10,5 @@
  * symbols:
  *   func_021D85E8 0x021D85E8 arm ov125
  */
-extern int *func_021D85E8(void);
-unsigned long long func_021D73E0(void) { int *p=func_021D85E8(); return *(unsigned long long *)(p+1); }
+extern char *func_021D85E8(void);
+unsigned long long func_021D73E0(char *a0) { int *p=(int *)func_021D85E8(); return *(unsigned long long *)(p+1); }

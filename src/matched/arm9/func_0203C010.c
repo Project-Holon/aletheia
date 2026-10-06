@@ -42,12 +42,14 @@
 typedef unsigned int u32;
 
 extern int func_020379C8(u32 p);
-extern void func_0203AD80(u32 obj, void (*cb)(void), u32 c, u32 d);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern void func_0203C00C(void);
 extern u32  unk_021469DC;
 
 void func_0203C010(void)
 {
     func_020379C8(0x200);
-    func_0203AD80(unk_021469DC, func_0203C00C, 0, 0x4DA);
+    func_0203AD80((struct NetState *)unk_021469DC, func_0203C00C, 0, 0x4DA);
 }

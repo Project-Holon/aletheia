@@ -35,7 +35,9 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(void *, int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern int *func_021897BC(char *, int);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
@@ -52,7 +54,7 @@ void *func_021F3B5C(void *a, int b)
     void *r;
     int v[3];
 
-    func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
+    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
     q = (char *)func_021897BC(x, 1);
     r = func_020122C0(a, 0, func_021F3EFC, 0);
     w = (int *)(q + 12);

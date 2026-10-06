@@ -25,8 +25,10 @@ extern int func_020310C4();
 extern int func_020286C4();
 extern int func_02169F34(u8 *p);
 
-int func_02169FB8(int a0, int a1, int a2)
+int func_02169FB8(int a0)
 {
+    int a1;
+    int a2;
     int t4;
 
 t4 = a0 + 0;

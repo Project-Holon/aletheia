@@ -24,7 +24,7 @@ struct Ctx;
 struct IcaAnime;
 struct Rec;
 extern void func_02011558(struct IcaAnime *p);
-extern void func_02048AC4(void *ptr);
+extern u32 func_02048AC4(void *ptr);
 extern void func_02048C4C(int);
 extern void func_020480E4(struct Ctx *c, u32 i);
 extern void func_02047E54(struct Rec *p);

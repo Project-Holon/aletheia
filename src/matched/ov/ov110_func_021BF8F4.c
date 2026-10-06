@@ -33,7 +33,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *);
 extern void func_020409B4(u32);
 extern void func_021BF94C(u8 *);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 void func_021BF8F4(u8 *p) {
     func_02040B94(2,32,0,42);
     func_02041300(2,0,0,0,32,32,13);

@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Node;
 extern struct Node *func_021BABF4(struct Node **head);
 
-void func_021BAEC8(struct Node **a0)
+struct Node *func_021BAEC8(struct Node **a0)
 {
-    func_021BABF4(a0);
+    return func_021BABF4(a0);
 }

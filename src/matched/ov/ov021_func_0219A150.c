@@ -41,7 +41,7 @@ extern int func_0219B200(int a, int id, int end);
 extern int func_0219B0F0(u32 a, u32 b);
 extern u32 func_0219B104(u32, u32);
 extern void func_0216D5E0(int a0, int a1);
-extern void func_02163F10(u32);
+extern int func_02163F10(int a0);
 extern u8 d_021D4FA4[];
 
 void func_0219A150(u32 a)

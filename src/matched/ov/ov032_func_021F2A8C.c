@@ -40,7 +40,7 @@ extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 t
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
-extern void func_02040588(u32, u32);
+extern void func_02040588(u32 which, unsigned char enable);
 
 extern const u8 d_021F3608[];
 extern const u8 d_021F3628[];

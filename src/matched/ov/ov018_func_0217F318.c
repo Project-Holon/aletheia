@@ -40,7 +40,7 @@ void func_0217F45C(Ov018Obj *p);
 typedef unsigned int   u32;
 int func_02190E40(u32 a);
 struct Rec;
-void func_021904C8(struct Rec *a0);
+u32 func_021904C8(struct Rec *a0);
 struct U16Vec;
 struct WordSet;
 void func_02045808(struct U16Vec *vec);

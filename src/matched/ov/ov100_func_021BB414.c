@@ -23,21 +23,23 @@
 typedef unsigned short u16;
 
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
-extern int func_0203159C(int, int, int);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(int, int, int);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_0203D0D0(void);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_021BA780(char *p);
 
-int func_021BB414(int a, int b, int c)
+int func_021BB414(struct Obj0203159C *a, int b, int c)
 {
     int r5;
 
     func_0203064C(1, 0x1f, 0x20000);
     r5 = 0xcf0;
-    a = func_0203159C(a, r5, 0x1f);
-    func_02082BCC(a, 0, r5);
+    a = (struct Obj0203159C *)func_0203159C(a, r5, 0x1f);
+    func_02082BCC((int)a, 0, r5);
     ((struct Obj00178 *)a)->f244 = c;
     ((struct Obj00178 *)a)->f278 = 0x1f;
     ((struct Obj00178 *)a)->f24C = *(int *)(((struct Obj00178 *)a)->f244 + 0x1c);

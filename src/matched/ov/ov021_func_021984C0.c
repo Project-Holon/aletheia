@@ -28,9 +28,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern void *func_0216D6BC(int a0, int a1, int a2);
-extern void func_02163F10(u8 *);
+extern int func_02163F10(int a0);
 extern void func_02163E7C(int a, int b);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 extern int func_0216D60C(int a0, int a1);
 extern void func_0216D674(void *p, u16 v);
 extern void func_0216D7CC(u8 *);
@@ -48,7 +48,7 @@ void func_021984C0(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h)
     r[15] = f;
     ((struct Obj05004 *)r)->f8 = g;
     if (c == 0) {
-        func_02163F10(a);
+        func_02163F10((int)a);
     } else {
         func_02163E7C((int)a, (u16)b);
     }

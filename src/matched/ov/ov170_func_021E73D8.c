@@ -42,7 +42,7 @@ typedef struct {
     unsigned short slot;
 } Entry;
 
-extern int func_021EBFEC(char *w, int i);
+extern unsigned int func_021EBFEC(char *p, int i);
 extern void func_021ED108(char *w, int on);
 extern void func_021EC000(char *w, int i, int v);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);

@@ -34,7 +34,9 @@ struct Desc;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern void *func_0200B3A4(u32 a, u32 b);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F3E70(int a0, int *a1);
 
@@ -47,7 +49,7 @@ int func_021F3E24(void *a, u32 b)
     s = func_0201210C((void *)a);
     func_02188D2C(s);
     p = (u8 *)func_021897BC(s, 1);
-    func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 2);
+    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(s))), 2);
     if (b >= 4) {
         return 0;
     }

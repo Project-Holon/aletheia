@@ -24,10 +24,10 @@ typedef signed short s16;
 typedef signed char s8;
 
 extern void func_02082D44(void *dst, const void *src, u32 n);
-extern void func_02161D64(u8 *p);
+extern int func_02161D64(int a0);
 
 void func_02012800(u8 *obj, void *dst)
 {
     func_02082D44(dst, obj + 0x214, 0x1e8);
-    func_02161D64(obj + 0x214);
+    func_02161D64((int)(obj + 0x214));
 }

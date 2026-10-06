@@ -38,7 +38,8 @@ extern const char func_0203159C_File[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap)
+void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap)
 {
     obj->buffer = func_02030734(heap, size, 0, func_0203159C_File, 390);
+    return obj->buffer;
 }

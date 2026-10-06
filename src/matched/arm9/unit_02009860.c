@@ -103,8 +103,9 @@ struct Sub020097BCObj {
     u8 unk7C0[4];
 };
 
-void sub_02009860(struct Sub020097BCObj *obj)
+struct Sub020097BCObj *sub_02009860(struct Sub020097BCObj *obj)
 {
+    return obj;
 }
 
 u32 sub_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field)

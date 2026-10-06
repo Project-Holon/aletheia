@@ -168,7 +168,7 @@ extern int func_021754B4(u8 *p, int *out);
 extern void func_021A2F6C(u32 *p);
 extern void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e);
 extern int func_0217BDE0(int a, u8 *b, int c);
-extern int func_0217AFC4(int *a, int b, int *out);
+extern int func_0217AFC4(int *a, u8 *b, int *out);
 extern void *func_0217FB5C(void *owner, int b, int unused, int d, int e, u16 f);
 extern u16 func_021A3050(u8 *p);
 extern void func_021A3038(u8 *p, struct VecFx32 *out);
@@ -291,7 +291,7 @@ int func_02189BD0(void *sys, struct Obj00020 *pos, int *outA, int *outB)
             if (r != 0)
                 return r;
         }
-        if (in.b0 && func_0217AFC4(ev, (u32)in.f18, (int *)(&out)) == 1) {
+        if (in.b0 && func_0217AFC4(ev, (u8 *)in.f18, (int *)(&out)) == 1) {
             func_021A2F6C((u32 *)in.f18);
             return (int)func_0217FB5C(sys, (int)pos, (int)ev, (int)model, out, in.f0);
         }

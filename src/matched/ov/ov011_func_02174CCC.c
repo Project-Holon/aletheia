@@ -24,7 +24,7 @@
 
 typedef unsigned int   u32;
 u32 func_02026478(void *obj);
-int func_020127C4(int h);
+unsigned char *func_020127C4(void *p);
 typedef unsigned char  u8;
 int func_02174734(char *p, int b, void *c);
 void func_02174D5C(int *p, const u8 *q);
@@ -40,7 +40,7 @@ void func_02174CCC(unsigned char *p)
 
     h = func_02026478((void *)(((struct Obj04951 *)p)->f4));
     if (p[0x908] != 0) {
-        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4(h)) == 1) {
+        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4((void *)h)) == 1) {
             p[0x908] = 0;
         }
     }

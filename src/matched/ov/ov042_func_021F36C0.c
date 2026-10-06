@@ -61,7 +61,9 @@ extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern u8   *func_0200B3A4(u32 a, u32 b);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void  func_021BE760(void *p, void *a, int b);
 extern int func_021BE480(char *p, unsigned i, int j);
 extern void func_021BE4A4(char *p, int i, int j, int v);
@@ -84,7 +86,7 @@ void func_021F36C0(void *a0)
     T tb;
 
     s = (void *)func_02188D2C(a0);
-    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(a0))), 4);
+    q = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(a0))), 4);
     func_02189764(a0, 1, func_02188C84(a0), 4);
     func_021BE760(s, &d_021F3A58, 0);
     ta = d_021F3AD4;

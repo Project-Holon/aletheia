@@ -64,7 +64,7 @@ extern void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type);
 extern void *func_0207E008(void);
 extern void *func_0207E100(void);
 extern void func_02082BCC(void *p, int c, u32 n);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 a, u32 b);
 extern void func_02043598(u32 mask, u32 enable);

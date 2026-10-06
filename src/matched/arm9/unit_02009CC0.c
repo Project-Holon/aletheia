@@ -20,7 +20,8 @@
 
 typedef unsigned char u8;
 
-extern void *func_02009860(void *p);
+struct Sub020097BCObj;
+extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern int func_02009CB0(int a0, int a1);
 struct DWCstAccUserData;
 extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);

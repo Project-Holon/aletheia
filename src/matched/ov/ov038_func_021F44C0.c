@@ -47,7 +47,9 @@ extern int *func_021897BC(char *p, int i);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(void *p, int i);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *p, int i, unsigned int j, u16 k);
 extern void func_021BE6B0(u8 *p, int v);
@@ -69,7 +71,7 @@ int func_021F44C0(void *a, int *state)
     sys = (void *)func_0201210C(func_020124E4(a));
     h = (void *)func_02188D2C(sys);
     s = (u8 *)func_021897BC(sys, 1);
-    func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(sys))), 6);
+    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(sys))), 6);
     switch (*state) {
     case 0:
         for (i = 0; i < 2; i++) {

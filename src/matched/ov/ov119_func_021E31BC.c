@@ -16,7 +16,7 @@
  *   func_021E2B68 0x021E2B68 thumb ov119
  */
 #include "../include/Obj03778.h"
-extern void func_02048AC4(void *);
+extern unsigned int func_02048AC4(void *ptr);
 struct Rec;
 extern void func_02047E54(struct Rec *p);
 extern unsigned int func_020307B0(void *p);

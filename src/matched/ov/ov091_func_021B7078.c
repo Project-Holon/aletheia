@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 struct BgTemplate;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02040588(unsigned,unsigned);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(unsigned);
 extern void func_020409B4(u32 index);
 void func_021B7078(const void *p, unsigned id,unsigned type) { func_0203FCA0(id,p,type); func_02040588(id,1); func_020414AC(id); func_020409B4(id); }

@@ -18,8 +18,8 @@
 struct Sock;
 extern int func_02197BD4(struct Sock *sock, unsigned int ip, unsigned short port);
 
-void func_02197BB8(int *p)
+int func_02197BB8(int *p)
 {
-    func_02197BD4((struct Sock *)p[2], p[0], *(unsigned short *)((char *)p + 4));
+    return func_02197BD4((struct Sock *)p[2], p[0], *(unsigned short *)((char *)p + 4));
 }
 

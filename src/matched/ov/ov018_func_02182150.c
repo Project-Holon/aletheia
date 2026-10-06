@@ -33,7 +33,7 @@ extern void func_0216D9A0(void *);
 extern void *func_021821B0(void *, int);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_02188BE8(void *a);
-extern void func_0216D9E4(void *);
+extern u32 *func_0216D9E4(void *c);
 
 int func_02182150(void *a, int *state, int c)
 {

@@ -29,11 +29,11 @@ extern u32 d_021D5454[][2];
 extern u16 func_0216D608(void *p);
 extern int func_0219C314(int a, int *s, u32 c);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D438(int a0, int a1);
+extern void func_0216D438(char *a0, int a1);
 extern void func_0216DA44(int a);
 extern u16 func_021642A4(int i);
 
-int func_0219C338(int a, u32 *s, u32 c)
+int func_0219C338(char *a, u32 *s, u32 c)
 {
     u32 t;
     u32 k;
@@ -42,7 +42,7 @@ int func_0219C338(int a, u32 *s, u32 c)
 
     k = s[2];
     t = func_0216D608((void *)a);
-    r = func_0219C314(a, (int *)(&t), k);
+    r = func_0219C314((int)a, (int *)(&t), k);
     if (t == 9) {
         t = func_0216D608((void *)a);
         func_0216D438(a, (u16)((u32)func_02197E7C((u16)t, (u16)0x1c)));
@@ -50,7 +50,7 @@ int func_0219C338(int a, u32 *s, u32 c)
     }
     if (r == 0) {
         v = (u32)func_02197E7C((u16)t, (u16)c);
-        func_0216DA44(a);
+        func_0216DA44((int)a);
         func_0216D438(a, (u16)v);
         return 1;
     }
@@ -58,7 +58,7 @@ int func_0219C338(int a, u32 *s, u32 c)
         t = func_021642A4(func_0216D608((void *)a));
         k = d_021D5384[k];
         s[2] = k;
-        r = func_0219C314(a, (int *)(&t), k);
+        r = func_0219C314((int)a, (int *)(&t), k);
         if (t == 9) {
             t = func_0216D608((void *)a);
             func_0216D438(a, (u16)((u32)func_02197E7C((u16)t, (u16)0x1c)));
@@ -66,14 +66,14 @@ int func_0219C338(int a, u32 *s, u32 c)
         }
         if (r == 0) {
             v = (u32)func_02197E7C((u16)t, (u16)c);
-            func_0216DA44(a);
+            func_0216DA44((int)a);
             func_0216D438(a, (u16)v);
             return 1;
         }
     }
     if (r & 2) {
         t = d_021D5454[t][k];
-        r = func_0219C314(a, (int *)(&t), k);
+        r = func_0219C314((int)a, (int *)(&t), k);
         if (t == 9) {
             t = func_0216D608((void *)a);
             func_0216D438(a, (u16)((u32)func_02197E7C((u16)t, (u16)0x1c)));
@@ -81,7 +81,7 @@ int func_0219C338(int a, u32 *s, u32 c)
         }
         if (r == 0) {
             v = (u32)func_02197E7C((u16)t, (u16)c);
-            func_0216DA44(a);
+            func_0216DA44((int)a);
             func_0216D438(a, (u16)v);
             return 1;
         }

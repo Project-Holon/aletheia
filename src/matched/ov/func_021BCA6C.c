@@ -22,7 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BCA6C(u8 *p)
+u8 *func_021BCA6C(u8 *p)
 {
     ((struct Obj18196 *)p)->f4C = 0;
+    return p;
 }

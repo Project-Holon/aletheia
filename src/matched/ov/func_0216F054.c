@@ -20,8 +20,9 @@ typedef unsigned int u32;
 
 extern int func_020130B4(int a0);
 
-int func_0216F054(int a0, int a1)
+int func_0216F054(int a0)
 {
+    int a1;
 
 a1 = ((struct Obj12060 *)a0)->f20;
     if (a1 != 0) goto loc_0216F062;

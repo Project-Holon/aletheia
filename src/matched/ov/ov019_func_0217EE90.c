@@ -72,7 +72,7 @@ struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void  func_0201EE0C(void *win, int a, void *s, int b, int c, int d);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);

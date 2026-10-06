@@ -13,7 +13,7 @@
 typedef unsigned int   u32;
 extern u32 func_0200FC0C(u32 a0);
 
-void func_0200F7B8(u32 a0)
+u32 func_0200F7B8(u32 a0)
 {
-    func_0200FC0C(a0);
+    return func_0200FC0C(a0);
 }

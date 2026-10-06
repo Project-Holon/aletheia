@@ -20,7 +20,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct BgTemplate;
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
 void func_021F8DA0(const struct BgTemplate *p,u32 id,u32 type) { func_0203FCA0(id,p,type); func_02040588(id,1); func_020414AC(id); func_020409B4(id); }

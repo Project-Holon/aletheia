@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef struct { u32 v[4]; } T;
 
 struct Node;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02030EAC(struct Node *n);

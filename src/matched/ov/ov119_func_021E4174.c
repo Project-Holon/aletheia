@@ -15,7 +15,7 @@
  *   func_021E6700 0x021E6700 thumb ov119
  */
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_021E6700(void *);
 extern void func_020414EC(u32 i);

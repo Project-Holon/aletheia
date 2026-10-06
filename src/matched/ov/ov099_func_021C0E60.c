@@ -33,7 +33,7 @@ extern unsigned char func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern unsigned char func_021C27E0(void *);
 extern void func_021BA874(char *, int);
-extern void func_021C23C0(void *a);
+extern unsigned char func_021C23C0(void *a);
 extern int func_021C23C8(void *a, void *b);
 extern void func_021BDE30(void *, int, int);
 extern void func_021C18C8(char *, int, int);

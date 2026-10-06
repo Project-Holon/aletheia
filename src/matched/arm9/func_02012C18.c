@@ -76,9 +76,9 @@ extern u32 func_02012964(const struct BigObj *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
 extern void func_0200EEAC(void *ctx, void *list);
-extern u32  func_020127B8(void *p);
+extern void *func_020127B8(void *p);
 extern void func_0200BE6C(void *sys, u16 *dest);
-extern u32  func_020127C4(void *p);
+extern u8 *func_020127C4(void *p);
 extern void *func_0200A864(void *sys);
 extern void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest);
 extern void func_0200B3C8(void *sys, const struct Rec94 *src);
@@ -110,7 +110,7 @@ void func_02012C18(u8 *p)
 
     func_0200BE6C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (u16 *)func_020127B8(p));
 
-    v = func_020127C4(p);
+    v = (u32)func_020127C4(p);
     func_0200A884(func_0200A864((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Rec2Head *)v);
 
     func_0200B3C8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Rec94 *)(p + 0x5EC));

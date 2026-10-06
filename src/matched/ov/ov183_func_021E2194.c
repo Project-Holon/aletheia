@@ -19,9 +19,9 @@
 #include "../include/Obj24653.h"
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
-extern int func_021FD744(int);
+extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
-void func_021E2194(int task,int *state,char *p)
+void func_021E2194(int *task,int *state,char *p)
 {
     switch (*state) {
     case 0: func_021FE784(((struct Obj24651 *)(*(char * *)&((struct Obj10760 *)p)->f20))->f4,2,3,1); *state=1; break;

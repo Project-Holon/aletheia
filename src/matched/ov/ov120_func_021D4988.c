@@ -42,7 +42,7 @@ typedef unsigned char  u8;
 extern void func_0203C554(u32 a);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 a);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern int func_0203C3EC(void);
 extern void func_0203D7B0(u8 a0);
 extern void func_0203D7BC(u8 a0);
@@ -50,7 +50,7 @@ extern void func_021D7B38(char *p);
 extern void func_021D7A74(u8 *p, int n);
 extern void func_021D8648(u8 *p);
 
-void func_021D4988(int a)
+void func_021D4988(int *a)
 {
     func_021D7C10((char *)(((struct Obj05343 *)a)->f40));
     if (func_020362DC() == 2) {

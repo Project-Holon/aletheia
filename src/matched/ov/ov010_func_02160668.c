@@ -29,7 +29,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C404(void *sys);
 extern u16 func_0200C468(const u8 *a);
-extern void func_021605C0();
+extern void func_021605C0(int a0, int a1);
 extern int func_021C5334(u32 a);
 
 int func_02160668(int *a0, int *a1)
@@ -45,7 +45,7 @@ int func_02160668(int *a0, int *a1)
         } else if ((u32)(a0[9] - 1) <= 2) {
             a1[7] = 2;
         } else {
-            func_021605C0(1, a1);
+            func_021605C0(1, (int)a1);
             a1[7] = 1;
         }
         break;

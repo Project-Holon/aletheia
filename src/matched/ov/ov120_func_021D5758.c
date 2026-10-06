@@ -25,7 +25,7 @@ extern int func_021D7AF4(char *p);
 extern void func_021D79F4(u8 *p, u16 n);
 extern u32 func_021D6988(u8 *p);
 extern void func_021B64D0(u8 *p, u32 v);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D5AD4(u8 *p);
 extern u8 func_020355C4(void);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
@@ -35,7 +35,7 @@ void func_021D5758(u8 *p)
         if (--((struct Obj05345 *)p)->f14 <= 0) {
             func_021D79F4(((struct Obj05345 *)p)->f40, 0x20);
             func_021B64D0((u8 *)func_021D6988(((struct Obj05345 *)p)->f3C), 1);
-            func_021D4244((int)p, (int)func_021D5AD4, 0x7c7);
+            func_021D4244((int *)p, (int)func_021D5AD4, 0x7c7);
             if (func_020355C4() == 0)
                 func_021D69F4(((struct Obj05345 *)p)->f3C, 0, ((struct Obj05345 *)p)->f15C);
         }

@@ -121,7 +121,7 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_0202428C(void *p);
-extern int func_02168AC8(Rec *r);
+extern int func_02168AC8(int a0);
 extern void func_0216869C(const struct BattleMon *src, void *mon);
 extern void func_0201394C(struct ZoneData *o);
 extern const char d_02172A2C[];
@@ -208,7 +208,7 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
         o->w18.v[5] = recA->w20.v[5];
         o->w18.v[6] = recA->w20.v[6];
         o->w18.v[7] = recA->w20.v[7];
-    } else if (func_02168AC8(recA) != 0) {
+    } else if (func_02168AC8((int)recA) != 0) {
         o->w18.v[0] = recA->w20.v[0];
         o->w18.v[1] = recA->w20.v[1];
         o->w18.v[2] = recA->w20.v[2];

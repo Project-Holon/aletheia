@@ -16,10 +16,12 @@
  */
 
 extern void  func_0203064C(unsigned int a, unsigned int heap, unsigned int size);
-extern void *func_0203159C(int a, int size, int heap);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *p, int v, int n);
 
-int func_021BC9C0(int a0)
+int func_021BC9C0(struct Obj0203159C *a0)
 {
     func_0203064C(1, 0x16, 0x70000);
     func_02082BCC(func_0203159C(a0, 8, 0x16), 0, 8);

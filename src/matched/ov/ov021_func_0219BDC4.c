@@ -24,7 +24,7 @@ extern u32 func_0216D684(u32, u32);
 typedef unsigned short u16;
 extern void func_0216D674(void *p, u16 v);
 extern void func_0216DA50(u32);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 extern void func_0216D8C0(u32, void *);
 
 typedef struct { u32 a, b, c; } T12;

@@ -13,8 +13,8 @@
  * symbols:
  *   func_02162358 0x02162358 thumb ov010
  */
-extern void func_02162358(char *);
+extern void func_02162358(int a0);
 void func_02162040(char *p)
 {
-    func_02162358(p);
+    func_02162358((int)p);
 }

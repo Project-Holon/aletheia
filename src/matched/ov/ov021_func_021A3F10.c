@@ -32,7 +32,7 @@ typedef struct {
 } Obj021A3F10;
 
 int func_021A3B94(u32 *p);
-int func_021A3974(Obj021A3F10 *p);
+u32 func_021A3974(u8 *p);
 u32 func_021A398C(u8 *p);
 int func_021A31A4(int i, int v);
 void func_021A3AD8(u8 *p, int a);
@@ -43,7 +43,7 @@ int func_021A3F10(Obj021A3F10 *p)
 
     if (func_021A3B94((u32 *)p) == 1) {
         p->count++;
-        a = func_021A3974(p);
+        a = func_021A3974((u8 *)p);
         func_021A3AD8((u8 *)p, func_021A31A4(func_021A398C((u8 *)p), a));
         p->done = 1;
     }

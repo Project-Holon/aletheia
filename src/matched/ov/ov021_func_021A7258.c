@@ -74,7 +74,7 @@ extern void *func_02188C58(void *o);
 struct Actor;
 extern void *func_021A3074(u8 *p);
 extern int func_0216DC4C(void *m);
-extern void func_0216D4B4(char *p);
+extern void *func_0216D4B4(char *p);
 extern u16 func_0216D598(void *m);
 extern void func_021A368C(u8 *p);
 extern void func_0216E0AC(void *a0, void *a1);
@@ -90,7 +90,7 @@ extern u32 func_021A36A4(u8 *p);
 extern void func_021BB3AC(u8 *p, u32 b);
 extern void func_0218F05C(unsigned char *a);
 extern void func_0216D5E0(int a0, int a1);
-extern void func_0216D600(void *m, u16 e);
+extern int func_0216D600(int a0, u16 a1);
 extern void func_0219F0B0(u32 a, u32 b, u32 c);
 
 void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16 g)
@@ -127,7 +127,7 @@ void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16
         func_0218F05C(y);
     }
     func_0216D5E0((int)m, e);
-    func_0216D600(m, e);
+    func_0216D600((int)m, e);
     func_0219F0B0((u32)m, f, g);
     h->mode = mode;
 }

@@ -167,9 +167,10 @@ int func_02012B70(const struct BigObj *p)
     return p->unk1CC;
 }
 
-void func_02012B78(struct BigObj *p, u8 v)
+struct BigObj *func_02012B78(struct BigObj *p, u8 v)
 {
     p->unk1CC = v;
+    return p;
 }
 
 u8 func_02012B80(const struct BigObj *p)

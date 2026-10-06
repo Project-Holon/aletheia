@@ -26,7 +26,7 @@ extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void *func_021D7B60(char *p, int n);
 extern void func_021D63F4(u8 *p, int flag, int mode);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D59E0(u8 *p);
 void func_021D5A84(u8 *p)
 {
@@ -35,6 +35,6 @@ void func_021D5A84(u8 *p)
         ((struct Obj05347 *)p)->f38 = func_021D7B60(((struct Obj05347 *)p)->f40, 1);
         func_021D63F4(((struct Obj05347 *)p)->f3C, 1, 0);
         func_021D69F4(((struct Obj05347 *)p)->f3C, 0, 9);
-        func_021D4244((int)p, (int)func_021D59E0, 0x8d4);
+        func_021D4244((int *)p, (int)func_021D59E0, 0x8d4);
     }
 }

@@ -23,7 +23,7 @@
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern u32 func_021C1704(u32 a0);
+extern u32 func_021C1704(void *a0);
 extern void func_021C1720(u8 *p, u8 *e);
 extern void func_021C17C4(u8 *p);
 extern void func_021C1850(u8 *p);
@@ -33,7 +33,7 @@ extern void func_021C18F8(u8 *p);
 void func_021C10E8(u8 *p, u8 *tab, int n)
 {
     int i;
-    func_021C1704((u32)p);
+    func_021C1704((void *)p);
     for (i = 0; i < n; i++)
         func_021C1720(p, tab + i * 16);
     func_021C17C4(p);

@@ -39,8 +39,8 @@ extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D5F8(void *p);
 extern void func_0216D410(int, int);
 extern int func_0216D480(char *p);
-extern void func_0216D548(u32 *p, u32 v);
-extern void func_0216D550(u32 *p, u32 v);
+extern u32 *func_0216D548(u32 *p, u32 v);
+extern u32 *func_0216D550(u32 *p, u32 v);
 
 int func_0217B6B4(char *base, int *p, int r2, unsigned char *state)
 {

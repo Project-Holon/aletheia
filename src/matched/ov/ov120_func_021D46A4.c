@@ -39,7 +39,7 @@ extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern int func_0217BC44(u16 **, int, char *, int, char *, int *, int);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_021D4244(int, void (*)(u8 *), int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D4608(u8 *);
 void func_021D46A4(u8 *p)
 {
@@ -61,6 +61,6 @@ void func_021D46A4(u8 *p)
         ((struct Obj05341 *)p)->f1A8 = 0;
         func_0217BC44((u16 **)(p + 0x1a0), 1, 0, 0, (char *)(p + 0x1a4), (int *)(p + 0x1a8), 128);
         func_02045808(str);
-        func_021D4244((int)p, func_021D4608, 0x29c);
+        func_021D4244((int *)p, (int)func_021D4608, 0x29c);
     }
 }

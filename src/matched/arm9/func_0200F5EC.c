@@ -36,7 +36,7 @@ struct Sub020097BCFriend;
 struct Sub020097BCObj;
 extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);
 extern int sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
-extern void *func_02009860(void *p);
+extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern int   sub_0200F34C(void *a, void *b, void *c);
 extern void  sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4,
                           int mode);

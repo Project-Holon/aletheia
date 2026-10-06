@@ -26,8 +26,10 @@ typedef unsigned short u16;
 typedef struct {int a,b;} Pair;
 extern const Pair d_021E38E0;
 typedef unsigned int   u32;
-extern unsigned func_021F9B9C(char *p);
-extern char *func_0203159C(int,int,int);
+struct Obj24810;
+extern unsigned func_021F9B9C(struct Obj24810 *p);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021E1DA8(int,int *,char *);
@@ -36,15 +38,15 @@ extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern void func_021FD860(int,int,Pair *);
-int func_021E1C80(int obj,int unused,char *arg)
+int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
 {
     char *p;
     int i;
     Pair pair;
-    p=func_0203159C(obj,32,func_021F9B9C((char *)(((struct Obj05482 *)arg)->fC)));
+    p=func_0203159C(obj,32,func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC)));
     func_02082BCC(p,0,32);
     *(char * *)&((struct Obj02232 *)p)->f18=arg;
-    ((struct Obj02232 *)p)->f8=func_021F9B9C((char *)(((struct Obj05482 *)arg)->fC));
+    ((struct Obj02232 *)p)->f8=func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC));
     ((struct Obj02232 *)p)->f4=(int)func_021FD6D8((int)p,(int)func_021E1DA8,((struct Obj02232 *)p)->f8);
     ((struct Obj02232 *)p)->f0=func_0201C440((void *)(((struct Obj02232 *)p)->f8));
     ((struct Obj02232 *)p)->fC=(int)func_021FD12C(((struct Obj05482 *)arg)->f8,(void *)(((struct Obj02232 *)p)->f0),((struct Obj02232 *)p)->f8);

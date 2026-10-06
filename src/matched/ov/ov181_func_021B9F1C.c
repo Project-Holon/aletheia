@@ -20,5 +20,10 @@
  *   func_02046788 0x02046788 arm
  */
 struct Ctx;struct Rec;
-extern void func_02048AC4(void *),func_02048C4C(void *),func_020480E4(struct Ctx *,unsigned),func_02047E54(struct Rec *),func_02046788(void);
+typedef unsigned int   u32;
+extern u32 func_02048AC4(void *ptr);
+extern void func_02048C4C(void *);
+extern void func_020480E4(struct Ctx *,unsigned);
+extern void func_02047E54(struct Rec *);
+extern void func_02046788(void);
 void func_021B9F1C(char *p){func_02048AC4(*(void **)(p+12));func_02048C4C(*(void **)(p+16));func_020480E4(*(struct Ctx **)(p+8),*(unsigned short *)(p+24));func_02047E54(*(struct Rec **)(p+8));func_02046788();}

@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_0203159C(void *,u32,u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
-extern void *func_02031324(u32);
+extern void *func_02031324(int a0);
 int func_021DC860(void *obj,int a,u8 *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); ((struct Obj10612 *)p)->f10=((struct Obj23664 *)ctx)->f4; ((struct Obj10612 *)p)->f8=ctx; ((struct Obj10612 *)p)->f20=func_02031324(1); return 1; }

@@ -54,7 +54,7 @@ extern void GX_SetBankForTex(u32 a);
 extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
 extern void func_02087AE4(void);
 extern void func_02080B98(void);
-extern u32  func_02080964(void);
+extern int func_02080964(void);
 
 void func_0202E610(u32 a0, u32 a1)
 {

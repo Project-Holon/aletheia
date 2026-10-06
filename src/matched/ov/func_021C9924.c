@@ -28,10 +28,10 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012EE4(u32, u32);
+extern char *func_02012EE4(char *base, int v);
 
 int func_021C9924(u32 a)
 {
-return func_02012EE4((u32)func_020120F4((const struct Ctx *)a), 0);
+return (int)func_02012EE4((char *)func_020120F4((const struct Ctx *)a), 0);
 }
 

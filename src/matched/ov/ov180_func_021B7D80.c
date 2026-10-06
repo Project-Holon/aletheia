@@ -63,7 +63,7 @@ struct Sub0200852CObj;
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B0F4(struct Actor *a0, int a1);
 extern void func_0204B258(struct Bank *,void *);
-extern u32 func_021B75A4(char *,const char *);
+extern struct Obj *func_021B75A4(char *p, const char *q);
 extern void func_021B746C(int *,int,int);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
@@ -86,8 +86,8 @@ void func_021B7D80(char *p) {
     *(struct Actor **)(p+0x9118)=(struct Actor *)func_0204B034((u8 *)&s,2,141);
     func_0204B0F4(*(struct Actor **)(p+0x9118),1);
     func_0204B258(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
-    *(u32 *)(p+0x9064)=func_021B75A4(p,d_021B8204);
-    *(u32 *)(p+0x9068)=func_021B75A4(p,d_021B81EC);
+    *(u32 *)(p+0x9064)=(u32)func_021B75A4(p,d_021B8204);
+    *(u32 *)(p+0x9068)=(u32)func_021B75A4(p,d_021B81EC);
     func_021B746C((int *)p,7,0); func_021B746C((int *)p,8,0);
     h=func_020490F4(216,0x808d);
     *(int *)(p+0x90e0)=func_0204A6C8(h,25,0,1,141);
@@ -104,7 +104,7 @@ void func_021B7D80(char *p) {
     *(u32 *)(p+0x90f8)=func_0202DA18((u32)h,mode,1,96,141);
     *(int *)(p+0x9110)=func_0202DA6C(mode,0,1,141);
     func_02049238(h);
-    *(u32 *)(p+0x905c)=func_021B75A4(p,d_021B824C);
-    *(u32 *)(p+0x9060)=func_021B75A4(p,d_021B8264);
+    *(u32 *)(p+0x905c)=(u32)func_021B75A4(p,d_021B824C);
+    *(u32 *)(p+0x9060)=(u32)func_021B75A4(p,d_021B8264);
     func_021B79F4(p);
 }

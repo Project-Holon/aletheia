@@ -71,7 +71,7 @@ extern unsigned int func_02012A30(const struct BigObj *p);
 extern void func_02028A14(struct T *p);
 extern void func_0202B500(unsigned char *p);
 extern void func_02021464(unsigned char *p);
-extern void func_0200F7B8(u32 a0);
+extern u32 func_0200F7B8(u32 a0);
 
 int func_02011FCC(char *p)
 {

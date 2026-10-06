@@ -105,7 +105,8 @@ typedef struct {
 } Work;
 
 extern void func_0203064C(u32 a, u32 heap, u32 size);
-extern Work *func_0203159C(void *proc, int size, int heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(int v, void *p, int size);
 extern void func_021C7130(Work *p, void *parent);
 extern void func_021C7208(void);

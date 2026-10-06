@@ -44,7 +44,9 @@ extern void func_0203C00C(void);
 extern void *func_0203D798(void);
 extern int func_020393D0(void);
 extern int func_020393A8(void);
-extern void  func_0203AD80(u32 ctx, void *tag, u32 val, u32 line);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern int func_020399EC(void);
 extern int func_02039ACC(void);
 extern u32   func_0203D650(void);
@@ -60,7 +62,7 @@ void func_0203B52C(struct Slot *p)
     if (func_020393D0() != 0)
         return;
     if (func_020393A8() == 0) {
-        func_0203AD80(g_021469DC, (void *)func_0203B4DC, 0, 0x297);
+        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B4DC, 0, 0x297);
         return;
     }
     if (func_020399EC() == 0)
@@ -71,5 +73,5 @@ void func_0203B52C(struct Slot *p)
         ((void (*)(u32))p->f2c)(func_0203D650());
         p->f2c = 0;
     }
-    func_0203AD80(g_021469DC, (void *)func_0203C00C, 0, 0x2a6);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C00C, 0, 0x2a6);
 }

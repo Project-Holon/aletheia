@@ -149,7 +149,7 @@ extern u16 func_02018328(void *,u32 *,u32);
 extern u32 func_0201AA18(void *);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void *func_02021518(u32);
-extern void func_02021540(void *);
+extern u32 func_02021540(void *a0);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021EE4(struct Obj02021EE4 *o, int v);

@@ -72,7 +72,7 @@ extern void func_020433E0(const struct DispVram *);
 extern void func_0203F8F4(u16),func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_021D4940(struct BgConfig *,u32,u32);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0207D63C(u32 *,u32,u32,u32,u32);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;

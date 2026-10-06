@@ -13,6 +13,7 @@
  *   func_020403F4 0x020403F4 arm
  */
 
-extern void func_02040588(unsigned, unsigned);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020403F4(unsigned);
 void func_021B7D98(void) { func_02040588(2, 0); func_020403F4(2); }

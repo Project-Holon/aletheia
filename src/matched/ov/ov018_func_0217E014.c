@@ -44,7 +44,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
 #pragma opt_propagation off
-void func_0217E014(u8 *p)
+void func_0217E014(u8 *p, int a1)
 {
     u8 *s;
     void *act;

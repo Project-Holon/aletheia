@@ -35,7 +35,7 @@ extern void func_020862F0(void *, int);
 extern void func_0207E5D0(void *, int, int);
 extern void func_0207E468(void *, int, int);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *);
+extern u32 func_02021540(void *a0);
 void func_021D4CBC(char *p, int n, int count)
 {
     void *obj;

@@ -33,7 +33,7 @@ extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 void func_021BDE30(void *p,u16 heap)
 {
     struct BgTemplate t1,t2,t3,t4,t5;

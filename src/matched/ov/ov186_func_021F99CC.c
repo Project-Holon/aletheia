@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
-extern unsigned func_02031324(unsigned short);
+extern void *func_02031324(int a0);
 extern void func_021F9CA4(void *);
 extern void func_021F9BF4(unsigned *ctx, unsigned index);
 extern char d_02200D04[];
@@ -41,7 +41,7 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
     ctx->arg = arg;
     ctx->base = base;
     ctx->list = list;
-    ctx->object = func_02031324(heap);
+    ctx->object = (unsigned int)func_02031324(heap);
     func_021F9CA4((char *)ctx + 0x2c);
     func_021F9CA4((char *)ctx + 0x3c);
     func_021F9CA4((char *)ctx + 0x1c);

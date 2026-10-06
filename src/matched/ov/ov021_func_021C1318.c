@@ -35,14 +35,14 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec3;
 
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216DB4C(void *a, u32 b);
+extern int func_0216DB4C(void *a0, int a1);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_02164208(int dir, int *p, int amt);
 extern void func_02164280(int x, int y, int *p);
 extern void func_02163E58(void *a, Vec3 *v, int *out);
-extern u32 func_021A2F98(u32 a);
+extern u32 func_021A2F98(u8 *p);
 extern void func_021ACBB8(u32 a, u8 v);
 extern u32 func_02188CD0(u8 *p);
 extern void func_021ABE30(int a, int *b, int c);
@@ -79,7 +79,7 @@ int func_021C1318(u8 *p)
     ((struct Obj01665 *)p)->f38 = (b.z - v.z) / 2 / 16;
     ((struct Obj01665 *)p)->f34 = 0x6000;
     ((struct Obj01665 *)p)->f1C = 0x1000;
-    r6 = func_021A2F98(*(u32 *)&((struct Obj01665 *)p)->f3C);
+    r6 = func_021A2F98((u8 *)(*(u32 *)&((struct Obj01665 *)p)->f3C));
     func_021ACBB8(r6, 2);
     if ((u16)(((struct Obj01665 *)p)->f4 + 0xfffe) <= 1)
         k = 3;

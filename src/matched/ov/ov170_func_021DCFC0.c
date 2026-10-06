@@ -31,8 +31,10 @@ typedef struct {
 } Fade;
 
 extern void func_021EBFCC(char *p, int i, int v);
-extern int func_021EBFEC(char *p, int i);
-extern void func_020413B0(unsigned index, unsigned char x, unsigned char y, unsigned char w, unsigned char h, unsigned char pal);
+typedef unsigned int   u32;
+extern u32 func_021EBFEC(char *p, int i);
+typedef unsigned char  u8;
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned bit);
 
 int func_021DCFC0(char *p)

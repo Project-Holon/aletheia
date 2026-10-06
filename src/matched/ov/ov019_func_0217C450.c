@@ -39,7 +39,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 int func_0217BB04(char *p);
 int func_02173A04(int a, ...);
-int func_0217B8E4(void *ctx, int v);
+int func_0217B8E4(char *p, int v);
 u16 func_0217EC40(int i, int j);
 u16 func_0217EC54(int i, int j);
 void func_0217F210(u8 *p, u8 *a, u32 b);

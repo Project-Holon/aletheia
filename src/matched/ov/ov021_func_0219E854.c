@@ -34,13 +34,13 @@ extern void *func_0216D69C(void *p);
 extern int func_0219EAB8(u32 a, u32 b);
 extern int func_0219EB18();
 extern int func_0219EB4C(u32 o);
-extern int func_0219EB90(u32 a);
+extern int func_0219EB90(u32 *a);
 extern void func_0219EBA0(u32 o, u32 k);
 extern int func_0219EBF4(u32 o);
-extern int func_0219ED7C(u32 a);
+extern int func_0219ED7C(u32 *a);
 extern int func_0219ED8C();
 extern int func_0219EDC4(u32 o);
-extern int func_0219EF04(u32 a);
+extern int func_0219EF04(u32 *a);
 
 int func_0219E854(u32 o)
 {
@@ -59,11 +59,11 @@ int func_0219E8C4(u32 o) { return func_0219EB18(o, 8); }
 int func_0219E8D0(u32 o) { return func_0219EB18(o, 9); }
 int func_0219E8DC(u32 o) { return func_0219EB18(o, 10); }
 int func_0219E8E8(u32 o) { return func_0219EB4C(o); }
-int func_0219E8F0(u32 o) { return func_0219EB90(o); }
+int func_0219E8F0(u32 *o) { return func_0219EB90(o); }
 void func_0219E8F8(u32 o) { func_0219EBA0(o, 0); }
 void func_0219E904(u32 o) { func_0219EBA0(o, 9); }
 int func_0219E910(u32 o) { return func_0219EBF4(o); }
-int func_0219E918(u32 o) { return func_0219ED7C(o); }
+int func_0219E918(u32 *o) { return func_0219ED7C(o); }
 int func_0219E920(u32 o) { return func_0219ED8C(o); }
 int func_0219E928(u32 o) { return func_0219EDC4(o); }
-int func_0219E930(u32 o) { return func_0219EF04(o); }
+int func_0219E930(u32 *o) { return func_0219EF04(o); }

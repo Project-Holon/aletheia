@@ -27,7 +27,7 @@ struct Obj;
 typedef unsigned char  u8;
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B404(void *,const ShortPair *,u16);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FD964(void *unused, int *state, u8 *p);
 void func_021FD9A0(int unused,int *state,Motion *p)
 {

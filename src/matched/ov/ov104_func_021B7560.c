@@ -60,7 +60,7 @@ extern void func_021B7F1C(u8 *,void *,int,int,s16);
 extern void func_021B80D4(int *p, u8 *q, int a2);
 extern void func_021B7E58(u8 *,u32,u32,u8,u8,u8,u8,u16,u8,u16);
 extern void func_021B7F80(u8 *,void *,int);
-extern void func_02041F6C(u32,u32,u16);
+extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32,u32,u16);
 extern void func_021B8724(u8 *p, int a);
 extern void func_021B85D8(void *p);

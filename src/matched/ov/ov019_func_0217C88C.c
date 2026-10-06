@@ -64,7 +64,7 @@ void func_0217F4AC(void *ctx);
 void func_0217BA10(char *p, int x);
 int func_0217BAA8(int a, int b, int *p, int *q);
 void func_0217F210(u8 *p, u8 *a, u32 b);
-int func_0217B8E4(char *p, char v);
+int func_0217B8E4(char *p, int v);
 int func_0217B974(int id);
 void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);
 u32 func_0217F794(char *p, u32 a);

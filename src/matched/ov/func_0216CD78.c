@@ -21,8 +21,9 @@ typedef unsigned int u32;
 
 extern int func_0219C624();
 
-int func_0216CD78(int a0, int a1)
+int func_0216CD78(int a0)
 {
+    int a1;
 
 a1 = ((struct Obj17771 *)a0)->f24;
     if (a1 == 0) goto loc_0216CD84;

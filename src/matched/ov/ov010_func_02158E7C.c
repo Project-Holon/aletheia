@@ -36,7 +36,7 @@ extern int func_0201EC74(int, int, int);
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_0215A514(int a, int heap);
-extern void func_02158E54(void *, int);
+extern int func_02158E54(int a0, int a1);
 extern void func_02159130(void);
 extern char d_0217289C[];
 
@@ -62,7 +62,7 @@ int *func_02158E7C(u16 a, int b, int c, int d, int e, int f)
         p[13] = 0;
     }
     p[0x52] = (int)func_0215A514((int)p, a);
-    func_02158E54(p + 6, b);
+    func_02158E54((int)(p + 6), b);
     if (p[9] == 0)
         func_02159130();
     return p;

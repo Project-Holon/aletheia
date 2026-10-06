@@ -35,7 +35,8 @@ typedef signed short   s16;
 
 extern void *func_020275D0(char *p);
 extern int func_020275C4(void *p);
-extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
+struct WordSet;
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_021F18C4(char *p, int b);
 
 int func_021F00C8(char *p)

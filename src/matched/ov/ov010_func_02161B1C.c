@@ -34,7 +34,7 @@ struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
-extern void func_0216D4B4(char *p);
+extern void *func_0216D4B4(char *p);
 extern int func_02197D3C(void *a, const char *b);
 
 int func_02161B1C(void *a)

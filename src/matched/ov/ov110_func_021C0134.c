@@ -32,13 +32,14 @@ struct MsgBank;
 extern int func_02034AC4(s32 handle);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0203064C(u32,u32,u32);
-extern u8 *func_0203159C(void *,unsigned,unsigned);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_02024988(int a0);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_0201C440(void *p);
-extern void *func_02031324(unsigned);
+extern void *func_02031324(int a0);
 extern void func_021C0490(u8 *);
 int func_021C0134(void *owner,int unused,void **input) {
     u8 *p;

@@ -112,7 +112,7 @@ extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
-extern void func_02040588(u32, u32);
+extern void func_02040588(u32 which, unsigned char enable);
 #pragma opt_dead_assignments off
 void func_021DB018(u8 *p, u16 heap)
 {

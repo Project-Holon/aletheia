@@ -31,7 +31,7 @@ typedef struct {
 
 extern const u8 d_021F323C[];
 extern void func_021F0D14(int a, int b, int *x, int *y);
-extern void func_020413B0(unsigned int index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(unsigned int index);
 
 void func_021F0C00(Ent *p, int idx)

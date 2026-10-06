@@ -43,7 +43,7 @@ extern void *func_02188C58(void *p);
 extern u16 func_02011330(struct Stream *s);
 struct Cursor;
 extern u32 func_0201134C(struct Cursor *p);
-extern void func_0218F900();
+extern void func_0218F900(u8 *a, void *p, int n);
 
 int func_021B53BC(struct Cursor *a0, int a1)
 {
@@ -63,6 +63,6 @@ int func_021B53BC(struct Cursor *a0, int a1)
     o.w30[3] = 1;
     o.w30[4] = 0;
     o.w30[5] = 1;
-    func_0218F900(r4, &o, func_02011330((struct Stream *)a0));
+    func_0218F900((u8 *)r4, &o, func_02011330((struct Stream *)a0));
     return 0;
 }

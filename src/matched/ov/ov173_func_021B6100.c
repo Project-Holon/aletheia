@@ -23,7 +23,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0203064C(u32,u32,u32);
-extern u8 *func_0203159C(u32,u32,int);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
 struct GfFont;
 struct Tcbl;
@@ -32,7 +33,7 @@ extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern void func_021B63AC(u8 *p);
 extern void func_021B7ADC(unsigned char *p, u32 idx, int unused);
 extern void func_0203D34C(u32 a, u32 b);
-int func_021B6100(u32 obj, int unused, u8 *input)
+int func_021B6100(struct Obj0203159C *obj, int unused, u8 *input)
 {
     u8 *p;
     func_0203064C(1,79,0x50000);

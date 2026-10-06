@@ -80,7 +80,7 @@ typedef unsigned char  u8;
 extern void *func_021BB480(void *p);
 extern int func_021B7A84(int,Vec *,Vec *,LocalCell *,Vec *);
 extern int func_021B7D50(int,LocalCell *);
-extern int func_021BB3C4(int,LocalCell *);
+extern u32 func_021BB3C4(u8 *p, char *a1);
 extern u16 func_021AB0F8(u32 attr);
 extern void func_021B7D38(int,LocalCell *,Vec *);
 extern void func_0207CA00(const Vec *,const Vec *,Vec *);
@@ -100,22 +100,22 @@ extern u32 func_0218EC5C(u8 *p);
 extern void func_0218EC90(int,Vec *);
 extern void func_0218ECF4(int,Vec *);
 extern void func_020061E4(u32);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 extern void func_021AC528(u32 a, u32 b);
 extern void func_021A3044(u8 *p, void *v);
 extern void func_0216D89C(int,Vec *);
 extern int func_02006148(u32);
 extern void func_020061F8(int);
 extern void func_021A36B0(u8 *p, void *r);
-extern void func_021A36D4(void *,Vec *);
+extern void func_021A36D4(u8 *p, u32 v);
 extern void func_021BB260(int,int);
 extern int func_021BB388(void **h);
 extern void func_0219E2C0(void *a, void *r);
-extern void func_0216D570(char *p, u32 v);
-extern void func_0216DB4C(int,int);
-extern void func_0216DC98(int,int);
+extern char *func_0216D570(char *p, u32 v);
+extern int func_0216DB4C(void *a0, int a1);
+extern int func_0216DC98(void *a0, int a1);
 extern void func_0216DAE0(unsigned int *p, unsigned int v);
-extern void func_0216DB04(void *a0);
+extern char *func_0216DB04(void *a0);
 static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
 static inline void vset16(SmallVec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 static inline void vset(Vec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
@@ -144,10 +144,10 @@ void func_021F377C(int unused,S *s)
   cell=s->cell;
   height=func_021B7D50(terrain,&s->cell);
   valid=0;
-  if(!(func_021AB0F8(func_021BB3C4(s->scene,&cell))&1)) valid=1;
+  if(!(func_021AB0F8(func_021BB3C4((u8 *)s->scene,(char *)(&cell)))&1)) valid=1;
   cell.c+=2;if(cell.c>height) cell.c=height;
   bound=height+cell.c;
-  for(i=0;i<bound;i++) {cell.c--;if(func_021AB0F8(func_021BB3C4(s->scene,&cell))&1)break;s->cell=cell;valid=1;}
+  for(i=0;i<bound;i++) {cell.c--;if(func_021AB0F8(func_021BB3C4((u8 *)s->scene,(char *)(&cell)))&1)break;s->cell=cell;valid=1;}
   if(!valid) {s->state=9;return;}
   func_021B7D38(terrain,&s->cell,&s->end);
   func_0207CA00(&s->end,&s->start,&delta);length=func_0207CBD0(&delta);func_0207CCA4(&delta,&delta);
@@ -198,9 +198,9 @@ void func_021F377C(int unused,S *s)
   break;
  case 8:
   func_020061F8(func_02006148(0x6ed));
-  if(s->obj!=0) {func_021A36B0(s->obj,&s->cell);func_021A36D4(s->obj,&finalpos);func_021A3044(s->obj,&finalpos);func_021BB260(s->scene,1);func_021BB388((void **)s->scene);}
+  if(s->obj!=0) {func_021A36B0(s->obj,&s->cell);func_021A36D4(s->obj,(u32)(&finalpos));func_021A3044(s->obj,&finalpos);func_021BB260(s->scene,1);func_021BB388((void **)s->scene);}
   else func_0219E2C0((void *)s->model,&s->cell);
-  func_0216D570((char *)s->model,0x8000);func_0216DB4C(s->model,0);func_0216DC98(s->model,0);func_0216DAE0((unsigned int *)s->model,1);func_0216DB04((void *)s->model);s->state=9;
+  func_0216D570((char *)s->model,0x8000);func_0216DB4C((void *)s->model,0);func_0216DC98((void *)s->model,0);func_0216DAE0((unsigned int *)s->model,1);func_0216DB04((void *)s->model);s->state=9;
   break;
  case 2:case 3:case 6:case 7:case 9:break;
  }

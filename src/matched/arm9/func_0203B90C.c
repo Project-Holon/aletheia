@@ -26,12 +26,13 @@ typedef unsigned int  u32;
 extern u8 *g_021469DC;
 
 extern u8 *func_0203D788(void);
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203B90C(void)
 {
     if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0x78))() == 0)
         return;
 
-    func_0203AD80((u32)g_021469DC, 0x0203B6EC, 0, 0x371);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B6EC, 0, 0x371);
 }

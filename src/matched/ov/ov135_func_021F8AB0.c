@@ -21,7 +21,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern void *func_02009860(void *p);
+struct Sub020097BCObj;
+extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern int func_02009CC0(void *a0);
 struct DWCstAccUserData;
 struct Sub0200852CObj;

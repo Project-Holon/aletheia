@@ -33,7 +33,7 @@ typedef struct {
     u32 w10;
 } Req;
 
-extern u32 func_021A3AB8(u32, u32);
+extern u16 func_021A3AB8(u32 a, u32 v);
 extern int func_021A4254(u32 *p, u32 a);
 extern void func_021A3CC0(u32);
 extern int func_021A55A8(u32 *p, u32 a, int b);

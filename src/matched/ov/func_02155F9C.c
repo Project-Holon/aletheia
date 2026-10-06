@@ -21,8 +21,10 @@ typedef unsigned int u32;
 typedef struct Obj { int f00; int f04; int f08; } Obj;
 extern Obj *func_02156CAC(int a, int b, int c);
 
-Obj *func_02155F9C(int a0, int a1, int a2)
+Obj *func_02155F9C(int a0)
 {
+    int a1;
+    int a2;
     int t4;
     Obj *p;
 

@@ -17,5 +17,5 @@
 
 extern int func_0216E4EC(int a0, int a1);
 extern void *func_0216D67C(void *);
-extern int func_0216E490(void *);
-int func_0216E51C(void *a, int a1) { int i; unsigned int base; i=func_0216E4EC((int)a, a1); if(i!=30) { base=((struct Obj19138 *)((char *)func_0216D67C(a)))->f2C; return func_0216E490((void *)(base+i*12)); } return 0; }
+extern int func_0216E490(int a0);
+int func_0216E51C(void *a, int a1) { int i; unsigned int base; i=func_0216E4EC((int)a, a1); if(i!=30) { base=((struct Obj19138 *)((char *)func_0216D67C(a)))->f2C; return func_0216E490((int)((void *)(base+i*12))); } return 0; }

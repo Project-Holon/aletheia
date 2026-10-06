@@ -26,11 +26,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_0216D9E4(void *);
+extern u32 *func_0216D9E4(void *c);
 extern void *func_02188C7C(unsigned char *p);
 
 int func_021D1F64(u32 a)
 {
-return func_0216D9E4(func_02188C7C(func_0201210C((const struct Ctx *)((struct Obj18378 *)((u8 *)(a)))->f4)));
+return (int)func_0216D9E4(func_02188C7C(func_0201210C((const struct Ctx *)((struct Obj18378 *)((u8 *)(a)))->f4)));
 }
 

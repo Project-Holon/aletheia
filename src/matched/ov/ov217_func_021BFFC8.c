@@ -31,7 +31,7 @@ extern const struct BgTemplate d_021C36D8,d_021C36F8,d_021C3718,d_021C3738;
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0204044C(u32);
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
-extern void sub_02040588(u32, u32);
+extern void sub_02040588(u32 which, unsigned char enable);
 extern void func_0207D63C(u32 *, u32, u32, int, int);
 extern void sub_02045088(u16);
 void func_021BFFC8(char *p)

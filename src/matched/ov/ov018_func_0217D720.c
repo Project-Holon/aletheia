@@ -61,7 +61,7 @@ void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 u32 func_020307B0(void *p);
 void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_02040588(u32 which, u32 enable);
+void func_02040588(u32 which, unsigned char enable);
 void func_0217EF70(int *p, int x);
 int func_0217F1E8(u8 *w);
 void func_0217F240(u8 *w, int x);

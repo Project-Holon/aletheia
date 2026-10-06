@@ -27,7 +27,7 @@ struct S {
 };
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern u32 *func_02031324(u32 c);
+extern void *func_02031324(int a0);
 
 void func_0220B008(struct S *p, u32 a, u32 b, u32 c)
 {

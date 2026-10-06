@@ -84,7 +84,7 @@ extern void func_021FAEC0(char *p, unsigned index);
 extern void func_021FAF08(char *p, int a1);
 extern int func_021FC214(char *p);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FA274(void *p);
 extern void func_021FA920(int *task, int *state, u8 *ctx);
 extern void func_021FAAD0(void *p, int *state, unsigned char *ctx);

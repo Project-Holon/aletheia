@@ -31,7 +31,8 @@ struct B794 {
 };
 
 extern void *func_0203D798(void);
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
@@ -49,5 +50,5 @@ void func_0203B794(struct B794 *p)
         p->unk_2C = 0;
     }
 
-    func_0203AD80((u32)g_021469DC, 0x0203C00C, 0, 0x325);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x325);
 }

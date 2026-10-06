@@ -32,7 +32,7 @@ extern void func_021A3364(u32 *a, int b, int *out);
 extern void *func_021A3074(unsigned char *p);
 extern int func_021AB0D4(void *a, void *b);
 extern int func_0219E664(void *o, u32 k, void *buf);
-extern u32 func_021BB3C4();
+extern u32 func_021BB3C4(u8 *p, char *a1);
 
 u32 func_021A3128(u32 *a, u32 b)
 {
@@ -50,7 +50,7 @@ u32 func_021A3128(u32 *a, u32 b)
         u32 h = func_02188C5C((u8 *)a[0]);
 
         func_0219E664(t, b, c);
-        r = func_021BB3C4(h, c);
+        r = func_021BB3C4((u8 *)h, (char *)c);
     }
     return r;
 }

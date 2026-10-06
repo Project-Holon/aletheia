@@ -59,9 +59,9 @@ extern u32 func_021A30C8(void **ctx);
 extern u32 func_021A3128(u32 *a, u32 b);
 extern u16 func_021AB0F0(u32 attr);
 extern u32 func_02013E04(u32 id);
-extern int func_021A3504(int a, int b, int c);
+extern int func_021A3504(u8 *a, int b, int c);
 extern int func_0218B630(void *sys, u32 move);
-extern int func_021A3524(int a, int b, int c);
+extern int func_021A3524(u8 *a, int b, int c);
 
 u16 func_0218B56C(struct FieldCtx *p, u8 *pos)
 {
@@ -81,9 +81,9 @@ u16 func_0218B56C(struct FieldCtx *p, u8 *pos)
     }
     if (!func_02013E04(p->f10) || func_02012B70(p->f8) == 1)
         return 0xFFFF;
-    if (func_021A3504((int)p->f18, here, ahead) && func_0218B630(p->f8, 0x39) != 6)
+    if (func_021A3504((u8 *)p->f18, here, ahead) && func_0218B630(p->f8, 0x39) != 6)
         return 0x2712;
-    if (func_021A3524((int)p->f18, (u32)here, (u32)ahead))
+    if (func_021A3524((u8 *)p->f18, (u32)here, (u32)ahead))
         return 0x2716;
     return 0xFFFF;
 }

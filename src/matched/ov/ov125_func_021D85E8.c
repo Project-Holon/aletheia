@@ -17,7 +17,7 @@
 
 extern char *func_021D7BDC(void);
 
-void func_021D85E8(char *p)
+char *func_021D85E8(void)
 {
-    func_021D7BDC();
+    return func_021D7BDC();
 }

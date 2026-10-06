@@ -29,7 +29,9 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(void *, int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern int *func_021897BC(char *, int);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F3C8C(u32 a, int *b);
@@ -40,7 +42,7 @@ void func_021F3AD0(void *a, int b, int c)
     int p;
     int *q;
 
-    p = (int)func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
+    p = (int)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
     q = func_021897BC(x, 1);
     q[0] = b;
     q[1] = c;

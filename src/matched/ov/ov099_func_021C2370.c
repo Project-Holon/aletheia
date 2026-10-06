@@ -29,7 +29,8 @@ typedef unsigned int   u32;
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void func_020099E4(struct Sub020097BCObj *obj, int i, void *dest);
-extern void func_0201EE0C(int a, int b, int c, int d, int e, int f);
+struct WordSet;
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
 void func_021C2370(Work *w, int id)
 {
@@ -38,6 +39,6 @@ void func_021C2370(Work *w, int id)
     if (id != -1) {
         r = func_02009864(w->f4, id, 9);
         func_020099E4(w->f4, id, (void *)w->ff0);
-        func_0201EE0C(w->f8b0, 0, w->ff0, r, 1, 2);
+        func_0201EE0C((struct WordSet *)w->f8b0, 0, (const void *)w->ff0, r, 1, 2);
     }
 }

@@ -29,7 +29,7 @@ extern unsigned int func_02159B10(void *, void *);
 extern void *func_0215F8A8(void *p, int a1);
 struct ScriptVm;
 extern void func_0215898C(int a, int b);
-extern void func_02011290(struct ScriptVm *vm);
+extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 
 int func_021B4EE0(u32 a, u32 b)
 {

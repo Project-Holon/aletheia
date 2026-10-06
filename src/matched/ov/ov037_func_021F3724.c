@@ -20,11 +20,14 @@ struct Big;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern unsigned char *func_0200B3A4(unsigned int, unsigned int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 
 void func_021F3724(unsigned int a0, int a1)
 {
-    unsigned char *p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)a0)), 4);
+    unsigned char *p = (unsigned char *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)a0)), 4);
     unsigned char i;
 
     for (i = 0; i < 3; i++)

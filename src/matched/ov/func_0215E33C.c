@@ -22,8 +22,9 @@ typedef unsigned int u32;
 extern int func_02188CE8();
 extern int func_021AA7DC();
 
-int func_0215E33C(int a0, int a1)
+int func_0215E33C(int a0)
 {
+    int a1;
 
     a0 = func_02188CE8(a0);
 loc_0215E342:

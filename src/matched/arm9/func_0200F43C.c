@@ -46,7 +46,8 @@ typedef unsigned long long u64;
 
 typedef struct { u32 w[3]; } DWCFriendData;
 
-extern void *func_02009860(void *obj);
+struct Sub020097BCObj;
+extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
 extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);

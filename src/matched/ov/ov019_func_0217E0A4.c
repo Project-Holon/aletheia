@@ -50,7 +50,7 @@ extern int func_0217FE44(int a, int mode, unsigned *out);
 extern void func_0216D410(void *h, u16 v);
 extern int func_0216D454(void *h);
 extern int func_0216D480(char *p);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 
 int func_0217E0A4(void *ctx, Obj *obj, int a2, u8 *state)
 {

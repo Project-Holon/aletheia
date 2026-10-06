@@ -99,10 +99,10 @@ typedef struct Work {
 } Work;
 
 extern int func_02169E0C(char *a0);
-extern void func_02169E4C(Work *w);
+extern void func_02169E4C(int a0);
 extern void func_02169EA4(Work *w, u32 n);
 extern void func_02169EBC(Work *w);
-extern int func_02169FB8(Work *w);
+extern int func_02169FB8(int a0);
 extern void func_02169FFC(Work *w, u32 n);
 extern int func_0216A07C(Work *w);
 extern void func_0216A0BC(Work *w);
@@ -119,7 +119,7 @@ struct Tcbl;
 struct U16Vec;
 struct WordSet;
 extern int func_0216A244(void *a0);
-extern void func_0216A264(Work *w);
+extern int func_0216A264(int a0);
 extern int func_0216A280(int a0);
 
 extern u32 func_02188CCC(u8 *p);
@@ -182,7 +182,7 @@ int func_02169AB8(Work *w, u32 *state)
             w->f18->f1C = func_02028590(0xF, 1, 1, w->f10);
             w->f18->f14 = func_0201C440((void *)w->f10);
             w->f18->f4C = 0;
-            func_02169E4C(w);
+            func_02169E4C((int)w);
             func_0216A0BC(w);
             *state = 2;
         }
@@ -192,7 +192,7 @@ int func_02169AB8(Work *w, u32 *state)
         *state = 3;
         break;
     case 3:
-        if (func_02169FB8(w) == 0) {
+        if (func_02169FB8((int)w) == 0) {
             func_0216A148(w);
             *state = 4;
         }
@@ -236,7 +236,7 @@ int func_02169AB8(Work *w, u32 *state)
         if (func_0216A244(w) != 0) {
             w->f18->f44 = func_0202EE30((void *)func_020056BC(), w->f18->f08, 0xF, 0x10, w->f10);
             func_021A1530((u32 *)func_02188CCC(w->f08));
-            func_0216A264(w);
+            func_0216A264((int)w);
             func_02012DAC((int)func_020120F4(w->f04));
             *state = 9;
         }
@@ -276,7 +276,7 @@ int func_02169AB8(Work *w, u32 *state)
         }
         break;
     case 11:
-        if (func_0216A21C((int)w) == 1 && func_0216A244(w) != 0 && func_02169FB8(w) == 0)
+        if (func_0216A21C((int)w) == 1 && func_0216A244(w) != 0 && func_02169FB8((int)w) == 0)
             *state = 0xC;
         break;
     case 12:
@@ -288,7 +288,7 @@ int func_02169AB8(Work *w, u32 *state)
             break;
         *state = 0xE;
     case 14:
-        if (func_02169FB8(w) == 0)
+        if (func_02169FB8((int)w) == 0)
             *state = 0xF;
         break;
     case 15:

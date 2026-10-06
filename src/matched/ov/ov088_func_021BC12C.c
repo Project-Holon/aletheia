@@ -42,13 +42,14 @@ struct Sub02005A98Hdr;
 struct Sub02007084Ctrl;
 struct Sub020071E4Ctrl;
 extern struct Sub02007084Ctrl *func_020070A4(void);
-extern char *func_0203159C(int, int, int);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_021BD25C(int a, int b);
 extern void *func_02007220(struct Sub020071E4Ctrl *ctrl);
 extern void *func_0200846C(int a0);
 extern void *func_020082EC(int a0);
 extern int *func_0216BFD4(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
-extern u32 func_02031324(int heap);
+extern void *func_02031324(int a0);
 extern int func_02034AC4(signed int id);
 extern void func_02034A5C(int handle);
 extern struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1);
@@ -60,7 +61,7 @@ extern u32 d_021F558C[];
 extern u32 d_021BFD20;
 extern u32 d_021BFD30[];
 
-int func_021BC12C(int a0)
+int func_021BC12C(struct Obj0203159C *a0)
 {
     u32 buf[30];
     void *sys;
@@ -79,7 +80,7 @@ int func_021BC12C(int a0)
     ((struct Obj00964 *)w)->f4 = ((struct Obj00964 *)w)->f58;
     ((struct Obj00964 *)w)->f8 = ((struct Obj00964 *)w)->f54;
     ((struct Obj00964 *)w)->f28 = (u32)func_0216BFD4(1, 0, 0, 0, 7, 0, 0);
-    ((struct Obj00964 *)w)->f30 = func_02031324(1);
+    ((struct Obj00964 *)w)->f30 = (unsigned int)func_02031324(1);
 
     id = ov194_id;
     func_02034AC4((int)id);

@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);

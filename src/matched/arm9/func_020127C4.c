@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u8 *sub_020127D0(u8 *o, u32 idx);
 
-void func_020127C4(void *p)
+u8 *func_020127C4(void *p)
 {
-    sub_020127D0(p, 1);
+    return sub_020127D0(p, 1);
 }

@@ -22,8 +22,9 @@ typedef unsigned int u32;
 extern int func_0204581C();
 extern int func_02045924();
 
-int func_02165D8C(int a0, int a1, int a2)
+int func_02165D8C(int a0, int a1)
 {
+    int a2;
 
 a2 = a0 + 0;
 a0 = ((struct Obj17725 *)a2)->f30;

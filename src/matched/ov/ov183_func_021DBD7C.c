@@ -57,7 +57,7 @@ extern void func_021F9BA0(unsigned *ctx);
 extern void func_021F9BF4(unsigned *,unsigned);
 extern void func_021F9C50(S *);
 extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DBEB0(int *task, int *state, char *p);
 extern void func_021DBCF4(int *task, int *state, char *p);
 extern void func_021DC228(int *a, int *state, char *p);

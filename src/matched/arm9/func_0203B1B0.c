@@ -21,7 +21,9 @@
 
 extern void *g_021469DC;
 extern void func_0203B170(void);
-extern void func_0203AD80(void *obj, void (*fn)(void), int a, int b);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203B1B0(void)
 {

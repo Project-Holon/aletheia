@@ -45,7 +45,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0215E6A8(void *a, int x);
-extern u32 func_0215E6F8(u8 *a0);
+extern int func_0215E6F8(int a0);
 struct BigObj;
 extern u8 func_02012994(const struct BigObj *p);
 struct BigObj;
@@ -66,7 +66,7 @@ void func_0202C860(u8 *a0, int a1)
     if ((u32)(r - 6) > 1) {
         return;
     }
-    if (func_0215E6F8(a0) != 1) {
+    if (func_0215E6F8((int)a0) != 1) {
         return;
     }
     func_020129A0((struct BigObj *)a0, (u8)func_02013C10((u16)a1));

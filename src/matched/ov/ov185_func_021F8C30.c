@@ -26,7 +26,7 @@
 #include "../include/Obj24756.h"
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);

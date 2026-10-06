@@ -21,9 +21,9 @@ extern int func_021D7AF4(char *p);
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern int func_02039ACC(void);
-extern void func_021D4244(int, void (*)(int), int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D4864(u8 *p);
-extern void func_021D48F0(int);
+extern void func_021D48F0(int *a);
 void func_021D4930(u8 *a)
 {
     if (func_021D7AF4((char *)(((struct Obj05342 *)a)->f40)) != 0) {
@@ -34,12 +34,12 @@ void func_021D4930(u8 *a)
         if (func_02039338() != 0) {
             if (func_02039ACC() != 0) {
                 ((struct Obj05342 *)a)->f14 = 0xb4;
-                func_021D4244((int)a, (void (*)(int))func_021D4864, 0x33f);
+                func_021D4244((int *)a, (int)((void (*)(int))func_021D4864), 0x33f);
                 return;
             }
         } else {
             ((struct Obj05342 *)a)->f14 = 0xb4;
-            func_021D4244((int)a, func_021D48F0, 0x344);
+            func_021D4244((int *)a, (int)func_021D48F0, 0x344);
         }
     }
 }

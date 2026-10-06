@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_02036E74(int *p, int v){ if (v < 4) *p = v; }
+int *func_02036E74(int *p, int v){ if (v < 4) *p = v;  return p; }

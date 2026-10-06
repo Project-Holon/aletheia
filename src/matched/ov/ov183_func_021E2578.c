@@ -21,8 +21,10 @@
 #include "../include/Obj06614.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern unsigned func_021F9B9C(char *p);
-extern char *func_0203159C(void *,u32,u32);
+struct Obj24810;
+extern unsigned func_021F9B9C(struct Obj24810 *p);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);

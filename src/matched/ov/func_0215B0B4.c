@@ -40,7 +40,7 @@ struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_02025C88(u32 x);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
-extern int func_02008A00();
+extern struct Sub020089A8Obj *func_02008A00(struct Sub020089A8Obj *obj);
 
 int func_0215B0B4(int a0, int a1)
 {
@@ -79,7 +79,7 @@ loc_0215B0F0:
     a0 = func_020089F4(obj);
 loc_0215B0F8:
 ((struct Obj17686 *)((char *)v0))->f0 = a0;
-    a0 = func_02008A00(obj);
+    a0 = (int)func_02008A00(obj);
 loc_0215B100:
 a0 = 0;
     return a0;}

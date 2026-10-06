@@ -72,7 +72,7 @@ extern void func_02012FA4(void *ctx, u8 i);
 extern void *func_021854B0(void *sys, void *proc, u32 id, void *pos, u32 flag);
 extern int func_0219C630(void *map);
 extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_0216D9E4(void *map);
+extern u32 *func_0216D9E4(void *c);
 
 int func_0216B3EC(void *evt, u32 *state, Work *w)
 {

@@ -78,7 +78,7 @@ struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void func_0200D868(struct Blk3C *p, u32 v);
-extern void func_02012EE4(char *base, int v);
+extern char *func_02012EE4(char *base, int v);
 extern int func_021CA270(u16 kind);
 extern void func_0200D85C(struct Blk3C *p);
 extern void func_0200DA14(struct Blk3C *p);

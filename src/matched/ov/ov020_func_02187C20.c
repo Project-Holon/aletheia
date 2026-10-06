@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 void func_02187860(char *p);
 u8 func_0202E8A4(u8 x);
 void func_0218794C(int a, int b);
-void func_02040588(u32 which, u32 enable);
+void func_02040588(u32 which, unsigned char enable);
 void func_0207D534(volatile u16 *reg, int brightness);
 void func_0207D658(u32 addr, int plane, int brightness);
 int func_02187D40(char *p);

@@ -16,7 +16,8 @@
  */
 #include "../include/Obj15631.h"
 
-void func_02012EE4(char *base, int v)
+char *func_02012EE4(char *base, int v)
 {
     ((struct Obj15631 *)base)->f688 = v;
+    return base;
 }

@@ -29,7 +29,7 @@ extern int func_0216D98C(int a0);
 extern u32 func_0216D57C(void *p, u32 v);
 extern int func_0219DC08(u32 a);
 extern void func_021AC2C0(u32, u32);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 
 void func_0219DB0C(u32 a, u32 a1, u32 a2, u32 a3)
 {

@@ -16,7 +16,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021945A0(int x)
+int func_021945A0(int x)
 {
+    return x;
 }
 

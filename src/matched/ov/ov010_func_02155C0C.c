@@ -105,7 +105,8 @@ extern void func_021567D8(void *evt, Seq *s);
 extern void func_02155F24(int *p);
 extern void func_02156888(void *a0, void *a1, int a2);
 extern int func_02156770(void *evt, Seq *s);
-extern void func_02155F9C(Seq *s);
+struct Obj;
+extern struct Obj *func_02155F9C(int a0);
 extern void func_02155FB4(struct Work *w);
 extern int func_02156710(void *evt, Seq *s);
 extern void func_02155FC8(struct Work *w);
@@ -113,7 +114,7 @@ extern void func_02156074(struct Work *w);
 extern void func_0215611C(struct Work *w);
 extern void func_02156530(struct Work *w);
 extern void func_02156420(struct Work *w);
-extern void func_02155F4C(Seq *s);
+extern int func_02155F4C(int a0);
 extern void func_02156824(void *evt, Seq *s);
 extern void func_02156B74(struct Work *w);
 extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
@@ -200,7 +201,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         s->state = 3;
         break;
     case 3:
-        func_02155F9C(s);
+        func_02155F9C((int)s);
         func_020120B4(s->f00, ~0u, d_02172724, s->f2c);
         s->state = 4;
         break;
@@ -271,7 +272,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         if (s->f50 == 1) {
             s->state = 0x17;
         } else {
-            func_02155F4C(s);
+            func_02155F4C((int)s);
             func_02156824(evt, s);
             s->state = 9;
         }
@@ -293,7 +294,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         s->state = 0x18;
         break;
     case 24:
-        func_02155F4C(s);
+        func_02155F4C((int)s);
         func_02156824(evt, s);
         s->state = 0x19;
         break;

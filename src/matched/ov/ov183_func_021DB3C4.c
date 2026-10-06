@@ -55,7 +55,7 @@ extern void func_021FC734(u8 *p);
 extern void func_021FEE24(char *p);
 extern int func_021FC830(u8 *p);
 extern void func_021F9BF4(unsigned *,unsigned);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DB690(int *task);
 extern void func_020061E4(u32 a);
 extern void func_020409B4(u32 index);

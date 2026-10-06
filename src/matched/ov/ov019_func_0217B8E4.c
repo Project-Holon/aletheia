@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0217B8E4(char *p, char v)
+int func_0217B8E4(char *p, int v)
 {
     p[0x28a1] = v;
     return 1;

@@ -341,9 +341,10 @@ u8 func_02012AC0(const struct Rec44 *p)
     return p->unk1B;
 }
 
-void func_02012AC4(struct Rec44 *p, u16 v)
+struct Rec44 *func_02012AC4(struct Rec44 *p, u16 v)
 {
     p->unk00 = v;
+    return p;
 }
 
 u16 func_02012AC8(const struct Rec44 *p)

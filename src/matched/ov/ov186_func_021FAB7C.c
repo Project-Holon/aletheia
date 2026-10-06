@@ -15,7 +15,7 @@
 extern void func_021FAEE4(char *p, int *out);
 extern void func_021FAD18(char *ctx, int mode, const int *target);
 extern int func_021FAD74(char *ctx);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FAA34(void *p, int *state, int *ctx);
 void func_021FAB7C(void *p, int *state, unsigned char *ctx)
 {

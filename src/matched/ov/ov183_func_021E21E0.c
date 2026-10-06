@@ -49,7 +49,7 @@ extern void func_021E24C4(char *,char *),func_021FD860(int,int,Pair *);
 extern void func_021D76A8(int,int,int);
 extern int func_021D76D8(char *p, int id);
 extern void func_020061E4(u32 a);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021E2194(int task, int *state, char *p);
 void func_021E21E0(int task,int *state,char *p) {
     u32 x0,y0,x1,y1; Pair first; u32 x9,y9; Pair second;

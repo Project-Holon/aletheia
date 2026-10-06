@@ -29,7 +29,7 @@ extern u32 func_02020350(struct Obj *obj, u32 what);
 extern u16 func_02020314(struct Obj *obj);
 extern u16 func_02020324(struct Obj *obj, u32 n);
 extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 extern void func_021C59F8(char *w, int b);
 

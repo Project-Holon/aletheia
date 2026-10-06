@@ -29,10 +29,10 @@ int func_021B9944(void *p, int i)
     return func_021BA018((char *)p + 0x7c, i);
 }
 
-void func_021B9950(void *p)
+int func_021B9950(void *p)
 {
     int func_021BA020(int *p);
-    func_021BA020((int *)((char *)p + 0x7c));
+    return func_021BA020((int *)((char *)p + 0x7c));
 }
 
 int func_021B995C(int *p, int i)

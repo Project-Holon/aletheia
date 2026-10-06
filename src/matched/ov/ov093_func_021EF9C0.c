@@ -10,8 +10,9 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-void func_021EF9C0(int *p, int a, int b)
+int *func_021EF9C0(int *p, int a, int b)
 {
     p[0] = a;
     p[1] = b;
+    return p;
 }

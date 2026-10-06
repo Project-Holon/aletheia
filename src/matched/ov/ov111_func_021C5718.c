@@ -63,7 +63,7 @@ typedef struct {
 struct Sub020089A8Obj;
 extern void func_020061E4(u32 a);
 extern void *func_02012F5C(void **h);
-extern void sub_02008A00(struct Sub020089A8Obj *obj);
+extern struct Sub020089A8Obj *sub_02008A00(struct Sub020089A8Obj *obj);
 extern void func_021C3EF8(Info *info);
 extern void func_021C61EC(Work *p, int v, int a);
 extern void func_021C628C(Work *p, int v, int a);

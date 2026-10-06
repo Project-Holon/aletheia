@@ -39,7 +39,7 @@ struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern u16 func_0216D5F8(void *p);
 extern void func_0216E014(void *a, int *p, int b);
-extern void func_0216D570(char *p, u32 v);
+extern char *func_0216D570(char *p, u32 v);
 extern void func_0216D758(void *a0);
 extern u32 d_021DD5E0[];
 

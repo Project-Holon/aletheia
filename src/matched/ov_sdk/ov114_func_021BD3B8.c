@@ -41,7 +41,8 @@ extern u8 *func_021BEF08(void);
 extern void *func_021BEF58();
 extern void func_021BEFCC();
 extern void *func_021BEF40(int p);
-extern ReqList *func_021BAEC8();
+struct Node;
+extern struct Node *func_021BAEC8(struct Node **a0);
 extern void *func_021BEF48(int p);
 extern void func_021BEFD8(void *mutexInfo_p);
 extern void *func_021BEF50(void *sysInfo_p);
@@ -60,7 +61,7 @@ int func_021BD3B8(ThreadData *threadData_p)
     mutexInfo_p = func_021BEF58();
     func_021BEFCC();
     listInfo_p = func_021BEF40((int)sysInfo_p);
-    list_p = func_021BAEC8(listInfo_p);
+    list_p = (ReqList *)func_021BAEC8(listInfo_p);
     if (list_p == 0) {
         threadData_p->result = -1;
     } else {

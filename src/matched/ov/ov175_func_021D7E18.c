@@ -194,7 +194,7 @@ extern u32 func_020245D4(struct T *p, u32 a1);
 extern u32 func_02025BEC(u32 a, u32 b, u32 c);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern int func_0203CD98(void);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_02045808(struct U16Vec *vec);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *a, u16 *dst, unsigned int n);

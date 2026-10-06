@@ -15,7 +15,7 @@
 
 extern int func_020399EC(void);
 
-void func_0203D1B4(void)
+int func_0203D1B4(void)
 {
-    func_020399EC();
+    return func_020399EC();
 }

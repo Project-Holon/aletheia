@@ -19,9 +19,10 @@
 typedef unsigned int u32;
 
 extern int func_021A448C(u32 *p, int a);
-extern int func_021C0DDC(u32 a, u32 b, int c);
+typedef unsigned char  u8;
+extern int func_021C0DDC(u8 *a, u32 b, int c);
 
-int func_021C0CE4(u32 a, u32 b, u32 flags)
+int func_021C0CE4(u8 *a, u32 b, u32 flags)
 {
     int r = 0;
     int h = func_021A448C((u32 *)a, b);

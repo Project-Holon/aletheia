@@ -28,7 +28,7 @@ typedef int BOOL;
 
 extern void func_021C5F44(void *a, void *b);
 
-void func_021BA594(char *p, u16 a, u8 b, u8 c)
+void func_021BA594(char *p, int a, int b, int c)
 {
     struct S { u16 a; u8 b; u8 c; } s;
 

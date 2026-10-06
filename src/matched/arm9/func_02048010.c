@@ -56,7 +56,9 @@ typedef struct {
     u16   objCount;
 } Setup;
 
-extern void func_02048258(Util *u, u16 idx, const Setup *s, u16 heapID, u32 extra);
+struct Holder;
+struct Owner;
+extern void func_02048258(struct Owner *owner, u16 index, struct Holder *p, u32 a4, u32 a5);
 extern void func_02048744(Util *u, u16 idx, const Setup *s, u16 heapID);
 
 u16 func_02048010(Util *util, const Setup *setup, u32 extra)
@@ -71,7 +73,7 @@ u16 func_02048010(Util *util, const Setup *setup, u32 extra)
             util->unit[i].resCount = setup->resCount;
             util->unit[i].objIdx = objIdx;
             util->unit[i].objCount = setup->objCount;
-            func_02048258(util, i, setup, util->heapID, extra);
+            func_02048258((struct Owner *)util, i, (struct Holder *)setup, util->heapID, extra);
             func_02048744(util, i, setup, util->heapID);
             return i;
         }

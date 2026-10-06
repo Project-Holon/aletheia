@@ -33,7 +33,7 @@ extern unsigned char func_02045730(struct Descriptor *d);
 extern void func_020409B4(unsigned int index);
 typedef unsigned int   u32;
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0207D63C(int a, int b, int c, int d, int e);
 
 void func_021BC5E4(int *p)

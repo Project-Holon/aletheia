@@ -104,7 +104,9 @@ extern Work *func_021897BC(void *p, int idx);
 extern u32 func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern void *func_0200B3A4(unsigned int, unsigned int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern u32 func_02012A30(const struct BigObj *a);
 extern int func_02006148(u32 a);
 extern void *func_021BE674(char *base, int i, u8 j, u8 k);
@@ -175,7 +177,7 @@ int func_021F41A8(void *a0, int *a1)
     c = (u8)(s->sel >> 1);
     j = c;
     o = func_021BE674((char *)h, 0, j, 0);
-    func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
+    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
     switch (*a1) {
     case 0:
         s->anim = (u32)func_02011428(0x8015, 0x6b, (u16)d_021F4C38[s->sel], (u32)s->f1c, 0x21C0);

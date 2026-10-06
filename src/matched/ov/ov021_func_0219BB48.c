@@ -25,15 +25,16 @@ typedef signed char    s8;
 extern void func_0216DA50(u8 *p);
 extern void func_0216DA7C(u8 *p);
 extern int func_0219BCE4(u32 a, u32 b);
-extern int func_0219BD30(u32 a, u32 b);
+struct Obj05999;
+extern int func_0219BD30(char *a, struct Obj05999 *b);
 extern void func_0216DA44(u32);
 
-int func_0219BB48(u32 a, u8 *s)
+int func_0219BB48(char *a, u8 *s)
 {
     func_0216DA50((u8 *)a);
     func_0216DA7C((u8 *)a);
-    if (func_0219BCE4(a, (u32)s) == 1 && func_0219BD30(a, (u32)s) == 1) {
-        func_0216DA44(a);
+    if (func_0219BCE4((u32)a, (u32)s) == 1 && func_0219BD30(a, (struct Obj05999 *)s) == 1) {
+        func_0216DA44((u32)a);
         s[0]++;
         return 1;
     }

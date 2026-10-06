@@ -35,7 +35,7 @@ struct BigObj;
 extern u8 func_02012B80(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern u8 func_02012B40(const struct BigObj *p);
-extern int func_020127B8(void *p);
+extern void *func_020127B8(void *p);
 typedef unsigned int   u32;
 struct Rec1B0;
 struct SaveBlock;
@@ -61,7 +61,7 @@ u8 func_021F3880(void *a, void *b, void *unused)
         r4 += func_02012B40(a);
     }
     if (r6 == func_02012B58(a)) {
-        e = func_020127B8(a);
+        e = (int)func_020127B8(a);
     } else {
         e = (int)func_020127AC(a, r6);
     }

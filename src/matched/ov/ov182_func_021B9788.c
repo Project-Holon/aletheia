@@ -28,10 +28,10 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_020111E8(void);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(unsigned char *);
 extern void func_020409B4(u32 index);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 void func_021B9788(unsigned short *p)
 {
     unsigned char *q = func_020490F4(0xdc, *p);

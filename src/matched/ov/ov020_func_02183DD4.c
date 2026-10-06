@@ -16,9 +16,10 @@
  */
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020127C4(void *p);
-extern void func_02161D64(void *p);
+typedef unsigned char  u8;
+extern u8 *func_020127C4(void *p);
+extern int func_02161D64(int a0);
 void func_02183DD4(void *p)
 {
-    func_02161D64(func_020127C4(func_020120F4(p)));
+    func_02161D64((int)func_020127C4(func_020120F4(p)));
 }

@@ -13,7 +13,7 @@
  *   func_02043598 0x02043598 arm
  */
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 void func_021DFA14(char *a0)

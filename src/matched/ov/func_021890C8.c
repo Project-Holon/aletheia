@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct BbActSys;
-extern void func_02048AC4(void *ptr);
+extern u32 func_02048AC4(void *ptr);
 extern u32 func_02048C4C(u32, u32, u32, u32);
 extern void func_0204FFFC(struct BbActSys *o);
 extern u32 func_021C6400(u32);

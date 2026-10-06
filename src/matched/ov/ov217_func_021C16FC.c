@@ -20,8 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C16FC(void *p, u32 v)
+void *func_021C16FC(void *p, u32 v)
 {
     ((struct Obj04641 *)p)->f8 = v;
     ((struct Obj04641 *)p)->f10 = 0;
+    return p;
 }

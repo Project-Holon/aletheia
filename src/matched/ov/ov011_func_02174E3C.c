@@ -37,7 +37,7 @@ unsigned int func_02026478(void *obj);
 u8 *func_02012944(void *p);
 int func_02008468(void);
 void func_02082D44(int a, u8 *b, int c);
-int func_020127B8(int a);
+void *func_020127B8(void *p);
 typedef unsigned int   u32;
 int func_021752DC(u8 *p);
 u16 func_02039338(void);
@@ -49,7 +49,7 @@ void func_02174E3C(u8 *p)
 
     v = func_02026478((void *)(((struct Obj09349 *)p)->f4));
     func_02082D44((int)func_02012944((void *)v), p + 0x160, func_02008468());
-    func_02082D44(func_020127B8(v), p + 0x180, 0x10);
+    func_02082D44((int)func_020127B8((void *)v), p + 0x180, 0x10);
     func_021752DC(p);
     if (((F86 *)(p + 0x86))->x == 0x80) {
         func_02175710(p, func_02039338());

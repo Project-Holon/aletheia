@@ -23,7 +23,7 @@ extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 a);
 extern void func_021D69F4(u8 *, void *, u32);
 extern int func_021D593C(u8 *, int);
-extern void func_021D4244(int, void (*)(u8 *), int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D5980(u8 *);
 int func_021D42D8(int n, u8 *p)
 {
@@ -37,12 +37,12 @@ int func_021D42D8(int n, u8 *p)
         ((struct Obj02830 *)p)->f15C = 0;
         func_021D69F4(*(u8 * *)&((struct Obj02830 *)p)->f3C, ((struct Obj02830 *)p)->f34, 0);
         func_021D593C(p, ((struct Obj02830 *)p)->f15C);
-        func_021D4244((int)p, func_021D5980, 0x177);
+        func_021D4244((int *)p, (int)func_021D5980, 0x177);
     } else {
         ((struct Obj02830 *)p)->f15C = 1;
         func_021D69F4(*(u8 * *)&((struct Obj02830 *)p)->f3C, ((struct Obj02830 *)p)->f34, 1);
         func_021D593C(p, ((struct Obj02830 *)p)->f15C);
-        func_021D4244((int)p, func_021D5980, 0x17e);
+        func_021D4244((int *)p, (int)func_021D5980, 0x17e);
     }
     return 1;
 }

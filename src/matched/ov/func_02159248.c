@@ -17,12 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02011290();
+struct ScriptVm;
+extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 
-int func_02159248(int a0)
+int func_02159248(struct ScriptVm *a0)
 {
 
-    a0 = func_02011290(a0);
+    a0 = (struct ScriptVm *)func_02011290(a0);
 loc_0215924E:
-a0 = 1;
-    return a0;}
+a0 = (struct ScriptVm *)1;
+    return (int)a0;}

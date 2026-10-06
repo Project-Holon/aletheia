@@ -19,5 +19,5 @@ typedef unsigned int u32;
 extern u32 func_02027060(u32 a);
 extern void func_02026FB8(void *);
 extern char *g_02146940;
-extern void func_0216586C(void *,void *);
-void func_02165844(void *v) { if(func_02027060(0x31)) { func_0216586C(g_02146940+4,v); func_02026FB8(g_02146940+4); } }
+extern int func_0216586C(int a0, int a1);
+void func_02165844(void *v) { if(func_02027060(0x31)) { func_0216586C((int)(g_02146940+4),(int)v); func_02026FB8(g_02146940+4); } }

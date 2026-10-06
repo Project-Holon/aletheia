@@ -29,8 +29,9 @@ extern int func_0216D818();
 extern int func_0216D86C(void *p);
 extern int func_0216D824();
 
-int func_02163F10(int a0, int a1)
+int func_02163F10(int a0)
 {
+    int a1;
     int t4;
 
 t4 = a0 + 0;

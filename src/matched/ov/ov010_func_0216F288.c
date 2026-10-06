@@ -19,7 +19,7 @@
  */
 
 typedef unsigned short u16;
-extern void *func_02031324(u16);
+extern void *func_02031324(int a0);
 extern void func_02031348(void *,int,void *,int);
 extern char d_021725FC[];
 int func_0216F288(int *p) { if(p[2]==0) p[2]=(int)func_02031324((u16)p[0]); func_02031348((void *)p[2],-1,d_021725FC,p[6]); return 2; }

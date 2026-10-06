@@ -36,14 +36,14 @@ typedef struct { s32 x, y, z; } VecFx32;
 extern void *func_021A3960(u8 *p);
 extern int func_0216DB4C(void *a0, int a1);
 extern int func_0216DCE8(void *a0, int a1);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 extern int func_02164010(int a);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *obj, struct VecFx32 *out);
 extern void func_0216D85C(void *p, int v);
 extern int func_021640B0(int a);
-extern void func_02163F10(void *a0);
+extern int func_02163F10(int a0);
 
 void func_021A54B4(u8 *p)
 {
@@ -57,5 +57,5 @@ void func_021A54B4(u8 *p)
     func_0216D88C(o, (struct VecFx32 *)&v);
     func_0216D85C(o, (s16)((v.y >> 4) / 4096));
     func_021640B0((int)o);
-    func_02163F10(o);
+    func_02163F10((int)o);
 }

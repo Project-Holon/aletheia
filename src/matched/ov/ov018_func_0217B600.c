@@ -103,7 +103,7 @@ extern int func_0216D3CC(int a0);
 extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D480(char *p);
 extern void func_0216D9A0(void *map);
-extern void func_0216D9E4(void *c);
+extern u32 *func_0216D9E4(void *c);
 extern void func_0217C658();
 extern int func_0217C688();
 extern int func_02185214();

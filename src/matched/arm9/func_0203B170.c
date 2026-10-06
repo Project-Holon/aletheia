@@ -27,10 +27,11 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 extern u32 func_02037928(u32 a0, u16 a1);
-extern void func_0203AD80(int a0, int a1, int a2, int a3);
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203B170(void)
 {
     if (func_02037928(1, 0x200) != 0)
-        func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B16C, 0, 0x1AE);
+        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B16C, 0, 0x1AE);
 }

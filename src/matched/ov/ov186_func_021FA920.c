@@ -23,7 +23,7 @@ extern int func_021FB7B0(void *,int);
 extern void func_021FAD18(char *,int,const int *);
 extern int func_021FAFA0(void *,int),func_021FAD74(char *);
 extern void func_021FA21C(u8 *,int);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FA500(void *,int *,u8 *);
 extern const int d_02200358[];
 void func_021FA920(int *task,int *state,u8 *ctx)

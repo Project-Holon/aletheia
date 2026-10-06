@@ -53,7 +53,8 @@ typedef unsigned int   u32;
 extern u32 func_02005728(u32 range);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern s16 *func_0200B3A4(unsigned int, unsigned int);
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern short func_0203F684(s32 x);
 extern int _fflt(int a);
 extern int _fadd(int a, int b);
@@ -68,7 +69,7 @@ void func_021F3740(int a)
     int v;
     s32 x;
 
-    p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x1f);
+    p = (s16 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x1f);
     o = (Obj *)func_021897BC((char *)a, 1);
     if (func_021F381C((int *)o) == 0) {
         o->r.b = 0;

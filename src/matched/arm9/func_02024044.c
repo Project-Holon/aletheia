@@ -79,7 +79,7 @@ extern void *func_02030734(u32 heap, u32 sz, int c, const char *file, u16 line);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02024988(int a0);
-extern u32   func_02012FE4(void *sys);
+extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern void  func_020242A4(void *obj, u32 id);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);

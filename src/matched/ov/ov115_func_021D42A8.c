@@ -19,5 +19,5 @@ typedef unsigned int u32;
 struct BigObj;
 extern u32 func_0201283C(const struct BigObj *p);
 struct Sub020097BCObj;
-extern void func_02009860(struct Sub020097BCObj *obj);
+extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 void func_021D42A8(u8 *p) { func_02009860((struct Sub020097BCObj *)func_0201283C(((struct Obj22582 *)p)->f44)); }

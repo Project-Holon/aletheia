@@ -22,7 +22,7 @@ extern int func_021FB7B0(void *,int);
 struct MsgBank;
 struct WordSet;
 extern struct WordSet *func_0201EC64(unsigned int heap);
-extern void func_0201EE0C(void *,int,unsigned,unsigned,int,int);
+extern void func_0201EE0C(struct WordSet *p, unsigned int i, const void *src, unsigned int n, unsigned int f, unsigned int c);
 extern void *func_02045EC0(struct MsgBank *bank, unsigned int index);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -43,7 +43,7 @@ void *func_021FB7D0(unsigned *const *p,void *record,struct MsgBank *archive,unsi
     if(ok){
         if((*p)[index]!=0){
             tmp=func_0201EC64((unsigned short)((heap&0x7fff)|0x8000));
-            func_0201EE0C(tmp,0,(*p+index)[4],(*p+index)[8],1,2);
+            func_0201EE0C(tmp,0,(const void *)((*p+index)[4]),(*p+index)[8],1,2);
             src=func_02045EC0(archive,(int)func_021FB7B0(record,3));
             result=func_020457B0(func_020458F8(src)+7,heap);
             func_0201F250(tmp,result,src);

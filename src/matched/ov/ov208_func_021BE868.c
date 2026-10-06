@@ -39,7 +39,7 @@ extern u32 func_020437EC(const struct Bmp *bmp);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_02040B58(u32 index, const void *src, u32 size);
 extern u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 void func_021BE868(struct Ov208Gfx *g)
 {

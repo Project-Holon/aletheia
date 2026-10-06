@@ -74,7 +74,7 @@ extern u8 func_0200E918(const u8 *base, u32 idx);
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern void func_0217CC78(int *a, int *state, u8 *p);
 extern void func_0217C628(int *sys, u32 *state, u8 *p);
-extern void func_0200BBD8(struct Obj *p, u16 v);
+extern void func_0200BBD8(struct Obj *p, int v);
 extern u32 func_0200BA38(u32 v);
 void func_0217C2EC(int *sys,u32 *state,u8 *p)
 {

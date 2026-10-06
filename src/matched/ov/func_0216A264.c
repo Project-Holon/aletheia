@@ -23,8 +23,9 @@ typedef unsigned int u32;
 extern void *func_021D1164(u32 heap, u32 v);
 extern int func_021D11B0();
 
-int func_0216A264(int a0, int a1)
+int func_0216A264(int a0)
 {
+    int a1;
     int t4;
     void *p;
 

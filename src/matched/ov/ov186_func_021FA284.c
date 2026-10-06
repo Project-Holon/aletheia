@@ -32,7 +32,7 @@ extern void func_021FD15C(void *p, int a1);
 extern void func_020061E4(u32 a);
 extern void func_021FD860(char *,unsigned,const Pair *);
 extern void func_021FAFCC(char *p, unsigned value);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern int func_021FAFA0(void *,int);
 extern void func_021FAA74(void *,int *,unsigned *);
 extern void func_021FA758(void *,int *,unsigned char *);

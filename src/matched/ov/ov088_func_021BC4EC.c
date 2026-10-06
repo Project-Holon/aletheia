@@ -21,12 +21,14 @@
 #include "../include/Obj09923.h"
 
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
-extern char *func_0203159C(int, int, int);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_021BC62C(char *);
 typedef unsigned char  u8;
 extern void func_021BC75C(u8 *p);
 
-int func_021BC4EC(int a, int b, int *c)
+int func_021BC4EC(struct Obj0203159C *a, int b, int *c)
 {
     char *r;
     func_0203064C(1, 0x39, 0x80000);

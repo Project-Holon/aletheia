@@ -16,7 +16,7 @@
 #include "../include/Obj22132.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 int func_021B727C(int p) { if(((struct Obj22132 *)p)->f50) return 1; return 0; }
 void func_021B728C(int p,int b) {
  ((struct Obj13722 *)p)->f5C=b;

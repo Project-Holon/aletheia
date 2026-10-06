@@ -25,8 +25,9 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02082A7C();
 extern int func_02188C54();
 
-int func_02158E54(int a0, int a1, int a2)
+int func_02158E54(int a0, int a1)
 {
+    int a2;
     void *t4;
     int t5;
 

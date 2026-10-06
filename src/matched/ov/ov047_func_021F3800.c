@@ -18,6 +18,8 @@ struct Big;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern void *func_0200B3A4(u32,u32);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_02082BCC(void *,int,int);
-void func_021F3800(u32 a) { func_02082BCC(func_0200B3A4((u32)func_02012EC4(func_020120F4((const struct Ctx *)a)),31),0,4); }
+void func_021F3800(u32 a) { func_02082BCC(func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)a)),31),0,4); }

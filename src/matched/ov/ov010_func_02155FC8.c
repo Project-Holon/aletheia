@@ -51,13 +51,13 @@ typedef struct Work {
 } Work;
 
 extern Stage *func_02156F68(u32 heap, void *p);
-extern void func_02156FC4(Stage *s, u8 id, void *p);
+extern int func_02156FC4(int a0, int a1, int a2);
 struct Deal;
 struct Party;
 extern void func_021572E4(struct Deal *d, void *a, u8 b, u8 slot, u16 y);
 struct Ctx;
 extern u32 func_021FD4F8(struct Ctx *p, u8 key);
-extern void func_02157000(Stage *s, u8 id, u32 v);
+extern int func_02157000(int a0, int a1, int a2);
 extern void func_02157174(u32 heap, struct Deal *d, struct Party *party);
 
 void func_02155FC8(Work *w)
@@ -70,7 +70,7 @@ void func_02155FC8(Work *w)
     if (w->f14 == 0) {
         for (i = 0; i < 4; i++) {
             if (i == 0)
-                func_02156FC4(w->f30, w->f44[i], w->f3C);
+                func_02156FC4((int)w->f30, w->f44[i], (int)w->f3C);
             else
                 func_021572E4(w->f38, w->f30, w->f44[i], i - 1, 4);
         }
@@ -79,7 +79,7 @@ void func_02155FC8(Work *w)
         for (i = 0; i < 4; i++) {
             r = func_021FD4F8(w->f28, w->f44[i]);
             if (r != 0) {
-                func_02157000(w->f30, w->f44[i], r);
+                func_02157000((int)w->f30, w->f44[i], r);
             } else {
                 func_021572E4(w->f38, w->f30, w->f44[i], j, 4);
                 j++;

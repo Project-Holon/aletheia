@@ -58,7 +58,7 @@ extern u8 func_02157384(struct Table *t, int i);
 extern int func_021FCE28(char *p, u32 index);
 extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);

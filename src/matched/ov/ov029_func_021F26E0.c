@@ -56,7 +56,7 @@ extern void func_02035040(u32 a, u32 b);
 extern void func_0203D8AC(void);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *a0);
+extern u32 func_02021540(void *a0);
 extern void func_02030DA4(int a);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);

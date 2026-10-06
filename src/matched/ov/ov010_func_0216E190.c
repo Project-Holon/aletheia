@@ -13,6 +13,7 @@
  *   func_0216E174 0x0216E174 thumb ov010
  */
 
-extern void func_0216D568(void *, unsigned int);
+typedef unsigned int   u32;
+extern void *func_0216D568(void *p, u32 v);
 extern void func_0216E174(void *);
 void func_0216E190(void *a) { func_0216D568(a, 0x20); func_0216E174(a); }

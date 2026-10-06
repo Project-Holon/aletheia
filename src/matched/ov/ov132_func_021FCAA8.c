@@ -58,7 +58,7 @@ extern u32 func_0200FB24(void);
 extern int func_0203CDBC(void);
 extern int func_0203CEAC(int a0);
 extern void func_0203D7BC(u8 a0);
-extern u32 func_0203D1B4(void);
+extern int func_0203D1B4(void);
 extern u32 func_0203F0A8(void);
 extern void func_021FCDEC(int a, int b);
 extern int func_021FCE00(char *, int);

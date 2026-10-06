@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Rec;
 extern u32 func_02045C04(struct Rec *rec);
 
-void func_021904C8(struct Rec *a0)
+u32 func_021904C8(struct Rec *a0)
 {
-    func_02045C04(a0);
+    return func_02045C04(a0);
 }

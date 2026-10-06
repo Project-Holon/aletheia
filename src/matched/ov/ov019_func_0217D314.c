@@ -70,7 +70,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
 extern void func_021734A8(u8 *self, u32 id, u32 v);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020362DC(void);
 extern u16 func_0217EE40(int i);

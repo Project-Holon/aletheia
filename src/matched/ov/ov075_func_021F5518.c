@@ -55,7 +55,7 @@ extern u16 func_02080C44(void);
 extern void func_02080B98(void);
 extern void func_02080294(u32 bank);
 extern u32 func_021F54E0(void);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_021899F8(u8 *p, u32 v);
 struct Evt;
 extern int func_02189A08(unsigned char *p);

@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 struct MsgBank;
 struct U16Vec;
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);

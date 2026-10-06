@@ -55,7 +55,9 @@ extern u32 func_02188C80(void *p);
 struct Big;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern Save *func_0200B3A4(unsigned int, unsigned int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
@@ -79,7 +81,7 @@ int func_021F3E70(int a0, int *a1)
     sys = func_0201210C(func_020124E4((void *)a0));
     h = func_02188D2C(sys);
     s = func_021897BC(sys, 1);
-    q = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
+    q = (Save *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
     switch (*a1) {
     case 0:
         s->mode = q->flag[s->idx];

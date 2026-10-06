@@ -37,7 +37,8 @@ struct Work {
     u8 rest[40];
 };
 extern void func_0203064C(u32,u32,u32);
-extern void *func_0203159C(void *,u32,u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
 extern void *func_021B9D18(void *,u16);
 extern void func_0204047C(int,u16);

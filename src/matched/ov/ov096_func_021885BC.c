@@ -39,7 +39,7 @@ extern void *func_0218A494(u8 *);
 extern void func_0218A528(u8 *);
 extern int func_0218A384(Obj *, int, int);
 extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
-extern void func_02011290(struct ScriptVm *vm);
+extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern int func_02011298(struct ScriptVm *vm);
 extern u64 func_020870D0(void);
 void func_021885BC(int a, Obj *b)

@@ -115,7 +115,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u32 func_0200FB24(void);
 extern void  func_0200FB38(void);
-extern void func_0200F7B8(u32 a0);
+extern u32 func_0200F7B8(u32 a0);
 extern u32 func_020121CC(struct IcaAnime *p);
 
 extern char ov123_id[];

@@ -28,7 +28,10 @@ extern unsigned char *func_021897BC(int, int);
 extern int func_02188C80(int);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_021BE580(int);
 typedef unsigned short u16;
 extern int func_021F3DE4(void *p, u16 delta, u16 i);
@@ -42,7 +45,7 @@ void func_021F3D1C(int a)
 
     r6 = func_02188D2C((int *)a);
     r5 = func_021897BC(a, 1);
-    r7 = func_0200B3A4((int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(a))), 2);
+    r7 = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(a))), 2);
     func_021BE580(r6);
     for (i = 0; i < 4; i++)
         r7[i] = func_021F3DE4((void *)r6, (unsigned char)i, (unsigned char)(r5[i + 0x21EC] + 1));

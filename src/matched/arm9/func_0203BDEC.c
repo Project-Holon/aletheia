@@ -28,7 +28,7 @@ extern u8 *g_021469DC;
 struct NetState;
 extern void *func_0203D788(void);
 extern void *func_0203D798(void);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v);
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern int func_0203CEAC(int a0);
 
 void func_0203BDEC(void)

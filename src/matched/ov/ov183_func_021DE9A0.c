@@ -23,15 +23,17 @@
 #include "../include/Obj06605.h"
 #include "../include/Obj24581.h"
 typedef unsigned short u16;
-extern u16 func_021F9B9C(void *);
-extern void *func_0203159C(void *, int, u16);
+struct Obj24810;
+extern unsigned func_021F9B9C(struct Obj24810 *p);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *, int, unsigned int);
 extern void *func_02025538(unsigned int a0, void *a1);
 typedef unsigned int   u32;
 extern u32 func_0201C440(void *p);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DF0DC(int *p, int *state, char *q);
 extern void func_021DEB4C(int *task, int *state, char *p);
 int func_021DE9A0(void *a, int b, char *q)

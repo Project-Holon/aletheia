@@ -33,16 +33,16 @@ typedef struct {
     u32 w[9];
 } Rec;
 
-extern u8 *func_0216DEEC(u32 a);
+extern int func_0216DEEC(int a0);
 extern void func_0216D1C8(u8 *o, u32 a, u32 b);
 extern void func_0216D040(u8 *o, u16 *r, u32 b, u32 c);
 extern void func_0216D208(void *p);
 extern int func_0216E51C(void *a);
-extern void func_0216D548(u32 *p, u32 v);
+extern u32 *func_0216D548(u32 *p, u32 v);
 extern int func_0216D4D4(int a0, int a1);
 extern void func_0216D244(u32 a, u8 *o);
 extern int func_0216D268(int a0, int a1);
-extern void func_0216E114(u8 *o);
+extern int func_0216E114(int a0);
 extern void *func_0216D67C(void *a0);
 extern int func_0216D4FC(int a0);
 extern void func_0216D0E8(u8 *o, Rec *r, u32 z);
@@ -52,7 +52,7 @@ u8 *func_0216CDC4(u32 a, Rec *p, u32 b, u32 c)
     Rec r = *p;
     u8 *o;
 
-    o = func_0216DEEC(a);
+    o = (u8 *)func_0216DEEC(a);
     func_0216D1C8(o, a, b);
     func_0216D040(o, (u16 *)(&r), c, a);
     func_0216D208(o);
@@ -63,7 +63,7 @@ u8 *func_0216CDC4(u32 a, Rec *p, u32 b, u32 c)
         func_0216D268(a, (int)o);
     }
     if (func_0216D4D4(a, 1))
-        func_0216E114(o);
+        func_0216E114((int)o);
     func_0216D4FC((int)func_0216D67C(o));
     func_0216D0E8(o, &r, 0);
     return o;

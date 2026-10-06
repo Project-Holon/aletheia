@@ -82,9 +82,10 @@ void *func_0200CA1C(void *a)
     return func_0200CA10(func_02012EBC(a));
 }
 
-void func_0200CA28(struct Blk37 *p)
+struct Blk37 *func_0200CA28(struct Blk37 *p)
 {
     p->f0 = 1;
+    return p;
 }
 
 u32 func_0200CA38(struct Blk37 *p)
@@ -92,9 +93,10 @@ u32 func_0200CA38(struct Blk37 *p)
     return p->f0;
 }
 
-void func_0200CA40(struct Blk37 *p)
+struct Blk37 *func_0200CA40(struct Blk37 *p)
 {
     p->f1 = 1;
+    return p;
 }
 
 u32 func_0200CA54(struct Blk37 *p)

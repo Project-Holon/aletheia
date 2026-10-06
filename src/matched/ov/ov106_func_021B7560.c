@@ -47,7 +47,8 @@ typedef struct { s16 x,y; u16 flags; u8 a,b; } Pos;
 #define SLOT(p,i) (*(u8 **)((u8 *)((u32 *)(p)+(i))+0x62c))
 extern const Entry d_021B94D4[];
 extern void func_0203064C(u32,u32,u32);
-extern u8 *func_0203159C(void *,u32,u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void fill(void *,int,u32);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);

@@ -16,7 +16,8 @@
  */
 typedef unsigned short u16;
 
-extern int func_021ABE18(int a);
+typedef unsigned char  u8;
+extern unsigned int func_021ABE18(u8 *p);
 typedef unsigned int   u32;
 extern int func_021C6658(u32 a, u32 b);
 extern void func_021AC1B8(int a, int b);
@@ -31,5 +32,5 @@ typedef struct S {
 
 void func_021AD738(int a, S *s)
 {
-    func_021AC1B8(a, func_021C6658(func_021ABE18(*s->p18), s->h10));
+    func_021AC1B8(a, func_021C6658(func_021ABE18((u8 *)(*s->p18)), s->h10));
 }

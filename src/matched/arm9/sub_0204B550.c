@@ -34,7 +34,7 @@ struct Actor {
     struct Pt pos;
 };
 
-void sub_0204B550(struct Actor *actor, u16 value, u32 axis)
+void sub_0204B550(struct Actor *actor, signed short value, u32 axis)
 {
     if (axis == 0) {
         actor->pos.x = value;

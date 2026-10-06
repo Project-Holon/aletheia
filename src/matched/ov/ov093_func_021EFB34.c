@@ -31,7 +31,8 @@ extern void *func_021EFCE4(char *, int);
 extern void func_021EFC0C(u32);
 extern void func_021EF83C(char *, u32);
 extern u32 func_021E8A98(Slot);
-extern void func_021E8AC8(Slot *, u8);
+union Slot;
+extern void func_021E8AC8(union Slot *p, u8 v);
 void func_021EFB34(S *a, u32 v)
 {
     unsigned long i;
@@ -51,7 +52,7 @@ void func_021EFB34(S *a, u32 v)
                     if (a->t[i]) { func_021EFC0C(a->t[i]); a->t[i] = 0; }
                     func_021EF83C((char *)a, i);
                 } else {
-                    if (v == func_021E8A98(a->c[i])) func_021E8AC8(&a->c[i], a->w[i][0]);
+                    if (v == func_021E8A98(a->c[i])) func_021E8AC8((union Slot *)(&a->c[i]), a->w[i][0]);
                 }
             }
         }

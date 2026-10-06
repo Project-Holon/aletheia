@@ -85,9 +85,9 @@ extern void func_02005E30(u32 v);
 extern void func_02026400(struct Comm *p);
 extern u32 func_02026454(void *obj);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
-extern u32 func_0215F9C4(void);
+extern int func_0215F9C4(void);
 extern void func_0215F9DC(Work *w, u32 *i);
-extern void func_0215F9EC(Work *w);
+extern int func_0215F9EC(int a0);
 extern void func_02158A20(int a, int v);
 extern void *func_02161B90(void *p, void *a1, int kind, int sub, int flag);
 extern u8 ov180_id[];
@@ -111,7 +111,7 @@ int func_0215F734(void *evt, u32 *i, Work *w)
     switch (w->step) {
     case 0:
         if (w->f08 == 1)
-            func_0215F9EC(w);
+            func_0215F9EC((int)w);
         func_02005E30(30);
         func_0215F9DC(w, i);
         break;

@@ -23,10 +23,10 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02031324(u16);
+extern void *func_02031324(int a0);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void func_02031348(void *,u32,const void *,void *);
 extern const u32 d_021C892C[];
 extern char ov110_id[];
-int func_0216F378(char *p) { if (*(void **)(p+8)==0) *(void **)(p+8)=func_02031324(*(u32 *)p); *(void **)(p+12)=func_02012EBC(*(void **)(*(char **)(p+24)+4)); func_02031348(*(void **)(p+8),(u32)ov110_id,d_021C892C,*(void **)(p+24)); return 6; }
+int func_0216F378(char *p) { if (*(void **)(p+8)==0) *(void **)(p+8)=func_02031324((u16)(*(u32 *)p)); *(void **)(p+12)=func_02012EBC(*(void **)(*(char **)(p+24)+4)); func_02031348(*(void **)(p+8),(u32)ov110_id,d_021C892C,*(void **)(p+24)); return 6; }

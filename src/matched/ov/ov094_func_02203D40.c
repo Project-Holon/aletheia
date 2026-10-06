@@ -41,7 +41,7 @@ extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 typedef unsigned int   u32;
 struct Cfg;
 struct Descriptor;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
 extern void func_020409B4(u32 index);

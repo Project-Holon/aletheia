@@ -63,7 +63,7 @@ typedef struct {
 struct ScriptVm;
 extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
 extern void *func_02011324(struct ScriptVm *vm);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void func_02082A48(u16 data, void *destp, u32 size);
 extern void func_021F8198(int a, int b);

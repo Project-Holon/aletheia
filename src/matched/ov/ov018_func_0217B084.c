@@ -49,7 +49,7 @@ extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D454(int a0, u32 a1, u32 a2, u32 a3);
 extern int func_0216D480(char *p);
 extern void func_0216D9A0(void *map);
-extern void func_0216D9E4(void *c);
+extern u32 *func_0216D9E4(void *c);
 extern void *func_02188C7C(unsigned char *p);
 extern u32 func_02188C54(u8 *p);
 extern int func_021904B0(u32 a, u32 b);

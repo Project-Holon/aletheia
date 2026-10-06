@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02048AC4(void *ptr)
+u32 func_02048AC4(void *ptr)
 {
-    func_020307B0(ptr);
+    return func_020307B0(ptr);
 }

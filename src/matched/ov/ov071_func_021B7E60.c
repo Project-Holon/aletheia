@@ -42,10 +42,11 @@ typedef unsigned int   u32;
 struct Ctx;
 struct BigObj;
 typedef unsigned char  u8;
-int func_021B7E60(int a, int unused, C *c)
+struct Obj0203159C;
+int func_021B7E60(struct Obj0203159C *a, int unused, C *c)
 {
     extern void *func_020120F4(const struct Ctx *p);
-    extern void *func_0203159C(int, int, int);
+    extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
     extern void func_02082BCC(void *, int, int);
     extern u32 func_0201296C(const struct BigObj *p);
     extern u32 func_020142E8(void *bitmap, s32 id);

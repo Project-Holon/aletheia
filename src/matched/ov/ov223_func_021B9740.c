@@ -13,7 +13,7 @@
  */
 #include "../include/Obj03380.h"
 typedef unsigned int u32;
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 void func_021B9740(void *unused,char *p)
 {
     if(((struct Obj03380 *)p)->f24&1) func_02040588(3,1);

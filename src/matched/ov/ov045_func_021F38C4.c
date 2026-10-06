@@ -30,7 +30,9 @@ extern int func_02188CF0(u32 a);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern void *func_0200B3A4(void *p, int n);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern int func_021F3908(char *a0, int a1);
 extern u32 func_02188CA4(u8 *p);
 extern void func_021A6DC4(u32 *b, void *a);
@@ -43,7 +45,7 @@ void func_021F38C4(void *a0, int a1)
 
     r6 = func_0201210C(a0);
     r4 = func_02188CF0((u32)r6);
-    p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(r6))), 9);
+    p = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(r6))), 9);
     if (a1 < 8 && r4 == 2) {
         if (func_021F3908(p, a1)) {
             func_021A6DC4((u32 *)func_02188CA4(r6), r6);

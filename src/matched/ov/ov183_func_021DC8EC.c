@@ -83,7 +83,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_0200D6D0(const void *,u32);
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 extern u32 func_0200D6EC(struct RecGet *p);
-extern void func_0201EE0C(WordSet *,u32,const void *,u32,u32,u32);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern unsigned long long func_0200B98C(u8 *p, int selector, int index);

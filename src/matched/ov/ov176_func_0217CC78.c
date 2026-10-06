@@ -57,7 +57,7 @@ extern void func_021E8AB4(u32, u32);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
-extern void func_0200BBD8(struct Obj *p, u16 v);
+extern void func_0200BBD8(struct Obj *p, int v);
 extern int func_02012DAC(int a0);
 extern int func_02012DD0(u8 *p);
 extern void func_0217D1A0(u8 *, int);

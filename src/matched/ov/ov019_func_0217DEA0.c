@@ -43,7 +43,7 @@ extern void func_0217F074(void *ctx);
 extern int func_0217F060(int i);
 extern int func_0217FE44(int a, int mode, unsigned *out);
 extern void func_021750B0(u8 *p, int v);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 extern void func_0217BAF0(char *p, int x, unsigned int v);
 extern int func_0217FEF4(u8 *p);
 extern int func_0217FF14(void *a);

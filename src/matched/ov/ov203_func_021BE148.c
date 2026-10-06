@@ -18,7 +18,8 @@
  */
 extern void func_02047970(void);
 extern void func_0204EA64(void);
-extern void func_02048AC4(void *);
+typedef unsigned int   u32;
+extern u32 func_02048AC4(void *ptr);
 void func_021BE148(void *p){func_02047970();}
 void func_021BE150(void){func_0204EA64();}
 void func_021BE158(void *p){func_02048AC4(p);}

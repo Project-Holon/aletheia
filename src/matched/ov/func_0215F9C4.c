@@ -19,8 +19,9 @@ typedef unsigned int u32;
 
 extern u32 func_020111E8(void);
 
-int func_0215F9C4(int a0)
+int func_0215F9C4(void)
 {
+    int a0;
 
     a0 = func_020111E8();
 loc_0215F9CA:

@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern void *func_0201147C(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
 struct Vec3;
 extern void func_021D1988(u32 a, u32 b, struct Vec3 *c);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 
 void func_021D1894(u8 *p, u32 n)
 {

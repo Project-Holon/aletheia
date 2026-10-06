@@ -37,12 +37,13 @@ struct W {
 };
 
 extern void func_0203064C(u32 src, u32 dst, u32 size);
-extern struct W *func_0203159C(int, int, int);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u32 func_02031324(u32);
+extern void *func_02031324(int a0);
 
-int func_021B95A0(int a0)
+int func_021B95A0(struct Obj0203159C *a0)
 {
     struct W *p;
 
@@ -55,7 +56,7 @@ int func_021B95A0(int a0)
     p->f30 = 0;
     p->f34 = 0;
     p->f3c = 0x52;
-    p->f40 = func_02031324(p->f3c);
+    p->f40 = (u32)func_02031324(p->f3c);
     p->f44 = 0;
     p->f48 = 0;
     return 1;

@@ -37,7 +37,7 @@ struct Reg2;
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200B358(void *);
 extern void *func_02012EBC(struct Big *p);
-extern void func_0200BBD8(struct Obj *p, u16 v);
+extern void func_0200BBD8(struct Obj *p, int v);
 extern void *func_0200BAC8(void *);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern void func_02009800(void *p);

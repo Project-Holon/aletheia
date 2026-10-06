@@ -46,7 +46,7 @@ extern void func_021695BC(struct S *p, int b);
 extern int func_02169620(struct S *p);
 extern void func_02169528(unsigned char *a, int *out);
 extern void func_02169540(unsigned char *a, unsigned int v);
-extern void func_02169580(int o);
+extern int func_02169580(int a0);
 extern int func_02169560(unsigned char *a);
 extern int func_02169578(unsigned char *a);
 extern unsigned int func_02169598(u8 *p);

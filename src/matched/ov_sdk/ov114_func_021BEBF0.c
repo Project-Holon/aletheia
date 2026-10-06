@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Conn;
 extern struct Conn *func_021BEAB8(void *mutexInfo_p, struct Conn *handle_p, unsigned long order);
 
-void func_021BEBF0(int a, int b)
+struct Conn *func_021BEBF0(int a, int b)
 {
-    func_021BEAB8((void *)a, (struct Conn *)b, 2);
+    return func_021BEAB8((void *)a, (struct Conn *)b, 2);
 }

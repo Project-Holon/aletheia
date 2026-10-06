@@ -16,10 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02048AC4(int);
+typedef unsigned int   u32;
+extern u32 func_02048AC4(void *ptr);
 extern int func_02046788(int);
 
 void func_021BC6CC(int *p)
 {
-    func_02046788(func_02048AC4(*p));
+    func_02046788(func_02048AC4((void *)(*p)));
 }

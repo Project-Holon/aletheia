@@ -129,7 +129,7 @@ struct MsgBank;
 struct ObjC4;
 struct WordSet;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EE0C(void *,int,unsigned,unsigned,int,int);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_021FB3BC(void *,void *,int,int,int,int,int,void *,u16);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
@@ -160,7 +160,7 @@ void func_021E301C(char *p,char *q)
         offset=(i+1)*4;
         if(*(unsigned *)(*(unsigned *)(q+0x18)+offset)) {
             func_02045CAC((struct MsgBank *)c,0x1a,s);
-            func_0201EE0C(a,0,*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x10),*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x20),1,2);
+            func_0201EE0C(a,0,(const void *)(*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x10)),*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x20),1,2);
             func_0201F250(a,b,s);
         }else func_02045CAC((struct MsgBank *)c,9,b);
         *(void **)(p+i*4+0x14)=func_021FB3BC(&d,b,0xa0,1,*(int *)(q+4),*(int *)p,h,&t,*(u16 *)(p+0x38));
@@ -172,7 +172,7 @@ void func_021E301C(char *p,char *q)
     tmp=func_0200D6D0(owner,(u16)((*(u16 *)(p+0x38)&0x7fff)|0x8000));
     if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(q+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
     func_02045CAC((struct MsgBank *)c,0x5c,s);
-    func_0201EE0C(a,0,(unsigned)tmp,func_0200D6EC(owner),1,2);
+    func_0201EE0C(a,0,(const void *)tmp,func_0200D6EC(owner),1,2);
     func_0201F250(a,b,s);
     func_021FD19C(*(void **)(p+8),(void *)(*(int *)(q+8)),b);
     func_02045808(tmp);func_02045808(s);func_02045808(b);

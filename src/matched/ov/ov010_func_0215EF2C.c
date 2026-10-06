@@ -11,9 +11,9 @@
  * symbols:
  *   func_0215F104 0x0215F104 thumb ov010
  */
-extern int func_0215F104(void *, int);
+extern int func_0215F104(int a0, int a1);
 typedef enum { FALSE, TRUE } Bool;
 int func_0215EF2C(void *p)
 {
-    return func_0215F104(p, 9) != 0 ? FALSE : TRUE;
+    return func_0215F104((int)p, 9) != 0 ? FALSE : TRUE;
 }

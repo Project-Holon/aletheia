@@ -44,7 +44,8 @@ extern u32 func_0200E740(const void *obj, u32 idx);
 extern void *func_0200E7AC(void *obj, u32 idx);
 extern u16 func_02045A98(void);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_0201EE0C(void *, u32, void *, int, int, int);
+struct WordSet;
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
 int func_021B6628(void *a, void *b)
 {

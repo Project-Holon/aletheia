@@ -49,7 +49,7 @@ struct Evt;
 extern int func_02158344(int a0);
 extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *a);
-extern void func_0216D9E4(void *a);
+extern unsigned int *func_0216D9E4(void *c);
 extern int func_02013DD0(int a);
 extern void func_0218409C(u8 *p, int a);
 extern int func_021BD648(u8 *p);

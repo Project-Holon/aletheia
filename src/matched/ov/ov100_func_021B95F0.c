@@ -43,7 +43,7 @@ extern void func_020862F0(int, int);
 extern void func_0207E5D0(int, int, int);
 extern void func_0207E468(int, int, int);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern int func_02021540(int);
+extern u32 func_02021540(void *a0);
 
 int func_021B95F0(int a, int b, int c)
 {
@@ -65,5 +65,5 @@ int func_021B95F0(int a, int b, int c)
         func_0207E468(r7, 0, t);
     }
     func_020215A0((struct PalAnmSlot *)r4, b);
-    return func_02021540(r4);
+    return func_02021540((void *)r4);
 }

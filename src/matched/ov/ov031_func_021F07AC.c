@@ -68,7 +68,7 @@ struct Strbuf;
 struct U16Vec;
 extern u32 func_0204162C(int channel);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 extern u32 func_0202DCC4(const struct Obj0202DCC4 *p, u32 i);
 extern void func_0202DC9C(struct Obj0202DC98 *o, int i, u32 a1);

@@ -35,7 +35,9 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
 
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern void func_0203BF4C(void);
 
 void func_0203BF9C(u32 v)
@@ -47,7 +49,7 @@ void func_0203BF9C(u32 v)
 
     ((struct Obj11878 *)p)->f28 = v;
     g_021469DC[0x51] = 1;
-    func_0203AD80((u32)g_021469DC, (u32)func_0203BF4C, 5, 0x4B7);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203BF4C, 5, 0x4B7);
 }
 
 void func_0203BFF0(void)

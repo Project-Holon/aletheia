@@ -21,8 +21,10 @@ typedef unsigned int u32;
 extern u32 func_020056EC(u32 range);
 extern int func_0209C2B0();
 
-int func_02168824(int a0, int a1)
+int func_02168824(void)
 {
+    int a0;
+    int a1;
     int t4;
 
 t4 = 0;

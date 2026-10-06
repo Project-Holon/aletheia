@@ -33,7 +33,7 @@ struct Rec94;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p);
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_021BE418(u8 *, u16);
 extern void func_021BE580(void *);
 void func_021F3740(u8 *p)

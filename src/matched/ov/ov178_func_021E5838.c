@@ -21,17 +21,18 @@
 
 
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
-extern int func_0203159C(int, int, int);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(int, int, int);
 extern void func_021E58F0(int, int *, int);
 typedef unsigned int   u32;
 extern void func_021E5A70(u32 *out, u32 **pp, u32 v);
 
-int func_021E5838(int a, int b, int *p)
+int func_021E5838(struct Obj0203159C *a, int b, int *p)
 {
     int h;
     func_0203064C(1, 0x58, 0x10000);
-    h = func_0203159C(a, 4, 0x58);
+    h = (int)func_0203159C(a, 4, 0x58);
     func_02082BCC(h, 0, 4);
     p[2] = 0;
     switch (p[1]) {

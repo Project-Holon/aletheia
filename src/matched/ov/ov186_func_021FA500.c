@@ -44,7 +44,7 @@ extern char d_02200D18[];
 extern int func_021FB7B0(void *p, int i);
 extern int func_021FAFA0(void *,int);
 extern void func_021FACE0(char *p);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FA7FC(void *,int *,u8 *),func_021FA6A8(void *,int *,u8 *);
 void func_021FA500(void *p,int *state,u8 *ctx)
 {

@@ -67,7 +67,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5F4(void *p);
 extern void *func_02158FB4(void *p);
 extern u32 func_02188C54(u8 *p);
-extern u32 func_020127C4(u32 a);
+extern u8 *func_020127C4(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021904AC(u8 *p);
 extern void *func_02012F08(int *p);
@@ -99,7 +99,7 @@ int func_021B2FD8(u32 a, u32 b)
     x = func_0201210C((void *)t);
     slot = func_02158FB4(func_0215A5F4((void *)b));
     y = func_02188C54(x);
-    z = func_020127C4(s);
+    z = (u32)func_020127C4((void *)s);
     w = func_02030734(4, 0x214, 1, (const char *)d_021DE210, 0xFC);
     *slot = w;
     w->f10 = func_021904AC((u8 *)y);

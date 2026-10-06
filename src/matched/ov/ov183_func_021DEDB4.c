@@ -35,7 +35,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int, int, int *);
 extern void func_021F9BA0(unsigned *ctx);
-extern void func_021FD73C(int *, int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DED64(int *p, int *state, char *q);
 extern int func_021DF8F0(int x, int y);
 extern int func_021DF41C(char *p);

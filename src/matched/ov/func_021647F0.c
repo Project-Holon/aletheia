@@ -20,8 +20,9 @@ typedef unsigned int u32;
 
 
 
-int func_021647F0(int a0, int a1)
+int func_021647F0(int a0)
 {
+    int a1;
 
 a1 = 0;
 ((struct Obj04133 *)((char *)a0))->f0 = a1;

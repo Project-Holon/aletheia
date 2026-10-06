@@ -19,8 +19,9 @@ typedef unsigned int u32;
 
 extern int func_0215F0B8(u16 *p, int i);
 
-int func_0215EA38(int a0, int a1, int a2, int a3)
+int func_0215EA38(int a0, int a1, int a2)
 {
+    int a3;
     int t4;
     int t5;
 

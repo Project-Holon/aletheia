@@ -83,8 +83,8 @@ extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
 extern int func_02006254(u32 a);
-extern int func_021FD744(int);
-extern void func_021FD73C(int *,int);
+extern int func_021FD744(int *a);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DBC68(int a, int b, char *p);
 void func_021DC228(int *a,int *state,char *p)
 {
@@ -140,7 +140,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 8: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
     case 9: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
-        if(!func_02006254(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744(*(int *)(p+8));}
+        if(!func_02006254(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
         break;
     case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;

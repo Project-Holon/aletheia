@@ -31,7 +31,8 @@ typedef struct {
     u16 id;
 } S;
 
-extern u32 func_021ABE18(u32 a);
+typedef unsigned char  u8;
+extern u32 func_021ABE18(u8 *p);
 extern int func_021C6658(u32 a, u32 b);
 extern void func_021AC1B8(void *a, V3 *v);
 extern void func_021C67F4(u32 o, u16 id);
@@ -39,7 +40,7 @@ extern void func_021C67F4(u32 o, u16 id);
 void func_021C4CDC(void *a, S *s)
 {
     u16 id = s->id;
-    u32 o = func_021ABE18(*s->owner);
+    u32 o = func_021ABE18((u8 *)(*s->owner));
     V3 *dst = (V3 *)func_021C6658(o, id);
     V3 t;
 

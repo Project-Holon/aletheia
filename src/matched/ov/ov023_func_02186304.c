@@ -16,7 +16,7 @@
  * Caller explicitly sets r1 for func_02184560, retained despite its legacy one-argument definition.
  */
 extern unsigned short func_02039338(void);
-extern void func_0218654C(char *);
+extern int func_0218654C(char *p);
 extern void func_02184560(char *, int);
 void func_02186304(char *p, int a)
 {

@@ -35,7 +35,7 @@ struct BigObj;
 extern u32 func_02012844(const struct BigObj *p);
 extern u32 func_02162458(u8 *p);
 extern u8 func_02012984(const struct BigObj *p);
-extern void func_02162438(u32 a, u32 b, u32 c);
+extern void func_02162438(int a0, int a1, int a2);
 
 u32 func_021892CC(u8 *a)
 {

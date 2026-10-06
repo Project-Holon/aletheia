@@ -40,7 +40,7 @@ extern void func_022002A0(u8 *);
 extern void func_021FFFE8(u8 *,u32,u32);
 extern void func_02200AB4(u8 *);
 extern void func_02200B34(u8 *);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_02200BAC(u8 *,u32);
 extern void func_022001F4(u8 *);
 extern void func_021F9254(u8 *);

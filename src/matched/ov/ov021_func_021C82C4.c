@@ -109,20 +109,20 @@ extern void func_0218F848(u8 *a);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3038(u8 *a, VecFx32 *out);
-extern void func_0218F900(u32 h, Param *p, int n);
+extern void func_0218F900(u8 *a, void *p, int n);
 extern int func_0218FE50(u8 *a);
 extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *map);
 extern int func_021C1CB0(int a, char *b, int c);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_0216D9E4(void *c);
+extern u32 *func_0216D9E4(void *c);
 extern void *func_021A3074(u8 *p);
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
 extern void func_0218F878(u8 *a);
 extern u32 func_021BEA30(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_021854CC(void *p, u32 u, u16 u2, void *src, u16 h);
 extern u32 func_02188D20(u8 *p);
-extern int func_021BC5BC(u32 a);
+extern int func_021BC5BC(u8 *a);
 extern u32 func_02043658(void);
 extern void func_02188DA0(void);
 extern void func_02043534(u32 planes);
@@ -182,7 +182,7 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
         p1.buf.w[3] = 1;
         p1.buf.w[4] = 1;
         p1.buf.w[5] = 1;
-        func_0218F900(h, &p1, 10);
+        func_0218F900((u8 *)h, &p1, 10);
         (*st)++;
     case 2:
         if (func_0218FE50((u8 *)h) != 0)
@@ -205,7 +205,7 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
         (*st)++;
         break;
     case 5:
-        func_021BC5BC(func_02188D20(sys));
+        func_021BC5BC((u8 *)func_02188D20(sys));
         c->f04 = func_0218EC5C((u8 *)h);
         func_0218F0A8((u8 *)h);
         (*st)++;
@@ -232,7 +232,7 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
         p2.buf.w[3] = 1;
         p2.buf.w[4] = 1;
         p2.buf.w[5] = 1;
-        func_0218F900(h, &p2, 1);
+        func_0218F900((u8 *)h, &p2, 1);
         (*st)++;
     case 7:
         if (func_0218FE50((u8 *)h) != 0)

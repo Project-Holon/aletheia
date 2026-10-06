@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 extern int func_021C49A4(u8 *, unsigned int);
-extern void func_021BA594(void *, int, int, int);
+extern void func_021BA594(char *p, int a, int b, int c);
 void func_021BA5B4(void *a, int b, u8 **p) {
     int c = func_021C49A4(*p, 6);
     int d = func_021C49A4(*p, 4);

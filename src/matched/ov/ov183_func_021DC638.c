@@ -63,8 +63,8 @@ extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern void func_021FD860(int,int,int *);
 extern int func_02006254(u32 a);
 extern void func_021F9C50(S *);
-extern int func_021FD744(int);
-extern void func_021FD73C(int *,int);
+extern int func_021FD744(int *a);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DBC68(int a, int b, char *p);
 void func_021DC638(int *a,int *state,char *p)
 {
@@ -108,7 +108,7 @@ void func_021DC638(int *a,int *state,char *p)
             func_021DD0F4(p,*(char * *)&((struct Obj00050 *)p)->fD0);
             **(int * *)&((struct Obj00050 *)p)->fD0=1;
             func_021F9C50(*(S * *)&((struct Obj24571 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f14);
-            func_021FD744((int)a);
+            func_021FD744((int *)a);
         }
         break;
     }

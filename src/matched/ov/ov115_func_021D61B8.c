@@ -15,5 +15,7 @@
  */
 #include "../include/Obj22606.h"
 typedef unsigned char u8;typedef unsigned int u32;
-extern void func_021D5C24(void *,int),func_021D6134(void *,void (*)(u8 *),int),func_021D61D8(u8 *);
-void func_021D61B8(u8 *p) { func_021D5C24(((struct Obj22606 *)p)->f8,26);func_021D6134(p,func_021D61D8,0x194); }
+extern void func_021D5C24(void *,int);
+extern void func_021D6134(void *a0, int a1, int a2);
+extern void func_021D61D8(u8 *);
+void func_021D61B8(u8 *p) { func_021D5C24(((struct Obj22606 *)p)->f8,26);func_021D6134(p,(int)func_021D61D8,0x194); }

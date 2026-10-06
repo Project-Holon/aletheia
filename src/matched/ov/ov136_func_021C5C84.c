@@ -30,7 +30,7 @@ struct Fade {
 };
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 
 int func_021C5C84(u8 *p)

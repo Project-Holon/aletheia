@@ -35,7 +35,7 @@ struct U16Vec;
 struct WordSet;
 extern u16 func_021BD118(u8 *p);
 extern unsigned int func_02013E4C(unsigned int id);
-extern int func_021BC5BC(u32 a);
+extern int func_021BC5BC(u8 *a);
 extern int func_021BCB48(int *p, int b);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *a);
@@ -61,7 +61,7 @@ void func_021BCAB0(int *p)
         r4 = 0;
     }
     if (r4 == 0) {
-        func_021BC5BC((int)p);
+        func_021BC5BC((u8 *)p);
         return;
     }
     if (func_021BCB48((int *)((int)p), r6) != 0) {

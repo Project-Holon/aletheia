@@ -67,7 +67,8 @@ struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern u16 func_021A3050(u8 *p);
 extern int func_021BE1B0(u32 a);
-extern void func_021A7B08(u32 a, Vec *out);
+struct V3;
+extern void func_021A7B08(int a, struct V3 *b);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *out);
 extern void func_0218FEA4(u32 a);
@@ -102,7 +103,7 @@ void func_021BDDC0(Obj *p)
     s->f48 = 0;
     s->f44 = 0;
     if (func_021BE1B0((u32)p)) {
-        func_021A7B08(p->f0, &out);
+        func_021A7B08(p->f0, (struct V3 *)(&out));
     } else {
         func_021A3038(h, (struct VecFx32 *)&out);
     }

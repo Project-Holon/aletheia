@@ -49,7 +49,7 @@ extern void func_021EF34C(struct WinMgr *mgr);
 extern void func_021EF36C(struct WinMgr *mgr);
 extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021EC000(char *, int, int);
-extern void func_021EBFEC(char *p, int i);
+extern u32 func_021EBFEC(char *p, int i);
 extern void func_021ED108(char *, int);
 extern void func_021EA878(unsigned char *, int);
 extern void func_021EBCB4(unsigned char *, int, int);

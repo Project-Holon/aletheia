@@ -23,7 +23,7 @@
 #include "../include/Obj07329.h"
 typedef unsigned int   u32;
 u32 func_02026478(void *obj);
-int func_020127C4(int h);
+unsigned char *func_020127C4(void *p);
 typedef unsigned char  u8;
 int func_02174734(char *p, int b, void *c);
 int func_02162024(char *p, int index, void *out);
@@ -40,7 +40,7 @@ void func_02174C38(unsigned char *p)
     int h;
     h = func_02026478((void *)(((struct Obj07329 *)p)->f4));
     if (p[0x908] != 0) {
-        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4(h)) == 1) {
+        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4((void *)h)) == 1) {
             p[0x908] = 0;
         }
     }

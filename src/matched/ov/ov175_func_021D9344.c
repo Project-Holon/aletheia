@@ -51,7 +51,7 @@ typedef signed int     s32;
 typedef unsigned short u16;
 struct Obj;
 struct Reg2;
-extern void func_0200BBD8(struct Obj *p, u16 v);
+extern void func_0200BBD8(struct Obj *p, int v);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern void func_02082BCC(void *,int,u32);

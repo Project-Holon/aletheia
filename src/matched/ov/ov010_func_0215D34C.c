@@ -110,7 +110,7 @@ struct Link;
 extern void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link);
 extern void func_0215898C(void *a, void *task);
 extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02011290(struct ScriptVm *vm);
+extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern void *func_02012F44(void *sys);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0200A640(void *sv);

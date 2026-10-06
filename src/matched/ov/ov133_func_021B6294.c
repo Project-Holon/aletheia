@@ -55,7 +55,7 @@ extern void func_021F5330(int,int);
 extern void func_021F51B0(int a);
 extern void func_02030EAC(struct Node *);
 extern void func_0204ED24(void *);
-extern void func_02048AC4(void *);
+extern u32 func_02048AC4(void *ptr);
 extern void func_02046788(void);
 extern void func_020403F4(u32);
 extern void func_020450C8(void);

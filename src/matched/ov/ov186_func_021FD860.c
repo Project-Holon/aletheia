@@ -27,7 +27,7 @@
 typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
 extern int func_021FD750(int *,int);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_020061E4(u32 a);
 typedef unsigned char  u8;
 extern void func_021FDE88(void);

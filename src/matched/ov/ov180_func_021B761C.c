@@ -39,7 +39,8 @@ extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern int func_0202D934(int,void *,int,int,u16),func_0202D8D0(int,void *,int,int,u16,u16);
 extern u32 func_0202D9A4(u32,u32,u32,u32,u16);
 extern void func_02049238(u8 *);
-extern int func_021B75A4(char *,const char *);
+struct Obj;
+extern struct Obj *func_021B75A4(char *p, const char *q);
 extern const char d_021B8174[],d_021B818C[];
 void func_021B761C(char *p)
 {
@@ -62,6 +63,6 @@ void func_021B761C(char *p)
     ((struct Obj02516 *)p)->f90E8=func_0202D8D0(bank,mon,1,0,128,141);
     ((struct Obj02516 *)p)->f9104=func_0202D9A4((u32)mon,1,2,0,141);
     func_02017DE4(mon,lock);func_02049238((u8 *)bank);
-    ((struct Obj02516 *)p)->f9048=func_021B75A4(p,d_021B8174);
-    ((struct Obj02516 *)p)->f904C=func_021B75A4(p,d_021B818C);
+    ((struct Obj02516 *)p)->f9048=(int)func_021B75A4(p,d_021B8174);
+    ((struct Obj02516 *)p)->f904C=(int)func_021B75A4(p,d_021B818C);
 }

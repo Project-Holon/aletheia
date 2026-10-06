@@ -51,9 +51,9 @@ extern int func_021FF72C(char *,int *);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
-extern int func_021FD744(int a);
+extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
-void func_021F86EC(int task,unsigned *state,char *p)
+void func_021F86EC(int *task,unsigned *state,char *p)
 {
     Pair initial;
     Cfg cfg;

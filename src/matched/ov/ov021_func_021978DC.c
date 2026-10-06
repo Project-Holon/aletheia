@@ -55,7 +55,8 @@ typedef unsigned int   u32;
 typedef struct { u32 w[4]; } Q16;
 
 extern void func_0203064C(u32, u32, u32);
-extern u8 *func_0203159C(u32, u32, u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_0203F8F4(u16 heapId);
 extern void func_02045088(u16 heapId);
@@ -96,7 +97,7 @@ extern void *func_020120F4(const struct Ctx *);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_0203D34C(u32, u32);
 
-int func_021978DC(u32 a, u32 b, u32 c)
+int func_021978DC(struct Obj0203159C *a, u32 b, u32 c)
 {
     u8 *w;
 

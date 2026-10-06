@@ -14,13 +14,14 @@
  *   func_0216D7C8 0x0216D7C8 thumb ov010
  */
 
-extern void func_0216D570(char *p, unsigned int v);
+typedef unsigned int   u32;
+extern char *func_0216D570(char *p, u32 v);
 typedef unsigned short u16;
 extern void func_0216D7C0(void *p, u16 v);
-extern void func_0216D7C8(void *p, u16 v);
-void func_0216D4B4(char *p)
+extern void *func_0216D7C8(void *p, u16 v);
+void *func_0216D4B4(char *p)
 {
     func_0216D570(p, 0x600);
     func_0216D7C0(p, 0xff);
-    func_0216D7C8(p, 0);
+    return func_0216D7C8(p, 0);
 }

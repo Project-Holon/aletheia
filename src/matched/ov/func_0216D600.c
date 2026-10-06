@@ -20,8 +20,9 @@ typedef unsigned int u32;
 
 
 
-int func_0216D600(int a0, int a1, int a2)
+int func_0216D600(int a0, u16 a1)
 {
+    int a2;
 
 a2 = ((struct Obj00113 *)a0)->f1A;
 ((struct Obj00113 *)a0)->f1E = a2;

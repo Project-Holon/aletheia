@@ -21,10 +21,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0203064C(unsigned, unsigned, unsigned);
-extern void *func_0203159C(void *, unsigned, unsigned);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(unsigned, void *, unsigned);
 extern void *func_021C409C(void *, unsigned);
-extern void *func_02031324(unsigned);
+extern void *func_02031324(int a0);
 int func_021C3E3C(void *a, void *b, u8 *p)
 {
     u8 *q;

@@ -17,7 +17,9 @@
 #include "../include/Obj06527.h"
 typedef unsigned char u8;
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern void *func_0203159C(void *,int,int);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(int,void *,int);
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);

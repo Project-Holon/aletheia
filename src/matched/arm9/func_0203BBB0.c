@@ -36,7 +36,9 @@ extern u8 *g_021469DC;
 
 struct Slot;
 extern void *func_0203D788(void);
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern void func_0203B950(u8 *p);
 extern void func_0203B90C(void);
 extern void func_0203B5D4(struct Slot *p);
@@ -50,12 +52,12 @@ void func_0203BBB0(u32 a)
     g = g_021469DC;
     if (g[0x56] == 2 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B950) {
         if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) != 0) {
-            func_0203AD80((u32)g_021469DC, (u32)func_0203B90C, 0, 0x3E0);
+            func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B90C, 0, 0x3E0);
         }
     }
 
     g = g_021469DC;
     if (g[0x56] == 1 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B5D4) {
-        func_0203AD80((u32)g, (u32)func_0203B48C, 0, 0x3E9);
+        func_0203AD80((struct NetState *)g, (void *)func_0203B48C, 0, 0x3E9);
     }
 }

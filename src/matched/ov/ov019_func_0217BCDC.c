@@ -37,7 +37,7 @@ extern int func_02172D68(u8 *p);
 extern void func_02173420(int *a);
 extern void func_02173524(int *a, u8 *b);
 extern void func_02172D50(u8 *p);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 
 int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
 {

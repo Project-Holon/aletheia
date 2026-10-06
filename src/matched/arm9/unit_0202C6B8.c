@@ -36,8 +36,9 @@ u32 sub_0202C6B8(struct Obj0202C6B8 *p)
     return p->unk00;
 }
 
-void sub_0202C6BC(struct Obj0202C6B8 *p, u32 v)
+struct Obj0202C6B8 *sub_0202C6BC(struct Obj0202C6B8 *p, u32 v)
 {
     p->unk00 = v;
     p->unk04 = 0;
+    return p;
 }

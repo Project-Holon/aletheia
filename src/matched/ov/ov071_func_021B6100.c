@@ -99,11 +99,12 @@ extern void func_020435F4(u32 planes);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_0204363C(u32 a);
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern u8 *func_0203159C(int ctx, int size, int heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02010F7C(u32 heap);
-extern int func_02031324(int heap);
+extern void *func_02031324(int a0);
 extern void func_02028470(u8 *p, u32 v);
 extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
 extern void func_0203D34C(u32 a, u32 b);
@@ -118,7 +119,7 @@ extern void func_021B6844(struct W6844 *p);
 extern void func_021B68E0(int *p);
 extern void func_021B699C(void *unused, struct S02021D50 **p);
 
-int func_021B6100(int ctx, int unused, u8 *arg)
+int func_021B6100(struct Obj0203159C *ctx, int unused, u8 *arg)
 {
     u8 *o;
 
@@ -148,8 +149,8 @@ int func_021B6100(int ctx, int unused, u8 *arg)
     func_021B6844((struct W6844 *)o);
     func_021B68E0((int *)o);
     *(int *)(o + 0x34) = (int)func_02010F7C(0x61);
-    *(int *)(o + 0x12C) = func_02031324(0x61);
-    *(int *)(o + 0x130) = func_02031324(0x61);
+    *(int *)(o + 0x12C) = (int)func_02031324(0x61);
+    *(int *)(o + 0x130) = (int)func_02031324(0x61);
     func_02028470(o + 0x38, 6);
     *(u32 *)(o + 0x128) = func_020056A0((void (*)(void))func_021B699C, o, 0xA);
     func_0203D34C(0, 0x61);

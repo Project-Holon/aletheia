@@ -37,7 +37,8 @@ typedef struct {
 extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021EC000(char *w, int i, int v);
-extern int func_021EBFEC(char *w, int i);
+typedef unsigned int   u32;
+extern u32 func_021EBFEC(char *p, int i);
 extern void func_021DE980(unsigned char *p, int mode);
 extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DEAFC(int a);

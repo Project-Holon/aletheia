@@ -27,7 +27,10 @@ extern const BgTemplate d_021E7F24,d_021E7E84,d_021E7EA4;
 extern void func_0203FCA0(u32,const BgTemplate *,u32);
 extern void func_02040C14(u32,u32,u32,u32);
 extern void func_02041300(u32,int,int,int,u8,u8,u8);
-extern void func_020409B4(u32),func_0204044C(u32),func_02040588(u32,u32),func_0204047C(int,u16);
+extern void func_020409B4(u32);
+extern void func_0204044C(u32);
+extern void func_02040588(u32 which, unsigned char enable);
+extern void func_0204047C(int,u16);
 void func_021E5430(void *a0)
 {
  BgTemplate a,b,c;

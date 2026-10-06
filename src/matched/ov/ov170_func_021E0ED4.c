@@ -16,8 +16,9 @@
  *   func_021E0190 0x021E0190 thumb ov170
  */
 #include "../include/Obj08236.h"
-extern int func_021EC01C(char *, int);
-extern void func_021EBFEC(char *p, int i);
+typedef unsigned int   u32;
+extern u32 func_021EC01C(char *p, int i);
+extern u32 func_021EBFEC(char *p, int i);
 extern void func_021ED108(char *, int);
 extern void func_021EBFA8(char *, int, int);
 extern void func_021EC000(char *, int, int);

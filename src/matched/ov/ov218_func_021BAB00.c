@@ -13,7 +13,8 @@
  *   func_02046788  0x02046788  arm
  */
 
-extern void func_02048AC4(void *ptr);
+typedef unsigned int   u32;
+extern u32 func_02048AC4(void *ptr);
 extern void func_02046788(void);
 
 void func_021BAB00(int *p)

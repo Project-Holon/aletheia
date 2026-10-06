@@ -41,7 +41,7 @@ struct FieldCtx {
 
 struct Ctx784;
 extern int func_0218A784(struct Ctx784 *c, int a);
-extern int func_021A2FA4(void *p, u32 v);
+extern u16 func_021A2FA4(u8 *p, u32 a1);
 
 int func_0218A7F0(struct FieldCtx *p)
 {

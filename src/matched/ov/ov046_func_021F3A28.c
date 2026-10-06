@@ -32,7 +32,9 @@ struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern void *func_0200B3A4(u32, u32);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_021BE580(u32);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
@@ -48,7 +50,7 @@ void func_021F3A28(void *a)
     int *r6 = func_021897BC(a, 1);
     int r4 = 1;
 
-    func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(a))), 10);
+    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(a))), 10);
     func_021BE580(r7);
     func_021A3038(func_02188CB4((void *)a), (struct VecFx32 *)v);
     if (func_021F40D8(v) == 0)

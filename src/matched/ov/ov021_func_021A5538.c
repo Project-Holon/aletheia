@@ -37,7 +37,7 @@ extern void func_021A3964(u8 *p, u32 v);
 extern void func_021A5328(u32 a);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(void *a0, int a1);
-extern void func_0216D548(u32 *p, u32 v); /* its third parameter is a scratch it never reads */
+extern u32 *func_0216D548(u32 *p, u32 v); /* its third parameter is a scratch it never reads */
 
 int func_021A5538(u8 *a)
 {

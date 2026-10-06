@@ -27,8 +27,8 @@ extern void func_020435F4(u32 planes);
 extern void *func_0207E24C(void);
 extern void func_02082A48(int, u32, u32);
 extern void *func_0207DFB4(void);
-extern void func_020809A0(void);
-extern void func_020808F4(void);
+extern int func_020809A0(void);
+extern int func_020808F4(void);
 
 void func_021B641C(void)
 {

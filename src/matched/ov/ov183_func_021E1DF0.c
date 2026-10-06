@@ -17,9 +17,9 @@
 #include "../include/Obj24637.h"
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *p);
-extern int func_021FD744(int);
+extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
-void func_021E1DF0(int a,int *state,char *p)
+void func_021E1DF0(int *a,int *state,char *p)
 {
     switch (*state) {
     case 0: func_021FE784(**(int * *)&((struct Obj10756 *)p)->f18,2,3,1); *state=1; break;

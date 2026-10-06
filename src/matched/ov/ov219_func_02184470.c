@@ -27,7 +27,9 @@
 typedef unsigned short u16;
 struct PrintSys;struct S02031140;struct S020315D4;struct WordSet;
 extern void func_0201C6EC(struct PrintSys *),func_0201C4C0(struct PrintSys *);
-extern void func_02040588(unsigned,unsigned),func_0204363C(unsigned);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, unsigned char enable);
+extern void func_0204363C(unsigned);
 extern int func_02028604(int);
 extern void func_02031140(struct S02031140 *);
 extern unsigned func_0201ED04(struct WordSet *);

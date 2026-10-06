@@ -26,14 +26,14 @@ typedef struct {
     u16 h6;
 } S;
 
-extern u32 func_021ABE18(u32 a);
+extern u32 func_021ABE18(unsigned char *p);
 extern void func_021C6628(u32 o, u16 v);
 typedef unsigned char  u8;
 extern void func_021C6580(u8 *p, int i);
 
 void func_021C4BC4(S *s)
 {
-    u32 o = func_021ABE18(s->owner);
+    u32 o = func_021ABE18((unsigned char *)s->owner);
 
     func_021C6628(o, s->h6);
     func_021C6580((u8 *)o, s->h4);

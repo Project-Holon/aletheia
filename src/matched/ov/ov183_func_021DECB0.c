@@ -28,7 +28,7 @@ extern void func_020409B4(u32 index);
 extern void func_021FB494(char *p);
 extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FBDA4(int a, unsigned mode);
-extern int func_021FD744(int a);
+extern int func_021FD744(int *a);
 void func_021DECB0(void *a, int b, char *p)
 {
     func_021DF388(p + 0x28);
@@ -44,5 +44,5 @@ void func_021DECB0(void *a, int b, char *p)
     func_021FC0C8(((struct Obj24599 *)(*(char * *)&((struct Obj02894 *)p)->f108))->f10, 6);
     func_021FBDA4((int)(((struct Obj24600 *)(*(char * *)&((struct Obj02894 *)p)->f108))->f10), 24);
     ((struct Obj02894 *)p)->f104 = 0;
-    func_021FD744((int)a);
+    func_021FD744((int *)a);
 }

@@ -14,9 +14,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021CEADC(u8 *p)
+u8 *func_021CEADC(u8 *p)
 {
     p[0x525] = 0;
     p[0x523] = p[0x524];
     p[0x524] = 0;
+    return p;
 }

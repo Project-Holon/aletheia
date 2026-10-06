@@ -60,7 +60,7 @@ extern int func_0219E418(u32 a, u32 b);
 extern void func_0219E664(u32, u16, T *);
 extern int func_0219E9A8(u32, u32, s32, T *);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D438(int a0, int a1);
+extern void func_0216D438(char *a0, int a1);
 extern void func_0216DA44(u32);
 extern u32 func_02197EDC(u8 *p);
 extern void func_0216DA50(u8 *p);
@@ -105,7 +105,7 @@ int func_0219EDC4(u32 o)
             s = (u32)func_0219E418(o, (u16)k);
             func_0219E664(o, k, &b);
         }
-        func_0216D438((u32)o, (u16)((u32)func_02197E7C((u16)k, (u16)(s == 0 ? 0xc : 0x20))));
+        func_0216D438((char *)o, (u16)((u32)func_02197E7C((u16)k, (u16)(s == 0 ? 0xc : 0x20))));
         func_0216DA44(o);
         e->state = 2;
         break;

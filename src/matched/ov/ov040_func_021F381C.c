@@ -39,7 +39,9 @@ struct Big;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern u8 *func_0200B3A4(u32 a, u32 b);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
@@ -59,7 +61,7 @@ int func_021F381C(void *a, int *st)
     s = func_0201210C(func_020124E4(a));
     t = func_02188D2C(s);
     p = (u16 *)func_021897BC(s, 1);
-    q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 3);
+    q = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(s))), 3);
     switch (*st) {
     case 0:
         x = *p;

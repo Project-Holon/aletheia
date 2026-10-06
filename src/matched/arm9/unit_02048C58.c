@@ -83,7 +83,7 @@ void func_02048C58(struct LightSlot *slots)
     }
 }
 
-void func_02048C80(struct LightSlot *slots, u32 i, struct Rgb555 *out)
+void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out)
 {
     *out = slots[i].col;
 }

@@ -19,8 +19,9 @@ typedef unsigned int u32;
 
 extern u32 func_0200E3A4(const u8 *bits, int id);
 
-int func_02165C78(int a0, int a1)
+int func_02165C78(int a0)
 {
+    int a1;
 
 a0 = a0 + 0x50;
 a1 = 0x19;

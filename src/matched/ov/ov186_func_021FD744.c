@@ -18,9 +18,9 @@
  * pending caller func_021F8624.
  */
 
-extern int func_021FD73C(int, int);
+extern int *func_021FD73C(int *p, int v);
 
-int func_021FD744(int a)
+int func_021FD744(int *a)
 {
-    return func_021FD73C(a, 0);
+    return (int)func_021FD73C(a, 0);
 }

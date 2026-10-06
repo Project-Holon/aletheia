@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 struct CharBuf;
 struct Rec3;
 extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
-extern void func_0201EE0C(void *,u32,const void *,u32,u32,u32);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F164(struct WordSet *p, u32 i, u32 a, u32 b);
 extern void func_0201CE48(struct Rec3 *p);

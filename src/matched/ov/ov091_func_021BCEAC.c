@@ -52,7 +52,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
-extern void func_020413B0(u32, u8, u8, u8, u8, u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);

@@ -38,7 +38,7 @@ extern void func_020862F0(void *,unsigned long);
 extern void func_0207E5D0(void *,int,int);
 extern void func_0207E468(void *,int,int);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *);
+extern u32 func_02021540(void *a0);
 void func_021D6328(u8 *p,int bank,int *offset,int *size,int count)
 {
     int i;

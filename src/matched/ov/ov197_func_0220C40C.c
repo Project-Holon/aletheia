@@ -23,6 +23,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Bank;
 extern struct Bank *sub_0204B100(int,u8,u32);
-extern u32 func_0220C3B4(char *,const int *);
+struct Obj;
+extern struct Obj *func_0220C3B4(char *p, const int *indices);
 extern const int d_0220DBBC[];
-void func_0220C40C(char *p) { u32 i; *(struct Bank * *)&((struct Obj00315 *)p)->f420=sub_0204B100(67,0,((struct Obj25034 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=func_0220C3B4(p,(const int *)((u32)d_0220DBBC+i*12)); }
+void func_0220C40C(char *p) { u32 i; *(struct Bank * *)&((struct Obj00315 *)p)->f420=sub_0204B100(67,0,((struct Obj25034 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)func_0220C3B4(p,(const int *)((u32)d_0220DBBC+i*12)); }

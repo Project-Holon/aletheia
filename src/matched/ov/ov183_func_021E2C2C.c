@@ -69,8 +69,8 @@ extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
 extern void func_021FD15C(void *,int);
-extern int func_021FD744(int);
-void func_021E2C2C(int task,unsigned *state,char *p)
+extern int func_021FD744(int *a);
+void func_021E2C2C(int *task,unsigned *state,char *p)
 {
     Pair initial;
     Config cfg;

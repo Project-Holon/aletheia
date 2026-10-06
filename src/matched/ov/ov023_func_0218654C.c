@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 int func_021841A4(unsigned char *p);
 
-void func_0218654C(char *p)
+int func_0218654C(char *p)
 {
-    func_021841A4((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj13027 *)p)->f4));
+    return func_021841A4((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj13027 *)p)->f4));
 }

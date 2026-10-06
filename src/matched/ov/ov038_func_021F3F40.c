@@ -57,7 +57,9 @@ struct Big;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(unsigned int, unsigned int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE4B4(char *p, int i, int j, int v);
 extern V3 *func_021BE480(int p, int i, int j);
@@ -83,7 +85,7 @@ int func_021F3F40(int a0, int *a1)
     h = func_02188D2C(sys);
     s = (u8 *)func_021897BC(sys, 1);
     func_02188CB4(sys);
-    p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80(sys))), 6);
+    p = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(sys))), 6);
     if (*(int *)((char *)p + s[3] * 4 + 0x48) == 0) {
         c = s[3] + 0x12;
         j = 0x21;

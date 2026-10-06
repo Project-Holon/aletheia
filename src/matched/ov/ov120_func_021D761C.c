@@ -45,7 +45,7 @@ extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 
 extern void func_02049238(void *);
 extern void func_021D698C(u8 *);
 extern void func_021D692C(u8 *,int);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_02041B6C(u32);
 void func_021D761C(u8 *p)
 {

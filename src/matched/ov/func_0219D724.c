@@ -30,10 +30,10 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216D530(u32);
 extern void *func_0216D67C(void *a0);
-extern u32 func_021BB3C4(u32, u32);
+extern u32 func_021BB3C4(u8 *p, char *a1);
 
-int func_0219D724(u32 a, u32 b)
+int func_0219D724(u32 a, char *b)
 {
-return func_021BB3C4(func_0216D530((u32)func_0216D67C((void *)a)), b);
+return func_021BB3C4((u8 *)func_0216D530((u32)func_0216D67C((void *)a)), b);
 }
 

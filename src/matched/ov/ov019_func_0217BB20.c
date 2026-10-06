@@ -13,7 +13,7 @@
  *   func_0217B8E4 0x0217B8E4 thumb ov019
  */
 extern int func_0217BB04(char *);
-extern int func_0217B8E4(char *, char);
+extern int func_0217B8E4(char *p, int v);
 int func_0217BB20(char *p)
 {
     if (func_0217BB04(p) == 1) {

@@ -32,7 +32,7 @@ typedef struct Conn {
     unsigned long f28;
 } Conn;
 
-extern Conn *func_021BEC00(void *mutexInfo_p, Conn *connection_p);
+extern struct Conn *func_021BEC00(int a, int b);
 extern int func_021BEBC8(int a, int b);
 extern int func_021BEE4C(int a, int b, int c, int d);
 
@@ -42,7 +42,7 @@ int func_021BEC74(void *mutexInfo_p, Conn *connection_p, char *label_p, int offs
     void *res_p;
     int ret = -1;
 
-    if (func_021BEC00(mutexInfo_p, connection_p) != 0) {
+    if (func_021BEC00((int)mutexInfo_p, (int)connection_p) != 0) {
         res_p = (void *)func_021BEBC8((int)mutexInfo_p, (int)connection_p);
         if (res_p != 0 && connection_p->callback != 0) {
             arg.label = label_p;

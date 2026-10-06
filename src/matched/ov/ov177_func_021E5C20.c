@@ -48,7 +48,7 @@ extern void func_021E6718(Work *, u32, const Info *, void *, int, void *, void *
 extern void func_021E72FC(u8 *, u32, u32, u16);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_021E7464(char *, char *, u32, void *, u16);
-extern void func_020413B0(u32, u8, u8, u8, u8, u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
 Work *func_021E5C20(const Info *info, u32 a1, void *a2, int owner,
                     void *table, int a5, void *a6, void *a7, void *a8, u16 heap)

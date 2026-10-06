@@ -36,7 +36,7 @@ extern void func_0216D594(void *p, u32 v);
 extern void func_0216E39C(int a0, int a1, int a2);
 extern void func_0216DA94(void *a);
 extern void func_0216E190(void *a);
-extern void func_0216E114(void *a);
+extern int func_0216E114(int a0);
 
 void func_0216E204(char *a, u32 v)
 {
@@ -56,5 +56,5 @@ void func_0216E204(char *a, u32 v)
     *(s8 *)&((struct Obj00113 *)a)->f80 = ((struct Obj05908 *)p)->fF;
     func_0216DA94(a);
     func_0216E190(a);
-    func_0216E114(a);
+    func_0216E114((int)a);
 }

@@ -20,8 +20,10 @@ typedef unsigned int u32;
 
 
 
-int func_021568E8(int a0, int a1, int a2, int a3)
+int func_021568E8(int a0, u8 a1)
 {
+    int a2;
+    int a3;
 
 a3 = 0;
 loc_021568EA:

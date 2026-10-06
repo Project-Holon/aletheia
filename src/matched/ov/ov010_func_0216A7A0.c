@@ -59,7 +59,7 @@ extern void *func_0216DE94(void *map, u32 id);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 extern void func_0215897C(void *vm, void *task);
 extern int func_0216A838();
 

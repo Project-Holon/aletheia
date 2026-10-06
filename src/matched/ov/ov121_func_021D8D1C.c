@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
 struct Actor;
 struct Obj;

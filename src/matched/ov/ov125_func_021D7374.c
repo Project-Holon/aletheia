@@ -11,15 +11,15 @@
  *   func_021D85E8 0x021D85E8 arm ov125
  */
 #include "../include/Obj23004.h"
-extern int func_021D85E8(void);
+extern char *func_021D85E8(void);
 typedef struct { int count; char entries[1]; } List;
-int func_021D7374(int a, void **out, int max)
+int func_021D7374(char *a, void **out, int max)
 {
     int p;
     char *base;
     int n;
     int i;
-    p = func_021D85E8() + 4;
+    p = (int)(func_021D85E8() + 4);
     n = ((struct Obj23004 *)p)->f0;
     if (n > max) n = max;
     base = (char *)(p + 4);

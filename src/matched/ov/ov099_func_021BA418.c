@@ -33,7 +33,7 @@ typedef struct {
 
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern unsigned int func_0203630C(void);
-extern void func_021BA594(W *w, int a, int b, int c);
+extern void func_021BA594(char *p, int a, int b, int c);
 
 int func_021BA418(W *w, S *s)
 {
@@ -57,27 +57,27 @@ int func_021BA418(W *w, S *s)
     }
     if (func_0203630C() & 0x40) {
         if (a == 0) {
-            func_021BA594(w, k, a, b);
+            func_021BA594((char *)w, k, a, b);
         } else {
-            func_021BA594(w, 1, 0, b);
+            func_021BA594((char *)w, 1, 0, b);
         }
     } else if (func_0203630C() & 0x80) {
         if (a == 1) {
-            func_021BA594(w, k, a, b);
+            func_021BA594((char *)w, k, a, b);
         } else {
-            func_021BA594(w, 1, 1, b);
+            func_021BA594((char *)w, 1, 1, b);
         }
     } else if (func_0203630C() & 0x20) {
         if (a == 2) {
-            func_021BA594(w, k, a, b);
+            func_021BA594((char *)w, k, a, b);
         } else {
-            func_021BA594(w, 1, 2, b);
+            func_021BA594((char *)w, 1, 2, b);
         }
     } else if (func_0203630C() & 0x10) {
         if (a == 3) {
-            func_021BA594(w, k, a, b);
+            func_021BA594((char *)w, k, a, b);
         } else {
-            func_021BA594(w, 1, 3, b);
+            func_021BA594((char *)w, 1, 3, b);
         }
     }
     return 0;

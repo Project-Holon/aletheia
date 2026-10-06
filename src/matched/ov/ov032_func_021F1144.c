@@ -44,8 +44,8 @@ extern void func_021F10D8(char *this, u8 *p, int a);
 extern void func_021F0F74(char *p, u8 *q, void *r);
 extern void func_021F1004(char *p, u8 *q, int r);
 extern int func_02165E24(int a0);
-extern void func_02165D6C(void *r, void *buf);
-extern void func_02165D8C(void *r, void *buf);
+extern int func_02165D6C(int a0, int a1);
+extern int func_02165D8C(int a0, int a1);
 extern void func_021F1070(char *p, char *q, void *text, int a4);
 extern void func_021F1E40(char *p, char *q, void *x, int flag);
 extern void func_021F1080(char *p, char *q, int r, int t);
@@ -66,11 +66,11 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
     case 0:
         switch (func_02165E24((int)r)) {
         case 0x18:
-            func_02165D6C(r, ((struct Obj00007 *)p)->f118);
+            func_02165D6C((int)r, (int)(((struct Obj00007 *)p)->f118));
             func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         case 0x31:
-            func_02165D8C(r, ((struct Obj00007 *)p)->f118);
+            func_02165D8C((int)r, (int)(((struct Obj00007 *)p)->f118));
             func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         }

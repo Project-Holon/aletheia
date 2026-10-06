@@ -29,11 +29,11 @@ extern void func_0216D844(void *p, s16 v);
 extern void func_0216D85C(void *p, int v);
 extern void func_0216D874(int a0, int a1);
 extern void func_0216D89C(void *p, const void *q);
-extern void func_02163F10(void *p);
-extern void func_0216D5D8(void *p, int v);
-extern void func_0216D4B4(char *p);
-extern void func_0216D568(void *p, u32 v);
-extern void func_0216D570(char *p, u32 v);
+extern int func_02163F10(int a0);
+extern int func_0216D5D8(int a0, int a1);
+extern void *func_0216D4B4(char *p);
+extern void *func_0216D568(void *p, u32 v);
+extern char *func_0216D570(char *p, u32 v);
 
 void func_0216E014(void *a, int *p, int b)
 {
@@ -41,8 +41,8 @@ void func_0216E014(void *a, int *p, int b)
     func_0216D85C(a, (s16)((p[1] >> 4) / 4096));
     func_0216D874((int)a, (s16)((p[2] >> 4) / 4096));
     func_0216D89C(a, p);
-    func_02163F10(a);
-    func_0216D5D8(a, b);
+    func_02163F10((int)a);
+    func_0216D5D8((int)a, b);
     func_0216D4B4(a);
     func_0216D568(a, 0x20);
     func_0216D570(a, 0x50);

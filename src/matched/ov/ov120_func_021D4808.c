@@ -26,17 +26,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern void func_021D4244(int, void (*)(int), int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D4584(u8 *p);
 extern void func_021D47D4(u8 *p);
-void func_021D4808(int a)
+void func_021D4808(int *a)
 {
     if (func_0203CD98() == 0) {
-        func_021D4244(a, (void (*)(int))func_021D4584, 0x2df);
+        func_021D4244(a, (int)((void (*)(int))func_021D4584), 0x2df);
         return;
     }
     if (func_02039CB4((struct Link *)func_020399A8(), 2, 0x22) != 0) {
         if (func_0203D3A8(func_020399A8(), 0x2200, 8, (u32)(*(char * *)&((struct Obj22827 *)a)->f48 + 4)) != 0)
-            func_021D4244(a, (void (*)(int))func_021D47D4, 0x2e7);
+            func_021D4244(a, (int)((void (*)(int))func_021D47D4), 0x2e7);
     }
 }

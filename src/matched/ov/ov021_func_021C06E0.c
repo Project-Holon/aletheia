@@ -52,7 +52,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_02188C7C(unsigned char *p);
 extern int func_02188BE8(void *);
 extern void func_0216D9A0(void *);
-extern void func_0216D9E4(void *);
+extern u32 *func_0216D9E4(void *c);
 extern int func_021C0780(u32 a, int *st);
 
 int func_021C06E0(u32 a, int *st)

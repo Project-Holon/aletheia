@@ -28,8 +28,8 @@ extern void *func_02188CB4(unsigned char *p);
 extern int func_021A3208();
 extern void *func_021A3074(unsigned char *p);
 extern int func_021A2F48();
-extern int func_0216DB04();
-extern int func_0216D550();
+extern char *func_0216DB04(void *a0);
+extern u32 *func_0216D550(u32 *p, u32 v);
 extern int func_021A2F54();
 
 int func_0216A1C0(int a0)
@@ -50,10 +50,10 @@ loc_0216A1D8:
 a1 = 0x20;
     a0 = func_021A2F48(v0, a1);
 loc_0216A1E2:
-    a0 = func_0216DB04(v1);
+    a0 = (int)func_0216DB04(v1);
 loc_0216A1E8:
 a1 = 0x10;
-    a0 = func_0216D550(v1, a1);
+    a0 = (int)func_0216D550(v1, a1);
 loc_0216A1F0:
     a0 = func_021A2F54(v0);
 loc_0216A1F6:

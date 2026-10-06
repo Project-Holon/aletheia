@@ -28,19 +28,19 @@ typedef unsigned int   u32;
 extern u32 func_021A5630(u32);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(u32, u32);
-extern void func_0216DB4C(u32, u32);
-extern void func_0216DCE8(u32, u32);
-extern void func_0216D568(void *p, u32 v);
+extern int func_0216DB4C(void *a0, int a1);
+extern int func_0216DCE8(void *a0, int a1);
+extern void *func_0216D568(void *p, u32 v);
 
-void func_021A4F0C(u32 a, u32 b, u32 c)
+void func_021A4F0C(u32 a, void *b, u32 c)
 {
     u32 x = ((struct Obj19795 *)c)->f8;
     if (x == 9) {
         x = func_021A5630(a);
     }
-    func_0216D410(b, func_02197E7C(x, 0x34));
+    func_0216D410((u32)b, func_02197E7C(x, 0x34));
     func_0216DB4C(b, 1);
-    func_0216DCE8(b, 1);
+    func_0216DCE8((void *)b, 1);
     func_0216D568((void *)b, 0x8000);
     ((struct Obj19794 *)a)->f0 = 5;
 }

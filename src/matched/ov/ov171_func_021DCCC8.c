@@ -61,7 +61,7 @@ extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst020
 extern void *func_02012EBC(struct Big *p);
 extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern int func_0200ECD0(void *o, int i);
+extern int func_0200ECD0(char *o, int idx);
 extern u32 func_0200ECC4(char *o, u32 n);
 extern void func_0200ED14(u8 *o, int idx, void *out);
 extern void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3);

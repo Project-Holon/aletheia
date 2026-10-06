@@ -31,8 +31,9 @@ extern u32 func_0203CF5C(void);
 extern int func_0203CDBC();
 extern int func_020053EC();
 
-int func_02158DBC(int a0)
+int func_02158DBC(void)
 {
+    int a0;
 
     a0 = func_0203CD98();
 loc_02158DC2:

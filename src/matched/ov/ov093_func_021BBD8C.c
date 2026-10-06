@@ -40,7 +40,7 @@ extern int func_021BBF88(u8 *, int);
 extern int func_021BBF98(u8 *, int);
 extern u8 func_021BC610(S *p, int a, E *q, int n);
 extern int func_021D5B68(void *p);
-extern void func_021BDC98(S *, u8 *, u8);
+extern void func_021BDC98(u8 *p, u8 *a, u8 v);
 extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
 extern u32 func_021B8588(void **p);
 extern void func_021BCCE0(S *p, E *e);
@@ -71,7 +71,7 @@ int func_021BBD8C(S *p, int a)
         for (i = 0; i < p->n; i++) {
             if (p->e[i].kind == 3 && p->e[i].z == 0) {
                 if (func_021D5B68((void *)p->e[i].a) == 0) {
-                    func_021BDC98(p, (u8 *)p->e[i].a, p->e[i].y);
+                    func_021BDC98((u8 *)p, (u8 *)p->e[i].a, p->e[i].y);
                     p->e[i].f = 1;
                 }
             }

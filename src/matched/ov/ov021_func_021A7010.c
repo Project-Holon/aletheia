@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern void *func_021A3074(unsigned char *p);
-extern u32 func_021A2FA4(u32 a, u32 b);
+extern u16 func_021A2FA4(u8 *p, u32 a1);
 extern u16 func_0216D608(void *p);
 extern int func_0216D3CC(int a0);
 extern u32 func_021A2FB0(u32 a);
@@ -66,7 +66,7 @@ void func_021A7010(u32 a, u32 *b)
     r6 = func_0203630C();
     v10 = func_021A3074((unsigned char *)b[1]);
     if (b[2] == 0) {
-        r4 = func_021A2FA4(b[1], r6);
+        r4 = func_021A2FA4((u8 *)b[1], r6);
         r7 = 1;
     } else {
         r4 = func_0216D608(v10);

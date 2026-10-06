@@ -33,7 +33,7 @@ void func_0203AD74(struct NetState *s, void *p, u16 v)
     s->unk46 = v;
 }
 
-void func_0203AD80(struct NetState *s, void *p, u16 v)
+void func_0203AD80(struct NetState *s, void *p, u16 v, int line)
 {
     func_0203AD74(s, p, v);
 }

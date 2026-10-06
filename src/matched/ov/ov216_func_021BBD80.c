@@ -32,7 +32,7 @@ struct Obj0203159C;
 extern unsigned char ov067_id[],ov072_id[];
 extern int func_02034AC4(int);
 extern void func_0203064C(unsigned,unsigned,unsigned);
-extern char *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
+extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021BC930(int,int);
 typedef unsigned char  u8;

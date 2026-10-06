@@ -86,7 +86,7 @@ extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern u32 func_020307B0(void *p);
 extern u32 func_0203D378(void);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 extern u8 d_021807E8[];
 
 int func_0217D18C(u8 *a, int b, u8 *c, u8 *d)

@@ -24,20 +24,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *);
+extern int func_02158F58(int a0);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(void *);
+extern int func_02158F58(int a0);
 extern void *func_02188CB4(struct Obj00020 *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_021A3098(void *);
+typedef unsigned char  u8;
+extern u32 func_021A3098(u8 *p);
 
 int func_021B1F60(u32 a, u32 b)
 {
-    void *x = func_02188CB4((struct Obj00020 *)func_02158F58(func_0215A5F4((void *)b))[1]);
+    void *x = func_02188CB4((struct Obj00020 *)((u32 *)func_02158F58((int)func_0215A5F4((void *)b)))[1]);
     u16 *o = func_02159AE8((void *)a, (void *)b);
 
     switch (func_021A3098(x)) {

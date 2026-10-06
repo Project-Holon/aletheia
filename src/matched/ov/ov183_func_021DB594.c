@@ -26,7 +26,7 @@ extern void func_021FEE74(char *p);
 extern void func_021FE794(char *p, u32 index, u32 a, u32 b, u32 c);
 extern int func_021FE7B0(int *);
 extern void func_021F9BA0(unsigned *ctx);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DB690(int *);
 void func_021DB594(int *task, int *state, char *p)
 {

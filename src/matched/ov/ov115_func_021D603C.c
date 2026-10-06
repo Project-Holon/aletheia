@@ -25,11 +25,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { FALSE, TRUE } BOOL;
 extern void func_0203064C(u32,u32,u32);
-extern u8 *func_0203159C(void *,int,int);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern u8 *func_021D4D38(u16 heap, u32 mode, int a2);
 extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
-extern void func_021D6134(void *,void (*)(void),int);
+extern void func_021D6134(void *a0, int a1, int a2);
 extern void func_021D6150(u8 *p);
 extern void func_021D5CCC(u8 *p, u32 n);
 extern void func_02005D90(int,int);
@@ -45,7 +46,7 @@ int func_021D603C(void *ctx,int unused,u8 *q) {
     if(((struct Obj03767 *)q)->f10==0) ((struct Obj03767 *)q)->f10=6;
     ((struct Obj03766 *)p)->f4=func_021D4D38(((struct Obj03766 *)p)->f14,*(int *)&((struct Obj03767 *)q)->f4,((struct Obj03767 *)q)->f8);
     ((struct Obj03766 *)p)->f8=func_021D5984(((struct Obj03766 *)p)->f14,232,((struct Obj03767 *)q)->f8);
-    func_021D6134(p,(void (*)(void))func_021D6150,173);
+    func_021D6134(p,(int)((void (*)(void))func_021D6150),173);
     if(((struct Obj03767 *)q)->f4==0) {
         func_021D5CCC(((struct Obj03766 *)p)->f8,36);
         if(((struct Obj03767 *)q)->fC==0) func_02005D90(1153,65535);

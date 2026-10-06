@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 typedef struct P { u32 f0; u16 h4; u16 h6; } P;
 
-extern u32 func_021ABE18(u32 a);
+extern u32 func_021ABE18(unsigned char *p);
 typedef unsigned char  u8;
 extern u32 func_021ABE24(u8 *p);
 extern void func_021C6AE0(u32 a);
@@ -39,7 +39,7 @@ extern void func_021C67D8(u32 a, u32 b, u32 c);
 void func_021C4B64(P *p)
 {
     u32 buf[9];
-    u32 x = func_021ABE18(p->f0);
+    u32 x = func_021ABE18((unsigned char *)p->f0);
     u32 y = func_021ABE24((u8 *)p->f0);
 
     func_021C6AE0((u32)buf);

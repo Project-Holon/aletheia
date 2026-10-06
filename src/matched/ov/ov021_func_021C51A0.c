@@ -30,7 +30,7 @@
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern int func_021C5424(u32 a, u32 b);
 struct Bank;
 struct Obj;

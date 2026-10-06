@@ -45,7 +45,7 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void func_021E7B68(char *p, unsigned idx, unsigned owner, unsigned heap);
 extern void func_021E7C3C(char *p, char *q, void *x, void *data, unsigned heap);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern void func_020413B0(u32, u8, u8, u8, u8, u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 func_0204162C(int);
 extern void func_020410D0(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
 extern void func_020409B4(u32);

@@ -51,7 +51,7 @@ struct Stream;
 extern void *func_02188C58(void *p);
 extern u16 func_02011330(struct Stream *s);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
-extern void func_0218F900();
+extern void func_0218F900(u8 *a, void *p, int n);
 
 int func_021B542C(int a0, int a1)
 {
@@ -70,6 +70,6 @@ int func_021B542C(int a0, int a1)
     o.f28 = s.f4;
     o.v0c = s.v8;
     o.v30 = s.v14;
-    func_0218F900(r5, &o, r4);
+    func_0218F900((u8 *)r5, &o, r4);
     return 0;
 }

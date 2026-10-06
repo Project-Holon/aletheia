@@ -52,7 +52,7 @@ extern void func_0216DA50(u8 *p);
 extern void func_0216DA7C(u8 *p);
 extern u16 func_0216D5F8(void *p);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D438(int a0, int a1);
+extern void func_0216D438(char *a0, int a1);
 extern u32 func_02197EDC(u8 *p);
 extern int func_0219EA10(u32 *a, int b);
 extern u32 func_0219EA24(u32, u32);
@@ -76,7 +76,7 @@ int func_0219EBF4(u32 o)
     case 0:
         func_0216DA50((u8 *)o);
         func_0216DA7C((u8 *)o);
-        func_0216D438((u32)o, (u16)((u32)func_02197E7C((u16)((u32)func_0216D5F8((void *)o)), (u32)0)));
+        func_0216D438((char *)o, (u16)((u32)func_02197E7C((u16)((u32)func_0216D5F8((void *)o)), (u32)0)));
         e->state++;
         break;
     case 1:
@@ -108,7 +108,7 @@ int func_0219EBF4(u32 o)
             e->state = 0;
             break;
         }
-        func_0216D438((u32)o, (u16)((u32)func_02197E7C((u16)k, (u32)0xc)));
+        func_0216D438((char *)o, (u16)((u32)func_02197E7C((u16)k, (u32)0xc)));
         func_0216DA44(o);
         e->state++;
     case 4:

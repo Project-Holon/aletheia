@@ -42,7 +42,7 @@ struct BgTemplatePair {
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u32 bgId);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 
 extern const struct DispConfig d_021C85C8;
 extern const struct BgTemplate d_021C85E8;

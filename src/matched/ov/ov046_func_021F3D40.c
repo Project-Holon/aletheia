@@ -55,7 +55,9 @@ extern int *func_021897BC(char *p, int idx);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(void *, int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021F3DE8(void *a, int *st);
@@ -73,7 +75,7 @@ int func_021F3D40(u32 a, int *b)
 
     func_02188D2C(x);
     q = (Q *)func_021897BC(x, 1);
-    func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
+    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
     switch (*b) {
     case 0:
         t = func_021F3BC8(q->a8);

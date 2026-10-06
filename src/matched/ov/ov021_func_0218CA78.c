@@ -36,7 +36,7 @@ extern void func_0218D570(struct Obj *p, struct Cam *cam, struct Cell *cells);
 struct Cell;
 struct Obj;
 extern int func_0218D7A8(struct Obj *p, struct Cell *nc);
-extern void func_0216932C(int a);
+extern int func_0216932C(int a0);
 extern u32 sub_0207C768(u32 a, u32 b);
 
 void func_0218CA78(char *p)

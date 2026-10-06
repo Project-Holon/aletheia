@@ -23,13 +23,13 @@ typedef signed char    s8;
 
 typedef struct X { u32 f0; u16 h4; u16 h6; u16 h8; u16 ha; } X;
 
-extern u32 func_021ABE18(u32 a);
+extern u32 func_021ABE18(u8 *p);
 extern void func_021C6628(u32 a, u32 b);
 extern void func_021C6580(u8 *p, int i);
 
 void func_021ACB0C(X *x)
 {
-    u32 h = func_021ABE18(x->f0);
+    u32 h = func_021ABE18((u8 *)x->f0);
 
     func_021C6628(h, x->h8);
     func_021C6628(h, x->ha);

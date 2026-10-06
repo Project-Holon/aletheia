@@ -35,9 +35,9 @@ extern int func_0216D55C(int a0, int a1);
 extern int func_0216D268(int a0, int a1);
 extern u32 func_0216D57C(void *p, u32 v);
 extern void func_0216D730(void *a0);
-extern void func_0216D570(char *p, u32 v);
+extern char *func_0216D570(char *p, u32 v);
 extern int func_0216DAA0(void *a0);
-extern void func_0216E114(u8 *o);
+extern int func_0216E114(int a0);
 extern void func_0216D794(void *a0);
 extern void func_0216E174(void *a0);
 
@@ -60,7 +60,7 @@ void func_0216D2F8(u32 x)
                 func_0216D570((char *)o, a);
             }
             if (func_0216DAA0(o) == 0)
-                func_0216E114(o);
+                func_0216E114((int)o);
             if (func_0216D57C(o, b)) {
                 func_0216D794(o);
                 func_0216D570((char *)o, b);

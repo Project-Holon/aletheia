@@ -57,7 +57,8 @@ struct MsgBank;
 struct WordSet;
 extern u8 func_0200C104(struct Blk34 *p, u32 i);
 extern void func_0203064C(u32, u32, u32);
-extern u8 *func_0203159C(u32, u32, u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, u32, u32);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16 n, u32 heap);
@@ -90,7 +91,7 @@ extern int func_0203CD98(void);
 extern void func_0203D34C(u32, u32);
 extern void func_021BD374(unsigned char *p);
 
-u32 func_021F1440(u32 a, u32 b, u8 *args)
+u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
 {
     u8 *w;
     int mode;

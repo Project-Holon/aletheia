@@ -85,7 +85,7 @@ extern void func_0203F8F4(u16),func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0204044C(u32);
 extern void func_021B6E4C(const void *t, unsigned int id);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);

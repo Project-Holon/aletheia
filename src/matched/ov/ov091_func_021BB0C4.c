@@ -45,7 +45,7 @@ struct Descriptor;
 extern void func_02045780(struct Descriptor *p, u8 v);
 extern void func_0204B09C(void *,int,void *);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_020413B0(u32,u8,u8,u8,u8,u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern const u8 d_021BEC74[],d_021BEC75[],d_021BEC6C[],d_021BEC6D[];

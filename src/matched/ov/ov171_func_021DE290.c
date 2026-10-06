@@ -16,9 +16,9 @@
 typedef unsigned short u16;
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-void func_021DE290(char *p, const char *q)
+struct Obj *func_021DE290(char *p, const char *q)
 {
-    func_0204B294((void *)((struct Obj24058 *)p)->fB70, *(int *)(p + 0xbb4 + ((struct Obj08251 *)q)->f8 * 4),
+    return func_0204B294((void *)((struct Obj24058 *)p)->fB70, *(int *)(p + 0xbb4 + ((struct Obj08251 *)q)->f8 * 4),
         *(int *)(p + 0xbe8 + ((struct Obj08251 *)q)->fC * 4), *(int *)(p + 0xc1c + ((struct Obj08251 *)q)->f10 * 4),
         q, ((struct Obj08251 *)q)->f16, 0x8c);
 }

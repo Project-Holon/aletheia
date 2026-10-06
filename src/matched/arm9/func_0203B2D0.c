@@ -22,9 +22,11 @@ struct Sys;
 extern struct Sys *g_021469DC;
 extern void func_0203B258(void);
 
-extern void func_0203AD80(struct Sys *sys, const void *site, u32 tag, u32 line);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203B2D0(u32 val)
 {
-    func_0203AD80(g_021469DC, func_0203B258, 0, 0x222);
+    func_0203AD80((struct NetState *)g_021469DC, func_0203B258, 0, 0x222);
 }

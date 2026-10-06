@@ -43,7 +43,7 @@ struct Desc;
 struct Obj;
 extern void *func_0201210C(const struct Ctx *p);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern u32 func_02012F44(void *);
+extern void *func_02012F44(void *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_021F675C(void *, int);
@@ -66,7 +66,7 @@ int func_0215D468(void *a, void *b)
     Ctx *c;
     func_0201210C(h);
     f = func_02159B10(a, b);
-    g = func_02012F44(q);
+    g = (u32)func_02012F44(q);
     k = func_021F675C(func_0201AB28(func_02012934(q), f), 4);
     r = func_020122C0(h, 0, (void *)func_0215DEF0, 4);
     c = func_020124E8(r);

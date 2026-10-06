@@ -52,7 +52,7 @@ typedef struct {
 } GPIConnection;
 extern void func_0217EAE0(void *ptr);
 extern void func_021841B0(void *array);
-extern void func_0218FF24(void *connection, GPIProfile *profile);
+extern void func_0218FF24(const int *p, void *profile);
 
 int func_0218B618(GPIConnection **connection, GPIProfile *profile)
 {
@@ -93,7 +93,7 @@ int func_0218B618(GPIConnection **connection, GPIProfile *profile)
     profile->f1C = 0;
     profile->f18 = 0;
     if (profile->f10 == 0 || (iconnection->state == 1 && profile->f28 == 0)) {
-        func_0218FF24(connection, profile);
+        func_0218FF24((const int *)connection, profile);
         return 0;
     }
     return 1;

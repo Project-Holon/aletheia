@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern char *d_0220AF20;
 extern void func_021F6A28(u32 obj, u32 mode, u32 b);
 extern void func_021F6E2C(u32 obj, u32 b);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 
 void func_021F839C(u32 a, u32 b)
 {

@@ -96,7 +96,7 @@ extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021F8DA0(const struct BgTemplate *p, u32 id, u32 type);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_02046440(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern void func_0204044C(u32),func_02046BE0(u32,u32);
 extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,const Vec3 *,const Vec3 *,const Vec3 *,u16);

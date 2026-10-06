@@ -30,7 +30,7 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *, void *);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern int func_0215B500(void *, void *);
+extern int func_0215B500(int a0, int a1);
 
 int func_0215BAF4(void *a0, void *a1)
 {
@@ -42,7 +42,7 @@ int func_0215BAF4(void *a0, void *a1)
 
     *out = 6;
     for (i = 0; i < n; i++) {
-        if (func_0215B500(func_0201AB28(list, i), key) == 1) {
+        if (func_0215B500((int)func_0201AB28(list, i), (int)key) == 1) {
             *out = i;
             break;
         }

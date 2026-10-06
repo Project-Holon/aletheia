@@ -41,7 +41,7 @@ typedef struct B {
 
 extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32 a, u8 *b);
-extern void func_021ABE18(u8 *p);
+extern u32 func_021ABE18(u8 *p);
 extern int func_021AC1A0(u32 a);
 extern void func_021AC178(u32 a);
 

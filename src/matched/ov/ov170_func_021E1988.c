@@ -14,7 +14,8 @@
  */
 #include "../include/Obj08237.h"
 #include "../include/Obj10653.h"
-extern int func_021EBFEC(char *, int);
+typedef unsigned int   u32;
+extern u32 func_021EBFEC(char *p, int i);
 extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DEAFC(int a);
 int func_021E1988(unsigned char *p)

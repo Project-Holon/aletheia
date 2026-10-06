@@ -44,7 +44,7 @@ struct Rec {
 struct Entry;
 struct Link;
 extern u32 func_02026478(void *obj);
-extern u8 *func_020127B8(void *);
+extern void *func_020127B8(void *p);
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
 extern int func_02175DA8(u8 *);

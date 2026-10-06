@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 extern int func_0203159C();
-extern int func_02031324();
+extern void *func_02031324(int a0);
 
 int func_0216C888(int a0, int a1, int a2)
 {
@@ -42,7 +42,7 @@ a2 = 0x76;
 loc_0216C8A2:
 t4 = a0 + 0;
 a0 = 0x76;
-    a0 = func_02031324(a0);
+    a0 = (int)func_02031324(a0);
 loc_0216C8AA:
 ((struct Obj12055 *)((char *)t4))->f0 = a0;
 a0 = 1;

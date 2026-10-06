@@ -20,9 +20,9 @@
  */
 
 extern char HeapMem;
-extern int func_021EF9C0(void *mem, int a, int b);
+extern int *func_021EF9C0(int *p, int a, int b);
 
 int DWC_StartUtilityEx(int a, int b)
 {
-    return func_021EF9C0(&HeapMem, a, b);
+    return (int)func_021EF9C0((int *)(&HeapMem), a, b);
 }

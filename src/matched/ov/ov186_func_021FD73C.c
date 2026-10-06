@@ -10,8 +10,9 @@
  * status:   EXACT
  */
 
-void func_021FD73C(int *p, int v)
+int *func_021FD73C(int *p, int v)
 {
     p[0] = v;
     p[1] = 0;
+    return p;
 }

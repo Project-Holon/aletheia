@@ -12,7 +12,7 @@
  */
 #include "../include/Obj06627.h"
 extern void func_021FAFC0(char *p, unsigned value);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FA284(void *p, int *state, unsigned char *ctx);
 void func_021FA21C(unsigned char *ctx, int mode)
 {

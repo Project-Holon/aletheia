@@ -29,7 +29,8 @@ typedef unsigned int   u32;
 extern int func_0216E1C4(int a0, int a1);
 extern void func_021AC154(int a);
 extern int func_0216DBE8(void *a0);
-extern int func_021ABE18(int a);
+typedef unsigned char  u8;
+extern u32 func_021ABE18(u8 *p);
 extern int func_021C6658(u32 a, u32 b);
 extern int func_021C6844(int a, int b);
 extern int func_021C66EC(u32 *a, int idx, int v);
@@ -54,7 +55,7 @@ void func_021C4C54(int a, int *b)
         return;
     }
     h = ((struct Obj06076 *)b)->f10;
-    r = func_021ABE18(*(int *)b[0]);
+    r = func_021ABE18((u8 *)(*(int *)b[0]));
     func_021C6658(r, h);
     if (func_021C6844(r, h) == 0) {
         func_021C66EC((u32 *)r, h, 0x1000);

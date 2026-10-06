@@ -23,14 +23,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_021A3974(u32 a);
+extern u32 func_021A3974(u8 *p);
 extern void func_021A5BC0(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_021A5F98(int *a, u32 sel, u32 c, u32 d, u32 e, u32 f);
 extern void func_021A635C(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
 
 void func_021A5AD4(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    switch (func_021A3974(*(u32 *)&((struct Obj01119 *)p)->f14)) {
+    switch (func_021A3974((u8 *)(*(u32 *)&((struct Obj01119 *)p)->f14))) {
     case 0:
         func_021A5BC0(p, a, c, d, (u16)b, e);
         break;

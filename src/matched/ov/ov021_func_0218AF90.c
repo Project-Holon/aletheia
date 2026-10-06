@@ -62,7 +62,7 @@ extern int func_021F38A4(int a, int b);
 extern u32 func_02188C98(u8 *p);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F8(u32 attr);
-extern int func_021A3098(void *obj);
+extern u32 func_021A3098(u8 *p);
 extern int func_0218B630(void *p, u32 move);
 extern u16 func_021AB0F0(u32 a);
 extern int func_021AB310(u16 a);

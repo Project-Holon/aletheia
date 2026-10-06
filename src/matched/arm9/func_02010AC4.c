@@ -72,7 +72,7 @@ extern u8 d_021DA9A8[];
 extern u8 d_021D654C[];
 
 extern void func_020312CC(u32 ovl, u32 proc, u32 arg);
-extern void func_0200F7B8(u32 a);
+extern u32 func_0200F7B8(u32 a0);
 extern int  func_0203CD98(void);
 
 int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)

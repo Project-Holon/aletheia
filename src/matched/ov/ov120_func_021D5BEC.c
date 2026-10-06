@@ -29,12 +29,12 @@ extern void func_0203D7B0(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_021D846C(u8 *);
 extern void func_021D63F4(u8 *p, int flag, int mode);
-extern void func_02040588(u32, u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_021D761C(u8 *p);
 extern void func_021D7B38(char *p);
 extern void func_021D883C(char *);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D588C(u8 *p);
 void func_021D5BEC(u8 *p)
 {
@@ -52,6 +52,6 @@ void func_021D5BEC(u8 *p)
         ((struct Obj01056 *)p)->f1B0 = 1;
         ((struct Obj01056 *)p)->f1B4 = zero;
         ((struct Obj22835 *)(*(u8 * *)&((struct Obj01056 *)p)->f48))->f1B0 = 1;
-        func_021D4244((int)p, (int)func_021D588C, 0x937);
+        func_021D4244((int *)p, (int)func_021D588C, 0x937);
     }
 }

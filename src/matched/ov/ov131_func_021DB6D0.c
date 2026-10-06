@@ -13,7 +13,7 @@
 typedef signed char s8;
 typedef unsigned int u32;
 extern s8 func_02019B44(u32 a, u32 n);
-int func_021DB6D0(u32 a, u32 b, u32 c, u32 d) {
+int func_021DB6D0(u32 a, u32 b, unsigned char c, u32 d) {
  switch (func_02019B44(c, d)) {
  case 1: return 0x3d20;
  case -1: return 0x3d40;

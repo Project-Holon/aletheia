@@ -36,7 +36,7 @@ extern void func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 void func_021B64D0(void)
 {

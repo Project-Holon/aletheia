@@ -93,7 +93,7 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 
 extern void  func_0206DF14(void);
 extern void  G3X_InitMtxStack(void);
 extern void  func_0206A700(void);
-extern u32  *func_02030BBC(u32 size);
+extern void *func_02030BBC(u32 a0);
 extern void  func_0206DB40(u32 *p);
 extern void  func_020307C8(void *p, u16 heap, u32 n);
 extern int func_0206210C(int v);

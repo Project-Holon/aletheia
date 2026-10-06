@@ -97,7 +97,7 @@ extern void func_021A8FFC(struct W *w);
 extern void func_021A90E0(struct W *w);
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_021A9080(Obj *p, u8 a, u8 b);
 extern void func_0204B878(struct Obj *p, u16 value);

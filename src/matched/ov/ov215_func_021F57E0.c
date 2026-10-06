@@ -23,12 +23,13 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0203064C(u32,u32,u32);
-extern char *func_0203159C(void *,u32,u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
 extern void func_021F5C20(int a, char *p);
 extern int func_021F5EB8(int,char *);
 extern void func_0204E720(u32,int,int,int);
-extern u32 func_02031324(u32);
+extern void *func_02031324(int a0);
 extern void func_0203D34C(u32,u32);
 int func_021F57E0(void *a,int unused,u32 c)
 {
@@ -45,7 +46,7 @@ int func_021F57E0(void *a,int unused,u32 c)
     func_021F5C20(c,p);
     func_021F5EB8(c,p);
     func_0204E720(3,16,16,0);
-    ((struct Obj03371 *)p)->f88=func_02031324(((struct Obj03371 *)p)->f0);
+    ((struct Obj03371 *)p)->f88=(unsigned int)func_02031324(((struct Obj03371 *)p)->f0);
     func_0203D34C(0,((struct Obj03371 *)p)->f0);
     return 1;
 }

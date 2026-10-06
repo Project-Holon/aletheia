@@ -61,7 +61,8 @@ extern void func_02026484(void *obj);
 extern void func_0217574C(u8 *o, u32 v);
 extern void func_02175710(u8 *o, u32 v);
 extern void func_02175B4C(u8 *o, u8 *p);
-extern int func_02012B78(int a, int b);
+struct BigObj;
+extern struct BigObj *func_02012B78(struct BigObj *p, u8 v);
 extern int func_02039338(int a);
 extern void func_02012B64(int a, int b);
 extern int func_02185C4C(int a, int b, Ctx *c);
@@ -116,7 +117,7 @@ int func_02185D38(int a0, int *state, Ctx *c)
             if (c->f28 == 1)
                 func_02175B4C(obj, obj + 0x1AC);
         }
-        func_02012B64(c->f20, func_02039338(func_02012B78(c->f20, 1)));
+        func_02012B64(c->f20, func_02039338((int)func_02012B78((struct BigObj *)c->f20, 1)));
         func_02012374((struct Evt *)a0, (struct Evt **)func_02185C4C(c->f1c, c->f24, c));
         *state = 2;
         break;

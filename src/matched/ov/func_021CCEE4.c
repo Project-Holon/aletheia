@@ -24,11 +24,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_021904C8(u32);
+struct Rec;
+extern u32 func_021904C8(struct Rec *a0);
 
 int func_021CCEE4(u32 a)
 {
 func_0201ED04((struct WordSet *)(*(u32 *)((u8 *)((a + 160)))));
-return func_021904C8(*(u32 *)((u8 *)((a + 168))));
+return func_021904C8((struct Rec *)(*(u32 *)((u8 *)((a + 168)))));
 }
 

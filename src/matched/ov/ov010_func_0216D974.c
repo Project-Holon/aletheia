@@ -14,7 +14,8 @@
  */
 
 extern int func_0216D4DC(int a0, int a1, int a2);
-extern void func_0216D4E4(unsigned int *p, unsigned int v);
+typedef unsigned int   u32;
+extern u32 *func_0216D4E4(u32 *p, u32 v);
 void func_0216D974(unsigned int *p, unsigned int v, int a2)
 {
     if (v == 0) func_0216D4DC((int)p, 8, a2);

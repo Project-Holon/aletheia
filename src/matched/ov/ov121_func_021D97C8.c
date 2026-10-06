@@ -30,7 +30,7 @@ struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u8, const void *, u8);
 extern void func_020414AC(u8);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 void func_021D97C8(void *p, u32 a)
 {
     u32 i;

@@ -88,7 +88,8 @@ extern void *func_0203D788(void);
 extern void *func_0203D798(void);
 extern void func_02037D78(void);
 extern u32  func_0203D650(void);
-extern void func_0203AD80(u32 ctx, void *tag, u32 val, u32 line);
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203AF40(struct Rec *p)
 {
@@ -102,5 +103,5 @@ void func_0203AF40(struct Rec *p)
         p->f2c(func_0203D650());
         p->f2c = 0;
     }
-    func_0203AD80(g_021469DC, (void *)unk_0203C00C, 0, 0x12f);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)unk_0203C00C, 0, 0x12f);
 }

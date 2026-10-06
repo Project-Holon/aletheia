@@ -81,7 +81,7 @@ u16 func_0217EC34(int i);
 u16 func_0217EC68(int i);
 u16 func_0217EC78(int i);
 u16 func_0217ECD0(void ***ctx);
-int func_0217B8E4(Ctx *ctx, int v);
+int func_0217B8E4(char *p, int v);
 int func_0217B9BC(unsigned int x);
 void func_0217BA10(char *p, int x);
 int func_0217B974(int id);
@@ -121,7 +121,7 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
             break;
         if (obj->f2d == 0) {
             func_0217F210((u8 *)ctx, a2, func_0217EC34(obj->f14->flag));
-            func_0217B8E4(ctx, 0x27);
+            func_0217B8E4((char *)ctx, 0x27);
             return 1;
         }
         if (obj->f2d < 0x1b) {
@@ -135,7 +135,7 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
             }
         } else if (func_02173A48(0) == 1) {
             func_0217F210((u8 *)ctx, a2, 0x13d);
-            func_0217B8E4(ctx, 0x27);
+            func_0217B8E4((char *)ctx, 0x27);
             return 1;
         }
         break;
@@ -216,10 +216,10 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
                 func_0217F210((u8 *)ctx, a2, func_0217ECD0((void ***)ctx));
             else
                 func_0217F210((u8 *)ctx, a2, func_0217EC78(obj->f2d));
-            func_0217B8E4(ctx, 0x27);
+            func_0217B8E4((char *)ctx, 0x27);
             return 1;
         }
-        func_0217B8E4(ctx, obj->f2d + 11);
+        func_0217B8E4((char *)ctx, obj->f2d + 11);
         *state = 11;
         break;
     case 11:

@@ -66,7 +66,7 @@ extern void func_0217C658(void *, int, void *, int, int, int);
 extern int func_0217C688(void *, int);
 extern int func_02185214(int);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_0216D9E4(void *);
+extern u32 *func_0216D9E4(void *c);
 
 int func_0217B82C(int a0, int *state, Work *w)
 {

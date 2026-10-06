@@ -19,13 +19,13 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern u32 func_0216D57C(void *p, u32 v);
 extern void func_021641C8(void *a);
-extern void func_02163230(char *p);
-extern void func_0216D570(char *p, u32 v);
+extern void func_02163230(int a0);
+extern char *func_0216D570(char *p, u32 v);
 void func_02163130(char *p)
 {
     if (func_0216D57C(p, 0x20)) {
         func_021641C8(p);
-        func_02163230(p);
+        func_02163230((int)p);
     }
     func_0216D570(p, 0xa0);
 }

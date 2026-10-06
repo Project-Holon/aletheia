@@ -18,7 +18,8 @@
  */
 #include "../include/Obj24881.h"
 extern void func_0203064C(unsigned, unsigned, unsigned);
-extern char *func_0203159C(unsigned, unsigned, unsigned);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void *func_02082BCC(void *, int, unsigned);
 extern void func_0200B400(unsigned);
 typedef unsigned int   u32;
@@ -27,7 +28,7 @@ struct S;
 extern void func_0220B008(struct S *p, u32 a, u32 b, u32 c);
 extern void func_0220B0F8(u8 *p, u32 v);
 extern const char d_0220B2A0[];
-int func_0220AF40(unsigned a, unsigned unused, unsigned mode)
+int func_0220AF40(struct Obj0203159C *a, unsigned unused, unsigned mode)
 {
     char *p;
     func_0203064C(1, 0x59, 0x12000);

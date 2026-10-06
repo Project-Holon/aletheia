@@ -54,7 +54,9 @@ extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 struct Big;
 extern unsigned char *func_02012EC4(struct Big *p);
-extern int  *func_0200B3A4(u32 a, u32 b);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern int func_02188D2C(int *p);
 typedef unsigned char  u8;
 extern u16 func_02188C84(u8 *p);
@@ -82,7 +84,7 @@ void func_021F36C0(void *a0)
     void *s;
 
     sv = (u32)func_020120F4(func_02188C80(a0));
-    q = func_0200B3A4((u32)func_02012EC4((struct Big *)sv), 0x36);
+    q = func_0200B3A4((struct Rec94 *)func_02012EC4((struct Big *)sv), 0x36);
     s = (void *)func_02188D2C(a0);
     func_02189764(a0, 1, func_02188C84(a0), 8);
     o = func_021897BC(a0, 1);

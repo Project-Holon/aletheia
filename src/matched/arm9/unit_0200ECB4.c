@@ -50,11 +50,11 @@ u32 sub_0200ECC4(char *o, u32 n)
     return ((struct Obj17089 *)o)->f1558 - n;
 }
 
-void sub_0200ECD0(char *o, int idx)
+int sub_0200ECD0(char *o, int idx)
 {
     int n = ((struct Obj17090 *)o)->f1554 - 1 - idx;
 
     if (n < 0)
         n += 0xf;
-    sub_0200EC14(o + n * 0x16c);
+    return sub_0200EC14(o + n * 0x16c);
 }

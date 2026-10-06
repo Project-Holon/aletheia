@@ -39,7 +39,7 @@ extern void func_0218F1AC(u8 *p, u32 v);
 extern void func_0218ED14(u8 *p, u32 q);
 extern void func_0218E17C(u32 *p, u32 v);
 extern void func_0218F05C(u8 *a);
-extern void func_02048AC4(void *ptr);
+extern u32 func_02048AC4(void *ptr);
 extern void func_02011558(struct IcaAnime *p);
 extern void func_02082BCC(void *, unsigned, unsigned);
 

@@ -82,7 +82,7 @@ extern u32 func_0201296C(const struct BigObj *p);
 struct Rec;
 extern struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode);
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern int func_021A3098(void *v);
+extern u32 func_021A3098(u8 *p);
 extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D7C4(u8 *p);
 

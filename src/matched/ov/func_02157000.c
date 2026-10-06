@@ -20,8 +20,9 @@ typedef unsigned int u32;
 
 
 
-int func_02157000(int a0, int a1, int a2, int a3)
+int func_02157000(int a0, int a1, int a2)
 {
+    int a3;
 
 a3 = a0 + 4;
 a0 = a1 << 2;

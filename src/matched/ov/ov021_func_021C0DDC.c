@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021C19B4(u32 a, u32 b);
+extern u32 func_021C19B4(u8 *a, u32 b);
 extern u16 func_0216D598(void *p);
 extern int func_0216E5FC(u16 id);
 extern u32 func_021A5728(u8 *p);
@@ -36,7 +36,7 @@ extern int func_021C0D08(void *obj, u32 dir, void *map);
 extern u32 func_021639C0(u32 a, u32 b);
 extern void *func_021C0E4C(u32 a, u32 b, u32 c, u32 d);
 
-int func_021C0DDC(u32 a, u32 b, int c)
+int func_021C0DDC(u8 *a, u32 b, int c)
 {
     u32 r6;
     u32 r4;
@@ -55,7 +55,7 @@ int func_021C0DDC(u32 a, u32 b, int c)
                     int k = 0;
                     if (r4 == 3)
                         k = 1;
-                    return (int)func_021C0E4C(a, b, r6, k);
+                    return (int)func_021C0E4C((u32)a, b, r6, k);
                 }
             }
         }

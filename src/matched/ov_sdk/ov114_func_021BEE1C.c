@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEC00(int, int);
+struct Conn;
+extern struct Conn *func_021BEC00(int a, int b);
 
 void func_021BEE1C(int a, u8 *b)
 {

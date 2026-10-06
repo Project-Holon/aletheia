@@ -35,11 +35,11 @@ extern u32 func_02035D20(u32 *,u32 *);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,Pair *);
 extern void func_021E2E48(char *p, int a, int b);
-extern void func_021FD73C(int *,int);
-extern int func_021FD744(int);
+extern int *func_021FD73C(int *p, int v);
+extern int func_021FD744(int *a);
 extern void func_021E2C2C(int task, unsigned *state, char *p);
 extern void func_021E2AE0(int *task, unsigned *state, char *p);
-void func_021E2910(int task,int *state,char *p) {
+void func_021E2910(int *task,int *state,char *p) {
     u32 x,y;
     Pair first,second,cb;
     int i;

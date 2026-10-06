@@ -55,7 +55,7 @@ struct Holder {
 
 extern void *func_02046E24(u32 a0, u32 a1);
 
-void func_02048258(struct Owner *owner, u32 index, struct Holder *p, u32 a4,
+void func_02048258(struct Owner *owner, u16 index, struct Holder *p, u32 a4,
                    u32 a5)
 {
     struct Slot *slot = (struct Slot *)((u8 *)owner + index * 8);

@@ -50,7 +50,9 @@ struct Big;
 struct Desc;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern void *func_0200B3A4(unsigned int, unsigned int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern u8 *func_021897BC(void *p, int idx);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
@@ -82,7 +84,7 @@ int func_021F404C(void *a0)
     int h;
 
     sys = func_0201210C(a0);
-    p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
+    p = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
     s = func_021897BC(sys, 1);
     x = func_02188CB4(sys);
     if (func_021A3050(x)) {

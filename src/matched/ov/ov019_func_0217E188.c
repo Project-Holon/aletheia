@@ -76,7 +76,7 @@ extern struct Obj *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern int func_021CC810(struct Obj *p);
 extern u32 func_021CC7B4(struct Obj *p, u32 *out);
 extern void func_0217B9F4(void *p);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 extern void func_0217F098(unsigned char *base, u8 *x);
 extern int func_0217B974(int id);
 extern void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);

@@ -26,7 +26,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02036E74(u32 handler, u32 a);
+extern int *func_02036E74(int *p, int v);
 extern u32 g_021469C8[];
 
 u32 func_020370F4(u32 a)
@@ -36,5 +36,5 @@ u32 func_020370F4(u32 a)
     v = g_021469C8[1];
     if (v == 0)
         return v;
-    return func_02036E74(v, a);
+    return (u32)func_02036E74((int *)v, a);
 }

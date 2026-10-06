@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 extern int func_0689ACEC(int, int, u8 *);
-void func_0689ACD8(u8 *p, int a, int b)
+void func_0689ACD8(u8 *p, int a, unsigned short b)
 {
     p[0] = func_0689ACEC(a, b, p + 3);
 }

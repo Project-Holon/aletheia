@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 func_021B9850(const void *p);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 
 void func_021B99EC(const void *p)

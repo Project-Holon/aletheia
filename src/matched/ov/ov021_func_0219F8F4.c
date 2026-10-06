@@ -48,7 +48,7 @@ struct Trip;
 extern u16 func_0216D5F8(void *p);
 extern void func_0216D8B0(u8 *p, u8 *q);
 extern u32 func_0219C9DC(u8 *p);
-extern void func_0219F990(u32, St *, u8);
+extern void func_0219F990(u32 a, u8 *p, u8 b);
 extern void func_0219FFBC(u32, u32 *);
 extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_021A000C(u32, u32, u32, u32, u32);
@@ -84,7 +84,7 @@ void func_0219F8F4(u32 a)
                 func_0216D8B0((u8 *)a, (u8 *)pv);
             }
         }
-        func_0219F990(a, p, n);
+        func_0219F990(a, (u8 *)p, n);
         func_02197CCC((u8 *)a, (s32 *)buf);
         func_0219FFBC(a, buf);
         func_0204F638((u8 *)func_02050080((u32 *)h), p->id, (struct Trip *)buf);

@@ -83,7 +83,8 @@ extern u16 func_021A3050(u8 *p);
 extern int func_021BE194(u32 a);
 extern void func_021BE148(u32 a, int b);
 extern int func_021BE1B0(u32 a);
-extern void func_021A7B08(u32 o, Vec *v);
+struct V3;
+extern void func_021A7B08(int a, struct V3 *b);
 struct VecFx32;
 extern void func_021A3038(unsigned char *t, struct VecFx32 *v);
 extern int func_021BE158(u32 a, u32 b);
@@ -111,7 +112,7 @@ void func_021BE068(A *a)
     if (a->f6C == 0)
         return;
     if (func_021BE1B0((u32)a) != 0)
-        func_021A7B08(a->obj, &v);
+        func_021A7B08(a->obj, (struct V3 *)(&v));
     else
         func_021A3038(t, (struct VecFx32 *)&v);
     if (s->f44 != 0 && func_021BE1B0((u32)a) != 0)

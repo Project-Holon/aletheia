@@ -128,7 +128,8 @@ extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern int func_0216237C(int a);
 extern void func_021623DC(char *p);
-extern u32   func_02012FE4(u32 h);
+struct Sub020071CCCtrl;
+extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
 extern u16 *func_02159B48(int a);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
@@ -181,7 +182,7 @@ void *func_020124F4(u16 heap)
 
     ((struct Obj00054 *)p)->f158 = obj = (void *)func_0216237C(heap);
     func_021623DC(obj);
-    ((struct Obj00054 *)p)->f1AC = func_02012FE4(*(u32 *)&((struct Obj00054 *)p)->f0);
+    ((struct Obj00054 *)p)->f1AC = (unsigned int)func_02012FE4((struct Sub020071CCCtrl *)(*(u32 *)&((struct Obj00054 *)p)->f0));
     ((struct Obj00054 *)p)->f1B0 = (u32)func_02159B48(heap);
     ((struct Obj00054 *)p)->f1A8 = (u32)func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x33));
     ((struct Obj00054 *)p)->f1B4 = (u32)func_02028844(p, heap);

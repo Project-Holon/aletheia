@@ -27,7 +27,7 @@ extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216D948(int a0);
 extern int func_0216DFAC(int a0);
 extern void func_0216D780(void *a0);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 
 void func_0216D2AC(u32 x)
 {

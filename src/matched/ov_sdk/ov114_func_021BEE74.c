@@ -25,12 +25,13 @@ typedef struct {
     void *f28;
 } Res;
 
-extern void *func_021BEC00(void *mutexInfo_p, void *handle);
+struct Conn;
+extern struct Conn *func_021BEC00(int a, int b);
 extern int func_021BEBC8(int a, int b);
 
 int func_021BEE74(void *mutexInfo_p, void *handle, void *buf_p, unsigned long length, unsigned long offset)
 {
-    void *connection_p = func_021BEC00(mutexInfo_p, handle);
+    void *connection_p = func_021BEC00((int)mutexInfo_p, (int)handle);
     if (connection_p) {
         Res *res_p = (Res *)func_021BEBC8((int)mutexInfo_p, (int)connection_p);
         if (res_p == 0) {

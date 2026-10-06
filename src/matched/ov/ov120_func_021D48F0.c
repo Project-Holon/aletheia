@@ -17,15 +17,15 @@
 extern int func_0203CD98(void);
 extern int func_020399EC(void);
 extern int func_02039ACC(void);
-extern void func_021D4244(int, void (*)(int), int);
+extern void func_021D4244(int *p, int v, int a2);
 typedef unsigned char  u8;
 extern void func_021D4864(u8 *p);
-void func_021D48F0(int a)
+void func_021D48F0(int *a)
 {
     if (func_0203CD98() == 0) {
-        func_021D4244(a, (void (*)(int))func_021D4864, 0x31d);
+        func_021D4244(a, (int)((void (*)(int))func_021D4864), 0x31d);
         return;
     }
     if (func_020399EC() != 0 && func_02039ACC() != 0)
-        func_021D4244(a, (void (*)(int))func_021D4864, 0x322);
+        func_021D4244(a, (int)((void (*)(int))func_021D4864), 0x322);
 }

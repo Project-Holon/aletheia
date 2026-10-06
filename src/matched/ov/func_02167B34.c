@@ -23,8 +23,9 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D5A0();
 
-int func_02167B34(int a0, int a1)
+int func_02167B34(int a0)
 {
+    int a1;
     int t4;
     struct Entry *e;
 

@@ -25,7 +25,8 @@ typedef unsigned short u16;
 typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern u32 func_0203778C(u32 p);
 
 int func_0203C2B0(int a)
@@ -36,6 +37,6 @@ int func_0203C2B0(int a)
     }
 
     g_021469DC[0x48] = (u8)a;
-    func_0203AD80((u32)g_021469DC, 0x0203C238, 0, 0x5C4);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C238, 0, 0x5C4);
     return 1;
 }

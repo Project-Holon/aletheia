@@ -28,7 +28,7 @@ extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int, int, int *);
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
-extern void func_021FD73C(int *, int);
+extern int *func_021FD73C(int *p, int v);
 typedef unsigned int   u32;
 extern void func_021DEE7C(int *task, u32 *state, char *p);
 void func_021DF0DC(int *p, int *state, char *q)

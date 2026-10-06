@@ -31,7 +31,7 @@ struct U16Vec;
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EE0C(void *, unsigned int, void *, unsigned int, unsigned int, unsigned int);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_021B9C08(u8 *, unsigned int, void *);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);

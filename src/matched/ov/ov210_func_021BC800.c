@@ -24,7 +24,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 struct PalAnmSlot;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *a0);
+extern u32 func_02021540(void *a0);
 
 void func_021BC800(u8 *p)
 {

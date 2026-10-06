@@ -22,7 +22,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021C7EF8(u8 *p, u8 v)
+u8 *func_021C7EF8(u8 *p, u8 v)
 {
     ((struct Obj18329 *)p)->f4 = v;
+    return p;
 }

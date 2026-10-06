@@ -31,7 +31,7 @@ typedef struct {
 extern const u8 data_021C8E14[3][2];
 extern u8 data_021C8E1A[3][4];
 
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 
 #define W(o) (*(u32 *)(p + (o)))

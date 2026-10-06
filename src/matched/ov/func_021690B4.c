@@ -30,8 +30,9 @@ struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
 extern int func_020113F0(int row, int col);
 
-int func_021690B4(int a0, int a1)
+int func_021690B4(int a0)
 {
+    int a1;
     struct Sub02008AECSession *t4;
     void *big;
     int t5;

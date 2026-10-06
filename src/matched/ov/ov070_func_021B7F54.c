@@ -59,7 +59,7 @@ extern char d_021BBBC0[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void sub_02007CC8(u8 *base, void *buf, u32 id, int save);
 extern int func_021B61C8(u8 *p);
-extern int func_02020F14(u32 heap);
+extern void *func_02020F14(u32 a);
 extern int func_02020F20(int h, int id, u16 heap);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
@@ -83,7 +83,7 @@ void func_021B7F54(Obj *o)
     items = func_02030734(o->heap, 0x4D8, 0, d_021BBBC0, 0xB36);
     sub_02007CC8(o->save, items, o->pocket, 1);
     n = func_021B61C8((u8 *)o);
-    h = func_02020F14(o->heap);
+    h = (int)func_02020F14(o->heap);
     for (i = 0; i < n; i++) {
         rec = func_02020F20(h, items[i].id, o->heap);
         e = &ents[i];

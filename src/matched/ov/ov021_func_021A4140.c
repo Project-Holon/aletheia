@@ -29,7 +29,7 @@ extern u8 d_021DDECC[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021A395C(u8 *p);
 extern void func_021A5354(u32 a);
-extern int func_021A3974(u32);
+extern u32 func_021A3974(u8 *p);
 extern int func_021A3CB0(u32, u32);
 extern void func_021A3CE8(u32);
 
@@ -43,7 +43,7 @@ u32 *func_021A4140(u32 a, u32 b)
     o[4] = func_021A395C((u8 *)a);
     ((struct Obj03586 *)o)->f18 = 0x546;
     func_021A5354((u32)o);
-    k = func_021A3974(o[3]);
+    k = func_021A3974((u8 *)o[3]);
     switch (k) {
     case 2:
         func_021A3CB0(o[3], 4);

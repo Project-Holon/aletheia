@@ -38,7 +38,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_0203064C(unsigned int a, unsigned int heap, unsigned int size);
-extern void *func_0203159C(void *a, u32 size, u32 heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082AC0(u32 val, void *dst, u32 size);
 extern void  func_0202223C(u32 a, u32 color);
 struct Obj;

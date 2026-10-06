@@ -20,8 +20,10 @@ typedef unsigned int u32;
 
 
 
-int func_0215F104(int a0, int a1, int a2, int a3)
+int func_0215F104(int a0, int a1)
 {
+    int a2;
+    int a3;
 
 a3 = ((struct Obj17701 *)a0)->f2;
 a2 = 1;

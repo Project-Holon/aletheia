@@ -16,7 +16,7 @@
  */
 #include "../include/Obj20855.h"
 extern void func_02050ED4(void);
-extern void func_02048AC4(void *ptr);
+extern unsigned int func_02048AC4(void *ptr);
 extern void func_02046788(void);
 typedef unsigned int   u32;
 extern void func_020403F4(u32 i);

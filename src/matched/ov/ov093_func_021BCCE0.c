@@ -75,7 +75,7 @@ extern int func_021BCFAC(u8 *, u8 *);
 extern void func_021BDE98(u8 *, u8 *, Action *, u32);
 extern int func_021CB730(u8 *, u8 *, u16, u8, u8);
 extern int func_021BD708(u8 *, u8 *, int, int);
-extern void func_021BDC98(u8 *, u8 *, u32);
+extern void func_021BDC98(u8 *p, u8 *a, u8 v);
 extern int func_021BDA00(u8 *);
 extern int func_021BD584(u8 *, u8 *);
 extern void func_021BD3E8(u8 *, u8 *);

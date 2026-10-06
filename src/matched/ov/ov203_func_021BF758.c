@@ -16,7 +16,8 @@
  *   func_020414AC 0x020414AC arm
  */
 extern void *memset(void *,int,unsigned);
-extern void func_02040588(unsigned,unsigned);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0204047C(int,unsigned short);
 extern void func_020414AC(unsigned char);
 void func_021BF758(void *p){unsigned z=0;memset(p,0,0x2c);func_02040588(1,0);func_0204047C(0,0);func_0204047C(1,1);*(volatile unsigned short *)0x04000050=z;func_020414AC(1);}

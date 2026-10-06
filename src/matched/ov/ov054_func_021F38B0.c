@@ -22,6 +22,9 @@ struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(int,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern int func_021C4E20(void *);
-void func_021F38B0(char *p,int a) { int *q=func_0200B3A4((int)func_02012EC4(func_020120F4(func_02188C80((void *)a))),11); int i; for(i=0;i<2;i++) { int offset=4*i; int v=func_021C4E20(*(void **)(p+8+offset)); *(int *)((char *)q+offset)=v>>12; } }
+void func_021F38B0(char *p,int a) { int *q=func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))),11); int i; for(i=0;i<2;i++) { int offset=4*i; int v=func_021C4E20(*(void **)(p+8+offset)); *(int *)((char *)q+offset)=v>>12; } }

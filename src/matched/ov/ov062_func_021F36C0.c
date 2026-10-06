@@ -39,7 +39,10 @@ struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(int a, int b);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern int func_02188D2C(int *p);
 extern void func_021BE760(int a, void *b, int c);
 extern int func_021BE480(char *p, unsigned i, int j);
@@ -52,7 +55,7 @@ void func_021F36C0(int a)
     int *q;
     int s;
 
-    q = func_0200B3A4((int)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x34);
+    q = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x34);
     s = func_02188D2C((int *)a);
     func_021BE760(s, &d_021F3768, 0);
     *(V3 *)func_021BE480((char *)s, 0, 0) = d_021F3790;

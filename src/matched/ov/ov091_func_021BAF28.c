@@ -35,7 +35,7 @@ struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *g_020A7370;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EE0C(u32 a, int b, u32 c, int d, int e, int f);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_021B9CF4(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -50,7 +50,7 @@ void func_021BAF28(u8 *a, u8 *s)
 
     r6 = (u32)func_0201EC64(((struct Obj06211 *)a)->f0);
     r7 = (u32)func_02045EC0(g_020A7370, 0x28a);
-    func_0201EE0C(r6, 0, r7, 0, 1, 2);
+    func_0201EE0C((struct WordSet *)r6, 0, (const void *)r7, 0, 1, 2);
     func_021B9CF4(a, ((struct Obj03183 *)s)->f20, (void *)r6, 3, 0x29, 9, 0x440);
     func_02045808((struct U16Vec *)r7);
     func_0201ED04((struct WordSet *)r6);

@@ -32,7 +32,10 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern u16 func_02188C9C(u8 *p);
 extern void func_021F3998(int, int *, int *);
-extern unsigned short *func_0200B3A4(unsigned, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern Ent d_021F3A2C[];
 
 void func_021F3724(void *a)
@@ -46,7 +49,7 @@ void func_021F3724(void *a)
     func_02188C84(a);
     h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80(a)));
     func_021F3998(func_02188C9C(a), &s0, &s1);
-    p = func_0200B3A4(h, s0);
+    p = (short unsigned int *)func_0200B3A4((struct Rec94 *)h, s0);
     f = d_021F3A2C[p[1]].f1;
     if (f)
         f(p, a);

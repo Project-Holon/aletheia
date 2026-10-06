@@ -15,7 +15,7 @@
 #include "../include/Obj01144.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021BF7FC(u8 *);
+extern u8 func_021BF7FC(u8 *p);
 extern int func_021BF808(u8 *);
 typedef unsigned int   u32;
 struct T;

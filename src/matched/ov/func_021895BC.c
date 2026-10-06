@@ -24,10 +24,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct SaveBlock;
 extern void *func_020127A4(struct SaveBlock *p);
-extern u32 func_02012AC4(u32, u32);
+struct Rec44;
+extern struct Rec44 *func_02012AC4(struct Rec44 *p, u16 v);
 
 int func_021895BC(void *a, u32 b)
 {
-return func_02012AC4((u32)func_020127A4((struct SaveBlock *)a), ((b << 16) >> 16));
+return (int)func_02012AC4((struct Rec44 *)func_020127A4((struct SaveBlock *)a), ((b << 16) >> 16));
 }
 

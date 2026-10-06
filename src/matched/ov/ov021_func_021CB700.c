@@ -32,7 +32,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012ED8(struct Big *p);
 extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
 extern u32 func_0200FB24(void);
-extern int func_02167B34(u32 a);
+extern int func_02167B34(int a0);
 
 int func_021CB700(u32 unused, u32 a)
 {

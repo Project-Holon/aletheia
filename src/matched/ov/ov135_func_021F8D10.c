@@ -38,7 +38,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *p, u32 value, u32 size);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_02031348(void *h, u32 id, const void *a, void *b);
-extern void func_0200F7B8(u32 mode);
+extern u32 func_0200F7B8(u32 a0);
 int func_021F8D10(u8 *p)
 {
     State *s;

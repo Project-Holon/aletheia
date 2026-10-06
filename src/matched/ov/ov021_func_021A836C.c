@@ -109,7 +109,7 @@ extern u32 func_021A8B18(void *a, void *b, u32 c);
 extern void func_021A8874(struct Obj *p, void *q, int r, u32 unused);
 extern void func_021A8BB8(struct Obj *p, void *q, int r);
 extern void func_02049238(void *q);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_021A90E0(struct W *w);
 extern void func_021A8DD8(Obj *p);
 extern u8 func_020129C4(const struct BigObj *p);

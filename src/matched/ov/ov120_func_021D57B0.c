@@ -41,7 +41,7 @@ extern void func_021D72A0(u8 *p, void *container, int offset);
 extern void func_021D6D10(u8 *p, void *list, int first);
 extern void *func_021D7ECC(char *, u16);
 extern void func_021D733C(u8 *p, int index, int count);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D5758(u8 *);
 struct Ctx;
 extern void func_021D5334(struct Ctx *p);
@@ -53,7 +53,7 @@ void func_021D57B0(u8 *p)
     if (n == 0) {
         func_021D79F4(((struct Obj00532 *)p)->f40, 0x1d);
         ((struct Obj00532 *)p)->f14 = 0x78;
-        func_021D4244((int)p, (int)func_021D5758, 0x7e7);
+        func_021D4244((int *)p, (int)func_021D5758, 0x7e7);
         return;
     }
     ((struct Obj00532 *)p)->f150 = n;
@@ -71,5 +71,5 @@ void func_021D57B0(u8 *p)
     func_021D6D10(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
     ((struct Obj00532 *)p)->f34 = func_021D7ECC(*(char * *)&((struct Obj00532 *)p)->f40, 0x2c);
     func_021D733C(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f158 + ((struct Obj00532 *)p)->f164 - 6, ((struct Obj00532 *)p)->f150);
-    func_021D4244((int)p, (int)func_021D5334, 0x815);
+    func_021D4244((int *)p, (int)func_021D5334, 0x815);
 }

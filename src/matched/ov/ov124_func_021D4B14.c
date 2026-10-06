@@ -19,7 +19,9 @@
 #include "../include/Obj00068.h"
 typedef unsigned short u16;
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern char *func_0203159C(void *,unsigned,unsigned);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 typedef unsigned char  u8;
 struct Sub0200852CObj;

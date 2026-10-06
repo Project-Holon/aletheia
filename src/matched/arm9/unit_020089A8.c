@@ -156,9 +156,10 @@ u8 sub_020089F4(const struct Sub020089A8Obj *obj)
     return obj->unk602;
 }
 
-void sub_02008A00(struct Sub020089A8Obj *obj)
+struct Sub020089A8Obj *sub_02008A00(struct Sub020089A8Obj *obj)
 {
     obj->unk602 = 1;
+    return obj;
 }
 
 u16 sub_02008A0C(const struct Sub020089A8Obj *obj)

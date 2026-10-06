@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *);
+extern u32 func_02021540(void *a0);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
 void func_021F0C0C(char *p) { func_020215A0(((struct Obj06144 *)p)->fBC,1); func_020215A0(((struct Obj06144 *)p)->fBC,3); func_02021540(((struct Obj06144 *)p)->fBC); func_02030DA4(((struct Obj06144 *)p)->fB4); func_020307B0(((struct Obj06144 *)p)->fB8); }

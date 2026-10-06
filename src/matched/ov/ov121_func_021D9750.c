@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef struct { int a,b,c,d; } Config;
 extern const Config d_021DF598;
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02050B80(u32 heap);

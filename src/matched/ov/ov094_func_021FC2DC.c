@@ -34,7 +34,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 struct Ring;
-extern void func_020113C4(struct Ring *r);
+extern u32 func_020113C4(struct Ring *r);
 
 int func_021FC2DC(int a, State *s)
 {

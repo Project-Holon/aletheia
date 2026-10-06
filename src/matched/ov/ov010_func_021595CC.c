@@ -37,7 +37,7 @@ extern int func_02159B38(int);
 extern int func_021589A0(int a, int b, int c);
 extern void func_0215AA48(void *p, int v);
 extern void *func_0215AA24(int a0);
-extern void func_0215AA34(int);
+extern int func_0215AA34(int a0);
 extern void func_02158A34(void *, void *, int, int);
 extern void func_020113D0(char *p, int val);
 extern int func_021595A0(int a0, int a1);

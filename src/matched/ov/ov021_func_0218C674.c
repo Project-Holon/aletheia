@@ -17,7 +17,9 @@
 #include "../include/Obj19537.h"
 
 unsigned char func_0218C530(int b);
-int func_0218B924(unsigned char *p, int v);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+int func_0218B924(u8 *p, u32 a1);
 unsigned char func_0218BCB0(unsigned short *p);
 
 int func_0218C674(unsigned char *p, int b)

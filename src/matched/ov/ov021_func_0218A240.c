@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 struct Ctx;
 void *func_0201210C(const struct Ctx *p);
 u32 func_02188D20(u8 *p);
-int func_021BC5BC(u32 a);
+int func_021BC5BC(u8 *a);
 u32 func_02189A70(u8 *p);
 void func_021F3B10(void);
 void func_0218A6E8(void *p, void *h);
@@ -37,7 +37,7 @@ int func_0218A240(void *p, struct Obj00020 *pos)
     int r = func_0218A278(p, pos);
     if (r != 0) {
         h = func_0201210C(p);
-        func_021BC5BC(func_02188D20(h));
+        func_021BC5BC((u8 *)func_02188D20(h));
         if (func_02189A70(h) != 0)
             func_021F3B10();
         func_0218A6E8(p, h);

@@ -76,7 +76,7 @@ void func_0217E014(u8 *w, int);
 int func_02158344(int a0);
 void func_0217E0F4(u8 *w, u8 *, int);
 void func_0217E3D0(u8 *w, int, int);
-void func_0217E4D0(u8 *w, int);
+void func_0217E4D0(int *p, int a1);
 void func_0217E524(u8 *w, int);
 
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
@@ -135,7 +135,7 @@ u8 *func_0217CFE4(void *a)
     func_0217E014(w, k);
     func_0217E0F4(w, (u8 *)func_02158344((int)s), k);
     func_0217E3D0(w, k, q);
-    func_0217E4D0(w, k);
+    func_0217E4D0((int *)w, k);
     func_0217E524(w, k);
     return w;
 }

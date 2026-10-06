@@ -27,7 +27,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_02025774(u8 *g, u32 a);
 
-void func_0217E4D0(int *p)
+void func_0217E4D0(int *p, int a1)
 {
     int h;
 

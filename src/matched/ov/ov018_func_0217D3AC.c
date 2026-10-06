@@ -67,10 +67,10 @@ void func_0217EF44(Ov018Menu *, unsigned char *);
 void func_0217E638(Ov018Menu *, int);
 void func_0217E714(Ov018Menu *, unsigned char *, int);
 void func_0217DE68(Ov018Menu *, int);
-void func_0217E014(Ov018Menu *, int);
+void func_0217E014(u8 *p, int a1);
 void func_0217E0F4(Ov018Menu *, unsigned char *, int);
 void func_0217E3D0(Ov018Menu *, int, int);
-void func_0217E4D0(Ov018Menu *, int);
+void func_0217E4D0(int *p, int a1);
 void func_0217E524(Ov018Menu *, int);
 void func_0217F194(Ov018Menu *);
 
@@ -104,10 +104,10 @@ void func_0217D3AC(Ov018Menu *w)
         func_0217E638(w, q);
         func_0217E714(w, p, q);
         func_0217DE68(w, k);
-        func_0217E014(w, k);
+        func_0217E014((u8 *)w, k);
         func_0217E0F4(w, p, k);
         func_0217E3D0(w, k, q);
-        func_0217E4D0(w, k);
+        func_0217E4D0((int *)w, k);
         func_0217E524(w, k);
         func_0217F194(w);
         return;

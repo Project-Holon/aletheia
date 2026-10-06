@@ -84,7 +84,7 @@ extern struct PrintCtx g_0214655C;
 
 struct Rec2;
 struct Ring;
-extern void func_0203D1B4(void);
+extern int func_0203D1B4(void);
 extern void *func_0201D7C4(struct PrintSys *p, void *q);
 extern u32   func_0201D6B8(void *s);
 extern u32 func_0201D6C4(const struct Ring *p);

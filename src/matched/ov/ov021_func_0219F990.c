@@ -54,7 +54,7 @@ extern void func_0219FAB4(u32 a, u32 b, u8 *c, int *d);
 extern void func_0216D8C0(u32, Vec *);
 extern u32 func_02013D9C(u32 id);
 
-void func_0219F990(u32 a, u8 *p, u32 b)
+void func_0219F990(u32 a, u8 *p, u8 b)
 {
     Vec d;
     Vec v;

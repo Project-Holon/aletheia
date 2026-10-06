@@ -67,7 +67,7 @@ extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021EC000(char *w, int i, int v);
 extern void func_021EF534(struct WinMgr *mgr);
-extern int func_021EBFEC(char *w, int i);
+extern unsigned int func_021EBFEC(char *p, int i);
 extern void func_021ED2F4(char *w);
 extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
 extern int func_021EF45C(struct WinMgr *mgr);

@@ -35,7 +35,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u8,const void *,u8);
 extern void func_020414AC(u8);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,int,int,int,int,int);
 extern void func_02049658(void *,int,int,int,int,int,int);

@@ -13,9 +13,11 @@
  *   func_021A3098  0x021A3098  thumb  ov021
  */
 
-int func_021A3098(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u32 func_021A3098(u8 *p);
 
-int func_021A3208(int a)
+int func_021A3208(u8 *a)
 {
     switch (func_021A3098(a)) {
     case 2:

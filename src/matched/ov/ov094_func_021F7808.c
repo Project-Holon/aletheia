@@ -35,7 +35,7 @@ struct Node;
 struct PalAnmSlot;
 struct Res;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *);
+extern u32 func_02021540(void *a0);
 extern void func_021FEB78(void *);
 extern void func_021F6898(void *);
 extern void func_021F6CF0(void *);

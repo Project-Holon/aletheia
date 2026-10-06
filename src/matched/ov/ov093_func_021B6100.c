@@ -101,7 +101,7 @@ struct Obj0203159C
   void *buffer;
 };
 extern void func_0203064C(u32, u32, u32);
-extern u8 *func_0203159C(struct Obj0203159C *, u32, u32);
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082A7C(u32, void *, u32);
 struct S;
 extern void func_021E8DC4(unsigned short heap);

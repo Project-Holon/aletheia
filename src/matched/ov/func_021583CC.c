@@ -24,14 +24,14 @@ typedef unsigned int u32;
 
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
-extern int func_020127B8(void *);
+extern void *func_020127B8(void *p);
 struct SaveBlock;
 extern void *func_020127AC(struct SaveBlock *p, u32 idx);
 
 int func_021583CC(void *a0, int a1)
 {
     if (func_02012B58(a0) == a1)
-        return func_020127B8(a0);
+        return (int)func_020127B8(a0);
 
     return (int)func_020127AC(a0, a1);
 }

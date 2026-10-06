@@ -15,7 +15,7 @@
 
 extern void *func_02031354(int a0);
 
-void func_02031324(int a0)
+void *func_02031324(int a0)
 {
-    func_02031354(a0);
+    return func_02031354(a0);
 }

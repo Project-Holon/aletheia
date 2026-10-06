@@ -17,7 +17,7 @@
 
 extern void func_021847BC(int v);
 
-void func_0218FF24(const int *p)
+void func_0218FF24(const int *p, void *profile)
 {
     func_021847BC(*(const int *)(*p + 0x5c8));
 }

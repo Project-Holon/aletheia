@@ -20,8 +20,9 @@ typedef unsigned int u32;
 
 extern int func_02013A80();
 
-int func_02161D64(int a0, int a1)
+int func_02161D64(int a0)
 {
+    int a1;
     int t4;
 
 t4 = a0 + 0;

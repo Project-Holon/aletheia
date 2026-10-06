@@ -27,7 +27,7 @@
 */
 #include "../include/Obj14731.h"
 
-extern int func_021BB998(char *, int, int);
+extern void *func_021BB998(void *p);
 
 int func_021BB978(char *p, int a1)
 {
@@ -35,5 +35,5 @@ int func_021BB978(char *p, int a1)
     ((struct Obj14731 *)p)->f1C = a1;
     ((struct Obj14731 *)p)->f24 = 0;
     *(int *)(p + (off << 2)) = 0;
-    return func_021BB998(p, off << 2, 0);
+    return (int)func_021BB998(p);
 }

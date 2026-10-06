@@ -26,7 +26,7 @@ extern void func_02061C30(void);
 typedef unsigned char  u8;
 struct Bank;
 extern void func_02014BA8(u8 *a0);
-extern void func_02048AC4(void *);
+extern unsigned int func_02048AC4(void *ptr);
 extern void func_02046788(void);
 typedef unsigned int   u32;
 extern u32 func_0204B1CC(struct Bank *bank);

@@ -15,7 +15,8 @@
  *   func_02025D14 0x02025D14 thumb
  */
 #include "../include/Obj01132.h"
-extern int func_02025D14(void *p);
+typedef unsigned int   u32;
+extern u32 func_02025D14(void *a0);
 int func_021B9F58(char *p)
 {
     return func_02025D14(((struct Obj01132 *)p)->f14C);

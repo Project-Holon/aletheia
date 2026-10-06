@@ -81,7 +81,7 @@ extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_02040E78(u32 index, void *src, u32 size, u32 offset);
 extern u32 func_020307B0(void *p);
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 
 #define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)
 

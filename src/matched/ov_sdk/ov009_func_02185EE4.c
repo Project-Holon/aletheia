@@ -39,7 +39,7 @@ extern void func_02193734(int *p, int b);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern void func_0217EAE0(void *ptr);
 extern int func_02190140(char *p);
-extern void func_0218FF24(void **connection, GPIProfile *profile);
+extern void func_0218FF24(const int *p, void *profile);
 extern char g_021A4024[];
 
 int func_02185EE4(void **connection, int profile)
@@ -62,7 +62,7 @@ int func_02185EE4(void **connection, int profile)
         func_0217EAE0(pProfile->f14);
         pProfile->f14 = 0;
         if (func_02190140((char *)pProfile))
-            func_0218FF24(connection, pProfile);
+            func_0218FF24((const int *)connection, pProfile);
     }
     return 0;
 }

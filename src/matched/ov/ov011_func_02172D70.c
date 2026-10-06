@@ -95,7 +95,7 @@ typedef struct Work {
 
 struct BigObj;
 extern u32 func_02026478(void *obj);
-extern u32   func_020127C4(void *p);
+extern u8 *func_020127C4(void *p);
 extern void func_02161F74(int a0, int a1, int a2);
 struct Comm;
 struct Rec44;
@@ -121,7 +121,7 @@ extern int   func_02158590(void *sv);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
-extern void  func_02161F54(void *p);
+extern int func_02161F54(int a0);
 extern void func_02174E3C(u8 *p);
 extern void func_02174EAC(u8 *p, int idx, u8 *q);
 extern int func_02173828(char *p);
@@ -146,7 +146,7 @@ void func_02172D70(int *state, Param *p, Work *w)
 
     sv = (void *)func_02026478(p->field04);
     if (w != 0 && w->step >= 7) {
-        func_02161F74((int)((u8 *)w + 0x35c), func_020127C4(sv), w->field8fb);
+        func_02161F74((int)((u8 *)w + 0x35c), (int)func_020127C4(sv), w->field8fb);
     }
     if (func_0200FB24() != 0 || w->quit == 1) {
         if (w->lock) {
@@ -203,7 +203,7 @@ void func_02172D70(int *state, Param *p, Work *w)
         }
         break;
     case 2:
-        func_02161F54((u8 *)w + 0x35c);
+        func_02161F54((int)((u8 *)w + 0x35c));
         func_02174E3C((u8 *)w);
         func_02174EAC((u8 *)w, func_02039338(), (u8 *)w + 0x160);
         (*state)++;

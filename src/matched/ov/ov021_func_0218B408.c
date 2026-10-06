@@ -31,9 +31,9 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
-extern int func_021A3098(void *a);
+extern u32 func_021A3098(u8 *p);
 extern u32 func_02188C98(u8 *p);
-extern int func_021A2FA4(int a, int b);
+extern u16 func_021A2FA4(u8 *p, u32 a1);
 extern void func_021A3364(u32 *a, int b, int *out);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F8(u32 attr);
@@ -57,7 +57,7 @@ int func_0218B408(char *p, void *a, void *x)
     id = func_02188CB4(x);
     if (func_021A3098(id) == 2) {
         cam = (void *)func_02188C98(x);
-        r7 = func_021A2FA4(*(int *)&((struct Obj07410 *)p)->f18, ((struct Obj07410 *)p)->f2C);
+        r7 = func_021A2FA4((u8 *)(*(int *)&((struct Obj07410 *)p)->f18), ((struct Obj07410 *)p)->f2C);
         if (r7 != 9) {
             func_021A3364(id, r7, buf);
             t = func_021AB0D4(cam, buf);

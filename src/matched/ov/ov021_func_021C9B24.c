@@ -27,7 +27,7 @@ struct Ctx;
 extern int func_020130B4(int a0);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02012EE4(char *base, int v);
+extern char *func_02012EE4(char *base, int v);
 
 void func_021C9B24(u32 a, u8 *p)
 {

@@ -36,7 +36,8 @@ void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 typedef unsigned int   u32;
 struct Ctx;
 void func_02030678(void *a, u32 b, u32 c);
-void *func_0203159C(int a, int size, int heap);
+struct Obj0203159C;
+void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 void *func_02188030(int a, int b);
 void func_02012110(struct Ctx *p, void *v);
 unsigned int func_0201214C(const struct Ctx *x);
@@ -45,7 +46,7 @@ struct Comm;
 u32 func_02026454(void *obj);
 void func_02026400(struct Comm *p);
 
-int func_02187F00(int a, int *state, int b)
+int func_02187F00(struct Obj0203159C *a, int *state, int b)
 {
     switch (*state) {
     case 0:

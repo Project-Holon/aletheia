@@ -39,7 +39,9 @@ extern int *func_021897BC(char *, int);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(void *, int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_020061E4(u32 a);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
@@ -59,7 +61,7 @@ int func_021F3EFC(u32 a, int *b)
     x = func_0201210C(func_020124E4((void *)a));
     func_02188D2C(x);
     w = func_021897BC(x, 1) + 3;
-    func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
+    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
     switch (*b) {
     case 0:
         func_020061E4(0x55e);

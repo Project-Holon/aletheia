@@ -19,9 +19,11 @@
 #include "../include/Obj04565.h"
 #include "../include/Obj14378.h"
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern char *func_0203159C(void *,int,int);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
-extern void *func_02031324(unsigned);
+extern void *func_02031324(int a0);
 extern void func_021E56F4(void *,void *,void *);
 extern void func_021E57E0(int *,int *,char *);
 extern unsigned d_02FFFC3C;

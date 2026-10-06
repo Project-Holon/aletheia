@@ -33,7 +33,7 @@ typedef struct Obj {
 extern void *func_02188C7C(u8 *p);
 extern void *func_02161938(void *a, u32 b);
 extern void *func_02197D3C(void *a, void *b);
-extern void func_02161964(Obj *o, void *v);
+extern int func_02161964(int a0, int a1);
 extern int func_02161984(int a0);
 
 int func_02161850(void *a0, int *state, Obj *o)
@@ -46,7 +46,7 @@ int func_02161850(void *a0, int *state, Obj *o)
         t = func_02161938(t, o->f0c);
         if (t == 0)
             return 1;
-        func_02161964(o, func_02197D3C(t, o->f10));
+        func_02161964((int)o, (int)func_02197D3C(t, o->f10));
         *state = *state + 1;
         break;
     case 1:

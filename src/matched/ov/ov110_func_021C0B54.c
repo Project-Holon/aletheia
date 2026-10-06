@@ -19,7 +19,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_021C1718(void *);
+extern unsigned int func_021C1718(u8 *p);
 typedef unsigned int   u32;
 struct Obj;
 struct PmsDraw;

@@ -28,7 +28,7 @@ extern void func_0203C968(void);
 extern void func_0203CA04(void);
 extern int func_0203CDBC(void);
 extern int func_0203CEAC(int a0);
-extern void func_021D6134(void *,void (*)(void),int);
+extern void func_021D6134(void *a0, int a1, int a2);
 extern void func_021D6274(unsigned char *p);
 extern void func_021D625C(unsigned char *p);
 typedef unsigned char  u8;
@@ -38,8 +38,8 @@ void func_021D61FC(void *p) {
         func_0203CF04(); func_0203D0D0(); func_0203C968(); func_0203CA04(); func_0200FBA0();
     }
     if (func_0203CDBC()) {
-        func_021D6134(p,(void (*)(void))func_021D6274,0x1bf);
+        func_021D6134(p,(int)((void (*)(void))func_021D6274),0x1bf);
         return;
     }
-    if (func_0203CEAC((int)func_021D6328)) func_021D6134(p,(void (*)(void))func_021D625C,0x1c7);
+    if (func_0203CEAC((int)func_021D6328)) func_021D6134(p,(int)((void (*)(void))func_021D625C),0x1c7);
 }

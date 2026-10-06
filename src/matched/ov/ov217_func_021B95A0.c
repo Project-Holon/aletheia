@@ -34,7 +34,7 @@ typedef signed int     s32;
 
 struct DispVram;
 struct Obj0203159C;
-extern void func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
 extern void func_021B985C(void *p, u32 value);

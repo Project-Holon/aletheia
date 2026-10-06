@@ -33,7 +33,7 @@ struct BgTemplate;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(unsigned);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u16 heapId);
-extern void func_02040588(unsigned, unsigned);
+extern void func_02040588(u32 which, unsigned char enable);
 extern int d_02184878[];
 extern u8 d_02184964[];
 void func_0218414C(char *p, int heap)

@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_020808F4(void);
-extern void func_020809A0(void);
+extern int func_020808F4(void);
+extern int func_020809A0(void);
 extern void func_0207FDCC(int);
 extern void func_0207D4B0(int, int, int);
 extern void func_021B6298(void);

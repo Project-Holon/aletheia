@@ -28,8 +28,9 @@ extern int func_020307B0();
 extern int func_021F6888();
 extern int func_0215716C();
 
-int func_02155F4C(int a0, int a1)
+int func_02155F4C(int a0)
 {
+    int a1;
     int t4;
 
 t4 = a0 + 0;

@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,int);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern const char d_02200D5C[];
 int *func_021FD6D8(int payload,int callback,u32 heap)
 {

@@ -30,7 +30,9 @@ typedef unsigned int  u32;
 extern u8 *g_021469DC;
 
 extern void *func_0203D788(void);
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern void func_0203BCE0(u8 *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
@@ -48,10 +50,10 @@ void func_0203BD30(u32 a0, u32 a1, u8 *a2)
         MI_CpuFill8(g_021469DC + 0x57, 0xFF, 6);
 
     if (g_021469DC[0x56] == 2)
-        func_0203AD80((u32)g_021469DC, 0x0203B48C, 0, 0x430);
+        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B48C, 0, 0x430);
 
     if (g_021469DC[0x56] == 1) {
-        func_0203AD80((u32)g_021469DC, 0x0203BCE0, 0, 0x438);
+        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BCE0, 0, 0x438);
         func_0203BCE0(g_021469DC);
     }
 }

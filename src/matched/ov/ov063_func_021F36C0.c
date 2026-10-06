@@ -54,8 +54,8 @@ struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 typedef unsigned short u16;
 extern void func_021A2F6C(u32 *p);
-extern void func_0216DB4C(int a, int b);
-extern void func_0216DC98(int a, int b);
+extern int func_0216DB4C(void *a0, int a1);
+extern int func_0216DC98(void *a0, int a1);
 extern void func_0216DAE0(unsigned int *p, unsigned int v);
 extern void func_0216DAF8(void *a0);
 extern u32 func_02188D30(u8 *p);
@@ -79,8 +79,8 @@ W *func_021F36C0(int unused, u8 *sys, int c, int d)
     } else {
         p->fC = 0;
     }
-    func_0216DB4C(p->f10, 1);
-    func_0216DC98(p->f10, 1);
+    func_0216DB4C((void *)p->f10, 1);
+    func_0216DC98((void *)p->f10, 1);
     func_0216DAE0((unsigned int *)p->f10, 0);
     func_0216DAF8((void *)p->f10);
     p->f80 = func_02030DA8(func_02188D30((u8 *)sys), (void *)func_021F377C, p, 0);

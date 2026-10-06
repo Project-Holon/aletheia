@@ -20,8 +20,9 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void  func_0203064C(unsigned int a, unsigned int b, unsigned int c);
-extern u8   *func_0203159C(void *ctx, int size, int heap);
-extern u32   func_02031324(int heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *func_02031324(int a0);
 
 int func_02154CA0(void *ctx)
 {
@@ -29,6 +30,6 @@ int func_02154CA0(void *ctx)
 
     func_0203064C(1, 0x76, 0x4000);
     p = func_0203159C(ctx, 0x1c, 0x76);
-    ((struct Obj18644 *)p)->f0 = func_02031324(0x76);
+    ((struct Obj18644 *)p)->f0 = (unsigned int)func_02031324(0x76);
     return 1;
 }

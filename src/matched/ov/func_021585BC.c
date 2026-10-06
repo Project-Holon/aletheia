@@ -19,8 +19,9 @@ typedef unsigned int u32;
 
 extern int func_02175B14();
 
-int func_021585BC(int a0, int a1)
+int func_021585BC(int a0)
 {
+    int a1;
 
 a1 = 0x25;
 a1 = a1 << 6;

@@ -34,7 +34,7 @@ typedef struct {
 } Rect;
 
 extern u32 func_02040804(u32 layer);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 struct Obj;
 extern void func_0204B8A0(struct Obj *p, u16 v);

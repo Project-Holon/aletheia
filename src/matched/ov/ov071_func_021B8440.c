@@ -42,7 +42,7 @@ void func_021B8440(W *w)
     extern void func_02034714(const char *expr, u32 line, const char *file);
     extern void func_0201CE48(struct Rec3 *p);
     extern void func_02045808(struct U16Vec *vec);
-    extern void func_02040588(u32 which, u32 enable);
+    extern void func_02040588(u32 which, unsigned char enable);
     extern void func_02043B5C(struct CharBuf *buf, u8 value);
     extern void func_02045334(struct Descriptor *d);
     extern void func_0201DD78(u32 r, u32 g, u32 b);

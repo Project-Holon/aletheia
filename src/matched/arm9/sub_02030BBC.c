@@ -36,7 +36,7 @@
 typedef unsigned int   u32;
 extern void *func_020305C4(u32 size);
 
-void sub_02030BBC(u32 a0)
+void *sub_02030BBC(u32 a0)
 {
-    func_020305C4(a0);
+    return func_020305C4(a0);
 }

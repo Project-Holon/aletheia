@@ -123,7 +123,7 @@ extern void func_020498F4(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16
 extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
 extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void func_0201F57C(u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);

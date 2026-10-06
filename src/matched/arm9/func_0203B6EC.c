@@ -26,7 +26,8 @@ typedef unsigned int  u32;
 extern u8 *g_021469DC;
 
 extern u8 *func_0203D788(void);
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern u32 func_02037894(u32 a, u32 b, u32 c, u32 d);
 extern int func_0203B6B4(int a0, int a1, int a2, int a3);
 extern int func_0203B688(int a0, int a1, int a2, int a3);
@@ -39,5 +40,5 @@ void func_0203B6EC(u8 *p)
         return;
 
     p[0x4C] = 0;
-    func_0203AD80((u32)g_021469DC, (u32)func_0203B688, 0x1E, 0x2FC);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B688, 0x1E, 0x2FC);
 }

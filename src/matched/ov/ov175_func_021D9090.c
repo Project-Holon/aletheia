@@ -68,7 +68,8 @@ extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern unsigned int func_0200BBFC(struct Obj *,unsigned int);
-extern void func_0200BBD8(struct Obj *,u16),func_0200B110(struct Reg2 *,unsigned int,int);
+extern void func_0200BBD8(struct Obj *p, int v);
+extern void func_0200B110(struct Reg2 *,unsigned int,int);
 extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern void func_02082BCC(void *,int,unsigned);
 void func_021D9090(u32 sys,int *state,char *p)

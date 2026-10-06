@@ -22,13 +22,16 @@ struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern char *func_0200B3A4(unsigned, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void func_021C4E08(void *, int);
 
 void func_021F3A04(char *a, int b)
 {
     int i;
-    int *p = (int *)func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)b))), 1);
+    int *p = (int *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)b))), 1);
     for (i = 0; i < 5; i++)
         func_021C4E08(((void **)(a + 8))[i], (int)((unsigned)p[i] << 12));
 }

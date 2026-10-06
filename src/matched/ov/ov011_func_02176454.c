@@ -38,7 +38,8 @@ typedef struct {
 } Arg;
 
 extern u8 d_02177010[];
-extern u8 *func_0203159C(int a, int size, int align);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02031324(int heap);
 struct Ctx;
@@ -56,7 +57,7 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_02019CA0(void *p, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-int func_02176454(int a0, int a1, Arg *arg)
+int func_02176454(struct Obj0203159C *a0, int a1, Arg *arg)
 {
     u8 *w;
     int n;

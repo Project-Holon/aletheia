@@ -17,7 +17,7 @@
 #include "../include/Obj10824.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_02048AC4(void *ptr);
+extern unsigned int func_02048AC4(void *ptr);
 extern void func_02208514(void *,int);
 extern void func_02206A3C(char *,int);
 typedef unsigned int   u32;

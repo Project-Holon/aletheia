@@ -41,7 +41,7 @@ typedef unsigned char  u8;
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B404(void *,const ShortPair *,u16);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FD964(void *unused, int *state, u8 *p);
 void func_021FE1C4(int *task,int *state,char *p)
 {

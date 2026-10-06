@@ -38,7 +38,8 @@ typedef struct Obj {
 } Obj;
 
 extern void func_021AC154(int a);
-extern int func_021ABE18(int a);
+typedef unsigned char  u8;
+extern unsigned int func_021ABE18(u8 *p);
 typedef unsigned int   u32;
 extern int func_021C6694(u32 *a, int idx, int v);
 extern int func_021C66EC(u32 *a, int idx, int v);
@@ -54,7 +55,7 @@ void func_021AD6B8(int a, Obj *b)
         func_021AC154(a);
         return;
     }
-    r = func_021ABE18(*b->s14.b);
+    r = func_021ABE18((u8 *)(*b->s14.b));
     if (b->s14.c == 0) {
         if (b->padc == 0) {
             if (func_021C6694((u32 *)r, b->h10, 0x1000) == 0) {

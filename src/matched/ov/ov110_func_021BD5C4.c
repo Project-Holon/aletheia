@@ -64,7 +64,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj0203159C;
 struct Ctx;
-extern u8 *func_0203159C(struct Obj0203159C *,u32,u32);
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern u32 func_02024144(const u8 *);
 extern u32 func_0202421C(void *);
 struct Input;

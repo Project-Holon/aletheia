@@ -34,5 +34,5 @@ extern void func_0215E428(int a0, int a1);
 extern void func_0215E3A0(void *);
 extern u32 func_0201296C(const struct BigObj *p);
 extern void func_0201433C(char *, int);
-extern void func_0215E33C(void *);
-void func_021643AC(void *a, void *b) { void *p=func_0200D418(func_02012EBC(a)); func_0215E428((int)p,func_02188C9C(b)); func_0215E3A0(a); func_0201433C((char *)func_0201296C(a),0x964); func_0215E33C(b); }
+extern int func_0215E33C(int a0);
+void func_021643AC(void *a, void *b) { void *p=func_0200D418(func_02012EBC(a)); func_0215E428((int)p,func_02188C9C(b)); func_0215E3A0(a); func_0201433C((char *)func_0201296C(a),0x964); func_0215E33C((int)b); }

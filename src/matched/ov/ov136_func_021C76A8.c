@@ -16,7 +16,8 @@
 #include "../include/Obj23662.h"
 
 typedef unsigned char u8;
-extern void func_02025D14(void *);
+typedef unsigned int   u32;
+extern u32 func_02025D14(void *a0);
 void func_021C76A8(u8 *p)
 {
     func_02025D14(((struct Obj23662 *)(*(u8 * *)&((struct Obj23661 *)p)->f8))->f294);

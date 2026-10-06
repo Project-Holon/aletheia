@@ -15,7 +15,8 @@
 #include "../include/Obj05301.h"
 typedef unsigned int   u32;
 extern u32 func_02035CB8(u32 *outA, u32 *outB);
-extern void func_0204B550(void *,int,int);
+struct Actor;
+extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
 extern void func_021C0E3C(unsigned y, int count, short *out, short *pos);
 int func_021C0EB0(char *p) {
     unsigned x,y;

@@ -85,13 +85,13 @@ extern void *func_02188C80(void *p);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_02188C7C(u8 *p);
-extern u32 func_021A3098(void *q);
+extern u32 func_021A3098(u8 *p);
 extern void *func_021A3250(void *q);
 extern u16 func_021A3050(u8 *p);
 extern u32 func_021A30C8(void **ctx);
 extern u32 func_021A3128(u32 *a, u32 b);
-extern int func_021A3504(int a, int b, int c);
-extern int func_021A3524(int a, int b, int c);
+extern int func_021A3504(u8 *a, int b, int c);
+extern int func_021A3524(u8 *a, int b, int c);
 extern void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c);
 extern u16 func_0216D598(void *obj);
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
@@ -148,9 +148,9 @@ void func_0215E840(void *field, Info *out)
     a = func_021A3050(q);
     b = func_021A30C8(q);
     c = func_021A3128(q, a);
-    if (func_021A3504((int)q, b, c) == 1)
+    if (func_021A3504((u8 *)q, b, c) == 1)
         out->flags |= 2;
-    if (func_021A3524((int)q, b, c) == 1)
+    if (func_021A3524((u8 *)q, b, c) == 1)
         out->flags |= 4;
     if (func_02013C40(out->id) == 1) {
         out->flags |= 0x10;

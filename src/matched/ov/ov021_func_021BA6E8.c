@@ -36,8 +36,8 @@ typedef struct { int x, y, z; } V;
 u32 func_021B8220(u8 *p);
 u32 func_021B821C(u8 *p);
 u16 func_021B82F0(u8 *p);
-u32 func_021B833C(u32 q);
-u32 func_021B834C(u32 q);
+u8 *func_021B833C(u8 *p);
+u8 *func_021B834C(u8 *p);
 int *func_021B836C(u32 q, u32 k);
 u32 func_021B82FC(u8 *p);
 u32 func_021B82F8(u8 *p);
@@ -67,8 +67,8 @@ void func_021BA6E8(u32 p)
     q = func_021B8220((u8 *)p);
     func_021B821C((u8 *)p);
     if (func_021B82F0((u8 *)q) == 1) {
-        a = func_021B833C(q);
-        b = func_021B834C(q);
+        a = (u32)func_021B833C((u8 *)q);
+        b = (u32)func_021B834C((u8 *)q);
         k0 = func_021B836C(q, a);
         k1 = func_021B836C(q, b);
         d = func_021B82FC((u8 *)q);

@@ -13,7 +13,8 @@
 
 typedef unsigned int u32;
 
-void func_0216D570(char *p, u32 v)
+char *func_0216D570(char *p, u32 v)
 {
     ((struct Obj19125 *)p)->f4 &= ~v;
+    return p;
 }

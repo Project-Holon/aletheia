@@ -43,9 +43,11 @@ struct Strbuf;
 struct U16Vec;
 typedef unsigned char  u8;
 struct Sub0200852CObj;
-int func_021B7C3C(int a, int *b, C *c)
+struct WordSet;
+struct Obj0203159C;
+int func_021B7C3C(struct Obj0203159C *a, int *b, C *c)
 {
-    extern void *func_0203159C(int, int, int);
+    extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
     extern void func_02082BCC(void *, int, int);
     extern void func_021B7D6C(void);
     extern void func_021B7DAC(void *a, unsigned *b);
@@ -54,11 +56,11 @@ int func_021B7C3C(int a, int *b, C *c)
     extern const void *func_020084F4(const void *p);
     extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
     extern u8 func_02008550(const struct Sub0200852CObj *obj);
-    extern void func_0201EE0C(int, unsigned, void *, int, unsigned, unsigned);
+    extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
     extern void func_02045808(struct U16Vec *vec);
     extern void func_021B6E1C(Inner *, void *, int, int, int, int, int, int, int);
     extern void func_021B7DE0(void *, C *);
-    extern void func_02040588(u32 which, u32 enable);
+    extern void func_02040588(u32 which, unsigned char enable);
     extern void func_020434DC(u32 mask, u32 enable);
     void *m;
     void *s;
@@ -73,7 +75,7 @@ int func_021B7C3C(int a, int *b, C *c)
         h = (int)func_021B6F2C((u8 **)c);
         s = func_020457B0(8, 0x61);
         func_02045994(s, func_020084F4((const void *)h), 8);
-        func_0201EE0C(c->f4->f10, 0, s, func_02008550((const struct Sub0200852CObj *)h), 1, 2);
+        func_0201EE0C((struct WordSet *)c->f4->f10, 0, s, func_02008550((const struct Sub0200852CObj *)h), 1, 2);
         func_02045808(s);
         func_021B6E1C(c->f4, m, 0, 0x80, 0xc, 0x1e, 2, 0, c->f4->f10);
         func_021B7DE0(m, c);

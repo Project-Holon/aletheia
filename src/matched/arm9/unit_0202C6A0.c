@@ -32,14 +32,15 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_0202C6BC(void *p, u32 v);
+struct Obj0202C6B8;
+extern struct Obj0202C6B8 *sub_0202C6BC(struct Obj0202C6B8 *p, u32 v);
 
 u32 func_0202C6A0(void *p)
 {
-    return sub_0202C6BC(p, 0);
+    return (u32)sub_0202C6BC(p, 0);
 }
 
 u32 func_0202C6AC(void *p)
 {
-    return sub_0202C6BC(p, 1);
+    return (u32)sub_0202C6BC(p, 1);
 }

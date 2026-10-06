@@ -60,7 +60,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_0201EE0C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int func_02190A64(u32 a, u32 b, u32 c, u32 d);
 extern void func_02045808(struct U16Vec *vec);
@@ -89,8 +89,8 @@ void func_021CEF1C(S *p)
             func_0201F250((struct WordSet *)p->f4, (void *)c, (void *)b);
         } else {
             func_02045924((struct Strbuf *)d, &ch);
-            func_0201EE0C(p->f4, 1, d, 0, 1, 2);
-            func_0201EE0C(p->f4, 2, d, 0, 1, 2);
+            func_0201EE0C((struct WordSet *)p->f4, 1, (const void *)d, 0, 1, 2);
+            func_0201EE0C((struct WordSet *)p->f4, 2, (const void *)d, 0, 1, 2);
             func_0201F250((struct WordSet *)p->f4, (void *)c, (void *)a);
         }
         func_02190A64(p->f13c, c, i, p->f528);

@@ -41,7 +41,7 @@ typedef struct {
     int state;
 } Work;
 
-extern void func_02048AC4(void *p);
+extern u32 func_02048AC4(void *ptr);
 struct Ctx;
 struct Rec;
 extern void func_020480E4(struct Ctx *c, u32 i);

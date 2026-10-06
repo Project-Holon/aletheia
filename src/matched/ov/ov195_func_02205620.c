@@ -35,7 +35,7 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void func_0201EE0C(u32, u32, u32, int, int, int);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
@@ -63,7 +63,7 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
         for (i = 0, z = i; i < 2; i++) {
             switch (p[i].kind) {
             case 0:
-                func_0201EE0C(w, i, p[i].val, z, 1, z);
+                func_0201EE0C((struct WordSet *)w, i, (const void *)p[i].val, z, 1, z);
                 break;
             case 1:
                 func_0201EE84((void *)w, i, (void *)p[i].val);

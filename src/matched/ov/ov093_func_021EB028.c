@@ -61,7 +61,7 @@ extern void func_021ED76C(struct S *s, int a);
 extern void func_021ED930(char *s);
 extern void func_021EDB3C(struct S *s, char *a1);
 extern void func_020409B4(u32 index);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
 
 void func_021EB028(u8 *p)

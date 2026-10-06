@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { PLANE_NONE=0,PLANE_OUT=31,PLANE_IN=19 } Plane;
 typedef enum { FALSE=0,TRUE=1 } Bool;
-extern int func_021BBF3C(u8 *p,u32 index);
+extern int func_021BBF3C(unsigned char *p, unsigned char index);
 extern int func_021BBF4C(u8 *p,u32 index);
 static inline void outside(Plane wnd,Bool effect)
 {

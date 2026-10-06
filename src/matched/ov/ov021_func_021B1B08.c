@@ -36,7 +36,7 @@ void *func_0216DE54(void *map, u32 kind);
 int func_0219BBA4(int a);
 void func_0216D9A0(void *map);
 int func_0216D454(void *a);
-void func_0216DB04(void *a);
+char *func_0216DB04(void *a0);
 int func_0216DA5C(void *a);
 void func_020113D0(char *p, int val);
 int func_021B1A44(int a, int b);

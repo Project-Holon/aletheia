@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 
-extern int *func_021D85E8(void);
+extern char *func_021D85E8(void);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 

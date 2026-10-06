@@ -75,7 +75,7 @@ extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern void func_02082A60(const void *, void *, int);
 extern int func_02034AC4(s32 handle);
-extern void func_02040588(u32, u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020774A0(int (*callback)(void));
 extern int func_021F05DC(void);
 

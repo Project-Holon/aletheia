@@ -23,8 +23,10 @@ struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(u32,u32);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern int *func_021897BC(char *,int);
 extern void func_0216D8E0(u8 *,void *);
 extern void func_021897A0(u8 *,int);
-void func_021F370C(u32 a) { u8 *p; func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80((void *)a))),31); p=(u8 *)func_021897BC((char *)a,1); func_0216D8E0(*(u8 * *)&((struct Obj20524 *)p)->f4,p+8); func_021897A0((u8 *)a,1); }
+void func_021F370C(u32 a) { u8 *p; func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))),31); p=(u8 *)func_021897BC((char *)a,1); func_0216D8E0(*(u8 * *)&((struct Obj20524 *)p)->f4,p+8); func_021897A0((u8 *)a,1); }

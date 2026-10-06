@@ -104,7 +104,7 @@ extern int func_02158344(int a0);
 extern int func_021584A4();
 extern int func_0216D3CC(int a0);
 extern void func_0216D9A0(void *map);
-extern void func_0216D9E4(void *c);
+extern u32 *func_0216D9E4(void *c);
 extern int func_02175BE4(void *a);
 extern void func_02175548();
 extern void func_0217C758();

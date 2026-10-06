@@ -40,7 +40,7 @@ extern void func_02043598(unsigned,unsigned);
 extern void func_020403F4(unsigned);
 extern void func_0203F9B4(void);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *);
+extern u32 func_02021540(void *a0);
 extern void func_02049238(void *);
 extern void func_02051C6C(void *);
 extern void func_02045808(struct U16Vec *vec);

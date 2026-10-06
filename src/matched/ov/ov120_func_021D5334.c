@@ -96,7 +96,7 @@ extern void func_020061E4(u32 id);
 extern void func_021D733C(u8 *p, int index, int count);
 extern int func_021D6A9C(u8 *p, u32 n);
 extern void func_021D5318(u8 *p);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D51D4(u8 *p);
 extern void func_021D52D4(u8 *p);
 extern void func_021D5208(u8 *p);
@@ -110,7 +110,7 @@ extern void func_021D82A8(char *p, void *q, int start);
 extern void func_021D72A0(u8 *p, void *list, int n);
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *p);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_021D6D48(u8 *p);
 extern void func_021D7D3C(char *p);
 extern const u8 d_021D88D8[];
@@ -199,13 +199,13 @@ void func_021D5334(Ctx *p)
         func_021D6A9C(p->f3C, p->f164);
         p->f148 = p->f158 + p->f164 - 6;
         func_021D5318((u8 *)p);
-        func_021D4244((int)p, (int)func_021D51D4, 0x760);
+        func_021D4244((int *)p, (int)func_021D51D4, 0x760);
         return;
     }
     if (func_020362DC() == 8) {
         func_020061E4(0x54C);
         func_0202822C(p->f34, 1);
-        func_021D4244((int)p, (int)func_021D52D4, 0x766);
+        func_021D4244((int *)p, (int)func_021D52D4, 0x766);
         return;
     }
     sel = func_02035C08(d_021D88D8);
@@ -213,7 +213,7 @@ void func_021D5334(Ctx *p)
     case 3:
         func_020061E4(0x54C);
         func_0202822C(p->f34, 1);
-        func_021D4244((int)p, (int)func_021D52D4, 0x770);
+        func_021D4244((int *)p, (int)func_021D52D4, 0x770);
         return;
     case 2:
         if (p->f150 < 3)
@@ -231,7 +231,7 @@ void func_021D5334(Ctx *p)
         func_021D733C(p->f3C, p->f158 + p->f164 - 6, p->f150);
         func_020061E4(0x54C);
         func_021D5318((u8 *)p);
-        func_021D4244((int)p, (int)func_021D51D4, 0x78B);
+        func_021D4244((int *)p, (int)func_021D51D4, 0x78B);
         return;
     }
     if (func_02035BA4(d_021D88C8) != 0)
@@ -256,6 +256,6 @@ end:
         func_021D69F4(p->f3C, p->f34, 9);
         func_021D6D48(p->f3C);
         func_021D7D3C(p->f40);
-        func_021D4244((int)p, (int)func_021D5208, 0x7AD);
+        func_021D4244((int *)p, (int)func_021D5208, 0x7AD);
     }
 }

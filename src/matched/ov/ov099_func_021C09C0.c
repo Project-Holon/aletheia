@@ -37,7 +37,7 @@ struct Work;
 struct S;
 extern int func_021BA928(struct W *);
 extern int func_02156B8C(void);
-extern u8 func_021C23C0(int);
+extern unsigned char func_021C23C0(void *a);
 extern void func_021BA874(struct Work *, int);
 extern void func_021BAAB8(char *, int, int);
 extern int func_021C23B8(int i);
@@ -59,7 +59,7 @@ int func_021C09C0(char *p, int ret)
     func_021BA928((struct W *)p);
     if (func_02156B8C() != -1) ((struct Obj00008 *)p)->f1CC = 11;
     off = K242;
-    if (func_021C23C0(*(u16 *)(p + off) - 1) == 0) {
+    if (func_021C23C0((void *)(*(u16 *)(p + off) - 1)) == 0) {
         func_021BA874((struct Work *)p, *(u16 *)(p + off) - 1);
         func_021BAAB8(p, 15, 0);
         *(int *)(p + (off - 0x76)) = 0x13;

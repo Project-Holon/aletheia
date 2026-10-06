@@ -14,4 +14,4 @@
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 extern void func_02041570(int channel, u16 val);
-void func_021BAD08(void){func_02041570(2,0);}
+void func_021BAD08(void *a0, char *a1){func_02041570(2,0);}

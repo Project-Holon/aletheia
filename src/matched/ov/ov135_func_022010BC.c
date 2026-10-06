@@ -66,7 +66,7 @@ extern int func_021B99F0(u8 *p);
 extern u32 func_021B99F4(u32 p, u32 i);
 extern u8 *func_021B9A14(u8 *p, u32 i);
 extern void func_0200FB4C(u32 id);
-extern void func_0200F7B8(u32 v);
+extern u32 func_0200F7B8(u32 a0);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 extern void func_0220254C(void *mon, u32 heap);
 extern u32 func_0200FBB0(void);

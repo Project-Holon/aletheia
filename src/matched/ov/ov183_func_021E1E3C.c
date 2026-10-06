@@ -54,7 +54,7 @@ struct Big;
 extern void *func_02012EBC(struct Big *p);
 typedef unsigned short u16;
 extern u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021E1DF0(int a, int *state, char *p);
 typedef unsigned char  u8;
 struct MsgBank;
@@ -72,13 +72,13 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021FD19C(char *p, void *q, void *text);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021F9C6C(void *);
-extern int func_021FD744(int);
+extern int func_021FD744(int *a);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *,u32 *);
 extern void func_020061E4(u32 a);
-void func_021E1E3C(int task,int *state,char *p) {
+void func_021E1E3C(int *task,int *state,char *p) {
     u32 out;
     u64 total;
     u32 msg,x,y; Pair pair;

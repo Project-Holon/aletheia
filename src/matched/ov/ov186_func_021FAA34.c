@@ -8,7 +8,7 @@
  *   func_021FD73C 0x021FD73C thumb
  *   func_021FA284 0x021FA284 thumb
  */
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FA284(void *p, int *state, unsigned char *ctx);
 void func_021FAA34(void *p, int *state, int *ctx)
 {

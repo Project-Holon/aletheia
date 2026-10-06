@@ -43,7 +43,8 @@ extern int func_021DEB08(unsigned char *p);
 extern void func_020061E4(unsigned se);
 extern void func_021ED108(char *p, int on);
 extern void func_021EBFA8(char *p, int i, int v);
-extern int func_021EBFEC(char *p, int i);
+typedef unsigned int   u32;
+extern u32 func_021EBFEC(char *p, int i);
 extern void func_021EC000(char *p, int i, int v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

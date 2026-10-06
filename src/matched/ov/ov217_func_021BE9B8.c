@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 x,y,w,h; u8 rest[32]; } E;
 extern E d_021C3AC8[];
-extern void func_020413B0(u32,u8,u8,u8,u8,u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
 extern u32 func_021BEB88(u32);
 void func_021BE9B8(u8 *p)

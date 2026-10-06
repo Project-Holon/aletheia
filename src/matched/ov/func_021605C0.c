@@ -33,8 +33,10 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012C0C(struct BigObj *p);
 extern char *func_021C4F7C(void *a0, int mode, const unsigned short *a2, unsigned short a3, unsigned short heap);
 
-void func_021605C0(int a0, int a1, int a2, int a3)
+void func_021605C0(int a0, int a1)
 {
+    int a2;
+    int a3;
     unsigned char fr[4];
     int t4;
     int t5;

@@ -74,7 +74,7 @@ extern void *func_02167518(int a, void *b, u16 heap, int c);
 extern void func_0217538C(u8 *p, int a);
 extern void func_0217576C(u8 *p);
 extern void  func_02173590(void *a, void *b, u32 c);
-extern void  func_02161F54(void *p);
+extern int func_02161F54(int a0);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02012B64(struct BigObj *p, u8 v);
 extern void func_02012B8C(struct BigObj *p, u32 v);
@@ -107,7 +107,7 @@ Work *func_02172BC0(void *unused, Param *p)
     func_0217538C((u8 *)w, 4);
     func_0217576C((u8 *)w + 0x1ac);
     func_02173590(sv, (u8 *)w + 0xc, mode);
-    func_02161F54((u8 *)w + 0x35c);
+    func_02161F54((int)((u8 *)w + 0x35c));
     for (i = 0; i < 2; i++) {
         w->field928[i] = func_020457B0(8, 5);
     }

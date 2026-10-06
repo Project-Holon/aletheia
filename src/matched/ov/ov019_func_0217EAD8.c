@@ -39,7 +39,7 @@ void func_0217F098(unsigned char *base, u8 *x);
 void func_0217F188(char *p, u32 arg);
 u32 func_0217F1EC(u8 *p);
 void func_0217F074(void *p);
-int func_0217B8E4(char *p, char v);
+int func_0217B8E4(char *p, int v);
 struct Sub0200852CObj;
 struct WordSet;
 void func_0217422C(u8 *p, int a, int b);

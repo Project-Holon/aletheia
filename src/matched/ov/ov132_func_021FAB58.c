@@ -23,7 +23,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct ScriptVm;
-extern void func_02011290(struct ScriptVm *vm);
+extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern void func_02011264(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);

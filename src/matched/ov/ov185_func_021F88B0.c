@@ -19,7 +19,7 @@
 #include "../include/Obj03886.h"
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *p);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021F8FB0(char *,char *);
 extern void func_021F8D18(char *,int *);
 extern void func_021F8D98(char *,char *);

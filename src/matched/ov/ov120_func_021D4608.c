@@ -42,7 +42,7 @@ extern void func_02008494(void *src, void *dst);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *func_0200ED48(void *p);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
-extern void func_021D4244(int, void (*)(int), int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D4584(u8 *p);
 void func_021D4608(u8 *p)
 {
@@ -66,6 +66,6 @@ void func_021D4608(u8 *p)
         func_02008494((void *)value, func_02012950((struct Sub24 *)(((struct Obj08076 *)p)->f2C), 1 - func_02039338()));
         result = func_02008530((const struct Sub0200852CObj *)value);
         func_0200ED54(func_0200ED48((void *)(((struct Obj08076 *)p)->f30)), result);
-        func_021D4244((int)p, (void (*)(int))func_021D4584, 0x283);
+        func_021D4244((int *)p, (int)((void (*)(int))func_021D4584), 0x283);
     }
 }

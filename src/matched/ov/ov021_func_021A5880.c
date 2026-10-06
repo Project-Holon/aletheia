@@ -47,7 +47,7 @@ extern void func_0216E0AC(void *o, void *d);
 extern void *func_0219E348(void *a);
 extern void func_0219E2C0(void *a, void *r);
 extern int func_021A6B88(void *a);
-extern int func_021A3974(u8 *p);
+extern u32 func_021A3974(u8 *p);
 extern int func_021A3CB0(u32 a, u32 b);
 extern void func_021A3CE8(u8 *p);
 

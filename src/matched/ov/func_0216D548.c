@@ -19,7 +19,8 @@ typedef unsigned int u32;
 
 
 
-void func_0216D548(u32 *p, u32 v)
+u32 *func_0216D548(u32 *p, u32 v)
 {
     *p |= v;
+    return p;
 }

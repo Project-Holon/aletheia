@@ -25,8 +25,9 @@ extern void *func_0200D418(void *sys);
 struct Blk38;
 extern u8 func_0200D488(struct Blk38 *p, u32 i);
 
-int func_0215E6F8(int a0, int a1)
+int func_0215E6F8(int a0)
 {
+    int a1;
     int t4;
     void *p;
     void *t5;

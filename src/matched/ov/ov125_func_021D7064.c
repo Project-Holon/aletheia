@@ -32,7 +32,7 @@ extern void func_0200B490(void);
 extern u8 *func_0200B91C(void);
 extern void func_0200BA44(struct RecC4 *p);
 extern void func_0200B4B8(void);
-extern int *func_021D85E8(void);
+extern char *func_021D85E8(void);
 extern int func_021D75E8(int, int, int, u16 *, int, u16);
 int func_021D7064(char *p, const u16 *s)
 {
@@ -58,7 +58,7 @@ int func_021D7064(char *p, const u16 *s)
         func_0200BA44((struct RecC4 *)func_0200B91C());
         func_0200B4B8();
     }
-    obj = func_021D85E8();
+    obj = (int *)func_021D85E8();
     result = func_021D75E8(((struct Obj10460 *)p)->f0, obj[1], obj[2], (u16 *)(s + 2), (int)(s + 3), (u16)((struct Obj10460 *)p)->f13C);
     if (result == 2 || result == 3) return 1;
     return 0;

@@ -56,7 +56,7 @@ struct IcaAnime {
     u8    f33_1 : 7;
 };
 
-extern void *func_02031324(u16 id);
+extern void *func_02031324(int a0);
 extern void *func_020124F4(u16 id);
 extern void *func_020261E4(unsigned int id, void *res);
 struct SaveBlock;

@@ -90,7 +90,7 @@ struct PrintSys {
 
 extern struct PrintCtx g_0214655C;
 
-extern u32   func_0203D1B4(struct PrintSys *p);
+extern int func_0203D1B4(void);
 extern u32   func_0201D6B8(void *s);
 struct Rec2;
 struct Ring;
@@ -119,7 +119,7 @@ void sub_0201C724(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e,
 
 void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s)
 {
-    u32 busy = func_0203D1B4(p) != 0;
+    u32 busy = func_0203D1B4() != 0;
     u32 need;
 
     if (busy == 0 && (((u32)((u8 *)p)[7] << 24) >> 28) == 0) {

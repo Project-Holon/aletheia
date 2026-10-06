@@ -23,8 +23,10 @@
 #include "../include/Obj02230.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned int func_021F9B9C(char *);
-extern char *func_0203159C(void *, unsigned int, unsigned int);
+struct Obj24810;
+extern unsigned func_021F9B9C(struct Obj24810 *p);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *, int, unsigned int);
 typedef unsigned int   u32;
 extern u32 func_0201C440(void *p);
@@ -38,9 +40,9 @@ int func_021DF920(void *obj, int unused, char *q)
 {
     char *p;
     int i;
-    p = func_0203159C(obj, 0x58, func_021F9B9C(*(char * *)&((struct Obj02230 *)q)->fC));
+    p = func_0203159C(obj, 0x58, func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct Obj02230 *)q)->fC)));
     func_02082BCC(p, 0, 0x58);
-    ((struct Obj01765 *)p)->f54 = func_021F9B9C(*(char * *)&((struct Obj02230 *)q)->fC);
+    ((struct Obj01765 *)p)->f54 = func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct Obj02230 *)q)->fC));
     ((struct Obj01765 *)p)->f48 = (void *)func_0201C440((void *)(((struct Obj01765 *)p)->f54));
     ((struct Obj01765 *)p)->f44 = func_02025538(((struct Obj01765 *)p)->f54, ((struct Obj02230 *)q)->f4);
     ((struct Obj01765 *)p)->f38 = (int)func_021FD12C(((struct Obj02230 *)q)->f8, (void *)(*(int *)&((struct Obj01765 *)p)->f48), ((struct Obj01765 *)p)->f54);

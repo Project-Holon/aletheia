@@ -82,7 +82,7 @@ extern u8 func_021568E0(struct Work *w);
 extern u16 func_02156954(struct Work *w);
 extern u16 func_02156978(struct Work *w);
 extern u8 func_02156934(struct Work *w, u8 idx);
-extern u8 func_021568E8(void *w, u8 idx);
+extern int func_021568E8(int a0, u8 a1);
 extern u8 func_02156908(struct Work *w);
 extern u8 func_0215699C(struct Work *w, u8 i);
 extern u8 func_021569A4(struct Work *w, u8 idx);
@@ -296,7 +296,7 @@ int func_0215D504(Ctx *c, void *vm)
         *dst = func_02156934(w, arg);
         break;
     case 35:
-        *dst = func_021568E8(w, arg);
+        *dst = func_021568E8((int)w, arg);
         break;
     case 36:
         *dst = func_02156908(w);

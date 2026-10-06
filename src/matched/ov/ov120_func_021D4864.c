@@ -34,15 +34,15 @@ extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *func_02012F14(void **h);
 extern u32 func_02009EA8(const struct Sub02009D9CObj *obj);
-extern void func_021D4244(int, void (*)(int), int);
-extern void func_021D4808(int);
+extern void func_021D4244(int *p, int v, int a2);
+extern void func_021D4808(int *a);
 void func_021D4864(u8 *p)
 {
     u8 *q;
     int value;
     if (func_021D7AF4((char *)(((struct Obj02831 *)p)->f40))) {
         if (func_0203CD98() == 0) {
-            func_021D4244((int)p, func_021D4808, 0x2fe);
+            func_021D4244((int *)p, (int)func_021D4808, 0x2fe);
             return;
         }
         if (((struct Obj02831 *)p)->f14 > 0) {
@@ -57,7 +57,7 @@ void func_021D4864(u8 *p)
             func_0200E6FC((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
             ((struct Obj02831 *)p)->f170 = func_02009EA8(func_02012F14((void **)(((struct Obj02831 *)p)->f2C)));
             func_02039C68((struct Link *)func_020399A8(), 2, 0x22);
-            func_021D4244((int)p, func_021D4808, 0x314);
+            func_021D4244((int *)p, (int)func_021D4808, 0x314);
         }
     }
 }

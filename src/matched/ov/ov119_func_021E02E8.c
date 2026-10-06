@@ -43,7 +43,7 @@ extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *func_02012F2C(int *p);
 extern int func_02012FCC(int p0);
 extern struct Sub02007AC8Entry *func_02007AF4(void **save, u32 box);
-extern void *func_02012F98(void *);
+extern struct Sub02007AC8Entry *func_02012F98(void *p);
 extern u32 func_02008FFC(void);
 extern u32 func_02008C20(void);
 extern u32 func_02007AEC(void);
@@ -91,6 +91,6 @@ void func_021E02E8(char *p)
         func_02082D44(((struct Obj00589 *)p)->f624,src,n);
         func_020307B0(((struct Obj00589 *)p)->f624);
     }
-    if(((struct Obj00589 *)p)->f62C) func_02007B5C(func_02012F98(((struct Obj00589 *)p)->f82C));
+    if(((struct Obj00589 *)p)->f62C) func_02007B5C((struct PerapVoice *)func_02012F98(((struct Obj00589 *)p)->f82C));
     func_02082BCC(p+0x60c,0,0x24);
 }

@@ -88,11 +88,11 @@ extern void func_021A0FA8(int *p);
 extern u32 func_021A12A4(void *link);
 extern void *func_021945A4(void *a, u32 b, u32 c);
 extern void func_0216D9A0(void *map);
-extern void func_0216D9E4(void *map);
+extern u32 *func_0216D9E4(void *c);
 extern u32 func_0215FEC8(u32 n);
 extern void func_0215E840(void *field, Info *out);
 extern void func_0215EA30(Query *q, u16 a, u16 b, u32 c);
-extern void *func_0215EA38(u32 kind, Query *q, Info *info);
+extern int func_0215EA38(int a0, int a1, int a2);
 struct Owner;
 extern void *func_0216075C(struct Owner *o, u16 id);
 extern int func_021644F4(int i, void *a, void *p);
@@ -153,7 +153,7 @@ int func_0215FD0C(void *task, void *unused, Ctx *c)
         func_0216D9E4(func_02188C7C(c->field));
         func_0215E840(func_0201210C(c->f08), &info);
         func_0215EA30(&q, c->f48, c->f44, c->f4c);
-        next = func_0215EA38(c->f44, &q, &info);
+        next = (void *)func_0215EA38(c->f44, (int)(&q), (int)(&info));
         if (next == 0)
             return 1;
         func_0201235C(c->f04, next);

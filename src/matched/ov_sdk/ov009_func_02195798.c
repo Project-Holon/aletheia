@@ -26,7 +26,7 @@ typedef struct Conn {
 	unsigned int timeout;
 } Conn;
 
-extern void func_02197BB8(int *p);
+extern int func_02197BB8(int *p);
 extern void func_021959D0(Conn *c);
 extern int func_0219500C(Conn *c, int result, unsigned char *msg, int len);
 

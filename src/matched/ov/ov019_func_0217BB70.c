@@ -64,7 +64,7 @@ extern int   func_0217AEE8(u16 t);
 extern u16   func_0217AEFC(u32 t);
 extern int   func_0217AF38(u16 t);
 extern int func_0217AF4C(char *a, u16 key);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 extern void func_0217BAF0(char *p, int x, unsigned int v);
 extern int func_0217BB04(char *p);
 extern int func_0217F7E4(u32 arg);

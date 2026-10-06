@@ -34,7 +34,7 @@ extern int func_021FC214(char *);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
 extern void func_021DCE48(char *,char *),func_021DCDD8(char *,char *),func_021DCE28(char *,char *);
 extern void func_021DC8EC(char *p, char *q);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DBD7C(int *task, int *state, char *p);
 void func_021DBEB0(int *task,int *state,char *p)
 {

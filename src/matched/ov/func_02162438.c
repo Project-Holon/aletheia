@@ -21,8 +21,9 @@ typedef unsigned int u32;
 struct R;
 extern int func_0215E2B8(struct R *r, int a, int b, int n);
 
-void func_02162438(int a0, int a1, int a2, int a3)
+void func_02162438(int a0, int a1, int a2)
 {
+    int a3;
     int t4;
     int t5;
 

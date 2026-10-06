@@ -32,7 +32,7 @@ extern u32 func_021B9FAC(u8 *p, int i, u32 *out);
 extern int func_021BA064(char *p, int i);
 extern int func_021BA080(void *battle);
 extern u8 func_0202A3CC(u32 cls);
-extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
 extern void *d_021F6398;

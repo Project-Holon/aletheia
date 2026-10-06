@@ -28,8 +28,9 @@ struct Sub02008C20Obj;
 extern void *func_02012F2C(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-int func_0216EF84(int a0, int a1)
+int func_0216EF84(int a0)
 {
+    int a1;
     int t4;
     void *p;
 

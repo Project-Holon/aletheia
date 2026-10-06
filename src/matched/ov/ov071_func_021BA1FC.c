@@ -31,7 +31,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { B_FALSE, B_TRUE } Bool;
 
-extern void *func_0203159C(int a, int b, int c);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_021BA3B4(void);
 extern void func_021BA420(char *p);
@@ -43,10 +44,10 @@ extern void *func_02045770(struct Descriptor *a);
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
 
-int func_021BA1FC(int a, int *b, u8 *o, u8 *c)
+int func_021BA1FC(struct Obj0203159C *a, int *b, u8 *o, u8 *c)
 {
     u8 *m;
     int busy;

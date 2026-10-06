@@ -38,7 +38,8 @@ extern void func_021D5D3C(u8 *p);
 extern void func_021D5ED8(u8 *,u32);
 extern void func_021D426C(u8 *,u32);
 extern void func_021D5B50(void *,int);
-extern void *func_02009860(void *);
+struct Sub020097BCObj;
+extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern int func_020597C8(struct DWCstAccUserData *userdata);
 extern int func_02059760(struct DWCstAccUserData *userdata);
 extern u32 func_0202EB0C(void);
@@ -66,7 +67,7 @@ void func_021D497C(u8 *p)
         func_021D426C(p,(u32)func_021D46CC);
         return;
     }
-    if(func_020597C8(func_02009860(P(0x3c)))==0) {
+    if(func_020597C8((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
         ((struct Obj13850 *)p)->f20=1;
         func_021D5D3C(P(0x38));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),18);
@@ -74,7 +75,7 @@ void func_021D497C(u8 *p)
         func_021D426C(p,(u32)func_021D45D0);
         return;
     }
-    if(func_02059760(func_02009860(P(0x3c)))==0) {
+    if(func_02059760((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
         ((struct Obj13850 *)p)->f20=1;
         func_021D5D3C(P(0x38));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),20);

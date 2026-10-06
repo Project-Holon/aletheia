@@ -40,7 +40,7 @@ extern int func_021AB0D4(void *a, void *b);
 extern void *func_021A3074(u8 *p);
 extern u32 func_02188C5C(u8 *p);
 extern void func_0219E2F4(void *o, void *out);
-extern u32 func_021BB3C4(void *w, Pair *v);
+extern u32 func_021BB3C4(u8 *p, char *a1);
 
 u32 func_021A30C8(void **ctx)
 {
@@ -56,7 +56,7 @@ u32 func_021A30C8(void **ctx)
         void *o = func_021A3074((u8 *)ctx);
         void *w = (void *)func_02188C5C(ctx[0]);
         func_0219E2F4(o, &v);
-        r = func_021BB3C4(w, &v);
+        r = func_021BB3C4(w, (char *)(&v));
     }
     return r;
 }

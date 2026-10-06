@@ -32,7 +32,7 @@ struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(unsigned char, const Bg *, unsigned char);
 extern void func_020414AC(unsigned char);
-extern void sub_02040588(u32 which, u32 enable);
+extern void sub_02040588(u32 which, unsigned char enable);
 void func_021F4C0C(void *p, unsigned short heap)
 {
     unsigned i = 0;

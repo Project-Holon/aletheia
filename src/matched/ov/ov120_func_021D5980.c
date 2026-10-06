@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_021D7D3C(char *);
 extern void func_02041B6C(u32 bit);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D4EC0(u8 *p);
 extern void func_021D57B0(u8 *p);
 void func_021D5980(u8 *p)
@@ -33,11 +33,11 @@ void func_021D5980(u8 *p)
         func_021D69F4(((struct Obj05346 *)p)->f3C, ((struct Obj05346 *)p)->f34, 9);
         func_021D7D3C(*(char * *)&((struct Obj05346 *)p)->f40);
         func_02041B6C(6);
-        func_021D4244((int)p, (int)func_021D4EC0, 0x8a3);
+        func_021D4244((int *)p, (int)func_021D4EC0, 0x8a3);
         return;
     }
     if (state == 1) {
         func_021D69F4(((struct Obj05346 *)p)->f3C, ((struct Obj05346 *)p)->f34, 9);
-        func_021D4244((int)p, (int)func_021D57B0, 0x8a7);
+        func_021D4244((int *)p, (int)func_021D57B0, 0x8a7);
     }
 }

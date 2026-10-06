@@ -88,12 +88,13 @@ extern int func_021FF6B4(char *p, void *buffer, int count, int *out);
 extern void func_021FD860(int,int,struct Pair *);
 extern void func_021FD170(char *p, char *q, void *text);
 extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DF18C(int *p, int *state, char *q);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *,u32 *);
 extern void func_020061E4(u32),func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *),func_021FD744(int);
+extern int func_021FE7B0(int *);
+extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
 void func_021DEE7C(int *task,u32 *state,char *p)
 {
@@ -164,6 +165,6 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         if(func_021FE7B0(*(int **)(*(char **)(p+0x108)+8))) *state=5;
         break;
     case 5:
-        func_021F9BA0(*(void **)(*(char **)(p+0x108)+0x14)); func_021FD744((int)task); break;
+        func_021F9BA0(*(void **)(*(char **)(p+0x108)+0x14)); func_021FD744((int *)task); break;
     }
 }

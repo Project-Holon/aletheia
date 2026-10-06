@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 index,member;} Entry;
 extern const Entry d_02185E18[];
-extern void func_02048AC4(void *);
+extern u32 func_02048AC4(void *ptr);
 extern void func_02048C4C(void *);
 struct Rec;
 struct Tagged;

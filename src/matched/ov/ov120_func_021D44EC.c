@@ -25,7 +25,7 @@ extern void func_021D8430(u8 *p, void *q);
 struct Obj05353;
 extern void func_021D8484(struct Obj05353 *p, void *n);
 extern void func_021D4244(int, void (*)(int), int);
-extern void func_021D44AC(char *p);
+extern void func_021D44AC(int *p);
 void func_021D44EC(int a)
 {
     Halfwords table = d_021D8904;

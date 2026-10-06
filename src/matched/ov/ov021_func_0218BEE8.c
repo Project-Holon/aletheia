@@ -30,7 +30,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern int func_02046C94(void);
 struct S02046CE0;
 extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
-extern void *func_0218B924(u8 *s, int x);
+extern int func_0218B924(u8 *p, u32 a1);
 extern char *func_0218BC00(char *p, int i);
 extern u8 *func_0218BC10(u8 *p, int i);
 extern int func_0218BC8C(int *p);
@@ -43,7 +43,7 @@ void func_0218BEE8(u8 *s, void **out, int x)
     int cnt;
     int i;
 
-    out[0] = func_0218B924(s, x);
+    out[0] = (void *)func_0218B924(s, x);
     out[1] = func_02030734(((struct Obj09454 *)s)->f0, func_02046C94(), 1, d_021DD9CC, 0x4d0);
     func_02046CE0(out[1], (u32 *)func_0218BC00(((struct Obj09454 *)s)->f18, x));
     t = func_0218BCAC(out[0]);

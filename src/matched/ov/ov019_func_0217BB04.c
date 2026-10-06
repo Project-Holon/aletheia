@@ -13,7 +13,7 @@
  *   func_0217B8E4 0x0217B8E4 thumb ov019
  */
 extern unsigned int func_0200FB24(void);
-extern int func_0217B8E4(char *, char);
+extern int func_0217B8E4(char *p, int v);
 int func_0217BB04(char *p)
 {
     if (func_0200FB24() != 0) {

@@ -39,7 +39,8 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *dst, const u16 *src, u32 len);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201EE0C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+struct WordSet;
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
 int func_021CFBA8(u32 a, u32 unused, const Rec *src)
 {
@@ -53,7 +54,7 @@ int func_021CFBA8(u32 a, u32 unused, const Rec *src)
     x = (u32)func_02158F74((void *)h);
     buf = (u32)func_020457B0(8, 0x15);
     func_02045994((struct Strbuf *)buf, (const u16 *)&r, 8);
-    func_0201EE0C(x, 3, buf, 1, 1, 2);
+    func_0201EE0C((struct WordSet *)x, 3, (const void *)buf, 1, 1, 2);
     func_02045808((struct U16Vec *)buf);
     return 0;
 }

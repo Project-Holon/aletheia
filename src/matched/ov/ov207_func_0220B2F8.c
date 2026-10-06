@@ -15,7 +15,7 @@
 #include "../include/Obj14641.h"
 
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 
 void func_0220B2F8(int unused, char *p)
 {

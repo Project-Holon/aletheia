@@ -145,8 +145,9 @@ void func_020113B4(struct Ring *r, u32 v)
     c->unk14 = v;
 }
 
-void func_020113C4(struct Ring *r)
+u32 func_020113C4(struct Ring *r)
 {
     struct Cur *c = (struct Cur *)r;
     c->unk14 = func_02011398(r);
+    return c->unk14;
 }

@@ -44,7 +44,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void sub_0200F7B8(u32 arg);
+extern u32 sub_0200F7B8(u32 a0);
 
 struct Sub0200F7C0Obj {
     u8 pad[0x64];

@@ -94,7 +94,7 @@ struct Deal;
 extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
 extern u16 func_0200A81C(struct Big *p);
 extern u8 func_02156934(Work *w, u8 idx);
-extern u8 func_021568E8(Work *w, u8 idx);
+extern int func_021568E8(int a0, u8 a1);
 extern u32 func_021FD8F8(char *p, u32 index);
 extern u32 func_021FD4F8(struct Ctx *p, u8 key);
 extern int func_0215736C(int a0);
@@ -138,7 +138,7 @@ void func_02156530(Work *w)
         sum = func_0200A81C(w->f40) + func_02156934(w, w->f4C);
     } else {
         for (j = 0; j < 4; j++) {
-            pv = (u16 *)func_021FD8F8(w->f28, func_021568E8(w, j));
+            pv = (u16 *)func_021FD8F8(w->f28, func_021568E8((int)w, j));
             if (func_021FD4F8(w->f28, j) != 0) {
                 sum += *pv;
                 sum += func_02156934(w, j);

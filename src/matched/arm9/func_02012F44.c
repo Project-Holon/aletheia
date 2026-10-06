@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
-void func_02012F44(void *p)
+void *func_02012F44(void *p)
 {
-    func_020071CC(((struct Obj00054 *)p)->f0, 0x2a);
+    return func_020071CC(((struct Obj00054 *)p)->f0, 0x2a);
 }

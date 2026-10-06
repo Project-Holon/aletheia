@@ -105,7 +105,7 @@ extern void func_0204047C(int idx, unsigned short val);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern u32 func_02188C64(u8 *p);
 extern int func_021A01A4(u32 a, u32 b);
 extern void func_021C2320(int a, char *p, char *q, int d);
@@ -131,7 +131,7 @@ extern void func_021904D0(u8 *p);
 extern void func_020414AC(int);
 extern void func_021C27CC(u8 *p);
 extern void func_021C27E8(u8 *p);
-extern void func_0216D9E4(void *o);
+extern u32 *func_0216D9E4(void *c);
 extern const BgMode d_021DA710;
 
 typedef int (*StepFn)(int a, u8 *p);

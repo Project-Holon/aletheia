@@ -179,7 +179,7 @@ void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v)
     }
 }
 
-void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f)
+void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c)
 {
     struct Tag tag;
 

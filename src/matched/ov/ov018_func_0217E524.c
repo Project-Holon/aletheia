@@ -54,7 +54,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
 extern void func_0217F214(void);
 extern void func_0217F240(u8 *p, int mode);
-extern void func_020127B8(void *p);
+extern void *func_020127B8(void *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);

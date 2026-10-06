@@ -25,7 +25,7 @@ extern void func_021F1E98(char *p);
 extern void func_0204B084(int);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_020403F4(u32 i);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 
 void func_021F1F24(char *p)
 {

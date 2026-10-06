@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02041300(u32,int,int,int,u8,u8,u8);
 extern void func_02041B6C(u32);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 int func_021BEB00(void *p,u32 *q)
 {
     switch (*q) {

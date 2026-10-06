@@ -30,7 +30,7 @@ struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02017E88(void *,u32,u32);
-extern void func_0201EE0C(void *,u32,const void *,u32,u32,u32);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(struct Descriptor *p);

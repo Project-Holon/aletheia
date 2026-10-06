@@ -34,9 +34,9 @@ extern int func_0216D81C(void *p);
 extern int func_0219BA2C(int a);
 extern u16 func_021642B4(int x0, int y0, int x1, int y1);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D438(int a0, int a1);
+extern void func_0216D438(char *a0, int a1);
 
-int func_0219BA6C(int a)
+int func_0219BA6C(char *a)
 {
     int o;
     int x;
@@ -51,7 +51,7 @@ int func_0219BA6C(int a)
     tx = func_0216D804((void *)o);
     ty = func_0216D81C((void *)o);
     if (x != tx || y != ty) {
-        k = func_0219BA2C(a);
+        k = func_0219BA2C((int)a);
         func_0216D438(a, (u16)((u32)func_02197E7C((u16)((int)func_021642B4(x, y, tx, ty)), (u16)k)));
         return 1;
     }

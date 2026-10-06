@@ -28,8 +28,8 @@ typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
 extern unsigned short func_02158F8C(unsigned char *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern u32 func_0215A4C8(u32 a);
-extern u32 func_0215A4B4(u32 a);
+extern int func_0215A4C8(int a0);
+extern int func_0215A4B4(int a0);
 extern void *func_02158F54(void *p);
 extern int func_02158F58(int a0);
 extern int func_0216E818(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
@@ -46,7 +46,7 @@ int func_021AEABC(u32 a, u32 b)
     x = func_02159B10((void *)a, (void *)b);
     y = func_02159B10((void *)a, (void *)b);
     z = func_02159B10((void *)a, (void *)b);
-    w = func_0215A4C8(x);
+    w = (u32)func_0215A4C8((u32)x);
     if (y == 0 && func_0215A4B4(x) == 1) {
         y = x;
     }

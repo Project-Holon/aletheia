@@ -31,7 +31,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0203064C(u32, u32, u32);
-extern u8 *func_0203159C(void *, u32, u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, u32);
 extern u8 *func_021D5E88(u32, void *);
 struct Big;
@@ -50,7 +51,7 @@ extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 extern void func_02005D90(u32, u32);
 extern void func_0203D34C(u32, u32);
 extern void func_0200F7E8(u32 value);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D588C(u8 *);
 int func_021D5C60(void *a, int unused, u8 *q)
 {
@@ -81,6 +82,6 @@ int func_021D5C60(void *a, int unused, u8 *q)
     func_02005D90(0x486, 0xffff);
     func_0203D34C(1, ((struct Obj01401 *)p)->fC);
     func_0200F7E8(1);
-    func_021D4244((int)p, (int)func_021D588C, 0x96a);
+    func_021D4244((int *)p, (int)func_021D588C, 0x96a);
     return 1;
 }

@@ -45,13 +45,15 @@ typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; u8 low:4; u8
 typedef struct {u32 objects[3]; u16 current[3]; u16 bound[3]; int step[3]; u8 pad[12]; u8 digits[3];u8 pad1;int state[3];} Display;
 struct Task;
 extern void func_0203064C(u32,u32,u32);
-extern u8 *func_0203159C(struct Task *,u32,u32);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 struct Rec;
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_02041F6C(u32,u32,u16),func_02041FB0(u32,u32,u16);
+extern void func_02041F6C(u32 which, u32 op, u32 value);
+extern void func_02041FB0(u32,u32,u16);
 extern void func_021B784C(u8 *,int);
 extern void func_021B7C20(u32 *p, int flag, int heap);
 extern void func_021B7CB0(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 g);
@@ -76,7 +78,7 @@ int func_021B7560(struct Task *a,void *b,u8 *context)
     u32 handle;
     int tag,font;
     func_0203064C(1,60,0x20000);
-    p=func_0203159C(a,0x1a8,60);
+    p=func_0203159C((struct Obj0203159C *)a,0x1a8,60);
     func_02082BCC(p,0,0x1a8);
     *(u8 * *)&((struct Obj03234 *)p)->f1A4=context;
     func_021B784C(p,60);

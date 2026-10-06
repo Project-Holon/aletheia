@@ -45,7 +45,7 @@ int func_0217BB20(char *p);
 typedef unsigned int   u32;
 struct BigObj;
 void func_0217F074(void *p);
-int func_0217B8E4(char *p, char v);
+int func_0217B8E4(char *p, int v);
 void *func_0217B9CC(char *p);
 void func_0217B9F4(void *h);
 void func_0217FE38(u8 *p);

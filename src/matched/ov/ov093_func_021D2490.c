@@ -23,7 +23,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 typedef struct { u16 a; u16 b; } Pair16;
 
-extern void func_021EF9C0(int *p, int a, int b);
+extern int *func_021EF9C0(int *p, int a, int b);
 extern u32 func_021CD9E0(u8 *p);
 extern void func_021F7998(u32 a);
 extern int func_021F7EB4(void);

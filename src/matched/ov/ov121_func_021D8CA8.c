@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void *func_021D6D7C(u8 *p);
 extern void func_021D6D38(void *);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);

@@ -31,7 +31,7 @@ extern unsigned int func_02035D40(struct Ctx *ctx, unsigned int a, unsigned int 
 typedef unsigned int   u32;
 extern u32 func_02024158(const u8 *p);
 extern int func_021BABE8(u8 *p);
-extern void func_021BAC00(void *,Box *,u8);
+extern void func_021BAC00(u8 *p, u8 *b, u8 n);
 int func_021BDAA4(u8 *p) {
  int x,y;
  Box box=d_021C38F0;
@@ -44,6 +44,6 @@ int func_021BDAA4(u8 *p) {
  }
  count=func_021BABE8(((struct Obj10282 *)p)->f14);
  func_02035D20((unsigned int *)(&x),(unsigned int *)(&y));
- for(i=0;i<count;i++) { func_021BAC00(((struct Obj10282 *)p)->f14,&box,i); if(func_02035D40((struct Ctx *)(&box),x,y)!=-1) return i+6; }
+ for(i=0;i<count;i++) { func_021BAC00(((struct Obj10282 *)p)->f14,(u8 *)(&box),i); if(func_02035D40((struct Ctx *)(&box),x,y)!=-1) return i+6; }
  return -1;
 }

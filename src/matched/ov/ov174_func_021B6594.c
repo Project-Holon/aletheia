@@ -44,7 +44,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32);
-extern void func_020413B0(u32,u8,u8,u8,u8,u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);

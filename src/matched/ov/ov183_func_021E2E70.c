@@ -35,7 +35,7 @@ extern unsigned func_021FC20C(char *p);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_0201EE0C(void *, int, unsigned, unsigned, int, int);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021FD19C(char *p, void *q, void *text);
 extern void func_02045808(struct U16Vec *vec);
@@ -65,7 +65,7 @@ void func_021E2E70(char *p, const char *q)
   index = *((unsigned *) (p + 0x10));
   index = index * 4;
   base = *((unsigned *) (q + 0x18));
-  func_0201EE0C(a, 0, *((unsigned *) ((base + index) + 0x14)), *((unsigned *) ((((unsigned) base) + index) + 0x24)), 1, 2);
+  func_0201EE0C(a, 0, (const void *)(*((unsigned *) ((base + index) + 0x14))), *((unsigned *) ((((unsigned) base) + index) + 0x24)), 1, 2);
   func_0201F250(a, b, s);
   func_021FD19C(*((void **) (p + 8)), (void *)(*((int *) (q + 8))), b);
   func_02045808(b);

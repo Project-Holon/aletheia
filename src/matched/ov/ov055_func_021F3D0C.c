@@ -53,7 +53,7 @@ extern void func_0216DAC8(unsigned int *p, unsigned int v);
 extern u16 func_0216D598(void *p);
 extern void func_0216E618(V *, int, int, int);
 extern void func_0216E0AC(void *a0, void *a1);
-extern void func_0216DCCC(int, int);
+extern int func_0216DCCC(void *a0, int a1);
 
 void func_021F3D0C(O *o, int a1, int a2, int idx, u16 p4, u16 p5, u16 p6, u16 p7, void *p8)
 {
@@ -73,7 +73,7 @@ void func_021F3D0C(O *o, int a1, int a2, int idx, u16 p4, u16 p5, u16 p6, u16 p7
     o->h4 = p7;
     o->h14 = 0;
     o->h16 = 0;
-    func_0216DCCC(o->fc, 1);
+    func_0216DCCC((void *)o->fc, 1);
     o->f10 = p8;
     d_021F45C8[idx](o);
 }

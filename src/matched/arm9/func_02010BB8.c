@@ -45,9 +45,10 @@ typedef unsigned int   u32;
 extern void  func_02043534(u32 a);
 extern void  func_020435F4(u32 a);
 extern void  func_0203064C(u32 a, u32 heap, u32 size);
-extern u8   *func_0203159C(void *ctx, int size, int heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
-extern u32   func_02031324(int heap);
+extern void *func_02031324(int a0);
 
 int func_02010BB8(void *ctx, int a1, int a2)
 {
@@ -65,6 +66,6 @@ int func_02010BB8(void *ctx, int a1, int a2)
     p = func_0203159C(ctx, 0x1a8, 0x5b);
     func_02082BCC(p, 0, 0x1a8);
     ((struct Obj11242 *)p)->f0 = (u32)a2;
-    ((struct Obj11242 *)p)->f8 = func_02031324(0x5b);
+    ((struct Obj11242 *)p)->f8 = (unsigned int)func_02031324(0x5b);
     return 1;
 }

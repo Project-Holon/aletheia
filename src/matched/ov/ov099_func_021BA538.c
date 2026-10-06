@@ -33,7 +33,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
 extern int func_021C49A4(u8 *p, unsigned int i);
-extern void func_021BA594(void *w, int a, int b, int c);
+extern void func_021BA594(char *p, int a, int b, int c);
 
 int func_021BA538(void *w, S *s)
 {

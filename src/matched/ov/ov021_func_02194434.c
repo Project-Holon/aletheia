@@ -34,12 +34,12 @@ typedef unsigned int   u32;
 extern void func_02194588(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern int func_021945A0(int x);
 extern void func_0216E014(void *a, int *p, int b);
-extern void func_0216DB4C(void *o, int v);
-extern void func_0216DC98(void *o, int v);
+extern int func_0216DB4C(void *a0, int a1);
+extern int func_0216DC98(void *a0, int a1);
 extern void func_0216DB80(unsigned int *p, unsigned int v);
 extern void func_0216DAE0(unsigned int *p, unsigned int v);
-extern void func_0216DC64(void *o, int v);
-extern void func_0216DCCC(void *o, int v);
+extern int func_0216DC64(void *a0, int a1);
+extern int func_0216DCCC(void *a0, int a1);
 
 void *func_02194434(unsigned char *a, int x, u16 *q, int d, int e, int f)
 {

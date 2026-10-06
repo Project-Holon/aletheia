@@ -18,14 +18,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct BigObj;
-extern struct BigObj *func_021BC628(u8 *);
+extern u32 func_021BC628(u8 *a0);
 extern u32 func_0201296C(const struct BigObj *);
 extern u32 func_020142E8(void *, int);
 void func_021BC820(u8 *p)
 {
     void *bitmap;
     int n;
-    bitmap = (void *)func_0201296C(func_021BC628(p));
+    bitmap = (void *)func_0201296C((const struct BigObj *)func_021BC628(p));
     n = 1;
     if (func_020142E8(bitmap, 240) == 1) n++;
     if (func_020142E8(bitmap, 241) == 1) n++;

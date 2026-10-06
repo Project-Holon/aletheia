@@ -87,7 +87,8 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_0201283C(const struct BigObj *p);
-extern void *func_02009860(void *p);
+struct Sub020097BCObj;
+extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u8 func_02045738(struct Descriptor *p);
@@ -115,7 +116,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
     func_021C63AC(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
     text = (u32)func_020457B0(0xc0, heap);
     buf2 = func_020457B0(0x80, heap);
-    key = func_0205994C(func_02009860((void *)func_0201283C(*(void **)(q + 4))));
+    key = func_0205994C((struct DWCstAccUserData *)func_02009860((void *)func_0201283C(*(void **)(q + 4))));
     if (key != 0) {
         func_02045CAC(*(void **)(ctx + 4), 0x35, (void *)text);
         func_021B6AE4(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);

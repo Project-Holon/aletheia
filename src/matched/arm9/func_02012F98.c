@@ -20,7 +20,7 @@
 struct Sub02007AC8Entry;
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 
-void func_02012F98(void *p)
+struct Sub02007AC8Entry *func_02012F98(void *p)
 {
-    func_02007B44(((struct Obj00054 *)p)->f0);
+    return func_02007B44(((struct Obj00054 *)p)->f0);
 }

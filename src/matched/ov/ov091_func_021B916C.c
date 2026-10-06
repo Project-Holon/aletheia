@@ -157,7 +157,7 @@ extern int func_021BB43C(int *);
 extern void func_021BBE5C(int,int);
 extern void func_021BA394(u8 *p);
 extern int func_021B99E4(void *p, int i);
-extern u32 func_0215EA14(int,u8 *);
+extern int func_0215EA14(int a0, int a1);
 extern u32 func_02013E04(u32 id);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 typedef struct { int v[4]; } Four;
@@ -277,7 +277,7 @@ void func_021B916C(u8 *p)
             } else func_021B9788(p,0x6b,1,(int)func_021B9E20);
             return;
         }
-        switch (func_0215EA14(r-11,S+0x1c)) {
+        switch (func_0215EA14(r-11,(int)(S+0x1c))) {
         case 0: p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=r; return;
         case 1: func_021B9788(p,0x50,1,(int)func_021B9E20); return;
         case 2: func_021B9788(p,0x38,1,(int)func_021B9E20); return;

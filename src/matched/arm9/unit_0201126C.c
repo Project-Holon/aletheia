@@ -120,10 +120,11 @@ void func_0201127C(ScriptVm *vm, u8 *pc)
     vm->state = 1;
 }
 
-void sub_02011290(ScriptVm *vm)
+ScriptVm *sub_02011290(ScriptVm *vm)
 {
     vm->state = 0;
     vm->pc = 0;
+    return vm;
 }
 
 int func_02011298(ScriptVm *vm)

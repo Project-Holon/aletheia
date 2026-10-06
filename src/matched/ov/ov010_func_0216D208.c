@@ -16,10 +16,10 @@
 
 typedef unsigned short u16;
 extern int func_0216D5D4(void *p);
-extern void func_0216D5D8(void *p, u16 v);
-extern void func_0216D600(void *p, u16 v);
+extern int func_0216D5D8(int a0, int a1);
+extern int func_0216D600(int a0, u16 a1);
 void func_0216D208(void *p)
 {
-    func_0216D5D8(p, func_0216D5D4(p));
-    func_0216D600(p, func_0216D5D4(p));
+    func_0216D5D8((int)p, (u16)func_0216D5D4(p));
+    func_0216D600((int)p, (u16)func_0216D5D4(p));
 }

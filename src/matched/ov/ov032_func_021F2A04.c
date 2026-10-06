@@ -39,7 +39,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201DD68(void);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(void *a0);
+extern u32 func_02021540(void *a0);
 extern void func_02030EAC(struct Node *n);
 extern void func_02031140(struct S02031140 *p);
 

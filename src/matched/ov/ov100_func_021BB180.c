@@ -34,7 +34,7 @@ extern void func_021BA64C(unsigned a, unsigned b);
 struct Actor;
 struct Cmd;
 extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_021BB0C4(int),func_021BB10C(int);
 void func_021BB180(int p)
 {

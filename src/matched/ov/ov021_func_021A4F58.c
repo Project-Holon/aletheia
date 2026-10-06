@@ -40,7 +40,7 @@ struct Actor;
 struct VecFx32;
 void func_0216D88C(const struct Actor *h, struct VecFx32 *v);
 void func_02163E58(void *h, Vec021A4F58 *v, int *lim);
-void func_0216D570(char *h, u32 mask);
+char *func_0216D570(char *p, u32 v);
 void func_0216D89C(void *h, Vec021A4F58 *v);
 
 int func_021A4F58(u32 *p, void *a1, u32 a2)

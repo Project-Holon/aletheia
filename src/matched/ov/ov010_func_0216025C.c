@@ -84,7 +84,7 @@ extern u32 func_02028754(struct Obj *obj, u32 n);
 extern int func_0216070C(struct Work *w);
 extern u32 func_020307B0(void *p);
 extern void *func_02188C7C(u8 *p);
-extern void func_0216D9E4(void *p);
+extern u32 *func_0216D9E4(void *c);
 extern int func_0216060C(int a0, int a1);
 extern void *func_0216075C(struct Owner *o, u16 id);
 extern void func_02012374(struct Evt *evt, struct Evt **out);

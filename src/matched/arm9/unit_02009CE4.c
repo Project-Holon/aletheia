@@ -112,7 +112,7 @@ struct Sub020097BCObj {
     u8 unk7C0[4];
 };
 
-extern void *sub_02009860(struct Sub020097BCObj *obj);
+extern struct Sub020097BCObj *sub_02009860(struct Sub020097BCObj *obj);
 extern u32   sub_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern int   sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern struct Sub020097BCEnt *sub_020099D4(struct Sub020097BCObj *obj, int i);

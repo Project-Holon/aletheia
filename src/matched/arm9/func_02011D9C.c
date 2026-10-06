@@ -65,7 +65,8 @@ extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
 extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
 //P
 extern void  func_02034A5C(s32 id);
-extern void *func_0203159C(void *a, u32 size, u32 c);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *p, u32 v, u32 size);
 extern void *g_02146248;
 struct Blk34;

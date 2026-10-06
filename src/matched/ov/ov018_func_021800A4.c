@@ -99,7 +99,7 @@ int func_02173C04(int, int);
 u8 *func_0217537C(u8 *);
 void func_0218034C(void *, Outer *, u8 *);
 int func_0217F420(void);
-void func_0216D9E4(void *);
+u32 *func_0216D9E4(void *c);
 void func_0217FE38(u8 *v, Outer *c);
 
 int func_021800A4(void *a, int *state, Outer *c)

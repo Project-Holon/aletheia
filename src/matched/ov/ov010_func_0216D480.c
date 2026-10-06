@@ -15,7 +15,7 @@
 
 typedef unsigned int   u32;
 extern u32 func_0216D57C(void *p, u32 v);
-extern void func_0216D570(char *p, unsigned int v);
+extern char *func_0216D570(char *p, u32 v);
 int func_0216D480(char *p)
 {
     if (func_0216D57C(p, 0x200) == 0) return 1;

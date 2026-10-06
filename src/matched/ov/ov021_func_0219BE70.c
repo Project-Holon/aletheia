@@ -25,7 +25,7 @@ extern T12 d_021D5480;
 extern void *func_0216D69C(void *p);
 extern void func_0219BF3C(int a, u32 v);
 extern void func_0216D8C0(u32, void *);
-extern void func_0216D568(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 
 void func_0219BE70(u32 a)
 {

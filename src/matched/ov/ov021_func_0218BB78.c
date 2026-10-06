@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern u16 *func_0218B924(void *s, int i);
+extern int func_0218B924(u8 *p, u32 a1);
 
 void func_0218BB78(u8 *s, int k)
 {
@@ -30,7 +30,7 @@ void func_0218BB78(u8 *s, int k)
 
     func_02082BCC(s + 0x1c, 0x80, 0x190);
     for (i = 0; i < ((struct Obj00572 *)s)->f1AC; i++)
-        s[*func_0218B924(s, i) + 0x1c] = i;
+        s[*((u16 *)func_0218B924(s, i)) + 0x1c] = i;
     v = (s + k)[0x1c];
     for (j = 0; j < 0x190; j++) {
         if (s[j + 0x1c] == 0x80)

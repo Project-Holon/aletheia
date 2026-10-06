@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 struct SaveBlock;
 extern void *func_020127AC(struct SaveBlock *p, u32 idx);
 
-void func_020127B8(void *p)
+void *func_020127B8(void *p)
 {
-    func_020127AC(p, 3);
+    return func_020127AC(p, 3);
 }

@@ -20,7 +20,7 @@ extern unsigned char ov014_id[];
 extern void func_020774A0(int (*callback)(void));
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02040588(unsigned,unsigned);
+extern void func_02040588(u32 which, unsigned char enable);
 void func_021EF74C(unsigned char *p) {
  func_02034A5C((int)ov014_id);func_020774A0(0);
  func_020307B0(((struct Obj10258 *)p)->f50);func_020307B0(((struct Obj10258 *)p)->f54);

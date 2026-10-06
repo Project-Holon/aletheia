@@ -15,5 +15,5 @@
 #include "../include/Obj03842.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;struct Cfg;struct CharBuf;struct Bank;struct Util;struct Setup;struct Ctx;
-extern void func_02048AC4(void *);
+extern u32 func_02048AC4(void *ptr);
 void func_021E04B4(u8 *p){func_02048AC4(((struct Obj03842 *)p)->fD54);}

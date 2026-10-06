@@ -46,13 +46,13 @@ extern void func_021D4474(int n, char *p);
 extern void func_020061E4(u32 a);
 extern int func_021D6A9C(u8 *p, u32 n);
 extern void func_0202822C(char *p, int v);
-extern void func_021D4244(int, int, int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D4CC4(u8 *);
 extern int func_02035C08(const void *p);
 extern const u32 d_021D88D0[];
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *);
-extern void func_02040588(u32, u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_021D7EC4(u8 *p);
 extern void func_021D68C4(u8 *);
 extern void func_02028148(u8 *p);
@@ -87,7 +87,7 @@ void func_021D4D28(u8 *p)
                 func_020061E4(0x54c);
                 func_021D6A9C(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f160);
                 func_0202822C(((struct Obj00495 *)p)->f34, 1);
-                func_021D4244((int)p, (int)func_021D4CC4, 0x4ca);
+                func_021D4244((int *)p, (int)func_021D4CC4, 0x4ca);
                 return;
             }
             if (changed)
@@ -96,7 +96,7 @@ void func_021D4D28(u8 *p)
                 func_020355D8(1);
                 func_020061E4(0x54c);
                 func_0202822C(((struct Obj00495 *)p)->f34, 1);
-                func_021D4244((int)p, (int)func_021D4CC4, 0x4f2);
+                func_021D4244((int *)p, (int)func_021D4CC4, 0x4f2);
                 return;
             }
         }
@@ -111,7 +111,7 @@ void func_021D4D28(u8 *p)
             func_02028148(((struct Obj00495 *)p)->f34);
             *(int *)&((struct Obj00495 *)p)->f34 = zero;
             func_02041B6C(5);
-            func_021D4244((int)p, (int)func_021D588C, 0x50b);
+            func_021D4244((int *)p, (int)func_021D588C, 0x50b);
         }
     }
 }

@@ -13,8 +13,9 @@
  *   func_0216D550 0x0216D550 thumb ov010
  */
 
-extern void func_0216D548(unsigned int *p, unsigned int v);
-extern void func_0216D550(unsigned int *p, unsigned int v);
+extern unsigned int *func_0216D548(unsigned int *p, unsigned int v);
+typedef unsigned int   u32;
+extern u32 *func_0216D550(u32 *p, u32 v);
 void func_0216DB80(unsigned int *p, unsigned int v)
 {
     if (v == 1) func_0216D548(p, 32);

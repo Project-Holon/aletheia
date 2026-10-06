@@ -22,8 +22,9 @@ typedef unsigned int u32;
 extern void *func_02012F08(int *p);
 extern int func_0200C3B8();
 
-int func_0215F9EC(int a0, int a1)
+int func_0215F9EC(int a0)
 {
+    int a1;
     void *p;
 
 a0 = ((struct Obj17707 *)a0)->f4;

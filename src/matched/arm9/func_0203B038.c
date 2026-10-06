@@ -56,12 +56,14 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32  func_02037A6C(int a0, int a1, int a2, int a3);
-extern void func_0203AD80(int a0, int a1, int a2, int a3);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern char unk_0203B018[];
 extern char unk_0203B01C[];
 
 void func_0203B038(u8 *a0)
 {
     if (func_02037A6C(0, (int)(a0 + 0x40), 0x200, (int)unk_0203B01C) != 0)
-        func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)unk_0203B018, 0xA, 0x169);
+        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)unk_0203B018, 0xA, 0x169);
 }

@@ -93,7 +93,7 @@ struct Console {
 
 extern struct Console unk_021469AC;
 
-extern void  func_020808F4(void);
+extern int func_020808F4(void);
 extern void  func_0207FDCC(u32 a);
 struct Bmp;
 struct CharBuf;

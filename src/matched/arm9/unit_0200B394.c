@@ -67,7 +67,7 @@ s32 *func_0200B394(struct Rec94 *p, s32 value)
     return p->unk04;
 }
 
-s32 *func_0200B3A4(struct Rec94 *p)
+s32 *func_0200B3A4(struct Rec94 *p, u32 b)
 {
     return p->unk04;
 }

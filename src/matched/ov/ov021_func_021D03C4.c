@@ -39,7 +39,7 @@ typedef struct W {
 
 typedef unsigned char  u8;
 extern u32 func_021ABE24(u8 *p);
-extern u32 func_021ABE18(u32 a);
+extern u32 func_021ABE18(u8 *p);
 extern void func_021C6AE0(u32 a);
 extern int func_021C6AF0(u32 a, u32 b, u32 c);
 extern void func_021C6AF8(u32 *p, u32 v);
@@ -60,7 +60,7 @@ void func_021D03C4(W *p)
     u16 *q;
 
     k = func_021ABE24((u8 *)p->f4);
-    h = func_021ABE18(p->f4);
+    h = func_021ABE18((u8 *)p->f4);
     for (; i < 2; i++, t++) {
         func_021C6AE0((u32)buf);
         func_021C6AF0((u32)buf, k, t->a);

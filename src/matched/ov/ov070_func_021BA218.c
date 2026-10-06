@@ -53,7 +53,7 @@ struct WordSet;
 extern void func_020456F8(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern int func_02020F14(u32 heap);
+extern void *func_02020F14(u32 a);
 extern void *func_021B616C(u8 *p, int i);
 extern int func_02020F20(int h, int id, u16 heap);
 extern u32 func_02021014(struct Rec *p, u32 sel);
@@ -94,7 +94,7 @@ void func_021BA218(char *p)
     if (((struct Obj01514 *)p)->f818 == ((struct Obj01514 *)p)->f814) {
         return;
     }
-    h = func_02020F14(((struct Obj01514 *)p)->f544);
+    h = (int)func_02020F14(((struct Obj01514 *)p)->f544);
     for (i = 0; i < 8; i++) {
         *(u32 *)(p + i * 4 + 0x654) = 0;
         idx = ((struct Obj01514 *)p)->f814 + i;

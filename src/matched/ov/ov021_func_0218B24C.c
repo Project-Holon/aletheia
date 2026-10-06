@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
-extern int func_021A2FA4(void *a, int b);
+extern u16 func_021A2FA4(u8 *p, u32 a1);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021BB188(u16 a);
 extern int func_0219E418(u32 a, u32 b);

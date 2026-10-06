@@ -39,8 +39,8 @@ extern void func_02164280(int x, int y, int *p);
 extern u32 func_0216D8AC(void *p);
 extern void func_0216D7E0(void *p, u32 v);
 extern void func_0216D7D8(void *p, u32 v);
-extern void func_0216D570(char *p, u32 v);
-extern void func_0216D568(void *p, u32 v);
+extern char *func_0216D570(char *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
 
 int func_021640B0(int a)
 {

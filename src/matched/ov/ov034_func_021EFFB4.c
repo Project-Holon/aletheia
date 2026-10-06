@@ -28,7 +28,7 @@
 struct PrintSys;
 extern unsigned int func_0201C6B4(const struct PrintSys *p);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);

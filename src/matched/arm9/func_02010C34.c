@@ -65,7 +65,7 @@ extern u8 d_021D654C[];
 
 extern unsigned int func_02031330(void *p);
 extern void func_02031348(u32 h, void *ovl, void *proc, void *arg);
-extern void func_0200F7B8(u32 a);
+extern u32 func_0200F7B8(u32 a0);
 extern void MI_CpuFill8(void *dst, u8 v, u32 size);
 extern int func_0205D074(void);
 

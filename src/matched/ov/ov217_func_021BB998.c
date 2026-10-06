@@ -15,7 +15,8 @@
  */
 #include "../include/Obj25852.h"
 
-void func_021BB998(void *p)
+void *func_021BB998(void *p)
 {
     ((struct Obj25852 *)p)->f20 = 0;
+    return p;
 }

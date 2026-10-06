@@ -31,7 +31,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02021540(void *a0);
+extern u32 func_02021540(void *a0);
 void func_021C0C50(u8 *a0)
 {
     func_02021540((void *)(((struct Obj25990 *)(((u8*)a0)))->f28));

@@ -25,7 +25,7 @@ typedef unsigned int  u32;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-void func_02020F14(u32 a)
+void *func_02020F14(u32 a)
 {
-    func_020490F4(0x18, a);
+    return func_020490F4(0x18, a);
 }

@@ -24,7 +24,8 @@ typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern int func_021BEF50(void);
 extern void *func_021BEF58(int p);
-extern int func_021BEC00(int, int);
+struct Conn;
+extern struct Conn *func_021BEC00(int a, int b);
 extern int func_021BF3BC(int);
 extern void func_021B9C1C(int, int);
 extern int func_021BF488(int);
@@ -37,7 +38,7 @@ int func_021BF288(int x)
     int c;
     int d;
 
-    c = func_021BEC00((int)func_021BEF58(a), x);
+    c = (int)func_021BEC00((int)func_021BEF58(a), x);
     if (c == 0)
         return -1;
     d = func_021BF3BC(x);

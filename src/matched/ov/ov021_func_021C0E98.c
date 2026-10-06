@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec3;
 
 extern int func_0216D3CC(int a0);
-extern int func_021A5408(u32 a);
+extern int func_021A5408(u8 *a);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(u32 o, u32 a);
 extern void func_020061E4(u32 se);
@@ -47,7 +47,7 @@ struct VecFx32;
 extern void func_0216D88C(const struct Actor *o, struct VecFx32 *v);
 extern int func_02163E58(u32 o, Vec3 *v, int *out);
 extern u16 func_0216D598(void *p);
-extern void func_0216DB4C(u32 o, u32 b);
+extern int func_0216DB4C(void *a0, int a1);
 extern void func_0216DAE0(unsigned int *p, unsigned int v);
 extern void func_0216D89C(u32 o, Vec3 *v);
 extern void func_0216D8E0(u32 o, void *p);
@@ -64,7 +64,7 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
     case 0:
         if (func_0216D3CC(((struct Obj00235 *)p)->f1C) == 0)
             break;
-        if (func_0216D3CC(((struct Obj00235 *)p)->f20) == 0 && func_021A5408(((struct Obj00235 *)p)->f0) == 0)
+        if (func_0216D3CC(((struct Obj00235 *)p)->f20) == 0 && func_021A5408((u8 *)(((struct Obj00235 *)p)->f0)) == 0)
             break;
         func_0216D410(((struct Obj00235 *)p)->f1C, func_02197E7C(((struct Obj00235 *)p)->f4, 8));
         func_0216D410(((struct Obj00235 *)p)->f20, func_02197E7C(((struct Obj00235 *)p)->f4, 0x20));
@@ -86,7 +86,7 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
             ((struct Obj00235 *)p)->fC -= 14 << 12;
         else
             ((struct Obj00235 *)p)->fC -= 26 << 12;
-        func_0216DB4C(((struct Obj00235 *)p)->f1C, 1);
+        func_0216DB4C((void *)(((struct Obj00235 *)p)->f1C), 1);
         func_0216DAE0((unsigned int *)(((struct Obj00235 *)p)->f1C), 0);
         func_020061E4(0x675);
         (*st)++;

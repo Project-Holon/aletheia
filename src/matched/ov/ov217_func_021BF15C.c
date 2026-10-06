@@ -47,7 +47,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201EE0C(void *a, u32 b, void *c, u32 d, u32 e, u32 f);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021BF15C(char *p)
 {

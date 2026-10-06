@@ -23,7 +23,8 @@
 
 typedef unsigned int u32;
 
-extern void *func_02012F98(void *p);
+struct Sub02007AC8Entry;
+extern struct Sub02007AC8Entry *func_02012F98(void *p);
 struct PerapVoice;
 extern void *sub_02007B50(void **p);
 extern void sub_02007B54(struct PerapVoice *p);

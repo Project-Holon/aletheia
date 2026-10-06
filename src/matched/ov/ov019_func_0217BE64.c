@@ -48,7 +48,7 @@ typedef struct Obj {
 
 typedef unsigned short u16;
 extern int func_0217BB04(char *p);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 extern u16 func_0217EC04(void ***ctx);
 extern u32 func_0217F1EC(u8 *p);
 extern void func_0217F210(u8 *p, u8 *a, u32 b);

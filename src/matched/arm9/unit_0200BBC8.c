@@ -75,7 +75,7 @@ void func_0200BBC8(struct Obj *p, u32 v)
     p->unk358 |= (u16)v;
 }
 
-void func_0200BBD8(struct Obj *p, u16 v)
+void func_0200BBD8(struct Obj *p, int v)
 {
     p->unk358 &= ~v;
 }

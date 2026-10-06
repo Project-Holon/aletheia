@@ -18,7 +18,7 @@
 #include "../include/Obj24604.h"
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
-extern void func_021FD73C(int *, int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DECB0(void *a, int b, char *p);
 void func_021DED64(int *p, int *state, char *q)
 {

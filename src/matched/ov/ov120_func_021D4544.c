@@ -20,9 +20,9 @@ typedef unsigned char  u8;
 extern void func_021D7A74(u8 *p, int n);
 extern void func_021D7F5C(char *p, u16 n);
 extern void func_021D80D4(char *p);
-extern void func_021D4244(int, void (*)(int), int);
+extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D44EC(int);
-void func_021D4544(int a)
+void func_021D4544(int *a)
 {
     --((struct Obj05340 *)a)->f14;
     if (((struct Obj05340 *)a)->f14 == 20)
@@ -30,6 +30,6 @@ void func_021D4544(int a)
     if (((struct Obj05340 *)a)->f14 == 0) {
         func_021D7F5C((char *)(((struct Obj05340 *)a)->f40), 0x23);
         func_021D80D4((char *)(((struct Obj05340 *)a)->f40));
-        func_021D4244(a, func_021D44EC, 0x241);
+        func_021D4244(a, (int)func_021D44EC, 0x241);
     }
 }

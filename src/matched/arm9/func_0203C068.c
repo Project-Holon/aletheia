@@ -29,10 +29,12 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void *func_0203D788(void);
-extern void  func_0203AD80(int a0, int a1, int a2, int a3);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203C068(void)
 {
     if (((int (*)(u32))*(u32 *)(*(u32 *)((char *)func_0203D788() + 0x340) + 0xC))(0) < 0)
-        func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203C05C, 0, (int)0x52C);
+        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203C05C, 0, (int)0x52C);
 }

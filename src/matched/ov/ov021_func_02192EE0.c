@@ -24,7 +24,7 @@ typedef struct { int w[8]; } B32;
 
 extern const B32 d_021D3F18;
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 struct BgTemplate;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02041300(int, int, int, int, int, int, int);

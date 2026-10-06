@@ -24,12 +24,13 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 extern u8 *func_021BEF08(void);
 extern void *func_021BEF58(int p);
-extern u8 *func_021BEC00(int, int);
+struct Conn;
+extern struct Conn *func_021BEC00(int a, int b);
 extern int func_021BF1B0(u8 *);
 
 int func_021BF184(int a)
 {
-    u8 *p = func_021BEC00((int)func_021BEF58((int)func_021BEF08()), a);
+    u8 *p = (u8 *)func_021BEC00((int)func_021BEF58((int)func_021BEF08()), a);
     if (p == 0)
         return -1;
     return func_021BF1B0(p);

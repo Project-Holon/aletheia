@@ -35,7 +35,7 @@ typedef struct {
 } Rec;
 
 extern void (*d_021DE6AC[])(void *, int);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 
 void func_021D31AC(Rec *p)

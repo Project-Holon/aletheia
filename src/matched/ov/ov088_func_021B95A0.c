@@ -19,10 +19,12 @@
 typedef unsigned short u16;
 
 extern void func_0203064C(unsigned int a, unsigned int heap, unsigned int size);
-extern void *func_0203159C(int a, int size, int heap);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *p, int v, int n);
 
-int func_021B95A0(int a0)
+int func_021B95A0(struct Obj0203159C *a0)
 {
     char *p;
 

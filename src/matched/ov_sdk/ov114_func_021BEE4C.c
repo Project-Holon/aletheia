@@ -20,11 +20,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEC00(int, int);
+struct Conn;
+extern struct Conn *func_021BEC00(int a, int b);
 
 int func_021BEE4C(int a, int b, int c, int d)
 {
-    u8 *p = func_021BEC00(a, b);
+    u8 *p = (u8 *)func_021BEC00(a, b);
     if (p == 0)
         return -1;
     *(u32 *)(p + 0x24) = c;

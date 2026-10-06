@@ -37,7 +37,8 @@ unsigned int func_02012138(const struct Ctx *p);
 int func_02158344(int a0);
 void *func_02188C7C(unsigned char *p);
 void func_0216D9A0(void *x);
-void func_0216D9E4(void *x);
+typedef unsigned int   u32;
+u32 *func_0216D9E4(void *c);
 void *func_0217FC08(int a, int b, u8 *c, int d, int e, u16 f);
 void func_02012374(struct Evt *evt, struct Evt **out);
 

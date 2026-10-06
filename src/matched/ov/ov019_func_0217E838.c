@@ -37,7 +37,7 @@ u32 func_0217F1EC(u8 *p);
 void func_0217F22C(u8 *p, u32 a);
 int func_0217F268(char *p, u32 *out);
 void func_0217F24C(u8 *w);
-int func_0217B8E4(char *p, char v);
+int func_0217B8E4(char *p, int v);
 struct Obj00020;
 void *func_02188CB4(struct Obj00020 *p);
 void *func_021A3074(u8 *p);

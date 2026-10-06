@@ -28,7 +28,7 @@ typedef struct {
     u32 slot : 4;
 } Rec;
 
-extern u8 *func_020127B8(void *a);
+extern void *func_020127B8(void *p);
 struct Rec44;
 struct Sub0200852CObj;
 struct Sub24;

@@ -38,8 +38,8 @@ typedef unsigned int   u32;
 typedef long long      s64;
 
 u32 func_021B8220(u8 *p);
-u32 func_021B833C(u32 q);
-u32 func_021B834C(u32 q);
+u8 *func_021B833C(u8 *p);
+u8 *func_021B834C(u8 *p);
 u32 func_021B821C(u8 *p);
 void func_0218E124(u8 *a, u32 s);
 int func_0218EC60(u32 a);
@@ -78,8 +78,8 @@ void func_021BA348(u32 p)
     u16 y;
 
     q = func_021B8220((u8 *)p);
-    a = func_021B833C(q);
-    b = func_021B834C(q);
+    a = (u32)func_021B833C((u8 *)q);
+    b = (u32)func_021B834C((u8 *)q);
     h = func_021B821C((u8 *)p);
     func_0218E124((u8 *)h, 0);
     func_0218EC60(func_021B821C((u8 *)p));

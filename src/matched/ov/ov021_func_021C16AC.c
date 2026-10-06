@@ -41,7 +41,7 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec3;
 
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216DB4C(void *a, u32 b);
+extern int func_0216DB4C(void *a0, int a1);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
@@ -50,7 +50,7 @@ extern void func_02164208(int dir, int *p, int amt);
 extern void func_02164280(int x, int y, int *p);
 extern void func_02163E58(void *a, Vec3 *v, int *out);
 extern void func_0216E014(void *a, int *p, int b);
-extern void *func_021A2F98(u32 a);
+extern u32 func_021A2F98(u8 *p);
 extern void func_021ACBB8(u32 a, u8 v);
 extern u32 func_02188CD0(u8 *p);
 extern void func_021ABE30(int a, int *b, int c);
@@ -95,7 +95,7 @@ void func_021C16AC(u8 *p)
         ((struct Obj00129 *)p)->f38 = (b.z - v.z) / 16;
         ((struct Obj00129 *)p)->f34 = -0x6000;
         ((struct Obj00129 *)p)->f1C = 0x1000;
-        r7 = func_021A2F98(*(u32 *)&((struct Obj00129 *)p)->f3C);
+        r7 = (void *)func_021A2F98((u8 *)(*(u32 *)&((struct Obj00129 *)p)->f3C));
         func_021ACBB8((u32)r7, 2);
         if ((u16)(((struct Obj00129 *)p)->f4 + 0xfffe) <= 1)
             k = 3;
@@ -118,7 +118,7 @@ void func_021C16AC(u8 *p)
             ((struct Obj00129 *)p)->f1C = 0;
             ((struct Obj00129 *)p)->f2 = ((struct Obj00129 *)p)->f2 + 1;
             func_021AC154(((struct Obj00129 *)p)->f48);
-            r7 = func_021A2F98(*(u32 *)&((struct Obj00129 *)p)->f3C);
+            r7 = (void *)func_021A2F98((u8 *)(*(u32 *)&((struct Obj00129 *)p)->f3C));
             {
                 u32 k2 = 2;
                 if ((u16)(((struct Obj00129 *)p)->f4 + 0xfffe) <= 1)
@@ -138,7 +138,7 @@ void func_021C16AC(u8 *p)
             ((struct Obj00129 *)p)->f38 = (((struct Obj00129 *)p)->f2C - w.z) / 16;
             func_021C6B18(((struct Obj00129 *)p)->f40, 0x10, -0x20000);
             func_021AC154(((struct Obj00129 *)p)->f48);
-            r7 = func_021A2F98(*(u32 *)&((struct Obj00129 *)p)->f3C);
+            r7 = (void *)func_021A2F98((u8 *)(*(u32 *)&((struct Obj00129 *)p)->f3C));
             func_021ACBB8((u32)r7, 1);
             ((struct Obj00129 *)p)->f48 = func_021AD564(func_02188CD0((u8 *)(((struct Obj00129 *)p)->f40)), 0, r7);
         }

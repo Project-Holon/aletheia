@@ -49,8 +49,8 @@ extern void func_021F9BA0(unsigned *ctx);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
-extern int func_021FD744(int);
-extern void func_021FD73C(int *,int);
+extern int func_021FD744(int *a);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DBD7C(int *,int *,char *);
 void func_021DBFB0(int *a,int *state,char *p)
 {
@@ -109,6 +109,6 @@ void func_021DBFB0(int *a,int *state,char *p)
     case 10: func_021FD73C(a,(int)func_021DBD7C);break;
     case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
-    case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int)a);break;
+    case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)a);break;
     }
 }

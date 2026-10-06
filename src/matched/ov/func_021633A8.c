@@ -41,8 +41,9 @@ extern int func_0216355C();
 extern int func_0216375C();
 extern int func_021638AC(int a0, int a1);
 
-void func_021633A8(int a0, int a1)
+void func_021633A8(int a0)
 {
+    int a1;
     unsigned char fr[28];
     int t4;
     int t5;

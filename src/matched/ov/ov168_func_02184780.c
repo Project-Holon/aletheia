@@ -32,7 +32,8 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0207C9D0(void *, void *, void *);
 typedef unsigned int   u32;
 extern int func_0203F5FC(u32 x);
-extern void func_0204B550(void *, s16, int);
+struct Actor;
+extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 void func_02184780(void *task, int *p)

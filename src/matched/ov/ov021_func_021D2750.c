@@ -105,7 +105,7 @@ struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_02013C60(u32 id);
-extern int func_021A3098(void *a);
+extern u32 func_021A3098(u8 *p);
 struct Record;
 extern void func_0216E2E8(const char *ctx, u32 id, struct Record *out);
 extern void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c);

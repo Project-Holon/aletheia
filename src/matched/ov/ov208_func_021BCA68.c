@@ -39,7 +39,8 @@ struct Ov208Main {
     int f20; int f24; int f28;
 };
 extern void func_0203064C(u32 src, u32 heap, u32 size);
-extern void *func_0203159C(void *owner, u32 size, u32 heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern char *func_021BCE10(u32 display, u32 heap, int threeD);
 extern void func_021BCEC0(char *p);

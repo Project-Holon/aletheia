@@ -28,7 +28,7 @@ typedef struct Arg021D046C {
 } Arg021D046C;
 
 extern int func_021ABEA0(u32 a, u32 b);
-extern u32 func_021ABE18(void *a);
+extern u32 func_021ABE18(u8 *p);
 extern void func_021ABFA8(void *a, void *b, u32 c, u32 d, void *e, u32 f);
 extern char d_021DB93C[];
 

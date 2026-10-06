@@ -32,7 +32,7 @@ extern int func_021C93D0(void);
 extern int func_021C940C(void);
 extern void func_021C9634(void);
 typedef unsigned int   u32;
-extern void func_0200F7B8(u32 a0);
+extern u32 func_0200F7B8(u32 a0);
 int func_021D70EC(u8 *p,int *q) {
     int done=0;
     if(func_021C93D0()==0) {

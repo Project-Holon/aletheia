@@ -29,7 +29,7 @@ typedef struct { u8 low : 2; u8 flag : 2; u8 high : 4; } Flags;
 extern int func_021C23B8(int i);
 extern u32 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
-extern int func_021C23C0(void *);
+extern unsigned char func_021C23C0(void *a);
 extern int func_021C27E0(void *);
 extern void *func_021BE2A8(char *, int);
 extern int func_021BDDA8(int);

@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u32 w[49]; } Rec;
-extern int *func_021D85E8(void);
+extern char *func_021D85E8(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, int, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
@@ -29,7 +29,7 @@ extern char d_021D8D2C[];
 
 int func_021D7414(char *unused, char *dst, int n)
 {
-    int *g = func_021D85E8();
+    int *g = (int *)func_021D85E8();
     int *hdr = g + 1;
     char *base;
     int cnt;

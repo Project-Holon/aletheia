@@ -49,14 +49,14 @@ extern Tbl22 d_021D5248;
 extern void *func_0216D6B8(void *p);
 extern u16 func_0216D5F8(void *p);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D438(int a0, int a1);
+extern void func_0216D438(char *a0, int a1);
 extern u32 func_02197EDC(u8 *p);
 extern u16 func_0216D5A8(u8 *p);
 extern int func_0219B8A8(void);
 extern int func_02164168(int a);
 extern void func_0216D5E0(int a0, int a1);
 
-int func_0219B59C(int a)
+int func_0219B59C(char *a)
 {
     St *p;
     int lim;
@@ -82,7 +82,7 @@ int func_0219B59C(int a)
         p->state++;
     case 3:
         lim = 8;
-        if (func_0216D5A8((u8 *)a) == 14 && func_0219B8A8() == 1 && func_02164168(a) == 1) {
+        if (func_0216D5A8((u8 *)a) == 14 && func_0219B8A8() == 1 && func_02164168((int)a) == 1) {
             lim = 4;
         }
         if (++p->f8 < lim) {
@@ -94,7 +94,7 @@ int func_0219B59C(int a)
             p->state = 1;
             return 1;
         }
-        func_0216D5E0(a, p->f4);
+        func_0216D5E0((int)a, p->f4);
         p->state++;
         p->f7 = 0;
         p->f0 = 0;

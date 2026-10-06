@@ -22,14 +22,17 @@ struct Ctx;
 struct SaveBlock;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int *func_0200B3A4(void *, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 extern void *func_020127A4(struct SaveBlock *p);
 void func_021F36E8(void *a, int v)
 {
     void *save;
     int *p;
     save = func_020120F4(a);
-    p = func_0200B3A4(func_02012EC4(save), 3);
+    p = func_0200B3A4((struct Rec94 *)func_02012EC4(save), 3);
     func_020127A4(save);
     if (v) p[0] = 1;
     else p[0] = 0;

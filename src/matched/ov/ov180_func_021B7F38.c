@@ -66,7 +66,8 @@ typedef unsigned char  u8;
 extern u32 func_020056EC(u32 range);
 extern int func_021B74B4(int *p, int i);
 extern void func_021B75E8(char *, int);
-extern int func_021B75A4(char *, struct S24 *);
+struct Obj;
+extern struct Obj *func_021B75A4(char *p, const char *q);
 extern void func_021B7488(u8 *p, int n, int v);
 extern struct S24 tbl_021B821C;
 extern struct S24 tbl_021B8234;
@@ -105,7 +106,7 @@ void func_021B7F38(char *p)
                 local.a = a;
                 local.b = y - 0x18;
             }
-            ((int *)(p + 0x9048))[i] = func_021B75A4(p, &local);
+            ((int *)(p + 0x9048))[i] = (int)func_021B75A4(p, (const char *)(&local));
             func_021B7488((u8 *)p, i, n + 4);
             return;
         }

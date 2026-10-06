@@ -123,7 +123,7 @@ extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_0218949C(int *connection, int *buffer, int value);
 extern void func_0217EAE0(void *ptr);
 extern int func_02190140(char *p);
-extern void func_0218FF24(void **connection, GPIProfile *profile);
+extern void func_0218FF24(const int *p, void *profile);
 extern char *func_02094B20(const char *s1, const char *s2);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern int func_0218F1E0(void **connection, GPIPeer *peer);
@@ -187,7 +187,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
                 func_0217EAE0(pProfile->peerSig);
                 pProfile->peerSig = 0;
                 if (func_02190140((char *)pProfile))
-                    func_0218FF24(connection, pProfile);
+                    func_0218FF24((const int *)connection, pProfile);
             }
 
             peer->state = 0x68;

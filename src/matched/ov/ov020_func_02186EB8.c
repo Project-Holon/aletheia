@@ -28,7 +28,8 @@ typedef unsigned int u32;
 
 void *func_0215A5F4(void *a);
 void *func_0215A5E4(void *a);
-void func_020127C4(void *a);
+typedef unsigned char  u8;
+u8 *func_020127C4(void *p);
 int func_020127F0(int a0);
 struct BigObj;
 void *func_02012934(const struct BigObj *p);

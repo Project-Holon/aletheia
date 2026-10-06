@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020809A0(void);
+extern int func_020809A0(void);
 extern void func_0208074C(int sub_obj);
 extern void func_0208068C(u32 v);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);

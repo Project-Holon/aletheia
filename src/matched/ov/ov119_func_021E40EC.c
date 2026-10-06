@@ -28,7 +28,7 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_02049238(void *);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 void func_021E40EC(char *p, int a1, int a2)
 {
     Tbl2 tbl = d_021E7DD0;

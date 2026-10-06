@@ -20,9 +20,9 @@
 
 typedef unsigned int   u32;
 extern int func_021C8A9C(u32 a);
-extern void func_0216D550(u32 *p, u32 v);
+extern u32 *func_0216D550(u32 *p, u32 v);
 extern void func_0216D5E0(int a, int b);
-extern void func_0216D548(u32 *p, u32 v);
+extern u32 *func_0216D548(u32 *p, u32 v);
 
 void func_021C8AD0(int *p)
 {

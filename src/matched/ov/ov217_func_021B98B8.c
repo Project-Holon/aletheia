@@ -28,7 +28,7 @@ struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern int d_021C2E30;
 extern int d_021C2E60;
 extern int d_021C2E40;

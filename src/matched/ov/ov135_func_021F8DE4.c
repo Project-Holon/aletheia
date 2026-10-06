@@ -36,7 +36,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *, u32, u32);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_02031348(void *, u32, void *, void *);
-extern void func_0200F7B8(u32);
+extern u32 func_0200F7B8(u32 a0);
 extern u32 func_021F8F5C(u8 *p);
 extern char str_02203C34[];
 extern u8 tbl_021D654C[];

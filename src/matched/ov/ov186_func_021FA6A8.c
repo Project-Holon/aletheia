@@ -14,7 +14,7 @@
 #include "../include/Obj06628.h"
 extern void func_021FAD18(char *ctx, int mode, const int *target);
 extern int func_021FAD74(char *ctx);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FAA34(void *p, int *state, int *ctx);
 extern void func_021FA7FC(void *p, int *state, unsigned char *ctx);
 void func_021FA6A8(void *p, int *state, unsigned char *ctx)

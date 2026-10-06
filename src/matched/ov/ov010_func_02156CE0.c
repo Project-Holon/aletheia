@@ -52,7 +52,8 @@ typedef struct Work {
 } Work;
 
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_0203159C(void *ctx, int size, int heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 typedef signed int     s32;
 struct Deal;
 struct Src;

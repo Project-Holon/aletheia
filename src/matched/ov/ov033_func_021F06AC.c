@@ -29,7 +29,7 @@ typedef struct {
 } E;
 
 extern E d_021F0DF0[];
-extern void func_02040588(unsigned int which, unsigned int enable);
+extern void func_02040588(unsigned int which, unsigned char enable);
 extern void func_0203FCA0(unsigned char, void *, unsigned char);
 extern void func_020414AC(unsigned char);
 extern void func_02040618(unsigned char, unsigned, unsigned);

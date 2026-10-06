@@ -18,7 +18,7 @@
 
 int func_021D53DC(signed char *p);
 
-void func_021D5EFC(char *p)
+int func_021D5EFC(char *p)
 {
-    func_021D53DC((signed char *)(p + 0xfc));
+    return func_021D53DC((signed char *)(p + 0xfc));
 }

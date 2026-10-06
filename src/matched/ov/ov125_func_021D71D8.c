@@ -27,7 +27,7 @@
 #include "../include/Obj23000.h"
 typedef unsigned short u16;
 extern char d_021D8D28[];
-extern u16 *func_021D85E8(void);
+extern char *func_021D85E8(void);
 extern int func_021D85F4(void);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -43,7 +43,7 @@ int func_021D71D8(char *p)
 {
     const u16 *state;
     int result = 1;
-    state = func_021D85E8();
+    state = (const u16 *)func_021D85E8();
     func_021D85F4();
     if (((struct Obj00327 *)p)->f3DC != state[0]) func_02034714(d_021D8D28, 0, d_021D8D28);
     ((struct Obj00327 *)p)->f3F0 = 0;

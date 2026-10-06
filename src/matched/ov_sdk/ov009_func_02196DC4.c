@@ -99,7 +99,7 @@ extern int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5);
 extern int func_02197BD4(struct Sock *sock, unsigned int ip, unsigned short port);
 extern int func_021955C0(struct GTI2Socket *socket, struct GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
-extern int func_02197BB8(struct GTI2Connection *connection);
+extern int func_02197BB8(int *p);
 extern int func_02196098(struct Conn *c, unsigned char *msg, int len);
 extern int func_02196948(struct GTI2Connection *connection, int type, unsigned char *message, int len);
 extern int func_02196D00(struct Conn *c, int type, unsigned char *message, int len);
@@ -153,7 +153,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
 
     if (connection->state == 7) {
         if (!magicString || actualMessage[2] != 0x68) {
-            if (!func_02197BB8(connection))
+            if (!func_02197BB8((int *)connection))
                 return 0;
         }
         return 1;

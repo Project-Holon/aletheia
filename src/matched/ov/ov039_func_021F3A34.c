@@ -86,7 +86,9 @@ struct IcaAnime;
 struct SoundSys2;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern Save *func_0200B3A4(unsigned int, unsigned int);
+typedef signed int     s32;
+struct Rec94;
+extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *a);
 extern int func_021F3DE4(void *p, u16 delta, u16 i);
@@ -145,7 +147,7 @@ void func_021F3A34(int a0, void *a1)
     h = func_02188D2C(a1);
     s = func_021897BC(a1, 1);
     t = (u32)func_020120F4((const struct Ctx *)func_02188C80(a1));
-    q = func_0200B3A4((unsigned int)func_02012EC4((struct Big *)t), 2);
+    q = (Save *)func_0200B3A4((struct Rec94 *)func_02012EC4((struct Big *)t), 2);
     w = func_02012A30((const struct BigObj *)t);
     for (i = 0; i < 4; i++) {
         j = i;

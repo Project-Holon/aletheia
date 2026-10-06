@@ -57,7 +57,7 @@ extern int func_0216D7F8(void *p);
 extern int func_0216D86C(void *p);
 extern void func_0219ADEC(St *b);
 extern u32 *func_0219B120(u32 id);
-extern void func_0216D600(int a, u16 b);
+extern int func_0216D600(int a0, u16 a1);
 extern int func_0219B358(u32 a);
 extern void func_0216D5E0(int a0, int a1);
 extern int func_021639C0(int a, u16 b);
@@ -65,11 +65,11 @@ extern int func_0219B334(u32 a);
 extern int func_0219B060(void);
 extern int func_02164168(int a);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D438(int a0, int a1);
+extern void func_0216D438(char *a0, int a1);
 extern void func_0219B390(int a, s8 *b);
 extern void func_0216DA44(int a);
 
-int func_0219AEC8(int a, St *b)
+int func_0219AEC8(char *a, St *b)
 {
     u32 *tbl;
     u32 v;
@@ -80,7 +80,7 @@ int func_0219AEC8(int a, St *b)
     int f;
     int m;
 
-    if (func_0219B2E8(a, &b->f6) == 0) {
+    if (func_0219B2E8((int)a, &b->f6) == 0) {
         return 0;
     }
     if (b->step == b->last) {
@@ -107,32 +107,32 @@ int func_0219AEC8(int a, St *b)
     }
     tbl = func_0219B120(b->id);
     v = tbl[b->step];
-    func_0216D600(a, (u16)v);
-    if (func_0219B358(a) == 0) {
-        func_0216D5E0(a, (u16)v);
+    func_0216D600((int)a, (u16)v);
+    if (func_0219B358((u32)a) == 0) {
+        func_0216D5E0((int)a, (u16)v);
     }
-    f = func_021639C0(a, (u16)v);
+    f = func_021639C0((int)a, (u16)v);
     if (1 & f) {
         func_0219ADEC(b);
         v = tbl[b->step];
-        func_0216D600(a, (u16)v);
-        if (func_0219B358(a) == 0) {
-            func_0216D5E0(a, (u16)v);
+        func_0216D600((int)a, (u16)v);
+        if (func_0219B358((u32)a) == 0) {
+            func_0216D5E0((int)a, (u16)v);
         }
-        f = func_021639C0(a, (u16)v);
+        f = func_021639C0((int)a, (u16)v);
     }
     m = 12;
-    if (func_0219B334(a) != 0 && func_0219B060() == 1 && func_02164168(a) == 1) {
+    if (func_0219B334((u32)a) != 0 && func_0219B060() == 1 && func_02164168((int)a) == 1) {
         m = 16;
     }
     if (f != 0) {
         m = 32;
     }
     func_0216D438(a, (u16)func_02197E7C((u16)v, (u16)m));
-    if (func_0219B358(a) == 1) {
-        func_0219B390(a, &b->f8);
+    if (func_0219B358((u32)a) == 1) {
+        func_0219B390((int)a, &b->f8);
     }
-    func_0216DA44(a);
+    func_0216DA44((int)a);
     b->f0 = 3;
     return 1;
 }

@@ -59,7 +59,7 @@ u32 func_02012138(const struct Ctx *p);
 u32 func_0202648C(void *p);
 u32 func_02026454(void *obj);
 void func_02026484(void *p);
-void func_02012B78(struct BigObj *p, u8 v);
+struct BigObj *func_02012B78(struct BigObj *p, u8 v);
 void func_02012B64(struct BigObj *p, u8 v);
 void func_02012B8C(struct BigObj *p, u32 v);
 void func_02012B4C(struct BigObj *p, u8 v);

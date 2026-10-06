@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A3974(u32);
+extern u32 func_021A3974(u8 *p);
 extern int func_021A44C8(u8 *, u32);
 extern int func_021A48C8(u8 *, u32);
 extern int func_021A4B00(u8 *, u32);
@@ -31,7 +31,7 @@ int func_021A4444(u8 *p, u32 s)
     int r;
 
     r = 0;
-    switch (func_021A3974(*(u32 *)&((struct Obj09565 *)p)->fC)) {
+    switch (func_021A3974((u8 *)(*(u32 *)&((struct Obj09565 *)p)->fC))) {
     case 0:
         r = func_021A44C8(p, s);
         break;

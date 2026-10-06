@@ -39,7 +39,8 @@ extern const struct E d_021DEC04[];
 extern const struct E d_021DEC94[];
 struct PalAnmSlot;
 extern void func_021DE064(int *p, int i, int a);
-extern void *func_021DE290(char *, const void *);
+struct Obj;
+extern struct Obj *func_021DE290(char *p, const char *q);
 extern void func_021DE608(char *, int, int);
 extern void func_021DE34C(char *, int);
 extern void func_021DE1F8(char *, int);
@@ -83,7 +84,7 @@ void func_021DE388(char *p) {
             *(u32 *)(p + e.w[2] * 4 + 0xBB4) = func_0202D81C(h, r->f10, r->a, r->b, x, 0, 0, r->f8, 0, 0x8c);
             *(u32 *)(p + e.w[3] * 4 + 0xBE8) = func_0202D7D8(h, r->f10, r->a, r->b, x, 0, 0, 0, (u16)(v << 5), 0x8c);
             *(u32 *)(p + e.w[4] * 4 + 0xC1C) = func_0202D898(r->f10, r->a, r->b, x, 0, 0, 2, 0, 0x8c);
-            *slot = (u32)func_021DE290(p, &e);
+            *slot = (u32)func_021DE290(p, (const char *)(&e));
             func_021DE608(p, v, *(u16 *)((char *)d_021DEC94 + *(u16 *)(rec + 0xb8) * 0x18 + i * 4 - 0x18));
             *(u16 *)(p + i * 2 + 0xB10) = *(u16 *)((char *)d_021DEC94 + *(u16 *)(rec + 0xb8) * 0x18 + i * 4 - 0x18);
         }

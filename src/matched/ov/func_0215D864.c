@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern int func_02012F44(void *);
+extern void *func_02012F44(void *p);
 struct Big;
 extern void func_0200A6BC(struct Big *p, u32 index);
 

@@ -30,14 +30,14 @@ typedef struct {
     u16 done;
 } Obj021A3EE0;
 
-int func_021A3974(Obj021A3EE0 *p);
+u32 func_021A3974(u8 *p);
 u32 func_021A398C(u8 *p);
 int func_021A31A4(int i, int v);
 int func_021A3D08(u8 *p, u32 v);
 
 int func_021A3EE0(Obj021A3EE0 *p)
 {
-    int a = func_021A3974(p);
+    int a = func_021A3974((u8 *)p);
 
     if (func_021A3D08((u8 *)p, func_021A31A4(func_021A398C((u8 *)p), a)) != 1)
         p->step++;

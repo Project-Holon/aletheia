@@ -30,14 +30,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { B0=0, B8=8, B16=16 } Bound;
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern void *func_0203159C(void *,unsigned,unsigned);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern unsigned func_02007698(void *);
 extern u8 func_020076A4(void *);
 typedef unsigned int   u32;
 extern int func_020078C4(void *save, u32 box);
 extern u8 func_020076B4(void *);
-extern void *func_02031324(unsigned);
+extern void *func_02031324(int a0);
 int func_021DC860(void *manager, int unused, void **context)
 {
     u8 *p;

@@ -12,11 +12,12 @@
 
 typedef unsigned short u16;
 
-void func_021B9464(u16 *p)
+u16 *func_021B9464(u16 *p)
 {
     int i;
 
     for (i = 0; i < 0x12; i++) {
         p[i] = 0xFFFF;
     }
+    return p;
 }

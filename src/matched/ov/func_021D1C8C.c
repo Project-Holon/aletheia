@@ -131,7 +131,7 @@ extern u32 sub_02006BD0(u32 i);
 extern void func_021D2124(Work *);
 extern u32 func_0201ED04(struct WordSet *p);
 extern int func_02190E40(u32 a);
-extern void func_021904C8(struct Rec *a0);
+extern u32 func_021904C8(struct Rec *a0);
 extern int func_021D1F64(u32 a);
 
 int func_021D1C8C(void *proc, int *seq, Work *w)

@@ -28,7 +28,7 @@ typedef signed int     s32;
 
 struct Ring;
 extern u32 func_021C0E54(struct Ring *r);
-extern void func_021C16FC(void *p, u32 v);
+extern void *func_021C16FC(void *p, u32 v);
 void func_021C16E8(u32 a0)
 {
     func_021C16FC((void *)(a0 + 0 + 0), func_021C0E54((struct Ring *)(((struct Obj04641 *)(((u8*)a0 + 0)))->fC)) + 0);

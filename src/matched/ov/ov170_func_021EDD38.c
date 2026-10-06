@@ -31,7 +31,8 @@ extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EDB64(char *p, int a, int i);
 extern void func_021EB874(char **p, unsigned a, int i);
-extern int func_021EC01C(char *p, int i);
+typedef unsigned int   u32;
+extern u32 func_021EC01C(char *p, int i);
 
 void func_021EDD38(char *p, int d)
 {

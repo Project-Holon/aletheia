@@ -75,7 +75,7 @@ typedef struct Work {
     u32 f18;            /* 0x18 */
 } Work;
 
-extern int func_021605C0(int a0, Work *w);
+extern void func_021605C0(int a0, int a1);
 struct Obj;
 struct Owner;
 extern int func_0216060C(int a0, int a1);
@@ -84,7 +84,7 @@ extern int func_0216040C(Req *r, u32 code);
 extern void func_02164480(Flags *f, void *a, void *b);
 extern int func_0216070C(Work *w);
 extern void *func_0216075C(struct Owner *o, u16 id);
-extern void func_0216D9E4(void *c);
+extern u32 *func_0216D9E4(void *c);
 extern int func_021644F4(int i, void *a, void *p);
 extern void *func_021606DC(void *p, u32 a);
 struct BigObj;
@@ -113,7 +113,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
         *state = 1;
         break;
     case 1:
-        func_021605C0(0, w);
+        func_021605C0(0, (int)w);
         *state = 2;
         break;
     case 2:
@@ -187,7 +187,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
         }
         break;
     case 8:
-        func_021605C0(1, w);
+        func_021605C0(1, (int)w);
         *state = 4;
         break;
     case 9:

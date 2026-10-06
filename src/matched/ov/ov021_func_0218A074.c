@@ -35,7 +35,7 @@ struct Obj00020;
 extern int func_02189BD0(void *sys, struct Obj00020 *pos, int *outA, int *outB);
 extern void func_021AA8EC(u8 *p);
 extern u32 func_02188D20(u8 *p);
-extern int func_021BC5BC(u32 a);
+extern int func_021BC5BC(u8 *a);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3550(u32 *p, int a);
@@ -59,7 +59,7 @@ int func_0218A074(void *a, int b)
     if (r != 0) {
         if (u != 0)
             func_021AA8EC(q);
-        func_021BC5BC((u32)((void *)func_02188D20(p)));
+        func_021BC5BC((u8 *)((void *)func_02188D20(p)));
         func_021A3550(func_02188CB4(p), v);
         func_021A356C(func_02188CB4(p));
         if (func_02189A70(p) != 0)

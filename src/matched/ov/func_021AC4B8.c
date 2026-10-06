@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021AC514(void *p);
+extern int func_021AC514(u32 a);
 extern u32 func_020307B0(void *p);
 
 void func_021AC4B8(u32 a, u8 *p)
 {
-    func_021AC514(p);
+    func_021AC514((u32)p);
     func_020307B0(p);
 }

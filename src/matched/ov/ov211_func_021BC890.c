@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 
 typedef unsigned short u16;
-extern void func_02041F6C(u32 which, u32 op, u16 value);
+extern void func_02041F6C(u32 which, u32 op, u32 value);
 
 void func_021BC890(void)
 {

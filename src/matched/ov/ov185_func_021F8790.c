@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char *,int,int,int *);
 extern void func_021FD860(int,int,Pair *);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FD170(char *p, char *q, void *text);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);

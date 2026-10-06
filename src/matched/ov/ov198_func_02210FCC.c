@@ -14,8 +14,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_022119F8(u8 *,u32,u32);
-void func_02210FCC(u8 *p,u32 state,u32 value)
+void func_02210FCC(u8 *p, u32 state)
 {
+    u32 value;
     switch(state) {
     case 0: case 8:
         p[0x2190]=0;

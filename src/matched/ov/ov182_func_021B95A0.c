@@ -28,7 +28,8 @@
 typedef unsigned short u16;
 extern const u16 d_021B9B9C;
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
-extern char *func_0203159C(void *, unsigned, unsigned);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *, int, int);
 typedef unsigned int   u32;
 struct GfFont;

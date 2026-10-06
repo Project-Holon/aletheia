@@ -26,7 +26,7 @@ extern void *func_0201210C(const struct Ctx *p);
 typedef unsigned int   u32;
 extern u32 func_0215A5D4(void *p);
 extern u32 func_0215A5D8(void *p);
-extern void func_02158DBC(void);
+extern int func_02158DBC(void);
 extern struct Bits d_02170374[];
 
 int func_02158DE8(int a, int b, int c, int idx)

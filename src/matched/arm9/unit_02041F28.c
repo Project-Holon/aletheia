@@ -71,7 +71,7 @@ void func_02041F28(u32 which, u32 op, u16 value)
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-void func_02041F6C(u32 which, u32 op, u16 value)
+void func_02041F6C(u32 which, u32 op, u32 value)
 {
     func_02043264((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);

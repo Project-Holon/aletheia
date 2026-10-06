@@ -14,10 +14,12 @@
  *   func_021AB5AC  0x021AB5AC  thumb  ov021
  */
 
-int func_021A3098(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u32 func_021A3098(u8 *p);
 int func_021AB5AC(unsigned long a, unsigned long b);
 
-int func_021A3504(int a, int b, int c)
+int func_021A3504(u8 *a, int b, int c)
 {
     int r = func_021A3098(a);
 

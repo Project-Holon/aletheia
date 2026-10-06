@@ -16,6 +16,8 @@
 
 typedef struct { int w[8]; } W;
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern W *func_0203159C(void *,int,int);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 int func_0216F144(void *a,int b,int c) { W *w; func_0203064C(1,38,0x18000); w=func_0203159C(a,32,38); func_02082BCC(w,0,32); w->w[0]=38; w->w[6]=c; return 1; }

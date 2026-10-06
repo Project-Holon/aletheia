@@ -35,7 +35,8 @@ int func_02158344(int a0);
 int func_02167A54(int *p, int i);
 void *func_02188C7C(unsigned char *p);
 void func_0216D9A0(void *x);
-void func_0216D9E4(void *x);
+typedef unsigned int   u32;
+u32 *func_0216D9E4(void *c);
 void *func_0217FD34(int a, int b, u8 *c, int d, int e, u16 f);
 
 int func_0217FCAC(int x, int *st, int *obj)

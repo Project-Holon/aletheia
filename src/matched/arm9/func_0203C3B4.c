@@ -27,10 +27,12 @@ struct Sys {
 extern struct Sys *g_021469DC;
 extern const char str_0203C238[];
 
-extern void func_0203AD80(struct Sys *sys, const char *file, u32 tag, u32 line);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203C3B4(void)
 {
     g_021469DC->flag = -1;
-    func_0203AD80(g_021469DC, str_0203C238, 0, 0x60d);
+    func_0203AD80((struct NetState *)g_021469DC, (void *)str_0203C238, 0, 0x60d);
 }

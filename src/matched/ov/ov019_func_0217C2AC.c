@@ -76,7 +76,7 @@ u32 func_0217F1EC(u8 *p);
 void func_0217F360(char *p, u32 a);
 void func_0217F378(void *p);
 int func_0217F380(void *ctx, int a);
-int func_0217B8E4(char *p, char v);
+int func_0217B8E4(char *p, int v);
 void *func_02012934(const struct BigObj *p);
 struct Ctx;
 void *func_020120F4(const struct Ctx *p);

@@ -36,7 +36,7 @@ typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 extern void *func_0216D6BC(int a0, int a1, int a2);
 extern void func_0216D5E0(int a0, int a1);
-extern u32 func_0216D600(u32, u32);
+extern int func_0216D600(int a0, u16 a1);
 extern void func_0216D674(void *p, u16 v);
 extern void func_0216DA70(void *a0);
 extern int func_0216D83C(void *p);

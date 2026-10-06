@@ -21,7 +21,9 @@
  */
 
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
-extern int *func_0203159C(int, int, int);
+typedef unsigned int   u32;
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, int);
 struct Sub02007084Ctrl;
 struct Sub0200852CObj;
@@ -30,9 +32,10 @@ extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void *func_0200C0F0(void *sys);
 extern struct Sub02009210Obj *func_02009210(void *sys);
-extern int func_02012FE4(int);
+struct Sub020071CCCtrl;
+extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
 
-int func_021B9F94(int a)
+int func_021B9F94(struct Obj0203159C *a)
 {
     int *p;
     func_0203064C(1, 0xb, 0x80000);
@@ -42,6 +45,6 @@ int func_021B9F94(int a)
     p[1] = (int)func_02008730((void *)p[0]);
     p[2] = (int)func_0200C0F0((void *)p[0]);
     p[3] = (int)func_02009210((void *)p[0]);
-    p[4] = func_02012FE4(p[0]);
+    p[4] = (int)func_02012FE4((struct Sub020071CCCtrl *)p[0]);
     return 1;
 }

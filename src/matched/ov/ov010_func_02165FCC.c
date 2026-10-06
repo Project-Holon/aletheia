@@ -59,7 +59,7 @@ struct WordSet;
 extern void func_0201F31C(struct WordSet *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 struct WordSet;
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
@@ -72,7 +72,7 @@ extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern void func_0201F1E0(struct WordSet *p, u32 i, u32 v);
 extern void func_02165C34(struct Rec *r, void *buf);
 extern u8 func_02165D08(struct Rec *r);
-extern void func_02165D8C(Rec *r, void *str);
+extern int func_02165D8C(int a0, int a1);
 extern u16 func_02165E24(Rec *r);
 extern u16 func_02165E34(struct Rec *r);
 extern u16 func_02165E78(struct Rec *r);
@@ -144,7 +144,7 @@ void func_02165FCC(Rec *r, void *win, u32 heap)
         func_0201F184(win, 1, func_02165FA4(r));
         break;
     case 14:
-        func_02165D8C(r, str);
+        func_02165D8C((int)r, (int)str);
         func_0201EE0C(win, 1, str, func_02165D08(r), 1, 2);
         break;
     case 15:

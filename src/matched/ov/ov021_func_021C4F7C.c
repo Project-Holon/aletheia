@@ -81,7 +81,7 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(void *);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
@@ -97,7 +97,7 @@ extern void func_021C53A0(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, int 
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 
 char *func_021C4F7C(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
 {

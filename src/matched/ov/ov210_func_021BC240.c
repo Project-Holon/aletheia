@@ -23,7 +23,8 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern u32 *func_0203159C(void *man, u32 size, u32 heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
 u32 func_021BC240(void *man, u32 b, u32 arg)

@@ -27,7 +27,7 @@ extern void func_021FA21C(unsigned char *,int);
 typedef unsigned short u16;
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021FA6A8(void *,int *,unsigned char *);
 extern void func_021FAA34(void *,int *,int *);
 void func_021FA7FC(void *p,int *state,unsigned char *ctx)

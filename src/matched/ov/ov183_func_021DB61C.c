@@ -30,9 +30,9 @@ extern int func_021FE7B0(int *);
 extern void func_021FEE9C(char *p);
 extern void func_021FEE4C(char *p);
 extern void func_021F9BF4(unsigned *ctx, unsigned index);
-extern void func_021FD73C(int *p, int v);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DB690(int *);
-extern int func_021FD744(int a);
+extern int func_021FD744(int *a);
 void func_021DB61C(int *task, int *state, char *p)
 {
     switch(*state) {
@@ -53,5 +53,5 @@ void func_021DB61C(int *task, int *state, char *p)
 }
 void func_021DB690(int *task)
 {
-    func_021FD744((int)task);
+    func_021FD744((int *)task);
 }

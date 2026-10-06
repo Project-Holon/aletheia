@@ -59,11 +59,11 @@ extern void func_021BCD08(void *p, unsigned mode, unsigned a, unsigned b);
 extern int func_021BCDC0(void *);
 extern void func_02165C34(struct Rec *,void *);
 extern void func_021BD07C(void *,void **,int,short,u8,u8,u8,u8);
-extern u8 func_02165C60(void *);
+extern int func_02165C60(int a0);
 extern void func_0204581C(struct U16Vec *);
 extern void func_0201F1C8(struct WordSet *,u32,u32);
 extern void func_021BCEA4(u8 *p, u8 n);
-extern u8 func_02165C78(void *);
+extern int func_02165C78(int a0);
 extern void func_0201F198(struct WordSet *,u32,u32);
 struct R;
 extern void func_02165D10(const struct S *p, u16 *a, u16 *b);
@@ -101,11 +101,11 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_021BCD08(*(char * *)&((struct Obj00051 *)p)->f11C+func_021BCDC0(record)*32,1,(u16)(position+10),2);
     func_02165C34(record,((struct Obj00051 *)p)->f13C);
     func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
-    subtype=func_02165C60(record);
+    subtype=func_02165C60((int)record);
     if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F1C8(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
     func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
-    subtype=func_02165C78(record);
+    subtype=func_02165C78((int)record);
     if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F198(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
     func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);

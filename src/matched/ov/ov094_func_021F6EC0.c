@@ -15,7 +15,7 @@
  *   func_02048AC4 0x02048AC4 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02048AC4(void *);
+extern unsigned int func_02048AC4(void *ptr);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 

@@ -31,11 +31,12 @@ typedef signed char    s8;
 extern u32 func_02007C34(u32, u32);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012F98(u32);
+struct Sub02007AC8Entry;
+extern struct Sub02007AC8Entry *func_02012F98(void *p);
 extern void *func_02188C80(void *p);
 
 int func_021C38DC(u32 a, u32 b)
 {
-return func_02007C34(func_02012F98((u32)func_020120F4((const struct Ctx *)func_02188C80((void *)a))), b);
+return func_02007C34((u32)func_02012F98((void *)func_020120F4((const struct Ctx *)func_02188C80((void *)a))), b);
 }
 

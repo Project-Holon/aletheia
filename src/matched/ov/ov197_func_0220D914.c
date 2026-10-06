@@ -25,10 +25,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02025D14(u32);
+extern u32 func_02025D14(void *a0);
 
 u32 func_0220D914(u8 *p)
 {
-    return func_02025D14(((struct Obj25122 *)p)->f144);
+    return func_02025D14((void *)(((struct Obj25122 *)p)->f144));
 }
 

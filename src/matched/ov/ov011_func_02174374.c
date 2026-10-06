@@ -20,7 +20,7 @@
 typedef unsigned short u16;
 
 unsigned int func_02026478(void *obj);
-int func_020127B8(int a);
+void *func_020127B8(void *p);
 int func_021736D8(void);
 typedef unsigned int   u32;
 struct Entry;
@@ -31,7 +31,7 @@ int func_02174374(int *a)
 {
     int r;
 
-    r = func_020127B8(func_02026478((void *)a[1]));
+    r = (int)func_020127B8((void *)func_02026478((void *)a[1]));
     if (func_021736D8() == 0) {
         return 0;
     }

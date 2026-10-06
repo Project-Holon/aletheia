@@ -20,17 +20,17 @@ extern unsigned int func_021B8220(unsigned char *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_021B82F0(u8 *p);
-extern int func_021B833C(void *a);
+extern u8 *func_021B833C(u8 *p);
 typedef unsigned int   u32;
-extern void func_021BB014(u32 a, u32 b, u32 c);
+extern void func_021BB014(u32 a, unsigned char *b, u32 c);
 
 void func_021BABB4(void *p)
 {
     void *a = (void *)func_021B8220(p);
     int b = func_021B82F0(a);
-    int c = func_021B833C(a);
+    int c = (int)func_021B833C(a);
 
     if (b == 1) {
-        func_021BB014((u32)p, (u32)a, c);
+        func_021BB014((u32)p, (unsigned char *)a, c);
     }
 }

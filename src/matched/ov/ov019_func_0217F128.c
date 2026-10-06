@@ -25,7 +25,7 @@ struct Rec;
 extern int func_021915B4(void *a);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0217F044(unsigned char *p);
-extern void func_021904C8(struct Rec *a0);
+extern u32 func_021904C8(struct Rec *a0);
 
 void func_0217F128(unsigned char *base)
 {

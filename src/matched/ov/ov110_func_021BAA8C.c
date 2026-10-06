@@ -20,7 +20,7 @@
 #include "../include/Obj07998.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021BF7FC(u8 *);
+extern u8 func_021BF7FC(u8 *p);
 extern void func_021BCD80(u8 *);
 extern void func_021BB958(char *p);
 extern void func_021BB9C0(u8 *,int);

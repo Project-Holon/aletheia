@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_020413B0(unsigned,u8,u8,u8,u8,u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned);
 void func_021B9784(u8 *p)
 {

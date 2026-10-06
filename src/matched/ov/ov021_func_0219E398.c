@@ -30,11 +30,11 @@ extern void *func_0216D67C(void *a0);
 extern void *func_0216D530(void *p);
 extern int func_021B7DE0();
 extern int func_0216DCB4(void *a0);
-extern u32 func_021BB3C4();
+extern u32 func_021BB3C4(u8 *p, char *a1);
 extern u16 func_021AB0F8(u32 attr);
 extern int func_0219E498(u32 o, u32 k);
 
-u32 func_0219E398(u32 o, u32 a, u32 b, u32 *out)
+u32 func_0219E398(u32 o, u32 a, char *b, u32 *out)
 {
     u32 r;
     u32 **p;
@@ -50,7 +50,7 @@ u32 func_0219E398(u32 o, u32 a, u32 b, u32 *out)
         r |= 1;
     }
     if (!func_0216DCB4((void *)o)) {
-        p = (u32 **)func_021BB3C4(v, b);
+        p = (u32 **)func_021BB3C4((u8 *)v, b);
         if (func_021AB0F8((u32)p) & 1) {
             r |= 2;
         }
@@ -58,7 +58,7 @@ u32 func_0219E398(u32 o, u32 a, u32 b, u32 *out)
             *out = (u32)p;
         }
     }
-    if (func_0219E498(o, b)) {
+    if (func_0219E498(o, (u32)b)) {
         r |= 4;
     }
     return r;

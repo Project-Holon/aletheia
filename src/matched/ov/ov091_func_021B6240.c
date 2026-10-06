@@ -102,7 +102,8 @@ typedef signed int     s32;
 struct Party;
 struct PartyMon;
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern P *func_0203159C(int, int, int);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *p, s32 capacity);
@@ -123,7 +124,7 @@ extern const Ten d_021BEA84;
 extern const u16 d_021BEA90[];
 extern const u16 d_021BEA9C[];
 
-int func_021B6240(int a0, int *seq, Q *q, P *p)
+int func_021B6240(struct Obj0203159C *a0, int *seq, Q *q, P *p)
 {
     Ten b;
     Ten d;

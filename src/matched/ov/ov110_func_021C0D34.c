@@ -26,7 +26,7 @@ struct Actor;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 extern s16 func_0204B560(const struct Actor *actor, u32 axis);
-extern void func_0204B550(void *,short,int);
+extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
 void func_021C0D34(char *p,int force) {
     int n,index,y,a,b,t;
     short pos;

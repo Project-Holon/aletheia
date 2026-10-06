@@ -30,7 +30,7 @@ struct Counter0202C5B4;
 struct Obj0202C6B8;
 extern void sub_0202C5CC(struct Counter0202C5B4 *p);
 extern u32 sub_0202C5E0(struct Counter0202C5B4 *p);
-extern void sub_0202C6BC(struct Obj0202C6B8 *p, u32 v);
+extern struct Obj0202C6B8 *sub_0202C6BC(struct Obj0202C6B8 *p, u32 v);
 
 u32 sub_0202C638(void *p)
 {

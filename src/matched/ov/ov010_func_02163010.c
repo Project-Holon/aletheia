@@ -25,20 +25,20 @@ typedef unsigned int u32;
 
 extern void func_0216D6F4(void *a0);
 extern int func_0219B414(int a);
-extern int func_0216D548();
+extern u32 *func_0216D548(u32 *p, u32 v);
 
-int func_02163010(int a0, int a1)
+int func_02163010(u32 *a0, int a1)
 {
     int t4;
 
-t4 = a0 + 0;
+t4 = (int)(a0 + 0);
     func_0216D6F4((void *)a0);
 loc_02163018:
-a0 = t4 + 0;
-    a0 = func_0219B414(a0);
+a0 = (u32 *)(t4 + 0);
+    a0 = (u32 *)func_0219B414((int)a0);
 loc_0216301E:
-a0 = t4 + 0;
+a0 = (u32 *)(t4 + 0);
 a1 = 2;
-    a0 = func_0216D548(a0, a1);
+    a0 = (u32 *)func_0216D548(a0, a1);
 loc_02163026:
-    return a0;}
+    return (int)a0;}

@@ -25,8 +25,8 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void func_021D880C(char *p, void *q, u32 n);
 extern void func_021D74B0(u8 *p, int n);
-extern void func_021D4244(int, void (*)(int), int);
-extern void func_021D4544(int);
+extern void func_021D4244(int *p, int v, int a2);
+extern void func_021D4544(int *a);
 void func_021D4584(u8 *p)
 {
     u8 *q = *(u8 * *)&((struct Obj06433 *)p)->f48;
@@ -45,5 +45,5 @@ void func_021D4584(u8 *p)
     func_021D880C((char *)(((struct Obj06433 *)p)->f40), (void *)value, mode);
     func_021D74B0((u8 *)(((struct Obj06433 *)p)->f3C), func_02008554((const struct Sub0200852CObj *)value));
     ((struct Obj06433 *)p)->f14 = 0xb4;
-    func_021D4244((int)p, func_021D4544, 0x265);
+    func_021D4244((int *)p, (int)func_021D4544, 0x265);
 }

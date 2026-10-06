@@ -42,7 +42,7 @@ struct Sub020073D8Ctrl;
 struct U16Vec;
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern u32 func_0200ECB4(char *o);
-extern int func_0200ECD0(void *t, int i);
+extern int func_0200ECD0(char *o, int idx);
 extern void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);

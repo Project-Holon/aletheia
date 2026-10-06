@@ -22,12 +22,12 @@ typedef signed char    s8;
 
 typedef struct Y { u8 pad[0x18]; u16 h18; u16 pad1a; u32 *f1c; u8 pad20[0x34]; u16 h54; } Y;
 
-extern u32 func_021ABE18(u32 a);
+extern u32 func_021ABE18(u8 *p);
 extern void func_021C67F4(u32 a, u32 b);
 
 void func_021ACFD8(u32 a, Y *y)
 {
-    u32 h = func_021ABE18(*y->f1c);
+    u32 h = func_021ABE18((u8 *)(*y->f1c));
 
     func_021C67F4(h, y->h18);
     func_021C67F4(h, y->h54);

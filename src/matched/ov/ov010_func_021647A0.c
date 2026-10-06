@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021729B0[];
-extern void func_021647F0(u8 *);
-extern void func_021647FC(u8 *);
+extern int func_021647F0(int a0);
+extern void *func_021647FC(int a0);
 extern void func_02164890(u8 *);
-u8 *func_021647A0(void *a,u32 b){u8 *p=func_02030734(b,0x11c,0,d_021729B0,0x53);func_021647F0(p);((struct Obj04133 *)p)->f0=b;((struct Obj04133 *)p)->f4=a;func_021647FC(p);func_02164890(p);return p;}
+u8 *func_021647A0(void *a,u32 b){u8 *p=func_02030734(b,0x11c,0,d_021729B0,0x53);func_021647F0((int)p);((struct Obj04133 *)p)->f0=b;((struct Obj04133 *)p)->f4=a;func_021647FC((int)p);func_02164890(p);return p;}

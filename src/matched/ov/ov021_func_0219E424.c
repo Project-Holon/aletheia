@@ -36,7 +36,7 @@ extern void func_021B7DC0();
 extern int func_021B7E60();
 extern int func_021B7CD8();
 extern u32 func_0219E938(int a0);
-extern u32 func_0219E398(u32 o, u32 a, u32 b, u32 *out);
+extern u32 func_0219E398(u32 o, u32 a, char *b, u32 *out);
 
 int func_0219E424(u32 o, u32 k, u32 x)
 {
@@ -57,7 +57,7 @@ int func_0219E424(u32 o, u32 k, u32 x)
         r = func_021B7CD8(v, a, func_0219E938(k), b);
     }
     if (r) {
-        return func_0219E398(o, (u32)a, (u32)b, (u32 *)x);
+        return func_0219E398(o, (u32)a, (char *)b, (u32 *)x);
     }
     return 1;
 }

@@ -39,7 +39,7 @@ extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(unsigned int);
-extern void func_02040588(unsigned int,unsigned int);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0203F9B4(void);
 extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);

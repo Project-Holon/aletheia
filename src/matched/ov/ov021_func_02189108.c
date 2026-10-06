@@ -19,7 +19,7 @@
 #include "../include/Obj04980.h"
 
 int func_02005C8C(void);
-void func_0216CD78(int h);
+int func_0216CD78(int a0);
 void func_021C6470(int h);
 void func_0204A648(void);
 void func_021D31AC(int h);

@@ -36,8 +36,9 @@ extern int func_0216E160(int a0);
 extern int func_0216D744();
 extern int func_0216DA88();
 
-int func_0216E114(int a0, int a1)
+int func_0216E114(int a0)
 {
+    int a1;
     int t4;
 
 t4 = a0 + 0;

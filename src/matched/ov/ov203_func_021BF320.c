@@ -49,7 +49,7 @@ extern void sub_020409B4(u32);
 extern void func_0201F79C(void *,u32,u32,u32);
 extern u32 sub_02045C04(struct Rec *rec);
 extern void func_0204047C(int,u16);
-extern void sub_02040588(u32,u32);
+extern void sub_02040588(u32 which, unsigned char enable);
 void func_021BF320(struct TcblNode *task, struct Context *ctx)
 {
     struct Config *cfg = ctx->cfg;

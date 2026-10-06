@@ -26,7 +26,7 @@ extern void *func_0215A5F4(void *p);
 extern unsigned short func_02158F8C(unsigned char *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_0215A460(u32 a);
-extern u32 func_0215A4B4(u32 a);
+extern int func_0215A4B4(int a0);
 extern u32 func_0215A4A0(u32 a);
 
 int func_021AEBB0(u32 a, u32 b)

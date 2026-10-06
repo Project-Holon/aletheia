@@ -53,7 +53,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_0201EE0C(void *,u32,const void *,u32,u32,u32);
+extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern u32 func_02018584(u16,u16,u16);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void *g_020A7370;

@@ -15,8 +15,8 @@
  *   func_0216D5B4 0x0216D5B4 thumb ov010
  */
 #include "../include/Obj00204.h"
-extern void func_0216DB4C(unsigned int *,unsigned int);
-extern void func_0216DC98(unsigned int *,unsigned int);
+extern int func_0216DB4C(void *a0, int a1);
+extern int func_0216DC98(void *a0, int a1);
 extern void func_0216DAE0(unsigned int *,unsigned int);
 typedef unsigned short u16;
 extern void func_0216D5B4(void *p, u16 v);

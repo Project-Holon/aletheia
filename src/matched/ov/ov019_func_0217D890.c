@@ -63,7 +63,7 @@ extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern void func_0217422C(u8 *a, int b, int c);
 extern int func_02174268(u8 *a);
 extern void func_0217BAF0(char *p, int x, unsigned int v);
-extern int func_0217B8E4(char *p, char v);
+extern int func_0217B8E4(char *p, int v);
 extern u8 d_021807E4[];
 
 int func_0217D890(u8 *a, Obj *b, u8 *c, u8 *d)

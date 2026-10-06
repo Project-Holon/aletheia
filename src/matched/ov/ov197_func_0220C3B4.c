@@ -17,9 +17,9 @@ typedef unsigned short u16;
 typedef struct { u16 a,b,c; unsigned char d,e; } Config;
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-void func_0220C3B4(char *p,const int *indices)
+struct Obj *func_0220C3B4(char *p,const int *indices)
 {
     Config c;
     c.a=0;c.b=0;c.c=0;c.d=1;c.e=1;
-    func_0204B294((void *)*(unsigned *)&((struct Obj00315 *)p)->f420,*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),&c,1,((struct Obj25033 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    return func_0204B294((void *)*(unsigned *)&((struct Obj00315 *)p)->f420,*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),&c,1,((struct Obj25033 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
 }

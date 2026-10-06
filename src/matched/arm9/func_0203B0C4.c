@@ -34,7 +34,9 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082D44(int a0, int a1, int a2);
-extern void func_0203AD80(int a0, int a1, int a2, int a3);
+typedef unsigned short u16;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 extern void func_0203B084(void);
 extern void func_0203B038(u8 *a0);
 
@@ -47,8 +49,8 @@ void func_0203B0C4(int a0, int a1)
         func_02082D44(a0, g_021469DC + 0x40, 6);
     }
     if (a1 != 0) {
-        func_0203AD80(g_021469DC, (int)func_0203B084, 0, 400);
+        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B084, 0, 400);
     } else {
-        func_0203AD80(g_021469DC, (int)func_0203B038, 0, 403);
+        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B038, 0, 403);
     }
 }

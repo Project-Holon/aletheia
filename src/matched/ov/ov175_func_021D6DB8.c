@@ -149,7 +149,7 @@ extern u32 func_0200BBFC(struct Obj *p, u32 mask);
 extern void func_021D97A4(char *);
 extern int func_021D97C4(char *);
 extern void func_02082D44(const void *,void *,unsigned);
-extern void func_0200BBD8(struct Obj *p, u16 v);
+extern void func_0200BBD8(struct Obj *p, int v);
 extern void func_0200DFE4(unsigned,unsigned,unsigned,unsigned);
 struct Rec1E;
 extern void func_0200B1F8(struct Rec1E *);

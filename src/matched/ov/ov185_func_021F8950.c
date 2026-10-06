@@ -20,7 +20,7 @@
 #include "../include/Obj00278.h"
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021F86A4(int,int,char *);
 extern void func_021F8EE8(char *,int *);
 extern void func_021F8D5C(char *p, char *q);

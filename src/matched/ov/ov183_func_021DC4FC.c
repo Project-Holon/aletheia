@@ -52,7 +52,7 @@ extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c);
-extern void func_021FD73C(int *,int);
+extern int *func_021FD73C(int *p, int v);
 extern void func_021DBC68(int a, int b, char *p);
 extern char d_021E3960[];
 extern void func_02034714(const char *expr, u32 line, const char *file);

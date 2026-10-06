@@ -45,7 +45,7 @@ extern void *func_0216DEE0(void *map);
 extern void *func_0216DE54(void *map, u32 kind);
 extern void func_0216D9A0(void *map);
 extern int func_0216D454(void *obj);
-extern void func_0216DB04(void *obj);
+extern char *func_0216DB04(void *a0);
 extern int func_0216DA5C(void *obj);
 extern void func_0216DAF8(void *obj);
 

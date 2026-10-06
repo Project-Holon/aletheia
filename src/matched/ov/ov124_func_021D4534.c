@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct BgTemplate;
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
-extern void func_02040588(u32,u32);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
 /* 020414AC's legacy asm prototype says void, but its body forwards entry r0. */

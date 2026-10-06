@@ -28,7 +28,7 @@ void func_021B65B4(void)
 {
     void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
     void func_02041300(int, int, int, int, int, int, int);
-    void func_02040588(u32 which, u32 enable);
+    void func_02040588(u32 which, unsigned char enable);
     int i;
 
     func_0203FCA0((int)3, (const struct BgTemplate *)(&d_021BA794), (int)0);

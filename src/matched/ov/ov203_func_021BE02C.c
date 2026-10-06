@@ -19,7 +19,7 @@
 extern const unsigned d_021BFC24[][11];
 extern void func_02040DA8(unsigned, unsigned, unsigned);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, u32 enable);
+extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020403F4(unsigned char);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);

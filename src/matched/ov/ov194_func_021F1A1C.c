@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Rect {int left,top,right,bottom;} Rect;
-extern void func_020413B0(unsigned,u8,u8,u8,u8,u8);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u8 func_020355C4(void);
 struct Actor;
 extern void func_0204B9A0(struct Actor *a);

@@ -62,7 +62,7 @@ extern void func_0219E784(u32 o, u32 idx, s16 *v);
 struct Mtx33;
 struct Vec3;
 extern void func_020521BC(const struct Vec3 *v, struct Mtx33 *dst);
-extern u32 func_021ABE18(u32 a);
+extern u32 func_021ABE18(u8 *p);
 extern int func_021C6658(u32 a, u32 b);
 extern void func_021AC1B8(u32 a, Node *n);
 extern void func_021C6678(u32 a, u32 b, u32 c);
@@ -93,7 +93,7 @@ void func_021AD274(u32 a, B *b)
     vb.z = -f[2];
     func_020521BC((const struct Vec3 *)(&va), (struct Mtx33 *)(&ma));
     func_020521BC((const struct Vec3 *)(&vb), (struct Mtx33 *)(&mb));
-    obj = func_021ABE18(*b->f1c);
+    obj = func_021ABE18((u8 *)(*b->f1c));
     n = (Node *)func_021C6658(obj, b->f18);
     n->mtx = ma;
     func_021AC1B8(a, n);

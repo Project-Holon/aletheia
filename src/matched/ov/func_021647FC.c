@@ -20,8 +20,9 @@ typedef unsigned int u32;
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-void *func_021647FC(int a0, int a1)
+void *func_021647FC(int a0)
 {
+    int a1;
     int t4;
     void *rec;
 

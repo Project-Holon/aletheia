@@ -18,10 +18,10 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02048AC4(u32 x);
+extern u32 func_02048AC4(void *ptr);
 extern void func_02046788(u32 x);
 
 void func_021BA1C8(u32 *p)
 {
-    func_02046788(func_02048AC4(*p));
+    func_02046788(func_02048AC4((void *)(*p)));
 }

@@ -31,7 +31,7 @@ struct Sound;
 struct Struct_02025CD0;
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EA750(char *p);
-extern int func_021EBFEC(char *w, int i);
+extern u32 func_021EBFEC(char *p, int i);
 extern void func_021DEFEC(char *p, int b);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021EF68C(char *w);

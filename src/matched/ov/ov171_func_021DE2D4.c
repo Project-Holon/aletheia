@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern int func_021DE290(char *, const char *);
+struct Obj;
+extern struct Obj *func_021DE290(char *p, const char *q);
 extern void func_021DE064(int *, int, int);
 extern const char d_021DEBA4[];
 void func_021DE2D4(char *p)
@@ -29,7 +30,7 @@ void func_021DE2D4(char *p)
     for (i = 0; i < 16; ++i)
         *(int *)(p + 0xb74 + i * 4) = 0;
     for (i = 12; i <= 15; ++i)
-        *(int *)(p + 0xb74 + i * 4) = func_021DE290(p, d_021DEBA4 + (i * 24 - 0x120));
+        *(int *)(p + 0xb74 + i * 4) = (int)func_021DE290(p, d_021DEBA4 + (i * 24 - 0x120));
     if (((struct Obj01756 *)p)->fC5F == 1) {
         func_021DE064((int *)p, 12, 0);
         func_021DE064((int *)p, 13, 0);

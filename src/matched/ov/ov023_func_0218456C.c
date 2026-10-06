@@ -54,7 +54,8 @@ typedef struct W {
 extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern W *func_0203159C(void *task, u32 size, u32 heap);
+struct Obj0203159C;
+extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 struct GfFont;
 struct MsgBank;
