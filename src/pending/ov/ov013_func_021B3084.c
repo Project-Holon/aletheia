@@ -124,6 +124,16 @@
  * peephole off; thr = REG then p then (thr*3)>>1 (8); ret u8; d_021B3C50.f0 = ret = 1; sq reused
  * for thr; thr at function scope. Matched-assembly search: `str rA,[rB]; ldr rA,pool; str
  * ..,[rB,#k]; str ..,[rA]` occurs only here. Notes: scratchpad wD9r/p5_P5L03/research.md.
+ * pass 6 2026-10-06 P6L03 (3 rounds, about 40 compiler runs, best stays 6 B): scheduler capture
+ * of mwccarm (pre-RA pass 1 and post-RA pass 2, DAG, heights, aliases, picks) plus a replay
+ * model. Proof: holding back only the 3C50 pool load in the pre-RA pass of the success block
+ * (debugger edit) makes the whole function byte-exact. Pre-RA, the zero copy must take the load
+ * stall (so the f4 store must not wait on the f0 store) and then `str thr` (height 3) must beat
+ * the 3C50 pool load (height 5); no volatile subset, statement order, alias spelling or variable
+ * reuse gives that graph (webs split before the pass, alias analysis sees through casts). The
+ * original needs an extra pre-RA node or edge after `str thr`. Tried: ret or p reused (11, 6),
+ * goto split (6), f4 store spellings (6), volatile f4 (15), ring update per arm (317), 3C50
+ * store after the join (225); all dsi builds give 6. Notes: scratchpad wD9r/p6_P6L03/research.md.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
