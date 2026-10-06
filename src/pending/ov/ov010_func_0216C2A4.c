@@ -79,6 +79,21 @@
  * change. A vx temp before gz with v.y last: 30, schedule nearly the
  * image's (stand-in temp, not kept). 40 compiles.
  *
+ * pass 4 2026-10-06 P4L10: no better form, best stays 20 of 88. New: an
+ * enum local is not forward-substituted, so the pragma is not needed:
+ * full-range enum Coord x, y, z plus an enum Bias k (BIAS_Z = 0x20000) with
+ * this body gives the same 20 bytes. Without the pragma and with fx32 x,
+ * x = pos->x is substituted into v.x (loads z, y, x; 25 with enum k and
+ * z = z + k, stores x,z,y). A literal bias without enum k gives 29. Store
+ * order rule in both families: v.y stored last puts ldr x and x>>12 ahead
+ * of movs and the z, y loads (25); v.y before v.z gives the image head but
+ * an early str y (20). k first with z = z + k (or z + k at the use) after
+ * v.y gives the exact head order movs, ldr x, ldr z, ldr y, asrs x (40,
+ * y stored early, x raw r5). Also (bytes off): int v[3] 25/20, inline
+ * Snap 25, named dst pointer 51, in-place snaps into x/z 49, C99
+ * initialisers 25, Coord gx before the z,y loads 46. x raw never took r3.
+ * 40 compiles.
+ *
  * Snap the actor's position to the 16-unit grid (z biased by 32) and
  * write it to the ov021 map object. Size-exact, 27 bytes out: the image
  * loads x, z, y in that order and stores x, z, y; hoisting the call into
