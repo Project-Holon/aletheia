@@ -23,7 +23,7 @@ struct Obj {
 };
 
 extern void func_0202AF28(void *item);
-extern void sub_020307B0(void *ptr);
+extern u32 sub_020307B0(void *p);
 
 void func_0202ABD0(struct Obj *obj)
 {

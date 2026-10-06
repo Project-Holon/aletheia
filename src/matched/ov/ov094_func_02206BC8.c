@@ -77,7 +77,7 @@ typedef unsigned char  u8;
 struct Bank;
 struct PalAnmSlot;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_021F86E0(void);
@@ -114,13 +114,13 @@ Obj *func_02206BC8(int a, u16 heap)
 
     s = func_02030734(heap, sizeof(Obj), 1, d_0220AEC0, 0x14b);
     s->heap = heap;
-    s->h04 = func_020490F4(0xb, s->heap);
+    s->h04 = func_020490F4(0xb, (u16)s->heap);
     s->f00 = func_0204B100(0x28, 0, s->heap);
     for (i = 0; i < 6; i++) {
         s->f18[i] = func_0204ABF0(s->h04, 0xa2, 0, (u16)(i * 0x20), s->heap);
         func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(s->f18[i], 0) >> 1), 0x20);
     }
-    arc = func_020490F4(func_020275E4(), (s->heap & 0x7fff) | 0x8000);
+    arc = func_020490F4(func_020275E4(), (u16)((s->heap & 0x7fff) | 0x8000));
     s->f30 = func_0204A6C8(arc, func_020276B8(), 0, 0, s->heap);
     s->f34 = func_0204AF28(arc, func_020276BC(1), func_020276C0(1), s->heap);
     s->f38 = func_0204ABF0(arc, func_020276B4(), 0, 0x100, s->heap);

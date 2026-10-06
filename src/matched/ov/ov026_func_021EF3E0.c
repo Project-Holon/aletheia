@@ -20,7 +20,7 @@ typedef signed short   s16;
 
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
-extern void func_021A26C4(int, s16 *);
+extern int func_021A26C4(unsigned int a, unsigned int b);
 typedef unsigned int   u32;
 extern void func_021A21E0(u32 *p);
 
@@ -37,5 +37,5 @@ void func_021EF3E0(int a, s16 *b, s16 *c)
         func_021A21E0((u32 *)a);
         return;
     }
-    func_021A26C4(a, v);
+    func_021A26C4(a, (unsigned int)v);
 }

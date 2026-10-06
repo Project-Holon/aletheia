@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
 extern void func_02082A7C(u32 data,void *dest,u32 size);
 extern void func_02033478(int a,int b,int c);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const char d_021DFF60[];
 void func_021DFF18(u32 heap)
 {

@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 void func_021F9028(void *h)
 {

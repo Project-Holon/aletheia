@@ -41,7 +41,7 @@ extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern void MI_UncompressLZ8(const void *src, void *dest);
-extern void func_020307B0(void *ptr);
+extern u32 func_020307B0(void *p);
 extern const char lbl_020A7F30[];
 
 void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size)

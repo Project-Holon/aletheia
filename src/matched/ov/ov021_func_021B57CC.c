@@ -26,7 +26,7 @@ extern void *func_0201A354(int a, int b);
 extern u16 *func_021B5824(u8 *a0, void *a1, u16 *a2, int a3);
 struct WordSet;
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u16 func_021B57CC(void *a0, void *a1, u32 a2, int a3)
 {

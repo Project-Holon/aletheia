@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 struct Rec;
 extern void func_02045C04(struct Rec *rec);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 void func_021D881C(void *a, u8 *p)
 {

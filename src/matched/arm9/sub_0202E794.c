@@ -23,7 +23,8 @@
  *       --func sub_0202E794 --addr 0x0202E794 --cc 1.1p1 --thumb
  */
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void sub_0202E794(void *p)
 {

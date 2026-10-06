@@ -55,7 +55,7 @@ typedef struct {
 } Obj;
 
 extern u8 func_021A2CF8(char *p);
-extern s32 func_021A0244(u32 a);
+extern int func_021A0244(u8 *p);
 extern void func_021A2D04(Obj *o);
 extern void func_021A2CEC(char *p);
 extern void func_021A282C(Obj *o, s32 x);
@@ -73,7 +73,7 @@ extern void func_021A26D8(int *p);
 
 void func_021A1E08(Obj *o, s32 x)
 {
-    if (func_021A2CF8((char *)o) != 0 && func_021A0244(o->f4) == 0) {
+    if (func_021A2CF8((char *)o) != 0 && func_021A0244((u8 *)o->f4) == 0) {
         func_021A2D04(o);
         func_021A2CEC((char *)o);
     }

@@ -16,7 +16,8 @@
 struct S;
 extern int func_02213754(struct S *s);
 extern int func_02213800(char *p);
-extern void func_0200F7B8(int);
+typedef unsigned int   u32;
+extern void func_0200F7B8(u32 a0);
 int func_022126F4(int unused,int *state,int unused2,char *p)
 {
     switch(*state) {

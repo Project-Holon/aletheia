@@ -18,13 +18,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void *func_0202E474(int a0, int a1, int a2, int a3);
+struct BigObj;
+extern void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3);
 extern void func_02031348(void *a, u32 id, void *b, void *c);
 extern u8 ov070_id[];
 
 int func_021DF348(void **p)
 {
-    void *r = func_0202E474(*(u32 *)p[0], 0, 2, 0x4b);
+    void *r = func_0202E474((const struct BigObj *)(*(u32 *)p[0]), 0, 2, 0x4b);
 
     func_02031348(p[1], (u32)ov070_id, (void *)0x021bb96c, r);
     p[3] = r;

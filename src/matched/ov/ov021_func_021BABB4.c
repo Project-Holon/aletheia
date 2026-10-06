@@ -16,7 +16,7 @@
  *   func_021BB014  0x021BB014  thumb  ov021
  */
 
-extern void *func_021B8220(void *p);
+extern unsigned int func_021B8220(unsigned char *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_021B82F0(u8 *p);
@@ -26,7 +26,7 @@ extern void func_021BB014(u32 a, u32 b, u32 c);
 
 void func_021BABB4(void *p)
 {
-    void *a = func_021B8220(p);
+    void *a = (void *)func_021B8220(p);
     int b = func_021B82F0(a);
     int c = func_021B833C(a);
 

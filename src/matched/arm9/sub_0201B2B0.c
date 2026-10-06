@@ -62,7 +62,7 @@ struct EvoRow {
 extern u32   func_02017E1C(void *mon, u32 id, u32 v);
 extern u32   func_02020FE4(u32 id, u32 sel, u16 heap);
 extern void *func_02030734(u32 heap, u32 size, int c, const char *file, u16 line);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct Rec;
 extern void sub_0201B764(u32 id, void *dest);
 extern u32   sub_0201B774(void *mon, u32 move);

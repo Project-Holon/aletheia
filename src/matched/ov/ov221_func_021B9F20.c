@@ -28,7 +28,7 @@ extern void func_021BA094(char*);
 extern void func_021BA010(void*);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void*,int,u32);
-extern void func_020307B0(void*);
+extern u32 func_020307B0(void *p);
 /* volatile accesses: display cleanup, original 021B9F46..021B9F60. */
 void func_021B9F20(char*p)
 {

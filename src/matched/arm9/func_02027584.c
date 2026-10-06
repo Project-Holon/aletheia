@@ -23,7 +23,7 @@ typedef unsigned int  u32;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02082BCC(void *p, u32 v, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02027584(u8 *p)
 {

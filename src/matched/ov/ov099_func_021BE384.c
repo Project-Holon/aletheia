@@ -44,7 +44,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
 typedef struct {

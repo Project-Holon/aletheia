@@ -13,9 +13,9 @@
  *   func_02031354  0x02031354  arm
  */
 
-extern void func_02031354(void);
+extern void *func_02031354(int a0);
 
-void func_02031324(void)
+void func_02031324(int a0)
 {
-    func_02031354();
+    func_02031354(a0);
 }

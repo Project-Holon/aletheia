@@ -32,7 +32,8 @@ extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
 extern void func_0201D83C(void *);
 extern void func_021B99A0(char *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021B9DEC(char *p)
 {
     func_021B9F8C(((struct Obj01787 *)p)->f34);func_021B9E80(p,0xffff);func_021B9F20(p);

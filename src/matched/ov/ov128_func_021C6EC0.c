@@ -85,7 +85,7 @@ extern u32 func_0204B98C(struct Actor *a);
 extern void *func_0200846C(int);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u8 func_020355C4(void);
 extern void func_021C7138(u8 *,u8 *,u8 *);
 extern const u8 d_021CA4F9[];

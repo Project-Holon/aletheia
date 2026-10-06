@@ -21,7 +21,8 @@
  *   func_021DE0F0 0x021DE0F0 thumb ov119
  */
 #include "../include/Obj05329.h"
-extern void func_02045CAC(int,int,int);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
 extern void func_021E1024(void *);
 typedef unsigned int   u32;
 extern void func_021E1030(char *p);
@@ -37,7 +38,7 @@ void func_021DE12C(char *p)
 {
     void *obj;
     int n;
-    func_02045CAC(((struct Obj05329 *)p)->f720,0x88,((struct Obj05329 *)p)->f738);
+    func_02045CAC((struct MsgBank *)(((struct Obj05329 *)p)->f720),0x88,(void *)(((struct Obj05329 *)p)->f738));
     func_021E1024(p);
     func_021E1030(p);
     p[0x11f1]=120;

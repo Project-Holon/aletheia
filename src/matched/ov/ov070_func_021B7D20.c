@@ -34,9 +34,9 @@ typedef struct Obj {
     int cell;
 } Obj;
 
-extern int func_021B61B8(Obj *o);
-extern void func_021B616C(Obj *o, int v);
-extern int func_021B61C8(Obj *o);
+extern int func_021B61B8(unsigned char *p);
+extern void *func_021B616C(unsigned char *p, int i);
+extern int func_021B61C8(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
@@ -46,11 +46,11 @@ void func_021B7D20(Obj *o, int x)
 {
     int v;
 
-    func_021B616C(o, func_021B61B8(o));
+    func_021B616C((unsigned char *)o, func_021B61B8((unsigned char *)o));
     func_02007F1C(o->gfx, o->cell, x, o->f544);
     if (func_02007FB8(o->gfx, o->cell, o->f544) != 0)
         return;
-    if (func_021B61C8(o) + 1 < 7) {
+    if (func_021B61C8((unsigned char *)o) + 1 < 7) {
         v = o->timerA - 1;
         if (v <= 0)
             v = 0;

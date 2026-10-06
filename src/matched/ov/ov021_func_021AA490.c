@@ -51,7 +51,7 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_021AA304(struct Info *out, void *a1, void *a2);
 extern void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5);
 extern void func_02013144(char *p, int v);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const char data_021DDFA4[];
 struct Slot14 { u8 raw[0x14]; };
 extern void func_021A96B8(void *mon, const struct Unit *u, struct Slot14 *s);

@@ -38,7 +38,7 @@ typedef unsigned int   u32;
 typedef struct { u32 f0; u32 f4; u32 f8; u8 *fC; } PlttData;
 struct Ov170Ctx { char pad[0x2c]; char *f2c; };
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
@@ -46,7 +46,7 @@ extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_020275E4(void);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 extern u32 func_02027628(void);
 extern u32 func_02027624(void);

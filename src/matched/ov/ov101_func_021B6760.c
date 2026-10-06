@@ -14,6 +14,6 @@
  */
 typedef unsigned int   u32;
 extern void func_021B6508(u32 p, u32 a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *,int,unsigned);
 void func_021B6760(int *p) { func_021B6508((u32)((int *)p[0]),0x1000); func_020307B0((void *)p[10]); func_020307B0((void *)p[11]); func_020307B0((void *)p[12]); func_02082BCC(p,0,0x34); }

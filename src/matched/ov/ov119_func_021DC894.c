@@ -48,9 +48,16 @@
 #include "../include/Obj04478.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern int func_02034AC4(int),func_020173EC(void),func_021D8A24(void *);
+extern int func_02034AC4(int);
+extern unsigned int func_020173EC(void);
+extern int func_021D8A24(void *);
 extern char ov067_id[],ov114_id[],ov117_id[],ov118_id[];
-extern void func_0204363C(int),func_0203D7B0(int),func_0203D7BC(int),func_02043534(int),func_020435F4(int),func_0203D34C(int,int);
+extern void func_0204363C(unsigned int swap);
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
+extern void func_02043534(unsigned int planes);
+extern void func_020435F4(unsigned int planes);
+extern void func_0203D34C(unsigned int a, unsigned int b);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern const char d_021E80B0[];
 extern char d_021E7614[];

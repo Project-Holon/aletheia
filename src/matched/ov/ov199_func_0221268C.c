@@ -25,7 +25,7 @@ struct S020315D4;
 extern void func_0221372C(char *p);
 extern void func_022133D0(u8 *p);
 extern void func_0200B424(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02012704(u8 *p);
 extern void func_02087BCC(u32 parameter);
 extern void func_020315D4(struct S020315D4 *p);

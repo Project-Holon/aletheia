@@ -27,9 +27,10 @@
  *   func_0203C8E8  0x0203C8E8  arm
  */
 
-extern void func_0203C8E8(void);
+typedef unsigned char  u8;
+extern void func_0203C8E8(u8 v);
 
-void func_0203D7B0(void)
+void func_0203D7B0(u8 a0)
 {
-    func_0203C8E8();
+    func_0203C8E8(a0);
 }

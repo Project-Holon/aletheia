@@ -25,9 +25,9 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Rec3;
 extern void func_0201CE48(struct Rec3 *p);
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 
-int func_02190D48(u32 a)
+int func_02190D48(void *a)
 {
 func_0201CE48((struct Rec3 *)(((struct Obj17932 *)((u8 *)(a)))->f4));
 return func_020307B0(a);

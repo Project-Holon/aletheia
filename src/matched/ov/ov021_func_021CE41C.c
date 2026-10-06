@@ -45,7 +45,7 @@ extern void func_021CE9E4(u32 *p, int n);
 extern u32 func_02188C54(u8 *p);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 extern void func_021CE36C(u8 *p);
 extern int func_021CE73C(u32 *p);
 
@@ -95,7 +95,7 @@ void func_021CE41C(u32 *p)
                 break;
             }
         }
-        func_021909BC(q->h);
+        func_021909BC((void *)q->h);
         q->h = 0;
         q->state++;
         break;

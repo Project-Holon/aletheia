@@ -12,7 +12,7 @@
  */
 #include "../include/Obj04460.h"
 typedef unsigned int u32;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021F61D8(char *a, char *p)
 {
     func_020307B0(((struct Obj04460 *)p)->f0);

@@ -24,7 +24,7 @@ typedef struct {
     u16 h3a;
 } S;
 
-extern int func_021AB760(int a);
+extern unsigned int func_021AB760(unsigned char *p);
 extern void func_021ABBA0(const S *s, int c, int *y, int *x);
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
@@ -37,7 +37,7 @@ extern void func_0218ED64(u8 *a, u16 angle);
  * load-of-a-struct-copy-into-an-address-taken-local.md); the assignment
  * must stay inside the multiply for the result to land in r3.
  */
-void func_021ABD08(int a, const S *s, int c)
+void func_021ABD08(unsigned char *a, const S *s, int c)
 {
     int h = func_021AB760(a);
     int y;

@@ -38,7 +38,7 @@
 #include "../include/Obj00252.h"
 
 typedef unsigned short u16;
-extern int func_020221A4(void *);
+extern unsigned int func_020221A4(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -61,7 +61,7 @@ extern void func_021D8E84(void *,int);
 extern void func_021DACE4(char *p);
 void func_021DE820(char *p)
 {
-    if(func_020221A4(p)) {
+    if(func_020221A4()) {
         func_021DC720(p); func_021E57E8(0); func_021E5680(p);
         ((struct Obj00252 *)p)->f9C4=func_0204B100(0x154,0,((struct Obj00252 *)p)->f5F4);
         func_021E10D8(p); func_021E58A0((int)p); func_021E467C(p);

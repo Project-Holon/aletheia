@@ -10,9 +10,10 @@
  * status:   EXACT
  * blocker:  unresolved relocation(s): 0200FC0C (thumb, from name)*/
 
-extern void func_0200FC0C(void);
+typedef unsigned int   u32;
+extern u32 func_0200FC0C(u32 a0);
 
-void func_0200F7B8(void)
+void func_0200F7B8(u32 a0)
 {
-    func_0200FC0C();
+    func_0200FC0C(a0);
 }

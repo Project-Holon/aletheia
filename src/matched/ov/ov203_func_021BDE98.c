@@ -25,7 +25,8 @@ extern void func_021BE0C4(char *);
 extern void func_021BE02C(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *, unsigned, unsigned);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021BDE98(char *ctx)
 {
     if (((struct Obj10861 *)ctx)->f14 == 0) func_02030EAC(((struct Obj10861 *)ctx)->f10);

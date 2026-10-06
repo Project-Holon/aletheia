@@ -69,7 +69,7 @@ struct Ovr;
 struct Res;
 struct Sink;
 extern void sub_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr, u32 mode);
-extern void  sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 s32 func_0204A7A0(u32 size, u32 a2, u16 heapId)
 {

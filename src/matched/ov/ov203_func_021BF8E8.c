@@ -18,6 +18,7 @@
 struct Tcbl;struct GfFont;
 extern struct Tcbl *func_0203101C(unsigned,unsigned short,unsigned,unsigned);
 extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);
-extern void *func_020490F4(unsigned,unsigned short);
+typedef unsigned int   u32;
+extern void *func_020490F4(u32 id, u32 heap);
 extern signed char func_02012FFC(void);
 void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=func_0203101C(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=func_0201D7EC(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=func_02012FFC();}

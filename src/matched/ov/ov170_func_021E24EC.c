@@ -31,7 +31,8 @@ typedef struct {
 } Scroll;
 
 extern int func_021EF1FC(unsigned *a, unsigned *b);
-extern void func_020307B0(void *ptr);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_021DD1C4(char *p, int a);
 extern void func_020061E4(unsigned se);
 extern int func_021E8FC0(char *p, int a, int b);

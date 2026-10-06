@@ -77,7 +77,7 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void func_02043598(u32,u32),func_020409B4(u32),func_0203D34C(u32,u32),func_02005E30(u32);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);

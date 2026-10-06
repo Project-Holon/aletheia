@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void sub_0202B90C(void *p);
+extern void sub_0202B90C(u8 *a0);
 
 void func_0202B7EC(u8 *p, u32 b)
 {

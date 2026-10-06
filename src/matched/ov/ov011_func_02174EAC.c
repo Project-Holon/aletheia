@@ -35,11 +35,15 @@ typedef struct Q {
     u8 hi : 2;
 } Q;
 
-int func_02026478(int a);
-int func_02012950(int a, int b);
-int func_02008530(int a);
+struct Rec44;
+struct SaveBlock;
+struct Sub0200852CObj;
+struct Sub24;
+unsigned int func_02026478(void *obj);
+struct Rec44 *func_02012950(struct Sub24 *p, unsigned int i);
+unsigned int func_02008530(const struct Sub0200852CObj *obj);
 void func_02008494(void *src, void *dst);
-int func_020127AC(int a, int b);
+void *func_020127AC(struct SaveBlock *p, unsigned int idx);
 void func_02082D44(u8 *a, int b, int c);
 struct BigObj;
 void func_02012BA4(struct BigObj *p, int i, u8 v);
@@ -57,19 +61,19 @@ void func_02174EAC(u8 *p, int idx, u8 *q)
     int a;
     int flag;
 
-    ctx = func_02026478(((struct Obj00269 *)p)->f4);
+    ctx = func_02026478((void *)(((struct Obj00269 *)p)->f4));
     flag = 0;
-    a = func_02012950(ctx, idx);
+    a = (int)func_02012950((struct Sub24 *)ctx, idx);
     if (p[0x8FB] & (1 << idx)) {
-        x = func_02008530(a);
-        if (x == func_02008530((int)q)) {
+        x = func_02008530((const struct Sub0200852CObj *)a);
+        if (x == func_02008530((const struct Sub0200852CObj *)q)) {
             goto skip;
         }
     }
     flag = 1;
 skip:
     func_02008494(q, (void *)a);
-    func_02082D44(q + 0x20, func_020127AC(ctx, idx), 0x10);
+    func_02082D44(q + 0x20, (int)func_020127AC((struct SaveBlock *)ctx, idx), 0x10);
     func_02012BA4((struct BigObj *)ctx, idx, ((Q *)(q + 0x4A))->hi);
     func_02174F54(p, idx, (const struct Ent *)(q + 0x30), 1);
     p[0x8FB] |= (u8)(1 << idx);

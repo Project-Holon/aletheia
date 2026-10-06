@@ -28,7 +28,7 @@ struct WinMgr;
 extern void func_02202744(u8 *p);
 extern void func_022029D4(u8 *p);
 extern void func_0202CA0C(struct WinMgr *mgr);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021F99D0(u8 *p)
 {

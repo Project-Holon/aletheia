@@ -81,7 +81,7 @@ extern u32 func_0200DFB4(struct SubEnt *e);
 extern void *func_0216CE6C(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
 extern int func_0216D620(int a0, int a1, int a2);
 extern void func_0216D5B4(void *h, u16 v);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
 
 extern const Pt d_021DADD0[];

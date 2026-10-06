@@ -39,7 +39,7 @@ extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern int   func_02062B30(void *ptr, void **out);
-extern void  func_020307B0(void *ptr);
+extern u32 func_020307B0(void *p);
 
 void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {

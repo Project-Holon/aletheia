@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021B7180(char *p, char *q, int id);
 extern void func_021B71A0(int,int *,int,int,int);
-extern void func_020307B0(void *);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 struct Descriptor;
 struct PrintSys;

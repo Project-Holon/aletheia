@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, unsigned int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BD2F0(u8 *p) {
     void *obj;
     void *handle;

@@ -28,7 +28,7 @@ struct S {
 };
 
 extern struct S *d_021F3B88;
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021D4A6C(void)
 {

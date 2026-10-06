@@ -34,7 +34,7 @@ typedef struct { u32 v[8]; } Desc;
 extern char d_0220AE68[];
 extern const Vec d_02209E10, d_02209DB4;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u32 func_0201134C(void *);
 extern int func_020515CC(int *p, int a, int b, int c);
 extern void func_02051648(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);

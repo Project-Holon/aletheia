@@ -39,7 +39,7 @@ typedef struct Ctx {
     int fc;
 } Ctx;
 
-extern void func_020498F4(int a, int b, int c, int d, int e, int f, int g);
+extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 typedef unsigned int   u32;
 struct Bank;
 struct Cfg;
@@ -55,14 +55,14 @@ void func_02203B08(int a0, Ctx *c)
 {
     switch (c->state) {
     case 0:
-        func_020498F4(c->main->f48, c->fc, 4, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, c->fc, 4, 0, 0, 0, c->main->h240);
         func_02204960(c->main, 5, 0, 0xc0, 2, 2, 2, 2);
         c->state = c->state + 1;
         break;
     case 1:
         func_02045374(c->main->obj228);
         func_020409B4(6);
-        func_020498F4(c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
         func_02045334(c->main->obj228);
         func_0204B22C(c->main->obj1f8, 1);
         func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);

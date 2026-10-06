@@ -28,10 +28,10 @@ extern void func_021914CC(struct S *s);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 a);
 extern int func_021912D8(u32 a);
-extern int func_021912F8(int);
+extern int func_021912F8(u32 a, u32 b, u32 c, u32 d);
 extern void func_02045808(struct U16Vec *vec);
 
-int func_0216C680(int a, int *st, int *o)
+int func_0216C680(int a, int *st, int *o, u32 a3)
 {
     switch (*st) {
     case 0:
@@ -47,7 +47,7 @@ int func_0216C680(int a, int *st, int *o)
         (*st)++;
         break;
     case 2:
-        if (func_021912F8(o[5]) == 1) {
+        if (func_021912F8(o[5], (u32)st, (u32)o, a3) == 1) {
             func_02045808((struct U16Vec *)o[6]);
             return 1;
         }

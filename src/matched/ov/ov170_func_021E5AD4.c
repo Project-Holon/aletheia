@@ -40,7 +40,7 @@ extern void func_020061E4(unsigned se);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern int func_021E8F50(char *p, int v);
-extern int func_021E9C94(unsigned char *p, int a, int n);
+extern int func_021E9C94(char *p, int a, int n);
 extern int func_021E9CE0(char *p, int a, int n);
 extern int func_021E954C(unsigned char *p, int id, int lo, int arg);
 
@@ -86,7 +86,7 @@ int func_021E5AD4(unsigned char *p)
         func_020260E4(LIST(p), 0);
     case (unsigned)-6:
         func_020061E4(0x548);
-        return func_021E9C94(p, 0, 0x35);
+        return func_021E9C94((char *)p, 0, 0x35);
     case 3:
         func_020260E4(LIST(p), 0);
     case (unsigned)-5:

@@ -79,7 +79,7 @@ extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_02040E78(u32 index, void *src, u32 size, u32 offset);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040588(u32 which, u32 enable);
 

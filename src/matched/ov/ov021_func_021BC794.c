@@ -18,7 +18,8 @@ typedef struct {
     void *f34;
 } Obj;
 
-extern unsigned short func_021BD090(Obj *p);
+typedef unsigned short u16;
+extern u16 func_021BD090(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -27,6 +28,6 @@ extern void func_0204B22C(struct Bank *bank, u32 mode);
 
 void func_021BC794(Obj *p)
 {
-    p->f34 = func_0204B100(0x1E, 1, func_021BD090(p));
+    p->f34 = func_0204B100(0x1E, 1, func_021BD090((unsigned char *)p));
     func_0204B22C(p->f34, 1);
 }

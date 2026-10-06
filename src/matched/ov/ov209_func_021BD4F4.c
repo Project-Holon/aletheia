@@ -35,12 +35,12 @@ extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02049EF4(void *, u32, u32, void **, u16);
 extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02049238(void *h);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021BD4F4(u8 *p, u32 idx)
 {

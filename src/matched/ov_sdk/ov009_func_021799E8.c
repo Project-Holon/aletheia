@@ -102,7 +102,8 @@ typedef struct DWCHttp {
 typedef struct SOCLCaInfo SOCLCaInfo;
 
 extern void func_0217988C(DWCHttp *http);
-extern unsigned long func_021798E4(DWCHttp *http);
+typedef unsigned int   u32;
+extern u32 func_021798E4(const char *p);
 extern void func_0215AB10(void);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 typedef unsigned char  u8;
@@ -152,7 +153,7 @@ void func_021799E8(void *arg)
         timeout = 60000;
 
     func_0217988C(http);
-    ip = func_021798E4(http);
+    ip = func_021798E4((const char *)http);
     if (ip == 0) {
         http->error = 2;
         return;

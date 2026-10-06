@@ -18,9 +18,10 @@
  *   func_0202B490  0x0202B490  thumb
  */
 
-extern void func_0202B490(void);
+typedef unsigned char  u8;
+extern void func_0202B490(u8 *p);
 
-void func_0202B42C(void)
+void func_0202B42C(u8 *a0)
 {
-    func_0202B490();
+    func_0202B490(a0);
 }

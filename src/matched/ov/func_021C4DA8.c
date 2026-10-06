@@ -25,9 +25,9 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct IcaAnime;
 extern void func_02011558(struct IcaAnime *p);
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 
-int func_021C4DA8(u32 a)
+int func_021C4DA8(void *a)
 {
 if (((struct Obj12132 *)((u8 *)(a)))->f10 != 0) {
     func_02011558((struct IcaAnime *)(((struct Obj12132 *)((u8 *)(a)))->f10));

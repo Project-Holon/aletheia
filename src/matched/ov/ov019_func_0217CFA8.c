@@ -45,7 +45,7 @@ typedef struct {
 typedef unsigned short u16;
 struct Profile;
 extern int func_0217BB04(char *p);
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_0216F40C(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
 extern void func_02082D44(void *a, void *b, int c);
@@ -62,7 +62,7 @@ extern u32 func_0217F1EC(u8 *p);
 extern void *func_0216F7F4(int a, void *b, int c);
 extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 func_0203D378(void);
 extern int func_0217B8E4(char *p, char v);
 extern u8 d_021807E4[];
@@ -76,7 +76,7 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
     switch (*d) {
     case 0:
         if (((struct Obj00610 *)a)->f3540 != 0 || ((struct Obj00610 *)a)->f3544 != 0)
-            func_02034714(d_021807E4, 0, d_021807E4);
+            func_02034714((const char *)d_021807E4, 0, (const char *)d_021807E4);
         ((struct Obj00610 *)a)->f3540 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
         ((struct Obj00610 *)a)->f3544 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         func_0216F40C(((struct Obj00610 *)a)->f3540, (void *)((*(int **)a)[2]), 1, 0, 0x41);

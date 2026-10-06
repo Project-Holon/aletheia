@@ -37,7 +37,7 @@ extern u8 d_0217AAD2[];
 extern u8 d_0217AAC6[];
 extern u8 d_0217AAC4[];
 
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern void func_02082D44(void *dst, void *src, int n);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
@@ -46,7 +46,7 @@ extern void func_0217A148(int a0, int a1, int a2);
 void func_021798DC(void *dst, int n, u8 a, u8 b)
 {
     if ((unsigned)n >= 0xA6)
-        func_02034714(d_0217AAAC, 0, d_0217AAAC);
+        func_02034714((const char *)d_0217AAAC, 0, (const char *)d_0217AAAC);
     d_0217AAC0.b6 = a;
     d_0217AAC0.b7 = b;
     if (dst != 0)

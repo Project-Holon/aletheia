@@ -48,7 +48,7 @@ extern void *func_0200AE14(void *);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_022133E4(u8 *p, void *party1, void *party2, u8 *save, void *reg, int setting, u8 *record, void *other, int mode);
 extern void *func_0201A354(int,int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020130DC(void *);
 extern void func_02213808(char *p, int value);
 int func_02212E74(void *manager, u8 *arg, u8 *p)

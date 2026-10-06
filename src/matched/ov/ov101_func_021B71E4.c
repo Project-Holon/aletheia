@@ -20,15 +20,15 @@
  */
 #include "../include/Obj02158.h"
 
-extern int func_0202824C(int);
+extern unsigned int func_0202824C(void **p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 typedef unsigned char  u8;
 struct Obj;
 extern void func_0202822C(char *p, int v);
-extern int func_02028230(int);
+extern u32 func_02028230(u8 *p);
 extern void func_020282A4(struct Obj *obj);
-extern void func_02028218(int, int);
+extern void func_02028218(struct Obj *obj, u32 a);
 extern void func_02028178(u8 *p);
 
 void func_021B71E4(int a)
@@ -37,16 +37,16 @@ void func_021B71E4(int a)
         switch (((struct Obj02158 *)a)->f50) {
         case 0:
             ((struct Obj02158 *)a)->f44 = -1;
-            if (func_0202824C(((struct Obj02158 *)a)->f0)) {
+            if (func_0202824C((void **)(((struct Obj02158 *)a)->f0))) {
                 func_020061E4(0x551);
                 func_0202822C((char *)(((struct Obj02158 *)a)->f0), 1);
                 ((struct Obj02158 *)a)->f50 = 1;
             }
             break;
         case 1:
-            if (func_02028230(((struct Obj02158 *)a)->f0)) {
+            if (func_02028230((u8 *)(((struct Obj02158 *)a)->f0))) {
                 func_020282A4((struct Obj *)(((struct Obj02158 *)a)->f0));
-                func_02028218(((struct Obj02158 *)a)->f0, 0);
+                func_02028218((struct Obj *)(((struct Obj02158 *)a)->f0), 0);
                 ((struct Obj02158 *)a)->f50 = 2;
             }
             break;

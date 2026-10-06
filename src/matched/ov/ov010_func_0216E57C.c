@@ -31,19 +31,19 @@ typedef struct
     char pad00[44];
     unsigned int raw44;
 } Context;
-extern int func_0216E4EC(void *);
+extern int func_0216E4EC(int a0, int a1);
 extern void *func_0216D67C(void *a0);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 
-void func_0216E57C(void *a)
+void func_0216E57C(void *a, int a1)
 {
     int i;
     Vec *p;
     Vec v;
     Context *tmp;
-    i = func_0216E4EC(a);
+    i = func_0216E4EC((int)a, a1);
     if (i != 30)
     {
         tmp = func_0216D67C(a);

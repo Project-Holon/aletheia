@@ -37,7 +37,7 @@ struct Sub0200FB6CObj {
     void *unk08;
 };
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32 id);
 extern void func_0200F7B8(u32 flag);
 extern u8   g_021461BC[0x1A];

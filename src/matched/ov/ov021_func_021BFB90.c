@@ -33,20 +33,20 @@ typedef struct { int x, y, z; } Vec;
 typedef unsigned char  u8;
 struct Evt;
 extern void *func_02188C58(void *p);
-extern int func_0218E138(int);
-extern void func_0218E13C(int, int);
+extern unsigned int func_0218E138(u8 *p);
+extern void func_0218E13C(u8 *a, unsigned int s);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D8C0(void *, Vec *);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_021C71D4(int, int, int);
-extern int func_021C7858(int, int, Vec *);
-extern int func_02188D38(int);
-extern void func_021C6DE0(int, int, int);
+extern void *func_021C71D4(unsigned int a, unsigned int b, unsigned int c);
+extern int func_021C7858(unsigned int a, unsigned int b, unsigned int c);
+extern unsigned int func_02188D38(u8 *p);
+extern void func_021C6DE0(u8 *p, unsigned int a, unsigned int b);
 extern int func_021C6E48(int);
-extern int func_02188CD0(int);
-extern void func_021AC528(void *, int);
+extern unsigned int func_02188CD0(u8 *p);
+extern void func_021AC528(unsigned int a, unsigned int b);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
@@ -64,8 +64,8 @@ int func_021BFB90(int task, int *state, int *q)
 
     switch (*state) {
     case 0:
-        q[2] = func_0218E138(h);
-        func_0218E13C(h, 0);
+        q[2] = func_0218E138((u8 *)h);
+        func_0218E13C((u8 *)h, 0);
         t = func_021A3074(func_02188CB4((unsigned char *)obj));
         {
             Vec v;
@@ -80,26 +80,26 @@ int func_021BFB90(int task, int *state, int *q)
             v2.y = 0x96000;
             v2.x = 0;
             v2.z = 0;
-            w = func_021C71D4(obj, 0x18, 3);
-            x = func_021C7858(obj, -0x18, &v2);
+            w = (int)func_021C71D4(obj, 0x18, 3);
+            x = func_021C7858(obj, -0x18, (unsigned int)(&v2));
         }
-        d = func_02188D38(obj);
-        func_021C6DE0(d, w, 0);
-        func_021C6DE0(d, x, 0);
+        d = func_02188D38((u8 *)obj);
+        func_021C6DE0((u8 *)d, w, 0);
+        func_021C6DE0((u8 *)d, x, 0);
         (*state)++;
         break;
     case 1:
-        if (func_021C6E48(func_02188D38(obj)) != 0)
+        if (func_021C6E48(func_02188D38((u8 *)obj)) != 0)
             (*state)++;
         break;
     case 2:
         t = func_021A3074(func_02188CB4((unsigned char *)obj));
-        func_021AC528(t, func_02188CD0(q[1]));
+        func_021AC528((unsigned int)t, func_02188CD0((u8 *)q[1]));
         func_020061E4(0x67B);
         (*state)++;
         break;
     case 3:
-        func_0218E13C(h, q[2]);
+        func_0218E13C((u8 *)h, q[2]);
         (*state)++;
         break;
     case 4:

@@ -18,7 +18,7 @@ typedef unsigned short u16;
 
 extern void func_021E3758(u16 *p, int x, int y, int colour);
 
-void func_021E380C(u16 *p, u8 *src)
+void func_021E380C(u16 *p, u8 *src, int a2)
 {
     int i;
 

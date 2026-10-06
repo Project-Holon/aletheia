@@ -36,7 +36,7 @@ typedef unsigned int u32;
 
 extern int func_021D7C10(char *p);
 extern u32 func_020362DC(void);
-extern void func_021D8638(int);
+extern void func_021D8638(unsigned char *p);
 extern int func_0203CD98(void);
 typedef unsigned char  u8;
 extern void func_0203C554(u32 a);
@@ -44,17 +44,17 @@ extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 a);
 extern void func_021D4244(int, int, int);
 extern int func_0203C3EC(void);
-extern void func_0203D7B0(int);
-extern void func_0203D7BC(int);
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 extern void func_021D7B38(char *p);
 extern void func_021D7A74(u8 *p, int n);
-extern void func_021D8648(int);
+extern void func_021D8648(u8 *p);
 
 void func_021D4988(int a)
 {
     func_021D7C10((char *)(((struct Obj05343 *)a)->f40));
     if (func_020362DC() == 2) {
-        func_021D8638(((struct Obj05343 *)a)->f40);
+        func_021D8638((unsigned char *)(((struct Obj05343 *)a)->f40));
         if (func_0203CD98() != 0)
             func_0203C554(1);
         func_020355D8(0);
@@ -73,6 +73,6 @@ void func_021D4988(int a)
     func_021D7B38((char *)(((struct Obj05343 *)a)->f40));
     func_021D7A74((u8 *)(((struct Obj05343 *)a)->f40), 0x10);
     ((struct Obj05343 *)a)->f14 = 0xb4;
-    func_021D8648(((struct Obj05343 *)a)->f40);
+    func_021D8648((u8 *)(((struct Obj05343 *)a)->f40));
     func_021D4244(a, 0x021D4931, 0x377);
 }

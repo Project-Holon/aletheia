@@ -79,7 +79,7 @@ extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *id, struct VecFx32 *out);
-extern u32 func_021A34EC(void *id);
+extern int func_021A34EC(u8 *p);
 extern int func_021C5C64(u32 unused, u32 a, u32 *out);
 extern int func_021AA900(struct Self *self, short *pos);
 /* Retain the mode used to store f59 for the helper's second argument. */

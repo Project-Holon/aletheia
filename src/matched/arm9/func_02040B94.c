@@ -38,7 +38,7 @@ extern char g_020A7E5C[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void  func_02082BCC(void *dst, u32 value, u32 size);
 extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
 

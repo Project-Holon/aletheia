@@ -29,7 +29,8 @@ struct O {
     int f14;
 };
 
-extern void func_02167154(struct O *o);
+struct MsgBank;
+extern struct MsgBank *func_02167154(int a0, int a1, int a2, int a3);
 extern void func_02167178(struct O *o);
 struct WordSet;
 extern struct WordSet *func_021671DC(int a0);
@@ -42,11 +43,11 @@ extern int func_021671EC(int a0);
 extern int func_021671CC(int a0);
 extern int func_02167168(int a0);
 
-int func_02167080(void *a, int *st, struct O *o)
+int func_02167080(void *a, int *st, struct O *o, int a3)
 {
     switch (*st) {
     case 0:
-        func_02167154(o);
+        func_02167154((int)o, (int)st, (int)o, a3);
         func_02167178(o);
         func_021671DC((int)o);
         func_021671FC(o);

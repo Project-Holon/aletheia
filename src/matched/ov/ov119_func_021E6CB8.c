@@ -26,7 +26,7 @@ typedef struct { short x,y,z; u8 a,b; } Create;
 typedef struct { short x,y; } Pt;
 typedef struct { Pt pos[8]; } Table;
 extern const Table d_021E7E64;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 struct Bmp;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);

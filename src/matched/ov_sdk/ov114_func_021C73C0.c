@@ -69,7 +69,8 @@ extern NdStatics g_021D3B9C;
 extern char g_021CE0D7[13];
 
 extern void func_021C659C(int err, int servererror);
-extern u32 func_021C7A18(char *p);
+typedef unsigned char  u8;
+extern u32 func_021C7A18(const u8 *a0);
 extern int func_021C60AC(int len);
 extern int func_021C6C0C(DWCi_Ndi_HTTPREQ **phrq, void **preq, char *strAction, char *recvbuf,
                          unsigned int recvbufLen, char *opt);
@@ -90,7 +91,7 @@ int func_021C73C0(DWCNdFileInfo *filelist, char *buf, unsigned int bufsize, char
         func_021C659C(5, 0);
         return 0;
     }
-    fnameLen = func_021C7A18(filelist->name);
+    fnameLen = func_021C7A18((const u8 *)filelist->name);
     if (fnameLen > 32) {
         func_021C659C(5, 0);
         return 0;

@@ -50,7 +50,7 @@ typedef unsigned long long u64;
 typedef struct {char pad[0x4c];char saved[0x18];int count;void *ptr;} S;
 extern u32 func_02035D20(u32 *,u32 *);
 extern int func_021DD27C(char *,int,int),func_021DD2BC(char *,int,int);
-extern int func_021FB4B4(int,int,int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
 typedef unsigned char  u8;
 extern void func_021F9BA0(unsigned *ctx);
@@ -70,7 +70,7 @@ void func_021DBD7C(int *task,int *state,char *p)
             *(int *)(p+0xb0)^=1;
             func_021FD73C(task,(int)func_021DBEB0);
         }
-        if(func_021FB4B4(*(int *)(p+0x1c),x,y)) {
+        if(func_021FB4B4((unsigned int *)(*(int *)(p+0x1c)),x,y)) {
             int args[2];
             args[0]=x;args[1]=y;
             func_021FD860(*(int *)(p+0x10),1,args);
@@ -78,7 +78,7 @@ void func_021DBD7C(int *task,int *state,char *p)
             func_021F9BA0(*(void **)(*(char **)(p+0xd0)+0x14));
             func_021FD73C(task,(int)func_021DBCF4);
         }
-        if(*(int *)(p+0x20) && func_021FB4B4(*(int *)(p+0x20),x,y)) {
+        if(*(int *)(p+0x20) && func_021FB4B4((unsigned int *)(*(int *)(p+0x20)),x,y)) {
             int args[2];
             args[0]=x;args[1]=y;
             func_021FD860(*(int *)(p+0x10),1,args);

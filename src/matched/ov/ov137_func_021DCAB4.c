@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct DC950Obj;
 struct DC950Src;
 extern struct DC950Obj *func_021DC950(struct DC950Src *p, int a, int b);

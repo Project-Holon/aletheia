@@ -31,7 +31,7 @@ struct Entry; struct Ctx;
 extern int func_0203D1B4(void);
 extern int func_0203CEAC(int);
 extern void func_0203A5E4(u32);
-extern void func_0203D7BC(u32);
+extern void func_0203D7BC(u8 a0);
 extern u32 func_0200FB24(void);
 extern u32 func_0203D378(void);
 extern struct Entry *func_020399A8(void);

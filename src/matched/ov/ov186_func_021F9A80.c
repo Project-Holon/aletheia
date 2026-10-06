@@ -26,7 +26,8 @@ struct Slot {u32 active;void *work;const struct Ops *ops;int arg;};
 extern const char d_02200D04[],d_02200D14[];
 extern void func_02034714(const char *,u32,const char *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32),func_020307B0(void *);
+extern void func_02082BCC(void *,int,u32);
+extern u32 func_020307B0(void *p);
 extern void func_02031348(u32,u32,u32,void *);
 extern u32 func_02031330(void *);
 void func_021F9A80(char *p)

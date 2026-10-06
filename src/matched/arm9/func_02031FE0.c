@@ -86,7 +86,7 @@ extern u32 func_02031EAC(u32 *p, u32 sel);
 extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 extern void func_02033410(struct Obj02033410 *p, u32 val);
 extern void  func_02082A7C(u32 v, void *dst, u32 size);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void  func_02082A60(const void *src, void *dst, u32 size);
 extern void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
 extern u32 func_02033BF0(struct Obj02033BF0 *p);

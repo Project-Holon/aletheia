@@ -27,7 +27,7 @@ typedef struct Stage {
     Obj *f04[4];        /* 0x04 */
 } Stage;
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02156F98(Stage *s)
 {

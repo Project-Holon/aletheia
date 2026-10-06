@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void func_021FA278(void *);
 extern void func_021FA0D4(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 void func_021FA04C(u8 *p)
 {

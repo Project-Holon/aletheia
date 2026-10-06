@@ -29,7 +29,12 @@ extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_02045334(struct Descriptor *);
 extern void func_02027974(void *);
-extern int func_02028484(void *,void *),func_0201C4E4(void *),func_0201C6B4(void *);
+typedef signed int     s32;
+struct Blk;
+struct PrintSys;
+extern s32 func_02028484(struct Blk *blk, void *h);
+extern unsigned int func_0201C4E4(struct PrintSys *ps);
+extern unsigned int func_0201C6B4(const struct PrintSys *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
@@ -40,7 +45,7 @@ void func_021F15B0(char *p)
     int done;
     func_020310C4(P(12));
     if(P(0x18)){
-        done=func_02028484(p+0x28,P(0x18));
+        done=func_02028484((struct Blk *)(p+0x28),P(0x18));
         func_020286C4(P(0x44),P(0x18),P(0x10));
         if(done==1){func_0201CE48(P(0x18));P(0x18)=0;}
     }

@@ -50,9 +50,10 @@ extern void func_020061F8(int i);
 extern void func_020062BC(int i, u32 level);
 extern void func_020061E4(u32 id);
 extern void func_0218ECE4(int, int *);
-extern int func_021A34EC(int a);
+typedef unsigned char  u8;
+extern int func_021A34EC(u8 *p);
 
-void func_021F3B40(Obj *o, int h, int a2)
+void func_021F3B40(Obj *o, int h, u8 *a2)
 {
     int v[3];
     int d;

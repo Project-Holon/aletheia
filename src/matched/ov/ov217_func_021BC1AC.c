@@ -17,6 +17,7 @@
  *   _ffix 0x0209C494 arm
  * 021BC40C forwards live r0 to 021BC6DC's +0x30 getter despite legacy void prototype.
  */
+typedef unsigned int   u32;
 extern int func_021BC3AC(void);
 extern int func_021BC40C(void *p);
 int func_021BC1AC(void *p)

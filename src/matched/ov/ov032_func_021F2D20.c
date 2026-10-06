@@ -81,7 +81,7 @@ extern const ResSpec3 d_021F35C8;
 extern const ResSpec3 d_021F35D4;
 
 extern void func_021F30D4(Work *p, ResList *out, const ResSpec *spec, void *arc);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct PalAnmSlot;
 extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);

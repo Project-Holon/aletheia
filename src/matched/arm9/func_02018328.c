@@ -49,7 +49,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32   func_02017E1C(void *p, u32 id, u32 v);
 extern void  func_0201ADD0(u32 species, int form, void *dest);
 extern u16   func_0201808C(void *p, u16 move);
-extern void  func_020307B0(void *m);
+extern u32 func_020307B0(void *p);
 extern u8    sPokeToolFile;
 
 static inline int Learn_IsEnd(const struct Learn *t)

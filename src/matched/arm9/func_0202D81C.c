@@ -57,7 +57,7 @@ struct Sub0204A9D0;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void *func_0202D760(u32 *out, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u32 s3, volatile u16 s4);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u32 func_0202D81C(u32 a0, u32 a1, u32 a2, u32 a3, volatile struct Tail t)
 {

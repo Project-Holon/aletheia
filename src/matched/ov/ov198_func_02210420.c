@@ -48,7 +48,7 @@ extern void sub_02031140(struct S02031140 *);
 extern u32 func_022119E8(u8 *);
 extern void func_0220AF64(void *);
 extern void sub_02030EAC(struct Node *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 int func_02210420(struct Node *task,char *p)
 {
     if(((struct Obj01006 *)p)->f2540==1) {

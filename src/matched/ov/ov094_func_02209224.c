@@ -44,7 +44,7 @@ typedef signed int     s32;
 struct PalAnmSlot;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_0220AEE0[];
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -63,7 +63,7 @@ W *func_02209224(u16 heap)
 
     w = func_02030734(heap, 0x78, 1, d_0220AEE0, 0x81);
     w->heap = heap;
-    a = func_020490F4(0xb, (w->heap & 0x7fff) | 0x8000);
+    a = func_020490F4(0xb, (u16)((w->heap & 0x7fff) | 0x8000));
     w->h0 = (int)func_0204B100(6, 0, w->heap);
     w->h4 = (int)func_0204B100(6, 0, w->heap);
     w->h40 = func_0204A6C8(a, 0x7a, 0, 0, w->heap);

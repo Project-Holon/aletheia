@@ -13,7 +13,8 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern void func_020307B0(void *ptr);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_0202C140(void *ptr)
 {

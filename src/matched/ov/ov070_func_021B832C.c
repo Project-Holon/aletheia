@@ -19,9 +19,10 @@ typedef struct { int v[11]; } T44;
 typedef struct { unsigned char v[4]; } T4;
 extern T44 d_021BB998;
 extern T4 d_021BB95C;
-extern void func_021B8280(int p, unsigned char *q);
+struct Obj;
+extern void func_021B8280(struct Obj *p, unsigned char *q);
 extern void func_021BA9C0(unsigned char *p, int *tbl, int n);
-void func_021B832C(int p)
+void func_021B832C(struct Obj *p)
 {
     T44 t = d_021BB998;
     T4 a = d_021BB95C;

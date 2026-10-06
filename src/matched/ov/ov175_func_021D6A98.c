@@ -33,7 +33,7 @@
 #include "../include/Obj01563.h"
 typedef unsigned int u32;
 extern const char ov114_id[],ov067_id[];
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021DD008(char *,int);
 typedef unsigned char  u8;
 struct PrintSys;

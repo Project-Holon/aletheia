@@ -19,7 +19,7 @@
 extern void func_02048AC4(void *);
 struct Rec;
 extern void func_02047E54(struct Rec *p);
-extern void func_020307B0(void *);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 extern void func_021E3034(u32 *p, int a1);
 extern void func_021E2F2C(void *);

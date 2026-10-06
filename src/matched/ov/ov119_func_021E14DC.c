@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u16 *func_0201AF80(u32 heap, u16 *countOut);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 typedef signed short   s16;
 struct MsgBank;
 struct WordSet;

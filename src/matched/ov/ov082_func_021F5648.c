@@ -42,7 +42,7 @@ extern u32 func_02188C54(u8 *p);
 extern void func_021904D0(u8 *p);
 extern void func_021F56E4(u8 *p);
 extern void func_021F56FC(int *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 *func_02189A60(int a);
 
 #define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)

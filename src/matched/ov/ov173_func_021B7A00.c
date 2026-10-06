@@ -28,7 +28,7 @@ extern const Row d_021B85E0[];
 extern void func_021B7658(u8 *p, void *a1);
 extern void func_021B76C8(char *,void *);
 extern u32 func_020275E4(void);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;

@@ -39,7 +39,7 @@ typedef struct {
     u16 count;
 } List;
 
-extern void func_0218D9C8(List *l);
+extern void func_0218D9C8(unsigned char *p);
 typedef unsigned char  u8;
 struct V3;
 extern u16 func_021694FC(u8 *p);
@@ -57,7 +57,7 @@ int func_0218D9E8(char *p, int *pos, List *dst)
 
     if (((struct Obj02370 *)p)->f1C == 0)
         return 0;
-    func_0218D9C8(dst);
+    func_0218D9C8((unsigned char *)dst);
     n = 0;
     h = ((struct Obj02370 *)p)->f4 >> 1;
     for (i = 0; i < ((struct Obj02370 *)p)->f2E; i++) {

@@ -49,7 +49,7 @@ extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 extern void *func_021F72C4(void *);
 extern void *func_02009EC8(void *);
 extern void func_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void *memset(void *, int, u32);
 extern void func_02008494(void *src, void *dst);
 extern u32 func_02017E1C(void *, u32, u32);

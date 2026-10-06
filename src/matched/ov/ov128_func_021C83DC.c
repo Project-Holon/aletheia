@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned long long u64;
 typedef struct TextConfig {int heap; u8 count; u8 pad[3]; void *entries; int mode; u8 x,y,a,b;} TextConfig;
-extern void *func_0201283C(void *);
+struct BigObj;
+extern unsigned int func_0201283C(const struct BigObj *p);
 typedef unsigned int   u32;
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
@@ -30,7 +31,7 @@ extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 void func_021C83DC(u8 *p, u8 *a, void *unused, int heap)
 {
     TextConfig config;
-    void *q = func_0201283C(((struct Obj10485 *)a)->f4);
+    void *q = (void *)func_0201283C(((struct Obj10485 *)a)->f4);
     int result = func_02009864(q, (a + func_021C87A0((s16 *)p))[24], 9);
     config.heap = heap;
     config.count = 4;

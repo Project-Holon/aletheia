@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 

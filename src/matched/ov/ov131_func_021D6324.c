@@ -52,7 +52,7 @@ extern void func_0201A954(struct Party *p, s32 capacity);
 extern void *func_020173F0(u16,u16,u32,u32,u32);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u32 func_020173E8(void);
 struct Sav;
 extern void func_02017550(struct Sav *p);

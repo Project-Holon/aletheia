@@ -73,7 +73,7 @@ typedef unsigned int   u32;
 extern void *unk_020A7370;
 
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32   func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 typedef signed int     s32;

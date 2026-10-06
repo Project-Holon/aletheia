@@ -29,7 +29,7 @@ extern u16 func_0215A5CC(void *a0);
 extern int func_0215B4AC(void *a0, u32 a1, void **a2);
 extern u16 *func_0216F948(void *mon, u32 heap);
 extern int func_0216FAA0(u16 *p);
-extern int func_020307B0();
+extern u32 func_020307B0(void *p);
 
 int func_0215BFD4(int a0, int a1, int a2)
 {

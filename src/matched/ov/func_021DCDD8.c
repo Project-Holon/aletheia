@@ -25,10 +25,10 @@
 typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(int);
+extern void func_02021540(void *a0);
 
 void func_021DCDD8(int *p)
 {
     func_020215A0((struct PalAnmSlot *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c)), 0);
-    func_02021540(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c));
+    func_02021540((void *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c)));
 }

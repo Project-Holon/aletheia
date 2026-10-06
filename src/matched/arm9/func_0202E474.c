@@ -40,7 +40,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_02030734(unsigned int a0, unsigned int a1, int a2, const char *a3, unsigned short a4);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 *func_02012944(void *p);
-extern int   func_02012924(int a0);
+extern unsigned int func_02012924(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
 extern void  func_02082D44(void *src, void *dst, int n);
 extern void *func_020127A4(struct SaveBlock *p);
@@ -50,12 +50,12 @@ extern u32 func_02012B28(const struct Rec44 *p);
 
 extern char data_020A77C4[];
 
-void *func_0202E474(int a0, int a1, int a2, int a3)
+void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3)
 {
     int   v = (int)func_02012EBC((struct Big *)a0);
     char *p = func_02030734(a3, 0x3c, 1, data_020A77C4, 0x37);
 
-    ((struct Obj04060 *)p)->f0 = a0;
+    ((struct Obj04060 *)p)->f0 = (int)a0;
     ((struct Obj04060 *)p)->f4 = (int)func_0200873C((void *)v);
     ((struct Obj04060 *)p)->f8 = (int)func_02012944((void *)a0);
     ((struct Obj04060 *)p)->fC = func_02012924(a0);

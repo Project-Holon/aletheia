@@ -53,7 +53,7 @@ struct TcblNode {
     TcblFunc         func;
 };
 
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 struct Node02030F34;
 struct S02030F34;
 extern void sub_02030F34(struct S02030F34 *p, struct Node02030F34 *node);

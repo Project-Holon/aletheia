@@ -23,7 +23,8 @@ extern void func_021F4CF0(unsigned char *);
 extern void func_021F4C6C(void *p);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *, unsigned, unsigned);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 static inline void G2_BlendNone(void) { *(volatile unsigned short *)0x04000050 = 0; }
 static inline void G2S_BlendNone(void) { *(volatile unsigned short *)0x04001050 = 0; }
 static inline void GX_SetVisibleWnd(int window) { *(volatile unsigned *)0x04000000 = (*(volatile unsigned *)0x04000000 & ~0xE000) | (window << 13); }

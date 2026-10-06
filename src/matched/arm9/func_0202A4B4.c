@@ -71,7 +71,7 @@ typedef struct { u8 dv; u8 abil; u16 level; u16 species; u16 form; u16 item; u16
 extern char  g_020A76DC[];
 
 extern void *func_02030734(u16 heap, u32 size, u32 align, const char *file, u32 line);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct Mon;
 struct Party;
 struct PartyMon;

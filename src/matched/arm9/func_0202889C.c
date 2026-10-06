@@ -45,7 +45,7 @@ struct SoundSys {
 extern void func_02005D08(void *fn);
 extern void func_02029F44(void *p);
 extern void func_02028784(void *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0202889C(struct SoundSys *s)
 {

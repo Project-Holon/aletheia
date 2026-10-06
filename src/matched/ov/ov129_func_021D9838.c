@@ -21,7 +21,8 @@ typedef struct  {
 }
 Config;
 extern const Config d_020A1448;
-extern void func_0204A48C(const Config *,unsigned,unsigned);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern void func_020434DC(unsigned,unsigned);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -32,7 +33,7 @@ void func_021D9838(char *p,unsigned a)  {
     Config c = d_020A1448;
     ((unsigned char *)&c)[8] = 16;
     ((unsigned char *)&c)[9] = 112;
-    func_0204A48C(&c,a,50);
+    func_0204A48C((const struct Cfg *)(&c),a,50);
     func_020434DC(16,1);
     ((struct Obj14057 *)p)->f25C=func_0204B100(64,0,50);
     func_0204B270(((struct Obj14057 *)p)->f25C);

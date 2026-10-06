@@ -17,7 +17,8 @@
 #include "../include/Obj13696.h"
 typedef unsigned int u32;
 extern void func_021C18C8(char *p, int kind, int value);
-extern void func_0203D7B0(int);
+typedef unsigned char  u8;
+extern void func_0203D7B0(u8 a0);
 extern int func_0203D7BC(int);
 extern int func_0203D378(int);
 extern void func_021BAAB8(char *, int, int);

@@ -31,7 +31,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed int s32;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_020185F4(void *p);
 extern u32 func_0201BA68(void *mon);
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
@@ -48,7 +48,7 @@ void func_0220E340(u8 *p)
     void *arc;
     u16 i;
 
-    arc = func_020490F4(7, (*(u16 *)(*(u8 **)p + 0x10) & 0x7FFF) | 0x8000);
+    arc = func_020490F4(7, (u16)((*(u16 *)(*(u8 **)p + 0x10) & 0x7FFF) | 0x8000));
     for (i = 0; i < 6; i++) {
         u8 *e = p + i * 0x4C;
         if (*(u16 *)(e + 8) != 0) {

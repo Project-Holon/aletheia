@@ -15,7 +15,7 @@
 #include "../include/Obj25856.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern u32 func_021BC3D4(void);
+extern u32 func_021BC3D4(u32 a0);
 extern u32 func_021BC3E0(void);
 extern void func_02041EE4(unsigned layer,unsigned mode,unsigned value);
 void func_021BC338(u8 *p)
@@ -24,7 +24,7 @@ void func_021BC338(u8 *p)
     int low;
     int high;
     position=((struct Obj25856 *)p)->f34;
-    low=func_021BC3D4();
+    low=func_021BC3D4((u32)p);
     high=func_021BC3E0();
     if(position<low) {
         position-=24;

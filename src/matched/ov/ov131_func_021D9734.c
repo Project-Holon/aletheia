@@ -11,7 +11,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021D9734(u8 *a,u8 *p)
 {
     func_020307B0(p);

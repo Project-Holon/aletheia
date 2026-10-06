@@ -25,11 +25,11 @@
  */
 #include "../include/Obj02825.h"
 
-extern void func_021D426C(int, int);
-extern void func_021D5F7C(int);
-extern void func_021D5D3C(int);
-extern void func_021D5C94(int);
-extern void func_021D5ED8(int, int);
+extern void func_021D426C(unsigned char *p, unsigned int v);
+extern void func_021D5F7C(unsigned char *p);
+extern void func_021D5D3C(unsigned char *p);
+extern void func_021D5C94(unsigned char *p);
+extern void func_021D5ED8(unsigned char *p, unsigned int n);
 extern int func_0203CD98(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -40,7 +40,7 @@ extern void func_0203C968(void);
 extern void func_021D4B3C(u8 *p);
 extern void func_021D460C(u8 *p);
 
-void func_021D4AB0(int a)
+void func_021D4AB0(unsigned char *a)
 {
     int r;
 
@@ -57,15 +57,15 @@ void func_021D4AB0(int a)
             break;
         case 1:
             *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) = 1;
-            func_021D5F7C(((struct Obj02825 *)a)->f38);
-            func_021D5D3C(((struct Obj02825 *)a)->f38);
-            func_021D5C94(((struct Obj02825 *)a)->f38);
+            func_021D5F7C((unsigned char *)(((struct Obj02825 *)a)->f38));
+            func_021D5D3C((unsigned char *)(((struct Obj02825 *)a)->f38));
+            func_021D5C94((unsigned char *)(((struct Obj02825 *)a)->f38));
             if (func_0203CD98() != 0)
                 func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
             func_0203C968();
-            func_021D5ED8(((struct Obj02825 *)a)->f38, 0x25);
+            func_021D5ED8((unsigned char *)(((struct Obj02825 *)a)->f38), 0x25);
             func_021D426C(a, (int)func_021D460C);
             break;
         }

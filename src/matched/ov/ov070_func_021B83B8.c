@@ -65,21 +65,21 @@ typedef struct TabTbl {
 
 extern const TabTbl d_021BB984;
 
-extern int func_021B61C8(Obj *o);
+extern int func_021B61C8(unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021B80C4(struct Obj *o, int flag);
 extern void func_021B8CE4(int p, int u, int a, int b);
 extern void func_021B8F90(void *o);
-extern void func_021B8080(Obj *o);
+extern void func_021B8080(u8 *p);
 extern void func_021B6138(char *p);
 extern void func_021B6100(char *p, int k);
 extern void func_021B8EA8(int p);
-extern int func_021B811C(Obj *o);
-extern void func_021B81B8(Obj *o);
+extern int func_021B811C(u8 *p);
+extern void func_021B81B8(u8 *p);
 extern void func_021B8C1C(int p, int a, int b);
 extern void func_020355D8(u8 v);
 extern void func_021B7250(Obj *o);
-extern int func_021B61B8(Obj *o);
+extern int func_021B61B8(u8 *p);
 extern void func_021B624C(void *o, int a, int b);
 extern void func_021B9850(char *p);
 extern void func_021B8B7C(int p);
@@ -98,7 +98,7 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
     TabTbl t;
 
     tab = -1;
-    count = func_021B61C8(o);
+    count = func_021B61C8((unsigned char *)o);
     if (flag != 0)
         return;
     if (idx < 5) {
@@ -124,16 +124,16 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
         func_021B8CE4((int)o, v, 1, (int)((void *)func_021B8F90));
         return;
     } else if (idx == 7) {
-        if (o->f80C != 2 && o->f80C != 3 && func_021B61C8(o) > 1) {
-            func_021B8080(o);
+        if (o->f80C != 2 && o->f80C != 3 && func_021B61C8((unsigned char *)o) > 1) {
+            func_021B8080((u8 *)o);
             func_021B80C4(o, 0);
             o->f818 = 0xFFFF;
             func_021B6138((char *)o);
             func_021B6100((char *)o, (int)((void *)func_021B8EA8));
         }
     } else if (idx == 8) {
-        if (func_021B811C(o) == 1) {
-            func_021B81B8(o);
+        if (func_021B811C((u8 *)o) == 1) {
+            func_021B81B8((u8 *)o);
             func_021B80C4(o, 0);
             o->f818 = 0xFFFF;
             func_021B6138((char *)o);
@@ -154,17 +154,17 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
         if (o->f4F8 != func_021B7250)
             return;
         saved = o->f810;
-        cur = func_021B61B8(o);
-        if (func_021B61C8(o) == 0)
+        cur = func_021B61B8((u8 *)o);
+        if (func_021B61C8((unsigned char *)o) == 0)
             return;
         if (o->f810 != idx - 11) {
             o->f810 = idx - 11;
-            if (count <= func_021B61B8(o)) {
+            if (count <= func_021B61B8((u8 *)o)) {
                 o->f810 = saved;
                 return;
             }
         }
-        func_021B624C(o, cur, func_021B61B8(o));
+        func_021B624C(o, cur, func_021B61B8((u8 *)o));
         func_021B80C4(o, 0);
         o->f818 = 0xFFFF;
         func_021B6138((char *)o);
@@ -172,7 +172,7 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
         func_021B6100((char *)o, (int)((void *)func_021B8B7C));
         return;
     } else if (idx >= 17) {
-        if (func_021B811C(o) == 1 && func_021B8134(o, idx - 17) == 1) {
+        if (func_021B811C((u8 *)o) == 1 && func_021B8134(o, idx - 17) == 1) {
             func_021B80C4(o, 0);
             func_021B6138((char *)o);
         }

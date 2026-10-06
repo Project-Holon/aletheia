@@ -44,7 +44,7 @@ extern void func_02005D28(void);
 extern int func_0207D55C(volatile u16 *);
 extern void func_0207D534(volatile u16 *, int);
 extern void func_021EF980(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021D4D5C(void *);
 extern void func_021D7894(void);
 extern void func_021BA0CC(struct S *);

@@ -32,12 +32,12 @@ struct Struct_0200B37C;
 u8 *func_02012EC4(struct Big *p);
 void func_0200B37C(struct Struct_0200B37C *p);
 s32 *func_0200B394(struct Rec94 *p, s32 value);
-void *func_020490F4(unsigned int id, u16 heap);
+void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 struct ArcFile;
 void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 u32 func_020493D4(struct ArcFile *arc, u32 member);
-void func_020307B0(void *p);
+u32 func_020307B0(void *p);
 void func_02049238(void *h);
 
 void func_02185B9C(int a0, int id)

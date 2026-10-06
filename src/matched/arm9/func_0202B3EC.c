@@ -21,13 +21,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202B42C(void);
+extern void func_0202B42C(u8 *a0);
 extern void func_0202B360(u8 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0202B3EC(u8 *p)
 {
-    func_0202B42C();
+    func_0202B42C(p);
     func_0202B360(*(u8 * *)&((struct Obj15834 *)p)->f14);
     func_020307B0(p);
 }

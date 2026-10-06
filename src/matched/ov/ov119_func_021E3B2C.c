@@ -24,7 +24,7 @@
 #include "../include/Obj22796.h"
 typedef unsigned short u16;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_020862F0(void *, int);
@@ -33,7 +33,7 @@ extern void func_0207FA0C(void);
 extern void func_0207FA40(const void *, int, int);
 extern void func_0207FADC(void);
 extern void func_02082D44(const void *, void *, int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021E3B2C(char *p)
 {

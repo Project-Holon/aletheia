@@ -81,7 +81,7 @@ struct Link;
 extern void func_02039C68(struct Link *ctx, u32 id, u32 size);
 extern void func_02010888(u8 *p, u32 v);
 extern void func_0201093C(u8 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32  func_0200FB24(void);
 extern void func_02012E08(char *p);
 

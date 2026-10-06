@@ -19,8 +19,8 @@
  *   func_0216D86C  0x0216D86C  thumb  ov010
  */
 
-extern int *func_0219B120(int id);
-extern int func_0219B0D8(int *tbl, int v);
+extern unsigned int *func_0219B120(unsigned int id);
+extern int func_0219B0D8(unsigned int *t, unsigned int v);
 typedef unsigned int   u32;
 extern int func_0219B13C(u32 a);
 extern void *func_0216D67C(void *a0);
@@ -42,8 +42,8 @@ int func_0219B200(int a, int id, int end)
     int dx;
     int dy;
 
-    tbl = func_0219B120(id);
-    n = func_0219B0D8(tbl, end);
+    tbl = (int *)func_0219B120(id);
+    n = func_0219B0D8((unsigned int *)tbl, end);
     if (n == 1) {
         return 9;
     }

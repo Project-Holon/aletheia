@@ -27,7 +27,8 @@
 #include "../include/Obj22747.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern unsigned func_0203D1A4(unsigned);
+struct Link;
+extern unsigned int func_0203D1A4(struct Link *p);
 struct Link;
 extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
 typedef unsigned int   u32;
@@ -48,7 +49,7 @@ void func_021DF210(char *p)
 {
     unsigned a, b;
     volatile int v; /* memory-resident on purpose: the original keeps v in [sp] and reads it uninitialised on the fall-through path; a plain local takes r7 */
-    a = func_0203D1A4((unsigned)func_020399A8());
+    a = func_0203D1A4((struct Link *)func_020399A8());
     b = 1 - a;
     if (!func_021D8A24(p)) {
         a = 0;

@@ -32,7 +32,7 @@ struct Obj {
     void *unk_78;
 };
 
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 extern void sub_02082BCC(void *dst, int value, u32 len);
 
 void sub_0204D300(struct Obj *o)

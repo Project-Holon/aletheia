@@ -19,8 +19,9 @@
  */
 #include "../include/Obj04490.h"
 typedef unsigned short u16;
-extern void func_02045CAC(void *, u16, int);
-extern void *func_020450F0(int, int, int, int, int, int, int);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
+extern unsigned int func_020450F0(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, unsigned char c, unsigned char d, unsigned char slot);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Cfg;
@@ -37,8 +38,8 @@ extern void func_02041B6C(u32 bit);
 void func_021D8520(char *p, u16 n)
 {
     void *q;
-    func_02045CAC(((struct Obj04490 *)p)->fC, n, ((struct Obj04490 *)p)->f18);
-    if (!((struct Obj04490 *)p)->f68) ((struct Obj04490 *)p)->f68 = func_020450F0(1, 0, 0, 14, 2, 11, 1);
+    func_02045CAC(((struct Obj04490 *)p)->fC, n, (void *)(((struct Obj04490 *)p)->f18));
+    if (!((struct Obj04490 *)p)->f68) ((struct Obj04490 *)p)->f68 = (void *)func_020450F0(1, 0, 0, 14, 2, 11, 1);
     q = ((struct Obj04490 *)p)->f68;
     func_02043B5C(func_02045770(q), 0);
     func_0201DD78(15, 2, 0);

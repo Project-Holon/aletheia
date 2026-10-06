@@ -28,7 +28,7 @@ struct Rec;
 struct Stats;
 struct Sub150;
 extern void func_02017100(void *p, struct Stats *out, u32 lvl);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void func_02015CAC(void *p, u32 *src);
 extern void func_02015E04(void *);

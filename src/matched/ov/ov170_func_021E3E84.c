@@ -96,7 +96,7 @@ extern unsigned func_021EF1A4(void);
 extern int func_021EA0BC(unsigned char *p, unsigned char i);
 extern void func_021DF0BC(unsigned char *p);
 extern void func_021ECC1C(unsigned char *p);
-extern int func_021E9C94(Obj *p, int a, int n);
+extern int func_021E9C94(char *p, int a, int n);
 extern int func_021E9CE0(char *p, int a, int n);
 extern int func_021E949C(char *p, int a, int b);
 extern u8 func_020260E0(struct Sound *obj);
@@ -179,7 +179,7 @@ int func_021E3E84(Obj *p)
             func_021DF0BC((unsigned char *)p);
         else
             func_021ECC1C((unsigned char *)p);
-        return func_021E9C94(p, 0, 0x20);
+        return func_021E9C94((char *)p, 0, 0x20);
     case 0x26:
         func_020061E4(0x548);
         func_020260E4(OBJ(p), 0x24);
@@ -231,7 +231,7 @@ int func_021E3E84(Obj *p)
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
         func_020061E4(0x548);
-        return func_021E9C94(p, 0, 0x20);
+        return func_021E9C94((char *)p, 0, 0x20);
     case -5:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;

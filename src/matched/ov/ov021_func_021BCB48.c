@@ -27,7 +27,8 @@ struct BigObj;
 extern void *func_02012B38(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern int func_0215841C(int a);
-extern int func_0201444C(int a);
+struct Sub02014444Obj;
+extern unsigned int func_0201444C(struct Sub02014444Obj *o);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 
@@ -40,7 +41,7 @@ int func_021BCB48(int *p, int b)
     r6 = func_02012B58((const struct BigObj *)p[1]);
     if (r4 != 0) {
         r4 = func_0215841C(p[1]);
-        if (func_0201444C(t) == 1) {
+        if (func_0201444C((struct Sub02014444Obj *)t) == 1) {
             return 1;
         }
         if (func_02013D5C(b) != 0 && r6 != r4) {

@@ -18,13 +18,14 @@
  * category 0x0a and post an 8-byte message.
  */
 
-extern int func_021DFCF4(void);
+typedef unsigned int   u32;
+extern int func_021DFCF4(u32 *a0);
 extern int func_021DF644(int, int);
 extern void func_02059F54(int, int);
 
-int func_021DF2C8(void)
+int func_021DF2C8(u32 *a0)
 {
-    int r = func_021DFCF4();
+    int r = func_021DFCF4(a0);
 
     if (r)
         func_02059F54(8, func_021DF644(0xa, r));

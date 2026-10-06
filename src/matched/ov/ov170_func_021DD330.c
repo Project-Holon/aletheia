@@ -29,7 +29,7 @@ extern void *func_0201AB28(void *,unsigned);
 extern void *func_020185F4(void *);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021DD330(unsigned char *p,unsigned short *q,unsigned short *t)
 {
     unsigned box;

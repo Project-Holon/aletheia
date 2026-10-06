@@ -52,14 +52,16 @@ extern V d_021F3970;
 struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern u32   func_02012EC4(u32 a);
+struct Big;
+extern unsigned char *func_02012EC4(struct Big *p);
 extern int  *func_0200B3A4(u32 a, u32 b);
 extern int func_02188D2C(int *p);
 typedef unsigned char  u8;
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern int *func_021897BC(char *p, int idx);
-extern u32   func_02012984(u32 a);
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
 extern u32   func_020113D8(u32 a);
 extern void  func_021BE760(void *p, void *a, int b);
 extern V    *func_021BE480(void *p, int i, u16 j);
@@ -80,12 +82,12 @@ void func_021F36C0(void *a0)
     void *s;
 
     sv = (u32)func_020120F4(func_02188C80(a0));
-    q = func_0200B3A4(func_02012EC4(sv), 0x36);
+    q = func_0200B3A4((u32)func_02012EC4((struct Big *)sv), 0x36);
     s = (void *)func_02188D2C(a0);
     func_02189764(a0, 1, func_02188C84(a0), 8);
     o = func_021897BC(a0, 1);
     o[0] = 0;
-    if (func_020113D8((u32)func_02012984(sv)) - 3 <= 1) {
+    if (func_020113D8((u32)func_02012984((const struct BigObj *)sv)) - 3 <= 1) {
         func_021BE760(s, d_021F3918, 0);
         o[1] = 1;
     } else {

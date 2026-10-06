@@ -39,7 +39,7 @@ struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *p);
 extern void func_0200BB58(u8 *a0, u8 *a1);
-extern void func_020307B0(void *a);
+extern u32 func_020307B0(void *p);
 
 void func_021B4D14(volatile Work *w)
 {

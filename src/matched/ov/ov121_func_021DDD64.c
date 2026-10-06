@@ -50,7 +50,7 @@ extern int func_021DC024(void *);
 struct Obj;
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_0204AA94(int,void *,u32,int,int);
 extern void func_02049238(void *);

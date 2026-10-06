@@ -28,7 +28,7 @@ extern int func_0216DA20(void *p, unsigned int v);
 extern void func_021630F4();
 extern void func_0216310C(char *p);
 extern void func_02163130(char *p);
-extern int func_0216D57C();
+extern unsigned int func_0216D57C(void *p, unsigned int v);
 typedef unsigned int   u32;
 extern void func_02197EB4(u32 a);
 extern int func_0216DB10(void *a0);
@@ -38,7 +38,7 @@ extern void func_0216D708(void *a0);
 extern void func_02163154(char *p);
 extern void func_02163188(char *p);
 
-void func_02163028(int a)
+void func_02163028(void *a)
 {
     int t = 2;
 
@@ -47,7 +47,7 @@ void func_02163028(int a)
         func_0216310C((char *)a);
         func_02163130((char *)a);
         if (func_0216D57C(a, t << 8) != 0) {
-            func_02197EB4(a);
+            func_02197EB4((u32)a);
         } else if (func_0216DB10((void *)a) == 0) {
             if (func_02163090(a) == 1) {
                 if (func_0219B41C(a) == 0) {

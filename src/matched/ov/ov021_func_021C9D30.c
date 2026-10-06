@@ -25,7 +25,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020120F4(void);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 struct Big;
 struct Blk1AC;
 struct Blk3C;
@@ -36,9 +37,9 @@ extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
 extern void func_0200DA14(struct Blk3C *p);
 extern void func_0200DB1C(struct Blk1AC *p, u32 i);
 
-u8 func_021C9D30(void)
+u32 func_021C9D30(const struct Ctx *a0)
 {
-    u32 a = (u32)func_02012EBC((struct Big *)func_020120F4());
+    u32 a = (u32)func_02012EBC((struct Big *)func_020120F4(a0));
     u32 b = (u32)func_020071CC((struct Sub020071CCCtrl *)a, 0x39);
     u32 c = (u32)func_020071CC((struct Sub020071CCCtrl *)a, 0x3a);
     u8 r = func_0200D884((struct Blk3C *)b, 0, 0);

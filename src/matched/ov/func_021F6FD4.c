@@ -101,7 +101,7 @@ struct RecDC;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 func_02012984(const struct BigObj *p);
 extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
 extern struct Party *func_0201A920(u32 heap);

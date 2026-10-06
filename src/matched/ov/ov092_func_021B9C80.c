@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 u32 func_021B9C80(u32 p, u32 heap)
 {
     void *data;

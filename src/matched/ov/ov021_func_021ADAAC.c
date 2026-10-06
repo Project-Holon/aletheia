@@ -40,7 +40,7 @@ typedef struct L {
 extern u8 d_021D9238[];
 extern int d_021D9240[];
 
-extern int func_021ABE14(int a);
+extern unsigned int func_021ABE14(u8 *p);
 extern unsigned int func_02188CFC(u8 *p);
 typedef unsigned int   u32;
 extern int func_021ABEA0(u32 a, u32 b);
@@ -48,7 +48,7 @@ extern void *func_02082BCC(void *p, u8 v, unsigned n);
 extern void *func_02188C7C(unsigned char *p);
 extern u8 func_021ABFA8(int a, void *b, int c, int d, void *e, int f);
 
-u8 func_021ADAAC(int a, int b, int c, int d, int e, int f)
+u8 func_021ADAAC(int a, u8 *b, int c, int d, int e, int f)
 {
     int t;
     int k;
@@ -60,7 +60,7 @@ u8 func_021ADAAC(int a, int b, int c, int d, int e, int f)
         return 0;
     }
     k = d_021D9238[f];
-    r = func_021ABEA0(b, k + 0x12);
+    r = func_021ABEA0((u32)b, k + 0x12);
     if (r == 0) {
         return 0;
     }
@@ -79,5 +79,5 @@ u8 func_021ADAAC(int a, int b, int c, int d, int e, int f)
     l.f1c = (c << 16) + 0x8000;
     l.f24 = (d << 16) + 0x8000;
     l.f20 = e;
-    return func_021ABFA8(b, d_021D9240, 0, 1, &l, 0);
+    return func_021ABFA8((int)b, d_021D9240, 0, 1, &l, 0);
 }

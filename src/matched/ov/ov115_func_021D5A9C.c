@@ -56,7 +56,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021D5A9C(u8 *p) {
     u32 n;
     if (((struct Obj00724 *)p)->f80) { func_0202F038(((struct Obj00724 *)p)->f80); ((struct Obj00724 *)p)->f80=0; }

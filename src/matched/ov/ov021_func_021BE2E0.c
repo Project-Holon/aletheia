@@ -35,7 +35,7 @@ typedef unsigned char  u8;
 extern void func_021BE418(u8 *p, u16 i);
 struct Rec;
 extern void func_02047E54(struct Rec *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021BE2E0(Obj *o)
 {

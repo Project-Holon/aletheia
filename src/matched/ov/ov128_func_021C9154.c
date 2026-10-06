@@ -21,5 +21,5 @@ extern void func_021CA444(char *);
 extern void func_021CA458(char *p, void *q);
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021C9154(char *p,int unused,char *q) { func_021CA444(q);func_021CA458(q,q+12);func_020452E8(((struct Obj10489 *)p)->f0);func_020452E8(((struct Obj10489 *)p)->f8);func_020307B0(((struct Obj10489 *)p)->f10);}

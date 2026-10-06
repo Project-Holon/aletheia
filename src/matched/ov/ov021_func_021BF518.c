@@ -17,7 +17,8 @@
  */
 
 extern void func_021BF564(int);
-extern void func_021BF584(int);
+typedef unsigned char  u8;
+extern void func_021BF584(u8 *a0);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -29,7 +30,7 @@ int func_021BF518(int a, int *s, int *q)
     case 0:
         func_0204E720(q[3], 16, 0, q[4]);
         func_021BF564(q[1]);
-        func_021BF584(q[1]);
+        func_021BF584((u8 *)q[1]);
         s[0] = s[0] + 1;
         break;
     case 1:

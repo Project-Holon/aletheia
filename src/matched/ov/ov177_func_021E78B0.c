@@ -24,7 +24,7 @@ typedef struct {
 } Work;
 typedef struct { char pad0[0x28]; unsigned score; char pad2c[0x34 - 0x2c]; unsigned count; char name[1]; } Record;
 extern const WinTemplate d_021E8CEE[];
-extern void *func_020450F0(unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char);
+extern unsigned int func_020450F0(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, unsigned char c, unsigned char d, unsigned char slot);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Cfg;
@@ -48,8 +48,9 @@ extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern unsigned func_0200856C(const void *);
-extern unsigned func_02008570(const void *);
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0202DE64(struct PmsDraw *p, u16 v);
@@ -65,7 +66,7 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, unsigned print, v
     void *win;
     int i;
     for (i = 0; i < 8; i++) {
-        p->win[i] = func_020450F0(1, d_021E8CEE[i].bg, d_021E8CEE[i].x, d_021E8CEE[i].y, d_021E8CEE[i].w, 15, 1);
+        p->win[i] = (void *)func_020450F0(1, d_021E8CEE[i].bg, d_021E8CEE[i].x, d_021E8CEE[i].y, d_021E8CEE[i].w, 15, 1);
         func_02043B5C(func_02045770(p->win[i]), 0);
         win = p->win[i];
         func_02045334(win);
@@ -118,12 +119,12 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, unsigned print, v
             break;
         case 4:
             func_02045CAC(msg, 22, buf);
-            func_0201F048(fmt, 0, func_0200856C(data));
+            func_0201F048(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data));
             func_0201F250(fmt, str, buf);
             break;
         case 5:
             func_02045CAC(msg, 23, buf);
-            func_0201F094(fmt, 0, func_0200856C(data), func_02008570(data));
+            func_0201F094(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data), func_02008570((const struct Sub0200852CObj *)data));
             func_0201F250(fmt, str, buf);
             break;
         case 6:

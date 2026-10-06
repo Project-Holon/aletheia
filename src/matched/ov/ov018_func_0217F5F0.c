@@ -33,7 +33,7 @@ typedef struct {
     Ent arr[];
 } Ov018Obj;
 
-void *func_02026478(void *);
+unsigned int func_02026478(void *obj);
 typedef unsigned int   u32;
 struct BigObj;
 struct Rec44;
@@ -50,7 +50,7 @@ int func_0217F5F0(Ov018Obj *p, int idx)
 
     void *sub;
 
-    sub = func_02026478(p->f04);
+    sub = (void *)func_02026478(p->f04);
     if (idx == func_02012B58(sub)) {
         e = &p->cur;
     } else {
@@ -59,7 +59,7 @@ int func_0217F5F0(Ov018Obj *p, int idx)
     h = e->f18;
     switch (h) {
     case 0:
-        if (func_02008550((const struct Sub0200852CObj *)func_02012950(func_02026478(p->f04), idx)) == 0) {
+        if (func_02008550((const struct Sub0200852CObj *)func_02012950((struct Sub24 *)func_02026478(p->f04), idx)) == 0) {
             return 3;
         }
         return 4;

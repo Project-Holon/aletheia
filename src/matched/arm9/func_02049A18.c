@@ -54,7 +54,7 @@ extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_020409B4(u8 channel);
 extern void func_02041B6C(u8 channel);
-extern void func_020307B0(void *file);
+extern u32 func_020307B0(void *p);
 
 void func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
 {

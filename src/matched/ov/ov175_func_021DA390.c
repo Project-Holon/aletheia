@@ -26,8 +26,8 @@ typedef unsigned long u32;
 
 extern void func_021D9ED4(char *obj, u32 v);
 extern int func_021D9EEC(char *obj);
-extern void func_0203D7B0(int v);
-extern void func_0203D7BC(int v);
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 extern void func_0203C554(u32 a);
 
 int func_021DA390(char *obj)

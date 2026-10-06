@@ -19,5 +19,6 @@ struct Grid; struct Obj020437AC; struct Obj;
 extern void func_0202570C(struct Grid *);
 extern void func_020437AC(struct Obj020437AC *);
 extern void func_0204B3B4(struct Obj *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021FB494(char *p) { func_0202570C(*(struct Grid * *)&((struct Obj10785 *)p)->f4);func_020437AC(*(struct Obj020437AC * *)&((struct Obj10785 *)p)->f8);func_0204B3B4(*(struct Obj * *)&((struct Obj10785 *)p)->f0);func_020307B0(p); }

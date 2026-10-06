@@ -20,7 +20,8 @@
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_021FC448(void *, char *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021F97E4(void *a)
 {

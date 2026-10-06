@@ -42,7 +42,7 @@ extern void func_0216D9A0(void *o);
 extern void func_0216D5E0(int a0, int a1);
 extern void *func_021A2F98(void *a);
 extern void func_021ACBB8(u32 a, u8 v);
-extern void func_021A2F48(void *a, int b);
+extern void func_021A2F48(u8 *p, u32 a1);
 extern void func_021A2F60(int *p);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(void *o, int a);

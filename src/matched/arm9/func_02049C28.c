@@ -74,7 +74,7 @@ extern void func_0207F47C(void);
 extern void func_0207F560(void);
 extern void func_0207F6A8(void);
 extern void func_0207F754(void);
-extern void func_020307B0(void *file);
+extern u32 func_020307B0(void *p);
 
 void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
 {

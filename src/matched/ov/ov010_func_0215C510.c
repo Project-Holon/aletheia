@@ -36,7 +36,7 @@ extern void *func_0215C40C(void *a, struct Spec *s);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
-extern void func_020307B0(void *a);
+extern u32 func_020307B0(void *p);
 
 int func_0215C510(void *a, void *b)
 {

@@ -40,7 +40,7 @@ extern u32 func_02013B38(u32 id);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(void *src, void *dst, u32 n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *h);
 
 void func_021D3478(u8 *a, u32 id, int c, int d, u16 heap)

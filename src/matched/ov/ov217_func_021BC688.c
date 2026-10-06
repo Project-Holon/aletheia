@@ -19,7 +19,7 @@
 #include "../include/Obj04639.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021BC3AC(u32);
+extern int func_021BC3AC(void);
 extern void func_021C0E04(void *, u32);
 extern void func_021C0E00(void *, u32);
 extern void func_021C0DFC(void *, u8);
@@ -27,7 +27,7 @@ void func_021BC688(char *p)
 {
     int y;
     if (*(u32 *)&((struct Obj04639 *)p)->f4 != 0) {
-        y = func_021BC3AC(*(u32 *)&((struct Obj04639 *)p)->f4);
+        y = func_021BC3AC();
         if (y < -24) y = -24;
         if (y > 72) y = 72;
         func_021C0E04(((struct Obj04639 *)p)->f4, y);

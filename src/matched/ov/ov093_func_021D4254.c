@@ -15,5 +15,6 @@
  */
 extern void *d_021F3B88;
 extern void func_021D4A6C(void);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021D4254(void) { if(d_021F3B88) { func_021D4A6C(); func_020307B0(d_021F3B88); } }

@@ -78,7 +78,7 @@ typedef struct {s16 x,y;} Pair;
 typedef signed int     s32;
 struct Actor;
 struct Obj;
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);

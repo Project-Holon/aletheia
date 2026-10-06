@@ -22,14 +22,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct ArcFile;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int u32;
 extern u32 func_021BF810(void *p);
 extern void *func_02049250(struct ArcFile *,unsigned,unsigned);
 extern int func_02062B30(void *,void **);
 extern void func_02041090(unsigned,unsigned,unsigned,unsigned,u8,u8);
 extern void func_020409B4(unsigned);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021BF08C(char *p)
 {

@@ -32,7 +32,7 @@ extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag)
 extern int func_020334CC(u32 a, u32 b, u32 c);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02082D44(const void *src,void *dest,u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const char d_021DFF60[];
 
 void *func_021DFC20(u32 heap)

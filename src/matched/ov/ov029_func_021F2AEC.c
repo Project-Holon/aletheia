@@ -19,7 +19,7 @@
  *   func_021F20AC  0x021F20AC  thumb  ov029
  */
 
-extern int func_021F2B9C(int p, int i, int j);
+extern unsigned int func_021F2B9C(unsigned char *p, int row, int col);
 typedef unsigned char  u8;
 struct Sub020090B0Obj;
 extern int func_021F2BB8(u8 *p, int row, int col);
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 extern void func_021F20AC(char *p);
 
-void func_021F2AEC(int p, int a1, int a2, int a3, int k)
+void func_021F2AEC(unsigned char *p, int a1, int a2, int a3, int k)
 {
     int j;
     int i;

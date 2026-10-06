@@ -109,7 +109,7 @@ extern unsigned func_02030CB0(unsigned);
 struct Ctx;
 struct Res;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void *func_021F93F4(void *a, u32 b);
 struct Obj02021EE4;
 struct PalAnmSlot;

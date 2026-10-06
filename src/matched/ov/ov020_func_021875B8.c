@@ -20,9 +20,9 @@
 #include "../include/Obj00128.h"
 typedef unsigned short u16;
 extern int func_021912F8(void *p);
-extern void func_0219131C(void *p);
+extern int func_0219131C(unsigned int a);
 typedef unsigned int   u32;
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 int func_021875B8(char *p)
 {
     if (((struct Obj00128 *)p)->f10 != 0) {
@@ -30,12 +30,12 @@ int func_021875B8(char *p)
             if (func_021912F8(((struct Obj00128 *)p)->f10) == 0) return 0;
             ((struct Obj00128 *)p)->f10 = 0;
         } else {
-            func_0219131C(((struct Obj00128 *)p)->f10);
+            func_0219131C((unsigned int)(((struct Obj00128 *)p)->f10));
             ((struct Obj00128 *)p)->f10 = 0;
         }
     }
     if (((struct Obj00128 *)p)->f14 != 0) {
-        func_021909BC((u32)(((struct Obj00128 *)p)->f14));
+        func_021909BC((void *)(((struct Obj00128 *)p)->f14));
         ((struct Obj00128 *)p)->f14 = 0;
     }
     return 1;

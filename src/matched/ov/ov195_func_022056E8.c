@@ -64,7 +64,7 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02008F08(int a0);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CFA0(struct Blk37 *p, void *m);

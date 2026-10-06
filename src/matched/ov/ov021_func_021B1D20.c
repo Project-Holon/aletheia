@@ -30,7 +30,7 @@ struct Stream;
 extern int func_02158F58(int a0);
 extern u16 func_02011330(struct Stream *s);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A2F48(void *, u32);
+extern void func_021A2F48(u8 *p, u32 a1);
 extern int func_021A2F54(u8 *p);
 extern void func_020113D0(char *p, int val);
 extern int func_021B1CFC(u32 a, u32 b, u32 c, u32 d);

@@ -41,7 +41,7 @@ extern void func_021F3A6C(int *);
 extern int func_02188D2C(int *p);
 extern void func_021BE580(int);
 extern void *func_02188CB4(u8 *p);
-extern void func_021F3B40(struct Obj *o, int h, int a2);
+extern void func_021F3B40(struct Obj *o, int h, u8 *a2);
 
 void func_021F3778(int a)
 {
@@ -78,5 +78,5 @@ void func_021F3778(int a)
     func_021F3A7C((char *)p, a);
     func_021F3A6C(p);
     func_021BE580(func_02188D2C((int *)a));
-    func_021F3B40((struct Obj *)(p + 0x1a), h, (int)func_02188CB4((u8 *)a));
+    func_021F3B40((struct Obj *)(p + 0x1a), h, (u8 *)func_02188CB4((u8 *)a));
 }

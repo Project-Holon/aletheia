@@ -47,7 +47,7 @@ u32 func_0201296C(const struct BigObj *p);
 unsigned short *func_020127C4(int a);
 u8 *func_020127D0(u8 *o, u32 idx);
 int func_020127E0(int a);
-void func_020307B0(void *p);
+u32 func_020307B0(void *p);
 int func_02186538(unsigned short *a, int b, int c);
 int func_02186278(char *p, int which);
 int func_02186854(u16 *p);

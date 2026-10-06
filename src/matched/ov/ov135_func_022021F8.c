@@ -47,7 +47,7 @@ extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void func_022026A0(u8 *p, u32 k);
 extern void func_0200ADB8(void *dest, const void *src, u32 a2);
 extern void func_02007664(void *, unsigned, unsigned);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void *func_0201AB28(void *, unsigned);
 extern u32 func_0201A9C8(struct Party *p, s32 idx);
 extern void *func_020120F4(const struct Ctx *p);

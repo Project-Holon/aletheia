@@ -31,7 +31,7 @@ extern void *func_0201210C(const struct Ctx *p);
 struct IcaAnime;
 extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern const char d_02172724[];
 
 int func_0215DEF0(void *a, u32 *st, u32 *c)

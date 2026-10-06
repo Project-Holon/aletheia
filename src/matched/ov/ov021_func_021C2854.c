@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 
 void func_02006CAC(void **out);
-int func_02006984(int a, int b, int c, int d, int e, int f, int g, char *h);
+unsigned int func_02006984(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6, unsigned int a7);
 int func_02006650(void);
 typedef signed char    s8;
 typedef unsigned int   u32;
@@ -42,7 +42,7 @@ int func_021C2854(int a, char *b)
         if (((struct Obj01214 *)q)->f18 == 0) {
             if (((struct Obj01214 *)q)->f0 == 0x1b9) {
                 func_02006CAC((void **)buf);
-                ((struct Obj01214 *)q)->f1C = func_02006984(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, buf);
+                ((struct Obj01214 *)q)->f1C = func_02006984(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, (unsigned int)buf);
             } else {
                 ((struct Obj01214 *)q)->f1C = func_02006984(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, 0);
             }

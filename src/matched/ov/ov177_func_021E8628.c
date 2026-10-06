@@ -32,7 +32,8 @@ extern void func_0201F7A8(void *p, unsigned kind);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021E8628(char *p)
 {
     if (((struct Obj01960 *)p)->f8 != 0) {

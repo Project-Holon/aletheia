@@ -21,7 +21,7 @@ typedef unsigned char u8;
 
 extern int func_021688BC(u8 *, int, u16);
 extern int func_02168924(int, int, u8 *, u8, int, int, int, u16);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_02168878(u8 *a, int b, int c, int d, int e, int f, u16 g)
 {

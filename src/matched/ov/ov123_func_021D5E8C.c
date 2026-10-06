@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef enum { C0 = 0 } Counter;
 extern unsigned char ov_id[];
 extern void func_021D63E4(u8 *);
-extern void func_020307B0(void *);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 struct Bank;
 struct Node;

@@ -66,7 +66,7 @@ struct Descriptor;
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02041B6C(u32 bit);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020456F8(struct Descriptor *d);

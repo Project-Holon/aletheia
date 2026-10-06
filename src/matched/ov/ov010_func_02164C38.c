@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u32 func_0200FB24(void);
 extern void func_0200FBA0(void);
 int func_02164C38(int a,int b,u8 *p) { if(((struct Obj18983 *)p)->f4==0) { func_020307B0(p); if(func_0200FB24()) func_0200FBA0(); return 1; } return 0; }

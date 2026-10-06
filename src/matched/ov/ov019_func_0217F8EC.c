@@ -22,5 +22,5 @@ extern void func_0217FCE4(struct E *p);
 extern void func_0217FBD0(char *p);
 extern void func_0217FABC(u32 *p);
 extern void func_0217F9BC(char *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 void func_0217F8EC(char *p) { if(p) { func_0217FCE4((struct E *)(p+0x20)); func_0217FBD0(p+0x20); func_0217FABC((u32 *)p); func_0217F9BC(p); func_020307B0(p); } }

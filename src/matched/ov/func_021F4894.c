@@ -16,9 +16,10 @@
  * Tail-call thunk to func_020433E0.
  */
 
-extern void func_020433E0(void);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 
-void func_021F4894(void)
+void func_021F4894(const struct DispVram *a0)
 {
-    func_020433E0();
+    func_020433E0(a0);
 }

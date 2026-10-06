@@ -16,7 +16,8 @@
 extern void *func_02012F14(void **);
 extern unsigned func_02009D9C(void);
 extern void func_02082D44(void *, void *, int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021E0240(void **h, void *dst)
 {
     void *src = func_02012F14(h);

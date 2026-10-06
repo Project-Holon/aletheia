@@ -124,7 +124,7 @@ extern int func_02078C18(File *,void *),func_02078A80(File *);
 typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern u32 func_02078C28(File *);
+extern u32 func_02078C28(struct FSFile *a0);
 extern u8 d_021F6E08[],d_021F6E0C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -158,7 +158,7 @@ static inline void load_payload(u8 *p) {
  File file; void *name;
  name=func_0200575C(142);func_020788AC(&file);
  if(!func_02078C18(&file,name))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
- func_02078B44((struct FSFile *)(&file),0,0);W(100)=func_02078C28(&file);
+ func_02078B44((struct FSFile *)(&file),0,0);W(100)=func_02078C28((struct FSFile *)(&file));
  P(96)=func_02030734(H(0),W(100),1,(const char *)d_021F6E0C,660);
  func_02078B70((struct FSFile *)(&file),P(96),W(100));
  if(!func_02078A80(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);

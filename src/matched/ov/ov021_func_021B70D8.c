@@ -36,7 +36,7 @@ typedef struct Ent {
 } Ent;
 
 extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u8 d_021D99D0[];
 
 int func_021B70D8(u32 a, u32 b)

@@ -30,7 +30,9 @@ typedef struct {
 } S;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_0204B404(void *a, void *b, int c);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Node;
@@ -51,8 +53,8 @@ void func_021BA04C(S *p, void *a, void *b)
     p->f4 = b;
     p->f8 = 0x80;
     p->fA = 0x60;
-    func_0204B404(a, &p->f8, 0);
-    func_0204B404(p->f4, &p->f8, 0);
+    func_0204B404(a, (const struct Vec2 *)(&p->f8), 0);
+    func_0204B404(p->f4, (const struct Vec2 *)(&p->f8), 0);
     func_0204B3DC(p->f0, 1);
     one = 1;
     func_0204B3DC(p->f4, 0);

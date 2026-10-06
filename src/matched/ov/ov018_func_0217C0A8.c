@@ -26,21 +26,23 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_02026478();
+extern unsigned int func_02026478(void *obj);
 struct BigObj;
 extern int func_02012B70(const struct BigObj *p);
 extern u8 func_02012B80(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
-extern int func_02026454();
-extern u8 *func_02026474();
+extern unsigned int func_02026454(void *obj);
+extern unsigned int func_02026474(void *obj);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
-extern u8 *func_02012950();
+struct Rec44;
+struct Sub24;
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
-u8 func_0217C0A8(int a0)
+u8 func_0217C0A8(void *a0)
 {
     int h;
     u8 *q;
@@ -54,13 +56,13 @@ u8 func_0217C0A8(int a0)
     } else {
         q = 0;
         if (func_02026454(a0) == 2 && func_02026474(a0) != 0)
-            q = func_02026474(a0);
+            q = (u8 *)func_02026474(a0);
         if (q == 0) {
             obj = func_02012944((void *)h);
         } else if (func_02013D5C(((struct Obj19353 *)q)->f84) == 1) {
             obj = func_02012944((void *)h);
         } else {
-            obj = func_02012950(h, func_02012B80((const struct BigObj *)h));
+            obj = (u8 *)func_02012950((struct Sub24 *)h, func_02012B80((const struct BigObj *)h));
         }
     }
     return func_02008550((const struct Sub0200852CObj *)obj);

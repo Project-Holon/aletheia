@@ -29,7 +29,7 @@ typedef struct Dst {
     int f34;
 } Dst;
 
-extern int *func_021AC1AC(int a);
+extern int func_021AC1AC(unsigned int a);
 extern void func_021AC1CC(int a, int *b);
 typedef unsigned int   u32;
 extern int func_021AC1A0(u32 a);
@@ -37,7 +37,7 @@ extern void func_021AC178(int a);
 
 void func_021ADB6C(int a, Dst *b)
 {
-    int *s = func_021AC1AC(a);
+    int *s = (int *)func_021AC1AC(a);
 
     b->f34 = s[0];
     b->s4 = *(S40 *)s;

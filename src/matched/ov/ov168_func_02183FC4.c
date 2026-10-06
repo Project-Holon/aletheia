@@ -38,7 +38,7 @@ struct Actor;
 struct Bank;
 struct Obj;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_020275E4(void);
 typedef signed int     s32;
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);

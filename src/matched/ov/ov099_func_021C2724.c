@@ -34,7 +34,7 @@ extern u32 func_020221A4(void);
 extern int func_0203CD98(void);
 extern void func_021BA7F8(char *);
 extern void func_0200AE08(const struct Reg *src, struct Reg *dest);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021BC0C4(char *);
 extern void func_021BDF7C(char *);
 extern int func_02156A3C(void);

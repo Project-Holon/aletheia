@@ -90,7 +90,7 @@ struct PalAnmSlot;
 struct S02021D50;
 struct Sub020090B0Obj;
 extern u32 func_0201214C(const struct Ctx *p);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02030CB0(u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);

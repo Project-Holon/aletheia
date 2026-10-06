@@ -17,15 +17,15 @@
  */
 
 extern long func_02165204(int a, int b);
-extern void func_02165164(int a, int b);
+extern long func_02165164(void *bssid, void *essid, unsigned long option);
 
-void func_02165144(int a, int b)
+void func_02165144(void *a, void *b, unsigned long a2)
 {
     if (a == 0 || b == 0) {
-        func_02165204(a, b);
+        func_02165204((int)a, (int)b);
         return;
     }
 
-    func_02165164(a, b);
+    func_02165164(a, b, a2);
 }
 

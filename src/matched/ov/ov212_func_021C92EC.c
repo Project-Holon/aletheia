@@ -15,7 +15,7 @@
 typedef unsigned short u16;
 struct Blk37;
 extern u16 func_0200CA8C(struct Blk37 *p);
-extern unsigned func_0200D064(void *,u16);
+extern unsigned int func_0200D064(struct Blk37 *p, u16 id);
 typedef unsigned int   u32;
 struct Blk37;
 extern void func_0200CA78(struct Blk37 *p, u32 v);

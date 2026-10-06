@@ -48,7 +48,8 @@ typedef struct {
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_0217F1E8(u8 *p);
-extern int func_0204B3F4(int a0);
+struct Obj;
+extern unsigned int func_0204B3F4(struct Obj *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
 extern void func_0217F214(void);
@@ -68,13 +69,13 @@ void func_0217E524(Obj *p)
 
     h = (int)func_020120F4((const struct Ctx *)p->f00);
     if (func_0217F1E8((u8 *)p) == 0) {
-        if (func_0204B3F4(p->fAC) == 1) {
+        if (func_0204B3F4((struct Obj *)p->fAC) == 1) {
             func_0204B3DC((struct Obj *)p->fAC, 0);
             func_0217F214();
         }
         return;
     }
-    if (func_0204B3F4(p->fAC) == 0) {
+    if (func_0204B3F4((struct Obj *)p->fAC) == 0) {
         func_0204B3DC((struct Obj *)p->fAC, 1);
         func_0217F240((u8 *)p, 1);
     }

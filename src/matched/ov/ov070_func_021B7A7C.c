@@ -38,7 +38,7 @@ extern void func_021B7DD0(u8 *p);
 extern void func_021B6100(char *p, int k);
 extern void func_021B8C1C(int p, int a, int b);
 extern void func_021B7B08(struct Obj *o);
-extern void func_021B8E08(int p);
+extern void func_021B8E08(unsigned char *p);
 
 void func_021B7A7C(Obj *o)
 {

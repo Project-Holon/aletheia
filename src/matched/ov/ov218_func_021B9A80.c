@@ -34,7 +34,8 @@ extern void func_0201C4C0(struct PrintSys *);
 extern void func_0201D83C(void *);
 extern void func_02031140(struct S02031140 *);
 extern void func_0201ED04(struct WordSet *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021B9A80(char *p)
 {
     if (*(struct Rec3 * *)&((struct Obj02264 *)p)->f20 != 0) {

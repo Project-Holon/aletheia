@@ -24,7 +24,7 @@ typedef unsigned short u16;
 struct MsgBank; struct U16Vec; struct WordSet;
 typedef unsigned int u32;
 extern u32 func_021BF810(void *p);
-extern unsigned func_021BF910(char *);
+extern u32 func_021BF910(unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021C0FF8(u8 *p, int visible);
 extern void func_021C0F78(u8 *p, struct U16Vec *text);
@@ -41,7 +41,7 @@ void func_021BF264(char *p)
         func_021C0FF8((u8 *)(((struct Obj00021 *)p)->f358),0);
         return;
     }
-    index=func_021BF910(p);
+    index=func_021BF910((unsigned char *)p);
     a=func_02045EC0(*(struct MsgBank * *)&((struct Obj00021 *)p)->fC,14);
     b=func_02045EC0(*(struct MsgBank * *)&((struct Obj00021 *)p)->f14,index);
     buf=func_020457B0(128,((struct Obj00021 *)p)->f4);

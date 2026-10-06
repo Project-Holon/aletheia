@@ -75,7 +75,8 @@ extern void *func_021FB5E4(int *ctx, int heap);
 extern unsigned func_021FB788(void *);
 extern unsigned short func_021FB760(void *, int);
 extern void *func_021FB704(char *ctx, int section, unsigned item);
-extern void *func_021FB7D0(unsigned * const *p, void *record, int archive, unsigned short heap);
+struct MsgBank;
+extern void *func_021FB7D0(unsigned * const *p, void *record, struct MsgBank *archive, unsigned short heap);
 extern void func_021FBE54(char *base, u32 idx, u32 area);
 extern void func_021FAC20(void *ctx, void *object, int a, void *b, int owner, void *arg, int index, u32 heap);
 extern void func_021FA020(u8 *ctx, int a1, int a2);
@@ -125,7 +126,7 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
         arch = func_021FC214((char *)c);
         for (i = 0; i < p->f5c->count; i++) {
             void *q = func_021FB704(p->f44, p->f5c->rec[i].a, (unsigned short)p->f5c->rec[i].b);
-            void *rec = func_021FB7D0(p->f44, q, arch, (heap & 0x7FFF) | 0x8000);
+            void *rec = func_021FB7D0(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
             func_02082BCC(buf, 0, 0x44);
             func_021FAC20(buf, q, b, p->f48, c, rec, p->f10, heap);
             func_021FA020((u8 *)p, (int)buf, 0);
@@ -140,7 +141,7 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
         p->f39 = func_021FB760(p->f44, a);
         for (i = 0; i < p->f39; i++) {
             void *q = func_021FB704(p->f44, a, (unsigned short)i);
-            void *rec = func_021FB7D0(p->f44, q, arch, (heap & 0x7FFF) | 0x8000);
+            void *rec = func_021FB7D0(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
             func_021FAC20(p->f40 + i * 0x44, q, b, p->f48, c, rec, p->f10, heap);
             func_02045808(rec);
         }

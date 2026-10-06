@@ -45,7 +45,7 @@ extern char g_020A7E5C[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02040968(const void *src, void *dst, u32 mode);
 extern void func_0204241C(u32 index, const void *src, u32 offset, u32 size);
 

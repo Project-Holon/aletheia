@@ -38,7 +38,8 @@ typedef struct Obj {
 
 extern void func_021BB0F8(int p);
 extern int func_021B619C(int a, int b, unsigned int id);
-extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -53,7 +54,7 @@ void func_021B7B08(Obj *o)
 
     func_021BB0F8((int)o);
     v = func_021B619C(o->f84C, o->f7F4, o->f544);
-    func_02045CAC(o->f51C, 0x4F, o->f524);
+    func_02045CAC(o->f51C, 0x4F, (void *)o->f524);
     func_0201EFA4(o->f520, 0, v, 7, 0, 1);
     func_0201F250(o->f520, o->f528, (void *)o->f524);
     func_021BADAC(o);

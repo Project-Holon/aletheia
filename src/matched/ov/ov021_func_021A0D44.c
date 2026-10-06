@@ -28,7 +28,7 @@ typedef struct {
 
 extern Entry d_021D8738[];
 
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 u8 func_021A0D44(u32 *p)
 {

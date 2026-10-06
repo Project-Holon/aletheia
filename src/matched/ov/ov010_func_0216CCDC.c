@@ -29,7 +29,7 @@ extern u32 func_02030CB0(u32 idx);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Ctx;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern int func_020490F4(int, int);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0216D4DC(void *, int);
 extern char d_02172B48[];
 
@@ -45,7 +45,7 @@ void func_0216CCDC(char *a, int b, int c, int d, int e, int f)
     h = ((struct Obj02669 *)a)->f4;
     ((struct Obj02669 *)a)->f1C = t;
     ((struct Obj02669 *)a)->f20 = (int)func_02030CBC(h, (struct Ctx *)t);
-    ((struct Obj02669 *)a)->f10 = func_020490F4(0x31, b);
+    ((struct Obj02669 *)a)->f10 = (int)func_020490F4(0x31, b);
     ((struct Obj02669 *)a)->f38 = f;
     func_0216D4DC(a, 0x10);
 }

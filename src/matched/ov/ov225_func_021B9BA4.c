@@ -13,5 +13,5 @@
 #include "../include/Obj08466.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021B9BA4(char *p) {func_020307B0(((struct Obj08466 *)p)->fC);func_020307B0(((struct Obj08466 *)p)->f8);func_020307B0(((struct Obj08466 *)p)->f4);func_020307B0(((struct Obj08466 *)p)->f0);func_020307B0(p);}

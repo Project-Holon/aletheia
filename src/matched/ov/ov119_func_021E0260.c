@@ -12,7 +12,8 @@
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj01536.h"
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *,int,int);
 void func_021E0260(char *p)
 {

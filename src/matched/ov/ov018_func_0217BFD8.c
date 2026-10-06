@@ -30,15 +30,15 @@ struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02158344(int);
 extern int func_02012B70(const struct BigObj *p);
-extern int func_02012204(int);
+extern unsigned int func_02012204(const struct Ctx *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 extern u32 func_02013D9C(u32 id);
-extern int func_0202648C(int);
-extern int func_02026454(int);
-extern int func_0202647C(int);
+extern u32 func_0202648C(void *obj);
+extern u32 func_02026454(void *obj);
+extern u32 func_0202647C(void *obj);
 
-int func_0217BFD8(int a, int b)
+int func_0217BFD8(const struct Ctx *a, int b)
 {
     int h;
     int t;
@@ -54,12 +54,12 @@ int func_0217BFD8(int a, int b)
     if (func_02012204(a) == 1)
         return 1;
     if (func_02013D5C(b) == 1) {
-        if (func_0202648C(t) != 0)
+        if (func_0202648C((void *)t) != 0)
             return 1;
         return 0;
     }
     if (func_02013D9C(b) == 1) {
-        if (func_02026454(t) == 2 || (func_02026454(t) == 0 && func_0202647C(t) == 2 && func_0202648C(t) != 0))
+        if (func_02026454((void *)t) == 2 || (func_02026454((void *)t) == 0 && func_0202647C((void *)t) == 2 && func_0202648C((void *)t) != 0))
             return 1;
         return 0;
     }

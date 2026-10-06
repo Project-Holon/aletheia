@@ -48,7 +48,7 @@ typedef unsigned int u32;
 
 struct SoundSys;
 struct Sub02006E40Obj;
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_021647D8(int a0);
 extern void func_02027584(u8 *p);
 extern void func_0202E794(void *p);

@@ -42,7 +42,7 @@ struct Out;
 struct Res;
 extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
 extern void func_02063E54(void *a, u32 b, int c, u32 d);
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 struct Node;
 extern void sub_02030EAC(struct Node *n);
 

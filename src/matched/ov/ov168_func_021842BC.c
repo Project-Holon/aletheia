@@ -27,8 +27,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void *func_02045B38(int,int,int,u16);
-extern void *func_02045180(int,int,int,int,u8,u8,int);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
+extern unsigned int func_02045180(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, unsigned int offset);
 typedef unsigned int   u32;
 struct Cfg;
 struct CharBuf;
@@ -54,10 +55,10 @@ void func_021842BC(void **p, int heap)
     void *a;
     void *b;
     void *s;
-    p[3] = func_02045B38(0,2,65,heap);
+    p[3] = func_02045B38((int)0,(int)2,(int)65,(u16)heap);
     for (i=0;i<3;i++) {
         row = d_02184888+i*12;
-        p[i] = func_02045180(row[0],row[1],row[2],row[3],row[4],row[5],((struct Obj03845 *)row)->f6);
+        p[i] = (void *)func_02045180((int)row[0],(int)row[1],(int)row[2],(int)row[3],row[4],row[5],(int)(((struct Obj03845 *)row)->f6));
         a = func_02045770(p[i]);
         func_02043B5C(a,0);
         func_020456F8(p[i]);

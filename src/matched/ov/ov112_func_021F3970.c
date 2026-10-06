@@ -37,7 +37,8 @@ extern void func_021F3BF0(u8 *);
 extern void func_021F3AE0(void *);
 extern void func_02030EAC(struct Node *n);
 extern void func_02034A5C(int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 int func_021F3970(void *owner,void *arg,int flag,u8 *p) {

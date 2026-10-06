@@ -65,7 +65,8 @@ struct S02021944;
 struct S02021A84;
 extern void func_02021944(struct S02021944 *p, int a1);
 extern void func_02021984(s32 idx, struct Chan02021984 *c, u16 *pv);
-extern void func_020219C4(void *s, u16 f0, s32 a, u8 b, u8 c, u16 d);
+struct S020219C4;
+extern void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d);
 extern void func_02021BC8(u8 *p, u32 idx, u32 arg);
 extern void func_02021A84(void *a, struct S02021A84 *p);
 extern void func_02030DA8(void *ctx, void (*fn)(void *, PalAnmObj *), PalAnmObj *p, s32 pri);
@@ -79,7 +80,7 @@ int func_0202173C(PalAnmObj *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, 
     for (i = 0; i < 14; i++) {
         if (func_02021930(mask, i) == 1 && func_02021930(p->a_big, i) == 0) {
             func_02021984(i, (struct Chan02021984 *)(&p->ch[i]), &col);
-            func_020219C4(&p->ch[i].fc, col, step, b, c, d);
+            func_020219C4((struct S020219C4 *)(&p->ch[i].fc), col, step, b, c, d);
             func_02021944((struct S02021944 *)p, i);
             if (i >= 4) {
                 func_02021BC8((u8 *)p, i, 0x100);

@@ -39,7 +39,7 @@ typedef struct S {
 } S;
 
 extern void *func_0215A5EC(void *);
-extern S *func_0215A63C(void *);
+extern unsigned char *func_0215A63C(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
@@ -58,7 +58,7 @@ extern void func_021B0960(V3 *, V3 *, int, int, int);
 void func_021B0B08(void *a, int b)
 {
     void *t = func_0215A5EC(a);
-    S *s = func_0215A63C(a);
+    S *s = (S *)func_0215A63C(a);
     void *o = func_0216DE94(t, s->id);
     V3 v;
     if (o != 0) {

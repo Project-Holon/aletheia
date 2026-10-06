@@ -12,12 +12,13 @@
  *   func_02082A60 0x02082A60 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void *func_02158FD0(void *, unsigned int);
+typedef unsigned int   u32;
+extern int func_02158FD0(int a0, u32 a1, int a2);
 extern void func_02082A60(const void *, void *, unsigned int);
-extern void func_020307B0(void *);
-void func_021590D4(void *a, void *b)
+extern u32 func_020307B0(void *p);
+void func_021590D4(void *a, void *b, int a2)
 {
-    void *p = func_02158FD0(a, 0x8020);
+    void *p = (void *)func_02158FD0((int)a, 0x8020, a2);
     func_02082A60(b, p, 0x7e);
     func_020307B0(b);
 }

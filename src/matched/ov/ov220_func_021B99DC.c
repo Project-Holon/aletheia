@@ -44,7 +44,7 @@ struct Param
 };
 extern const u8 coords3[];
 extern const u8 coords4[];
-extern void *func_020490F4(u32, u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0204AF28(void *, u32, u32, u32);

@@ -39,7 +39,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_0204B3B4(struct Obj *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_020414EC(u32 i);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 

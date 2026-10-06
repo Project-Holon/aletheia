@@ -19,7 +19,8 @@ typedef struct {
     void *arr[4];
 } S;
 
-void func_020307B0(void *p);
+typedef unsigned int   u32;
+u32 func_020307B0(void *p);
 
 void func_0218BF84(S *p)
 {

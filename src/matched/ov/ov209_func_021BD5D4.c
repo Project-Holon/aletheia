@@ -15,7 +15,8 @@
  */
 #include "../include/Obj00123.h"
 #include "../include/Obj25560.h"
-extern void func_021BD4F4(char *, unsigned);
+typedef unsigned char  u8;
+extern void func_021BD4F4(u8 *p, unsigned int idx);
 typedef unsigned int   u32;
 struct Blk37;
 extern u32 func_0200CA70(struct Blk37 *p);
@@ -23,7 +24,7 @@ extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, unsign
 extern void func_021BD4DC(void **p);
 void func_021BD5D4(char *p)
 {
-    func_021BD4F4(p, 0);
+    func_021BD4F4((u8 *)p, 0);
     if (func_0200CA70(((struct Obj25560 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1)
         func_021BD440(p, 0, 1, 0, 4, 0x39e0, 0);
     else

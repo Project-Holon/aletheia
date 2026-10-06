@@ -15,11 +15,12 @@
  */
 
 typedef unsigned int u32;
-extern int func_0215FC40(int,int,unsigned short);
+struct Desc;
+extern struct Desc *func_0215FC40(int a0, int a1, unsigned short a2);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_02013CE0(u32);
-int func_0215FCE0(int a, int b, unsigned short c) { int task; u32 *p; task=func_0215FC40(a,b,c); p=func_020124E8((struct Obj *)task); p[6]=func_02013CE0(func_02188C9C((void *)b)) == 1 ? 5 : 2; return task; }
+int func_0215FCE0(int a, int b, unsigned short c) { int task; u32 *p; task=(int)func_0215FC40(a,b,c); p=func_020124E8((struct Obj *)task); p[6]=func_02013CE0(func_02188C9C((void *)b)) == 1 ? 5 : 2; return task; }

@@ -149,7 +149,7 @@ extern void func_02018A00(void *p, u32 a, u32 b);
 extern void *func_020185F0(void *p);
 extern void func_020185C4(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u16 func_02045A98(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);

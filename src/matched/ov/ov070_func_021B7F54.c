@@ -63,7 +63,7 @@ extern int func_02020F14(u32 heap);
 extern int func_02020F20(int h, int id, u16 heap);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(int h);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(Ent *, Ent *), void *buf);
 extern int func_021B7F38(Ent *a, Ent *b);

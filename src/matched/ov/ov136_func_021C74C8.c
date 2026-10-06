@@ -21,7 +21,7 @@ struct Bf7 {
     u8 v : 7;
     u8 w : 1;
 };
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 int func_021C74C8(u8 *p)
 {
     u8 *q = *(u8 * *)&((struct Obj14197 *)p)->f10;

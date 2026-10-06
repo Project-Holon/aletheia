@@ -52,7 +52,7 @@ void func_02008FD8(struct Sub02008F80Obj *obj, void *arg, u32 i);
 void func_02008FC4(struct Sub02008F80Obj *obj, u16 value);
 struct Sub02008F80Obj *func_02008FEC(void *sys);
 void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
-void func_020307B0(void *p);
+u32 func_020307B0(void *p);
 void func_02045808(struct U16Vec *vec);
 void func_02045C04(struct Rec *rec);
 extern char d_02187DA4[];

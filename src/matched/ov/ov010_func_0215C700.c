@@ -18,7 +18,7 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 typedef struct Outputs { u16 *first; u16 *second; } Outputs;
 typedef struct Context { char pad[0x34]; u32 first; u32 second; } Context;
 typedef struct Pair { Context *context; Outputs *outputs; } Pair;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_0215C700(Pair *p)
 {
     Context *c = p->context;

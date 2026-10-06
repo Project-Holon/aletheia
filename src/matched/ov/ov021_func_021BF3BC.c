@@ -19,7 +19,7 @@
  */
 
 extern void func_021BF564(void);
-extern void func_021BF584(int);
+extern void func_021BF584(unsigned char *a0);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -37,7 +37,7 @@ int func_021BF3BC(int a, int *s, int *q)
     switch (k) {
     case 0:
         func_021BF564();
-        func_021BF584(q[1]);
+        func_021BF584((unsigned char *)q[1]);
         func_0204E720(q[3], 16, 0, -1);
         s[0] = s[0] + 1;
         break;

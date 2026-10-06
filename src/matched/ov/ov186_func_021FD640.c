@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
 extern void func_0202DC08(struct Obj *p);
 extern void func_021FBDA4(int a, unsigned mode);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 index);
 void func_021FD640(int *p)
 {

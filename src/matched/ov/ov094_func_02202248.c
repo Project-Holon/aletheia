@@ -39,7 +39,7 @@ extern char d_0220A3D4[];
 struct BgVramReq;
 struct Main;
 extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 struct Cfg;

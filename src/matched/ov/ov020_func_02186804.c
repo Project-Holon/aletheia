@@ -14,5 +14,6 @@
  */
 
 extern void func_02049238(void *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_02186804(void **p) { func_02049238(p[0]); func_020307B0(p); }

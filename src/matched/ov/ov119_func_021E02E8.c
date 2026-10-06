@@ -48,7 +48,7 @@ extern u32 func_02008FFC(void);
 extern u32 func_02008C20(void);
 extern u32 func_02007AEC(void);
 extern void func_02082D44(const void *,void *,u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021E017C(void *,void *);
 extern void func_021E01E0(void *,void *);
 extern void func_021E0240(void **h, void *dst);

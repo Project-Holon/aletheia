@@ -28,7 +28,7 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(unsigned);
 extern void func_0204AFD8(unsigned);
 extern void func_0204ADA4(unsigned);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);

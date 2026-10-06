@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { void *root; u8 pad[0x8c]; void *items[2]; } Object;
 extern const u8 d_021C38D9[];
-extern void *func_021BAC78(void *,void *,int,int,int,int);
+struct Obj;
+extern struct Obj *func_021BAC78(char *p, unsigned int *r, short x, short y, unsigned int a, int mode);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -25,7 +26,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BD114(Object *p) {
     u8 i;
     for(i=0;i<2;i++) {
-        p->items[i]=func_021BAC78(p->root,(u8 *)p+0x10,d_021C38D9[3*i],d_021C38D9[3*i+1],0,1);
+        p->items[i]=func_021BAC78(p->root,(unsigned int *)((u8 *)p+0x10),d_021C38D9[3*i],d_021C38D9[3*i+1],0,1);
         func_0204B878(p->items[i],d_021C38D9[3*i+2]);
         func_0204B3DC(p->items[i],0);
     }

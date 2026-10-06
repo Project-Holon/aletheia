@@ -22,5 +22,5 @@ struct U16Vec;
 extern void func_0202570C(struct Grid *g);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021B9360(u8 *p) { func_0202570C(((struct Obj10256 *)p)->f1C); func_020437AC(((struct Obj10256 *)p)->f0); func_02045808(((struct Obj10256 *)p)->f18); func_020307B0(p); }

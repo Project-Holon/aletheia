@@ -23,14 +23,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void func_021F4894(u32 v);
+struct DispVram;
+extern void func_021F4894(const struct DispVram *a0);
 extern void func_021F49F8(u8 *p, u32 v);
 extern void func_021F4BCC(u8 *p);
 extern u8 g_02202BFC[];
 
 void func_021F4EDC(u8 *p)
 {
-    func_021F4894((u32)g_02202BFC);
+    func_021F4894((const struct DispVram *)g_02202BFC);
     func_021F49F8(p, (u32)g_02202BFC);
     func_021F4BCC(p);
 }

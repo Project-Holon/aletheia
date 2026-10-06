@@ -18,12 +18,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 
 void func_021CEB64(u8 *p)
 {
     if (((struct Obj07591 *)p)->f140 != 0) {
-        func_021909BC(((struct Obj07591 *)p)->f140);
+        func_021909BC((void *)(((struct Obj07591 *)p)->f140));
         ((struct Obj07591 *)p)->f140 = 0;
         p[0x40e] = 0;
     }

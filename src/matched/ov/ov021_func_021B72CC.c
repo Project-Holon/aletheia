@@ -45,7 +45,7 @@ extern void *func_020127A4(struct SaveBlock *p);
 extern void *func_02012F08(int *p);
 extern u32 func_0200C278(struct Blk34 *p, u32 v);
 extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const u8 d_021D99D0[];
 
 int func_021B72CC(u32 a, u32 b)

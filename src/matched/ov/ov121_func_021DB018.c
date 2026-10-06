@@ -90,7 +90,7 @@ extern const Row data_021DF86E[];
 struct Obj;
 struct Actor;
 struct Cfg;
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern unsigned int func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);

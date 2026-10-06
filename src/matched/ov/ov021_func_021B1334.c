@@ -36,24 +36,26 @@ struct Stream;
 struct WordSet;
 extern int func_02158F58(int a0);
 extern u16 func_02011330(struct Stream *s);
-extern int func_02188C84(int);
-extern int func_0215A60C(int);
-extern int func_0201D7EC(int, int, int, int, int);
+struct GfFont;
+extern u16 func_02188C84(unsigned char *p);
+extern unsigned int func_0215A60C(unsigned char *p);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, unsigned int heapId);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02158F80(u8 *p, u32 v);
-extern int func_02191A10(int, int, int);
-extern void func_0215A614(int, int);
+struct MsgBank;
+extern u32 *func_02191A10(u16 *a, u32 b, u32 c);
+extern void func_0215A614(u8 *p, u32 v);
 extern u32 func_02158F78(u8 *p);
 extern void *func_02158F74(void *p);
 extern u32 func_02158F7C(u8 *p);
-extern void func_02045CAC(int, int, int);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_020113D0(char *p, int val);
 extern void func_02159144(int);
 extern int func_021B1240(int, int);
 
-int func_021B1334(int a, int b)
+int func_021B1334(int a, unsigned char *b)
 {
     void *o;
     int *q, *q2;
@@ -63,16 +65,16 @@ int func_021B1334(int a, int b)
     q = (int *)func_02158F58((int)o);
     s0 = func_02011330((struct Stream *)a);
     s1 = func_02011330((struct Stream *)a);
-    h = func_02188C84(q[1]);
+    h = func_02188C84((unsigned char *)q[1]);
     q2 = (int *)func_02158F58((int)o);
     s2 = func_0215A60C(b);
-    m = func_0201D7EC(0x17, 4, 0, 0, h);
+    m = (int)func_0201D7EC(0x17, 4, 0, 0, h);
     func_02158F80(o, m);
-    func_0215A614(b, func_02191A10(*q2, s1, m));
+    func_0215A614((u8 *)b, (u32)func_02191A10((u16 *)(*q2), s1, m));
     x = func_02158F78(o);
     y = (int)func_02158F74(o);
     z = func_02158F7C(o);
-    func_02045CAC(s2, s0, z);
+    func_02045CAC((struct MsgBank *)s2, s0, (void *)z);
     func_0201F250((struct WordSet *)y, (void *)x, (void *)z);
     func_020113D0((char *)a, (int)func_021B1240);
     func_02159144(4);

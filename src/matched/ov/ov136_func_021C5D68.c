@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Sub02008F80Obj;
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);

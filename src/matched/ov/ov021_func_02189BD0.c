@@ -153,7 +153,7 @@ extern int func_021A2F20(u32 *p, int a, int b, int c);
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern void *func_021A3074(u8 *p);
-extern int func_0217BFD8(int a, int b);
+extern int func_0217BFD8(const struct Ctx *a, int b);
 extern int func_0217CA84(void *sys, int v);
 extern u32 func_02026454(void *obj);
 extern int func_02012B70(const struct BigObj *p);
@@ -274,7 +274,7 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
     obj = (void *)func_02012138(sys);
     ev = (void *)func_02158344((int)obj);
     model = func_021A3074((u8 *)in.f18);
-    if (func_0217BFD8((int)sys, in.f10) == 1)
+    if (func_0217BFD8((const struct Ctx *)sys, in.f10) == 1)
         return func_0217CA84(sys, 0);
     if ((int)func_02026454(obj) == 2 && ev != 0) {
         if (func_02012B70(in.f8) == 1 && func_0217C070(ev) == 1)

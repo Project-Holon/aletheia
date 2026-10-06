@@ -22,19 +22,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02169998();
+extern int func_02169998(int a0, int a1);
 extern int func_02169550();
 extern int func_02169568();
 extern int func_0216959C();
 extern int func_0216990C();
 
-void func_021694D4(int a0)
+void func_021694D4(int a0, int a1)
 {
     int t4;
 
 t4 = a0 + 0;
 a0 = *(int *)&((struct Obj00306 *)t4)->f2C;
-    a0 = func_02169998(a0);
+    a0 = func_02169998(a0, a1);
 loc_021694DE:
 a0 = t4 + 0;
     a0 = func_02169550(a0);

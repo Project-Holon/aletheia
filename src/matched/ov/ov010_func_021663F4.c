@@ -19,11 +19,11 @@
 
 typedef unsigned char u8;
 
-extern int func_0216630C(u8 *list, int v);
+extern int func_0216630C(int a0, int a1, int a2, int a3);
 
-int func_021663F4(u8 *list, int def, unsigned dir)
+int func_021663F4(u8 *list, int def, unsigned dir, int a3)
 {
-    int i = func_0216630C(list, def);
+    int i = func_0216630C((int)list, def, dir, a3);
 
     switch (dir) {
     case 0:

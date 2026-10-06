@@ -54,7 +54,7 @@ struct S02031140;
 struct TaskMenu;
 struct TaskMenuState;
 extern void func_0202F038(u8 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021974A0(struct Obj *o);
 extern void func_0201CE48(struct Rec3 *p);
 extern int func_02028604(int a0);

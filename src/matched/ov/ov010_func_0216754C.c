@@ -29,7 +29,7 @@ extern unsigned int func_02012114(const struct Ctx *a);
 extern void func_021942C8(int a);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const char d_02172A28[];
 
 void func_0216754C(int a, struct O *o)

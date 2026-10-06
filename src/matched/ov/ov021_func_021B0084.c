@@ -48,7 +48,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C54(u8 *p);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 
 int func_021B0084(u32 a0, int *st, Ctx *c)
 {
@@ -78,7 +78,7 @@ int func_021B0084(u32 a0, int *st, Ctx *c)
         }
         break;
     case 3:
-        func_021909BC(c->h);
+        func_021909BC((void *)c->h);
         return 1;
     }
     return 0;

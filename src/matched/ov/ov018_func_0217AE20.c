@@ -92,7 +92,7 @@ extern int func_02012B70(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void func_0217B968(int a0, void *a1, void *a2, void *a3);
-extern void func_0217BBD8(int a, int b, u8 *c);
+extern void func_0217BBD8(u8 *a, int b, u8 *c);
 extern int func_0217C11C(u32 value);
 extern void func_0217BAB4(int a0, void *a1, void *a2, u8 *p);
 extern void func_02175004(u8 *p);
@@ -104,7 +104,7 @@ extern void func_021675D0(struct Work *w, int idx, int a2, struct Src *src);
 extern void func_02167848(char *a0, int a1, char *a2);
 extern int func_021679C4(struct Work *w, int i);
 
-void func_0217AE20(int a0, int a1, int a2)
+void func_0217AE20(u8 *a0, int a1, int a2)
 {
     int h;
     Obj *p;
@@ -118,7 +118,7 @@ void func_0217AE20(int a0, int a1, int a2)
     ctx = func_020120F4((const struct Ctx *)a1);
     if (func_02012E40(ctx) == 1)
         return;
-    func_0217B968(a0, (void *)a1, (void *)h, (void *)a2);
+    func_0217B968((int)a0, (void *)a1, (void *)h, (void *)a2);
     if (func_02026454((void *)h) != 2 || p == 0)
         return;
     h = func_02012AC8(func_020127A4(ctx));
@@ -156,5 +156,5 @@ void func_0217AE20(int a0, int a1, int a2)
             }
         }
     }
-    func_0217BAB4(a0, (void *)a1, (void *)a2, (u8 *)p);
+    func_0217BAB4((int)a0, (void *)a1, (void *)a2, (u8 *)p);
 }

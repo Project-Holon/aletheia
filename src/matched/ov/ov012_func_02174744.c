@@ -161,7 +161,7 @@ extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_0201A948(struct Party *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02175240(u8 *a, int b);
 extern void  func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
 extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);

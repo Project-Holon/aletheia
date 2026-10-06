@@ -50,7 +50,7 @@ extern void *func_020056A0(void (*)(void),void *,u32);
 extern void func_021F8994(void);
 extern u32 func_021FD8D4(char *p);
 extern void func_021F95F0(u8 *);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021F899C(u8 *);
 extern void func_021F8BD4(u8 *);
 extern void func_021F92CC(u8 *);

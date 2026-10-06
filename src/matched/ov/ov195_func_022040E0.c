@@ -156,7 +156,7 @@ extern void func_02021EE4(struct Obj02021EE4 *o, int v);
 /* Caller narrows only r0; r1 retains the full word, copied to the callee's u16 store. */
 extern void func_020272A4(u16,u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_02030D28(struct Ctx *c);

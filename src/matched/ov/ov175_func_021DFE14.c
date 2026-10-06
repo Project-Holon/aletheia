@@ -15,10 +15,11 @@
  * ARM tail jump to func_021DFF30 in the ov175 prologue group.
  */
 
-extern void func_021DFF30(void);
+typedef unsigned int   u32;
+extern int func_021DFF30(u32 *p);
 
-void func_021DFE14(void)
+int func_021DFE14(u32 *a0)
 {
-    func_021DFF30();
+    return func_021DFF30(a0);
 }
 

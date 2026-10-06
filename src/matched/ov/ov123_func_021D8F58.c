@@ -24,7 +24,7 @@ struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u32 func_02009228(void);
 extern void func_02082D44(void *, void *, int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern void *func_020185F4(void *);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);

@@ -34,7 +34,7 @@ extern char d_0220AE68[];
 extern u32 func_0201134C(void *);
 extern void func_020113D0(char *p, int val);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_0205121C(u32 a, u32 b, u32 c);
 extern void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
 extern void func_02051380(void *, void *);

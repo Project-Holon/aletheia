@@ -34,7 +34,7 @@ extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021E1410(void *p, int *ids, int count);
 extern void *func_021D8D4C(void **a, int b, int c, char *p);
 extern void func_021E1E00(char *p, int mode, void *mon);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021D8C84(void *);

@@ -24,10 +24,10 @@ typedef unsigned int u32;
 struct Ent { u8 a, b, c, d, e; };
 extern const struct Ent d_021BC73C[3];
 extern const u8 d_021BC6FC[];
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, unsigned);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
 void func_021BB540(u8 *p)

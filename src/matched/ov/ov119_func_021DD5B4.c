@@ -29,7 +29,7 @@ struct State;
 extern int func_021DD428(struct State *p, int side, int a, int b, void *value);
 extern int func_021DF9E8(char *,void *,int);
 extern void func_021DD4F4(struct S119DD4F4 *p, int i, int j);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u32 func_020173EC(void);
 extern void func_021E6334(char *p, int i, int j, void *mon, int selected, u32 visible);
 int func_021DD5B4(char *p,int a,int b)

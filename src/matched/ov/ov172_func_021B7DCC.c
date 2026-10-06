@@ -16,7 +16,8 @@
 #include "../include/Obj06559.h"
 typedef unsigned char u8;
 extern void func_0203E6C0(void);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_0203D7FC(void *);
 extern int func_021BE0D8(void *);
 void func_021B7DCC(void *p, char *q)

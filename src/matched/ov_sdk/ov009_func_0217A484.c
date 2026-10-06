@@ -57,7 +57,7 @@ typedef struct DWCHttp {
 } DWCHttp;
 
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
-extern char *func_02094B20(const char *s, const char *find);
+extern unsigned char *func_02094B20(const unsigned char *s1, const unsigned char *s2);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
@@ -93,12 +93,12 @@ int func_0217A484(DWCHttp *http, int noparsebody)
     func_02082BCC(http->labelvalue, 0, sizeof(http->labelvalue));
 
     buffer = http->rep.buffer;
-    httpbody_top = func_02094B20(buffer, g_021A25D4);
+    httpbody_top = (char *)func_02094B20((const unsigned char *)buffer, (const unsigned char *)g_021A25D4);
     if (httpbody_top == 0)
         return 0;
     httpbody_end = httpbody_top + 4 + func_0209477C((const u8 *)(httpbody_top + 4));
 
-    p_char1 = func_02094B20(buffer, g_021A26B4);
+    p_char1 = (char *)func_02094B20((const unsigned char *)buffer, (const unsigned char *)g_021A26B4);
     if (p_char1 == 0)
         return 0;
     temp = p_char1[4];
@@ -112,19 +112,19 @@ int func_0217A484(DWCHttp *http, int noparsebody)
     if (noparsebody == 1 || func_020949F4((const u8 *)(p_char1 + 1), (const u8 *)g_021A26C4, 3) != 0)
         return 1;
 
-    index = func_02094B20(p_char1 + 5, g_021A2604);
+    index = (char *)func_02094B20((const unsigned char *)(p_char1 + 5), (const unsigned char *)g_021A2604);
     if (index == 0)
         return 0;
     index += 2;
 
     while (*index != '\r' && *(index + 1) != '\n') {
-        p_char1 = func_02094B20(index, g_021A26C8);
+        p_char1 = (char *)func_02094B20((const unsigned char *)index, (const unsigned char *)g_021A26C8);
         if (p_char1 == 0)
             break;
         p_char1_temp = *p_char1;
         value = p_char1 + 2;
         *p_char1 = 0;
-        p_char2 = func_02094B20(value, g_021A2604);
+        p_char2 = (char *)func_02094B20((const unsigned char *)value, (const unsigned char *)g_021A2604);
         if (p_char2 == 0) {
             *p_char1 = p_char1_temp;
             break;
@@ -143,15 +143,15 @@ int func_0217A484(DWCHttp *http, int noparsebody)
 
     index = httpbody_top + 4;
     while (index < httpbody_end) {
-        buffer = func_02094B20(index, g_021A26CC);
+        buffer = (char *)func_02094B20((const unsigned char *)index, (const unsigned char *)g_021A26CC);
         if (buffer == 0)
             break;
         p_char1_temp = *buffer;
         p_char1 = buffer + 1;
         *buffer = 0;
-        p_char2 = func_02094B20(p_char1, g_021A26D0);
+        p_char2 = (char *)func_02094B20((const unsigned char *)p_char1, (const unsigned char *)g_021A26D0);
         if (p_char2 == 0)
-            p_char2 = func_02094B20(p_char1, g_021A2604);
+            p_char2 = (char *)func_02094B20((const unsigned char *)p_char1, (const unsigned char *)g_021A2604);
         if (p_char2 != 0) {
             p_char2_temp = *p_char2;
             *p_char2 = 0;

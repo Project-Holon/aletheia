@@ -58,7 +58,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201BABC(u32,u32,u32,u32);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);

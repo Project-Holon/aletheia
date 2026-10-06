@@ -15,7 +15,7 @@
  */
 #include "../include/Obj05264.h"
 #include "../include/Obj13695.h"
-extern int func_021BCBD8(char *, int);
+extern unsigned int func_021BCBD8(char *p, int m);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;

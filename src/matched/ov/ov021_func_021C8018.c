@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021DE520[];
 extern void *func_02046DB8(u32 a0, u32 a1);

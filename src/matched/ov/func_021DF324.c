@@ -19,7 +19,8 @@
 #include "../include/Obj12155.h"
 
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 int func_021DF324(char *p)
 {
     int q = ((struct Obj04901 *)p)->fC;

@@ -25,7 +25,8 @@ extern void func_0203FB44(unsigned,unsigned,unsigned);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void*func_02030734(unsigned,unsigned,int,const char*,u16);
 extern void func_02040E78(unsigned,void*,unsigned,unsigned);
-extern void func_020307B0(void*);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021BA2F4(int unused,char*p)
 {
     unsigned off;

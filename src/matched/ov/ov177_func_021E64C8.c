@@ -27,7 +27,7 @@ extern void func_020061E4(unsigned);
 extern unsigned func_0209C2B0(unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020407E8(u32 layer);
-extern void func_02041EE4(unsigned char, int, int);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 int func_021E64C8(Work *w)
 {
     int ret;
@@ -59,7 +59,7 @@ int func_021E64C8(Work *w)
         w->count = 0;
         ret = 1;
     }
-    func_02041EE4(w->bg + 1, 0, level);
-    func_02041EE4(w->bg, 0, level);
+    func_02041EE4((unsigned char)(w->bg + 1), (int)0, (int)level);
+    func_02041EE4((unsigned char)w->bg, (int)0, (int)level);
     return ret;
 }

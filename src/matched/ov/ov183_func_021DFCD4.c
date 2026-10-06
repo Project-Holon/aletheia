@@ -39,7 +39,7 @@ extern void func_021FD170(char *p, char *q, void *text);
 extern u8 *func_02012944(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern int func_021FB4B4(int,int,int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern int func_021FB4CC(u32 *p, int a1, int a2);
 extern void func_021F9BA0(unsigned *ctx);
 extern void func_021F9BF4(unsigned *,unsigned);
@@ -97,7 +97,7 @@ int func_021DFCD4(char *p,char *q)
     {
         u32 x,y;
         if(func_02035D20(&x,&y)) {
-            if(func_021FB4B4(((struct Obj00277 *)p)->fC,x,y)) {
+            if(func_021FB4B4((unsigned int *)(((struct Obj00277 *)p)->fC),x,y)) {
                 int args[2];
                 args[0]=x;args[1]=y;
                 func_021FD860(((struct Obj00277 *)p)->f40,1,args);

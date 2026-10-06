@@ -39,7 +39,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201DD68(void);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(int);
+extern void func_02021540(void *a0);
 extern void func_02030EAC(struct Node *n);
 extern void func_02031140(struct S02031140 *p);
 
@@ -55,7 +55,7 @@ void func_021F2A04(char *p)
     func_0201DD68();
     func_020215A0((struct PalAnmSlot *)(((struct Obj00812 *)p)->fAC), 3);
     func_020215A0((struct PalAnmSlot *)(((struct Obj00812 *)p)->fAC), 1);
-    func_02021540(((struct Obj00812 *)p)->fAC);
+    func_02021540((void *)(((struct Obj00812 *)p)->fAC));
     ((struct Obj00812 *)p)->fAC = 0;
     func_02030EAC((struct Node *)(((struct Obj00812 *)p)->fA4));
     func_02031140((struct S02031140 *)(*(int *)&((struct Obj00812 *)p)->fA0));

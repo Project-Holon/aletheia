@@ -33,7 +33,7 @@ struct NitroFileHeader;
 struct PalAnmSlot;
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02022004(u32,u32,u16,u32,u32);
 extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);

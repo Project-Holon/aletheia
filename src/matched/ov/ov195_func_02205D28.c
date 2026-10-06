@@ -21,5 +21,6 @@ typedef struct Owner Owner;
 extern void func_022065C8(char *);
 extern void func_0220623C(struct Owner *o);
 extern void func_022060BC(char *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_02205D28(char *p){func_022065C8(p);func_0220623C((Owner *)p);func_022060BC(p);if(((struct Obj02911 *)p)->f10)func_020307B0(((struct Obj02911 *)p)->f10);func_020307B0(p);}

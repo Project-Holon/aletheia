@@ -12,7 +12,8 @@
  */
 
 extern void func_0200A3D0(void *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_0200A338(void *a0)
 {

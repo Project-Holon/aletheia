@@ -46,7 +46,7 @@ int func_0217BB04(char *p);
 void func_02034714(const char *expr, u32 line, const char *file);
 void func_0203D14C(int a, int b, void *c);
 int func_0203D1B4(void);
-void func_0203D7BC(int a);
+void func_0203D7BC(u8 a0);
 u32 func_020362DC(void);
 void func_02172D20(u8 *p);
 int func_02172D68(u8 *p);

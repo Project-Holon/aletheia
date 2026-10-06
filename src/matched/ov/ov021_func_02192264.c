@@ -35,7 +35,7 @@ typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_02082EA4(void *dst, void *src, u32 n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02192264(u32 a, u32 unused, u32 heap, u32 idx)
 {

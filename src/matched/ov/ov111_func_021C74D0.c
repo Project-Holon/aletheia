@@ -59,7 +59,7 @@ typedef struct {
     u8 f17C[8];
 } Work;
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021C74D0(Work *p)
 {

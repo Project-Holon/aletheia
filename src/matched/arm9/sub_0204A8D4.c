@@ -77,7 +77,7 @@ struct Sentinel;
 extern int sub_02034640(struct Sentinel *p);
 struct Owner;
 extern void sub_020346B8(struct Owner *owner, struct Sentinel *p);
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 void sub_0204A8D4(u32 i)
 {

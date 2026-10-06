@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021BD2FC();
+extern u8 func_021BD2FC(u8 *p);
 
-void func_021BD1F4(void)
+int func_021BD1F4(u8 *a0)
 {
-    func_021BD2FC();
+    return func_021BD2FC(a0);
 }

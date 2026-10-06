@@ -45,7 +45,7 @@ typedef signed int     s32;
 extern int func_02027710(int a);
 extern int func_02027714(int a);
 extern u32   func_020275E4(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void  func_02049238(void *h);
 

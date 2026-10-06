@@ -82,7 +82,7 @@ extern u32 func_0200A0C8(u8 *p);
 struct Obj;
 extern u32 func_0200A348(struct Obj *);
 extern int func_0200A104(char *p, unsigned int idx);
-extern int func_0200A350(void *);
+extern int func_0200A350(struct Obj *a0);
 extern int func_0202EB44(void);
 extern void *func_021DE4D8(char *p);
 extern void func_021DA84C(u8 *p, u32 i, u32 value);

@@ -56,7 +56,7 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *p, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
-extern void  func_0203D7BC(int a);
+extern void func_0203D7BC(u8 a0);
 extern u32 func_0203D378(void);
 extern void func_02173580(u8 *w);
 

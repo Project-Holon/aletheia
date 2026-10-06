@@ -26,5 +26,5 @@ extern void func_0201F868(void *);
 extern void func_0201F7A8(void *,u32);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_020452E8(struct Descriptor *d);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021DA148(u8 *p) { func_0202020C(((struct Obj06448 *)p)->f10,0,0); func_0201F868(((struct Obj06448 *)p)->f14); func_0201F7A8(((struct Obj06448 *)p)->f0,0); func_020456F8(((struct Obj06448 *)p)->f0); func_020452E8(((struct Obj06448 *)p)->f0); func_020307B0(p); }

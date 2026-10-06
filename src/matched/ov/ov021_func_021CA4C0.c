@@ -39,7 +39,7 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern void func_021CA3B4(Slot *s, u32 m);
 struct Blk1AC;
 extern void func_0200DC50(struct Blk1AC *p, u32 which, const void *src);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const char d_021DE58C[];
 
 void func_021CA4C0(u8 *p, u32 unused, int flag)

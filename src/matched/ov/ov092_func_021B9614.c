@@ -159,7 +159,7 @@ extern void func_02005D28(void);
 extern u8 func_02012984(const struct BigObj *p);
 extern u16 func_0201B2B0(void *, void *, u32, u32, u8, u32 *, u16);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
 {
     u32 busy;

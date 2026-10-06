@@ -23,7 +23,7 @@ extern void func_021C41BC(u8 *p);
 extern void func_021C4330(char *p, int a1);
 extern void func_021C4010(u8 *p);
 extern void func_02049238(u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021C3F80(u8 *p)
 {
     u32 i;

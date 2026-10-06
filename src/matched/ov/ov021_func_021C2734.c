@@ -12,7 +12,8 @@
  * Frees the four optional buffers (EXACT*: trailing pad).
  */
 
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021C2734(void **p)
 {

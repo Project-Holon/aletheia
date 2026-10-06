@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F5330(int,int);
 extern void func_021F5644(char *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 typedef struct { int f0, f4, active; } Fields;
 void func_021F51B0(int a) { int i; for(i=0;i<8;i++) { if(((Fields *)(a+i*556))->active==1)func_021F5330(a,a+8+i*556); } func_021F5644(((struct Obj10302 *)a)->f4); func_020307B0((void *)a); }

@@ -30,7 +30,8 @@ typedef struct {
     void *f355C;
 } Work;
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02183BE0(void *p);
 extern void func_0217505C(int *p, int x);
 

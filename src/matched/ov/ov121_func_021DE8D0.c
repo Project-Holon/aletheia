@@ -14,7 +14,7 @@
  *   func_021DE618 0x021DE618 thumb ov121
  */
 #include "../include/Obj22917.h"
-extern int func_02157E8C(int a0);
+extern int func_02157E8C(void *a0);
 extern unsigned func_0203D210(void);
 typedef unsigned int   u32;
 extern void func_021DEEA4(u32 *p, void *f);
@@ -23,7 +23,7 @@ void func_021DE8D0(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_02157E8C((int)(((struct Obj22917 *)p)->f79C));
+        func_02157E8C((void *)(((struct Obj22917 *)p)->f79C));
         *state = 1;
         break;
     case 1:

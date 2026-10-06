@@ -29,7 +29,7 @@ typedef struct {
 } E;
 
 extern E d_021F0DF0[];
-extern void func_02040588(unsigned char, unsigned char);
+extern void func_02040588(unsigned int which, unsigned int enable);
 extern void func_0203FCA0(unsigned char, void *, unsigned char);
 extern void func_020414AC(unsigned char);
 extern void func_02040618(unsigned char, unsigned, unsigned);
@@ -47,13 +47,13 @@ void func_021F06AC(char *p)
     E *e;
     unsigned j;
     for (i = 4; i <= 7; i++)
-        func_02040588(i, 0);
+        func_02040588((unsigned char)i, (unsigned char)0);
     for (j = 0; j < 2; j++) {
         e = &d_021F0DF0[j];
         id = e->f00;
         func_0203FCA0(id, e->f04, e->f24);
         func_020414AC(id);
-        func_02040588(id, e->f28);
+        func_02040588((unsigned char)id, (unsigned char)e->f28);
         func_02040618(id, 0, 0);
         func_02040618(id, 3, 0);
     }

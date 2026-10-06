@@ -23,21 +23,22 @@
 #include "../include/Obj13115.h"
 
 extern void *func_021897BC(int, int);
-extern void func_0202B914(int, int);
+struct Obj;
+extern void func_0202B914(struct Obj *o, unsigned int v);
 typedef unsigned int   u32;
 extern void func_02005F24(u32 a0, u32 a1);
 extern void func_021F39D0(char *a, int b);
-extern int func_021C4DA8(u32 a);
+extern int func_021C4DA8(void *a);
 extern void func_021897A0(int, int);
 
 void func_021F3734(int a)
 {
     int i;
     char *p = (char *)func_021897BC(a, 0);
-    func_0202B914(((struct Obj13115 *)p)->f4, 0);
+    func_0202B914((struct Obj *)(((struct Obj13115 *)p)->f4), 0);
     func_02005F24(((struct Obj13115 *)p)->f58, 0);
     func_021F39D0(p, a);
     for (i = 0; i < 5; i++)
-        func_021C4DA8(*(int *)(p + i * 4 + 8));
+        func_021C4DA8((void *)(*(int *)(p + i * 4 + 8)));
     func_021897A0(a, 0);
 }

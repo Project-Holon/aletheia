@@ -19,7 +19,7 @@
  *   func_021D8A7C 0x021D8A7C thumb ov123
  */
 #include "../include/Obj02183.h"
-extern void func_020307B0(void *);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D66D0(u8 *p, int n);

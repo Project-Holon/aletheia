@@ -19,7 +19,8 @@
 extern void func_0204AFD8(unsigned);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 typedef struct {
     unsigned n0;

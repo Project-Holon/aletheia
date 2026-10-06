@@ -22,15 +22,15 @@
 typedef unsigned char  u8;
 extern int *func_021A21B8(int *p);
 extern void func_021A21F8(u8 *p, int a, int b, int c, int d, int e, int f, int g, int h);
-extern void func_021A22E0(int, int, int, int);
+extern void func_021A22E0(unsigned int *p, int a, int b, int c);
 extern void func_021A2254(int, void *, int, int, int, int);
-extern void func_021A2114(int, int, int);
+extern int func_021A2114(unsigned int a, int b, unsigned int c);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u16 func_02014A10(u32 i);
 extern void func_021EEA34(int a, int n, int idx);
 
-int func_021EE810(int a, int b, int c)
+int func_021EE810(unsigned int *a, int b, int c)
 {
     int *p = func_021A21B8((int *)a);
 
@@ -38,7 +38,7 @@ int func_021EE810(int a, int b, int c)
     p[1] = 1;
     p[2] = 0;
     func_021A22E0(a, 8, 0x7F5F, b);
-    func_021A2254(a, (void *)func_021EEA34, 0x14, 1, 0x12, c);
-    func_021A2114(a, 0x3E, func_02014A10(1));
+    func_021A2254((int)a, (void *)func_021EEA34, 0x14, 1, 0x12, c);
+    func_021A2114((unsigned int)a, 0x3E, func_02014A10(1));
     return 1;
 }

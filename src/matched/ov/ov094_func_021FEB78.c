@@ -34,7 +34,8 @@ extern int func_021FFD9C(char *p, int key);
 extern void func_021FF0F8(Work *w, int key);
 typedef unsigned char  u8;
 extern void func_02014BA8(u8 *a0);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021FEB78(Work *w)
 {

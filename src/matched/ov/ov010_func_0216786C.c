@@ -84,7 +84,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188BE8(void *proc);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
-extern int func_021A34EC(void *q);
+extern int func_021A34EC(u8 *p);
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_02197CCC(u8 *p, s32 *out);
 extern u16 func_021A3050(u8 *p);

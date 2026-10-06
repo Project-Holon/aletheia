@@ -24,7 +24,8 @@ struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FD714(void *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021FD820(char *r5)
 {

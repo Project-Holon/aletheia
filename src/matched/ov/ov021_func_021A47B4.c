@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int func_0216D3CC(int a0);
 extern int func_021A4768(u32, u32, u32);
-extern int func_021A569C(int a, int b, int c, int *d);
+extern int func_021A569C(u8 *a, void *b, int c, int *d);
 extern int func_021AB11C(u32 attr);
 extern void func_021A53A4(u32 *p, int on);
 
@@ -38,7 +38,7 @@ int ov021_func_021A47B4(u32 a, u32 b, u8 *c)
     if (((struct Obj12736 *)c)->f8 == 9) {
         return func_021A4768(a, b, (u32)c);
     }
-    r = func_021A569C(a, b, ((struct Obj12736 *)c)->f8, &sp);
+    r = func_021A569C((u8 *)a, (void *)b, ((struct Obj12736 *)c)->f8, &sp);
     if (sp != -1) {
         if (r & 0x100) {
             if (!(r & 0xFFFFFEFF)) {

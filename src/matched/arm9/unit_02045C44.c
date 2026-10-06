@@ -106,7 +106,7 @@ struct MsgBank {
 extern char g_020A7E8C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct ArcFile;
 struct Buf;
 struct Obj;

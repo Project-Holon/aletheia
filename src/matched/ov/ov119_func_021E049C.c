@@ -102,7 +102,7 @@ extern void *func_021E0200(void *sys, u16 heapId);
 extern int func_021E0410(char *p, void *party, int idx);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 sub_02008FFC(void);
 extern struct Sub02008F80Obj *sub_02008FEC(void *sys);
 extern u32 sub_02008C20(void);

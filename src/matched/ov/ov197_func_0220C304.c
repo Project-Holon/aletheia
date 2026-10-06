@@ -25,7 +25,7 @@
 #include "../include/Obj25031.h"
 #include "../include/Obj25032.h"
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -34,11 +34,11 @@ extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_0220C304(char *p)
 {
-    void *arc = func_020490F4(11,(((struct Obj25027 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000);
+    void *arc = func_020490F4(11,(u16)((((struct Obj25027 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     char *data;
     void *buf;
     ((struct Obj00315 *)p)->f564=func_0204A6C8(arc,119,0,1,((struct Obj25028 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);

@@ -15,9 +15,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0209477C(void);
+extern int func_0209477C(const u8 *s);
 
-void func_021C7A18(void)
+u32 func_021C7A18(const u8 *a0)
 {
-    func_0209477C();
+    return func_0209477C(a0);
 }

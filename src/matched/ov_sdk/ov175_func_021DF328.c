@@ -18,13 +18,14 @@
  * 0x0a and post an 8-byte message.
  */
 
-extern int func_021DFD0C(void);
+typedef unsigned char  u8;
+extern int func_021DFD0C(u8 *a0);
 extern int func_021DF644(int, int);
 extern void func_02059F54(int, int);
 
-int func_021DF328(void)
+int func_021DF328(u8 *a0)
 {
-    int r = func_021DFD0C();
+    int r = func_021DFD0C(a0);
 
     if (r)
         func_02059F54(8, func_021DF644(0xa, r));

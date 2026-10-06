@@ -20,8 +20,9 @@
 
 extern int d_021DE0FC[];
 
-extern int func_021ABE24(int a);
-extern int func_02046E24(int a, int b);
+typedef unsigned char  u8;
+extern unsigned int func_021ABE24(u8 *p);
+extern void *func_02046E24(unsigned int a0, unsigned int a1);
 extern int func_02047180(unsigned int *p);
 extern int func_020056A0(void *fn, void *arg, int z);
 typedef unsigned int   u32;
@@ -30,11 +31,11 @@ extern void func_021ADD64(u32 a, struct Q *q);
 
 void func_021ADCF0(int *p)
 {
-    int r7 = func_021ABE24(p[0]);
+    int r7 = func_021ABE24((u8 *)p[0]);
     int i;
 
-    func_02047180((unsigned int *)(p[1] = func_02046E24(r7, 0x4d)));
+    func_02047180((unsigned int *)(p[1] = (int)func_02046E24(r7, 0x4d)));
     p[6] = func_020056A0((void *)func_021ADD64, p, 0);
     for (i = 0; i < 4; i++)
-        p[2 + i] = func_02046E24(r7, d_021DE0FC[i]);
+        p[2 + i] = (int)func_02046E24(r7, d_021DE0FC[i]);
 }

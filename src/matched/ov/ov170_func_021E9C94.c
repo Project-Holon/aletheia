@@ -32,7 +32,7 @@ extern int func_021E00C4(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021E9C94(char *p, int a, int n)
+int func_021E9C94(char *p, int a, int n)
 {
     func_021DD16C((unsigned char *)p, 0);
     if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 1) {
@@ -42,5 +42,5 @@ void func_021E9C94(char *p, int a, int n)
         if (a == 1)
             func_021EF670(WORK(p));
     }
-    func_021E8FC0(p, (int)func_021E00C4, n);
+    return func_021E8FC0(p, (int)func_021E00C4, n);
 }

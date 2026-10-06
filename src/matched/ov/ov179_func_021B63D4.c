@@ -29,7 +29,7 @@ extern void func_020435F4(u32 planes);
 extern void func_0204363C(u32 swap);
 extern void func_021B615C(void);
 extern void func_021B616C(char *);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021B622C(char *);
 extern void func_021B624C(int *);
 extern void func_021B6290(char *,unsigned,unsigned,unsigned);

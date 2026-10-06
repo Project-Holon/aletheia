@@ -36,7 +36,7 @@ typedef struct {
     u8 e;
 } R;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_020185F4(void *p);
 struct Obj;

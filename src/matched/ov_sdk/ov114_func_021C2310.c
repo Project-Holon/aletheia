@@ -18,11 +18,11 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C245C(int);
+extern void func_021C245C(u8 *p, u32 v);
 
-void func_021C2310(int a)
+void func_021C2310(u8 *a, u32 a1)
 {
     if (a == 0)
         return;
-    func_021C245C(a);
+    func_021C245C(a, a1);
 }

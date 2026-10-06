@@ -17,5 +17,5 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021DCB90(void *);
 extern void func_021DCB60(u8 *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021DC90C(u8 *p) {func_021DCB90(((struct Obj14201 *)p)->f18);func_021DCB60(((struct Obj14201 *)p)->f18);func_020307B0(p);}

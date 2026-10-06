@@ -16,7 +16,8 @@
 extern void *func_0200CA1C(void *);
 extern unsigned func_0200C9EC(void);
 extern void func_02082D44(void *, void *, int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021E01E0(void *h, void *buf)
 {
     void *src = func_0200CA1C(h);

@@ -46,7 +46,7 @@ extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u32 e);
 extern void func_02049238(void *o);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u8 a);
-extern void func_020307B0(void *h);
+extern u32 func_020307B0(void *p);
 
 void func_021A92A4(u32 a, u32 b)
 {

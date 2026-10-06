@@ -25,7 +25,7 @@ typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern u32 func_0204E804(void);
 extern void func_021BF564(u32 a);
-extern void func_021BF584(u32 a);
+extern void func_021BF584(u8 *a0);
 
 int func_021BEEB4(u32 p0, int *st, u8 *q)
 {
@@ -33,7 +33,7 @@ int func_021BEEB4(u32 p0, int *st, u8 *q)
     case 0:
         if (((struct Obj06060 *)q)->f18 != 0) {
             func_021BF564(((struct Obj06060 *)q)->f4);
-            func_021BF584(((struct Obj06060 *)q)->f4);
+            func_021BF584((u8 *)(((struct Obj06060 *)q)->f4));
         }
         func_0204E720(((struct Obj06060 *)q)->fC, 0x10, 0, -1);
         *st = *st + 1;

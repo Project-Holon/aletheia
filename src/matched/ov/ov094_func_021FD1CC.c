@@ -123,7 +123,7 @@ extern void func_021FE1B8(Vec *v, const Vec *ofs);
 extern void func_021FD8CC(void *p, int active);
 extern void *func_02011324(struct ScriptVm *vm);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02051A2C(void *p, int v);
 extern void func_02051A24(void *p, int v);
 extern u32 func_0207C768(u32 a, u32 b);

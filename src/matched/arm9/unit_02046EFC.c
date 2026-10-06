@@ -39,7 +39,8 @@ struct Tagged {
     void *buf;
 };
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_02046EFC(struct Tagged *p)
 {

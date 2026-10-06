@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 v[12];} Init;
 extern const Init init;
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef unsigned char  u8;
 struct Obj;
 struct Sub0200852CObj;

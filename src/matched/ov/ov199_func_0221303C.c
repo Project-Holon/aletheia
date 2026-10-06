@@ -16,7 +16,8 @@
 #include "../include/Obj25293.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02213808(char *, int);
 extern void func_0221380C(unsigned char *p);
 int func_0221303C(char *p, char *q, char *work)

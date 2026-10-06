@@ -17,7 +17,8 @@
 extern void func_021D7E84(void *p, void **q);
 struct Rec;
 extern void func_02045C04(struct Rec *rec);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021D7BF0(void *a, unsigned char *p)
 {
     if (((struct Obj02844 *)p)->f4 == 1) func_021D7E84(a, (void **)p);

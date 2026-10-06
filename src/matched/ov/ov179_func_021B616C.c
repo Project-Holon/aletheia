@@ -21,12 +21,14 @@
  */
 typedef struct {int m[4];} Mtx;
 extern void func_0207D4B0(int,int,int);
-extern void func_02051E74(Mtx *,unsigned,const void *,const void *,unsigned char);
+typedef unsigned char  u8;
+struct Mtx22;
+extern void func_02051E74(struct Mtx22 *mtx, unsigned int ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,const Mtx *,int,int,int,int);
 extern void *func_02030734(unsigned int,unsigned int,int,const char *,unsigned short);
 extern void func_0207EB78(void *,int,int);
 extern void func_0207ECF0(void *,int,int);
-extern void func_020307B0(void *);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
 extern unsigned char d_021B6B00[];
@@ -37,7 +39,7 @@ void func_021B616C(char *unused)
  func_0207D4B0(1,5,0);
  *(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;
  *(volatile unsigned short *)0x0400000E=(*(volatile unsigned short *)0x0400000E&0x43)|0x4884;
- func_02051E74(&m,0,(void *)0x1000,(void *)0x1000,0);
+ func_02051E74((struct Mtx22 *)(&m),0,(void *)0x1000,(void *)0x1000,0);
  func_0207D59C((void *)0x04000020,&m,0,0,0,0);
  func_0207D59C((void *)0x04000030,&m,0,0,0,0);
  p=func_02030734(0x807F,0x18000,1,(const char *)d_021B6B00,0x5B);

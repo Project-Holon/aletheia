@@ -22,7 +22,8 @@ extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void *func_0204A39C(void *,int,int,unsigned,unsigned *);
 extern void func_020862F0(const void *,unsigned);
 extern void func_0207EB78(const void *,unsigned,unsigned);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021B9E80(char *p,unsigned id)
 {
     if(((struct Obj04650 *)p)->f30!=id) {

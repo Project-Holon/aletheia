@@ -32,7 +32,7 @@ struct Slot;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02190538(struct Slot *s);
-extern int func_02190D48(u32 a);
+extern int func_02190D48(void *a);
 extern void func_021927E8(u32 *p);
 extern int func_02193130(u32 a);
 
@@ -40,7 +40,7 @@ int func_02190E40(u32 a)
 {
 func_02193130(((struct Obj04888 *)((u8 *)(a)))->f0);
 if (((struct Obj04888 *)((u8 *)(a)))->f4 != 0) {
-    func_02190D48(((struct Obj04888 *)((u8 *)(a)))->f4);
+    func_02190D48((void *)(((struct Obj04888 *)((u8 *)(a)))->f4));
 }
 if (((struct Obj04888 *)((u8 *)(a)))->f8 != 0) {
     func_02190538((struct Slot *)(((struct Obj04888 *)((u8 *)(a)))->f8));

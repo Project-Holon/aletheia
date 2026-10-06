@@ -93,7 +93,7 @@ void func_0217F3C4(Ov018Obj *p, int a);
 int func_02175DCC(void *p);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void func_02082D44(void *, void *, int);
-void func_020307B0(void *);
+u32 func_020307B0(void *p);
 u8 *func_02175BCC(u8 *p);
 int func_02175B14(u8 *);
 int func_02175B8C(u8 *);

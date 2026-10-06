@@ -22,7 +22,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_020452E8(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *p);
 extern void func_02045C04(struct Rec *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 void func_021C4A48(void *unused,u8 *p)
 {
     u8 i;

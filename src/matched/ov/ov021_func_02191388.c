@@ -35,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u32 func_02194974(u32, u32);
+extern int func_02194974(u8 *p, int i);
 extern u32 func_02194984(u32, u32);
 extern u32 func_0201CE30(void *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -62,7 +62,7 @@ u32 func_02191388(u32 *a)
     u32 w;
     u32 c;
 
-    if (func_02194974(a[2], *((u8 *)a + 1)) == 0) {
+    if (func_02194974((u8 *)a[2], *((u8 *)a + 1)) == 0) {
         return 0;
     }
     h = func_02194984(a[2], *((u8 *)a + 1));

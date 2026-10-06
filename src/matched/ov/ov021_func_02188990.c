@@ -56,7 +56,7 @@ typedef unsigned int   u32;
 
 struct BigObj;
 struct Obj;
-extern int func_021CF480(u32 a);
+extern int func_021CF480(void *a);
 extern void func_021C1C04(u32 *p);
 extern void func_021C1AD0(u32 a);
 extern void func_0201209C(void *o, u32 v1, u32 v2);
@@ -76,7 +76,7 @@ extern void func_021ABDE8(u32 a);
 extern void func_0217F8EC(char *p);
 extern void func_021A1AAC(u8 *p);
 extern void func_021A0448(u8 *p);
-extern int func_021A02F4(u32 a);
+extern int func_021A02F4(void *a);
 extern void func_021A0138(u32 a);
 extern void func_021D33E0(u32 *p);
 extern int func_021BB240(u32 a);
@@ -85,9 +85,9 @@ extern void func_021AB624(u8 *p);
 extern void func_0218E0E4(u8 *a);
 extern int func_021895DC(u32 a);
 extern int func_021892B4(u8 *a);
-extern int func_021A2E90(u32 a);
+extern int func_021A2E90(void *a);
 extern void func_0218D05C(char *p);
-extern int func_02190728(u32 a);
+extern int func_02190728(void *a);
 extern void func_021902BC(struct Obj *o);
 extern void func_020129DC(struct BigObj *p, u8 v);
 extern void func_02035660(u32 a);
@@ -96,7 +96,7 @@ extern void func_021C7F9C(u8 *p);
 
 int func_02188990(void *a, u8 *p)
 {
-    func_021CF480(((struct Obj00401 *)p)->f13C);
+    func_021CF480((void *)(((struct Obj00401 *)p)->f13C));
     func_021C1C04((u32 *)(((struct Obj00401 *)p)->f124));
     func_021C1AD0(((struct Obj00401 *)p)->f120);
     func_0201209C(a, 0, 0);
@@ -117,7 +117,7 @@ int func_02188990(void *a, u8 *p)
     func_021A1AAC((u8 *)(((struct Obj00401 *)p)->f20));
     ((struct Obj00401 *)p)->f20 = 0;
     func_021A0448((u8 *)(((struct Obj00401 *)p)->f14));
-    func_021A02F4(((struct Obj00401 *)p)->f1C);
+    func_021A02F4((void *)(((struct Obj00401 *)p)->f1C));
     func_021A0138(((struct Obj00401 *)p)->f18);
     func_021D33E0((u32 *)(((struct Obj00401 *)p)->f9C));
     func_021BB240(((struct Obj00401 *)p)->f3C);
@@ -127,10 +127,10 @@ int func_02188990(void *a, u8 *p)
     (*(void (**)(u8 *))(*(u8 **)(p + 0x108) + 0xC))(p);
     func_021895DC((u32)p);
     func_021892B4(p);
-    func_021A2E90(((struct Obj00401 *)p)->f8C);
+    func_021A2E90((void *)(((struct Obj00401 *)p)->f8C));
     func_0218D05C((char *)(((struct Obj00401 *)p)->f48));
     if (((struct Obj00401 *)p)->f2C != 0)
-        func_02190728(((struct Obj00401 *)p)->f2C);
+        func_02190728((void *)(((struct Obj00401 *)p)->f2C));
     if (((struct Obj00401 *)p)->f28 != 0)
         func_021902BC((struct Obj *)(((struct Obj00401 *)p)->f28));
     func_020129DC(func_020120F4(a), 0);

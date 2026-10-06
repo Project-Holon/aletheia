@@ -23,7 +23,8 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021D8364(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_021D839C(void *);
 void func_021D82AC(void *p) {
  func_02030EAC(((struct Obj22633 *)p)->fC); func_021D8364(p); func_0201DD68();

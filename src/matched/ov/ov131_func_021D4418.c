@@ -41,7 +41,7 @@ extern void func_021D6608(void *,void *);
 extern void func_021D48E4(char *);
 extern void func_02012BE0(void *p, u32 a, u32 b);
 extern void func_020355D8(u8);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 int func_021D4418(char *p)
 {
     u8 i;

@@ -23,26 +23,28 @@
  */
 #include "../include/Obj04315.h"
 
-extern int func_0201D7EC(int, int, int, int, int);
+struct GfFont;
+struct MsgBank;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, unsigned int heapId);
 extern void func_0201DD68(void);
-extern int func_02045B38(int, int, int, int);
-extern int func_0201C440(int);
+extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
+extern unsigned int func_0201C440(void *p);
 typedef unsigned int   u32;
 extern void func_021F000C(char *p, u32 heap);
 extern void func_021F0140(void *, int);
 extern void func_021F0168(int *p, int a1);
 extern void func_0203D34C(u32 a, u32 b);
-extern void func_021A12D4(int, int);
+extern void func_021A12D4(u32 *p, u32 x);
 
-void func_021EFF78(char *p, int a1)
+void func_021EFF78(char *p, void *a1)
 {
-    *(int *)&((struct Obj04315 *)p)->f34 = func_0201D7EC(0x17, 0, 0, 0, a1);
+    *(int *)&((struct Obj04315 *)p)->f34 = (int)func_0201D7EC(0x17, 0, 0, 0, (unsigned int)a1);
     func_0201DD68();
-    ((struct Obj04315 *)p)->f38 = func_02045B38(0, 2, 0x16, a1);
+    ((struct Obj04315 *)p)->f38 = (int)func_02045B38(0, 2, 0x16, (unsigned int)a1);
     *(int *)&((struct Obj04315 *)p)->f3C = func_0201C440(a1);
-    func_021F000C(p, a1);
-    func_021F0140(p, a1);
-    func_021F0168((int *)p, a1);
-    func_0203D34C(0, a1);
-    func_021A12D4(((struct Obj04315 *)p)->fC, a1);
+    func_021F000C(p, (u32)a1);
+    func_021F0140(p, (int)a1);
+    func_021F0168((int *)p, (int)a1);
+    func_0203D34C(0, (u32)a1);
+    func_021A12D4((u32 *)(((struct Obj04315 *)p)->fC), (int)a1);
 }

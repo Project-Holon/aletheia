@@ -33,7 +33,7 @@ extern void func_021A1C04(u8 *p);
 extern void func_0204B084(u32 v);
 extern void func_0204B1CC(struct Bank *bank);
 extern int func_021A15D4(u32 a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021A1AAC(u8 *p)
 {

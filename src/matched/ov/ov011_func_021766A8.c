@@ -19,7 +19,8 @@ typedef unsigned char u8;
 struct S020314B8;
 struct S020315D4;
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 int func_021766A8(void *p, int b, int c, u8 *q)
 {

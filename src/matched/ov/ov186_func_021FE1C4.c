@@ -33,8 +33,9 @@ typedef unsigned short u16;
 typedef struct {int x,y;} Pair;
 typedef struct {short x,y;} ShortPair;
 extern const u32 d_02200AD8[];
-extern void func_021FD940(char *,u16);
-extern void func_021FE2BC(void *,void *,u16,u16,u16,u16,int);
+struct Pair;
+extern void func_021FD940(unsigned char *p, u32 value);
+extern int func_021FE2BC(unsigned char *p, const struct Pair *origin, u16 a, u16 b, u16 c, u16 d, int duration);
 extern int func_021FE2F8(char *,int *,int);
 typedef unsigned char  u8;
 struct Actor;
@@ -51,13 +52,13 @@ void func_021FE1C4(int *task,int *state,char *p)
     case 0: {
         char *start;
         int offset;
-        func_021FD940(p,0);
+        func_021FD940((unsigned char *)p,0);
         start=p+0x18;
         offset=0x1f8;
         for(i=6;i<12;i++) {
             u16 angle;
             angle=*(u16 *)(p+i*32+0x2a)+((struct Obj06632 *)p)->f228/ *(int *)(p+i*32+0x2c);
-            func_021FE2BC(start+i*32,(void *)d_02200AD8,15,1,angle,angle+0xf000,30);
+            func_021FE2BC((unsigned char *)(start+i*32),(void *)d_02200AD8,15,1,angle,angle+0xf000,30);
             func_0204B688(*(void **)(p+i*4+offset),0);
         }
         ((struct Obj06632 *)p)->f228=0;

@@ -20,17 +20,17 @@
 #include "../include/Obj23769.h"
 #include "../include/Obj23770.h"
 typedef unsigned char u8;
-extern void *func_021E1634(u8 *,int,int);
+extern void *func_021E1634(char *p, unsigned int member, int flag);
 extern int func_02062B30(void *,void **);
 typedef unsigned int   u32;
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void func_020409B4(u32 index);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021DFE6C(u8 *p,int file)
 {
     void *buf;
     u8 *screen;
-    buf=func_021E1634(p,file,0);
+    buf=func_021E1634((char *)p,file,0);
     func_02062B30(buf,(void **)(p+3420));
     screen=*(u8 * *)&((struct Obj23769 *)p)->fD5C;
     func_02040AE0(6,screen+12,((struct Obj23770 *)screen)->f8);

@@ -25,7 +25,7 @@ extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void *func_021EC338(char *p, void *b, void *c);
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern unsigned char func_0201BBE8(void *mon);
 
 void func_021EC35C(char **p, int box)

@@ -116,7 +116,7 @@ extern void func_02012B4C(struct BigObj *p, u8 v);
 extern void func_02012124(struct Ctx *p, u32 v);
 extern void func_02026680(u8 *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021731C8(int a0, void **o, u8 *s)
 {

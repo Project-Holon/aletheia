@@ -22,7 +22,8 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021BA4D8(char *);
 extern void func_021BA218(char *);
 extern void func_021B639C(unsigned char *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
 extern const char ov067_id[];
 void func_021B9F8C(char *p){func_02030EAC(((struct Obj14802 *)p)->f48);func_021BA4D8(p);func_021BA218(p);func_021B639C(*(unsigned char * *)&((struct Obj14802 *)p)->f4);func_020307B0(p);func_02034A5C((int)ov067_id);}

@@ -40,7 +40,8 @@ typedef struct {
 
 extern unsigned char d_021F6E08[];
 
-void *func_0201293C(void *);
+struct BigObj;
+unsigned int func_0201293C(const struct BigObj *p);
 void *func_0200CA1C(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -56,8 +57,8 @@ void func_0202F27C(void *);
 int func_020074D8(void **save, const struct Sub02007454Entry *src);
 void *func_0201747C(struct Mon *p, u32 heap);
 void func_0200CDE0(struct Blk37 *p, void *m);
-void func_020307B0(void *);
-void func_02034714(void *, int, void *);
+u32 func_020307B0(void *p);
+void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021EFD98(Ov107Ctx *p)
 {
@@ -69,7 +70,7 @@ void func_021EFD98(Ov107Ctx *p)
     int ok;
     unsigned char i;
 
-    party = func_0201293C(p->f08->f04);
+    party = (void *)func_0201293C(p->f08->f04);
     box = func_0200CA1C(p->f08->f04);
     n = func_021F11C4(p->f0C);
     if (p->f28 == 0) {
@@ -85,7 +86,7 @@ void func_021EFD98(Ov107Ctx *p)
         func_0200CDE0(box, mon);
         func_020307B0(mon);
         if (ok != 1) {
-            func_02034714(d_021F6E08, 0, d_021F6E08);
+            func_02034714((const char *)d_021F6E08, 0, (const char *)d_021F6E08);
         }
     }
 }

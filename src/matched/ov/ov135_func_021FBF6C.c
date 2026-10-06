@@ -32,7 +32,7 @@ typedef struct {
 extern u16 *func_021F8498(u32 heap, u32 unused, u32 *count);
 extern void func_021F84BC(u32 i, int *start, int *end);
 extern int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021FBF6C(Menu *m, u32 idx)
 {

@@ -88,7 +88,7 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;

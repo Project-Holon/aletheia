@@ -29,7 +29,7 @@ extern void func_021FD15C(void *p, int a1);
 extern void func_021FACE0(char *p);
 extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FB63C(void *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02025588(void *p);
 extern void func_0201C4C0(struct PrintSys *p);
 

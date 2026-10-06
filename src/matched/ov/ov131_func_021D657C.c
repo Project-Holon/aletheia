@@ -20,7 +20,8 @@ typedef unsigned char u8;
 struct S020315D4;
 extern int func_021D4418(char *p);
 extern void func_02012704(u8 *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 int func_021D657C(struct S020315D4 *handle, int unused, int mode, char *p)

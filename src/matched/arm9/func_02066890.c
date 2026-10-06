@@ -67,7 +67,7 @@ struct Bank02066890 {
 };
 
 extern struct Bank02066890 g_02148B20;
-extern void func_020640B0(struct Rec02066890 *rec);
+extern void func_020640B0(signed int *tbl);
 typedef signed int     s32;
 extern void func_020640CC(s32 *tbl, u32 i, u32 v);
 
@@ -75,7 +75,7 @@ void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
     struct Rec02066890 *rec = &g_02148B20.recs[idx];
 
-    func_020640B0(rec);
+    func_020640B0((int *)rec);
 
     if (a != 0xffffffffu) {
         func_020640CC((s32 *)rec, 0, a);

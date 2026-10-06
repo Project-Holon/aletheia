@@ -20,7 +20,8 @@
  *   func_021C82C4  0x021C82C4  thumb  ov021
  */
 
-extern int func_020122C0(int a, int b, void *c, int d);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
 typedef unsigned char  u8;
 struct Ctx;
 struct Obj;
@@ -34,18 +35,19 @@ struct t;
 extern void func_02014204(struct t *p, int id);
 typedef unsigned int   u32;
 struct Ctx;
-extern int func_021C82C4(u32 a, int *st, struct Ctx *c);
+struct TaskCtx;
+extern int func_021C82C4(u32 a, int *st, struct TaskCtx *c);
 
-int func_021C8268(int a, int b, int c)
+int func_021C8268(void *a, int b, int c)
 {
     int r7;
     int *r4;
     int v;
 
-    r7 = func_020122C0(a, 0, func_021C82C4, 0x30);
+    r7 = (int)func_020122C0(a, 0, func_021C82C4, 0x30);
     r4 = func_020124E8((struct Obj *)r7);
     func_02082BCC(r4, 0, 0x30);
-    r4[0] = a;
+    r4[0] = (int)a;
     r4[2] = c;
     if (func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4((const struct Ctx *)a))) == 0) {
         r4[10] = 11;

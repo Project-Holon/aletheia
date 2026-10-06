@@ -60,7 +60,7 @@ extern void func_021BFB54(u8 *a0);
 extern void func_021BFBA0(int *p);
 extern void func_021BFBD0(u8 *a0);
 extern void func_021BFC28(char *p);
-extern u32 func_021BFED4();
+extern void func_021BFED4(u8 *a0);
 extern void func_021BFF5C(int *p);
 extern u32 func_021C0084();
 extern u32 func_021C00F8();
@@ -82,7 +82,7 @@ extern void func_021C08F0(u8 *a0);
 extern void func_021C0968(unsigned char *a0);
 extern void func_021C09E0(u32 a0);
 extern void func_021C09EC(u32 a0);
-void func_021BE384(u32 a0)
+void func_021BE384(u8 *a0)
 {
     func_021C08A8((int *)a0);
     func_021C085C((int *)a0);
@@ -92,14 +92,14 @@ void func_021BE384(u32 a0)
     func_021BFF5C((int *)a0);
     func_021BFED4(a0);
     func_021BFC28((char *)a0);
-    func_021C0800(a0);
+    func_021C0800((u32)a0);
     func_021C06AC((int *)a0);
     func_021C0794((int *)a0);
     func_021C06E0((u8 *)a0);
     func_021C0494((int *)a0);
     func_021C03D0((int *)a0);
-    func_021C02A8(a0);
-    func_021C0358(a0);
+    func_021C02A8((u32)a0);
+    func_021C0358((u32)a0);
     func_021C0230((int *)a0);
     func_021C018C(a0);
     func_021C0170(a0);

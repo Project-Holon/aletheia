@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 struct Obj020437AC;
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021EDBE8(char *s)
 {

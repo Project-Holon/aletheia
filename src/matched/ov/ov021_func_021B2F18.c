@@ -22,9 +22,9 @@
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void *func_02043658(void);
+extern unsigned int func_02043658(void);
 extern void func_02188DA0(void);
-extern void func_02043534(void *);
+extern void func_02043534(unsigned int planes);
 typedef unsigned char  u8;
 struct Node;
 extern void func_02188DB0(u8 *a);
@@ -32,9 +32,9 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern void func_02189A1C(int, int);
+extern void func_02189A1C(u8 *p, u32 v);
 extern void func_02030EAC(struct Node *n);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 void func_021B2F18(int p, int *q)
 {
@@ -55,9 +55,9 @@ void func_021B2F18(int p, int *q)
         if (q[4] == 0 || q[4] == 2) {
             y = 16;
             z = 0;
-            t = func_02043658();
+            t = (void *)func_02043658();
             func_02188DA0();
-            func_02043534(t);
+            func_02043534((unsigned int)t);
             func_02188DB0((u8 *)q[1]);
         } else {
             y = 0;
@@ -80,7 +80,7 @@ void func_021B2F18(int p, int *q)
             c = 1;
         }
         if (c) {
-            func_02189A1C(q[1], 0);
+            func_02189A1C((u8 *)q[1], 0);
             func_02030EAC((struct Node *)p);
             func_020307B0(q);
         }

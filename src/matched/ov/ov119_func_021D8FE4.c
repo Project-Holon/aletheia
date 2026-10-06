@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1A4(int);
+struct Link;
+extern unsigned int func_0203D1A4(struct Link *p);
 typedef unsigned int   u32;
 extern u32 func_020173EC(void);
 extern void func_02082D44(void *,void *,int);
@@ -25,7 +26,7 @@ void func_021D8FE4(int idx,int a,int b,void *p,int id) {
  if(id==(int)func_020399A8()) {
  int n=func_020173EC();
  func_02082D44(*(void **)((char *)p+idx*4+0x1064),*(void **)((char *)p+idx*4+0x5dc),n);
- if(idx!=func_0203D1A4((int)func_020399A8())) {
+ if(idx!=func_0203D1A4((struct Link *)func_020399A8())) {
  ((struct Obj10353 *)p)->fF9C=idx+1;
  ((struct Obj10353 *)p)->f11FB=(((struct Obj10353 *)p)->f11FB&~0xf0)|0x10;
  }

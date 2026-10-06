@@ -38,7 +38,7 @@ struct Pool {
     u32   ready;     /* 0x0c */
 };
 
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 extern void func_0204C788(struct Pool *p);
 
 void func_0204C6E4(struct Pool *p)

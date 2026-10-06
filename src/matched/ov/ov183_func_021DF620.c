@@ -45,13 +45,14 @@ extern void func_0204B784(char *dst, const struct Struct36 *src);
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021DF838(int,char *);
 extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern void *func_02049E74(void *,u32,u32,u32,u16);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 extern void func_0204AB84(u32,struct Rec *);
-extern void func_020307B0(void *),func_02049238(void *);
+extern u32 func_020307B0(void *p);
+extern void func_02049238(void *);
 void func_021DF620(struct State *p,int first,short step,u16 heap)
 {
     int i,j;
@@ -86,7 +87,7 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
         }
     }
     mode=(heap&0x7fff)|0x8000;
-    archive=func_020490F4(7,mode);
+    archive=func_020490F4(7,(u16)mode);
     if(step==-1) { --p->cursor; if(p->cursor<0) p->cursor=4; }
     for(j=0;j<6;j++) {
         if(step==1) i=4; else if(step==-1) i=0;

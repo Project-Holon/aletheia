@@ -19,7 +19,8 @@
  */
 #include "../include/Obj09934.h"
 
-extern int func_0201C6C4(int a, int b);
+struct PrintSys;
+extern unsigned int func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
@@ -34,8 +35,8 @@ void func_021BD480(char *a, int *b)
 {
     int q;
     if (b[0] == 1
-        && func_0201C6C4(((struct Obj09934 *)a)->f140, (int)func_02045770((struct Descriptor *)b[1])) == 0
-        && func_0201C6C4(((struct Obj09934 *)a)->f140, (int)func_02045770((struct Descriptor *)b[2])) == 0) {
+        && func_0201C6C4((struct PrintSys *)(((struct Obj09934 *)a)->f140), (void *)func_02045770((struct Descriptor *)b[1])) == 0
+        && func_0201C6C4((struct PrintSys *)(((struct Obj09934 *)a)->f140), (void *)func_02045770((struct Descriptor *)b[2])) == 0) {
         q = b[1];
         b[0] = 0;
         func_02045334((struct Descriptor *)q);

@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_02049238(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02011264(void *);
 extern u32 func_0201C408(void);
 extern void func_0201C3C0(void);

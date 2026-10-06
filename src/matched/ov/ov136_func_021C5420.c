@@ -21,20 +21,22 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_020A1448[],d_021C77C4[];
-extern void func_0204A48C(void *,void *,u16);
-extern void *func_0204B100(int,int,u16);
+struct Bank;
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
 typedef unsigned int   u32;
 struct Bank;
 extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
-extern void func_0203D34C(int,u16);
+extern void func_0203D34C(u32 a, u32 b);
 void func_021C5420(u8 *p)
 {
-    func_0204A48C(d_020A1448,d_021C77C4,((struct Obj06526 *)p)->f0);
-    ((struct Obj06526 *)p)->fA0 = func_0204B100(4,0,((struct Obj06526 *)p)->f0);
+    func_0204A48C((const struct Cfg *)d_020A1448,(unsigned int)d_021C77C4,(u16)(((struct Obj06526 *)p)->f0));
+    ((struct Obj06526 *)p)->fA0 = func_0204B100(4,(int)0,(u16)(((struct Obj06526 *)p)->f0));
     func_0204B270(((struct Obj06526 *)p)->fA0);
     func_020434DC(16,1);
     func_02043598(16,1);
-    func_0203D34C(0,((struct Obj06526 *)p)->f0);
+    func_0203D34C((int)0,(u16)(((struct Obj06526 *)p)->f0));
 }

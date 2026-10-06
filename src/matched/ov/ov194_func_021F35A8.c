@@ -23,7 +23,7 @@
 typedef unsigned int   u32;
 extern void func_021F2608(void *p);
 extern u32 func_021F3358(u32 a, u32 b, u32 c);
-extern void func_021F256C(char *,unsigned,int,void *,unsigned short);
+extern void func_021F256C(char *p, unsigned mode, int index, void *table, u32 a4);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);extern void func_02043B5C(int,unsigned);
 typedef unsigned short u16;

@@ -29,9 +29,10 @@
  *   func_0203C900  0x0203C900  arm
  */
 
-extern void func_0203C900(void);
+typedef unsigned char  u8;
+extern void func_0203C900(u8 v);
 
-void func_0203D7BC(void)
+void func_0203D7BC(u8 a0)
 {
-    func_0203C900();
+    func_0203C900(a0);
 }

@@ -14,11 +14,12 @@
  */
 #include "../include/Obj00002.h"
 typedef unsigned char u8;
-extern int func_02007F7C(void *, unsigned int);
+struct Item;
+extern unsigned int func_02007F7C(const struct Item *arr, unsigned int n);
 typedef unsigned int   u32;
 extern u32 func_02007FA0(u8 *base, u32 id);
 int func_021B61C8(u8 *p)
 {
-    if (*(int *)&((struct Obj00002 *)p)->f81C) return func_02007F7C(p + 0x20, 0x136);
+    if (*(int *)&((struct Obj00002 *)p)->f81C) return func_02007F7C((const struct Item *)(p + 0x20), 0x136);
     return func_02007FA0(((struct Obj00002 *)p)->f18, ((struct Obj00002 *)p)->f80C);
 }

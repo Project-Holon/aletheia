@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 int func_021C8FF4(u8 *p) {
     int result;
     switch (((struct Obj25654 *)(*(u8 * *)&((struct Obj08417 *)p)->f28))->f8) {

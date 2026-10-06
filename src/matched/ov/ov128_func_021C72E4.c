@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021C6ADC(u8 *,u8 *,unsigned);
-extern void func_02041090(unsigned,void *,unsigned,unsigned,u8,u8);
+extern void func_02041090(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
 extern void func_02040618(unsigned,unsigned,unsigned);
 extern void func_021CA16C(u8 *,int);
 typedef unsigned int   u32;
@@ -28,7 +28,7 @@ void func_021C72E4(u8 *p,int *q,u8 *ctx)
     u16 *data;
     func_021C6ADC(ctx,ctx+12,0);
     data=*(u16 * *)&((struct Obj14035 *)p)->f18;
-    func_02041090(2,(u8 *)data+12,0,0,data[0]>>3,data[1]>>3);
+    func_02041090(2,(unsigned int)((u8 *)data+12),0,0,data[0]>>3,data[1]>>3);
     func_02040618(2,0,0);
     func_02040618(2,3,0);
     if(*q==0) func_021CA16C(ctx,((struct Obj14035 *)p)->f0);

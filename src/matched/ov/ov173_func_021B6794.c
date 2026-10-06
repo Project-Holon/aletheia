@@ -14,9 +14,10 @@
  */
 #include "../include/Obj24150.h"
 
-extern int func_020307B0(int);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 int func_021B6794(int *p)
 {
-    return func_020307B0(((struct Obj24150 *)p)->f1C0);
+    return func_020307B0((void *)(((struct Obj24150 *)p)->f1C0));
 }

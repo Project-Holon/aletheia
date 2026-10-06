@@ -21,7 +21,8 @@ typedef unsigned char u8;
 extern void func_021B6284(void *);
 
 #pragma thumb off
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 #pragma thumb on
 
 void func_021BFB28(char *arg0)

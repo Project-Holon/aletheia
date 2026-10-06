@@ -21,9 +21,11 @@
 typedef unsigned short u16;
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0C98;
-extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_021B7754(void *, unsigned);
-extern void func_021B7A10(void *, void *, unsigned, unsigned, unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+struct S;
+struct Tmpl;
+extern struct S *func_021B7754(struct Tmpl *tmpl, unsigned int heap);
+extern void func_021B7A10(unsigned char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int index);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct MsgBank;
@@ -40,9 +42,9 @@ void func_021C0434(char *ctx)
     config.zero = 0;
     config.offset = 0;
     config.ctx = ctx;
-    ((struct Obj04625 *)ctx)->f1E0 = func_021B7754(&config, 123);
+    ((struct Obj04625 *)ctx)->f1E0 = func_021B7754((struct Tmpl *)(&config), 123);
     ((struct Obj04625 *)ctx)->f2AC = config.count;
-    func_021B7A10(((struct Obj04625 *)ctx)->f1E0, archive, 97, 0, 0);
+    func_021B7A10(((struct Obj04625 *)ctx)->f1E0, (unsigned int)archive, 97, 0, 0);
     func_021B7A4C(((struct Obj04625 *)ctx)->f1E0, archive, 73, 2, 3);
     func_02049238(archive);
     for (i = 96; i <= 105; i++) { func_021B79E4(((struct Obj04625 *)ctx)->f1E0, 0, i - 96); ((void **)(ctx + 0x64))[i] = func_02045EC0(((struct Obj04625 *)ctx)->f1D0, i); }

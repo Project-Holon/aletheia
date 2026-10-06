@@ -21,9 +21,10 @@
  *       --func func_0202B8F4 --addr 0x0202B8F4 --thumb --cc 1.1p1
  */
 
-extern void func_0202BAF4(void);
+typedef unsigned char  u8;
+extern void func_0202BAF4(u8 *o);
 
-void func_0202B8F4(void)
+void func_0202B8F4(u8 *a0)
 {
-    func_0202BAF4();
+    func_0202BAF4(a0);
 }

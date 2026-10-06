@@ -18,7 +18,7 @@
 #include "../include/Obj00547.h"
 typedef unsigned short u16;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);

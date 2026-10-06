@@ -15,5 +15,6 @@
 #include "../include/Obj08190.h"
 #include "../include/Obj23413.h"
 struct U16Vec;
-extern void func_020307B0(void *);extern void func_02045808(struct U16Vec *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);extern void func_02045808(struct U16Vec *);
 void func_021FE178(char *p) {func_020307B0(((struct Obj23413 *)(*(char * *)&((struct Obj08190 *)p)->fE00))->f14);func_020307B0(((struct Obj08190 *)p)->fE00);func_02045808(*(struct U16Vec * *)&((struct Obj08190 *)p)->fB88);func_02045808(*(struct U16Vec * *)&((struct Obj08190 *)p)->fB8C);}

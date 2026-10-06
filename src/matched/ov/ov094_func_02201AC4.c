@@ -16,7 +16,8 @@ typedef struct Res { void *owner; void *h; Ent e[7]; } Res;
 extern void func_02201CA4(Res *r, int i);
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_02201AC4(Res *r)
 {

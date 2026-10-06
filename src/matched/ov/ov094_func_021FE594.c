@@ -22,7 +22,7 @@ extern float _fflt(int);
 extern float _fadd(float, float);
 extern float _fsub(float, float);
 extern int _ffix(float);
-extern char *func_02006138(int);
+extern unsigned int *func_02006138(int i);
 typedef unsigned int   u32;
 extern void func_02006268(int i, u32 a, u32 b, u32 c);
 extern void func_02072F34(char *, unsigned int);
@@ -63,7 +63,7 @@ void func_021FE594(void *h, int *s)
             s[6] = _ffix(_fsub(_fflt(v << 12), 0.5f));
         switch (s[3]) {
         case 0: func_02006268(s[1], -1, v, -1); break;
-        case 1: func_02072F34(func_02006138(s[1]), v); break;
+        case 1: func_02072F34((char *)func_02006138(s[1]), v); break;
         case 2: func_02006268(s[1], -1, -1, v); break;
         }
         if (s[9] == 0) {

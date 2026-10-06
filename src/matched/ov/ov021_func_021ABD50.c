@@ -35,7 +35,7 @@ typedef struct { int x; int y; int z; } V;
 
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Sub020140BCObj;
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_02013B38(u32 id);

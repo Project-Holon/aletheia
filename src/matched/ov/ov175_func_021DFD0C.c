@@ -15,10 +15,11 @@
  * ARM tail jump to the ov175 block copy func_021E0000.
  */
 
-extern void func_021E0000(void);
+typedef unsigned char  u8;
+extern int func_021E0000(u8 *p);
 
-void func_021DFD0C(void)
+int func_021DFD0C(u8 *a0)
 {
-    func_021E0000();
+    return func_021E0000(a0);
 }
 

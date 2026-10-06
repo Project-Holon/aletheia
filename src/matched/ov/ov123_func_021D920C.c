@@ -29,7 +29,7 @@ typedef unsigned char  u8;
 struct S020315D4;
 struct TaskMenu;
 extern void func_02027858(struct TaskMenu *m);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021D5644(char *p);
 extern void func_021D5E8C(u8 *p);
 extern void func_021D5B70(char *p);

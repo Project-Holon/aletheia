@@ -90,7 +90,7 @@ extern void func_02188DA0(void);
 extern void func_02188DB0(u8 *a);
 extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021607E0(void *evt, u32 *state, Task *t)
 {

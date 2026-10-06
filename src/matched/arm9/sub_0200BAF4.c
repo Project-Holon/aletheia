@@ -46,7 +46,7 @@ extern u32 sub_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
 extern void *sub_0201747C(struct Mon *p, u32 heap);
 extern void *sub_0200BBEC(void *base, u32 i, u32 j);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void *sub_0200BAF4(int a0, int a1)
 {

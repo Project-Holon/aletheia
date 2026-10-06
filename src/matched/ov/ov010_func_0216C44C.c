@@ -18,12 +18,13 @@
 #include "../include/Obj05905.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020122C0(void *,void *,void *,unsigned int);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 typedef unsigned int u32;
 typedef struct Work Work;
-extern int func_0216C2FC(void *, u32 *, Work *);
+extern int func_0216C2FC(void *evt, u32 *state, struct Work *w);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02188C58(void *);
 void *func_0216C44C(void *a,void *b) {

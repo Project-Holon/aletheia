@@ -24,14 +24,14 @@
 #include "../include/Obj09946.h"
 
 extern void func_021BB718(int a, int b);
-extern int func_021BB798(void *);
-extern void func_021BB7D0(void *);
+extern int func_021BB798(unsigned char *p);
+extern void func_021BB7D0(const unsigned char *p);
 extern void *func_021B86B8(void ***);
-extern int func_021BBB60(int);
-extern void func_021BB5FC(void *, int);
+extern int func_021BBB60(unsigned char *p);
+extern int func_021BB5FC(unsigned char *p, int b);
 extern void func_021BABEC(int *p, void *f);
 extern void func_021BABF4(void *);
-extern void func_021BB724(void *, int, int, int);
+extern void func_021BB724(unsigned char *p, int a, int b, int c);
 typedef unsigned char  u8;
 extern int func_021BB280(u8 *p);
 
@@ -44,10 +44,10 @@ int func_021BAC04(char *p, int *st)
         func_021BB718((int)p, 1);
         (*st)++;
     case 1:
-        if (func_021BB798(p)) {
-            func_021BB7D0(p);
+        if (func_021BB798((unsigned char *)p)) {
+            func_021BB7D0((const unsigned char *)p);
             if (func_021B86B8(*(void *** *)&((struct Obj09946 *)p)->fC) != (void *)4) {
-                func_021BB5FC(p, func_021BBB60(((struct Obj09946 *)p)->f44));
+                func_021BB5FC((unsigned char *)p, func_021BBB60((unsigned char *)(((struct Obj09946 *)p)->f44)));
                 (*st)++;
             } else {
                 func_021BABEC((int *)p, (void *)func_021BB280);
@@ -55,19 +55,19 @@ int func_021BAC04(char *p, int *st)
         }
         break;
     case 2:
-        if (func_021BB798(p)) {
-            func_021BB7D0(p);
+        if (func_021BB798((unsigned char *)p)) {
+            func_021BB7D0((const unsigned char *)p);
             (*st)++;
         }
         break;
     case 3:
         q = *(int * *)&((struct Obj09946 *)p)->fCB0;
-        func_021BB724(p, 8, (int)(q + 2), *q);
+        func_021BB724((unsigned char *)p, 8, (int)(q + 2), *q);
         (*st)++;
         break;
     case 4:
-        if (func_021BB798(p)) {
-            func_021BB7D0(p);
+        if (func_021BB798((unsigned char *)p)) {
+            func_021BB7D0((const unsigned char *)p);
             func_021BABF4(p);
         }
         break;

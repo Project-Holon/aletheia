@@ -66,7 +66,7 @@
  *       --func sub_02005DAC --addr 0x02005DAC --cc 1.1p1 --thumb
  */
 
-extern int   sub_02005924(void *arg);
+extern int sub_02005924(unsigned int a);
 typedef unsigned int   u32;
 extern u32 *sub_0200590C(void);
 extern int   sub_02005CE0(void *arg);
@@ -82,7 +82,7 @@ void sub_02005DAC(void *arg)
         return;
     }
     sub_02005D14();
-    if (sub_02005924(arg) == 0) {
+    if (sub_02005924((unsigned int)arg) == 0) {
         return;
     }
     func_020755A8((u32)sub_0200590C(), 6, -1, -1, (u32)arg);

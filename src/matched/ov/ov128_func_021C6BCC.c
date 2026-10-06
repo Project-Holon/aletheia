@@ -22,7 +22,8 @@
 #include "../include/Obj10485.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_0201283C(const void *);
+struct BigObj;
+extern unsigned int func_0201283C(const struct BigObj *p);
 extern void *func_0200846C(int);
 typedef unsigned int   u32;
 struct Sub020097BCEnt;
@@ -36,13 +37,13 @@ extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021C6BCC(u8 *p,u8 *q,int idx,unsigned heap)
 {
     void *base;
     void *obj;
     void *str;
-    base=func_0201283C(((struct Obj10485 *)q)->f4);
+    base=(void *)func_0201283C(((struct Obj10485 *)q)->f4);
     obj=func_0200846C(heap);
     str=func_020457B0(10,heap);
     func_02045924(str,(const u16 *)func_020099D4(base,idx));

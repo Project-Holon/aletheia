@@ -215,7 +215,7 @@ extern int func_020130B4(int a0);
 extern u32 func_0203D378(void);
 extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_0203CD98(void);
 extern int func_0203CEAC(int a0);
 extern void *func_020145CC(void *w);

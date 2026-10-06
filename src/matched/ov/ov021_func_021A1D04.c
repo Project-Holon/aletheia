@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern const u32 d_021D8868[];
 struct O;
 extern void func_021A2050(struct O *p, u32 a, u32 b);
-extern int func_021A21B0(u32 obj);
+extern int func_021A21B0(u8 *a0);
 extern void func_021A1FEC(struct O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
 
 void func_021A1D04(u8 *p, int x)
@@ -42,7 +42,7 @@ void func_021A1D04(u8 *p, int x)
         ((struct Obj01356 *)p)->fA = 2;
         break;
     case 2:
-        if (func_021A21B0(((struct Obj01356 *)p)->f20) == 0) {
+        if (func_021A21B0((u8 *)(((struct Obj01356 *)p)->f20)) == 0) {
             t = ((struct Obj01356 *)p)->f20;
             ((struct Obj01356 *)p)->f20 = ((struct Obj01356 *)p)->f24;
             ((struct Obj01356 *)p)->f24 = t;

@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef struct { int x, y, z; } Vec;
 
-extern int func_02188C98(int);
+extern unsigned int func_02188C98(u8 *p);
 typedef unsigned short u16;
 extern u16 func_02188C9C(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
@@ -39,7 +39,7 @@ extern int func_02159B94(int a0, int a1, int a2, int a3);
 extern void func_02159BBC(int);
 extern void func_0218CD20(int, int, int);
 
-void func_0217BBD8(int a, int b, u8 *c)
+void func_0217BBD8(u8 *a, int b, u8 *c)
 {
     Vec v;
     int n;
@@ -69,7 +69,7 @@ void func_0217BBD8(int a, int b, u8 *c)
     buf = (int)func_02159B48(0x8015);
     func_02159B94(buf, 0x76, 0x76 + 0xa1, 0x8015);
     do {
-        func_0218CD20(a, func_02188C98(a), buf);
+        func_0218CD20((int)a, func_02188C98(a), buf);
         c[0x901]++;
     } while (c[0x901] < n);
     func_02159BBC(buf);

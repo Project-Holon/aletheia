@@ -29,7 +29,8 @@
  */
 
 extern void func_02082BCC(void *, int, int);
-extern void func_0204A48C(void *, int, int);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -42,7 +43,7 @@ extern int d_021BB18C;
 void func_021BAD58(void **out, int a, int b)
 {
     func_02082BCC(out, 0, 4);
-    func_0204A48C(&d_021BB18C, a, b);
+    func_0204A48C((const struct Cfg *)(&d_021BB18C), a, b);
     *out = func_0204B100(0x80, 0, b);
     func_0204B270(*out);
     func_020434DC(0x10, 1);

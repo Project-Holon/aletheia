@@ -19,9 +19,9 @@ typedef unsigned int  u32;
 
 struct SaveBackup;
 extern void func_02032970(struct SaveBackup *p, u32 flag);
-extern void func_020331D0(void);
+extern void func_020331D0(struct SaveBackup *p);
 
-void func_02031C04(void)
+void func_02031C04(struct SaveBackup *a0)
 {
-    func_020331D0();
+    func_020331D0(a0);
 }

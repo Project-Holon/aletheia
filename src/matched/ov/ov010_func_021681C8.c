@@ -118,7 +118,7 @@ extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02019CA0(void *p, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_0202428C(void *p);
 extern int func_02168AC8(Rec *r);

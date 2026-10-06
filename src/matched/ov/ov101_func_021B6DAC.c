@@ -33,7 +33,7 @@ typedef unsigned int u32;
 typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; unsigned char low:4; unsigned char high:4; u8 tail[32]; } Data;
 extern char d_021B753C[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *,int,u32);
 struct Big;
 struct Ctx;

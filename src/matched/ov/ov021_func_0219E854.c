@@ -37,7 +37,7 @@ extern int func_0219EB4C(u32 o);
 extern int func_0219EB90(u32 a);
 extern void func_0219EBA0(u32 o, u32 k);
 extern int func_0219EBF4(u32 o);
-extern int func_0219ED7C();
+extern int func_0219ED7C(u32 a);
 extern int func_0219ED8C();
 extern int func_0219EDC4(u32 o);
 extern int func_0219EF04(u32 a);

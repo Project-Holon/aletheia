@@ -11,7 +11,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj00001.h"
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021E43DC(char *p)
 {
     if (((struct Obj00001 *)p)->f1174) {

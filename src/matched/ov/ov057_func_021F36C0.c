@@ -49,7 +49,7 @@ struct G3dRec;
 struct G3dSys;
 struct Tagged;
 extern u16 func_02188C84(u8 *p);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02046E24(u32 a0, u32 a1);
 extern u32 func_02046F50(struct Tagged *p, u32 sel);
 extern int func_02046FF8(int *self);
@@ -71,7 +71,7 @@ void func_021F36C0(int a, int b, Res *p)
     int i;
     u32 t;
 
-    h = func_020490F4(0xbe, (func_02188C84((u8 *)b) & 0x7fff) | 0x8000);
+    h = func_020490F4(0xbe, (u16)((func_02188C84((u8 *)b) & 0x7fff) | 0x8000));
     for (i = 0; i < 7; i++) {
         if (func_02046F50((struct Tagged *)(p->res[i] = (u32)func_02046E24((u32)h, d_021F38A8[i])), 2)) {
             func_02046FF8((int *)p->res[i]);

@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern void func_021DA84C(u8 *, u8 *);
 extern void func_021D9D44(void *, u8 *);
 extern void func_021DBAC0(u8 *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021D9A04(u8 *a, u8 *p)
 {
     if (((struct Obj02190 *)p)->f0 == 1) {

@@ -23,7 +23,7 @@ typedef struct {
     int f28;
 } S;
 
-extern int func_021A8268(S *s);
+extern int func_021A8268(unsigned int a);
 extern void func_0218C88C(unsigned char *p, int v, int c);
 extern int func_0218C990(unsigned char *p, int v);
 typedef unsigned int   u32;
@@ -32,7 +32,7 @@ extern void func_020061E4(u32 a);
 void func_021A82A8(S *s)
 {
     u16 v;
-    if (func_021A8268(s)) {
+    if (func_021A8268((unsigned int)s)) {
         func_0218C88C((unsigned char *)s->f28, 1, 0);
         if (func_0218C990((unsigned char *)s->f28, (int)(&v))) {
             func_020061E4(v);

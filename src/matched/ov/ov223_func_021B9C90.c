@@ -17,7 +17,8 @@
  */
 #include "../include/Obj02938.h"
 typedef unsigned short u16;
-extern void *func_02048A18(void *,int);
+typedef unsigned char  u8;
+extern unsigned int func_02048A18(u8 *a0, int i);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct AnmCtl;
@@ -36,12 +37,12 @@ void func_021B9C90(char *p,unsigned next)
     u16 i;
     int frame;
     if(((struct Obj02938 *)p)->f22C!=4 && ((struct Obj02938 *)p)->f22C!=next) {
-        object=func_02048A18(((struct Obj02938 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj02938 *)p)->f3C+68*(*(u16 *)(p+48+2*(((struct Obj02938 *)p)->f22C+2)))));
+        object=(void *)func_02048A18(((struct Obj02938 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj02938 *)p)->f3C+68*(*(u16 *)(p+48+2*(((struct Obj02938 *)p)->f22C+2)))));
         count=func_0204779C(object);
         for(i=0;i<count;i++) func_020477D4(object,i);
     }
     if(next!=4 && ((struct Obj02938 *)p)->f22C!=next) {
-        object=func_02048A18(((struct Obj02938 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj02938 *)p)->f3C+68*(*(u16 *)(p+48+2*(next+2)))));
+        object=(void *)func_02048A18(((struct Obj02938 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj02938 *)p)->f3C+68*(*(u16 *)(p+48+2*(next+2)))));
         count=func_0204779C(object);
         frame=0;
         for(i=0;i<count;i++) {

@@ -32,7 +32,8 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern int func_021F3D94(int);
 extern char *func_0200B3A4(unsigned,int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021F3868(u8 *p)
 {
     unsigned h;

@@ -12,5 +12,6 @@
  */
 #include "../include/Obj15906.h"
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_02036B88(void *a0){ func_020307B0((void *)((int)((struct Obj15906 *)((char *)(a0)))->f18)); }

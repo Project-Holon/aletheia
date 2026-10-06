@@ -57,7 +57,7 @@ extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_02045C04(struct Rec *rec);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 extern void  func_0200B900(void *a, u32 b, u32 c);
 extern void *func_020271CC(void *a, u32 id);

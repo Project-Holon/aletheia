@@ -38,7 +38,8 @@ struct Rec {
     void *unk_14;
 };
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *handle);
 
 void func_02045C04(struct Rec *rec)

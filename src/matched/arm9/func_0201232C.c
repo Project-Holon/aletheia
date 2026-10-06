@@ -14,7 +14,7 @@
 #include "../include/Obj01023.h"
 
 extern char g_020A727C[];
-extern void func_020307B0(void *p);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);

@@ -31,7 +31,8 @@ struct Pair { int x,y; };
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021DE940(char *,int,int),func_021FB4B4(int,int,int);
+extern int func_021DE940(char *,int,int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,struct Pair *);
 extern void func_021DE780(char *,char *),func_021DE404(char *,char *),func_021DE55C(char *,char *),func_021DE66C(char *,char *);
 typedef unsigned char  u8;
@@ -52,7 +53,7 @@ int func_021DE274(void *unused,u32 *state,char *q,char *p)
   if(func_02035D20((u32 *)(&x),(u32 *)(&y))){
    ((struct Obj00785 *)p)->f68=func_021DE940(p,x,y);
    if(((struct Obj00785 *)p)->f68) *state=3;
-   if(func_021FB4B4(((struct Obj00785 *)p)->fC,x,y)){
+   if(func_021FB4B4((unsigned int *)(((struct Obj00785 *)p)->fC),x,y)){
     pair.x=x;pair.y=y;
     func_021FD860(*(int *)&((struct Obj00785 *)p)->f64,1,&pair);
     *state=7;

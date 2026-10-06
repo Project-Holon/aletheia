@@ -20,7 +20,8 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern unsigned sub_02009454(void);
 extern void func_02082D44(void *, void *, int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021E017C(void *sys, void *buf)
 {
     void *src = func_02009470(func_02012EBC(sys));

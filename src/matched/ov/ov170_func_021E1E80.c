@@ -67,7 +67,7 @@ typedef unsigned int   u32;
 struct Ov170Ctx;
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02036370(u32 *outA, u32 *outB);
 extern int func_02036270(int a0, int a1);
 extern void func_021DC9C4(void);

@@ -15,7 +15,7 @@
  */
 #include "../include/Obj19138.h"
 
-extern int func_0216E4EC(void *);
+extern int func_0216E4EC(int a0, int a1);
 extern void *func_0216D67C(void *);
 extern int func_0216E490(void *);
-int func_0216E51C(void *a) { int i; unsigned int base; i=func_0216E4EC(a); if(i!=30) { base=((struct Obj19138 *)((char *)func_0216D67C(a)))->f2C; return func_0216E490((void *)(base+i*12)); } return 0; }
+int func_0216E51C(void *a, int a1) { int i; unsigned int base; i=func_0216E4EC((int)a, a1); if(i!=30) { base=((struct Obj19138 *)((char *)func_0216D67C(a)))->f2C; return func_0216E490((void *)(base+i*12)); } return 0; }

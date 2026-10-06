@@ -113,7 +113,7 @@ extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void *func_02029C00(void *h);
 extern void *func_020145CC(void *h);
 extern void *func_02029CC0(void *h);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_02189A08(unsigned char *p);
 extern void func_021CF498(struct Ctx *c, u32 x, int idx);
 extern struct P *func_021B6100(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);

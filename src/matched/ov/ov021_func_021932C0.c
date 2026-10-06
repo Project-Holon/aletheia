@@ -45,15 +45,15 @@ extern void func_02169540(unsigned char *a, unsigned int v);
 extern void func_02169580(int o);
 extern int func_02169560(unsigned char *a);
 extern int func_02169578(unsigned char *a);
-extern int func_02169598(int o);
+extern unsigned int func_02169598(u8 *p);
 extern int func_0218DD04(u8 *p);
 extern void func_0218B974(int a, int o, void *p, int n);
-extern int func_0218DCF4(int q);
+extern int func_0218DCF4(unsigned int *a0);
 extern int func_0218DCFC(int q);
 typedef unsigned int   u32;
 extern int func_021A7410(u32 a, u32 b, u32 c, u32 d);
 
-int func_021932C0(int o, int q)
+int func_021932C0(u8 *o, unsigned int *q)
 {
     u16 *st;
     int x;
@@ -61,7 +61,7 @@ int func_021932C0(int o, int q)
     char *p;
     int off;
 
-    func_02169520(o, (int)(&st));
+    func_02169520((int)o, (int)(&st));
     switch (*st) {
     case 1:
         func_0216959C((u8 *)o);
@@ -82,10 +82,10 @@ int func_021932C0(int o, int q)
         func_02169540((unsigned char *)o, (unsigned int)(p + ((struct Obj09477 *)p)->f4));
         off = ((struct Obj09477 *)p)->fC;
         if (off != ((struct Obj09477 *)p)->f10)
-            func_0218B974(func_0218DD04((u8 *)q), o, h + off + 4, *(int *)(h + off));
-        func_02169580(o);
+            func_0218B974(func_0218DD04((u8 *)q), (int)o, h + off + 4, *(int *)(h + off));
+        func_02169580((int)o);
         if (func_0218DCF4(q))
-            func_021A7410(func_0218DCFC(q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
+            func_021A7410(func_0218DCFC((int)q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
         *st = 0;
         return 0;
     }

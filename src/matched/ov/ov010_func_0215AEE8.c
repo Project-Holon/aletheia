@@ -31,7 +31,7 @@ extern void *func_0200CA1C(void *a);
 extern void *func_020173F0(u32 species, u32 level, u64 id, u32 heap);
 struct Blk37;
 extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_0215AEE8(int a0, int a1)
 {

@@ -24,7 +24,7 @@
 
 typedef unsigned char u8;
 
-extern u8 *func_021EE9A4(u8 *, int *);
+extern u8 *func_021EE9A4(u8 *p, unsigned int *out);
 typedef unsigned int   u32;
 extern void func_021BB724(u8 *p, int a, int b, int c);
 extern void func_021BB718(int a, int b);
@@ -41,7 +41,7 @@ int func_021BB208(u8 *p, int *s)
 
     switch (*s) {
     case 0: {
-        u8 *r = func_021EE9A4(p + 0x68, &n);
+        u8 *r = func_021EE9A4(p + 0x68, (unsigned int *)(&n));
         func_021BB724(p, 0xa, (int)r, n);
         (*s)++;
         break;

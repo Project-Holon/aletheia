@@ -14,9 +14,10 @@
  * Closed by the `matched` class: 0x0202B230 was filed as an EXACT entry in this wave.
  */
 
-extern void func_0202B230(void);
+typedef unsigned char  u8;
+extern void func_0202B230(u8 *p);
 
-void func_0202B1F4(void)
+void func_0202B1F4(u8 *a0)
 {
-    func_0202B230();
+    func_0202B230(a0);
 }

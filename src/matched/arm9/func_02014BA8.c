@@ -37,7 +37,7 @@ struct Sub02014CB8Obj;
 extern void func_02014CD4(struct Sub02014CB8Obj *o);
 struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
-extern void  func_020307B0(void *a0);
+extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
 extern void  func_02015BA4(void *a0, void *a1);
 

@@ -25,7 +25,7 @@ struct Entry;
 struct Entry *func_020399A8(void);
 int func_0203D578(int a, int b);
 void func_02082D44(void *d, void *s, int n);
-int func_0203D3F8(int a, int b, int c, int d, void *e, int f, int g, int h);
+unsigned int func_0203D3F8(unsigned int entry, unsigned int sendID, unsigned int c, unsigned int d, unsigned int e, unsigned int f, unsigned int g, unsigned int h);
 typedef unsigned int   u32;
 u32 func_0203D378(void);
 void func_02175920(void *p);
@@ -42,7 +42,7 @@ int func_02173828(char *p)
         return 0;
     }
     func_02082D44(p + 0x160, p + 0x3A4, 0x4C);
-    r = func_0203D3F8((int)func_020399A8(), 0xFF, 0x203, 0x4C, p + 0x3A4, 0, 0, 1);
+    r = func_0203D3F8((int)func_020399A8(), 0xFF, 0x203, 0x4C, (unsigned int)(p + 0x3A4), 0, 0, 1);
     if (r == 1) {
         p[0x8FE] = 0;
         if (func_0203D378() == 1) {

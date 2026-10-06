@@ -38,7 +38,7 @@ typedef unsigned int u32;
 struct Obj;
 extern const u8 d_021BBF14[];
 extern u32 func_020275E4(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02027614(void);
 typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);

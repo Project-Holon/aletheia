@@ -30,7 +30,7 @@ typedef struct {
     u8 pad233;
     u32 layer;           /* 0x234 */
 } Work;
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);

@@ -20,7 +20,7 @@
 #include "../include/Obj23284.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Entry;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020173EC(void);

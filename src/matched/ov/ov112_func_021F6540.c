@@ -16,7 +16,7 @@
  */
 #include "../include/Obj22552.h"
 typedef unsigned int u32;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 struct Out;

@@ -24,13 +24,13 @@
 #include "../include/Obj25343.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void *func_02049EF4(void *,u32,u32,void **,u16);
 extern void func_02082A60(const void *,void *,u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 int func_021BE23C(char *p,void *unused,int *state)
 {

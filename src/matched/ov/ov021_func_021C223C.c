@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-int func_020489F4(int a, u16 b);
+unsigned int func_020489F4(u8 *a0, int i);
 typedef unsigned int   u32;
 u32 func_02048A18(u8 *a0, int i);
 int func_0204779C(int *p);
@@ -37,7 +37,7 @@ int func_021C223C(char *p)
     if (((struct Obj05076 *)p)->f60 != 0) {
         (((struct Obj05076 *)p)->f60)--;
     } else {
-        a = func_02048A18((u8 *)(((struct Obj05076 *)p)->f14), func_020489F4(((struct Obj05076 *)p)->f14, ((struct Obj05076 *)p)->f18));
+        a = func_02048A18((u8 *)(((struct Obj05076 *)p)->f14), (int)func_020489F4((u8 *)(((struct Obj05076 *)p)->f14), (u16)(((struct Obj05076 *)p)->f18)));
         n = func_0204779C((int *)a);
         for (k = 0; k < n; k++)
             r = func_020478B8((void *)a, k, 0x1000);

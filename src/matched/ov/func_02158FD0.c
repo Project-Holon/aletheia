@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_02158FD0(int a0, int a1, int a2)
+int func_02158FD0(int a0, u32 a1, int a2)
 {
 
 a2 = 2;

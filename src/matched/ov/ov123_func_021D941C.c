@@ -45,7 +45,7 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void func_0202F038(u8 *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_020450C8(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021D941C(u8 *p)
 {
     u32 a;

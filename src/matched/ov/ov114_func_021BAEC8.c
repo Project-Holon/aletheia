@@ -18,9 +18,10 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BABF4(void);
+struct Node;
+extern struct Node *func_021BABF4(struct Node **head);
 
-void func_021BAEC8(void)
+void func_021BAEC8(struct Node **a0)
 {
-    func_021BABF4();
+    func_021BABF4(a0);
 }

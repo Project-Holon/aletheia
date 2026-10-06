@@ -72,7 +72,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201D83C(void *p);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern int func_0216FAB4(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02045C04(struct Rec *rec);
 
 void func_021C2F84(int s, Obj *p, char *a1, char *a2, u32 c, u32 d)

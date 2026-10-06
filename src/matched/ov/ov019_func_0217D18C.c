@@ -84,7 +84,7 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 func_0203D378(void);
 extern int func_0217B8E4(char *p, char v);
 extern u8 d_021807E8[];

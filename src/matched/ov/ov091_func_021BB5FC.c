@@ -36,7 +36,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern int func_02028604(int a0);
 extern void func_02031140(struct S02031140 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021BB5FC(void *a, int *s)
 {

@@ -70,7 +70,7 @@ extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_02013128(void *, void *, int);
 extern void func_02013160(u8 *o, void *a1, u32 a2);
 extern void func_02013980(struct ZoneData *o, u32 heap);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D04[], d_02213D00[];
 struct Sub { u32 a0; u32 a4; u8 pad[1]; };

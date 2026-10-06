@@ -64,7 +64,7 @@ extern void func_021736E0(unsigned int x);
 extern void func_0203D14C(int a, int b, u8 *c);
 extern u32 func_0217F1EC(u8 *p);
 extern int func_0203D1B4(void);
-extern void func_0203D7BC(int a);
+extern void func_0203D7BC(u8 a0);
 extern int func_0217F060(int i);
 struct Entry;
 extern struct Entry *func_020399A8(void);

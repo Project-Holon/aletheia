@@ -51,9 +51,9 @@ typedef struct {
 
 extern const unsigned short d_021BC128[];
 extern const Tile d_021BC150[];
-extern void *func_02049DF4(void *, unsigned short, int, Blob **, unsigned short);
-extern void func_0204AA94(void *, int, int, int, int);
-extern void func_020307B0(void *);
+extern void *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
+extern void func_0204AA94(int a, void *b, unsigned int c, int d, int e);
+extern unsigned int func_020307B0(void *p);
 
 typedef struct {
     short x, y, z, w;
@@ -146,7 +146,7 @@ void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row)
     rr[1].x = 0xd0;
     rr[1].y = v;
     arc = p->f1d0;
-    handle = func_02049DF4(p->f1c4, d_021BC128[z], 0, &blob, p->f0);
+    handle = func_02049DF4(p->f1c4, d_021BC128[z], 0, (unsigned int)(&blob), p->f0);
     data = blob->f14;
     for (j = 0; j < 2; j++) {
         p->m[row][j] = -1;
@@ -155,8 +155,8 @@ void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row)
             p->m[row][j] = (int)func_0204A6C8(arc, func_020275F8(id), 0, ifv, p->f0);
             ta = d_021BC150[id].b << 7;
             tb = d_021BC150[id].a << 11;
-            func_0204AA94((void *)p->m[row][j], data + (tb + ta), 0x80, 0, ifv);
-            func_0204AA94((void *)p->m[row][j], data + ((tb + (1 << 10)) + ta), 0x80, 0x80, ifv);
+            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + (tb + ta)), 0x80, 0, ifv);
+            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + ((tb + (1 << 10)) + ta)), 0x80, 0x80, ifv);
         }
     }
     func_020307B0(handle);

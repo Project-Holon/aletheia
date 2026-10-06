@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 extern void sub_02082BCC(void *p, int c, u32 n);
 
 void func_021BA648(int unused, void *p)

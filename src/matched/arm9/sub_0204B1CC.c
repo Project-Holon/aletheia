@@ -47,7 +47,8 @@ struct Bank {
 extern void func_0204BC40(struct Bank *bank);
 struct Obj;
 extern void sub_0204B3B4(struct Obj *p);
-extern void sub_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 sub_020307B0(void *p);
 
 void sub_0204B1CC(struct Bank *bank)
 {

@@ -20,7 +20,7 @@
 #include "../include/Obj24701.h"
 typedef unsigned int   u32;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021FB4B4(int,int,int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
 extern void func_021FD73C(int *p, int v);
 extern void func_021F8624(int,int *,char *);
@@ -29,14 +29,14 @@ void func_021F8670(int a,int b,char *p)
 {
     int x,y;
     if (func_02035D20((u32 *)(&x),(u32 *)(&y))) {
-        if (func_021FB4B4(((struct Obj05483 *)p)->f4,x,y)) {
+        if (func_021FB4B4((unsigned int *)(((struct Obj05483 *)p)->f4),x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
             func_021FD860(((struct Obj05483 *)p)->f18,1,pair);
             ((struct Obj24700 *)(*(char * *)&((struct Obj05483 *)p)->f30))->f1C=0;
             func_021FD73C((int *)a,(int)func_021F8624);
         }
-        if (func_021FB4B4(((struct Obj05483 *)p)->f8,x,y)) {
+        if (func_021FB4B4((unsigned int *)(((struct Obj05483 *)p)->f8),x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
             func_021FD860(((struct Obj05483 *)p)->f18,1,pair);

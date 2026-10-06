@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef struct { int f00, f04, f08, f0c; } Row;
 typedef struct { char pad00[0x10]; void *f10[11]; } Object;
 extern Row data_021D58E0[];
-extern void *func_020450F0(int, u8, u8, u8, u8, int, int);
+extern unsigned int func_020450F0(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 typedef unsigned int   u32;
 struct Cfg;
 struct CharBuf;
@@ -41,8 +41,8 @@ void func_021D4CD8(int i, int value, int force, int mode, Object *p)
 {
     if (p->f10[i] && !force) return;
     if (!p->f10[i])
-        p->f10[i] = func_020450F0(7, data_021D58E0[i].f00, data_021D58E0[i].f04,
-            data_021D58E0[i].f08, data_021D58E0[i].f0c, 13, 0);
+        p->f10[i] = (void *)func_020450F0((int)7, (u8)data_021D58E0[i].f00, (u8)data_021D58E0[i].f04,
+            (u8)data_021D58E0[i].f08, data_021D58E0[i].f0c, (int)13, (int)0);
     func_02043B5C(func_02045770(p->f10[i]), 0);
     if (mode) {
         func_02045CAC(((struct Obj01405 *)p)->f44, value, ((struct Obj01405 *)p)->f50);

@@ -10,5 +10,7 @@
  * status:   EXACT
  */
 
-extern void func_02078A94(void);
-void func_02078C28(void){ func_02078A94(); }
+typedef unsigned int   u32;
+struct FSFile;
+extern u32 func_02078A94(struct FSFile *file);
+u32 func_02078C28(struct FSFile *a0){ return func_02078A94(a0); }

@@ -18,9 +18,10 @@
  *   func_02030164  0x02030164  arm
  */
 
-extern void func_02030164(void);
+typedef unsigned int   u32;
+extern u32 func_02030164(void *p);
 
-void func_02025D14(void)
+void func_02025D14(void *a0)
 {
-    func_02030164();
+    func_02030164(a0);
 }

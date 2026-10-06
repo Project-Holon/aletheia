@@ -18,7 +18,8 @@ extern void func_021E7454(int *p);
 extern void func_021E73B8(char *p);
 extern void func_021E7270(char *p);
 extern void func_021E6EFC(unsigned *p);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021E62A0(void *p)
 {
     *(unsigned short *)0x04001050 = 0;

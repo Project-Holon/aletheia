@@ -17,9 +17,10 @@
  * that entry is the matched witness for this pool word.
  */
 
-extern void func_0202BB40(void);
+typedef unsigned char  u8;
+extern void func_0202BB40(u8 *p);
 
-void func_0202B90C(void)
+void func_0202B90C(u8 *a0)
 {
-    func_0202BB40();
+    func_0202BB40(a0);
 }

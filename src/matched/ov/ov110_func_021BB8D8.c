@@ -19,7 +19,7 @@
 #include "../include/Obj10275.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u8 func_021BF6DC(u8 *);
 typedef unsigned int   u32;
 struct Cfg;

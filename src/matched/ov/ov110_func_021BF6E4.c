@@ -24,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0202452C(const u16 *p);
-void func_021BF6E4(u8 *p) { func_0202452C((const u16 *)(p + 8)); }
+int func_021BF6E4(u8 *p) { return func_0202452C((const u16 *)(p + 8)); }

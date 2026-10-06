@@ -40,7 +40,7 @@ extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern Big *func_0200E5F8(int a, int b);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021D0B58(int a, Big *dst, int idx)
 {

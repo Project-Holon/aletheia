@@ -23,7 +23,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021FB4B4(int,int,int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
 extern void func_021FD73C(int *p, int v);
 extern int func_021F8FC8(int,int,int);
@@ -36,7 +36,7 @@ void func_021F86E4(int a,int b,char *p)
 {
     int x,y;
     if (func_02035D20((u32 *)(&x),(u32 *)(&y))) {
-        if (func_021FB4B4(((struct Obj02525 *)p)->f18,x,y)) {
+        if (func_021FB4B4((unsigned int *)(((struct Obj02525 *)p)->f18),x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
             func_021FD860(((struct Obj02525 *)p)->f3C,1,pair);

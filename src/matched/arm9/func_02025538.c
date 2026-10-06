@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02030734(u32 a0, u32 a1, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32   g_020A7494[];
 
 void *func_02025538(u32 a0, void *a1)
@@ -44,6 +44,6 @@ void *func_02025538(u32 a0, void *a1)
     for (i = 0; i < 3; i++) {
         *(u32 *)(p + 0xc + i * 4) = -1;
     }
-    ((struct Obj08785 *)p)->f8 = func_020490F4(0x33, (a0 & 0x7fff) | 0x8000);
+    ((struct Obj08785 *)p)->f8 = func_020490F4(0x33, (u16)((a0 & 0x7fff) | 0x8000));
     return p;
 }

@@ -50,7 +50,8 @@ extern void func_021E293C(char *p, int i);
 extern void func_021E3F08(char *);
 extern void func_021E4000(char *);
 extern void func_021E57A4(int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 #define P(o) (*(void **)(p+(o)))
 void func_021DC720(char *p)
 {

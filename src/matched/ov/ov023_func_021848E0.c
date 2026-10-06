@@ -33,7 +33,8 @@ extern const B32 d_02186BAC;
 extern const B32 d_02186B4C;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(int, void *, int);
+struct BgTemplate;
+extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 typedef unsigned int   u32;
 extern void func_020414EC(u32 i);
 typedef unsigned short u16;
@@ -53,22 +54,22 @@ void func_021848E0(void)
     func_0203FC28((struct DispConfig *)(&t));
 
     t0 = d_02186BCC;
-    func_0203FCA0(0, &t0, 0);
+    func_0203FCA0(0, (const struct BgTemplate *)(&t0), 0);
     func_020414EC(0);
 
     t1 = d_02186B6C;
-    func_0203FCA0(1, &t1, 0);
+    func_0203FCA0(1, (const struct BgTemplate *)(&t1), 0);
     func_020414EC(1);
 
     t2 = d_02186B8C;
-    func_0203FCA0(2, &t2, 0);
+    func_0203FCA0(2, (const struct BgTemplate *)(&t2), 0);
 
     t4 = d_02186BAC;
-    func_0203FCA0(4, &t4, 0);
+    func_0203FCA0(4, (const struct BgTemplate *)(&t4), 0);
     func_020414EC(4);
 
     t5 = d_02186B4C;
-    func_0203FCA0(5, &t5, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)(&t5), 0);
 
     func_02040B94(0, 0x20, 0, 0x28);
     func_02040B94(4, 0x20, 0, 0x28);

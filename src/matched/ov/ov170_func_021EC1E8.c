@@ -23,21 +23,22 @@
 typedef unsigned short u16;
 
 extern unsigned func_020275E4(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_02027618(void);
-extern void *func_0204A6C8(void *, unsigned, int, int, unsigned);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
 extern unsigned func_02027614(void);
-extern void *func_0204ABF0(void *, unsigned, int, unsigned, unsigned);
+extern s32 func_0204ABF0(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
 typedef unsigned int   u32;
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern void *func_0204AF28(void *, unsigned, unsigned, unsigned);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 void func_021EC1E8(char *p)
 {
     void *h = func_020490F4(func_020275E4(), 0x4C);
-    ((struct Obj02214 *)p)->fA0F8 = func_0204A6C8(h, func_02027618(), 0, 0, 0x4C);
-    ((struct Obj02214 *)p)->fA124 = func_0204ABF0(h, func_02027614(), 0, 0x100, 0x4C);
-    ((struct Obj02214 *)p)->fA154 = func_0204AF28(h, func_0202761C(2), func_02027620(2), 0x4C);
+    ((struct Obj02214 *)p)->fA0F8 = (void *)func_0204A6C8(h, func_02027618(), 0, 0, 0x4C);
+    ((struct Obj02214 *)p)->fA124 = (void *)func_0204ABF0(h, func_02027614(), 0, 0x100, 0x4C);
+    ((struct Obj02214 *)p)->fA154 = (void *)func_0204AF28(h, func_0202761C(2), func_02027620(2), 0x4C);
     func_02049238(h);
 }

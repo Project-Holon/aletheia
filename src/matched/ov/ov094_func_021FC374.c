@@ -22,8 +22,8 @@
 typedef unsigned short u16;
 
 extern int func_0201134C(void *);
-extern void func_020307B0(void *);
-extern char *func_02048F60(int, int, u16);
+extern unsigned int func_020307B0(void *p);
+extern void *func_02048F60(unsigned int archive_id, unsigned int member, unsigned int heap);
 typedef unsigned int   u32;
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
@@ -35,9 +35,9 @@ int func_021FC374(void *a, char *s)
 
     func_020307B0(((struct Obj03713 *)s)->f1E8);
     if (id < 0x231)
-        *(char * *)&((struct Obj03713 *)s)->f1E8 = func_02048F60(0x42, id, (((struct Obj03713 *)s)->f238 & 0x7fff) | 0x8000);
+        *(char * *)&((struct Obj03713 *)s)->f1E8 = func_02048F60((int)0x42, (int)id, (u16)((((struct Obj03713 *)s)->f238 & 0x7fff) | 0x8000));
     else
-        *(char * *)&((struct Obj03713 *)s)->f1E8 = func_02048F60(0x43, id - 0x231, (((struct Obj03713 *)s)->f238 & 0x7fff) | 0x8000);
+        *(char * *)&((struct Obj03713 *)s)->f1E8 = func_02048F60((int)0x43, (int)(id - 0x231), (u16)((((struct Obj03713 *)s)->f238 & 0x7fff) | 0x8000));
     p = *(char * *)&((struct Obj03713 *)s)->f1E8;
     ((struct Obj03713 *)s)->f4 = 0;
     func_020113B0(a, (u32)(p + ((struct Obj21683 *)p)->f4));

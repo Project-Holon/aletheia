@@ -51,7 +51,7 @@ extern struct BgSys *g_02146A44;
 
 extern void func_020403F4(u32 layer);
 extern void func_02033C9C(void *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0203F9B4(void)
 {

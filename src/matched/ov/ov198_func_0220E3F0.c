@@ -20,7 +20,7 @@
 #include "../include/Obj25200.h"
 #include "../include/Obj25201.h"
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(void *, unsigned, unsigned, unsigned, u16);
 extern int func_0204ABF0(void *, unsigned, unsigned, unsigned, u16);
 typedef signed int     s32;
@@ -30,7 +30,7 @@ extern void func_02049238(void *);
 void func_0220E3F0(char *p)
 {
     void *owner;
-    owner = func_020490F4(83,(((struct Obj25198 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10 & 0x7fff) | 0x8000);
+    owner = func_020490F4(83,(u16)((((struct Obj25198 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10 & 0x7fff) | 0x8000));
     ((struct Obj00172 *)p)->f24BC = func_0204A6C8(owner, 12, 0, 1, ((struct Obj25199 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     ((struct Obj00172 *)p)->f2510 = func_0204ABF0(owner, 11, 1, 96, ((struct Obj25200 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     ((struct Obj00172 *)p)->f2528 = func_0204AF28(owner, 13, 16, ((struct Obj25201 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);

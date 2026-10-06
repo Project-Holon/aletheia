@@ -28,7 +28,8 @@ struct Pool {
     void *ents;   /* 0x04 */
 };
 
-extern void sub_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 sub_020307B0(void *p);
 
 void func_0204C788(struct Pool *p)
 {

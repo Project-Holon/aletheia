@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 extern void func_021EE600(void *);
 extern void func_02188080(void *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_021EEAE0(void *);
 void func_021CD8E0(u8 *p) {
  if(*(void* *)&((struct Obj05197 *)p)->f10)func_021EE600(*(void* *)&((struct Obj05197 *)p)->f10);

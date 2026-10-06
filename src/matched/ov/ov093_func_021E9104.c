@@ -31,7 +31,7 @@ struct Param;
 
 extern void *func_021F745C(u8 *p, int a, u16 heap);
 extern void func_021F7544(void *p, int arg, u16 heap);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021EB028(u8 *p);
 extern void func_021E91C8(void *p);
 extern u32 func_021CD9E0(u8 *p);

@@ -40,7 +40,7 @@ struct WordSet;
 extern void func_02030EAC(struct Node *n);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049238(void *);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);

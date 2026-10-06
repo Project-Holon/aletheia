@@ -15,11 +15,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 void func_0217F24C(u8 *p)
 {
     if (((struct Obj00033 *)p)->f2814 != 0) {
-        func_021909BC((u32)(((struct Obj00033 *)p)->f2814));
+        func_021909BC((void *)(((struct Obj00033 *)p)->f2814));
         ((struct Obj00033 *)p)->f2814 = 0;
     }
 }

@@ -15,11 +15,11 @@
  *   func_02195E78  0x02195E78  arm  ov009
  */
 
-extern unsigned char *func_02195E78(void);
+extern int func_02195E78(const int *p);
 
-int func_0216BB54(void)
+int func_0216BB54(const int *a0)
 {
-    unsigned char *p = func_02195E78();
+    unsigned char *p = (unsigned char *)func_02195E78(a0);
 
     return p ? *(unsigned char *)(p + 1) : 0xff;
 }

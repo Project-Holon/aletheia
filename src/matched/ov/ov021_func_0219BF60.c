@@ -17,12 +17,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_0216D684(u32, u32);
+extern void *func_0216D684(int a0, int a1, u32 a2, u32 a3);
 extern u32 func_0216D5E0(u32, u32);
 
-u32 func_0219BF60(u32 a, u32 b, u32 c)
+u32 func_0219BF60(u32 a, u32 b, u32 c, u32 a3)
 {
-    u8 *p = func_0216D684(a, 4);
+    u8 *p = func_0216D684(a, 4, c, a3);
     p[1] = 9;
     p[2] = c;
     return func_0216D5E0(a, 0);

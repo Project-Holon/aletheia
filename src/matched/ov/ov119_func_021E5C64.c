@@ -33,7 +33,7 @@ extern Pos d_021E81D4[26];
 struct Cfg;
 struct Descriptor;
 extern void func_02040588(u32 which, u32 enable);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02041B6C(u32 bit);
 extern void func_02040618(u32 layer, u32 a, u32 b);

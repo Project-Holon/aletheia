@@ -38,7 +38,7 @@ extern u16 func_02188C84(u8 *p);
 extern u32 func_02159B10(void *a, void *b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const u8 d_021D99D0[];
 
 int func_021B721C(u32 a, u32 b)

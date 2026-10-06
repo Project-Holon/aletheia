@@ -44,8 +44,7 @@ struct S020219C4 {
     u16 pad6 : 5;
 };
 
-void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b,
-                   u8 c, u16 d, u32 e)
+void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
 {
     u8 n;
 

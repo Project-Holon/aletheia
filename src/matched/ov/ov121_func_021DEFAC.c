@@ -122,7 +122,7 @@ extern void func_02018A00(void *p, u32 species, u32 arg);
 extern u16 func_02045A98(void);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_020185F0(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_020185C4(void *p);

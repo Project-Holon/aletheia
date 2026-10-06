@@ -51,7 +51,7 @@ struct Entry {
 extern struct Entry *g_02146A44;
 
 extern void sub_02043094(u32 index, u32 zero, u32 cookie);
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 void sub_020403F4(u32 i)
 {

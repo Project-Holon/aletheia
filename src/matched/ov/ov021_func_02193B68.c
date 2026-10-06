@@ -36,7 +36,7 @@ extern void func_020084A0(struct Sub0200852CObj *);
 extern u32 func_020084D4(u32 value, void *dst);
 extern void func_0200852C(struct Sub0200852CObj *obj, u32 value);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02193B68(void *a, int b, int c, int d, u16 e)
 {

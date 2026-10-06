@@ -31,7 +31,7 @@ typedef struct {
 typedef struct { u8 a, b, c, d; } WinDef;
 typedef struct { u16 heap; } HeapArg;
 extern const WinDef d_021E8D36[];
-extern void *func_020450F0(int, int, int, int, int, int, int);
+extern unsigned int func_020450F0(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 typedef unsigned int   u32;
 struct Cfg;
 struct CharBuf;
@@ -62,7 +62,7 @@ void func_021E6718(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
     w->count = 11;
     for (i = 0; i < w->count; i++) {
         void *win;
-        w->wins[i] = func_020450F0(5, d_021E8D36[i].a, d_021E8D36[i].b, d_021E8D36[i].c, d_021E8D36[i].d, 0xf, 1);
+        w->wins[i] = (void *)func_020450F0(5, d_021E8D36[i].a, d_021E8D36[i].b, d_021E8D36[i].c, d_021E8D36[i].d, 0xf, 1);
         func_02043B5C(func_02045770(w->wins[i]), 0);
         win = w->wins[i];
         func_02045334(win);

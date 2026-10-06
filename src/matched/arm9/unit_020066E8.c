@@ -84,7 +84,7 @@ extern struct Sub02006544State sub_02006544_State;
 extern void sub_020065D8(void);
 struct Sub02006948;
 extern void sub_02006948(struct Sub02006948 *e);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void sub_020067A4(struct Sub02006544Entry *e);
 void sub_020067D0(struct Sub02006544Entry *e);

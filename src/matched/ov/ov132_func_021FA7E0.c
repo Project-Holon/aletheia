@@ -38,7 +38,7 @@ extern u32 func_021F9E0C(u8 *p);
 extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern void func_0204B270(struct Bank *bank);
 extern void func_02049238(void *);

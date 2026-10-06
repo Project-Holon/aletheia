@@ -17,14 +17,15 @@
  */
 #include "../include/Obj13111.h"
 
-extern int func_02188CD0(int);
+typedef unsigned char  u8;
+extern unsigned int func_02188CD0(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021ABE30(int, int *, int);
 extern char d_021F3AC0[];
 
-void func_021F3844(char *a, int b)
+void func_021F3844(char *a, u8 *b)
 {
     int n;
     int r4 = func_02188CD0(b);

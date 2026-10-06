@@ -64,7 +64,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02012F08(int *p);
 extern u32 func_0200C274(struct Blk34 *p);
-extern int func_02190728(u32 a);
+extern int func_02190728(void *a);
 struct Fx;
 extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 extern void func_02188D4C(u8 *p, u32 v);
@@ -98,7 +98,7 @@ int func_021B063C(u32 a, u32 b)
     h = (u32)func_020457B0(0x80, h);
     g = func_0200C274(func_02012F08((int *)x));
     if (w != 0)
-        func_02190728(w);
+        func_02190728((void *)w);
     obj = (u32)func_02190708((struct Fx *)m, z, (u16)(v1 - 9), (u16)v2, 9, 2);
     func_02188D4C(y, obj);
     func_0201EFA4((struct WordSet *)r6, 2, g, 7, 1, 1);

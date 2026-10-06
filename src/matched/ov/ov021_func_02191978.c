@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern int func_0219194C(u32 a);
+extern int func_0219194C(void *a);
 
 typedef struct P { u8 pad[0xA0]; volatile u32 arr[8]; } P;
 void func_02191978(P *p)
@@ -31,7 +31,7 @@ void func_02191978(P *p)
             {
                 u32 t = p->arr[i];
                 p->arr[i] = 0;
-                func_0219194C(t);
+                func_0219194C((void *)t);
             }
         }
     }

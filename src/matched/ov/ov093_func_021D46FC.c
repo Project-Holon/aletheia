@@ -41,7 +41,7 @@ extern struct S *d_021F3B88;
 extern const char d_021F3A98[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 typedef union {
     u32 w;

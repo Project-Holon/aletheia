@@ -32,7 +32,7 @@ typedef int s32;
 extern int func_02020F20(int, int, u16);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_0218A3F4(int a, int b, int c) {
     u16 h;

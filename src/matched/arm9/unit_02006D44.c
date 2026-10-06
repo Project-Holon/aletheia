@@ -59,7 +59,7 @@ struct Sub02006D44Obj {
 
 extern struct Sub02006D44Obj *sub_02006D44_Ptr;
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void PM_SetAmp(u32 on);
 
 u32 sub_02006D94(void);

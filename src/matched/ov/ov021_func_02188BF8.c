@@ -28,7 +28,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_021A3098(u32 a);
-extern void func_021A2F48(u32 a, u32 b);
+extern void func_021A2F48(u8 *p, u32 a1);
 struct Sub02008C20Obj;
 extern int func_021A2F54(u8 *p);
 extern void func_020061E4(u32 a);
@@ -42,11 +42,11 @@ u32 func_02188BF8(u8 *a)
 
     if (t == 1) {
         r = 1;
-        func_021A2F48(*(u32 *)&((struct Obj00020 *)a)->f8C, 1);
+        func_021A2F48((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 1);
     } else if (t == 0) {
         r = 1;
         func_020061E4(0x55F);
-        func_021A2F48(*(u32 *)&((struct Obj00020 *)a)->f8C, 2);
+        func_021A2F48((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 2);
         func_02008DF0(func_02012F2C((int *)(*(u32 *)&((struct Obj00020 *)a)->f8)), 3);
     }
     if (r == 1)

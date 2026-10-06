@@ -14,7 +14,8 @@
  */
 #include "../include/Obj14716.h"
 extern void func_021BC43C(void *,char *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021BC56C(char *p)
 {

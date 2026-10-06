@@ -40,7 +40,8 @@
  *   g_021A3F50                       0x021a3f50 data
  */
 
-extern int func_020949F4(const char *s1, const char *s2, unsigned int n);
+typedef unsigned char  u8;
+extern int func_020949F4(const u8 *s1, const u8 *s2, unsigned int n);
 extern char *func_02094A28(const char *s, int c);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
 typedef unsigned int   u32;
@@ -70,32 +71,32 @@ int func_0218263C(char *buffer, int *len)
 			continue;
 		}
 
-		if (func_020949F4(&buffer[readPos], g_021A3F1C, 5)==0)
+		if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F1C, 5)==0)
 		{
 			buffer[readPos++] = '&';
 			charsToRemove = 5-1;
 		}
-		else if (func_020949F4(&buffer[readPos], g_021A3F24, 6)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F24, 6)==0)
 		{
 			buffer[readPos++] = '"';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4(&buffer[readPos], g_021A3F2C, 6)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F2C, 6)==0)
 		{
 			buffer[readPos++] = '\'';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4(&buffer[readPos], g_021A3F34, 4)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F34, 4)==0)
 		{
 			buffer[readPos++] = '<';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4(&buffer[readPos], g_021A3F3C, 4)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F3C, 4)==0)
 		{
 			buffer[readPos++] = '>';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4(&buffer[readPos], g_021A3F44, 3)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F44, 3)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -124,7 +125,7 @@ int func_0218263C(char *buffer, int *len)
 
 			charsToRemove = digitEnd - &buffer[readPos] + 1;
 		}
-		else if (func_020949F4(&buffer[readPos], g_021A3F50, 2)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F50, 2)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';

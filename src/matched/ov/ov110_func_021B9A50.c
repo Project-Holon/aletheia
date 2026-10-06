@@ -48,7 +48,7 @@ extern void func_021B9BAC(int a, unsigned char *b);
 extern void *func_02030DA8(u32,u32,void *,int);
 extern void func_021B9BD0(int a, unsigned char *b);
 extern void *func_021B9BA4(void (*fn)(void *, u8 *), u8 *p, int n);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 void *func_021B9A50(u8 *context,void *arg) {
     u8 *p;
     int i;

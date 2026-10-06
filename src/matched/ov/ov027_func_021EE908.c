@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 int *func_021A21B8(int *p);
 int func_021A223C(unsigned char *o, int arg);
 void func_021A2390(u32 *p, int a, int b, int c);
-int func_021A23B0(int a);
+int func_021A23B0(u32 a);
 int func_021A21BC(unsigned char *o);
 void func_021EEAF4(int a, int *p);
 

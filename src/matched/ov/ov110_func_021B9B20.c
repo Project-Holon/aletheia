@@ -35,7 +35,8 @@ extern void func_0204AFD8(unsigned int);
 extern void func_0204A5AC(void);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021B9B20(u8 *p) {
     int i, j;
     if (p) {

@@ -39,7 +39,7 @@ extern void *func_021B9900(u32,u32);
 extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
 extern u32 func_0201C440(void *);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B90(u32,u32,u32,u32,u32,u32,u16);
 extern void *func_021B9B3C(void *,u32);
 extern void func_021B9EE8(void *);

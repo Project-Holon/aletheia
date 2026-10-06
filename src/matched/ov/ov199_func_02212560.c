@@ -56,7 +56,7 @@ extern int func_0201A918(void);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void *func_0200BAF4(int a0, int a1);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern const char d_02213D00[];
 extern const unsigned d_02213C58[];
 int func_02212560(void *a, int unused, u8 *arg)

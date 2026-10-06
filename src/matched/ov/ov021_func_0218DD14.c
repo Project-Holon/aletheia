@@ -19,11 +19,12 @@
 #include "../include/Obj00165.h"
 #include "../include/Obj05978.h"
 
-extern int func_021A7404(int, int);
+typedef unsigned char  u8;
+extern int func_021A7404(u8 *p, int a1);
 
 void func_0218DD14(int *dst, char *src, int a, int b)
 {
-    dst[0] = func_021A7404(((struct Obj00165 *)src)->f68, a);
+    dst[0] = func_021A7404((u8 *)(((struct Obj00165 *)src)->f68), a);
     dst[1] = ((struct Obj00165 *)src)->f64;
     dst[2] = ((struct Obj00165 *)src)->f6C;
     dst[3] = a;

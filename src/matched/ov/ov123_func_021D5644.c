@@ -46,7 +46,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_020450C8(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021D5644(char *p)
 {
     int i;

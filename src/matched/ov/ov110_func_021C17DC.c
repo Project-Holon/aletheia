@@ -18,7 +18,8 @@
  */
 extern const unsigned d_021C3A28[];
 extern void func_02082BCC(void *, int, unsigned);
-extern void func_0204A48C(const void *, unsigned, unsigned);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -28,7 +29,7 @@ extern void func_020434DC(unsigned, unsigned);
 extern void func_02043598(unsigned, unsigned);
 void func_021C17DC(void **p, unsigned arg, unsigned heap) {
     func_02082BCC(p, 0, 4);
-    func_0204A48C(d_021C3A28, arg, heap);
+    func_0204A48C((const struct Cfg *)d_021C3A28, arg, heap);
     *p = func_0204B100(128, 0, heap);
     func_0204B270(*p);
     func_020434DC(16, 1);

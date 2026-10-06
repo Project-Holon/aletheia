@@ -22,13 +22,13 @@
 #include "../include/Obj03775.h"
 typedef unsigned short u16;
 typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;
-extern int func_020221A4(void *);
+extern unsigned int func_020221A4(void);
 typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_021E1D68(char *p, void *a);
 extern void func_021E6440(int p, int a, int b);
 extern void func_021DEBD4(void *);
-extern void func_0202208C(int,int,int,int,int,int,int);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern int func_021D8980(char *p);
 extern void func_021DD09C(char *p);
 extern void func_021D8E84(void *,int);
@@ -40,7 +40,7 @@ void func_021DE518(State *p)
     int col,row;
     void *obj;
     int other;
-    if(func_020221A4(p)) {
+    if(func_020221A4()) {
         idx=(u16)((struct Obj03775 *)b)->f10A0;
         col=idx%3; row=idx/3;
         other=1-row;
@@ -50,7 +50,7 @@ void func_021DE518(State *p)
             func_021E1D68((char *)p,obj); func_021E6440((int)p,row,col);
         }
         func_021DEBD4(p);
-        func_0202208C(3,1,1,0,6,1,((struct Obj03775 *)b)->f5F4);
+        func_0202208C((void *)3,1,1,0,6,1,((struct Obj03775 *)b)->f5F4);
         func_021D8980((char *)p); func_021DD09C((char *)p);
         func_021D8E84(p,(int)func_021DE3E8);
     }

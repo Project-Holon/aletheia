@@ -19,5 +19,5 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BBAB4(u32 *);
 extern void func_021BB968(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BB738(u32 *p) { func_02030EAC((void *)p[10]); func_021BBAB4(p+1); func_021BB968(p); func_020307B0(p); }

@@ -27,7 +27,7 @@ int func_021A31A4(int i, int v);
 typedef unsigned short u16;
 u16 func_0216D598(void *p);
 void func_021A3AD8(u8 *p, int v);
-void func_021A3980(u8 *p, int a);
+void func_021A3980(u8 *p, u32 a1);
 
 void func_021A3B3C(u8 *p, int a)
 {

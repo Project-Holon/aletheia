@@ -35,7 +35,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern void func_021736A0(u8 *a, volatile u16 *s);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int d_021807E8[];
 
 int func_0217BD9C(u8 *a, int b, int c, u8 *d)

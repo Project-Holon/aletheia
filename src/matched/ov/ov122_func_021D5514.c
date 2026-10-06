@@ -30,7 +30,7 @@
 typedef unsigned int u32;
 extern void func_02027974(void *);
 extern void func_021D5110(char *);
-extern void func_021D5310(char *);
+extern void func_021D5310(unsigned char *p);
 extern void func_0204A600(void);
 extern int func_0203CD98(void);
 struct BigObj;
@@ -58,7 +58,7 @@ int func_021D5514(void *a, void *b, void *c, char *p)
     }
     if (((struct Obj00208 *)p)->f324) func_02027974(((struct Obj00208 *)p)->f324);
     if (((struct Obj00208 *)p)->f8 != 1) func_021D5110(p);
-    func_021D5310(p);
+    func_021D5310((unsigned char *)p);
     func_0204A600();
     if (func_0203CD98()) {
         ((struct Obj00208 *)p)->f368 = ((struct Obj00208 *)p)->f364;

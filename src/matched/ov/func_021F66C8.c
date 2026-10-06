@@ -25,7 +25,7 @@ struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 struct NitroFileHeader;
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d)
 {

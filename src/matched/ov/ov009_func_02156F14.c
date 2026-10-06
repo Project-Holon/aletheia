@@ -23,7 +23,7 @@ typedef struct {
 } Obj;
 extern Obj *d_021A8268;
 extern void func_02060C94(void *heap);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32 heap);
 void func_02156F14(void)
 {

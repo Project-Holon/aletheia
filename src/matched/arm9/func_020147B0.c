@@ -35,7 +35,8 @@ typedef struct {
 struct Evt;
 extern void *func_02014728(char *a0, int a1, int a2, int a3, int a4);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 int func_020147B0(int a0, int *a1, S *a2)
 {

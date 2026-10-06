@@ -33,7 +33,7 @@ typedef unsigned int u32;
 extern void *func_02020F34(u32, u32, u32);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern u32 func_02017E1C(void *, u32, u32);
 extern void func_02017E40(void *, u32, u32);
 extern u32 func_02018584(u16, u16, u16);

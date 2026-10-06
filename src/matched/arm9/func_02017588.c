@@ -42,7 +42,7 @@ extern void func_0201761C(void *obj, u16 species, u16 level, unsigned long long 
 extern void func_02019A50(u16 *p, u32 size, u32 seed);
 extern void  func_02017E40(void *p, u32 id, u32 v);
 extern void *func_02008F08(int a0);
-extern void  func_020307B0(void *m);
+extern u32 func_020307B0(void *p);
 extern void  func_020185C4(void *p);
 
 void func_02017588(struct Mon *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd)

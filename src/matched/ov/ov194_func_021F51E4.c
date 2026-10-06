@@ -34,7 +34,7 @@ extern u8 *func_0206E964(u8 *);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern u16 func_0204B7F0(u8 *);
 extern void func_0204AA94(int,void *,u32,int,int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020862F0(void *,unsigned);
 struct Struct20;
 extern void func_0204B764(const char *src, struct Struct20 *dst);

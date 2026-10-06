@@ -88,7 +88,7 @@ extern unsigned func_021EEA48(char *p);
 extern int func_021E8F50(char *p, int v);
 extern void func_021DF0BC(unsigned char *p);
 extern void func_021EC000(char *p, int i, int v);
-extern int func_021E9C94(Obj *p, int a, int n);
+extern int func_021E9C94(char *p, int a, int n);
 extern int func_021E9CE0(char *p, int a, int n);
 extern int func_021E949C(char *p, int a, int b);
 extern int func_021E954C(Obj *p, int id, int lo, int arg);
@@ -147,7 +147,7 @@ int func_021E5E68(Obj *p)
         func_021EC000(p->work, 10, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
-        return func_021E9C94(p, 1, 0x39);
+        return func_021E9C94((char *)p, 1, 0x39);
     case 0x20:
         func_020061E4(0x548);
         func_021DF0BC((unsigned char *)p);
@@ -200,7 +200,7 @@ int func_021E5E68(Obj *p)
         if (func_020260E0(OBJ(p)) == 0x1E) {
             func_020061E4(0x548);
             func_021DF0BC((unsigned char *)p);
-            return func_021E9C94(p, 1, 0x39);
+            return func_021E9C94((char *)p, 1, 0x39);
         }
         break;
     case -5:

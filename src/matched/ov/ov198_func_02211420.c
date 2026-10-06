@@ -32,7 +32,7 @@ extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
 extern void func_0202CA0C(struct WinMgr *mgr);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_022113B8(u8 *dst, unsigned bg, unsigned which);
 extern void func_0221139C(u8 *, u8 *, unsigned);
 extern void func_022113FC(u8 *p, int a, int b);

@@ -33,7 +33,7 @@ extern struct MusicalDist *func_0200C52C(void *sys, u32 heap);
 extern u32 func_0200C6D8(struct Blk2C *p);
 extern u32 func_0200C6DC(struct Blk2C *p);
 extern void *func_0204913C(void *a0, u32 a1, u32 heap);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);

@@ -58,7 +58,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 static inline u16 decode(u32 value)
 {
     u32 n=value >> 16;

@@ -54,7 +54,7 @@ extern const char d_0220AED0[];
 extern const Origin d_0220AB6C[];
 extern const u32 d_0220AB7C[][5];
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef unsigned char  u8;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -91,7 +91,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
 
     heap = (heapId & 0x7fff) | 0x8000;
     w = func_02030734(heap, 0xe4, 1, d_0220AED0, 0x7a);
-    arc = func_020490F4(0xb, heap);
+    arc = func_020490F4(0xb, (u16)heap);
     w->heap = heap;
     w->h0 = (u32)func_0204B100(7, 0, w->heap);
     w->h4 = func_0204A6C8(arc, 0xbd, 0, 0, w->heap);

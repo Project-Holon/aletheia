@@ -34,7 +34,8 @@ typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
-extern u32 func_02011330(u32 a);
+struct Stream;
+extern unsigned short func_02011330(struct Stream *s);
 struct Ctx;
 struct S;
 extern void *func_020120F4(const struct Ctx *p);
@@ -44,7 +45,7 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *a);
-extern u32 func_02012984(u32 a);
+extern u8 func_02012984(const struct BigObj *p);
 extern u16 func_02188C9C(u8 *p);
 extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
 extern void *func_020298A0(void *a, u32 b, u32 c, u32 d);
@@ -52,7 +53,7 @@ extern void func_0215897C(void *vm, void *task);
 extern void func_02028BDC(struct S *s, u32 mask);
 extern void func_02159168(int n);
 
-int func_021AF044(u32 a, u32 b)
+int func_021AF044(struct Stream *a, u32 b)
 {
     u32 y, m, n, q, s;
     void *x;
@@ -65,7 +66,7 @@ int func_021AF044(u32 a, u32 b)
     m = func_02012A30((const struct BigObj *)y);
     p = func_0215A5F4((void *)b);
     n = func_02011330(a);
-    q = func_02012984(y);
+    q = func_02012984((const struct BigObj *)y);
     s = func_02029DF4((void *)y, func_02188C9C(l), q);
     func_0215897C(p, (void *)func_020298A0(x, s, n, 0x3c));
     func_02028BDC((struct S *)m, 2);

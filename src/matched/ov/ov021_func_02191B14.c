@@ -51,7 +51,7 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021927E8(u32 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02191B14(u32 *a)
 {

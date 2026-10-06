@@ -20,7 +20,8 @@
 
 typedef unsigned short u16;
 
-extern void func_0216EB98();
+struct Work;
+extern int func_0216EB98(void *evt, unsigned int *state, struct Work *w);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Desc;

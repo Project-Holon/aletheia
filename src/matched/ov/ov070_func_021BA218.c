@@ -69,7 +69,7 @@ extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u8 func_02021350(u16 id);
 extern u32 func_0202130C(u32 id);
 extern int func_021B83A0(char *p, int value);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(int);
 
 void func_021BA218(char *p)

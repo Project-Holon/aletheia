@@ -69,7 +69,7 @@ extern void *func_0204EBD4(u8 *src, void *heap);
 extern void func_0204ED70(u8 *dst, struct Blk3 *src);
 extern void func_021F3EAC(const void *a, u32 b, u32 c);
 extern void func_02040618(u32, u32, u32);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);

@@ -47,7 +47,7 @@ typedef struct {
     u32 fCC;
 } Anim;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Cfg;
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern const u8 d_020A1448[];

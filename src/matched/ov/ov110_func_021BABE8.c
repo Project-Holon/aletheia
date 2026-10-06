@@ -28,4 +28,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern unsigned int func_021BC6DC(void *p);
-void func_021BABE8(u8 *p) { func_021BC6DC((void *)(((struct Obj22336 *)p)->f54)); }
+int func_021BABE8(u8 *p) { return func_021BC6DC((void *)(((struct Obj22336 *)p)->f54)); }

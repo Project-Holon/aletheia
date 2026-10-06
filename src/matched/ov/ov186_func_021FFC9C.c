@@ -36,7 +36,7 @@ extern int func_022000F0(char *);
 typedef unsigned char  u8;
 struct Work;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021FB4B4(int,int,int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(char *,u32,const Pair *);
 extern void func_021FCD0C(char *);
 extern int func_021FCDA8(char *),func_021FD938(char *),func_021FE7B0(int *);
@@ -47,7 +47,7 @@ extern void func_021FFF28(struct Work *p);
 extern void func_021FFFF8(char *);
 extern u16 *func_02200188(void *p, u32 index, const u16 *table, u32 *out, u16 heap);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern unsigned func_021FFE34(char *p);
 extern char d_02200DAC[];
 int func_021FFC9C(char *p)
@@ -61,7 +61,7 @@ int func_021FFC9C(char *p)
             Pair pair;
             ((struct Obj00221 *)p)->fC=func_022000F0(p);
             held=func_02035D20((u32 *)(&x),(u32 *)(&y));
-            if (func_021FB4B4(((struct Obj00221 *)p)->f2C,x,y)&held) {
+            if (func_021FB4B4((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;
                 func_021FD860(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);
                 *(int *)&((struct Obj00221 *)p)->f0=8; ((struct Obj00221 *)p)->f8=1;
@@ -76,7 +76,7 @@ int func_021FFC9C(char *p)
             func_021FCD0C(*(char * *)&((struct Obj00221 *)p)->f68);
             ((struct Obj00221 *)p)->f10=func_021FCDA8(*(char * *)&((struct Obj00221 *)p)->f68);
             held=func_02035D20((u32 *)(&x),(u32 *)(&y));
-            if (func_021FB4B4(((struct Obj00221 *)p)->f2C,x,y)&held) {
+            if (func_021FB4B4((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;
                 func_021FD860(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);
                 *(int *)&((struct Obj00221 *)p)->f0=4; ((struct Obj00221 *)p)->f4=2;

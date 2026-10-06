@@ -39,7 +39,7 @@ extern unsigned char d_021EE710[12];
 extern unsigned char d_021EE710b[12];
 
 void func_02082D44(void *src, void *dst, int n);
-void func_021A1698(void *a, int b, void *c, int d);
+int func_021A1698(unsigned int a, int b, void *c, int d);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 void func_021A16D4(u8 *p, u32 v);
@@ -51,7 +51,7 @@ void func_021A2A18(Obj *o, int idx, void *p, void *src, unsigned short x)
     if (d_021EE710b[8] != 0x1f) {
         d_021EE710b[8] = 0x1f;
     }
-    func_021A1698(p, o->f10, d_021EE710, x);
+    func_021A1698((unsigned int)p, o->f10, d_021EE710, x);
     func_021A16D4(p, 0);
     func_021A16D8(p, 0x20);
     o->f8[idx] = 1;

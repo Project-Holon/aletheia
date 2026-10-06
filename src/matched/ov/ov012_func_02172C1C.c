@@ -15,7 +15,8 @@
  */
 #include "../include/Obj00033.h"
 typedef unsigned char u8;
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02173420(void *p);
 void func_02172C1C(void *p, u8 *q)

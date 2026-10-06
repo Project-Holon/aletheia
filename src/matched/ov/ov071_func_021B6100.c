@@ -101,7 +101,7 @@ extern void func_0204363C(u32 a);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern u8 *func_0203159C(int ctx, int size, int heap);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02010F7C(u32 heap);
 extern int func_02031324(int heap);
 extern void func_02028470(u8 *p, u32 v);

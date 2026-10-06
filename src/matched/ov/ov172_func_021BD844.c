@@ -51,7 +51,7 @@ struct PltData { u32 fmt; u32 ext; u32 size; u8 *raw; };
 struct CellCfg { u16 a; u16 b; u16 c; u8 d; u8 e; };
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -78,7 +78,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define BG (*(void **)(p + 0x17c))

@@ -90,7 +90,8 @@ extern u16 func_020244D4(void *obj, u32 idx);
 extern void *func_02024368(u16 *slots, u32 heap, int count);
 extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
 extern u32   func_0201D4BC(void *s, u8 idx);
-extern void func_0202E040(void *h, u32 cell, u32 b, u32 c, u32 n, const struct Pos *base);
+struct Descriptor;
+extern void func_0202E040(void *h, struct Descriptor *cell, u32 b, u32 c, u32 n, const struct Pos *base);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *msg);
 struct Cfg;
@@ -104,7 +105,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void  func_02041B6C(u32 bg);
 
-void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
+void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, struct Descriptor *a3,
                    const MSGPARAM *param, const BLINKPOS *pos,
                    u16 pri, u8 pal, u16 heap)
 {
@@ -119,7 +120,7 @@ void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
     func_02024570((struct Rec8 *)(&mp), (const struct Rec8 *)param);
     param = &mp;
     func_0202465C((struct T *)(&mp), 1, heap);
-    wk->msg = a3;
+    wk->msg = (u32)a3;
     wk->active = 0;
     heapID = *(u16 *)&heap;
     str = func_0202441C((const struct Struct_0202441C *)param, heapID);

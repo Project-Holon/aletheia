@@ -18,7 +18,8 @@
 struct Font;
 extern void func_0201DADC(struct Font *f);
 extern void func_0201D9C8(struct Font *p);
-extern void func_020307B0(void *ptr);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_0201D83C(void *ptr)
 {

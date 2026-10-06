@@ -20,7 +20,8 @@
 #include "../include/Obj25403.h"
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern int func_0201C6C4(int, int);
+struct PrintSys;
+extern unsigned int func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
 typedef unsigned char  u8;
 struct Cfg;
@@ -33,7 +34,7 @@ void func_021BAF7C(char *p)
     int i;
     for (i = 0; i < 4; i++) {
         char *slot = p + i * 4;
-        if (((struct Obj08388 *)slot)->f7C == 0 && func_0201C6C4(((struct Obj25403 *)p)->f2C, (int)func_02045770((struct Descriptor *)((struct Obj08388 *)slot)->f6C)) == 0) {
+        if (((struct Obj08388 *)slot)->f7C == 0 && func_0201C6C4((struct PrintSys *)(((struct Obj25403 *)p)->f2C), (void *)func_02045770((struct Descriptor *)((struct Obj08388 *)slot)->f6C)) == 0) {
             int window = ((struct Obj08388 *)slot)->f6C;
             func_02045334((struct Descriptor *)window);
             func_02045374((struct Cfg *)window);

@@ -73,7 +73,7 @@ extern void *func_02049F34(u32,u32,u32,u32);
 extern void *func_02049DB4(u32,u32,u32,u32,u16);
 extern void func_0204ADEC(u32,void *,u32);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_0201B28C(void *);

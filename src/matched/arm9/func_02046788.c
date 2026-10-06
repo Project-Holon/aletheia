@@ -53,7 +53,7 @@ struct Ctx {
 
 extern struct Ctx *g_02146A5C;
 
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32   func_0206DB24(void);
 extern void *func_0206DB60(void);
 extern int   func_02030BC8(u32 idx);

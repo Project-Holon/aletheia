@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A5928();
+extern void func_021A5928(u8 *p, int v);
 
-void func_021A3680(u8 *p)
+void func_021A3680(u8 *p, int a1)
 {
-    func_021A5928(((struct Obj18024 *)p)->fC);
+    func_021A5928((u8 *)(((struct Obj18024 *)p)->fC), a1);
 }

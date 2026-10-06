@@ -27,7 +27,7 @@ extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern int   func_02062670(void *ptr, u32 val);
 extern int func_02062920(u32 a, u32 *out);
-extern void  func_020307B0(void *ptr);
+extern u32 func_020307B0(void *p);
 
 void *func_0204A07C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {

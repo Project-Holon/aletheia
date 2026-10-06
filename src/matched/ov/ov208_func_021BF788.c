@@ -48,7 +48,7 @@ extern int func_021BBB24(int);
 extern void func_021C0048(u16 *,char *,int);
 extern void func_021C06C8(u16 *,char *,int);
 extern void func_021BFFEC(void *,char *);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_020056A0(u32,u32,u32);
 extern void *func_021BC448(u32);
 extern void func_021BC518(int *p);

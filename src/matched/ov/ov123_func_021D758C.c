@@ -20,16 +20,18 @@ extern int func_02012E7C(char *p, int a1);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *,unsigned int);
 extern struct Sub02009210Obj *func_02009210(void *sys);
-extern void func_020090F8(int,unsigned char);
+struct Sub020090B0Obj;
+extern void func_020090F8(struct Sub020090B0Obj *obj, unsigned char value);
 typedef unsigned char  u8;
 extern void func_021D7560(u8 *p);
-extern void func_021D6EE0(int,int,int);
-void func_021D758C(int a)
+typedef unsigned int   u32;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
+void func_021D758C(u8 *a)
 {
     int b = (int)func_02012EBC((struct Big *)(((struct Obj13986 *)a)->f2C));
     if(func_02012E7C((char *)(((struct Obj13986 *)a)->f2C),4)==2) {
         func_0200734C((struct Sub02007324Ctrl *)b,4);
-        func_020090F8((int)func_02009210((void *)b),1);
+        func_020090F8((struct Sub020090B0Obj *)func_02009210((void *)b),1);
         func_021D6EE0(a,(int)func_021D7560,0x333);
     }
 }

@@ -43,7 +43,7 @@ extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h,
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern u32 func_0204162C(int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020414EC(u32);
 extern void MIi_CpuCopy16(const void *, void *, u32);
 void func_021F734C(struct P *p)

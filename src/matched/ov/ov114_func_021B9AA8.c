@@ -23,7 +23,7 @@ extern char d_021CE3B8[], d_021CE3A0[];
 extern void func_02034714(const char *, unsigned int, const char *);
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void *func_021B9AA8(int n)
 {
     void *p;

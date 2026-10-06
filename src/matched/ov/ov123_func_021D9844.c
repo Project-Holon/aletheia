@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021D97CC(int,void *);
-extern void *func_020450F0(int,int,u8,int,u8,u8,u8);
+extern unsigned int func_020450F0(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 typedef unsigned int   u32;
 struct Cfg;
 struct CharBuf;
@@ -40,7 +40,7 @@ void func_021D9844(char *p, int n, int a2)
 {
     void *q;
     func_021D97CC(n,((struct Obj01737 *)p)->f2C);
-    if (!((struct Obj01737 *)p)->f40) ((struct Obj01737 *)p)->f40=func_020450F0((int)1,(int)1,(u8)8,(int)30,4,11,1);
+    if (!((struct Obj01737 *)p)->f40) ((struct Obj01737 *)p)->f40=(void *)func_020450F0((int)1,(int)1,(u8)8,(int)30,4,11,1);
     q=((struct Obj01737 *)p)->f40;
     func_02043B5C(func_02045770(q),15);
     func_0201DD78(1,2,15);
@@ -48,7 +48,7 @@ void func_021D9844(char *p, int n, int a2)
     func_0201F73C(q,1,(u16)(((struct Obj01737 *)p)->f0),12);
     func_02045334(q);
     func_02045374(q);
-    if (!((struct Obj01737 *)p)->f44) ((struct Obj01737 *)p)->f44=func_020450F0((int)1,(int)3,(u8)3,(int)22,2,11,1);
+    if (!((struct Obj01737 *)p)->f44) ((struct Obj01737 *)p)->f44=(void *)func_020450F0((int)1,(int)3,(u8)3,(int)22,2,11,1);
     q=((struct Obj01737 *)p)->f44;
     func_0201DD78(1,2,0);
     func_02045CAC(((struct Obj01737 *)p)->f20,10,((struct Obj01737 *)p)->f2C);

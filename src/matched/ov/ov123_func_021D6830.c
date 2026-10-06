@@ -27,7 +27,9 @@ extern const s16 d_020A1B38[][2];
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(void *, struct Pos *, u16);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -52,7 +54,7 @@ void func_021D6830(struct Record *p)
             if (p->x > 128) p->x = p->x - 1;
             else p->x = p->x + 1;
         }
-        func_0204B404(p->h, &pos, 0);
+        func_0204B404(p->h, (const struct Vec2 *)(&pos), 0);
         func_0204B3DC(p->h, 1);
         p->age++;
         if (pos.y > 25) {

@@ -20,7 +20,8 @@
 extern void func_02208B54(char *a);
 extern void func_02208A6C(char *p);
 extern void func_02208994(char *a);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_02208770(char *a)
 {

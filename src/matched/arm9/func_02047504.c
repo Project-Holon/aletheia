@@ -40,7 +40,7 @@ struct Rec {
 
 extern u32 g_02146A5C;
 extern void func_0206E358(u32 ctx, u32 field);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02047504(struct Rec *p)
 {

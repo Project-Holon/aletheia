@@ -36,15 +36,15 @@
  */
 #include "../include/Obj09844.h"
 
-extern int func_02188C84(int a);
+extern unsigned short func_02188C84(unsigned char *p);
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int func_02188CD0(int a);
-extern int func_02188C9C(int a);
+extern unsigned int func_02188CD0(u8 *p);
+extern unsigned short func_02188C9C(u8 *p);
 extern int func_021F3D94(int a);
 extern char *func_0200B3A4(unsigned, int);
 typedef unsigned short u16;
@@ -63,7 +63,7 @@ extern int func_021F3718(int a);
 extern void func_021F3CCC(int *a, unsigned *b, int x, int y, int z);
 extern char d_021F40A0[];
 
-void func_021F3730(int a)
+void func_021F3730(unsigned char *a)
 {
     int n;
     int v;
@@ -81,13 +81,13 @@ void func_021F3730(int a)
 
     r4 = func_02188C84(a);
     h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a)));
-    sp8 = func_02188CD0(a);
-    r5 = func_02188C9C(a);
+    sp8 = func_02188CD0((u8 *)a);
+    r5 = func_02188C9C((u8 *)a);
     p = func_0200B3A4(h, func_021F3D94(r5));
     q = func_02030734(r4, 0xa4, 1, d_021F40A0, 0xca);
     *(int * *)&((struct Obj09844 *)p)->f4 = q;
     q[1] = (int)p;
-    q[2] = a;
+    q[2] = (int)a;
     q[0] = r5;
     n = 0xb;
     func_021ABE30(sp8, &n, 1);

@@ -58,7 +58,7 @@ extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern unsigned func_020275E4(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);

@@ -50,7 +50,7 @@ typedef struct {
     void *f64;
 } Work;
 
-extern void func_021A2F48(u32 a, int b);
+extern void func_021A2F48(u8 *p, u32 a1);
 struct Sub02008C20Obj;
 extern int func_021A2F54(u8 *p);
 extern void func_0216D674(void *p, u16 v);
@@ -80,7 +80,7 @@ int func_021C5DF4(void *task, int *state, Work *w)
             *state = 8;
             break;
         }
-        func_021A2F48(w->f18, 0x200);
+        func_021A2F48((u8 *)w->f18, 0x200);
         (*state)++;
     case 1:
         if (func_021A2F54((u8 *)w->f18) != 1)
@@ -148,7 +148,7 @@ int func_021C5DF4(void *task, int *state, Work *w)
         *state = 8;
         break;
     case 8:
-        func_021A2F48(w->f18, 8);
+        func_021A2F48((u8 *)w->f18, 8);
         *state = 9;
     case 9:
         if (func_021A2F54((u8 *)w->f18) == 1)

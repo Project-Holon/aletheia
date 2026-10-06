@@ -38,7 +38,7 @@ extern void func_0219EF7C(struct S *p, u32 b, u32 c);
 extern u8 *func_0219F018(u8 *p);
 extern void func_021B7C58(u32, u32, u32, u32, u32, u32);
 extern void func_0219EF6C(u8 *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int d_021DE2D0;
 
 void func_021BB3E8(u32 *a, u32 b, u16 c, u16 d, u16 e, u32 f, u16 g)

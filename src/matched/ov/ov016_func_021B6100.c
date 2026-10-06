@@ -22,7 +22,7 @@ extern void func_0208799C(int x);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_02085D3C(void);
 extern int func_021C0970(void *work, int language, int param);
 extern char d_021DAAA0[];

@@ -26,7 +26,8 @@ struct Rec;
 extern void func_02045C04(struct Rec *rec);
 extern void func_02209B30(void *);
 extern void func_02030DA4(void *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_022021F4(Obj *p)
 {

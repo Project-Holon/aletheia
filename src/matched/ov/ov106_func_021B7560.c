@@ -67,7 +67,7 @@ extern void func_021B78E0(u8 *a, int *state, u8 *p);
 extern void func_021B8D90(void *,u32),func_021B8FB8(void *);
 extern void func_021B80D0(u8 *p, u32 a1, u8 a2, u8 a3, u8 s0, u32 s1, void *s2, void *s3, u8 *s4, u16 heap);
 extern void *func_021B70DC(u32 a, u32 b, u16 layer, u16 x, u8 y, u32 extra, u32 c, u32 d, u16 heap);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02049238(void *);
 extern void *func_021B92D4(const u8 *,u8,u8,int,u8,int,void *,void *,u16);

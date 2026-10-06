@@ -22,7 +22,8 @@ typedef struct {
     int val;
 } S;
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021A0358(S *s)
 {

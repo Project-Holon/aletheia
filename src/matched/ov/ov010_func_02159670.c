@@ -21,7 +21,8 @@ typedef unsigned char u8;
 struct P { int _0[3]; u8 _p[2]; u8 e; u8 _f[5]; u8 *cur; };
 
 extern int func_0201134C(struct P *);
-extern int func_02011398(struct P *);
+struct Ring;
+extern unsigned int func_02011398(struct Ring *r);
 typedef unsigned int   u32;
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
@@ -35,7 +36,7 @@ int func_02159670(struct P *p)
     p->cur = q + 1;
     n = func_0201134C(p);
     if (c == 0xFF) {
-        if (func_02011398(p) == 1)
+        if (func_02011398((struct Ring *)p) == 1)
             goto end;
     } else {
         if (d_021705DC[c][p->e] != 1)

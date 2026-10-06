@@ -17,7 +17,7 @@
  */
 #include "../include/Obj02346.h"
 
-extern int func_02040804(int);
+extern unsigned int func_02040804(unsigned int layer);
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 struct Obj;
@@ -35,7 +35,7 @@ void func_021C0980(int a, unsigned char *p, int a2)
     case 2:
         break;
     case 1:
-        if (func_02040804(7) >= 0x40) {
+        if ((int)func_02040804((int)7) >= 0x40) {
             func_02041EE4(7, 3, 0x40);
             ((struct Obj02346 *)p)->f70 = 2;
         } else {
@@ -44,7 +44,7 @@ void func_021C0980(int a, unsigned char *p, int a2)
         }
         break;
     case 3:
-        if (func_02040804(7) <= 0) {
+        if ((int)func_02040804((int)7) <= 0) {
             func_02041EE4(7, 3, 0);
             ((struct Obj02346 *)p)->f70 = 0;
         } else {

@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02045C04();
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 
-void func_021904C8(void)
+void func_021904C8(struct Rec *a0)
 {
-    func_02045C04();
+    func_02045C04(a0);
 }

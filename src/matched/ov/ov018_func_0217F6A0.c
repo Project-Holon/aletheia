@@ -97,7 +97,7 @@ u8 func_0217BF28(u8 *p);
 int func_0219077C(u8 *p);
 u32 func_020362DC(void);
 void func_0201ED04(struct WordSet *p);
-int func_02190728(u32 a);
+int func_02190728(void *a);
 void func_02045C04(struct Rec *rec);
 
 int func_0217F6A0(void *a0, int *state, Ctx *c)
@@ -189,7 +189,7 @@ int func_0217F6A0(void *a0, int *state, Ctx *c)
     case 6:
         if (func_020362DC() & 0xF3) {
             func_0201ED04((struct WordSet *)c->f8);
-            func_02190728(c->f4);
+            func_02190728((void *)c->f4);
             func_02045C04((struct Rec *)c->f0);
             (*state)++;
         }

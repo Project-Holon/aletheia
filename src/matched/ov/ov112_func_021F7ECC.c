@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 typedef struct { u16 count,pad; int index,a,b; } Tail;
 typedef struct { short y,x; } Scale;
-extern void func_021F4EA4(int,int,Vec *);
+extern void func_021F4EA4(unsigned int unused, unsigned int p, unsigned int q);
 extern void func_021F4E8C(int,int,Vec *);
 typedef signed short   s16;
 typedef unsigned int   u32;
@@ -38,7 +38,7 @@ void func_021F7ECC(char *p,char *q)
     Tail *t=(Tail *)(q+0xf0);
     Vec v;
     Scale s;
-    func_021F4EA4(((struct Obj04463 *)p)->f10,*(int *)(q+0x84+t->index*4),&v);
+    func_021F4EA4(((struct Obj04463 *)p)->f10,*(int *)(q+0x84+t->index*4),(unsigned int)(&v));
     t->b+=164;
     v.x-=2867;
     v.y+=t->b;

@@ -29,7 +29,7 @@ typedef unsigned char u8;
 
 typedef struct { u8 pad[0xc8]; u8 f : 1; } S;
 
-extern void func_021A2E44(void *q, int v);
+extern void func_021A2E44(int a, unsigned int v);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Work;
@@ -47,7 +47,7 @@ void func_02173874(int a, u8 *p, void *q)
     r4 = *(S * *)&((struct Obj07338 *)p)->f355C;
     p[0x282A] = 1;
     if (p[0x3563] == 1) {
-        func_021A2E44(q, 1);
+        func_021A2E44((int)q, 1);
     }
     if (func_02013CC8(func_02188C9C(q)) == 1) {
         func_0217B440((char *)p, (int)func_020120F4((const struct Ctx *)(((struct Obj19238 *)(*(u8 * *)&((struct Obj07338 *)p)->f0))->fC)), q);

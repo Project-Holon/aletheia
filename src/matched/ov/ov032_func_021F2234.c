@@ -39,7 +39,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188E30(u8 *p);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021F27D4(u8 *p);
 extern void func_021F2908(char *p);
 extern void func_021F2A8C(u8 *p, void *h);

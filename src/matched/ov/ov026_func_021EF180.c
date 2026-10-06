@@ -21,7 +21,8 @@
 typedef signed short   s16;
 extern int *func_021A21B8(int *p);
 extern int func_021A223C(unsigned char *o, int arg);
-extern int func_021A23B0(int);
+typedef unsigned int   u32;
+extern int func_021A23B0(u32 a);
 extern int func_021A21BC(unsigned char *o);
 extern void func_021EF664(int a, s16 *p, int b, int d);
 extern void func_021EF830(int a, s16 *p);

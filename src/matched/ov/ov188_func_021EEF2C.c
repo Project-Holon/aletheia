@@ -31,7 +31,7 @@ struct PartyMon;
 extern void func_021EEBF0(char *p, struct Mon *q);
 extern void func_02017E40(void *,u32,u32);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern char d_021EF360[];
 void func_021EEF2C(u8 *a,void *b,u32 c)
 {

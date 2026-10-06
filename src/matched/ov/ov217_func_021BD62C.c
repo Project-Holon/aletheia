@@ -53,7 +53,7 @@ extern void func_021BE108(char *p);
 extern void func_021BE21C(char *p);
 extern void func_021BE33C(u32 a0);
 extern void func_021BE36C(u32 a0);
-extern void func_021BE384(u32 a0);
+extern void func_021BE384(u8 *a0);
 extern void func_021BF6D4(char *p);
 extern void func_021BF710(void *p);
 extern void func_0204A600(void *h);
@@ -81,7 +81,7 @@ void func_021BD62C(unsigned char *p)
     case 9: func_021BE21C((char *)p); break;
     case 10: func_021BE33C((u32)p); break;
     case 11: func_021BE36C((u32)p); break;
-    case 12: func_021BE384((u32)p); break;
+    case 12: func_021BE384((u8 *)p); break;
     case 13: return;
     }
     func_021BF6D4((char *)p);

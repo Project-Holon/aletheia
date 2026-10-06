@@ -19,12 +19,12 @@
  *   func_0201F5BC 0x0201F5BC thumb
  */
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned,u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_02049658(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+extern unsigned int func_02049658(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 typedef unsigned int   u32;
-extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049238(void *);
 extern void func_02040C14(unsigned,unsigned,unsigned,unsigned);
 extern void func_0201F5BC(unsigned,unsigned,unsigned,unsigned,u16);

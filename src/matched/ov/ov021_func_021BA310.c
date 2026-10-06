@@ -18,8 +18,9 @@
  *   func_0218EC90  0x0218EC90  thumb  ov021
  */
 
-extern void *func_021B8220(void *p);
-extern void *func_021B821C(void *p);
+typedef unsigned int   u32;
+extern u32 func_021B8220(unsigned char *p);
+extern u32 func_021B821C(unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021BA2B4(u8 *p);
 extern void func_0218EC54(u8 *p);
@@ -32,8 +33,8 @@ void func_021BA310(void *p)
     void *b;
     int buf[3];
 
-    a = func_021B8220(p);
-    b = func_021B821C(p);
+    a = (void *)func_021B8220(p);
+    b = (void *)func_021B821C(p);
     func_021BA2B4(p);
     func_0218EC54(b);
     func_021B8314(a, buf);

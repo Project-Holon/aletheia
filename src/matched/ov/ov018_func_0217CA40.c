@@ -26,7 +26,7 @@ extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned char  u8;
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
-extern void func_02012B8C(struct BigObj *p, u8 v);
+extern void func_02012B8C(struct BigObj *p, unsigned int v);
 extern int func_02158344(int a0);
 typedef unsigned int   u32;
 extern void func_02175710(u8 *o, u32 v);

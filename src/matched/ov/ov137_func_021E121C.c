@@ -26,7 +26,7 @@ struct Obj;
 extern void func_0204B8D4(struct Obj *p, u32 arg);
 extern u32 func_0204B98C(struct Actor *);
 extern void func_0204B3B4(struct Obj *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
 void func_021E121C(void *task, int *p)
 {

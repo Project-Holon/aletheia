@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021C447C(char *p, int i);
-extern u32 func_0204AF28(u32, u32, u32, u16);
+extern signed int func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -34,7 +34,7 @@ void func_021C4494(u8 *p, u32 a, u32 heap)
         if (func_021C447C((char *)p, 17) == 1)
         ((struct Obj03277 *)p)->f330 = i;
     }
-    ((struct Obj03277 *)p)->f2E8 = func_0204AF28(((struct Obj03277 *)p)->f2F8, 9, 8, heap);
+    ((struct Obj03277 *)p)->f2E8 = (u32)func_0204AF28((void *)(((struct Obj03277 *)p)->f2F8), 9, 8, (u16)heap);
     ((struct Obj03277 *)p)->f2E0 = func_0204A6C8((void *)(((struct Obj03277 *)p)->f2F8), 11, 0, a, heap);
     ((struct Obj03277 *)p)->f2E4 = func_0204AC18((void *)(((struct Obj03277 *)p)->f2F8), 10, a, 320, 0, 1, heap);
 }

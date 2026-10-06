@@ -27,7 +27,7 @@
  */
 
 extern void *func_02188C58(void *o);
-extern void *func_02188D38(void *o);
+extern unsigned int func_02188D38(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Evt;
@@ -48,7 +48,7 @@ int func_021BF8EC(void *task, int *state, void **q)
 
     obj = q[1];
     h = func_02188C58(obj);
-    d = func_02188D38(obj);
+    d = (void *)func_02188D38(obj);
 
     switch (*state) {
     case 0:

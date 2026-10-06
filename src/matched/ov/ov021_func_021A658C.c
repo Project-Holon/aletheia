@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0216D3CC(int a0);
-extern int func_021A5B6C(void *a, void *b, int c, int *d);
+extern int func_021A5B6C(u32 a, u32 b, u32 c, u32 d);
 extern int func_021A652C(void *a, void *b, int c, int d, u16 e, int f);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
@@ -39,7 +39,7 @@ int func_021A658C(void *a, void *b, int c, int d, u16 e, int f)
     if (e == 9) {
         return func_021A652C(a, b, c, d, e, f);
     }
-    r = func_021A5B6C(a, b, e, &loc);
+    r = func_021A5B6C((u32)a, (u32)b, e, (u32)(&loc));
     if (f == 1 && r != 0 && (r & 0x10) == 0) {
         r = 0;
     }

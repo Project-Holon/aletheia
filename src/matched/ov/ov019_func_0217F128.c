@@ -21,16 +21,17 @@
 struct U16Vec;
 extern void func_0219160C(int *p);
 typedef unsigned int   u32;
-extern int func_021915B4(u32 a);
+struct Rec;
+extern int func_021915B4(void *a);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0217F044(unsigned char *p);
-extern void func_021904C8(int a);
+extern void func_021904C8(struct Rec *a0);
 
 void func_0217F128(unsigned char *base)
 {
     if (*(int *)&((struct Obj00033 *)base)->f280C != 0) {
         func_0219160C((int *)(*(int *)&((struct Obj00033 *)base)->f280C));
-        func_021915B4(*(int *)&((struct Obj00033 *)base)->f280C);
+        func_021915B4((void *)(*(int *)&((struct Obj00033 *)base)->f280C));
         *(int *)&((struct Obj00033 *)base)->f280C = 0;
         *(base + 0x2828) = 0;
         func_02045808((struct U16Vec *)(((struct Obj00033 *)base)->f2820));
@@ -40,7 +41,7 @@ void func_0217F128(unsigned char *base)
     }
     if (((struct Obj00033 *)base)->f2808 != 0) {
         func_0217F044(base);
-        func_021904C8(((struct Obj00033 *)base)->f2808);
+        func_021904C8((struct Rec *)(((struct Obj00033 *)base)->f2808));
         ((struct Obj00033 *)base)->f2808 = 0;
     }
 }

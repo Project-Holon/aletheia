@@ -23,7 +23,8 @@ typedef unsigned short u16;
 extern char d_021B753C[];
 extern void *func_02030734(unsigned heapId,unsigned size,int clear,const char *site,u16 tag);
 extern void func_02082BCC(int,int,unsigned);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 int func_021B6D04(unsigned a,int p) {
  int q;
  q=(int)func_02030734(a,0x14,0,d_021B753C,0x3af);

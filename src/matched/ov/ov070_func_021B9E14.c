@@ -30,7 +30,7 @@ typedef struct {
 typedef unsigned short u16;
 
 extern void func_021B9DE8(char *);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_02020E60(unsigned short, int);
 typedef signed int     s32;
 typedef unsigned int   u32;

@@ -26,5 +26,5 @@ extern void *func_0200BAC8(void *);
 extern void *func_0200BAF4(int,int);
 extern int func_0201A918(void);
 extern void func_02082D44(void *,const void *,u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);func_02082D44(v,q,func_0201A918());func_020307B0(v);}

@@ -19,7 +19,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
  */
-extern void func_020307B0(void *);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 extern int func_020351A0(u32 v);
 extern void func_0217D174(int *);

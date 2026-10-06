@@ -124,7 +124,8 @@ extern void *func_02012B38(const struct BigObj *p);
 extern u16 func_02014470(struct Sub02014444Obj *o);
 extern int func_021C7F70(int flags, u16 heap);
 extern u8 func_02013BBC(u32 id);
-extern char *func_0218E018(int a0, int a1, int a2, int a3, u16 heap);
+struct Light;
+extern char *func_0218E018(int a0, int a1, struct Light *a2, int a3, u16 heap);
 extern int func_021AB5F4(u16 heap, int a, void *b);
 extern int func_021AB7E4(u16 heap);
 extern u32 *func_021BB1F4(u32 a, u32 b, u32 c, u32 d);
@@ -141,7 +142,7 @@ extern void func_02014110(void *p, u16 a, int b, int c, int d, int e, int f, int
 extern void func_0218CEE4(struct Obj *p, const struct Src *src, void *c);
 extern int func_02013C9C(u16 key);
 extern void func_021BB2F8(u32 a, u32 b, u32 c);
-extern int func_02189ACC(u16 id);
+extern int func_02189ACC(u32 a0);
 struct T;
 struct V3;
 extern void func_021895E8(unsigned char *p, int id, int c);
@@ -211,7 +212,7 @@ int func_021881D8(int a, char *p)
         F32(0x28) = x;
         F32(0x30) = func_021BC388(a, 0x93, x);
         F32(0xa0) = func_021C7F70(func_02014470(func_02012B38((const struct BigObj *)F32(8))), F16(0));
-        F32(0x10) = (int)func_0218E018(func_02013BBC(F16(0xd0)), 0, F32(0xa4), (int)(p + 0xf4), F16(0));
+        F32(0x10) = (int)func_0218E018(func_02013BBC(F16(0xd0)), 0, (struct Light *)F32(0xa4), (int)(p + 0xf4), F16(0));
         F32(0x40) = func_021AB5F4(F16(0), F32(0x10), p);
         F32(0x44) = func_021AB7E4(F16(0));
         break;

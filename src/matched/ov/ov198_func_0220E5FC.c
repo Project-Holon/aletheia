@@ -26,7 +26,7 @@
 #include "../include/Obj25219.h"
 typedef unsigned short u16;
 extern unsigned func_020275E4(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0202775C(int);
 extern int func_02027758(void);
 extern int func_02027760(int);
@@ -41,7 +41,7 @@ void func_0220E5FC(char *p)
 {
     void *owner;
     int first;
-    owner=func_020490F4(func_020275E4(),(((struct Obj25216 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000);
+    owner=func_020490F4(func_020275E4(),(u16)((((struct Obj25216 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000));
     ((struct Obj00172 *)p)->f2508=func_0204A6C8(owner,func_0202775C(0),0,1,((struct Obj25217 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     ((struct Obj00172 *)p)->f2520=func_0204ABF0(owner,func_02027758(),1,0x120,((struct Obj25218 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     first=func_02027760(0);

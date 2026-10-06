@@ -25,7 +25,8 @@ typedef struct {
     void *f3c;
 } E;
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021A77E8(E *e)
 {

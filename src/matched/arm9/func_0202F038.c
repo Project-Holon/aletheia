@@ -36,7 +36,7 @@ struct Node;
 struct Obj020437AC;
 struct TcblNode;
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);

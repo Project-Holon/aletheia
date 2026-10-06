@@ -30,10 +30,10 @@
 typedef unsigned char u8;
 extern unsigned func_021BB98C(void *);
 extern u8 func_021BBC50(u8 *);
-extern void func_021BBE7C(u8 *, unsigned);
+extern void func_021BBE7C(unsigned int object, unsigned int slot);
 extern void func_021BBCB0(u8 *);
 extern unsigned func_021BC6E4(void *);
-extern void func_021BBDF0(u8 *, unsigned);
+extern void func_021BBDF0(unsigned int object, unsigned int slot);
 extern void func_021BC014(u8 *);
 extern void func_021BC72C(u8 *, unsigned, u8 *);
 typedef unsigned int   u32;
@@ -49,9 +49,9 @@ void func_021BB5F4(u8 *p)
 {
     switch (func_021BB98C(p)) {
     case 0:
-        func_021BBE7C(p, func_021BBC50(p));
+        func_021BBE7C((unsigned int)p, func_021BBC50(p));
         func_021BBCB0(p);
-        func_021BBDF0(p, func_021BC6E4(p));
+        func_021BBDF0((unsigned int)p, func_021BC6E4(p));
         func_021BC014(p);
         func_021BC72C(p, 3, (u8 *)1);
         func_020061E4(1898);

@@ -18,8 +18,9 @@
  *     0x0203C554(1).
  */
 
-extern void func_0203D7B0(int v);
-extern void func_0203D7BC(int v);
+typedef unsigned char  u8;
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 typedef unsigned int   u32;
 extern void func_0203C554(u32 a);
 

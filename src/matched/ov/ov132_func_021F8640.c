@@ -86,7 +86,7 @@ extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void func_02030EAC(struct Node *n);
 extern void func_02049238(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021F8640(char *p)
 {
     if(((struct Obj00675 *)p)->f2C==1)func_02005D28();

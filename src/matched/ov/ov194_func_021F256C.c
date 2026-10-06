@@ -20,15 +20,16 @@
  */
 #include "../include/Obj02530.h"
 extern void func_02082BCC(void *,unsigned,unsigned);
-extern void *func_021F4D94(void *,int);
+typedef unsigned int   u32;
+extern u32 func_021F4D94(const unsigned char *p, u32 i);
 extern int func_021F299C(int *,int *);extern void func_021F2BC8(int *,int *,void *);
 extern int func_021F2F8C(int *,int *);extern int func_021F28FC(int *,int *);
 typedef unsigned char  u8;
 extern void func_021F2A88(int *p, int *delta, u8 *saved);extern int func_021F2F68(int *,int *);
 extern const unsigned char d_021F555C[];
-void func_021F256C(char *p,unsigned mode,int index,void *table) {
+void func_021F256C(char *p, unsigned mode, int index, void *table, u32 a4) {
  int i;
- func_02082BCC(p,0,36);((struct Obj02530 *)p)->f0=func_021F4D94(table,index);
+ func_02082BCC(p,0,36);((struct Obj02530 *)p)->f0=(void *)func_021F4D94(table,index);
  switch(mode) {
  case 3:
  ((struct Obj02530 *)p)->f20=11;((struct Obj02530 *)p)->f22=4;

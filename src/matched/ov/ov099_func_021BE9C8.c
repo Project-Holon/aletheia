@@ -44,7 +44,7 @@ extern int func_021C1A44(char *);
 extern void func_021C1AC0(char *);
 extern int func_021BA8BC(void *);
 extern void func_020414AC(u32);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021BE53C(char *p, int v);
 extern void func_02049238(void *);
 struct Descriptor;

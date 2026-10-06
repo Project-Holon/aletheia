@@ -73,7 +73,7 @@ struct Node;
 struct Obj;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204B258(struct Bank *bank, void *p);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);

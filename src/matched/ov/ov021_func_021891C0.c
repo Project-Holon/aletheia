@@ -33,7 +33,7 @@ extern u32 func_021CD1C8(u32 a);
 extern void func_021CD204(u32 a, u32 b);
 extern u32 func_02050080(u32 *p);
 extern void func_021CD214(u8 *s, void *o);
-extern int func_021CD1F0(u32 a);
+extern int func_021CD1F0(void *a);
 
 void func_021891C0(u8 *a)
 {
@@ -45,5 +45,5 @@ void func_021891C0(u8 *a)
     h = func_021CD1C8(v);
     func_021CD204(h, t);
     func_021CD214((u8 *)h, (void *)func_02050080((u32 *)(((struct Obj09442 *)a)->fB0)));
-    func_021CD1F0(h);
+    func_021CD1F0((void *)h);
 }

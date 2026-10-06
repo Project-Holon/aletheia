@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -27,7 +27,7 @@ extern void func_02049238(void *);
 void func_021C0B0C(u8 *p)
 {
     u16 heap = ((struct Obj00791 *)p)->f0;
-    void *h = func_020490F4(83, (heap & 0x7FFF) | 0x8000);
+    void *h = func_020490F4(83, (u16)((heap & 0x7FFF) | 0x8000));
     int a = func_0204A6C8((void *)((u32)h), 20, 0, 0, heap);
     int b = func_0204AC18((void *)((u32)h), 19, 0, 0, 0, 4, heap);
     int c = func_0204AF28((void *)((u32)h), 21, 24, heap);

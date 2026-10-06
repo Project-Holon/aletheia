@@ -59,7 +59,7 @@ struct Blk37 {
 extern u32 func_0200C720(u32 v);
 extern u32   func_0200CA38(struct Blk37 *p);
 extern u16 *func_0201AF80(u32 heap, u16 *countOut);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u32 func_0200D064(struct Blk37 *p, u16 id);
 u16 func_0200D0CC(struct Blk37 *p);

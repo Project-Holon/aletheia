@@ -24,5 +24,5 @@ extern int func_021B9CDC(void *);
 extern void func_021B9E80(char *,u32);
 struct Node;
 extern void sub_02030EAC(struct Node *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); sub_02030EAC(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }

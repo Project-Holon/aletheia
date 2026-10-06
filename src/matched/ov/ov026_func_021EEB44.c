@@ -30,22 +30,22 @@ typedef signed short s16;
 
 typedef unsigned char  u8;
 extern int *func_021A21B8(int *p);
-extern void func_021A2108(int, int, int);
-extern void func_021A2154(int, int, int);
-extern void func_021A2130(int, int, int, int);
+extern int func_021A2108(unsigned int a, int b, int c);
+extern void func_021A2154(u8 *p, unsigned int b, unsigned int c);
+extern void func_021A2130(u8 *p, unsigned int b, unsigned int c, unsigned int d);
 extern void func_021A25DC(u8 *p, int a);
 extern int func_021A213C(u8 *p);
 extern void func_021A232C(u8 *p, int a, int b, int c, int d);
 extern void func_021A25BC(unsigned char *o, int arg);
 extern void func_021A2160(unsigned char *o, unsigned int v, int i);
 extern int func_021A223C(unsigned char *o, int arg);
-extern int func_021A23B0(int);
+extern int func_021A23B0(unsigned int a);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u16 func_02014A10(u32 i);
 extern void func_021EEF0C(int a, int *b);
 
-int func_021EEB44(int a, int b, int c)
+int func_021EEB44(u8 *a, int b, int c)
 {
     s16 *p;
     int t;
@@ -54,7 +54,7 @@ int func_021EEB44(int a, int b, int c)
     p = (s16 *)func_021A21B8((int *)a);
     switch (p[0]) {
     case 0:
-        func_021A2108(a, 0x3E, func_02014A10(6));
+        func_021A2108((unsigned int)a, 0x3E, func_02014A10(6));
         p[0] = p[0] + 1;
         p[1] = 0x5A;
         break;
@@ -91,12 +91,12 @@ int func_021EEB44(int a, int b, int c)
             func_021A2160((unsigned char *)a, 1, 0);
         }
         t = func_021A223C((unsigned char *)a, c);
-        u = func_021A23B0(a);
+        u = func_021A23B0((int)a);
         if (t != 0 && u != 0) {
             return 1;
         }
         break;
     }
-    func_021EEF0C(a, (int *)p);
+    func_021EEF0C((int)a, (int *)p);
     return 0;
 }

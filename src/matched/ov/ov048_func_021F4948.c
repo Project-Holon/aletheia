@@ -98,7 +98,7 @@ struct WordSet;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern int func_02047788(int *p);
 extern int func_02047554(int *p);

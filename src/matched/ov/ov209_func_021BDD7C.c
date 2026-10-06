@@ -46,7 +46,7 @@ typedef struct Flags { u16 side:1; u16 rest:15; } Flags;
 extern const Template d_021BE9BC;
 extern void func_021BDD40(char *,unsigned);
 extern void func_0204A8D4(u32),func_0204ADA4(u32),func_0204AFD8(u32);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 typedef signed int     s32;
 struct PalAnmSlot;

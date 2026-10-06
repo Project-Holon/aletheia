@@ -18,20 +18,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Arc;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_02062B30(void *, void **);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_02041B6C(u32 bit);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021BCAE8(char *p)
 {
     void *arc;
     void *buf;
     void *screen;
-    arc = func_020490F4(192, (((struct Obj00025 *)p)->f8 & 0x7FFF) | 0x8000);
+    arc = func_020490F4(192, (u16)((((struct Obj00025 *)p)->f8 & 0x7FFF) | 0x8000));
     buf = func_02049250(arc, 13, ((struct Obj00025 *)p)->f8);
     func_02062B30(buf, &screen);
     func_02041090(6, (u32)((char *)screen + 12), 0, 0, 32, 24);

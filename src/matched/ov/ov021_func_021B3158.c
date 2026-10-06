@@ -68,7 +68,7 @@ extern int func_0218EC60(u32 a);
 extern void func_0218F1AC(u8 *p, u32 v);
 extern void func_0218F05C(unsigned char *a);
 extern void func_0218F878(u8 *a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const Buf24 d_021D9738;
 
 int func_021B3158(u32 a, u32 b)

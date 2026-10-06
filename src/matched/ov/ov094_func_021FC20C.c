@@ -33,15 +33,16 @@ typedef struct {
     int f260;
 } State;
 extern int func_0201134C(int);
-extern void func_020113B4(int, void *);
+struct Ring;
+extern void func_020113B4(struct Ring *r, unsigned int v);
 typedef unsigned int   u32;
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 
-int func_021FC20C(int a, State *s)
+int func_021FC20C(struct Ring *a, State *s)
 {
-    int n = func_0201134C(a);
-    int v = func_0201134C(a);
-    int w = func_0201134C(a);
+    int n = func_0201134C((int)a);
+    int v = func_0201134C((int)a);
+    int w = func_0201134C((int)a);
     int *p;
 
     s->a0[s->f260] = s->fdc;
@@ -53,7 +54,7 @@ int func_021FC20C(int a, State *s)
     s->f4 = 0;
     p = func_02048F60(0x43, n - 0x231, (u16)((s->h238 & 0x7fff) | 0x8000));
     s->f1e8 = p;
-    func_020113B4(a, (char *)p + p[1]);
+    func_020113B4(a, (unsigned int)((char *)p + p[1]));
     s->f260++;
     return s->f23c;
 }

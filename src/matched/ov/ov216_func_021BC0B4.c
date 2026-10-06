@@ -18,7 +18,8 @@
 #include "../include/Obj14715.h"
 
 extern void func_021BBB34(void *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021BC0B4(char *p)
 {

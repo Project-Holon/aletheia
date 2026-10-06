@@ -26,5 +26,6 @@ extern void func_021F6E4C(char *);
 extern void func_021F6CAC(char *);
 extern void func_021F6AE0(char *);
 extern void sub_02030EAC(struct Node *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021F67B0(char *p){func_021F7028(p);func_021F6F18(p);func_021F6E4C(*(char * *)&((struct Obj04636 *)p)->f44);func_021F6CAC(p);func_021F6AE0(p);sub_02030EAC(*(struct Node * *)&((struct Obj04636 *)p)->f2C);func_020307B0(p);}

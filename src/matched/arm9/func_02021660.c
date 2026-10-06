@@ -55,7 +55,7 @@ struct PltRes {
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx,
                           u32 off, u16 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02021660(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag,
                    u32 idx, u32 count, u16 off, u16 srcOff)

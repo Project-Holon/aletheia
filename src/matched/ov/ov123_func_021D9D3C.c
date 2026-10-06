@@ -31,14 +31,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02082BCC(void *, u8, u32);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
 extern void func_020862F0(void *, int);
 extern void *func_020056A0(void *, void *, int);

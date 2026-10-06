@@ -26,7 +26,8 @@ typedef struct {
     void *a94;
 } S;
 
-extern void sub_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 sub_020307B0(void *p);
 extern int sub_02013270(int a0);
 extern void sub_02082BCC(void *p, int c, int n);
 

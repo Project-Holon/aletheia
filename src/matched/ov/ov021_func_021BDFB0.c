@@ -54,7 +54,7 @@ struct Q {
     struct V3 f40;
 };
 
-extern int func_021BE17C(void *a);
+extern unsigned int func_021BE17C(unsigned char *p);
 extern void *func_02188CB4(unsigned char *p);
 typedef unsigned char  u8;
 extern u16 func_021A3050(u8 *p);
@@ -63,7 +63,8 @@ extern int func_021BE194(u32 a);
 extern struct Q func_021BE148(int a);
 extern int func_021BE1B0(u32 a);
 extern void func_021A7B08(int a, struct V3 *b);
-extern void func_021A3038(void *a, struct V3 *b);
+struct VecFx32;
+extern void func_021A3038(u8 *p, struct VecFx32 *out);
 extern void func_0218FEA4(int a);
 extern void func_0218FE78(int a, void *b);
 
@@ -78,7 +79,7 @@ void func_021BDFB0(char *a)
     int y;
     int z;
 
-    func_021BE17C(a);
+    func_021BE17C((unsigned char *)a);
     r7 = func_02188CB4(*(unsigned char * *)&((struct Obj00282 *)a)->f0);
     func_021A3050(r7);
     q = func_021BE148(func_021BE194((u32)a));
@@ -93,7 +94,7 @@ void func_021BDFB0(char *a)
     if (func_021BE1B0((u32)a) != 0) {
         func_021A7B08(*(int *)&((struct Obj00282 *)a)->f0, &q.f40);
     } else {
-        func_021A3038(r7, &q.f40);
+        func_021A3038(r7, (struct VecFx32 *)(&q.f40));
     }
     func_0218FEA4(*(int *)&((struct Obj00282 *)a)->f54);
     func_0218FE78(*(int *)&((struct Obj00282 *)a)->f4, r6 + 4);

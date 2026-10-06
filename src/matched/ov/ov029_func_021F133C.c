@@ -19,8 +19,8 @@
  */
 #include "../include/Obj00042.h"
 
-extern int func_021F2B9C(void *, int, int);
-extern int func_021F2BB8(void *, int, int);
+extern unsigned int func_021F2B9C(unsigned char *p, int row, int col);
+extern int func_021F2BB8(unsigned char *p, int row, int col);
 typedef unsigned char  u8;
 extern int func_021F2BD4(u8 *p, int row, int col, int kind);
 extern void func_021F0D14(int, int, int *, int *);
@@ -40,13 +40,13 @@ int func_021F133C(char *p, int v, int *o1, int *o2)
 
     for (j = 0; j < 4; j++) {
         for (i = 0; i < 9; i++) {
-            if (v == func_021F2B9C(p, i, j)) {
+            if (v == func_021F2B9C((unsigned char *)p, i, j)) {
                 if (found == 0) {
                     a = i;
                     b = j;
                     found = 1;
                 }
-                if (func_021F2BB8(p, i, j)) {
+                if (func_021F2BB8((unsigned char *)p, i, j)) {
                     func_021F0D14(i, j, o1, o2);
                     return 1;
                 }

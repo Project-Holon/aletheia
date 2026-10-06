@@ -26,7 +26,7 @@ typedef signed char    s8;
 struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
 extern int func_0216D480(char *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 

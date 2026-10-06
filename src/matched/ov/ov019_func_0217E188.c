@@ -77,7 +77,7 @@ extern int func_021CC810(struct Obj *p);
 extern u32 func_021CC7B4(struct Obj *p, u32 *out);
 extern void func_0217B9F4(void *p);
 extern int func_0217B8E4(char *p, char v);
-extern void func_0217F098(unsigned char *base, int x);
+extern void func_0217F098(unsigned char *base, u8 *x);
 extern int func_0217B974(int id);
 extern void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);
 extern u32 func_0217F794(char *p, u32 a);
@@ -85,7 +85,7 @@ extern void func_0217F210(u8 *p, int a, u32 b);
 extern u32 func_020362DC(void);
 extern void func_0217F7B8(char *p);
 
-int func_0217E188(Ctx *ctx, Obj *obj, int a2, u8 *state)
+int func_0217E188(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
 {
     u8 *w = ctx->w;
     int o1c;
@@ -119,7 +119,7 @@ int func_0217E188(Ctx *ctx, Obj *obj, int a2, u8 *state)
         f1 = o1c != 0;
         f2 = o18 != 0;
         ctx->f3538 = (int)func_0217B9CC((char *)ctx);
-        ctx->f3534 = (int)func_021CC720(a2, (u32)func_02012934((void *)ctx->sys->f8), ctx->f3538, f1, f2, 0x15);
+        ctx->f3534 = (int)func_021CC720((u32)a2, (u32)func_02012934((void *)ctx->sys->f8), ctx->f3538, f1, f2, 0x15);
         (*state)++;
         break;
     case 3:
@@ -156,7 +156,7 @@ int func_0217E188(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         if (o10 != 0) {
             func_0217F098((unsigned char *)ctx, a2);
-            func_0217F640((struct Self *)ctx, a2, o10, func_0217B974(obj->f00), f1);
+            func_0217F640((struct Self *)ctx, (u32)a2, o10, func_0217B974(obj->f00), f1);
             *state = 5;
         } else {
             func_0217B8E4((char *)ctx, 0x2e);
@@ -164,8 +164,8 @@ int func_0217E188(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 5:
-        if (func_0217F794((char *)ctx, a2) == 1) {
-            func_0217F210((u8 *)ctx, a2, 0x115);
+        if (func_0217F794((char *)ctx, (u32)a2) == 1) {
+            func_0217F210((u8 *)ctx, (int)a2, 0x115);
             (*state)++;
         }
         break;

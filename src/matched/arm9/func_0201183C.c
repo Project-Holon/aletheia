@@ -71,7 +71,7 @@ struct IcaAnime {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u8    data_020A7270;
 struct ArcFile;
 extern void  func_0204944C(struct ArcFile *a, u32 b, u32 ofs, u32 size, void *dst);

@@ -26,7 +26,8 @@ typedef unsigned char  u8;
 extern int func_021B61B8(u8 *p);
 extern void *func_021B616C(u8 *p, int i);
 extern void *func_02020F34(unsigned int item, unsigned int which, unsigned int heap);
-extern void func_021B822C();
+struct Obj;
+extern void func_021B822C(struct Obj *o, void *rec, unsigned short *p, u8 *out);
 extern int func_021B8F68(char *p, int value);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -34,9 +35,9 @@ struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_020213E0(u16 v);
 extern int func_021B83A0(char *p, int value);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
-void func_021B8280(int p, unsigned char *q)
+void func_021B8280(struct Obj *p, unsigned char *q)
 {
     unsigned short *e = func_021B616C((u8 *)p, func_021B61B8((u8 *)p));
     if (e != 0 && *e != 0) {

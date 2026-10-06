@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);

@@ -45,7 +45,7 @@ extern void *func_021F1B64(u16);
 extern void func_021F0D1C(u16);
 extern u32 func_02087988(void),func_0208799C(u32);
 extern void func_02082D44(const void *,void *,u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_0203D7FC(void *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef struct {void *f00,*f04;u16 f08,f0A,f0C,f0E,f10,f12,f14;} Masks;

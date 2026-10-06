@@ -29,7 +29,7 @@ struct BgTemplate {
 };
 extern const struct BgTemplate d_021E7E44;
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
 extern void func_020403F4(u32 i);

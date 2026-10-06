@@ -24,7 +24,7 @@ typedef unsigned int u32;
 struct Blk37;
 extern void *func_0200CA1C(void *a);
 extern void func_0200CA78(struct Blk37 *p, u32 v);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 int func_021C9244(char *p)
 {
     struct Blk37 *save;

@@ -39,7 +39,7 @@ typedef struct {
 } Entry;
 
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Mon;
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;

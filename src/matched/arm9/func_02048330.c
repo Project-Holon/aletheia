@@ -107,7 +107,7 @@ typedef struct {
 
 extern const char g3d_util_file[];
 extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct G3dOwner;
 struct G3dRec;
 struct Layer;

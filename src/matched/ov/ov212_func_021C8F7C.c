@@ -10,7 +10,8 @@
  */
 #include "../include/Obj08416.h"
 typedef unsigned char u8;
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021C8F7C(u8 *p)
 {
     if (((struct Obj08416 *)p)->fC != 0) {

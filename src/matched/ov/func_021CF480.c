@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 struct Res021CF;
 extern void func_021CF54C(u8 *p);
 extern void func_021CF5AC(struct Res021CF *r);
 
-int func_021CF480(u32 a)
+int func_021CF480(void *a)
 {
 func_021CF54C((u8 *)a);
 func_021CF5AC((struct Res021CF *)a);

@@ -29,12 +29,13 @@ typedef struct {
 
 struct Ctx;
 unsigned int func_02012138(const struct Ctx *);
-int func_020122C0(void *, int, void (*)(void), int);
+struct Desc;
+struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
 struct Obj;
 void *func_020124E8(struct Obj *p);
 typedef unsigned int   u32;
 u32 func_02026454(void *obj);
-unsigned char *func_02026474(void *);
+u32 func_02026474(void *obj);
 u32 func_0202647C(void *obj);
 u32 func_02012204(const struct Ctx *p);
 void func_020061E4(u32 a);
@@ -49,13 +50,13 @@ int func_0217CA84(void *a, int b)
     unsigned char *x;
 
     sys = (void *)func_02012138(a);
-    ret = func_020122C0(a, 0, func_0217CAFC, 0x28);
+    ret = (int)func_020122C0(a, 0, func_0217CAFC, 0x28);
     work = func_020124E8((struct Obj *)ret);
     work->f20 = b;
     if (func_02026454(sys) == 2) {
-        x = func_02026474(sys);
+        x = (unsigned char *)func_02026474(sys);
         if (x != 0) {
-            func_0217C094(func_02026474(sys));
+            func_0217C094((unsigned char *)func_02026474(sys));
             x[0x8F8] |= 0x80;
         }
     }

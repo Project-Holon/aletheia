@@ -73,7 +73,7 @@ struct Sub02006E40Obj {
 extern const char sub_02006E40_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 
 void sub_02006EA4(struct Sub02006E40Obj *obj, u32 heap);

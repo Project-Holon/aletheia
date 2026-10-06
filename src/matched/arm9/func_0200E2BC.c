@@ -31,7 +31,7 @@ typedef struct {
 } Key;
 
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32   func_02007248(void *a, u32 b, u32 c, void *d, u32 e);
 extern void func_0200E06C(char *p);
 extern int   memcmp(const void *a, const void *b, u32 n);

@@ -42,7 +42,7 @@ extern void *d_021C86F0[];
 extern void *d_021C881C[];
 struct Ov208Obj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021BC26C(void *p);
 extern struct Ov208Obj *func_021BC240(void *owner, int val, u32 heap);
 extern void func_021BEA00(void *mem, u32 heap);

@@ -15,7 +15,8 @@
  */
 
 int *func_0218C584(int a, int b, int c, int *out);
-void func_020307B0(void *p);
+typedef unsigned int   u32;
+u32 func_020307B0(void *p);
 
 int func_0218C638(int a, int b, int c)
 {

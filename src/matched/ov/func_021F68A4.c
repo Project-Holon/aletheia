@@ -103,7 +103,7 @@ struct Descriptor;
 struct MsgBank;
 struct Sub020079BCEntry;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void func_021F6748(u32 a, u8 *q);
 extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec);

@@ -31,7 +31,7 @@ typedef struct { short x,y,z; u8 a,b; } Create;
 extern const int d_021E7D70[6][2];
 extern const int d_021E7DA0[6][2];
 extern void *func_020185F0(void *);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021E62D4(void *,int,int);
 extern u32 func_0201BA68(void *);
 typedef signed int     s32;

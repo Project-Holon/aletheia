@@ -38,7 +38,7 @@ extern void func_021F04D4(char *p);
 extern void func_021F0478(char *p);
 extern void func_021F0348(void *p);
 extern void func_021F022C(char *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02037190(void);
 
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)

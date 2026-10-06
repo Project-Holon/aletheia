@@ -21,7 +21,8 @@ struct Sub02014CB8Obj;
 extern void func_02014CD4(struct Sub02014CB8Obj *o);
 extern void func_02014BA8(u8 *a0);
 extern void func_02030DA4(int);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 typedef struct {
     int a;

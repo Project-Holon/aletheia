@@ -16,7 +16,7 @@ typedef unsigned int u32;
 extern void func_02082D44(const void *,void *,unsigned);
 extern int func_0204A298(int,int,int,int,u32 *);
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_021F546C(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
 int func_021F5370(const u32 *cache,const void *input,u16 heap)
 {

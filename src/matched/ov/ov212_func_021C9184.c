@@ -18,7 +18,8 @@
 #include "../include/Obj25669.h"
 typedef unsigned char  u8;
 extern void func_021C8F7C(u8 *p);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 int func_021C9184(char *p)
 {
     char *q=*(char * *)&((struct Obj04627 *)p)->f28;

@@ -35,7 +35,7 @@ extern void func_02024224(void *,void *);
 extern void func_02051C6C(void *);
 extern void func_021B9B20(u8 *);
 extern void func_02030DA4(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021B95F4(char *);
 extern void func_021BAF4C(unsigned);
 struct S020315D4;

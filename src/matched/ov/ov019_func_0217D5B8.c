@@ -73,7 +73,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_02012F2C(int *p);
 extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 func_0200FB24(void);
 extern int func_0217B8E4(char *p, char v);
 extern void func_02172D50(u8 *a);

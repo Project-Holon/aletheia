@@ -19,7 +19,8 @@
 void func_0218BA48(void *s, void *v);
 void func_0218C0D8(void **s);
 void func_0218C54C(void *p, int save);
-void func_020307B0(void *p);
+typedef unsigned int   u32;
+u32 func_020307B0(void *p);
 
 typedef struct {
     void *owner;

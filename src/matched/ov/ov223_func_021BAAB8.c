@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Bmp;
 struct Obj020437AC;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02040E78(unsigned,void *,unsigned,unsigned);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);

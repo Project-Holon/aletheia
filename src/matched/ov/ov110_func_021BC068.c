@@ -23,7 +23,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A60(const void *, void *, int);
 extern void func_020862F0(void *, unsigned);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BC068(u8 *p, void *a)
 {
     u8 *data;

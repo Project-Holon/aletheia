@@ -38,7 +38,7 @@ struct Tagged;
 extern void func_02047738(struct Rec *p);
 extern void func_0204762C(struct Rec *p);
 extern void func_02046EFC(struct Tagged *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02047504(struct Rec *p);
 
 void func_021F6CF0(Obj *o)

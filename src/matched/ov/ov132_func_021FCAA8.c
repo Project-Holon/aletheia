@@ -57,7 +57,7 @@ struct Pl {
 extern u32 func_0200FB24(void);
 extern int func_0203CDBC(void);
 extern int func_0203CEAC(int a0);
-extern void func_0203D7BC(int);
+extern void func_0203D7BC(u8 a0);
 extern u32 func_0203D1B4(void);
 extern u32 func_0203F0A8(void);
 extern void func_021FCDEC(int a, int b);
@@ -71,7 +71,7 @@ extern int func_021FD704(u8 *p);
 extern int func_021FD6DC(char *);
 extern int func_021FD6F0(char *);
 extern int func_021FD76C(u8 *p);
-extern int func_021FD7D4(char *);
+extern int func_021FD7D4(u8 *p);
 extern int func_021FD6A4(char *);
 extern int func_021FD350(char *p, char *src);
 extern int func_021FD400(const char *p);
@@ -153,7 +153,7 @@ void func_021FCAA8(char *p)
         if (*(int *)(p + 0x16c) == 1 && func_021FD76C((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xf;
         break;
     case 15:
-        if (*(int *)(p + 0x174) == 1 && func_021FD7D4(p) == 1) *(int *)(p + 0x4c) = 0x10;
+        if (*(int *)(p + 0x174) == 1 && func_021FD7D4((u8 *)p) == 1) *(int *)(p + 0x4c) = 0x10;
         break;
     case 16:
         *(int *)(p + 0x4c) = 0x11;

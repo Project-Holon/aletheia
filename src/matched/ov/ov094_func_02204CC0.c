@@ -146,7 +146,7 @@ extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B7C8(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);

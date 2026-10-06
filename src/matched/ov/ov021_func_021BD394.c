@@ -19,14 +19,14 @@ typedef struct {
     int f;
 } Inner;
 
-extern Inner *func_021BD304(void *p);
+extern unsigned char *func_021BD304(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_021BD2D8(u8 *p);
 
 int func_021BD394(void *p)
 {
-    Inner *q = func_021BD304(p);
+    Inner *q = (Inner *)func_021BD304(p);
 
     if (func_021BD2D8(p) == 0) {
         return 1;

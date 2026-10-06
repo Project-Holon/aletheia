@@ -27,11 +27,11 @@ extern int func_02035C60(void);
 extern void func_02012E08(char *p);
 extern void func_021D8F58(char *p);
 extern int func_021D5D58(char *p);
-extern void func_021D6EE0(int, int, int);
+extern void func_021D6EE0(unsigned char *p, u32 v, int unused);
 typedef unsigned char  u8;
 extern void func_021D6F44(u8 *p);
 
-void func_021D6F70(int a)
+void func_021D6F70(unsigned char *a)
 {
     if (((struct Obj05363 *)a)->fAB != 0)
         return;

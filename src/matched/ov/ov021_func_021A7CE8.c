@@ -63,7 +63,7 @@ typedef struct Work {
 } Work;
 
 extern void *func_02188C58(void *o);
-extern void *func_02188D38(void *o);
+extern unsigned int func_02188D38(u8 *p);
 typedef unsigned int   u32;
 struct Evt;
 struct Obj;
@@ -109,7 +109,7 @@ int func_021A7CE8(void *task, int *state, Work *w)
     a08 = a->f08;
     w04 = w->f04;
     h = func_02188C58(obj);
-    d = func_02188D38(obj);
+    d = (void *)func_02188D38(obj);
     func_02188C9C(obj);
 
     switch (*state) {

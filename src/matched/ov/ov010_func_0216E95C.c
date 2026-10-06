@@ -75,7 +75,7 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 struct Info;
 extern void func_021AA304(struct Info *out, void *a1, void *a2);
 extern void func_020135C0(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_0216F02C(void **p, void *a, void *b);

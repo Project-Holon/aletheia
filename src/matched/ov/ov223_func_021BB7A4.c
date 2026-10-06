@@ -20,11 +20,11 @@
 #include "../include/Obj26099.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, unsigned);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
 extern const u8 d_021BC708[];

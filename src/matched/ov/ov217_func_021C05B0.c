@@ -49,7 +49,7 @@ extern struct Bmp *func_0204384C(u32, u32, u32, u32);
 extern void func_020439A0(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern void func_0201C7D0(void *, s16, s16, void *, void *, u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020437AC(struct Obj020437AC *);
 
 #define E ((const struct Entry *)gb)

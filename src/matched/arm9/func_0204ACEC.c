@@ -74,7 +74,7 @@ struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 struct Holder;
 extern void func_0204DEE8(struct Holder *h, int idx, void *src, void *sel, u32 size);
-extern void func_020307B0(void *a0);
+extern u32 func_020307B0(void *p);
 
 int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {

@@ -68,7 +68,7 @@ extern u8 *func_0200A628(struct Big *p);
 extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
 extern u32 func_021F4F10(u8 *p);
 extern void *func_021F4B3C(int type);
-extern void func_021F4B4C(void *);
+extern void func_021F4B4C(struct Tagged *a0);
 extern u8 *func_021F4F54(u8 *, int);
 extern int func_021F4F70(int *);
 extern void func_021F4EE8(u8 *, u8 *, int);

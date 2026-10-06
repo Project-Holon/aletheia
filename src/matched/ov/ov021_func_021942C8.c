@@ -24,7 +24,7 @@ typedef signed char    s8;
 typedef struct { u32 key; u32 x4; u32 x8; } Item;
 typedef struct { u16 n; u16 pad; u32 x4; Item *items; } List;
 extern int func_02194418(u32 a);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 void func_021942C8(List *p)
 {

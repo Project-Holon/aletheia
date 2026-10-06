@@ -13,7 +13,8 @@
  */
 #include "../include/Obj08371.h"
 #include "../include/Obj25294.h"
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02213808(char *, int);
 int func_022130D4(char *a, char *work, char *p)
 {

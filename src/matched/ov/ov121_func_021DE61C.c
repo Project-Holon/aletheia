@@ -19,7 +19,8 @@
  *   d_021DFABC 0x021DFABC data a4
  */
 #include "../include/Obj10424.h"
-extern void func_0203CBAC(void *, unsigned, unsigned);
+struct Req;
+extern void func_0203CBAC(struct Req *req, unsigned int a2, unsigned int a3);
 typedef unsigned int   u32;
 extern void func_02043598(u32 mask, u32 enable);
 extern int func_0203CD98(void);
@@ -34,7 +35,7 @@ void func_021DE61C(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_0203CBAC(d_021DFABC, 0, (unsigned)p);
+        func_0203CBAC((struct Req *)d_021DFABC, 0, (unsigned)p);
         func_02043598(0x10, 0);
         *state = 1;
         break;

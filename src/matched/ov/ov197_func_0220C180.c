@@ -24,14 +24,14 @@
 #include "../include/Obj25021.h"
 typedef unsigned short u16;
 extern unsigned func_02020F08(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_02020E60(unsigned,unsigned);
 typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 struct Sub0204A9D0;
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_02049238(void *);
 void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
@@ -41,7 +41,7 @@ void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
     void *arc;
     void *data,*buffer;
     if(((struct Obj14545 *)q)->f8==1) {first=3;second=4;} else {first=1;second=2;}
-    arc=func_020490F4(func_02020F08(),(((struct Obj14545 *)q)->fC&0x7fff)|0x8000);
+    arc=func_020490F4(func_02020F08(),(u16)((((struct Obj14545 *)q)->fC&0x7fff)|0x8000));
     buffer=func_02049E74(arc,func_02020E60(item,first),0,(u32)(&data),((struct Obj25020 *)(*(char * *)&((struct Obj01075 *)p)->f0))->fC);
     func_0204A9D0(*(int *)(p+slot*4+0x544),data);
     func_020307B0(buffer);

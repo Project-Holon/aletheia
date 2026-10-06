@@ -29,7 +29,7 @@ extern int func_0204EA0C(void);
 extern void func_02011558(struct IcaAnime *p);
 extern void func_020480E4(struct Ctx *c, u32 i);
 extern void func_02047E54(struct Rec *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BE4B4(char *ctx)
 {
     unsigned i;

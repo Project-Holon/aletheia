@@ -45,7 +45,7 @@ extern u32 func_02188C54(u8 *p);
 struct Handle;
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 
 int func_021CB934(void *task, int *state, Work *w)
 {
@@ -75,7 +75,7 @@ int func_021CB934(void *task, int *state, Work *w)
         }
         break;
     case 3:
-        func_021909BC(w->screen);
+        func_021909BC((void *)w->screen);
         return 1;
     }
     return 0;

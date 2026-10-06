@@ -61,7 +61,7 @@ extern u32 func_0204162C(int channel);
 extern void func_020409B4(u32 a);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021F23CC(u8 *p, int a)
 {

@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021B9CBC(u8 *p)
 {
     func_02030EAC(*(void **)(*(u32 *)&((struct Obj00135 *)p)->f0 + ((struct Obj00135 *)p)->f10 * 4 + 8));

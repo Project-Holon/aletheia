@@ -52,7 +52,7 @@ extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *
 extern void *func_0200BAC8(void *p);
 extern void *func_0200BAF4(int a0, int a1);
 extern int func_0201A918(void);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u8 func_0200E918(const u8 *base, u32 idx);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 

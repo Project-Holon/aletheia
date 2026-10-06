@@ -60,7 +60,7 @@ extern void func_02046788(void);
 extern void func_020403F4(u32);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021B6294(char *p)
 {
     u8 i;

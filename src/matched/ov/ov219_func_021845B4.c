@@ -25,10 +25,11 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_0204A39C(void *,int,int,u32,u32 *);
 extern void func_021846B8(char *,int,int,int,u16,u16);
-extern void func_020307B0(void *),func_02049238(void *);
+extern u32 func_020307B0(void *p);
+extern void func_02049238(void *);
 extern int func_02025B38(void);
 extern u32 func_02025BD0(u32),func_02025BB8(u32);
 void func_021845B4(char *p)
@@ -39,7 +40,7 @@ void func_021845B4(char *p)
     long count2;
     long count;
     int firstcount,i,j;
-    arc=func_020490F4(0x35,*(u32 *)p);
+    arc=func_020490F4(0x35,(u16)(*(u32 *)p));
     *(u32 *)(p+0x14)=0;
     data=func_0204A39C(arc,0x12,0,*(u32 *)p,&size);
     firstcount=size/6u;

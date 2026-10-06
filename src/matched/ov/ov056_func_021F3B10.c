@@ -62,7 +62,7 @@ typedef struct Obj {
     int f7c;
 } Obj;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0207ADC4(Mtx33 *m);
 struct Sub0200852CObj;
@@ -81,7 +81,7 @@ void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx)
     int k;
 
     idx = (u32)idx;
-    h = func_020490F4(0x96, (a3 & 0x7fff) | 0x8000);
+    h = func_020490F4(0x96, (u16)((a3 & 0x7fff) | 0x8000));
     o->f7c = 0;
     o->f5c = 0;
     o->f6c = d_021F4308[idx];

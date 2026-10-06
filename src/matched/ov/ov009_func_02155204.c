@@ -18,7 +18,8 @@
 
 extern int *d_021A8260;
 void func_0215677C(void);
-void func_020307B0(void *p);
+typedef unsigned int   u32;
+u32 func_020307B0(void *p);
 void func_021570B8(void);
 
 int func_02155204(void (*cb)(int))

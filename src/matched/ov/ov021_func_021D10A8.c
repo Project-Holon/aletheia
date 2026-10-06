@@ -49,9 +49,9 @@ extern void func_02012E4C(u8 *a, u32 b);
 extern int func_02012E7C(char *p, int a1);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, u32 b);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021D11D8(u32 *p);
-extern int func_021D1194(u32 a);
+extern int func_021D1194(void *a);
 extern char d_021DE674[];
 
 int func_021D10A8(u32 a, u32 *b, u32 *c)
@@ -78,7 +78,7 @@ int func_021D10A8(u32 a, u32 *b, u32 *c)
             func_0200734C((struct Sub02007324Ctrl *)r6, 5);
             func_020307B0((void *)c[1]);
             func_021D11D8((u32 *)c[3]);
-            func_021D1194(c[3]);
+            func_021D1194((void *)c[3]);
             return 1;
         }
         break;

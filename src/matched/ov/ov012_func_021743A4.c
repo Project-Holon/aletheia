@@ -133,7 +133,7 @@ extern int   func_02174084(u8 a, u32 b);
 extern void func_021840AC(u8 *s);
 extern void func_021736E0(unsigned int x);
 extern void func_0203D1E8(u32 unused, void *arg);
-extern void  func_0203D7BC(int a0);
+extern void func_0203D7BC(u8 a0);
 extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
 extern u8 func_02012984(const struct BigObj *p);

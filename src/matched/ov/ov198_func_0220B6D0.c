@@ -26,7 +26,7 @@ typedef struct Rect { u8 x,y,w,h; } Rect;
 extern const Rect d_02211A74[];
 extern char d_02212540[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
 extern void func_0220B5AC(u8 *,void *,u8,u8,u8);

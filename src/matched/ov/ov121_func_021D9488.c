@@ -16,7 +16,8 @@
  *   func_02025588 0x02025588 thumb
  *   func_02082BCC 0x02082BCC arm
  */
-extern void func_021DA978(void *),func_021DA958(void *);
+extern void func_021DA978(char *p);
+extern void func_021DA958(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;

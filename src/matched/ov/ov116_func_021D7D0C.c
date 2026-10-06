@@ -42,7 +42,7 @@ extern void func_02049238(void *);
 extern int func_02049B40(int, int, int, int, int, u32);
 extern void func_02082BCC(void *, int, u32);
 extern void func_02082D44(const void *, void *, u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void *func_020056A0(void *, void *, int);
 extern void func_020862F0(void *, u32);
 extern void func_0207D63C(void *, int, int, int, int);

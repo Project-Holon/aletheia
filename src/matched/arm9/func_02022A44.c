@@ -69,7 +69,7 @@ struct AnimStep;
 extern int func_02022A88(struct AnimStep *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u32 func_02022A44(struct Task *t)
 {

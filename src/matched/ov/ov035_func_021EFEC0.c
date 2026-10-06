@@ -27,18 +27,18 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern char d_021F0678[];
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *);
-extern void func_021EFF78(char *p, int a1);
+extern void func_021EFF78(char *p, void *a1);
 extern int func_0202EB44(void);
 extern u32 func_0201214C(const struct Ctx *);
 extern void func_021EFF3C(char *p, int a1);
 
-void *func_021EFEC0(int a0, int a1, int a2)
+void *func_021EFEC0(int a0, int a1, void *a2)
 {
-    char *p = (char *)func_02030734(a2, 0x50, 1, d_021F0678, 0x12D);
+    char *p = (char *)func_02030734((u32)a2, 0x50, 1, d_021F0678, 0x12D);
     ((struct Obj02409 *)p)->f4 = a1;
     ((struct Obj02409 *)p)->f8 = func_02012138((const struct Ctx *)a1);
     *(int *)&((struct Obj02409 *)p)->fC = a0;
-    ((struct Obj02409 *)p)->f0 = a2;
+    ((struct Obj02409 *)p)->f0 = (short unsigned int)a2;
     func_021EFF78(p, a2);
     if (func_0202EB44() == 0)
         ((struct Obj02409 *)p)->f48 = 2;

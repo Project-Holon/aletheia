@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02049238(u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BBB48(u8 *p)
 {
     func_02049238(((struct Obj21039 *)p)->f4A4);

@@ -123,7 +123,7 @@ struct Bmp;
 struct Obj;
 struct Vec2;
 extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);

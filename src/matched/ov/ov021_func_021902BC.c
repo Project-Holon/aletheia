@@ -47,7 +47,7 @@ typedef struct Obj {
     Slot slot[4];
 } Obj;
 
-extern void func_020307B0(void *a);
+extern u32 func_020307B0(void *p);
 struct PrintSys;
 struct S02031140;
 struct U16Vec;

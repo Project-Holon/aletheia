@@ -36,7 +36,7 @@ typedef unsigned short u16;
 extern u8 d_020A1448[];
 extern u8 d_02186ACC[];
 extern u32 func_020275E4(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Bank;
 struct Cfg;
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);

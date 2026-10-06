@@ -16,7 +16,7 @@
 #include "../include/Obj22073.h"
 extern int func_0203CEAC(int);
 extern void func_021B95B8(unsigned char *,unsigned);
-extern void func_021B99D4(unsigned a);
+extern void func_021B99D4(unsigned char *a);
 void func_021B99F4(unsigned a)
 {
  if(++((struct Obj22073 *)a)->fCAC>60) {

@@ -23,7 +23,8 @@ typedef struct {
 } Slot;
 
 extern Slot *D_0218A7C0;
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_0218A528(u8 *a)
 {

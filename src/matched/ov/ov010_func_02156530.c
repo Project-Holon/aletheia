@@ -101,7 +101,7 @@ extern int func_0215736C(int a0);
 extern u32 func_0200A644(struct Big *p, u8 index);
 extern u8 func_021572C0(struct Deal *d);
 extern u32 func_02005728(u32 range);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 extern const char d_02172714[];
 extern const u16 d_0216FF14[10];

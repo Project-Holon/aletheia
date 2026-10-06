@@ -27,7 +27,7 @@ struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02012F80(char *base);
 extern void func_02156BAC(void *p);
-extern int func_02156BCC(int p);
+extern unsigned int func_02156BCC(void *p);
 typedef unsigned int   u32;
 extern u32 func_02026454(void *obj);
 
@@ -44,7 +44,7 @@ int func_0215E130(void *a, void *b)
     w = (int *)func_02012F80(s);
     if (*w != 0) {
         func_02156BAC((void *)(*w));
-        if (func_02156BCC(*w) == 1) {
+        if (func_02156BCC((void *)(*w)) == 1) {
             return 1;
         }
     }

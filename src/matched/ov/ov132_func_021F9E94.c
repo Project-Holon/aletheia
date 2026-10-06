@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021F9F58(u8 *,u8 *);
 extern void func_02050ED4(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021F9E94(u8 *p) { u8 i; for(i=0;i<8;i++) { if(*(u32 *)(p+i*0x4848+4)==1) func_021F9F58(p,p+4+i*0x4848); } func_02050ED4(); func_020307B0(p); }

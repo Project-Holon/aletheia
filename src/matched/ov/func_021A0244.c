@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern int func_021A0250(u32 a);
 
-void func_021A0244(u8 *p)
+int func_021A0244(u8 *p)
 {
-    func_021A0250((u32)(p + 0x2c));
+    return func_021A0250((u32)(p + 0x2c));
 }

@@ -27,7 +27,8 @@
 #include "../include/Obj22049.h"
 typedef unsigned char u8;
 extern int func_021BE788(char *);
-extern int func_0203EFC8(void *,void *,int);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
 extern void *func_021BE2A8(char *,int);
 extern void func_021B99F4(char *,void *);
 extern void func_021BE244(char *,void *);
@@ -49,7 +50,7 @@ int func_021BF084(char *p)
     int i,j,found;
     void *v;
     char *s;
-    if(func_0203EFC8(p+0x10,p+0x30,32)){
+    if(func_0203EFC8((const u8 *)(p+0x10),(const u8 *)(p+0x30),32)){
         for(i=0;i<32;i++){
             found=0;
             for(j=0;j<32;j++){

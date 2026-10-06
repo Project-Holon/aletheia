@@ -20,7 +20,8 @@
 #include "../include/Obj14642.h"
 
 extern void func_02082BCC(void *, int, int);
-extern void func_0204A48C(int, int, int);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -32,7 +33,7 @@ extern void func_02043598(u32 mask, u32 enable);
 void func_0220B4EC(unsigned char *p, int a, int b)
 {
     func_02082BCC(p, 0, 4);
-    func_0204A48C(0x0220BACC, a, b);
+    func_0204A48C((const struct Cfg *)0x0220BACC, a, b);
     ((struct Obj14642 *)p)->f0 = func_0204B100(0x80, 0, b);
     func_0204B270(((struct Obj14642 *)p)->f0);
     func_020434DC(0x10, 1);

@@ -27,12 +27,12 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021E81C0[];
 extern void func_02082BCC(void *, int, int);
-extern void func_021E380C(void *, void *, int);
+extern void func_021E380C(u16 *p, unsigned char *src, int a2);
 typedef unsigned char  u8;
 extern void func_021E37D8(u16 *p, u8 *src, int k, int a3);
 extern void func_020862F0(void *, int);
 extern void func_0207F7FC(void *, int, int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_0207F9B4(void);
 extern void func_021E3B2C(char *);
 void func_021E3838(char *p, int count)
@@ -44,7 +44,7 @@ void func_021E3838(char *p, int count)
     for (i = 0; i < count; i++) {
         func_02082BCC(v, 0, 0x200);
         if (i == 0)
-            func_021E380C(v, p + 0x5B6, 2);
+            func_021E380C((u16 *)v, (unsigned char *)(p + 0x5B6), 2);
         else
             func_021E37D8((u16 *)v, (u8 *)(p + 0x2E6), i - 1, 2);
         func_020862F0(v, 0x200);

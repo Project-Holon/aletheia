@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021AAF54();
+struct Self;
+extern int func_021AAF54(struct Self *self);
 
-void func_021AA8F8(void)
+void func_021AA8F8(struct Self *a0)
 {
-    func_021AAF54();
+    func_021AAF54(a0);
 }

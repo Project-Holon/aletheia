@@ -42,13 +42,13 @@ typedef struct {
     int f808;
 } Work;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_0204A380(void *, int, int, unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_0204A380(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern int func_02062B30(void *file, void **out);
-extern void func_02041090(unsigned, void *, unsigned, unsigned, u8, u8);
+extern void func_02041090(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 
 void func_021BB1C4(Work *p)
@@ -61,7 +61,7 @@ void func_021BB1C4(Work *p)
     int n;
 
     arc = func_020490F4(0x58, p->f544);
-    tex = func_0204A380(arc, 0x23, 0, p->f544);
+    tex = (int)func_0204A380(arc, 0x23, 0, p->f544);
     i = 0;
     if (func_02062B30((void *)tex, (void **)(&img))) {
         d = img->d;
@@ -69,7 +69,7 @@ void func_021BB1C4(Work *p)
         for (; i < n; i++) {
             d[i] += (u16)((u16)p->f808 | 0x3000);
         }
-        func_02041090(3, img->d, 0x10, 0xC, (unsigned)img->w >> 3, (unsigned)img->h >> 3);
+        func_02041090(3, (unsigned int)img->d, 0x10, 0xC, (unsigned)img->w >> 3, (unsigned)img->h >> 3);
         func_02041B6C(3);
     }
     func_020307B0((void *)tex);

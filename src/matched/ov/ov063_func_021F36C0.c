@@ -45,7 +45,7 @@ typedef struct {
 
 extern const char d_021F3D80[];
 
-extern u32 func_02188C84(u32 a);
+extern unsigned short func_02188C84(u8 *p);
 extern u32 func_02188C5C(u8 *p);
 extern void *func_0219E348(void *a);
 extern u32 func_02188CD0(u8 *p);
@@ -62,7 +62,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern int func_02030DA8(u32 owner, void *cb, void *arg, u32 n);
 extern void func_021F377C(void);
 
-W *func_021F36C0(int unused, u32 sys, int c, int d)
+W *func_021F36C0(int unused, u8 *sys, int c, int d)
 {
     W *p;
 

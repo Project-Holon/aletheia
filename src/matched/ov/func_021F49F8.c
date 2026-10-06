@@ -70,7 +70,7 @@ typedef struct {
 
 extern u8 d_02202BE0[];
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Cfg;
 struct Sub0200852CObj;
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -84,7 +84,7 @@ extern void func_02049238(void *h);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadOBJPltt(const void *src, u32 offset, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 

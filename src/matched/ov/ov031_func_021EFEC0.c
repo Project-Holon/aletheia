@@ -44,7 +44,7 @@ struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *);
 struct PmsDraw;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021F01F0(u32 *p);
 struct Obj;
 extern void func_021F0250(void *p, u32 h);

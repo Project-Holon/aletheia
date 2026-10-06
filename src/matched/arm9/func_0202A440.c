@@ -62,7 +62,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02045C04(struct Rec *rec);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
 extern void  func_0202428C(void *p);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0202A440(u32 id, struct Out *out, u32 heap)
 {

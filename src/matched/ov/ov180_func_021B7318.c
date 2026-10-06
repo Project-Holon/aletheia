@@ -22,7 +22,8 @@
 typedef struct { unsigned words[7]; } Config;
 extern const Config d_021B827C,d_021B8298;
 extern int func_021B61FC(int);
-extern void func_0204A48C(Config *,int,int);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -34,10 +35,10 @@ extern void func_02043598(unsigned,unsigned);
 void func_021B7318(char *p,int mode) {
     if(mode==0) {
         Config cfg=d_021B827C;
-        func_0204A48C(&cfg,func_021B61FC(mode),141);
+        func_0204A48C((const struct Cfg *)(&cfg),func_021B61FC(mode),141);
     } else {
         Config cfg=d_021B8298;
-        func_0204A48C(&cfg,func_021B61FC(mode),141);
+        func_0204A48C((const struct Cfg *)(&cfg),func_021B61FC(mode),141);
     }
     *(int *)&((struct Obj00547 *)p)->f9044=(int)func_0204B100(249,0,141);
     ((struct Obj00547 *)p)->f911C=func_02025538(141,((struct Obj00547 *)p)->f9044);

@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern int func_0219E424(u32 o, u32 k, u32 x);
 
-void func_0219E418(u32 a, u32 b)
+int func_0219E418(u32 a, u32 b)
 {
-    func_0219E424(a, b, 0);
+    return func_0219E424(a, b, 0);
 }

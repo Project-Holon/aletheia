@@ -26,7 +26,7 @@ extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_0203F9B4(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021D4E04(u8 *p) {
     if (((struct Obj02170 *)p)->f8 == 1) func_021D584C(p);
     else if (((struct Obj02170 *)p)->f10) {

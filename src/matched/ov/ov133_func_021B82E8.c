@@ -42,8 +42,8 @@ typedef struct { int x, y, z; } Vec;
 typedef struct { int x, y; } Pair;
 extern const Vec d_021BA588;
 extern const Pair d_021BA568;
-extern u8 *func_021BA218(u8 *);
-extern u8 *func_021BA20C(u8 *);
+extern unsigned int func_021BA218(u8 *p);
+extern unsigned int func_021BA20C(u8 *p);
 typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021BA148(u8 *p, u8 *q);
@@ -53,7 +53,7 @@ extern void func_021F4E8C(int, int, Vec *);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021BA244(u8 *p, u32 value);
 extern void *func_021BA184(char *p);
-extern u8 *func_021BA208(u8 *);
+extern u32 func_021BA208(u8 *p);
 extern u8 *func_021BA228(u8 *p);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern int func_021BA248(char *p);
@@ -69,8 +69,8 @@ void func_021B82E8(u8 *p, int unused)
     u8 *sprite, *data, *entry, *found;
     u16 key;
     func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
-    sprite = func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
-    data = func_021BA20C(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    sprite = (u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    data = (u8 *)func_021BA20C(*(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA148(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA124(((struct Obj00004 *)p)->f1828, *(u8 * *)&((struct Obj00004 *)p)->f38);
     v = d_021BA588;
@@ -89,7 +89,7 @@ void func_021B82E8(u8 *p, int unused)
     while (entry && !found) {
         key = *(u16 *)func_021BA20C(entry);
         if (key == ((struct Obj14149 *)data)->f0) found = entry;
-        entry = func_021BA208(entry);
+        entry = (u8 *)func_021BA208(entry);
     }
     if (found) {
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const u8 *)func_021BA228(found));

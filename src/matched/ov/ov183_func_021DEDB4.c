@@ -32,7 +32,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_021DF3DC(char *, int);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021FB4B4(int, int, int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int, int, int *);
 extern void func_021F9BA0(unsigned *ctx);
 extern void func_021FD73C(int *, int);
@@ -47,7 +47,7 @@ void func_021DEDB4(int *task, int *state, char *p)
     u32 x,y;
     func_021DF3DC(p+0x28,((struct Obj03880 *)p)->f18);
     if (func_02035D20(&x,&y)) {
-        if (func_021FB4B4(((struct Obj03880 *)p)->f4,x,y)) {
+        if (func_021FB4B4((unsigned int *)(((struct Obj03880 *)p)->f4),x,y)) {
             int args[2];
             args[0]=x; args[1]=y;
             func_021FD860(((struct Obj03880 *)p)->f20,1,args);

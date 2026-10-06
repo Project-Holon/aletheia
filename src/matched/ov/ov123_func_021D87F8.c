@@ -23,7 +23,7 @@
 typedef unsigned int u32;
 extern void func_021D57B8(char *,int);
 extern void func_021D5A7C(char *);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(unsigned char *p, u32 v, int unused);
 typedef unsigned char  u8;
 extern void func_021D8790(char *p);
 extern int func_021B95D4(int index, u8 *p);
@@ -38,10 +38,10 @@ void func_021D87F8(char *p)
     if (func_0203CD98()) {
         if (func_021B95D4(0,((struct Obj08113 *)p)->f10)) {
             if (!func_021B9748(((struct Obj08113 *)p)->f10))
-                func_021D6EE0(p,(int)func_021D8790,0x7ea);
+                func_021D6EE0((unsigned char *)p,(int)func_021D8790,0x7ea);
         }
     } else {
         if (func_020362DC() || func_02035C60())
-            func_021D6EE0(p,(int)func_021D8790,0x7f1);
+            func_021D6EE0((unsigned char *)p,(int)func_021D8790,0x7f1);
     }
 }

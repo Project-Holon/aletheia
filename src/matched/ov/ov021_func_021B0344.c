@@ -28,7 +28,8 @@ extern unsigned int func_02159B10(void *a0, void *a1);
 typedef unsigned char  u8;
 extern u32 func_02158F78(u8 *p);
 extern u32 func_02158F7C(u8 *p);
-extern void func_0215A7F0(unsigned short *p, int a, int b, int c, int s0, int s1);
+struct U16Vec;
+extern void func_0215A7F0(unsigned short *p, int a, int b, int c, struct U16Vec *s0, void *s1);
 
 int func_021B0344(u32 a, u32 b)
 {
@@ -39,6 +40,6 @@ int func_021B0344(u32 a, u32 b)
     x = func_02011330((struct Stream *)a);
     y = func_02011330((struct Stream *)a);
     z = func_02159B10((void *)a, (void *)b);
-    func_0215A7F0((short unsigned int *)b, x, y, z, func_02158F78(t), func_02158F7C(t));
+    func_0215A7F0((short unsigned int *)b, x, y, z, (struct U16Vec *)func_02158F78(t), (void *)func_02158F7C(t));
     return 0;
 }

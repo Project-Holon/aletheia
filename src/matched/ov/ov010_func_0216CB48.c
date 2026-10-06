@@ -92,7 +92,7 @@ struct Buf3FC;
 struct RecSlot;
 extern struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap);
 extern void *func_0202435C(void *slots, unsigned int heap);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021B09EC(int sel, int *a, int *b);
 extern struct Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g);
 extern int func_0216CAF4(int a0, int a1, int a2);

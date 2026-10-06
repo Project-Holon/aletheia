@@ -19,7 +19,7 @@
  *   func_021F2AD4  0x021F2AD4  thumb  ov029
  */
 
-extern void *func_02188CCC(void *p);
+extern unsigned int func_02188CCC(unsigned char *p);
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_021A1358(u32 *p);
@@ -36,7 +36,7 @@ void func_0218A6E8(void *sys, void *q)
 {
     void *r;
 
-    r = (void *)func_021A1358(func_02188CCC(q));
+    r = (void *)func_021A1358((u32 *)func_02188CCC(q));
     if (r == 0) {
         func_02028A70((struct SoundSys *)func_02012A30(func_020120F4(sys)));
         return;

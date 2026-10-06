@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16 func_0216D608(void *o);
-extern int func_021A5B6C(u8 *p, void *o, u32 v, u32 z);
+extern int func_021A5B6C(u32 a, u32 b, u32 c, u32 d);
 extern void func_021A6870(u8 *p);
 extern void func_021A6708(void *a);
 extern void func_021A6744(void *a);
@@ -44,7 +44,7 @@ u32 func_021A6974(u8 *p, u32 a1)
     void *o = ((struct Obj01658 *)p)->f1C;
     u32 r7 = func_0216D608(o);
 
-    if (func_021A5B6C(p, o, r7, 0)) {
+    if (func_021A5B6C((u32)p, (u32)o, r7, 0)) {
         func_021A6870(p);
         return a1;
     }

@@ -16,11 +16,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0217F098(u8 *p, int a);
+extern void func_0217F098(unsigned char *base, u8 *x);
 struct Self;
 extern void func_0217EE90(struct Self *self);
 extern void func_0217F188(char *p, u32 a);
-void func_0217F210(u8 *p, int a, u32 b)
+void func_0217F210(u8 *p, u8 *a, u32 b)
 {
     func_0217F098(p, a);
     func_0217EE90((struct Self *)p);

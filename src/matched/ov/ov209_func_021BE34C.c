@@ -15,7 +15,7 @@
  *   func_021BD8D8 0x021BD8D8 thumb ov209
  */
 typedef unsigned short u16;
-extern int func_021BD8F4(int, int);
+extern unsigned int func_021BD8F4(char *p, unsigned int idx);
 typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021BD958(char *p, u32 idx, s16 *x, s16 *y, u16 space);
@@ -26,7 +26,7 @@ void func_021BE34C(char *p, int delta)
     unsigned i;
     short pos[2];
     for (i = 10; i < 26; i++) {
-        if (func_021BD8F4((int)p, i) != 0) {
+        if (func_021BD8F4((char *)p, i) != 0) {
             func_021BD958(p, i, &pos[1], &pos[0], 0);
             func_021BD934(p, (unsigned)i, (short)pos[1], (short)(pos[0] + delta), 0);
             if (pos[0] + delta <= -16 || pos[0] + delta >= 200)
@@ -34,7 +34,7 @@ void func_021BE34C(char *p, int delta)
         }
     }
     for (i = 26; i < 42; i++) {
-        if (func_021BD8F4((int)p, i) != 0) {
+        if (func_021BD8F4((char *)p, i) != 0) {
             func_021BD958(p, i, &pos[1], &pos[0], 1);
             func_021BD934(p, (unsigned)i, (short)pos[1], (short)(pos[0] + delta), 1);
             func_021BD934(p, (unsigned)(i + 16), (short)pos[1], (short)(pos[0] + delta), 1);

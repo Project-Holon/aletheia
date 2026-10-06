@@ -29,28 +29,31 @@ typedef struct {
     int k[32];
 } Q;
 
-extern unsigned func_0201F91C(int);
-extern void func_02045CAC(int, int, int);
+struct MsgBank;
+struct Slot;
+struct U16Vec;
+extern unsigned int func_0201F91C(struct Slot *s);
+extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern int func_02045874(int, int);
+extern struct U16Vec *func_02045874(struct U16Vec *src, unsigned int heapId);
 typedef unsigned int   u32;
 extern int func_02190A64(u32 a, u32 b, u32 c, u32 d);
 
-void func_0215A7F0(unsigned short *p, int a, int b, int c, int s0, int s1)
+void func_0215A7F0(unsigned short *p, int a, int b, int c, struct U16Vec *s0, void *s1)
 {
     Q *q = (Q *)(*(char * *)&((struct Obj00005 *)p)->f20 + 0x34);
 
     if (b != 0xffff) {
-        unsigned i = func_0201F91C(q->j);
+        unsigned i = func_0201F91C((struct Slot *)q->j);
         if (i >= 0x20) {
             return;
         }
-        func_02045CAC(q->i, b, s1);
+        func_02045CAC((struct MsgBank *)q->i, b, s1);
         func_0201F250((struct WordSet *)q->g, (void *)s0, (void *)s1);
-        q->k[i] = func_02045874(s0, *p);
+        q->k[i] = (int)func_02045874(s0, *p);
     }
-    func_02045CAC(q->i, a, s1);
+    func_02045CAC((struct MsgBank *)q->i, a, s1);
     func_0201F250((struct WordSet *)q->g, (void *)s0, (void *)s1);
-    func_02190A64(q->j, s0, c, *p);
+    func_02190A64(q->j, (u32)s0, c, *p);
 }

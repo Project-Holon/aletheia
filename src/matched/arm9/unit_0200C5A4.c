@@ -74,7 +74,7 @@ struct Big;
 struct Sub020072A4Ctrl;
 extern void *func_02012EBC(struct Big *p);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 struct DistHdr {
     u32 unk00;

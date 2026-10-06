@@ -12,7 +12,8 @@
  *   func_02034714 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  */
-extern int func_021FC4DC(int);
+typedef unsigned char  u8;
+extern unsigned int func_021FC4DC(u8 *p);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D00[];
@@ -23,7 +24,7 @@ void func_021F97A0(int *out,int *source,int *ctx,int type)
         out[3]=source[1];
         out[1]=source[3];
         out[4]=source[2];
-        out[2]=func_021FC4DC(source[0]);
+        out[2]=func_021FC4DC((u8 *)source[0]);
         out[5]=(*(int **)((char *)source[6]+0xc))[1];
         out[6]=*(int *)((char *)source[6]+8)+0x1748;
     } else {

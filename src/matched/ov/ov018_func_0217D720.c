@@ -58,7 +58,7 @@ u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
 void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-void func_020307B0(void *p);
+u32 func_020307B0(void *p);
 void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02040588(u32 which, u32 enable);

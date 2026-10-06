@@ -55,16 +55,17 @@ typedef struct Pal {
 extern void *func_0207E24C(void);
 extern void func_02082A7C(u32 v, void *dst, u32 size);
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern int func_02062A4C(void *file, Chr **out);
+struct NitroFileHeader;
+extern signed int func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(void *p, u32 size);
 extern void func_02082A60(void *src, void *dst, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_02062B30(void *file, void **out);
 extern void *func_0207DFB4(void);
 typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern int func_02062A98(void *file, Pal **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
 static inline void Copy(void *src, void *dst, u32 size)
 {
@@ -82,7 +83,7 @@ void func_021B6298(void)
     func_02082A7C(0, func_0207E24C(), 0x4000);
 
     file = (void *)func_0204A1BC(0x16, 1, 0, 1);
-    if (func_02062A4C(file, &chr)) {
+    if (func_02062A4C(file, (void **)(&chr))) {
         func_020862F0(chr->f14, chr->f10);
         Copy(chr->f14, func_0207E24C(), chr->f10);
     }
@@ -97,7 +98,7 @@ void func_021B6298(void)
 
     file = (void *)func_0204A1BC(0x16, 0, 0, 1);
     func_02062AD4(file, &cmp);
-    if (func_02062A98(file, &pal)) {
+    if (func_02062A98(file, (void **)(&pal))) {
         func_020862F0(pal->f0c, 0x20);
         Copy(pal->f0c, (void *)0x05000000, 0x20);
     }

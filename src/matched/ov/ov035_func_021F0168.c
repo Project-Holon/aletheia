@@ -24,14 +24,16 @@
  */
 
 extern void func_02049B40(int, int, int, int, int, int);
-extern int func_0201F5DC(int, int, int, int);
+extern void *func_0201F5DC(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045790(int, int);
+struct CharBuf;
+struct Descriptor;
+extern void func_02045790(struct Descriptor *p, u8 v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(int, int);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
@@ -41,14 +43,14 @@ extern int func_02028590(int, int, int, int);
 void func_021F0168(int *p, int a1)
 {
     func_02049B40(0x17, 5, 4, 0x20, 0x20, a1);
-    p[5] = func_0201F5DC(5, 2, 0, a1);
+    p[5] = (int)func_0201F5DC((void *)5, 2, 0, a1);
     p[6] = func_020450F0(5, 1, 1, 0x1E, 6, 1, 1);
     p[7] = func_020450F0(5, 1, 0xD, 0x1E, 0xA, 1, 1);
-    func_02045790(p[6], 4);
-    func_02043B5C((int)func_02045770((struct Descriptor *)p[6]), 0xF);
+    func_02045790((struct Descriptor *)p[6], 4);
+    func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)p[6]), 0xF);
     func_02045334((struct Descriptor *)p[6]);
     func_02045374((struct Cfg *)p[6]);
-    func_02043B5C((int)func_02045770((struct Descriptor *)p[7]), 0xF);
+    func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)p[7]), 0xF);
     func_02045334((struct Descriptor *)p[7]);
     func_02045374((struct Cfg *)p[7]);
     p[8] = func_0203101C(a1, a1, 1, 4);

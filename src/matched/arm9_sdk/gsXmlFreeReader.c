@@ -13,7 +13,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void func_020307B0(void *ptr);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 typedef struct { void *p0; void *p1; } XmlReader;
 void gsXmlFreeReader(XmlReader *reader)
 {

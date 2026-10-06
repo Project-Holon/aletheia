@@ -38,7 +38,7 @@ typedef unsigned int u32;
 struct State { u8 pad[0x14]; u16 shared0,shared1; u16 indices[5][6]; int cursor; void *sprites[5][6]; char *source; };
 struct Pos { u16 x; short y; u16 z; u8 a,b; };
 struct Entries { u32 species[6],form[6],gender[6]; };
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 struct Actor;
 struct Obj;
@@ -67,7 +67,7 @@ void func_021DF428(struct State *p,u32 mgr,u16 heap)
     n=*(int *)(p->source+0x1718);
     n=(n>=5)?5:n;
     mode=(heap&0x7fff)|0x8000;
-    archive=func_020490F4(7,mode);
+    archive=func_020490F4(7,(u16)mode);
     i=0;
     p->shared0=func_0204ACEC(archive,func_0201BC3C(),0,0x80,heap);
     p->shared1=func_0204AF28(archive,func_0201BC40(),func_0201BCB4(),heap);

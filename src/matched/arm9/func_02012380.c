@@ -22,7 +22,8 @@
  * (docs/notes/pkt_02012380.c.txt, 38 out) never emits it.
  */
 
-extern void *sub_02012104(void *p);
+struct Ctx;
+extern unsigned int sub_02012104(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Ctx;
 struct S02012304;
@@ -38,7 +39,7 @@ int func_02012380(void *p)
     int x;
 
     for (;;) {
-        v = sub_02012104(p);
+        v = (void *)sub_02012104(p);
         if (v == 0)
             return 0;
         switch (sub_02012304(v)) {

@@ -25,7 +25,8 @@ extern void func_021BAA64(char *);
 extern void func_021BA9E0(void *p);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *, int, int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021BA8F0(char *ctx)
 {
     func_02030EAC(((struct Obj26050 *)ctx)->fC);

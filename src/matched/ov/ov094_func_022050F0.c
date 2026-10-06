@@ -81,7 +81,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 extern const int d_0220A7FC[2][6][2];
 extern const int d_0220A94C[2][3][15];

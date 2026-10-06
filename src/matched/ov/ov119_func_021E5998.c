@@ -32,7 +32,7 @@ struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u8 func_020355C4(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_021D8FA4(void *p, int a);
 extern void *func_020185F4(void *a);
 extern u32 func_0201BA68(void *mon);

@@ -26,7 +26,7 @@ typedef unsigned short u16;
 
 extern int d_021DD9C0;
 
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 struct Ctx;
 void *func_020120F4(const struct Ctx *p);
 struct Ctx;
@@ -41,7 +41,7 @@ int func_02189BA8(int x);
 
 void *func_02188030(int a, int b)
 {
-    char *p = (char *)func_02030734(b, 0x154, 1, &d_021DD9C0, 0x209);
+    char *p = (char *)func_02030734(b, 0x154, 1, (const char *)(&d_021DD9C0), 0x209);
 
     ((struct Obj03102 *)p)->f0 = b;
     ((struct Obj03102 *)p)->fC0 = 0;

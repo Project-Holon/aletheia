@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 
 extern u32   func_0202D5D8(u32 id, u32 sel);
 extern u32   func_0202D61C(u32 id, u32 sel);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;

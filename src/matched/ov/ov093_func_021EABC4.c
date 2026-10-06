@@ -28,7 +28,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct H;
 extern void func_021EA55C(struct H *p, int a);
 extern void func_021EAC44(u32 a, void *b);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021EABC4(u8 *a, u32 x, u32 y, u32 z)
 {

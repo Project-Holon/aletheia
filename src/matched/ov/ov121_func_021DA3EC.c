@@ -34,7 +34,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct MsgBank;
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021D9BE8(int,Pair *,void *,void *,int,Pair *);
 extern void func_0201C724(void *,void *,s16,s16,void *,int,u16);
 void func_021DA3EC(char *p,char *desc,void *dst)

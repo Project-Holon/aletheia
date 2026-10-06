@@ -17,14 +17,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 
 void func_021CF0F4(u8 *p)
 {
     u32 *q = (u32 *)(p + 0x130);
 
     if (q[0] != 0) {
-        func_021909BC(q[0]);
+        func_021909BC((void *)q[0]);
         q[0] = 0;
     }
     ((u8 *)q)[8] = 0;

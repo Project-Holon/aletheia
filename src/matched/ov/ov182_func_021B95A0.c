@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 struct GfFont;
 extern char *func_021B98E4(int a, u16 heap);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C440(unsigned);
+extern u32 func_0201C440(void *p);
 extern void func_0204047C(int idx, unsigned short val);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern void func_021B9784(void);
@@ -56,7 +56,7 @@ int func_021B95A0(void *task, int b, int c)
     ((struct Obj03328 *)p)->f10 = c;
     ((struct Obj03328 *)p)->f4 = func_021B98E4(1, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->f8 = func_0201D7EC(0x17, 0, 0, 0, ((struct Obj03328 *)p)->f0);
-    ((struct Obj03328 *)p)->fC = func_0201C440(((struct Obj03328 *)p)->f0);
+    ((struct Obj03328 *)p)->fC = (void *)func_0201C440((void *)(((struct Obj03328 *)p)->f0));
     func_0204047C(1, 1);
     func_0204047C(2, 0);
     ((struct Obj03328 *)p)->f14 = func_020056A0(func_021B9784, p, 1);

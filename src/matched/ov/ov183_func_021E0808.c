@@ -20,6 +20,6 @@ typedef unsigned int   u32;
 struct U16Vec;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern char d_021E3974[];
 void func_021E0808(char *p){if(!((struct Obj14437 *)p)->f18)func_02034714(d_021E3974,0,d_021E3974);if(!p)func_02034714(d_021E3974,0,d_021E3974);func_02045808(((struct Obj14437 *)p)->f18);func_020307B0(p);}

@@ -18,7 +18,7 @@ struct Obj;
 
 struct D;
 extern void func_02020D3C(struct D *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0201F9E8(struct Obj *o, u8 *out)
 {

@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u16 func_0202F138(u32 i);
 extern unsigned func_02020F08(void),func_02020E60(unsigned,unsigned);
-extern void *func_020490F4(unsigned,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
 typedef signed int     s32;
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -49,7 +49,7 @@ void func_0220C0B4(char *p)
     int a;
     if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=(unsigned)func_0202F138(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
-    arc=func_020490F4(func_02020F08(),(((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000);
+    arc=func_020490F4(func_02020F08(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     for(i=0;i<7;i++) {
         *(int *)(p+i*4+0x544)=func_0204A6C8(arc,func_02020E60(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
         *(int *)(p+i*4+0x568)=func_0204ABF0(arc,func_02020E60(item,second),1,(u16)(i*32),((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);

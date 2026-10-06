@@ -22,7 +22,7 @@ extern u32 func_021BE9A4(u32 id);
 extern void func_021BF9B8(unsigned a, unsigned b, char *p);
 extern void func_020310C4(struct Tcbl *p);
 extern void func_021BF924(char *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BF810(char *p)
 {
     Record *r;

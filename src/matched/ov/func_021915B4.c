@@ -27,19 +27,19 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 struct Slot;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02190538(struct Slot *s);
-extern int func_02190D48(u32 a);
+extern int func_02190D48(void *a);
 extern void func_021927E8(u32 *p);
 extern u32 func_02194A48(u32, u32);
 
-int func_021915B4(u32 a)
+int func_021915B4(void *a)
 {
 if (*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f1C != 0) {
-    func_02190D48(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f1C);
+    func_02190D48((void *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f1C));
 }
 if (*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f20 != 0) {
     func_02190538((struct Slot *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f20));

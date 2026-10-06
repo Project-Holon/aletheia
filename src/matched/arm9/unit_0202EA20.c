@@ -36,7 +36,8 @@ struct Obj0202EA20 {
     void *unk08;
 };
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void sub_0202EA20(struct Obj0202EA20 *p)
 {

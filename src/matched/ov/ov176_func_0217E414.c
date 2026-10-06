@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02157E78(u8 *p);
-extern int func_02157E8C(int a0);
+extern int func_02157E8C(void *a0);
 extern u32 func_0203D210(void);
 int func_0217E414(char *p)
 {
@@ -25,7 +25,7 @@ int func_0217E414(char *p)
     switch (((struct Obj04563 *)p)->f0) {
     case 0:
         if (((struct Obj04563 *)p)->f1018) {
-            func_02157E8C((int)(((struct Obj04563 *)p)->f1018));
+            func_02157E8C((void *)(((struct Obj04563 *)p)->f1018));
             ((struct Obj04563 *)p)->f1018 = 0;
         }
         (((struct Obj04563 *)p)->f0)++;

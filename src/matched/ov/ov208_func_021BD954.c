@@ -21,7 +21,8 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BDD24(char *p);
 extern void func_0204B1CC(struct Bank *bank);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021BD954(struct Ov208Mgr *m)
 {
     func_02030EAC(m->f2c);

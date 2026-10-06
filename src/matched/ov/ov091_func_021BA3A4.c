@@ -38,7 +38,7 @@ struct Sub02008F80Obj;
 extern void *func_02008F08(int a0);
 extern u32   func_02017E1C(void *obj, u32 key, u32 off);
 extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void  func_02017E40(void *obj, u32 key, u32 v);
 extern void func_021BB2C0(u8 *a, u8 *s);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);

@@ -32,7 +32,7 @@ struct Source { int words[10]; };
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
 extern unsigned func_021FC20C(char *p);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021E1244(char *);
 extern void func_021E1910(char *);
 extern void *func_020056A0(void (*)(void), void *, int);

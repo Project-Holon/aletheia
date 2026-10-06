@@ -23,9 +23,10 @@
  *       --func func_0202C0C0 --addr 0x0202C0C0 --thumb --cc 1.1p1
  */
 
-extern void func_0202C204(void);
+typedef unsigned int   u32;
+extern void func_0202C204(u32 *p);
 
-void func_0202C0C0(void)
+void func_0202C0C0(u32 *a0)
 {
-    func_0202C204();
+    func_0202C204(a0);
 }

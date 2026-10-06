@@ -18,7 +18,8 @@
  *   func_021DC08C 0x021DC08C thumb ov121
  */
 #include "../include/Obj01930.h"
-extern void *func_021D9CA4(int,int,void *,void *,int);
+typedef unsigned short u16;
+extern void *func_021D9CA4(int a, unsigned char b, void *c, void *d, u16 heap);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D9FFC(u8 *p, int a, int b);

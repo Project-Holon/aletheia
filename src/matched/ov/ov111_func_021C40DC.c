@@ -104,7 +104,7 @@ extern void func_0202DC08(struct Obj *p);
 extern void func_021C5874(void);
 extern void func_021C42C0(Work *p);
 extern void func_021C6F4C(Anim *a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021C60A0(Work *p);
 extern void func_021C46F0(void);
 extern void func_02030EAC(struct Node *n);

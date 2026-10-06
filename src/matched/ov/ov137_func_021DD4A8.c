@@ -37,7 +37,7 @@ struct Bank;
 struct Cfg;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);

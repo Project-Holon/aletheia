@@ -51,7 +51,7 @@ extern void func_0219C680(u32 a);
 extern u32 func_02013CC8(u32 a);
 extern u32 func_02013CE0(u32 a);
 extern u32 func_02012138(const struct Ctx *p);
-extern u8 func_0217C0A8(int a0);
+extern u8 func_0217C0A8(void *a0);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *p);
 extern int func_021A31A4(int i, int v);
@@ -78,7 +78,7 @@ void func_02189204(u8 *a)
     func_0219C680(((struct Obj00571 *)a)->f38);
     x = ((struct Obj00571 *)a)->fD8;
     if (func_02013CC8(x) == 0 && func_02013CE0(x) == 0) {
-        t = func_0217C0A8((int)((void *)func_02012138((const struct Ctx *)((struct Obj00571 *)a)->f4)));
+        t = func_0217C0A8((void *)((void *)func_02012138((const struct Ctx *)((struct Obj00571 *)a)->f4)));
     } else {
         t = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)h));
     }

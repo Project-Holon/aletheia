@@ -32,7 +32,7 @@ extern int func_02011298(struct ScriptVm *vm);
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_021F8198(int a, int b);
 extern void func_021FE410(T *t, int a, int b, int c);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021F9478(void *vm)
 {

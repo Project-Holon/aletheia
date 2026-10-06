@@ -15,7 +15,8 @@
  *   func_021DD21C 0x021DD21C thumb ov119
  */
 #include "../include/Obj13896.h"
-extern int func_0201293C(int);
+struct BigObj;
+extern unsigned int func_0201293C(const struct BigObj *p);
 typedef unsigned int   u32;
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
@@ -25,7 +26,7 @@ extern int func_021DD21C(char *p);
 int func_021DD2A8(char *p)
 {
     int a, b, n;
-    a = func_0201293C(*(int *)&((struct Obj13896 *)p)->f82C);
+    a = func_0201293C((const struct BigObj *)(*(int *)&((struct Obj13896 *)p)->f82C));
     b = func_021DD21C(p);
     n = func_0201AA18(func_02012934(((struct Obj13896 *)p)->f82C));
     n += func_02007984((void *)a);

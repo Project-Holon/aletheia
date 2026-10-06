@@ -34,7 +34,7 @@ struct Inputs {u32 p0;void *save;u16 pad8,count;u16 *ids;};
 struct Context {struct Inputs *in;u8 pad4[0xc2c-4];void *list;u32 padc30;u32 visible;};
 extern const struct Template data_021BE7AC;
 extern void *data_020A7370;
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Blk37;
 struct MsgBank;
 struct U16Vec;

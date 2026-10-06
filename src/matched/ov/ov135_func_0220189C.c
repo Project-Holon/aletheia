@@ -80,7 +80,7 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern u16 func_0200ADE0(struct RegB *p);
 extern void func_022022B8(Work *p, void *mon, u32 box, int hatch);
 extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02201B18(u8 *p);
 extern u32 func_0200FBB0(void);
 extern void func_0203CA04(void);

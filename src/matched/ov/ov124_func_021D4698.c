@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_0204B3B4(struct Obj *);
 extern void func_0204ADA4(u32);
 extern void func_0204A8D4(u32);

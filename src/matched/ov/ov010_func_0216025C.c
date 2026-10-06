@@ -82,7 +82,7 @@ struct Owner;
 struct Work;
 extern u32 func_02028754(struct Obj *obj, u32 n);
 extern int func_0216070C(struct Work *w);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_02188C7C(u8 *p);
 extern void func_0216D9E4(void *p);
 extern int func_0216060C(int a0, int a1);

@@ -42,7 +42,8 @@ typedef struct {
 } Obj;
 
 extern void func_02087C6C(void *);
-extern int func_0203EFC8(void *, void *, int);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
 struct ent;
 extern int func_0217B158(char *base, struct ent *excl, u8 *mac);
 extern u8 *func_0217AFE4(int, Obj *, Ent8 *, int, int, int *);
@@ -64,7 +65,7 @@ void func_0217B098(int a, int b, int c, int d, Obj *e)
     func_02087C6C(buf);
     for (i = 0; i < 5; i++) {
         if (e->slot[i] == 0 && e->tab[i].f1 == 1
-            && func_0203EFC8(buf, &e->tab[i], 6) != 0
+            && func_0203EFC8(buf, (const u8 *)(&e->tab[i]), 6) != 0
             && func_0217B158((char *)a, (struct ent *)e, (u8 *)(&e->tab[i])) != 0) {
             e->slot[i] = func_0217AFE4(a, e, &e->tab[i], i, 0, &out);
             e->slot[i][8] = 1;

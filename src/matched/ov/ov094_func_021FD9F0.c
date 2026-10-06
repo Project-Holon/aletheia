@@ -23,7 +23,7 @@ typedef struct {
     int k3c;                /* 0x3c */
 } State;
 
-extern State *func_02051774(void *p);
+extern unsigned int func_02051774(void);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0205189C(struct Obj *o, u32 v);
@@ -33,7 +33,7 @@ extern void func_021FDA28(void *p, int active);
 
 void func_021FD9F0(void *p)
 {
-    State *s = func_02051774(p);
+    State *s = (State *)func_02051774();
 
     if (s->k3c != 0 && s->k0c < 0)
         func_0205189C(p, 0x800);

@@ -68,7 +68,7 @@ struct Sub02007084Ctrl {
 extern struct Sub02007084Ctrl *sub_02007084_Ptr;
 extern const char sub_020070A4_File[];
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_0203195C(u8 *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 

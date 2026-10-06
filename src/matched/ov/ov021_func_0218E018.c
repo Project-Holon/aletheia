@@ -28,20 +28,20 @@ extern void *func_02030734(u16, int, int, void *, int);
 extern int d_021DDA28;
 struct Light;
 extern int func_02048B78(struct Light *l);
-extern void func_02048B88(int a, int *out);
+extern void func_02048B88(struct Light *l, unsigned int *out);
 extern u16 func_0207D184(int a);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0218E18C(char *p, int a);
 typedef unsigned int   u32;
 extern void func_0218EEFC(int n, u32 x, u32 flags, u32 heap, void *a);
 
-char *func_0218E018(int a0, int a1, int a2, int a3, u16 heap)
+char *func_0218E018(int a0, int a1, struct Light *a2, int a3, u16 heap)
 {
     int t;
     char *p = func_02030734(heap, 0x1b0, 1, &d_021DDA28, 0x80);
     ((struct Obj00519 *)p)->f10 = a0;
     ((struct Obj00519 *)p)->f14 = a1;
-    ((struct Obj00519 *)p)->fC = a2;
+    ((struct Obj00519 *)p)->fC = (int)a2;
     ((struct Obj00519 *)p)->f20 = 0;
     ((struct Obj00519 *)p)->f0 = heap;
     ((struct Obj00519 *)p)->f24 = 0;
@@ -61,7 +61,7 @@ char *func_0218E018(int a0, int a1, int a2, int a3, u16 heap)
     ((struct Obj00519 *)p)->f7C = 0x78;
     ((struct Obj00519 *)p)->fE9 = 1;
     if (func_02048B78((struct Light *)a2) == 0) {
-        func_02048B88(a2, &t);
+        func_02048B88(a2, (unsigned int *)(&t));
         ((struct Obj00519 *)p)->f80 = func_0207D184(t);
     }
     ((struct Obj00519 *)p)->f4 = func_020490F4(0x3c, ((struct Obj00519 *)p)->f0);

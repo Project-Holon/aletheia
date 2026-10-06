@@ -19,17 +19,17 @@
 typedef unsigned short u16;
 extern const int d_021D8AF8[];
 extern void func_021D7C1C(char *);
-extern int func_021D7C48(char *,int,int,int,int,int);
+extern int func_021D7C48(unsigned char *p, int n, int a, int b, int c, int d);
 extern void func_021D7D30(char *);
-extern void func_021D7710(char *);
+extern void func_021D7710(unsigned char *p);
 typedef unsigned char  u8;
 extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 void func_021D7D6C(char *p,int a,int b)
 {
     func_021D7C1C(p);
-    func_021D7C48(p,0,8,7,16,6);
-    func_021D7C48(p,1,8,13,16,6);
+    func_021D7C48((unsigned char *)p,0,8,7,16,6);
+    func_021D7C48((unsigned char *)p,1,8,13,16,6);
     func_021D7D30(p);
-    func_021D7710(p);
+    func_021D7710((unsigned char *)p);
     ((struct Obj13937 *)p)->f8=func_02051B84((u8 *)d_021D8AF8,a,b,((struct Obj13937 *)p)->fC8);
 }

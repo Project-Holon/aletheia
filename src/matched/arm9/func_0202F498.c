@@ -20,15 +20,16 @@
  *       --func func_0202F498 --addr 0x0202F498 --cc 1.1p1 --thumb
  */
 
-extern void *func_02017DBC(void *a);
-extern void  func_02017DE4(void *a, void *b);
+struct Sav;
+extern unsigned int func_02017DBC(struct Sav *p);
+extern unsigned int func_02017DE4(struct Sav *p, unsigned int f);
 typedef unsigned int   u32;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02017EB4(void *p);
 
 int func_0202F498(void *a0, int a1)
 {
-    void *p = func_02017DBC(a0);
+    void *p = (void *)func_02017DBC(a0);
     int x = func_02017E88(a0, 5, 0);
     int y = func_02017E88(a0, 0x96, 0);
     int z = func_02017E88(a0, 0x6d, 0);
@@ -41,7 +42,7 @@ int func_0202F498(void *a0, int a1)
         || func_02017E88(a0, 0x95, flag) != 0) {
         flag = 1;
     }
-    func_02017DE4(a0, p);
+    func_02017DE4(a0, (unsigned int)p);
 
     switch (a1) {
     case 0:

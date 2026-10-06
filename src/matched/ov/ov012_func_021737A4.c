@@ -28,8 +28,8 @@
 
 typedef unsigned char u8;
 
-extern int func_02026454(int a);
-extern u8 *func_02026474(int a);
+extern unsigned int func_02026454(void *obj);
+extern unsigned int func_02026474(void *obj);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Ctx;
@@ -42,7 +42,7 @@ extern int func_0217B840(char *base, int r1);
 extern void func_0217B75C(char *p);
 extern void func_0217B264(u8 *w, void *sys, void *q);
 
-void func_021737A4(int a, int b)
+void func_021737A4(void *a, int b)
 {
     u8 *r4;
     u8 s;
@@ -50,7 +50,7 @@ void func_021737A4(int a, int b)
     if (func_02026454(a) != 3) {
         return;
     }
-    r4 = func_02026474(a);
+    r4 = (u8 *)func_02026474(a);
     if (r4 == 0) {
         func_02034714((void *)0x02175610, 0, (void *)0x02175610);
     }

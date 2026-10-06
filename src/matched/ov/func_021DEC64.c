@@ -19,15 +19,15 @@
  */
 
 
-extern void func_021DEB40(int, int, int);
+extern void func_021DEB40(unsigned int a, int b, void *c);
 extern void func_021DEB70(int, int, int);
-extern void func_021DEB90(int, int, int, int, int);
+extern void func_021DEB90(void *unused, void *unused2, int x, unsigned int base, unsigned int pal);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-void func_021DEC64(int a, int b, int c, int d, int e)
+void func_021DEC64(void *a, void *b, int c, void *d, int e)
 {
-    func_021DEB40((int)a, b, d);
-    func_021DEB70(a, b, e);
-    func_021DEB90(a, b, c, d, e);
+    func_021DEB40((int)a, (int)b, d);
+    func_021DEB70((int)a, (int)b, e);
+    func_021DEB90(a, b, c, (unsigned int)d, e);
     func_02041B6C(3);
 }

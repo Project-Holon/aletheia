@@ -13,7 +13,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern void func_02213808(char *p, int value);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 int func_02212A90(void *obj, int *command, int *ctx)
 {
     if (ctx[7] == 1) {

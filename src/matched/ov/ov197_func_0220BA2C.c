@@ -26,7 +26,7 @@ typedef unsigned int u32;
 struct Item;
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern struct Item *func_020081DC(u8 *base, u32 id, u32 index);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern const u8 d_0220DB3C[];
 extern const u8 d_0220DB3F[];
 

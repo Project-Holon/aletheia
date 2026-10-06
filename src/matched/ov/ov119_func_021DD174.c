@@ -11,7 +11,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10358.h"
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021DD174(char *p)
 {
     int i, j;

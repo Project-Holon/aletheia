@@ -19,12 +19,13 @@
 #include "../include/Obj14728.h"
 typedef unsigned short u16;
 struct ArcFile;
-extern void *func_020490F4(unsigned int id, u16 heap);
+typedef unsigned int   u32;
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02049250(struct ArcFile *,unsigned,unsigned);
 extern int func_02062B30(void *,void **);
 extern void func_02041090(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char);
 extern void func_020409B4(unsigned);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021BA7E0(char *p)
 {

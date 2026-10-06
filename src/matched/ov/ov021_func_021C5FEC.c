@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 func_02188CD0(u8 *p);
-extern void func_0216D674(u32 a, u32 b);
+extern void func_0216D674(void *p, unsigned short v);
 extern u32 func_021BB528(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned short u16;
 extern void func_021AE01C(u32 a, u16 v);
@@ -32,7 +32,7 @@ void func_021C5FEC(u8 *p)
 {
     u32 o = func_02188CD0((u8 *)(((struct Obj06080 *)p)->f8));
 
-    func_0216D674(((struct Obj06080 *)p)->f1C, 2);
+    func_0216D674((void *)(((struct Obj06080 *)p)->f1C), 2);
     ((struct Obj06080 *)p)->f2C = func_021BB528(o, ((struct Obj06080 *)p)->f1C, 0, 1);
     func_021AE01C(((struct Obj06080 *)p)->f30, 1);
 }

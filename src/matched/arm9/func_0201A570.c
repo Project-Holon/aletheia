@@ -34,7 +34,7 @@ struct Rec;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *rec);
-extern void func_020307B0(void *a0);
+extern u32 func_020307B0(void *p);
 
 void func_0201A570(void *a0)
 {

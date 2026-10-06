@@ -22,7 +22,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *func_02012944(void *);
-extern void *func_0200853C(void *);
+struct Sub0200852CObj;
+extern unsigned int func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned func_020173EC(void);
 extern unsigned func_0201AA18(void *p);
 typedef unsigned int   u32;
@@ -37,7 +38,7 @@ void func_021DCB58(char *p,void *q,int mode)
     void *mon;
     i=0;
     ((struct Obj01956 *)p)->f12C=0;
-    *(u8 * *)&((struct Obj01956 *)p)->f121C=func_021B9800(((struct Obj01956 *)p)->f124,(int)func_0200853C(func_02012944(((struct Obj01956 *)p)->f8)),((struct Obj01956 *)p)->f10);
+    *(u8 * *)&((struct Obj01956 *)p)->f121C=func_021B9800(((struct Obj01956 *)p)->f124,(int)func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj01956 *)p)->f8)),((struct Obj01956 *)p)->f10);
     switch(mode) {
     case 0:
         func_021B98A0(*(u8 * *)&((struct Obj01956 *)p)->f121C,((struct Obj01956 *)p)->f124,func_020173EC(),0);

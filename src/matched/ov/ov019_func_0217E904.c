@@ -77,7 +77,7 @@ struct Entry *func_020399A8(void);
 struct Link;
 void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
-void func_0203D7BC(int a);
+void func_0203D7BC(u8 a0);
 u32 func_0203D378(void);
 int func_020392B8(void);
 u16 func_02039338(void);

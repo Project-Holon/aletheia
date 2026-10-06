@@ -50,7 +50,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_02037BE8(u32 idx);
 

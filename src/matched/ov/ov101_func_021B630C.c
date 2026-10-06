@@ -12,7 +12,7 @@
  *   func_021B6494 0x021B6494 thumb ov101
  *   func_0203D378 0x0203D378 arm
  */
-extern int func_021B6494(int *,int,int,int *);
+extern int func_021B6494(unsigned int p, unsigned int a, unsigned int b, unsigned int c);
 typedef unsigned int   u32;
 extern u32 func_0203D378(void);
 int func_021B630C(int *p,int value)
@@ -22,7 +22,7 @@ int func_021B630C(int *p,int value)
     switch(p[17]) {
     case 0:
         p[28]=0;
-        if(func_021B6494(p,0xD00,4,&value)) p[17]=1;
+        if(func_021B6494((unsigned int)p,0xD00,4,(unsigned int)(&value))) p[17]=1;
         break;
     case 1:
         if(func_0203D378()) {
@@ -31,7 +31,7 @@ int func_021B630C(int *p,int value)
         } else p[17]=3;
         break;
     case 2:
-        if(func_021B6494(p,0xD01,4,&value)) p[17]=4;
+        if(func_021B6494((unsigned int)p,0xD01,4,(unsigned int)(&value))) p[17]=4;
         break;
     case 3:
         if(p[28]) p[17]=4;

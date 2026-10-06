@@ -73,7 +73,7 @@ struct Party {
 extern u32  func_02017E1C(void *entry, u32 id, u32 v);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int sub_0201ACC4(void *p, u32 pos);
 extern void sub_0201ACDC(void *p, u32 pos, u32 mode);
 

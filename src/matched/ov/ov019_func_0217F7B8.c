@@ -15,6 +15,6 @@
 #include "../include/Obj00033.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021915B4(u32 a);
+extern int func_021915B4(void *a);
 extern void func_0201A570(void *p);
-void func_0217F7B8(char *p) { if(((struct Obj00033 *)p)->f3530) { func_021915B4((u32)(((struct Obj00033 *)p)->f2818)); ((struct Obj00033 *)p)->f2818=0; func_0201A570(((struct Obj00033 *)p)->f3530); ((struct Obj00033 *)p)->f3530=0; } }
+void func_0217F7B8(char *p) { if(((struct Obj00033 *)p)->f3530) { func_021915B4((void *)(((struct Obj00033 *)p)->f2818)); ((struct Obj00033 *)p)->f2818=0; func_0201A570(((struct Obj00033 *)p)->f3530); ((struct Obj00033 *)p)->f3530=0; } }

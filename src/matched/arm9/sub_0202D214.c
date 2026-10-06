@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 extern const char str_020A77AC[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 
 void sub_0202D214(void *p, u32 v)

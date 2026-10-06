@@ -14,5 +14,6 @@
  */
 typedef struct { unsigned int f0; void *f4; } State;
 extern State d_021F6360;
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021D7894(void) { if (d_021F6360.f4) { func_020307B0(d_021F6360.f4); d_021F6360.f4 = 0; } }

@@ -43,7 +43,8 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern int func_02012138(int a);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *p);
 struct Evt;
 extern int func_02158344(int a0);
 extern void *func_02188C7C(u8 *p);
@@ -69,7 +70,7 @@ int func_02184410(int a, int *state, u8 *p)
 
     z = *(int *)(p + 8);
     y = *(int *)(p + 4);
-    w = (u8 *)func_02158344(func_02012138(*(int *)(p + 0)));
+    w = (u8 *)func_02158344(func_02012138((const struct Ctx *)(*(int *)(p + 0))));
 
     switch (*state) {
     case 0:

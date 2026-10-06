@@ -25,13 +25,14 @@ struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *a);
 typedef unsigned char  u8;
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_02026454(int a);
+extern unsigned int func_02026454(void *obj);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_02012944(void *p);
-extern void func_020263D8(int a, int b, void *c);
+struct Comm;
+extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
 extern void func_021653C4(void);
 extern char d_02175610[];
 extern char d_02175614[];
@@ -44,7 +45,7 @@ void func_02173744(int a)
 
     r5 = func_02012138((const struct Ctx *)a);
     r7 = (int)func_020120F4((const struct Ctx *)a);
-    if (func_02026454(r5) != 0) {
+    if (func_02026454((void *)r5) != 0) {
         func_02034714(d_02175610, 0, d_02175610);
     }
     p = func_02030734(5, 0x10, 1, d_02175614, 0x37);
@@ -52,6 +53,6 @@ void func_02173744(int a)
     p[1] = r5;
     p[2] = r7;
     p[3] = a;
-    func_020263D8(r5, 3, p);
+    func_020263D8((struct Comm *)r5, 3, (u32)p);
     func_021653C4();
 }

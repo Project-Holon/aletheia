@@ -29,7 +29,7 @@
  *   func_02035CB8 0x02035CB8 arm
  */
 struct S { char pad0[0x34]; int f34; char pad38[0x14]; int f4c; };
-extern int func_02035CB8(int *a, int *b);
+extern unsigned int func_02035CB8(unsigned int *outA, unsigned int *outB);
 typedef unsigned int   u32;
 extern u32 func_021BB98C(void *p);
 extern void func_021BC280(struct S *p);
@@ -53,7 +53,7 @@ void func_021BB200(struct S *p)
 {
     int a;
     int b;
-    int r = func_02035CB8(&a, &b);
+    int r = func_02035CB8((unsigned int *)(&a), (unsigned int *)(&b));
     int m = func_021BB98C(p);
     switch (m) {
     case 0:

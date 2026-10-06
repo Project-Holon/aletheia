@@ -43,7 +43,7 @@ extern int func_021F020C(const void *p, int a, int b, int *c, int *d);
 extern int func_021F0D80(void *p, int k);
 extern int func_021EFEC0(int a, int b);
 struct Sub020090B0Obj;
-extern void func_021F2AEC(int p, int a1, int a2, int a3, int k);
+extern void func_021F2AEC(unsigned char *p, int a1, int a2, int a3, int k);
 extern void func_020409B4(u32 layer);
 extern void func_020061E4(u32 id);
 extern int func_021F2DA8(u8 *p);
@@ -76,7 +76,7 @@ void func_021F1758(u8 *p, int key)
             ((struct Obj00042 *)p)->f2CC = x;
             ((struct Obj00042 *)p)->f2CE = y;
             if ((func_021F0D80(p, r) > 1 || r == 4) && func_021EFEC0(c, d) != 0) {
-                func_021F2AEC((int)p, *(int *)&((struct Obj00042 *)p)->f20, c, d, (r + 1) % 5);
+                func_021F2AEC((unsigned char *)p, *(int *)&((struct Obj00042 *)p)->f20, c, d, (r + 1) % 5);
                 func_020409B4(4);
                 func_020061E4(0x628);
             }

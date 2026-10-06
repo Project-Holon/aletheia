@@ -48,7 +48,7 @@ extern void func_021C337C(void *a0, u8 *st, void *a2);
 extern void func_021C3374(void *a0, u8 *st, void *a2);
 extern void func_021C2D88(void *a0, u8 *st, void *a2);
 extern void func_021BC61C(char *p);
-extern void func_021BC464(char *p);
+extern void func_021BC464(void *a0);
 extern void func_021C2BF4(void *unused, char *p, void *a2);
 struct Node;
 extern void func_02030EAC(struct Node *n);

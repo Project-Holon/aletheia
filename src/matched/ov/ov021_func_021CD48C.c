@@ -84,7 +84,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02008494(void *src, void *dst);
 extern void func_02082D44(void *src, void *dst, u32 n);
-extern void func_0203D7BC(u32 a);
+extern void func_0203D7BC(u8 a0);
 extern void func_021CF164(u32 a);
 extern void *func_0203D798(void);
 extern u32 func_0203D650(void);

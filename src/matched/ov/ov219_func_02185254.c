@@ -25,7 +25,8 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern const u8 d_02185DCB[];
-extern void *func_020457B0(unsigned,u16);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(unsigned int capacity, unsigned int heapId);
 struct Cfg;
 struct Descriptor;
 struct Record;
@@ -44,8 +45,8 @@ extern int func_02185C84(unsigned,unsigned,void *,void *,unsigned);
 void func_02185254(char *p,unsigned key,unsigned member)
 {
     void *first,*second,*object;
-    first=func_020457B0(64,((struct Obj02934 *)p)->f0);
-    second=func_020457B0(64,((struct Obj02934 *)p)->f0);
+    first=func_020457B0(64,(u16)(((struct Obj02934 *)p)->f0));
+    second=func_020457B0(64,(u16)(((struct Obj02934 *)p)->f0));
     ((struct Obj02934 *)p)->fC040=(void *)func_02184968(d_02185DCB,1);
     func_02185C84(key,member,first,second,((struct Obj02934 *)p)->f0);
     if(member!=0) func_02184D30(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,second,0,16);

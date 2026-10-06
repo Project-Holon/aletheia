@@ -48,7 +48,7 @@ extern void func_02050ED4(void);
 extern void func_021F94D8(void *);
 extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 #define FIELD(k) (*(void **)(d_0220AF20 + (k)))
 
 void func_021F7808(void)

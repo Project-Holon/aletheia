@@ -36,7 +36,7 @@ typedef signed int     s32;
 struct Obj;
 struct Sub0200852CObj;
 extern u8 *func_02012944(void *p);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204ACEC(void *,u32,u32,u32,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);

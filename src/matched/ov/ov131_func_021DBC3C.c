@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021DBC3C(u8 *p)
 {
     u8 i, j;

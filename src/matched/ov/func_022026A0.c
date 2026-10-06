@@ -22,7 +22,7 @@ typedef signed int s32;
 struct Mon;
 extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void func_0220262C(u32 h, u32 k);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_022026A0(u8 *p, u32 k)
 {

@@ -17,8 +17,9 @@
 
 extern unsigned long func_0215C910(char *name);
 
-void func_021798E4(const char *p)
+typedef unsigned int   u32;
+u32 func_021798E4(const char *p)
 {
-    func_0215C910((char *)(*(const int *)(p + 0x1124)));
+    return func_0215C910((char *)(*(const int *)(p + 0x1124)));
 }
 

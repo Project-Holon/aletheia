@@ -46,7 +46,7 @@ extern int func_021CCEE4(u32 a);
 struct Bank;
 extern void func_0201D83C(void *ptr);
 extern void func_0204B1CC(struct Bank *bank);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const char d_021DE5BC[];
 
 u32 func_021CC7B4(Obj *p, u32 *out)

@@ -57,7 +57,7 @@ extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 struct Sav;
 extern void sub_02017550(struct Sav *entry);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
 
 void sub_02007B08(void *p);

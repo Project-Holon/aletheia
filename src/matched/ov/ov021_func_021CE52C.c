@@ -37,7 +37,7 @@ extern u32 func_02188C54(u8 *p);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_021CEA50(u8 *p);
 extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 
 int func_021CE52C(u32 *p)
 {
@@ -66,7 +66,7 @@ int func_021CE52C(u32 *p)
                 break;
             }
         }
-        func_021909BC(q->h);
+        func_021909BC((void *)q->h);
         q->h = 0;
         q->state = 0;
         if (r == 0) {

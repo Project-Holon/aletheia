@@ -31,7 +31,7 @@ typedef short s16;
 extern u8 ov132_id[];
 extern u8 ov112_id[];
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02012F74(void *h, void *w);
 typedef signed int     s32;
 extern void func_02034A5C(s32 handle);

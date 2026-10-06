@@ -50,7 +50,8 @@ extern void func_02031140(struct S02031140 *);
 extern unsigned func_0220D914(u8 *);
 extern void func_0220AF64(void *);
 extern void func_02030EAC(struct Node *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 int func_0220D3B0(struct Node *task, char *p)
 {
     if (((struct Obj00846 *)p)->f5A0 == 1) {

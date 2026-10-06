@@ -27,7 +27,8 @@ typedef unsigned short u16;
 extern void *func_021D6064(u8 *);
 extern unsigned func_02017E88(void *,unsigned,unsigned);
 extern int func_0201C1C8(u16);
-extern void func_0204AB84(void *,void *);
+struct Rec;
+extern void func_0204AB84(unsigned int idx, struct Rec *dst);
 struct Struct36;
 extern void func_0204B784(char *dst, const struct Struct36 *src);
 extern u8 func_020275EC(int i);
@@ -47,7 +48,7 @@ void func_021DB964(u8 *a,void *b,u8 *p) {
     if(((struct Obj02847 *)p)->f4==1) {
         if(v!=0) {
             i=func_0201C1C8(v);
-            func_0204AB84(*(void **)(a+304+i*4),words);
+            func_0204AB84((unsigned int)(*(void **)(a+304+i*4)),(struct Rec *)words);
             func_0204B784(((struct Obj02847 *)p)->fC,(const struct Struct36 *)words);
             func_0204B6F4(((struct Obj02847 *)p)->fC,func_020275EC(i),1);
             func_0204B3DC(((struct Obj02847 *)p)->fC,1);

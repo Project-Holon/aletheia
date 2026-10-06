@@ -34,7 +34,7 @@ typedef struct GHIConnection {
     int ssl;
 } GHIConnection;
 
-extern int func_020949F4(const char *, const char *, unsigned int);
+extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsigned int n);
 typedef unsigned char  u8;
 extern int func_02094A60(const u8 *s, const u8 *reject);
 extern char *func_02094A28(const char *, int);
@@ -61,10 +61,10 @@ GHIBool func_021C3A38(GHIConnection *connection)
     URL = connection->url;
     if (URL == 0)
         return GHI_FALSE;
-    if (func_020949F4(URL, g_021CEFDC, 7) == 0) {
+    if (func_020949F4((const unsigned char *)URL, (const unsigned char *)g_021CEFDC, 7) == 0) {
         connection->ssl = 0;
         URL += 7;
-    } else if (func_020949F4(URL, g_021CEFE4, 8) == 0) {
+    } else if (func_020949F4((const unsigned char *)URL, (const unsigned char *)g_021CEFE4, 8) == 0) {
         connection->ssl = 1;
         URL += 8;
     } else {

@@ -55,7 +55,7 @@ extern void  func_02005D90(u32 a0, u32 a1);
 extern void func_02005DF8(u32 a);
 extern void *func_020145CC(void *a0);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 

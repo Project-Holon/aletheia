@@ -53,7 +53,7 @@ extern u32 func_0200BBA8(void *a);
 extern void *func_0200BAF4(int a0, int a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021B59B0(void);
 
 void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)

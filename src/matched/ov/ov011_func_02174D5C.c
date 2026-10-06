@@ -35,7 +35,8 @@ struct Big;
 u32 func_02026478(void *obj);
 void *func_02012EBC(struct Big *p);
 void *func_0200E0B0(void *p);
-void func_0216749C(void *a, Blk *b, int c, int d, u8 *e);
+struct Entry32;
+unsigned short func_0216749C(struct Entry32 *list, struct Entry32 *out, u32 cap, int page, u8 *n);
 typedef unsigned short u16;
 u8 func_021673C4(u8 *p);
 u8 func_021673A8(u8 *p);
@@ -50,7 +51,7 @@ void func_02174D5C(int *p, const u8 *q)
 
     b = (Blk *)((u8 *)p + 0x880);
     x = func_0200E0B0(func_02012EBC((struct Big *)func_02026478((void *)p[1])));
-    func_0216749C(x, b, 0x14, q[0], buf);
+    func_0216749C(x, (struct Entry32 *)b, 0x14, q[0], buf);
     b->a = buf[0];
     b->b = func_021673C4(x);
     b->c = func_021673A8(x);

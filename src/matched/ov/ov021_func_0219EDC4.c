@@ -56,7 +56,7 @@ extern u16 func_021642A4(int i);
 extern int func_0216D60C(int a0, int a1);
 extern void func_0219E2F4(void *o, void *out);
 extern u16 func_0216D608(void *p);
-extern u32 func_0219E418(u32, u16);
+extern int func_0219E418(u32 a, u32 b);
 extern void func_0219E664(u32, u16, T *);
 extern int func_0219E9A8(u32, u32, s32, T *);
 extern int func_02197E7C(int a, int b);
@@ -93,7 +93,7 @@ int func_0219EDC4(u32 o)
         }
         z = 0;
         k = func_0216D608((void *)o);
-        s = func_0219E418(o, k);
+        s = (u32)func_0219E418(o, (u16)k);
         func_0219E664(o, k, &b);
         r = func_0219E9A8(o, e->f, e->e, &b);
         if (c.a != b.a) {
@@ -102,7 +102,7 @@ int func_0219EDC4(u32 o)
         if ((s & 1) || r || z) {
             e->d = 1;
             k = (u32)func_021642A4((u16)k);
-            s = func_0219E418(o, k);
+            s = (u32)func_0219E418(o, (u16)k);
             func_0219E664(o, k, &b);
         }
         func_0216D438((u32)o, (u16)((u32)func_02197E7C((u16)k, (u16)(s == 0 ? 0xc : 0x20))));

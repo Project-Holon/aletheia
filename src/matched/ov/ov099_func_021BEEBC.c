@@ -46,7 +46,7 @@ struct Sub020097BCObj;
 extern void func_02155664(void (*callback)(void));
 struct Sub0200852CObj;
 extern int func_021BEE64(void *a, char *b);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021C19A8(char *);
 extern void func_021C0290(char *);
 extern void func_02082BCC(void *,int,int);

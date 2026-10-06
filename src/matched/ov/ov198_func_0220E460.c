@@ -24,7 +24,7 @@
 #include "../include/Obj25206.h"
 #include "../include/Obj25207.h"
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(void *, unsigned, unsigned, unsigned, u16);
 extern int func_0204ABF0(void *, unsigned, unsigned, unsigned, u16);
 typedef signed int     s32;
@@ -37,7 +37,7 @@ void func_0220E460(char *p)
 {
     void *owner;
     unsigned i;
-    owner = func_020490F4(83,(((struct Obj25202 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10 & 0x7fff) | 0x8000);
+    owner = func_020490F4(83,(u16)((((struct Obj25202 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10 & 0x7fff) | 0x8000));
     ((struct Obj00172 *)p)->f2518 = func_0204ABF0(owner, 33, 1, 160, ((struct Obj25203 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     ((struct Obj00172 *)p)->f2530 = func_0204AF28(owner, 59, 62, ((struct Obj25204 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     for (i = 8; i <= 21; i++)

@@ -59,7 +59,7 @@ struct Req;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02158590(void *p);
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_0203D10C(int a0);
 extern void func_0203CFF0(void *p);
 extern void func_02173568(u8 *w);

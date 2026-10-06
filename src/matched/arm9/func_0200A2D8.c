@@ -16,13 +16,14 @@
 
 typedef unsigned char u8;
 
-extern int  func_0200A350(void);
+struct Obj;
+extern int func_0200A350(struct Obj *a0);
 extern int  func_021DFE00(void *p);
 extern int func_02012DD0(u8 *p);
 
 int func_0200A2D8(void *a0, int a1)
 {
-    if (func_0200A350() == 0) {
+    if (func_0200A350(a0) == 0) {
         if (func_021DFE00(((struct Obj15587 *)a0)->f8) != 0)
             return 2;
         return 0;

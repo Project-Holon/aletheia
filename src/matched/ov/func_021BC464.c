@@ -15,9 +15,10 @@
  * Tail call to the ARM9 function at 0x020307B0: loads the pointer from the pool and branches through it.
  */
 
-extern void func_020307B0(void);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
-void func_021BC464(void)
+void func_021BC464(void *a0)
 {
-    func_020307B0();
+    func_020307B0(a0);
 }

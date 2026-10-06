@@ -18,7 +18,8 @@ struct Descriptor;
 struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_020452E8(struct Descriptor *d);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021BA934(char *p)
 {
     int i;

@@ -16,29 +16,29 @@
  *   func_020434DC 0x020434DC arm
  */
 #include "../include/Obj10659.h"
-extern void func_021DE76C(char *, int);
+extern void func_021DE76C(unsigned char *p, int mode);
 extern void func_021DCBA4(char *);
-extern int func_021DCBE8(char *);
+extern int func_021DCBE8(unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021DE080(u8 *p, int i, int value);
-extern void func_021DDFBC(char *);
+extern void func_021DDFBC(u8 *p);
 typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
 int func_021DD38C(char *p)
 {
     switch (((struct Obj10659 *)p)->fC70) {
     case 0:
-        func_021DE76C(p, 0);
+        func_021DE76C((unsigned char *)p, 0);
         func_021DCBA4(p);
         func_020434DC(2, 0);
         ++((struct Obj10659 *)p)->fC70;
         break;
     case 1:
-        if (!func_021DCBE8(p)) {
+        if (!func_021DCBE8((unsigned char *)p)) {
             func_021DE080((u8 *)p, 12, 4);
             func_021DE080((u8 *)p, 13, 5);
             func_021DE080((u8 *)p, 14, 0);
-            func_021DDFBC(p);
+            func_021DDFBC((u8 *)p);
             ((struct Obj10659 *)p)->fC70 = 0;
             return 4;
         }

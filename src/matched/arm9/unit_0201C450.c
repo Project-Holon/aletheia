@@ -53,7 +53,7 @@ typedef unsigned long long u64;
 
 extern const char sub_0201C450_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 union Ticks {
     u64 v;

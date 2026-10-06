@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 extern void  func_02082D44(void *src, void *dst, int n);
 struct Ctx;
 extern u32   func_02012138(const struct Ctx *p);
-extern void  func_020307B0(void *a);
+extern u32 func_020307B0(void *p);
 struct Comm;
 struct IcaAnime;
 extern u32 func_02012164(struct IcaAnime *p);

@@ -18,8 +18,9 @@
 #include "../include/Obj00131.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02045CAC(void *,u16,int);
-extern void *func_020450F0(u8,u8,u8,u8,u8,u8,u8);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
+extern unsigned int func_020450F0(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 typedef unsigned int   u32;
 struct Cfg;
 struct CharBuf;
@@ -34,8 +35,8 @@ extern void func_02045374(struct Cfg *cfg);
 void func_021D7F5C(char *p,u16 n)
 {
     void *q;
-    func_02045CAC(((struct Obj00131 *)p)->fC,n,*(int *)&((struct Obj00131 *)p)->f18);
-    if(!((struct Obj00131 *)p)->f94) ((struct Obj00131 *)p)->f94=func_020450F0(1,1,13,14,3,4,1);
+    func_02045CAC(((struct Obj00131 *)p)->fC,n,(void *)(*(int *)&((struct Obj00131 *)p)->f18));
+    if(!((struct Obj00131 *)p)->f94) ((struct Obj00131 *)p)->f94=(void *)func_020450F0(1,1,13,14,3,4,1);
     q=((struct Obj00131 *)p)->f94;
     func_02043B5C(func_02045770(q),0);
     func_0201DD78(15,14,0);

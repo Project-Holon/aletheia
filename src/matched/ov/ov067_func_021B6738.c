@@ -41,7 +41,7 @@ extern u32 func_0204162C(int channel);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u8 a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
                    u8 k0, u8 k1, u8 k2, u8 k3, u8 k4, u8 k5, u8 k6, u8 k7,

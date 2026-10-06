@@ -46,7 +46,7 @@ extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
 extern int func_021B6144(void *);
 extern void *func_021F73F0(int,int,void *,int,u16 *,int,int,u16);
 extern void func_021F7544(void *,int,u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_021B613C(void *);
 extern int func_021F86E0(void);
 struct Obj;

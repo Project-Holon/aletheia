@@ -25,8 +25,8 @@
 #include "../include/Obj22835.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0203D7B0(int);
-extern void func_0203D7BC(int);
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 extern void func_021D846C(u8 *);
 extern void func_021D63F4(u8 *p, int flag, int mode);
 extern void func_02040588(u32, u32);

@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 bytes[12]; } Rects;
 extern const Rects d_021BA594;
-extern int func_02035CB8(int *, int *);
+extern unsigned int func_02035CB8(unsigned int *outA, unsigned int *outB);
 extern int func_02035C08(const void *);
 extern void func_021B96D8(char *p);
 typedef unsigned int   u32;
@@ -47,7 +47,7 @@ int func_021B940C(u8 *p)
 {
     Rects rects = d_021BA594;
     void *obj;
-    func_02035CB8((int *)(p + 0x1c), (int *)(p + 0x20));
+    func_02035CB8((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
     switch (func_02035C08(&rects)) {
     case 0:
         func_021B96D8((char *)p);

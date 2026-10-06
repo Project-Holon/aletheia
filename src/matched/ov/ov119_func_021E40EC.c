@@ -21,7 +21,7 @@ typedef struct { unsigned int w[2]; } Tbl2;
 typedef unsigned short u16;
 
 extern const Tbl2 d_021E7DD0;
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02040618(u32 layer, u32 a, u32 b);

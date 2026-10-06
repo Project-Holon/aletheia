@@ -88,7 +88,7 @@ extern u32   func_02017E88(void *p, u32 id, u32 v);
 extern void  func_02017E40(void *p, u32 id, u32 v);
 extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 extern void *func_02008F08(int a0);
-extern void  func_020307B0(void *m);
+extern u32 func_020307B0(void *p);
 extern void  func_020185C4(void *p);
 
 void *func_0201747C(struct Mon *p, u32 heap)

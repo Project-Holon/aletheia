@@ -42,7 +42,7 @@ typedef struct {
     fx32 _30, _31, _32, _33;
 } MtxFx44;
 
-extern void func_0206AE94(int *x1, int *y1, int *x2, int *y2);
+extern void func_0206AE94(unsigned int *a0, unsigned int *a1, unsigned int *a2, unsigned int *a3);
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *func_0206AE2C(void);
@@ -64,7 +64,7 @@ int func_0206E0C4(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
     fx32 w, nx, ny, nz, fw, fx, fy, fz;
     fx64c invW;
 
-    func_0206AE94(&x1, &y1, &x2, &y2);
+    func_0206AE94((unsigned int *)(&x1), (unsigned int *)(&y1), (unsigned int *)(&x2), (unsigned int *)(&y2));
     {
         int dx = x2 - x1;
         int dy = y2 - y1;

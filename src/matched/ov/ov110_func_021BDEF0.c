@@ -37,7 +37,7 @@ typedef signed char s8;
 typedef short s16;
 typedef struct { s16 a; s8 b,c; } State;
 typedef int (*Handler)(u8 *,void *);
-extern u32 func_021BABE8(u8 *);
+extern int func_021BABE8(u8 *p);
 extern u32 func_02024158(const u8 *p);
 extern void func_020061E4(u32);
 extern void func_021B9BEC(u8 *,int);

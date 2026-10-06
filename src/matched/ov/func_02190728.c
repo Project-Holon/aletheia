@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 struct Slot;
 extern void func_02190538(struct Slot *s);
 extern int func_02193130(u32 a);
 
-int func_02190728(u32 a)
+int func_02190728(void *a)
 {
 func_02193130(((struct Obj12065 *)((u8 *)(a)))->f0);
 func_02190538((struct Slot *)(((struct Obj12065 *)((u8 *)(a)))->f4));

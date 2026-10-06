@@ -26,7 +26,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188D48(u8 *p);
-extern int func_02190728(u32 a);
+extern int func_02190728(void *a);
 extern void func_02188D4C(u8 *p, u32 v);
 
 int func_021B07E0(u32 a, u32 b)
@@ -35,7 +35,7 @@ int func_021B07E0(u32 a, u32 b)
     u32 y = func_02188D48(x);
 
     if (y != 0) {
-        func_02190728(y);
+        func_02190728((void *)y);
         func_02188D4C(x, 0);
     }
     return 0;

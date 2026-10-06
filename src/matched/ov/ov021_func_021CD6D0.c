@@ -131,7 +131,7 @@ extern u32 func_021CE5AC(u32 *p);
 extern int func_021CF2F0(int a);
 extern u32 func_0203D1A4(struct Link *p);
 extern void func_021CE6F0(Work *p, int a);
-extern void func_0203D7BC(int a);
+extern void func_0203D7BC(u8 a0);
 extern u32 func_0203D1C0(u32 index);
 extern u32 func_02080D24(int a);
 extern int func_021CF3B0(int a);

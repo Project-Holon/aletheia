@@ -32,7 +32,7 @@ extern void func_0201EEC4(struct WordSet *p, u32 i, u32 v);
 struct WordSet;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0201EED4(struct WordSet *p, u32 i, void *mon);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021B6F88(int a, int b, int c)
 {

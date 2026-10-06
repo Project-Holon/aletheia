@@ -16,7 +16,8 @@
 
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021F9A6C(int *p)
 {

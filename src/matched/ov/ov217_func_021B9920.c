@@ -32,7 +32,7 @@ extern void *func_020490F4(unsigned int id, u32 heap);
 extern void *func_02049250(struct ArcFile *, u32, u32);
 extern int func_02062A98(struct NitroFileHeader *, void **);
 extern void func_02040E78(u32, void *, u32, u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_02062A4C(struct NitroFileHeader *, void **);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern int func_02062B30(void *, void **);

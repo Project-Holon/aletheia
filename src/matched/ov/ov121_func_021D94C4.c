@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_0202D214(void *,u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 unsigned func_021D94C4(int id,int heap)
 {
     unsigned result=48;

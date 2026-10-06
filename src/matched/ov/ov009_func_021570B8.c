@@ -41,7 +41,7 @@ extern char d_021A1C7C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02156F14(void);
 extern void func_02060C94(void *heap);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021570B8(void)
 {

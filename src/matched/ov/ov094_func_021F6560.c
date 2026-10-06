@@ -72,7 +72,7 @@ extern void func_0207ADC4(int *);
 extern void *func_02046F48(struct Tagged *p);
 extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_0207DCF8(void *);
-extern void sub_020307B0(void *);
+extern u32 sub_020307B0(void *p);
 
 Obj *func_021F6560(int mode, int group, int variant, u16 heap)
 {

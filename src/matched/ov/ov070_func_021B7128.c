@@ -50,8 +50,8 @@ typedef struct Obj {
     unsigned int f84C;
 } Obj;
 
-extern int func_021B61B8(Obj *o);
-extern u16 *func_021B616C(Obj *o, int k);
+extern int func_021B61B8(unsigned char *p);
+extern void *func_021B616C(unsigned char *p, int i);
 extern unsigned int func_02020FE4(u16 id, unsigned int sel, u16 heap);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -59,8 +59,9 @@ struct WordSet;
 extern u32 func_020213E0(u16 v);
 extern unsigned int func_0202136C(u16 v);
 extern void func_021B6100(char *p, int k);
-extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
-extern void func_021B61F4(Obj *o, int a, unsigned int b);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021B61F4(u8 *p, int a, unsigned int b);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BADAC(void *p);
 extern void func_021BB3F4(int p, int mode);
@@ -77,7 +78,7 @@ void func_021B7128(Obj *o)
     u16 *p;
     int s;
 
-    p = func_021B616C(o, func_021B61B8(o));
+    p = func_021B616C((unsigned char *)o, func_021B61B8((unsigned char *)o));
     o->f84C = 0;
     if (p != 0)
         o->f84C = *p;
@@ -91,8 +92,8 @@ void func_021B7128(Obj *o)
             func_021B6100((char *)o, 0);
             return;
         }
-        func_02045CAC(o->f51C, 0x2F, o->f524);
-        func_021B61F4(o, 0, o->f84C);
+        func_02045CAC(o->f51C, 0x2F, (void *)o->f524);
+        func_021B61F4((u8 *)o, 0, o->f84C);
         func_0201F250(o->f520, o->f528, (void *)o->f524);
         func_021BADAC(o);
         func_021BB3F4((int)o, 0);

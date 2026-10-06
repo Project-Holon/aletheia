@@ -35,7 +35,7 @@ struct PalAnmSlot {
     u32   unk_10;
 };
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_020215A0(struct PalAnmSlot *slots, u32 idx)
 {

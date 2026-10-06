@@ -22,8 +22,9 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
 extern void func_02039C68(struct Link *, unsigned, unsigned);
-extern void func_0203D7B0(int);
-extern int func_0203D7BC(int);
+typedef unsigned char  u8;
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 int func_021C14A8(char *p, int ret)
 {
     if (func_021C1154(p) == 0) {

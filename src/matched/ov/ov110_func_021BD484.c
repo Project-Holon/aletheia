@@ -31,7 +31,7 @@ struct Obj0203159C;
 extern u8 *func_021BD5C4(struct Obj0203159C *owner, u8 *input);
 extern void func_021B9BEC(u8 *p, int id);
 extern int func_021B9C74(unsigned int a);
-extern int func_021BABE8(void *);
+extern int func_021BABE8(u8 *p);
 extern void func_021BD7A0(u8 *,int (*)(u8 *,void *));
 extern int func_021BD894(u8 *,void *);
 extern const u8 d_00000043[];

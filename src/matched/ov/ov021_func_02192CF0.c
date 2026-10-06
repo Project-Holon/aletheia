@@ -33,7 +33,8 @@ typedef struct { u16 a; int b; int c; u16 d; int e; u8 f; u8 g; } Req;
 
 extern const B32 d_021D3ED8;
 extern const B32 d_021D3EF8;
-extern void func_0203FCA0(int, void *, int);
+struct BgTemplate;
+extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 typedef unsigned int   u32;
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
@@ -51,10 +52,10 @@ void func_02192CF0(char *p, int flag)
 
     ((struct Obj01031 *)p)->f2 = 1;
     tmp1 = d_021D3ED8;
-    func_0203FCA0(((struct Obj01031 *)p)->f2 & 0xff, &tmp1, 0);
+    func_0203FCA0(((struct Obj01031 *)p)->f2 & 0xff, (const struct BgTemplate *)(&tmp1), 0);
     ((struct Obj01031 *)p)->f4 = 2;
     tmp2 = d_021D3EF8;
-    func_0203FCA0(((struct Obj01031 *)p)->f4 & 0xff, &tmp2, 0);
+    func_0203FCA0(((struct Obj01031 *)p)->f4 & 0xff, (const struct BgTemplate *)(&tmp2), 0);
     func_02040C14(((struct Obj01031 *)p)->f2, 0, 1, 0);
     func_02041300(((struct Obj01031 *)p)->f2 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02041300(((struct Obj01031 *)p)->f4 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);

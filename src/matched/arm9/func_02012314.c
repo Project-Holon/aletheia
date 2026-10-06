@@ -11,7 +11,8 @@
  */
 #include "../include/Obj01023.h"
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_02012314(char *p)
 {
     void *q = ((struct Obj01023 *)p)->fC;

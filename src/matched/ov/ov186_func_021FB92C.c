@@ -21,5 +21,6 @@ extern void func_021FC1F8(int *,int);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *);
 extern void func_0201D83C(void *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021FB92C(char *p) {func_021FC1F8((int *)p,0);func_021FC1F8((int *)p,1);func_0201ED04(((struct Obj10788 *)p)->fF0);func_02045C04(*(struct Rec * *)&((struct Obj10788 *)p)->fEC);func_0201D83C(((struct Obj10788 *)p)->fE8);func_020307B0(p);}

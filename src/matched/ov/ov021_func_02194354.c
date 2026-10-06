@@ -22,7 +22,7 @@ typedef signed char    s8;
 
 typedef struct { u32 key; u32 x4; u32 x8; } Item;
 typedef struct { u16 n; u16 pad; u32 x4; Item *items; } List;
-extern int func_02194418(u32 a);
+extern int func_02194418(u32 a, int a1);
 
 void func_02194354(List *p, u32 key)
 {
@@ -32,7 +32,7 @@ void func_02194354(List *p, u32 key)
     it = p->items;
     for (i = 0; i < p->n; i++) {
         if (it->x8 != 0 && it->key == key) {
-            func_02194418((u32)it);
+            func_02194418((u32)it, key);
             return;
         }
         it++;

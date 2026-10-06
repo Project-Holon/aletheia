@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Ov208Pltt { u32 pad0[3]; u8 *data; };
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(void *, void *, u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_02061CA4(void *, u32, u32, int);
 void func_021BF5B8(u16 *heap, u8 *p, int *ctx)
 {

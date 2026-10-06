@@ -31,7 +31,7 @@ extern int func_020144DC(int a0, int a1);
 extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void *func_020145CC(void *a0);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern char ov_id_D9[];
 extern char d_021C3FE0[];
 

@@ -25,7 +25,8 @@ extern char *func_021F5450(char *, int);
 extern char *func_021F5464(char *p);
 extern void func_0207C9D0(Vec *, Vec *, Vec *);
 extern void func_021F4E8C(int, int, Vec *);
-extern void func_021F4E6C(int, int, int);
+typedef unsigned char  u8;
+extern void func_021F4E6C(u8 *p, u8 *e, unsigned int value);
 typedef signed short   s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -41,7 +42,7 @@ void func_021F7E2C(char *p, char *q) {
         func_021F4E8C(((struct Obj08031 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), &v);
     }
     t->b = -0x3000;
-    func_021F4E6C(((struct Obj08031 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), 1);
+    func_021F4E6C((u8 *)(((struct Obj08031 *)p)->f10), (u8 *)(*(int *)(q + 0x84 + t->index * 4)), 1);
     func_021F4ED4(((struct Obj08031 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), 0);
     func_021F4EB4(((struct Obj08031 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), 1024, 1024);
 }

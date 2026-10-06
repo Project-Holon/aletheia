@@ -33,7 +33,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02048DDC(struct ArcFile *arc, u32 id);
 extern void func_0204919C(u8 *p);
 
-void *sub_020490F4(u32 id, u16 heap)
+void *sub_020490F4(u32 id, u32 heap)
 {
     void *rec = func_02030734(heap, 0x50, 0, sub_020490F4_File, 0x209);
 

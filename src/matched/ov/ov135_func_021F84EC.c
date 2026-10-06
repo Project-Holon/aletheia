@@ -28,7 +28,7 @@ extern u8 g_02203C00[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(u32 value, void *dst, u32 size);
 extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u8 *func_021F84EC(u32 id)
 {

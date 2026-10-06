@@ -30,11 +30,11 @@ struct Obj;
 struct Slot;
 extern void func_0201F868(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 extern void func_02190538(struct Slot *s);
 extern int func_02193130(u32 a);
 
-int func_021909BC(u32 a)
+int func_021909BC(void *a)
 {
 func_0202020C((struct Obj *)(((struct Obj07209 *)((u8 *)(a)))->f10), 0, 0);
 func_0201F868((void *)(((struct Obj07209 *)((u8 *)(a)))->fC));

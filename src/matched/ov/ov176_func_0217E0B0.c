@@ -19,7 +19,8 @@
  *   d_0217E544 0x0217E544 data a4
  *   func_0217E524 0x0217E524 thumb ov176
  */
-extern void func_0203CBAC(const void *, int, int);
+struct Req;
+extern void func_0203CBAC(struct Req *req, unsigned int a2, unsigned int a3);
 extern int func_0203CD98(void);
 typedef unsigned int   u32;
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
@@ -34,7 +35,7 @@ int func_0217E0B0(unsigned *p)
 {
     switch (*p) {
     case 0:
-        func_0203CBAC(d_0217E564, 0, 0);
+        func_0203CBAC((struct Req *)d_0217E564, 0, 0);
         d_0217E630 = 1;
         *p = 1;
         break;

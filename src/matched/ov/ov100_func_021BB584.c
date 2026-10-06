@@ -41,7 +41,7 @@ extern void func_0203A5E4(u32);
 extern void func_02027858(struct TaskMenu *);
 extern void func_02028148(u8 *);
 extern void func_02051C6C(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_0201ED04(struct WordSet *);
 extern void func_021BAC08(int);
 extern void func_02030EAC(struct Node *);

@@ -42,7 +42,7 @@ extern int func_02012E7C(char *p, int a1);
 extern void OS_WaitIrq(int clear, u32 mask);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0200E608(void *sys, void *dst, u32 heap)
 {

@@ -34,7 +34,9 @@ extern void *func_021D54C4(void *queue);
 extern void func_020788AC(FSFile *file);
 extern int func_02078C18(FSFile *file, char *path);
 extern void func_02088234(void);
-extern long func_02078C28();
+typedef unsigned int   u32;
+struct FSFile;
+extern u32 func_02078C28(struct FSFile *a0);
 extern int func_021D4C9C(char *a, char *b, int n);
 extern void *func_021D6414(unsigned long size, int alignment);
 typedef signed int     s32;
@@ -58,7 +60,7 @@ void *func_021D4B68(char *path, unsigned long *size, int alignment)
     func_020788AC(&file);
     if (!func_02078C18(&file, path))
         func_02088234();
-    siz = func_02078C28(&file);
+    siz = func_02078C28((struct FSFile *)(&file));
     if (size)
         *size = siz;
     if (func_021D4C9C(path, g_021DBFE0, 2))

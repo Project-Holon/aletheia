@@ -27,7 +27,7 @@ struct Ov208Pltt {
 
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(void *src, void *dst, u32 size);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void ov208_func_021BE128(u8 *p)
 {

@@ -20,7 +20,11 @@ typedef unsigned char u8;
 struct Obj;
 struct U16Vec;
 struct Descriptor;
-extern void func_0204B3B4(struct Obj *),func_02045808(struct U16Vec *),func_020452E8(struct Descriptor *),func_020307B0(void *);
+typedef unsigned int   u32;
+extern void func_0204B3B4(struct Obj *);
+extern void func_02045808(struct U16Vec *);
+extern void func_020452E8(struct Descriptor *);
+extern u32 func_020307B0(void *p);
 void func_021BF8BC(u8 *p) {
     if(*(struct Obj * *)&((struct Obj03755 *)p)->f14) func_0204B3B4(*(struct Obj * *)&((struct Obj03755 *)p)->f14);
     if(*(struct Obj * *)&((struct Obj03755 *)p)->f1C) func_0204B3B4(*(struct Obj * *)&((struct Obj03755 *)p)->f1C);

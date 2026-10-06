@@ -21,7 +21,7 @@
 #include "../include/Obj01406.h"
 #include "../include/Obj22983.h"
 typedef unsigned char u8;
-extern int func_020221A4(void *);
+extern unsigned int func_020221A4(void);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern int func_021D5D58(char *p);
@@ -41,7 +41,7 @@ int func_021D9158(void *a, int b, int c, char *p)
     int result;
     callback=*(void (**)(char *))(p+0x50);
     result=1;
-    if (func_020221A4(a) && !((struct Obj01406 *)p)->fAE && func_0200FB24()) {
+    if (func_020221A4() && !((struct Obj01406 *)p)->fAE && func_0200FB24()) {
         if (((struct Obj01406 *)p)->f8) func_021D5D58(((struct Obj01406 *)p)->f8);
         func_021B9774(((struct Obj01406 *)p)->f10);
         if (((struct Obj01406 *)p)->fAD) {

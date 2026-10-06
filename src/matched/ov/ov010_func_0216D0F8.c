@@ -49,7 +49,7 @@ typedef struct Src {
     fx32 z;
 } Src;
 
-extern int  func_0216E51C(void *obj);
+extern int func_0216E51C(void *a, int a1);
 extern void func_0216E544(void *obj, VecFx32 *out);
 extern void func_0216D7F0(void *obj, s16 v);
 extern void func_0216D7F4(void *obj, s16 v);
@@ -71,7 +71,7 @@ void func_0216D0F8(void *obj, const u8 *a1)
     s32 y;
     fx32 z;
 
-    if (func_0216E51C(obj) == 0) {
+    if (func_0216E51C(obj, (int)a1) == 0) {
         x = p->x;
         y = p->y;
         z = p->z;

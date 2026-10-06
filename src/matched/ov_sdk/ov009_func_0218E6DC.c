@@ -87,8 +87,8 @@ extern char g_021A4EC0[];
 extern char g_021A4EEC[];
 
 extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
-extern char *func_02094B20(const char *s1, const char *s2);
-extern int func_020949F4(const char *s1, const char *s2, unsigned long n);
+extern unsigned char *func_02094B20(const unsigned char *s1, const unsigned char *s2);
+extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsigned int n);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
@@ -123,12 +123,12 @@ int func_0218E6DC(void **connection, GPIPeer *peer)
         return 0;
     }
 
-    str = func_02094B20(peer->inputBuffer.buffer, g_021A4EB8);
+    str = (char *)func_02094B20((const unsigned char *)peer->inputBuffer.buffer, (const unsigned char *)g_021A4EB8);
     if (str) {
         *str = '\0';
 
         str = peer->inputBuffer.buffer;
-        if (func_020949F4(str, g_021A4E98, 6) == 0) {
+        if (func_020949F4((const unsigned char *)str, (const unsigned char *)g_021A4E98, 6) == 0) {
             if (!func_02193418(str, g_021A4EA0, intValue, sizeof(intValue))) {
                 peer->state = 0x6A;
                 return 0;

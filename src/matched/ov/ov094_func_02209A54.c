@@ -17,14 +17,15 @@
  *   func_02040618  0x02040618  arm
  *   func_021F89BC  0x021F89BC  thumb  ov094
  */
-extern int *func_02030EE8(void *h);
+struct S02030EE8;
+extern unsigned int func_02030EE8(struct S02030EE8 *p);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_021F89BC(void *h);
 
 void func_02209A54(void *h)
 {
-    int *p = func_02030EE8(h);
+    int *p = (int *)func_02030EE8(h);
 
     func_02040618(3, 0, p[0]);
     func_02040618(3, 3, p[1]);

@@ -56,10 +56,10 @@ struct BigObj;
 extern u16 func_021B5190(u16 *arr, u16 n, u16 v);
 extern u8 func_02012984(const struct BigObj *p);
 extern u32 func_02005728(u32 range);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049238(void *h);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021B51BC(void *a, void *b)
 {

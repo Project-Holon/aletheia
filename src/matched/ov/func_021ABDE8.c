@@ -25,15 +25,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(u32 arc);
 extern u32 func_021ABEE8(u32);
 extern u32 func_021ABFC0(u32, u32, u32, u32);
 
-int func_021ABDE8(u32 a, u32 b, u32 c, u32 d)
+int func_021ABDE8(void *a, u32 b, u32 c, u32 d)
 {
-func_021ABFC0(a, b, c, d);
-func_021ABEE8(a);
+func_021ABFC0((u32)a, b, c, d);
+func_021ABEE8((u32)a);
 func_02049238(((struct Obj02708 *)((u8 *)(a)))->fC);
 return func_020307B0(a);
 }

@@ -24,7 +24,7 @@ extern const u32 d_022121D4[];
 extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02041B6C(u8);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_02210D4C(u8 *p,u32 n)
 {
     u32 i=0;

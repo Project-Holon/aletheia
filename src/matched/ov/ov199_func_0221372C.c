@@ -21,7 +21,7 @@ struct S020314B8;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D00[];
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_0221372C(char *p)
 {
     if (((struct Obj14584 *)p)->f4) func_02034714(d_02213D00, 0, d_02213D00);

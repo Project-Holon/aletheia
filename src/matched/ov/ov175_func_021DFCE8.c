@@ -15,10 +15,11 @@
  * ARM tail jump to the untraced 0x021E0040 block of ov175's data area.
  */
 
-extern void func_021E0040(void);
+typedef unsigned int   u32;
+extern int func_021E0040(u32 *p);
 
-void func_021DFCE8(void)
+int func_021DFCE8(u32 *a0)
 {
-    func_021E0040();
+    return func_021E0040(a0);
 }
 

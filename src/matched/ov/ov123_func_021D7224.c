@@ -25,7 +25,7 @@ typedef unsigned char  u8;
 struct Sub02009210Obj;
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);

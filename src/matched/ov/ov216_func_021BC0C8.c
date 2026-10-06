@@ -22,7 +22,8 @@ typedef unsigned short u16;
 
 struct Tcbl; struct GfFont; struct WordSet; struct MsgBank; struct U16Vec;
 extern struct Tcbl *func_0203101C(unsigned,unsigned short,unsigned,unsigned);
-extern void *func_020490F4(unsigned int id, u16 heap);
+typedef unsigned int   u32;
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0201DD78(unsigned,unsigned,unsigned);
 extern void *func_0201C450(unsigned short,unsigned);
 extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);

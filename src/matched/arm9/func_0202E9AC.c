@@ -29,7 +29,7 @@ extern const char blink_palanm_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void  func_02082D44(void *dst, const void *src, int size);
-extern void  func_020307B0(void *handle);
+extern u32 func_020307B0(void *p);
 
 struct CodeIn {
     void *w00;    /* 0x00 */

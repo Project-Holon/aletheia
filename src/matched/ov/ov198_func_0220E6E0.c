@@ -19,19 +19,22 @@
 #include "../include/Obj25221.h"
 #include "../include/Obj25222.h"
 typedef unsigned short u16;
-extern unsigned func_0204B100(unsigned,unsigned,u16);
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
 extern unsigned func_0220E684(char *,const int *);
 typedef unsigned int   u32;
 extern void func_0203D34C(u32 a, u32 b);
-extern void func_020216D4(unsigned,int,int,int);
+struct PalAnmSlot;
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_0220E7E4(void *);
 extern const int d_02211DFC[][5];
 void func_0220E6E0(char *p)
 {
     unsigned i;
-    ((struct Obj00172 *)p)->f1EB8=func_0204B100(45,0,(((struct Obj25221 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000);
+    ((struct Obj00172 *)p)->f1EB8=(unsigned int)func_0204B100((unsigned)45,(unsigned)0,(u16)((((struct Obj25221 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000));
     for(i=0;i<41;i++) *(unsigned *)(p+i*4+0x1ebc)=func_0220E684(p,d_02211DFC[i]);
     func_0203D34C(0,((struct Obj25222 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
-    func_020216D4(((struct Obj00172 *)p)->f1D8,3,0,0x1e0);
+    func_020216D4((struct PalAnmSlot *)(((struct Obj00172 *)p)->f1D8),(int)3,(int)0,(int)0x1e0);
     func_0220E7E4(p);
 }

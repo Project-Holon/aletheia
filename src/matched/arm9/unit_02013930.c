@@ -30,7 +30,7 @@ struct Obj {
     u32 f5c;        /* +0x5C */
 };
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_020130DC(struct Obj *p);
 
 void func_02013930(struct Obj *p)

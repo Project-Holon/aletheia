@@ -32,7 +32,8 @@ extern u32 func_02158F7C(u8 *p);
 extern u16 func_0215A5D0(void *);
 extern int func_021B6AB0(void *a);
 extern u16 *func_021B6AA4(void *, u32);
-extern void func_0215A7F0(unsigned short *p, int a, int b, int c, int s0, int s1);
+struct U16Vec;
+extern void func_0215A7F0(unsigned short *p, int a, int b, int c, struct U16Vec *s0, void *s1);
 
 u32 func_021B6AFC(void *a, void *b)
 {
@@ -48,7 +49,7 @@ u32 func_021B6AFC(void *a, void *b)
         u16 *e = func_021B6AA4(tab, i);
 
         if (id != e[1])
-            func_0215A7F0(b, e[0], 0xffff, i, s0c, s8);
+            func_0215A7F0(b, e[0], 0xffff, i, (struct U16Vec *)s0c, (void *)s8);
     }
     return 0;
 }

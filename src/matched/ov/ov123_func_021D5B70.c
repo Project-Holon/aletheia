@@ -15,5 +15,6 @@
 #include "../include/Obj22942.h"
 extern char *g_021DAC20;
 extern void func_02156DE0(int a, int b);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021D5B70(char *p){if(g_021DAC20){func_02156DE0(0,0);func_020307B0(((struct Obj22942 *)p)->fB8);func_020307B0(p);g_021DAC20=0;}}

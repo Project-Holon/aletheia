@@ -26,7 +26,7 @@
  */
 #include "../include/Obj01400.h"
 typedef unsigned char u8;
-extern u8 *func_021D6988(void *);
+extern unsigned int func_021D6988(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int func_021D7AF4(char *p);
@@ -48,7 +48,7 @@ extern int func_021B6448(u8 *);
 void func_021D5AD4(u8 *p)
 {
     int changed = 0;
-    u8 *q = func_021D6988(((struct Obj01400 *)p)->f3C);
+    u8 *q = (u8 *)func_021D6988(((struct Obj01400 *)p)->f3C);
     if (func_021D7AF4(((struct Obj01400 *)p)->f40)) {
         if (func_021B6498(q) == 0) {
             if (func_020362DC() != 0 && func_020355C4() == 1) {
@@ -79,7 +79,7 @@ void func_021D5AD4(u8 *p)
             func_021D7C10((char *)(*(int *)&((struct Obj01400 *)p)->f40));
         }
         func_021B63D0((struct S *)func_021D6988(((struct Obj01400 *)p)->f3C));
-        if (func_021B6448(func_021D6988(((struct Obj01400 *)p)->f3C)) == 1) {
+        if (func_021B6448((u8 *)func_021D6988(((struct Obj01400 *)p)->f3C)) == 1) {
             ((struct Obj01400 *)p)->f14 = 1;
             func_021D79F4(((struct Obj01400 *)p)->f40, 0x2a);
             if (func_020355C4() == 1)

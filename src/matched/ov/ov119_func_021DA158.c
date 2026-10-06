@@ -25,7 +25,8 @@ extern void func_021E2484(char *p, int a);
 extern void func_021E1E00(char *p, int mode, void *mon);
 extern u8 func_020355C4(void);
 extern void func_021D8B38(char *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DA318(char *p);
 void func_021DA158(char *p) {

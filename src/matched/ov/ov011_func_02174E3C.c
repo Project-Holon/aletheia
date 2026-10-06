@@ -33,7 +33,7 @@ typedef struct F86 {
     u16 rest : 13;
 } F86;
 
-int func_02026478(int a);
+unsigned int func_02026478(void *obj);
 u8 *func_02012944(void *p);
 int func_02008468(void);
 void func_02082D44(int a, u8 *b, int c);
@@ -47,7 +47,7 @@ void func_02174E3C(u8 *p)
 {
     int v;
 
-    v = func_02026478(((struct Obj09349 *)p)->f4);
+    v = func_02026478((void *)(((struct Obj09349 *)p)->f4));
     func_02082D44((int)func_02012944((void *)v), p + 0x160, func_02008468());
     func_02082D44(func_020127B8(v), p + 0x180, 0x10);
     func_021752DC(p);

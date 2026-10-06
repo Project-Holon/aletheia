@@ -39,7 +39,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0204162C(int channel);
 extern void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040588(u32, u32);

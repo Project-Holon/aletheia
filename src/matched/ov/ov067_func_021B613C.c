@@ -15,7 +15,8 @@
  * 021B613C is the eight-byte Thumb ldr-r3/bx-r3 tail call; the pool
  * at 021B6140 holds ARM target 020307B0. The next start is 021B6144.
  */
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021B613C(void *p)
 {
     func_020307B0(p);

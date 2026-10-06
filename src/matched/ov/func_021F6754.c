@@ -40,7 +40,7 @@ extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadOBJ(const void *src, u32 offset, u32 size);
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021F6754(Work *p)
 {

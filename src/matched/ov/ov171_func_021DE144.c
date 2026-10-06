@@ -29,7 +29,7 @@ extern u32 func_02027618(void);
 extern u32 func_02027614(void);
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);

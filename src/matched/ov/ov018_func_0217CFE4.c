@@ -55,7 +55,7 @@ u32 func_02026454(void *obj);
 u32 func_02026474(void *obj);
 struct State;
 void func_0217EFCC(char *p, char *q);
-void *func_020490F4(unsigned int id, u16 heap);
+void *func_020490F4(u32 id, u32 heap);
 void func_0217D624(struct State *o);
 void func_0217D720(u8 *w, void *bg);
 void func_0217D890(u8 *w);

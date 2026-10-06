@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef struct { u8 v[8]; } Table;
 extern const Table d_021E7DD8;
-extern char *func_0204ABBC(int,int);
+extern int func_0204ABBC(unsigned int idx, unsigned int flag);
 typedef unsigned int   u32;
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
@@ -30,7 +30,7 @@ void func_021E6E7C(int p) {
     int i,j;
     char *dest,*source;
     for(i=0;i<8;i++) {
-        dest=func_0204ABBC(*(int *)(p+i*4+0x1114),1);
+        dest=(char *)func_0204ABBC(*(int *)(p+i*4+0x1114),1);
         source=func_020437D4((const struct Bmp *)(*(int *)(p+i*4+0x10f4)));
         func_020862F0(source,func_020437EC((const struct Bmp *)(*(int *)(p+i*4+0x10f4))));
         for(j=0;j<8;j++) {func_0207E804(source+t.v[j]*256,dest,256);dest+=256;}

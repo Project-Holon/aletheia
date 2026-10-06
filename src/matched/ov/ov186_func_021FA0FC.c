@@ -28,7 +28,8 @@ extern void func_021FACE0(char *p);
 extern int func_021FC214(char *);
 extern u16 func_021FB760(void *,int);
 extern void *func_021FB704(char *ctx, int section, unsigned item);
-extern void *func_021FB7D0(unsigned *const *,void *,int,u16);
+struct MsgBank;
+extern void *func_021FB7D0(unsigned * const *p, void *record, struct MsgBank *archive, unsigned short heap);
 extern void func_021FAC20(struct Fields *,unsigned,unsigned,unsigned,void *,const void *,unsigned,u16);
 extern int func_021FAFA0(void *,int);
 extern void func_021FB514(char *p, short x, int y);
@@ -42,7 +43,7 @@ void func_021FA0FC(u8 *p,int section,const int *pos)
  p[0x39]=func_021FB760(((struct Obj01277 *)p)->f44,section);
  for(i=0;i<p[0x39];i++){
   rec=func_021FB704(*(char * *)&((struct Obj01277 *)p)->f44,section,(u16)i);
-  text=func_021FB7D0(*(unsigned *const * *)&((struct Obj01277 *)p)->f44,rec,bank,(((struct Obj01277 *)p)->f0&0x7fff)|0x8000);
+  text=func_021FB7D0(*(unsigned *const * *)&((struct Obj01277 *)p)->f44,rec,(struct MsgBank *)bank,(((struct Obj01277 *)p)->f0&0x7fff)|0x8000);
   func_021FAC20((struct Fields *)(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44),(u32)rec,((struct Obj01277 *)p)->f8,((struct Obj01277 *)p)->f48,((struct Obj01277 *)p)->f4,text,((struct Obj01277 *)p)->f10,((struct Obj01277 *)p)->f0);
   func_02045808(text);
   func_021FAFA0(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44,3);

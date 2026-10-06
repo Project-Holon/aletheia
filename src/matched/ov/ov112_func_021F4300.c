@@ -32,7 +32,7 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B1CC(struct Bank *bank);
 extern void func_021F4748(u8 *);
 extern void func_020403F4(u32 i);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021F4300(u8 *p)
 {
     func_02027FD8((struct TaskMenuState *)(((struct Obj04456 *)p)->f40));

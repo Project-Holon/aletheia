@@ -76,7 +76,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern int func_020056A0(u32,u32,u32);
 extern u32 func_0201C440(void *p);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
@@ -85,7 +85,7 @@ extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
 extern void func_02082D44(const void *,void *,u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BA780(char *p) {
  void *owner;
  void *raw;

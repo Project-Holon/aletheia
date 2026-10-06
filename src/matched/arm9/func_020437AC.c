@@ -30,7 +30,8 @@ struct Obj020437AC {
     u16   unk0a;  /* 0x0a */
 };
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_020437AC(struct Obj020437AC *p)
 {

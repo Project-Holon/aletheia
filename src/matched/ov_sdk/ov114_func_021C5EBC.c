@@ -20,7 +20,9 @@
  *   g_021D3BD8  0x021D3BD8  data
  */
 
-extern unsigned long func_021C7A18(char *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021C7A18(const u8 *a0);
 extern void func_021C659C(int err, int servererror);
 extern int func_021C60AC(int len);
 extern int func_021C60C8(char *encstr, char *srcbin, int length);
@@ -32,11 +34,11 @@ int func_021C5EBC(int id, char *attr)
 	int encLen;
 	int n;
 	if (*attr != 0) {
-		if ((int)func_021C7A18(attr) > 10) {
+		if ((int)func_021C7A18((const u8 *)attr) > 10) {
 			func_021C659C(5, 0);
 			return 0;
 		}
-		n = func_021C7A18(attr);
+		n = func_021C7A18((const u8 *)attr);
 		if (n > 10) {
 			func_021C659C(5, 0);
 			return 0;

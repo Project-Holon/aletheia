@@ -56,7 +56,7 @@ extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_021C2BE4(struct Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile);
 extern void func_021C2F84(int s, struct Obj *p, char *a1, char *a2, u32 c, u32 d);
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02046BE0(u32 a, u32 b);
 

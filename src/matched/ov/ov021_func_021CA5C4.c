@@ -287,7 +287,7 @@ extern void func_0201289C(struct BigObj *p, const struct Rec1C *src);
 extern void func_02014314(char *a0, int a1);
 extern void func_0201433C(char *a0, int a1);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
-extern u32 func_021C9D30(u32 a);
+extern u32 func_021C9D30(const struct Ctx *a0);
 extern u32 func_021A30B0(u8 *p);
 extern u16 func_021A3190(int i, int j);
 extern void *func_02188C7C(unsigned char *p);
@@ -321,7 +321,7 @@ extern u32 func_021CBBAC(u8 *w, u32 v);
 extern void func_021CBBD0(u8 *w, u32 v, u16 *a, u16 *b, u16 *c);
 extern struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap);
 extern u32 func_0200DF94(struct Buf3FC *b);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_021CB9BC(void *a, u32 owner, u32 result, u32 arg);
 extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern int func_021542C0(int x, struct Pair *p);
@@ -519,7 +519,7 @@ int func_021CA5C4(void *a, u32 b)
             *dst = 9999;
         break;
     case 7:
-        *dst = func_021C9D30(x);
+        *dst = func_021C9D30((const struct Ctx *)x);
         break;
     case 12:
         *dst = func_021A3190(func_021A30B0(func_02188CB4((void *)s30)), 0);

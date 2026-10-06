@@ -37,8 +37,9 @@ struct Obj {
     u8 unk_00[1];
 };
 
-extern s32   sub_020458F8(struct Obj *o);
-extern void *sub_02045A90(struct Obj *o);
+struct U16Vec;
+extern unsigned short sub_020458F8(struct U16Vec *vec);
+extern unsigned short *sub_02045A90(struct U16Vec *vec);
 typedef unsigned short u16;
 extern u32 sub_02045E3C(u16 *str, u32 count, u32 msgIndex);
 struct U16Vec;
@@ -46,7 +47,7 @@ extern void sub_02045900(struct U16Vec *vec, u32 index);
 
 void sub_02045E04(struct Obj *o, u32 mode)
 {
-    s32 index = sub_020458F8(o);
+    s32 index = sub_020458F8((struct U16Vec *)o);
 
-    sub_02045900((struct U16Vec *)o, sub_02045E3C(sub_02045A90(o), index + 1, mode));
+    sub_02045900((struct U16Vec *)o, sub_02045E3C(sub_02045A90((struct U16Vec *)o), index + 1, mode));
 }

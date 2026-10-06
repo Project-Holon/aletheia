@@ -28,7 +28,8 @@
  *       --func func_0200F5EC --addr 0x0200F5EC --cc 1.1p1 --thumb
  */
 
-extern void *sub_0201283C(void *a);
+struct BigObj;
+extern unsigned int sub_0201283C(const struct BigObj *p);
 extern int   DWC_IsValidFriendData(const void *friendData);
 typedef unsigned int   u32;
 struct Sub020097BCFriend;
@@ -42,7 +43,7 @@ extern void  sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4,
 
 int func_0200F5EC(void *a0, void *a1, void *a2, void *a3)
 {
-    void *obj = sub_0201283C(a0);
+    void *obj = (void *)sub_0201283C(a0);
     int i;
 
     if (DWC_IsValidFriendData(a2) == 0) {

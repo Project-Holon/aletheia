@@ -16,7 +16,8 @@
  */
 #include "../include/Obj23143.h"
 
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021D7B34(int a, char *p)
 {

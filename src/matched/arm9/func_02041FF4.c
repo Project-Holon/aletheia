@@ -64,7 +64,7 @@ extern char g_020A7E5C[];
 extern u16 func_02040EE0(int x, int y, u32 code);
 extern u32 func_020415B4(u32 channel);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02043130(u16 flags, u8 *buf, u32 page);
 extern void func_02082D44(void *dst, const void *src, u32 size);
 u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags)

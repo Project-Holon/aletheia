@@ -36,11 +36,11 @@ struct Ctx;
 extern u8 *func_020120F8(const struct Ctx *p);
 struct Rec44;
 extern u16 func_02012AC8(const struct Rec44 *p);
-extern void func_02012AE4(int);
+extern unsigned int func_02012AE4(const struct Rec44 *p);
 typedef unsigned int   u32;
 extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_02026454(int);
+extern u32 func_02026454(void *obj);
 extern u32 func_02013D5C(u32 id);
 extern int func_02175E90(void *p, u8 *q);
 struct VecFx32;
@@ -65,11 +65,11 @@ void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)
 
     x = (int)func_020120F8(a1);
     sys = func_02012AC8((const struct Rec44 *)x);
-    func_02012AE4(x);
+    func_02012AE4((const struct Rec44 *)x);
     x = func_02012138(a1);
     flag = 0;
     func_020120F4(a1);
-    if ((int)func_02026454(x) != 2)
+    if ((int)func_02026454((void *)x) != 2)
         return;
     if (p == 0)
         return;

@@ -41,7 +41,7 @@ extern void func_021CE9E4(u32 *p, int n);
 extern u32 func_02188C54(u8 *p);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 extern int func_021CE73C(u32 *p);
 extern u8 data_021DB498[];
 
@@ -68,7 +68,7 @@ u32 func_021CE5AC(u32 *p)
         if (r == 2) {
             break;
         }
-        func_021909BC(q->h);
+        func_021909BC((void *)q->h);
         q->h = 0;
         if (r == 1) {
             q->result = 2;
@@ -90,7 +90,7 @@ u32 func_021CE5AC(u32 *p)
         if (r == 2) {
             break;
         }
-        func_021909BC(q->h);
+        func_021909BC((void *)q->h);
         q->h = 0;
         if (r == 0) {
             func_021CE9E4(p, *(u16 *)(data_021DB498 + ((u8 *)p)[0x520] * 12 + 4));
@@ -114,7 +114,7 @@ u32 func_021CE5AC(u32 *p)
         break;
     case 0xff:
         if (q->h) {
-            func_021909BC(q->h);
+            func_021909BC((void *)q->h);
             q->h = 0;
         }
         q->state = 0;

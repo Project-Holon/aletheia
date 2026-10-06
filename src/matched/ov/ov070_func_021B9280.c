@@ -48,7 +48,7 @@ extern void func_020435F4(u32 planes);
 extern void func_021B8F98(void);
 extern void func_0201DD68(void);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);

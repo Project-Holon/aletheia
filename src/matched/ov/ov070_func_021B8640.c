@@ -18,7 +18,8 @@
  */
 #include "../include/Obj00002.h"
 
-extern int func_0201C6B4();
+struct PrintSys;
+extern unsigned int func_0201C6B4(const struct PrintSys *p);
 typedef unsigned int   u32;
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_020061E4(u32 a);
@@ -27,7 +28,7 @@ extern void func_021B8688(int p);
 
 void func_021B8640(int p)
 {
-    if (func_0201C6B4(*(int *)&((struct Obj00002 *)p)->f50C)) {
+    if (func_0201C6B4((const struct PrintSys *)(*(int *)&((struct Obj00002 *)p)->f50C))) {
         func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj00002 *)p)->f544);
         func_020061E4(0x79F);
         func_021B6100((char *)p, (int)func_021B8688);

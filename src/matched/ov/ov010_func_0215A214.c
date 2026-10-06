@@ -40,7 +40,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_020144DC(int a0, int a1);
 extern void *func_02014910(char *a0, int a1, int a2, int a3);
 extern void *func_020145CC(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 int func_0215A214(void *a, u32 *st, Ctx *c)
 {

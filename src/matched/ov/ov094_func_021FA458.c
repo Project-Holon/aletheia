@@ -30,7 +30,7 @@ extern char d_0220AE68[];
 extern const Vec d_02209E1C, d_02209D90;
 extern u32 func_0201134C(void *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Dst648;
 struct Src648;
 extern void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);

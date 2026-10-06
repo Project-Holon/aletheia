@@ -28,7 +28,7 @@ typedef struct Record { u16 active:1; u16 rest:15; u8 data[34]; } Record;
 extern void func_02061C30(void);
 extern void func_021F4F40(void **p);
 extern void func_021F4D40(u8 *p, u8 *e);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021F4948(u8 *p)
 {
     int i;

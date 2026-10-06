@@ -33,9 +33,10 @@
  *       --func sub_02030BBC --addr 0x02030BBC --cc 1.1p1 --arm
  */
 
-extern void func_020305C4(void);
+typedef unsigned int   u32;
+extern void *func_020305C4(u32 size);
 
-void sub_02030BBC(void)
+void sub_02030BBC(u32 a0)
 {
-    func_020305C4();
+    func_020305C4(a0);
 }

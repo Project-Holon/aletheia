@@ -54,7 +54,7 @@ extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void func_02008494(void *, void *);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void func_02008314(void *, void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
 extern u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);

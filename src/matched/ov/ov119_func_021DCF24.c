@@ -34,7 +34,11 @@
 #include "../include/Obj00001.h"
 extern unsigned func_020221A4(void);
 extern char d_00000072[],d_00000043[],d_00000075[],d_00000076[];
-extern void func_020307B0(void *),func_021E5EF8(void *),func_021E5D84(char *),func_021DC720(char *),func_020275E0(void);
+extern unsigned int func_020307B0(void *p);
+extern void func_021E5EF8(void *);
+extern void func_021E5D84(char *);
+extern void func_021DC720(char *);
+extern void func_020275E0(void);
 extern int func_021D8A24(void *);
 struct S020315D4;
 typedef unsigned int   u32;

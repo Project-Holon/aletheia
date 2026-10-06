@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern u32 func_0200F168(void);
 struct Sub0200F16CHdr;
 extern void func_0200F16C(struct Sub0200F16CHdr *hdr);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a0, u32 a1, void *a2, int a3, int a4, int a5);
 extern int func_02036F04(int a0);
 extern void func_02049800(void *a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
@@ -40,7 +40,7 @@ void func_02036F24(int a0, int b, int c)
     int idx;
     int t2;
 
-    v = func_020490F4(func_0200F168(), (c & 0x7fff) | 0x8000);
+    v = func_020490F4(func_0200F168(), (u16)((c & 0x7fff) | 0x8000));
     func_0200F16C((struct Sub0200F16CHdr *)t);
     if (a0 == 1) {
         p = 1;

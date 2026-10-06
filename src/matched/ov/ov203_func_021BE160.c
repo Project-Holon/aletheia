@@ -118,7 +118,8 @@ extern int _ffltu(u32);
 extern int _fadd(int, int);
 extern int _fsub(int, int);
 extern int _ffix(int);
-extern void func_020115EC(u32, int);
+struct IcaAnime;
+extern void func_020115EC(struct IcaAnime *p, signed int v);
 extern u32 func_02047CFC(u16, u16, u32);
 extern void *func_021BE7F0(u32);
 extern void func_021BE874(char *ctx, const char *config, u8 type);
@@ -201,7 +202,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
         r = _fadd(0x3f000000, _ffltu(ctx->f7c << 12));
     else
         r = _fsub(_ffltu(ctx->f7c << 12), 0x3f000000);
-    func_020115EC(ctx->f18, _ffix(r));
+    func_020115EC((struct IcaAnime *)ctx->f18, _ffix(r));
     n = ctx->f2c * 6;
     ctx->f1c = func_02047CFC((u16)n, (u16)n, heap);
     e = func_021BE7F0(heap);

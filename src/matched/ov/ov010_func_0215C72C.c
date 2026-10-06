@@ -43,7 +43,8 @@ extern u32 func_02159B10(void *c, void *vm);
 struct Pair;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *vm);
-extern void *func_0202E474(int a0, int a1, int a2, int a3);
+struct BigObj;
+extern void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern void func_0215C700(struct Pair *p);
@@ -71,7 +72,7 @@ int func_0215C72C(void *c, void *vm)
         k = 5;
     else
         k = 0;
-    work = func_0202E474((int)func_0215A5E4(vm), 0, k, 4);
+    work = func_0202E474((const struct BigObj *)func_0215A5E4(vm), 0, k, 4);
     h = func_02030734(4, 8, 1, d_021728F0, 0x118);
     h[0] = a;
     h[1] = b;

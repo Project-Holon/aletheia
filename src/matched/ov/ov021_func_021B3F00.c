@@ -27,7 +27,7 @@ struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_021B3C78(char *p);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021B3CFC(char *w);
 extern void func_021B3DEC(char *w);
 

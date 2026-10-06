@@ -39,7 +39,7 @@ typedef unsigned short u16;
 
 extern void func_020434CC(void);
 extern void func_02043588(void);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_0204363C(u32 swap);
 extern u32 func_020056A0(void (*cb)(void), void *p, int n);

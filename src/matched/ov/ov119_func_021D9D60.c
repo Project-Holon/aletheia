@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
-extern int func_02027A04(int);
+extern unsigned char func_02027A04(const unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021E12F8(char *p);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -36,7 +36,7 @@ extern void func_021DBA80(char *p);
 void func_021D9D60(char *p) {
     int v;
     if (func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {
-        v=func_02027A04(*(int *)&((struct Obj00001 *)p)->f64C);
+        v=func_02027A04((const unsigned char *)(*(int *)&((struct Obj00001 *)p)->f64C));
         func_021E12F8(p);
         *(int *)&((struct Obj00001 *)p)->f64C=0;
         if (v==0) {

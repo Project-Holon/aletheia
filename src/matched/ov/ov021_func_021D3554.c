@@ -19,7 +19,8 @@
 
 typedef unsigned short u16;
 
-extern void *func_0201296C(void *);
+struct BigObj;
+extern unsigned int func_0201296C(const struct BigObj *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern int func_02013D74(u32 key);
@@ -34,7 +35,7 @@ extern struct Entry g_021DD944[];
 
 int func_021D3554(void *arg0, int arg1)
 {
-    void *r4 = func_0201296C(arg0);
+    void *r4 = (void *)func_0201296C(arg0);
     if (func_02013D74(arg1) == 1) {
         unsigned int i;
         for (i = 0; i < 25; i++) {

@@ -75,7 +75,7 @@ struct Wipe;
 extern u32 func_02023A50(struct Wipe *w);
 extern void func_02023AAC(struct Obj *obj);
 extern void func_02022DCC(u32 a0, void *a1, u32 a2);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u32 func_0202390C(struct Task *t)
 {

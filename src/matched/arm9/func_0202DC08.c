@@ -26,7 +26,7 @@ struct Obj0202DFD4;
 struct Obj0202E0C8;
 extern void func_0202E0C8(struct Obj0202E0C8 *p);
 extern void func_0202DFD4(struct Obj0202DFD4 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0202DC08(struct Obj *p)
 {

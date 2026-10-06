@@ -43,7 +43,7 @@ extern void func_021DBEE4(u32 p);
 extern void func_020414EC(u32);
 extern void func_02041B6C(u32);
 extern void func_021DA890(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021DAE1C(Obj *obj)
 {
     char *p=(char *)obj;

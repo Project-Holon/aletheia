@@ -27,7 +27,8 @@ extern void func_021F7808(void);
 extern void func_022021F4(struct Obj *p);
 extern void func_0201D83C(void *);
 extern void func_021B6438(void);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021B632C(unsigned p)
 {
     func_02031140(((struct Obj05258 *)p)->f18);

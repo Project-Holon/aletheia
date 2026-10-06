@@ -32,7 +32,7 @@ extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02031140(struct S02031140 *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_0220B6E4(unsigned *p)
 {
     func_0220B9B0((char *)p);

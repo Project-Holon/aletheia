@@ -49,19 +49,19 @@ extern void func_02169540(unsigned char *a, unsigned int v);
 extern void func_02169580(int o);
 extern int func_02169560(unsigned char *a);
 extern int func_02169578(unsigned char *a);
-extern int func_02169598(int o);
+extern unsigned int func_02169598(u8 *p);
 extern int func_0218DD04(u8 *p);
 extern int func_0218DD08(u8 *p);
 extern int func_0218DD0C(u8 *p);
 extern u16 func_0218DD10(u8 *p);
 extern int func_0218B974(int a, int o, void *p, int n);
 extern int func_02193924(u8 *a, void *q, int c, int d, int e, int f, int g, u16 h);
-extern int func_0218DCF4(int q);
+extern int func_0218DCF4(unsigned int *a0);
 extern int func_0218DCFC(int q);
 typedef unsigned int   u32;
 extern int func_021A7410(u32 a, u32 b, u32 c, u32 d);
 
-int func_02193628(int o, int q)
+int func_02193628(u8 *o, unsigned int *q)
 {
     u16 *st;
     int x;
@@ -81,7 +81,7 @@ int func_02193628(int o, int q)
     int x0;
 
     func_0218DD10((u8 *)q);
-    func_02169520(o, (int)(&st));
+    func_02169520((int)o, (int)(&st));
     switch (*st) {
     case 1:
         func_0216959C((u8 *)o);
@@ -103,7 +103,7 @@ int func_02193628(int o, int q)
         func_02169540((unsigned char *)o, (unsigned int)(p + ((struct Obj07438 *)p)->f4));
         off = ((struct Obj07438 *)p)->fC;
         if (off != ((struct Obj07438 *)p)->f10)
-            r = func_0218B974(func_0218DD04((u8 *)q), o, h + off + 4, *(int *)(h + off));
+            r = func_0218B974(func_0218DD04((u8 *)q), (int)o, h + off + 4, *(int *)(h + off));
         g = func_0218DD04((u8 *)q);
         base = h;
         boff = ((struct Obj07438 *)p)->f8;
@@ -114,12 +114,12 @@ int func_02193628(int o, int q)
         y0 = (n / 2) * 4;
         for (j = 0; j < 4; j++) {
             for (i = 0; i < 4; i++) {
-                r = func_02193924((u8 *)id, base + boff, g, o, r, x0 + i, y0 + j, c);
+                r = func_02193924((u8 *)id, base + boff, g, (int)o, r, x0 + i, y0 + j, c);
             }
         }
-        func_02169580(o);
+        func_02169580((int)o);
         if (func_0218DCF4(q))
-            func_021A7410(func_0218DCFC(q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
+            func_021A7410(func_0218DCFC((int)q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
         *st = 4;
         break;
     case 4:

@@ -33,7 +33,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void func_021B84B4(u8 *p,int id,int choice,int heap)
 {

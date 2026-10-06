@@ -13,5 +13,6 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern void func_021EFFD4(char *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021EFF2C(char *p) { func_021EFFD4(p); func_020307B0(p); }

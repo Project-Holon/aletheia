@@ -55,7 +55,7 @@ struct Sys { u8 pad_00[0x104]; struct Owner owner; };
 extern struct Sys *unk_02146A74;
 extern void *func_0204D9D4(void *owner, u32 which, u32 compressed, u32 heapId);
 extern void func_0204E0D0(struct Owner *owner, s32 idx, u32 handle, u32 a3, u32 a4);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 s32 sub_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags)
 {

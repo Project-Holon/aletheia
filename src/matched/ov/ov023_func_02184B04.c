@@ -13,7 +13,8 @@
  *   func_02045808 0x02045808 arm
  */
 #include "../include/Obj09768.h"
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 void func_02184B04(char *p)

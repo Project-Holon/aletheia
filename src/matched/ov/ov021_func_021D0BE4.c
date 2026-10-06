@@ -41,7 +41,8 @@ typedef struct Work {
     int f8C;
 } Work;
 
-extern void *func_020122C0(int a, int b, void *cb, int size);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
 typedef unsigned int   u32;
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
@@ -49,14 +50,14 @@ extern u32 func_0200E588(void);
 extern void func_021D0C58(void);
 extern u8 d_0209DF0C;
 
-void *func_021D0BE4(int a, u8 *b, u16 *c)
+void *func_021D0BE4(void *a, u8 *b, u16 *c)
 {
     void *task;
     Work *w;
 
     task = func_020122C0(a, 0, func_021D0C58, 0x90);
     w = func_020124E8(task);
-    w->f80 = a;
+    w->f80 = (int)a;
     w->f88 = c;
     w->f84 = b;
     w->f8C = 0;

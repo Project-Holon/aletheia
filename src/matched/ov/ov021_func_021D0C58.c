@@ -65,7 +65,7 @@ extern int func_0200E5A0(void *a0);
 extern u8 func_021D1058(struct Flags *p, u32 n);
 extern void func_021D1080(struct Flags *p, u32 n);
 extern void func_0200E608(void *sys, void *dst, u32 heap);
-extern int func_02157938(int a0);
+extern int func_02157938(void *a0);
 extern u32 func_0203D210(void);
 extern void func_021D09D0(int a, char *out);
 
@@ -140,7 +140,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         *state = 4;
         break;
     case 4:
-        func_02157938(w->f7c);
+        func_02157938((void *)w->f7c);
         *state = 5;
         break;
     case 5:

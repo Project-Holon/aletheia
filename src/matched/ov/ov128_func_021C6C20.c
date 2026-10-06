@@ -15,7 +15,8 @@
 #include "../include/Obj10483.h"
 #include "../include/Obj23069.h"
 typedef unsigned char u8;
-extern void *func_0201283C(const void *);
+struct BigObj;
+extern unsigned int func_0201283C(const struct BigObj *p);
 typedef unsigned int   u32;
 struct Sub020097BCObj;
 struct WordSet;
@@ -26,7 +27,7 @@ int func_021C6C20(u8 *p,u8 *q,int idx)
     void *base;
     unsigned v;
     int result;
-    base=func_0201283C(((struct Obj23069 *)q)->f4);
+    base=(void *)func_0201283C(((struct Obj23069 *)q)->f4);
     result=1;
     v=func_02009864(base,idx,7);
     if(v==0) result=0;

@@ -19,14 +19,15 @@ typedef struct {
     int f10;
 } Info;
 
-extern Info *func_02020D0C(void *p);
+typedef unsigned int   u32;
+extern u32 func_02020D0C(unsigned char *p);
 typedef unsigned char  u8;
 struct Obj;
 extern void func_02020298(struct Obj *obj, u8 a, u8 b, u8 c);
 
 void func_021CCF7C(void *p, int k)
 {
-    Info *i = func_02020D0C(p);
+    Info *i = (Info *)func_02020D0C(p);
 
     if (k == 0 && i->f10 == 1) {
         func_02020298(p, 1, 0, 2);

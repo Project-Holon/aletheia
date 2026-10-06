@@ -27,7 +27,8 @@
 extern void func_0204E720(unsigned,int,int,int);
 extern void func_021BC26C(void *);
 struct PrintSys;
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_021BC39C(void *);
 struct Node;
 struct Ov208Mgr;

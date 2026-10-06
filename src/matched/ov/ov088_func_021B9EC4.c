@@ -37,8 +37,11 @@ extern char d_020A1448[];
 extern char d_021BD508[];
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_0204A48C(void *, void *, int);
-extern int func_0204B100(int, int, int);
+typedef unsigned char  u8;
+struct Bank;
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Bank;
@@ -57,8 +60,8 @@ void func_021B9EC4(int *p, int heap)
     Local s;
     void *h;
     h = func_020490F4(0x1a, heap);
-    func_0204A48C(d_020A1448, d_021BD508, heap);
-    p[0] = func_0204B100(0x40, 0, heap);
+    func_0204A48C((const struct Cfg *)d_020A1448, (unsigned int)d_021BD508, heap);
+    p[0] = (int)func_0204B100(0x40, 0, heap);
     func_0204B270((void *)p[0]);
     p[12] = func_0204A6C8(h, 5, 1, 1, heap);
     p[11] = func_0204ABF0(h, 4, 1, 0, heap);

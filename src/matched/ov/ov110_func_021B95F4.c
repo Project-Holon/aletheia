@@ -14,5 +14,6 @@
  */
 #include "../include/Obj22311.h"
 extern void func_020247F0(char *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021B95F4(char *a) { if(a) { func_020247F0(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }

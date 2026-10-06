@@ -21,7 +21,8 @@
  */
 #include "../include/Obj01772.h"
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned,u16);
+typedef unsigned int   u32;
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204ABF0(void *,unsigned,unsigned,unsigned,u16);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);

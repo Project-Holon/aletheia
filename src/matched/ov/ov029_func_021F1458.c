@@ -42,7 +42,7 @@ struct W {
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_020862F0(void *a, u32 b);
 extern void func_0207E468(void *a, u32 b, u32 c);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021F09B4(unsigned char *p, unsigned char *q, int n);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);

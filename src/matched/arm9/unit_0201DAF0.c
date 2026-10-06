@@ -68,7 +68,7 @@ struct Font {
     void *unk90;
 };
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32  func_0201DB20(struct Font *p, u16 ch);
 
 void func_0201DAF0(struct Font *p)

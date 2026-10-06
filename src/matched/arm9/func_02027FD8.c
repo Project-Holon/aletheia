@@ -21,7 +21,7 @@ struct TaskMenuState {
     void *child;
 };
 
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 void func_02027FD8(struct TaskMenuState *s)
 {

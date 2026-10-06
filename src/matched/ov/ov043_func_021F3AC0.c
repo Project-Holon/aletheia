@@ -122,7 +122,7 @@ extern void *func_0218CEE0(void *p);
 extern void func_021C06C0(u8 i, int v, int *p);
 extern void func_021F3F38(int *a, void *b, int c);
 extern u32 func_02188C64(u8 *p);
-extern int func_021A0244(u32 a);
+extern int func_021A0244(u8 *p);
 extern void func_021F3FE8(void *a);
 
 int func_021F3AC0(void *a, int *b)
@@ -246,7 +246,7 @@ int func_021F3AC0(void *a, int *b)
         (*b)++;
         break;
     case 8:
-        if (func_021A0244(func_02188C64(s)) == 0) {
+        if (func_021A0244((u8 *)func_02188C64(s)) == 0) {
             return 1;
         }
         break;

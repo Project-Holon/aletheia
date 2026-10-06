@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Rec;
 extern void func_02048AC4(void *ptr);
 extern void func_02047E54(struct Rec *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 void func_021C1C04(u32 *p)
 {

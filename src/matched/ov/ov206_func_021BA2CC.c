@@ -39,7 +39,7 @@ struct S;
 extern void func_021BC008(struct S *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021BA2CC(char *p)
 {
     u8 i;

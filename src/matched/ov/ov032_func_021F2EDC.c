@@ -16,7 +16,8 @@
  */
 #include "../include/Obj00812.h"
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_021F31A8(char *, char *);
 
 void func_021F2EDC(char *p)

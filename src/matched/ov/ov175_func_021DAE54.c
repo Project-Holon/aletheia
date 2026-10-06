@@ -32,10 +32,11 @@ typedef int (*RoundFn)(char *ctx, char *peer, int dir, int flag);
 
 typedef signed int     s32;
 extern int func_021DF23C(u32 a0, u32 a1, u32 a2, u32 a3);
-extern int func_021DF298(u32 h);
-extern int func_021DF2C8(u32 h);
-extern int func_021DF2F8(u32 h);
-extern int func_021DF328(u32 h);
+typedef unsigned char  u8;
+extern int func_021DF298(u32 *a0);
+extern int func_021DF2C8(u32 *a0);
+extern int func_021DF2F8(u32 *a0);
+extern int func_021DF328(u8 *a0);
 extern s32 func_021DF358(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6);
 extern int func_021DF3B0(u32 h, u32 a, int flag);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -49,11 +50,11 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
 
     if ((r = func_021DF23C(1, 2, 0, (u32)(ctx + 4))) != 0)
         return r;
-    if ((r = func_021DF298(((struct Obj02887 *)ctx)->f4)) != 0)
+    if ((r = func_021DF298((u32 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
-    if ((r = func_021DF2C8(((struct Obj02887 *)ctx)->f4)) != 0)
+    if ((r = func_021DF2C8((u32 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
-    if ((r = func_021DF328(((struct Obj02887 *)ctx)->f4)) != 0)
+    if ((r = func_021DF328((u8 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
 
     if (flag != 0 || have == 0) {
@@ -80,7 +81,7 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
         return r;
     if ((r = cb(ctx, peer, 1, flag)) != 0)
         return r;
-    if ((r = func_021DF328(((struct Obj02887 *)ctx)->f4)) != 0)
+    if ((r = func_021DF328((u8 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
 
     if (twoway == 1) {
@@ -111,7 +112,7 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
         if ((r = cb(ctx, peer, 0, flag)) != 0)
             return r;
     }
-    if ((r = func_021DF2F8(((struct Obj02887 *)ctx)->f4)) != 0)
+    if ((r = func_021DF2F8((u32 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
     if (flag != 0)
         return func_021DF3B0(((struct Obj02887 *)ctx)->f4, a3, 1);

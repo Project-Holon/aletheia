@@ -70,7 +70,7 @@ extern int func_02009020(void *obj, int v);
 extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u32 func_02017988(void *p, u32 a);
 extern void func_020185C4(void *mon);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);

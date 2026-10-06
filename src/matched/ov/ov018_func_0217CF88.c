@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 extern u32 func_02026454(void *obj);
 extern u32 func_02026474(void *obj);
 extern void func_0217BBCC(int a, int b, char *p);
-extern void func_0217BBD8(int a, int b, u8 *c);
+extern void func_0217BBD8(u8 *a, int b, u8 *c);
 extern void func_0217BC94(int a, int n);
 extern void func_0217C194();
 
@@ -53,7 +53,7 @@ int func_0217CF88(int a0, int a1)
         v = func_02026474((void *)h);
     if (v != 0) {
         func_0217BBCC((int)c, (int)w, (char *)v);
-        func_0217BBD8((int)c, (int)w, (u8 *)v);
+        func_0217BBD8((u8 *)c, (int)w, (u8 *)v);
     } else {
         func_0217BC94((int)c, 1);
     }

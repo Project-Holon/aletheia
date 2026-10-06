@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 struct S;
 extern int func_021AE72C(struct S *s);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021AE754(u32 a, u32 b, u32 *c)
 {

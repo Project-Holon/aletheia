@@ -25,16 +25,17 @@
  */
 #include "../include/Obj07644.h"
 
-extern int func_0201C6B4(int);
+struct PrintSys;
+extern unsigned int func_0201C6B4(const struct PrintSys *p);
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-extern void func_0201C4E4(int);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern int func_0201C6C4(int, int);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
 
 void func_021EFFB4(int *p)
@@ -43,7 +44,7 @@ void func_021EFFB4(int *p)
     char *s;
     int h;
 
-    if (!(p[0x4A] & 2) && func_0201C6B4(p[2]) == 1) {
+    if (!(p[0x4A] & 2) && func_0201C6B4((const struct PrintSys *)p[2]) == 1) {
         func_02040588(4, 1);
         func_02040588(5, 1);
         func_02040588(6, 1);
@@ -52,12 +53,12 @@ void func_021EFFB4(int *p)
         func_02041B6C(5);
         p[0x4A] |= 2;
     }
-    func_0201C4E4(p[2]);
+    func_0201C4E4((struct PrintSys *)p[2]);
     for (i = 0; i < 8; i++) {
         h = p[2];
         s = (char *)p + i * 8;
         if (((struct Obj07644 *)s)->f10) {
-            if (func_0201C6C4(h, (int)func_02045770((struct Descriptor *)((struct Obj07644 *)s)->fC)) == 0) {
+            if (func_0201C6C4((struct PrintSys *)h, (void *)func_02045770((struct Descriptor *)((struct Obj07644 *)s)->fC)) == 0) {
                 func_02045334((struct Descriptor *)((struct Obj07644 *)s)->fC);
                 ((struct Obj07644 *)s)->f10 = 0;
             }

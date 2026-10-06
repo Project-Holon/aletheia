@@ -34,7 +34,8 @@ typedef struct {
 } T;
 
 extern T *func_021ABF48(int kind);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_021ABEE8(O *o)
 {

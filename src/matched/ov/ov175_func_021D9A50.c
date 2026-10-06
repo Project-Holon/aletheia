@@ -28,7 +28,8 @@ extern void *func_0200BAF4(int a0, int a1);
 extern void *func_0201A948(void *);
 extern int func_0201A918(void *);
 extern void func_02082D44(const void *, void *, int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021D9A50(char *dest, char *ctx)
 {
     void *records;

@@ -31,14 +31,14 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 v[7];u16 a,b,c,d;} Desc;
-extern void *func_021D9CA4(int,int,void *,void *,int);
+extern void *func_021D9CA4(int a, unsigned char b, void *c, void *d, u16 heap);
 typedef unsigned char  u8;
 extern void func_021D9FFC(u8 *p, int a, int b);
 extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021D9E50(u8 *p);
-extern void *func_021DA038(const void *,u16);
+extern void *func_021DA038(const u8 *p, u16 heap);
 extern void func_021DA148(u8 *p);
 extern int func_021DA178(char *p);
 extern void func_021DA8B0(u32 *p, u32 a);
@@ -81,7 +81,7 @@ void func_021DCCE4(void *arg,u32 *state,char *p)
             d.v[4]=125;
             d.v[6]=2;
             d.a=0; d.b=15; d.c=13; d.d=1;
-            ((struct Obj00253 *)p)->fAC0=func_021DA038(&d,((struct Obj00253 *)p)->f24);
+            ((struct Obj00253 *)p)->fAC0=func_021DA038((const u8 *)(&d),((struct Obj00253 *)p)->f24);
             *state=4;
         }
         break;

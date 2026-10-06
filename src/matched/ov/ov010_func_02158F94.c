@@ -13,13 +13,13 @@
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 *func_02158FD0(void *, unsigned int);
+extern int func_02158FD0(int a0, u32 a1, int a2);
 extern u16 func_0216D588(void *);
-void func_02158F94(void *p, void *q)
+void func_02158F94(void *p, void *q, int a2)
 {
     *(void **)((char *)p + 8) = q;
     if (q != 0) {
-        u16 *r = func_02158FD0(p, 0x8011);
+        u16 *r = (u16 *)func_02158FD0((int)p, 0x8011, a2);
         *r = func_0216D588(q);
     }
 }

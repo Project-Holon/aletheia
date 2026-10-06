@@ -19,7 +19,7 @@ struct PalAnmSlot;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
 extern void func_02030DA4(void *);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 void func_021BC61C(char *p)
 {
     if(((struct Obj02544 *)p)->fC&8)func_020215A0(((struct Obj02544 *)p)->f8,3);

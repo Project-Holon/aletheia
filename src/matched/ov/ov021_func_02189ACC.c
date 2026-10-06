@@ -16,11 +16,13 @@
  *   func_02013BA8  0x02013BA8  thumb
  */
 
-extern int func_02013BA8(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 func_02013BA8(u32 id);
 
-int func_02189ACC(void)
+int func_02189ACC(u32 a0)
 {
-    if (func_02013BA8() == 1)
+    if (func_02013BA8(a0) == 1)
         return 0x1EE;
     return 0x136;
 }

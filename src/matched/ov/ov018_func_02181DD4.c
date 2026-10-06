@@ -53,7 +53,7 @@ struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 int func_021589D0(int a0);
 int func_02159058(int a, int b, int c, int d, u16 e);
 void func_02012374(struct Evt *evt, struct Evt **out);
-void func_020307B0(void *);
+u32 func_020307B0(void *p);
 
 int func_02181DD4(void *a, int *state, Ov018Obj *c)
 {

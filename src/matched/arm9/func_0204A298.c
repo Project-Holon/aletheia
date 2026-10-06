@@ -31,7 +31,7 @@ extern u32 func_020490A8(u32 a, u32 b);
 extern void *      func_02030734(u32 a0, u32 a1, int a2, const char *file, u16 line);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern int         func_020834C0(int a0, int a1);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern const char  sArcUtil3730[];
 
 int func_0204A298(int a0, int a1, int a2, int a3, u32 *out)

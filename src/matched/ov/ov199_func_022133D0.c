@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_022133D0(u8 *p)
 {

@@ -16,7 +16,7 @@
  *   func_0209477C  0x0209477C  arm
  */
 
-extern char *func_02094B20(char *s, char *find);
+extern unsigned char *func_02094B20(const unsigned char *s1, const unsigned char *s2);
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 
@@ -29,7 +29,7 @@ int func_02193378(char *command, char *key, int *index, char *value, int len)
 
     command += *index;
     delimiter = key[0];
-    start = func_02094B20(command, key);
+    start = (char *)func_02094B20((const unsigned char *)command, (const unsigned char *)key);
     if (start == 0)
         return 0;
     start += func_0209477C((const u8 *)key);

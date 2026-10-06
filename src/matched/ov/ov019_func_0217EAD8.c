@@ -35,7 +35,7 @@ typedef struct {
 } Sys;
 
 void func_0217BAF0(char *p, int x, unsigned int v);
-void func_0217F098(u8 *w, int a);
+void func_0217F098(unsigned char *base, u8 *x);
 void func_0217F188(char *p, u32 arg);
 u32 func_0217F1EC(u8 *p);
 void func_0217F074(void *p);
@@ -49,7 +49,7 @@ u8 func_0200855C(const struct Sub0200852CObj *obj);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 u32 func_020362DC(void);
 
-int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
+int func_0217EAD8(u8 *w, void *obj, u8 *a2, u8 *state)
 {
     u8 *p;
     int t;
@@ -60,7 +60,7 @@ int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
     p = *(u8 * *)&((struct Obj05956 *)w)->f355C;
     switch (*state) {
     case 0:
-        func_0217BAF0((char *)w, a2, 1);
+        func_0217BAF0((char *)w, (int)a2, 1);
         t = func_0200855C((const struct Sub0200852CObj *)(p + 0x18 + p[0x16c] * 0x2c));
         if (t == 0x14 || t == 0x15) {
             v = (*(u8 **)(p + 0x134 + p[0x16c] * 4))[3];

@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern int func_02159D04();
-extern int func_020307B0();
+extern u32 func_020307B0(void *p);
 
 int func_02159B94(int a0, int a1, int a2, int a3)
 {

@@ -15,7 +15,7 @@
  *   ov133_id 0x00000085 data
  */
 typedef unsigned int u32;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 typedef signed int     s32;
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);

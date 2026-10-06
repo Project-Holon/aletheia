@@ -28,9 +28,9 @@ typedef unsigned char u8;
 typedef enum { C0=0 } Counter;
 extern u8 ov_id[];
 extern void func_021D9FB0(unsigned int p);
-extern void func_0204ADA4(void *);
-extern void func_0204A8D4(void *);
-extern void func_0204AFD8(void *);
+extern void func_0204ADA4(unsigned int i);
+extern void func_0204A8D4(unsigned int i);
+extern void func_0204AFD8(unsigned int i);
 typedef unsigned int   u32;
 struct Bank;
 struct Node;
@@ -41,7 +41,7 @@ extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(unsigned int);
 extern void func_02040588(unsigned int,unsigned int);
 extern void func_0203F9B4(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
 void func_021D9A1C(u8 *p)
 {
@@ -53,9 +53,9 @@ void func_021D9A1C(u8 *p)
         ((struct Obj03802 *)p)->fC=0;
     }
     i=0;
-    do { if (*(void **)(p+i*4+0x988)) func_0204ADA4(*(void **)(p+i*4+0x988)); i++; } while(i<3);
-    for(;i<6;i++) if (*(void **)(p+i*4+0x988)) func_0204A8D4(*(void **)(p+i*4+0x988));
-    for(;i<9;i++) if (*(void **)(p+i*4+0x988)) func_0204AFD8(*(void **)(p+i*4+0x988));
+    do { if (*(void **)(p+i*4+0x988)) func_0204ADA4((unsigned int)(*(void **)(p+i*4+0x988))); i++; } while(i<3);
+    for(;i<6;i++) if (*(void **)(p+i*4+0x988)) func_0204A8D4((unsigned int)(*(void **)(p+i*4+0x988)));
+    for(;i<9;i++) if (*(void **)(p+i*4+0x988)) func_0204AFD8((unsigned int)(*(void **)(p+i*4+0x988)));
     if (((struct Obj03802 *)p)->f984) func_02030EAC(((struct Obj03802 *)p)->f984);
     func_02030EAC(((struct Obj03802 *)p)->f980);
     func_0204B1CC(((struct Obj03802 *)p)->f97C);

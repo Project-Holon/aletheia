@@ -47,7 +47,7 @@ typedef struct {
 } Obj;
 
 extern int func_0217BB04(char *p);
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern int func_02174F4C(int a, int b, int c, int d);
 extern u16 func_0217EC94(int i);
 typedef unsigned int   u32;
@@ -72,7 +72,7 @@ int func_0217D7A4(u8 *a, Obj *b, int c, u8 *d)
     switch (*d) {
     case 0:
         if (((struct Obj09412 *)a)->f355C != 0)
-            func_02034714(d_021807E4, 0, d_021807E4);
+            func_02034714((const char *)d_021807E4, 0, (const char *)d_021807E4);
         p = *(int * *)&((struct Obj09412 *)a)->f0;
         ((struct Obj09412 *)a)->f355C = func_02174F4C(p[2], p[3], p[0], b->b1);
         func_0217F210(a, c, func_0217EC94(b->f14->b3));

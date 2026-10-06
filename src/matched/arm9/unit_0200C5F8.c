@@ -60,7 +60,7 @@ extern void *func_0200A5F8(void *save);
 extern void func_0200A7EC(struct Big *p, u8 value);
 extern u8 *func_0200A7F8(struct Big *p);
 
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_0204913C(void *a0, u32 a1, u32 heap);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern struct MsgBank *func_02045C44(const void *file, u32 heapId);

@@ -22,7 +22,8 @@
  *       --func func_020339B4 --addr 0x020339B4 --arm --cc 1.1p1
  */
 
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_020339B4(int *p)
 {

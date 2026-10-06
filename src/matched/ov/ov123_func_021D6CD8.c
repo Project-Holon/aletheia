@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Point { s16 x,y; u16 f4; u8 f6,f7; };
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 typedef signed int     s32;

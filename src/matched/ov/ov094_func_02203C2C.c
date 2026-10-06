@@ -58,7 +58,7 @@ typedef struct Ctx {
     int f1c;
     int mode;
 } Ctx;
-extern void func_020498F4(int, int, int, int, int, int, int);
+extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 typedef unsigned int   u32;
 struct Bank;
 struct Cfg;
@@ -87,8 +87,8 @@ void func_02203C2C(void *task, Ctx *c)
 {
     switch (c->state) {
     case 0:
-        func_020498F4(c->main->f48, 0x5d, 4, 0, 0, 0, c->main->h240);
-        func_020498F4(c->main->f48, 0x6e, 5, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x5d, 4, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x6e, 5, 0, 0, 0, c->main->h240);
         func_02204960(c->main, 5, 0, 0xc0, 1, 1, 2, 0);
         c->state++;
         break;

@@ -75,7 +75,7 @@ extern u32 func_0202136C(u16);
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern void func_02017E40(void *,u32,u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
 extern void func_021B907C(u8 *);
 extern void func_021B8180(u8 *);

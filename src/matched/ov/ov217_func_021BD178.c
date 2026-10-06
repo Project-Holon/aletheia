@@ -43,7 +43,7 @@ struct G {
 struct Bmp;
 struct MsgBank;
 struct Obj020437AC;
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct S { char pad0[8]; u16 h8; char pad1[2]; u32 f0c; u32 arr[0x144 / 4 - 4]; void *f144; };
 extern int _s32_div_f(int, int);
 extern const struct Tab d_021C3350;

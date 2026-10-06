@@ -68,7 +68,7 @@ extern u32  func_0201BABC(u32 a, u32 b, u32 c, u32 d);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern u32  func_0201BB5C(u32 a, u32 b, u32 c, u32 d);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);

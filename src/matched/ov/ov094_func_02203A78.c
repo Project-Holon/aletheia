@@ -35,7 +35,7 @@ typedef struct Ctx {
     int f0c;
 } Ctx;
 
-extern void func_020498F4(int a, int b, int c, int d, int e, int f, int g);
+extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 typedef unsigned int   u32;
 struct Cfg;
 struct Descriptor;
@@ -48,14 +48,14 @@ void func_02203A78(int a0, Ctx *c)
 {
     int z = 0;
 
-    func_020498F4(c->main->f48, 0x5d, 4, 0, z, z, c->main->h240);
-    func_020498F4(c->main->f48, c->f0c, 4, 0x440, 0x380, z, c->main->h240);
+    func_020498F4((void *)c->main->f48, 0x5d, 4, 0, z, z, c->main->h240);
+    func_020498F4((void *)c->main->f48, c->f0c, 4, 0x440, 0x380, z, c->main->h240);
     func_02045374(c->main->obj228);
     func_020409B4(6);
     if (c->main->f50 == 2) {
-        func_020498F4(c->main->f48, 0x6a, 5, 0, z, z, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x6a, 5, 0, z, z, c->main->h240);
     } else {
-        func_020498F4(c->main->f48, 0x69, 5, 0, z, z, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x69, 5, 0, z, z, c->main->h240);
     }
     func_02045334(c->main->obj228);
     func_0220687C((char *)c->main, (void *)a0);

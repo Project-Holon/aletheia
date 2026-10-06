@@ -27,7 +27,7 @@ struct Sub0200852CObj;
 extern void func_021FCD0C(char *p);
 extern int func_021FCDA8(char *p);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021FB4B4(int obj, int x, int y);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int, int, int *);
 extern void func_021E03B0(char *, char *, int);
 extern u8 *func_02012944(void *p);
@@ -40,7 +40,7 @@ int func_021E024C(char *p, char *q)
     func_021FCD0C(((struct Obj00277 *)p)->f18);
     selected = func_021FCDA8(((struct Obj00277 *)p)->f18);
     pressed = func_02035D20(&x, &y);
-    pressed &= func_021FB4B4(((struct Obj00277 *)p)->fC, x, y);
+    pressed &= func_021FB4B4((unsigned int *)(((struct Obj00277 *)p)->fC), x, y);
     if (selected != -1) {
         unsigned int x1, y1;
         int args[2];

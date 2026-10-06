@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef struct {u16 heap;u8 pad[0x12a];u32 value;void *first,*second;char *buffer;u8 tail[0x70];} Owner;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02008468(void);
 extern u32 func_020173E8(void);

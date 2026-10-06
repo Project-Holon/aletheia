@@ -12,7 +12,7 @@
  *   func_0216711C 0x0216711C thumb ov010
  */
 struct O;
-extern int func_02167080(void *, int *, struct O *);
+extern int func_02167080(void *a, int *st, struct O *o, int a3);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Desc;

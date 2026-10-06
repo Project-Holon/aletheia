@@ -22,7 +22,7 @@ extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern void func_021BE4BC(char *p, int a, int b, int c, int d, unsigned int e, int f);
 extern int func_021C285C(void *);
-extern void func_021BE3CC(char *, int, u8, u8, int, int);
+extern void func_021BE3CC(char *p, int a, u8 b, u8 c, unsigned int d, int e);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 void func_021C22E8(char *p, void *unused, int id, int flag, int x, int y)

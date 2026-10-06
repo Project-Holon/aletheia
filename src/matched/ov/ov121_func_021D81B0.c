@@ -41,7 +41,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *,const u16 *,u32);
 extern void func_02045808(struct U16Vec *vec);
-extern void *func_020490F4(int,int);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,int,int,int,int,int);
 extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_0204989C(int,int,int,int,int,int,int);

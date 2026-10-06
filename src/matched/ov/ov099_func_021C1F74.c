@@ -14,7 +14,8 @@
 #include "../include/Obj00008.h"
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 typedef struct {
     char pad[0x8f8];
     void *windows[8];

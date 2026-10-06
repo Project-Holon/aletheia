@@ -15,7 +15,7 @@
  *   func_021BD890 0x021BD890 thumb ov209
  */
 typedef unsigned short u16;
-extern int func_021BD8F4(int,int);
+extern unsigned int func_021BD8F4(char *p, unsigned int idx);
 typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021BD958(char *p, u32 idx, s16 *x, s16 *y, u16 space);
@@ -27,7 +27,7 @@ void func_021BE51C(char *p,int index)
     short pos[2];
     index=index*24+8;
     for(i=10;i<26;i++){
-        if(func_021BD8F4((int)p,i)==0)func_021BD890(p,i,0);
+        if(func_021BD8F4((char *)p,i)==0)func_021BD890(p,i,0);
         else{
             func_021BD958(p,i,&pos[1],&pos[0],0);
             if(index==pos[0]){if(func_021BD8B0(p,i)!=1)func_021BD890(p,i,1);}

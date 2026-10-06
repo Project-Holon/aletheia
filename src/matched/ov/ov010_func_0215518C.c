@@ -54,7 +54,7 @@ extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200BAF4(int a, int b);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_0201BA34(void *p);
 extern void func_02155160(void *list);
 

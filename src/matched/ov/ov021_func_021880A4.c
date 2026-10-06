@@ -18,15 +18,15 @@
 
 typedef unsigned int   u32;
 struct Ctx;
-u32 func_020140B4(u32 a);
-void func_020307B0(void *p);
+u32 func_020140B4(void *a);
+u32 func_020307B0(void *p);
 void func_02012110(struct Ctx *p, void *v);
 void func_020371AC(unsigned short a, unsigned int b);
 
 void func_021880A4(int *p)
 {
     int q = p[1];
-    func_020140B4(p[3]);
+    func_020140B4((void *)p[3]);
     func_020307B0(p);
     func_02012110((void *)q, 0);
     func_020371AC(0, 0);

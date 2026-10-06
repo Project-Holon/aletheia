@@ -23,7 +23,8 @@ extern void func_0220B52C(struct Bank **p);
 extern void func_0220B4A8(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_0220B3B8(unsigned *p)
 {
     func_02030EAC((void *)p[3]);

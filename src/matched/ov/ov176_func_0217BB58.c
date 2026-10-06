@@ -21,8 +21,14 @@
  */
 #include "../include/Obj14363.h"
 extern void func_021E8AA0(int *p, int v);
-extern void func_0217BBDC(void),func_0217CC78(void),func_0217C2EC(void),func_0217CAE0(void);
-extern int func_0200B078(int,int);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Reg2;
+extern void func_0217BBDC(int *sys, unsigned int *state, u8 *p);
+extern void func_0217CC78(int *a, int *state, u8 *p);
+extern void func_0217C2EC(int *sys, unsigned int *state, u8 *p);
+extern void func_0217CAE0(int *sys, unsigned int *state, u8 *p);
+extern s32 func_0200B078(struct Reg2 *p, unsigned int id);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E618[];
@@ -31,7 +37,7 @@ void func_0217BB58(int p,int *state,char *q)
     switch(((struct Obj14363 *)q)->f1A0) {
     case 0: func_021E8AA0((int *)p,(int)func_0217BBDC); break;
     case 1:
-        if(func_0200B078(((struct Obj14363 *)q)->f38,10)==3) func_021E8AA0((int *)p,(int)func_0217CC78);
+        if(func_0200B078((struct Reg2 *)(((struct Obj14363 *)q)->f38),10)==3) func_021E8AA0((int *)p,(int)func_0217CC78);
         else func_021E8AA0((int *)p,(int)func_0217C2EC);
         break;
     case 2: func_021E8AA0((int *)p,(int)func_0217CAE0); break;

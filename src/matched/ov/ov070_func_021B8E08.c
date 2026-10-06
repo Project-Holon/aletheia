@@ -20,7 +20,7 @@
  */
 #include "../include/Obj00002.h"
 
-extern void func_021B7DD0();
+extern void func_021B7DD0(unsigned char *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 typedef unsigned char  u8;
@@ -30,12 +30,12 @@ extern void func_021B80C4(struct Obj *o, int flag);
 extern void func_021B6100(char *p, int k);
 extern void func_021B7CD0(struct Obj *o);
 
-void func_021B8E08(int p)
+void func_021B8E08(unsigned char *p)
 {
     int f;
     func_021B7DD0(p);
     func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
-    func_021BB3F4(p, 1);
+    func_021BB3F4((int)p, 1);
     f = 1;
     if (func_020355C4()) {
         f = 0;

@@ -31,7 +31,7 @@ extern char d_0220AE68[];
 extern const Vec d_02209D78, d_02209E04;
 extern u32 func_0201134C(void *);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Dst648;
 struct Src648;
 extern void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);

@@ -46,14 +46,14 @@ typedef struct {
 } Info;
 
 extern void func_0218E260(void *p, void *dst);
-extern void func_0218EC7C(char *p, int a);
-extern void func_0218EC68(char *p, int a);
+extern void func_0218EC7C(u8 *a, unsigned int first, ...);
+extern void func_0218EC68(u8 *a, unsigned int first, ...);
 typedef unsigned int   u32;
 extern void func_02046BE0(u32 a, u32 b);
 struct Light;
 extern int func_02048B78(struct Light *l);
-extern void func_02048B80(int a, int v);
-extern void func_02048B94(int a, int v);
+extern void func_02048B80(struct Light *l, u32 v);
+extern void func_02048B94(struct Light *l, u32 v);
 extern s16 tbl_020A1B38[];
 
 void func_0218E18C(char *p, Vec *src)
@@ -65,8 +65,8 @@ void func_0218E18C(char *p, Vec *src)
     ((struct Obj01347 *)p)->f78 = info.b;
     ((struct Obj01347 *)p)->f7A = info.c;
     ((struct Obj01347 *)p)->f80 = info.ang;
-    func_0218EC7C(p, info.g);
-    func_0218EC68(p, info.f);
+    func_0218EC7C((u8 *)p, info.g);
+    func_0218EC68((u8 *)p, info.f);
     switch (info.mode) {
     case 0:
         func_02046BE0(0, 0);
@@ -76,8 +76,8 @@ void func_0218E18C(char *p, Vec *src)
         break;
     }
     if (func_02048B78((struct Light *)(((struct Obj01347 *)p)->fC)) == 0) {
-        func_02048B80(((struct Obj01347 *)p)->fC, tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
-        func_02048B94(((struct Obj01347 *)p)->fC, tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
+        func_02048B80((struct Light *)(((struct Obj01347 *)p)->fC), tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
+        func_02048B94((struct Light *)(((struct Obj01347 *)p)->fC), tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
     }
     if (info.has != 0) {
         *(Vec * *)&((struct Obj01347 *)p)->f18 = src;

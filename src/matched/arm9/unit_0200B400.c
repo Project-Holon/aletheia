@@ -43,7 +43,7 @@
 
 typedef unsigned int u32;
 
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_0200B3DC(u32 heap);
 
 extern void *gObj_0214616C;

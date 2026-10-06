@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Rec;
 extern void *func_02020F34(u32 item, u32 which, u32 heap);
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 #define GET(k) func_02021014(p,(k))
 #define DONE(k) {func_020307B0(p);return(k);}
 int func_021BBE74(int id)

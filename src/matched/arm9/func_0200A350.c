@@ -11,8 +11,10 @@
  * status:   EXACT
  */
 
-extern void func_0200A3FC(void);
-void func_0200A350(void)
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0200A3FC(struct Obj *obj);
+int func_0200A350(struct Obj *a0)
 {
-    func_0200A3FC();
+    return func_0200A3FC(a0);
 }

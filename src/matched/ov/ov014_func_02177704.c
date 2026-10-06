@@ -13,7 +13,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern void *g_021797A4;
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_02177704(void)
 {
     if (g_021797A4 != 0) {

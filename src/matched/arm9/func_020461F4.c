@@ -86,7 +86,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  func_020463E0(u32 a, u32 b);
 extern void  func_020788AC(struct File020461F4 *f);
 extern u32   func_02078C18(struct File020461F4 *f, u32 id);
-extern u32   func_02078C28(struct File020461F4 *f);
+struct FSFile;
+extern u32 func_02078C28(struct FSFile *a0);
 typedef signed int     s32;
 struct FSFile;
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
@@ -107,7 +108,7 @@ void func_020461F4(u32 id)
     if (id != 0) {
         func_020788AC(&file);
         if (func_02078C18(&file, id) == 1) {
-            size = func_02078C28(&file);
+            size = func_02078C28((struct FSFile *)(&file));
             g_02146A58->data = func_02030734(0, size, 0, func_020461F4_File,
                                              77);
             func_02078B70((struct FSFile *)(&file), g_02146A58->data, size);

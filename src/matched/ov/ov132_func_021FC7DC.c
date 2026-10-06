@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern int func_0203CDBC(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021FCAA8(char *);
 int func_021FC7DC(int unused,int unused1,void *p) { if(func_0203CDBC()==1) {func_020307B0(p);return 1;} return 0; }
 void func_021FC7F8(int unused,int unused1,char *p) { func_021FCAA8(p); }

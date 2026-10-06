@@ -23,17 +23,17 @@ extern void *func_021D8D4C(void **a, int b, int c, char *p);
 extern int func_021D8A24(void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_020173EC(int);
+extern unsigned int func_020173EC(void);
 typedef unsigned int   u32;
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021D9468(void *,int,void *);
 int func_021DB0A0(char *p)
 {
     int t=(int)func_021D8D4C(*(void ** *)&((struct Obj00001 *)p)->f828,((struct Obj00001 *)p)->fF88,((struct Obj00001 *)p)->fF84,p);
     if(func_021D8A24(p)) {
         unsigned id=(unsigned)func_020399A8();
-        if(func_0203D3A8((void *)id,(u16)0xc01,(u16)func_020173EC(id),t)==0) {
+        if(func_0203D3A8((void *)id,(u16)0xc01,(u16)func_020173EC(),t)==0) {
             func_020307B0((void *)t);
             return 0;
         }

@@ -17,7 +17,8 @@
 #include "../include/Obj05123.h"
 extern void func_02165940(unsigned char *p);
 extern void func_02010F8C(void *);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021F28DC(char *p)
 {
     func_02165940(((struct Obj05123 *)p)->f38);

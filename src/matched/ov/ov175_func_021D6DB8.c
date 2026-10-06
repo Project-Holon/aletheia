@@ -80,7 +80,7 @@
  *   func_021D9D50 0x021D9D50 thumb
  *   func_021D905C 0x021D905C thumb
  */
-extern void func_021D76D4(void);
+extern void func_021D76D4(unsigned int sys, int *state, char *p);
 typedef unsigned int u32;
 typedef struct { unsigned char a,b,c,d;u32 id;} Request;
 typedef struct {char pad[0x104];u32 *ctx;u32 aux;} ObjectView;
@@ -96,12 +96,16 @@ extern void func_021D99F4(char *);
 extern int func_021D98D8(char *);
 extern void func_021D98B8(char *);
 extern void func_021D9A50(char *,char *);
-extern int func_0201AA50(void *);
+typedef signed int     s32;
+struct Rec1E;
+struct RecBig;
+struct Reg2;
+extern u32 func_0201AA50(void *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Obj;
 extern void func_0200AE14(void);
-extern int func_0201A090(int,void *,unsigned *);
+extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern void func_021DCB58(char *,void *,int);
 extern int func_021DCC28(char *,void *);
 extern u32 func_0201AA18(void *);
@@ -111,12 +115,12 @@ struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void * func_0200BAC8(void *);
 extern void *func_0200B358(void *sys);
-extern unsigned func_0200B204(unsigned,int);
+extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
 extern void *func_0200BAF4(int a0, int a1);
-extern void func_0200BBC8(void *,unsigned);
-extern void func_0200B110(unsigned,int,int);
+extern void func_0200BBC8(struct Obj *p, u32 v);
+extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern void func_0200B2A4(int,int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_02012DAC(int);
 extern int func_02012DD0(unsigned char *);
 extern void func_02082BCC(void *,int,unsigned);
@@ -130,17 +134,17 @@ extern void func_021E8AB4(unsigned,unsigned);
 extern void func_021E8AB8(unsigned);
 extern int func_021E8844(const int *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
-extern void func_021D7BE4(void);
-extern void func_021D8EC8(void);
-extern unsigned func_0200B078(unsigned,unsigned);
+extern void func_021D7BE4(u32 sys, int *state, char *p);
+extern void func_021D8EC8(u32 sys, int *state, char *p);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_021DC2F4(char *,unsigned);
 extern int func_021DC338(char *);
 extern void func_021DC66C(const char *p, void *out);
-extern int func_0200B1A8(void *);
+extern u32 func_0200B1A8(struct Reg2 *p);
 extern void func_021D9A1C(char *,void *);
-extern int func_021D9A30(char *);
-extern void func_021D9090(void);
-extern int func_0200BBFC(void *,unsigned);
+extern u32 func_021D9A30(char *obj);
+extern void func_021D9090(u32 sys, int *state, char *p);
+extern u32 func_0200BBFC(struct Obj *p, u32 mask);
 extern void func_021D97A4(char *);
 extern int func_021D97C4(char *);
 extern void func_02082D44(const void *,void *,unsigned);
@@ -151,8 +155,8 @@ extern void func_0200B1F8(struct Rec1E *);
 extern void func_021DB3A4(char *,unsigned,int,unsigned);
 extern int func_021DB478(char *);
 extern unsigned func_0200DFD8(unsigned,unsigned,unsigned);
-extern int func_021D9D50(char *,void *);
-extern void func_021D905C(void);
+extern int func_021D9D50(char *obj, u32 *rec);
+extern void func_021D905C(u32 sys);
 #define W(k) (*(u32 *)(p+(k)))
 #define CTX (*(u32 **)(p+offset))
 #define H ((char *)W(0x34))
@@ -179,8 +183,8 @@ void func_021D6DB8(int *sys,int *state,char *p)
         if(r!=0) switch(func_021D9F04(H,(void *)1,0)) {case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}
         break;
     case 3:
-        if(((unsigned char *)CTX[12])[5]==func_0200B078(aux,10)) *state=4;
-        else if(func_0200B078(aux,10)==4 || func_0200B078(aux,10)==5) *state=7;
+        if(((unsigned char *)CTX[12])[5]==func_0200B078((struct Reg2 *)aux,10)) *state=4;
+        else if(func_0200B078((struct Reg2 *)aux,10)==4 || func_0200B078((struct Reg2 *)aux,10)==5) *state=7;
         else *state=4;
         break;
     case 4:
@@ -189,8 +193,8 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 5:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
     case 6:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
     case 7: {
-        func_02082BCC(&request7,0,8); request7.b=func_0200B078(aux,10); request7.id=func_021DD020(H);
-        ((unsigned char *)CTX[12])[5]=func_0200B078(aux,10);
+        func_02082BCC(&request7,0,8); request7.b=func_0200B078((struct Reg2 *)aux,10); request7.id=func_021DD020(H);
+        ((unsigned char *)CTX[12])[5]=func_0200B078((struct Reg2 *)aux,10);
         func_021DC8B4(H,&request7,87);*state=8;break;
     }
     case 8:
@@ -204,10 +208,10 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 12:func_021DC2F4(H,*(u32 *)ctx[12]);*state=13;break;
     case 13:
         r=func_021DC338(H);
-        if(r==1){func_021DC66C(H,p+0x10c);if(func_0200B1A8(p+0x10c))*state=14;else *state=15;}
+        if(r==1){func_021DC66C(H,p+0x10c);if(func_0200B1A8((struct Reg2 *)(p+0x10c)))*state=14;else *state=15;}
         else if(r==2)*state=15;
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
-    case 15:if(func_0200B078(aux,2)==0)*state=18;else *state=16;break;
+    case 15:if(func_0200B078((struct Reg2 *)aux,2)==0)*state=18;else *state=16;break;
     case 16:
         r=func_021D9F04(H,(void *)1,0);
         switch(r){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;case 0:func_021D9A1C(p,func_021D9090);*state=17;break;}break;
@@ -217,7 +221,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 18:func_021E8738((int *)W(0x2c),W(0x14),0x3b,1);func_021E8AB4((u32)sys,55);*state=56;break;
     case 14:
         b=((unsigned char *)ctx[12])[5];if(b==0)*state=19;else if(b==1)*state=53;else if(b==2)*state=54;else *state=55;break;
-    case 19:if(func_0200B078(aux,2)==0)*state=42;else *state=20;break;
+    case 19:if(func_0200B078((struct Reg2 *)aux,2)==0)*state=42;else *state=20;break;
     case 20:
         func_021D965C((struct Obj *)p);
         if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC((struct Big *)(*(u32 *)ctx[2]))),1))func_021D97E4(p,0);else func_021D97E4(p,1);
@@ -253,9 +257,9 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 42:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,43);*state=56;break;
     case 43:
         saved=(u32)func_02012EBC((struct Big *)(*(u32 *)ctx[2]));box=func_0200BAC8((void *)saved);
-        item=func_0200B204((unsigned int)func_0200B358((void *)saved),0);
+        item=(u32)func_0200B204((struct RecBig *)func_0200B358((void *)saved),0);
         func_02082D44(p+0x10c,(void *)W(0x108),0x160);
-        func_0200BBD8(box,1);func_0200B110(W(0x108),10,1);
+        func_0200BBD8(box,1);func_0200B110((struct Reg2 *)W(0x108),10,1);
         func_0200DFE4(ctx[4],10,0,0);func_0200DFE4(ctx[4],10,1,0);func_0200DFE4(ctx[4],10,2,0);
         func_0200B1F8((struct Rec1E *)item);func_02012DAC(*(u32 *)ctx[2]);*state=44;break;
     case 44:r=func_02012DD0((unsigned char *)*(u32 *)ctx[2]);if(r==2)*state=37;else if(r==3)*state=45;break;

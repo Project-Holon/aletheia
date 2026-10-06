@@ -15,7 +15,8 @@
 typedef unsigned char  u8;
 struct Node;
 extern void func_021DFF20(u8 *p, int a);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
 void func_021E1540(void *task, int *p)
 {

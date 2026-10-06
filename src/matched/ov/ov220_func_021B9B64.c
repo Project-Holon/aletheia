@@ -31,7 +31,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Param {s16 x,y;u32 zero;};
 extern const u8 table[],coords[];
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204AC18(void*,u32,u32,u32,u16,u16,u16),func_0204A6C8(void*,u32,u32,u32,u16),func_0204AF28(void*,u32,u32,u32);
 extern void func_02049238(void*),func_02082BCC(void*,u32,u32);
 extern u32 func_021BA1E0(u8 *p);

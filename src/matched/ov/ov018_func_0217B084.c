@@ -46,7 +46,7 @@ extern int func_0216D3CC(int a0);
 struct Rec;
 extern u16 func_0216D5F8(void *p);
 extern void func_0216D410(void *a0, u16 a1);
-extern int func_0216D454();
+extern int func_0216D454(int a0, u32 a1, u32 a2, u32 a3);
 extern int func_0216D480(char *p);
 extern void func_0216D9A0(void *map);
 extern void func_0216D9E4(void *c);
@@ -57,11 +57,11 @@ extern int func_021907A8();
 extern int func_0219077C(u8 *p);
 extern void func_02190788(u8 *p);
 extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
-extern int func_02190728(u32 a);
+extern int func_02190728(void *a);
 extern u32 func_020362DC(void);
 extern void func_02045C04(struct Rec *rec);
 
-int func_0217B084(int a0, int *state, Obj *o)
+int func_0217B084(int a0, int *state, Obj *o, u32 a3)
 {
     u16 m;
     int t;
@@ -84,7 +84,7 @@ int func_0217B084(int a0, int *state, Obj *o)
         }
         break;
     case 1:
-        if (func_0216D454(o->f4) == 1) {
+        if (func_0216D454(o->f4, (u32)state, (u32)o, a3) == 1) {
             func_0216D480((char *)o->f4);
             *state += 1;
         }
@@ -124,7 +124,7 @@ int func_0217B084(int a0, int *state, Obj *o)
             *state += 1;
         break;
     case 8:
-        func_02190728(o->fc);
+        func_02190728((void *)o->fc);
         func_02045C04((struct Rec *)o->f8);
         *state += 1;
         break;
@@ -135,7 +135,7 @@ int func_0217B084(int a0, int *state, Obj *o)
         }
         break;
     case 10:
-        if (func_0216D454(o->f4) == 1) {
+        if (func_0216D454(o->f4, (u32)state, (u32)o, a3) == 1) {
             func_0216D480((char *)o->f4);
             func_0216D9E4(func_02188C7C(o->f0));
             return 1;

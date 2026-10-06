@@ -27,7 +27,8 @@ struct Blk37;
 typedef unsigned char  u8;
 extern void func_021C8F7C(u8 *p);
 extern u16 func_021C9288(struct Blk37 *,u16 **,unsigned);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 int func_021C9098(char *p)
 {
     int result;

@@ -35,7 +35,8 @@ struct Pt  { u16 x; u16 y; };
 struct Pos0202DE6C;
 extern void sub_0202DE6C(u32 a, u32 b, u32 c, const struct Pos0202DE6C *base, struct Pos0202DE6C *out);
 extern u32   sub_0202E430(u32 id);
-extern u32   func_02045730(u32 cell);
+struct Descriptor;
+extern unsigned char func_02045730(struct Descriptor *p);
 typedef unsigned char  u8;
 struct Obj;
 extern u8 func_020416D4(u32 layer);
@@ -44,14 +45,14 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void  func_0204B84C(void *h, u32 a);
 extern void func_0204B878(struct Obj *p, u16 value);
 
-void func_0202E040(void *h, u32 cell, u32 b, u32 c,
+void func_0202E040(void *h, struct Descriptor *cell, u32 b, u32 c,
                    u32 n, const struct Pos *base)
 {
     struct Pos pos;
     struct Pt pt;
     u32 t;
 
-    sub_0202DE6C(cell, b, c, (const struct Pos0202DE6C *)base, (struct Pos0202DE6C *)(&pos));
+    sub_0202DE6C((u32)cell, b, c, (const struct Pos0202DE6C *)base, (struct Pos0202DE6C *)(&pos));
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
     t = func_02045730(cell);

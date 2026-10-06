@@ -40,7 +40,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern int func_021F8694(void);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void *func_02015EE8(void *);

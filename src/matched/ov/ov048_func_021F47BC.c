@@ -68,7 +68,7 @@ struct M {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_0209C0A4(int a, int b);
 typedef signed int     s32;
 struct AnmCtl;

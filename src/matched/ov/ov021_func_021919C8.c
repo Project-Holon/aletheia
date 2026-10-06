@@ -32,7 +32,7 @@ typedef struct Q {
     void *f14;
 } Q;
 
-extern int func_02194974(u32 a, void *b);
+extern int func_02194974(u8 *p, int i);
 extern u32 func_02194984(u32 a, u32 b);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
@@ -40,7 +40,7 @@ extern u32 func_0201CE30(void *p);
 
 int func_021919C8(Q *q)
 {
-    if (func_02194974(q->f0c, q->f08) == 0)
+    if (func_02194974((u8 *)q->f0c, (int)q->f08) == 0)
         return 0;
     func_020362DC();
     func_0203630C();

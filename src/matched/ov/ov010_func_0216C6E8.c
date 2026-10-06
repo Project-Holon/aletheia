@@ -148,7 +148,7 @@ extern u32 func_0218EC2C(u8 *p);
 extern void func_021B09D8(VecFx32 *pos, VecFx32 *ofs, u32 a, void *m, u8 dir);
 extern void func_021B09EC(u8 dir, u32 *a, u32 *b);
 extern struct Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g);
-extern int func_0216C680(int a, int *st, int *o);
+extern int func_0216C680(int a, int *st, int *o, u32 a3);
 
 void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir)
 {

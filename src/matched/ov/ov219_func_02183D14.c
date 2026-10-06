@@ -131,7 +131,7 @@ extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_020490F4(u32, u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049238(void *);
 extern void func_02040588(unsigned, unsigned);
 extern void func_02043B5C(struct CharBuf *, u8);
@@ -227,7 +227,7 @@ int func_02183D14(u8 *p, int *state)
     switch (*state) {
     case 0:
         *(void **)(p + 0xC070) = func_02045B38(0, 2, (u16)0xCF, (u16)W(0));
-        arc = func_020490F4(0xC5, W(0));
+        arc = func_020490F4(0xC5, (u16)W(0));
         func_02185580((char *)p, arc);
         func_021849A4((char *)p, arc);
         func_02049238(arc);

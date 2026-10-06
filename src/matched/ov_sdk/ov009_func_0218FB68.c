@@ -47,7 +47,8 @@ typedef struct {
 
 struct GPIOperation;
 extern int func_0219329C(int *connection, const char *input, int fatal);
-extern int func_020949F4(const char *, const char *, unsigned int);
+typedef unsigned char  u8;
+extern int func_020949F4(const u8 *s1, const u8 *s2, unsigned int n);
 typedef unsigned int   u32;
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
@@ -72,7 +73,7 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
 
     if (func_0219329C((int *)connection, input, 1))
         return 4;
-    if (func_020949F4(input, g_021A51D0, 5) != 0) {
+    if (func_020949F4((const u8 *)input, (const u8 *)g_021A51D0, 5) != 0) {
         func_02193710((int *)connection, 1, (int)g_021A51D8);
         __result__ = 3;
         func_02189D78((int *)connection, __result__, 1);

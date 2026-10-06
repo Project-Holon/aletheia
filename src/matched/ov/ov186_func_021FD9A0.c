@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef struct { int x,y; } Pair;
 typedef struct { short x,y; } ShortPair;
 typedef struct { int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[6][32];char padD8[0x120];void *handles[12];int timer; } Motion;
-extern void func_021FE2BC(void *,void *,u16,u16,u16,u16,int);
+struct Pair;
+extern int func_021FE2BC(unsigned char *p, const struct Pair *origin, u16 a, u16 b, u16 c, u16 d, int duration);
 extern int func_021FE2F8(char *,int *,int);
 struct Obj;
 typedef unsigned char  u8;
@@ -39,7 +40,7 @@ void func_021FD9A0(int unused,int *state,Motion *p)
         for(i=0;i<6;i++) {
             int angle;
             angle=i*0xffff/6;
-            func_021FE2BC(p->record[i],p,8,20,angle,angle+0x3333,15);
+            func_021FE2BC((unsigned char *)p->record[i],(const struct Pair *)p,8,20,angle,angle+0x3333,15);
             func_0204B3DC(p->handles[i],1);
         }
         *state=1;

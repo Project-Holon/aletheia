@@ -51,8 +51,8 @@ extern void func_021BE6E4(char *);
 extern unsigned char func_021BDD48(char *, void *);
 extern void func_021BA8EC(char *);
 extern void func_021BA7D8(void *p);
-extern void func_0203D7B0(int);
-extern void func_0203D7BC(int);
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 int func_021C0F70(char *p, int ret)
 {
     void *selection;

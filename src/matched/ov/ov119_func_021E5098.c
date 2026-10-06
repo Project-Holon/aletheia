@@ -23,14 +23,14 @@
 typedef unsigned short u16;
 extern char d_021E8530[];
 extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
-extern int func_0201BA68(int);
+extern unsigned int func_0201BA68(void *mon);
 typedef unsigned int   u32;
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern int func_02049DF4(void *, int, int, int *, u16);
+extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02082D44(void *, const void *, int);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021E5098(char *p, int b)
 {
@@ -45,9 +45,9 @@ body:
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
             x = (int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828), b, i, p);
-            if (x) x = func_0201BA68(x);
+            if (x) x = func_0201BA68((void *)x);
             else x = func_0201BABC(0, 0, 0, 0);
-            t = func_02049DF4(a, x, 0, &out, ((struct Obj00001 *)p)->f5F4);
+            t = (int)func_02049DF4(a, x, 0, (u32)(&out), ((struct Obj00001 *)p)->f5F4);
             func_02082D44(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((struct Obj00001 *)p)->f1184 + n * 512), 512);
             n++;
             func_020307B0((void *)t);

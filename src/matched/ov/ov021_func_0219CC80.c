@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Tagged;
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02046EFC(struct Tagged *p);
 
 void func_0219CC80(u8 *o)

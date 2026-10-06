@@ -18,7 +18,7 @@
  *   func_021D8D08 0x021D8D08 thumb ov123
  */
 #include "../include/Obj03798.h"
-extern void func_021D65F4(char *);
+extern void func_021D65F4(unsigned char *p);
 extern void func_021D57B8(char *,int);
 extern void func_021D5A7C(char *);
 typedef unsigned int   u32;
@@ -27,12 +27,12 @@ extern void func_021D6650(u8 *p, int flag);
 extern void func_021D62BC(u8 *p, int i, u32 v);
 extern void func_021D62B4(u8 *p, unsigned int i);
 extern void func_020061E4(u32 a);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8D08(char *p);
 void func_021D8D98(char *p)
 {
     if (--((struct Obj03798 *)p)->f60==0) {
-        func_021D65F4(*(char * *)&((struct Obj03798 *)p)->f14);
+        func_021D65F4((unsigned char *)(*(char * *)&((struct Obj03798 *)p)->f14));
         func_021D57B8(*(char * *)&((struct Obj03798 *)p)->f18,8);
         func_021D5A7C(*(char * *)&((struct Obj03798 *)p)->f18);
         func_021D6650(((struct Obj03798 *)p)->f14,1);
@@ -40,6 +40,6 @@ void func_021D8D98(char *p)
         func_021D62BC(((struct Obj03798 *)p)->f14,0,0);
         func_021D62B4(((struct Obj03798 *)p)->f14,12);
         func_020061E4(0x657);
-        func_021D6EE0(p,(int)func_021D8D08,0x9a8);
+        func_021D6EE0((u8 *)p,(int)func_021D8D08,0x9a8);
     }
 }

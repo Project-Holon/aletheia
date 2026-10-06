@@ -24,7 +24,7 @@ struct Mon;
 extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021DD6E8(void **pp, void *a, u32 b)
 {

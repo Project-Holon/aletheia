@@ -26,7 +26,7 @@ struct WinMgr {
     u16 count;
 };
 
-extern void sub_020307B0(void *ptr);
+extern u32 sub_020307B0(void *p);
 
 void func_0202CA0C(struct WinMgr *obj)
 {

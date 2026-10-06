@@ -39,7 +39,7 @@ struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *pos);
 extern u32 *func_0218C584(u32 a, int *rect, u32 n, int *cnt);
 extern void func_0218C6D0(int *p, int b);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern u8 *func_0218C724(u8 *owner, u32 *obj);
 
 void func_021C0B3C(u8 *p, u32 a)

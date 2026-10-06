@@ -38,7 +38,7 @@ extern u16 func_0215A5CC(void *a0);
 struct LinkRecord;
 extern struct LinkRecord *func_021664CC(u16 heap, void *sys, u32 *start);
 extern void func_0217C37C();
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_0216AC40(int a0, int a1)
 {

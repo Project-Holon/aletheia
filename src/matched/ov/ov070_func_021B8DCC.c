@@ -17,7 +17,7 @@
  *   func_021B8AF4 0x021B8AF4 thumb ov070
  */
 #include "../include/Obj00002.h"
-extern void func_021B7DD0(void *p);
+extern void func_021B7DD0(unsigned char *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *object, unsigned int flag);
 extern void func_021BB3F4(int p, int mode);
@@ -28,7 +28,7 @@ extern void func_021B8AF4(void *p);
 void func_021B8DCC(char *p)
 {
     int flag;
-    func_021B7DD0(p);
+    func_021B7DD0((unsigned char *)p);
     func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
     func_021BB3F4((int)p, 1);
     flag = 1;

@@ -63,7 +63,7 @@ extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_0207ADC4(int *);
 extern void *func_02046F48(struct Tagged *p);
 extern unsigned char *func_0206E964(unsigned char *p);
-extern void sub_020307B0(void *);
+extern u32 sub_020307B0(void *p);
 
 Obj *func_021F6B04(int unused, int group, u8 variant, u16 heap)
 {

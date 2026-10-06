@@ -57,7 +57,7 @@ typedef unsigned int   u32;
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char func_0200D59C_File[];
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 struct Bits1B {
     u8 f0 : 1;

@@ -21,7 +21,8 @@ typedef unsigned char u8;
 
 struct Actor;
 extern void func_0204F27C(struct Actor *p);
-extern void func_020307B0(void *p);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_0204ED24(void *p)
 {

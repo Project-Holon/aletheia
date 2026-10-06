@@ -51,9 +51,9 @@ struct Sub020140BCObj {
     u8  f09;
 };
 
-extern u32 sub_020307B0(u32 a);
+extern u32 sub_020307B0(void *p);
 
-u32 sub_020140B4(u32 a)
+u32 sub_020140B4(void *a)
 {
     return sub_020307B0(a);
 }

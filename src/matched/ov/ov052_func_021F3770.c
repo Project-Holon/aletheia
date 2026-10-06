@@ -24,7 +24,8 @@ typedef struct { void (*f0)(void *, void *); void (*f1)(void *, void *); void (*
 struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern unsigned func_02012EC4(unsigned);
+struct Big;
+extern unsigned char *func_02012EC4(struct Big *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_02188C9C(u8 *p);
@@ -38,7 +39,7 @@ void func_021F3770(void *a)
     int s0;
     unsigned h;
 
-    h = func_02012EC4((unsigned int)func_020120F4(func_02188C80(a)));
+    h = (unsigned int)func_02012EC4((struct Big *)func_020120F4(func_02188C80(a)));
     func_021F3998(func_02188C9C(a), &s0, &s1);
     if (d_021F3A2C[s1].f2) {
         void *p = func_0200B3A4(h, s0);

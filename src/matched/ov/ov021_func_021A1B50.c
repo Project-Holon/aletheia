@@ -21,7 +21,7 @@ typedef struct {
     u32 items[2];
 } Obj021A1B50;
 
-int func_021A21B0(u32 x);
+int func_021A21B0(u8 *a0);
 
 int func_021A1B50(Obj021A1B50 *p)
 {
@@ -29,7 +29,7 @@ int func_021A1B50(Obj021A1B50 *p)
 
     if (p != 0) {
         for (i = 0; i < 2; i++) {
-            if (func_021A21B0(p->items[i]) == 1)
+            if (func_021A21B0((u8 *)p->items[i]) == 1)
                 return 1;
         }
     }

@@ -21,7 +21,7 @@ extern void *func_021DC924(u8 *p);
 struct DC950Obj;
 struct DC950Src;
 extern struct DC950Obj *func_021DC950(struct DC950Src *p, int a, int b);
-extern void func_0203D7B0(int);
+extern void func_0203D7B0(u8 a0);
 extern void func_02031348(void *,int,const void *,void *);
 extern const unsigned char d_021BED00[];
 extern const unsigned char d_0000005B[];

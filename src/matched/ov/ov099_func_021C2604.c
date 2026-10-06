@@ -30,13 +30,16 @@
 typedef unsigned char u8;
 typedef int (*Handler)(char *,int);
 extern const Handler d_021C3C0C[];
-extern int func_0203CD98(int),func_02157170(int,int),func_0200FB24(void),func_021C2438(char *);
+extern int func_0203CD98(void);
+extern int func_02157170(int,int);
+extern unsigned int func_0200FB24(void);
+extern int func_021C2438(char *);
 typedef unsigned int   u32;
 struct PrintSys;
 extern void func_021BC0C4(char *);
 extern void func_021BB0B4(char *);
-extern void func_0203D7B0(int);
-extern void func_0203D7BC(int);
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 extern void func_021C18C8(char *,int,int);
 extern void func_0202223C(unsigned int,unsigned int);
 extern void func_0202208C(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
@@ -49,7 +52,7 @@ extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021C2604(int task,int *state,int unused,char *p) {
  u8 r,g,b;
  Handler fn;
- if(func_0203CD98(task)!=0) {
+ if(func_0203CD98()!=0) {
   switch(func_02157170(1,1)) {
    case 4:
     func_021BC0C4(p);func_021BB0B4(p);func_0203D7B0(0);func_0203D7BC(0);func_021C18C8(p,1,2);

@@ -116,7 +116,7 @@ extern u32 func_020275E4(void);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049238(void *arc);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);

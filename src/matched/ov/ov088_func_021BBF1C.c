@@ -33,7 +33,8 @@ struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(u32 win, u32 c);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, unsigned char value);
 typedef unsigned char  u8;
 struct Cfg;
 struct Descriptor;
@@ -50,7 +51,7 @@ void func_021BBF1C(char *p, u32 a1)
 {
     void *h;
     func_02045CAC((struct MsgBank *)(((struct Obj02427 *)p)->f5C), a1, (void *)(((struct Obj02427 *)p)->f64));
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj02427 *)p)->fE8), 0xf);
+    func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj02427 *)p)->fE8), 0xf);
     func_0201F73C(((struct Obj02427 *)p)->fE8, 2, 1, 0xe);
     ((struct Obj02427 *)p)->f6C = func_0201CCE4(*(u32 *)&((struct Obj02427 *)p)->fE8, 0, 0, ((struct Obj02427 *)p)->f64,
                                        ((struct Obj02427 *)p)->f58, func_02012FFC(),

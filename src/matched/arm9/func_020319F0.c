@@ -81,7 +81,7 @@ struct SaveBackup;
 extern u32 func_02033200(struct SaveBackup *p, u32 id);
 extern void  func_02082A7C(u32 v, void *p, u32 n);
 extern u32 func_020335AC(u32 a, u32 b, u32 c, u32 d);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_020319C0(u8 *p);
 extern void func_02034FB8(u32 v);
 

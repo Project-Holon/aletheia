@@ -59,7 +59,7 @@ extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long l
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_0200CA10(void *save);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
 extern void func_0215E740(void *a, u32 b, u16 c, int d);

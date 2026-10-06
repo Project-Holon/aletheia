@@ -25,7 +25,8 @@ struct U16Vec;
 extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020452E8(struct Descriptor *d);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 void func_021C72A0(u8 *p, u8 *unused, u8 *q)
 {
     func_021CA444((char *)q);

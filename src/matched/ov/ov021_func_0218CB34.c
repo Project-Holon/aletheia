@@ -31,7 +31,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_0218DD70(void *e);
+extern int func_0218DD70(unsigned int a);
 typedef unsigned int   u32;
 struct Elem;
 extern void func_0218D1D0(char *p, void *a, struct Elem *e);
@@ -64,7 +64,7 @@ int func_0218CB34(char *p)
     if (((struct Obj00807 *)p)->f1C == 0)
         return 0;
     for (i = 0; i < ((struct Obj00807 *)p)->f2E; i++)
-        func_0218DD70(*(char * *)&((struct Obj00807 *)p)->f28 + i * 16);
+        func_0218DD70((unsigned int)(*(char * *)&((struct Obj00807 *)p)->f28 + i * 16));
     switch (((struct Obj00807 *)p)->fC) {
     case 0:
         func_0218D1D0(p, p + 0x34, ((struct Obj00807 *)p)->f28);

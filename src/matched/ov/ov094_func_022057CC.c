@@ -63,7 +63,7 @@ typedef struct Info {
 extern const Point d_0220A50C[][3];
 extern const u16 d_0220A392[];
 extern const char d_0220AEB0[];
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 struct PalAnmSlot;
 extern int func_0201BC78(void);
@@ -102,7 +102,7 @@ void func_022057CC(Main *m, Info *q)
     k = 0;
     if (m->mode == 0 || m->mode == 3)
         return;
-    arc = func_020490F4(7, (m->heap & 0x7fff) | 0x8000);
+    arc = func_020490F4(7, (u16)((m->heap & 0x7fff) | 0x8000));
     m->h1c0 = func_0204AF28(arc, func_0201BC78(), func_0201BCEC(), m->heap);
     m->h1bc = func_0204ACEC(arc, func_0201BC3C(), 1, 0x160, m->heap);
     func_020216D4(m->pal, 3, (u16)(func_0204AEF4(m->h1bc, 1) >> 1), 0x60);

@@ -31,7 +31,7 @@ typedef struct {
 extern char g_021A25D4[];
 extern char g_021A25F0[];
 extern char g_021A2604[];
-extern char *func_02094B20(const char *s, const char *sub);
+extern unsigned char *func_02094B20(const unsigned char *s1, const unsigned char *s2);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 typedef unsigned char  u8;
@@ -50,19 +50,19 @@ int func_021798F8(char *http)
 
     hdr = *(char **)(http + 0x1a44);
     rep = (Buf *)(http + 0x1a44);
-    if (func_02094B20(hdr, g_021A25D4) == 0) {
+    if (func_02094B20((const unsigned char *)hdr, (const unsigned char *)g_021A25D4) == 0) {
         return 0;
     }
-    endof_header = func_02094B20(hdr, g_021A25D4) + 4;
+    endof_header = (char *)(func_02094B20((const unsigned char *)hdr, (const unsigned char *)g_021A25D4) + 4);
     OS_LockMutex(http + 0x1a54);
     *(int *)(http + 0x1a70) = rep->cur - endof_header;
     OS_UnlockMutex(http + 0x1a54);
-    content_length = func_02094B20(rep->base, g_021A25F0);
+    content_length = (char *)func_02094B20((const unsigned char *)rep->base, (const unsigned char *)g_021A25F0);
     if (content_length == 0) {
         return 1;
     }
     content_length += func_0209477C((const u8 *)g_021A25F0);
-    content_end = func_02094B20(content_length, g_021A2604);
+    content_end = (char *)func_02094B20((const unsigned char *)content_length, (const unsigned char *)g_021A2604);
     content_temp = *content_end;
     *content_end = 0;
     OS_LockMutex(http + 0x1a54);

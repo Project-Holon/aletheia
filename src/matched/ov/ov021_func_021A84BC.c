@@ -74,7 +74,7 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020403F4(u32 i);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021A84BC(Obj *p)
 {

@@ -41,7 +41,7 @@ extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d);
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec)
 {

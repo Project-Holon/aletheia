@@ -35,7 +35,7 @@ extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void *func_0200CA1C(void *a);
 struct Blk37;
 extern void func_0200CDE0(struct Blk37 *p, void *m);
-extern void func_020307B0(void *a);
+extern u32 func_020307B0(void *p);
 
 int func_0215C4C8(void *a, void *b)
 {

@@ -15,7 +15,8 @@
  */
 #include "../include/Obj00001.h"
 
-extern void *func_02007A18(void *a, int b, int c, void *p);
+struct Sub020079BCEntry;
+extern struct Sub020079BCEntry *func_02007A18(void **save, unsigned int box, unsigned int slot);
 extern unsigned int func_0201AA18(void *m);
 typedef unsigned int   u32;
 extern void *func_0201AB28(void *p, u32 idx);
@@ -31,7 +32,7 @@ void *func_021D8DD0(void *a, int b, int c, char *p)
         if (b > n)
             return 0;
         if (b != n && c != -1)
-            return func_02007A18(a, b, c, p);
+            return func_02007A18(a, b, c);
         m = ((struct Obj00001 *)p)->f838;
         if (c < (int)func_0201AA18(m) && c != -1)
             return func_020185F4(func_0201AB28(m, c));

@@ -99,7 +99,7 @@ struct MsgBank;
 struct Rec;
 extern void *func_021F745C(u8 *p, int a, u16 heap);
 extern void func_021F7544(u32 a, u32 b, u16 c);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021EB028(u8 *p);
 extern void func_021E95B4(u32 a);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);

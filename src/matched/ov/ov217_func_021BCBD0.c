@@ -25,17 +25,17 @@ typedef unsigned int u32;
 struct S { char pad0[8]; u16 h8; };
 struct ArcFile;
 extern u32 func_021BC6DC(void *p);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_02062B30(void *file, void **out);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02041B6C(u32 bg);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *h);
 
 void func_021BCBD0(struct S *p)
 {
-    void *heap = func_020490F4(0xc0, (p->h8 & 0x7fff) | 0x8000);
+    void *heap = func_020490F4(0xc0, (u16)((p->h8 & 0x7fff) | 0x8000));
     int v = func_021BC6DC(p) * 3;
     void *res = func_02049250(heap, 5, p->h8);
     char *q;

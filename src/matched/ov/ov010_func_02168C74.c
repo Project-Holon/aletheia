@@ -41,7 +41,7 @@ typedef struct {
 struct Evt;
 extern int func_02167EF4(int a, int b, int c, int d, int e, int f, int g, int h, int i);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 
 int func_02168C74(int a, int *b, C *c)

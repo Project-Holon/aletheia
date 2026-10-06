@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 extern u32 func_02013B38(u32 id);
 extern int func_0201407C(int a, int b, int c);
 extern u8 func_020140D8(struct Sub020140BCObj *p);
-extern u32 func_020140B4(u32 a);
+extern u32 func_020140B4(void *a);
 
 void func_0218403C(u8 *p)
 {
@@ -45,7 +45,7 @@ void func_0218403C(u8 *p)
     flag = 0;
     if (func_020140D8((struct Sub020140BCObj *)r6) != 0)
         flag = 1;
-    func_020140B4(r6);
+    func_020140B4((void *)r6);
     hi = s[1];
     if (s[0] != hi && flag) {
         ((struct Obj00082 *)p)->f44 = 1;

@@ -39,7 +39,7 @@ extern void func_021841C8(void *);
 extern void func_02183F08(void);
 extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(int);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 extern void func_02005DF8(u32 a);

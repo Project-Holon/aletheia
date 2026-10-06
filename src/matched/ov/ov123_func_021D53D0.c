@@ -53,7 +53,7 @@ extern void func_0202F038(u8 *p);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_02027858(struct TaskMenu *m);
 extern void func_021D4A64(char *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_02028604(int a0);
 extern void func_020403F4(u32 i);
 extern void func_0201C6EC(struct PrintSys *p);

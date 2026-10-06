@@ -29,7 +29,8 @@ void *func_020124E4(struct Obj *p);
 void *func_0201210C(const struct Ctx *p);
 void func_021C2918(struct Obj *p);
 void func_020437AC(struct Obj020437AC *p);
-void func_020307B0(void *p);
+typedef unsigned int   u32;
+u32 func_020307B0(void *p);
 
 int func_021C27F4(int a, int *b)
 {

@@ -34,7 +34,7 @@ extern u32 func_020276B4(void);
 extern u32 func_020276B8(void);
 extern u32 func_020276BC(u32);
 extern u32 func_020276C0(u32);
-extern void func_021E6008(char *,int,int);
+extern void func_021E6008(char *p, int b, void *c);
 extern void func_021B6208(void *,In *,int,u16);
 extern int func_021B629C(void *,int,u8,u16,u8,u16);
 void func_021E5F14(char *p, int side, int flag, void *mon)
@@ -48,7 +48,7 @@ void func_021E5F14(char *p, int side, int flag, void *mon)
         return;
     }
     if (!a) {
-        if (!flag) func_021E6008(p,side,(int)mon);
+        if (!flag) func_021E6008(p,side,(void *)mon);
         return;
     }
     if (flag) { in.f0 = 0; in.b1c = 0; }

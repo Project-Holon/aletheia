@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern u16 func_021BE00C(u16 *p);
 struct Req;
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_0203D7BC(int a);
+extern void func_0203D7BC(u8 a0);
 
 typedef struct {
     u32 w[0x1c];

@@ -49,7 +49,7 @@ typedef struct Ctx {
     int f14;
     int timer;
 } Ctx;
-extern void func_020498F4(int, int, int, int, int, int, int);
+extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 typedef unsigned int   u32;
 struct Bank;
 struct Cfg;
@@ -72,8 +72,8 @@ void func_02203978(void *task, Ctx *c)
 {
     switch (c->state) {
     case 0:
-        func_020498F4(c->main->f48, c->fc, 4, 0, 0, 0, c->main->h240);
-        func_020498F4(c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, c->fc, 4, 0, 0, 0, c->main->h240);
+        func_020498F4((void *)c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
         func_02045374(c->main->obj230);
         func_02206A14((char *)c->main);
         func_020409B4(6);

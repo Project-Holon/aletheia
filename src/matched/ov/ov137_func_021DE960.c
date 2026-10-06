@@ -41,7 +41,7 @@ extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
 extern void func_0202F038(u8 *);
 extern void func_02030DA4(void *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Node;
 struct Rec;
 extern void func_02047E54(struct Rec *p);

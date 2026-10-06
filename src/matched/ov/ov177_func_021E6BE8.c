@@ -35,7 +35,7 @@ typedef struct {
 } Info;
 typedef struct { u8 a, b, c, d; } WinDef;
 extern const WinDef d_021E8D0E[];
-extern void *func_020450F0(int, int, int, int, int, int, int);
+extern unsigned int func_020450F0(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 typedef unsigned int   u32;
 struct Cfg;
 struct CharBuf;
@@ -58,7 +58,8 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C724(void *, void *, s16, s16, void *, int, int);
-extern void func_021E5ADC(Slot *, void *, int, unsigned, u16, u16);
+struct PrintSys;
+extern void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap);
 extern void func_02045808(struct U16Vec *vec);
 void func_021E6BE8(Work *w, const Info *info, void *a3, int a4, void *a5, void *a6, void *a7, u16 heap)
 {
@@ -70,7 +71,7 @@ void func_021E6BE8(Work *w, const Info *info, void *a3, int a4, void *a5, void *
     w->count = 10;
     for (i = 0; i < w->count; i++) {
         void *win;
-        w->wins[i] = func_020450F0(w->bg, d_021E8D0E[i].a, d_021E8D0E[i].b, d_021E8D0E[i].c, d_021E8D0E[i].d, w->palette, 1);
+        w->wins[i] = (void *)func_020450F0(w->bg, d_021E8D0E[i].a, d_021E8D0E[i].b, d_021E8D0E[i].c, d_021E8D0E[i].d, w->palette, 1);
         func_02043B5C(func_02045770(w->wins[i]), 0);
         win = w->wins[i];
         func_02045334(win);
@@ -129,7 +130,7 @@ void func_021E6BE8(Work *w, const Info *info, void *a3, int a4, void *a5, void *
             func_02045CAC(a6, 10, s2);
             break;
         case 8:
-            func_021E5ADC(&w->slots[j], a5, a4, info->hA4, info->hA6, heap);
+            func_021E5ADC((u32 *)(&w->slots[j]), a5, a4, info->hA4, info->hA6, heap);
             draw = 0;
             break;
         case 9:

@@ -104,7 +104,7 @@ extern u32 func_02012B28(const struct Rec44 *p);
 extern int func_02012B70(const struct BigObj *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32 func_02028754(struct Obj *obj, u32 n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_02160018(void *evt, u32 *state, Work *w)
 {

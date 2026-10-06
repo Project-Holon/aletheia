@@ -29,7 +29,7 @@ typedef struct {u16 member;u8 w,h;} Config;
 extern const Config d_0220DB44[14];
 struct WinMgr;
 extern struct WinMgr *func_0202C9B4(u32,u32,u32);
-extern void *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_0202CFEC(void *,u32,u8,u8,s8,s8);
 extern void func_0202CB18(struct WinMgr *mgr,u32,void *,u32,u32);
@@ -40,7 +40,7 @@ void func_0220BBE4(char *p)
     void *arc;
     unsigned i;
     ((struct Obj01176 *)p)->f520=func_0202C9B4(2,14,((struct Obj25012 *)(*(char * *)&((struct Obj01176 *)p)->f0))->fC);
-    arc=func_020490F4(99,(((struct Obj25013 *)(*(char * *)&((struct Obj01176 *)p)->f0))->fC&0x7FFF)|0x8000);
+    arc=func_020490F4(99,(u16)((((struct Obj25013 *)(*(char * *)&((struct Obj01176 *)p)->f0))->fC&0x7FFF)|0x8000));
     for(i=0;i<14;i++){
         func_0202CA3C(((struct Obj01176 *)p)->f520,i,6,d_0220DB44[i].w,d_0220DB44[i].h);
         func_0202CFEC(((struct Obj01176 *)p)->f520,i,0,64,0,64);

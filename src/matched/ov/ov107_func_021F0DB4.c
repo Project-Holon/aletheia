@@ -13,5 +13,6 @@
  *   func_0203D7FC 0x0203D7FC arm
  */
 extern void *d_021F6EAC[];
-extern void func_020307B0(void *);extern void func_0203D7FC(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);extern void func_0203D7FC(void *);
 void func_021F0DB4(void) {if(d_021F6EAC[0]) {func_020307B0(d_021F6EAC[0]);d_021F6EAC[0]=0;}if(d_021F6EAC[1]) {func_0203D7FC(d_021F6EAC[1]);d_021F6EAC[1]=0;}}

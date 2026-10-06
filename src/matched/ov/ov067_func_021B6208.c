@@ -42,7 +42,7 @@ typedef struct {
     u8 b1e;
 } In;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
 typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);

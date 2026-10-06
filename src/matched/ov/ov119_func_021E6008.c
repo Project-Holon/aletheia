@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { int f0,f4,f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
-extern int func_0201B280(int);
+extern unsigned int func_0201B280(void *a);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 typedef unsigned int   u32;
@@ -33,7 +33,7 @@ extern int func_02027750(int);
 extern int func_02027754(int);
 extern void func_021B6208(void *, In *, int, u16);
 extern int func_021B629C(void *, int, u8, u16, u8, u16);
-void func_021E6008(char *p, int b, int c)
+void func_021E6008(char *p, int b, void *c)
 {
     char *q = p + 0x978;
     In in;

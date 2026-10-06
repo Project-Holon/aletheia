@@ -32,7 +32,7 @@ extern void func_021E2E30(char *,int,int);
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
 extern u32 func_02035D20(u32 *,u32 *);
-extern int func_021FB4B4(int,int,int);
+extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,Pair *);
 extern void func_021E2E48(char *p, int a, int b);
 extern void func_021FD73C(int *,int);
@@ -55,7 +55,7 @@ void func_021E2910(int task,int *state,char *p) {
     case 3: {
         if(func_02035D20(&x,&y)) {
             for(i=0;i<=2;i++) {
-                if(func_021FB4B4(*(int *)(p+i*4+0x14),x,y)) {
+                if(func_021FB4B4((unsigned int *)(*(int *)(p+i*4+0x14)),x,y)) {
                     first.a=x; first.b=y;
                     func_021FD860(((struct Obj01074 *)p)->f34,1,&first);
                     ((struct Obj01074 *)p)->f10=i;
@@ -63,7 +63,7 @@ void func_021E2910(int task,int *state,char *p) {
                     else *state=4;
                 }
             }
-            if(func_021FB4B4(((struct Obj01074 *)p)->f20,x,y)) {
+            if(func_021FB4B4((unsigned int *)(((struct Obj01074 *)p)->f20),x,y)) {
                 second.a=x; second.b=y;
                 func_021FD860(((struct Obj01074 *)p)->f34,1,&second); *state=10;
             }

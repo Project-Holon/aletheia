@@ -23,5 +23,5 @@ struct U16Vec;
 extern void func_020456F8(struct Descriptor *d);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020307B0(void*);
+extern u32 func_020307B0(void *p);
 void func_021FC734(u8*p){func_020456F8(*(void* *)&((struct Obj10791 *)p)->fC);func_020452E8(*(void* *)&((struct Obj10791 *)p)->fC);func_02045808(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}

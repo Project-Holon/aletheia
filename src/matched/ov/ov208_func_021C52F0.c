@@ -34,7 +34,7 @@ struct Ov208Menu {
     u32 k;
 };
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);

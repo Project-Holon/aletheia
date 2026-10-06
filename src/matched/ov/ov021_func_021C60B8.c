@@ -39,7 +39,7 @@ typedef struct {
     void *f10;
 } Work;
 
-extern void func_021A2F48(void *a, int b);
+extern void func_021A2F48(u8 *p, u32 a1);
 struct Evt;
 extern int func_021A2F54(u8 *p);
 extern void *func_021A3074(u8 *p);

@@ -49,7 +49,8 @@ extern void func_02045C04(struct Rec *rec);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_0201D83C(void *);
 extern void func_02031140(struct S02031140 *p);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
 extern char ov021_id[];
 #define P(k) (*(void **)(p+(k)))

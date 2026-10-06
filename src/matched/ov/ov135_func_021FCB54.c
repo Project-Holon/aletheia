@@ -37,7 +37,7 @@ extern void *func_020185F0(void);
 extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_020862F0(void *p, u32 n);
 extern void func_0207E780(void *src, u32 dst, u32 n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 typedef signed int     s32;
 extern int func_0202D060(void);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);

@@ -40,7 +40,7 @@ extern void func_021C5714(void *);
 extern void func_021C5BE0(u8 *p);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32);
 u32 func_021C6A5C(u8 *p)
 {

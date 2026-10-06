@@ -24,7 +24,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 struct PalAnmSlot;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021540(u32 a);
+extern void func_02021540(void *a0);
 
 void func_021BC800(u8 *p)
 {
@@ -32,5 +32,5 @@ void func_021BC800(u8 *p)
     func_020215A0((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 1);
     func_020215A0((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 2);
     func_020215A0((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 3);
-    func_02021540(*(u32 *)&((struct Obj00085 *)p)->fC);
+    func_02021540((void *)(*(u32 *)&((struct Obj00085 *)p)->fC));
 }

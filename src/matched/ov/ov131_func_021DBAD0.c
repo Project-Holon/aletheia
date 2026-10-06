@@ -34,7 +34,7 @@ struct Bmp;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern int func_021DBEA4(u8 *p, int screen, u32 owner);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);

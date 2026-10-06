@@ -37,7 +37,7 @@ typedef struct {
 } Owner;
 
 extern u32 func_0203D378(void);
-extern void func_0203D7BC(int a);
+extern void func_0203D7BC(u8 a0);
 extern void func_02167B18(void *p);
 extern int func_0203D1B4(void);
 extern int func_0203CEAC(int a0);

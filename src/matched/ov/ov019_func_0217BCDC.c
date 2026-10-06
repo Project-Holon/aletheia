@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 
 extern void func_0217BAF0(char *p, int x, unsigned int v);
-extern int func_0217F1EC(int *a);
+extern unsigned int func_0217F1EC(u8 *p);
 typedef unsigned int   u32;
 extern void func_0217F074(void *p);
 extern u32 func_0200FB24(void);
@@ -47,7 +47,7 @@ int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
         (*d)++;
         break;
     case 1:
-        if (func_0217F1EC(a) == 1) {
+        if (func_0217F1EC((u8 *)a) == 1) {
             func_0217F074(a);
             (*d)++;
         }

@@ -15,7 +15,7 @@
  *   d_02213D00 0x02213D00 data ov199 a1
  */
 #include "../include/Obj14578.h"
-extern void func_020307B0(void *);
+extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02213808(char *, int);

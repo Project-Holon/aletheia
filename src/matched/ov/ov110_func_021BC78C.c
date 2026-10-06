@@ -14,7 +14,7 @@
 #include "../include/Obj02461.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02041648(u8);
+extern unsigned int func_02041648(u8 channel);
 typedef unsigned int   u32;
 extern u32 func_02041664(u8 channel);
 void func_021BC78C(u8 *p, int a, int b, int step, int n)

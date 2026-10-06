@@ -28,7 +28,7 @@ typedef struct {
 } Ramp;
 
 extern u16 g_021EE724;
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 

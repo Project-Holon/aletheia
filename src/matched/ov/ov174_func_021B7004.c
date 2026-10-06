@@ -32,7 +32,7 @@ typedef struct { short x, y; u16 id; u8 a, b; } Request;
 extern const u8 d_021B7481[];
 extern void func_021B7180(char *p, char *q, int id);
 extern void func_021B71A0(int, int *, int, int, int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0204AF28(void *, u32, u32, u32);

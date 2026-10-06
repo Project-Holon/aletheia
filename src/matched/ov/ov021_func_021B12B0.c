@@ -33,21 +33,22 @@ struct Stream;
 struct WordSet;
 extern u16 func_02011330(struct Stream *s);
 extern int func_02158F58(int a0);
-extern int func_0215A60C(int);
+extern unsigned int func_0215A60C(unsigned char *p);
 extern int func_02191A04(int, int);
-extern void func_0215A614(int, int);
+extern void func_0215A614(unsigned char *p, unsigned int v);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02158F78(u8 *p);
 extern void *func_02158F74(void *p);
 extern u32 func_02158F7C(u8 *p);
-extern void func_02045CAC(int, int, int);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_020113D0(char *p, int val);
 extern void func_02159144(int);
 extern int func_021B1240(int, int);
 
-int func_021B12B0(int a, int b)
+int func_021B12B0(int a, unsigned char *b)
 {
     void *o;
     int s0, s1, s2;
@@ -62,7 +63,7 @@ int func_021B12B0(int a, int b)
     x = func_02158F78(o);
     y = (int)func_02158F74(o);
     z = func_02158F7C(o);
-    func_02045CAC(s2, s0, z);
+    func_02045CAC((struct MsgBank *)s2, s0, (void *)z);
     func_0201F250((struct WordSet *)y, (void *)x, (void *)z);
     func_020113D0((char *)a, (int)func_021B1240);
     func_02159144(4);

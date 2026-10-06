@@ -34,7 +34,7 @@ struct ArcFile;
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern Ent *func_02049250(int h, int a, u16 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_02194044(u8 *p, u16 a, u16 b);
 extern void func_0216245C(u8 *o, u16 idx);
 

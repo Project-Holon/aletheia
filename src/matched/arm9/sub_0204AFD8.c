@@ -46,7 +46,7 @@ struct Sys {
 };
 
 extern struct Sys *g_02146A74;
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 void sub_0204AFD8(u32 i)
 {

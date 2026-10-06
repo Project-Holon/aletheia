@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *,int,u32);
 extern void func_021F2608(void *);
 extern void func_021F1A10(void *);

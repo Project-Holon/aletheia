@@ -15,14 +15,14 @@
 #include "../include/Obj08154.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_0203D378(void *);
-extern void func_021F9754(char *, int, int);
+extern unsigned int func_0203D378(void);
+extern void func_021F9754(char *p, unsigned int i, int v);
 typedef unsigned int   u32;
 extern void func_021FD974(char *p, u32 key, u8 value);
 void func_021F9A48(char *p)
 {
     u8 i;
-    if (**(void ** *)&((struct Obj08154 *)p)->f30 != 0 && func_0203D378(**(void ** *)&((struct Obj08154 *)p)->f30) != 1) return;
+    if (**(void ** *)&((struct Obj08154 *)p)->f30 != 0 && func_0203D378() != 1) return;
     for (i = 0; i < 4; i++) {
         if (*(u16 *)(p + i * 2 + 0x124) != 0) {
             *(u16 *)(p + i * 2 + 0x124) -= 1;

@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 
 extern int func_0216D3CC(int a0);
 extern int func_021A5CA4(void *a, void *b, int c, int d, int e, int f);
-extern u32 func_021A5B6C(void *a, void *b, int c, int d);
+extern int func_021A5B6C(u32 a, u32 b, u32 c, u32 d);
 extern int func_0219E664(void *o, u32 k, void *buf);
 extern int func_0219D724(u32 a, u32 b);
 extern u16 func_021AB0F0(u32);
@@ -56,7 +56,7 @@ int func_021A5D04(void *a, void *b, int c, int d, int e, int f)
     if (e == 9) {
         return func_021A5CA4(a, b, c, d, e, f);
     }
-    r = func_021A5B6C(a, b, e, 0);
+    r = func_021A5B6C((u32)a, (u32)b, e, 0);
     if (f == 1 && (r & 2)) {
         r = 0;
     }

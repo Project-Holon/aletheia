@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u16    func_0204961C(void *obj);
 struct ArcFile;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -34,7 +34,7 @@ extern void   func_02049238(void *h);
 void func_0202B958(u8 *p)
 {
     u32  id = ((struct Obj01019 *)p)->f0;
-    void *h = func_020490F4(0xb9, (id & 0x7fff) | 0x8000);
+    void *h = func_020490F4(0xb9, (u16)((id & 0x7fff) | 0x8000));
     u8   n = (u8)func_0204961C(h);
     u32  i;
 

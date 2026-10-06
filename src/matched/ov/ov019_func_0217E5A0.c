@@ -94,7 +94,7 @@ struct Link;
 void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-void func_020307B0(void *a);
+u32 func_020307B0(void *p);
 extern int d_021807E8[];
 
 int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)

@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, unsigned char c, unsigned char d, unsigned char slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 typedef unsigned char  u8;

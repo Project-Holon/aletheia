@@ -21,7 +21,8 @@
 #include "../include/Obj25698.h"
 #include "../include/Obj25699.h"
 #include "../include/Obj25700.h"
-extern void func_021B9EE4(char *,void *,unsigned char,unsigned char,void *,void *,const void *);
+struct C;
+extern void func_021B9EE4(struct C *p, void *owner, unsigned char kind, unsigned char index, void *a, void *parent, const unsigned char *types);
 typedef unsigned int   u32;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -41,7 +42,7 @@ void func_021BA268(Context *p,unsigned char kind,unsigned char index,const char 
     p->owner=owner;p->a=first;p->b=second;
     p->c=value;p->v50=0;
     p->kind=kind;p->index=index;
-    func_021B9EE4(p->sub,((struct Obj25698 *)owner)->f0,kind,index,a,b,owner+10);
+    func_021B9EE4((struct C *)p->sub,((struct Obj25698 *)owner)->f0,kind,index,a,b,(const unsigned char *)(owner+10));
     p->v18=func_020457B0(16,116);
     func_02008500(((struct Obj25699 *)(p->owner))->f4,p->v18);
     p->v14=func_02008550(((struct Obj25700 *)(p->owner))->f4);

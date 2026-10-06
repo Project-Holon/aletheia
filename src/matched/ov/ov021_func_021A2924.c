@@ -28,7 +28,7 @@ typedef struct {
     void *f3c;
 } Obj;
 
-void func_020307B0(void *p);
+unsigned int func_020307B0(void *p);
 typedef unsigned char  u8;
 void func_021A2C10(u8 *p);
 typedef unsigned int   u32;

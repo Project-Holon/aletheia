@@ -16,10 +16,11 @@
  *  *  well, so the site needs the region hint below.
  */
 
-extern void func_021E0080(void);
+typedef unsigned int   u32;
+extern int func_021E0080(u32 *p);
 
-void func_021DFD00(void)
+int func_021DFD00(u32 *a0)
 {
-    func_021E0080();
+    return func_021E0080(a0);
 }
 

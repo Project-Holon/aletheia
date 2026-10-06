@@ -31,7 +31,7 @@ extern void (*d_0218374C[])(int, void *);
 
 typedef unsigned int   u32;
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-void func_020307B0(void *p);
+u32 func_020307B0(void *p);
 void func_02034714(const char *expr, u32 line, const char *file);
 void MI_CpuCopy8(const void *src, void *dst, unsigned int n);
 void func_021829F8(void *a, void *b);

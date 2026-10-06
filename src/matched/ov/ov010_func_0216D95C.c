@@ -13,10 +13,10 @@
  *   func_0216D4E4 0x0216D4E4 thumb ov010
  */
 
-extern void func_0216D4DC(unsigned int *p, unsigned int v);
+extern int func_0216D4DC(int a0, int a1, int a2);
 extern void func_0216D4E4(unsigned int *p, unsigned int v);
-void func_0216D95C(unsigned int *p, unsigned int v)
+void func_0216D95C(unsigned int *p, unsigned int v, int a2)
 {
-    if (v == 1) func_0216D4DC(p, 1);
+    if (v == 1) func_0216D4DC((int)p, 1, a2);
     else func_0216D4E4(p, 1);
 }

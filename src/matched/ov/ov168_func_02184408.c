@@ -16,7 +16,7 @@
  */
 #include "../include/Obj23822.h"
 
-extern void func_020307B0(void *p);
+extern unsigned int func_020307B0(void *p);
 extern void func_02006D44(void);
 typedef unsigned int   u32;
 extern void func_02034FB8(u32 v);

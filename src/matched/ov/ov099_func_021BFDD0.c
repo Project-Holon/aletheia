@@ -29,8 +29,9 @@ extern void func_021563D0(void);
 extern void func_021C24A4(char *,int);
 extern void func_021BA8EC(char *);
 extern void func_021C18C8(char *p, int kind, int value);
-extern void func_0203D7B0(int);
-extern int func_0203D7BC(int);
+typedef unsigned char  u8;
+extern void func_0203D7B0(u8 a0);
+extern void func_0203D7BC(u8 a0);
 extern void func_02039C68(struct Link *,unsigned,unsigned);
 int func_021BFDD0(char *p,int ret) {
     ((struct Obj07958 *)p)->f1355=0;

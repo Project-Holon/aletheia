@@ -26,7 +26,7 @@ extern void func_021E7C14(char *p);
 extern void func_021E7B44(void *);
 extern void func_0202DC08(struct Obj *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_021E7AE0(unsigned char *p, void *mgr);
 void func_021E7710(char *p)
 {

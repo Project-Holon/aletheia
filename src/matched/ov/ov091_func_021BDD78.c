@@ -34,7 +34,7 @@ extern u32 func_02017F90(void *);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u8 func_0201C158(u16, u32);
 extern u8 func_0201B920(void *, u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_021BE9BC(void *, void *);
 int func_021BDD78(void *a, u32 id, int slot, u32 heap)
 {

@@ -100,7 +100,8 @@ extern void func_02190E74(u32 *p, u32 b, u32 c, u32 d);
 extern u32 func_02190EF0(u32 *p);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(u32 a);
+struct Rec;
+extern int func_021909BC(void *a);
 extern void func_02190F7C(struct P *p);
 extern void func_02034F84(u32);
 extern void *func_02006CBC(u32);
@@ -130,7 +131,7 @@ extern u32 sub_02006BD0(u32 i);
 extern void func_021D2124(Work *);
 extern void func_0201ED04(struct WordSet *p);
 extern int func_02190E40(u32 a);
-extern void func_021904C8(void *);
+extern void func_021904C8(struct Rec *a0);
 extern int func_021D1F64(u32 a);
 
 int func_021D1C8C(void *proc, int *seq, Work *w)
@@ -167,13 +168,13 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
     case 3:
         switch (func_02190C78(w->x24)) {
         case 0:
-            func_021909BC((u32)w->x24);
+            func_021909BC((void *)w->x24);
             func_02190F7C(w->x20);
             func_02190E74(w->x20, 0, 0, 6);
             *seq = 4;
             break;
         case 1:
-            func_021909BC((u32)w->x24);
+            func_021909BC((void *)w->x24);
             *seq = 13;
             break;
         }

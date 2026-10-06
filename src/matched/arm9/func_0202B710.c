@@ -22,11 +22,11 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202B8F4(u32 v);
+extern void func_0202B8F4(u8 *a0);
 
 void func_0202B710(u8 *o)
 {
     if ((((struct Obj02010 *)o)->fC & 1) == 0) {
-        func_0202B8F4(((struct Obj02010 *)o)->f24);
+        func_0202B8F4((u8 *)(((struct Obj02010 *)o)->f24));
     }
 }

@@ -28,7 +28,7 @@ extern void func_021BAF7C(char *);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u16 *func_0201AF80(u32 heap, u16 *countOut);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);

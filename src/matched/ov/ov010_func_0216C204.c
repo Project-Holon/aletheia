@@ -22,24 +22,26 @@
 
 typedef struct B32 { int w[8]; } B32;
 
-extern int func_020122C0(int, int, void *, int);
+typedef unsigned char  u8;
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void *func_02188C58(void *p);
-extern int func_02188D38(int);
+extern unsigned int func_02188D38(u8 *p);
 extern void *func_0218FE80(void *a);
-extern void func_0218FEA0(int, int *);
+extern void func_0218FEA0(u8 *p, unsigned int v);
 typedef unsigned int   u32;
 struct Work;
 extern int func_0216C0E8(void *evt, u32 *state, struct Work *w);
 extern B32 d_02172528;
 
-int func_0216C204(int a, int b)
+int func_0216C204(void *a, u8 *b)
 {
-    int r = func_020122C0(a, 0, (void *)func_0216C0E8, 0x64);
+    int r = (int)func_020122C0(a, 0, (void *)func_0216C0E8, 0x64);
     int *p = func_020124E8((struct Obj *)r);
-    p[0] = a;
-    p[1] = b;
+    p[0] = (int)a;
+    p[1] = (int)b;
     p[4] = 0;
     p[2] = (int)func_02188C58((void *)b);
     p[3] = func_02188D38(b);
@@ -48,6 +50,6 @@ int func_0216C204(int a, int b)
     p[22] = 1;
     p[23] = 1;
     p[24] = (int)func_0218FE80((void *)b);
-    func_0218FEA0(p[24], p + 5);
+    func_0218FEA0((u8 *)p[24], (unsigned int)(p + 5));
     return r;
 }

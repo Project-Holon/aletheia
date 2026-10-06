@@ -42,7 +42,7 @@ extern u32 func_021B8D8C(u8 *);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_021B8AD0(u8 *,u8 *,u16);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02049238(void *);

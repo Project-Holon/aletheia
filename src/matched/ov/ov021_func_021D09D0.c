@@ -40,7 +40,7 @@ extern int func_0200E5A0(void *a0);
 extern int func_0200E5CC(void *p);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021D09D0(int a, char *out)
 {

@@ -25,7 +25,7 @@ extern int func_02005E9C(void);
 extern void func_02005DE4(void *);
 extern void func_021B6148(void *);
 extern void func_021B6C08(u8 *);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);

@@ -44,7 +44,7 @@ extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
 extern void *func_02008F08(int a0);
 extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_0220254C(void *mon, u32 heap)

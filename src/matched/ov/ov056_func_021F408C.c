@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct IcaAnime;
 
 extern void func_02011558(struct IcaAnime *p);
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 void func_021F408C(struct IcaAnime **pp)
 {

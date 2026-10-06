@@ -12,7 +12,8 @@
  *   func_021D51DC 0x021D51DC thumb ov093
  */
 typedef unsigned char u8;
-extern void func_021D51DC(void *, int, int, int);
+struct S;
+extern void func_021D51DC(struct S *p, unsigned int a, unsigned int b, unsigned int c);
 typedef unsigned int u32;
 typedef unsigned short u16;
 void func_021D5734(u8 *p, u8 i, u16 a, u8 b, u32 c)

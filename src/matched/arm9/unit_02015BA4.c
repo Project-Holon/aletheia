@@ -57,7 +57,7 @@ typedef unsigned char u8;
 extern void func_02016BA0(void *obj);
 extern void func_02016C0C(void *id);
 extern int func_02016C38(int a0);
-extern void func_020307B0(void *obj);
+extern u32 func_020307B0(void *p);
 
 void sub_02015BA4(void *sys, void *obj)
 {

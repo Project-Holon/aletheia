@@ -22,8 +22,8 @@
 #include "../include/Obj14153.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_021F4F10(u8 *);
-extern u8 *func_021BA20C(u8 *);
+extern unsigned int func_021F4F10(u8 *p);
+extern unsigned int func_021BA20C(u8 *p);
 extern u8 func_021F5158(void *, int);
 typedef unsigned int   u32;
 struct MsgBank;
@@ -37,8 +37,8 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
 void func_021B9CBC(u8 *p, u8 *entry)
 {
-    void *manager = func_021F4F10(*(u8 * *)&((struct Obj00004 *)p)->f1884);
-    u8 *data = func_021BA20C(entry);
+    void *manager = (void *)func_021F4F10(*(u8 * *)&((struct Obj00004 *)p)->f1884);
+    u8 *data = (u8 *)func_021BA20C(entry);
     int index = func_021F5158(manager, ((struct Obj14153 *)data)->f0);
     void *obj = func_0201EC64(((struct Obj00004 *)p)->f0);
     void *a = func_02045EC0(((struct Obj00004 *)p)->f18DC, ((struct Obj14153 *)data)->f0 + 3);

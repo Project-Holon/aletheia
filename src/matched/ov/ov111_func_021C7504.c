@@ -111,7 +111,7 @@ extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049238(void *arc);
 typedef signed int     s32;
 struct Cfg;

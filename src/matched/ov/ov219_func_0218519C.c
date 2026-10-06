@@ -26,7 +26,7 @@
 typedef unsigned char u8;typedef unsigned short u16;
 struct U16Vec;struct Descriptor;struct WordSet;struct MsgBank;
 struct Record {struct Descriptor *descriptor;u8 active;};
-extern struct U16Vec *func_020457B0(unsigned,u16);
+extern struct U16Vec *func_020457B0(unsigned int capacity, unsigned int heapId);
 typedef unsigned int   u32;
 extern u32 func_02184968(const u8 *p, int flag);
 extern void func_0201F048(struct WordSet *,unsigned,unsigned),func_0201F094(struct WordSet *,unsigned,unsigned,unsigned);
@@ -37,7 +37,7 @@ extern const unsigned char d_02185DCB[];
 void func_0218519C(char *p)
 {
     struct U16Vec *dst,*src;
-    dst=func_020457B0(1024,((struct Obj01984 *)p)->f0);src=func_020457B0(1024,((struct Obj01984 *)p)->f0);
+    dst=func_020457B0(1024,(u16)(((struct Obj01984 *)p)->f0));src=func_020457B0(1024,(u16)(((struct Obj01984 *)p)->f0));
     *(struct Descriptor * *)&((struct Obj01984 *)p)->fC040=(struct Descriptor *)func_02184968(d_02185DCB,1);
     func_0201F048(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,0,((struct Obj01984 *)p)->fC33C);
     func_0201F094(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,1,((struct Obj01984 *)p)->fC33C,((struct Obj01984 *)p)->fC340);

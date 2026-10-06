@@ -17,7 +17,8 @@
 
 struct Obj020437AC;
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_02206A3C(char *p, int a1)
 {

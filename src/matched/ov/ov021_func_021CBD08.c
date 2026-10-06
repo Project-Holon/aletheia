@@ -44,7 +44,7 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 struct Bs;
 struct Rec;
 extern struct Bs *func_021681C8(void *sys, void *partyA, u32 mode0, struct Rec *recA, struct Rec *recB, int n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u32 func_021CBD08(u8 *p, int a)
 {

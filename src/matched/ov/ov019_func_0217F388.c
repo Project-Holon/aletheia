@@ -43,7 +43,7 @@ typedef struct Ent {
 } Ent;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void  func_02082D44(const void *src, void *dst, int size);
 extern void func_0217F2A8(char *p, u32 a1, u32 a2, u32 a3, u32 a4);
 

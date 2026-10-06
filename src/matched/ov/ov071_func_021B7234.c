@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern void *func_021B6F40(u8 **p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021B7234(void *a, int flag, int bg)
 {

@@ -31,7 +31,7 @@ struct Rec {
     void *unk_10;
 };
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02047E54(struct Rec *p)
 {

@@ -36,7 +36,7 @@ extern void func_021F28DC(char *p);
 struct Tcbl;
 extern void func_0203115C(struct Tcbl *p);
 extern void func_02049238(u32 a);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021F22FC(char *p)
 {

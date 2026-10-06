@@ -13,5 +13,5 @@
  */
 #include "../include/Obj13122.h"
 
-extern void func_0216CF2C(unsigned char *);
-void func_021F3CE4(char *p) { func_0216CF2C(*(unsigned char * *)&((struct Obj13122 *)p)->fC); ((struct Obj13122 *)p)->fC=0; }
+extern int func_0216CF2C(int a0, int a1);
+void func_021F3CE4(char *p, int a1) { func_0216CF2C((int)(*(unsigned char * *)&((struct Obj13122 *)p)->fC), a1); ((struct Obj13122 *)p)->fC=0; }

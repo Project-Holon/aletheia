@@ -32,7 +32,8 @@ extern const B32 d_021D40E0;
 extern const B32 d_021D4100;
 extern const B32 d_021D4120;
 extern const B32 d_021D4140;
-extern void func_0203FCA0(int, void *, int);
+struct BgTemplate;
+extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 extern void func_020414AC(int);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
@@ -50,36 +51,36 @@ void func_0219603C(void)
     B32 t7;
 
     t0 = d_021D40A0;
-    func_0203FCA0(0, &t0, 0);
+    func_0203FCA0(0, (const struct BgTemplate *)(&t0), 0);
     func_020414AC(0);
     func_020409B4(0);
     func_02040588(0, 1);
 
     t1 = d_021D40C0;
-    func_0203FCA0(1, &t1, 0);
+    func_0203FCA0(1, (const struct BgTemplate *)(&t1), 0);
     func_020414AC(1);
     func_020409B4(1);
     func_02040588(1, 1);
 
     t4 = d_021D40E0;
-    func_0203FCA0(4, &t4, 0);
+    func_0203FCA0(4, (const struct BgTemplate *)(&t4), 0);
     func_02040588(4, 1);
     func_020409B4(4);
 
     t5 = d_021D4100;
-    func_0203FCA0(5, &t5, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)(&t5), 0);
     func_02040588(5, 1);
     func_02040C14(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(5);
 
     t6 = d_021D4120;
-    func_0203FCA0(6, &t6, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)(&t6), 0);
     func_02040588(6, 1);
     func_020409B4(6);
 
     t7 = d_021D4140;
-    func_0203FCA0(7, &t7, 0);
+    func_0203FCA0(7, (const struct BgTemplate *)(&t7), 0);
     func_02040588(7, 1);
     func_020409B4(7);
 }

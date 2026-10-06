@@ -23,7 +23,7 @@ extern void func_021FF914(u32 *p, u32 v);
 extern void func_021FFAEC(u32, int, int);
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_020061E4(u32 a);

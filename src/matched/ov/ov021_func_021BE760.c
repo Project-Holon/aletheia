@@ -80,7 +80,7 @@ typedef struct {
 
 extern int d_021DE390;
 
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u16 func_02048010(void *util, const Setup *setup, void *arc);
 extern void func_02049238(void *arc);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
@@ -104,7 +104,7 @@ void func_021BE760(P *p, const Setup *b, u16 i)
     Node *nodes;
     u16 j;
 
-    arc = func_020490F4(*b->arc, ((u16)p->heap & 0x7FFF) | 0x8000);
+    arc = func_020490F4(*b->arc, (u16)(((u16)p->heap & 0x7FFF) | 0x8000));
     id = func_02048010(p->util, b, arc);
     func_02049238(arc);
     n = b->n;

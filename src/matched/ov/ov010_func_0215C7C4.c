@@ -25,7 +25,7 @@ typedef struct Rec {
     u16 *dst;
 } Rec;
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_0215C7C4(Rec *r)
 {

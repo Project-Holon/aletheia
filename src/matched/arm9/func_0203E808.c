@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 void func_0203E808(u32 a0, int a1, u32 a2, u32 a3)
 {
     if (g_021469F4 == 0)

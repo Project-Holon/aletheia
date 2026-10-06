@@ -34,7 +34,7 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_0215A5CC(void *a0);
 extern void *func_0201A354(int a, int b);
 extern void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, int k);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_0215897C(void *vm, void *task);
 
 int func_021B574C(int a0, int a1)

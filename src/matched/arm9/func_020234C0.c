@@ -66,7 +66,7 @@ struct Task {
 struct Obj;
 extern u32 func_02023568(struct Obj *o);
 extern void func_02022DCC(u32 a0, void *a1, u32 a2);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u32 func_020234C0(struct Task *t)
 {

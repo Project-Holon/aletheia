@@ -19,7 +19,7 @@
  */
 #include "../include/Obj00025.h"
 typedef unsigned char u8;
-extern unsigned func_021BC3D4(void);
+extern unsigned int func_021BC3D4(unsigned int a0);
 extern unsigned func_021BC3E0(void);
 extern unsigned func_021BC3F8(unsigned);
 extern unsigned func_021BC400(unsigned);
@@ -31,7 +31,7 @@ void func_021BBA30(u8 *p)
 {
     int low, high, left, right;
     u8 index;
-    low = func_021BC3D4();
+    low = func_021BC3D4((unsigned int)p);
     high = func_021BC3E0();
     left = func_021BC3F8(p[0x32]);
     right = func_021BC400(p[0x32]);

@@ -26,7 +26,7 @@ extern u32 func_020490A8(u32 a, u32 b);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern void func_021BB278(u32 *a, u16 *b, u32 c);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int d_021DE2D0;
 
 void func_021BB2F8(u32 a, u32 b, u32 c)

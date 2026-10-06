@@ -108,7 +108,7 @@ extern int func_020353B0(void);
 extern void  func_021735FC(void *sv, void *p);
 extern void func_02173658(u8 *o);
 extern int   func_020392B8(void);
-extern void  func_0203D7BC(int a);
+extern void func_0203D7BC(u8 a0);
 extern int func_02039ACC(void);
 extern u16 func_02039338(void);
 extern void  func_02012B64(void *sv, u32 a);

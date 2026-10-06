@@ -76,7 +76,7 @@ extern int func_0200C7A0(u32 v);
 extern u32   func_0200CED4(struct Blk37 *p, u16 id);
 extern u32   func_0200D064(struct Blk37 *p, u16 id);
 extern u16 *func_0201AF80(u32 heap, u16 *countOut);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u16 func_0200D2D8(void *a0);
 int func_0200D310(void *a0, int a1);

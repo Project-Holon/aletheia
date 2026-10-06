@@ -44,7 +44,7 @@ extern void func_0204AFD8(u32 i);
 struct Bank;
 struct S02030EE8;
 extern void func_0204B1CC(struct Bank *bank);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(u32 h);
 extern u32 func_02030EE8(struct S02030EE8 *p);
 extern void func_02030EAC(struct Node *n);

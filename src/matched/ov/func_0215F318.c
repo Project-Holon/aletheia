@@ -22,23 +22,23 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern u32 func_0215911C(void *p);
-extern int func_020307B0();
+extern u32 func_020307B0(void *p);
 extern int func_02159114();
 
-int func_0215F318(int a0, int a1)
+int func_0215F318(void *a0, int a1)
 {    void *v0;
 
-a0 = a1 + 0;
+a0 = (void *)(a1 + 0);
     v0 = func_0215A5F4((void *)a0);
 loc_0215F320:
-    a0 = func_0215911C(v0);
+    a0 = (void *)func_0215911C(v0);
 loc_0215F326:
     if (a0 == 0) goto loc_0215F336;
 loc_0215F32A:
-    a0 = func_020307B0(a0);
+    a0 = (void *)func_020307B0(a0);
 loc_0215F32E:
 a1 = 0;
-    a0 = func_02159114(v0, a1);
+    a0 = (void *)func_02159114(v0, a1);
 loc_0215F336:
 a0 = 0;
-    return a0;}
+    return (int)a0;}

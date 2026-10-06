@@ -59,7 +59,7 @@ extern void func_0204BCD8(struct Obj *o);
 extern void func_0204BE28(int *p);
 extern void func_0204C6E4(struct Pool *p);
 extern void func_0204D8AC(struct Res *res);
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 void sub_0204A5AC(void)
 {

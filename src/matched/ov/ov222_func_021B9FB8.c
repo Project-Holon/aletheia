@@ -29,7 +29,7 @@ extern void func_021BA12C(char *);
 extern void func_021BA0A8(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,u32,u32);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021B9FB8(char *p)
 {
     func_02030EAC((struct Node *)(((struct Obj26084 *)p)->fC));

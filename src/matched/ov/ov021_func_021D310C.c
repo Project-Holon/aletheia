@@ -33,7 +33,7 @@ extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
 extern unsigned char abs_id_e1[];
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_021D3164(u32 *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern char d_021BBDE4[];
 
 u32 func_021D310C(u32 a, u32 *st, u32 *p)

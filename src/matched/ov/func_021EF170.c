@@ -17,8 +17,9 @@
 
 extern int func_021EF048(const char *p, unsigned n);
 
-void func_021EF170(void)
+typedef unsigned int   u32;
+u32 func_021EF170(void)
 {
-    func_021EF048((void *)0x021F0DCC, 0x1e);
+    return func_021EF048((void *)0x021F0DCC, 0x1e);
 }
 

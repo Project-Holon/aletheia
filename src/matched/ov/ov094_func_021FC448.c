@@ -86,7 +86,7 @@ typedef unsigned int   u32;
 struct Res;
 struct ScriptVm;
 extern void func_02201CA4(struct Res *r, int i);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_021F8A10(int);
 extern void func_021FE4F8(State *);
 extern void func_021FE520(State *);

@@ -79,7 +79,7 @@ extern void * func_0200BAF4(int,int);
 extern void func_0200BBC8(struct Obj *p, u32 v);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern void func_0200B2A4(int,int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern int func_02012DAC(int);
 extern int func_02012DD0(u8 *);
 extern void func_021E8AA0(int *,int);

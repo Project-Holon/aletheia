@@ -57,7 +57,7 @@ struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_0201AA18(void *);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_0201AB28(void *list, u32 i);
 extern void *func_020185F4(void *a);
 extern u32 func_0201BA68(void *mon);

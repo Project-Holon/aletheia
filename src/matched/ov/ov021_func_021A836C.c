@@ -104,7 +104,7 @@ extern u8 func_020355C4(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_021A8D40(void *unused, struct W *w);
 extern u32 func_0201C440(void *p);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_021A8B18(void *a, void *b, u32 c);
 extern void func_021A8874(struct Obj *p, void *q, int r, u32 unused);
 extern void func_021A8BB8(struct Obj *p, void *q, int r);

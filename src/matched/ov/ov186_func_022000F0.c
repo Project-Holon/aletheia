@@ -16,7 +16,7 @@
  */
 #include "../include/Obj24879.h"
 extern int func_02035C08(const void *);
-extern void func_02035D20(int *, int *);
+extern unsigned int func_02035D20(unsigned int *outA, unsigned int *outB);
 extern void func_021FD860(int, int, int *);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
@@ -27,7 +27,7 @@ int func_022000F0(char *p)
     int index = func_02035C08(d_02200CD0);
     if (index != -1) {
         if (*(unsigned char *)(p + index + 0x14)) {
-            func_02035D20(&x, &y);
+            func_02035D20((unsigned int *)(&x), (unsigned int *)(&y));
             args[0] = x;
             args[1] = y;
             func_021FD860(((struct Obj24879 *)p)->f78, 1, args);

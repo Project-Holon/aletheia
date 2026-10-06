@@ -41,7 +41,7 @@
  *   g_021A5734     0x021A5734  data
  */
 
-extern int func_020949F4(const char *s1, const char *s2, int n);
+extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsigned int n);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
@@ -58,7 +58,7 @@ int func_0219329C(int *connection, const char *input, int fatal)
     char value[0x10];
     int *ic = (int *)*connection;
 
-    if (func_020949F4(input, g_021A5718, 7) != 0)
+    if (func_020949F4((const unsigned char *)input, (const unsigned char *)g_021A5718, 7) != 0)
         goto fail;
     if (func_02193418(input, g_021A5720, value, 0x10))
         ic[0x5b8 / 4] = func_020964E0((u32)value);

@@ -19,7 +19,7 @@ struct Mon;
 struct Sav;
 extern int func_021D5BAC(unsigned char *p, int direction, unsigned short *out);
 extern void func_02017528(struct Sav *p);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void *func_021D6064(unsigned char *p);
 extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void func_021D5C4C(unsigned char *p);

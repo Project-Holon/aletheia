@@ -37,7 +37,7 @@ typedef struct DWCHttp {
 
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
-extern char *func_02094860(char *dst, const char *src, unsigned long n);
+extern u8 *func_02094860(u8 *dest, const u8 *src, unsigned int n);
 extern char *func_02094B20(const char *s, const char *find);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
@@ -54,7 +54,7 @@ int func_0217A1FC(DWCHttp *http, char *url)
 
     if ((unsigned long)func_0209477C((const u8 *)url) >= 256)
         return 0;
-    func_02094860(http->url, url, 256);
+    func_02094860((u8 *)http->url, (const u8 *)url, 256);
     if ((unsigned long)func_0209477C((const u8 *)url) != (unsigned long)func_0209477C((const u8 *)http->url))
         return 0;
 

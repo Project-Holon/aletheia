@@ -29,7 +29,7 @@ extern u32 func_02191388(u32 *a);
 extern u32 func_020362DC(void);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(u32 a);
+extern int func_021909BC(void *a);
 extern int func_021912D8(u32 a);
 extern int func_021912F8(int);
 
@@ -64,7 +64,7 @@ int func_02187508(char *p)
         else
             ((struct Obj00128 *)p)->f54 = 0;
         ((struct Obj00128 *)p)->f52 = 4;
-        func_021909BC(*(int *)&((struct Obj00128 *)p)->f14);
+        func_021909BC((void *)(*(int *)&((struct Obj00128 *)p)->f14));
         *(int *)&((struct Obj00128 *)p)->f14 = 0;
         break;
     case 4:

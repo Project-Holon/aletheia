@@ -18,7 +18,8 @@
  * arm9), so it is emitted as data words.
  */
 
-extern void func_020307B0(void *ptr);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 
 void func_02159BBC(void *ptr)
 {

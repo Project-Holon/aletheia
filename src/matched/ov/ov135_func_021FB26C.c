@@ -32,7 +32,7 @@ struct Blk37;
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
 struct Slot;
 extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag)
 {

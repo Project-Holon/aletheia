@@ -28,7 +28,7 @@ typedef struct {
     void *main;
 } Work;
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021FFCD4(Work *p)
 {

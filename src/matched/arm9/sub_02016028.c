@@ -48,7 +48,7 @@ struct AnimBank;
 struct AnimSequence;
 struct Obj0206469C;
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02016984(char *a0, int a1);
 extern void func_0206469C(struct Obj0206469C *o, void *bank);
 

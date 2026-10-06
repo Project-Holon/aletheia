@@ -68,7 +68,7 @@ extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021BAFC4(char *p);
 extern void func_021BB0FC(void *obj);
 extern void *func_020056A0(void (*cb)(int, char *), void *arg, int pri);

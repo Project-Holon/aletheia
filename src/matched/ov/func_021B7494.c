@@ -32,17 +32,17 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern void func_0201ED04(struct WordSet *p);
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 index);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *rec);
-extern int func_02190728(u32 a);
+extern int func_02190728(void *a);
 extern void func_02190788(u8 *p);
 
-int func_021B7494(u32 a)
+int func_021B7494(void *a)
 {
 func_02190788((u8 *)(((struct Obj04890 *)((u8 *)(a)))->fC));
-func_02190728(((struct Obj04890 *)((u8 *)(a)))->fC);
+func_02190728((void *)(((struct Obj04890 *)((u8 *)(a)))->fC));
 func_020409B4(1);
 func_02045808((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f18));
 func_02045808((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f1C));

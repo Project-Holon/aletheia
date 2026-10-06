@@ -28,7 +28,7 @@ struct Sub0201088CObj;
 extern u32 func_02010904(struct Sub0201088CObj *p);
 extern unsigned func_0200FB24(void);
 extern u32 func_0200FBB0(void);
-extern void func_0200F7B8(int);
+extern void func_0200F7B8(u32 a0);
 extern void func_0202223C(unsigned, unsigned);
 extern void func_0202F038(u8 *p);
 extern void func_02010934(struct Sub0201088CObj *p);

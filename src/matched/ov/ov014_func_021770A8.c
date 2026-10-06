@@ -14,7 +14,8 @@
  */
 typedef unsigned char u8;
 extern u8 *g_021797A0;
-extern void func_020307B0(void *);
+typedef unsigned int   u32;
+extern u32 func_020307B0(void *p);
 int func_021770A8(void *arg)
 {
     if (*(void (**)(void *))(g_021797A0+4) != 0)

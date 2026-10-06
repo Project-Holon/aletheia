@@ -43,7 +43,7 @@ struct Actor;
 struct Obj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_021DA1BC(void *,const char *,u32,u16,u8,u32,u32,int,u16);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_0204AF28(void *,u32,u32,u32);

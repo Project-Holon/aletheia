@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 u16 func_02014A10(u32 i);
 int func_021A2108(u32 a, int b, int c);
-int func_021A23B0(int a);
+int func_021A23B0(u32 a);
 void func_021A2160(unsigned char *o, unsigned int v, int i);
 void func_021EEAF4(int a, int *p);
 

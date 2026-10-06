@@ -48,7 +48,7 @@ struct IcaAnime;
 extern int func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *);
 extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 
 int func_0215A370(void *a, u32 *st, Ctx *c)
 {

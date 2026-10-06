@@ -27,7 +27,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_02048F88(u32 archive_id, u32 member, u32 heap, u32 mode, u32 *size_out);
 struct MyStruct;
 extern void func_0202AF3C(const struct MyStruct *src, struct MyStruct *dst);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 u8 *func_0202AEEC(u32 a, u32 b)
 {

@@ -17,7 +17,8 @@
  */
 #include "../include/Obj14629.h"
 typedef unsigned short u16;
-extern void *func_02048A18(void *,int);
+typedef unsigned char  u8;
+extern unsigned int func_02048A18(u8 *a0, int i);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct AnmCtl;
@@ -27,7 +28,7 @@ void func_021BFBC8(char *p,unsigned value)
     void *ctl;
     int frame;
     float f;
-    ctl=func_02048A18(((struct Obj14629 *)p)->f8,((struct Obj14629 *)p)->f10);
+    ctl=(void *)func_02048A18(((struct Obj14629 *)p)->f8,((struct Obj14629 *)p)->f10);
     if(value!=0) f=0.5f+(float)(value<<12);
     else f=(float)(value<<12)-0.5f;
     frame=(int)f;

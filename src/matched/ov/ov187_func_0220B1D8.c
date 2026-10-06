@@ -31,7 +31,7 @@ struct SoundSys;
 extern void func_02005DE4(void *p);
 extern void func_02005DF8(u32);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 struct Obj;
 extern void func_02013930(struct Obj *p);
 extern void func_0220B0F8(u8 *p, u32 v);

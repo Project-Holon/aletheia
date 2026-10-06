@@ -48,7 +48,7 @@ struct U16Vec {
     u16 entries[1];
 };
 
-extern void sub_020307B0(void *p);
+extern u32 sub_020307B0(void *p);
 
 void sub_02045808(struct U16Vec *vec)
 {

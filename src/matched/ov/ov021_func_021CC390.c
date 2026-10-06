@@ -113,7 +113,7 @@ extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u8 func_02012984(const struct BigObj *p);
 extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021CC040(Obj *o);
 
 extern const u8 ov119_id[];

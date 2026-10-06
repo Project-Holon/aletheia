@@ -31,7 +31,7 @@ extern int func_0204ABBC(u32 idx, u32 flag);
 extern void func_020862F0(void *,u32);
 extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 void func_021FA99C(u8 *p,u16 slot,int resource,u32 type)
 {
     int blob;

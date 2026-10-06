@@ -67,7 +67,7 @@ extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 l
 extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern u8 *func_020073D8(u32 sv, u32 id, u32 v);
 extern void func_02082D44(void *src, void *dst, u32 n);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);

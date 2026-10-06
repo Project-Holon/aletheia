@@ -42,7 +42,7 @@ struct Party;
 struct PartyMon;
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_0200BC20(u32);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 func_02012984(const struct BigObj *p);

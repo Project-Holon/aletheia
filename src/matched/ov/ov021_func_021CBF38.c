@@ -37,7 +37,7 @@ extern void *func_021688BC(u8 *party, int id, u16 heap);
 extern u8 func_021CBEFC(u32 v);
 struct BattleMon;
 extern u32 func_021684E8(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021CBF38(void *unused, u8 *party, int id, int useItem, Rec *rec, u16 heap)
 {

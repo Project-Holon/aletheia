@@ -66,7 +66,7 @@ struct ZoneDataMgr {
 
 extern struct ZoneDataMgr *g_sub02013AD0Obj;
 
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02049238(void *handle);
 
 void func_02013A48(void)

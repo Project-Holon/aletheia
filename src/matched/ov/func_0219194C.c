@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020307B0(u32);
+extern u32 func_020307B0(void *p);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0219492C(u8 *p, int i);
 
-int func_0219194C(u32 a)
+int func_0219194C(void *a)
 {
 if (((struct Obj07210 *)((u8 *)(a)))->f0 != 0) {
     func_02045808((struct U16Vec *)(((struct Obj07210 *)((u8 *)(a)))->f0));

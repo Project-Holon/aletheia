@@ -44,7 +44,7 @@ struct IcaAnime {
 };
 
 extern void func_02049238(u32 h);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_02011558(struct IcaAnime *p)
 {

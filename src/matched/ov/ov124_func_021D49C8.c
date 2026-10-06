@@ -41,7 +41,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_02061CA4(void *, u32, u32, int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);

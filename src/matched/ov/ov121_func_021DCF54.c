@@ -21,7 +21,7 @@ extern void func_02082BCC(void *,int,int);
 typedef unsigned int   u32;
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
-extern void func_020307B0(void *);
+extern u32 func_020307B0(void *p);
 void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
 {
     void *res;

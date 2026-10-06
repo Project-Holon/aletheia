@@ -21,7 +21,8 @@ typedef unsigned int   u32;
 struct BigObj;
 u32 func_02026478(void *obj);
 void *func_02012B38(const struct BigObj *p);
-int func_02014484(int a);
+struct Sub02014444Obj;
+unsigned char func_02014484(struct Sub02014444Obj *o);
 typedef unsigned char  u8;
 void func_02174E14(u8 *p, int a);
 
@@ -29,7 +30,7 @@ void func_02174AE0(unsigned char *p)
 {
     int r;
 
-    r = func_02014484((int)func_02012B38((const struct BigObj *)func_02026478((void *)(((struct Obj09347 *)p)->f4))));
+    r = func_02014484((struct Sub02014444Obj *)func_02012B38((const struct BigObj *)func_02026478((void *)(((struct Obj09347 *)p)->f4))));
     switch (r) {
     case 0:
         if (((unsigned)(((struct Obj09347 *)p)->f86 << 17) >> 26) == 2) {

@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern int func_021C7E70(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1);
 extern void func_020061E4(u32 id);
 void func_021C7F18(M *m)

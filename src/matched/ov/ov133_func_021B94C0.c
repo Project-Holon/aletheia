@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_021BA184(char *p);
-extern int func_021BA258(u8 *);
+extern unsigned int func_021BA258(char *p);
 typedef unsigned int   u32;
 extern u32 func_021BA218(u8 *p);
 extern u32 func_021BA208(u8 *p);
@@ -36,7 +36,7 @@ void func_021B94C0(u8 *p)
         *(u16 *)(*(u8 * *)&((struct Obj23319 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4 + 0x16 + i * 6) = 0;
     e = func_021BA184(((struct Obj00004 *)p)->f1824);
     while (e) {
-        index = func_021BA258(e);
+        index = func_021BA258((char *)e);
         q = func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880, index);
         func_021F4ED4((u32)(((struct Obj00004 *)p)->f1884), func_021BA218(e), ((struct Obj23320 *)q)->f36);
         e = (u8 *)func_021BA208(e);

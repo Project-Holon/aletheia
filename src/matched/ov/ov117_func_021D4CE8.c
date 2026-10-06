@@ -66,7 +66,7 @@ extern void func_02015C94(void *p, u32 *out);
 extern void func_02015CAC(void *p, u32 *src);
 extern int func_020515CC(int *p, int a, int b, int c);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_021E71F0(void *, int);
 extern void func_021E7208(void *, int);
 extern void func_021DFD24(u32 *p);

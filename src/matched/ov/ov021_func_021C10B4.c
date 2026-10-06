@@ -78,7 +78,7 @@ extern int func_0216D454(void *obj);
 extern int func_0216D480(char *p);
 extern u32 func_021A2F98(u8 *a);
 extern void func_021ACBB8(u32 a, u8 v);
-extern void func_021A2F48(u8 *a, int b);
+extern void func_021A2F48(u8 *p, u32 a1);
 extern int func_021A2F54(u8 *a);
 extern void func_021A35A0(u32 *p, int a);
 

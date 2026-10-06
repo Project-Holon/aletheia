@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_021F007C(char *p);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 

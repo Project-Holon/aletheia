@@ -68,7 +68,7 @@ struct Entry;
 extern void *func_0203D798(void);
 extern void *func_0203D788(void);
 extern struct Entry *func_0203996C(s32 idx);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char file_020A7A68[];

@@ -12,7 +12,7 @@
  *   func_02017E40 0x02017E40 thumb
  */
 typedef unsigned char u8;
-extern void func_02017E40(void *, int, int);
+extern void func_02017E40(void *p, unsigned int id, unsigned int v);
 typedef unsigned int u32;
 struct Entry { u8 pad0[2]; u8 a; u8 pad3[9]; u8 flag; u8 rest; };
 struct Work { void *obj; u8 pad4[0x100]; struct Entry e[]; };

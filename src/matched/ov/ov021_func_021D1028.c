@@ -20,14 +20,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020120F4(void);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E8F8(void *sys);
 
-int func_021D1028(void)
+int func_021D1028(const struct Ctx *a0)
 {
-    u8 *p = func_0200E8F8(func_02012EBC((struct Big *)func_020120F4()));
+    u8 *p = func_0200E8F8(func_02012EBC((struct Big *)func_020120F4(a0)));
 
     if (p[0] != 0) {
         if (p[0x14] != 0) {

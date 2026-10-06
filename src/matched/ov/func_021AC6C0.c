@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 struct X;
 extern void func_021AC740(struct X *x);
-extern void func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 void func_021AC6C0(u32 a, u8 *p)
 {

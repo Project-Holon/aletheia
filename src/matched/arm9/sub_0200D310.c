@@ -23,7 +23,7 @@ struct Blk37;
 extern u32 sub_0200CED4(struct Blk37 *p, u16 id);
 extern int sub_0200C7A0(u32 v);
 extern u16 *sub_0201AF80(u32 heap, u16 *countOut);
-extern void  func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 int sub_0200D310(void *a0, int a1)
 {

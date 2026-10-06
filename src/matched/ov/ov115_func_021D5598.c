@@ -37,7 +37,7 @@ typedef unsigned int u32;
 struct Rect { s16 x,y; u16 z; u8 kind,mode; };
 struct Obj;
 typedef signed int     s32;
-extern void *sub_020490F4(u32 id, u16 heap);
+extern void *sub_020490F4(u32 id, u32 heap);
 extern void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);

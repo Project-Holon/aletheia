@@ -36,14 +36,14 @@ typedef unsigned short u16;
 extern int func_021BBE74(int);
 struct U16Vec;
 extern unsigned short func_021BB464(int unused, unsigned short *p);
-extern int func_02018430(int);
+extern unsigned int func_02018430(void *p);
 extern void func_021BB97C(u8 *,int);
 extern void func_021BB99C(int a, int b, int c, int d);
 extern void func_021BB9EC(int a, int b, int c, int d, unsigned char e);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 typedef unsigned int   u32;
 extern void func_021BB98C(void *p, u32 s);
-extern int func_020457B0(unsigned,unsigned);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02027268(int);
 extern void func_02045808(struct U16Vec *vec);
@@ -74,13 +74,13 @@ int func_021BC350(u8 *p,int v)
         break;
     }
     case 2:
-        t=(int)func_02018430(W(0x38));
+        t=(int)func_02018430((void *)W(0x38));
         func_021BB97C(p,(int)W(0x150));
         func_021BB99C((int)p,W(0x150),0,W(0x38));
         func_021BB9EC((int)p,W(0x150),1,(u16)(t+1),3);
         func_021B9788(p,0x9d,1,(int)func_021BC6A0);
         func_021BB98C(p,W(0x150));
-        t=func_020457B0(12,H(0));
+        t=(int)func_020457B0(12,H(0));
         func_02017E1C((void *)W(0x38),0x73,t);
         func_02027268(t);
         func_02045808((struct U16Vec *)t);

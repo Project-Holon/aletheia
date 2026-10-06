@@ -8,8 +8,9 @@
  * isa: thumb
  * status: EXACT
  */
-extern int func_020490F4(int, unsigned short);
-extern void func_020498F4(int, int, int, int, int, int, unsigned short);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+typedef unsigned short u16;
+extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_02049238(int);
@@ -17,19 +18,19 @@ void func_021E58A4(int unused, int mode, unsigned color)
 {
     int h;
     unsigned c = (color & 0x7fff) | 0x8000;
-    h = func_020490F4(0x85, c);
-    func_020498F4(h, 5, 3, 0, 0, 0, c);
-    func_020498F4(h, 6, 7, 0, 0, 0, c);
+    h = (int)func_020490F4((int)0x85, (unsigned short)c);
+    func_020498F4((void *)h, 5, 3, 0, 0, 0, c);
+    func_020498F4((void *)h, 6, 7, 0, 0, 0, c);
     switch (mode) {
     case 2:
-        func_020498F4(h, 8, 6, 0, 0, 0, c);
+        func_020498F4((void *)h, 8, 6, 0, 0, 0, c);
         break;
     case 3:
-        func_020498F4(h, 10, 2, 0, 0, 0, c);
+        func_020498F4((void *)h, 10, 2, 0, 0, 0, c);
         break;
     case 0:
     case 1:
-        func_020498F4(h, 10, 6, 0, 0, 0, c);
+        func_020498F4((void *)h, 10, 6, 0, 0, 0, c);
         break;
     }
     func_02040618(2, 0, -256);

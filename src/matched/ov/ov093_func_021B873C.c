@@ -18,7 +18,8 @@ typedef unsigned short u16;
 struct Blk37;
 u16 func_0200CF28(struct Blk37 *p);
 
-void func_021B873C(char **p)
+typedef unsigned int   u32;
+u32 func_021B873C(char **p)
 {
-    func_0200CF28((struct Blk37 *)(((struct Obj20961 *)(*p))->f68));
+    return func_0200CF28((struct Blk37 *)(((struct Obj20961 *)(*p))->f68));
 }

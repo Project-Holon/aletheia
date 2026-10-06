@@ -36,19 +36,21 @@ void func_021C1C24(char *p, char *q);
 void *func_021C1A98(u16 *p, int a, int b);
 typedef unsigned int   u32;
 int func_021C1AA8(u32 a, u32 b, u32 c, u32 d);
-int func_020489F4(int a, u16 b);
-int func_02048A00(int a, u16 b);
-int func_02048A18(int a, u16 b);
+struct Desc;
+struct G3dSys;
+u32 func_020489F4(u8 *a0, int i);
+u32 func_02048A00(u8 *a0, int i);
+u32 func_02048A18(u8 *a0, int i);
 struct Evt;
 struct Obj;
 int func_0204779C(int *p);
-void func_020477A4(int a, u8 b);
+u32 func_020477A4(struct G3dSys *sys, u32 idx);
 u16 func_02051B04(void *res);
 void *func_020124E4(struct Obj *p);
-int func_020122C0(int a, int b, int c, int d);
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void func_02012374(struct Evt *evt, struct Evt **out);
 
-void func_021C2320(int a, char *p, char *q, int d)
+void func_021C2320(void *a, char *p, char *q, int d)
 {
     int t;
     u8 i;
@@ -68,13 +70,13 @@ void func_021C2320(int a, char *p, char *q, int d)
     } else {
         t = 0;
     }
-    base = func_020489F4(((struct Obj00616 *)p)->f14, ((struct Obj00616 *)p)->f18);
-    cnt = func_02048A00(((struct Obj00616 *)p)->f14, ((struct Obj00616 *)p)->f18);
+    base = (int)func_020489F4((u8 *)(((struct Obj00616 *)p)->f14), (u16)(((struct Obj00616 *)p)->f18));
+    cnt = (int)func_02048A00((u8 *)(((struct Obj00616 *)p)->f14), (u16)(((struct Obj00616 *)p)->f18));
     for (i = 0; i < cnt; i++) {
-        h = func_02048A18(((struct Obj00616 *)p)->f14, base + i);
+        h = (int)func_02048A18((u8 *)(((struct Obj00616 *)p)->f14), (u16)(base + i));
         n = func_0204779C((int *)h);
         for (k = 0; k < n; k++)
-            func_020477A4(h, k);
+            func_020477A4((struct G3dSys *)h, (u8)k);
     }
     ((struct Obj00616 *)p)->f5C = ((struct Obj00456 *)q)->f20;
     ((struct Obj00616 *)p)->f5E = ((struct Obj00456 *)q)->f22;
@@ -102,6 +104,6 @@ void func_021C2320(int a, char *p, char *q, int d)
         ((struct Obj00616 *)p)->f84 = 1;
     if (((struct Obj00616 *)p)->f128 != 0) {
         h = (int)func_020124E4((struct Obj *)a);
-        func_02012374((struct Evt *)a, (struct Evt **)func_020122C0(h, a, ((struct Obj00616 *)p)->f128, 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_020122C0((void *)h, a, (void *)(((struct Obj00616 *)p)->f128), (int)0));
     }
 }
